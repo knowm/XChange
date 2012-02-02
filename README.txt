@@ -1,0 +1,1 @@
+XChange is Java library providing a simple and consistent API for interacting with a diverse set of financial security exchanges including Bitcoin.

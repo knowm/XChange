@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.xeiam.xchange</groupId>
+  <artifactId>xchange</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>XChange</name>
+  <description>XChange is Java library providing a simple and consistent API for interacting with a diverse set of financial security exchanges including Bitcoin.</description>
+  <url>http://xeiam.com</url>
+  <inceptionYear>2012</inceptionYear>
+  <organization>
+  <name>Xeiam, LLC</name>
+  <url>http://xeiam.com</url>
+  </organization>
+  
+  <build>
+    <plugins>
+      <!-- Configure the JAR plugin to build an executable JAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>com.xeiam.xchange.Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
