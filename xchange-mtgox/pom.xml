@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xeiam.xchange</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.xeiam.xchange.provider</groupId>
+  <artifactId>xchange-mtgox</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Mt Gox XChange Provider</name>
+  <description>XChange provider for the Mt Gox Exchange. Handles multiple currencies.</description>
+  <url>http://xeiam.com</url>
+  <inceptionYear>2012</inceptionYear>
+  <organization>
+  <name>Xeiam, LLC</name>
+  <url>http://xeiam.com</url>
+  </organization>
+  
+  <!-- TODO Remove the executable JAR nature for the final artifact -->
+  <build>
+    <plugins>
+      <!-- Configure the JAR plugin to build an executable JAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>com.xeiam.xchange.Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

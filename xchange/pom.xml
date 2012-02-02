@@ -2,14 +2,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xeiam.xchange</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
 
   <groupId>com.xeiam.xchange</groupId>
-  <artifactId>parent</artifactId>
+  <artifactId>xchange</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
 
-  <name>XChange Parent</name>
-  <description>XChange Parent provides a consistent set of libraries for modules to use</description>
+  <name>XChange</name>
+  <description>XChange is Java library providing a simple and consistent API for interacting with a diverse set of
+    financial security exchanges including Bitcoin.
+  </description>
 
   <url>http://xeiam.com</url>
   <inceptionYear>2012</inceptionYear>
@@ -18,10 +24,5 @@
     <name>Xeiam, LLC</name>
     <url>http://xeiam.com</url>
   </organization>
-
-  <modules>
-    <module>xchange</module>
-    <module>xchange-mtgox</module>
-  </modules>
 
 </project>
