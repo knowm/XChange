@@ -1,41 +1,94 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xeiam.xchange</groupId>
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+
   <groupId>com.xeiam.xchange.provider</groupId>
   <artifactId>xchange-mtgox</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Mt Gox XChange Provider</name>
-  <description>XChange provider for the Mt Gox Exchange. Handles multiple currencies.</description>
+
+  <name>MtGox XChange Provider</name>
+  <description>XChange provider for the MtGox Exchange. Handles multiple currencies.</description>
+
   <url>http://xeiam.com</url>
   <inceptionYear>2012</inceptionYear>
-  <organization>
-  <name>Xeiam, LLC</name>
-  <url>http://xeiam.com</url>
-  </organization>
-  
-  <!-- TODO Remove the executable JAR nature for the final artifact -->
-  <build>
-    <plugins>
-      <!-- Configure the JAR plugin to build an executable JAR -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>com.xeiam.xchange.Main</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
 
-    </plugins>
-  </build>
+  <organization>
+    <name>Xeiam, LLC</name>
+    <url>http://xeiam.com</url>
+  </organization>
+
+  <!-- Parent provides default configuration for dependencies -->
+  <dependencies>
+
+    <!-- Project dependencies -->
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+
+    <!-- Third party dependencies -->
+
+    <!-- Jackson JSON Mapper -->
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+    </dependency>
+
+    <!-- SLF4J for logging API -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <!-- Logback for implementation -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    <!-- Java Commons Logging through SLF4J -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+
+    <!-- All time handling is through Joda -->
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
+
+    <!-- JUnit with JMockit, Hamcrest -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+    </dependency>
+
+    <!-- Guava for handy utilities -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <!-- Findbugs annotations for the avoidance of doubt -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+    </dependency>
+
+  </dependencies>
 
 </project>

@@ -19,9 +19,100 @@
     <url>http://xeiam.com</url>
   </organization>
 
+  <scm>
+    <url>git://github.com/timmolter/XChange.git</url>
+  </scm>
+
   <modules>
     <module>xchange</module>
     <module>xchange-mtgox</module>
   </modules>
+
+  <repositories>
+    <!-- Provide the latest Spring releases -->
+    <repository>
+      <id>springframework-milestone</id>
+      <url>http://maven.springframework.org/milestone</url>
+    </repository>
+  </repositories>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Jackson JSON Mapper -->
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-mapper-asl</artifactId>
+        <version>1.9.2</version>
+      </dependency>
+
+      <!-- SLF4J for logging API -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+      <!-- Logback for implementation -->
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>0.9.29</version>
+        <scope>runtime</scope>
+      </dependency>
+      <!-- Java Commons Logging through SLF4J -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${slf4j.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+
+      <!-- All time handling is through Joda -->
+      <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>1.6.2</version>
+      </dependency>
+
+      <!-- JUnit with JMockit, Hamcrest -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>mockit</groupId>
+        <artifactId>jmockit</artifactId>
+        <version>0.998</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-library</artifactId>
+        <version>1.1</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- Guava for handy utilities -->
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>10.0.1</version>
+      </dependency>
+
+      <!-- Findbugs annotations for the avoidance of doubt -->
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>annotations</artifactId>
+        <version>1.3.9</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <properties>
+    <slf4j.version>1.6.4</slf4j.version>
+  </properties>
 
 </project>
