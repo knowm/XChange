@@ -19,10 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.provider.mtgox.bean;
+package com.xeiam.xchange.provider.mtgox.dto;
 
 /**
- * 
+ * <p>DTO mapping a Return value from the Mt Gox exchange</p>
+ * <p>Typical URI is {@code }</p>
+ *
  */
 public class MtGoxTicker {
 

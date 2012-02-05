@@ -10,6 +10,7 @@
 
   <groupId>com.xeiam.xchange.provider</groupId>
   <artifactId>xchange-mtgox</artifactId>
+  <!-- This version is independent of the parent -->
   <version>0.0.1-SNAPSHOT</version>
 
   <name>MtGox XChange Provider</name>
@@ -30,7 +31,8 @@
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange</artifactId>
-      <version>${pom.version}</version>
+      <!-- Keep the XChange core in line with the parent -->
+      <version>${project.parent.version}</version>
     </dependency>
 
     <!-- Third party dependencies -->
@@ -90,5 +92,10 @@
     </dependency>
 
   </dependencies>
+
+  <properties>
+    <!-- Use Windows encoding to allow Eclipse to render the copyright symbol correctly -->
+    <project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
+  </properties>
 
 </project>

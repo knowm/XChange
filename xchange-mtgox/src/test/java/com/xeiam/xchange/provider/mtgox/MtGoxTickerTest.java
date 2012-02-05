@@ -19,53 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.provider.mtgox;
 
-/**
- *  
- * <p>
- * Parameter Object to provide the following to {@link Session}:
- * </p>
- * <ul>
- *  
- * <li>Transfer of state to the Session</li>  
- * </ul>
- * TODO Consider renaming this back to SessionOptions since it is not explicitly about authentication
- *
- * @since 0.0.1  
- */
-public class AuthenticationOptions {
+import com.xeiam.xchange.MtGoxPublicHttpMarketDataDemo;
+import com.xeiam.xchange.provider.mtgox.dto.MtGoxTicker;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-  private final String exchangeProviderClassName;
-  private final String userName = null;
-  private final String password = null;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
+public class MtGoxTickerTest {
 
   /**
-   * <p>
-   * Provide the mandatory information to the XChange Session.<br/>
-   * 
-   * @param exchangeProviderClassName The exchange provider class name (e.g. "org.example.DemoProvider")
+   * Provides logging for this class
    */
-  public AuthenticationOptions(String exchangeProviderClassName) {
-    this.exchangeProviderClassName = exchangeProviderClassName;
-  }
+  private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataDemo.class);
 
-  public String getExchangeProviderClassName() {
-    return exchangeProviderClassName;
-  }
+  @Test
+  public void testUnmarshal() throws IOException {
 
-  /**
-   * @return the userName
-   */
-  public String getUserName() {
-    return userName;
-  }
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/example-trade-data.json");
 
-  /**
-   * @return the password
-   */
-  public String getPassword() {
-    return password;
-  }
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
+    // Verify that the example data was unmarshalled correctly
+    assertThat("Unexpected Return Buy value",mtGoxTicker.getReturn().getBuy().getValue(),equalTo("5.77397"));
+  }
 }
