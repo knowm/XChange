@@ -19,29 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.interfaces;
+package com.xeiam.xchange.trade;
 
-import com.xeiam.xchange.AuthenticationOptions;
+public class OpenOrders {
 
-/**
- * An interface indication an exchange session requires some sort of authentication. i.e. a private session
- */
-public interface PrivateExchangeSession {
-
-  /**
-   * Connect to exchange
-   * 
-   * @param authenticationOptions
-   * @return
-   */
-  public abstract boolean connect(AuthenticationOptions authenticationOptions);
-
-  /**
-   * Disconnect from exchange
-   * 
-   * @param authenticationOptions
-   * @return
-   */
-  public abstract boolean disconnect(AuthenticationOptions authenticationOptions);
+  // TODO do it.
 
 }

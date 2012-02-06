@@ -30,9 +30,9 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.SynchronousMarketDataProxy;
 import com.xeiam.xchange.exceptions.ExchangeTickerException;
 import com.xeiam.xchange.interfaces.CachedDataSession;
+import com.xeiam.xchange.marketdata.SynchronousMarketDataProxy;
 import com.xeiam.xchange.marketdata.Tick;
 import com.xeiam.xchange.provider.mtgox.bean.MtGoxTicker;
 import com.xeiam.xchange.utils.HttpUtils;

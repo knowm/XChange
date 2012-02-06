@@ -19,20 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.trade;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.ExchangeProxy;
+
 /**
- * An Exchange Proxy for getting exchange market data asynchronously
+ * An Exchange Proxy for getting exchange account info synchronously
  */
-public abstract class AsynchronousMarketDataProxy extends ExchangeProxy {
+public abstract class SynchronousTradeProxy extends ExchangeProxy {
 
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(SynchronousAccountInfoProxy.class);
+  private static final Logger log = LoggerFactory.getLogger(SynchronousTradeProxy.class);
 
   // TODO do it.
 

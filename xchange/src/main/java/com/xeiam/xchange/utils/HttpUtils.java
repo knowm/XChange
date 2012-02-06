@@ -31,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -48,37 +49,98 @@ public class HttpUtils {
   private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
   /**
-   * @param urlString
-   * @return
+   * default request header fields
    */
-  public static boolean ping(String urlString) {
+  private static final Map<String, String> defaultHeaderKeyValues = new HashMap<String, String>();
+  static {
+    defaultHeaderKeyValues.put("Accept-Charset", charset);
+    defaultHeaderKeyValues.put("Accept", "text/plain");
+    defaultHeaderKeyValues.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
 
-    HttpURLConnection connection = null;
-    try {
-      connection = (HttpURLConnection) new URL(urlString).openConnection();
-      connection.setRequestMethod("HEAD");
-      connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
-      int responseCode = connection.getResponseCode();
-      if (responseCode != 200) {
-        return false;
-      } else {
-        return true;
-      }
-    } catch (Exception e) {
-      log.warn("Exception Pinging! url= " + urlString, e);
-      return false;
-    } finally {
-      if (connection != null) {
-        connection.disconnect();
-      }
-    }
   }
 
   /**
    * @reference http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
    * @param urlString
    * @param params
-   * @return
+   * @return String - the fetched Response String
+   */
+  private static String getHttpResponse(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
+
+    String responseString = "";
+    HttpURLConnection conn = null;
+    try {
+
+      URL url = new URL(urlString);
+      conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+
+      // header key values
+      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
+      // add/override defaultHeaderKeyValues with customHeaderKeyValues
+      headerKeyValues.putAll(customHeaderKeyValues);
+      for (String key : headerKeyValues.keySet()) {
+        conn.setRequestProperty(key, headerKeyValues.get(key));
+        log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
+      }
+
+      if (conn.getResponseCode() != 200) {
+        throw new HttpException("Problem getting JSON (response code: " + conn.getResponseCode() + ")");
+      }
+
+      // for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
+      // log.debug(header.getKey() + "=" + header.getValue());
+      // }
+
+      InputStream response = conn.getInputStream();
+      String resonseEncoding = getResponseEncoding(conn);
+
+      if (resonseEncoding != null) {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        reader = new BufferedReader(new InputStreamReader(response, resonseEncoding));
+        for (String line; (line = reader.readLine()) != null;) {
+          // log.debug(line);
+          sb.append(line);
+        }
+        responseString = sb.toString();
+
+      } else {
+
+        // Guava
+        // json = new String(ByteStreams.toByteArray(response));
+
+        // Standard Java Library
+        BufferedInputStream bis = null;
+        bis = new BufferedInputStream(response);
+        byte[] contents = new byte[1024];
+
+        int bytesRead = 0;
+        String strFileContents = null;
+        while ((bytesRead = bis.read(contents)) != -1) {
+          strFileContents = new String(contents, 0, bytesRead);
+        }
+        responseString = strFileContents;
+
+      }
+
+    } catch (MalformedURLException e) {
+      throw new HttpException("Problem getting JSON (malformed URL)", e);
+    } catch (IOException e) {
+      throw new HttpException("Problem getting JSON (IO)", e);
+    } finally {
+      if (conn != null) {
+        conn.disconnect();
+      }
+    }
+    return responseString;
+  }
+
+  /**
+   * @reference http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
+   * @param urlString
+   * @param params
+   * @return String - the fetched JSON String
    */
   public static String getJSON(String urlString) throws HttpException {
 
@@ -184,5 +246,32 @@ public class HttpUtils {
 
     return URLEncoder.encode(query.substring(0, query.length() - 1), charset);
   }
+
+  // /**
+  // * @param urlString
+  // * @return
+  // */
+  // public static boolean ping(String urlString) {
+  //
+  // HttpURLConnection connection = null;
+  // try {
+  // connection = (HttpURLConnection) new URL(urlString).openConnection();
+  // connection.setRequestMethod("HEAD");
+  // connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
+  // int responseCode = connection.getResponseCode();
+  // if (responseCode != 200) {
+  // return false;
+  // } else {
+  // return true;
+  // }
+  // } catch (Exception e) {
+  // log.warn("Exception Pinging! url= " + urlString, e);
+  // return false;
+  // } finally {
+  // if (connection != null) {
+  // connection.disconnect();
+  // }
+  // }
+  // }
 
 }

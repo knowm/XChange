@@ -21,59 +21,31 @@
  */
 package com.xeiam.xchange;
 
-import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.interfaces.AuthernticatedExchangeSession;
+import com.xeiam.xchange.marketdata.Tick;
+import com.xeiam.xchange.provider.mtgox.MtGoxPrivateHttpTradeProxy;
 
 /**
- *
+ * Demonstrates how to query market data from Mt Gox using their public Http market data API
  */
-public abstract class ExchangeProxy {
+public class MtGoxPrivateHttpTraderDemo {
 
   /**
-   * Available symbols
+   * Provides logging for this class
    */
-  private final Set<String> exchangeSymbols;
-
-  protected boolean isConnected = false;
+  private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTraderDemo.class);
 
   /**
-   * Constructor
+   * @param args Not required
+   * @throws InterruptedException
    */
-  public ExchangeProxy() {
-    super();
-    exchangeSymbols = getExchangeSymbols();
-    if (!(this instanceof AuthernticatedExchangeSession)) {
-      // no need to connect
-      isConnected = true;
-    }
+  public static void main(String[] args) throws InterruptedException {
+
+    MtGoxPrivateHttpTradeProxy mtGoxPrivateHttpTradeProxy = new MtGoxPrivateHttpTradeProxy();
+    
+    mtGoxPrivateHttpTradeProxy.
+
   }
-
-  public boolean connect(AuthenticationOptions authenticationOptions) {
-
-    if (this instanceof AuthernticatedExchangeSession) {
-      // need to connect
-      isConnected = ((AuthernticatedExchangeSession) this).connect(authenticationOptions);
-    } else {
-      isConnected = true;
-    }
-    return isConnected;
-  }
-
-  public boolean disconnect(AuthenticationOptions authenticationOptions) {
-
-    if (this instanceof AuthernticatedExchangeSession) {
-      // need to connect
-      isConnected = ((AuthernticatedExchangeSession) this).disconnect(authenticationOptions);
-    } else {
-      isConnected = true;
-    }
-    return isConnected;
-  }
-
-  /**
-   * abstract methods
-   */
-  public abstract Set<String> getExchangeSymbols();
-
 }

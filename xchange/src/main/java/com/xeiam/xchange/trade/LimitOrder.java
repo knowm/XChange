@@ -19,21 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.trade;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/**
- * An Exchange Proxy for getting exchange account info asynchronously
- */
-public abstract class AsynchronousAccountInfoProxy extends ExchangeProxy {
-
-  /**
-   * Provides logging for this class
-   */
-  private static final Logger log = LoggerFactory.getLogger(SynchronousAccountInfoProxy.class);
+public class LimitOrder {
 
   // TODO do it.
-
 }

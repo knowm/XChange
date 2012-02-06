@@ -23,31 +23,10 @@ package com.xeiam.xchange.provider.mtgox;
 
 import java.util.Set;
 
-import com.xeiam.xchange.AuthenticationOptions;
-import com.xeiam.xchange.SynchronousMarketDataProxy;
 import com.xeiam.xchange.interfaces.CachedDataSession;
-import com.xeiam.xchange.interfaces.PrivateExchangeSession;
-import com.xeiam.xchange.marketdata.Tick;
+import com.xeiam.xchange.trade.SynchronousTradeProxy;
 
-public class MtGoxPrivateHttpAccountDataProxy extends SynchronousMarketDataProxy implements CachedDataSession, PrivateExchangeSession {
-
-  @Override
-  public boolean connect(AuthenticationOptions authenticationOptions) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean disconnect(AuthenticationOptions authenticationOptions) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public Tick getExchangeTick(String symbol) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+public class MtGoxPrivateHttpTradeProxy extends SynchronousTradeProxy implements CachedDataSession {
 
   /**
    * <p>
@@ -62,30 +41,6 @@ public class MtGoxPrivateHttpAccountDataProxy extends SynchronousMarketDataProxy
   @Override
   public Set<String> getExchangeSymbols() {
     return MtGoxProperties.MT_GOX_SYMBOLS;
-  }
-
-  @Override
-  public Tick getExchangeDepth(String symbol) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Tick getExchangeTrades(String symbol) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Tick getExchangeFullDepth(String symbol) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Tick getExchangeCancelledTrades(String symbol) {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }

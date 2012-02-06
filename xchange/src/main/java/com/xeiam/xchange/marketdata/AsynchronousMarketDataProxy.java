@@ -19,9 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.accountinfo;
+package com.xeiam.xchange.marketdata;
 
-public class MarketOrder {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.ExchangeProxy;
+import com.xeiam.xchange.trade.SynchronousTradeProxy;
+
+/**
+ * An Exchange Proxy for getting exchange market data asynchronously
+ */
+public abstract class AsynchronousMarketDataProxy extends ExchangeProxy {
+
+  /**
+   * Provides logging for this class
+   */
+  private static final Logger log = LoggerFactory.getLogger(SynchronousTradeProxy.class);
 
   // TODO do it.
+
 }

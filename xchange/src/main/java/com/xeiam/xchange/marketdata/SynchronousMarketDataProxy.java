@@ -19,19 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.marketdata;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.ExchangeProxy;
 import com.xeiam.xchange.exceptions.NotConnectedException;
 import com.xeiam.xchange.exceptions.SymbolNotAvailableException;
 import com.xeiam.xchange.interfaces.CachedDataSession;
-import com.xeiam.xchange.marketdata.CancelledTrades;
-import com.xeiam.xchange.marketdata.Depth;
-import com.xeiam.xchange.marketdata.FullDepth;
-import com.xeiam.xchange.marketdata.Tick;
-import com.xeiam.xchange.marketdata.Trades;
 
 /**
  * An Exchange Proxy for getting exchange market data info synchronously

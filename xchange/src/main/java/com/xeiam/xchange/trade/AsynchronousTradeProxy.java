@@ -19,9 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.accountinfo;
+package com.xeiam.xchange.trade;
 
-public class LimitOrder {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.ExchangeProxy;
+
+/**
+ * An Exchange Proxy for getting exchange account info asynchronously
+ */
+public abstract class AsynchronousTradeProxy extends ExchangeProxy {
+
+  /**
+   * Provides logging for this class
+   */
+  private static final Logger log = LoggerFactory.getLogger(SynchronousTradeProxy.class);
 
   // TODO do it.
+
 }
