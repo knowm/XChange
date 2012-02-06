@@ -37,7 +37,7 @@ public abstract class SynchronousTradeProxy extends ExchangeProxy {
    */
   private static final Logger log = LoggerFactory.getLogger(SynchronousTradeProxy.class);
 
-  public AccountInfo getAccountInfo(String secret) {
+  public AccountInfo getAccountInfo(String key, String secret) {
 
     AccountInfo accountInfo = null;
 
@@ -46,11 +46,11 @@ public abstract class SynchronousTradeProxy extends ExchangeProxy {
       throw new NotConnectedException("Not Connected to Exchange!");
     }
 
-    accountInfo = getExchangeAccountInfo(secret);
+    accountInfo = getExchangeAccountInfo(key, secret);
 
     return accountInfo;
   }
 
-  public abstract AccountInfo getExchangeAccountInfo(String secret);
+  public abstract AccountInfo getExchangeAccountInfo(String key, String secret);
 
 }

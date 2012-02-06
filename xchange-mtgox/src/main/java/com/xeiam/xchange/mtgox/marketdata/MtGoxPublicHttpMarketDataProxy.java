@@ -30,7 +30,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.exceptions.ExchangeTickerException;
+import com.xeiam.xchange.exceptions.GenericExchangeException;
 import com.xeiam.xchange.interfaces.CachedDataSession;
 import com.xeiam.xchange.marketdata.SynchronousMarketDataProxy;
 import com.xeiam.xchange.marketdata.Tick;
@@ -66,13 +66,13 @@ public class MtGoxPublicHttpMarketDataProxy extends SynchronousMarketDataProxy i
       ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
       ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
     } catch (JsonParseException e) {
-      throw new ExchangeTickerException("Problem generating ticker (JSON parsing)", e);
+      throw new GenericExchangeException("Problem generating ticker (JSON parsing)", e);
     } catch (JsonMappingException e) {
-      throw new ExchangeTickerException("Problem generating ticker (JSON mapping)", e);
+      throw new GenericExchangeException("Problem generating ticker (JSON mapping)", e);
     } catch (IOException e) {
-      throw new ExchangeTickerException("Problem generating ticker (IO)", e);
+      throw new GenericExchangeException("Problem generating ticker (IO)", e);
     } catch (NumberFormatException e) {
-      throw new ExchangeTickerException("Problem generating ticker (number formatting)", e);
+      throw new GenericExchangeException("Problem generating ticker (number formatting)", e);
     }
 
     // return

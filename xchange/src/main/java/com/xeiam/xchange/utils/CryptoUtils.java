@@ -51,6 +51,7 @@ public class CryptoUtils {
   /**
    * Compute signature
    * 
+   * @reference https://bitcointalk.org/index.php?topic=55432.0
    * @param algorithm
    * @param baseString
    * @param key
@@ -65,7 +66,13 @@ public class CryptoUtils {
     Mac mac = Mac.getInstance(algorithm);
     mac.init(secretKey);
     mac.update(baseString.getBytes());
-    return new String(Base64.encodeBase64(mac.doFinal())).trim();
+    // return new String(Base64.encodeBase64(mac.doFinal())).trim();
+    return Base64.encodeBase64URLSafeString(Base64.encodeBase64(mac.doFinal())).trim();
+
+  }
+
+  public static byte[] getBase64DecodedString(String base64String) {
+    return Base64.decodeBase64(base64String);
   }
 
 }

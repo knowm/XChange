@@ -36,13 +36,13 @@ import com.xeiam.xchange.utils.HttpUtils;
  * 
  * @since 0.0.1  
  */
-public class ExchangeTickerException extends RuntimeException {
+public class GenericExchangeException extends RuntimeException {
 
-  public ExchangeTickerException(String s) {
+  public GenericExchangeException(String s) {
     super(s);
   }
 
-  public ExchangeTickerException(String s, Throwable throwable) {
+  public GenericExchangeException(String s, Throwable throwable) {
     super(s, throwable);
   }
 }

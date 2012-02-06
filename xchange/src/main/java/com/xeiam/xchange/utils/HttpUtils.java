@@ -26,11 +26,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +39,7 @@ import com.xeiam.xchange.exceptions.HttpException;
 
 public class HttpUtils {
 
-  private static final String charset = "UTF-8";
+  public static final String CHARSET_UTF_8 = "UTF-8";
 
   /**
    * Provides logging for this class
@@ -53,7 +51,8 @@ public class HttpUtils {
    */
   private static final Map<String, String> defaultHeaderKeyValues = new HashMap<String, String>();
   static {
-    defaultHeaderKeyValues.put("Accept-Charset", charset);
+    defaultHeaderKeyValues.put("Accept-Charset", CHARSET_UTF_8);
+    defaultHeaderKeyValues.put("Content-Type", "application/x-www-form-urlencoded");
     defaultHeaderKeyValues.put("Accept", "text/plain");
     defaultHeaderKeyValues.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
 
@@ -62,7 +61,7 @@ public class HttpUtils {
   /**
    * @reference http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
    * @param urlString
-   * @param params
+   * @param customHeaderKeyValues
    * @return String - the fetched Response String
    */
   private static String getHttpResponse(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
@@ -73,7 +72,7 @@ public class HttpUtils {
 
       URL url = new URL(urlString);
       conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod("GET");
+      conn.setRequestMethod("POST");
 
       // header key values
       Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
@@ -84,9 +83,9 @@ public class HttpUtils {
         log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
       }
 
-      if (conn.getResponseCode() != 200) {
-        throw new HttpException("Problem getting JSON (response code: " + conn.getResponseCode() + ")");
-      }
+      // if (conn.getResponseCode() != 200) {
+      // throw new HttpException("Problem getting HTTP response (response code: " + conn.getResponseCode() + ")");
+      // }
 
       // for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
       // log.debug(header.getKey() + "=" + header.getValue());
@@ -137,74 +136,26 @@ public class HttpUtils {
   }
 
   /**
-   * @reference http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
    * @param urlString
-   * @param params
    * @return String - the fetched JSON String
    */
   public static String getJSON(String urlString) throws HttpException {
 
-    String json = "";
-    HttpURLConnection conn = null;
-    try {
+    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
+    headerKeyValueMap.put("Accept", "application/json");
+    return getHttpResponse(urlString, headerKeyValueMap);
+  }
 
-      URL url = new URL(urlString);
-      conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod("GET");
-      conn.setRequestProperty("Accept-Charset", charset);
-      conn.setRequestProperty("Accept", "application/json");
-      conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
+  /**
+   * @param urlString
+   * @return String - the fetched JSON String
+   */
+  public static String getJSON(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
 
-      if (conn.getResponseCode() != 200) {
-        throw new HttpException("Problem getting JSON (response code: " + conn.getResponseCode() + ")");
-      }
-
-      // for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
-      // log.debug(header.getKey() + "=" + header.getValue());
-      // }
-
-      InputStream response = conn.getInputStream();
-      String resonseEncoding = getResponseEncoding(conn);
-
-      if (resonseEncoding != null) {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader reader = null;
-        reader = new BufferedReader(new InputStreamReader(response, resonseEncoding));
-        for (String line; (line = reader.readLine()) != null;) {
-          // log.debug(line);
-          sb.append(line);
-        }
-        json = sb.toString();
-
-      } else {
-
-        // Guava
-        // json = new String(ByteStreams.toByteArray(response));
-
-        // Standard Java Library
-        BufferedInputStream bis = null;
-        bis = new BufferedInputStream(response);
-        byte[] contents = new byte[1024];
-
-        int bytesRead = 0;
-        String strFileContents = null;
-        while ((bytesRead = bis.read(contents)) != -1) {
-          strFileContents = new String(contents, 0, bytesRead);
-        }
-        json = strFileContents;
-
-      }
-
-    } catch (MalformedURLException e) {
-      throw new HttpException("Problem getting JSON (malformed URL)", e);
-    } catch (IOException e) {
-      throw new HttpException("Problem getting JSON (IO)", e);
-    } finally {
-      if (conn != null) {
-        conn.disconnect();
-      }
-    }
-    return json;
+    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
+    headerKeyValueMap.put("Accept", "application/json");
+    headerKeyValueMap.putAll(customHeaderKeyValues);
+    return getHttpResponse(urlString, headerKeyValueMap);
   }
 
   /**
@@ -227,25 +178,25 @@ public class HttpUtils {
     return charset;
   }
 
-  /**
-   * @param params
-   * @param charset
-   * @return
-   */
-  public static String getQuery(Map<String, String> params, String charset) throws UnsupportedEncodingException {
-
-    StringBuilder sb = new StringBuilder();
-
-    for (String key : params.keySet()) {
-      sb.append(key);
-      sb.append("=");
-      sb.append(params.get(key));
-      sb.append("&");
-    }
-    String query = sb.toString();
-
-    return URLEncoder.encode(query.substring(0, query.length() - 1), charset);
-  }
+  // /**
+  // * @param params
+  // * @param charset
+  // * @return
+  // */
+  // public static String getQuery(Map<String, String> params, String charset) throws UnsupportedEncodingException {
+  //
+  // StringBuilder sb = new StringBuilder();
+  //
+  // for (String key : params.keySet()) {
+  // sb.append(key);
+  // sb.append("=");
+  // sb.append(params.get(key));
+  // sb.append("&");
+  // }
+  // String query = sb.toString();
+  //
+  // return URLEncoder.encode(query.substring(0, query.length() - 1), charset);
+  // }
 
   // /**
   // * @param urlString

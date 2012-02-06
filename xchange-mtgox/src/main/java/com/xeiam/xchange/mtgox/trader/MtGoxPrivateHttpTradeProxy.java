@@ -21,15 +21,25 @@
  */
 package com.xeiam.xchange.mtgox.trader;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.exceptions.GenericExchangeException;
+import com.xeiam.xchange.exceptions.HttpException;
 import com.xeiam.xchange.interfaces.CachedDataSession;
 import com.xeiam.xchange.mtgox.MtGoxProperties;
 import com.xeiam.xchange.trade.AccountInfo;
 import com.xeiam.xchange.trade.SynchronousTradeProxy;
+import com.xeiam.xchange.utils.CryptoUtils;
+import com.xeiam.xchange.utils.HttpUtils;
 
 public class MtGoxPrivateHttpTradeProxy extends SynchronousTradeProxy implements CachedDataSession {
 
@@ -39,8 +49,34 @@ public class MtGoxPrivateHttpTradeProxy extends SynchronousTradeProxy implements
   private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTradeProxy.class);
 
   @Override
-  public AccountInfo getExchangeAccountInfo(String secret) {
+  public AccountInfo getExchangeAccountInfo(String key, String secret) {
 
+    try {
+      // request data
+      // String url = "https://mtgox.com/api/0/info.php"; // version 0
+      String url = "https://mtgox.com/api/1/generic/private/info"; // version 1
+
+      // String postBody = URLEncoder.encode("nonce", HttpUtils.CHARSET_UTF_8) + "=" + URLEncoder.encode("1345634563", HttpUtils.CHARSET_UTF_8);
+      String postBody = "nonce=" + URLEncoder.encode(CryptoUtils.getNumericalNonce(), HttpUtils.CHARSET_UTF_8);
+
+      Map<String, String> headerKeyValues = new HashMap<String, String>();
+      // headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Key", key);
+      // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)));
+      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
+      String accountInfoJSON = HttpUtils.getJSON(url, headerKeyValues);
+      log.debug(accountInfoJSON);
+    } catch (GeneralSecurityException e) {
+      throw new GenericExchangeException("Problem generating secure HTTP request (General Security)", e);
+    } catch (UnsupportedEncodingException e) {
+      throw new GenericExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
+    } catch (HttpException e) {
+      throw new GenericExchangeException("Problem getting server response (Http error)", e);
+    } catch (IOException e) {
+      throw new GenericExchangeException("Problem generating Account Info (IO)", e);
+    } catch (NumberFormatException e) {
+      throw new GenericExchangeException("Problem generating Account Info (number formatting)", e);
+    }
     return null;
   }
 

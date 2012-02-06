@@ -43,8 +43,7 @@ public class MtGoxPrivateHttpTraderDemo {
   public static void main(String[] args) throws InterruptedException {
 
     MtGoxPrivateHttpTradeProxy mtGoxPrivateHttpTradeProxy = new MtGoxPrivateHttpTradeProxy();
-
-    // mtGoxPrivateHttpTradeProxy.
+    mtGoxPrivateHttpTradeProxy.getAccountInfo("XXX", "YYY");
 
   }
 }
