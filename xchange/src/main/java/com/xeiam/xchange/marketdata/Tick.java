@@ -26,7 +26,8 @@ package com.xeiam.xchange.marketdata;
  */
 public class Tick {
 
-  // TODO add timestamp?
+  // TODO add timestamp? Use Joda time if we do
+  // TODO Consider immutability
 
   private int last;
   private long volume;

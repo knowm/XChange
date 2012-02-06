@@ -19,53 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.interfaces;
+
+import com.xeiam.xchange.AuthenticationOptions;
 
 /**
- *  
- * <p>
- * Parameter Object to provide the following to {@link Session}:
- * </p>
- * <ul>
- *  
- * <li>Transfer of state to the Session</li>  
- * </ul>
- * TODO Consider renaming this back to SessionOptions since it is not explicitly about authentication
- *
- * @since 0.0.1  
+ * An interface indication an exchange session requires some sort of authentication. i.e. a private session
  */
-public class AuthenticationOptions {
-
-  private final String exchangeProviderClassName;
-  private final String userName = null;
-  private final String password = null;
+public interface AuthenticatedExchangeSession {
 
   /**
-   * <p>
-   * Provide the mandatory information to the XChange Session.<br/>
+   * Connect to exchange
    * 
-   * @param exchangeProviderClassName The exchange provider class name (e.g. "org.example.DemoProvider")
+   * @param authenticationOptions
+   * @return
    */
-  public AuthenticationOptions(String exchangeProviderClassName) {
-    this.exchangeProviderClassName = exchangeProviderClassName;
-  }
-
-  public String getExchangeProviderClassName() {
-    return exchangeProviderClassName;
-  }
+  public abstract boolean connect(AuthenticationOptions authenticationOptions);
 
   /**
-   * @return the userName
+   * Disconnect from exchange
+   * 
+   * @param authenticationOptions
+   * @return
    */
-  public String getUserName() {
-    return userName;
-  }
-
-  /**
-   * @return the password
-   */
-  public String getPassword() {
-    return password;
-  }
+  public abstract boolean disconnect(AuthenticationOptions authenticationOptions);
 
 }

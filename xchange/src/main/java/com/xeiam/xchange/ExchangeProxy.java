@@ -23,7 +23,7 @@ package com.xeiam.xchange;
 
 import java.util.Set;
 
-import com.xeiam.xchange.interfaces.AuthernticatedExchangeSession;
+import com.xeiam.xchange.interfaces.AuthenticatedExchangeSession;
 
 /**
  *
@@ -43,7 +43,7 @@ public abstract class ExchangeProxy {
   public ExchangeProxy() {
     super();
     exchangeSymbols = getExchangeSymbols();
-    if (!(this instanceof AuthernticatedExchangeSession)) {
+    if (!(this instanceof AuthenticatedExchangeSession)) {
       // no need to connect
       isConnected = true;
     }
@@ -51,9 +51,10 @@ public abstract class ExchangeProxy {
 
   public boolean connect(AuthenticationOptions authenticationOptions) {
 
-    if (this instanceof AuthernticatedExchangeSession) {
+    if (this instanceof AuthenticatedExchangeSession) {
       // need to connect
-      isConnected = ((AuthernticatedExchangeSession) this).connect(authenticationOptions);
+      isConnected = ((AuthenticatedExchangeSession) this).connect(authenticationOptions);
+
     } else {
       isConnected = true;
     }
@@ -62,9 +63,11 @@ public abstract class ExchangeProxy {
 
   public boolean disconnect(AuthenticationOptions authenticationOptions) {
 
-    if (this instanceof AuthernticatedExchangeSession) {
+    if (this instanceof AuthenticatedExchangeSession) {
       // need to connect
-      isConnected = ((AuthernticatedExchangeSession) this).disconnect(authenticationOptions);
+
+      isConnected = ((AuthenticatedExchangeSession) this).disconnect(authenticationOptions);
+
     } else {
       isConnected = true;
     }
@@ -72,7 +75,7 @@ public abstract class ExchangeProxy {
   }
 
   /**
-   * abstract methods
+   * @return The supported exchange symbols
    */
   public abstract Set<String> getExchangeSymbols();
 

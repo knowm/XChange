@@ -66,8 +66,8 @@ public class CryptoUtils {
     Mac mac = Mac.getInstance(algorithm);
     mac.init(secretKey);
     mac.update(baseString.getBytes());
-    // return new String(Base64.encodeBase64(mac.doFinal())).trim();
-    return Base64.encodeBase64URLSafeString(Base64.encodeBase64(mac.doFinal())).trim();
+    return new String(Base64.encodeBase64(mac.doFinal())).trim();
+    // return Base64.encodeBase64URLSafeString(Base64.encodeBase64(mac.doFinal())).trim();
 
   }
 

@@ -19,29 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.interfaces;
+package com.xeiam.xchange.provider.mtgox;
 
-import com.xeiam.xchange.AuthenticationOptions;
+import com.xeiam.xchange.MtGoxPublicHttpMarketDataDemo;
+import com.xeiam.xchange.provider.mtgox.dto.MtGoxTicker;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * An interface indication an exchange session requires some sort of authentication. i.e. a private session
- */
-public interface AuthernticatedExchangeSession {
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
+public class MtGoxTickerTest {
 
   /**
-   * Connect to exchange
-   * 
-   * @param authenticationOptions
-   * @return
+   * Provides logging for this class
    */
-  public abstract boolean connect(AuthenticationOptions authenticationOptions);
+  private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataDemo.class);
 
-  /**
-   * Disconnect from exchange
-   * 
-   * @param authenticationOptions
-   * @return
-   */
-  public abstract boolean disconnect(AuthenticationOptions authenticationOptions);
+  @Test
+  public void testUnmarshal() throws IOException {
 
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/example-trade-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat("Unexpected Return Buy value",mtGoxTicker.getReturn().getBuy().getValue(),equalTo("5.77397"));
+  }
 }
