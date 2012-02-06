@@ -19,38 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.trade;
+package com.xeiam.xchange.mtgox;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Set;
 
-import com.xeiam.xchange.ExchangeProxy;
-import com.xeiam.xchange.exceptions.NotConnectedException;
+import com.google.common.collect.ImmutableSet;
 
 /**
- * An Exchange Proxy for getting exchange account info synchronously
+ * A central place for shared Mt Gox properties
  */
-public abstract class SynchronousTradeProxy extends ExchangeProxy {
+public class MtGoxProperties {
 
-  /**
-   * Provides logging for this class
-   */
-  private static final Logger log = LoggerFactory.getLogger(SynchronousTradeProxy.class);
+  public static final int REFRESH_RATE = 10; // [seconds]
 
-  public AccountInfo getAccountInfo(String secret) {
+  public static final Set<String> MT_GOX_SYMBOLS = ImmutableSet.of("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD",
+      "BTCTHB");
 
-    AccountInfo accountInfo = null;
+  public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
 
-    // check if connected
-    if (!isConnected) {
-      throw new NotConnectedException("Not Connected to Exchange!");
-    }
+  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
 
-    accountInfo = getExchangeAccountInfo(secret);
-
-    return accountInfo;
-  }
-
-  public abstract AccountInfo getExchangeAccountInfo(String secret);
+  public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
 
 }

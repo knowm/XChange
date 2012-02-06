@@ -19,26 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.provider.mtgox;
+package com.xeiam.xchange.mtgox.trader;
 
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * A central place for shared Mt Gox properties
- */
-public class MtGoxProperties {
+import com.xeiam.xchange.interfaces.CachedDataSession;
+import com.xeiam.xchange.mtgox.MtGoxProperties;
+import com.xeiam.xchange.trade.AccountInfo;
+import com.xeiam.xchange.trade.SynchronousTradeProxy;
 
-  public static final int REFRESH_RATE = 10; // [seconds]
+public class MtGoxPrivateHttpTradeProxy extends SynchronousTradeProxy implements CachedDataSession {
 
-  public static final Set<String> MT_GOX_SYMBOLS = ImmutableSet.of("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD",
-      "BTCTHB");
+  /**
+   * Provides logging for this class
+   */
+  private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTradeProxy.class);
 
-  public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
+  @Override
+  public AccountInfo getExchangeAccountInfo(String secret) {
 
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
+    return null;
+  }
 
-  public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+  /**
+   * <p>
+   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
+   * </p>
+   */
+  @Override
+  public int getRefreshRate() {
+    return MtGoxProperties.REFRESH_RATE;
+  }
+
+  @Override
+  public Set<String> getExchangeSymbols() {
+    return MtGoxProperties.MT_GOX_SYMBOLS;
+  }
 
 }

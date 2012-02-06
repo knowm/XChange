@@ -19,11 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.provider.mtgox;
+package com.xeiam.xchange.mtgox.trader;
 
 /**
- * 
+ * Data object representing Account Info from Mt Gox
  */
-public class MtGoxPublicSocketIOMarketDataProxy {
+public class MtGoxAccountInfo {
 
 }

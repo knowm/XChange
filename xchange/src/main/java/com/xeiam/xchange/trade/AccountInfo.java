@@ -21,7 +21,12 @@
  */
 package com.xeiam.xchange.trade;
 
+/**
+ * 
+ */
 public class AccountInfo {
+
+  private String accountIdentifier;
 
   // TODO do it.
 }

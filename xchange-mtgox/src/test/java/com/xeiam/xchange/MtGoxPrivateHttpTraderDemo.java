@@ -24,8 +24,7 @@ package com.xeiam.xchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.marketdata.Tick;
-import com.xeiam.xchange.provider.mtgox.MtGoxPrivateHttpTradeProxy;
+import com.xeiam.xchange.mtgox.trader.MtGoxPrivateHttpTradeProxy;
 
 /**
  * Demonstrates how to query market data from Mt Gox using their public Http market data API
@@ -44,8 +43,8 @@ public class MtGoxPrivateHttpTraderDemo {
   public static void main(String[] args) throws InterruptedException {
 
     MtGoxPrivateHttpTradeProxy mtGoxPrivateHttpTradeProxy = new MtGoxPrivateHttpTradeProxy();
-    
-    mtGoxPrivateHttpTradeProxy.
+
+    // mtGoxPrivateHttpTradeProxy.
 
   }
 }

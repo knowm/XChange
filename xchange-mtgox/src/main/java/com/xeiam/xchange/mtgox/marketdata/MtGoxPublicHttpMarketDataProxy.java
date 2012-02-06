@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.provider.mtgox;
+package com.xeiam.xchange.mtgox.marketdata;
 
 import java.io.IOException;
 import java.util.Set;
@@ -34,7 +34,7 @@ import com.xeiam.xchange.exceptions.ExchangeTickerException;
 import com.xeiam.xchange.interfaces.CachedDataSession;
 import com.xeiam.xchange.marketdata.SynchronousMarketDataProxy;
 import com.xeiam.xchange.marketdata.Tick;
-import com.xeiam.xchange.provider.mtgox.bean.MtGoxTicker;
+import com.xeiam.xchange.mtgox.MtGoxProperties;
 import com.xeiam.xchange.utils.HttpUtils;
 
 /**

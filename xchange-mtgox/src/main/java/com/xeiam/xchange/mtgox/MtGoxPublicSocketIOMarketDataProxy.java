@@ -19,28 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.provider.mtgox;
+package com.xeiam.xchange.mtgox;
 
-import java.util.Set;
-
-import com.xeiam.xchange.interfaces.CachedDataSession;
-import com.xeiam.xchange.trade.SynchronousTradeProxy;
-
-public class MtGoxPrivateHttpTradeProxy extends SynchronousTradeProxy implements CachedDataSession {
-
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
-   * </p>
-   */
-  @Override
-  public int getRefreshRate() {
-    return MtGoxProperties.REFRESH_RATE;
-  }
-
-  @Override
-  public Set<String> getExchangeSymbols() {
-    return MtGoxProperties.MT_GOX_SYMBOLS;
-  }
+/**
+ * 
+ */
+public class MtGoxPublicSocketIOMarketDataProxy {
 
 }

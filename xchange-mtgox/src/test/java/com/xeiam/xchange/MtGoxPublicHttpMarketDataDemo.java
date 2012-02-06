@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.marketdata.Tick;
-import com.xeiam.xchange.provider.mtgox.MtGoxPublicHttpMarketDataProxy;
+import com.xeiam.xchange.mtgox.marketdata.MtGoxPublicHttpMarketDataProxy;
 
 /**
  * Demonstrates how to query market data from Mt Gox using their public Http market data API

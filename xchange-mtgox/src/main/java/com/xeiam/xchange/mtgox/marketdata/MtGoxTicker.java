@@ -19,10 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.provider.mtgox.bean;
+package com.xeiam.xchange.mtgox.marketdata;
 
 /**
- * 
+ * Data object representing Ticker from Mt Gox
  */
 public class MtGoxTicker {
 
