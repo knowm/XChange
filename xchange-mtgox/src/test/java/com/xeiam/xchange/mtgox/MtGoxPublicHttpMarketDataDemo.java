@@ -19,22 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.mtgox;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.mtgox.trader.MtGoxPrivateHttpTradeProxy;
+import com.xeiam.xchange.marketdata.Tick;
+import com.xeiam.xchange.mtgox.marketdata.MtGoxPublicHttpMarketDataProxy;
 
 /**
  * Demonstrates how to query market data from Mt Gox using their public Http market data API
  */
-public class MtGoxPrivateHttpTraderDemo {
+public class MtGoxPublicHttpMarketDataDemo {
 
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTraderDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataDemo.class);
 
   /**
    * @param args Not required
@@ -42,8 +43,17 @@ public class MtGoxPrivateHttpTraderDemo {
    */
   public static void main(String[] args) throws InterruptedException {
 
-    MtGoxPrivateHttpTradeProxy mtGoxPrivateHttpTradeProxy = new MtGoxPrivateHttpTradeProxy();
-    mtGoxPrivateHttpTradeProxy.getAccountInfo("XXX", "YYY");
+    MtGoxPublicHttpMarketDataProxy mtGoxHttpDataProxy = new MtGoxPublicHttpMarketDataProxy();
+    for (int i = 0; i < 10; i++) {
+      Tick tick = mtGoxHttpDataProxy.getTick("BTCUSD");
+      log.debug("tick: " + tick.toString());
+      int last = mtGoxHttpDataProxy.getLast("BTCUSD");
+      log.debug("last: " + last);
+      long volume = mtGoxHttpDataProxy.getVolume("BTCUSD");
+      log.debug("volume: " + volume);
+      Thread.sleep(2000);
+    }
 
   }
+
 }

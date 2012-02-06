@@ -19,41 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.mtgox;
 
+import com.xeiam.xchange.provider.mtgox.dto.MtGoxTicker;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.marketdata.Tick;
-import com.xeiam.xchange.mtgox.marketdata.MtGoxPublicHttpMarketDataProxy;
+import java.io.IOException;
+import java.io.InputStream;
 
-/**
- * Demonstrates how to query market data from Mt Gox using their public Http market data API
- */
-public class MtGoxPublicHttpMarketDataDemo {
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
+public class MtGoxTickerTest {
 
   /**
    * Provides logging for this class
    */
   private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataDemo.class);
 
-  /**
-   * @param args Not required
-   * @throws InterruptedException
-   */
-  public static void main(String[] args) throws InterruptedException {
+  @Test
+  public void testUnmarshal() throws IOException {
 
-    MtGoxPublicHttpMarketDataProxy mtGoxHttpDataProxy = new MtGoxPublicHttpMarketDataProxy();
-    for (int i = 0; i < 10; i++) {
-      Tick tick = mtGoxHttpDataProxy.getTick("BTCUSD");
-      log.debug("tick: " + tick.toString());
-      int last = mtGoxHttpDataProxy.getLast("BTCUSD");
-      log.debug("last: " + last);
-      long volume = mtGoxHttpDataProxy.getVolume("BTCUSD");
-      log.debug("volume: " + volume);
-      Thread.sleep(2000);
-    }
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/example-trade-data.json");
 
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat("Unexpected Return Buy value",mtGoxTicker.getReturn().getBuy().getValue(),equalTo("5.77397"));
   }
-
 }

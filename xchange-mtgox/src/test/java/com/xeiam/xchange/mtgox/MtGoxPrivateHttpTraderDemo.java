@@ -19,39 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.provider.mtgox;
+package com.xeiam.xchange.mtgox;
 
-import com.xeiam.xchange.MtGoxPublicHttpMarketDataDemo;
-import com.xeiam.xchange.provider.mtgox.dto.MtGoxTicker;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import com.xeiam.xchange.mtgox.trader.MtGoxPrivateHttpTradeProxy;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
-public class MtGoxTickerTest {
+/**
+ * Demonstrates how to query market data from Mt Gox using their public Http market data API
+ */
+public class MtGoxPrivateHttpTraderDemo {
 
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTraderDemo.class);
 
-  @Test
-  public void testUnmarshal() throws IOException {
+  /**
+   * @param args Not required
+   * @throws InterruptedException
+   */
+  public static void main(String[] args) throws InterruptedException {
 
-    // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/example-trade-data.json");
+    MtGoxPrivateHttpTradeProxy mtGoxPrivateHttpTradeProxy = new MtGoxPrivateHttpTradeProxy();
+    mtGoxPrivateHttpTradeProxy.getAccountInfo("XXX", "YYY");
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value",mtGoxTicker.getReturn().getBuy().getValue(),equalTo("5.77397"));
   }
 }
