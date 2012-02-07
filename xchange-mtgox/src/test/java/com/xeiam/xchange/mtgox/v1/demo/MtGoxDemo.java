@@ -26,7 +26,7 @@ import java.util.Collection;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.dto.marketdata.Tick;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 
 /**
  * <p>
@@ -50,9 +50,9 @@ public class MtGoxDemo {
     MarketDataService marketDataService = mtGox.getMarketDataService();
 
     // Get the latest data
-    Collection<Tick> ticks = marketDataService.getLatestMarketData();
+    Collection<Ticker> ticks = marketDataService.getLatestMarketData();
 
-    for (Tick tick : ticks) {
+    for (Ticker tick : ticks) {
       System.out.println(tick);
     }
 

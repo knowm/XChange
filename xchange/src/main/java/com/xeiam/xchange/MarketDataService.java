@@ -1,6 +1,6 @@
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.dto.marketdata.Tick;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import org.joda.time.DateTime;
 
 import java.util.Collection;
@@ -21,24 +21,24 @@ import java.util.Set;
 public interface MarketDataService {
 
   /**
-   * @return A collection of {@link Tick}s representing the latest market data 
+   * @return A collection of {@link Ticker}s representing the latest market data 
    */
-  Collection<Tick> getLatestMarketData();
+  Collection<Ticker> getLatestMarketData();
 
   /**
-   * @return A collection of {@link Tick}s representing the market data within the range
+   * @return A collection of {@link Ticker}s representing the market data within the range
    */
-  Collection<Tick> getHistoricalMarketData(DateTime validFrom, DateTime validTo);
+  Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo);
 
   Set<String> getExchangeSymbols();
 
-  Tick getMarketDepth(String symbol);
+  Ticker getMarketDepth(String symbol);
 
-  Tick getTrades(String symbol);
+  Ticker getTrades(String symbol);
 
-  Tick getMarketFullDepth(String symbol);
+  Ticker getMarketFullDepth(String symbol);
 
-  Tick getCancelledTrades(String symbol);
+  Ticker getCancelledTrades(String symbol);
 
-  Tick getTick(String symbol);
+  Ticker getTick(String symbol);
 }

@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.dto.marketdata.Tick;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.utils.HttpUtils;
@@ -50,9 +50,9 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
   private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataService.class);
 
   @Override
-  public Tick getTick(String symbol) {
+  public Ticker getTick(String symbol) {
 
-    Tick ticker = null;
+    Ticker ticker = null;
 
     // request data
     String tickJSON = HttpUtils.getJSON("https://mtgox.com/api/1/" + symbol + "/public/ticker");
@@ -63,7 +63,7 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
     try {
       ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
       mtGoxTicker = mapper.readValue(tickJSON, MtGoxTicker.class);
-      ticker = new Tick();
+      ticker = new Ticker();
       // extract last
       ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
       ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
@@ -98,32 +98,32 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
   }
 
   @Override
-  public Tick getMarketDepth(String symbol) {
+  public Ticker getMarketDepth(String symbol) {
     return null;
   }
 
   @Override
-  public Tick getTrades(String symbol) {
+  public Ticker getTrades(String symbol) {
     return null;
   }
 
   @Override
-  public Tick getMarketFullDepth(String symbol) {
+  public Ticker getMarketFullDepth(String symbol) {
     return null;
   }
 
   @Override
-  public Tick getCancelledTrades(String symbol) {
+  public Ticker getCancelledTrades(String symbol) {
     return null;
   }
 
   @Override
-  public Collection<Tick> getLatestMarketData() {
+  public Collection<Ticker> getLatestMarketData() {
     return null;
   }
 
   @Override
-  public Collection<Tick> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
+  public Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
     return null;
   }
 }

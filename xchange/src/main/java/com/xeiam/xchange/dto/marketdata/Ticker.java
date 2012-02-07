@@ -24,7 +24,7 @@ package com.xeiam.xchange.dto.marketdata;
 /**
  * A class encapsulating the most basic information a "Tick" should contain
  */
-public class Tick {
+public class Ticker {
 
   // TODO add timestamp? Use Joda time if we do
   // TODO Consider immutability

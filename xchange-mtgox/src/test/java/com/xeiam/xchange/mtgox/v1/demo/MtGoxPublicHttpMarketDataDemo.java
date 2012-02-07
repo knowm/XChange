@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v1.demo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.dto.marketdata.Tick;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxPublicHttpMarketDataService;
 
 /**
@@ -44,16 +44,16 @@ public class MtGoxPublicHttpMarketDataDemo {
   public static void main(String[] args) throws InterruptedException {
 
     MtGoxPublicHttpMarketDataService mtGoxPublicHttpMarketDataService = new MtGoxPublicHttpMarketDataService();
-    for (int i = 0; i < 10; i++) {
-      Tick tick = mtGoxPublicHttpMarketDataService.getTick("BTCUSD");
-      log.debug("tick: " + tick.toString());
-      // TODO Re-instate these (not sure where they went)
-      // int last = mtGoxPublicHttpMarketDataService.getLast("BTCUSD");
-      // log.debug("last: " + last);
-      // long volume = mtGoxPublicHttpMarketDataService.getVolume("BTCUSD");
-      // log.debug("volume: " + volume);
-      // Thread.sleep(2000);
-    }
+    // for (int i = 0; i < 10; i++) {
+    Ticker tick = mtGoxPublicHttpMarketDataService.getTick("BTCUSD");
+    log.debug("tick: " + tick.toString());
+    // TODO Re-instate these (not sure where they went)
+    // int last = mtGoxPublicHttpMarketDataService.getLast("BTCUSD");
+    // log.debug("last: " + last);
+    // long volume = mtGoxPublicHttpMarketDataService.getVolume("BTCUSD");
+    // log.debug("volume: " + volume);
+    // Thread.sleep(2000);
+    // }
 
   }
 
