@@ -22,8 +22,7 @@
 package com.xeiam.xchange.exchange;
 
 import com.xeiam.xchange.Exchange;
-
-import java.util.Set;
+import com.xeiam.xchange.ExchangeSpecification;
 
 /**
  * <p>Abstract base class to provide the following to {@link Exchange}s:</p>
@@ -34,26 +33,5 @@ import java.util.Set;
  * @since 0.0.1
  */
 public abstract class BaseExchange implements Exchange {
-
-  /**
-   * Available symbols
-   * TODO Consider where in the lifecycle we want to get these
-   */
-  private Set<String> exchangeSymbols;
-
-  protected boolean isConnected = false;
-
-  /**
-   * Constructor
-   */
-  public BaseExchange() {
-    super();
-    exchangeSymbols = getExchangeSymbols();
-  }
-
-  /**
-   * @return The supported exchange symbols
-   */
-  public abstract Set<String> getExchangeSymbols();
 
 }

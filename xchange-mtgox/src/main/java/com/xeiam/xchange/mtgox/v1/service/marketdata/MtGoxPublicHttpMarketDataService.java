@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,56 +21,65 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Set;
-
+import com.xeiam.xchange.CachedDataSession;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.MarketDataService;
+import com.xeiam.xchange.marketdata.dto.*;
+import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.utils.HttpUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.dto.marketdata.CancelledTrades;
-import com.xeiam.xchange.dto.marketdata.Depth;
-import com.xeiam.xchange.dto.marketdata.FullDepth;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
-import com.xeiam.xchange.utils.HttpUtils;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Set;
 
 /**
- *
+ * <p>Implementation of the market data service for Mt Gox</p>
+ * <ul>
+ * <li>Provides access to various market data values</li>
+ * </ul>
  */
-public class MtGoxPublicHttpMarketDataService implements MarketDataService, CachedDataSession {
+public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implements MarketDataService, CachedDataSession {
 
   /**
    * Provides logging for this class
    */
   private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataService.class);
 
-  ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+  /**
+   * Configured from the super class reading of the exchange specification
+   */
+  private final String apiBase = String.format("%s/api/%s/",apiURI,apiVersion);
+  
+  /**
+   * @param exchangeSpecification The exchange specification
+   */
+  public MtGoxPublicHttpMarketDataService(ExchangeSpecification exchangeSpecification) {
+    super(exchangeSpecification);
+  }
 
   @Override
   public Ticker getTicker(String symbol) {
 
-    Ticker ticker = null;
+    Ticker ticker;
 
-    // request data
-    String tickJSON = HttpUtils.httpGET4JSON("https://mtgox.com/api/1/" + symbol + "/public/ticker");
+    // Request data 
+    String tickJSON = HttpUtils.httpGET4JSON(apiBase + symbol + "/public/ticker");
     log.debug(tickJSON);
 
-    // parse JSON
-    MtGoxTicker mtGoxTicker = null;
+    // Parse JSON
+    MtGoxTicker mtGoxTicker;
     try {
       mtGoxTicker = mapper.readValue(tickJSON, MtGoxTicker.class);
       ticker = new Ticker();
-      // extract last
+      // Extract the last
       ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
       ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
     } catch (JsonParseException e) {
@@ -90,13 +99,13 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
   @Override
   public Depth getDepth(String symbol) {
 
-    Depth depth = null;
+    Depth depth;
 
-    // request data
-    String tickJSON = HttpUtils.httpGET4JSON("https://mtgox.com/api/1/" + symbol + "/public/depth?raw");
+    // Request data
+    String tickJSON = HttpUtils.httpGET4JSON(apiBase + symbol + "/public/depth?raw");
     log.debug(tickJSON);
 
-    // parse JSON
+    // Parse JSON
     depth = new Depth();
 
     return depth;

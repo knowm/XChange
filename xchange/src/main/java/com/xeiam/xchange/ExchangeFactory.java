@@ -36,8 +36,10 @@ public enum ExchangeFactory {
 
       // Test that the class implements Exchange
       if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
-        // Instantiate through the default constructor
-        return (Exchange) exchangeProviderClass.newInstance();
+        // Instantiate through the default constructor and use the default exchange specification
+        Exchange exchange= (Exchange) exchangeProviderClass.newInstance();
+        exchange.applySpecification(exchange.getDefaultExchangeSpecification());
+        return exchange;
       } else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
       }

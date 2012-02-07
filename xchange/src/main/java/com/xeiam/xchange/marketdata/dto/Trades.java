@@ -19,9 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.dto.trade;
+package com.xeiam.xchange.marketdata.dto;
 
-public class MarketOrder {
+public class Trades {
 
   // TODO do it.
 }

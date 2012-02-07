@@ -51,11 +51,153 @@
             <showWarnings>true</showWarnings>
           </configuration>
         </plugin>
-
+        <!-- Generates a source code JAR during package -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.0.4</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Generates a Javadoc JAR during package -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.5</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Generate a FindBugs report -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>2.3.2</version>
+        </plugin>
+        <!-- Generate a PMD report -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <!-- Source code cross referencing -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>2.1</version>
+          <configuration>
+            <aggregate>true</aggregate>
+            <linkJavadoc>true</linkJavadoc>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <!-- Generates a source code JAR during package -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Generates a Javadoc JAR during package -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Execute FindBugs during an install -->
+      <!-- TODO Get this working with the Maven3 site plugin -->
+      <!--<plugin>-->
+        <!--<groupId>org.codehaus.mojo</groupId>-->
+        <!--<artifactId>findbugs-maven-plugin</artifactId>-->
+        <!--<configuration>-->
+          <!--&lt;!&ndash; Ignore this error it is a hidden configuration entry &ndash;&gt;-->
+          <!--<targetJdk>1.6</targetJdk>-->
+          <!--<threshold>Normal</threshold>-->
+          <!--<effort>Max</effort>-->
+          <!--<xmlOutput>true</xmlOutput>-->
+          <!--<findbugsXmlOutput>true</findbugsXmlOutput>-->
+          <!--<findbugsXmlOutput>true</findbugsXmlOutput>-->
+          <!--<findbugsXmlOutputDirectory>target/findbugs</findbugsXmlOutputDirectory>-->
+        <!--</configuration>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>findbugs</id>-->
+            <!--<phase>verify</phase>-->
+            <!--<goals>-->
+              <!--<goal>check</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
+      <!-- Execute JXR (Source code cross-reference) during an install -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+          <linkJavadoc>true</linkJavadoc>
+          <javadocDir>target/apidocs</javadocDir>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>jxr</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Standard PMD detection and copy paste detection -->
+      <!-- TODO Get this working with Maven3 site plugin -->
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-pmd-plugin</artifactId>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>pmd</id>-->
+            <!--<phase>verify</phase>-->
+            <!--<goals>-->
+              <!--<goal>check</goal>-->
+              <!--&lt;!&ndash; Don't break the build due to duplicated code but report it &ndash;&gt;-->
+              <!--<goal>cpd</goal>-->
+            <!--</goals>-->
+          <!--</execution>-->
+        <!--</executions>-->
+        <!--<configuration>-->
+          <!--<linkXRef>true</linkXRef>-->
+          <!--<sourceEncoding>utf-8</sourceEncoding>-->
+          <!--<minimumTokens>100</minimumTokens>-->
+          <!--<targetJdk>1.6</targetJdk>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
+    </plugins>
   </build>
-
 
   <dependencyManagement>
     <dependencies>
@@ -131,9 +273,9 @@
 
       <!-- Commons Codec for Crypto -->
       <dependency>
-      	<groupId>commons-codec</groupId>
-      	<artifactId>commons-codec</artifactId>
-      	<version>1.6</version>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.6</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -19,38 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.dto.trade;
+package com.xeiam.xchange.marketdata.dto;
 
-import com.xeiam.xchange.ExchangeException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class FullDepth {
 
-/**
- * An Exchange Proxy for getting exchange account info synchronously
- */
-public abstract class SynchronousTrade {
-
-  private boolean isConnected=true;
-
-  /**
-   * Provides logging for this class
-   */
-  private static final Logger log = LoggerFactory.getLogger(SynchronousTrade.class);
-
-  public AccountInfo getAccountInfo(String key, String secret) {
-
-    AccountInfo accountInfo = null;
-
-    // check if connected
-    if (!isConnected) {
-      throw new ExchangeException("Not Connected to Exchange!");
-    }
-
-    accountInfo = getExchangeAccountInfo(key, secret);
-
-    return accountInfo;
-  }
-
-  public abstract AccountInfo getExchangeAccountInfo(String key, String secret);
-
+  // TODO do it.
 }

@@ -28,14 +28,14 @@ import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.trade.dto.AccountInfo;
+import com.xeiam.xchange.trade.dto.SynchronousTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.HttpException;
-import com.xeiam.xchange.dto.trade.AccountInfo;
-import com.xeiam.xchange.dto.trade.SynchronousTrade;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpUtils;

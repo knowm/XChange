@@ -19,38 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.dto.marketdata;
+package com.xeiam.xchange.marketdata.dto;
 
-/**
- * A class encapsulating the most basic information a "Tick" should contain
- */
-public class Tick {
+public class Depth {
 
-  // TODO add timestamp? Use Joda time if we do
-  // TODO Consider immutability
-
-  private int last;
-  private long volume;
-
-  public int getLast() {
-    return last;
-  }
-
-  public void setLast(int last) {
-    this.last = last;
-  }
-
-  public long getVolume() {
-    return volume;
-  }
-
-  public void setVolume(long volume) {
-    this.volume = volume;
-  }
-
-  @Override
-  public String toString() {
-    return "Ticker [last=" + last + ", volume=" + volume + "]";
-  }
-
+  // TODO do it.
 }

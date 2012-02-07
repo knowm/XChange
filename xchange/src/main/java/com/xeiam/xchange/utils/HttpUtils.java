@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.utils;
 
+import com.xeiam.xchange.HttpException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,11 +34,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.HttpException;
 
 /**
  * Various HTTP utility methods
@@ -52,84 +51,88 @@ public class HttpUtils {
    * default request header fields
    */
   private static final Map<String, String> defaultHeaderKeyValues = new HashMap<String, String>();
+
   static {
     defaultHeaderKeyValues.put("Accept-Charset", CHARSET_UTF_8);
     defaultHeaderKeyValues.put("Content-Type", "application/x-www-form-urlencoded");
     defaultHeaderKeyValues.put("Accept", "text/plain"); // default Accept
+    // TODO Consider a customised User Agent here
     defaultHeaderKeyValues.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
   }
 
   /**
    * Requests JSON via an HTTP GET
-   * 
-   * @param urlString
-   * @return String - the fetched JSON String
-   * @throws HttpException
+   *
+   * @param urlString A string representation of a URL
+   *
+   * @return The contents of the response body as a String containing JSON
    */
-  public static String httpGET4JSON(String urlString) throws HttpException {
-
-    return httpGET4JSON(urlString, null);
+  public static String httpGET4JSON(String urlString) {
+    return httpGET4JSON(urlString, new HashMap<String, String>());
   }
 
   /**
    * Requests JSON via an HTTP GET
-   * 
-   * @param urlString
-   * @param customHeaderKeyValues
-   * @return String - the fetched JSON String
-   * @throws HttpException
+   *
+   * @param urlString             A string representation of a URL
+   * @param customHeaderKeyValues Any custom header values
+   *
+   * @return The contents of the response body as a String containing JSON
    */
-  public static String httpGET4JSON(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
+  public static String httpGET4JSON(String urlString, Map<String, String> customHeaderKeyValues) {
+
+    Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
 
     Map<String, String> headerKeyValueMap = new HashMap<String, String>();
     headerKeyValueMap.put("Accept", "application/json");
-    if (customHeaderKeyValues != null) {
-      headerKeyValueMap.putAll(customHeaderKeyValues);
-    }
+    headerKeyValueMap.putAll(customHeaderKeyValues);
     return httpGET(urlString, headerKeyValueMap);
   }
 
   /**
    * Requests JSON via an HTTP POST
-   * 
-   * @param urlString
-   * @param postBody
-   * @return String - the fetched JSON String
-   * @throws HttpException
+   *
+   * @param urlString A string representation of a URL
+   * @param postBody  The contents of the request body
+   *
+   * @return The contents of the response body as a String containing JSON
    */
-  public static String httpPOST4JSON(String urlString, String postBody) throws HttpException {
-
-    return httpPOST4JSON(urlString, postBody);
+  public static String httpPOST4JSON(String urlString, String postBody) {
+    return httpPOST4JSON(urlString, postBody, new HashMap<String, String>());
   }
 
   /**
    * Requests JSON via an HTTP POST
-   * 
-   * @param urlString
-   * @param postBody
-   * @param customHeaderKeyValues
+   *
+   * @param urlString             A string representation of a URL
+   * @param postBody              The contents of the request body
+   * @param customHeaderKeyValues Any custom header values
+   *
    * @return String - the fetched JSON String
-   * @throws HttpException
    */
-  public static String httpPOST4JSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) throws HttpException {
+  public static String httpPOST4JSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
+
+    Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
 
     Map<String, String> headerKeyValueMap = new HashMap<String, String>();
     headerKeyValueMap.put("Accept", "application/json");
-    if (customHeaderKeyValues != null) {
-      headerKeyValueMap.putAll(customHeaderKeyValues);
-    }
+    headerKeyValueMap.putAll(customHeaderKeyValues);
     return httpPOST(urlString, postBody, headerKeyValueMap);
   }
 
   /**
-   * Send an HTTP GET request, and recieve server response
-   * 
-   * @reference http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
-   * @param urlString
-   * @param customHeaderKeyValues
+   * Send an HTTP GET request, and receive server response
+   *
+   * @param urlString             A string representation of a URL
+   * @param customHeaderKeyValues Any custom header values
+   *
    * @return String - the fetched Response String
+   *
+   * @see <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests">Stack Overflow on URLConnection</a>
    */
-  private static String httpGET(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
+  private static String httpGET(String urlString, Map<String, String> customHeaderKeyValues) {
+
+    Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
 
     String responseString = "";
     HttpURLConnection conn = null;
@@ -142,10 +145,14 @@ public class HttpUtils {
 
       // header key values
       Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
+
       // add/override defaultHeaderKeyValues with customHeaderKeyValues
       headerKeyValues.putAll(customHeaderKeyValues);
-      for (String key : headerKeyValues.keySet()) {
-        conn.setRequestProperty(key, headerKeyValues.get(key));
+
+      // Iterating over the entry set is more efficient than the key set
+      for (Map.Entry<String,String> entry : headerKeyValues.entrySet()) {
+        conn.setRequestProperty(entry.getKey(), entry.getValue());
+        // TODO Consider log.trace
         // log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
       }
 
@@ -168,12 +175,13 @@ public class HttpUtils {
   }
 
   /**
-   * Send an HTTP POST request, and recieve server response
-   * 
-   * @param urlString
-   * @param postBody
-   * @param customHeaderKeyValues
-   * @return
+   * Send an HTTP POST request, and receive server response
+   *
+   * @param urlString             A string representation of a URL
+   * @param postBody              The contents of the request body
+   * @param customHeaderKeyValues Any custom header values
+   *
+   * @return The contents of the response body as a String
    */
   private static String httpPOST(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
 
@@ -218,23 +226,25 @@ public class HttpUtils {
 
   /**
    * Gets the response String from an HTTP request
-   * 
-   * @param conn
-   * @return
-   * @throws IOException
+   *
+   * @param conn The HTTP connection
+   *
+   * @return The response body as a String
+   *
+   * @throws IOException If something goes wrong
    */
   private static String getReponseString(HttpURLConnection conn) throws IOException {
 
-    String responseString = "";
+    String responseString;
 
-    String resonseEncoding = getResponseEncoding(conn);
+    String responseEncoding = getResponseEncoding(conn);
 
-    if (resonseEncoding != null) {
+    if (responseEncoding != null) {
 
       StringBuilder sb = new StringBuilder();
-      BufferedReader reader = null;
-      reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), resonseEncoding));
-      for (String line; (line = reader.readLine()) != null;) {
+      BufferedReader reader;
+      reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), responseEncoding));
+      for (String line; (line = reader.readLine()) != null; ) {
         log.debug(line);
         sb.append(line);
       }
@@ -242,11 +252,11 @@ public class HttpUtils {
 
     } else {
 
-      BufferedInputStream bis = null;
+      BufferedInputStream bis;
       bis = new BufferedInputStream(conn.getInputStream());
       byte[] contents = new byte[1024];
 
-      int bytesRead = 0;
+      int bytesRead;
       String strFileContents = null;
       while ((bytesRead = bis.read(contents)) != -1) {
         strFileContents = new String(contents, 0, bytesRead);
@@ -261,16 +271,16 @@ public class HttpUtils {
 
   /**
    * Determine the response encoding if specified
-   * 
-   * @param conn
-   * @return
+   *
+   * @param conn The HTTP connection
+   *
+   * @return The response encoding as a string (taken from "Content-Type")
    */
   private static String getResponseEncoding(HttpURLConnection conn) {
 
     String contentType = conn.getHeaderField("Content-Type");
     String charset = null;
     for (String param : contentType.replace(" ", "").split(";")) {
-      // log.debug(param);
       if (param.startsWith("charset=")) {
         charset = param.split("=", 2)[1];
         break;
@@ -278,52 +288,5 @@ public class HttpUtils {
     }
     return charset;
   }
-
-  // /**
-  // * @param params
-  // * @param charset
-  // * @return
-  // */
-  // public static String getQuery(Map<String, String> params, String charset) throws UnsupportedEncodingException {
-  //
-  // StringBuilder sb = new StringBuilder();
-  //
-  // for (String key : params.keySet()) {
-  // sb.append(key);
-  // sb.append("=");
-  // sb.append(params.get(key));
-  // sb.append("&");
-  // }
-  // String query = sb.toString();
-  //
-  // return URLEncoder.encode(query.substring(0, query.length() - 1), charset);
-  // }
-
-  // /**
-  // * @param urlString
-  // * @return
-  // */
-  // public static boolean ping(String urlString) {
-  //
-  // HttpURLConnection connection = null;
-  // try {
-  // connection = (HttpURLConnection) new URL(urlString).openConnection();
-  // connection.setRequestMethod("HEAD");
-  // connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
-  // int responseCode = connection.getResponseCode();
-  // if (responseCode != 200) {
-  // return false;
-  // } else {
-  // return true;
-  // }
-  // } catch (Exception e) {
-  // log.warn("Exception Pinging! url= " + urlString, e);
-  // return false;
-  // } finally {
-  // if (connection != null) {
-  // connection.disconnect();
-  // }
-  // }
-  // }
 
 }

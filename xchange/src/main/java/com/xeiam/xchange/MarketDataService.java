@@ -1,15 +1,10 @@
 package com.xeiam.xchange;
 
-import java.util.Collection;
-import java.util.Set;
-
+import com.xeiam.xchange.marketdata.dto.*;
 import org.joda.time.DateTime;
 
-import com.xeiam.xchange.dto.marketdata.CancelledTrades;
-import com.xeiam.xchange.dto.marketdata.Depth;
-import com.xeiam.xchange.dto.marketdata.FullDepth;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * <p>

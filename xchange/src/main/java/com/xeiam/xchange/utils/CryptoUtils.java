@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.util.Date;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
 
 /**
  * Various cryptography utility methods
@@ -45,7 +44,7 @@ public class CryptoUtils {
 
   /**
    * Creates a numerical nonce from the number of milliseconds since January 1, 1970, 00:00:00 GMT
-   * 
+   * TODO Consider using a SecureRandom implementation instead
    * @return
    */
   public static String getNumericalNonce() {

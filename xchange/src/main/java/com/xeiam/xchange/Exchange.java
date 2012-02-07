@@ -11,6 +11,12 @@ package com.xeiam.xchange;
  */
 public interface Exchange {
 
+
+  /**
+   * @return A default ExchangeSpecification to use during the creation process if one is not supplied
+   */
+  ExchangeSpecification getDefaultExchangeSpecification();
+
   /**
    * Applies any exchange specific parameters
    *
