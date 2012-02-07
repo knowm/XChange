@@ -1,4 +1,3 @@
-package com.xeiam.xchange.mtgox.v1.demo;
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
  * 
@@ -20,6 +19,7 @@ package com.xeiam.xchange.mtgox.v1.demo;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.xeiam.xchange.mtgox.v1.demo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +48,11 @@ public class MtGoxPublicHttpMarketDataDemo {
       Tick tick = mtGoxPublicHttpMarketDataService.getTick("BTCUSD");
       log.debug("tick: " + tick.toString());
       // TODO Re-instate these (not sure where they went)
-//      int last = mtGoxPublicHttpMarketDataService.getLast("BTCUSD");
-//      log.debug("last: " + last);
-//      long volume = mtGoxPublicHttpMarketDataService.getVolume("BTCUSD");
-//      log.debug("volume: " + volume);
-//      Thread.sleep(2000);
+      // int last = mtGoxPublicHttpMarketDataService.getLast("BTCUSD");
+      // log.debug("last: " + last);
+      // long volume = mtGoxPublicHttpMarketDataService.getVolume("BTCUSD");
+      // log.debug("volume: " + volume);
+      // Thread.sleep(2000);
     }
 
   }
