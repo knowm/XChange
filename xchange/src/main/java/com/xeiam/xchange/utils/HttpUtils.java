@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,6 +57,51 @@ public class HttpUtils {
     defaultHeaderKeyValues.put("Accept", "text/plain");
     defaultHeaderKeyValues.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
 
+  }
+
+  private static String post(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
+
+    String responseString = "";
+    HttpURLConnection conn = null;
+    try {
+
+      URL url = new URL(urlString);
+      conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("POST");
+
+      // header key values
+      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
+      // add/override defaultHeaderKeyValues with customHeaderKeyValues
+      headerKeyValues.putAll(customHeaderKeyValues);
+      for (String key : headerKeyValues.keySet()) {
+        conn.setRequestProperty(key, headerKeyValues.get(key));
+        log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
+      }
+      conn.setDoOutput(true);
+
+      OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+      out.write(postBody);
+      out.close();
+
+      BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+      String decodedString;
+
+      while ((decodedString = in.readLine()) != null) {
+        System.out.println(decodedString);
+      }
+      in.close();
+
+    } catch (MalformedURLException e) {
+      throw new HttpException("Problem POSTing (malformed URL)", e);
+    } catch (IOException e) {
+      throw new HttpException("Problem POSTing (IO)", e);
+    } finally {
+      if (conn != null) {
+        conn.disconnect();
+      }
+    }
+    return responseString;
   }
 
   /**
@@ -150,12 +196,12 @@ public class HttpUtils {
    * @param urlString
    * @return String - the fetched JSON String
    */
-  public static String getJSON(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
+  public static String getJSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) throws HttpException {
 
     Map<String, String> headerKeyValueMap = new HashMap<String, String>();
     headerKeyValueMap.put("Accept", "application/json");
     headerKeyValueMap.putAll(customHeaderKeyValues);
-    return getHttpResponse(urlString, headerKeyValueMap);
+    return post(urlString, postBody, headerKeyValueMap);
   }
 
   /**

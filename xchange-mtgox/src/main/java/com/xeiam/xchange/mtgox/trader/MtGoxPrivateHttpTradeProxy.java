@@ -53,19 +53,25 @@ public class MtGoxPrivateHttpTradeProxy extends SynchronousTradeProxy implements
 
     try {
       // request data
-      // String url = "https://mtgox.com/api/0/info.php"; // version 0
-      String url = "https://mtgox.com/api/1/generic/private/info"; // version 1
 
       // String postBody = URLEncoder.encode("nonce", HttpUtils.CHARSET_UTF_8) + "=" + URLEncoder.encode("1345634563", HttpUtils.CHARSET_UTF_8);
-      String postBody = "nonce=" + URLEncoder.encode(CryptoUtils.getNumericalNonce(), HttpUtils.CHARSET_UTF_8);
+      String parameters = "nonce=" + URLEncoder.encode(CryptoUtils.getNumericalNonce(), HttpUtils.CHARSET_UTF_8);
 
       Map<String, String> headerKeyValues = new HashMap<String, String>();
       // headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Key", key);
       // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
-      String accountInfoJSON = HttpUtils.getJSON(url, headerKeyValues);
+      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", parameters, secret.getBytes()));
+
+      String url = "https://mtgox.com/api/0/info.php"; // version 0
+      // String url = "https://mtgox.com/api/0/info.php?" + parameters; // version 0
+      // String url = "https://mtgox.com/api/0/info.php?" + parameters.getBytes(); // version 0
+      // String url = "https://mtgox.com/api/0/btcAddress.php?" + parameters; // version 0
+      // String url = "https://mtgox.com/api/1/generic/private/info?" + parameters; // version 1
+
+      String accountInfoJSON = HttpUtils.getJSON(url, parameters, headerKeyValues);
       log.debug(accountInfoJSON);
+
     } catch (GeneralSecurityException e) {
       throw new GenericExchangeException("Problem generating secure HTTP request (General Security)", e);
     } catch (UnsupportedEncodingException e) {

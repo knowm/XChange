@@ -68,7 +68,6 @@ public class CryptoUtils {
     mac.update(baseString.getBytes());
     return new String(Base64.encodeBase64(mac.doFinal())).trim();
     // return Base64.encodeBase64URLSafeString(Base64.encodeBase64(mac.doFinal())).trim();
-
   }
 
   public static byte[] getBase64DecodedString(String base64String) {
