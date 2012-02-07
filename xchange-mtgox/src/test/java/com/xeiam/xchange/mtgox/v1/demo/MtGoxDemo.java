@@ -1,3 +1,4 @@
+package com.xeiam.xchange.mtgox.v1.demo;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.MarketDataService;

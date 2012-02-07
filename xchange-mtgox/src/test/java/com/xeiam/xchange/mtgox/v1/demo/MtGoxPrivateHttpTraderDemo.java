@@ -1,3 +1,4 @@
+package com.xeiam.xchange.mtgox.v1.demo;
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
  * 
