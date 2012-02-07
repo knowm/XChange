@@ -23,62 +23,51 @@ package com.xeiam.xchange.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
-import java.util.Date;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.junit.Assert;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Various cryptography utility methods
- */
-public class CryptoUtils {
+public class CryptoUtilsTest {
 
   /**
    * Provides logging for this class
    */
   private static final Logger log = LoggerFactory.getLogger(CryptoUtils.class);
 
-  public static String getNumericalNonce() {
-    String numericalNonce = Long.toString(new Date().getTime());
-    log.debug("numericalNonce= " + numericalNonce);
-    return numericalNonce;
+  @Test
+  public void base64Encode() throws UnsupportedEncodingException {
+
+    String string2Encode = "VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw==";
+    log.debug("string2Encode: " + string2Encode);
+    String expectedResult = "This is an encoded string";
+    log.debug("expectedResult: " + expectedResult);
+    // byte[] result = Base64.decodeBase64(string2Encode.getBytes("UTF-8"));
+    byte[] resultAsByteArray = Base64.decodeBase64(string2Encode.getBytes());
+    String result = new String(resultAsByteArray);
+
+    log.debug("resultAsByteArray: " + resultAsByteArray);
+    log.debug("result: " + result);
+
+    Assert.assertEquals(result, expectedResult);
+
   }
 
-  public static byte[] getByteArrayNonce() {
-    return getNumericalNonce().getBytes();
+  @Test
+  public void testSignature() throws UnsupportedEncodingException, GeneralSecurityException {
+
+    // method signature
+    // String algorithm, String baseString, byte[] key
+    String algorithm = "HmacSHA512";
+    String baseString = "nonce=1328626350245256";
+    String secretKey = "YYY";
+    String restSign = CryptoUtils.computeSignature(algorithm, baseString, secretKey);
+    log.debug("Rest-Sign    : " + restSign);
+    String expectedResult = "tZStTi75ISnfQNbLCgplfobePAEm/RX++Qp+LaHpuCSrjZ/L5+S6dABaqvKBUGYCkp4gHdm9DtdysmSjiJ760g==";
+    log.debug("Expected-Sign: " + expectedResult);
+
+    Assert.assertEquals(restSign, expectedResult);
   }
-
-  public static String getBase64Nonce() {
-    return Base64.encodeBase64String(getByteArrayNonce());
-  }
-
-  /**
-   * Compute signature
-   * 
-   * @param algorithm
-   * @param baseString
-   * @param secretKeyString
-   * @return
-   * @throws GeneralSecurityException
-   * @throws UnsupportedEncodingException
-   */
-  public static String computeSignature(String algorithm, String baseString, String secretKeyString) throws GeneralSecurityException, UnsupportedEncodingException {
-
-    SecretKey secretKey = null;
-    secretKey = new SecretKeySpec(Base64.decodeBase64(secretKeyString.getBytes()), algorithm);
-    Mac mac = Mac.getInstance(algorithm);
-    mac.init(secretKey);
-    mac.update(baseString.getBytes());
-    return new String(Base64.encodeBase64(mac.doFinal())).trim();
-  }
-
-  public static byte[] getBase64DecodedString(String base64String) {
-    return Base64.decodeBase64(base64String);
-  }
-
 }

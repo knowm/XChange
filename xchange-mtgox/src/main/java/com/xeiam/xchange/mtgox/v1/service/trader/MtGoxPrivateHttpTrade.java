@@ -65,10 +65,10 @@ public class MtGoxPrivateHttpTrade extends SynchronousTrade implements CachedDat
       headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
       // headerKeyValues.put("Rest-Key", key);
       // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)));
-      log.debug("Rest-Sign= " + CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
-      log.debug("encoded Rest-Sign= " + URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)), HttpUtils.CHARSET_UTF_8));
+      log.debug("Rest-Sign= " + CryptoUtils.computeSignature("HmacSHA512", postBody, secret));
+      log.debug("encoded Rest-Sign= " + URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, secret), HttpUtils.CHARSET_UTF_8));
       // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
-      headerKeyValues.put("Rest-Sign", URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)), HttpUtils.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Sign", URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, secret), HttpUtils.CHARSET_UTF_8));
       String accountInfoJSON = HttpUtils.getJSON(url, postBody, headerKeyValues);
 
       log.debug(accountInfoJSON);

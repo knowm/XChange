@@ -1,0 +1,59 @@
+{
+"Login":"test",
+"Index":"103456",
+"Rights":["deposit","get_info","merchant","trade","withdraw"],
+"Language":"en_US",
+"Created":"2011-12-01 14:58:53",
+"Last_Login":"2012-02-07 09:23:58",
+"Wallets":
+  {"BTC":
+    {"Balance":
+      {"value":"198.82944238",
+      "value_int":"19882944238",
+      "display":"198.82944238\u00a0BTC",
+      "currency":"BTC"
+      },
+    "Operations":156,
+    "Daily_Withdraw_Limit":
+      {"value":"400.00000000",
+      "value_int":"40000000000",
+      "display":"400.00000000\u00a0BTC",
+      "currency":"BTC"
+      },
+    "Monthly_Withdraw_Limit":null,
+    "Max_Withdraw":
+    {"value":"400.00000000",
+      "value_int":"40000000000",
+      "display":"400.00000000\u00a0BTC",
+      "currency":"BTC"
+    }
+  },
+  "USD":
+    {"Balance":
+      {"value":"0.00000",
+      "value_int":"0",
+      "display":"$0.00000",
+      "currency":"USD"
+    },
+    "Operations":148,
+    "Daily_Withdraw_Limit":
+    {"value":"1000.00000",
+      "value_int":"100000000",
+      "display":"$1,000.00000",
+      "currency":"USD"
+    },
+    "Monthly_Withdraw_Limit":
+    {"value":"10000.00000",
+      "value_int":"1000000000",
+      "display":"$10,000.00000",
+      "currency":"USD"
+    },
+    "Max_Withdraw":
+    {"value":"1000.00000",
+      "value_int":"100000000",
+      "display":"$1,000.00000",
+      "currency":"USD"}
+    }
+  },
+  "Trade_Fee":0.46
+}

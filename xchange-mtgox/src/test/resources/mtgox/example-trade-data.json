@@ -1,4 +1,6 @@
-{"result":"success", "return":{
+{
+"result":"success",
+"return":{
   "high":{
     "value":"5.98700",
     "value_int":"598700",
@@ -65,4 +67,5 @@
     "display":"$5.78999",
     "currency":"USD"
   }
-}}
+}
+}
