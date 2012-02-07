@@ -44,4 +44,5 @@ public interface MarketDataService {
   CancelledTrades getCancelledTrades(String symbol);
 
   Ticker getTicker(String symbol);
+
 }

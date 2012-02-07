@@ -70,6 +70,7 @@ public class MtGoxPrivateHttpTrade extends SynchronousTrade implements CachedDat
       // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
       headerKeyValues.put("Rest-Sign", URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)), HttpUtils.CHARSET_UTF_8));
       String accountInfoJSON = HttpUtils.getJSON(url, postBody, headerKeyValues);
+
       log.debug(accountInfoJSON);
     } catch (GeneralSecurityException e) {
       throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
