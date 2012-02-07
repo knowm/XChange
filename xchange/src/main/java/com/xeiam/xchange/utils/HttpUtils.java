@@ -24,16 +24,12 @@ package com.xeiam.xchange.utils;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +69,7 @@ public class HttpUtils {
 
     String responseString = "";
     HttpURLConnection conn = null;
+
     try {
 
       URL url = new URL(urlString);
@@ -88,50 +85,16 @@ public class HttpUtils {
         // log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
       }
 
-      // if (conn.getResponseCode() != 200) {
-      // throw new HttpException("Problem getting HTTP response (response code: " + conn.getResponseCode() + ")");
+      // for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
+      // log.debug(header.getKey() + "=" + header.getValue());
       // }
 
-      for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
-        log.debug(header.getKey() + "=" + header.getValue());
-      }
-
-      InputStream response = conn.getInputStream();
-      String resonseEncoding = getResponseEncoding(conn);
-
-      if (resonseEncoding != null) {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader reader = null;
-        reader = new BufferedReader(new InputStreamReader(response, resonseEncoding));
-        for (String line; (line = reader.readLine()) != null;) {
-          log.debug(line);
-          sb.append(line);
-        }
-        responseString = sb.toString();
-
-      } else {
-
-        // Guava
-        // json = new String(ByteStreams.toByteArray(response));
-
-        // Standard Java Library
-        BufferedInputStream bis = null;
-        bis = new BufferedInputStream(response);
-        byte[] contents = new byte[1024];
-
-        int bytesRead = 0;
-        String strFileContents = null;
-        while ((bytesRead = bis.read(contents)) != -1) {
-          strFileContents = new String(contents, 0, bytesRead);
-        }
-        responseString = strFileContents;
-
-      }
+      responseString = getReponseString(conn);
 
     } catch (MalformedURLException e) {
-      throw new HttpException("Problem getting JSON (malformed URL)", e);
+      throw new HttpException("Problem GETing (malformed URL)", e);
     } catch (IOException e) {
-      throw new HttpException("Problem getting JSON (IO)", e);
+      throw new HttpException("Problem GETing (IO)", e);
     } finally {
       if (conn != null) {
         conn.disconnect();
@@ -156,6 +119,8 @@ public class HttpUtils {
 
       URL url = new URL(urlString);
       conn = (HttpURLConnection) url.openConnection();
+      conn.setDoOutput(true);
+      conn.setDoInput(true);
       conn.setRequestMethod("POST");
 
       // header key values
@@ -166,20 +131,16 @@ public class HttpUtils {
         conn.setRequestProperty(key, headerKeyValues.get(key));
         log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
       }
-      conn.setDoOutput(true);
+      conn.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
 
-      OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-      out.write(postBody);
-      out.close();
+      log.debug("postBody= " + postBody);
+      conn.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
-      BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-      String decodedString;
-
-      while ((decodedString = in.readLine()) != null) {
-        System.out.println(decodedString);
-      }
-      in.close();
+      // OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
+      // out.write(postBody);
+      // out.flush();
+      // out.close();
+      responseString = getReponseString(conn);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem POSTing (malformed URL)", e);
@@ -190,6 +151,44 @@ public class HttpUtils {
         conn.disconnect();
       }
     }
+
+    return responseString;
+
+  }
+
+  private static String getReponseString(HttpURLConnection conn) throws IOException {
+
+    String responseString = "";
+
+    String resonseEncoding = getResponseEncoding(conn);
+
+    if (resonseEncoding != null) {
+
+      StringBuilder sb = new StringBuilder();
+      BufferedReader reader = null;
+      reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), resonseEncoding));
+      for (String line; (line = reader.readLine()) != null;) {
+        log.debug(line);
+        sb.append(line);
+      }
+      responseString = sb.toString();
+
+    } else {
+
+      BufferedInputStream bis = null;
+      bis = new BufferedInputStream(conn.getInputStream());
+      byte[] contents = new byte[1024];
+
+      int bytesRead = 0;
+      String strFileContents = null;
+      while ((bytesRead = bis.read(contents)) != -1) {
+        strFileContents = new String(contents, 0, bytesRead);
+        log.debug(strFileContents);
+      }
+      responseString = strFileContents;
+
+    }
+
     return responseString;
   }
 
@@ -206,7 +205,10 @@ public class HttpUtils {
 
   /**
    * @param urlString
+   * @param postBody
+   * @param customHeaderKeyValues
    * @return String - the fetched JSON String
+   * @throws HttpException
    */
   public static String getJSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) throws HttpException {
 

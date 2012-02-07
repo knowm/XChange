@@ -21,13 +21,10 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
-import com.xeiam.xchange.utils.HttpUtils;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Set;
+
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -35,9 +32,17 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Set;
+import com.xeiam.xchange.CachedDataSession;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.MarketDataService;
+import com.xeiam.xchange.dto.marketdata.CancelledTrades;
+import com.xeiam.xchange.dto.marketdata.Depth;
+import com.xeiam.xchange.dto.marketdata.FullDepth;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
+import com.xeiam.xchange.utils.HttpUtils;
 
 /**
  *
@@ -50,7 +55,7 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
   private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataService.class);
 
   @Override
-  public Ticker getTick(String symbol) {
+  public Ticker getTicker(String symbol) {
 
     Ticker ticker = null;
 
@@ -98,32 +103,36 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
   }
 
   @Override
-  public Ticker getMarketDepth(String symbol) {
-    return null;
-  }
-
-  @Override
-  public Ticker getTrades(String symbol) {
-    return null;
-  }
-
-  @Override
-  public Ticker getMarketFullDepth(String symbol) {
-    return null;
-  }
-
-  @Override
-  public Ticker getCancelledTrades(String symbol) {
-    return null;
-  }
-
-  @Override
   public Collection<Ticker> getLatestMarketData() {
     return null;
   }
 
   @Override
   public Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
+    return null;
+  }
+
+  @Override
+  public Depth getDepth(String symbol) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Trades getTrades(String symbol) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public FullDepth getFullDepth(String symbol) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public CancelledTrades getCancelledTrades(String symbol) {
+    // TODO Auto-generated method stub
     return null;
   }
 }

@@ -57,12 +57,18 @@ public class MtGoxPrivateHttpTrade extends SynchronousTrade implements CachedDat
 
       // String postBody = URLEncoder.encode("nonce", HttpUtils.CHARSET_UTF_8) + "=" + URLEncoder.encode("1345634563", HttpUtils.CHARSET_UTF_8);
       String postBody = "nonce=" + URLEncoder.encode(CryptoUtils.getNumericalNonce(), HttpUtils.CHARSET_UTF_8);
+      log.debug("postBody= " + postBody);
 
       Map<String, String> headerKeyValues = new HashMap<String, String>();
-      // headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
-      headerKeyValues.put("Rest-Key", key);
+      log.debug("Rest-Key= " + key);
+      log.debug("encoded Rest-Key= " + URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
+      // headerKeyValues.put("Rest-Key", key);
       // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
+      log.debug("Rest-Sign= " + CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
+      log.debug("encoded Rest-Sign= " + URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)), HttpUtils.CHARSET_UTF_8));
+      // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
+      headerKeyValues.put("Rest-Sign", URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)), HttpUtils.CHARSET_UTF_8));
       String accountInfoJSON = HttpUtils.getJSON(url, postBody, headerKeyValues);
       log.debug(accountInfoJSON);
     } catch (GeneralSecurityException e) {

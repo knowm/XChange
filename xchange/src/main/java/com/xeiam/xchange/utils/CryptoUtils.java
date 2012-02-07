@@ -30,14 +30,23 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Various cryptography utility methods
  */
 public class CryptoUtils {
 
+  /**
+   * Provides logging for this class
+   */
+  private static final Logger log = LoggerFactory.getLogger(CryptoUtils.class);
+
   public static String getNumericalNonce() {
-    return Long.toString(new Date().getTime());
+    String numericalNonce = Long.toString(new Date().getTime());
+    log.debug("numericalNonce= " + numericalNonce);
+    return numericalNonce;
   }
 
   public static byte[] getByteArrayNonce() {

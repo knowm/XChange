@@ -45,7 +45,7 @@ public class MtGoxPublicHttpMarketDataDemo {
 
     MtGoxPublicHttpMarketDataService mtGoxPublicHttpMarketDataService = new MtGoxPublicHttpMarketDataService();
     // for (int i = 0; i < 10; i++) {
-    Ticker tick = mtGoxPublicHttpMarketDataService.getTick("BTCUSD");
+    Ticker tick = mtGoxPublicHttpMarketDataService.getTicker("BTCUSD");
     log.debug("tick: " + tick.toString());
     // TODO Re-instate these (not sure where they went)
     // int last = mtGoxPublicHttpMarketDataService.getLast("BTCUSD");

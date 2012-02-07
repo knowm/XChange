@@ -1,27 +1,30 @@
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import org.joda.time.DateTime;
-
 import java.util.Collection;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+
+import com.xeiam.xchange.dto.marketdata.CancelledTrades;
+import com.xeiam.xchange.dto.marketdata.Depth;
+import com.xeiam.xchange.dto.marketdata.FullDepth;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+
 /**
- * <p>Interface to provide the following to {@link Exchange}:</p>
+ * <p>
+ * Interface to provide the following to {@link Exchange}:
+ * </p>
  * <ul>
  * <li>Standard methods available to explore the market data</li>
  * </ul>
- *
- * @since 0.0.1
- *
- * TODO Consider the blocking nature and perhaps go for a
- * TODO MarketDataCallback or MarketDataListener approach?
- *         
+ * 
+ * @since 0.0.1 TODO Consider the blocking nature and perhaps go for a TODO MarketDataCallback or MarketDataListener approach?  
  */
 public interface MarketDataService {
 
   /**
-   * @return A collection of {@link Ticker}s representing the latest market data 
+   * @return A collection of {@link Ticker}s representing the latest market data
    */
   Collection<Ticker> getLatestMarketData();
 
@@ -32,13 +35,13 @@ public interface MarketDataService {
 
   Set<String> getExchangeSymbols();
 
-  Ticker getMarketDepth(String symbol);
+  Depth getDepth(String symbol);
 
-  Ticker getTrades(String symbol);
+  Trades getTrades(String symbol);
 
-  Ticker getMarketFullDepth(String symbol);
+  FullDepth getFullDepth(String symbol);
 
-  Ticker getCancelledTrades(String symbol);
+  CancelledTrades getCancelledTrades(String symbol);
 
-  Ticker getTick(String symbol);
+  Ticker getTicker(String symbol);
 }
