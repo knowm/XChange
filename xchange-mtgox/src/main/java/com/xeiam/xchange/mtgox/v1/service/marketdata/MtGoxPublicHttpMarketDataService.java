@@ -54,6 +54,8 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
    */
   private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataService.class);
 
+  ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+
   @Override
   public Ticker getTicker(String symbol) {
 
@@ -66,7 +68,6 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
     // parse JSON
     MtGoxTicker mtGoxTicker = null;
     try {
-      ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
       mtGoxTicker = mapper.readValue(tickJSON, MtGoxTicker.class);
       ticker = new Ticker();
       // extract last
@@ -84,38 +85,21 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
 
     // return
     return ticker;
-
-  }
-
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
-   * </p>
-   */
-  @Override
-  public int getRefreshRate() {
-    return MtGoxProperties.REFRESH_RATE;
-  }
-
-  @Override
-  public Set<String> getExchangeSymbols() {
-    return MtGoxProperties.MT_GOX_SYMBOLS;
-  }
-
-  @Override
-  public Collection<Ticker> getLatestMarketData() {
-    return null;
-  }
-
-  @Override
-  public Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
-    return null;
   }
 
   @Override
   public Depth getDepth(String symbol) {
-    // TODO Auto-generated method stub
-    return null;
+
+    Depth depth = null;
+
+    // request data
+    String tickJSON = HttpUtils.httpGET4JSON("https://mtgox.com/api/1/" + symbol + "/public/depth?raw");
+    log.debug(tickJSON);
+
+    // parse JSON
+    depth = new Depth();
+
+    return depth;
   }
 
   @Override
@@ -134,5 +118,30 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
   public CancelledTrades getCancelledTrades(String symbol) {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public Collection<Ticker> getLatestMarketData() {
+    return null;
+  }
+
+  @Override
+  public Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
+    return null;
+  }
+
+  /**
+   * <p>
+   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
+   * </p>
+   */
+  @Override
+  public int getRefreshRate() {
+    return MtGoxProperties.REFRESH_RATE;
+  }
+
+  @Override
+  public Set<String> getExchangeSymbols() {
+    return MtGoxProperties.MT_GOX_SYMBOLS;
   }
 }
