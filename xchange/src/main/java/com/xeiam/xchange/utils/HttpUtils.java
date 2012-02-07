@@ -31,11 +31,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import com.xeiam.xchange.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.HttpException;
 
 public class HttpUtils {
 
@@ -58,7 +61,94 @@ public class HttpUtils {
 
   }
 
-  private static String post(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
+  /**
+   * Send an HTTP GET request, and recieve server response
+   * 
+   * @reference http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
+   * @param urlString
+   * @param customHeaderKeyValues
+   * @return String - the fetched Response String
+   */
+  private static String httpGET(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
+
+    String responseString = "";
+    HttpURLConnection conn = null;
+    try {
+
+      URL url = new URL(urlString);
+      conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+
+      // header key values
+      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
+      // add/override defaultHeaderKeyValues with customHeaderKeyValues
+      headerKeyValues.putAll(customHeaderKeyValues);
+      for (String key : headerKeyValues.keySet()) {
+        conn.setRequestProperty(key, headerKeyValues.get(key));
+        // log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
+      }
+
+      // if (conn.getResponseCode() != 200) {
+      // throw new HttpException("Problem getting HTTP response (response code: " + conn.getResponseCode() + ")");
+      // }
+
+      for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
+        log.debug(header.getKey() + "=" + header.getValue());
+      }
+
+      InputStream response = conn.getInputStream();
+      String resonseEncoding = getResponseEncoding(conn);
+
+      if (resonseEncoding != null) {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        reader = new BufferedReader(new InputStreamReader(response, resonseEncoding));
+        for (String line; (line = reader.readLine()) != null;) {
+          log.debug(line);
+          sb.append(line);
+        }
+        responseString = sb.toString();
+
+      } else {
+
+        // Guava
+        // json = new String(ByteStreams.toByteArray(response));
+
+        // Standard Java Library
+        BufferedInputStream bis = null;
+        bis = new BufferedInputStream(response);
+        byte[] contents = new byte[1024];
+
+        int bytesRead = 0;
+        String strFileContents = null;
+        while ((bytesRead = bis.read(contents)) != -1) {
+          strFileContents = new String(contents, 0, bytesRead);
+        }
+        responseString = strFileContents;
+
+      }
+
+    } catch (MalformedURLException e) {
+      throw new HttpException("Problem getting JSON (malformed URL)", e);
+    } catch (IOException e) {
+      throw new HttpException("Problem getting JSON (IO)", e);
+    } finally {
+      if (conn != null) {
+        conn.disconnect();
+      }
+    }
+    return responseString;
+  }
+
+  /**
+   * Send an HTTP POST request, and recieve server response
+   * 
+   * @param urlString
+   * @param postBody
+   * @param customHeaderKeyValues
+   * @return
+   */
+  private static String httpPOST(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
 
     String responseString = "";
     HttpURLConnection conn = null;
@@ -104,83 +194,6 @@ public class HttpUtils {
   }
 
   /**
-   * @reference http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests
-   * @param urlString
-   * @param customHeaderKeyValues
-   * @return String - the fetched Response String
-   */
-  private static String getHttpResponse(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
-
-    String responseString = "";
-    HttpURLConnection conn = null;
-    try {
-
-      URL url = new URL(urlString);
-      conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod("POST");
-
-      // header key values
-      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
-      // add/override defaultHeaderKeyValues with customHeaderKeyValues
-      headerKeyValues.putAll(customHeaderKeyValues);
-      for (String key : headerKeyValues.keySet()) {
-        conn.setRequestProperty(key, headerKeyValues.get(key));
-        log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
-      }
-
-      // if (conn.getResponseCode() != 200) {
-      // throw new HttpException("Problem getting HTTP response (response code: " + conn.getResponseCode() + ")");
-      // }
-
-      // for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
-      // log.debug(header.getKey() + "=" + header.getValue());
-      // }
-
-      InputStream response = conn.getInputStream();
-      String resonseEncoding = getResponseEncoding(conn);
-
-      if (resonseEncoding != null) {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader reader = null;
-        reader = new BufferedReader(new InputStreamReader(response, resonseEncoding));
-        for (String line; (line = reader.readLine()) != null;) {
-          // log.debug(line);
-          sb.append(line);
-        }
-        responseString = sb.toString();
-
-      } else {
-
-        // Guava
-        // json = new String(ByteStreams.toByteArray(response));
-
-        // Standard Java Library
-        BufferedInputStream bis = null;
-        bis = new BufferedInputStream(response);
-        byte[] contents = new byte[1024];
-
-        int bytesRead = 0;
-        String strFileContents = null;
-        while ((bytesRead = bis.read(contents)) != -1) {
-          strFileContents = new String(contents, 0, bytesRead);
-        }
-        responseString = strFileContents;
-
-      }
-
-    } catch (MalformedURLException e) {
-      throw new HttpException("Problem getting JSON (malformed URL)", e);
-    } catch (IOException e) {
-      throw new HttpException("Problem getting JSON (IO)", e);
-    } finally {
-      if (conn != null) {
-        conn.disconnect();
-      }
-    }
-    return responseString;
-  }
-
-  /**
    * @param urlString
    * @return String - the fetched JSON String
    */
@@ -188,7 +201,7 @@ public class HttpUtils {
 
     Map<String, String> headerKeyValueMap = new HashMap<String, String>();
     headerKeyValueMap.put("Accept", "application/json");
-    return getHttpResponse(urlString, headerKeyValueMap);
+    return httpGET(urlString, headerKeyValueMap);
   }
 
   /**
@@ -200,7 +213,7 @@ public class HttpUtils {
     Map<String, String> headerKeyValueMap = new HashMap<String, String>();
     headerKeyValueMap.put("Accept", "application/json");
     headerKeyValueMap.putAll(customHeaderKeyValues);
-    return post(urlString, postBody, headerKeyValueMap);
+    return httpPOST(urlString, postBody, headerKeyValueMap);
   }
 
   /**
