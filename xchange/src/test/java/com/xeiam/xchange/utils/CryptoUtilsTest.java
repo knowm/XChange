@@ -24,12 +24,14 @@ package com.xeiam.xchange.utils;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 
-import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Test class for testing various CryptoUtils methods
+ */
 public class CryptoUtilsTest {
 
   /**
@@ -38,18 +40,15 @@ public class CryptoUtilsTest {
   private static final Logger log = LoggerFactory.getLogger(CryptoUtils.class);
 
   @Test
-  public void base64Encode() throws UnsupportedEncodingException {
+  public void testBase64Encode() throws UnsupportedEncodingException {
 
     String string2Encode = "VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw==";
     log.debug("string2Encode: " + string2Encode);
     String expectedResult = "This is an encoded string";
     log.debug("expectedResult: " + expectedResult);
-    // byte[] result = Base64.decodeBase64(string2Encode.getBytes("UTF-8"));
-    byte[] resultAsByteArray = Base64.decodeBase64(string2Encode.getBytes());
-    String result = new String(resultAsByteArray);
+    String result = CryptoUtils.decodeBase64String(string2Encode);
 
-    log.debug("resultAsByteArray: " + resultAsByteArray);
-    log.debug("result: " + result);
+    log.debug("result        :" + result);
 
     Assert.assertEquals(result, expectedResult);
 
@@ -58,14 +57,12 @@ public class CryptoUtilsTest {
   @Test
   public void testSignature() throws UnsupportedEncodingException, GeneralSecurityException {
 
-    // method signature
-    // String algorithm, String baseString, byte[] key
     String algorithm = "HmacSHA512";
     String baseString = "nonce=1328626350245256";
-    String secretKey = "YYY";
+    String secretKey = "9WkB3zUil6h5pXrqUX7XT57c+g2rxxemeGYv3aBSW4hlkwSIgmul+mC3yxwU8fPtQsR8jTpyI2xo7WznjhTf4g==";
     String restSign = CryptoUtils.computeSignature(algorithm, baseString, secretKey);
     log.debug("Rest-Sign    : " + restSign);
-    String expectedResult = "tZStTi75ISnfQNbLCgplfobePAEm/RX++Qp+LaHpuCSrjZ/L5+S6dABaqvKBUGYCkp4gHdm9DtdysmSjiJ760g==";
+    String expectedResult = "eNjLVoVh6LVQfzgv7qFMCL48b5d2Qd1gvratXGA76W6+g46Jl9TNkiTCHks5sLXjfAQ1rGnvWxRHu6pYjC5FSQ==";
     log.debug("Expected-Sign: " + expectedResult);
 
     Assert.assertEquals(restSign, expectedResult);

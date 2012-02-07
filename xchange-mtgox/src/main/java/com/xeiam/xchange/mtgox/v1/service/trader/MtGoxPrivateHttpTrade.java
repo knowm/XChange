@@ -52,26 +52,15 @@ public class MtGoxPrivateHttpTrade extends SynchronousTrade implements CachedDat
 
     try {
       // request data
-      // String url = "https://mtgox.com/api/0/info.php"; // version 0
       String url = "https://mtgox.com/api/1/generic/private/info"; // version 1
-
-      // String postBody = URLEncoder.encode("nonce", HttpUtils.CHARSET_UTF_8) + "=" + URLEncoder.encode("1345634563", HttpUtils.CHARSET_UTF_8);
-      String postBody = "nonce=" + URLEncoder.encode(CryptoUtils.getNumericalNonce(), HttpUtils.CHARSET_UTF_8);
-      log.debug("postBody= " + postBody);
-
+      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
       Map<String, String> headerKeyValues = new HashMap<String, String>();
-      log.debug("Rest-Key= " + key);
-      log.debug("encoded Rest-Key= " + URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
-      // headerKeyValues.put("Rest-Key", key);
-      // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)));
-      log.debug("Rest-Sign= " + CryptoUtils.computeSignature("HmacSHA512", postBody, secret));
-      log.debug("encoded Rest-Sign= " + URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, secret), HttpUtils.CHARSET_UTF_8));
-      // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
-      headerKeyValues.put("Rest-Sign", URLEncoder.encode(CryptoUtils.computeSignature("HmacSHA512", postBody, secret), HttpUtils.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret));
       String accountInfoJSON = HttpUtils.getJSON(url, postBody, headerKeyValues);
 
       log.debug(accountInfoJSON);
+
     } catch (GeneralSecurityException e) {
       throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
     } catch (UnsupportedEncodingException e) {

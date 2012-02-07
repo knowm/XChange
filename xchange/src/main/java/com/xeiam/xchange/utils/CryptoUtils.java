@@ -43,18 +43,21 @@ public class CryptoUtils {
    */
   private static final Logger log = LoggerFactory.getLogger(CryptoUtils.class);
 
+  /**
+   * Creates a numerical nonce from the number of milliseconds since January 1, 1970, 00:00:00 GMT
+   * 
+   * @return
+   */
   public static String getNumericalNonce() {
     String numericalNonce = Long.toString(new Date().getTime());
-    log.debug("numericalNonce= " + numericalNonce);
+    // log.debug("numericalNonce= " + numericalNonce);
     return numericalNonce;
   }
 
-  public static byte[] getByteArrayNonce() {
-    return getNumericalNonce().getBytes();
-  }
+  public static String decodeBase64String(String string2Encode) {
 
-  public static String getBase64Nonce() {
-    return Base64.encodeBase64String(getByteArrayNonce());
+    byte[] resultAsByteArray = Base64.decodeBase64(string2Encode.getBytes());
+    return new String(resultAsByteArray);
   }
 
   /**
@@ -80,5 +83,13 @@ public class CryptoUtils {
   public static byte[] getBase64DecodedString(String base64String) {
     return Base64.decodeBase64(base64String);
   }
+
+  // public static byte[] getByteArrayNonce() {
+  // return getNumericalNonce().getBytes();
+  // }
+  //
+  // public static String getBase64Nonce() {
+  // return Base64.encodeBase64String(getByteArrayNonce());
+  // }
 
 }
