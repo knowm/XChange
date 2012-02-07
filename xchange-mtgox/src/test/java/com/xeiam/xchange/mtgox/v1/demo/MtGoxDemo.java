@@ -50,10 +50,10 @@ public class MtGoxDemo {
     MarketDataService marketDataService = mtGox.getMarketDataService();
 
     // Get the latest data
-    Collection<Ticker> ticks = marketDataService.getLatestMarketData();
+    Collection<Ticker> tickers = marketDataService.getLatestMarketData();
 
-    for (Ticker tick : ticks) {
-      System.out.println(tick);
+    for (Ticker ticker : tickers) {
+      System.out.println(ticker);
     }
 
   }
