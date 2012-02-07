@@ -21,18 +21,11 @@
  */
 
 import com.xeiam.xchange.mtgox.v1.service.trader.MtGoxPrivateHttpTrade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Demonstrates how to query market data from Mt Gox using their public Http market data API
  */
 public class MtGoxPrivateHttpTraderDemo {
-
-  /**
-   * Provides logging for this class
-   */
-  private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTraderDemo.class);
 
   /**
    * @param args Not required
