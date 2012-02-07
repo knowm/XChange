@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.trader;
+package com.xeiam.xchange.mtgox.v1.service.trader;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -40,38 +40,31 @@ import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpUtils;
 
-public class MtGoxPrivateHttpTradeProxy extends SynchronousTrade implements CachedDataSession {
+public class MtGoxPrivateHttpTrade extends SynchronousTrade implements CachedDataSession {
 
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTradeProxy.class);
+  private static final Logger log = LoggerFactory.getLogger(MtGoxPrivateHttpTrade.class);
 
   @Override
   public AccountInfo getExchangeAccountInfo(String key, String secret) {
 
     try {
       // request data
+      // String url = "https://mtgox.com/api/0/info.php"; // version 0
+      String url = "https://mtgox.com/api/1/generic/private/info"; // version 1
 
       // String postBody = URLEncoder.encode("nonce", HttpUtils.CHARSET_UTF_8) + "=" + URLEncoder.encode("1345634563", HttpUtils.CHARSET_UTF_8);
-      String parameters = "nonce=" + URLEncoder.encode(CryptoUtils.getNumericalNonce(), HttpUtils.CHARSET_UTF_8);
+      String postBody = "nonce=" + URLEncoder.encode(CryptoUtils.getNumericalNonce(), HttpUtils.CHARSET_UTF_8);
 
       Map<String, String> headerKeyValues = new HashMap<String, String>();
       // headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Key", key);
       // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, CryptoUtils.getBase64DecodedString(secret)));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", parameters, secret.getBytes()));
-
-      String url = "https://mtgox.com/api/0/info.php"; // version 0
-      // String url = "https://mtgox.com/api/0/info.php?" + parameters; // version 0
-      // String url = "https://mtgox.com/api/0/info.php?" + parameters.getBytes(); // version 0
-      // String url = "https://mtgox.com/api/0/btcAddress.php?" + parameters; // version 0
-      // String url = "https://mtgox.com/api/1/generic/private/info?" + parameters; // version 1
-
-      String accountInfoJSON = HttpUtils.getJSON(url, parameters, headerKeyValues);
+      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret.getBytes()));
+      String accountInfoJSON = HttpUtils.getJSON(url, postBody, headerKeyValues);
       log.debug(accountInfoJSON);
-
-      // TODO create and use more specific exceptions
     } catch (GeneralSecurityException e) {
       throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
     } catch (UnsupportedEncodingException e) {
@@ -95,10 +88,5 @@ public class MtGoxPrivateHttpTradeProxy extends SynchronousTrade implements Cach
   public int getRefreshRate() {
     return MtGoxProperties.REFRESH_RATE;
   }
-
-  // @Override
-  // public Set<String> getExchangeSymbols() {
-  // return MtGoxProperties.MT_GOX_SYMBOLS;
-  // }
 
 }
