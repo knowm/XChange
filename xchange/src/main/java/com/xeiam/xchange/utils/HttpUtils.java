@@ -36,6 +36,9 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.HttpException;
 
+/**
+ * Various HTTP utility methods
+ */
 public class HttpUtils {
 
   public static final String CHARSET_UTF_8 = "UTF-8";
@@ -52,9 +55,70 @@ public class HttpUtils {
   static {
     defaultHeaderKeyValues.put("Accept-Charset", CHARSET_UTF_8);
     defaultHeaderKeyValues.put("Content-Type", "application/x-www-form-urlencoded");
-    defaultHeaderKeyValues.put("Accept", "text/plain");
+    defaultHeaderKeyValues.put("Accept", "text/plain"); // default Accept
     defaultHeaderKeyValues.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
+  }
 
+  /**
+   * Requests JSON via an HTTP GET
+   * 
+   * @param urlString
+   * @return String - the fetched JSON String
+   * @throws HttpException
+   */
+  public static String httpGET4JSON(String urlString) throws HttpException {
+
+    return httpGET4JSON(urlString, null);
+  }
+
+  /**
+   * Requests JSON via an HTTP GET
+   * 
+   * @param urlString
+   * @param customHeaderKeyValues
+   * @return String - the fetched JSON String
+   * @throws HttpException
+   */
+  public static String httpGET4JSON(String urlString, Map<String, String> customHeaderKeyValues) throws HttpException {
+
+    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
+    headerKeyValueMap.put("Accept", "application/json");
+    if (customHeaderKeyValues != null) {
+      headerKeyValueMap.putAll(customHeaderKeyValues);
+    }
+    return httpGET(urlString, headerKeyValueMap);
+  }
+
+  /**
+   * Requests JSON via an HTTP POST
+   * 
+   * @param urlString
+   * @param postBody
+   * @return String - the fetched JSON String
+   * @throws HttpException
+   */
+  public static String httpPOST4JSON(String urlString, String postBody) throws HttpException {
+
+    return httpPOST4JSON(urlString, postBody);
+  }
+
+  /**
+   * Requests JSON via an HTTP POST
+   * 
+   * @param urlString
+   * @param postBody
+   * @param customHeaderKeyValues
+   * @return String - the fetched JSON String
+   * @throws HttpException
+   */
+  public static String httpPOST4JSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) throws HttpException {
+
+    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
+    headerKeyValueMap.put("Accept", "application/json");
+    if (customHeaderKeyValues != null) {
+      headerKeyValueMap.putAll(customHeaderKeyValues);
+    }
+    return httpPOST(urlString, postBody, headerKeyValueMap);
   }
 
   /**
@@ -129,17 +193,13 @@ public class HttpUtils {
       headerKeyValues.putAll(customHeaderKeyValues);
       for (String key : headerKeyValues.keySet()) {
         conn.setRequestProperty(key, headerKeyValues.get(key));
-        log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
+        // log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
       }
       conn.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
 
-      log.debug("postBody= " + postBody);
+      // log.debug("postBody= " + postBody);
       conn.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
-      // OutputStreamWriter out = new OutputStreamWriter(conn.getOutputStream());
-      // out.write(postBody);
-      // out.flush();
-      // out.close();
       responseString = getReponseString(conn);
 
     } catch (MalformedURLException e) {
@@ -156,6 +216,13 @@ public class HttpUtils {
 
   }
 
+  /**
+   * Gets the response String from an HTTP request
+   * 
+   * @param conn
+   * @return
+   * @throws IOException
+   */
   private static String getReponseString(HttpURLConnection conn) throws IOException {
 
     String responseString = "";
@@ -190,32 +257,6 @@ public class HttpUtils {
     }
 
     return responseString;
-  }
-
-  /**
-   * @param urlString
-   * @return String - the fetched JSON String
-   */
-  public static String getJSON(String urlString) throws HttpException {
-
-    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
-    headerKeyValueMap.put("Accept", "application/json");
-    return httpGET(urlString, headerKeyValueMap);
-  }
-
-  /**
-   * @param urlString
-   * @param postBody
-   * @param customHeaderKeyValues
-   * @return String - the fetched JSON String
-   * @throws HttpException
-   */
-  public static String getJSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) throws HttpException {
-
-    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
-    headerKeyValueMap.put("Accept", "application/json");
-    headerKeyValueMap.putAll(customHeaderKeyValues);
-    return httpPOST(urlString, postBody, headerKeyValueMap);
   }
 
   /**

@@ -60,7 +60,7 @@ public class MtGoxPublicHttpMarketDataService implements MarketDataService, Cach
     Ticker ticker = null;
 
     // request data
-    String tickJSON = HttpUtils.getJSON("https://mtgox.com/api/1/" + symbol + "/public/ticker");
+    String tickJSON = HttpUtils.httpGET4JSON("https://mtgox.com/api/1/" + symbol + "/public/ticker");
     log.debug(tickJSON);
 
     // parse JSON

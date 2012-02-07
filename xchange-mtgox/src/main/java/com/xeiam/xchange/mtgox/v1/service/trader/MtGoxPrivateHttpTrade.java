@@ -57,7 +57,7 @@ public class MtGoxPrivateHttpTrade extends SynchronousTrade implements CachedDat
       Map<String, String> headerKeyValues = new HashMap<String, String>();
       headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret));
-      String accountInfoJSON = HttpUtils.getJSON(url, postBody, headerKeyValues);
+      String accountInfoJSON = HttpUtils.httpPOST4JSON(url, postBody, headerKeyValues);
 
       log.debug(accountInfoJSON);
 
