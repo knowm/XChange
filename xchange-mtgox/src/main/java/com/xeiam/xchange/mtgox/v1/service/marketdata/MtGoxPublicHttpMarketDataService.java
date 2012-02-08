@@ -22,7 +22,6 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
 import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.marketdata.dto.*;
@@ -30,14 +29,12 @@ import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.HttpUtils;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -56,8 +53,8 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/%s/",apiURI,apiVersion);
-  
+  private final String apiBase = String.format("%s/api/%s/", apiURI, apiVersion);
+
   /**
    * @param exchangeSpecification The exchange specification
    */
@@ -68,37 +65,25 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   @Override
   public Ticker getTicker(String symbol) {
 
-    Ticker ticker;
 
     // Request data 
-    String tickJSON = HttpUtils.httpGET4JSON(apiBase + symbol + "/public/ticker");
-    log.debug(tickJSON);
+    MtGoxTicker mtGoxTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
-    // Parse JSON
-    MtGoxTicker mtGoxTicker;
-    try {
-      mtGoxTicker = mapper.readValue(tickJSON, MtGoxTicker.class);
-      ticker = new Ticker();
-      // Extract the last
-      ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
-      ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
-    } catch (JsonParseException e) {
-      throw new ExchangeException("Problem generating ticker (JSON parsing)", e);
-    } catch (JsonMappingException e) {
-      throw new ExchangeException("Problem generating ticker (JSON mapping)", e);
-    } catch (IOException e) {
-      throw new ExchangeException("Problem generating ticker (IO)", e);
-    } catch (NumberFormatException e) {
-      throw new ExchangeException("Problem generating ticker (number formatting)", e);
-    }
+    // Adapt to XChange DTOs
+    Ticker ticker = new Ticker();
+    
+    // TODO Provide more detail 
+    ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
+    ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
 
-    // return
     return ticker;
   }
 
   @Override
   public Depth getDepth(String symbol) {
 
+
+    // TODO Refactor to work like getTicker
     Depth depth;
 
     // Request data

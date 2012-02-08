@@ -22,6 +22,7 @@
 package com.xeiam.xchange.utils;
 
 import com.xeiam.xchange.HttpException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +49,7 @@ public class HttpUtils {
   private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
   /**
-   * default request header fields
+   * Default request header fields
    */
   private static final Map<String, String> defaultHeaderKeyValues = new HashMap<String, String>();
 
@@ -61,12 +62,36 @@ public class HttpUtils {
   }
 
   /**
-   * Requests JSON via an HTTP GET
+   * Requests JSON via an HTTP GET and unmarshals it into an object graph
+   *
+   * @param urlString A string representation of a URL
+   *
+   * @param returnType The required return type
+   * @param objectMapper The Jackson ObjectMapper to use
+   * @param httpHeaders Any HTTP headers
+   * @return The contents of the response body as the given type mapped through Jackson
+   */
+  public static <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String,String> httpHeaders) {
+    Assert.notNull(urlString,"urlString cannot be null");
+    Assert.notNull(urlString,"objectMapper cannot be null");
+    try {
+      return objectMapper.readValue(getForString(urlString, httpHeaders), returnType);
+    } catch (IOException e) {
+      // Rethrow as runtime exception
+      throw new HttpException(e.getMessage(),e);
+    }
+  }
+
+  /**
+   * Requests a String via an HTTP GET
    *
    * @param urlString A string representation of a URL
    *
    * @return The contents of the response body as a String containing JSON
+   *
+   * @deprecated Use the more powerful getForJsonObject instead
    */
+  @Deprecated
   public static String httpGET4JSON(String urlString) {
     return httpGET4JSON(urlString, new HashMap<String, String>());
   }
@@ -78,7 +103,9 @@ public class HttpUtils {
    * @param customHeaderKeyValues Any custom header values
    *
    * @return The contents of the response body as a String containing JSON
+   * @deprecated Use the more powerful getForJsonObject instead
    */
+  @Deprecated
   public static String httpGET4JSON(String urlString, Map<String, String> customHeaderKeyValues) {
 
     Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
@@ -86,7 +113,7 @@ public class HttpUtils {
     Map<String, String> headerKeyValueMap = new HashMap<String, String>();
     headerKeyValueMap.put("Accept", "application/json");
     headerKeyValueMap.putAll(customHeaderKeyValues);
-    return httpGET(urlString, headerKeyValueMap);
+    return getForString(urlString, headerKeyValueMap);
   }
 
   /**
@@ -117,7 +144,7 @@ public class HttpUtils {
     Map<String, String> headerKeyValueMap = new HashMap<String, String>();
     headerKeyValueMap.put("Accept", "application/json");
     headerKeyValueMap.putAll(customHeaderKeyValues);
-    return httpPOST(urlString, postBody, headerKeyValueMap);
+    return postForString(urlString, postBody, headerKeyValueMap);
   }
 
   /**
@@ -130,7 +157,7 @@ public class HttpUtils {
    *
    * @see <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests">Stack Overflow on URLConnection</a>
    */
-  private static String httpGET(String urlString, Map<String, String> customHeaderKeyValues) {
+  private static String getForString(String urlString, Map<String, String> customHeaderKeyValues) {
 
     Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
 
@@ -160,7 +187,7 @@ public class HttpUtils {
       // log.debug(header.getKey() + "=" + header.getValue());
       // }
 
-      responseString = getReponseString(conn);
+      responseString = getResponseString(conn);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem GETing (malformed URL)", e);
@@ -183,7 +210,7 @@ public class HttpUtils {
    *
    * @return The contents of the response body as a String
    */
-  private static String httpPOST(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
+  private static String postForString(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
 
     String responseString = "";
     HttpURLConnection conn = null;
@@ -208,7 +235,7 @@ public class HttpUtils {
       // log.debug("postBody= " + postBody);
       conn.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
-      responseString = getReponseString(conn);
+      responseString = getResponseString(conn);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem POSTing (malformed URL)", e);
@@ -233,7 +260,7 @@ public class HttpUtils {
    *
    * @throws IOException If something goes wrong
    */
-  private static String getReponseString(HttpURLConnection conn) throws IOException {
+  private static String getResponseString(HttpURLConnection conn) throws IOException {
 
     String responseString;
 
