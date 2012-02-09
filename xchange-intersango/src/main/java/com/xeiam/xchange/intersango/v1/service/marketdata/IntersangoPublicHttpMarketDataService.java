@@ -25,6 +25,7 @@ import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.intersango.v1.IntersangoProperties;
+import com.xeiam.xchange.intersango.v1.service.marketdata.dto.IntersangoDepth;
 import com.xeiam.xchange.intersango.v1.service.marketdata.dto.IntersangoTicker;
 import com.xeiam.xchange.marketdata.dto.*;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -67,14 +68,14 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
 
 
     // Request data 
-    IntersangoTicker mtGoxTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", IntersangoTicker.class, mapper, new HashMap<String, String>());
+    IntersangoTicker intersangoTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", IntersangoTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
     
     // TODO Provide more detail 
-    ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
-    ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
+    ticker.setLast(Integer.parseInt(intersangoTicker.getReturn().getLast_orig().getValue_int()));
+    ticker.setVolume(Long.parseLong(intersangoTicker.getReturn().getVol().getValue_int()));
 
     return ticker;
   }
@@ -83,15 +84,11 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   public Depth getDepth(String symbol) {
 
 
-    // TODO Refactor to work like getTicker
-    Depth depth;
-
     // Request data
-    String tickJSON = HttpUtils.httpGET4JSON(apiBase + symbol + "/public/depth?raw");
-    log.debug(tickJSON);
+    IntersangoDepth intersangoDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
 
-    // Parse JSON
-    depth = new Depth();
+    // Adapt to XChange DTOs
+    Depth depth = new Depth();
 
     return depth;
   }

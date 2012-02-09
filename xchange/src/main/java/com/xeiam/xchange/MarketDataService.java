@@ -13,8 +13,10 @@ import java.util.List;
  * <ul>
  * <li>Standard methods available to explore the market data</li>
  * </ul>
+ *
+ * TODO Consider the blocking nature and perhaps go for a TODO MarketDataCallback or MarketDataListener approach?  
  * 
- * @since 0.0.1 TODO Consider the blocking nature and perhaps go for a TODO MarketDataCallback or MarketDataListener approach?  
+ * @since 0.0.1
  */
 public interface MarketDataService {
 

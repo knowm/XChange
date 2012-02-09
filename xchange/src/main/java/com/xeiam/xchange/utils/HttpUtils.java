@@ -21,6 +21,11 @@
  */
 package com.xeiam.xchange.utils;
 
+import com.xeiam.xchange.HttpException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,12 +35,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.HttpException;
 
 /**
  * Various HTTP utility methods
@@ -52,29 +51,38 @@ public class HttpUtils {
   /**
    * Default request header fields
    */
-  private static final Map<String, String> defaultHeaderKeyValues = new HashMap<String, String>();
+  private static final Map<String, String> defaultHttpHeaders = new HashMap<String, String>();
 
+  /**
+   * Always use UTF8
+   * Assume form encoding by default (typically becomes application/json or application/xml)
+   * Accept text/plain by default (typically becomes application/json or application/xml)
+   * User agent provides statistics for servers, but some use it for content negotiation so fake good agents 
+   */
   static {
-    defaultHeaderKeyValues.put("Accept-Charset", CHARSET_UTF_8);
-    defaultHeaderKeyValues.put("Content-Type", "application/x-www-form-urlencoded");
-    defaultHeaderKeyValues.put("Accept", "text/plain"); // default Accept
-    defaultHeaderKeyValues.put("User-Agent", "XChange/0.0.1 JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
+    defaultHttpHeaders.put("Accept-Charset", CHARSET_UTF_8);
+    defaultHttpHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+    defaultHttpHeaders.put("Accept", "text/plain");
+    defaultHttpHeaders.put("User-Agent", "XChange/0.0.1 JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
   }
 
   /**
    * Requests JSON via an HTTP GET and unmarshals it into an object graph
-   * 
-   * @param urlString A string representation of a URL
-   * @param returnType The required return type
+   *
+   * @param urlString    A string representation of a URL
+   * @param returnType   The required return type
    * @param objectMapper The Jackson ObjectMapper to use
-   * @param httpHeaders Any HTTP headers
+   * @param httpHeaders  Any custom header values (application/json is provided automatically)
+   *
    * @return The contents of the response body as the given type mapped through Jackson
    */
   public static <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
 
     Assert.notNull(urlString, "urlString cannot be null");
-    Assert.notNull(urlString, "objectMapper cannot be null");
+    Assert.notNull(objectMapper, "objectMapper cannot be null");
+    Assert.notNull(httpHeaders, "httpHeaders should not be null");
     try {
+      httpHeaders.put("Accept", "application/json");
       return objectMapper.readValue(getForString(urlString, httpHeaders), returnType);
     } catch (IOException e) {
       // Rethrow as runtime exception
@@ -83,107 +91,75 @@ public class HttpUtils {
   }
 
   /**
-   * Requests a String via an HTTP GET
-   * 
-   * @param urlString A string representation of a URL
-   * @return The contents of the response body as a String containing JSON
-   * @deprecated Use the more powerful getForJsonObject instead
-   */
-  @Deprecated
-  public static String httpGET4JSON(String urlString) {
-    return httpGET4JSON(urlString, new HashMap<String, String>());
-  }
-
-  /**
-   * Requests JSON via an HTTP GET
-   * 
-   * @param urlString A string representation of a URL
-   * @param customHeaderKeyValues Any custom header values
-   * @return The contents of the response body as a String containing JSON
-   * @deprecated Use the more powerful getForJsonObject instead
-   */
-  @Deprecated
-  public static String httpGET4JSON(String urlString, Map<String, String> customHeaderKeyValues) {
-
-    Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
-
-    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
-    headerKeyValueMap.put("Accept", "application/json");
-    headerKeyValueMap.putAll(customHeaderKeyValues);
-    return getForString(urlString, headerKeyValueMap);
-  }
-
-  /**
    * Requests JSON via an HTTP POST
-   * 
-   * @param urlString A string representation of a URL
-   * @param postBody The contents of the request body
-   * @return The contents of the response body as a String containing JSON
-   */
-  public static String httpPOST4JSON(String urlString, String postBody) {
-    return httpPOST4JSON(urlString, postBody, new HashMap<String, String>());
-  }
-
-  /**
-   * Requests JSON via an HTTP POST
-   * 
-   * @param urlString A string representation of a URL
-   * @param postBody The contents of the request body
-   * @param customHeaderKeyValues Any custom header values
+   *
+   * @param urlString    A string representation of a URL
+   * @param returnType   The required return type
+   * @param postBody     The contents of the request body
+   * @param objectMapper The Jackson ObjectMapper to use
+   * @param httpHeaders  Any custom header values (application/json is provided automatically)
+   *
    * @return String - the fetched JSON String
    */
-  public static String httpPOST4JSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
+  public static <T> T postForJsonObject(String urlString, Class<T> returnType, String postBody, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
 
-    Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
+    Assert.notNull(urlString, "urlString cannot be null");
+    Assert.notNull(objectMapper, "objectMapper cannot be null");
+    Assert.notNull(httpHeaders, "httpHeaders should not be null");
 
-    Map<String, String> headerKeyValueMap = new HashMap<String, String>();
-    headerKeyValueMap.put("Accept", "application/json");
-    headerKeyValueMap.putAll(customHeaderKeyValues);
-    return postForString(urlString, postBody, headerKeyValueMap);
+    try {
+      httpHeaders.put("Accept", "application/json");
+      return objectMapper.readValue(postForString(urlString, postBody, httpHeaders), returnType);
+    } catch (IOException e) {
+      // Rethrow as runtime exception
+      throw new HttpException(e.getMessage(), e);
+    }
   }
 
   /**
    * Send an HTTP GET request, and receive server response
-   * 
-   * @param urlString A string representation of a URL
-   * @param customHeaderKeyValues Any custom header values
-   * @return String - the fetched Response String
+   *
+   * @param urlString   A string representation of a URL
+   * @param httpHeaders Any custom header values
+   *
+   * @return The contents of the response body as a String
+   *
    * @see <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests">Stack Overflow on URLConnection</a>
    */
-  private static String getForString(String urlString, Map<String, String> customHeaderKeyValues) {
+  private static String getForString(String urlString, Map<String, String> httpHeaders) {
 
-    Assert.notNull(customHeaderKeyValues, "customHeaderKeyValues should not be null");
+    Assert.notNull(httpHeaders, "httpHeaders should not be null");
 
     String responseString = "";
-    HttpURLConnection conn = null;
+    HttpURLConnection connection = null;
 
     try {
 
       URL url = new URL(urlString);
-      conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod("GET");
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("GET");
 
-      // header key values
-      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
+      // Copy default HTTP headers
+      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHttpHeaders);
 
-      // add/override defaultHeaderKeyValues with customHeaderKeyValues
-      headerKeyValues.putAll(customHeaderKeyValues);
+      // Merge defaultHttpHeaders with httpHeaders
+      headerKeyValues.putAll(httpHeaders);
 
-      // add header key values to request
+      // Add HTTP headers to the request
       for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
-        conn.setRequestProperty(entry.getKey(), entry.getValue());
-        log.trace("header request property: key= " + entry.getKey() + ", value= " + entry.getValue());
+        connection.setRequestProperty(entry.getKey(), entry.getValue());
+        log.trace("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
       }
 
-      responseString = getResponseString(conn);
+      responseString = getResponseString(connection);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem GETing (malformed URL)", e);
     } catch (IOException e) {
       throw new HttpException("Problem GETing (IO)", e);
     } finally {
-      if (conn != null) {
-        conn.disconnect();
+      if (connection != null) {
+        connection.disconnect();
       }
     }
     return responseString;
@@ -191,51 +167,52 @@ public class HttpUtils {
 
   /**
    * Send an HTTP POST request, and receive server response
-   * 
-   * @param urlString A string representation of a URL
-   * @param postBody The contents of the request body
-   * @param customHeaderKeyValues Any custom header values
+   *
+   * @param urlString   A string representation of a URL
+   * @param postBody    The contents of the request body
+   * @param httpHeaders Any custom header values
+   *
    * @return The contents of the response body as a String
    */
-  private static String postForString(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
+  private static String postForString(String urlString, String postBody, Map<String, String> httpHeaders) {
 
     String responseString = "";
-    HttpURLConnection conn = null;
+    HttpURLConnection connection = null;
     try {
 
       URL url = new URL(urlString);
-      conn = (HttpURLConnection) url.openConnection();
-      conn.setDoOutput(true);
-      conn.setDoInput(true);
-      conn.setRequestMethod("POST");
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setDoOutput(true);
+      connection.setDoInput(true);
+      connection.setRequestMethod("POST");
 
-      // header key values
-      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
+      // Copy default HTTP headers
+      Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHttpHeaders);
 
-      // add/override defaultHeaderKeyValues with customHeaderKeyValues
-      headerKeyValues.putAll(customHeaderKeyValues);
+      // Merge defaultHttpHeaders with httpHeaders
+      headerKeyValues.putAll(httpHeaders);
 
-      // add header key values to request
+      // Add HTTP headers to the request
       for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
-        conn.setRequestProperty(entry.getKey(), entry.getValue());
-        log.trace("header request property: key= " + entry.getKey() + ", value= " + entry.getValue());
+        connection.setRequestProperty(entry.getKey(), entry.getValue());
+        log.trace("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
       }
 
       // add content length to header
-      conn.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
+      connection.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
 
       log.trace("postBody= " + postBody);
-      conn.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
+      connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
-      responseString = getResponseString(conn);
+      responseString = getResponseString(connection);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem POSTing (malformed URL)", e);
     } catch (IOException e) {
       throw new HttpException("Problem POSTing (IO)", e);
     } finally {
-      if (conn != null) {
-        conn.disconnect();
+      if (connection != null) {
+        connection.disconnect();
       }
     }
 
@@ -244,24 +221,26 @@ public class HttpUtils {
 
   /**
    * Gets the response String from an HTTP request
-   * 
-   * @param conn The HTTP connection
+   *
+   * @param connection The HTTP connection
+   *
    * @return The response body as a String
+   *
    * @throws IOException If something goes wrong
    */
-  private static String getResponseString(HttpURLConnection conn) throws IOException {
+  private static String getResponseString(HttpURLConnection connection) throws IOException {
 
     String responseString;
 
-    String responseEncoding = getResponseEncoding(conn);
+    String responseEncoding = getResponseEncoding(connection);
 
     // if the server specified an encoding, use a Buffered Reader
     if (responseEncoding != null) {
 
       StringBuilder sb = new StringBuilder();
       BufferedReader reader;
-      reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), responseEncoding));
-      for (String line; (line = reader.readLine()) != null;) {
+      reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), responseEncoding));
+      for (String line; (line = reader.readLine()) != null; ) {
         log.trace(line);
         sb.append(line);
       }
@@ -271,7 +250,7 @@ public class HttpUtils {
     } else {
 
       BufferedInputStream bis;
-      bis = new BufferedInputStream(conn.getInputStream());
+      bis = new BufferedInputStream(connection.getInputStream());
       byte[] byteContents = new byte[1024];
 
       int bytesRead;
@@ -288,13 +267,14 @@ public class HttpUtils {
 
   /**
    * Determine the response encoding if specified
-   * 
-   * @param conn The HTTP connection
+   *
+   * @param connection The HTTP connection
+   *
    * @return The response encoding as a string (taken from "Content-Type")
    */
-  private static String getResponseEncoding(HttpURLConnection conn) {
+  private static String getResponseEncoding(HttpURLConnection connection) {
 
-    String contentType = conn.getHeaderField("Content-Type");
+    String contentType = connection.getHeaderField("Content-Type");
     String charset = null;
     for (String param : contentType.replace(" ", "").split(";")) {
       if (param.startsWith("charset=")) {

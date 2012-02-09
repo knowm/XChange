@@ -2,9 +2,9 @@ package com.xeiam.xchange.mtgox.v1;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.exchange.BaseExchange;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxPublicHttpMarketDataService;
+import com.xeiam.xchange.mtgox.v1.service.trader.MtGoxAccountService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +20,6 @@ import java.util.Map;
  */
 public class MtGoxExchange extends BaseExchange implements Exchange {
 
-  private MarketDataService marketDataService;
-
   /**
    * Default constructor for ExchangeFactory
    */
@@ -34,6 +32,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
     this.marketDataService = new MtGoxPublicHttpMarketDataService(exchangeSpecification);
+    this.accountService = new MtGoxAccountService(exchangeSpecification);
   }
 
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -45,16 +44,4 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
 
     return new ExchangeSpecification(this.getClass().getCanonicalName(), parameters);
   }
-
-  @Override
-  public MarketDataService getMarketDataService() {
-    return marketDataService;
-  }
-
-  // Package local for testing
-  void setMarketDataService(MarketDataService marketDataService) {
-    this.marketDataService = marketDataService;
-  }
-
-
 }

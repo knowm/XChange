@@ -25,6 +25,8 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.marketdata.dto.Ticker;
+import com.xeiam.xchange.trade.dto.AccountInfo;
+import com.xeiam.xchange.trade.dto.AccountService;
 
 /**
  * <p>
@@ -44,10 +46,12 @@ public class ImcexDemo {
     // Demonstrate the public market data service
     demoMarketDataService();
 
+    // Demonstrate the private account data service
+    demoAccountService();
   }
 
   /**
-   * Demonstrates how to connect to the MarketDataService for MtGox
+   * Demonstrates how to connect to the MarketDataService for Imcex
    */
   private static void demoMarketDataService() {
     // Use the factory to get the version 1 MtGox exchange API using default settings
@@ -64,4 +68,21 @@ public class ImcexDemo {
 
     System.out.printf("Current exchange rate for BTC to USD: %.4f",btcusd);
   }
+
+  /**
+   * Demonstrates how to connect to the AccountService for Imcex
+   */
+  private static void demoAccountService() {
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    Exchange imcex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.imcex.v1.ImcexExchange");
+
+    // Interested in the public market data feed (no authentication)
+    AccountService accountService = imcex.getAccountService();
+
+    // Get the account information
+    AccountInfo accountInfo = accountService.getExchangeAccountInfo("sessionKey", "secretKey");
+
+    System.out.printf("Account info: %s",accountInfo);
+  }
+
 }

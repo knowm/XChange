@@ -1,6 +1,7 @@
 MtGox Exchange API specification
 ================================
 
-TODO Add in the common requests
+Online specification
+--------------------
+https://en.bitcoin.it/wiki/MtGox/API
 
-Suggested refactorings

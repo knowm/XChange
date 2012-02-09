@@ -25,6 +25,7 @@ import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.imcex.v1.ImcexProperties;
+import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexDepth;
 import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexTicker;
 import com.xeiam.xchange.marketdata.dto.*;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -33,7 +34,9 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>Implementation of the market data service for Mt Gox</p>
@@ -79,35 +82,26 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   @Override
   public Depth getDepth(String symbol) {
 
-
-    // TODO Refactor to work like getTicker
-    Depth depth;
-
     // Request data
-    String tickJSON = HttpUtils.httpGET4JSON(apiBase + symbol + "/public/depth?raw");
-    log.debug(tickJSON);
+    ImcexDepth imcexDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
 
-    // Parse JSON
-    depth = new Depth();
+    Depth depth = new Depth();
 
     return depth;
   }
 
   @Override
   public Trades getTrades(String symbol) {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public FullDepth getFullDepth(String symbol) {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public CancelledTrades getCancelledTrades(String symbol) {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -133,6 +127,6 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
 
   @Override
   public List<String> getExchangeSymbols() {
-    return ImcexProperties.MT_GOX_SYMBOLS;
+    return ImcexProperties.IMCEX_SYMBOLS;
   }
 }

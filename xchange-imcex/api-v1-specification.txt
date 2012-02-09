@@ -1,7 +1,12 @@
 Imcex Exchange API specification
 ================================
 
+Online specification
+--------------------
 
+
+Common API calls
+----------------
 
 https://imcex.com/api/v1/cached/bidask/all.json
 https://imcex.com/api/v1/cached/bidask/BTC_LRUSD.json
@@ -9,5 +14,3 @@ https://imcex.com/api/v1/cached/orderbook/orderbook_BTC_LRUSD.json
 https://imcex.com/api/v1/public/trades/BTC/LRUSD?since=200
 https://imcex.com/api/v1/cached/trades/trades_BTC_LRUSD.json
 
-
-Suggested refactorings

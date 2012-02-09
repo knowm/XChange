@@ -19,23 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1.demo;
-
-import com.xeiam.xchange.intersango.v1.service.trader.IntersangoPrivateHttpTrade;
+package com.xeiam.xchange.trade.dto;
 
 /**
- * Demonstrates how to query market data from Mt Gox using their public Http market data API
+ * <p>
+ * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
+ * </p>
+ * <ul>
+ * <li>Standard methods available to explore the user's account on the exchange</li>
+ * </ul>
+ *
+ * @since 0.0.1
  */
-public class IntersangoPrivateHttpTraderDemo {
+public interface AccountService {
 
   /**
-   * @param args Not required
-   * @throws InterruptedException
+   * @param sessionKey The session key or token provided by the exchange upon connection
+   * @param secretKey The secret key provided by the exchange during registration
+   * @return The account info
    */
-  public static void main(String[] args) throws InterruptedException {
+  public AccountInfo getExchangeAccountInfo(String sessionKey, String secretKey);
 
-    IntersangoPrivateHttpTrade mtGoxPrivateHttpTrade = new IntersangoPrivateHttpTrade();
-    mtGoxPrivateHttpTrade.getAccountInfo("XXX", "YYY");
-
-  }
 }

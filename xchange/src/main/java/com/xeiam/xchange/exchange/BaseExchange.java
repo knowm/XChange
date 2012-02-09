@@ -22,7 +22,8 @@
 package com.xeiam.xchange.exchange;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.MarketDataService;
+import com.xeiam.xchange.trade.dto.AccountService;
 
 /**
  * <p>Abstract base class to provide the following to {@link Exchange}s:</p>
@@ -34,4 +35,26 @@ import com.xeiam.xchange.ExchangeSpecification;
  */
 public abstract class BaseExchange implements Exchange {
 
+  protected MarketDataService marketDataService;
+  protected AccountService accountService;
+
+  @Override
+  public MarketDataService getMarketDataService() {
+    return marketDataService;
+  }
+
+  @Override
+  public AccountService getAccountService() {
+    return accountService;
+  }
+
+  // Package local for testing
+  void setMarketDataService(MarketDataService marketDataService) {
+    this.marketDataService = marketDataService;
+  }
+
+  // Package local for testing
+  public void setAccountService(AccountService accountService) {
+    this.accountService = accountService;
+  }
 }

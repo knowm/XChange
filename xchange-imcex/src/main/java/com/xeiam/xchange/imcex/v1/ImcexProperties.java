@@ -33,7 +33,7 @@ public class ImcexProperties {
   public static final int REFRESH_RATE = 10; // [seconds]
 
   // TODO Move into a symbol service
-  public static final List<String> MT_GOX_SYMBOLS = Arrays.asList("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD","BTCTHB");
+  public static final List<String> IMCEX_SYMBOLS = Arrays.asList("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD","BTCTHB");
 
   public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
 

@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1.service.trader;
+package com.xeiam.xchange.mtgox.v1.service.trader;
 
-import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.HttpException;
-import com.xeiam.xchange.intersango.v1.IntersangoProperties;
+import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.trade.dto.AccountInfo;
-import com.xeiam.xchange.trade.dto.SynchronousTrade;
+import com.xeiam.xchange.trade.dto.AccountService;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpUtils;
 import org.slf4j.Logger;
@@ -39,26 +39,40 @@ import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IntersangoPrivateHttpTrade extends SynchronousTrade implements CachedDataSession {
+public class MtGoxAccountService extends BaseExchangeService implements AccountService {
 
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(IntersangoPrivateHttpTrade.class);
+  private static final Logger log = LoggerFactory.getLogger(MtGoxAccountService.class);
+
+  /**
+   * Configured from the super class reading of the exchange specification
+   */
+  private final String apiBase = String.format("%s/api/%s/", apiURI, apiVersion);
+
+  /**
+   * Initialise common properties from the exchange specification
+   *
+   * @param exchangeSpecification The exchange specification with the configuration parameters
+   */
+  public MtGoxAccountService(ExchangeSpecification exchangeSpecification) {
+    super(exchangeSpecification);
+  }
 
   @Override
-  public AccountInfo getExchangeAccountInfo(String key, String secret) {
+  public AccountInfo getExchangeAccountInfo(String sessionKey, String secretKey) {
 
     try {
-      // request data
-      String url = "https://mtgox.com/api/1/generic/private/info"; // version 1
+      // Build account info request
+      String url = apiBase+"/generic/private/info"; 
       String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
       Map<String, String> headerKeyValues = new HashMap<String, String>();
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(key, HttpUtils.CHARSET_UTF_8));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secret));
-      String accountInfoJSON = HttpUtils.httpPOST4JSON(url, postBody, headerKeyValues);
+      headerKeyValues.put("Rest-Key", URLEncoder.encode(sessionKey, HttpUtils.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey));
+      AccountInfo accountInfo = HttpUtils.postForJsonObject(url, AccountInfo.class, postBody, mapper, headerKeyValues);
 
-      log.debug(accountInfoJSON);
+      log.debug(accountInfo.toString());
 
     } catch (GeneralSecurityException e) {
       throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
@@ -72,16 +86,6 @@ public class IntersangoPrivateHttpTrade extends SynchronousTrade implements Cach
       throw new ExchangeException("Problem generating Account Info (number formatting)", e);
     }
     return null;
-  }
-
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
-   * </p>
-   */
-  @Override
-  public int getRefreshRate() {
-    return IntersangoProperties.REFRESH_RATE;
   }
 
 }
