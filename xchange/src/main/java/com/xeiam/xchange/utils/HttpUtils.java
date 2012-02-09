@@ -21,11 +21,6 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.HttpException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +30,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.HttpException;
 
 /**
  * Various HTTP utility methods
@@ -57,38 +58,35 @@ public class HttpUtils {
     defaultHeaderKeyValues.put("Accept-Charset", CHARSET_UTF_8);
     defaultHeaderKeyValues.put("Content-Type", "application/x-www-form-urlencoded");
     defaultHeaderKeyValues.put("Accept", "text/plain"); // default Accept
-    // TODO Consider a customised User Agent here
-    defaultHeaderKeyValues.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7");
+    defaultHeaderKeyValues.put("User-Agent", "XChange/0.0.1 JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
   }
 
   /**
    * Requests JSON via an HTTP GET and unmarshals it into an object graph
-   *
+   * 
    * @param urlString A string representation of a URL
-   *
    * @param returnType The required return type
    * @param objectMapper The Jackson ObjectMapper to use
    * @param httpHeaders Any HTTP headers
    * @return The contents of the response body as the given type mapped through Jackson
    */
-  public static <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String,String> httpHeaders) {
-    Assert.notNull(urlString,"urlString cannot be null");
-    Assert.notNull(urlString,"objectMapper cannot be null");
+  public static <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
+
+    Assert.notNull(urlString, "urlString cannot be null");
+    Assert.notNull(urlString, "objectMapper cannot be null");
     try {
       return objectMapper.readValue(getForString(urlString, httpHeaders), returnType);
     } catch (IOException e) {
       // Rethrow as runtime exception
-      throw new HttpException(e.getMessage(),e);
+      throw new HttpException(e.getMessage(), e);
     }
   }
 
   /**
    * Requests a String via an HTTP GET
-   *
+   * 
    * @param urlString A string representation of a URL
-   *
    * @return The contents of the response body as a String containing JSON
-   *
    * @deprecated Use the more powerful getForJsonObject instead
    */
   @Deprecated
@@ -98,10 +96,9 @@ public class HttpUtils {
 
   /**
    * Requests JSON via an HTTP GET
-   *
-   * @param urlString             A string representation of a URL
+   * 
+   * @param urlString A string representation of a URL
    * @param customHeaderKeyValues Any custom header values
-   *
    * @return The contents of the response body as a String containing JSON
    * @deprecated Use the more powerful getForJsonObject instead
    */
@@ -118,10 +115,9 @@ public class HttpUtils {
 
   /**
    * Requests JSON via an HTTP POST
-   *
+   * 
    * @param urlString A string representation of a URL
-   * @param postBody  The contents of the request body
-   *
+   * @param postBody The contents of the request body
    * @return The contents of the response body as a String containing JSON
    */
   public static String httpPOST4JSON(String urlString, String postBody) {
@@ -130,11 +126,10 @@ public class HttpUtils {
 
   /**
    * Requests JSON via an HTTP POST
-   *
-   * @param urlString             A string representation of a URL
-   * @param postBody              The contents of the request body
+   * 
+   * @param urlString A string representation of a URL
+   * @param postBody The contents of the request body
    * @param customHeaderKeyValues Any custom header values
-   *
    * @return String - the fetched JSON String
    */
   public static String httpPOST4JSON(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
@@ -149,12 +144,10 @@ public class HttpUtils {
 
   /**
    * Send an HTTP GET request, and receive server response
-   *
-   * @param urlString             A string representation of a URL
+   * 
+   * @param urlString A string representation of a URL
    * @param customHeaderKeyValues Any custom header values
-   *
    * @return String - the fetched Response String
-   *
    * @see <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests">Stack Overflow on URLConnection</a>
    */
   private static String getForString(String urlString, Map<String, String> customHeaderKeyValues) {
@@ -176,16 +169,11 @@ public class HttpUtils {
       // add/override defaultHeaderKeyValues with customHeaderKeyValues
       headerKeyValues.putAll(customHeaderKeyValues);
 
-      // Iterating over the entry set is more efficient than the key set
-      for (Map.Entry<String,String> entry : headerKeyValues.entrySet()) {
+      // add header key values to request
+      for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
         conn.setRequestProperty(entry.getKey(), entry.getValue());
-        // TODO Consider log.trace
-        // log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
+        log.trace("header request property: key= " + entry.getKey() + ", value= " + entry.getValue());
       }
-
-      // for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
-      // log.debug(header.getKey() + "=" + header.getValue());
-      // }
 
       responseString = getResponseString(conn);
 
@@ -203,11 +191,10 @@ public class HttpUtils {
 
   /**
    * Send an HTTP POST request, and receive server response
-   *
-   * @param urlString             A string representation of a URL
-   * @param postBody              The contents of the request body
+   * 
+   * @param urlString A string representation of a URL
+   * @param postBody The contents of the request body
    * @param customHeaderKeyValues Any custom header values
-   *
    * @return The contents of the response body as a String
    */
   private static String postForString(String urlString, String postBody, Map<String, String> customHeaderKeyValues) {
@@ -224,15 +211,20 @@ public class HttpUtils {
 
       // header key values
       Map<String, String> headerKeyValues = new HashMap<String, String>(defaultHeaderKeyValues);
+
       // add/override defaultHeaderKeyValues with customHeaderKeyValues
       headerKeyValues.putAll(customHeaderKeyValues);
-      for (String key : headerKeyValues.keySet()) {
-        conn.setRequestProperty(key, headerKeyValues.get(key));
-        // log.debug("header request property: key= " + key + ", value= " + headerKeyValues.get(key));
+
+      // add header key values to request
+      for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
+        conn.setRequestProperty(entry.getKey(), entry.getValue());
+        log.trace("header request property: key= " + entry.getKey() + ", value= " + entry.getValue());
       }
+
+      // add content length to header
       conn.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
 
-      // log.debug("postBody= " + postBody);
+      log.trace("postBody= " + postBody);
       conn.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
       responseString = getResponseString(conn);
@@ -248,16 +240,13 @@ public class HttpUtils {
     }
 
     return responseString;
-
   }
 
   /**
    * Gets the response String from an HTTP request
-   *
+   * 
    * @param conn The HTTP connection
-   *
    * @return The response body as a String
-   *
    * @throws IOException If something goes wrong
    */
   private static String getResponseString(HttpURLConnection conn) throws IOException {
@@ -266,41 +255,41 @@ public class HttpUtils {
 
     String responseEncoding = getResponseEncoding(conn);
 
+    // if the server specified an encoding, use a Buffered Reader
     if (responseEncoding != null) {
 
       StringBuilder sb = new StringBuilder();
       BufferedReader reader;
       reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), responseEncoding));
-      for (String line; (line = reader.readLine()) != null; ) {
-        log.debug(line);
+      for (String line; (line = reader.readLine()) != null;) {
+        log.trace(line);
         sb.append(line);
       }
       responseString = sb.toString();
 
+      // no encoding specified, use a BufferedInputStream
     } else {
 
       BufferedInputStream bis;
       bis = new BufferedInputStream(conn.getInputStream());
-      byte[] contents = new byte[1024];
+      byte[] byteContents = new byte[1024];
 
       int bytesRead;
-      String strFileContents = null;
-      while ((bytesRead = bis.read(contents)) != -1) {
-        strFileContents = new String(contents, 0, bytesRead);
-        log.debug(strFileContents);
+      String strContents = null;
+      while ((bytesRead = bis.read(byteContents)) != -1) {
+        strContents = new String(byteContents, 0, bytesRead);
+        log.trace(strContents);
       }
-      responseString = strFileContents;
+      responseString = strContents;
 
     }
-
     return responseString;
   }
 
   /**
    * Determine the response encoding if specified
-   *
+   * 
    * @param conn The HTTP connection
-   *
    * @return The response encoding as a string (taken from "Content-Type")
    */
   private static String getResponseEncoding(HttpURLConnection conn) {
