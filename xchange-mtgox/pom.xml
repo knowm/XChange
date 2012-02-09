@@ -13,8 +13,8 @@
   <!-- This version is independent of the parent -->
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>MtGox XChange Provider</name>
-  <description>XChange provider for the MtGox Exchange. Handles multiple currencies.</description>
+  <name>MtGox Exchange</name>
+  <description>XChange implementations for the MtGox Exchange. Handles multiple currencies.</description>
 
   <url>http://xeiam.com</url>
   <inceptionYear>2012</inceptionYear>
@@ -77,12 +77,6 @@
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-library</artifactId>
-    </dependency>
-
-    <!-- Guava for handy utilities -->
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
     </dependency>
 
     <!-- Findbugs annotations for the avoidance of doubt -->

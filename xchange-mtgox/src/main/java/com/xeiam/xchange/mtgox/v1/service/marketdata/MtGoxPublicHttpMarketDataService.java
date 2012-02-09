@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.List;
 
 /**
  * <p>Implementation of the market data service for Mt Gox</p>
@@ -135,7 +135,7 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public Set<String> getExchangeSymbols() {
+  public List<String> getExchangeSymbols() {
     return MtGoxProperties.MT_GOX_SYMBOLS;
   }
 }

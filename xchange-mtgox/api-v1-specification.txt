@@ -1,0 +1,6 @@
+MtGox Exchange API specification
+================================
+
+TODO Add in the common requests
+
+Suggested refactorings

@@ -8,14 +8,13 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.xeiam.xchange</groupId>
-  <artifactId>xchange</artifactId>
-  <version>${project.parent.version}</version>
+  <groupId>com.xeiam.xchange.provider</groupId>
+  <artifactId>xchange-intersango</artifactId>
+  <!-- This version is independent of the parent -->
+  <version>0.0.1-SNAPSHOT</version>
 
-  <name>XChange</name>
-  <description>XChange is Java library providing a simple and consistent API for interacting with a diverse set of
-    financial security exchanges including Bitcoin.
-  </description>
+  <name>Intersango Exchange</name>
+  <description>XChange implementations for the Intersango Exchange. Handles multiple currencies.</description>
 
   <url>http://xeiam.com</url>
   <inceptionYear>2012</inceptionYear>
@@ -27,6 +26,14 @@
 
   <!-- Parent provides default configuration for dependencies -->
   <dependencies>
+
+    <!-- Project dependencies -->
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange</artifactId>
+      <!-- Keep the XChange core in line with the parent -->
+      <version>${project.parent.version}</version>
+    </dependency>
 
     <!-- Third party dependencies -->
 
@@ -77,13 +84,12 @@
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>annotations</artifactId>
     </dependency>
-    
-    <!-- Commons Codec for Crypto -->
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.6</version>
-    </dependency>
+
   </dependencies>
+
+  <properties>
+    <!-- Use Windows encoding to allow Eclipse to render the copyright symbol correctly -->
+    <project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
+  </properties>
 
 </project>

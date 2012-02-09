@@ -21,9 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import com.google.common.collect.ImmutableSet;
-
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A central place for shared Mt Gox properties
@@ -33,8 +32,8 @@ public class MtGoxProperties {
 
   public static final int REFRESH_RATE = 10; // [seconds]
 
-  public static final Set<String> MT_GOX_SYMBOLS = ImmutableSet.of("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD",
-      "BTCTHB");
+  public static final List<String> MT_GOX_SYMBOLS = Arrays.asList("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD",
+    "BTCTHB");
 
   public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
 

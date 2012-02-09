@@ -4,7 +4,7 @@ import com.xeiam.xchange.marketdata.dto.*;
 import org.joda.time.DateTime;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 /**
  * <p>
@@ -28,7 +28,7 @@ public interface MarketDataService {
    */
   Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo);
 
-  Set<String> getExchangeSymbols();
+  List<String> getExchangeSymbols();
 
   Depth getDepth(String symbol);
 
