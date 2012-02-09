@@ -1,6 +1,10 @@
 Intersango Exchange API specification
 =====================================
 
-TODO Add in the common requests
+Online specification
+--------------------
 
-Suggested refactorings
+
+Common API calls
+----------------
+Public market data
