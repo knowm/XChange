@@ -31,10 +31,10 @@ import java.io.InputStream;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
+@Ignore
 public class ImcexTickerTest {
 
   // TODO Map the JSON objects for the Imcex exchange
-  @Ignore
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
