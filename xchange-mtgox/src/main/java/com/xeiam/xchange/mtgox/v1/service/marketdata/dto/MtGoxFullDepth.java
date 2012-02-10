@@ -21,55 +21,52 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
+import java.util.List;
+
 /**
- * Data object representing a buy or sell order from Mt Gox
+ * Data object representing depth from Mt Gox
  */
-public class MtGoxOrder {
+public class MtGoxFullDepth {
 
-  double price;
-  double amount;
-  long price_int;
-  long amount_int;
-  long stamp;
+  public String result;
+  public Return _return;
 
-  public double getPrice() {
-    return price;
+  public class Return {
+
+    private List<MtGoxOrder> asks;
+    private List<MtGoxOrder> bids;
+
+    public List<MtGoxOrder> getAsks() {
+      return asks;
+    }
+
+    public void setAsks(List<MtGoxOrder> asks) {
+      this.asks = asks;
+    }
+
+    public List<MtGoxOrder> getBids() {
+      return bids;
+    }
+
+    public void setBids(List<MtGoxOrder> bids) {
+      this.bids = bids;
+    }
   }
 
-  public void setPrice(double price) {
-    this.price = price;
+  public String getResult() {
+    return result;
   }
 
-  public double getAmount() {
-    return amount;
+  public void setResult(String result) {
+    this.result = result;
   }
 
-  public void setAmount(double amount) {
-    this.amount = amount;
+  public Return getReturn() {
+    return _return;
   }
 
-  public long getPrice_int() {
-    return price_int;
-  }
-
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
-  }
-
-  public long getAmount_int() {
-    return amount_int;
-  }
-
-  public void setAmount_int(long amount_int) {
-    this.amount_int = amount_int;
-  }
-
-  public long getStamp() {
-    return stamp;
-  }
-
-  public void setStamp(long stamp) {
-    this.stamp = stamp;
+  public void setReturn(Return _return) {
+    this._return = _return;
   }
 
 }
