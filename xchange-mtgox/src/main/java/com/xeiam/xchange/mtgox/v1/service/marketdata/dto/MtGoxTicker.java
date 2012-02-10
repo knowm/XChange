@@ -31,533 +31,103 @@ public class MtGoxTicker {
 
   public class Return {
 
-    public High high;
-    public Low low;
-    public Avg avg;
-    public VWAP vwap;
-    public Vol vol;
-    public Last_Local last_local;
-    public Last last;
-    public Last_Orig last_orig;
-    public Last_All last_all;
-    public Buy buy;
-    public Sell sell;
-
-    public class High {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-
-    }
-
-    public class Low {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Avg {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class VWAP {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Vol {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Last_Local {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Last {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Last_Orig {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Last_All {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Buy {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public class Sell {
-      String value;
-      String value_int;
-      String display;
-      String currency;
-
-      public String getValue() {
-        return value;
-      }
-
-      public void setValue(String value) {
-        this.value = value;
-      }
-
-      public String getValue_int() {
-        return value_int;
-      }
-
-      public void setValue_int(String value_int) {
-        this.value_int = value_int;
-      }
-
-      public String getDisplay() {
-        return display;
-      }
-
-      public void setDisplay(String display) {
-        this.display = display;
-      }
-
-      public String getCurrency() {
-        return currency;
-      }
-
-      public void setCurrency(String currency) {
-        this.currency = currency;
-      }
-    }
-
-    public High getHigh() {
+    public MtGoxTick high = new MtGoxTick();
+    public MtGoxTick low = new MtGoxTick();
+    public MtGoxTick avg = new MtGoxTick();
+    public MtGoxTick vwap = new MtGoxTick();
+    public MtGoxTick vol = new MtGoxTick();
+    public MtGoxTick last_local = new MtGoxTick();
+    public MtGoxTick last = new MtGoxTick();
+    public MtGoxTick last_orig = new MtGoxTick();
+    public MtGoxTick last_all = new MtGoxTick();
+    public MtGoxTick buy = new MtGoxTick();
+    public MtGoxTick sell = new MtGoxTick();
+
+    public MtGoxTick getHigh() {
       return high;
     }
 
-    public void setHigh(High high) {
+    public void setHigh(MtGoxTick high) {
       this.high = high;
     }
 
-    public Low getLow() {
+    public MtGoxTick getLow() {
       return low;
     }
 
-    public void setLow(Low low) {
+    public void setLow(MtGoxTick low) {
       this.low = low;
     }
 
-    public Avg getAvg() {
+    public MtGoxTick getAvg() {
       return avg;
     }
 
-    public void setAvg(Avg avg) {
+    public void setAvg(MtGoxTick avg) {
       this.avg = avg;
     }
 
-    public VWAP getVwap() {
+    public MtGoxTick getVwap() {
       return vwap;
     }
 
-    public void setVwap(VWAP vwap) {
+    public void setVwap(MtGoxTick vwap) {
       this.vwap = vwap;
     }
 
-    public Vol getVol() {
+    public MtGoxTick getVol() {
       return vol;
     }
 
-    public void setVol(Vol vol) {
+    public void setVol(MtGoxTick vol) {
       this.vol = vol;
     }
 
-    public Last_Local getLast_local() {
+    public MtGoxTick getLast_local() {
       return last_local;
     }
 
-    public void setLast_local(Last_Local last_local) {
+    public void setLast_local(MtGoxTick last_local) {
       this.last_local = last_local;
     }
 
-    public Last getLast() {
+    public MtGoxTick getLast() {
       return last;
     }
 
-    public void setLast(Last last) {
+    public void setLast(MtGoxTick last) {
       this.last = last;
     }
 
-    public Last_Orig getLast_orig() {
+    public MtGoxTick getLast_orig() {
       return last_orig;
     }
 
-    public void setLast_orig(Last_Orig last_orig) {
+    public void setLast_orig(MtGoxTick last_orig) {
       this.last_orig = last_orig;
     }
 
-    public Last_All getLast_all() {
+    public MtGoxTick getLast_all() {
       return last_all;
     }
 
-    public void setLast_all(Last_All last_all) {
+    public void setLast_all(MtGoxTick last_all) {
       this.last_all = last_all;
     }
 
-    public Buy getBuy() {
+    public MtGoxTick getBuy() {
       return buy;
     }
 
-    public void setBuy(Buy buy) {
+    public void setBuy(MtGoxTick buy) {
       this.buy = buy;
     }
 
-    public Sell getSell() {
+    public MtGoxTick getSell() {
       return sell;
     }
 
-    public void setSell(Sell sell) {
+    public void setSell(MtGoxTick sell) {
       this.sell = sell;
     }
 
