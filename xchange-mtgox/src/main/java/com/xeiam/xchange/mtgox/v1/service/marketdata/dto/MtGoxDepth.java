@@ -21,30 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
-import java.util.List;
+import com.xeiam.xchange.marketdata.dto.Depth;
 
 /**
  * Data object representing depth from Mt Gox
  */
-public class MtGoxDepth {
+public class MtGoxDepth extends Depth {
 
-  private List<MtGoxOrder> asks;
-  private List<MtGoxOrder> bids;
-
-  public List<MtGoxOrder> getAsks() {
-    return asks;
-  }
-
-  public void setAsks(List<MtGoxOrder> asks) {
-    this.asks = asks;
-  }
-
-  public List<MtGoxOrder> getBids() {
-    return bids;
-  }
-
-  public void setBids(List<MtGoxOrder> bids) {
-    this.bids = bids;
-  }
+  // same thing as Depth
 
 }

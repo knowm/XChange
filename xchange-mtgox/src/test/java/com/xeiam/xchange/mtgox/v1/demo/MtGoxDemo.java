@@ -24,7 +24,9 @@ package com.xeiam.xchange.mtgox.v1.demo;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.MarketDataService;
+import com.xeiam.xchange.marketdata.dto.Depth;
 import com.xeiam.xchange.marketdata.dto.Ticker;
+import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.trade.dto.AccountInfo;
 import com.xeiam.xchange.trade.dto.AccountService;
 
@@ -36,8 +38,8 @@ import com.xeiam.xchange.trade.dto.AccountService;
  * <li>Connecting to Mt Gox Bitcoin exchange</li>
  * <li>Retrieving market data</li>
  * </ul>
- *
- * @since 0.0.1  
+ * 
+ * @since 0.0.1
  */
 public class MtGoxDemo {
 
@@ -54,6 +56,7 @@ public class MtGoxDemo {
    * Demonstrates how to connect to the MarketDataService for MtGox
    */
   private static void demoMarketDataService() {
+
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
@@ -62,17 +65,20 @@ public class MtGoxDemo {
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker("BTCUSD");
+    double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
+    System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
 
-    // Perform a crude conversion from the internal representation
-    double btcusd = (double) ticker.getLast()/100000;
+    // Get the current depth
+    Depth depth = marketDataService.getDepth("BTCUSD");
+    System.out.printf("depth as String: ", depth.toString());
 
-    System.out.printf("Current exchange rate for BTC to USD: %.4f",btcusd);
   }
 
   /**
    * Demonstrates how to connect to the AccountService for MtGox
    */
   private static void demoAccountService() {
+
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
@@ -82,7 +88,7 @@ public class MtGoxDemo {
     // Get the account information
     AccountInfo accountInfo = accountService.getExchangeAccountInfo("sessionKey", "secretKey");
 
-    System.out.printf("Account info: %s",accountInfo);
+    System.out.printf("Account info: %s", accountInfo);
   }
 
 }

@@ -28,26 +28,25 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrades;
 
 /**
  * Test MtGoxTicker JSON parsing
  */
-public class MtGoxTickerTest {
+public class MtGoxTradesTest {
 
-  @Test
+  // @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/example-trade-data.json");
+    InputStream is = MtGoxTradesTest.class.getResourceAsStream("/mtgox/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
+    MtGoxTrades mtGoxTrades = mapper.readValue(is, MtGoxTrades.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getReturn().getBuy().getValue(), equalTo(5.77397));
+    assertThat("Unexpected Return Buy value", mtGoxTrades.getTrades().get(0).getPrice_int(), equalTo(1786999L));
   }
 }

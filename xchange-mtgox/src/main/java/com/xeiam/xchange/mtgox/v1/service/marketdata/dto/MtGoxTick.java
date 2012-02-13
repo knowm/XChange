@@ -26,24 +26,24 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
  */
 public class MtGoxTick {
 
-  String value;
-  String value_int;
+  double value;
+  long value_int;
   String display;
   String currency;
 
-  public String getValue() {
+  public double getValue() {
     return value;
   }
 
-  public void setValue(String value) {
+  public void setValue(double value) {
     this.value = value;
   }
 
-  public String getValue_int() {
+  public long getValue_int() {
     return value_int;
   }
 
-  public void setValue_int(String value_int) {
+  public void setValue_int(long value_int) {
     this.value_int = value_int;
   }
 

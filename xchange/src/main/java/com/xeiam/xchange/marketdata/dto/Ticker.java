@@ -29,14 +29,14 @@ public class Ticker {
   // TODO add timestamp? Use Joda time if we do
   // TODO Consider immutability
 
-  private int last;
+  private long last;
   private long volume;
 
-  public int getLast() {
+  public long getLast() {
     return last;
   }
 
-  public void setLast(int last) {
+  public void setLast(long last) {
     this.last = last;
   }
 

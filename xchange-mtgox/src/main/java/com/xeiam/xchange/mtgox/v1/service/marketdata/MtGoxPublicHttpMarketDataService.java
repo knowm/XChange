@@ -21,25 +21,33 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.marketdata.dto.*;
+import com.xeiam.xchange.marketdata.dto.CancelledTrades;
+import com.xeiam.xchange.marketdata.dto.Depth;
+import com.xeiam.xchange.marketdata.dto.FullDepth;
+import com.xeiam.xchange.marketdata.dto.Ticker;
+import com.xeiam.xchange.marketdata.dto.Trades;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.HttpUtils;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 
 /**
- * <p>Implementation of the market data service for Mt Gox</p>
+ * <p>
+ * Implementation of the market data service for Mt Gox
+ * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
@@ -66,16 +74,15 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   @Override
   public Ticker getTicker(String symbol) {
 
-
-    // Request data 
+    // Request data
     MtGoxTicker mtGoxTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
-    
-    // TODO Provide more detail 
-    ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
-    ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
+
+    // TODO Provide more detail
+    ticker.setLast(mtGoxTicker.getReturn().getLast_orig().getValue_int());
+    ticker.setVolume(mtGoxTicker.getReturn().getVol().getValue_int());
 
     return ticker;
   }
@@ -88,6 +95,8 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
 
     // Adapt to XChange DTOs
     Depth depth = new Depth();
+    depth.setAsks(new ArrayList(mtgoxDepth.getAsks()));
+    depth.setBids(new ArrayList(mtgoxDepth.getBids()));
 
     return depth;
   }
