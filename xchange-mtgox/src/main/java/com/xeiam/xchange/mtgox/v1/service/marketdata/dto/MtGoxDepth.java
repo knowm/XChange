@@ -28,6 +28,6 @@ import com.xeiam.xchange.marketdata.dto.Depth;
  */
 public class MtGoxDepth extends Depth {
 
-  // same thing as Depth
+  // same thing as com.xeiam.xchange.marketdata.dto.Depth
 
 }

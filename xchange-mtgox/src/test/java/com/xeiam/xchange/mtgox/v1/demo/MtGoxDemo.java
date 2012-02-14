@@ -72,6 +72,10 @@ public class MtGoxDemo {
     Depth depth = marketDataService.getDepth("BTCUSD");
     System.out.printf("depth as String: ", depth.toString());
 
+    // Get the current full depth
+    Depth fullDepth = marketDataService.getFullDepth("BTCUSD");
+    System.out.printf("full depth as String: ", fullDepth.toString());
+
   }
 
   /**

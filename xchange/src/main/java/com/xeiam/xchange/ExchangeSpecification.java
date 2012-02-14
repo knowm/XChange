@@ -1,17 +1,39 @@
+/**
+ * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>Specification to provide the following to {@link ExchangeFactory}:</p>
+ * <p>
+ * Specification to provide the following to {@link ExchangeFactory}:
+ * </p>
  * <ul>
  * <li>Provision of required parameters for creating an {@link Exchange}</li>
  * <li>Provision of optional parameters for additional configuration</li>
  * </ul>
- *
+ * 
  * @since 0.0.1
- *         
  */
 public class ExchangeSpecification {
 
@@ -22,19 +44,23 @@ public class ExchangeSpecification {
    * The username for authentication
    */
   public static final String USERNAME = "username";
+
   /**
    * The password for authentication
    */
   public static final String PASSWORD = "password";
+
   /**
    * The API secret key typically used in HMAC signing of requests
    */
   public static final String API_SECRET_KEY = "api_secret_key";
+
   /**
    * The URI to reach the <b>root</b> of the exchange API<br/>
    * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades")
    */
   public static final String API_URI = "apiURI";
+
   /**
    * The numerical API version to use (e.g. "1" or "0.3" etc)
    */
@@ -48,7 +74,7 @@ public class ExchangeSpecification {
 
   /**
    * Minimal constructor
-   *
+   * 
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
   public ExchangeSpecification(String exchangeClassName) {
@@ -57,9 +83,9 @@ public class ExchangeSpecification {
 
   /**
    * Full constructor
-   *
+   * 
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
-   * @param parameters        A map containing any additional parameters for the {@link Exchange} implementation
+   * @param parameters A map containing any additional parameters for the {@link Exchange} implementation
    */
   public ExchangeSpecification(String exchangeClassName, Map<String, Object> parameters) {
     this.exchangeClassName = exchangeClassName;

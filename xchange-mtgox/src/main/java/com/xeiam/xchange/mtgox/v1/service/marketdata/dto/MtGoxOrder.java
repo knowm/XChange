@@ -28,6 +28,6 @@ import com.xeiam.xchange.marketdata.dto.Order;
  */
 public class MtGoxOrder extends Order {
 
-  // same thing as Order
+  // same thing as com.xeiam.xchange.marketdata.dto.Order
 
 }

@@ -35,11 +35,11 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.marketdata.dto.CancelledTrades;
 import com.xeiam.xchange.marketdata.dto.Depth;
-import com.xeiam.xchange.marketdata.dto.FullDepth;
 import com.xeiam.xchange.marketdata.dto.Ticker;
 import com.xeiam.xchange.marketdata.dto.Trades;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxFullDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.HttpUtils;
@@ -102,12 +102,21 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public Trades getTrades(String symbol) {
-    return null;
+  public Depth getFullDepth(String symbol) {
+
+    // Request data
+    MtGoxFullDepth mtgoxFullDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/fulldepth?raw", MtGoxFullDepth.class, mapper, new HashMap<String, String>());
+
+    // Adapt to XChange DTOs
+    Depth depth = new Depth();
+    depth.setAsks(new ArrayList(mtgoxFullDepth.getReturn().getAsks()));
+    depth.setBids(new ArrayList(mtgoxFullDepth.getReturn().getBids()));
+
+    return depth;
   }
 
   @Override
-  public FullDepth getFullDepth(String symbol) {
+  public Trades getTrades(String symbol) {
     return null;
   }
 
