@@ -21,20 +21,19 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.utils.HttpUtils;
 
 /**
  *  
- * <p>
- * Exception to provide the following to {@link HttpUtils}:
+ * <p
+ * Exception to provide the following to {@link}:
  * </p>
  *  
  * <ul>
  *  
- * <li>Indication that the the requested symbol is not available from exchange</li>  
+ * <li>Indication that the the requested symbol is not available from exchange</li>
  * </ul>
  * 
- * @since 0.0.1  
+ * @since 0.0.1
  */
 public class SymbolNotAvailableException extends RuntimeException {
 

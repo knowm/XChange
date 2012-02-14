@@ -26,8 +26,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import com.xeiam.xchange.marketdata.dto.CancelledTrades;
-import com.xeiam.xchange.marketdata.dto.Depth;
+import com.xeiam.xchange.marketdata.dto.OrderBook;
 import com.xeiam.xchange.marketdata.dto.Ticker;
 import com.xeiam.xchange.marketdata.dto.Trades;
 
@@ -45,25 +44,18 @@ import com.xeiam.xchange.marketdata.dto.Trades;
 public interface MarketDataService {
 
   /**
-   * @return A collection of {@link Ticker}s representing the latest market data
-   */
-  Collection<Ticker> getLatestMarketData();
-
-  /**
    * @return A collection of {@link Ticker}s representing the market data within the range
    */
-  Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo);
+  Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) throws NotAvailableFromExchangeException;
 
-  List<String> getExchangeSymbols();
+  List<String> getExchangeSymbols() throws NotAvailableFromExchangeException;
 
-  Depth getDepth(String symbol);
+  OrderBook getDepth(String symbol) throws NotAvailableFromExchangeException;
 
-  Trades getTrades(String symbol);
+  OrderBook getFullDepth(String symbol) throws NotAvailableFromExchangeException;
 
-  Depth getFullDepth(String symbol);
+  Trades getTrades(String symbol) throws NotAvailableFromExchangeException;
 
-  CancelledTrades getCancelledTrades(String symbol);
-
-  Ticker getTicker(String symbol);
+  Ticker getTicker(String symbol) throws NotAvailableFromExchangeException;
 
 }

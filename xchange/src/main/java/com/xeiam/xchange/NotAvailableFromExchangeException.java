@@ -19,37 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.marketdata.dto;
-
-import java.util.List;
+package com.xeiam.xchange;
 
 /**
- * Data object representing depth
+ *  
+ * <p>
+ * Exception to provide the following to {@link Session}:
+ * </p>
+ *  
+ * <ul>
+ *  
+ * <li>Indication that the session could not start</li>
+ * </ul>
+ * 
+ * @since 0.0.1
  */
-public class Depth {
+public class NotAvailableFromExchangeException extends RuntimeException {
 
-  private List<Order> asks;
-  private List<Order> bids;
-
-  public List<Order> getAsks() {
-    return asks;
-  }
-
-  public void setAsks(List<Order> asks) {
-    this.asks = asks;
-  }
-
-  public List<Order> getBids() {
-    return bids;
-  }
-
-  public void setBids(List<Order> bids) {
-    this.bids = bids;
-  }
-
-  @Override
-  public String toString() {
-    return "Depth [asks=" + asks + ", bids=" + bids + "]";
+  public NotAvailableFromExchangeException() {
+    super("Requested Information from Exchange is not available.");
   }
 
 }

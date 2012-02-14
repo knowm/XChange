@@ -33,8 +33,8 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.marketdata.dto.CancelledTrades;
-import com.xeiam.xchange.marketdata.dto.Depth;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.marketdata.dto.OrderBook;
 import com.xeiam.xchange.marketdata.dto.Ticker;
 import com.xeiam.xchange.marketdata.dto.Trades;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
@@ -88,13 +88,13 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public Depth getDepth(String symbol) {
+  public OrderBook getDepth(String symbol) {
 
     // Request data
     MtGoxDepth mtgoxDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    Depth depth = new Depth();
+    OrderBook depth = new OrderBook();
     depth.setAsks(new ArrayList(mtgoxDepth.getAsks()));
     depth.setBids(new ArrayList(mtgoxDepth.getBids()));
 
@@ -102,13 +102,13 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public Depth getFullDepth(String symbol) {
+  public OrderBook getFullDepth(String symbol) {
 
     // Request data
     MtGoxFullDepth mtgoxFullDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/fulldepth?raw", MtGoxFullDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    Depth depth = new Depth();
+    OrderBook depth = new OrderBook();
     depth.setAsks(new ArrayList(mtgoxFullDepth.getReturn().getAsks()));
     depth.setBids(new ArrayList(mtgoxFullDepth.getReturn().getBids()));
 
@@ -121,18 +121,8 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public CancelledTrades getCancelledTrades(String symbol) {
-    return null;
-  }
-
-  @Override
-  public Collection<Ticker> getLatestMarketData() {
-    return null;
-  }
-
-  @Override
   public Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
-    return null;
+    throw new NotAvailableFromExchangeException();
   }
 
   /**

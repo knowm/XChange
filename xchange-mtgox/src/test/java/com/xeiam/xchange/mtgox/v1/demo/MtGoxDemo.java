@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v1.demo;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.marketdata.dto.Depth;
+import com.xeiam.xchange.marketdata.dto.OrderBook;
 import com.xeiam.xchange.marketdata.dto.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.trade.dto.AccountInfo;
@@ -69,11 +69,11 @@ public class MtGoxDemo {
     System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
 
     // Get the current depth
-    Depth depth = marketDataService.getDepth("BTCUSD");
+    OrderBook depth = marketDataService.getDepth("BTCUSD");
     System.out.printf("depth as String: ", depth.toString());
 
     // Get the current full depth
-    Depth fullDepth = marketDataService.getFullDepth("BTCUSD");
+    OrderBook fullDepth = marketDataService.getFullDepth("BTCUSD");
     System.out.printf("full depth as String: ", fullDepth.toString());
 
   }

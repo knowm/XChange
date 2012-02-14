@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
-import com.xeiam.xchange.marketdata.dto.Depth;
+import com.xeiam.xchange.marketdata.dto.OrderBook;
 
 /**
  * Data object representing depth from Mt Gox
  */
-public class MtGoxDepth extends Depth {
+public class MtGoxDepth extends OrderBook {
 
   // same thing as com.xeiam.xchange.marketdata.dto.Depth
 
