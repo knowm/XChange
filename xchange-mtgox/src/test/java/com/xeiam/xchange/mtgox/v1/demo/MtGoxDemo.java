@@ -49,7 +49,7 @@ public class MtGoxDemo {
     demoMarketDataService();
 
     // Demonstrate the private account data service
-    demoAccountService();
+    // demoAccountService();
   }
 
   /**
@@ -66,15 +66,16 @@ public class MtGoxDemo {
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker("BTCUSD");
     double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
-    System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
+    System.out.println("Current exchange rate for BTC to USD: " + btcusd);
 
-    // Get the current depth
-    OrderBook depth = marketDataService.getDepth("BTCUSD");
-    System.out.printf("depth as String: ", depth.toString());
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook("BTCUSD");
+    System.out.println(orderBook.getAsks().get(0).getStamp());
+    System.out.println("orderBook as String: " + orderBook.toString());
 
-    // Get the current full depth
-    OrderBook fullDepth = marketDataService.getFullDepth("BTCUSD");
-    System.out.printf("full depth as String: ", fullDepth.toString());
+    // Get the current full orderbook
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
+    System.out.printf("full depth as String: ", fullOrderBook.toString());
 
   }
 

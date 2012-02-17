@@ -85,7 +85,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public OrderBook getDepth(String symbol) {
+  public OrderBook getOrderBook(String symbol) {
 
     // Request data
     IntersangoDepth intersangoDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
@@ -103,7 +103,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public OrderBook getFullDepth(String symbol) {
+  public OrderBook getFullOrderBook(String symbol) {
     // TODO Auto-generated method stub
     return null;
   }

@@ -72,4 +72,9 @@ public class Order {
     this.stamp = stamp;
   }
 
+  @Override
+  public String toString() {
+    return "Order [price=" + price + ", amount=" + amount + ", price_int=" + price_int + ", amount_int=" + amount_int + ", stamp=" + stamp + "]";
+  }
+
 }

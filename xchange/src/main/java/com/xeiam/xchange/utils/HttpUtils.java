@@ -21,11 +21,6 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.HttpException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +30,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.HttpException;
 
 /**
  * Various HTTP utility methods
@@ -54,10 +55,8 @@ public class HttpUtils {
   private static final Map<String, String> defaultHttpHeaders = new HashMap<String, String>();
 
   /**
-   * Always use UTF8
-   * Assume form encoding by default (typically becomes application/json or application/xml)
-   * Accept text/plain by default (typically becomes application/json or application/xml)
-   * User agent provides statistics for servers, but some use it for content negotiation so fake good agents 
+   * Always use UTF8 Assume form encoding by default (typically becomes application/json or application/xml) Accept text/plain by default (typically becomes application/json or application/xml) User agent provides statistics for servers, but some use
+   * it for content negotiation so fake good agents
    */
   static {
     defaultHttpHeaders.put("Accept-Charset", CHARSET_UTF_8);
@@ -68,12 +67,11 @@ public class HttpUtils {
 
   /**
    * Requests JSON via an HTTP GET and unmarshals it into an object graph
-   *
-   * @param urlString    A string representation of a URL
-   * @param returnType   The required return type
+   * 
+   * @param urlString A string representation of a URL
+   * @param returnType The required return type
    * @param objectMapper The Jackson ObjectMapper to use
-   * @param httpHeaders  Any custom header values (application/json is provided automatically)
-   *
+   * @param httpHeaders Any custom header values (application/json is provided automatically)
    * @return The contents of the response body as the given type mapped through Jackson
    */
   public static <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
@@ -92,13 +90,12 @@ public class HttpUtils {
 
   /**
    * Requests JSON via an HTTP POST
-   *
-   * @param urlString    A string representation of a URL
-   * @param returnType   The required return type
-   * @param postBody     The contents of the request body
+   * 
+   * @param urlString A string representation of a URL
+   * @param returnType The required return type
+   * @param postBody The contents of the request body
    * @param objectMapper The Jackson ObjectMapper to use
-   * @param httpHeaders  Any custom header values (application/json is provided automatically)
-   *
+   * @param httpHeaders Any custom header values (application/json is provided automatically)
    * @return String - the fetched JSON String
    */
   public static <T> T postForJsonObject(String urlString, Class<T> returnType, String postBody, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
@@ -118,12 +115,10 @@ public class HttpUtils {
 
   /**
    * Send an HTTP GET request, and receive server response
-   *
-   * @param urlString   A string representation of a URL
+   * 
+   * @param urlString A string representation of a URL
    * @param httpHeaders Any custom header values
-   *
    * @return The contents of the response body as a String
-   *
    * @see <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests">Stack Overflow on URLConnection</a>
    */
   private static String getForString(String urlString, Map<String, String> httpHeaders) {
@@ -167,11 +162,10 @@ public class HttpUtils {
 
   /**
    * Send an HTTP POST request, and receive server response
-   *
-   * @param urlString   A string representation of a URL
-   * @param postBody    The contents of the request body
+   * 
+   * @param urlString A string representation of a URL
+   * @param postBody The contents of the request body
    * @param httpHeaders Any custom header values
-   *
    * @return The contents of the response body as a String
    */
   private static String postForString(String urlString, String postBody, Map<String, String> httpHeaders) {
@@ -221,16 +215,14 @@ public class HttpUtils {
 
   /**
    * Gets the response String from an HTTP request
-   *
+   * 
    * @param connection The HTTP connection
-   *
    * @return The response body as a String
-   *
    * @throws IOException If something goes wrong
    */
   private static String getResponseString(HttpURLConnection connection) throws IOException {
 
-    String responseString;
+    String responseString = "";
 
     String responseEncoding = getResponseEncoding(connection);
 
@@ -240,7 +232,7 @@ public class HttpUtils {
       StringBuilder sb = new StringBuilder();
       BufferedReader reader;
       reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), responseEncoding));
-      for (String line; (line = reader.readLine()) != null; ) {
+      for (String line; (line = reader.readLine()) != null;) {
         log.trace(line);
         sb.append(line);
       }
@@ -249,6 +241,7 @@ public class HttpUtils {
       // no encoding specified, use a BufferedInputStream
     } else {
 
+      StringBuilder sb = new StringBuilder();
       BufferedInputStream bis;
       bis = new BufferedInputStream(connection.getInputStream());
       byte[] byteContents = new byte[1024];
@@ -258,28 +251,32 @@ public class HttpUtils {
       while ((bytesRead = bis.read(byteContents)) != -1) {
         strContents = new String(byteContents, 0, bytesRead);
         log.trace(strContents);
+        sb.append(strContents);
       }
-      responseString = strContents;
-
+      responseString = sb.toString();
     }
+    log.trace("responseString: " + responseString);
+
     return responseString;
   }
 
   /**
    * Determine the response encoding if specified
-   *
+   * 
    * @param connection The HTTP connection
-   *
    * @return The response encoding as a string (taken from "Content-Type")
    */
   private static String getResponseEncoding(HttpURLConnection connection) {
 
-    String contentType = connection.getHeaderField("Content-Type");
     String charset = null;
-    for (String param : contentType.replace(" ", "").split(";")) {
-      if (param.startsWith("charset=")) {
-        charset = param.split("=", 2)[1];
-        break;
+
+    String contentType = connection.getHeaderField("Content-Type");
+    if (contentType != null) {
+      for (String param : contentType.replace(" ", "").split(";")) {
+        if (param.startsWith("charset=")) {
+          charset = param.split("=", 2)[1];
+          break;
+        }
       }
     }
     return charset;

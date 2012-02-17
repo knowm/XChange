@@ -30,7 +30,7 @@ import java.io.InputStream;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxFullDepth;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 
 /**
  * Test MtGoxFullDepth JSON parsing
@@ -45,9 +45,9 @@ public class MtGoxFullDepthTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxFullDepth mtGoxFullDepth = mapper.readValue(is, MtGoxFullDepth.class);
+    MtGoxDepth mtGoxFullDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getReturn().getAsks().get(0).getAmount_int(), equalTo(727610000L));
+    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmount_int(), equalTo(727610000L));
   }
 }

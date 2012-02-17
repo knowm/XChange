@@ -43,19 +43,18 @@ import com.xeiam.xchange.marketdata.dto.Trades;
  */
 public interface MarketDataService {
 
+  List<String> getExchangeSymbols() throws NotAvailableFromExchangeException;
+
+  Ticker getTicker(String symbol) throws NotAvailableFromExchangeException;
+
+  OrderBook getOrderBook(String symbol) throws NotAvailableFromExchangeException;
+
+  OrderBook getFullOrderBook(String symbol) throws NotAvailableFromExchangeException;
+
+  Trades getTrades(String symbol) throws NotAvailableFromExchangeException;
+
   /**
    * @return A collection of {@link Ticker}s representing the market data within the range
    */
   Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) throws NotAvailableFromExchangeException;
-
-  List<String> getExchangeSymbols() throws NotAvailableFromExchangeException;
-
-  OrderBook getDepth(String symbol) throws NotAvailableFromExchangeException;
-
-  OrderBook getFullDepth(String symbol) throws NotAvailableFromExchangeException;
-
-  Trades getTrades(String symbol) throws NotAvailableFromExchangeException;
-
-  Ticker getTicker(String symbol) throws NotAvailableFromExchangeException;
-
 }

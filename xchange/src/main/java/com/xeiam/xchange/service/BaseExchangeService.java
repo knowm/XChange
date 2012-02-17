@@ -34,7 +34,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provision of standard specification parsing</li>
  * </ul>
  * 
- * @since 0.0.1  
+ * @since 0.0.1
  */
 public abstract class BaseExchangeService {
 
@@ -44,14 +44,14 @@ public abstract class BaseExchangeService {
   protected ObjectMapper mapper = new ObjectMapper();
 
   protected final String apiURI;
-  protected final String apiSecretKey;
   protected final String apiVersion;
+  protected final String apiSecretKey;
 
   protected final String username;
   protected final String password;
 
   /**
-   * Initialise common properties from the exchange specification
+   * Initialize common properties from the exchange specification
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
@@ -64,7 +64,14 @@ public abstract class BaseExchangeService {
       this.apiURI = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_URI);
     } else {
       // Use the default
-      this.apiURI = "https://mtgox.com";
+      this.apiURI = null;
+    }
+    // Configure the API version
+    if (exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION) != null) {
+      this.apiVersion = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION);
+    } else {
+      // Use the default
+      this.apiVersion = null;
     }
 
     // Configure the API secret key
@@ -73,14 +80,6 @@ public abstract class BaseExchangeService {
     } else {
       // Use the default
       this.apiSecretKey = null;
-    }
-
-    // Configure the API version
-    if (exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION) != null) {
-      this.apiVersion = "v" + exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION);
-    } else {
-      // Use the default
-      this.apiVersion = "v1";
     }
 
     // Configure the credentials

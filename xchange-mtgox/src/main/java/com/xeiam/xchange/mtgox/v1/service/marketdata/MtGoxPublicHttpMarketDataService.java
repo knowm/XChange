@@ -39,7 +39,6 @@ import com.xeiam.xchange.marketdata.dto.Ticker;
 import com.xeiam.xchange.marketdata.dto.Trades;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxFullDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.HttpUtils;
@@ -88,7 +87,7 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public OrderBook getDepth(String symbol) {
+  public OrderBook getOrderBook(String symbol) {
 
     // Request data
     MtGoxDepth mtgoxDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
@@ -102,15 +101,15 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public OrderBook getFullDepth(String symbol) {
+  public OrderBook getFullOrderBook(String symbol) {
 
     // Request data
-    MtGoxFullDepth mtgoxFullDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/fulldepth?raw", MtGoxFullDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxFullDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();
-    depth.setAsks(new ArrayList(mtgoxFullDepth.getReturn().getAsks()));
-    depth.setBids(new ArrayList(mtgoxFullDepth.getReturn().getBids()));
+    depth.setAsks(new ArrayList(mtgoxFullDepth.getAsks()));
+    depth.setBids(new ArrayList(mtgoxFullDepth.getBids()));
 
     return depth;
   }

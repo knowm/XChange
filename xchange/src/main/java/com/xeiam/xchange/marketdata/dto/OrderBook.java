@@ -49,7 +49,7 @@ public class OrderBook {
 
   @Override
   public String toString() {
-    return "Depth [asks=" + asks + ", bids=" + bids + "]";
+    return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
 }

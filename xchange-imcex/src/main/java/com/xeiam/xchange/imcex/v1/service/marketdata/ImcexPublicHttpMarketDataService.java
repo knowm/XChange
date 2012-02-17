@@ -85,7 +85,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public OrderBook getDepth(String symbol) {
+  public OrderBook getOrderBook(String symbol) {
 
     // Request data
     ImcexDepth imcexDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
@@ -101,7 +101,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public OrderBook getFullDepth(String symbol) {
+  public OrderBook getFullOrderBook(String symbol) {
     return null;
   }
 
