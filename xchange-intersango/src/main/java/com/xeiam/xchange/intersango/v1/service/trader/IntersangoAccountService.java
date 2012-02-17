@@ -25,8 +25,8 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.HttpException;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.trade.dto.AccountInfo;
-import com.xeiam.xchange.trade.dto.AccountService;
+import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpUtils;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IntersangoAccountService extends BaseExchangeService implements AccountService {
+public class IntersangoAccountService extends BaseExchangeService implements TradeService {
 
   /**
    * Provides logging for this class

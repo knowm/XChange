@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
-import com.xeiam.xchange.marketdata.dto.Order;
+import com.xeiam.xchange.service.marketdata.Order;
 
 /**
  * Data object representing a buy or sell order from Mt Gox

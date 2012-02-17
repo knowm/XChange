@@ -19,9 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.trade.dto;
+package com.xeiam.xchange.service.trade;
 
-public class MarketOrder {
+/**
+ * 
+ */
+public class AccountInfo {
+
+  private String accountIdentifier;
 
   // TODO do it.
 }

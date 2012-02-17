@@ -19,9 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.marketdata.dto;
+package com.xeiam.xchange.service.trade;
 
-public class Trades {
+/**
+ * <p>
+ * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
+ * </p>
+ * <ul>
+ * <li>Standard methods available to explore the user's account on the exchange</li>
+ * </ul>
+ *
+ * @since 0.0.1
+ */
+public interface TradeService {
 
-  // TODO do it.
+  /**
+   * @param sessionKey The session key or token provided by the exchange upon connection
+   * @param secretKey The secret key provided by the exchange during registration
+   * @return The account info
+   */
+  public AccountInfo getExchangeAccountInfo(String sessionKey, String secretKey);
+
 }

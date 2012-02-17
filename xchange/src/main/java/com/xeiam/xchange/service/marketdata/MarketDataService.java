@@ -19,16 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.service.marketdata;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
-import com.xeiam.xchange.marketdata.dto.OrderBook;
-import com.xeiam.xchange.marketdata.dto.Ticker;
-import com.xeiam.xchange.marketdata.dto.Trades;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 
 /**
  * <p>

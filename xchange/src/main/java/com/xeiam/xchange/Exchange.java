@@ -21,7 +21,8 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.trade.dto.AccountService;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -69,5 +70,5 @@ public interface Exchange {
    * 
    * @return The exchange's account service
    */
-  AccountService getAccountService();
+  TradeService getAccountService();
 }

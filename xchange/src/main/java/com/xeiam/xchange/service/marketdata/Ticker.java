@@ -19,9 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.trade.dto;
+package com.xeiam.xchange.service.marketdata;
 
-public class LimitOrder {
+/**
+ * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest traede.
+ */
+public class Ticker {
 
-  // TODO do it.
+  // TODO add timestamp? Use Joda time if we do
+  // TODO Consider immutability
+
+  private long last;
+  private long volume;
+
+  public long getLast() {
+    return last;
+  }
+
+  public void setLast(long last) {
+    this.last = last;
+  }
+
+  public long getVolume() {
+    return volume;
+  }
+
+  public void setVolume(long volume) {
+    this.volume = volume;
+  }
+
+  @Override
+  public String toString() {
+    return "Ticker [last=" + last + ", volume=" + volume + "]";
+  }
+
 }

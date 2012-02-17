@@ -19,9 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.trade.dto;
+package com.xeiam.xchange.service.trade;
 
-public class OpenOrders {
+import com.xeiam.xchange.exchange.BaseExchange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * An Exchange Proxy for getting exchange account info asynchronously
+ */
+public abstract class AsynchronousTrade extends BaseExchange {
+
+  /**
+   * Provides logging for this class
+   */
+  private static final Logger log = LoggerFactory.getLogger(TradeService.class);
 
   // TODO do it.
 

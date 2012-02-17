@@ -19,25 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.trade.dto;
+package com.xeiam.xchange.service.marketdata;
+
+import java.util.List;
 
 /**
- * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>Standard methods available to explore the user's account on the exchange</li>
- * </ul>
- *
- * @since 0.0.1
+ * Data object representing depth
  */
-public interface AccountService {
+public class OrderBook {
 
-  /**
-   * @param sessionKey The session key or token provided by the exchange upon connection
-   * @param secretKey The secret key provided by the exchange during registration
-   * @return The account info
-   */
-  public AccountInfo getExchangeAccountInfo(String sessionKey, String secretKey);
+  private List<Order> asks;
+  private List<Order> bids;
+
+  public List<Order> getAsks() {
+    return asks;
+  }
+
+  public void setAsks(List<Order> asks) {
+    this.asks = asks;
+  }
+
+  public List<Order> getBids() {
+    return bids;
+  }
+
+  public void setBids(List<Order> bids) {
+    this.bids = bids;
+  }
+
+  @Override
+  public String toString() {
+    return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+  }
 
 }

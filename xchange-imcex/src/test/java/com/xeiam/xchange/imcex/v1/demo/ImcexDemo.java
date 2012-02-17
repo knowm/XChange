@@ -23,10 +23,10 @@ package com.xeiam.xchange.imcex.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.marketdata.dto.Ticker;
-import com.xeiam.xchange.trade.dto.AccountInfo;
-import com.xeiam.xchange.trade.dto.AccountService;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -77,7 +77,7 @@ public class ImcexDemo {
     Exchange imcex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.imcex.v1.ImcexExchange");
 
     // Interested in the public market data feed (no authentication)
-    AccountService accountService = imcex.getAccountService();
+    TradeService accountService = imcex.getAccountService();
 
     // Get the account information
     AccountInfo accountInfo = accountService.getExchangeAccountInfo("sessionKey", "secretKey");

@@ -19,62 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.marketdata.dto;
+package com.xeiam.xchange.service.trade;
 
-/**
- * Data object representing a buy or sell order
- */
-public class Order {
+public class OpenOrders {
 
-  double price;
-  double amount;
-  long price_int;
-  long amount_int;
-  long stamp;
-
-  public double getPrice() {
-    return price;
-  }
-
-  public void setPrice(double price) {
-    this.price = price;
-  }
-
-  public double getAmount() {
-    return amount;
-  }
-
-  public void setAmount(double amount) {
-    this.amount = amount;
-  }
-
-  public long getPrice_int() {
-    return price_int;
-  }
-
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
-  }
-
-  public long getAmount_int() {
-    return amount_int;
-  }
-
-  public void setAmount_int(long amount_int) {
-    this.amount_int = amount_int;
-  }
-
-  public long getStamp() {
-    return stamp;
-  }
-
-  public void setStamp(long stamp) {
-    this.stamp = stamp;
-  }
-
-  @Override
-  public String toString() {
-    return "Order [price=" + price + ", amount=" + amount + ", price_int=" + price_int + ", amount_int=" + amount_int + ", stamp=" + stamp + "]";
-  }
+  // TODO do it.
 
 }

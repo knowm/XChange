@@ -23,12 +23,12 @@ package com.xeiam.xchange.mtgox.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.marketdata.dto.OrderBook;
-import com.xeiam.xchange.marketdata.dto.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
-import com.xeiam.xchange.trade.dto.AccountInfo;
-import com.xeiam.xchange.trade.dto.AccountService;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -88,7 +88,7 @@ public class MtGoxDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    AccountService accountService = mtgox.getAccountService();
+    TradeService accountService = mtgox.getAccountService();
 
     // Get the account information
     AccountInfo accountInfo = accountService.getExchangeAccountInfo("sessionKey", "secretKey");

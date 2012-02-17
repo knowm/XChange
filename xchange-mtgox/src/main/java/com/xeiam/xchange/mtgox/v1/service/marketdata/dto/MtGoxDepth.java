@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
-import com.xeiam.xchange.marketdata.dto.OrderBook;
+import com.xeiam.xchange.service.marketdata.OrderBook;
 
 /**
  * Data object representing depth from Mt Gox

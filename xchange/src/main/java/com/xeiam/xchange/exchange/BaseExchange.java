@@ -22,8 +22,8 @@
 package com.xeiam.xchange.exchange;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.MarketDataService;
-import com.xeiam.xchange.trade.dto.AccountService;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.trade.TradeService;
 
 /**
  * <p>Abstract base class to provide the following to {@link Exchange}s:</p>
@@ -36,7 +36,7 @@ import com.xeiam.xchange.trade.dto.AccountService;
 public abstract class BaseExchange implements Exchange {
 
   protected MarketDataService marketDataService;
-  protected AccountService accountService;
+  protected TradeService accountService;
 
   @Override
   public MarketDataService getMarketDataService() {
@@ -44,7 +44,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public AccountService getAccountService() {
+  public TradeService getAccountService() {
     return accountService;
   }
 
@@ -54,7 +54,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   // Package local for testing
-  public void setAccountService(AccountService accountService) {
+  public void setAccountService(TradeService accountService) {
     this.accountService = accountService;
   }
 }

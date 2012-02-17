@@ -32,15 +32,15 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.marketdata.dto.OrderBook;
-import com.xeiam.xchange.marketdata.dto.Ticker;
-import com.xeiam.xchange.marketdata.dto.Trades;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.Trades;
 import com.xeiam.xchange.utils.HttpUtils;
 
 /**
