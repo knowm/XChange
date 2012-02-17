@@ -1,7 +1,20 @@
 MtGox Exchange API specification
 ================================
 
+Public API
+
+Orders
+------
+https://mtgox.com/api/1/BTCUSD/public/depth?raw
+https://mtgox.com/api/1/BTCUSD/public/fulldepth?raw
+
+Trades
+------
+https://mtgox.com/api/1/BTCUSD/public/trades?raw
+
+Private API (credentials required)
+
 Online specification
---------------------
+====================
 https://en.bitcoin.it/wiki/MtGox/API
 

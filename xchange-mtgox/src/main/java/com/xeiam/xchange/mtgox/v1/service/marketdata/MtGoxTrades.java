@@ -1,147 +1,91 @@
-/**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import java.util.List;
-
 /**
- * Data object representing trades from Mt Gox
+ * <p>Data object representing trades from Mt Gox</p>
+ *
+ * Auto-generated using the simplest types possible with conversion delegated to the adapter
+ *
+ * @see <a href="http://jsongen.byingtondesign.com/">The JSONGen service</a>
+ *
  */
-public class MtGoxTrades {
+public class MtGoxTrades{
+  private String amount;
+  private String amount_int;
+  private Number date;
+  private String item;
+  private String price;
+  private String price_currency;
+  private String price_int;
+  private String primary;
+  private String properties;
+  private String tid;
+  private String trade_type;
 
-  List<MtGoxTrade> trades;
-
-  public List<MtGoxTrade> getTrades() {
-    return trades;
+  public String getAmount(){
+    return this.amount;
   }
-
-  public void setTrades(List<MtGoxTrade> trades) {
-    this.trades = trades;
+  public void setAmount(String amount){
+    this.amount = amount;
   }
-
-  /**
-   * Data object representing a trade from Mt Gox
-   */
-  public class MtGoxTrade {
-
-    long date;
-    double price;
-    double amount;
-    long price_int;
-    long amount_int;
-    long tid;
-    String price_currency;
-    String item;
-    String trade_type;
-    String primary;
-    String properties;
-
-    public long getDate() {
-      return date;
-    }
-
-    public void setDate(long date) {
-      this.date = date;
-    }
-
-    public double getPrice() {
-      return price;
-    }
-
-    public void setPrice(double price) {
-      this.price = price;
-    }
-
-    public double getAmount() {
-      return amount;
-    }
-
-    public void setAmount(double amount) {
-      this.amount = amount;
-    }
-
-    public long getPrice_int() {
-      return price_int;
-    }
-
-    public void setPrice_int(long price_int) {
-      this.price_int = price_int;
-    }
-
-    public long getAmount_int() {
-      return amount_int;
-    }
-
-    public void setAmount_int(long amount_int) {
-      this.amount_int = amount_int;
-    }
-
-    public long getTid() {
-      return tid;
-    }
-
-    public void setTid(long tid) {
-      this.tid = tid;
-    }
-
-    public String getPrice_currency() {
-      return price_currency;
-    }
-
-    public void setPrice_currency(String price_currency) {
-      this.price_currency = price_currency;
-    }
-
-    public String getItem() {
-      return item;
-    }
-
-    public void setItem(String item) {
-      this.item = item;
-    }
-
-    public String getTrade_type() {
-      return trade_type;
-    }
-
-    public void setTrade_type(String trade_type) {
-      this.trade_type = trade_type;
-    }
-
-    public String getPrimary() {
-      return primary;
-    }
-
-    public void setPrimary(String primary) {
-      this.primary = primary;
-    }
-
-    public String getProperties() {
-      return properties;
-    }
-
-    public void setProperties(String properties) {
-      this.properties = properties;
-    }
+  public String getAmount_int(){
+    return this.amount_int;
   }
-
+  public void setAmount_int(String amount_int){
+    this.amount_int = amount_int;
+  }
+  public Number getDate(){
+    return this.date;
+  }
+  public void setDate(Number date){
+    this.date = date;
+  }
+  public String getItem(){
+    return this.item;
+  }
+  public void setItem(String item){
+    this.item = item;
+  }
+  public String getPrice(){
+    return this.price;
+  }
+  public void setPrice(String price){
+    this.price = price;
+  }
+  public String getPrice_currency(){
+    return this.price_currency;
+  }
+  public void setPrice_currency(String price_currency){
+    this.price_currency = price_currency;
+  }
+  public String getPrice_int(){
+    return this.price_int;
+  }
+  public void setPrice_int(String price_int){
+    this.price_int = price_int;
+  }
+  public String getPrimary(){
+    return this.primary;
+  }
+  public void setPrimary(String primary){
+    this.primary = primary;
+  }
+  public String getProperties(){
+    return this.properties;
+  }
+  public void setProperties(String properties){
+    this.properties = properties;
+  }
+  public String getTid(){
+    return this.tid;
+  }
+  public void setTid(String tid){
+    this.tid = tid;
+  }
+  public String getTrade_type(){
+    return this.trade_type;
+  }
+  public void setTrade_type(String trade_type){
+    this.trade_type = trade_type;
+  }
 }

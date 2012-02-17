@@ -21,13 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 
 /**
@@ -35,7 +36,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class MtGoxTradesTest {
 
-  // @Test
+  @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
@@ -43,9 +44,9 @@ public class MtGoxTradesTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxTrades mtGoxTrades = mapper.readValue(is, MtGoxTrades.class);
+    MtGoxTrades[] mtGoxTrades = mapper.readValue(is, MtGoxTrades[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades.getTrades().get(0).getPrice_int(), equalTo(1786999L));
+    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo("1786999"));
   }
 }
