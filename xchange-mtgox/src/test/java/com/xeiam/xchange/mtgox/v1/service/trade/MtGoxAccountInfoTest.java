@@ -19,15 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
+package com.xeiam.xchange.mtgox.v1.service.trade;
 
-import com.xeiam.xchange.service.marketdata.OrderBook;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxTickerTest;
 
 /**
- * Data object representing depth from Mt Gox
+ * Test MtGoxAccountInfo JSON parsing
  */
-public class MtGoxDepth extends OrderBook {
+public class MtGoxAccountInfoTest {
 
-  // same thing as com.xeiam.xchange.marketdata.dto.Depth
+  // @Test
+  public void testUnmarshal() throws IOException {
 
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/marketdata/example-accountinfo-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
+
+    // Verify that the example data was unmarshalled correctly
+    // assertThat("Unexpected Return Buy value", mtGoxAccountInfo.getAsks().get(0).getAmount_int(), equalTo(2000000000L));
+  }
 }

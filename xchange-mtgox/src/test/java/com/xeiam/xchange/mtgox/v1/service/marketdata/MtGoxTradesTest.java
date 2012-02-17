@@ -19,11 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trader;
+package com.xeiam.xchange.mtgox.v1.service.marketdata;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
 
 /**
- * Data object representing Account Info from Mt Gox
+ * Test MtGoxTicker JSON parsing
  */
-public class MtGoxAccountInfo {
+public class MtGoxTradesTest {
 
+  // @Test
+  public void testUnmarshal() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxTradesTest.class.getResourceAsStream("/mtgox/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTrades mtGoxTrades = mapper.readValue(is, MtGoxTrades.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat("Unexpected Return Buy value", mtGoxTrades.getTrades().get(0).getPrice_int(), equalTo(1786999L));
+  }
 }

@@ -19,35 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1;
-
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
+package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
 /**
- * Test MtGoxDepth JSON parsing
+ * Data object representing a Tick from Mt Gox
  */
-public class MtGoxDepthTest {
+public class MtGoxTick {
 
-  @Test
-  public void testUnmarshal() throws IOException {
+  double value;
+  long value_int;
+  String display;
+  String currency;
 
-    // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/marketdata/example-depth-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxDepth.getAsks().get(0).getAmount_int(), equalTo(2000000000L));
+  public double getValue() {
+    return value;
   }
+
+  public void setValue(double value) {
+    this.value = value;
+  }
+
+  public long getValue_int() {
+    return value_int;
+  }
+
+  public void setValue_int(long value_int) {
+    this.value_int = value_int;
+  }
+
+  public String getDisplay() {
+    return display;
+  }
+
+  public void setDisplay(String display) {
+    this.display = display;
+  }
+
+  public String getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
 }

@@ -19,35 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1;
-
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
+package com.xeiam.xchange.mtgox.v1.service.trade;
 
 /**
- * Test MtGoxFullDepth JSON parsing
+ * Data object representing Account Info from Mt Gox
  */
-public class MtGoxFullDepthTest {
+public class MtGoxAccountInfo {
 
-  @Test
-  public void testUnmarshal() throws IOException {
+  // TODO do it.
 
-    // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/marketdata/example-fulldepth-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    MtGoxDepth mtGoxFullDepth = mapper.readValue(is, MtGoxDepth.class);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmount_int(), equalTo(727610000L));
-  }
 }
