@@ -21,25 +21,30 @@
  */
 package com.xeiam.xchange.intersango.v1.service.marketdata;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.intersango.v1.IntersangoProperties;
 import com.xeiam.xchange.intersango.v1.service.marketdata.dto.IntersangoDepth;
 import com.xeiam.xchange.intersango.v1.service.marketdata.dto.IntersangoTicker;
-import com.xeiam.xchange.marketdata.dto.*;
+import com.xeiam.xchange.marketdata.dto.OrderBook;
+import com.xeiam.xchange.marketdata.dto.Ticker;
+import com.xeiam.xchange.marketdata.dto.Trades;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.HttpUtils;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 
 /**
- * <p>Implementation of the market data service for Mt Gox</p>
+ * <p>
+ * Implementation of the market data service for Mt Gox
+ * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
@@ -66,14 +71,13 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   @Override
   public Ticker getTicker(String symbol) {
 
-
-    // Request data 
+    // Request data
     IntersangoTicker intersangoTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", IntersangoTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
-    
-    // TODO Provide more detail 
+
+    // TODO Provide more detail
     ticker.setLast(Integer.parseInt(intersangoTicker.getReturn().getLast_orig().getValue_int()));
     ticker.setVolume(Long.parseLong(intersangoTicker.getReturn().getVol().getValue_int()));
 
@@ -81,14 +85,13 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public Depth getDepth(String symbol) {
-
+  public OrderBook getDepth(String symbol) {
 
     // Request data
     IntersangoDepth intersangoDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    Depth depth = new Depth();
+    OrderBook depth = new OrderBook();
 
     return depth;
   }
@@ -100,19 +103,8 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public FullDepth getFullDepth(String symbol) {
+  public OrderBook getFullDepth(String symbol) {
     // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public CancelledTrades getCancelledTrades(String symbol) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Collection<Ticker> getLatestMarketData() {
     return null;
   }
 

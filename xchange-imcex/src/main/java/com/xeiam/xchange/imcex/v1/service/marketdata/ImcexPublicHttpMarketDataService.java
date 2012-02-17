@@ -21,25 +21,30 @@
  */
 package com.xeiam.xchange.imcex.v1.service.marketdata;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.MarketDataService;
 import com.xeiam.xchange.imcex.v1.ImcexProperties;
 import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexDepth;
 import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexTicker;
-import com.xeiam.xchange.marketdata.dto.*;
+import com.xeiam.xchange.marketdata.dto.OrderBook;
+import com.xeiam.xchange.marketdata.dto.Ticker;
+import com.xeiam.xchange.marketdata.dto.Trades;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.HttpUtils;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 
 /**
- * <p>Implementation of the market data service for Mt Gox</p>
+ * <p>
+ * Implementation of the market data service for Mt Gox
+ * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
@@ -71,8 +76,8 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
-    
-    // TODO Provide more detail 
+
+    // TODO Provide more detail
     ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
     ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
 
@@ -80,12 +85,12 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public Depth getDepth(String symbol) {
+  public OrderBook getDepth(String symbol) {
 
     // Request data
     ImcexDepth imcexDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
 
-    Depth depth = new Depth();
+    OrderBook depth = new OrderBook();
 
     return depth;
   }
@@ -96,17 +101,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public FullDepth getFullDepth(String symbol) {
-    return null;
-  }
-
-  @Override
-  public CancelledTrades getCancelledTrades(String symbol) {
-    return null;
-  }
-
-  @Override
-  public Collection<Ticker> getLatestMarketData() {
+  public OrderBook getFullDepth(String symbol) {
     return null;
   }
 
