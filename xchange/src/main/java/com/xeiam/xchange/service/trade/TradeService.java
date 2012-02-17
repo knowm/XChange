@@ -34,10 +34,10 @@ package com.xeiam.xchange.service.trade;
 public interface TradeService {
 
   /**
-   * @param sessionKey The session key or token provided by the exchange upon connection
-   * @param secretKey The secret key provided by the exchange during registration
    * @return The account info
    */
   public AccountInfo getAccountInfo();
+
+  public OpenOrders getOpenOrders();
 
 }

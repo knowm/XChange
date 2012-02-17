@@ -200,6 +200,8 @@ public class HttpUtils {
 
       responseString = getResponseString(connection);
 
+      log.debug("responseString: " + responseString);
+
     } catch (MalformedURLException e) {
       throw new HttpException("Problem POSTing (malformed URL)", e);
     } catch (IOException e) {

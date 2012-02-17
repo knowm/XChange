@@ -67,6 +67,7 @@ public abstract class BaseExchangeService {
       // Use the default
       this.apiURI = null;
     }
+
     // Configure the API version
     if (exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION) != null) {
       this.apiVersion = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION);
@@ -98,13 +99,12 @@ public abstract class BaseExchangeService {
       // Use the default
       this.username = null;
     }
+
     if (exchangeSpecification.getParameter(ExchangeSpecification.PASSWORD) != null) {
       this.password = (String) exchangeSpecification.getParameter(ExchangeSpecification.PASSWORD);
     } else {
       // Use the default
       this.password = null;
     }
-
   }
-
 }

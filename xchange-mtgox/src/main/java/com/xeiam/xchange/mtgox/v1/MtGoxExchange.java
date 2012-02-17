@@ -28,7 +28,7 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxPublicHttpMarketDataService;
-import com.xeiam.xchange.mtgox.v1.service.trade.MtGoxAccountService;
+import com.xeiam.xchange.mtgox.v1.service.trade.MtGoxTradeService;
 
 /**
  * <p>
@@ -55,7 +55,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
     this.marketDataService = new MtGoxPublicHttpMarketDataService(exchangeSpecification);
-    this.accountService = new MtGoxAccountService(exchangeSpecification);
+    this.accountService = new MtGoxTradeService(exchangeSpecification);
   }
 
   @Override

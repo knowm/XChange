@@ -27,7 +27,7 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -58,6 +58,8 @@ public class MtGoxTradeDemo {
     Map<String, Object> params = new HashMap<String, Object>();
     params.put(ExchangeSpecification.API_KEY, "XXX");
     params.put(ExchangeSpecification.API_SECRET, "YYY");
+    params.put(ExchangeSpecification.API_URI, "https://mtgox.com");
+    params.put(ExchangeSpecification.API_VERSION, "1");
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange", params);
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
@@ -65,9 +67,12 @@ public class MtGoxTradeDemo {
     TradeService tradeService = mtgox.getTradeService();
 
     // Get the account information
-    AccountInfo accountInfo = tradeService.getAccountInfo();
+    // AccountInfo accountInfo = tradeService.getAccountInfo();
+    // System.out.printf("Account info: %s", accountInfo);
 
-    System.out.printf("Account info: %s", accountInfo);
+    // Get the open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.printf("Open Orders: %s", openOrders);
   }
 
 }
