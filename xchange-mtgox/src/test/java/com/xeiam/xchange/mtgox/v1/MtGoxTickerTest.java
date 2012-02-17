@@ -41,7 +41,7 @@ public class MtGoxTickerTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/example-trade-data.json");
+    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/marketdata/example-trade-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

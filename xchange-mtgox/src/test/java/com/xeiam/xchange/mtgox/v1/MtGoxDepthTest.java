@@ -41,7 +41,7 @@ public class MtGoxDepthTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/example-depth-data.json");
+    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
