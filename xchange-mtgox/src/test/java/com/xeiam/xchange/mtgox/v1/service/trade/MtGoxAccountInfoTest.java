@@ -21,20 +21,24 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
+import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxTickerTest;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.codehaus.jackson.map.ObjectMapper;
-
-import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxTickerTest;
 
 /**
  * Test MtGoxAccountInfo JSON parsing
  */
+@Ignore
 public class MtGoxAccountInfoTest {
 
-  // @Test
+  @Test
   public void testUnmarshal() throws IOException {
+
+    // TODO Fill this in with example private account data
 
     // Read in the JSON from the example resources
     InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/marketdata/example-accountinfo-data.json");
@@ -44,6 +48,6 @@ public class MtGoxAccountInfoTest {
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
     // Verify that the example data was unmarshalled correctly
-    // assertThat("Unexpected Return Buy value", mtGoxAccountInfo.getAsks().get(0).getAmount_int(), equalTo(2000000000L));
+    //assertThat("Unexpected Return Buy value", mtGoxAccountInfo.getAsks().get(0).getAmount_int(), equalTo(2000000000L));
   }
 }

@@ -8,6 +8,18 @@ that everyone can benefit from improvements in one central location.
 
 In short, we invite pull requests.
 
+Acknowledgements
+================
+XChange is built upon the work of others and the following projects have generously provided
+much code and inspiration. Thanks to everyone who has helped in any capacity!
+
+WebSockets
+----------
+Based on the original work by Nathan Mische here: https://github.com/nmische/Java-WebSocket.git
+
+Getting Started
+===============
+
 Java build instructions
 -----------------------
 XChange Java is built with Maven 3.0.3+ (although earlier versions may work) as a reactor project.
