@@ -36,7 +36,7 @@ import com.xeiam.xchange.service.trade.TradeService;
  * <li>Connecting to Mt Gox Bitcoin exchange</li>
  * <li>Retrieving market data</li>
  * </ul>
- *
+ * 
  * @since 0.0.1  
  */
 public class ImcexDemo {
@@ -64,9 +64,9 @@ public class ImcexDemo {
     Ticker ticker = marketDataService.getTicker("BTCUSD");
 
     // Perform a crude conversion from the internal representation
-    double btcusd = (double) ticker.getLast()/100000;
+    double btcusd = (double) ticker.getLast() / 100000;
 
-    System.out.printf("Current exchange rate for BTC to USD: %.4f",btcusd);
+    System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
   }
 
   /**
@@ -77,12 +77,12 @@ public class ImcexDemo {
     Exchange imcex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.imcex.v1.ImcexExchange");
 
     // Interested in the public market data feed (no authentication)
-    TradeService accountService = imcex.getAccountService();
+    TradeService accountService = imcex.getTradeService();
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getExchangeAccountInfo("sessionKey", "secretKey");
+    AccountInfo accountInfo = accountService.getAccountInfo();
 
-    System.out.printf("Account info: %s",accountInfo);
+    System.out.printf("Account info: %s", accountInfo);
   }
 
 }

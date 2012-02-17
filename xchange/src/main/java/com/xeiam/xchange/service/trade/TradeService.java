@@ -28,7 +28,7 @@ package com.xeiam.xchange.service.trade;
  * <ul>
  * <li>Standard methods available to explore the user's account on the exchange</li>
  * </ul>
- *
+ * 
  * @since 0.0.1
  */
 public interface TradeService {
@@ -38,6 +38,6 @@ public interface TradeService {
    * @param secretKey The secret key provided by the exchange during registration
    * @return The account info
    */
-  public AccountInfo getExchangeAccountInfo(String sessionKey, String secretKey);
+  public AccountInfo getAccountInfo();
 
 }

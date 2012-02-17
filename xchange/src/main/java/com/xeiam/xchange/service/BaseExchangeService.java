@@ -45,7 +45,8 @@ public abstract class BaseExchangeService {
 
   protected final String apiURI;
   protected final String apiVersion;
-  protected final String apiSecretKey;
+  protected final String apiKey;
+  protected final String apiSecret;
 
   protected final String username;
   protected final String password;
@@ -74,12 +75,20 @@ public abstract class BaseExchangeService {
       this.apiVersion = null;
     }
 
-    // Configure the API secret key
-    if (exchangeSpecification.getParameter(ExchangeSpecification.API_SECRET_KEY) != null) {
-      this.apiSecretKey = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_SECRET_KEY);
+    // Configure the API key
+    if (exchangeSpecification.getParameter(ExchangeSpecification.API_KEY) != null) {
+      this.apiKey = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_KEY);
     } else {
       // Use the default
-      this.apiSecretKey = null;
+      this.apiKey = null;
+    }
+
+    // Configure the API secret
+    if (exchangeSpecification.getParameter(ExchangeSpecification.API_SECRET) != null) {
+      this.apiSecret = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_SECRET);
+    } else {
+      // Use the default
+      this.apiSecret = null;
     }
 
     // Configure the credentials

@@ -70,5 +70,5 @@ public interface Exchange {
    * 
    * @return The exchange's account service
    */
-  TradeService getAccountService();
+  TradeService getTradeService();
 }

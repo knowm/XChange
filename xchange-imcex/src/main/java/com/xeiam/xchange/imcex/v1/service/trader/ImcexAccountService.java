@@ -21,23 +21,13 @@
  */
 package com.xeiam.xchange.imcex.v1.service.trader;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.HttpException;
-import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.TradeService;
-import com.xeiam.xchange.utils.CryptoUtils;
-import com.xeiam.xchange.utils.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.GeneralSecurityException;
-import java.util.HashMap;
-import java.util.Map;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.TradeService;
 
 public class ImcexAccountService extends BaseExchangeService implements TradeService {
 
@@ -53,7 +43,7 @@ public class ImcexAccountService extends BaseExchangeService implements TradeSer
 
   /**
    * Initialise common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
   public ImcexAccountService(ExchangeSpecification exchangeSpecification) {
@@ -61,30 +51,30 @@ public class ImcexAccountService extends BaseExchangeService implements TradeSer
   }
 
   @Override
-  public AccountInfo getExchangeAccountInfo(String sessionKey, String secretKey) {
+  public AccountInfo getAccountInfo() {
 
-    try {
-      // Build account info request
-      String url = apiBase+"/generic/private/info";
-      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
-      Map<String, String> headerKeyValues = new HashMap<String, String>();
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(sessionKey, HttpUtils.CHARSET_UTF_8));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey));
-      AccountInfo accountInfoJSON = HttpUtils.postForJsonObject(url, AccountInfo.class, postBody, mapper, headerKeyValues);
-
-      log.debug(accountInfoJSON.toString());
-
-    } catch (GeneralSecurityException e) {
-      throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
-    } catch (UnsupportedEncodingException e) {
-      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
-    } catch (HttpException e) {
-      throw new ExchangeException("Problem getting server response (Http error)", e);
-    } catch (IOException e) {
-      throw new ExchangeException("Problem generating Account Info (IO)", e);
-    } catch (NumberFormatException e) {
-      throw new ExchangeException("Problem generating Account Info (number formatting)", e);
-    }
+    // try {
+    // // Build account info request
+    // String url = apiBase + "/generic/private/info";
+    // String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+    // Map<String, String> headerKeyValues = new HashMap<String, String>();
+    // // headerKeyValues.put("Rest-Key", URLEncoder.encode(sessionKey, HttpUtils.CHARSET_UTF_8));
+    // // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey));
+    // AccountInfo accountInfoJSON = HttpUtils.postForJsonObject(url, AccountInfo.class, postBody, mapper, headerKeyValues);
+    //
+    // log.debug(accountInfoJSON.toString());
+    //
+    // } catch (GeneralSecurityException e) {
+    // throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
+    // } catch (UnsupportedEncodingException e) {
+    // throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
+    // } catch (HttpException e) {
+    // throw new ExchangeException("Problem getting server response (Http error)", e);
+    // } catch (IOException e) {
+    // throw new ExchangeException("Problem generating Account Info (IO)", e);
+    // } catch (NumberFormatException e) {
+    // throw new ExchangeException("Problem generating Account Info (number formatting)", e);
+    // }
     return null;
   }
 

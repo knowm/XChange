@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.demo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
-import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.OrderBook;
-import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.TradeService;
 
@@ -41,57 +41,31 @@ import com.xeiam.xchange.service.trade.TradeService;
  * 
  * @since 0.0.1
  */
-public class MtGoxDemo {
+public class MtGoxTradeDemo {
 
   public static void main(String[] args) {
 
-    // Demonstrate the public market data service
-    demoMarketDataService();
-
     // Demonstrate the private account data service
-    // demoAccountService();
-  }
-
-  /**
-   * Demonstrates how to connect to the MarketDataService for MtGox
-   */
-  private static void demoMarketDataService() {
-
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
-
-    // Interested in the public market data feed (no authentication)
-    MarketDataService marketDataService = mtGox.getMarketDataService();
-
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker("BTCUSD");
-    double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
-    System.out.println("Current exchange rate for BTC to USD: " + btcusd);
-
-    // Get the current orderbook
-    OrderBook orderBook = marketDataService.getOrderBook("BTCUSD");
-    System.out.println(orderBook.getAsks().get(0).getStamp());
-    System.out.println("orderBook as String: " + orderBook.toString());
-
-    // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
-    System.out.printf("full depth as String: ", fullOrderBook.toString());
-
+    demoTradeService();
   }
 
   /**
    * Demonstrates how to connect to the AccountService for MtGox
    */
-  private static void demoAccountService() {
+  private static void demoTradeService() {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put(ExchangeSpecification.API_KEY, "XXX");
+    params.put(ExchangeSpecification.API_SECRET, "YYY");
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange", params);
+    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public market data feed (no authentication)
-    TradeService accountService = mtgox.getAccountService();
+    TradeService tradeService = mtgox.getTradeService();
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getExchangeAccountInfo("sessionKey", "secretKey");
+    AccountInfo accountInfo = tradeService.getAccountInfo();
 
     System.out.printf("Account info: %s", accountInfo);
   }

@@ -43,7 +43,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public TradeService getAccountService() {
+  public TradeService getTradeService() {
     return accountService;
   }
 

@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1.demo;
+package com.xeiam.xchange.mtgox.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
-import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -37,17 +37,14 @@ import com.xeiam.xchange.service.trade.TradeService;
  * <li>Retrieving market data</li>
  * </ul>
  * 
- * @since 0.0.1  
+ * @since 0.0.1
  */
-public class IntersangoDemo {
+public class MtGoxMarketdataDemo {
 
   public static void main(String[] args) {
 
     // Demonstrate the public market data service
     demoMarketDataService();
-
-    // Demonstrate the private account data service
-    demoAccountService();
 
   }
 
@@ -56,35 +53,26 @@ public class IntersangoDemo {
    */
   private static void demoMarketDataService() {
 
-    // Use the factory to get the version 1 Intersango exchange API using default settings
-    Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v1.IntersangoExchange");
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    MarketDataService marketDataService = intersango.getMarketDataService();
+    MarketDataService marketDataService = mtGox.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker("BTCUSD");
+    double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
+    System.out.println("Current exchange rate for BTC to USD: " + btcusd);
 
-    // Perform a crude conversion from the internal representation
-    double btcusd = (double) ticker.getLast() / 100000;
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook("BTCUSD");
+    System.out.println(orderBook.getAsks().get(0).getStamp());
+    System.out.println("orderBook as String: " + orderBook.toString());
 
-    System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
-  }
+    // Get the current full orderbook
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
+    System.out.printf("full depth as String: ", fullOrderBook.toString());
 
-  /**
-   * Demonstrates how to connect to the AccountService for Intersango
-   */
-  private static void demoAccountService() {
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange imcex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v1.IntersangoExchange");
-
-    // Interested in the public market data feed (no authentication)
-    TradeService accountService = imcex.getTradeService();
-
-    // Get the latest ticker data showing BTC to USD
-    AccountInfo accountInfo = accountService.getAccountInfo();
-
-    System.out.printf("Account info: %s", accountInfo);
   }
 
 }

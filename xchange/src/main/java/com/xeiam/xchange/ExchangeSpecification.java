@@ -53,7 +53,12 @@ public class ExchangeSpecification {
   /**
    * The API secret key typically used in HMAC signing of requests
    */
-  public static final String API_SECRET_KEY = "api_secret_key";
+  public static final String API_KEY = "API_KEY";
+
+  /**
+   * The API secret key typically used in HMAC signing of requests
+   */
+  public static final String API_SECRET = "API_SECRET";
 
   /**
    * The URI to reach the <b>root</b> of the exchange API<br/>
