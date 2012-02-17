@@ -74,14 +74,14 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   public Ticker getTicker(String symbol) {
 
     // Request data
-    MtGoxTicker mtGoxTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", MtGoxTicker.class, mapper, new HashMap<String, String>());
+    MtGoxTicker mtGoxTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
 
     // TODO Provide more detail
-    ticker.setLast(mtGoxTicker.getReturn().getLast_orig().getValue_int());
-    ticker.setVolume(mtGoxTicker.getReturn().getVol().getValue_int());
+    ticker.setLast(mtGoxTicker.getLast_orig().getValue_int());
+    ticker.setVolume(mtGoxTicker.getVol().getValue_int());
 
     return ticker;
   }

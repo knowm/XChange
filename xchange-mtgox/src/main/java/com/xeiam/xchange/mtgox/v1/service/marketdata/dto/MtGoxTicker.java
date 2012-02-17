@@ -26,127 +26,104 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
  */
 public class MtGoxTicker {
 
-  public String result;
-  public Return _return;
+  public MtGoxTick high = new MtGoxTick();
+  public MtGoxTick low = new MtGoxTick();
+  public MtGoxTick avg = new MtGoxTick();
+  public MtGoxTick vwap = new MtGoxTick();
+  public MtGoxTick vol = new MtGoxTick();
+  public MtGoxTick last_local = new MtGoxTick();
+  public MtGoxTick last = new MtGoxTick();
+  public MtGoxTick last_orig = new MtGoxTick();
+  public MtGoxTick last_all = new MtGoxTick();
+  public MtGoxTick buy = new MtGoxTick();
+  public MtGoxTick sell = new MtGoxTick();
 
-  public class Return {
-
-    public MtGoxTick high = new MtGoxTick();
-    public MtGoxTick low = new MtGoxTick();
-    public MtGoxTick avg = new MtGoxTick();
-    public MtGoxTick vwap = new MtGoxTick();
-    public MtGoxTick vol = new MtGoxTick();
-    public MtGoxTick last_local = new MtGoxTick();
-    public MtGoxTick last = new MtGoxTick();
-    public MtGoxTick last_orig = new MtGoxTick();
-    public MtGoxTick last_all = new MtGoxTick();
-    public MtGoxTick buy = new MtGoxTick();
-    public MtGoxTick sell = new MtGoxTick();
-
-    public MtGoxTick getHigh() {
-      return high;
-    }
-
-    public void setHigh(MtGoxTick high) {
-      this.high = high;
-    }
-
-    public MtGoxTick getLow() {
-      return low;
-    }
-
-    public void setLow(MtGoxTick low) {
-      this.low = low;
-    }
-
-    public MtGoxTick getAvg() {
-      return avg;
-    }
-
-    public void setAvg(MtGoxTick avg) {
-      this.avg = avg;
-    }
-
-    public MtGoxTick getVwap() {
-      return vwap;
-    }
-
-    public void setVwap(MtGoxTick vwap) {
-      this.vwap = vwap;
-    }
-
-    public MtGoxTick getVol() {
-      return vol;
-    }
-
-    public void setVol(MtGoxTick vol) {
-      this.vol = vol;
-    }
-
-    public MtGoxTick getLast_local() {
-      return last_local;
-    }
-
-    public void setLast_local(MtGoxTick last_local) {
-      this.last_local = last_local;
-    }
-
-    public MtGoxTick getLast() {
-      return last;
-    }
-
-    public void setLast(MtGoxTick last) {
-      this.last = last;
-    }
-
-    public MtGoxTick getLast_orig() {
-      return last_orig;
-    }
-
-    public void setLast_orig(MtGoxTick last_orig) {
-      this.last_orig = last_orig;
-    }
-
-    public MtGoxTick getLast_all() {
-      return last_all;
-    }
-
-    public void setLast_all(MtGoxTick last_all) {
-      this.last_all = last_all;
-    }
-
-    public MtGoxTick getBuy() {
-      return buy;
-    }
-
-    public void setBuy(MtGoxTick buy) {
-      this.buy = buy;
-    }
-
-    public MtGoxTick getSell() {
-      return sell;
-    }
-
-    public void setSell(MtGoxTick sell) {
-      this.sell = sell;
-    }
-
+  public MtGoxTick getHigh() {
+    return high;
   }
 
-  public String getResult() {
-    return result;
+  public void setHigh(MtGoxTick high) {
+    this.high = high;
   }
 
-  public void setResult(String result) {
-    this.result = result;
+  public MtGoxTick getLow() {
+    return low;
   }
 
-  public Return getReturn() {
-    return _return;
+  public void setLow(MtGoxTick low) {
+    this.low = low;
   }
 
-  public void setReturn(Return _return) {
-    this._return = _return;
+  public MtGoxTick getAvg() {
+    return avg;
+  }
+
+  public void setAvg(MtGoxTick avg) {
+    this.avg = avg;
+  }
+
+  public MtGoxTick getVwap() {
+    return vwap;
+  }
+
+  public void setVwap(MtGoxTick vwap) {
+    this.vwap = vwap;
+  }
+
+  public MtGoxTick getVol() {
+    return vol;
+  }
+
+  public void setVol(MtGoxTick vol) {
+    this.vol = vol;
+  }
+
+  public MtGoxTick getLast_local() {
+    return last_local;
+  }
+
+  public void setLast_local(MtGoxTick last_local) {
+    this.last_local = last_local;
+  }
+
+  public MtGoxTick getLast() {
+    return last;
+  }
+
+  public void setLast(MtGoxTick last) {
+    this.last = last;
+  }
+
+  public MtGoxTick getLast_orig() {
+    return last_orig;
+  }
+
+  public void setLast_orig(MtGoxTick last_orig) {
+    this.last_orig = last_orig;
+  }
+
+  public MtGoxTick getLast_all() {
+    return last_all;
+  }
+
+  public void setLast_all(MtGoxTick last_all) {
+    this.last_all = last_all;
+  }
+
+  public MtGoxTick getBuy() {
+    return buy;
+  }
+
+  public void setBuy(MtGoxTick buy) {
+    this.buy = buy;
+  }
+
+  public MtGoxTick getSell() {
+    return sell;
+  }
+
+  public void setSell(MtGoxTick sell) {
+    this.sell = sell;
   }
 
 }

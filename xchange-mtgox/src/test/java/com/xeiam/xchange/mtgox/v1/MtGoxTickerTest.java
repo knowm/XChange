@@ -48,6 +48,6 @@ public class MtGoxTickerTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getReturn().getBuy().getValue(), equalTo(5.77397));
+    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(5.77397));
   }
 }
