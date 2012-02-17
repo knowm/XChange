@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 
 public class ImcexAccountService extends BaseExchangeService implements TradeService {
@@ -75,6 +76,12 @@ public class ImcexAccountService extends BaseExchangeService implements TradeSer
     // } catch (NumberFormatException e) {
     // throw new ExchangeException("Problem generating Account Info (number formatting)", e);
     // }
+    return null;
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() {
+    // TODO Auto-generated method stub
     return null;
   }
 

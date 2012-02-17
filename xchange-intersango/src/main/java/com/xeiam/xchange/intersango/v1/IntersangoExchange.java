@@ -1,22 +1,22 @@
 package com.xeiam.xchange.intersango.v1;
 
-import com.xeiam.xchange.BaseExchange;
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.intersango.v1.service.marketdata.IntersangoPublicHttpMarketDataService;
-import com.xeiam.xchange.intersango.v1.service.trader.IntersangoAccountService;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.BaseExchange;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.intersango.v1.service.trader.IntersangoAccountService;
+
 /**
- * <p>Exchange implementation to provide the following to applications:</p>
+ * <p>
+ * Exchange implementation to provide the following to applications:
+ * </p>
  * <ul>
  * <li>A wrapper for the MtGox Bitcoin exchange API</li>
  * </ul>
- *
- * @since 0.0.1
- *         
+ * 
+ * @since 0.0.1  
  */
 public class IntersangoExchange extends BaseExchange implements Exchange {
 
@@ -31,10 +31,11 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
-    this.marketDataService = new IntersangoPublicHttpMarketDataService(exchangeSpecification);
+    // this.marketDataService = new IntersangoPublicHttpMarketDataService(exchangeSpecification);
     this.accountService = new IntersangoAccountService(exchangeSpecification);
   }
 
+  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     Map<String, Object> parameters = new HashMap<String, Object>();
