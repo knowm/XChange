@@ -1,8 +1,8 @@
 package com.xeiam.xchange.imcex.v1;
 
+import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.exchange.BaseExchange;
 import com.xeiam.xchange.imcex.v1.service.marketdata.ImcexPublicHttpMarketDataService;
 import com.xeiam.xchange.imcex.v1.service.trader.ImcexAccountService;
 

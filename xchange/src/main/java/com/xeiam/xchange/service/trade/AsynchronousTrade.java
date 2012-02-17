@@ -21,7 +21,8 @@
  */
 package com.xeiam.xchange.service.trade;
 
-import com.xeiam.xchange.exchange.BaseExchange;
+import com.xeiam.xchange.BaseExchange;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
