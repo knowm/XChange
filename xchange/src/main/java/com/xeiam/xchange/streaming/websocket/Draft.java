@@ -1,5 +1,6 @@
 package com.xeiam.xchange.streaming.websocket;
 
+import com.xeiam.xchange.streaming.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidHandshakeException;

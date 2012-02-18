@@ -1,5 +1,7 @@
 package com.xeiam.xchange.streaming.websocket;
 
+import com.xeiam.xchange.streaming.HandshakeData;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;

@@ -1,7 +1,7 @@
 package com.xeiam.xchange.streaming.demo;
 
+import com.xeiam.xchange.streaming.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.Draft;
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketClient;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;

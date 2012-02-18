@@ -1,5 +1,6 @@
 package com.xeiam.xchange.streaming.websocket;
 
+import com.xeiam.xchange.streaming.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.Draft.HandshakeState;
 import com.xeiam.xchange.streaming.websocket.Framedata.Opcode;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
