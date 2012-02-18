@@ -1,7 +1,5 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.HandshakeData;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

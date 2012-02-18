@@ -1,6 +1,5 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.DefaultFrameData;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidFrameException;
 import com.xeiam.xchange.utils.CharsetUtils;

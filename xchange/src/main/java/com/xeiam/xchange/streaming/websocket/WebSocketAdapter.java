@@ -1,7 +1,5 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.DefaultFrameData;
-import com.xeiam.xchange.streaming.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.Framedata.Opcode;
 
 import java.io.IOException;

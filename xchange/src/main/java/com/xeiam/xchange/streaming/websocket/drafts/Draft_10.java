@@ -1,7 +1,7 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
-import com.xeiam.xchange.streaming.DefaultFrameData;
-import com.xeiam.xchange.streaming.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.DefaultFrameData;
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.*;
 import com.xeiam.xchange.streaming.websocket.Framedata.Opcode;
 import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
