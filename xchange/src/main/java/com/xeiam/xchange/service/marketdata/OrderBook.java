@@ -24,7 +24,7 @@ package com.xeiam.xchange.service.marketdata;
 import java.util.List;
 
 /**
- * Data object representing depth
+ * Data object representing OrderBook
  */
 public class OrderBook {
 

@@ -23,6 +23,7 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +39,7 @@ import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.Trade;
 import com.xeiam.xchange.service.marketdata.Trades;
 import com.xeiam.xchange.utils.HttpUtils;
 
@@ -49,12 +51,12 @@ import com.xeiam.xchange.utils.HttpUtils;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implements MarketDataService, CachedDataSession {
+public class MtGoxMarketDataService extends BaseExchangeService implements MarketDataService, CachedDataSession {
 
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(MtGoxPublicHttpMarketDataService.class);
+  private static final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -64,7 +66,7 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
   /**
    * @param exchangeSpecification The exchange specification
    */
-  public MtGoxPublicHttpMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public MtGoxMarketDataService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
   }
 
@@ -77,7 +79,6 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
 
-    // TODO Provide more detail
     ticker.setLast(mtGoxTicker.getLast_orig().getValue_int());
     ticker.setVolume(mtGoxTicker.getVol().getValue_int());
 
@@ -114,7 +115,23 @@ public class MtGoxPublicHttpMarketDataService extends BaseExchangeService implem
 
   @Override
   public Trades getTrades(String symbol) {
-    return null;
+
+    // Request data
+    MtGoxTrades[] mtGoxTrades = HttpUtils.getForJsonObject(apiBase + symbol + "/public/trades   ?raw", MtGoxTrades[].class, mapper, new HashMap<String, String>());
+
+    Trades trades = new Trades();
+    List<Trade> tradesList = new ArrayList<Trade>();
+    for (int i = 0; i < mtGoxTrades.length; i++) {
+      Trade trade = new Trade();
+      trade.setDate(new Date(mtGoxTrades[i].getDate()));
+      trade.setAmount_int(mtGoxTrades[i].getAmount_int());
+      trade.setPrice_int(mtGoxTrades[i].getPrice_int());
+      trade.setPrice_currency(mtGoxTrades[i].getPrice_currency());
+      trade.setTrade_type(mtGoxTrades[i].getTrade_type());
+      tradesList.add(trade);
+    }
+
+    return trades;
   }
 
   @Override

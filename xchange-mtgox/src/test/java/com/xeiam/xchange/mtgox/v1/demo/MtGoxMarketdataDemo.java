@@ -27,6 +27,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.Trades;
 
 /**
  * <p>
@@ -73,6 +74,9 @@ public class MtGoxMarketdataDemo {
     OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
     System.out.printf("full depth as String: ", fullOrderBook.toString());
 
+    // Get trades
+    Trades trades = marketDataService.getTrades("BTCUSD");
+    System.out.printf("trades as String: ", trades.toString());
   }
 
 }

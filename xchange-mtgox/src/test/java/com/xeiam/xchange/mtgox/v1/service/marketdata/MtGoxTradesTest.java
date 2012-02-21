@@ -21,15 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
 /**
  * Test MtGoxTicker JSON parsing
@@ -47,6 +46,7 @@ public class MtGoxTradesTest {
     MtGoxTrades[] mtGoxTrades = mapper.readValue(is, MtGoxTrades[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo("1786999"));
+    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo(1786999L));
+    System.out.println(mtGoxTrades[0].toString());
   }
 }
