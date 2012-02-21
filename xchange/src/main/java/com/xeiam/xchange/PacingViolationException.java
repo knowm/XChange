@@ -31,13 +31,13 @@ package com.xeiam.xchange;
  * 
  * @since 0.0.1
  */
-public class ExchangeException extends RuntimeException {
+public class PacingViolationException extends RuntimeException {
 
-  public ExchangeException(String s) {
+  public PacingViolationException(String s) {
     super(s);
   }
 
-  public ExchangeException(String s, Throwable throwable) {
+  public PacingViolationException(String s, Throwable throwable) {
     super(s, throwable);
   }
 }

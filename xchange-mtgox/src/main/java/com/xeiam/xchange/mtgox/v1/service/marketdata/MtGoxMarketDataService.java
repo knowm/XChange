@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.PacingViolationException;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
@@ -59,6 +60,14 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   private static final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
 
   /**
+   * time stamps used to pace API calls
+   */
+  private long tickerRequestTimeStamp = 0L;
+  private long orderBookRequestTimeStamp = 0L;
+  private long fullOrderBookRequestTimeStamp = 0L;
+  private long tradesRequestTimeStamp = 0L;
+
+  /**
    * Configured from the super class reading of the exchange specification
    */
   private final String apiBase = String.format("%s/api/%s/", apiURI, apiVersion);
@@ -73,6 +82,13 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   @Override
   public Ticker getTicker(String symbol) {
 
+    // check for pacing violation
+    if (System.currentTimeMillis() < tickerRequestTimeStamp + getRefreshRate()) {
+      tickerRequestTimeStamp = System.currentTimeMillis();
+      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
+    }
+    tickerRequestTimeStamp = System.currentTimeMillis();
+
     // Request data
     MtGoxTicker mtGoxTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
@@ -83,10 +99,18 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     ticker.setVolume(mtGoxTicker.getVol().getValue_int());
 
     return ticker;
+
   }
 
   @Override
   public OrderBook getOrderBook(String symbol) {
+
+    // check for pacing violation
+    if (System.currentTimeMillis() < orderBookRequestTimeStamp + getRefreshRate()) {
+      orderBookRequestTimeStamp = System.currentTimeMillis();
+      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
+    }
+    orderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
     MtGoxDepth mtgoxDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
@@ -102,6 +126,13 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   @Override
   public OrderBook getFullOrderBook(String symbol) {
 
+    // check for pacing violation
+    if (System.currentTimeMillis() < fullOrderBookRequestTimeStamp + getRefreshRate()) {
+      fullOrderBookRequestTimeStamp = System.currentTimeMillis();
+      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
+    }
+    fullOrderBookRequestTimeStamp = System.currentTimeMillis();
+
     // Request data
     MtGoxDepth mtgoxFullDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
@@ -115,6 +146,13 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
 
   @Override
   public Trades getTrades(String symbol) {
+
+    // check for pacing violation
+    if (System.currentTimeMillis() < tradesRequestTimeStamp + getRefreshRate()) {
+      tradesRequestTimeStamp = System.currentTimeMillis();
+      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
+    }
+    tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
     MtGoxTrades[] mtGoxTrades = HttpUtils.getForJsonObject(apiBase + symbol + "/public/trades   ?raw", MtGoxTrades[].class, mapper, new HashMap<String, String>());
