@@ -24,14 +24,8 @@ package com.xeiam.xchange.mtgox.v1.service.trade;
 /**
  * Data object representing Account Info from Mt Gox
  */
-public class MtGoxAccountInfo {
+public class MtGoxOpenOrder {
 
-  private String login;
-  private int index;
-  private String[] rights;
-  private String language;
-  private String created;
-  private String last_login;
-  private Wallet[] wallets;
+  // TODO do it.
 
 }

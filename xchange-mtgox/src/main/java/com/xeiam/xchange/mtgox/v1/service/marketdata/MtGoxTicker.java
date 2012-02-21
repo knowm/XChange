@@ -26,103 +26,103 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
  */
 public class MtGoxTicker {
 
-  public MtGoxTick high = new MtGoxTick();
-  public MtGoxTick low = new MtGoxTick();
-  public MtGoxTick avg = new MtGoxTick();
-  public MtGoxTick vwap = new MtGoxTick();
-  public MtGoxTick vol = new MtGoxTick();
-  public MtGoxTick last_local = new MtGoxTick();
-  public MtGoxTick last = new MtGoxTick();
-  public MtGoxTick last_orig = new MtGoxTick();
-  public MtGoxTick last_all = new MtGoxTick();
-  public MtGoxTick buy = new MtGoxTick();
-  public MtGoxTick sell = new MtGoxTick();
+  public MtGoxValue high = new MtGoxValue();
+  public MtGoxValue low = new MtGoxValue();
+  public MtGoxValue avg = new MtGoxValue();
+  public MtGoxValue vwap = new MtGoxValue();
+  public MtGoxValue vol = new MtGoxValue();
+  public MtGoxValue last_local = new MtGoxValue();
+  public MtGoxValue last = new MtGoxValue();
+  public MtGoxValue last_orig = new MtGoxValue();
+  public MtGoxValue last_all = new MtGoxValue();
+  public MtGoxValue buy = new MtGoxValue();
+  public MtGoxValue sell = new MtGoxValue();
 
-  public MtGoxTick getHigh() {
+  public MtGoxValue getHigh() {
     return high;
   }
 
-  public void setHigh(MtGoxTick high) {
+  public void setHigh(MtGoxValue high) {
     this.high = high;
   }
 
-  public MtGoxTick getLow() {
+  public MtGoxValue getLow() {
     return low;
   }
 
-  public void setLow(MtGoxTick low) {
+  public void setLow(MtGoxValue low) {
     this.low = low;
   }
 
-  public MtGoxTick getAvg() {
+  public MtGoxValue getAvg() {
     return avg;
   }
 
-  public void setAvg(MtGoxTick avg) {
+  public void setAvg(MtGoxValue avg) {
     this.avg = avg;
   }
 
-  public MtGoxTick getVwap() {
+  public MtGoxValue getVwap() {
     return vwap;
   }
 
-  public void setVwap(MtGoxTick vwap) {
+  public void setVwap(MtGoxValue vwap) {
     this.vwap = vwap;
   }
 
-  public MtGoxTick getVol() {
+  public MtGoxValue getVol() {
     return vol;
   }
 
-  public void setVol(MtGoxTick vol) {
+  public void setVol(MtGoxValue vol) {
     this.vol = vol;
   }
 
-  public MtGoxTick getLast_local() {
+  public MtGoxValue getLast_local() {
     return last_local;
   }
 
-  public void setLast_local(MtGoxTick last_local) {
+  public void setLast_local(MtGoxValue last_local) {
     this.last_local = last_local;
   }
 
-  public MtGoxTick getLast() {
+  public MtGoxValue getLast() {
     return last;
   }
 
-  public void setLast(MtGoxTick last) {
+  public void setLast(MtGoxValue last) {
     this.last = last;
   }
 
-  public MtGoxTick getLast_orig() {
+  public MtGoxValue getLast_orig() {
     return last_orig;
   }
 
-  public void setLast_orig(MtGoxTick last_orig) {
+  public void setLast_orig(MtGoxValue last_orig) {
     this.last_orig = last_orig;
   }
 
-  public MtGoxTick getLast_all() {
+  public MtGoxValue getLast_all() {
     return last_all;
   }
 
-  public void setLast_all(MtGoxTick last_all) {
+  public void setLast_all(MtGoxValue last_all) {
     this.last_all = last_all;
   }
 
-  public MtGoxTick getBuy() {
+  public MtGoxValue getBuy() {
     return buy;
   }
 
-  public void setBuy(MtGoxTick buy) {
+  public void setBuy(MtGoxValue buy) {
     this.buy = buy;
   }
 
-  public MtGoxTick getSell() {
+  public MtGoxValue getSell() {
     return sell;
   }
 
-  public void setSell(MtGoxTick sell) {
+  public void setSell(MtGoxValue sell) {
     this.sell = sell;
   }
 

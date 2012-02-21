@@ -22,9 +22,9 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
 /**
- * Data object representing a Tick from Mt Gox
+ * Data object representing a Value from Mt Gox
  */
-public class MtGoxTick {
+public class MtGoxValue {
 
   double value;
   long value_int;
