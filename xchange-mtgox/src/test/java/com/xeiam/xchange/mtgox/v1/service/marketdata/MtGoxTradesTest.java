@@ -43,7 +43,7 @@ public class MtGoxTradesTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxTrades[] mtGoxTrades = mapper.readValue(is, MtGoxTrades[].class);
+    MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo(1786999L));

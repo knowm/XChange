@@ -8,7 +8,7 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
  * 
  * @see <a href="http://jsongen.byingtondesign.com/">The JSONGen service</a>
  */
-public class MtGoxTrades {
+public class MtGoxTrade {
 
   private double amount;
   private long amount_int;

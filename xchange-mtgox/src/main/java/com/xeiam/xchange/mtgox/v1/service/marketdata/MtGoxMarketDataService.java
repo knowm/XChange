@@ -155,7 +155,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxTrades[] mtGoxTrades = HttpUtils.getForJsonObject(apiBase + symbol + "/public/trades   ?raw", MtGoxTrades[].class, mapper, new HashMap<String, String>());
+    MtGoxTrade[] mtGoxTrades = HttpUtils.getForJsonObject(apiBase + symbol + "/public/trades   ?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
 
     Trades trades = new Trades();
     List<Trade> tradesList = new ArrayList<Trade>();
