@@ -1,9 +1,7 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
-import com.xeiam.xchange.streaming.websocket.DefaultFrameData;
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.*;
-import com.xeiam.xchange.streaming.websocket.Framedata.Opcode;
+import com.xeiam.xchange.streaming.websocket.FrameData.Opcode;
 import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
 import com.xeiam.xchange.streaming.websocket.exeptions.*;
 import com.xeiam.xchange.utils.Base64;
@@ -47,7 +45,7 @@ public class Draft_10 extends Draft {
   }
 
   private ByteBuffer incompleteframe;
-  private Framedata fragmentedframe = null;
+  private FrameData fragmentedframe = null;
 
   @Override
   public HandshakeState acceptHandshakeAsClient(HandshakeData request, HandshakeData response) throws InvalidHandshakeException {
@@ -73,13 +71,13 @@ public class Draft_10 extends Draft {
   }
 
   @Override
-  public ByteBuffer createBinaryFrame(Framedata framedata) {
-    byte[] mes = framedata.getPayloadData();
-    boolean mask = role == Role.CLIENT; // framedata.getTransfereMasked();
+  public ByteBuffer createBinaryFrame(FrameData frameData) {
+    byte[] mes = frameData.getPayloadData();
+    boolean mask = role == Role.CLIENT; // frameData.getTransfereMasked();
     int sizebytes = mes.length <= 125 ? 1 : mes.length <= 65535 ? 2 : 8;
     ByteBuffer buf = ByteBuffer.allocate(1 + (sizebytes > 1 ? sizebytes + 1 : sizebytes) + (mask ? 4 : 0) + mes.length);
-    byte optcode = fromOpcode(framedata.getOpcode());
-    byte one = (byte) (framedata.isFin() ? -128 : 0);
+    byte optcode = fromOpcode(frameData.getOpcode());
+    byte one = (byte) (frameData.isFin() ? -128 : 0);
     one |= optcode;
     buf.put(one);
     byte[] payloadlengthbytes = toByteArray(mes.length, sizebytes);
@@ -113,7 +111,7 @@ public class Draft_10 extends Draft {
   }
 
   @Override
-  public List<Framedata> createFrames(byte[] binary, boolean mask) {
+  public List<FrameData> createFrames(byte[] binary, boolean mask) {
     FrameBuilder curframe = new DefaultFrameData();
     try {
       curframe.setPayload(binary);
@@ -123,11 +121,11 @@ public class Draft_10 extends Draft {
     curframe.setFin(true);
     curframe.setOptcode(Opcode.BINARY);
     curframe.setTransferemasked(mask);
-    return Collections.singletonList((Framedata) curframe);
+    return Collections.singletonList((FrameData) curframe);
   }
 
   @Override
-  public List<Framedata> createFrames(String text, boolean mask) {
+  public List<FrameData> createFrames(String text, boolean mask) {
     FrameBuilder curframe = new DefaultFrameData();
     byte[] pay = CharsetUtils.utf8Bytes(text);
     try {
@@ -138,7 +136,7 @@ public class Draft_10 extends Draft {
     curframe.setFin(true);
     curframe.setOptcode(Opcode.TEXT);
     curframe.setTransferemasked(mask);
-    return Collections.singletonList((Framedata) curframe);
+    return Collections.singletonList((FrameData) curframe);
   }
 
   private byte fromOpcode(Opcode opcode) {
@@ -225,9 +223,9 @@ public class Draft_10 extends Draft {
   }
 
   @Override
-  public List<Framedata> translateFrame(ByteBuffer buffer) throws LimitExceededException, InvalidDataException {
-    List<Framedata> frames = new LinkedList<Framedata>();
-    Framedata cur;
+  public List<FrameData> translateFrame(ByteBuffer buffer) throws LimitExceededException, InvalidDataException {
+    List<FrameData> frames = new LinkedList<FrameData>();
+    FrameData cur;
 
     if (incompleteframe != null) {
       // complete an incomplete frame
@@ -282,7 +280,7 @@ public class Draft_10 extends Draft {
     return frames;
   }
 
-  public Framedata translateSingleFrame(ByteBuffer buffer) throws IncompleteException, InvalidDataException {
+  public FrameData translateSingleFrame(ByteBuffer buffer) throws IncompleteException, InvalidDataException {
     int maxpacketsize = buffer.limit() - buffer.position();
     int realpacketsize = 2;
     if (maxpacketsize < realpacketsize)

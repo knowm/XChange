@@ -1,7 +1,7 @@
 package com.xeiam.xchange.streaming.websocket;
 
 import com.xeiam.xchange.streaming.websocket.Draft.HandshakeState;
-import com.xeiam.xchange.streaming.websocket.Framedata.Opcode;
+import com.xeiam.xchange.streaming.websocket.FrameData.Opcode;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_17;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_75;
@@ -58,7 +58,6 @@ public final class WebSocket {
 
   private boolean closeHandshakeSent = false;
   private boolean connectionClosed = false;
-  private boolean isClosePending = false;
   /**
    * The listener to notify of WebSocket events.
    */
@@ -76,7 +75,7 @@ public final class WebSocket {
 
   private Role role;
 
-  private Framedata currentframe;
+  private FrameData currentframe;
 
   private HandshakeData handshakerequest = null;
 
@@ -86,23 +85,24 @@ public final class WebSocket {
 
   private int flash_policy_index = 0;
 
-  private SocketChannel sockchannel;
+  private SocketChannel socketChannel;
 
   /**
    * Used in {@link WebSocketServer} and {@link WebSocketClient}.
    *
+   * @param draft         Which draft to use
    * @param socketChannel The <tt>SocketChannel</tt> instance to read and
    *                      write to. The channel should already be registered
    *                      with a Selector before construction of this object.
    * @param listener      The {@link WebSocketListener} to notify of events when
    *                      they occur.
    */
-  public WebSocket(WebSocketListener listener, Draft draft, SocketChannel sockchannel) {
-    init(listener, draft, sockchannel);
+  public WebSocket(WebSocketListener listener, Draft draft, SocketChannel socketChannel) {
+    init(listener, draft, socketChannel);
   }
 
-  public WebSocket(WebSocketListener listener, List<Draft> drafts, SocketChannel sockchannel) {
-    init(listener, null, sockchannel);
+  public WebSocket(WebSocketListener listener, List<Draft> drafts, SocketChannel socketChannel) {
+    init(listener, null, socketChannel);
     this.role = Role.SERVER;
     if (known_drafts == null || known_drafts.isEmpty()) {
       known_drafts = new ArrayList<Draft>(1);
@@ -116,7 +116,7 @@ public final class WebSocket {
   }
 
   private void init(WebSocketListener listener, Draft draft, SocketChannel sockchannel) {
-    this.sockchannel = sockchannel;
+    this.socketChannel = sockchannel;
     this.bufferQueue = new LinkedBlockingQueue<ByteBuffer>(10);
     this.socketBuffer = ByteBuffer.allocate(65558);
     socketBuffer.flip();
@@ -129,14 +129,13 @@ public final class WebSocket {
    * Should be called when a Selector has a key that is writable for this
    * WebSocket's SocketChannel connection.
    *
-   * @throws java.io.IOException  When socket related I/O errors occur.
-   * @throws InterruptedException
+   * @throws java.io.IOException When socket related I/O errors occur.
    */
-  /*package public*/void handleRead() throws IOException {
+  void handleRead() throws IOException {
     if (!socketBuffer.hasRemaining()) {
       socketBuffer.rewind();
       socketBuffer.limit(socketBuffer.capacity());
-      if (sockchannel.read(socketBuffer) == -1) {
+      if (socketChannel.read(socketBuffer) == -1) {
         close(CloseFrame.ABNROMAL_CLOSE);
       }
 
@@ -148,10 +147,10 @@ public final class WebSocket {
         System.out.println("process(" + socketBuffer.remaining() + "): {" + (socketBuffer.remaining() > 1000 ? "too big to display" : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())) + "}");
       if (!handshakeComplete) {
         HandshakeData handshake;
-        HandshakeState handshakestate = null;
+        HandshakeState handshakeState;
 
-        handshakestate = isFlashEdgeCase(socketBuffer);
-        if (handshakestate == HandshakeState.MATCHED) {
+        handshakeState = isFlashEdgeCase(socketBuffer);
+        if (handshakeState == HandshakeState.MATCHED) {
           channelWriteDirect(ByteBuffer.wrap(CharsetUtils.utf8Bytes(wsl.getFlashPolicy(this))));
           return;
         }
@@ -164,17 +163,17 @@ public final class WebSocket {
                   d.setParseMode(role);
                   socketBuffer.reset();
                   handshake = d.translateHandshake(socketBuffer);
-                  handshakestate = d.acceptHandshakeAsServer(handshake);
-                  if (handshakestate == HandshakeState.MATCHED) {
+                  handshakeState = d.acceptHandshakeAsServer(handshake);
+                  if (handshakeState == HandshakeState.MATCHED) {
                     HandshakeBuilder response = wsl.onHandshakeRecievedAsServer(this, d, handshake);
                     writeDirect(d.createHandshake(d.postProcessHandshakeResponseAsServer(handshake, response), role));
                     draft = d;
                     open(handshake);
                     handleRead();
                     return;
-                  } else if (handshakestate == HandshakeState.MATCHING) {
+                  } else if (handshakeState == HandshakeState.MATCHING) {
                     if (draft != null) {
-                      throw new InvalidHandshakeException("multible drafts matching");
+                      throw new InvalidHandshakeException("multiple drafts matching");
                     }
                     draft = d;
                   }
@@ -182,7 +181,7 @@ public final class WebSocket {
                   // go on with an other draft
                 } catch (IncompleteHandshakeException e) {
                   if (socketBuffer.limit() == socketBuffer.capacity()) {
-                    close(CloseFrame.TOOBIG, "handshake is to big");
+                    close(CloseFrame.TOOBIG, "handshake is too big");
                   }
                   // read more bytes for the handshake
                   socketBuffer.position(socketBuffer.limit());
@@ -197,24 +196,24 @@ public final class WebSocket {
             } else {
               // special case for multiple step handshakes
               handshake = draft.translateHandshake(socketBuffer);
-              handshakestate = draft.acceptHandshakeAsServer(handshake);
+              handshakeState = draft.acceptHandshakeAsServer(handshake);
 
-              if (handshakestate == HandshakeState.MATCHED) {
+              if (handshakeState == HandshakeState.MATCHED) {
                 open(handshake);
                 handleRead();
-              } else if (handshakestate != HandshakeState.MATCHING) {
-                close(CloseFrame.PROTOCOL_ERROR, "the handshake did finaly not match");
+              } else if (handshakeState != HandshakeState.MATCHING) {
+                close(CloseFrame.PROTOCOL_ERROR, "the handshake finally did not match");
               }
               return;
             }
           } else if (role == Role.CLIENT) {
             draft.setParseMode(role);
             handshake = draft.translateHandshake(socketBuffer);
-            handshakestate = draft.acceptHandshakeAsClient(handshakerequest, handshake);
-            if (handshakestate == HandshakeState.MATCHED) {
+            handshakeState = draft.acceptHandshakeAsClient(handshakerequest, handshake);
+            if (handshakeState == HandshakeState.MATCHED) {
               open(handshake);
               handleRead();
-            } else if (handshakestate == HandshakeState.MATCHING) {
+            } else if (handshakeState == HandshakeState.MATCHING) {
               return;
             } else {
               close(CloseFrame.PROTOCOL_ERROR, "draft " + draft + " refuses handshake");
@@ -225,10 +224,10 @@ public final class WebSocket {
         }
       } else {
         // Receiving frames
-        List<Framedata> frames;
+        List<FrameData> frames;
         try {
           frames = draft.translateFrame(socketBuffer);
-          for (Framedata f : frames) {
+          for (FrameData f : frames) {
             if (DEBUG)
               System.out.println("matched frame: " + f);
             Opcode curop = f.getOpcode();
@@ -290,6 +289,9 @@ public final class WebSocket {
   /**
    * sends the closing handshake.
    * may be send in response to an other handshake.
+   *
+   * @param code    The error code
+   * @param message The message
    */
   public void close(int code, String message) {
     try {
@@ -324,10 +326,12 @@ public final class WebSocket {
    * Does not send any not yet written data before closing.
    * Calling this method more than once will have no effect.
    *
-   * @param remote Indicates who "generated" <code>code</code>.<br>
-   *               <code>true</code> means that this endpoint received the <code>code</code> from the other endpoint.<br>
-   *               false means this endpoint decided to send the given code,<br>
-   *               <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other <code>code</code>. <br>
+   * @param code    The error code
+   * @param message The message
+   * @param remote  Indicates who "generated" <code>code</code>.<br>
+   *                <code>true</code> means that this endpoint received the <code>code</code> from the other endpoint.<br>
+   *                false means this endpoint decided to send the given code,<br>
+   *                <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other <code>code</code>. <br>
    */
   public void closeConnection(int code, String message, boolean remote) {
     if (connectionClosed) {
@@ -335,7 +339,7 @@ public final class WebSocket {
     }
     connectionClosed = true;
     try {
-      sockchannel.close();
+      socketChannel.close();
     } catch (IOException e) {
       wsl.onError(this, e);
     }
@@ -359,13 +363,11 @@ public final class WebSocket {
   }
 
   /**
-   * @return True if all of the text was sent to the client by this thread or the given data is empty
-   *         False if some of the text had to be buffered to be sent later.
+   * @param text The text to send
    *
-   * @throws java.io.IOException
-   * @throws InterruptedException
+   * @throws InterruptedException If something goes wrong
    */
-  public void send(String text) throws IllegalArgumentException, NotYetConnectedException, InterruptedException {
+  public void send(String text) throws InterruptedException {
     if (text == null)
       throw new IllegalArgumentException("Cannot send 'null' data to a WebSocket.");
     send(draft.createFrames(text, role == Role.CLIENT));
@@ -378,24 +380,24 @@ public final class WebSocket {
     send(draft.createFrames(bytes, role == Role.CLIENT));
   }
 
-  private void send(Collection<Framedata> frames) throws InterruptedException {
+  private void send(Collection<FrameData> frames) throws InterruptedException {
     if (!this.handshakeComplete)
       throw new NotYetConnectedException();
-    for (Framedata f : frames) {
+    for (FrameData f : frames) {
       sendFrame(f);
     }
   }
 
-  public void sendFrame(Framedata framedata) throws InterruptedException {
+  public void sendFrame(FrameData frameData) throws InterruptedException {
     if (DEBUG)
-      System.out.println("send frame: " + framedata);
-    channelWrite(draft.createBinaryFrame(framedata));
+      System.out.println("send frame: " + frameData);
+    channelWrite(draft.createBinaryFrame(frameData));
   }
 
-  private void sendFrameDirect(Framedata framedata) throws IOException {
+  private void sendFrameDirect(FrameData frameData) throws IOException {
     if (DEBUG)
-      System.out.println("send frame: " + framedata);
-    channelWriteDirect(draft.createBinaryFrame(framedata));
+      System.out.println("send frame: " + frameData);
+    channelWriteDirect(draft.createBinaryFrame(frameData));
   }
 
   boolean hasBufferedData() {
@@ -403,13 +405,14 @@ public final class WebSocket {
   }
 
   /**
-   * @return True if all data has been sent to the client, false if there
-   *         is still some buffered.
+   * Flushes the socket write buffer
+   *
+   * @throws java.io.IOException If something goes wrong
    */
   public void flush() throws IOException {
     ByteBuffer buffer = this.bufferQueue.peek();
     while (buffer != null) {
-      sockchannel.write(buffer);
+      socketChannel.write(buffer);
       if (buffer.remaining() > 0) {
         continue;
       } else {
@@ -455,7 +458,7 @@ public final class WebSocket {
 
   private void channelWriteDirect(ByteBuffer buf) throws IOException {
     while (buf.hasRemaining())
-      sockchannel.write(buf);
+      socketChannel.write(buf);
   }
 
   private void writeDirect(List<ByteBuffer> bufs) throws IOException {
@@ -464,7 +467,7 @@ public final class WebSocket {
     }
   }
 
-  private void deliverMessage(Framedata d) throws InvalidDataException {
+  private void deliverMessage(FrameData d) throws InvalidDataException {
     if (d.getOpcode() == Opcode.TEXT) {
       wsl.onMessage(this, CharsetUtils.stringUtf8(d.getPayloadData()));
     } else if (d.getOpcode() == Opcode.BINARY) {
@@ -472,7 +475,6 @@ public final class WebSocket {
     } else {
       if (DEBUG)
         System.out.println("Ignoring frame:" + d.toString());
-      assert (false);
     }
   }
 
@@ -484,20 +486,15 @@ public final class WebSocket {
   }
 
   public InetSocketAddress getRemoteSocketAddress() {
-    return (InetSocketAddress) sockchannel.socket().getRemoteSocketAddress();
+    return (InetSocketAddress) socketChannel.socket().getRemoteSocketAddress();
   }
 
   public InetSocketAddress getLocalSocketAddress() {
-    return (InetSocketAddress) sockchannel.socket().getLocalSocketAddress();
+    return (InetSocketAddress) socketChannel.socket().getLocalSocketAddress();
   }
 
   public boolean isClosed() {
     return connectionClosed;
-  }
-
-  @Override
-  public String toString() {
-    return super.toString(); // its nice to be able to set breakpoints here
   }
 
 }

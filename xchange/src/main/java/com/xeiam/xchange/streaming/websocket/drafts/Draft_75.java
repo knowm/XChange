@@ -1,9 +1,7 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
-import com.xeiam.xchange.streaming.websocket.DefaultFrameData;
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.*;
-import com.xeiam.xchange.streaming.websocket.Framedata.Opcode;
+import com.xeiam.xchange.streaming.websocket.FrameData.Opcode;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidHandshakeException;
 import com.xeiam.xchange.streaming.websocket.exeptions.NotSendableException;
@@ -53,8 +51,8 @@ public class Draft_75 extends Draft {
   }
 
   @Override
-  public ByteBuffer createBinaryFrame(Framedata framedata) {
-    byte[] pay = framedata.getPayloadData();
+  public ByteBuffer createBinaryFrame(FrameData frameData) {
+    byte[] pay = frameData.getPayloadData();
     ByteBuffer b = ByteBuffer.allocate(pay.length + 2);
     b.put(START_OF_FRAME);
     b.put(pay);
@@ -64,12 +62,12 @@ public class Draft_75 extends Draft {
   }
 
   @Override
-  public List<Framedata> createFrames(byte[] binary, boolean mask) {
+  public List<FrameData> createFrames(byte[] binary, boolean mask) {
     throw new RuntimeException("not yet implemented");
   }
 
   @Override
-  public List<Framedata> createFrames(String text, boolean mask) {
+  public List<FrameData> createFrames(String text, boolean mask) {
     FrameBuilder frame = new DefaultFrameData();
     try {
       frame.setPayload(CharsetUtils.utf8Bytes(text));
@@ -79,7 +77,7 @@ public class Draft_75 extends Draft {
     frame.setFin(true);
     frame.setOptcode(Opcode.TEXT);
     frame.setTransferemasked(mask);
-    return Collections.singletonList((Framedata) frame);
+    return Collections.singletonList((FrameData) frame);
   }
 
   @Override
@@ -106,8 +104,8 @@ public class Draft_75 extends Draft {
   }
 
   @Override
-  public List<Framedata> translateFrame(ByteBuffer buffer) throws InvalidDataException {
-    List<Framedata> frames = new LinkedList<Framedata>();
+  public List<FrameData> translateFrame(ByteBuffer buffer) throws InvalidDataException {
+    List<FrameData> frames = new LinkedList<FrameData>();
     while (buffer.hasRemaining()) {
       byte newestByte = buffer.get();
       if (newestByte == START_OF_FRAME && !readingState) { // Beginning of Frame

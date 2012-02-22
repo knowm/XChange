@@ -1,7 +1,7 @@
-package com.xeiam.xchange.streaming.demo;
+package com.xeiam.xchange.streaming.websocket.demo;
 
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.Draft;
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketClient;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
@@ -20,7 +20,7 @@ import java.net.URISyntaxException;
 /**
  * Provides a demonstration of connecting to a WebSocketServer
  */
-public class ExchangeClient extends JFrame implements ActionListener {
+public class WebSocketExchangeClient extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -6056260699202978657L;
 
 	private final JTextField uriField;
@@ -31,7 +31,7 @@ public class ExchangeClient extends JFrame implements ActionListener {
 	private final JComboBox draft;
 	private WebSocketClient cc;
 
-	public ExchangeClient(String defaultlocation) {
+	public WebSocketExchangeClient(String defaultlocation) {
 		super( "WebSocket Exchange Client" );
 		Container c = getContentPane();
 		GridLayout layout = new GridLayout();
@@ -99,7 +99,7 @@ public class ExchangeClient extends JFrame implements ActionListener {
 
 		} else if( e.getSource() == connect ) {
 			try {
-				// cc = new ExchangeClient(new URI(uriField.getText()), area, ( Draft ) draft.getSelectedItem() );
+				// cc = new WebSocketExchangeClient(new URI(uriField.getText()), area, ( Draft ) draft.getSelectedItem() );
 				cc = new WebSocketClient( new URI( uriField.getText() ), (Draft) draft.getSelectedItem() ) {
 
 					public void onMessage( String message ) {
@@ -159,7 +159,7 @@ public class ExchangeClient extends JFrame implements ActionListener {
 			location = "ws://localhost:8887";
 			System.out.println( "Default server url not specified: defaulting to \'" + location + "\'" );
 		}
-		new ExchangeClient( location );
+		new WebSocketExchangeClient( location );
 	}
 
 }

@@ -3,7 +3,7 @@ package com.xeiam.xchange.streaming.websocket;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidFrameException;
 
-public interface CloseFrame extends Framedata {
+public interface CloseFrame extends FrameData {
   /**
    * indicates a normal closure, meaning whatever purpose the
    * connection was established for has been fulfilled.

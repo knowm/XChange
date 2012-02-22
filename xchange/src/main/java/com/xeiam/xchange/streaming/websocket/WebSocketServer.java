@@ -50,6 +50,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   /**
    * Default constructor. Creates a WebSocketServer that will attempt to
    * listen on port WebSocket.DEFAULT_PORT.
+   *
    * @throws java.net.UnknownHostException If something goes wrong
    */
   public WebSocketServer() throws UnknownHostException {
@@ -69,9 +70,9 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * Creates a WebSocketServer that will attempt to listen on port <var>port</var>,
    * and comply with <tt>Draft</tt> version <var>draft</var>.
    *
-   * @param address  The socket address
-   * @param draft The version of the WebSocket protocol that this server
-   *              instance should comply to.
+   * @param address The socket address
+   * @param draft   The version of the WebSocket protocol that this server
+   *                instance should comply to.
    */
   public WebSocketServer(InetSocketAddress address, Draft draft) {
     this.connections = new CopyOnWriteArraySet<WebSocket>();
@@ -146,7 +147,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * except for those found in the Set <var>connections</var>.
    *
    * @param connections The WebSocket connections
-   * @param text The text to send
+   * @param text        The text to send
    *
    * @throws InterruptedException If something goes wrong
    */
@@ -285,7 +286,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * This is specifically implemented for gitime's WebSocket client for Flash:
    * http://github.com/gimite/web-socket-js
    *
-   * @return An XML String that comforms to Flash's security policy. You MUST
+   * @return An XML String that conforms to Flash's security policy. You MUST
    *         not include the null char at the end, it is appended automatically.
    */
   protected String getFlashSecurityPolicy() {

@@ -35,6 +35,12 @@
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
     </dependency>
+    <!-- TODO Consider removing this in favour of Jackson (SocketIO depends on it) -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20090211</version>
+    </dependency>
 
     <!-- SLF4J for logging API -->
     <dependency>
@@ -84,6 +90,7 @@
       <artifactId>commons-codec</artifactId>
       <version>1.6</version>
     </dependency>
+
   </dependencies>
 
 </project>

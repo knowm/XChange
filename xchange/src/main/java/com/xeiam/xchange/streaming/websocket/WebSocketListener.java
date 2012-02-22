@@ -48,9 +48,9 @@ interface WebSocketListener {
 
   public void onError(WebSocket conn, Exception ex);
 
-  public void onPing(WebSocket conn, Framedata f);
+  public void onPing(WebSocket conn, FrameData f);
 
-  public void onPong(WebSocket conn, Framedata f);
+  public void onPong(WebSocket conn, FrameData f);
 
   public String getFlashPolicy(WebSocket conn);
 

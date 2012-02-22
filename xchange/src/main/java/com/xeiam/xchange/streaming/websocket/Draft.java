@@ -92,11 +92,11 @@ public abstract class Draft {
     return handshakeData.getFieldValue("Upgrade").equalsIgnoreCase("websocket") && handshakeData.getFieldValue("Connection").toLowerCase(Locale.ENGLISH).contains("upgrade");
   }
 
-  public abstract ByteBuffer createBinaryFrame(Framedata framedata); // TODO Allow to send data on the base of an Iterator or InputStream
+  public abstract ByteBuffer createBinaryFrame(FrameData frameData); // TODO Allow to send data on the base of an Iterator or InputStream
 
-  public abstract List<Framedata> createFrames(byte[] binary, boolean mask);
+  public abstract List<FrameData> createFrames(byte[] binary, boolean mask);
 
-  public abstract List<Framedata> createFrames(String text, boolean mask);
+  public abstract List<FrameData> createFrames(String text, boolean mask);
 
   public abstract void reset();
 
@@ -141,7 +141,7 @@ public abstract class Draft {
 
   public abstract HandshakeBuilder postProcessHandshakeResponseAsServer(HandshakeData request, HandshakeBuilder response) throws InvalidHandshakeException;
 
-  public abstract List<Framedata> translateFrame(ByteBuffer buffer) throws InvalidDataException;
+  public abstract List<FrameData> translateFrame(ByteBuffer buffer) throws InvalidDataException;
 
   public HandshakeData translateHandshake(ByteBuffer buf) throws InvalidHandshakeException {
     return translateHandshakeHttp(buf);

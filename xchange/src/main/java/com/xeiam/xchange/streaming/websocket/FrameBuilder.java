@@ -2,7 +2,7 @@ package com.xeiam.xchange.streaming.websocket;
 
 import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
 
-public interface FrameBuilder extends Framedata {
+public interface FrameBuilder extends FrameData {
 
   public abstract void setFin(boolean fin);
 
