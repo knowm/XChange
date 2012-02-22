@@ -1,9 +1,9 @@
 package com.xeiam.xchange.streaming.websocket;
 
 import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidHandshakeException;
-import com.xeiam.xchange.streaming.websocket.exeptions.LimitExceededException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.LimitExceededException;
 import com.xeiam.xchange.utils.CharsetUtils;
 
 import java.nio.ByteBuffer;

@@ -1,9 +1,9 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
 import com.xeiam.xchange.streaming.websocket.*;
-import com.xeiam.xchange.streaming.websocket.FrameData.Opcode;
+import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
 import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
-import com.xeiam.xchange.streaming.websocket.exeptions.*;
+import com.xeiam.xchange.streaming.websocket.exceptions.*;
 import com.xeiam.xchange.utils.Base64;
 import com.xeiam.xchange.utils.CharsetUtils;
 
@@ -45,7 +45,7 @@ public class Draft_10 extends Draft {
   }
 
   private ByteBuffer incompleteframe;
-  private FrameData fragmentedframe = null;
+  private FrameDataTemp fragmentedframe = null;
 
   @Override
   public HandshakeState acceptHandshakeAsClient(HandshakeData request, HandshakeData response) throws InvalidHandshakeException {
@@ -76,7 +76,7 @@ public class Draft_10 extends Draft {
     boolean mask = role == Role.CLIENT; // frameData.isTransferMasked();
     int sizebytes = mes.length <= 125 ? 1 : mes.length <= 65535 ? 2 : 8;
     ByteBuffer buf = ByteBuffer.allocate(1 + (sizebytes > 1 ? sizebytes + 1 : sizebytes) + (mask ? 4 : 0) + mes.length);
-    byte optcode = fromOpcode(frameData.getOpcode());
+    byte optcode = fromOpcode(frameData.getOpCode());
     byte one = (byte) (frameData.isFin() ? -128 : 0);
     one |= optcode;
     buf.put(one);
@@ -119,7 +119,7 @@ public class Draft_10 extends Draft {
       throw new NotSendableException(e);
     }
     curframe.setFin(true);
-    curframe.setOpCode(Opcode.BINARY);
+    curframe.setOpCode(OpCode.BINARY);
     curframe.setTransferMasked(mask);
     return Collections.singletonList((FrameData) curframe);
   }
@@ -134,25 +134,25 @@ public class Draft_10 extends Draft {
       throw new NotSendableException(e);
     }
     curframe.setFin(true);
-    curframe.setOpCode(Opcode.TEXT);
+    curframe.setOpCode(OpCode.TEXT);
     curframe.setTransferMasked(mask);
     return Collections.singletonList((FrameData) curframe);
   }
 
-  private byte fromOpcode(Opcode opcode) {
-    if (opcode == Opcode.CONTINUOUS)
+  private byte fromOpcode(OpCode opCode) {
+    if (opCode == OpCode.CONTINUOUS)
       return 0;
-    else if (opcode == Opcode.TEXT)
+    else if (opCode == OpCode.TEXT)
       return 1;
-    else if (opcode == Opcode.BINARY)
+    else if (opCode == OpCode.BINARY)
       return 2;
-    else if (opcode == Opcode.CLOSING)
+    else if (opCode == OpCode.CLOSING)
       return 8;
-    else if (opcode == Opcode.PING)
+    else if (opCode == OpCode.PING)
       return 9;
-    else if (opcode == Opcode.PONG)
+    else if (opCode == OpCode.PONG)
       return 10;
-    throw new RuntimeException("Don't know how to handle " + opcode.toString());
+    throw new RuntimeException("Don't know how to handle " + opCode.toString());
   }
 
   private String generateFinalKey(String in) {
@@ -201,21 +201,21 @@ public class Draft_10 extends Draft {
     return buffer;
   }
 
-  private Opcode toOpcode(byte opcode) throws InvalidFrameException {
+  private OpCode toOpcode(byte opcode) throws InvalidFrameException {
     switch (opcode) {
       case 0:
-        return Opcode.CONTINUOUS;
+        return OpCode.CONTINUOUS;
       case 1:
-        return Opcode.TEXT;
+        return OpCode.TEXT;
       case 2:
-        return Opcode.BINARY;
+        return OpCode.BINARY;
       // 3-7 are not yet defined
       case 8:
-        return Opcode.CLOSING;
+        return OpCode.CLOSING;
       case 9:
-        return Opcode.PING;
+        return OpCode.PING;
       case 10:
-        return Opcode.PONG;
+        return OpCode.PONG;
       // 11-15 are not yet defined
       default:
         throw new InvalidFrameException("unknow opCode " + (short) opcode);
@@ -225,7 +225,7 @@ public class Draft_10 extends Draft {
   @Override
   public List<FrameData> translateFrame(ByteBuffer buffer) throws LimitExceededException, InvalidDataException {
     List<FrameData> frames = new LinkedList<FrameData>();
-    FrameData cur;
+    FrameDataTemp cur;
 
     if (incompleteframe != null) {
       // complete an incomplete frame
@@ -293,17 +293,17 @@ public class Draft_10 extends Draft {
     byte b2 = buffer.get( /*1*/);
     boolean MASK = (b2 & -128) != 0;
     int payloadlength = (byte) (b2 & ~(byte) 128);
-    Opcode optcode = toOpcode((byte) (b1 & 15));
+    OpCode optcode = toOpcode((byte) (b1 & 15));
 
     if (!FIN) {
-      if (optcode == Opcode.PING || optcode == Opcode.PONG || optcode == Opcode.CLOSING) {
+      if (optcode == OpCode.PING || optcode == OpCode.PONG || optcode == OpCode.CLOSING) {
         throw new InvalidFrameException("control frames may no be fragmented");
       }
     }
 
     if (payloadlength >= 0 && payloadlength <= 125) {
     } else {
-      if (optcode == Opcode.PING || optcode == Opcode.PONG || optcode == Opcode.CLOSING) {
+      if (optcode == OpCode.PING || optcode == OpCode.PONG || optcode == OpCode.CLOSING) {
         throw new InvalidFrameException("more than 125 octets");
       }
       if (payloadlength == 126) {
@@ -352,7 +352,7 @@ public class Draft_10 extends Draft {
     }
 
     FrameBuilder frame;
-    if (optcode == Opcode.CLOSING) {
+    if (optcode == OpCode.CLOSING) {
       frame = new CloseFrameBuilder();
     } else {
       frame = new DefaultFrameData();

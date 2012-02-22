@@ -1,7 +1,7 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidFrameException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 import com.xeiam.xchange.utils.CharsetUtils;
 
 import java.nio.ByteBuffer;
@@ -12,18 +12,18 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
   private String reason;
 
   public CloseFrameBuilder() {
-    super(Opcode.CLOSING);
+    super(OpCode.CLOSING);
     setFin(true);
   }
 
   public CloseFrameBuilder(int code) throws InvalidDataException {
-    super(Opcode.CLOSING);
+    super(OpCode.CLOSING);
     setFin(true);
     setCodeAndMessage(code, "");
   }
 
   public CloseFrameBuilder(int code, String m) throws InvalidDataException {
-    super(Opcode.CLOSING);
+    super(OpCode.CLOSING);
     setFin(true);
     setCodeAndMessage(code, m);
   }

@@ -1,6 +1,6 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.websocket.FrameData.Opcode;
+import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
   @Override
   public void onPing(WebSocket conn, FrameData f) {
     DefaultFrameData resp = new DefaultFrameData(f);
-    resp.setOpCode(Opcode.PONG);
+    resp.setOpCode(OpCode.PONG);
     try {
       conn.sendFrame(resp);
     } catch (InterruptedException e) {

@@ -1,4 +1,4 @@
-package com.xeiam.xchange.streaming.websocket.exeptions;
+package com.xeiam.xchange.streaming.websocket.exceptions;
 
 /**
  * Exception to indicate that data could not be sent (invalid format etc)

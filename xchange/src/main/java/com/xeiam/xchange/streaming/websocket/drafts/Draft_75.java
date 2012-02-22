@@ -1,10 +1,10 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
 import com.xeiam.xchange.streaming.websocket.*;
-import com.xeiam.xchange.streaming.websocket.FrameData.Opcode;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidHandshakeException;
-import com.xeiam.xchange.streaming.websocket.exeptions.NotSendableException;
+import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.NotSendableException;
 import com.xeiam.xchange.utils.CharsetUtils;
 
 import java.nio.ByteBuffer;
@@ -75,7 +75,7 @@ public class Draft_75 extends Draft {
       throw new NotSendableException(e);
     }
     frame.setFin(true);
-    frame.setOpCode(Opcode.TEXT);
+    frame.setOpCode(OpCode.TEXT);
     frame.setTransferMasked(mask);
     return Collections.singletonList((FrameData) frame);
   }
@@ -118,7 +118,7 @@ public class Draft_75 extends Draft {
           DefaultFrameData curframe = new DefaultFrameData();
           curframe.setPayload(currentFrame.array());
           curframe.setFin(true);
-          curframe.setOpCode(inframe ? Opcode.CONTINUOUS : Opcode.TEXT);
+          curframe.setOpCode(inframe ? OpCode.CONTINUOUS : OpCode.TEXT);
           frames.add(curframe);
         }
         readingState = false;
@@ -137,7 +137,7 @@ public class Draft_75 extends Draft {
       DefaultFrameData curframe = new DefaultFrameData();
       curframe.setPayload(currentFrame.array());
       curframe.setFin(false);
-      curframe.setOpCode(inframe ? Opcode.CONTINUOUS : Opcode.TEXT);
+      curframe.setOpCode(inframe ? OpCode.CONTINUOUS : OpCode.TEXT);
       inframe = true;
       frames.add(curframe);
     }

@@ -1,7 +1,7 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidFrameException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 import com.xeiam.xchange.utils.CharsetUtils;
 
 import java.nio.ByteBuffer;
@@ -9,21 +9,21 @@ import java.nio.ByteBuffer;
 public class DefaultFrameData implements FrameBuilder {
   protected static byte[] emptyArray = {};
   protected boolean fin;
-  protected Opcode opCode;
+  protected OpCode opCode;
   private ByteBuffer unmaskedPayload;
   protected boolean transferMasked;
 
   public DefaultFrameData() {
   }
 
-  public DefaultFrameData(Opcode op) {
+  public DefaultFrameData(OpCode op) {
     this.opCode = op;
     unmaskedPayload = ByteBuffer.wrap(emptyArray);
   }
 
   public DefaultFrameData(FrameData f) {
     fin = f.isFin();
-    opCode = f.getOpcode();
+    opCode = f.getOpCode();
     unmaskedPayload = ByteBuffer.wrap(f.getPayloadData());
     transferMasked = f.isTransferMasked();
   }
@@ -34,7 +34,7 @@ public class DefaultFrameData implements FrameBuilder {
   }
 
   @Override
-  public Opcode getOpcode() {
+  public OpCode getOpCode() {
     return opCode;
   }
 
@@ -54,7 +54,7 @@ public class DefaultFrameData implements FrameBuilder {
   }
 
   @Override
-  public void setOpCode(Opcode opCode) {
+  public void setOpCode(OpCode opCode) {
     this.opCode = opCode;
   }
 
@@ -69,22 +69,22 @@ public class DefaultFrameData implements FrameBuilder {
   }
 
   @Override
-  public void append(FrameData nextframe) throws InvalidFrameException {
+  public void append(FrameData nextFrame) throws InvalidFrameException {
     if (unmaskedPayload == null) {
-      unmaskedPayload = ByteBuffer.wrap(nextframe.getPayloadData());
+      unmaskedPayload = ByteBuffer.wrap(nextFrame.getPayloadData());
     } else {
       // TODO might be inefficient. Consider a global buffer pool
-      ByteBuffer tmp = ByteBuffer.allocate(nextframe.getPayloadData().length + unmaskedPayload.capacity());
+      ByteBuffer tmp = ByteBuffer.allocate(nextFrame.getPayloadData().length + unmaskedPayload.capacity());
       tmp.put(unmaskedPayload.array());
-      tmp.put(nextframe.getPayloadData());
+      tmp.put(nextFrame.getPayloadData());
       unmaskedPayload = tmp;
     }
-    fin = nextframe.isFin();
+    fin = nextFrame.isFin();
   }
 
   @Override
   public String toString() {
-    return "FrameData{ opCode:" + getOpcode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedPayload.limit() + ", payload:" + CharsetUtils.utf8Bytes(new String(unmaskedPayload.array())) + "}";
+    return "FrameDataTemp{ opCode:" + getOpCode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedPayload.limit() + ", payload:" + CharsetUtils.utf8Bytes(new String(unmaskedPayload.array())) + "}";
   }
 
 }

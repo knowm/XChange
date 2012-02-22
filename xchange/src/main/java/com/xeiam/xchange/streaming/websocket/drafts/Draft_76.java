@@ -4,8 +4,8 @@ import com.xeiam.xchange.streaming.websocket.DefaultHandshakeData;
 import com.xeiam.xchange.streaming.websocket.HandshakeBuilder;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
-import com.xeiam.xchange.streaming.websocket.exeptions.IncompleteHandshakeException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.IncompleteHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
 
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;

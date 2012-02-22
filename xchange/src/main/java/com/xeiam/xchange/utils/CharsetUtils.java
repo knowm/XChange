@@ -1,7 +1,7 @@
 package com.xeiam.xchange.utils;
 
 import com.xeiam.xchange.streaming.websocket.CloseFrame;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;

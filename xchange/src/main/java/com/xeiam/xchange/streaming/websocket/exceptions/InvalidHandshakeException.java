@@ -1,4 +1,4 @@
-package com.xeiam.xchange.streaming.websocket.exeptions;
+package com.xeiam.xchange.streaming.websocket.exceptions;
 
 import com.xeiam.xchange.streaming.websocket.CloseFrame;
 

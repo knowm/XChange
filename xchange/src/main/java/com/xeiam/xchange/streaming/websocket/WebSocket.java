@@ -1,15 +1,15 @@
 package com.xeiam.xchange.streaming.websocket;
 
 import com.xeiam.xchange.streaming.websocket.Draft.HandshakeState;
-import com.xeiam.xchange.streaming.websocket.FrameData.Opcode;
+import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_17;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_75;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_76;
-import com.xeiam.xchange.streaming.websocket.exeptions.IncompleteHandshakeException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidFrameException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.IncompleteHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
 import com.xeiam.xchange.utils.CharsetUtils;
 
 import java.io.IOException;
@@ -75,7 +75,7 @@ public final class WebSocket {
 
   private Role role;
 
-  private FrameData currentframe;
+  private FrameDataTemp currentframe;
 
   private HandshakeData handshakerequest = null;
 
@@ -227,11 +227,11 @@ public final class WebSocket {
         List<FrameData> frames;
         try {
           frames = draft.translateFrame(socketBuffer);
-          for (FrameData f : frames) {
+          for (FrameDataTemp f : frames) {
             if (DEBUG)
               System.out.println("matched frame: " + f);
-            Opcode curop = f.getOpcode();
-            if (curop == Opcode.CLOSING) {
+            OpCode curop = f.getOpCode();
+            if (curop == OpCode.CLOSING) {
               int code = CloseFrame.NOCODE;
               String reason = "";
               if (f instanceof CloseFrame) {
@@ -248,16 +248,16 @@ public final class WebSocket {
                 closeConnection(code, reason, false);
               }
               continue;
-            } else if (curop == Opcode.PING) {
+            } else if (curop == OpCode.PING) {
               wsl.onPing(this, f);
               continue;
-            } else if (curop == Opcode.PONG) {
+            } else if (curop == OpCode.PONG) {
               wsl.onPong(this, f);
               continue;
             } else {
               // process non control frames
               if (currentframe == null) {
-                if (f.getOpcode() == Opcode.CONTINUOUS) {
+                if (f.getOpCode() == OpCode.CONTINUOUS) {
                   throw new InvalidFrameException("unexpected continious frame");
                 } else if (f.isFin()) {
                   // receive normal onframe message
@@ -266,7 +266,7 @@ public final class WebSocket {
                   // remember the frame whose payload is about to be continued
                   currentframe = f;
                 }
-              } else if (f.getOpcode() == Opcode.CONTINUOUS) {
+              } else if (f.getOpCode() == OpCode.CONTINUOUS) {
                 currentframe.append(f);
                 if (f.isFin()) {
                   deliverMessage(currentframe);
@@ -383,7 +383,7 @@ public final class WebSocket {
   private void send(Collection<FrameData> frames) throws InterruptedException {
     if (!this.handshakeComplete)
       throw new NotYetConnectedException();
-    for (FrameData f : frames) {
+    for (FrameDataTemp f : frames) {
       sendFrame(f);
     }
   }
@@ -468,9 +468,9 @@ public final class WebSocket {
   }
 
   private void deliverMessage(FrameData d) throws InvalidDataException {
-    if (d.getOpcode() == Opcode.TEXT) {
+    if (d.getOpCode() == OpCode.TEXT) {
       wsl.onMessage(this, CharsetUtils.stringUtf8(d.getPayloadData()));
-    } else if (d.getOpcode() == Opcode.BINARY) {
+    } else if (d.getOpCode() == OpCode.BINARY) {
       wsl.onMessage(this, d.getPayloadData());
     } else {
       if (DEBUG)

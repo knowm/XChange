@@ -1,7 +1,7 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exeptions.InvalidFrameException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 
 public interface CloseFrame extends FrameData {
   /**
