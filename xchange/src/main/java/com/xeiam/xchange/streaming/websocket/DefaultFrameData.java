@@ -7,25 +7,25 @@ import com.xeiam.xchange.utils.CharsetUtils;
 import java.nio.ByteBuffer;
 
 public class DefaultFrameData implements FrameBuilder {
-  protected static byte[] emptyarray = {};
+  protected static byte[] emptyArray = {};
   protected boolean fin;
-  protected Opcode optcode;
-  private ByteBuffer unmaskedpayload;
-  protected boolean transferemasked;
+  protected Opcode opCode;
+  private ByteBuffer unmaskedPayload;
+  protected boolean transferMasked;
 
   public DefaultFrameData() {
   }
 
   public DefaultFrameData(Opcode op) {
-    this.optcode = op;
-    unmaskedpayload = ByteBuffer.wrap(emptyarray);
+    this.opCode = op;
+    unmaskedPayload = ByteBuffer.wrap(emptyArray);
   }
 
   public DefaultFrameData(FrameData f) {
     fin = f.isFin();
-    optcode = f.getOpcode();
-    unmaskedpayload = ByteBuffer.wrap(f.getPayloadData());
-    transferemasked = f.getTransfereMasked();
+    opCode = f.getOpcode();
+    unmaskedPayload = ByteBuffer.wrap(f.getPayloadData());
+    transferMasked = f.isTransferMasked();
   }
 
   @Override
@@ -35,17 +35,17 @@ public class DefaultFrameData implements FrameBuilder {
 
   @Override
   public Opcode getOpcode() {
-    return optcode;
+    return opCode;
   }
 
   @Override
-  public boolean getTransfereMasked() {
-    return transferemasked;
+  public boolean isTransferMasked() {
+    return transferMasked;
   }
 
   @Override
   public byte[] getPayloadData() {
-    return unmaskedpayload.array();
+    return unmaskedPayload.array();
   }
 
   @Override
@@ -54,37 +54,37 @@ public class DefaultFrameData implements FrameBuilder {
   }
 
   @Override
-  public void setOptcode(Opcode optcode) {
-    this.optcode = optcode;
+  public void setOpCode(Opcode opCode) {
+    this.opCode = opCode;
   }
 
   @Override
   public void setPayload(byte[] payload) throws InvalidDataException {
-    unmaskedpayload = ByteBuffer.wrap(payload);
+    unmaskedPayload = ByteBuffer.wrap(payload);
   }
 
   @Override
-  public void setTransferemasked(boolean transferemasked) {
-    this.transferemasked = transferemasked;
+  public void setTransferMasked(boolean transferMasked) {
+    this.transferMasked = transferMasked;
   }
 
   @Override
   public void append(FrameData nextframe) throws InvalidFrameException {
-    if (unmaskedpayload == null) {
-      unmaskedpayload = ByteBuffer.wrap(nextframe.getPayloadData());
+    if (unmaskedPayload == null) {
+      unmaskedPayload = ByteBuffer.wrap(nextframe.getPayloadData());
     } else {
-      // TODO might be inefficient. Cosider a global buffer pool
-      ByteBuffer tmp = ByteBuffer.allocate(nextframe.getPayloadData().length + unmaskedpayload.capacity());
-      tmp.put(unmaskedpayload.array());
+      // TODO might be inefficient. Consider a global buffer pool
+      ByteBuffer tmp = ByteBuffer.allocate(nextframe.getPayloadData().length + unmaskedPayload.capacity());
+      tmp.put(unmaskedPayload.array());
       tmp.put(nextframe.getPayloadData());
-      unmaskedpayload = tmp;
+      unmaskedPayload = tmp;
     }
     fin = nextframe.isFin();
   }
 
   @Override
   public String toString() {
-    return "FrameData{ optcode:" + getOpcode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedpayload.limit() + ", payload:" + CharsetUtils.utf8Bytes(new String(unmaskedpayload.array())) + "}";
+    return "FrameData{ opCode:" + getOpcode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedPayload.limit() + ", payload:" + CharsetUtils.utf8Bytes(new String(unmaskedPayload.array())) + "}";
   }
 
 }

@@ -35,7 +35,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
   @Override
   public void onPing(WebSocket conn, FrameData f) {
     DefaultFrameData resp = new DefaultFrameData(f);
-    resp.setOptcode(Opcode.PONG);
+    resp.setOpCode(Opcode.PONG);
     try {
       conn.sendFrame(resp);
     } catch (InterruptedException e) {

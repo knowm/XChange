@@ -75,8 +75,8 @@ public class Draft_75 extends Draft {
       throw new NotSendableException(e);
     }
     frame.setFin(true);
-    frame.setOptcode(Opcode.TEXT);
-    frame.setTransferemasked(mask);
+    frame.setOpCode(Opcode.TEXT);
+    frame.setTransferMasked(mask);
     return Collections.singletonList((FrameData) frame);
   }
 
@@ -118,7 +118,7 @@ public class Draft_75 extends Draft {
           DefaultFrameData curframe = new DefaultFrameData();
           curframe.setPayload(currentFrame.array());
           curframe.setFin(true);
-          curframe.setOptcode(inframe ? Opcode.CONTINIOUS : Opcode.TEXT);
+          curframe.setOpCode(inframe ? Opcode.CONTINUOUS : Opcode.TEXT);
           frames.add(curframe);
         }
         readingState = false;
@@ -137,7 +137,7 @@ public class Draft_75 extends Draft {
       DefaultFrameData curframe = new DefaultFrameData();
       curframe.setPayload(currentFrame.array());
       curframe.setFin(false);
-      curframe.setOptcode(inframe ? Opcode.CONTINIOUS : Opcode.TEXT);
+      curframe.setOpCode(inframe ? Opcode.CONTINUOUS : Opcode.TEXT);
       inframe = true;
       frames.add(curframe);
     }

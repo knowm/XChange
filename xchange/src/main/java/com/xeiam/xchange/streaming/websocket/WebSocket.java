@@ -257,7 +257,7 @@ public final class WebSocket {
             } else {
               // process non control frames
               if (currentframe == null) {
-                if (f.getOpcode() == Opcode.CONTINIOUS) {
+                if (f.getOpcode() == Opcode.CONTINUOUS) {
                   throw new InvalidFrameException("unexpected continious frame");
                 } else if (f.isFin()) {
                   // receive normal onframe message
@@ -266,7 +266,7 @@ public final class WebSocket {
                   // remember the frame whose payload is about to be continued
                   currentframe = f;
                 }
-              } else if (f.getOpcode() == Opcode.CONTINIOUS) {
+              } else if (f.getOpcode() == Opcode.CONTINUOUS) {
                 currentframe.append(f);
                 if (f.isFin()) {
                   deliverMessage(currentframe);

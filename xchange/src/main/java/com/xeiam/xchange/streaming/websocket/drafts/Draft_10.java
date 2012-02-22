@@ -73,7 +73,7 @@ public class Draft_10 extends Draft {
   @Override
   public ByteBuffer createBinaryFrame(FrameData frameData) {
     byte[] mes = frameData.getPayloadData();
-    boolean mask = role == Role.CLIENT; // frameData.getTransfereMasked();
+    boolean mask = role == Role.CLIENT; // frameData.isTransferMasked();
     int sizebytes = mes.length <= 125 ? 1 : mes.length <= 65535 ? 2 : 8;
     ByteBuffer buf = ByteBuffer.allocate(1 + (sizebytes > 1 ? sizebytes + 1 : sizebytes) + (mask ? 4 : 0) + mes.length);
     byte optcode = fromOpcode(frameData.getOpcode());
@@ -119,8 +119,8 @@ public class Draft_10 extends Draft {
       throw new NotSendableException(e);
     }
     curframe.setFin(true);
-    curframe.setOptcode(Opcode.BINARY);
-    curframe.setTransferemasked(mask);
+    curframe.setOpCode(Opcode.BINARY);
+    curframe.setTransferMasked(mask);
     return Collections.singletonList((FrameData) curframe);
   }
 
@@ -134,13 +134,13 @@ public class Draft_10 extends Draft {
       throw new NotSendableException(e);
     }
     curframe.setFin(true);
-    curframe.setOptcode(Opcode.TEXT);
-    curframe.setTransferemasked(mask);
+    curframe.setOpCode(Opcode.TEXT);
+    curframe.setTransferMasked(mask);
     return Collections.singletonList((FrameData) curframe);
   }
 
   private byte fromOpcode(Opcode opcode) {
-    if (opcode == Opcode.CONTINIOUS)
+    if (opcode == Opcode.CONTINUOUS)
       return 0;
     else if (opcode == Opcode.TEXT)
       return 1;
@@ -204,7 +204,7 @@ public class Draft_10 extends Draft {
   private Opcode toOpcode(byte opcode) throws InvalidFrameException {
     switch (opcode) {
       case 0:
-        return Opcode.CONTINIOUS;
+        return Opcode.CONTINUOUS;
       case 1:
         return Opcode.TEXT;
       case 2:
@@ -218,7 +218,7 @@ public class Draft_10 extends Draft {
         return Opcode.PONG;
       // 11-15 are not yet defined
       default:
-        throw new InvalidFrameException("unknow optcode " + (short) opcode);
+        throw new InvalidFrameException("unknow opCode " + (short) opcode);
     }
   }
 
@@ -357,7 +357,7 @@ public class Draft_10 extends Draft {
     } else {
       frame = new DefaultFrameData();
       frame.setFin(FIN);
-      frame.setOptcode(optcode);
+      frame.setOpCode(optcode);
     }
     frame.setPayload(payload.array());
     return frame;
