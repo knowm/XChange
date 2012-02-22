@@ -5,7 +5,7 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 /**
  *
  */
-public interface FrameDataTemp {
+public interface FrameData {
 
   enum OpCode {
     CONTINUOUS,
@@ -26,5 +26,5 @@ public interface FrameDataTemp {
 
   public byte[] getPayloadData();
 
-  public abstract void append(FrameDataTemp nextFrame) throws InvalidFrameException;
+  public abstract void append(FrameData nextFrame) throws InvalidFrameException;
 }

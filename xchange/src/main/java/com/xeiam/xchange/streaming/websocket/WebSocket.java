@@ -75,7 +75,7 @@ public final class WebSocket {
 
   private Role role;
 
-  private FrameDataTemp currentframe;
+  private FrameData currentframe;
 
   private HandshakeData handshakerequest = null;
 
@@ -227,7 +227,7 @@ public final class WebSocket {
         List<FrameData> frames;
         try {
           frames = draft.translateFrame(socketBuffer);
-          for (FrameDataTemp f : frames) {
+          for (FrameData f : frames) {
             if (DEBUG)
               System.out.println("matched frame: " + f);
             OpCode curop = f.getOpCode();
@@ -383,7 +383,7 @@ public final class WebSocket {
   private void send(Collection<FrameData> frames) throws InterruptedException {
     if (!this.handshakeComplete)
       throw new NotYetConnectedException();
-    for (FrameDataTemp f : frames) {
+    for (FrameData f : frames) {
       sendFrame(f);
     }
   }

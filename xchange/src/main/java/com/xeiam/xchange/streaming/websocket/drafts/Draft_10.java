@@ -45,7 +45,7 @@ public class Draft_10 extends Draft {
   }
 
   private ByteBuffer incompleteframe;
-  private FrameDataTemp fragmentedframe = null;
+  private FrameData fragmentedframe = null;
 
   @Override
   public HandshakeState acceptHandshakeAsClient(HandshakeData request, HandshakeData response) throws InvalidHandshakeException {
@@ -225,7 +225,7 @@ public class Draft_10 extends Draft {
   @Override
   public List<FrameData> translateFrame(ByteBuffer buffer) throws LimitExceededException, InvalidDataException {
     List<FrameData> frames = new LinkedList<FrameData>();
-    FrameDataTemp cur;
+    FrameData cur;
 
     if (incompleteframe != null) {
       // complete an incomplete frame
