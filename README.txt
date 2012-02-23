@@ -1,21 +1,22 @@
 XChange
 =======
-XChange is library providing a simple and consistent API for interacting with a
-diverse set of financial security exchanges, including support for Bitcoin. The primary 
-development platform is Java, but developers are encouraged to port this code to their
-own language. Ideally, these ports can be fed back into the overall XChange project so
+XChange is a library providing a simple and consistent API for interacting with a diverse set of financial security exchanges, including support for Bitcoin. The primary 
+development platform is Java, but developers are encouraged to port this code to their own language. Ideally, these ports can be fed back into the overall XChange project so
 that everyone can benefit from improvements in one central location.
 
 In short, we invite pull requests.
 
 Acknowledgements
 ================
-XChange is built upon the work of others and the following projects have generously provided
-much code and inspiration. Thanks to everyone who has helped in any capacity!
+XChange is built upon the work of others and the following projects have generously provided much code and inspiration. Thanks to everyone who has helped in any capacity!
 
 WebSockets
 ----------
-Based on the original work by Nathan Mische here: https://github.com/nmische/Java-WebSocket.git
+Based on the original work by Nathan Mische here: https://github.com/nmische/Java-WebSocket
+
+Socket.io
+---------
+Based on the original work by Gottox here: https://github.com/Gottox/socket.io-java-client
 
 Getting Started
 ===============
