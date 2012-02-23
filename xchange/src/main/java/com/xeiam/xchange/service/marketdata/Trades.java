@@ -40,7 +40,7 @@ public class Trades {
 
   @Override
   public String toString() {
-    return "Trades [trades=" + trades + "]";
+    return "Trades [trades=" + trades.toString() + "]";
   }
 
 }

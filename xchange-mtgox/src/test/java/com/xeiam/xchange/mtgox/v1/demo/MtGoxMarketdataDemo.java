@@ -72,11 +72,11 @@ public class MtGoxMarketdataDemo {
 
     // Get the current full orderbook
     OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
-    System.out.printf("full depth as String: ", fullOrderBook.toString());
+    System.out.println("full depth as String: " + fullOrderBook.toString());
 
     // Get trades
     Trades trades = marketDataService.getTrades("BTCUSD");
-    System.out.printf("trades as String: ", trades.toString());
+    System.out.println("trades as String: " + trades.toString());
   }
 
 }

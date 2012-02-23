@@ -147,6 +147,7 @@ public class HttpUtils {
       }
 
       responseString = getResponseString(connection);
+      // log.debug(responseString);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem GETing (malformed URL)", e);
@@ -200,7 +201,7 @@ public class HttpUtils {
 
       responseString = getResponseString(connection);
 
-      log.debug("responseString: " + responseString);
+      // log.debug("responseString: " + responseString);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem POSTing (malformed URL)", e);
@@ -246,7 +247,7 @@ public class HttpUtils {
       StringBuilder sb = new StringBuilder();
       BufferedInputStream bis;
       bis = new BufferedInputStream(connection.getInputStream());
-      byte[] byteContents = new byte[1024];
+      byte[] byteContents = new byte[4096];
 
       int bytesRead;
       String strContents = null;
@@ -257,7 +258,7 @@ public class HttpUtils {
       }
       responseString = sb.toString();
     }
-    log.trace("responseString: " + responseString);
+    log.debug("responseString: " + responseString);
 
     return responseString;
   }

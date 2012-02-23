@@ -155,20 +155,20 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxTrade[] mtGoxTrades = HttpUtils.getForJsonObject(apiBase + symbol + "/public/trades   ?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
+    MtGoxTrade[] mtGoxTrades = HttpUtils.getForJsonObject(apiBase + symbol + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
 
     Trades trades = new Trades();
     List<Trade> tradesList = new ArrayList<Trade>();
     for (int i = 0; i < mtGoxTrades.length; i++) {
       Trade trade = new Trade();
-      trade.setDate(new Date(mtGoxTrades[i].getDate()));
+      trade.setDate(new Date(mtGoxTrades[i].getDate() * 1000L));
       trade.setAmount_int(mtGoxTrades[i].getAmount_int());
       trade.setPrice_int(mtGoxTrades[i].getPrice_int());
       trade.setPrice_currency(mtGoxTrades[i].getPrice_currency());
       trade.setTrade_type(mtGoxTrades[i].getTrade_type());
       tradesList.add(trade);
     }
-
+    trades.setTrades(tradesList);
     return trades;
   }
 
