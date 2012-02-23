@@ -22,7 +22,7 @@
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
 /**
- * Data object representing Account Info from Mt Gox
+ * Data object representing an open order from Mt Gox
  */
 public class MtGoxOpenOrder {
 
