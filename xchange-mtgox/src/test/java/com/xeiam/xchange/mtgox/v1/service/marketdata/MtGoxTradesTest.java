@@ -46,7 +46,7 @@ public class MtGoxTradesTest {
     MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo(1786999L));
+    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo(1541646L));
     System.out.println(mtGoxTrades[0].toString());
   }
 }
