@@ -8,6 +8,9 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -17,13 +20,15 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * The Class XhrTransport.
+ * <p>IOTransport for the XmlHttpRequest polling technique</p>
  */
 class XhrTransport implements IOTransport {
 
-  /**
-   * The String to identify this Transport.
-   */
+  private static final Logger log = LoggerFactory.getLogger(XhrTransport.class);
+
+    /**
+     * The String to identify this Transport.
+     */
   public static final String TRANSPORT_NAME = "xhr-polling";
 
   /**
@@ -92,14 +97,14 @@ class XhrTransport implements IOTransport {
             if (queue.size() == 1) {
               line = queue.poll();
               output.write(line);
-              System.out.println(line);
+              log.trace(line);
             } else {
               Iterator<String> iter = queue.iterator();
               while (iter.hasNext()) {
                 line = iter.next();
                 output.write("\ufffd" + line.length()
                   + "\ufffd" + line);
-                System.out.println("\ufffd" + line.length()
+                log.trace("\ufffd" + line.length()
                   + "\ufffd" + line);
                 iter.remove();
               }
@@ -139,7 +144,7 @@ class XhrTransport implements IOTransport {
    * @return the iO transport
    */
   public static IOTransport create(URL url, IOConnection connection) {
-    System.out.println("Selecting XmlHttpRequest transport");
+    log.trace("Selecting XmlHttpRequest transport");
     try {
       URL xhrUrl = new URL(url.toString() + IOConnection.SOCKET_IO_1
         + TRANSPORT_NAME + "/" + connection.getSessionId());

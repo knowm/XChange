@@ -4,6 +4,8 @@ import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -22,7 +24,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class WebSocketExchangeServer extends WebSocketServer {
 
-	public WebSocketExchangeServer(int port) throws UnknownHostException {
+  private static final Logger log = LoggerFactory.getLogger(WebSocketExchangeServer.class);
+
+  public WebSocketExchangeServer(int port) throws UnknownHostException {
 		super( new InetSocketAddress( InetAddress.getByName( "localhost" ), port ) );
 	}
 	
@@ -43,7 +47,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
     // Create local exchange server
     final WebSocketExchangeServer exchangeServer = new WebSocketExchangeServer( port );
     exchangeServer.start();
-    System.out.println("ExchangeServer started on port: " + exchangeServer.getPort());
+    log.debug("ExchangeServer started on port: " + exchangeServer.getPort());
 
     // Set up a some local currencies quoted against BTC
     List<String> currencies = new ArrayList<String>(Arrays.asList("USD","GBP","EUR"));
@@ -87,7 +91,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 		} catch ( InterruptedException ex ) {
 			ex.printStackTrace();
 		}
-		System.out.println( conn + " is monitoring trades" );
+		log.debug(conn + " is monitoring trades");
 	}
 
 	public void onClientClose( WebSocket conn, int code, String reason, boolean remote ) {
@@ -96,7 +100,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 		} catch ( InterruptedException ex ) {
 			ex.printStackTrace();
 		}
-		System.out.println( conn + " has disconnected" );
+		log.debug(conn + " has disconnected");
 	}
 
 	public void onClientMessage( WebSocket conn, String message ) {
@@ -105,7 +109,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 		} catch ( InterruptedException ex ) {
 			ex.printStackTrace();
 		}
-		System.out.println( conn + ": " + message );
+		log.debug(conn + ": " + message);
 	}
 
 	@Override

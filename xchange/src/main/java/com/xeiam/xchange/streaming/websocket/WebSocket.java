@@ -11,6 +11,8 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
 import com.xeiam.xchange.utils.CharsetUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -35,6 +37,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author Nathan Rajlich
  */
 public final class WebSocket {
+
+  private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
 
   public enum Role {
     CLIENT,
@@ -144,7 +148,7 @@ public final class WebSocket {
 
     if (socketBuffer.hasRemaining()) {
       if (DEBUG)
-        System.out.println("process(" + socketBuffer.remaining() + "): {" + (socketBuffer.remaining() > 1000 ? "too big to display" : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())) + "}");
+        log.trace("process(" + socketBuffer.remaining() + "): {" + (socketBuffer.remaining() > 1000 ? "too big to display" : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())) + "}");
       if (!handshakeComplete) {
         HandshakeData handshake;
         HandshakeState handshakeState;
@@ -229,7 +233,7 @@ public final class WebSocket {
           frames = draft.translateFrame(socketBuffer);
           for (FrameData f : frames) {
             if (DEBUG)
-              System.out.println("matched frame: " + f);
+              log.trace("matched frame: " + f);
             OpCode curop = f.getOpCode();
             if (curop == OpCode.CLOSING) {
               int code = CloseFrame.NOCODE;
@@ -390,13 +394,13 @@ public final class WebSocket {
 
   public void sendFrame(FrameData frameData) throws InterruptedException {
     if (DEBUG)
-      System.out.println("send frame: " + frameData);
+      log.trace("send frame: " + frameData);
     channelWrite(draft.createBinaryFrame(frameData));
   }
 
   private void sendFrameDirect(FrameData frameData) throws IOException {
     if (DEBUG)
-      System.out.println("send frame: " + frameData);
+      log.trace("send frame: " + frameData);
     channelWriteDirect(draft.createBinaryFrame(frameData));
   }
 
@@ -444,7 +448,7 @@ public final class WebSocket {
 
   private void channelWrite(ByteBuffer buf) throws InterruptedException {
     if (DEBUG)
-      System.out.println("write(" + buf.limit() + "): {" + (buf.limit() > 1000 ? "too big to display" : new String(buf.array())) + "}");
+      log.trace("write(" + buf.limit() + "): {" + (buf.limit() > 1000 ? "too big to display" : new String(buf.array())) + "}");
     buf.rewind();
     bufferQueue.put(buf);
     wsl.onWriteDemand(this);
@@ -474,13 +478,13 @@ public final class WebSocket {
       wsl.onMessage(this, d.getPayloadData());
     } else {
       if (DEBUG)
-        System.out.println("Ignoring frame:" + d.toString());
+        log.trace("Ignoring frame:" + d.toString());
     }
   }
 
   private void open(HandshakeData d) throws IOException {
     if (DEBUG)
-      System.out.println("open using draft: " + draft.getClass().getSimpleName());
+      log.trace("open using draft: " + draft.getClass().getSimpleName());
     handshakeComplete = true;
     wsl.onOpen(this, d);
   }

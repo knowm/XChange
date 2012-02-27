@@ -8,6 +8,8 @@ import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_17;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_75;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_76;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +20,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Provides a demonstration of connecting to a WebSocketServer
+ * Provides a demonstration of connecting to an arbitrary WebSocket server
  */
 public class WebSocketExchangeClient extends JFrame implements ActionListener {
-	private static final long serialVersionUID = -6056260699202978657L;
+
+  private static final Logger log = LoggerFactory.getLogger(WebSocketExchangeClient.class);
+
+  private static final long serialVersionUID = -6056260699202978657L;
 
 	private final JTextField uriField;
 	private final JButton connect;
@@ -154,10 +159,10 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
 		String location;
 		if( args.length != 0 ) {
 			location = args[ 0 ];
-			System.out.println( "Default server url specified: \'" + location + "\'" );
+			log.debug("Default server url specified: \'" + location + "\'");
 		} else {
 			location = "ws://localhost:8887";
-			System.out.println( "Default server url not specified: defaulting to \'" + location + "\'" );
+			log.debug("Default server url not specified: defaulting to \'" + location + "\'");
 		}
 		new WebSocketExchangeClient( location );
 	}

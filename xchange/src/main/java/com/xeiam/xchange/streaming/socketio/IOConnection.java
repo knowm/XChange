@@ -11,6 +11,8 @@ package com.xeiam.xchange.streaming.socketio;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -33,10 +35,11 @@ import static com.xeiam.xchange.streaming.socketio.IOState.STATE_READY;
  */
 class IOConnection {
 
+  private static final Logger log = LoggerFactory.getLogger(IOConnection.class);
 
-  /**
-   * The current state
-   */
+    /**
+     * The current state
+     */
   private IOState state = IOState.STATE_INIT;
 
   /**
@@ -139,7 +142,7 @@ class IOConnection {
     public void run() {
       setState(IOState.STATE_INVALID);
       error(new SocketIOException(
-        "Timeout Error. No heartbeat from server within life time of the socket. closing.",
+        "Timeout Error. No heartbeat from server within lifetime of the socket. Closed.",
         lastException));
     }
   }
@@ -230,12 +233,12 @@ class IOConnection {
         connection.setConnectTimeout(connectTimeout);
         connection.setReadTimeout(connectTimeout);
 
-        System.out.println("Opening input stream for '"+url.toString()+"'");
+        log.trace("Opening input stream for '" + url.toString() + "'");
         InputStream stream = connection.getInputStream();
 
         Scanner in = new Scanner(stream);
         response = in.nextLine();
-        System.out.println("Server response: "+response);
+        log.trace("Server response: " + response);
         if (response.contains(":")) {
           String[] data = response.split(":");
           heartbeatTimeout = Long.parseLong(data[1]) * 1000;
@@ -408,7 +411,7 @@ class IOConnection {
       transport.disconnect();
     sockets.clear();
     connections.remove(urlStr);
-    System.out.println("Cleanup");
+    log.trace("Cleanup");
     backgroundTimer.cancel();
   }
 
@@ -437,10 +440,10 @@ class IOConnection {
     synchronized (outputBuffer) {
       if (getState() == STATE_READY)
         try {
-          System.out.println("> " + text);
+          log.trace("> " + text);
           transport.send(text);
         } catch (Exception e) {
-          System.out.println("IOEx: saving");
+          log.trace("IOEx: saving");
           outputBuffer.add(text);
         }
       else {
@@ -475,7 +478,7 @@ class IOConnection {
    * {@link IOTransport} calls this when a connection is established.
    */
   public void transportConnected() {
-    System.out.println("Transport connected...");
+    log.trace("Transport connected...");
     setState(STATE_READY);
     if (reconnectTask != null) {
       reconnectTask.cancel();
@@ -489,11 +492,11 @@ class IOConnection {
         try {
           String[] texts = outputBuffer.toArray(new String[outputBuffer.size()]);
           // DEBUG
-          System.out.println("Bulk start:");
+          log.trace("Bulk start:");
           for (String text : texts) {
-            System.out.println("> " + text);
+            log.trace("> " + text);
           }
-          System.out.println("Bulk end");
+          log.trace("Bulk end");
           // DEBUG END
           transport.sendBulk(texts);
         } catch (IOException e) {
@@ -539,7 +542,7 @@ class IOConnection {
    * @param text The incoming message text 
    */
   public void transportMessage(String text) {
-    System.out.print("< " + text);
+    String trace = "< " + text;
     IOMessage message;
     try {
       message = new IOMessage(text);
@@ -550,7 +553,7 @@ class IOConnection {
     resetTimeout();
     switch (message.getType()) {
       case IOMessage.TYPE_DISCONNECT:
-        System.out.println(" [DISCONNECT]");
+        log.trace("{} [DISCONNECT]",trace);
         if ("".equals(message.getEndpoint())) {
           for (SocketIO socket : sockets.values()) {
             socket.getCallback().onDisconnect();
@@ -564,7 +567,7 @@ class IOConnection {
           }
         break;
       case IOMessage.TYPE_CONNECT:
-        System.out.println(" [CONNECT]");
+        log.trace("{} [CONNECT]",trace);
         try {
           if (firstSocket != null && message.getEndpoint().equals("")) {
             if (firstSocket.getNamespace().equals("")) {
@@ -585,7 +588,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_HEARTBEAT:
-        System.out.println(" [HEARTBEAT]");
+        log.trace("{} [HEARTBEAT]",trace);
         sendPlain("2::");
         break;
       case IOMessage.TYPE_MESSAGE:
@@ -599,7 +602,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_JSON_MESSAGE:
-        System.out.println(" [JSON_MESSAGE]");
+        log.trace("{} [JSON_MESSAGE]",trace);
         try {
           JSONObject obj = null;
           String data = message.getData();
@@ -618,7 +621,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_EVENT:
-        System.out.println(" [EVENT]");
+        log.trace("{} [EVENT]",trace);
         try {
           JSONObject event = new JSONObject(message.getData());
           JSONArray args = event.getJSONArray("args");
@@ -642,7 +645,7 @@ class IOConnection {
         break;
 
       case IOMessage.TYPE_ACK:
-        System.out.println(" [ACK]");
+        log.trace("{} [ACK]",trace);
         String[] data = message.getData().split("\\+", 2);
         if (data.length == 2) {
           try {
@@ -668,7 +671,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_ERROR:
-        System.out.println(" [ERROR]");
+        log.trace("{} [ERROR]",trace);
         if ("".equals(message.getEndpoint())) {
           // Inform all sockets that a connection error has occurred
           for (SocketIO socket : sockets.values()) {
@@ -685,7 +688,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_NO_OP:
-        System.out.println(" [NO OP]");
+        log.trace("{} [NO OP]",trace);
         break;
       default:
         warning("Unknown IOMessage type received: " + message.getType());
@@ -754,7 +757,7 @@ class IOConnection {
    */
   final static public IOCallback DUMMY_CALLBACK = new IOCallback() {
     private void out(String msg) {
-      System.out.println("DUMMY CALLBACK: " + msg);
+      log.trace("DUMMY CALLBACK: " + msg);
     }
 
     @Override
@@ -870,7 +873,7 @@ class IOConnection {
    */
   private synchronized void setState(IOState state) {
     this.state = state;
-    System.out.println("State changed to "+state.name());
+    log.trace("State changed to " + state.name());
   }
 
   /**

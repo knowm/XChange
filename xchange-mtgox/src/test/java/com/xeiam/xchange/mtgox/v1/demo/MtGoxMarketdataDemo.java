@@ -27,6 +27,8 @@ import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -40,6 +42,8 @@ import com.xeiam.xchange.service.marketdata.Ticker;
  * @since 0.0.1
  */
 public class MtGoxMarketdataDemo {
+
+  private static final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
 
   public static void main(String[] args) {
 
@@ -62,12 +66,11 @@ public class MtGoxMarketdataDemo {
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker("BTCUSD");
     double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
-    System.out.println("Current exchange rate for BTC to USD: " + btcusd);
+    log.debug("Current exchange rate for BTC to USD: " + btcusd);
 
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook("BTCUSD");
-    System.out.println(orderBook.getAsks().get(0).getStamp());
-    System.out.println("orderBook as String: " + orderBook.toString());
+    log.debug("orderBook: {}" + orderBook.toString());
 
     // Get the current full orderbook
     OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
