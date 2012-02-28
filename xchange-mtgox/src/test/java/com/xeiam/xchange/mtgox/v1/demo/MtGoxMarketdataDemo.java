@@ -21,9 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1.demo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
 
 /**
@@ -38,6 +44,8 @@ import com.xeiam.xchange.service.marketdata.Trades;
  * @since 0.0.1
  */
 public class MtGoxMarketdataDemo {
+
+  private static final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
 
   public static void main(String[] args) {
 
@@ -57,23 +65,24 @@ public class MtGoxMarketdataDemo {
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = mtGox.getMarketDataService();
 
-    // // Get the latest ticker data showing BTC to USD
-    // Ticker ticker = marketDataService.getTicker("BTCUSD");
-    // double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
-    // System.out.println("Current exchange rate for BTC to USD: " + btcusd);
-    //
-    // // Get the current orderbook
-    // OrderBook orderBook = marketDataService.getOrderBook("BTCUSD");
-    // System.out.println(orderBook.getAsks().get(0).getStamp());
-    // System.out.println("orderBook as String: " + orderBook.toString());
-    //
-    // // Get the current full orderbook
-    // OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
-    // System.out.println("full depth as String: " + fullOrderBook.toString());
+    // Get the latest ticker data showing BTC to USD
+    Ticker ticker = marketDataService.getTicker("BTCUSD");
+    double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
+    System.out.println("Current exchange rate for BTC to USD: " + btcusd);
+
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook("BTCUSD");
+    System.out.println(orderBook.getAsks().get(0).getStamp());
+    System.out.println("orderBook as String: " + orderBook.toString());
+
+    // Get the current full orderbook
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
+    System.out.println("full depth as String: " + fullOrderBook.toString());
 
     // Get trades
     Trades trades = marketDataService.getTrades("BTCPLN");
     System.out.println("trades as String: " + trades.toString());
+
   }
 
 }
