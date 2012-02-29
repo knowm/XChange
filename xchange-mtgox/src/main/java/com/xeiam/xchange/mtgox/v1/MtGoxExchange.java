@@ -37,8 +37,6 @@ import com.xeiam.xchange.mtgox.v1.service.trade.MtGoxTradeService;
  * <ul>
  * <li>A wrapper for the MtGox Bitcoin exchange API</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public class MtGoxExchange extends BaseExchange implements Exchange {
 
