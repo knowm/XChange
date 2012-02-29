@@ -258,7 +258,7 @@ public class HttpUtils {
       }
       responseString = sb.toString();
     }
-    log.debug("responseString: " + responseString);
+    // log.debug("responseString: " + responseString);
 
     return responseString;
   }

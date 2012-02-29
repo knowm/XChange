@@ -38,8 +38,6 @@ import com.xeiam.xchange.service.trade.TradeService;
  * <li>Connecting to Mt Gox Bitcoin exchange</li>
  * <li>Retrieving market data</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public class MtGoxTradeDemo {
 
