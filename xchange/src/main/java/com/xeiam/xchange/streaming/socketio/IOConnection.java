@@ -35,7 +35,7 @@ import static com.xeiam.xchange.streaming.socketio.IOState.STATE_READY;
  */
 class IOConnection {
 
-  private static final Logger log = LoggerFactory.getLogger(IOConnection.class);
+  private final Logger log = LoggerFactory.getLogger(IOConnection.class);
 
     /**
      * The current state

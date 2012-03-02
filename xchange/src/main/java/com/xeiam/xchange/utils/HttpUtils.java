@@ -47,7 +47,7 @@ public class HttpUtils {
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);
+  private final Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
   /**
    * Default request header fields

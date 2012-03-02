@@ -57,7 +57,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
+  private final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
 
   /**
    * time stamps used to pace API calls

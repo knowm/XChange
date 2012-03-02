@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
  */
 public class SocketIOExchangeClient extends JFrame implements IOCallback, ActionListener {
 
-  private static final Logger log = LoggerFactory.getLogger(SocketIOExchangeClient.class);
+  private final Logger log = LoggerFactory.getLogger(SocketIOExchangeClient.class);
 
   private static final long serialVersionUID = -6056260699201258657L;
 

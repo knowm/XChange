@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
  */
 public class WebSocketExchangeClient extends JFrame implements ActionListener {
 
-  private static final Logger log = LoggerFactory.getLogger(WebSocketExchangeClient.class);
+  private final Logger log = LoggerFactory.getLogger(WebSocketExchangeClient.class);
 
   private static final long serialVersionUID = -6056260699202978657L;
 

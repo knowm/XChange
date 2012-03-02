@@ -38,7 +38,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public final class WebSocket {
 
-  private static final Logger log = LoggerFactory.getLogger(WebSocket.class);
+  private final Logger log = LoggerFactory.getLogger(WebSocket.class);
 
   public enum Role {
     CLIENT,

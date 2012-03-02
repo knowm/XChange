@@ -45,7 +45,7 @@ import com.xeiam.xchange.service.marketdata.Trades;
  */
 public class MtGoxMarketdataDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
+  private final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
 
   public static void main(String[] args) {
 

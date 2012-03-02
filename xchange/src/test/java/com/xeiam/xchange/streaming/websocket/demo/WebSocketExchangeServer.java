@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class WebSocketExchangeServer extends WebSocketServer {
 
-  private static final Logger log = LoggerFactory.getLogger(WebSocketExchangeServer.class);
+  private final Logger log = LoggerFactory.getLogger(WebSocketExchangeServer.class);
 
   public WebSocketExchangeServer(int port) throws UnknownHostException {
 		super( new InetSocketAddress( InetAddress.getByName( "localhost" ), port ) );

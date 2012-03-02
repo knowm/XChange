@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  */
 class WebSocketTransport extends WebSocketClient implements IOTransport {
 
-  private static final Logger log = LoggerFactory.getLogger(WebSocketTransport.class);
+  private final Logger log = LoggerFactory.getLogger(WebSocketTransport.class);
 
     /**
      * Pattern used to replace http:// by ws:// respectively https:// by wss://

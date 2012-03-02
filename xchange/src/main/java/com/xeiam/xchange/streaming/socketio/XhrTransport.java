@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 class XhrTransport implements IOTransport {
 
-  private static final Logger log = LoggerFactory.getLogger(XhrTransport.class);
+  private final Logger log = LoggerFactory.getLogger(XhrTransport.class);
 
     /**
      * The String to identify this Transport.

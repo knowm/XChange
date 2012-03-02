@@ -35,7 +35,7 @@ public class ImcexAccountService extends BaseExchangeService implements TradeSer
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(ImcexAccountService.class);
+  private final Logger log = LoggerFactory.getLogger(ImcexAccountService.class);
 
   /**
    * Configured from the super class reading of the exchange specification

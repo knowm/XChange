@@ -37,7 +37,7 @@ public class CryptoUtilsTest {
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(CryptoUtils.class);
+  private final Logger log = LoggerFactory.getLogger(CryptoUtils.class);
 
   @Test
   public void testBase64Encode() throws UnsupportedEncodingException {

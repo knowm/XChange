@@ -35,7 +35,7 @@ public class IntersangoAccountService extends BaseExchangeService implements Tra
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(IntersangoAccountService.class);
+  private final Logger log = LoggerFactory.getLogger(IntersangoAccountService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
