@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v1.demo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
@@ -39,6 +42,8 @@ import com.xeiam.xchange.service.marketdata.Trades;
  * </ul>
  */
 public class MtGoxMarketdataDemo {
+
+  private final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
 
   public static void main(String[] args) {
 

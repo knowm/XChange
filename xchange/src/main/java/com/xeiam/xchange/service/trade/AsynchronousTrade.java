@@ -34,7 +34,7 @@ public abstract class AsynchronousTrade extends BaseExchange {
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(TradeService.class);
+  private final Logger log = LoggerFactory.getLogger(TradeService.class);
 
   // TODO do it.
 

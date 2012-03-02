@@ -21,14 +21,6 @@
  */
 package com.xeiam.xchange.imcex.v1.service.marketdata;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.imcex.v1.ImcexProperties;
@@ -40,6 +32,13 @@ import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
 import com.xeiam.xchange.utils.HttpUtils;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -54,7 +53,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(ImcexPublicHttpMarketDataService.class);
+  private final Logger log = LoggerFactory.getLogger(ImcexPublicHttpMarketDataService.class);
 
   /**
    * Configured from the super class reading of the exchange specification

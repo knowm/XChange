@@ -46,7 +46,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   /**
    * Provides logging for this class
    */
-  private static final Logger log = LoggerFactory.getLogger(MtGoxTradeService.class);
+  private final Logger log = LoggerFactory.getLogger(MtGoxTradeService.class);
 
   /**
    * Configured from the super class reading of the exchange specification

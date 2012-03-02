@@ -4,3 +4,12 @@ target/
 .settings/
 .idea/
 log/
+parent.iml
+
+xchange-imcex/xchange-imcex.iml
+
+xchange/xchange.iml
+
+xchange-mtgox/xchange-mtgox.iml
+
+xchange-intersango/xchange-intersango.iml

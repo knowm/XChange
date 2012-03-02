@@ -40,7 +40,7 @@ public enum ExchangeFactory {
 
   INSTANCE;
 
-  private static final Logger log = LoggerFactory.getLogger(ExchangeFactory.class);
+  private final Logger log = LoggerFactory.getLogger(ExchangeFactory.class);
 
   /**
    * Constructor
