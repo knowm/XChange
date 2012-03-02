@@ -755,7 +755,7 @@ class IOConnection {
   /**
    * A dummy callback used when IOConnection receives a unexpected message.
    */
-  final static public IOCallback DUMMY_CALLBACK = new IOCallback() {
+  final public IOCallback DUMMY_CALLBACK = new IOCallback() {
     private void out(String msg) {
       log.trace("DUMMY CALLBACK: " + msg);
     }

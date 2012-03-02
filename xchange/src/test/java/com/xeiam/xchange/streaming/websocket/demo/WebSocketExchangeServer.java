@@ -4,8 +4,6 @@ import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -23,8 +21,6 @@ import java.util.concurrent.TimeUnit;
  * A simple WebSocketServer implementation for an exchange
  */
 public class WebSocketExchangeServer extends WebSocketServer {
-
-  private final Logger log = LoggerFactory.getLogger(WebSocketExchangeServer.class);
 
   public WebSocketExchangeServer(int port) throws UnknownHostException {
 		super( new InetSocketAddress( InetAddress.getByName( "localhost" ), port ) );
@@ -47,7 +43,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
     // Create local exchange server
     final WebSocketExchangeServer exchangeServer = new WebSocketExchangeServer( port );
     exchangeServer.start();
-    log.debug("ExchangeServer started on port: " + exchangeServer.getPort());
+    System.out.println("ExchangeServer started on port: " + exchangeServer.getPort());
 
     // Set up a some local currencies quoted against BTC
     List<String> currencies = new ArrayList<String>(Arrays.asList("USD","GBP","EUR"));
@@ -91,7 +87,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 		} catch ( InterruptedException ex ) {
 			ex.printStackTrace();
 		}
-		log.debug(conn + " is monitoring trades");
+		System.out.println(conn + " is monitoring trades");
 	}
 
 	public void onClientClose( WebSocket conn, int code, String reason, boolean remote ) {
@@ -100,7 +96,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 		} catch ( InterruptedException ex ) {
 			ex.printStackTrace();
 		}
-		log.debug(conn + " has disconnected");
+    System.out.println(conn + " has disconnected");
 	}
 
 	public void onClientMessage( WebSocket conn, String message ) {
@@ -109,7 +105,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 		} catch ( InterruptedException ex ) {
 			ex.printStackTrace();
 		}
-		log.debug(conn + ": " + message);
+    System.out.println(conn + ": " + message);
 	}
 
 	@Override

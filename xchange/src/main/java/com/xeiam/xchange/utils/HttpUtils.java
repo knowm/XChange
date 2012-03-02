@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.utils;
 
+import com.xeiam.xchange.HttpException;
+import org.codehaus.jackson.map.ObjectMapper;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,23 +34,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.HttpException;
-
 /**
  * Various HTTP utility methods
  */
 public class HttpUtils {
 
   public static final String CHARSET_UTF_8 = "UTF-8";
-
-  /**
-   * Provides logging for this class
-   */
-  private final Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
   /**
    * Default request header fields
@@ -143,7 +135,7 @@ public class HttpUtils {
       // Add HTTP headers to the request
       for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
         connection.setRequestProperty(entry.getKey(), entry.getValue());
-        log.trace("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
+        //System.out.println("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
       }
 
       responseString = getResponseString(connection);
@@ -190,13 +182,13 @@ public class HttpUtils {
       // Add HTTP headers to the request
       for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
         connection.setRequestProperty(entry.getKey(), entry.getValue());
-        log.trace("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
+        System.out.printf("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
       }
 
       // add content length to header
       connection.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
 
-      log.trace("postBody= " + postBody);
+      System.out.println("postBody= " + postBody);
       connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
       responseString = getResponseString(connection);
@@ -236,7 +228,7 @@ public class HttpUtils {
       BufferedReader reader;
       reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), responseEncoding));
       for (String line; (line = reader.readLine()) != null;) {
-        log.trace(line);
+        System.out.println(line);
         sb.append(line);
       }
       responseString = sb.toString();
@@ -253,12 +245,12 @@ public class HttpUtils {
       String strContents = null;
       while ((bytesRead = bis.read(byteContents)) != -1) {
         strContents = new String(byteContents, 0, bytesRead);
-        log.trace(strContents);
+        System.out.println(strContents);
         sb.append(strContents);
       }
       responseString = sb.toString();
     }
-    log.debug("responseString: " + responseString);
+    //log.debug("responseString: " + responseString);
 
     return responseString;
   }

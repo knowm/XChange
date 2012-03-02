@@ -11,8 +11,6 @@ package com.xeiam.xchange.streaming.socketio;
 
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocketClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,11 +22,9 @@ import java.util.regex.Pattern;
  */
 class WebSocketTransport extends WebSocketClient implements IOTransport {
 
-  private final Logger log = LoggerFactory.getLogger(WebSocketTransport.class);
-
-    /**
-     * Pattern used to replace http:// by ws:// respectively https:// by wss://
-     */
+  /**
+   * Pattern used to replace http:// by ws:// respectively https:// by wss://
+   */
   private final static Pattern PATTERN_HTTP = Pattern.compile("^http");
 
   /**
@@ -50,7 +46,6 @@ class WebSocketTransport extends WebSocketClient implements IOTransport {
    * @return the iO transport
    */
   public static IOTransport create(URL url, IOConnection connection) {
-    log.trace("Creating WebSocket transport");
     URI uri = URI.create(
       PATTERN_HTTP.matcher(url.toString()).replaceFirst("ws")
         + IOConnection.SOCKET_IO_1 + TRANSPORT_NAME

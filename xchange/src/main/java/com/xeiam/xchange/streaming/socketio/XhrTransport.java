@@ -144,7 +144,6 @@ class XhrTransport implements IOTransport {
    * @return the iO transport
    */
   public static IOTransport create(URL url, IOConnection connection) {
-    log.trace("Selecting XmlHttpRequest transport");
     try {
       URL xhrUrl = new URL(url.toString() + IOConnection.SOCKET_IO_1
         + TRANSPORT_NAME + "/" + connection.getSessionId());
