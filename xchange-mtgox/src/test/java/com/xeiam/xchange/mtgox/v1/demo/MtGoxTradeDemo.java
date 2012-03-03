@@ -27,7 +27,7 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -35,27 +35,18 @@ import com.xeiam.xchange.service.trade.TradeService;
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connecting to Mt Gox Bitcoin exchange</li>
- * <li>Retrieving market data</li>
+ * <li>Connecting to Mt Gox Bitcoin exchange with authentication</li>
+ * <li>Retrieving account info data</li>
  * </ul>
  */
 public class MtGoxTradeDemo {
 
   public static void main(String[] args) {
 
-    // Demonstrate the private account data service
-    demoTradeService();
-  }
-
-  /**
-   * Demonstrates how to connect to the AccountService for MtGox
-   */
-  private static void demoTradeService() {
-
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Map<String, Object> params = new HashMap<String, Object>();
-    params.put(ExchangeSpecification.API_KEY, "XXX");
-    params.put(ExchangeSpecification.API_SECRET, "YYY");
+    params.put(ExchangeSpecification.API_KEY, "150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    params.put(ExchangeSpecification.API_SECRET, "olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
     params.put(ExchangeSpecification.API_URI, "https://mtgox.com");
     params.put(ExchangeSpecification.API_VERSION, "1");
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange", params);
@@ -65,12 +56,12 @@ public class MtGoxTradeDemo {
     TradeService tradeService = mtgox.getTradeService();
 
     // Get the account information
-    // AccountInfo accountInfo = tradeService.getAccountInfo();
-    // System.out.printf("Account info: %s", accountInfo);
+    AccountInfo accountInfo = tradeService.getAccountInfo();
+    System.out.println("Account info as String: " + accountInfo.toString());
 
     // Get the open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.printf("Open Orders: %s", openOrders);
+    // OpenOrders openOrders = tradeService.getOpenOrders();
+    // System.out.printf("Open Orders: %s", openOrders);
   }
 
 }

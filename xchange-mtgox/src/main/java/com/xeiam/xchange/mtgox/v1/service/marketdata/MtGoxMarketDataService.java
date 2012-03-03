@@ -54,9 +54,6 @@ import com.xeiam.xchange.utils.HttpUtils;
  */
 public class MtGoxMarketDataService extends BaseExchangeService implements MarketDataService, CachedDataSession {
 
-  /**
-   * Provides logging for this class
-   */
   private final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
 
   /**

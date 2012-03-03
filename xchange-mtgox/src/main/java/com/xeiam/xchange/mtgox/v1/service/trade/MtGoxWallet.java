@@ -34,7 +34,7 @@ public class MtGoxWallet {
   private MtGoxValue daily_Withdraw_Limit = new MtGoxValue();
   private MtGoxValue max_Withdraw = new MtGoxValue();
   private MtGoxValue monthly_Withdraw_Limit = new MtGoxValue();
-  private Number operations;
+  private int operations;
 
   @JsonProperty("Balance")
   public MtGoxValue getBalance() {
@@ -73,11 +73,11 @@ public class MtGoxWallet {
   }
 
   @JsonProperty("Operations")
-  public Number getOperations() {
+  public int getOperations() {
     return this.operations;
   }
 
-  public void setOperations(Number operations) {
+  public void setOperations(int operations) {
     this.operations = operations;
   }
 

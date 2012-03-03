@@ -21,10 +21,35 @@
  */
 package com.xeiam.xchange.service.trade;
 
+import java.util.List;
+
 /**
- * 
+ * Data object representing account information
  */
 public class AccountInfo {
 
-  // TODO do it.
+  private String username;
+  private List<Wallet> wallets;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public List<Wallet> getWallets() {
+    return wallets;
+  }
+
+  public void setWallets(List<Wallet> wallets) {
+    this.wallets = wallets;
+  }
+
+  @Override
+  public String toString() {
+    return "AccountInfo [username=" + username + ", wallets=" + wallets + "]";
+  }
+
 }

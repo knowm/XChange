@@ -19,23 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.trade;
+package com.xeiam.xchange;
 
 /**
- * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>Standard methods available to explore the user's account on the exchange</li>
- * </ul>
+ * Global Exchange-relevant constants
  */
-public interface TradeService {
+public class Constants {
 
   /**
-   * @return The account info
+   * Private constructor
    */
-  public AccountInfo getAccountInfo();
+  private Constants() {
+  }
 
-  public OpenOrders getOpenOrders();
+  // Currencies
+  public static final String BTC = "BTC";
+  public static final String USD = "USD";
 
 }

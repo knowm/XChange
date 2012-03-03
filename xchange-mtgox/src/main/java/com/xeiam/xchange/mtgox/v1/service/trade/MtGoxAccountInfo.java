@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.xeiam.xchange.mtgox.v1.MtGoxValue;
+
 /**
  * Data object representing Account Info from Mt Gox
  */
@@ -32,11 +34,13 @@ public class MtGoxAccountInfo {
 
   private String login;
   private String index;
+  private String id;
   private List<String> rights;
   private String language;
   private String created;
   private String last_Login;
   private Wallets wallets;
+  private MtGoxValue monthly_Volume = new MtGoxValue();
   private double trade_Fee;
 
   @JsonProperty("Login")
@@ -55,6 +59,15 @@ public class MtGoxAccountInfo {
 
   public void setIndex(String index) {
     this.index = index;
+  }
+
+  @JsonProperty("Id")
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
   @JsonProperty("Rights")
@@ -100,6 +113,15 @@ public class MtGoxAccountInfo {
 
   public void setWallets(Wallets wallets) {
     this.wallets = wallets;
+  }
+
+  @JsonProperty("Monthly_Volume")
+  public MtGoxValue getMonthly_Volume() {
+    return monthly_Volume;
+  }
+
+  public void setMonthly_Volume(MtGoxValue monthly_Volume) {
+    this.monthly_Volume = monthly_Volume;
   }
 
   @JsonProperty("Trade_Fee")

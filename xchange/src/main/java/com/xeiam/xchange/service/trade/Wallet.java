@@ -22,20 +22,32 @@
 package com.xeiam.xchange.service.trade;
 
 /**
- * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>Standard methods available to explore the user's account on the exchange</li>
- * </ul>
+ * Data object representing a Wallet, which is simply defined by an amount of money in a given currency
  */
-public interface TradeService {
+public class Wallet {
 
-  /**
-   * @return The account info
-   */
-  public AccountInfo getAccountInfo();
+  private String currency;
+  private long amount_int;
 
-  public OpenOrders getOpenOrders();
+  public String getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
+  public long getAmount_int() {
+    return amount_int;
+  }
+
+  public void setAmount_int(long amount_int) {
+    this.amount_int = amount_int;
+  }
+
+  @Override
+  public String toString() {
+    return "Wallet [currency=" + currency + ", amount_int=" + amount_int + "]";
+  }
 
 }

@@ -32,7 +32,6 @@ import org.junit.Test;
 /**
  * Test MtGoxAccountInfo JSON parsing
  */
-// @Ignore
 public class MtGoxAccountInfoTest {
 
   @Test

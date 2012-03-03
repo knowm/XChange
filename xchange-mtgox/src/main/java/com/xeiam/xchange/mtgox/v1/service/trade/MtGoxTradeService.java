@@ -24,12 +24,15 @@ package com.xeiam.xchange.mtgox.v1.service.trade;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.Constants;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.HttpException;
@@ -37,15 +40,13 @@ import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.Wallet;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpUtils;
 
 public class MtGoxTradeService extends BaseExchangeService implements TradeService {
 
-  /**
-   * Provides logging for this class
-   */
   private final Logger log = LoggerFactory.getLogger(MtGoxTradeService.class);
 
   /**
@@ -72,15 +73,32 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     try {
+
       // Build account info request
       String url = apiBaseURI + "/generic/private/info?raw";
       String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
       Map<String, String> headerKeyValues = new HashMap<String, String>();
       headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpUtils.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, apiSecret));
-      AccountInfo accountInfo = HttpUtils.postForJsonObject(url, AccountInfo.class, postBody, mapper, headerKeyValues);
 
-      log.debug(accountInfo.toString());
+      // Request data
+      MtGoxAccountInfo mtGoxAccountInfo = HttpUtils.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, headerKeyValues);
+
+      // Adapt to XChange DTOs
+      AccountInfo accountInfo = new AccountInfo();
+      accountInfo.setUsername(mtGoxAccountInfo.getLogin());
+
+      List<Wallet> wallets = new ArrayList<Wallet>();
+      Wallet usdWallet = new Wallet();
+      usdWallet.setCurrency(Constants.USD);
+      usdWallet.setAmount_int(mtGoxAccountInfo.getWallets().getUSD().getBalance().getValue_int());
+      wallets.add(usdWallet);
+      Wallet btcWallet = new Wallet();
+      btcWallet.setCurrency(Constants.BTC);
+      btcWallet.setAmount_int(mtGoxAccountInfo.getWallets().getBTC().getBalance().getValue_int());
+      wallets.add(btcWallet);
+      accountInfo.setWallets(wallets);
+
       return accountInfo;
 
     } catch (GeneralSecurityException e) {
