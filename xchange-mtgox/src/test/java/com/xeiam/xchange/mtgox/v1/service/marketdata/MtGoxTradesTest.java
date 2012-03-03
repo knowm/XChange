@@ -31,7 +31,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 /**
- * Test MtGoxTicker JSON parsing
+ * Test MtGoxTrade[] JSON parsing
  */
 public class MtGoxTradesTest {
 

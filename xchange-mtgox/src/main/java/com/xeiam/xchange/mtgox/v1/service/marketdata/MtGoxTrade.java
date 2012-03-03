@@ -2,7 +2,7 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
 /**
  * <p>
- * Data object representing trades from Mt Gox
+ * Data object representing a Trade from Mt Gox
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * 

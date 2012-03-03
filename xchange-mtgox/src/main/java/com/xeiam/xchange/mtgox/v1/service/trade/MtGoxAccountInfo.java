@@ -23,6 +23,8 @@ package com.xeiam.xchange.mtgox.v1.service.trade;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Data object representing Account Info from Mt Gox
  */
@@ -37,6 +39,7 @@ public class MtGoxAccountInfo {
   private Wallets wallets;
   private double trade_Fee;
 
+  @JsonProperty("Login")
   public String getLogin() {
     return login;
   }

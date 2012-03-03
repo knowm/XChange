@@ -45,7 +45,7 @@ public class MtGoxAccountInfoTest {
     ObjectMapper mapper = new ObjectMapper();
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
-    // System.out.println(mtGoxAccountInfo.toString());
+    System.out.println(mtGoxAccountInfo.toString());
 
     // Verify that the example data was unmarshalled correctly
     assertTrue(mtGoxAccountInfo.getLogin().equals(("test")));
