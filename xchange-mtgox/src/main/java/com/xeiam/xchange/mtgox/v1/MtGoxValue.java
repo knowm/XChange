@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1;
 
 /**
  * Data object representing a Value from Mt Gox
@@ -61,6 +61,11 @@ public class MtGoxValue {
 
   public void setCurrency(String currency) {
     this.currency = currency;
+  }
+
+  @Override
+  public String toString() {
+    return "MtGoxValue [value=" + value + ", value_int=" + value_int + ", display=" + display + ", currency=" + currency + "]";
   }
 
 }

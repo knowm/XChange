@@ -21,49 +21,58 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
-/**
- * Data object representing USD from Mt Gox
- */
-public class MtGoxCurrency {
+import org.codehaus.jackson.annotate.JsonProperty;
 
-  private Balance balance;
-  private Daily_Withdraw_Limit daily_Withdraw_Limit;
-  private Max_Withdraw max_Withdraw;
-  private Monthly_Withdraw_Limit monthly_Withdraw_Limit;
+import com.xeiam.xchange.mtgox.v1.MtGoxValue;
+
+/**
+ * Data object representing an Account Currency from Mt Gox
+ */
+public class MtGoxWallet {
+
+  private MtGoxValue balance = new MtGoxValue();
+  private MtGoxValue daily_Withdraw_Limit = new MtGoxValue();
+  private MtGoxValue max_Withdraw = new MtGoxValue();
+  private MtGoxValue monthly_Withdraw_Limit = new MtGoxValue();
   private Number operations;
 
-  public Balance getBalance() {
+  @JsonProperty("Balance")
+  public MtGoxValue getBalance() {
     return this.balance;
   }
 
-  public void setBalance(Balance balance) {
+  public void setBalance(MtGoxValue balance) {
     this.balance = balance;
   }
 
-  public Daily_Withdraw_Limit getDaily_Withdraw_Limit() {
+  @JsonProperty("Daily_Withdraw_Limit")
+  public MtGoxValue getDaily_Withdraw_Limit() {
     return this.daily_Withdraw_Limit;
   }
 
-  public void setDaily_Withdraw_Limit(Daily_Withdraw_Limit daily_Withdraw_Limit) {
+  public void setDaily_Withdraw_Limit(MtGoxValue daily_Withdraw_Limit) {
     this.daily_Withdraw_Limit = daily_Withdraw_Limit;
   }
 
-  public Max_Withdraw getMax_Withdraw() {
+  @JsonProperty("Max_Withdraw")
+  public MtGoxValue getMax_Withdraw() {
     return this.max_Withdraw;
   }
 
-  public void setMax_Withdraw(Max_Withdraw max_Withdraw) {
+  public void setMax_Withdraw(MtGoxValue max_Withdraw) {
     this.max_Withdraw = max_Withdraw;
   }
 
-  public Monthly_Withdraw_Limit getMonthly_Withdraw_Limit() {
+  @JsonProperty("Monthly_Withdraw_Limit")
+  public MtGoxValue getMonthly_Withdraw_Limit() {
     return this.monthly_Withdraw_Limit;
   }
 
-  public void setMonthly_Withdraw_Limit(Monthly_Withdraw_Limit monthly_Withdraw_Limit) {
+  public void setMonthly_Withdraw_Limit(MtGoxValue monthly_Withdraw_Limit) {
     this.monthly_Withdraw_Limit = monthly_Withdraw_Limit;
   }
 
+  @JsonProperty("Operations")
   public Number getOperations() {
     return this.operations;
   }
@@ -71,4 +80,11 @@ public class MtGoxCurrency {
   public void setOperations(Number operations) {
     this.operations = operations;
   }
+
+  @Override
+  public String toString() {
+    return "MtGoxWallet [balance=" + balance + ", daily_Withdraw_Limit=" + daily_Withdraw_Limit + ", max_Withdraw=" + max_Withdraw + ", monthly_Withdraw_Limit=" + monthly_Withdraw_Limit + ", operations=" + operations
+        + "]";
+  }
+
 }

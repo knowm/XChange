@@ -21,27 +21,37 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Data object representing Wallets from Mt Gox
  */
 public class Wallets {
 
-  private BTC bTC;
-  private USD uSD;
+  private MtGoxWallet bTC = new MtGoxWallet();
+  private MtGoxWallet uSD = new MtGoxWallet();
 
-  public BTC getBTC() {
+  @JsonProperty("BTC")
+  public MtGoxWallet getBTC() {
     return this.bTC;
   }
 
-  public void setBTC(BTC bTC) {
+  public void setBTC(MtGoxWallet bTC) {
     this.bTC = bTC;
   }
 
-  public USD getUSD() {
+  @JsonProperty("USD")
+  public MtGoxWallet getUSD() {
     return this.uSD;
   }
 
-  public void setUSD(USD uSD) {
+  public void setUSD(MtGoxWallet uSD) {
     this.uSD = uSD;
   }
+
+  @Override
+  public String toString() {
+    return "Wallets [bTC=" + bTC + ", uSD=" + uSD + "]";
+  }
+
 }

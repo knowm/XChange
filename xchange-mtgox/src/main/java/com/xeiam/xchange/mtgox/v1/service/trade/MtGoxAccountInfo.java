@@ -48,6 +48,7 @@ public class MtGoxAccountInfo {
     this.login = login;
   }
 
+  @JsonProperty("Index")
   public String getIndex() {
     return index;
   }
@@ -56,6 +57,7 @@ public class MtGoxAccountInfo {
     this.index = index;
   }
 
+  @JsonProperty("Rights")
   public List<String> getRights() {
     return rights;
   }
@@ -64,6 +66,7 @@ public class MtGoxAccountInfo {
     this.rights = rights;
   }
 
+  @JsonProperty("Language")
   public String getLanguage() {
     return language;
   }
@@ -72,6 +75,7 @@ public class MtGoxAccountInfo {
     this.language = language;
   }
 
+  @JsonProperty("Created")
   public String getCreated() {
     return created;
   }
@@ -80,6 +84,7 @@ public class MtGoxAccountInfo {
     this.created = created;
   }
 
+  @JsonProperty("Last_Login")
   public String getLast_Login() {
     return last_Login;
   }
@@ -88,6 +93,7 @@ public class MtGoxAccountInfo {
     this.last_Login = last_Login;
   }
 
+  @JsonProperty("Wallets")
   public Wallets getWallets() {
     return wallets;
   }
@@ -96,6 +102,7 @@ public class MtGoxAccountInfo {
     this.wallets = wallets;
   }
 
+  @JsonProperty("Trade_Fee")
   public double getTrade_Fee() {
     return trade_Fee;
   }
