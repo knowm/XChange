@@ -21,17 +21,90 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
+import java.util.List;
+
 /**
  * Data object representing Account Info from Mt Gox
  */
 public class MtGoxAccountInfo {
 
   private String login;
-  private int index;
-  private String[] rights;
+  private String index;
+  private List<String> rights;
   private String language;
   private String created;
-  private String last_login;
-  private Wallet[] wallets;
+  private String last_Login;
+  private Wallets wallets;
+  private double trade_Fee;
+
+  public String getLogin() {
+    return login;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
+  }
+
+  public String getIndex() {
+    return index;
+  }
+
+  public void setIndex(String index) {
+    this.index = index;
+  }
+
+  public List<String> getRights() {
+    return rights;
+  }
+
+  public void setRights(List<String> rights) {
+    this.rights = rights;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+
+  public String getCreated() {
+    return created;
+  }
+
+  public void setCreated(String created) {
+    this.created = created;
+  }
+
+  public String getLast_Login() {
+    return last_Login;
+  }
+
+  public void setLast_Login(String last_Login) {
+    this.last_Login = last_Login;
+  }
+
+  public Wallets getWallets() {
+    return wallets;
+  }
+
+  public void setWallets(Wallets wallets) {
+    this.wallets = wallets;
+  }
+
+  public double getTrade_Fee() {
+    return trade_Fee;
+  }
+
+  public void setTrade_Fee(double trade_Fee) {
+    this.trade_Fee = trade_Fee;
+  }
+
+  @Override
+  public String toString() {
+    return "MtGoxAccountInfo [login=" + login + ", index=" + index + ", rights=" + rights + ", language=" + language + ", created=" + created + ", last_Login=" + last_Login + ", wallets=" + wallets + ", trade_Fee="
+        + trade_Fee + "]";
+  }
 
 }

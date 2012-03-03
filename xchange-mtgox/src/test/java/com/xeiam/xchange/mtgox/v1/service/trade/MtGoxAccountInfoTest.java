@@ -21,34 +21,33 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxTickerTest;
 
 /**
  * Test MtGoxAccountInfo JSON parsing
  */
-@Ignore
+// @Ignore
 public class MtGoxAccountInfoTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
-    // TODO Fill this in with example private account data
-
     // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/marketdata/example-accountinfo-data.json");
+    InputStream is = MtGoxAccountInfoTest.class.getResourceAsStream("/trade/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
+    // System.out.println(mtGoxAccountInfo.toString());
+
     // Verify that the example data was unmarshalled correctly
-    // assertThat("Unexpected Return Buy value", mtGoxAccountInfo.getAsks().get(0).getAmount_int(), equalTo(2000000000L));
+    assertTrue(mtGoxAccountInfo.getLogin().equals(("test")));
   }
 }

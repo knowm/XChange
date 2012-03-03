@@ -26,10 +26,10 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
  */
 public class MtGoxValue {
 
-  double value;
-  long value_int;
-  String display;
-  String currency;
+  private double value;
+  private long value_int;
+  private String display;
+  private String currency;
 
   public double getValue() {
     return value;
