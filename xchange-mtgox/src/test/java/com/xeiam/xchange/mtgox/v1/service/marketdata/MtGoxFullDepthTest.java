@@ -30,7 +30,6 @@ import java.io.InputStream;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-
 /**
  * Test MtGoxFullDepth JSON parsing
  */
@@ -40,7 +39,7 @@ public class MtGoxFullDepthTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/mtgox/marketdata/example-fulldepth-data.json");
+    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/marketdata/example-fulldepth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
