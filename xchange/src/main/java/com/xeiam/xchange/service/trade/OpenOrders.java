@@ -21,9 +21,26 @@
  */
 package com.xeiam.xchange.service.trade;
 
+import java.util.List;
+
 /**
  * Data object representing open orders
  */
 public class OpenOrders {
+
+  List<OpenOrder> openOrders;
+
+  public List<OpenOrder> getOpenOrders() {
+    return openOrders;
+  }
+
+  public void setOpenOrders(List<OpenOrder> openOrders) {
+    this.openOrders = openOrders;
+  }
+
+  @Override
+  public String toString() {
+    return "OpenOrders [openOrders=" + openOrders + "]";
+  }
 
 }

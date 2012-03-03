@@ -38,6 +38,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.HttpException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.OpenOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.service.trade.Wallet;
@@ -133,7 +134,20 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
       MtGoxOpenOrder[] mtGoxOpenOrder = HttpUtils.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, headerKeyValues);
 
       // Adapt to XChange DTOs
+      List<OpenOrder> openOrdersList = new ArrayList<OpenOrder>();
+      for (int i = 0; i < mtGoxOpenOrder.length; i++) {
+        OpenOrder openOrder = new OpenOrder();
+        openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? OpenOrder.BID : OpenOrder.ASK);
+        openOrder.setAmount_int(mtGoxOpenOrder[i].getAmount().getValue_int());
+        openOrder.setAmountCurrency(mtGoxOpenOrder[i].getAmount().getCurrency());
+
+        openOrder.setPrice_int(mtGoxOpenOrder[i].getPrice().getValue_int());
+        openOrder.setPriceCurrency(mtGoxOpenOrder[i].getPrice().getCurrency());
+
+        openOrdersList.add(openOrder);
+      }
       OpenOrders openOrders = new OpenOrders();
+      openOrders.setOpenOrders(openOrdersList);
 
       return openOrders;
 
@@ -147,5 +161,4 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
       throw new ExchangeException("Problem generating Account Info (number formatting)", e);
     }
   }
-
 }
