@@ -33,8 +33,6 @@ import com.xeiam.xchange.utils.Assert;
  * <ul>
  * <li>Manages the creation of specific Exchange implementations using runtime dependencies</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public enum ExchangeFactory {
 

@@ -32,8 +32,6 @@ import java.util.Map;
  * <li>Provision of required parameters for creating an {@link Exchange}</li>
  * <li>Provision of optional parameters for additional configuration</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public class ExchangeSpecification {
 

@@ -33,8 +33,6 @@ import com.xeiam.xchange.utils.Assert;
  * <ul>
  * <li>Provision of standard specification parsing</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public abstract class BaseExchangeService {
 

@@ -24,17 +24,12 @@ package com.xeiam.xchange;
 import com.xeiam.xchange.utils.HttpUtils;
 
 /**
- *  
  * <p>
  * Exception to provide the following to {@link HttpUtils}:
  * </p>
- *  
  * <ul>
- *  
- * <li>Indication that there was an HTTP communication problem</li>  
+ * <li>Indication that there was an HTTP communication problem</li>
  * </ul>
- * 
- * @since 0.0.1  
  */
 public class HttpException extends RuntimeException {
 

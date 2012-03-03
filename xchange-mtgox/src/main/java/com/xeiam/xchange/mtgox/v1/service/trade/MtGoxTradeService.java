@@ -122,15 +122,18 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     try {
-      // Build account info request
+      // Build open orders request
       String url = apiBaseURI + "/generic/private/orders?raw";
       String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
       Map<String, String> headerKeyValues = new HashMap<String, String>();
       headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpUtils.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, apiSecret));
-      OpenOrders openOrders = HttpUtils.postForJsonObject(url, OpenOrders.class, postBody, mapper, headerKeyValues);
 
-      log.debug(openOrders.toString());
+      // Request data
+      MtGoxOpenOrder[] mtGoxOpenOrder = HttpUtils.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, headerKeyValues);
+
+      // Adapt to XChange DTOs
+      OpenOrders openOrders = new OpenOrders();
 
       return openOrders;
 

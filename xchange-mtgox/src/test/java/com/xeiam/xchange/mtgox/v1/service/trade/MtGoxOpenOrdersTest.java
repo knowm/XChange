@@ -19,23 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.mtgox.v1.service.trade;
+
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
 /**
- * <p
- * Exception to provide the following to {@link}:
- * </p>
- * <ul>
- * <li>Indication that the the requested symbol is not available from exchange</li>
- * </ul>
+ * Test MtGoxOpenOrders JSON parsing
  */
-public class SymbolNotAvailableException extends RuntimeException {
+public class MtGoxOpenOrdersTest {
 
-  public SymbolNotAvailableException(String s) {
-    super(s);
-  }
+  @Test
+  public void testUnmarshal() throws IOException {
 
-  public SymbolNotAvailableException(String s, Throwable throwable) {
-    super(s, throwable);
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxOpenOrdersTest.class.getResourceAsStream("/trade/example-openorders-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
+
+    System.out.println(mtGoxOpenOrders.toString());
+
+    // Verify that the example data was unmarshalled correctly
+    assertTrue(mtGoxOpenOrders[0].getOid().equals("3ac69c79-caeb-4ee2-bc05-5185df8476d9"));
   }
 }

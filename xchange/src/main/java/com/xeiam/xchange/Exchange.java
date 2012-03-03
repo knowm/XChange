@@ -31,8 +31,6 @@ import com.xeiam.xchange.service.trade.TradeService;
  * <ul>
  * <li>Entry point to the XChange APIs</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public interface Exchange {
 

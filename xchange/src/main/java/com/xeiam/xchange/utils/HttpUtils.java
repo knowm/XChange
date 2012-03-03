@@ -21,9 +21,6 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.HttpException;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,12 +31,20 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.HttpException;
+
 /**
  * Various HTTP utility methods
  */
 public class HttpUtils {
 
   public static final String CHARSET_UTF_8 = "UTF-8";
+
+  private static Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
   /**
    * Default request header fields
@@ -135,7 +140,7 @@ public class HttpUtils {
       // Add HTTP headers to the request
       for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
         connection.setRequestProperty(entry.getKey(), entry.getValue());
-        //System.out.println("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
+        // System.out.println("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
       }
 
       responseString = getResponseString(connection);
@@ -182,18 +187,18 @@ public class HttpUtils {
       // Add HTTP headers to the request
       for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
         connection.setRequestProperty(entry.getKey(), entry.getValue());
-        System.out.printf("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
+        log.debug("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
       }
 
       // add content length to header
       connection.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
 
-      System.out.println("postBody= " + postBody);
+      log.debug("postBody= " + postBody);
       connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
       responseString = getResponseString(connection);
 
-      // log.debug("responseString: " + responseString);
+      log.debug("responseString: " + responseString);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem POSTing (malformed URL)", e);

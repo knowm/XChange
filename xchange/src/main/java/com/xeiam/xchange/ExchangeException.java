@@ -28,8 +28,6 @@ package com.xeiam.xchange;
  * <ul>
  * <li>Indication that the session could not start</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public class ExchangeException extends RuntimeException {
 

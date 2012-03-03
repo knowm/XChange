@@ -28,6 +28,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -57,11 +58,11 @@ public class MtGoxTradeDemo {
 
     // Get the account information
     AccountInfo accountInfo = tradeService.getAccountInfo();
-    System.out.println("Account info as String: " + accountInfo.toString());
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
 
     // Get the open orders
-    // OpenOrders openOrders = tradeService.getOpenOrders();
-    // System.out.printf("Open Orders: %s", openOrders);
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
   }
 
 }

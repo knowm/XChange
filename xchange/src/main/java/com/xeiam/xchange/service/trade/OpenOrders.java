@@ -21,8 +21,9 @@
  */
 package com.xeiam.xchange.service.trade;
 
+/**
+ * Data object representing open orders
+ */
 public class OpenOrders {
-
-  // TODO do it.
 
 }

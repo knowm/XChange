@@ -25,12 +25,12 @@ import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
- * <p>Abstract base class to provide the following to {@link Exchange}s:</p>
+ * <p>
+ * Abstract base class to provide the following to {@link Exchange}s:
+ * </p>
  * <ul>
  * <li>Access to common methods and fields</li>
  * </ul>
- *
- * @since 0.0.1
  */
 public abstract class BaseExchange implements Exchange {
 
