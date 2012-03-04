@@ -5,13 +5,13 @@
   <parent>
     <groupId>com.xeiam.xchange</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
   </parent>
 
   <groupId>com.xeiam.xchange.provider</groupId>
   <artifactId>xchange-mtgox</artifactId>
   <!-- This version is independent of the parent -->
-  <version>1.0.0</version>
+  <version>0.0.1</version>
 
   <name>MtGox Exchange</name>
   <description>XChange implementations for the MtGox Exchange. Handles multiple currencies.</description>
