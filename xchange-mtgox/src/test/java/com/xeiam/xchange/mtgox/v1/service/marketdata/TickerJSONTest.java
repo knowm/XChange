@@ -19,9 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade;
+package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,23 +31,21 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 /**
- * Test MtGoxOpenOrders JSON parsing
+ * Test MtGoxTicker JSON parsing
  */
-public class MtGoxFailureMessageTest {
+public class TickerJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxFailureMessageTest.class.getResourceAsStream("/trade/example-failure-response-data.json");
+    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-trade-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxGenericResponse mtGoxGenericResponse = mapper.readValue(is, MtGoxGenericResponse.class);
-
-    System.out.println(mtGoxGenericResponse.getResult());
+    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxGenericResponse.getResult().equals("error"));
+    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(5.77397));
   }
 }

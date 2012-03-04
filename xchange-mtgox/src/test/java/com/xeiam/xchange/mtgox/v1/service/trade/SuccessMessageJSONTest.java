@@ -30,15 +30,15 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 /**
- * Test MtGoxOpenOrders JSON parsing
+ * Test MtGoxGenericResponse JSON parsing
  */
-public class MtGoxSuccessMessageTest {
+public class SuccessMessageJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxSuccessMessageTest.class.getResourceAsStream("/trade/example-success-response-data.json");
+    InputStream is = SuccessMessageJSONTest.class.getResourceAsStream("/trade/example-success-response-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

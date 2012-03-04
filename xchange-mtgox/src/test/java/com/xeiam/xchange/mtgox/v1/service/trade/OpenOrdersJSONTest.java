@@ -19,10 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service.trade;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,21 +30,23 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 /**
- * Test MtGoxFullDepth JSON parsing
+ * Test MtGoxOpenOrders JSON parsing
  */
-public class MtGoxFullDepthTest {
+public class OpenOrdersJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxFullDepthTest.class.getResourceAsStream("/marketdata/example-fulldepth-data.json");
+    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/trade/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxDepth mtGoxFullDepth = mapper.readValue(is, MtGoxDepth.class);
+    MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
+
+    System.out.println(mtGoxOpenOrders[0].getOid());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmount_int(), equalTo(727610000L));
+    assertTrue(mtGoxOpenOrders[0].getOid().equals("3ac69c79-caeb-4ee2-bc05-5185df8476d9"));
   }
 }

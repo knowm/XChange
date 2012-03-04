@@ -19,10 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service.trade;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,22 +30,23 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 /**
- * Test MtGoxTrade[] JSON parsing
+ * Test MtGoxGenericResponse JSON parsing
  */
-public class MtGoxTradesTest {
+public class FailureMessageJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxTradesTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = FailureMessageJSONTest.class.getResourceAsStream("/trade/example-failure-response-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
+    MtGoxGenericResponse mtGoxGenericResponse = mapper.readValue(is, MtGoxGenericResponse.class);
+
+    System.out.println(mtGoxGenericResponse.getResult());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo(1541646L));
-    System.out.println(mtGoxTrades[0].toString());
+    assertTrue(mtGoxGenericResponse.getResult().equals("error"));
   }
 }

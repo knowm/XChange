@@ -31,21 +31,22 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 /**
- * Test MtGoxTicker JSON parsing
+ * Test MtGoxTrade[] JSON parsing
  */
-public class MtGoxTickerTest {
+public class TradesJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxTickerTest.class.getResourceAsStream("/marketdata/example-trade-data.json");
+    InputStream is = TradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
+    MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(5.77397));
+    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPrice_int(), equalTo(1541646L));
+    System.out.println(mtGoxTrades[0].toString());
   }
 }
