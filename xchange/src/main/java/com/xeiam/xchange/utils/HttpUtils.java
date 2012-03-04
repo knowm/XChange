@@ -187,18 +187,18 @@ public class HttpUtils {
       // Add HTTP headers to the request
       for (Map.Entry<String, String> entry : headerKeyValues.entrySet()) {
         connection.setRequestProperty(entry.getKey(), entry.getValue());
-        log.debug("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
+        // log.debug("Header request property: key='{}', value='{}'", entry.getKey(), entry.getValue());
       }
 
       // add content length to header
       connection.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
 
-      log.debug("postBody= " + postBody);
+      // log.debug("postBody= " + postBody);
       connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
       responseString = getResponseString(connection);
 
-      log.debug("responseString: " + responseString);
+      // log.debug("responseString: " + responseString);
 
     } catch (MalformedURLException e) {
       throw new HttpException("Problem POSTing (malformed URL)", e);
@@ -233,7 +233,7 @@ public class HttpUtils {
       BufferedReader reader;
       reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), responseEncoding));
       for (String line; (line = reader.readLine()) != null;) {
-        System.out.println(line);
+        // System.out.println(line);
         sb.append(line);
       }
       responseString = sb.toString();
@@ -250,12 +250,12 @@ public class HttpUtils {
       String strContents = null;
       while ((bytesRead = bis.read(byteContents)) != -1) {
         strContents = new String(byteContents, 0, bytesRead);
-        System.out.println(strContents);
+        // System.out.println(strContents);
         sb.append(strContents);
       }
       responseString = sb.toString();
     }
-    System.out.println("responseString: " + responseString);
+    // System.out.println("responseString: " + responseString);
 
     return responseString;
   }
