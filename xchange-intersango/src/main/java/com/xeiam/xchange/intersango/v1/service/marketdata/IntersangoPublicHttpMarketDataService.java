@@ -21,11 +21,9 @@
  */
 package com.xeiam.xchange.intersango.v1.service.marketdata;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,11 +103,6 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   @Override
   public OrderBook getFullOrderBook(String symbol) {
     // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
     return null;
   }
 

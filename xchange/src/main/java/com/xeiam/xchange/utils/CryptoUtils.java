@@ -21,14 +21,15 @@
  */
 package com.xeiam.xchange.utils;
 
-import org.apache.commons.codec.binary.Base64;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.util.Date;
+
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Various cryptography utility methods
@@ -42,9 +43,9 @@ public class CryptoUtils {
     return Long.toString(new Date().getTime());
   }
 
-
   /**
    * Decode a base 64 string
+   * 
    * @param base64Data The data to decode
    * @return The decoded data as a String
    */
@@ -54,14 +55,12 @@ public class CryptoUtils {
 
   /**
    * Compute signature
-   *
-   * @param algorithm       The algorithm to use (e.g. "HmacSHA512")
-   * @param baseString      The data to sign
+   * 
+   * @param algorithm The algorithm to use (e.g. "HmacSHA512")
+   * @param baseString The data to sign
    * @param secretKeyString The secret key to use for signing
-   *
    * @return A base 64 encoded signature
-   *
-   * @throws GeneralSecurityException     If something goes wrong
+   * @throws GeneralSecurityException If something goes wrong
    * @throws UnsupportedEncodingException If something goes wrong
    */
   public static String computeSignature(String algorithm, String baseString, String secretKeyString) throws GeneralSecurityException, UnsupportedEncodingException {

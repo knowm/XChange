@@ -21,10 +21,7 @@
  */
 package com.xeiam.xchange.service.marketdata;
 
-import java.util.Collection;
 import java.util.List;
-
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -52,8 +49,4 @@ public interface MarketDataService {
 
   Trades getTrades(String symbol) throws NotAvailableFromExchangeException;
 
-  /**
-   * @return A collection of {@link Ticker}s representing the market data within the range
-   */
-  Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) throws NotAvailableFromExchangeException;
 }

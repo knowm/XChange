@@ -22,18 +22,15 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.PacingViolationException;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -42,6 +39,7 @@ import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trade;
 import com.xeiam.xchange.service.marketdata.Trades;
+import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.HttpUtils;
 
 /**
@@ -79,6 +77,11 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   @Override
   public Ticker getTicker(String symbol) {
 
+    // verify
+    Assert.notNull(apiURI, "apiURI cannot be null");
+    Assert.notNull(apiVersion, "apiVersion cannot be null");
+    Assert.notNull(symbol, "symbol cannot be null");
+
     // check for pacing violation
     if (System.currentTimeMillis() < tickerRequestTimeStamp + getRefreshRate()) {
       tickerRequestTimeStamp = System.currentTimeMillis();
@@ -102,6 +105,11 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   @Override
   public OrderBook getOrderBook(String symbol) {
 
+    // verify
+    Assert.notNull(apiURI, "apiURI cannot be null");
+    Assert.notNull(apiVersion, "apiVersion cannot be null");
+    Assert.notNull(symbol, "symbol cannot be null");
+
     // check for pacing violation
     if (System.currentTimeMillis() < orderBookRequestTimeStamp + getRefreshRate()) {
       orderBookRequestTimeStamp = System.currentTimeMillis();
@@ -123,6 +131,11 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   @Override
   public OrderBook getFullOrderBook(String symbol) {
 
+    // verify
+    Assert.notNull(apiURI, "apiURI cannot be null");
+    Assert.notNull(apiVersion, "apiVersion cannot be null");
+    Assert.notNull(symbol, "symbol cannot be null");
+
     // check for pacing violation
     if (System.currentTimeMillis() < fullOrderBookRequestTimeStamp + getRefreshRate()) {
       fullOrderBookRequestTimeStamp = System.currentTimeMillis();
@@ -143,6 +156,11 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
 
   @Override
   public Trades getTrades(String symbol) {
+
+    // verify
+    Assert.notNull(apiURI, "apiURI cannot be null");
+    Assert.notNull(apiVersion, "apiVersion cannot be null");
+    Assert.notNull(symbol, "symbol cannot be null");
 
     // check for pacing violation
     if (System.currentTimeMillis() < tradesRequestTimeStamp + getRefreshRate()) {
@@ -167,11 +185,6 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     }
     trades.setTrades(tradesList);
     return trades;
-  }
-
-  @Override
-  public Collection<Ticker> getHistoricalMarketData(DateTime validFrom, DateTime validTo) {
-    throw new NotAvailableFromExchangeException();
   }
 
   /**

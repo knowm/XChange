@@ -35,11 +35,10 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.Constants;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.HttpException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.service.trade.Wallet;
 import com.xeiam.xchange.utils.Assert;
@@ -73,44 +72,30 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
-    try {
+    // Build account info request
+    String url = apiBaseURI + "/generic/private/info?raw";
+    String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
-      // Build account info request
-      String url = apiBaseURI + "/generic/private/info?raw";
-      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
-      Map<String, String> headerKeyValues = new HashMap<String, String>();
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpUtils.CHARSET_UTF_8));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, apiSecret));
+    // Request data
+    MtGoxAccountInfo mtGoxAccountInfo = HttpUtils.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
-      // Request data
-      MtGoxAccountInfo mtGoxAccountInfo = HttpUtils.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, headerKeyValues);
+    // Adapt to XChange DTOs
+    AccountInfo accountInfo = new AccountInfo();
+    accountInfo.setUsername(mtGoxAccountInfo.getLogin());
 
-      // Adapt to XChange DTOs
-      AccountInfo accountInfo = new AccountInfo();
-      accountInfo.setUsername(mtGoxAccountInfo.getLogin());
+    List<Wallet> wallets = new ArrayList<Wallet>();
+    Wallet usdWallet = new Wallet();
+    usdWallet.setCurrency(Constants.USD);
+    usdWallet.setAmount_int(mtGoxAccountInfo.getWallets().getUSD().getBalance().getValue_int());
+    wallets.add(usdWallet);
+    Wallet btcWallet = new Wallet();
+    btcWallet.setCurrency(Constants.BTC);
+    btcWallet.setAmount_int(mtGoxAccountInfo.getWallets().getBTC().getBalance().getValue_int());
+    wallets.add(btcWallet);
+    accountInfo.setWallets(wallets);
 
-      List<Wallet> wallets = new ArrayList<Wallet>();
-      Wallet usdWallet = new Wallet();
-      usdWallet.setCurrency(Constants.USD);
-      usdWallet.setAmount_int(mtGoxAccountInfo.getWallets().getUSD().getBalance().getValue_int());
-      wallets.add(usdWallet);
-      Wallet btcWallet = new Wallet();
-      btcWallet.setCurrency(Constants.BTC);
-      btcWallet.setAmount_int(mtGoxAccountInfo.getWallets().getBTC().getBalance().getValue_int());
-      wallets.add(btcWallet);
-      accountInfo.setWallets(wallets);
+    return accountInfo;
 
-      return accountInfo;
-
-    } catch (GeneralSecurityException e) {
-      throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
-    } catch (UnsupportedEncodingException e) {
-      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
-    } catch (HttpException e) {
-      throw new ExchangeException("Problem getting server response (Http error)", e);
-    } catch (NumberFormatException e) {
-      throw new ExchangeException("Problem generating Account Info (number formatting)", e);
-    }
   }
 
   @Override
@@ -122,43 +107,75 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
+    // Build open orders request
+    String url = apiBaseURI + "/generic/private/orders?raw";
+    String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+
+    // Request data
+    MtGoxOpenOrder[] mtGoxOpenOrder = HttpUtils.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+
+    // Adapt to XChange DTOs
+    List<Order> openOrdersList = new ArrayList<Order>();
+    for (int i = 0; i < mtGoxOpenOrder.length; i++) {
+      Order openOrder = new Order();
+      openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
+      openOrder.setAmount_int(mtGoxOpenOrder[i].getAmount().getValue_int());
+      openOrder.setAmountCurrency(mtGoxOpenOrder[i].getAmount().getCurrency());
+
+      openOrder.setPrice_int(mtGoxOpenOrder[i].getPrice().getValue_int());
+      openOrder.setPriceCurrency(mtGoxOpenOrder[i].getPrice().getCurrency());
+
+      openOrdersList.add(openOrder);
+    }
+    OpenOrders openOrders = new OpenOrders();
+    openOrders.setOpenOrders(openOrdersList);
+
+    return openOrders;
+
+  }
+
+  @Override
+  public boolean PlaceMarketOrder(Order marketOrder) {
+
+    // verify
+    Assert.notNull(apiKey, "apiKey cannot be null");
+    Assert.notNull(apiSecret, "apiSecret cannot be null");
+    Assert.notNull(apiURI, "apiURI cannot be null");
+    Assert.notNull(apiVersion, "apiVersion cannot be null");
+    return false;
+  }
+
+  @Override
+  public boolean PlaceLimitOrder(Order limitOrder) {
+
+    // verify
+    Assert.notNull(apiKey, "apiKey cannot be null");
+    Assert.notNull(apiSecret, "apiSecret cannot be null");
+    Assert.notNull(apiURI, "apiURI cannot be null");
+    Assert.notNull(apiVersion, "apiVersion cannot be null");
+    return false;
+  }
+
+  /**
+   * Generates necessary authentication header values for MtGox
+   * 
+   * @param postBody
+   * @return
+   */
+  private Map<String, String> getMtGoxAuthenticationHeaderKeyValues(String postBody) {
+
     try {
-      // Build open orders request
-      String url = apiBaseURI + "/generic/private/orders?raw";
-      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+
       Map<String, String> headerKeyValues = new HashMap<String, String>();
+
       headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpUtils.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, apiSecret));
-
-      // Request data
-      MtGoxOpenOrder[] mtGoxOpenOrder = HttpUtils.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, headerKeyValues);
-
-      // Adapt to XChange DTOs
-      List<Order> openOrdersList = new ArrayList<Order>();
-      for (int i = 0; i < mtGoxOpenOrder.length; i++) {
-        Order openOrder = new Order();
-        openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
-        openOrder.setAmount_int(mtGoxOpenOrder[i].getAmount().getValue_int());
-        openOrder.setAmountCurrency(mtGoxOpenOrder[i].getAmount().getCurrency());
-
-        openOrder.setPrice_int(mtGoxOpenOrder[i].getPrice().getValue_int());
-        openOrder.setPriceCurrency(mtGoxOpenOrder[i].getPrice().getCurrency());
-
-        openOrdersList.add(openOrder);
-      }
-      OpenOrders openOrders = new OpenOrders();
-      openOrders.setOpenOrders(openOrdersList);
-
-      return openOrders;
+      return headerKeyValues;
 
     } catch (GeneralSecurityException e) {
       throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
     } catch (UnsupportedEncodingException e) {
       throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
-    } catch (HttpException e) {
-      throw new ExchangeException("Problem getting server response (Http error)", e);
-    } catch (NumberFormatException e) {
-      throw new ExchangeException("Problem generating Account Info (number formatting)", e);
     }
   }
 }

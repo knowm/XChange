@@ -26,16 +26,20 @@ package com.xeiam.xchange.service.trade;
  * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
  * </p>
  * <ul>
- * <li>Standard methods available to explore the user's account on the exchange</li>
+ * <li>Retrieve the user's account info on the exchange</li>
+ * <li>Retrieve the user's open orders on the exchange</li>
+ * <li>Place market orders on the exchange</li>
+ * <li>Place limit orders on the exchange</li>
  * </ul>
  */
 public interface TradeService {
 
-  /**
-   * @return The account info
-   */
   public AccountInfo getAccountInfo();
 
   public OpenOrders getOpenOrders();
+
+  public boolean PlaceMarketOrder(Order marketOrder);
+
+  public boolean PlaceLimitOrder(Order limitOrder);
 
 }

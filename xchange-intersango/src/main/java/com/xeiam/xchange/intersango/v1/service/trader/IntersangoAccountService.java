@@ -28,6 +28,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.TradeService;
 
 public class IntersangoAccountService extends BaseExchangeService implements TradeService {
@@ -54,28 +55,6 @@ public class IntersangoAccountService extends BaseExchangeService implements Tra
   @Override
   public AccountInfo getAccountInfo() {
 
-    // try {
-    // // Build account info request
-    // String url = apiBase+"/generic/private/info";
-    // String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
-    // Map<String, String> headerKeyValues = new HashMap<String, String>();
-    // headerKeyValues.put("Rest-Key", URLEncoder.encode(sessionKey, HttpUtils.CHARSET_UTF_8));
-    // headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey));
-    // AccountInfo accountInfo = HttpUtils.postForJsonObject(url, AccountInfo.class, postBody, mapper, headerKeyValues);
-    //
-    // log.debug(accountInfo.toString());
-    //
-    // } catch (GeneralSecurityException e) {
-    // throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
-    // } catch (UnsupportedEncodingException e) {
-    // throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
-    // } catch (HttpException e) {
-    // throw new ExchangeException("Problem getting server response (Http error)", e);
-    // } catch (IOException e) {
-    // throw new ExchangeException("Problem generating Account Info (IO)", e);
-    // } catch (NumberFormatException e) {
-    // throw new ExchangeException("Problem generating Account Info (number formatting)", e);
-    // }
     return null;
   }
 
@@ -83,6 +62,18 @@ public class IntersangoAccountService extends BaseExchangeService implements Tra
   public OpenOrders getOpenOrders() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public boolean PlaceMarketOrder(Order marketOrder) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean PlaceLimitOrder(Order limitOrder) {
+    // TODO Auto-generated method stub
+    return false;
   }
 
 }
