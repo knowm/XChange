@@ -28,13 +28,13 @@ import java.util.List;
  */
 public class OpenOrders {
 
-  List<Order> openOrders;
+  List<LimitOrder> openOrders;
 
-  public List<Order> getOpenOrders() {
+  public List<LimitOrder> getOpenOrders() {
     return openOrders;
   }
 
-  public void setOpenOrders(List<Order> openOrders) {
+  public void setOpenOrders(List<LimitOrder> openOrders) {
     this.openOrders = openOrders;
   }
 

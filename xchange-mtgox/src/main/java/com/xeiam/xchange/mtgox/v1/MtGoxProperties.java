@@ -35,7 +35,7 @@ public class MtGoxProperties {
   public static final List<String> MT_GOX_SYMBOLS = Arrays.asList("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD",
     "BTCTHB");
 
-  public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
+  public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
 
   public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
 

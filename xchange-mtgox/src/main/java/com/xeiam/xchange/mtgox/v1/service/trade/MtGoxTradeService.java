@@ -40,7 +40,6 @@ import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.LimitOrder;
 import com.xeiam.xchange.service.trade.MarketOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.service.trade.Wallet;
 import com.xeiam.xchange.utils.Assert;
@@ -117,7 +116,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     MtGoxOpenOrder[] mtGoxOpenOrder = HttpUtils.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
     // Adapt to XChange DTOs
-    List<Order> openOrdersList = new ArrayList<Order>();
+    List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
     for (int i = 0; i < mtGoxOpenOrder.length; i++) {
       LimitOrder openOrder = new LimitOrder();
       openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);

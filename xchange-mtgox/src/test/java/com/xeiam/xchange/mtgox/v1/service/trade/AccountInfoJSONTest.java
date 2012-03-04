@@ -47,6 +47,6 @@ public class AccountInfoJSONTest {
     System.out.println(mtGoxAccountInfo.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxAccountInfo.getLogin().equals(("test")));
+    assertTrue(mtGoxAccountInfo.getLogin().equals("test"));
   }
 }
