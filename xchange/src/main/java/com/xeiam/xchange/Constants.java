@@ -27,13 +27,21 @@ package com.xeiam.xchange;
 public class Constants {
 
   /**
-   * Private constructor
+   * Private constructor so it cannot be instantiated
    */
   private Constants() {
   }
 
-  // Currencies
+  /**
+   * Currencies
+   */
   public static final String BTC = "BTC";
   public static final String USD = "USD";
+
+  /**
+   * Order Types
+   */
+  public static String BID = "BID";
+  public static String ASK = "ASK";
 
 }

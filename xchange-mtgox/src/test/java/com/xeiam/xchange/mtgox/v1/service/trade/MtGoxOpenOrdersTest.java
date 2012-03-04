@@ -44,7 +44,7 @@ public class MtGoxOpenOrdersTest {
     ObjectMapper mapper = new ObjectMapper();
     MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
 
-    System.out.println(mtGoxOpenOrders.toString());
+    System.out.println(mtGoxOpenOrders[0].getOid());
 
     // Verify that the example data was unmarshalled correctly
     assertTrue(mtGoxOpenOrders[0].getOid().equals("3ac69c79-caeb-4ee2-bc05-5185df8476d9"));

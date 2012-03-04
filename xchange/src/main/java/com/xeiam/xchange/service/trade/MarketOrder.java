@@ -21,7 +21,9 @@
  */
 package com.xeiam.xchange.service.trade;
 
-public class MarketOrder {
+/**
+ * Data object representing a market order
+ */
+public class MarketOrder extends Order {
 
-  // TODO do it.
 }

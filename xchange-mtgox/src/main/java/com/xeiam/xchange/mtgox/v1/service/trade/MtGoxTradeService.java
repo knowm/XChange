@@ -38,7 +38,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.HttpException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.OpenOrder;
+import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.service.trade.Wallet;
@@ -134,10 +134,10 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
       MtGoxOpenOrder[] mtGoxOpenOrder = HttpUtils.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, headerKeyValues);
 
       // Adapt to XChange DTOs
-      List<OpenOrder> openOrdersList = new ArrayList<OpenOrder>();
+      List<Order> openOrdersList = new ArrayList<Order>();
       for (int i = 0; i < mtGoxOpenOrder.length; i++) {
-        OpenOrder openOrder = new OpenOrder();
-        openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? OpenOrder.BID : OpenOrder.ASK);
+        Order openOrder = new Order();
+        openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
         openOrder.setAmount_int(mtGoxOpenOrder[i].getAmount().getValue_int());
         openOrder.setAmountCurrency(mtGoxOpenOrder[i].getAmount().getCurrency());
 

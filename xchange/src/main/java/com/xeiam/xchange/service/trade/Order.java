@@ -21,16 +21,12 @@
  */
 package com.xeiam.xchange.service.trade;
 
-/**
- * Data object representing an open order
- */
-public class OpenOrder {
+import com.xeiam.xchange.Constants;
 
-  /**
-   * Order Types
-   */
-  public static String BID = "BID";
-  public static String ASK = "ASK";
+/**
+ * Data object representing an order
+ */
+public class Order {
 
   private String type;
   private long amount_int;
@@ -39,19 +35,19 @@ public class OpenOrder {
   private String priceCurrency;
 
   public static String getBid() {
-    return BID;
+    return Constants.BID;
   }
 
   public static void setBid(String bid) {
-    BID = bid;
+    Constants.BID = bid;
   }
 
   public static String getAsk() {
-    return ASK;
+    return Constants.ASK;
   }
 
   public static void setAsk(String ask) {
-    ASK = ask;
+    Constants.ASK = ask;
   }
 
   public String getType() {
