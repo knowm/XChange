@@ -29,9 +29,8 @@ import com.xeiam.xchange.Constants;
 public class Order {
 
   private String type;
-  private long amount_int;
+  private Long amount_int;
   private String amountCurrency;
-  private long price_int;
   private String priceCurrency;
 
   public static String getBid() {
@@ -58,11 +57,11 @@ public class Order {
     this.type = type;
   }
 
-  public long getAmount_int() {
+  public Long getAmount_int() {
     return amount_int;
   }
 
-  public void setAmount_int(long amount_int) {
+  public void setAmount_int(Long amount_int) {
     this.amount_int = amount_int;
   }
 
@@ -74,25 +73,12 @@ public class Order {
     this.amountCurrency = amountCurrency;
   }
 
-  public long getPrice_int() {
-    return price_int;
-  }
-
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
-  }
-
   public String getPriceCurrency() {
     return priceCurrency;
   }
 
   public void setPriceCurrency(String priceCurrency) {
     this.priceCurrency = priceCurrency;
-  }
-
-  @Override
-  public String toString() {
-    return "OpenOrder [type=" + type + ", amount_int=" + amount_int + ", amountCurrency=" + amountCurrency + ", price_int=" + price_int + ", priceCurrency=" + priceCurrency + "]";
   }
 
 }

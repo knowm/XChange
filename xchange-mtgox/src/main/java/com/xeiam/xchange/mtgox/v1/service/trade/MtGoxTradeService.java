@@ -37,6 +37,8 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.LimitOrder;
+import com.xeiam.xchange.service.trade.MarketOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.TradeService;
@@ -55,7 +57,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   private final String apiBaseURI = String.format("%s/api/%s/", apiURI, apiVersion);
 
   /**
-   * Initialise common properties from the exchange specification
+   * Initialize common properties from the exchange specification
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
@@ -72,7 +74,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
-    // Build account info request
+    // Build request
     String url = apiBaseURI + "/generic/private/info?raw";
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
@@ -107,7 +109,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
-    // Build open orders request
+    // Build request
     String url = apiBaseURI + "/generic/private/orders?raw";
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
@@ -117,7 +119,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     // Adapt to XChange DTOs
     List<Order> openOrdersList = new ArrayList<Order>();
     for (int i = 0; i < mtGoxOpenOrder.length; i++) {
-      Order openOrder = new Order();
+      LimitOrder openOrder = new LimitOrder();
       openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
       openOrder.setAmount_int(mtGoxOpenOrder[i].getAmount().getValue_int());
       openOrder.setAmountCurrency(mtGoxOpenOrder[i].getAmount().getCurrency());
@@ -135,25 +137,61 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   }
 
   @Override
-  public boolean PlaceMarketOrder(Order marketOrder) {
+  public boolean placeMarketOrder(MarketOrder marketOrder) {
 
     // verify
     Assert.notNull(apiKey, "apiKey cannot be null");
     Assert.notNull(apiSecret, "apiSecret cannot be null");
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
-    return false;
+
+    Assert.notNull(marketOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
+    Assert.notNull(marketOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
+    Assert.notNull(marketOrder.getType(), "getType() cannot be null");
+    Assert.notNull(marketOrder.getAmount_int(), "getAmount_int() cannot be null");
+
+    // Build request
+    String symbol = marketOrder.getAmountCurrency() + marketOrder.getPriceCurrency();
+    String type = marketOrder.getType().equals(Constants.BID) ? "bid" : "ask";
+    String amount = "" + marketOrder.getAmount_int();
+    String url = apiBaseURI + symbol + "/private/order/add";
+
+    String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount;
+
+    // Request data
+    MtGoxGenericResponse mtGoxSuccess = HttpUtils.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+
+    return mtGoxSuccess.getResult().equals("success") ? true : false;
   }
 
   @Override
-  public boolean PlaceLimitOrder(Order limitOrder) {
+  public boolean placeLimitOrder(LimitOrder limitOrder) {
 
     // verify
     Assert.notNull(apiKey, "apiKey cannot be null");
     Assert.notNull(apiSecret, "apiSecret cannot be null");
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
-    return false;
+
+    Assert.notNull(limitOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
+    Assert.notNull(limitOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
+    Assert.notNull(limitOrder.getType(), "getType() cannot be null");
+    Assert.notNull(limitOrder.getAmount_int(), "getAmount_int() cannot be null");
+    Assert.notNull(limitOrder.getPrice_int(), "getPrice_int() cannot be null");
+
+    // Build request
+    String symbol = limitOrder.getAmountCurrency() + limitOrder.getPriceCurrency();
+    String type = limitOrder.getType().equals(Constants.BID) ? "bid" : "ask";
+    String amount = "" + limitOrder.getAmount_int();
+    String price_int = "" + limitOrder.getPrice_int();
+    String url = apiBaseURI + symbol + "/private/order/add";
+
+    String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount + "&price_int=" + price_int;
+
+    // Request data
+    MtGoxGenericResponse mtGoxSuccess = HttpUtils.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+
+    return mtGoxSuccess.getResult().equals("success") ? true : false;
   }
 
   /**

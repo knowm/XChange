@@ -24,10 +24,13 @@ package com.xeiam.xchange.mtgox.v1.demo;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.Constants;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.LimitOrder;
+import com.xeiam.xchange.service.trade.MarketOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 
@@ -63,6 +66,25 @@ public class MtGoxTradeDemo {
     // Get the open orders
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
-  }
 
+    // place a market order
+    MarketOrder marketOrder = new MarketOrder();
+    marketOrder.setType(Constants.BID);
+    marketOrder.setAmountCurrency("BTC");
+    marketOrder.setAmount_int(100000000L); // 1 BTC
+    marketOrder.setPriceCurrency("USD");
+    boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order Successful: " + marketOrderSuccess);
+
+    // place a limit order
+    LimitOrder limitOrder = new LimitOrder();
+    limitOrder.setType(Constants.BID);
+    limitOrder.setAmountCurrency("BTC");
+    limitOrder.setAmount_int(100000000L); // 1 BTC
+    limitOrder.setPriceCurrency("USD");
+    limitOrder.setPrice_int(425000); // $4.25
+    boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order Successful: " + limitOrderSuccess);
+
+  }
 }

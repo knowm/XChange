@@ -38,8 +38,8 @@ public interface TradeService {
 
   public OpenOrders getOpenOrders();
 
-  public boolean PlaceMarketOrder(Order marketOrder);
+  public boolean placeMarketOrder(MarketOrder marketOrder);
 
-  public boolean PlaceLimitOrder(Order limitOrder);
+  public boolean placeLimitOrder(LimitOrder limitOrder);
 
 }

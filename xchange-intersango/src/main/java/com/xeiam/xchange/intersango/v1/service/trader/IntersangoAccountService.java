@@ -27,8 +27,9 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.LimitOrder;
+import com.xeiam.xchange.service.trade.MarketOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.TradeService;
 
 public class IntersangoAccountService extends BaseExchangeService implements TradeService {
@@ -65,13 +66,13 @@ public class IntersangoAccountService extends BaseExchangeService implements Tra
   }
 
   @Override
-  public boolean PlaceMarketOrder(Order marketOrder) {
+  public boolean placeMarketOrder(MarketOrder marketOrder) {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean PlaceLimitOrder(Order limitOrder) {
+  public boolean placeLimitOrder(LimitOrder limitOrder) {
     // TODO Auto-generated method stub
     return false;
   }

@@ -19,21 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.trade;
+package com.xeiam.xchange.mtgox.v1.service.trade;
 
 /**
- * Data object representing a limit order
+ * Data object representing a response message from Mt Gox after placing and order
  */
-public class LimitOrder extends Order {
+public class MtGoxGenericResponse {
 
-  private long price_int;
+  private String result;
+  private String _return;
+  private String error;
 
-  public long getPrice_int() {
-    return price_int;
+  public String getResult() {
+    return result;
   }
 
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
+  public void setResult(String result) {
+    this.result = result;
+  }
+
+  public String getReturn() {
+    return _return;
+  }
+
+  public void setReturn(String _return) {
+    this._return = _return;
+  }
+
+  public String getError() {
+    return error;
+  }
+
+  public void setError(String error) {
+    this.error = error;
   }
 
 }

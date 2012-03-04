@@ -19,21 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.trade;
+package com.xeiam.xchange.mtgox.v1.service.trade;
+
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
 /**
- * Data object representing a limit order
+ * Test MtGoxOpenOrders JSON parsing
  */
-public class LimitOrder extends Order {
+public class MtGoxSuccessMessageTest {
 
-  private long price_int;
+  @Test
+  public void testUnmarshal() throws IOException {
 
-  public long getPrice_int() {
-    return price_int;
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxSuccessMessageTest.class.getResourceAsStream("/trade/example-success-response-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxGenericResponse mtGoxGenericResponse = mapper.readValue(is, MtGoxGenericResponse.class);
+
+    System.out.println(mtGoxGenericResponse.getResult());
+
+    // Verify that the example data was unmarshalled correctly
+    assertTrue(mtGoxGenericResponse.getResult().equals("success"));
   }
-
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
-  }
-
 }
