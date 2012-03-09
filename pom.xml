@@ -252,17 +252,17 @@
         <version>1.6.2</version>
       </dependency>
 
-      <!-- JUnit with JMockit, Hamcrest -->
+      <!-- JUnit with JMockit, Hamcrest (JMockit must be before JUnit on classpath) -->
+      <dependency>
+        <groupId>com.googlecode.jmockit</groupId>
+        <artifactId>jmockit</artifactId>
+        <version>0.999.11</version>
+        <scope>test</scope>
+      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.8.2</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>mockit</groupId>
-        <artifactId>jmockit</artifactId>
-        <version>0.998</version>
         <scope>test</scope>
       </dependency>
       <dependency>

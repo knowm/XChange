@@ -64,14 +64,14 @@
       <artifactId>joda-time</artifactId>
     </dependency>
 
-    <!-- JUnit with JMockit, Hamcrest -->
+    <!-- JUnit with JMockit, Hamcrest (JMockit must be before JUnit on classpath) -->
+    <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>mockit</groupId>
-      <artifactId>jmockit</artifactId>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>

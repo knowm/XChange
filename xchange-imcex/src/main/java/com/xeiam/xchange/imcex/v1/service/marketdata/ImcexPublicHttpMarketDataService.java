@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.imcex.v1.service.marketdata;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.imcex.v1.ImcexProperties;
@@ -37,7 +31,11 @@ import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
-import com.xeiam.xchange.utils.HttpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -70,7 +68,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   public Ticker getTicker(String symbol) {
 
     // Request data
-    ImcexTicker mtGoxTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", ImcexTicker.class, mapper, new HashMap<String, String>());
+    ImcexTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbol + "/public/ticker", ImcexTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
@@ -86,7 +84,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   public OrderBook getOrderBook(String symbol) {
 
     // Request data
-    ImcexDepth imcexDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
+    ImcexDepth imcexDepth = httpTemplate.getForJsonObject(apiBase + symbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
 
     OrderBook depth = new OrderBook();
 
@@ -117,4 +115,5 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   public List<String> getExchangeSymbols() {
     return ImcexProperties.IMCEX_SYMBOLS;
   }
+
 }

@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.service;
 
+import com.xeiam.xchange.utils.HttpTemplate;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -48,6 +49,7 @@ public abstract class BaseExchangeService {
 
   protected final String username;
   protected final String password;
+  protected HttpTemplate httpTemplate = new HttpTemplate();
 
   /**
    * Initialize common properties from the exchange specification
@@ -104,5 +106,9 @@ public abstract class BaseExchangeService {
       // Use the default
       this.password = null;
     }
+  }
+
+  public void setHttpTemplate(HttpTemplate httpTemplate) {
+    this.httpTemplate = httpTemplate;
   }
 }

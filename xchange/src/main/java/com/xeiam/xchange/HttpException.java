@@ -21,11 +21,9 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.utils.HttpUtils;
-
 /**
  * <p>
- * Exception to provide the following to {@link HttpUtils}:
+ * Exception to provide the following to {@link com.xeiam.xchange.utils.HttpTemplate}:
  * </p>
  * <ul>
  * <li>Indication that there was an HTTP communication problem</li>

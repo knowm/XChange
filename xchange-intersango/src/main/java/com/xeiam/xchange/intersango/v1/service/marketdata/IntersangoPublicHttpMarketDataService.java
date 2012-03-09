@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.intersango.v1.service.marketdata;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.intersango.v1.IntersangoProperties;
@@ -37,7 +31,11 @@ import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
-import com.xeiam.xchange.utils.HttpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -70,7 +68,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   public Ticker getTicker(String symbol) {
 
     // Request data
-    IntersangoTicker intersangoTicker = HttpUtils.getForJsonObject(apiBase + symbol + "/public/ticker", IntersangoTicker.class, mapper, new HashMap<String, String>());
+    IntersangoTicker intersangoTicker = httpTemplate.getForJsonObject(apiBase + symbol + "/public/ticker", IntersangoTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
@@ -86,7 +84,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   public OrderBook getOrderBook(String symbol) {
 
     // Request data
-    IntersangoDepth intersangoDepth = HttpUtils.getForJsonObject(apiBase + symbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
+    IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();

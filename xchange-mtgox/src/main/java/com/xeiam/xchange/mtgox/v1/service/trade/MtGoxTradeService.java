@@ -21,6 +21,17 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
+import com.xeiam.xchange.Constants;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.trade.*;
+import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.CryptoUtils;
+import com.xeiam.xchange.utils.HttpTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
@@ -28,23 +39,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.Constants;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.LimitOrder;
-import com.xeiam.xchange.service.trade.MarketOrder;
-import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.TradeService;
-import com.xeiam.xchange.service.trade.Wallet;
-import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.utils.CryptoUtils;
-import com.xeiam.xchange.utils.HttpUtils;
 
 public class MtGoxTradeService extends BaseExchangeService implements TradeService {
 
@@ -78,7 +72,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
     // Request data
-    MtGoxAccountInfo mtGoxAccountInfo = HttpUtils.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
     // Adapt to XChange DTOs
     AccountInfo accountInfo = new AccountInfo();
@@ -113,7 +107,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
     // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrder = HttpUtils.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxOpenOrder[] mtGoxOpenOrder = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
     // Adapt to XChange DTOs
     List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
@@ -158,7 +152,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount;
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = HttpUtils.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
     return mtGoxSuccess.getResult().equals("success") ? true : false;
   }
@@ -188,7 +182,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount + "&price_int=" + price_int;
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = HttpUtils.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
     return mtGoxSuccess.getResult().equals("success") ? true : false;
   }
@@ -205,7 +199,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
       Map<String, String> headerKeyValues = new HashMap<String, String>();
 
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpUtils.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
       headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, apiSecret));
       return headerKeyValues;
 

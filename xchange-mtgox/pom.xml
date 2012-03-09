@@ -71,7 +71,7 @@
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>mockit</groupId>
+      <groupId>com.googlecode.jmockit</groupId>
       <artifactId>jmockit</artifactId>
     </dependency>
     <dependency>
