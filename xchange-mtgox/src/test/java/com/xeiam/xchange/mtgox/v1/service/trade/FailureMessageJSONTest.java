@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 

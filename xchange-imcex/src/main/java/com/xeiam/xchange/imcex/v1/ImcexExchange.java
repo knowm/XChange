@@ -32,7 +32,7 @@ public class ImcexExchange extends BaseExchange implements Exchange {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
     this.marketDataService = new ImcexPublicHttpMarketDataService(exchangeSpecification);
-    this.accountService = new ImcexAccountService(exchangeSpecification);
+    this.tradeService = new ImcexAccountService(exchangeSpecification);
   }
 
   public ExchangeSpecification getDefaultExchangeSpecification() {

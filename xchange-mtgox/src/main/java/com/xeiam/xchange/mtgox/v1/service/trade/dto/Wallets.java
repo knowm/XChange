@@ -19,11 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v0_1.service.trader;
+package com.xeiam.xchange.mtgox.v1.service.trade.dto;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Data object representing Account Info from Mt Gox
+ * Data object representing Wallets from Mt Gox
  */
-public class IntersangoAccountInfo {
+public class Wallets {
+
+  private MtGoxWallet bTC = new MtGoxWallet();
+  private MtGoxWallet uSD = new MtGoxWallet();
+
+  @JsonProperty("BTC")
+  public MtGoxWallet getBTC() {
+    return this.bTC;
+  }
+
+  public void setBTC(MtGoxWallet bTC) {
+    this.bTC = bTC;
+  }
+
+  @JsonProperty("USD")
+  public MtGoxWallet getUSD() {
+    return this.uSD;
+  }
+
+  public void setUSD(MtGoxWallet uSD) {
+    this.uSD = uSD;
+  }
+
+  @Override
+  public String toString() {
+    return "Wallets [bTC=" + bTC + ", uSD=" + uSD + "]";
+  }
 
 }

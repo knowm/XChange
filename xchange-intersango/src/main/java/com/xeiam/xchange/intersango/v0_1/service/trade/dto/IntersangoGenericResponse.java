@@ -19,35 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade;
-
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
+package com.xeiam.xchange.intersango.v0_1.service.trade.dto;
 
 /**
- * Test MtGoxGenericResponse JSON parsing
+ * <p>Data object representing a response message from Intersango on authenticated API</p>
  */
-public class SuccessMessageJSONTest {
+public class IntersangoGenericResponse {
 
-  @Test
-  public void testUnmarshal() throws IOException {
+  private String error;
 
-    // Read in the JSON from the example resources
-    InputStream is = SuccessMessageJSONTest.class.getResourceAsStream("/trade/example-success-response-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    MtGoxGenericResponse mtGoxGenericResponse = mapper.readValue(is, MtGoxGenericResponse.class);
-
-    System.out.println(mtGoxGenericResponse.getResult());
-
-    // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxGenericResponse.getResult().equals("success"));
+  public String getError() {
+    return error;
   }
+
+  public void setError(String error) {
+    this.error = error;
+  }
+
 }

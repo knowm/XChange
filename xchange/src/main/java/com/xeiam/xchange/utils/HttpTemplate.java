@@ -213,20 +213,20 @@ public class HttpTemplate {
    * <p>Send an HTTP POST request, and receive server response</p>
    *
    * @param urlString   A string representation of a URL
-   * @param entity      The contents of the request body (treated as UTF-8)
+   * @param postBody      The contents of the request body (treated as UTF-8)
    * @param httpHeaders Any custom header values
    *
    * @return The contents of the response body as a String
    */
-  String postForString(String urlString, String entity, Map<String, String> httpHeaders) {
+  String postForString(String urlString, String postBody, Map<String, String> httpHeaders) {
 
     String responseString = "";
     URLConnection connection = null;
     try {
-      connection = configureURLConnection(HttpMethod.POST, urlString, httpHeaders, entity);
+      connection = configureURLConnection(HttpMethod.POST, urlString, httpHeaders, postBody);
 
       // Perform the POST by writing to the output stream
-      connection.getOutputStream().write(entity.getBytes(CHARSET_UTF_8));
+      connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
 
       // Minimise the impact of the HttpURLConnection on the job of getting the data
       String responseEncoding = getResponseEncoding(connection);

@@ -53,7 +53,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
     this.marketDataService = new MtGoxMarketDataService(exchangeSpecification);
-    this.accountService = new MtGoxTradeService(exchangeSpecification);
+    this.tradeService = new MtGoxTradeService(exchangeSpecification);
   }
 
   @Override

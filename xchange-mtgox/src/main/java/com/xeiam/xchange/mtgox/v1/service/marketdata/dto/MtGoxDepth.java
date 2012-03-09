@@ -19,39 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
+
+import com.xeiam.xchange.service.marketdata.OrderBook;
 
 /**
- * Data object representing a response message from Mt Gox after placing and order
+ * Data object representing depth from Mt Gox
  */
-public class MtGoxGenericResponse {
+public class MtGoxDepth extends OrderBook {
 
-  private String result;
-  private String _return;
-  private String error;
-
-  public String getResult() {
-    return result;
-  }
-
-  public void setResult(String result) {
-    this.result = result;
-  }
-
-  public String getReturn() {
-    return _return;
-  }
-
-  public void setReturn(String _return) {
-    this._return = _return;
-  }
-
-  public String getError() {
-    return error;
-  }
-
-  public void setError(String error) {
-    this.error = error;
-  }
+  // same thing as com.xeiam.xchange.marketdata.dto.Depth
 
 }

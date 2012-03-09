@@ -44,6 +44,6 @@ public class IntersangoTickerTest {
     IntersangoTicker intersangoTicker = mapper.readValue(is, IntersangoTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value",intersangoTicker.getLast(),equalTo("5.77397"));
+    assertThat("Unexpected Return Buy value",intersangoTicker.getLast(),equalTo("3.22498"));
   }
 }

@@ -1,4 +1,4 @@
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
 /**
  * <p>

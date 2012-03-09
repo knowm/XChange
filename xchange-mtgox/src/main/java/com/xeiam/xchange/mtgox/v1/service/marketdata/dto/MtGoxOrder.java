@@ -19,15 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
-import com.xeiam.xchange.service.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.Order;
 
 /**
- * Data object representing depth from Mt Gox
+ * Data object representing a buy or sell order from Mt Gox
  */
-public class MtGoxDepth extends OrderBook {
+public class MtGoxOrder extends Order {
 
-  // same thing as com.xeiam.xchange.marketdata.dto.Depth
+  // same thing as com.xeiam.xchange.marketdata.dto.Order
 
 }

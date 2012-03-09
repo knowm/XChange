@@ -4,7 +4,7 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.IntersangoPublicHttpMarketDataService;
-import com.xeiam.xchange.intersango.v0_1.service.trader.IntersangoAccountService;
+import com.xeiam.xchange.intersango.v0_1.service.trade.IntersangoTradeService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
     this.marketDataService = new IntersangoPublicHttpMarketDataService(exchangeSpecification);
-    this.accountService = new IntersangoAccountService(exchangeSpecification);
+    this.tradeService = new IntersangoTradeService(exchangeSpecification);
   }
 
   @Override

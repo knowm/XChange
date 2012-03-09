@@ -35,7 +35,7 @@ import com.xeiam.xchange.service.trade.TradeService;
 public abstract class BaseExchange implements Exchange {
 
   protected MarketDataService marketDataService;
-  protected TradeService accountService;
+  protected TradeService tradeService;
 
   @Override
   public MarketDataService getMarketDataService() {
@@ -44,7 +44,7 @@ public abstract class BaseExchange implements Exchange {
 
   @Override
   public TradeService getTradeService() {
-    return accountService;
+    return tradeService;
   }
 
   // Package local for testing
@@ -53,7 +53,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   // Package local for testing
-  public void setAccountService(TradeService accountService) {
-    this.accountService = accountService;
+  public void setTradeService(TradeService tradeService) {
+    this.tradeService = tradeService;
   }
 }

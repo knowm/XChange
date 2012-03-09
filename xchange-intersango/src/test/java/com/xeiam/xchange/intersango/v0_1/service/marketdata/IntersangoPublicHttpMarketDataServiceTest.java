@@ -1,7 +1,13 @@
 package com.xeiam.xchange.intersango.v0_1.service.marketdata;
 
 import com.xeiam.xchange.*;
+import com.xeiam.xchange.utils.HttpTemplate;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -27,4 +33,30 @@ public class IntersangoPublicHttpMarketDataServiceTest {
       // Do nothing
     }
   }
+
+  @Test
+  public void testGetMarketDepth() {
+
+    Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
+
+    IntersangoPublicHttpMarketDataService testObject = (IntersangoPublicHttpMarketDataService) intersango.getMarketDataService();
+
+    testObject.setHttpTemplate(new HttpTemplate() {
+      @Override
+      public <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
+        InputStream is = IntersangoPublicHttpMarketDataServiceTest.class.getResourceAsStream("/intersango/example-depth-data.json");
+
+        try {
+          return objectMapper.readValue(is,returnType);
+        } catch (IOException e) {
+          return null;
+        }
+      }
+    });
+
+    testObject.getOrderBook(SymbolPair.BTC_USD);
+    
+  }
+
+
 }

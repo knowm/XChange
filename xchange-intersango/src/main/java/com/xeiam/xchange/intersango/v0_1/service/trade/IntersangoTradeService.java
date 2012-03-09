@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,77 +19,76 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade;
+package com.xeiam.xchange.intersango.v0_1.service.trade;
 
 import com.xeiam.xchange.Constants;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoGenericResponse;
+import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoOpenOrder;
+import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoWallet;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.*;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.utils.CryptoUtils;
-import com.xeiam.xchange.utils.HttpTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MtGoxTradeService extends BaseExchangeService implements TradeService {
+public class IntersangoTradeService extends BaseExchangeService implements TradeService {
 
-  private final Logger log = LoggerFactory.getLogger(MtGoxTradeService.class);
+  /**
+   * Provides logging for this class
+   */
+  private final Logger log = LoggerFactory.getLogger(IntersangoTradeService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBaseURI = String.format("%s/api/%s/", apiURI, apiVersion);
+  private final String apiBase = String.format("%s/api/authenticated/%s/", apiURI, apiVersion);
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
+   * Initialise common properties from the exchange specification
+   *
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
-  public MtGoxTradeService(ExchangeSpecification exchangeSpecification) {
+  public IntersangoTradeService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() {
 
-    // verify
+    // Verify against Intersango requirements
     Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     // Build request
-    String url = apiBaseURI + "/generic/private/info?raw";
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+    String url = apiBase + "listAccounts.php";
+    String postBody = "api_key=" + apiKey;
 
     // Request data
-    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    IntersangoWallet[] intersangoWallets = httpTemplate.postForJsonObject(url, IntersangoWallet[].class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
 
     // Adapt to XChange DTOs
     AccountInfo accountInfo = new AccountInfo();
-    accountInfo.setUsername(mtGoxAccountInfo.getLogin());
+    // TODO Fill in more information in the AccountInfo
+    accountInfo.setUsername("example");
 
     List<Wallet> wallets = new ArrayList<Wallet>();
-    Wallet usdWallet = new Wallet();
-    usdWallet.setCurrency(Constants.USD);
-    usdWallet.setAmount_int(mtGoxAccountInfo.getWallets().getUSD().getBalance().getValue_int());
-    wallets.add(usdWallet);
-    Wallet btcWallet = new Wallet();
-    btcWallet.setCurrency(Constants.BTC);
-    btcWallet.setAmount_int(mtGoxAccountInfo.getWallets().getBTC().getBalance().getValue_int());
-    wallets.add(btcWallet);
+    if (intersangoWallets != null) {
+      for (IntersangoWallet intersangoWallet : intersangoWallets) {
+        Wallet wallet = new Wallet();
+        // Balance provided to 10dp
+        // TODO Rethink the Wallet to use BigDecimal or Money
+        wallet.setAmount_int( (long) (Double.valueOf(intersangoWallet.getBalance()) * 10000000000L));
+        wallet.setCurrency(intersangoWallet.getCurrency_abbreviation());
+        wallets.add(wallet);
+      }
+    }
     accountInfo.setWallets(wallets);
 
     return accountInfo;
@@ -99,29 +98,30 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   @Override
   public OpenOrders getOpenOrders() {
 
-    // verify
+    // TODO Verify this
+
+    // Verify against Intersango requirements
     Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     // Build request
-    String url = apiBaseURI + "/generic/private/orders?raw";
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+    String url = apiBase + "/listOrders.php";
+    String postBody = "api_key=" + apiKey;
 
     // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrder = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    IntersangoOpenOrder[] intersangoOpenOrder = httpTemplate.postForJsonObject(url, IntersangoOpenOrder[].class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
 
     // Adapt to XChange DTOs
     List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
-    for (int i = 0; i < mtGoxOpenOrder.length; i++) {
+    for (int i = 0; i < intersangoOpenOrder.length; i++) {
       LimitOrder openOrder = new LimitOrder();
-      openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
-      openOrder.setAmount_int(mtGoxOpenOrder[i].getAmount().getValue_int());
-      openOrder.setAmountCurrency(mtGoxOpenOrder[i].getAmount().getCurrency());
+      openOrder.setType(intersangoOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
+      openOrder.setAmount_int(Long.valueOf(intersangoOpenOrder[i].getAmount()));
+      openOrder.setAmountCurrency(intersangoOpenOrder[i].getAmount());
 
-      openOrder.setPrice_int(mtGoxOpenOrder[i].getPrice().getValue_int());
-      openOrder.setPriceCurrency(mtGoxOpenOrder[i].getPrice().getCurrency());
+      openOrder.setPrice_int(Long.parseLong(intersangoOpenOrder[i].getPrice()));
+      openOrder.setPriceCurrency(intersangoOpenOrder[i].getPrice());
 
       openOrdersList.add(openOrder);
     }
@@ -135,9 +135,10 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   @Override
   public boolean placeMarketOrder(MarketOrder marketOrder) {
 
-    // verify
+    // TODO Verify this
+
+    // Verify against Intersango requirements
     Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
@@ -150,22 +151,23 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     String symbol = marketOrder.getAmountCurrency() + marketOrder.getPriceCurrency();
     String type = marketOrder.getType().equals(Constants.BID) ? "bid" : "ask";
     String amount = "" + marketOrder.getAmount_int();
-    String url = apiBaseURI + symbol + "/private/order/add";
 
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount;
+    String url = apiBase + "/placeLimitOrder.php";
+    String postBody = "api_key=" + apiKey + "&type=" + type + "&amount_int=" + amount;
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
 
-    return mtGoxSuccess.getResult().equals("success") ? true : false;
+    return intersangoSuccess.getError().equals("success") ? true : false;
   }
 
   @Override
   public boolean placeLimitOrder(LimitOrder limitOrder) {
 
-    // verify
+    // TODO Verify this
+
+    // Verify against Intersango requirements
     Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
 
@@ -180,36 +182,38 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     String type = limitOrder.getType().equals(Constants.BID) ? "bid" : "ask";
     String amount = "" + limitOrder.getAmount_int();
     String price_int = "" + limitOrder.getPrice_int();
-    String url = apiBaseURI + symbol + "/private/order/add";
 
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount + "&price_int=" + price_int;
+    String url = apiBase + "/placeLimitOrder.php";
+    String postBody = "api_key=" + apiKey + "&type=" + type + "&amount_int=" + amount;
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
 
-    return mtGoxSuccess.getResult().equals("success") ? true : false;
+    return intersangoSuccess.getError().equals("success") ? true : false;
   }
 
   /**
-   * Generates necessary authentication header values for MtGox
-   * 
+   * Generates necessary authentication header values for Intersango
+   *
    * @param postBody
+   *
    * @return
    */
-  private Map<String, String> getMtGoxAuthenticationHeaderKeyValues(String postBody) {
+  private Map<String, String> getIntersangoAuthenticationHeaderKeyValues(String postBody) {
 
-    try {
+    Map<String, String> headerKeyValues = new HashMap<String, String>();
+    return headerKeyValues;
 
-      Map<String, String> headerKeyValues = new HashMap<String, String>();
-
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, apiSecret));
-      return headerKeyValues;
-
-    } catch (GeneralSecurityException e) {
-      throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
-    } catch (UnsupportedEncodingException e) {
-      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
-    }
+//    try {
+//
+//      Map<String, String> headerKeyValues = new HashMap<String, String>();
+//
+//      headerKeyValues.put("api_key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
+//      return headerKeyValues;
+//
+//    } catch (UnsupportedEncodingException e) {
+//      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
+//    }
   }
+
 }
