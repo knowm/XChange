@@ -1,12 +1,13 @@
-package com.xeiam.xchange.intersango.v1;
-
-import java.util.HashMap;
-import java.util.Map;
+package com.xeiam.xchange.intersango.v0_1;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.intersango.v1.service.trader.IntersangoAccountService;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.IntersangoPublicHttpMarketDataService;
+import com.xeiam.xchange.intersango.v0_1.service.trader.IntersangoAccountService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,7 +32,7 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
-    // this.marketDataService = new IntersangoPublicHttpMarketDataService(exchangeSpecification);
+    this.marketDataService = new IntersangoPublicHttpMarketDataService(exchangeSpecification);
     this.accountService = new IntersangoAccountService(exchangeSpecification);
   }
 
@@ -40,7 +41,7 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
 
     Map<String, Object> parameters = new HashMap<String, Object>();
 
-    parameters.put(ExchangeSpecification.API_URI, "https://mtgox.com");
+    parameters.put(ExchangeSpecification.API_URI, "https://intersango.com");
     parameters.put(ExchangeSpecification.API_VERSION, "1");
 
     return new ExchangeSpecification(this.getClass().getCanonicalName(), parameters);

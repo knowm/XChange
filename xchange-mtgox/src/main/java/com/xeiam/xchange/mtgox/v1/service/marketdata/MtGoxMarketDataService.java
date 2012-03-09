@@ -24,6 +24,7 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.PacingViolationException;
+import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.*;
@@ -69,12 +70,12 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public Ticker getTicker(String symbol) {
+  public Ticker getTicker(SymbolPair symbolPair) {
 
     // verify
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
-    Assert.notNull(symbol, "symbol cannot be null");
+    Assert.notNull(symbolPair, "symbolPair cannot be null");
 
     // check for pacing violation
     if (System.currentTimeMillis() < tickerRequestTimeStamp + getRefreshRate()) {
@@ -84,7 +85,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     tickerRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbol + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
+    MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
@@ -97,12 +98,12 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public OrderBook getOrderBook(String symbol) {
+  public OrderBook getOrderBook(SymbolPair symbolPair) {
 
     // verify
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
-    Assert.notNull(symbol, "symbol cannot be null");
+    Assert.notNull(symbolPair, "symbolPair cannot be null");
 
     // check for pacing violation
     if (System.currentTimeMillis() < orderBookRequestTimeStamp + getRefreshRate()) {
@@ -112,7 +113,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     orderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + symbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();
@@ -123,12 +124,12 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public OrderBook getFullOrderBook(String symbol) {
+  public OrderBook getFullOrderBook(SymbolPair symbolPair) {
 
     // verify
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
-    Assert.notNull(symbol, "symbol cannot be null");
+    Assert.notNull(symbolPair, "symbolPair cannot be null");
 
     // check for pacing violation
     if (System.currentTimeMillis() < fullOrderBookRequestTimeStamp + getRefreshRate()) {
@@ -138,7 +139,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     fullOrderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + symbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();
@@ -149,12 +150,12 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public Trades getTrades(String symbol) {
+  public Trades getTrades(SymbolPair symbolPair) {
 
     // verify
     Assert.notNull(apiURI, "apiURI cannot be null");
     Assert.notNull(apiVersion, "apiVersion cannot be null");
-    Assert.notNull(symbol, "symbol cannot be null");
+    Assert.notNull(symbolPair, "symbol cannot be null");
 
     // check for pacing violation
     if (System.currentTimeMillis() < tradesRequestTimeStamp + getRefreshRate()) {
@@ -164,7 +165,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + symbol + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
+    MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
 
     Trades trades = new Trades();
     List<Trade> tradesList = new ArrayList<Trade>();
@@ -192,7 +193,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public List<String> getExchangeSymbols() {
-    return MtGoxProperties.MT_GOX_SYMBOLS;
+  public List<SymbolPair> getExchangeSymbols() {
+    return MtGoxProperties.SYMBOL_PAIRS;
   }
 }

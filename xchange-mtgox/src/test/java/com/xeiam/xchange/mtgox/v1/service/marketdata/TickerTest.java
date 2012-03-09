@@ -21,16 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test requesting last tick at MtGox
@@ -53,7 +53,7 @@ public class TickerTest {
   public void testLastTicker() {
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker("BTCUSD");
+    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
     double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
     System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 

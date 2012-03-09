@@ -23,6 +23,7 @@ package com.xeiam.xchange.imcex.v1.service.marketdata;
 
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.imcex.v1.ImcexProperties;
 import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexDepth;
 import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexTicker;
@@ -65,10 +66,10 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public Ticker getTicker(String symbol) {
+  public Ticker getTicker(SymbolPair symbolPair) {
 
     // Request data
-    ImcexTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbol + "/public/ticker", ImcexTicker.class, mapper, new HashMap<String, String>());
+    ImcexTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/ticker", ImcexTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
@@ -81,10 +82,10 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public OrderBook getOrderBook(String symbol) {
+  public OrderBook getOrderBook(SymbolPair symbolPair) {
 
     // Request data
-    ImcexDepth imcexDepth = httpTemplate.getForJsonObject(apiBase + symbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
+    ImcexDepth imcexDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
 
     OrderBook depth = new OrderBook();
 
@@ -92,28 +93,23 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   }
 
   @Override
-  public Trades getTrades(String symbol) {
+  public Trades getTrades(SymbolPair symbolPair) {
     return null;
   }
 
   @Override
-  public OrderBook getFullOrderBook(String symbol) {
+  public OrderBook getFullOrderBook(SymbolPair symbolPair) {
     return null;
   }
 
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
-   * </p>
-   */
   @Override
   public int getRefreshRate() {
     return ImcexProperties.REFRESH_RATE;
   }
 
   @Override
-  public List<String> getExchangeSymbols() {
-    return ImcexProperties.IMCEX_SYMBOLS;
+  public List<SymbolPair> getExchangeSymbols() {
+    return ImcexProperties.SYMBOL_PAIRS;
   }
 
 }

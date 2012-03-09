@@ -37,9 +37,9 @@ class IOConnection {
 
   private final Logger log = LoggerFactory.getLogger(IOConnection.class);
 
-    /**
-     * The current state
-     */
+  /**
+   * The current state
+   */
   private IOState state = IOState.STATE_INIT;
 
   /**
@@ -195,7 +195,6 @@ class IOConnection {
      */
     private void handshake() {
       URL url;
-      String response;
       URLConnection connection;
       try {
         setState(IOState.STATE_HANDSHAKE);
@@ -237,14 +236,17 @@ class IOConnection {
         InputStream stream = connection.getInputStream();
 
         Scanner in = new Scanner(stream);
-        response = in.nextLine();
+        String response = in.nextLine();
         log.trace("Server response: " + response);
+        // Response should contain transport configuration data
         if (response.contains(":")) {
           String[] data = response.split(":");
-          heartbeatTimeout = Long.parseLong(data[1]) * 1000;
-          closingTimeout = Long.parseLong(data[2]) * 1000;
-          protocols = Arrays.asList(data[3].split(","));
-          sessionId = data[0];
+          if (data.length > 4) {
+            sessionId = data[0];
+            heartbeatTimeout = Long.parseLong(data[1]) * 1000;
+            closingTimeout = Long.parseLong(data[2]) * 1000;
+            protocols = Arrays.asList(data[3].split(","));
+          }
         }
       } catch (IOException e) {
         error(new SocketIOException("Error while handshaking (IO)", e));
@@ -537,9 +539,9 @@ class IOConnection {
   }
 
   /**
-   * Incoming transport message 
+   * Incoming transport message
    *
-   * @param text The incoming message text 
+   * @param text The incoming message text
    */
   public void transportMessage(String text) {
     String trace = "< " + text;
@@ -553,7 +555,7 @@ class IOConnection {
     resetTimeout();
     switch (message.getType()) {
       case IOMessage.TYPE_DISCONNECT:
-        log.trace("{} [DISCONNECT]",trace);
+        log.trace("{} [DISCONNECT]", trace);
         if ("".equals(message.getEndpoint())) {
           for (SocketIO socket : sockets.values()) {
             socket.getCallback().onDisconnect();
@@ -567,7 +569,7 @@ class IOConnection {
           }
         break;
       case IOMessage.TYPE_CONNECT:
-        log.trace("{} [CONNECT]",trace);
+        log.trace("{} [CONNECT]", trace);
         try {
           if (firstSocket != null && message.getEndpoint().equals("")) {
             if (firstSocket.getNamespace().equals("")) {
@@ -588,7 +590,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_HEARTBEAT:
-        log.trace("{} [HEARTBEAT]",trace);
+        log.trace("{} [HEARTBEAT]", trace);
         sendPlain("2::");
         break;
       case IOMessage.TYPE_MESSAGE:
@@ -602,7 +604,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_JSON_MESSAGE:
-        log.trace("{} [JSON_MESSAGE]",trace);
+        log.trace("{} [JSON_MESSAGE]", trace);
         try {
           JSONObject obj = null;
           String data = message.getData();
@@ -621,7 +623,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_EVENT:
-        log.trace("{} [EVENT]",trace);
+        log.trace("{} [EVENT]", trace);
         try {
           JSONObject event = new JSONObject(message.getData());
           JSONArray args = event.getJSONArray("args");
@@ -645,7 +647,7 @@ class IOConnection {
         break;
 
       case IOMessage.TYPE_ACK:
-        log.trace("{} [ACK]",trace);
+        log.trace("{} [ACK]", trace);
         String[] data = message.getData().split("\\+", 2);
         if (data.length == 2) {
           try {
@@ -671,7 +673,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_ERROR:
-        log.trace("{} [ERROR]",trace);
+        log.trace("{} [ERROR]", trace);
         if ("".equals(message.getEndpoint())) {
           // Inform all sockets that a connection error has occurred
           for (SocketIO socket : sockets.values()) {
@@ -688,7 +690,7 @@ class IOConnection {
         }
         break;
       case IOMessage.TYPE_NO_OP:
-        log.trace("{} [NO OP]",trace);
+        log.trace("{} [NO OP]", trace);
         break;
       default:
         warning("Unknown IOMessage type received: " + message.getType());

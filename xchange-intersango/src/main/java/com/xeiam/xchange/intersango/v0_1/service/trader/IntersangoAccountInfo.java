@@ -19,11 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1;
+package com.xeiam.xchange.intersango.v0_1.service.trader;
 
 /**
- * 
+ * Data object representing Account Info from Mt Gox
  */
-public class IntersangoPublicSocketIOMarketDataService {
+public class IntersangoAccountInfo {
 
 }

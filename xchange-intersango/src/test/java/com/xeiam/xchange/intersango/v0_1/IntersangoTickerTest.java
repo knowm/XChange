@@ -19,26 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1;
+package com.xeiam.xchange.intersango.v0_1;
 
-import java.util.Arrays;
-import java.util.List;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
-/**
- * A central place for shared Mt Gox properties
- * TODO Consider an enum for this
- */
-public class IntersangoProperties {
+import java.io.IOException;
+import java.io.InputStream;
 
-  public static final int REFRESH_RATE = 10; // [seconds]
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
-  public static final List<String> MT_GOX_SYMBOLS = Arrays.asList("BTCUSD", "BTCAUD", "BTCCAD", "BTCCHF", "BTCCNY", "BTCDKK", "BTCEUR", "BTCGBP", "BTCHKD", "BTCJPY", "BTCNZD", "BTCPLN", "BTCRUB", "BTCSEK", "BTCSGD",
-    "BTCTHB");
+public class IntersangoTickerTest {
 
-  public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
+  @Test
+  public void testUnmarshal() throws IOException {
 
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
+    // Read in the JSON from the example resources
+    InputStream is = IntersangoTickerTest.class.getResourceAsStream("/intersango/example-trade-data.json");
 
-  public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    IntersangoTicker intersangoTicker = mapper.readValue(is, IntersangoTicker.class);
 
+    // Verify that the example data was unmarshalled correctly
+    assertThat("Unexpected Return Buy value",intersangoTicker.getLast(),equalTo("5.77397"));
+  }
 }

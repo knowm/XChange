@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.junit.Assert.assertTrue;
-
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.Trades;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.Trades;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test requesting trades at MtGox
@@ -48,11 +48,12 @@ public class TradesTest {
     marketDataService = mtGox.getMarketDataService();
   }
 
+  // TODO This test should not actually call out to Mt Gox
   @Test
   public void testLastTicker() {
 
     // Get trades
-    Trades trades = marketDataService.getTrades("BTCPLN");
+    Trades trades = marketDataService.getTrades(new SymbolPair("BTC","PLN"));
     System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
     // Verify that trades is not null

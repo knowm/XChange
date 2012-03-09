@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1.service.marketdata.dto;
+package com.xeiam.xchange.intersango.v0_1.service.marketdata.dto;
 
 /**
  * Data object representing market depth from Intersango

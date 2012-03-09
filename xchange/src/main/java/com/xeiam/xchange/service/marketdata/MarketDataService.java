@@ -21,10 +21,11 @@
  */
 package com.xeiam.xchange.service.marketdata;
 
-import java.util.List;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.SymbolPair;
+
+import java.util.List;
 
 /**
  * <p>
@@ -34,19 +35,67 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
  * <li>Standard methods available to explore the market data</li>
  * </ul>
  * TODO Consider the blocking nature and perhaps go for a TODO MarketDataCallback or MarketDataListener approach?  
- * 
+ *
  * @since 0.0.1
  */
 public interface MarketDataService {
 
-  List<String> getExchangeSymbols() throws NotAvailableFromExchangeException;
+  /**
+   * <p>Ask the exchange what symbol pairs it supports</p>
+   *
+   * @return The symbol pairs supported by this exchange (e.g. EUR/USD)
+   *
+   * @throws NotAvailableFromExchangeException
+   *
+   */
+  List<SymbolPair> getExchangeSymbols() throws NotAvailableFromExchangeException;
 
-  Ticker getTicker(String symbol) throws NotAvailableFromExchangeException;
+  /**
+   * <p>Get a ticker representing the current exchange rate for a symbol pair</p>
+   *
+   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
+   *
+   * @return The Ticker
+   *
+   * @throws NotAvailableFromExchangeException
+   *          If the exchange does not support the symbol pair
+   */
+  Ticker getTicker(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
 
-  OrderBook getOrderBook(String symbol) throws NotAvailableFromExchangeException;
+  /**
+   * <p>Get an order book representing the current offered exchange rates for a symbol pair</p>
+   *
+   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
+   *
+   * @return The order book in a reduced form (if possible)
+   *
+   * @throws NotAvailableFromExchangeException
+   *          If the exchange does not support the symbol pair
+   */
+  OrderBook getOrderBook(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
 
-  OrderBook getFullOrderBook(String symbol) throws NotAvailableFromExchangeException;
+  /**
+   * <p>Get a full order book representing the current offered exchange rates for a symbol pair</p>
+   *
+   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
+   *
+   * @return The full order book
+   *
+   * @throws NotAvailableFromExchangeException
+   *          If the exchange does not support the symbol pair
+   */
+  OrderBook getFullOrderBook(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
 
-  Trades getTrades(String symbol) throws NotAvailableFromExchangeException;
+  /**
+   * <p>Get the trades recently performed by the exchange for a symbol pair</p>
+   *
+   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
+   *
+   * @return The trade data
+   *
+   * @throws NotAvailableFromExchangeException
+   *          If the exchange does not support the symbol pair
+   */
+  Trades getTrades(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
 
 }

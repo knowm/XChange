@@ -23,6 +23,7 @@ package com.xeiam.xchange.imcex.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.trade.AccountInfo;
@@ -61,7 +62,7 @@ public class ImcexDemo {
     MarketDataService marketDataService = imcex.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker("BTCUSD");
+    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
 
     // Perform a crude conversion from the internal representation
     double btcusd = (double) ticker.getLast() / 100000;

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1.service.trader;
+package com.xeiam.xchange.intersango.v0_1.service.trader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

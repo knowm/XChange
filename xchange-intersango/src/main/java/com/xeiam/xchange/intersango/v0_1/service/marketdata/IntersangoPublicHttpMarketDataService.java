@@ -19,13 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1.service.marketdata;
+package com.xeiam.xchange.intersango.v0_1.service.marketdata;
 
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.intersango.v1.IntersangoProperties;
-import com.xeiam.xchange.intersango.v1.service.marketdata.dto.IntersangoDepth;
-import com.xeiam.xchange.intersango.v1.service.marketdata.dto.IntersangoTicker;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.intersango.v0_1.IntersangoProperties;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoDepth;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
@@ -55,7 +57,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/%s/", apiURI, apiVersion);
+  private final String apiBase = String.format("%s/api/", apiURI);
 
   /**
    * @param exchangeSpecification The exchange specification
@@ -65,26 +67,62 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public Ticker getTicker(String symbol) {
+  public Ticker getTicker(SymbolPair symbolPair) {
+
+    String currencyPairId = getCurrencyPairId(symbolPair);
 
     // Request data
-    IntersangoTicker intersangoTicker = httpTemplate.getForJsonObject(apiBase + symbol + "/public/ticker", IntersangoTicker.class, mapper, new HashMap<String, String>());
+    IntersangoTicker intersangoTicker = httpTemplate.getForJsonObject(apiBase + "ticker.php?currency_pair_id=" + currencyPairId, IntersangoTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     Ticker ticker = new Ticker();
 
     // TODO Provide more detail
-    ticker.setLast(Integer.parseInt(intersangoTicker.getReturn().getLast_orig().getValue_int()));
-    ticker.setVolume(Long.parseLong(intersangoTicker.getReturn().getVol().getValue_int()));
+    long last = (long) (Double.parseDouble(intersangoTicker.getLast())*10000);
+    long volume = (long) (Double.parseDouble(intersangoTicker.getVol())*10000);
+    ticker.setLast(last);
+    ticker.setVolume(volume);
 
     return ticker;
   }
 
+  /**
+   * <p>Translates the symbol pair to the Intersango dictionary using the following rules:</p>
+   * <ul>
+   * <li>1 = BTC:GBP</li>
+   * <li>2 = BTC:EUR</li>
+   * <li>3 = BTC:USD</li>
+   * <li>4 = BTC:PLN</li>
+   * </ul>
+   *
+   * @param symbolPair The symbol pair
+   *
+   * @return A suitable ID if possible
+   */
+  String getCurrencyPairId(SymbolPair symbolPair) {
+    if (!"BTC".equalsIgnoreCase(symbolPair.baseSymbol)) {
+      throw new NotAvailableFromExchangeException("Symbol " + symbolPair.baseSymbol + " is not available");
+    }
+    if ("GBP".equalsIgnoreCase(symbolPair.counterSymbol)) {
+      return "1";
+    }
+    if ("EUR".equalsIgnoreCase(symbolPair.counterSymbol)) {
+      return "2";
+    }
+    if ("USD".equalsIgnoreCase(symbolPair.counterSymbol)) {
+      return "3";
+    }
+    if ("PLN".equalsIgnoreCase(symbolPair.counterSymbol)) {
+      return "4";
+    }
+    throw new NotAvailableFromExchangeException("Symbol pair " + symbolPair + " is not available");
+  }
+
   @Override
-  public OrderBook getOrderBook(String symbol) {
+  public OrderBook getOrderBook(SymbolPair symbolPair) {
 
     // Request data
-    IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
+    IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();
@@ -93,13 +131,13 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public Trades getTrades(String symbol) {
+  public Trades getTrades(SymbolPair symbolPair) {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public OrderBook getFullOrderBook(String symbol) {
+  public OrderBook getFullOrderBook(SymbolPair symbolPair) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -115,7 +153,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public List<String> getExchangeSymbols() {
-    return IntersangoProperties.MT_GOX_SYMBOLS;
+  public List<SymbolPair> getExchangeSymbols() {
+    return IntersangoProperties.SYMBOL_PAIRS;
   }
 }

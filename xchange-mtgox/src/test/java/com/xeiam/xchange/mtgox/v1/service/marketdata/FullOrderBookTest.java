@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.junit.Assert.assertTrue;
-
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.OrderBook;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.OrderBook;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test requesting full orderbook at MtGox
@@ -48,11 +48,12 @@ public class FullOrderBookTest {
     marketDataService = mtGox.getMarketDataService();
   }
 
+  // TODO This test should not actually call out to Mt Gox
   @Test
   public void testLastTicker() {
 
     // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook("BTCUSD");
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook(SymbolPair.BTC_USD);
     System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
     // Verify that the full orderBook is not null

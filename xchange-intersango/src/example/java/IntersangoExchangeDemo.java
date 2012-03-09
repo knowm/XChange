@@ -19,10 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.trade.AccountInfo;
@@ -33,14 +33,15 @@ import com.xeiam.xchange.service.trade.TradeService;
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connecting to Mt Gox Bitcoin exchange</li>
+ * <li>Connecting to Intersango Bitcoin exchange</li>
  * <li>Retrieving market data</li>
+ * <li>Retrieving basic trade data</li>
  * </ul>
  * 
  * @since 0.0.1  
  */
-public class IntersangoDemo {
-
+public class IntersangoExchangeDemo {
+  
   public static void main(String[] args) {
 
     // Demonstrate the public market data service
@@ -56,19 +57,19 @@ public class IntersangoDemo {
    */
   private static void demoMarketDataService() {
 
-    // Use the factory to get the version 1 Intersango exchange API using default settings
-    Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v1.IntersangoExchange");
+    // Use the factory to get the version 0.1 Intersango exchange API using default settings
+    Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
 
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = intersango.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker("BTCUSD");
+    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
 
     // Perform a crude conversion from the internal representation
-    double btcusd = (double) ticker.getLast() / 100000;
+    double btcusd = (double) ticker.getLast() / 10000;
 
-    System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
+    System.out.printf("Current exchange rate for BTC to USD: %.4f%n", btcusd);
   }
 
   /**
@@ -76,7 +77,7 @@ public class IntersangoDemo {
    */
   private static void demoAccountService() {
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange imcex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v1.IntersangoExchange");
+    Exchange imcex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
 
     // Interested in the public market data feed (no authentication)
     TradeService accountService = imcex.getTradeService();
@@ -84,7 +85,7 @@ public class IntersangoDemo {
     // Get the latest ticker data showing BTC to USD
     AccountInfo accountInfo = accountService.getAccountInfo();
 
-    System.out.printf("Account info: %s", accountInfo);
+    System.out.printf("Account info: %s%n", accountInfo);
   }
 
 }
