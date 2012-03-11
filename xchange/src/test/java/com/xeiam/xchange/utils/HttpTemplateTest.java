@@ -1,9 +1,6 @@
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.service.marketdata.Ticker;
-import com.xeiam.xchange.service.trade.AccountInfo;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,8 +12,15 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
+import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.trade.AccountInfo;
+
+/**
+ * Test class for testing HttpTemplate methods
+ */
 public class HttpTemplateTest {
 
   @Test
@@ -76,15 +80,11 @@ public class HttpTemplateTest {
 
   }
 
-
   /**
-   * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very
-   * complex workarounds. In the interests of simplicity an implementation approach is used.
-   *
+   * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very complex workarounds. In the interests of simplicity an implementation approach is used.
+   * 
    * @param resourcePath A classpath resource for the input stream to use in the response
-   *
    * @return A mock HttpURLConnection
-   *
    * @throws MalformedURLException If something goes wrong
    */
   private HttpURLConnection configureMockHttpURLConnectionForPost(final String resourcePath) throws MalformedURLException {
@@ -121,19 +121,15 @@ public class HttpTemplateTest {
         return null;
       }
 
-
     };
 
   }
 
   /**
-   * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very
-   * complex workarounds. In the interests of simplicity an implementation approach is used.
-   *
-   * @param resourcePath A classpath resource for the input strea to use in the response
-   *
+   * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very complex workarounds. In the interests of simplicity an implementation approach is used.
+   * 
+   * @param resourcePath A classpath resource for the input stream to use in the response
    * @return A mock HttpURLConnection
-   *
    * @throws MalformedURLException If something goes wrong
    */
   private HttpURLConnection configureMockHttpURLConnectionForGet(final String resourcePath) throws MalformedURLException {
@@ -160,7 +156,6 @@ public class HttpTemplateTest {
       public String getHeaderField(String s) {
         return null;
       }
-
 
     };
 

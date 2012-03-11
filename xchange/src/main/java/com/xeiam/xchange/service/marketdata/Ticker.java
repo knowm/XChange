@@ -22,7 +22,7 @@
 package com.xeiam.xchange.service.marketdata;
 
 /**
- * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest traede.
+ * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade.
  */
 public class Ticker {
 

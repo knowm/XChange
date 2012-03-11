@@ -21,18 +21,23 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.HttpException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.HttpException;
 
 /**
  * Various HTTP utility methods
@@ -41,7 +46,7 @@ public class HttpTemplate {
 
   public final static String CHARSET_UTF_8 = "UTF-8";
 
-  private Logger log = LoggerFactory.getLogger(HttpTemplate.class);
+  private final Logger log = LoggerFactory.getLogger(HttpTemplate.class);
 
   /**
    * Default request header fields
@@ -62,12 +67,11 @@ public class HttpTemplate {
 
   /**
    * Requests JSON via an HTTP GET and unmarshals it into an object graph
-   *
-   * @param urlString    A string representation of a URL
-   * @param returnType   The required return type
+   * 
+   * @param urlString A string representation of a URL
+   * @param returnType The required return type
    * @param objectMapper The Jackson ObjectMapper to use
-   * @param httpHeaders  Any custom header values (application/json is provided automatically)
-   *
+   * @param httpHeaders Any custom header values (application/json is provided automatically)
    * @return The contents of the response body as the given type mapped through Jackson
    */
   public <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
@@ -86,13 +90,12 @@ public class HttpTemplate {
 
   /**
    * Requests JSON via an HTTP POST
-   *
-   * @param urlString    A string representation of a URL
-   * @param returnType   The required return type
-   * @param postBody     The contents of the request body
+   * 
+   * @param urlString A string representation of a URL
+   * @param returnType The required return type
+   * @param postBody The contents of the request body
    * @param objectMapper The Jackson ObjectMapper to use
-   * @param httpHeaders  Any custom header values (application/json is provided automatically)
-   *
+   * @param httpHeaders Any custom header values (application/json is provided automatically)
    * @return String - the fetched JSON String
    */
   public <T> T postForJsonObject(String urlString, Class<T> returnType, String postBody, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
@@ -112,17 +115,16 @@ public class HttpTemplate {
 
   /**
    * Provides an internal convenience method to allow easy overriding by test classes
-   *
-   * @param method      The HTTP method (e.g. GET, POST etc)
-   * @param urlString   A string representation of a URL
+   * 
+   * @param method The HTTP method (e.g. GET, POST etc)
+   * @param urlString A string representation of a URL
    * @param httpHeaders The HTTP headers (will override the defaults)
-   * @param postBody      The postBody (only required for POST configuration)
-   *
+   * @param postBody The postBody (only required for POST configuration)
    * @return An HttpURLConnection based on the given parameters
-   *
    * @throws IOException If something goes wrong
    */
   URLConnection configureURLConnection(HttpMethod method, String urlString, Map<String, String> httpHeaders, String postBody) throws IOException {
+
     Assert.notNull(method, "method cannot be null");
     Assert.notNull(method, "urlString cannot be null");
     Assert.notNull(method, "httpHeaders cannot be null");
@@ -151,18 +153,14 @@ public class HttpTemplate {
       connection.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
     }
 
-
     return connection;
   }
 
-
   /**
    * Provides an internal convenience method to allow easy overriding by test classes
-   *
+   * 
    * @param urlString A string representation of a URL
-   *
    * @return An HttpURLConnection based on the given parameter
-   *
    * @throws IOException If something goes wrong
    */
   HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
@@ -171,15 +169,14 @@ public class HttpTemplate {
 
   /**
    * Send an HTTP GET request, and receive server response
-   *
-   * @param urlString   A string representation of a URL
+   * 
+   * @param urlString A string representation of a URL
    * @param httpHeaders Any custom header values
-   *
    * @return The contents of the response body as a String
-   *
    * @see <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests">Stack Overflow on URLConnection</a>
    */
   String getForString(String urlString, Map<String, String> httpHeaders) {
+
     Assert.notNull(httpHeaders, "urlString cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders cannot be null");
 
@@ -210,12 +207,13 @@ public class HttpTemplate {
   }
 
   /**
-   * <p>Send an HTTP POST request, and receive server response</p>
-   *
-   * @param urlString   A string representation of a URL
-   * @param postBody      The contents of the request body (treated as UTF-8)
+   * <p>
+   * Send an HTTP POST request, and receive server response
+   * </p>
+   * 
+   * @param urlString A string representation of a URL
+   * @param postBody The contents of the request body (treated as UTF-8)
    * @param httpHeaders Any custom header values
-   *
    * @return The contents of the response body as a String
    */
   String postForString(String urlString, String postBody, Map<String, String> httpHeaders) {
@@ -249,13 +247,13 @@ public class HttpTemplate {
   }
 
   /**
-   * <p>Reads an InputStream as a String allowing for different encoding types</p>
-   *
-   * @param inputStream      The input stream
+   * <p>
+   * Reads an InputStream as a String allowing for different encoding types
+   * </p>
+   * 
+   * @param inputStream The input stream
    * @param responseEncoding The encoding to use when converting to a String
-   *
    * @return A String representation of the input stream
-   *
    * @throws IOException If something goes wrong
    */
   String readInputStreamAsEncodedString(InputStream inputStream, String responseEncoding) throws IOException {
@@ -266,7 +264,7 @@ public class HttpTemplate {
       // Have an encoding so use it
       StringBuilder sb = new StringBuilder();
       BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, responseEncoding));
-      for (String line; (line = reader.readLine()) != null; ) {
+      for (String line; (line = reader.readLine()) != null;) {
         sb.append(line);
       }
 
@@ -295,9 +293,8 @@ public class HttpTemplate {
 
   /**
    * Determine the response encoding if specified
-   *
+   * 
    * @param connection The HTTP connection
-   *
    * @return The response encoding as a string (taken from "Content-Type")
    */
   private String getResponseEncoding(URLConnection connection) {
@@ -317,12 +314,7 @@ public class HttpTemplate {
   }
 
   public enum HttpMethod {
-    GET,
-    POST,
-    PUT,
-    DELETE,
-    HEAD
+    GET, POST, PUT, DELETE, HEAD
   }
-
 
 }

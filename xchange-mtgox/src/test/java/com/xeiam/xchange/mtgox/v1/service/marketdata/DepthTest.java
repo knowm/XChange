@@ -21,20 +21,22 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
-import org.junit.Before;
-import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-
+// TODO Probably move this test class as it may cause problems with unit testing
 /**
- * Test requesting full orderbook at MtGox
+ * Test requesting depth at MtGox
  */
-public class FullOrderBookTest {
+public class DepthTest {
 
   MarketDataService marketDataService;
 
@@ -48,15 +50,14 @@ public class FullOrderBookTest {
     marketDataService = mtGox.getMarketDataService();
   }
 
-  // TODO This test should not actually call out to Mt Gox
   @Test
   public void testLastTicker() {
 
-    // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook(SymbolPair.BTC_USD);
-    System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook(SymbolPair.BTC_USD);
+    System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
-    // Verify that the full orderBook is not null
-    assertTrue(fullOrderBook != null);
+    // Verify that the orderBook is not null
+    assertTrue(orderBook != null);
   }
 }

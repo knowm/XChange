@@ -35,6 +35,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.TradeService;
 
+//TODO Probably move this test class as it may cause problems with unit testing
 /**
  * Test requesting account info at MtGox
  */

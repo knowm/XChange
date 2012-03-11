@@ -1,17 +1,22 @@
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.utils.Assert;
 import net.jcip.annotations.Immutable;
 
+import com.xeiam.xchange.utils.Assert;
+
 /**
- * <p>Value object to provide the following to API:</p>
+ * <p>
+ * Value object to provide the following to API:
+ * </p>
  * <ul>
  * <li>Provision of major currency symbol pairs (EUR/USD, GBP/USD etc)</li>
  * <li>Provision of arbitrary symbol pairs for exchange index trading, notional currencies etc</li>
  * </ul>
- * <p>Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD </p>
+ * <p>
+ * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
+ * </p>
+ * 
  * @since 0.0.1
- *         
  */
 @Immutable
 public class SymbolPair {
@@ -37,8 +42,10 @@ public class SymbolPair {
   public final String counterSymbol;
 
   /**
-   * <p>Reduced constructor using the global reserve currency symbol (USD) as the default counter</p>
-   *
+   * <p>
+   * Reduced constructor using the global reserve currency symbol (USD) as the default counter
+   * </p>
+   * 
    * @param baseSymbol The base symbol (single unit)
    */
   public SymbolPair(String baseSymbol) {
@@ -46,7 +53,10 @@ public class SymbolPair {
   }
 
   /**
-   * <p>Full constructor</p>
+   * <p>
+   * Full constructor
+   * </p>
+   * 
    * @param baseSymbol The base symbol (single unit)
    * @param counterSymbol The counter symbol (multiple units)
    */
@@ -57,9 +67,9 @@ public class SymbolPair {
     this.counterSymbol = counterSymbol;
   }
 
+  @Override
   public String toString() {
     return baseSymbol + "/" + counterSymbol;
   }
-
 
 }

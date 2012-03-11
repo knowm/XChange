@@ -35,6 +35,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 
+//TODO Probably move this test class as it may cause problems with unit testing
 /**
  * Test requesting all open orders at MtGox
  */

@@ -38,6 +38,7 @@ import com.xeiam.xchange.service.trade.LimitOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 
+//TODO Probably move this test class as it may cause problems with unit testing
 /**
  * Test placing a limit order at MtGox
  */
