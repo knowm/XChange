@@ -21,35 +21,27 @@
  */
 package com.xeiam.xchange.intersango.v0_1;
 
-import com.xeiam.xchange.SymbolPair;
-
 import java.util.Arrays;
 import java.util.List;
 
+import com.xeiam.xchange.SymbolPair;
+
 /**
- * <p>Static configuration for the Intersango exchange</p>
+ * <p>
+ * Static configuration for the Intersango exchange
+ * </p>
  */
+// TODO verify values in this class with Gary
 public class IntersangoProperties {
 
   public static final int REFRESH_RATE = 10; // [seconds]
 
-  public static final List<SymbolPair> SYMBOL_PAIRS = Arrays.asList(
-    SymbolPair.BTC_USD,
-    SymbolPair.BTC_EUR,
-    SymbolPair.BTC_GBP,
-    new SymbolPair("BTC", "CNY"),
-    new SymbolPair("BTC", "DKK"),
-    new SymbolPair("BTC", "HKD"),
-    new SymbolPair("BTC", "NZD"),
-    new SymbolPair("BTC", "PLN"),
-    new SymbolPair("BTC", "RUB"),
-    new SymbolPair("BTC", "SEK"),
-    new SymbolPair("BTC", "SGD"),
-    new SymbolPair("BTC", "THB"));
+  public static final List<SymbolPair> SYMBOL_PAIRS = Arrays.asList(SymbolPair.BTC_USD, SymbolPair.BTC_EUR, SymbolPair.BTC_GBP, new SymbolPair("BTC", "CNY"), new SymbolPair("BTC", "DKK"), new SymbolPair("BTC", "HKD"),
+      new SymbolPair("BTC", "NZD"), new SymbolPair("BTC", "PLN"), new SymbolPair("BTC", "RUB"), new SymbolPair("BTC", "SEK"), new SymbolPair("BTC", "SGD"), new SymbolPair("BTC", "THB"));
 
   public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
 
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
+  public static final int PRICE_INT_2_DECIMAL_FACTOR = 1000;
 
   public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
 

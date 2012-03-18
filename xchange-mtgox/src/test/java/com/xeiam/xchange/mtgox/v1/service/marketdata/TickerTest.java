@@ -29,7 +29,6 @@ import org.junit.Test;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.SymbolPair;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
 
@@ -56,7 +55,7 @@ public class TickerTest {
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
-    double btcusd = (double) ticker.getLast() / MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR;
+    double btcusd = ticker.getLast().getValue_decimal();
     System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
     // Verify that the exchange rate is greater than zero

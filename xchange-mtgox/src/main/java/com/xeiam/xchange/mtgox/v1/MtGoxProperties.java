@@ -36,6 +36,7 @@ public class MtGoxProperties {
 
   // TODO Move into a symbol service
   public static final List<SymbolPair> SYMBOL_PAIRS = Arrays.asList(
+      
     SymbolPair.BTC_USD,
     SymbolPair.BTC_EUR,
     SymbolPair.BTC_GBP,

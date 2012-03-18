@@ -55,6 +55,7 @@ public class ImcexDemo {
    * Demonstrates how to connect to the MarketDataService for Imcex
    */
   private static void demoMarketDataService() {
+
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange imcex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.imcex.v1.ImcexExchange");
 
@@ -65,7 +66,7 @@ public class ImcexDemo {
     Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
 
     // Perform a crude conversion from the internal representation
-    double btcusd = (double) ticker.getLast() / 100000;
+    double btcusd = ticker.getLast().getValue_decimal();
 
     System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
   }

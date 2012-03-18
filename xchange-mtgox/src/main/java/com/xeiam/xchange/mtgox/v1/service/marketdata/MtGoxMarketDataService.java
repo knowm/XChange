@@ -21,6 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.PacingViolationException;
@@ -30,15 +38,13 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.marketdata.*;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.Money;
+import com.xeiam.xchange.service.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.Trade;
+import com.xeiam.xchange.service.marketdata.Trades;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>
@@ -91,13 +97,11 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    Ticker ticker = new Ticker();
-
-    ticker.setLast(mtGoxTicker.getLast_orig().getValue_int());
-    ticker.setVolume(mtGoxTicker.getVol().getValue_int());
+    Money money = new Money(mtGoxTicker.getLast_orig().getValue_int(), mtGoxTicker.getLast_orig().getValue(), MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR);
+    long volume = mtGoxTicker.getVol().getValue_int();
+    Ticker ticker = new Ticker(money, symbolPair, volume);
 
     return ticker;
-
   }
 
   @Override
@@ -116,7 +120,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     orderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();
@@ -142,7 +146,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     fullOrderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();
@@ -168,7 +172,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
+    MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
 
     Trades trades = new Trades();
     List<Trade> tradesList = new ArrayList<Trade>();

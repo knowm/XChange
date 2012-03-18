@@ -23,6 +23,7 @@ package com.xeiam.xchange.service.marketdata;
 
 import java.util.List;
 
+// TODO Consider immutability
 /**
  * Data object representing Trades
  */

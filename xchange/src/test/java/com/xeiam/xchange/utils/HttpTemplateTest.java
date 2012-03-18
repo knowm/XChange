@@ -15,7 +15,6 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.trade.AccountInfo;
 
 /**
@@ -41,7 +40,7 @@ public class HttpTemplateTest {
     Map<String, String> httpHeaders = new HashMap<String, String>();
 
     // Perform the test
-    testObject.getForJsonObject("http://example.com/ticker", Ticker.class, objectMapper, httpHeaders);
+    testObject.getForJsonObject("http://example.com/ticker", TestTicker.class, objectMapper, httpHeaders);
 
     // Verify the results
 

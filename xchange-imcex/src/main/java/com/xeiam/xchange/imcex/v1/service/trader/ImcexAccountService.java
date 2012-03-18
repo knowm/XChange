@@ -61,19 +61,16 @@ public class ImcexAccountService extends BaseExchangeService implements TradeSer
 
   @Override
   public OpenOrders getOpenOrders() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public boolean placeMarketOrder(MarketOrder marketOrder) {
-    // TODO Auto-generated method stub
     return false;
   }
 
   @Override
   public boolean placeLimitOrder(LimitOrder limitOrder) {
-    // TODO Auto-generated method stub
     return false;
   }
 

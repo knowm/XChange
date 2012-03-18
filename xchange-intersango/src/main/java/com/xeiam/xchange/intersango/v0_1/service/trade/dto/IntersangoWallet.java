@@ -22,9 +22,12 @@
 package com.xeiam.xchange.intersango.v0_1.service.trade.dto;
 
 /**
- * <p>Data object representing Account Info from Intersango</p>
+ * <p>
+ * Data object representing Account Info from Intersango
+ * </p>
  */
 public class IntersangoWallet {
+
   private long id;
   private String balance;
   private int currency_id;

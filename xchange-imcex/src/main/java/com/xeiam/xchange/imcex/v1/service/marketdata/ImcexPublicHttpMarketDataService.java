@@ -21,6 +21,12 @@
  */
 package com.xeiam.xchange.imcex.v1.service.marketdata;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.SymbolPair;
@@ -29,18 +35,14 @@ import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexDepth;
 import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.Money;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>
- * Implementation of the market data service for Mt Gox
+ * Implementation of the market data service for Imcex
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
@@ -69,14 +71,15 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   public Ticker getTicker(SymbolPair symbolPair) {
 
     // Request data
-    ImcexTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/ticker", ImcexTicker.class, mapper, new HashMap<String, String>());
+    ImcexTicker imcexTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/ticker", ImcexTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    Ticker ticker = new Ticker();
-
-    // TODO Provide more detail
-    ticker.setLast(Integer.parseInt(mtGoxTicker.getReturn().getLast_orig().getValue_int()));
-    ticker.setVolume(Long.parseLong(mtGoxTicker.getReturn().getVol().getValue_int()));
+    long value_int = Long.parseLong(imcexTicker.getReturn().getLast_orig().getValue_int());
+    double value_decimal = Double.parseDouble(imcexTicker.getReturn().getLast_orig().getValue());
+    int factor = ImcexProperties.PRICE_INT_2_DECIMAL_FACTOR;
+    Money last = new Money(value_int, value_decimal, factor);
+    long volume = Long.parseLong(imcexTicker.getReturn().getVol().getValue_int());
+    Ticker ticker = new Ticker(last, symbolPair, volume);
 
     return ticker;
   }
@@ -85,7 +88,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   public OrderBook getOrderBook(SymbolPair symbolPair) {
 
     // Request data
-    ImcexDepth imcexDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
+    ImcexDepth imcexDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
 
     OrderBook depth = new OrderBook();
 

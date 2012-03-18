@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.service.marketdata;
 
+// TODO Consider immutability
 /**
  * Data object representing a buy or sell order
  */

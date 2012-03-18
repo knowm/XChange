@@ -21,36 +21,50 @@
  */
 package com.xeiam.xchange.service.marketdata;
 
+import net.jcip.annotations.Immutable;
+
+import com.xeiam.xchange.SymbolPair;
+
 /**
- * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade.
+ * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade. This class is immutable.
  */
-public class Ticker {
+@Immutable
+public final class Ticker {
 
-  // TODO add timestamp? Use Joda time if we do
-  // TODO Consider immutability
+  // TODO add timestamp? Only if exchanges provide it. So far MtGox doesn't. If several provide it, let's add it and set it null as default.
+  private final Money last;
+  private final SymbolPair symbolPair;
+  private final long volume;
 
-  private long last;
-  private long volume;
+  /**
+   * Constructor
+   * 
+   * @param last
+   * @param symbolPair
+   * @param volume
+   */
+  public Ticker(Money last, SymbolPair symbolPair, long volume) {
 
-  public long getLast() {
+    this.last = last;
+    this.symbolPair = symbolPair;
+    this.volume = volume;
+  }
+
+  public Money getLast() {
     return last;
   }
 
-  public void setLast(long last) {
-    this.last = last;
+  public SymbolPair getSymbolPair() {
+    return symbolPair;
   }
 
   public long getVolume() {
     return volume;
   }
 
-  public void setVolume(long volume) {
-    this.volume = volume;
-  }
-
   @Override
   public String toString() {
-    return "Ticker [last=" + last + ", volume=" + volume + "]";
+    return "Ticker [last=" + last + ", symbolPair=" + symbolPair + ", volume=" + volume + "]";
   }
 
 }

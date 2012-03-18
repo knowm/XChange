@@ -21,36 +21,25 @@
  */
 package com.xeiam.xchange.imcex.v1;
 
-import com.xeiam.xchange.SymbolPair;
-
 import java.util.Arrays;
 import java.util.List;
 
+import com.xeiam.xchange.SymbolPair;
+
 /**
- * <p>Static configuration for the Imcex exchange</p>
+ * <p>
+ * Static configuration for the Imcex exchange
+ * </p>
  */
+// TODO verify values in this class with Gary
 public class ImcexProperties {
 
   public static final int REFRESH_RATE = 10; // [seconds]
 
   // TODO Move into a symbol service
-  public static final List<SymbolPair> SYMBOL_PAIRS = Arrays.asList(
-    SymbolPair.BTC_USD,
-    SymbolPair.BTC_EUR,
-    SymbolPair.BTC_GBP,
-    SymbolPair.BTC_AUD,
-    SymbolPair.BTC_CAD,
-    SymbolPair.BTC_CHF,
-    SymbolPair.BTC_JPY,
-    new SymbolPair("BTC", "CNY"),
-    new SymbolPair("BTC", "DKK"),
-    new SymbolPair("BTC", "HKD"),
-    new SymbolPair("BTC", "NZD"),
-    new SymbolPair("BTC", "PLN"),
-    new SymbolPair("BTC", "RUB"),
-    new SymbolPair("BTC", "SEK"),
-    new SymbolPair("BTC", "SGD"),
-    new SymbolPair("BTC", "THB"));
+  public static final List<SymbolPair> SYMBOL_PAIRS = Arrays.asList(SymbolPair.BTC_USD, SymbolPair.BTC_EUR, SymbolPair.BTC_GBP, SymbolPair.BTC_AUD, SymbolPair.BTC_CAD, SymbolPair.BTC_CHF, SymbolPair.BTC_JPY,
+      new SymbolPair("BTC", "CNY"), new SymbolPair("BTC", "DKK"), new SymbolPair("BTC", "HKD"), new SymbolPair("BTC", "NZD"), new SymbolPair("BTC", "PLN"), new SymbolPair("BTC", "RUB"), new SymbolPair("BTC", "SEK"),
+      new SymbolPair("BTC", "SGD"), new SymbolPair("BTC", "THB"));
 
   public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
 

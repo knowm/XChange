@@ -23,6 +23,7 @@ package com.xeiam.xchange.service.marketdata;
 
 import java.util.Date;
 
+// TODO Consider immutability
 /**
  * Data object representing a Trade
  */
@@ -31,6 +32,7 @@ public class Trade {
   private Date date;
   private long amount_int;
   private long price_int;
+  // TODO refactor to SymbolPair
   private String price_currency;
   private String trade_type;
 

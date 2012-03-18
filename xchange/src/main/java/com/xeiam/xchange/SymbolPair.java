@@ -61,6 +61,7 @@ public class SymbolPair {
    * @param counterSymbol The counter symbol (multiple units)
    */
   public SymbolPair(String baseSymbol, String counterSymbol) {
+
     Assert.hasLength(baseSymbol, 3, "baseSymbol cannot be null and must be 3 characters in length");
     Assert.hasLength(counterSymbol, 3, "counterSymbol cannot be null and must be 3 characters in length");
     this.baseSymbol = baseSymbol;

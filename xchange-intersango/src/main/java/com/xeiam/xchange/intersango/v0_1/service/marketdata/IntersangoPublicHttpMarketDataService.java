@@ -21,6 +21,12 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.marketdata;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -30,18 +36,14 @@ import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoDepth;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.Money;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>
- * Implementation of the market data service for Mt Gox
+ * Implementation of the market data service for Intersango
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
@@ -75,31 +77,33 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
     IntersangoTicker intersangoTicker = httpTemplate.getForJsonObject(apiBase + "ticker.php?currency_pair_id=" + currencyPairId, IntersangoTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    Ticker ticker = new Ticker();
+    long value_int = (long) (Double.parseDouble(intersangoTicker.getLast()) * IntersangoProperties.PRICE_INT_2_DECIMAL_FACTOR);
+    double value_decimal = Double.parseDouble(intersangoTicker.getLast());
+    int factor = IntersangoProperties.PRICE_INT_2_DECIMAL_FACTOR;
+    Money last = new Money(value_int, value_decimal, factor);
+    long volume = (long) (Double.parseDouble(intersangoTicker.getVol()) * IntersangoProperties.VOLUME_INT_2_DECIMAL_FACTOR);
 
-    // TODO Provide more detail
-    long last = (long) (Double.parseDouble(intersangoTicker.getLast())*10000);
-    long volume = (long) (Double.parseDouble(intersangoTicker.getVol())*10000);
-    ticker.setLast(last);
-    ticker.setVolume(volume);
+    Ticker ticker = new Ticker(last, symbolPair, volume);
 
     return ticker;
   }
 
   /**
-   * <p>Translates the symbol pair to the Intersango dictionary using the following rules:</p>
+   * <p>
+   * Translates the symbol pair to the Intersango dictionary using the following rules:
+   * </p>
    * <ul>
    * <li>1 = BTC:GBP</li>
    * <li>2 = BTC:EUR</li>
    * <li>3 = BTC:USD</li>
    * <li>4 = BTC:PLN</li>
    * </ul>
-   *
+   * 
    * @param symbolPair The symbol pair
-   *
    * @return A suitable ID if possible
    */
   String getCurrencyPairId(SymbolPair symbolPair) {
+
     if (!"BTC".equalsIgnoreCase(symbolPair.baseSymbol)) {
       throw new NotAvailableFromExchangeException("Symbol " + symbolPair.baseSymbol + " is not available");
     }
@@ -122,7 +126,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   public OrderBook getOrderBook(SymbolPair symbolPair) {
 
     // Request data
-    IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol+symbolPair.counterSymbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
+    IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     OrderBook depth = new OrderBook();
@@ -132,16 +136,15 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
 
   @Override
   public Trades getTrades(SymbolPair symbolPair) {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public OrderBook getFullOrderBook(SymbolPair symbolPair) {
-    // TODO Auto-generated method stub
     return null;
   }
 
+  // TODO verify that intersango has cached data with Gary
   /**
    * <p>
    * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
