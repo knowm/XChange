@@ -23,57 +23,56 @@ package com.xeiam.xchange.service.marketdata;
 
 import java.util.Date;
 
-// TODO Consider immutability
+import net.jcip.annotations.Immutable;
+
 /**
  * Data object representing a Trade
  */
-public class Trade {
+@Immutable
+public final class Trade {
 
-  private Date date;
-  private long amount_int;
-  private long price_int;
+  private final Date date;
+  private final long amount_int;
+  private final long price_int;
   // TODO refactor to SymbolPair
-  private String price_currency;
-  private String trade_type;
+  private final String price_currency;
+  private final String trade_type;
+
+  /**
+   * Constructor
+   * 
+   * @param date
+   * @param amount_int
+   * @param price_int
+   * @param price_currency
+   * @param trade_type
+   */
+  public Trade(Date date, long amount_int, long price_int, String price_currency, String trade_type) {
+    this.date = date;
+    this.amount_int = amount_int;
+    this.price_int = price_int;
+    this.price_currency = price_currency;
+    this.trade_type = trade_type;
+  }
 
   public Date getDate() {
     return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
   }
 
   public long getAmount_int() {
     return amount_int;
   }
 
-  public void setAmount_int(long amount_int) {
-    this.amount_int = amount_int;
-  }
-
   public long getPrice_int() {
     return price_int;
-  }
-
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
   }
 
   public String getPrice_currency() {
     return price_currency;
   }
 
-  public void setPrice_currency(String price_currency) {
-    this.price_currency = price_currency;
-  }
-
   public String getTrade_type() {
     return trade_type;
-  }
-
-  public void setTrade_type(String trade_type) {
-    this.trade_type = trade_type;
   }
 
   @Override

@@ -90,9 +90,7 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
     // Request data
     ImcexDepth imcexDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", ImcexDepth.class, mapper, new HashMap<String, String>());
 
-    OrderBook depth = new OrderBook();
-
-    return depth;
+    return null;
   }
 
   @Override

@@ -23,20 +23,27 @@ package com.xeiam.xchange.service.marketdata;
 
 import java.util.List;
 
-// TODO Consider immutability
+import net.jcip.annotations.Immutable;
+
 /**
  * Data object representing Trades
  */
-public class Trades {
+@Immutable
+public final class Trades {
 
-  List<Trade> trades;
+  private final List<Trade> trades;
+
+  /**
+   * Constuctor
+   * 
+   * @param trades
+   */
+  public Trades(List<Trade> trades) {
+    this.trades = trades;
+  }
 
   public List<Trade> getTrades() {
     return trades;
-  }
-
-  public void setTrades(List<Trade> trades) {
-    this.trades = trades;
   }
 
   @Override

@@ -23,29 +23,35 @@ package com.xeiam.xchange.service.marketdata;
 
 import java.util.List;
 
-// TODO Consider immutability
+import net.jcip.annotations.Immutable;
+
 /**
  * Data object representing OrderBook
  */
-public class OrderBook {
+@Immutable
+public final class OrderBook {
 
-  private List<Order> asks;
-  private List<Order> bids;
+  private final List<Order> asks;
+  private final List<Order> bids;
+
+  /**
+   * Constructor
+   * 
+   * @param asks
+   * @param bids
+   */
+  public OrderBook(List<Order> asks, List<Order> bids) {
+
+    this.asks = asks;
+    this.bids = bids;
+  }
 
   public List<Order> getAsks() {
     return asks;
   }
 
-  public void setAsks(List<Order> asks) {
-    this.asks = asks;
-  }
-
   public List<Order> getBids() {
     return bids;
-  }
-
-  public void setBids(List<Order> bids) {
-    this.bids = bids;
   }
 
   @Override

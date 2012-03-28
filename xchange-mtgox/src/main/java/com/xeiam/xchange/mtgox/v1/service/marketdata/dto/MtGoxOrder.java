@@ -21,13 +21,61 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.dto;
 
-import com.xeiam.xchange.service.marketdata.Order;
 
 /**
  * Data object representing a buy or sell order from Mt Gox
  */
-public class MtGoxOrder extends Order {
+public class MtGoxOrder {
 
-  // same thing as com.xeiam.xchange.marketdata.dto.Order
+  private double price;
+  private double amount;
+  private long price_int;
+  private long amount_int;
+  private long stamp;
+
+  public double getPrice() {
+    return price;
+  }
+
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
+  public double getAmount() {
+    return amount;
+  }
+
+  public void setAmount(double amount) {
+    this.amount = amount;
+  }
+
+  public long getPrice_int() {
+    return price_int;
+  }
+
+  public void setPrice_int(long price_int) {
+    this.price_int = price_int;
+  }
+
+  public long getAmount_int() {
+    return amount_int;
+  }
+
+  public void setAmount_int(long amount_int) {
+    this.amount_int = amount_int;
+  }
+
+  public long getStamp() {
+    return stamp;
+  }
+
+  public void setStamp(long stamp) {
+    this.stamp = stamp;
+  }
+
+  @Override
+  public String toString() {
+    return "MtGoxOrder [price=" + price + ", amount=" + amount + ", price_int=" + price_int + ", amount_int=" + amount_int + ", stamp=" + stamp + "]";
+  }
 
 }

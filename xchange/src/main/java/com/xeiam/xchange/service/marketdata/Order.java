@@ -21,56 +21,56 @@
  */
 package com.xeiam.xchange.service.marketdata;
 
-// TODO Consider immutability
+import net.jcip.annotations.Immutable;
+
 /**
  * Data object representing a buy or sell order
  */
-public class Order {
+@Immutable
+public final class Order {
 
-  double price;
-  double amount;
-  long price_int;
-  long amount_int;
-  long stamp;
+  private final double price;
+  private final double amount;
+  private final long price_int;
+  private final long amount_int;
+  private final long stamp;
+
+  /**
+   * Constructor
+   * 
+   * @param price
+   * @param amount
+   * @param price_int
+   * @param amount_int
+   * @param stamp
+   */
+  public Order(double price, double amount, long price_int, long amount_int, long stamp) {
+
+    this.price = price;
+    this.amount = amount;
+    this.price_int = price_int;
+    this.amount_int = amount_int;
+    this.stamp = stamp;
+  }
 
   public double getPrice() {
     return price;
-  }
-
-  public void setPrice(double price) {
-    this.price = price;
   }
 
   public double getAmount() {
     return amount;
   }
 
-  public void setAmount(double amount) {
-    this.amount = amount;
-  }
-
   public long getPrice_int() {
     return price_int;
-  }
-
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
   }
 
   public long getAmount_int() {
     return amount_int;
   }
 
-  public void setAmount_int(long amount_int) {
-    this.amount_int = amount_int;
-  }
-
   public long getStamp() {
     return stamp;
-  }
-
-  public void setStamp(long stamp) {
-    this.stamp = stamp;
   }
 
   @Override

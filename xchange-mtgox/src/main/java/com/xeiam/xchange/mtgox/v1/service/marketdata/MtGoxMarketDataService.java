@@ -40,6 +40,7 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Money;
+import com.xeiam.xchange.service.marketdata.Order;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trade;
@@ -123,9 +124,9 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    OrderBook depth = new OrderBook();
-    depth.setAsks(new ArrayList(mtgoxDepth.getAsks()));
-    depth.setBids(new ArrayList(mtgoxDepth.getBids()));
+    List<Order> asks = new ArrayList(mtgoxDepth.getAsks());
+    List<Order> bids = new ArrayList(mtgoxDepth.getBids());
+    OrderBook depth = new OrderBook(asks, bids);
 
     return depth;
   }
@@ -149,9 +150,9 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    OrderBook depth = new OrderBook();
-    depth.setAsks(new ArrayList(mtgoxFullDepth.getAsks()));
-    depth.setBids(new ArrayList(mtgoxFullDepth.getBids()));
+    List<Order> asks = new ArrayList(mtgoxFullDepth.getAsks());
+    List<Order> bids = new ArrayList(mtgoxFullDepth.getBids());
+    OrderBook depth = new OrderBook(asks, bids);
 
     return depth;
   }
@@ -174,19 +175,18 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     // Request data
     MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
 
-    Trades trades = new Trades();
     List<Trade> tradesList = new ArrayList<Trade>();
     for (int i = 0; i < mtGoxTrades.length; i++) {
-      Trade trade = new Trade();
-      trade.setDate(new Date(mtGoxTrades[i].getDate() * 1000L));
-      trade.setAmount_int(mtGoxTrades[i].getAmount_int());
-      trade.setPrice_int(mtGoxTrades[i].getPrice_int());
-      trade.setPrice_currency(mtGoxTrades[i].getPrice_currency());
-      trade.setTrade_type(mtGoxTrades[i].getTrade_type());
+      Date date = new Date(mtGoxTrades[i].getDate() * 1000L);
+
+      long amount_int = mtGoxTrades[i].getAmount_int();
+      long price_int = mtGoxTrades[i].getPrice_int();
+      String price_currency = (mtGoxTrades[i].getPrice_currency());
+      String trade_type = mtGoxTrades[i].getTrade_type();
+      Trade trade = new Trade(date, amount_int, price_int, price_currency, trade_type);
       tradesList.add(trade);
     }
-    trades.setTrades(tradesList);
-    return trades;
+    return new Trades(tradesList);
   }
 
   /**

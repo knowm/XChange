@@ -128,10 +128,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
     // Request data
     IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
 
-    // Adapt to XChange DTOs
-    OrderBook depth = new OrderBook();
-
-    return depth;
+    return null;
   }
 
   @Override
