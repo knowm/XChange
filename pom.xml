@@ -245,11 +245,18 @@
         <scope>runtime</scope>
       </dependency>
 
-      <!-- All time handling is through Joda -->
+      <!-- All time handling is through Joda Time -->
       <dependency>
         <groupId>joda-time</groupId>
         <artifactId>joda-time</artifactId>
         <version>1.6.2</version>
+      </dependency>
+
+      <!-- All money handling is through Joda Money -->
+      <dependency>
+        <groupId>org.joda</groupId>
+        <artifactId>joda-money</artifactId>
+        <version>0.6</version>
       </dependency>
 
       <!-- JUnit with JMockit, Hamcrest (JMockit must be before JUnit on classpath) -->

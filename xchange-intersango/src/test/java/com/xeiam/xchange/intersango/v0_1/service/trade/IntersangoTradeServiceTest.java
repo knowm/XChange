@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -21,12 +20,13 @@ public class IntersangoTradeServiceTest {
   @Test
   public void testGetAccountInfo() {
 
-    Map<String, Object> parameters=new HashMap<String, Object>();
-    parameters.put(ExchangeSpecification.API_KEY, "abc123");
-    parameters.put(ExchangeSpecification.API_URI, "https://intersango.com");
-    parameters.put(ExchangeSpecification.API_VERSION, "v0.1");
-    ExchangeSpecification es = new ExchangeSpecification("com.xeiam.xchange.intersango.v0_1.IntersangoExchange", parameters);
-    
+    ExchangeSpecification es = new ExchangeSpecification("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
+    es.setApiKey("abc123");
+    es.setUri("https://intersango.com");
+    es.setVersion("v0.1");
+    es.setHost("intersango.com");
+    es.setPort(1337);
+
     Exchange intersango = ExchangeFactory.INSTANCE.createExchange(es);
 
     IntersangoTradeService testObject = (IntersangoTradeService) intersango.getTradeService();

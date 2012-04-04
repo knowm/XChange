@@ -29,55 +29,27 @@ import java.util.Map;
  * Specification to provide the following to {@link ExchangeFactory}:
  * </p>
  * <ul>
- * <li>Provision of required parameters for creating an {@link Exchange}</li>
- * <li>Provision of optional parameters for additional configuration</li>
+ * <li>Provision of required exchangeSpecificParameters for creating an {@link Exchange}</li>
+ * <li>Provision of optional exchangeSpecificParameters for additional configuration</li>
  * </ul>
  */
 public class ExchangeSpecification {
 
-  // Various public keys into the parameter map to aid consistency
-  // Can be arbitrary so not an enum
-
-  /**
-   * The username for authentication
-   */
-  public static final String USERNAME = "username";
-
-  /**
-   * The password for authentication
-   */
-  public static final String PASSWORD = "password";
-
-  /**
-   * The API secret key typically used in HMAC signing of requests
-   */
-  public static final String API_KEY = "API_KEY";
-
-  /**
-   * The API secret key typically used in HMAC signing of requests
-   */
-  public static final String API_SECRET = "API_SECRET";
-
-  /**
-   * The URI to reach the <b>root</b> of the exchange API<br/>
-   * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades")
-   */
-  public static final String API_URI = "apiURI";
-
-  /**
-   * The numerical API version to use (e.g. "1" or "0.3" etc)
-   */
-  public static final String API_VERSION = "api_version";
-
-  // Internal fields
-
+  private String userName;
+  private String password;
+  private String secretKey;
+  private String apiKey;
+  private String uri;
+  private String version;
+  private String host;
+  private int port = 80;
   private final String exchangeClassName;
 
-  private Map<String, Object> parameters = new HashMap<String, Object>();
+  private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
 
   /**
-   * Minimal constructor
-   * 
+   * Dynamic binding
+   *
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
   public ExchangeSpecification(String exchangeClassName) {
@@ -85,14 +57,12 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Full constructor
-   * 
-   * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
-   * @param parameters A map containing any additional parameters for the {@link Exchange} implementation
+   * Static binding
+   *
+   * @param exchangeClass The exchange class
    */
-  public ExchangeSpecification(String exchangeClassName, Map<String, Object> parameters) {
-    this.exchangeClassName = exchangeClassName;
-    this.parameters = parameters;
+  public ExchangeSpecification(Class exchangeClass) {
+    this.exchangeClassName = exchangeClass.getCanonicalName();
   }
 
   /**
@@ -104,9 +74,110 @@ public class ExchangeSpecification {
 
   /**
    * @param key The key into the parameter map (recommend using the provided standard static entries)
-   * @return Any additional parameters that the {@link Exchange} may consume to configure services
+   *
+   * @return Any additional exchangeSpecificParameters that the {@link Exchange} may consume to configure services
    */
   public Object getParameter(String key) {
-    return parameters.get(key);
+    return exchangeSpecificParameters.get(key);
+  }
+
+  /**
+   * The host name of the server providing data (e.g. "intersango.com")
+   */
+  public String getHost() {
+    return host;
+  }
+
+  public void setHost(String host) {
+    this.host = host;
+  }
+
+  /**
+   * The API key. For MtGox this would be the "Rest-Key" field
+   */
+  public String getApiKey() {
+    return apiKey;
+  }
+
+  public void setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+  }
+
+  /**
+   * The port number of the server providing direct socket data (e.g. "1337")
+   */
+  public int getPort() {
+    return port;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
+  }
+
+  /**
+   * The API secret key typically used in HMAC signing of requests. For MtGox this would be the "Rest-Sign" field
+   */
+  public String getSecretKey() {
+    return secretKey;
+  }
+
+  public void setSecretKey(String secretKey) {
+    this.secretKey = secretKey;
+  }
+
+  /**
+   * The URI to reach the <b>root</b> of the exchange API<br/>
+   * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades")
+   */
+  public String getUri() {
+    return uri;
+  }
+
+  public void setUri(String uri) {
+    this.uri = uri;
+  }
+
+  /**
+   * The numerical API version to use (e.g. "1" or "0.3" etc)
+   */
+  public String getVersion() {
+    return version;
+  }
+
+  public void setVersion(String version) {
+    this.version = version;
+  }
+
+  /**
+   * Allows arbitrary exchange-specific parameters to be passed to the exchange implementation
+   */
+  public Map<String, Object> getExchangeSpecificParameters() {
+    return exchangeSpecificParameters;
+  }
+
+  public void setExchangeSpecificParameters(Map<String, Object> exchangeSpecificParameters) {
+    this.exchangeSpecificParameters = exchangeSpecificParameters;
+  }
+
+  /**
+   * The password for authentication
+   */
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  /**
+   * The username for authentication
+   */
+  public String getUserName() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 }

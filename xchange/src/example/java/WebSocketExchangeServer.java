@@ -1,3 +1,5 @@
+import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.money.Money;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
@@ -59,11 +61,8 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
         @Override
         public void run() {
-          long last = random.nextLong();
-          long volume = random.nextLong();
-          Ticker ticker = new Ticker();
-          ticker.setLast(last);
-          ticker.setVolume(volume);
+          Money money = Money.newUSD(random.nextLong());
+          Ticker ticker = new Ticker(money, SymbolPair.BTC_USD,random.nextLong());
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {

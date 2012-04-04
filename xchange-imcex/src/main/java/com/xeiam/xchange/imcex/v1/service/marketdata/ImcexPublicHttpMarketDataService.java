@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.imcex.v1.service.marketdata;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.SymbolPair;
@@ -35,10 +29,16 @@ import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexDepth;
 import com.xeiam.xchange.imcex.v1.service.marketdata.dto.ImcexTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.Money;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
+import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -58,13 +58,14 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/%s/", apiURI, apiVersion);
+  private final String apiBase;
 
   /**
    * @param exchangeSpecification The exchange specification
    */
   public ImcexPublicHttpMarketDataService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
+    this.apiBase = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
   }
 
   @Override
@@ -74,10 +75,9 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
     ImcexTicker imcexTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/ticker", ImcexTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    long value_int = Long.parseLong(imcexTicker.getReturn().getLast_orig().getValue_int());
-    double value_decimal = Double.parseDouble(imcexTicker.getReturn().getLast_orig().getValue());
-    int factor = ImcexProperties.PRICE_INT_2_DECIMAL_FACTOR;
-    Money last = new Money(value_int, value_decimal, factor);
+    // TODO This assumes BTC and Satoshis and needs correction
+    long satoshis = Long.parseLong(imcexTicker.getReturn().getLast_orig().getValue_int());
+    BigMoney last = MoneyUtils.fromSatoshi(satoshis);
     long volume = Long.parseLong(imcexTicker.getReturn().getVol().getValue_int());
     Ticker ticker = new Ticker(last, symbolPair, volume);
 

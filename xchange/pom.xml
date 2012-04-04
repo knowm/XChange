@@ -58,10 +58,16 @@
       <artifactId>jcl-over-slf4j</artifactId>
     </dependency>
 
-    <!-- All time handling is through Joda -->
+    <!-- All time handling is through Joda Time -->
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
+    </dependency>
+
+    <!-- All money handling is through Joda Money -->
+    <dependency>
+      <groupId>org.joda</groupId>
+      <artifactId>joda-money</artifactId>
     </dependency>
 
     <!-- JUnit with JMockit, Hamcrest (JMockit must be before JUnit on classpath) -->

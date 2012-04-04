@@ -21,25 +21,18 @@
  */
 package com.xeiam.xchange.mtgox.v1.demo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.xeiam.xchange.Constants;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.LimitOrder;
-import com.xeiam.xchange.service.trade.MarketOrder;
-import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.*;
 
 /**
  * <p>
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connecting to Mt Gox Bitcoin exchange with authentication</li>
+ * <li>Connecting to Mt Gox BTC exchange with authentication</li>
  * <li>Retrieving account info data</li>
  * </ul>
  */
@@ -48,12 +41,11 @@ public class MtGoxTradeDemo {
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.put(ExchangeSpecification.API_KEY, "150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    params.put(ExchangeSpecification.API_SECRET, "olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    params.put(ExchangeSpecification.API_URI, "https://mtgox.com");
-    params.put(ExchangeSpecification.API_VERSION, "1");
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange", params);
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
+    exchangeSpecification.setUri("https://mtgox.com");
+    exchangeSpecification.setVersion("1");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)

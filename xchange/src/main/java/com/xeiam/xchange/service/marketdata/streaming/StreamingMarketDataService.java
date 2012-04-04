@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.service.marketdata.streaming;
 
 /**
  * <p>
@@ -28,8 +28,36 @@ package com.xeiam.xchange;
  * <ul>
  * <li>Standard methods available to explore the market data using streaming data feeds</li>
  * </ul>
- * TODO Implement this
  */
 public interface StreamingMarketDataService {
+  /**
+   * <p>Allows an external application to receive market data events</p>
+   *
+   * @param marketDataListener The listener interested in market data events
+   */
+  void addListener(MarketDataListener marketDataListener);
 
+  /**
+   * <p>Allows an external application to stop receiving market data events. When all event listeners
+   * have been removed, then the disconnect() method is triggered to conserve resources.</p>
+   *
+   * @param marketDataListener The listener interested in market data events
+   */
+  void removeListener(MarketDataListener marketDataListener);
+
+  /**
+   * <p>Fire the market data event</p>
+   * @param marketDataEvent The market data event
+   */
+  void fireMarketDataEvent(MarketDataEvent marketDataEvent);
+
+  /**
+   * <p>Connect to the upstream market data</p>
+   */
+  void connect();
+
+  /**
+   * <p>Disconnect from the upstream market data</p>
+   */
+  void disconnect();
 }

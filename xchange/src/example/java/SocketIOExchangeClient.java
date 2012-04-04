@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
 /**
  * <p>Socket IO client to provide the following to XChange:</p>
  * <ul>
- * <li>Demonstration of connection to exchange server over socket IO</li>
+ * <li>Demonstration of connection to exchange server over SocketIO</li>
  * </ul>
  *
  * @since 0.0.1
@@ -25,7 +25,7 @@ import java.net.MalformedURLException;
  */
 public class SocketIOExchangeClient extends JFrame implements IOCallback, ActionListener {
 
-  private final Logger log = LoggerFactory.getLogger(SocketIOExchangeClient.class);
+  private final Logger log = LoggerFactory.getLogger(StreamingMarketDataClient.class);
 
   private static final long serialVersionUID = -6056260699201258657L;
 
@@ -47,7 +47,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   public static void main(String[] args) throws MalformedURLException, InterruptedException {
 
     // Require a client to respond to events
-    SocketIOExchangeClient client = new SocketIOExchangeClient("http://socketio.mtgox.com/mtgox");
+    StreamingMarketDataClient client = new StreamingMarketDataClient("http://socketio.mtgox.com/mtgox");
 
     // TODO HTTPS handshake working for MtGox demo
     // new SocketIO("https://socketio.mtgox.com/mtgox",client);
