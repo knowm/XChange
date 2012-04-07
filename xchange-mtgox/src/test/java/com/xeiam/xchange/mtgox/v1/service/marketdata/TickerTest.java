@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 //TODO Probably move this test class as it may cause problems with unit testing
 /**
@@ -55,10 +54,10 @@ public class TickerTest {
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
-    double btcusd = ticker.getLast().getValue_decimal();
+    String btcusd = ticker.getLast().getAmount().toPlainString();
     System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
-    // Verify that the exchange rate is greater than zero
-    assertTrue(btcusd > 0);
+    // Verify that the exchange rate exists
+    assertTrue(btcusd.length() > 0);
   }
 }

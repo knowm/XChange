@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.marketdata;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -36,10 +30,16 @@ import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoDepth;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.Money;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
+import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -59,13 +59,14 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/", apiURI);
+  private final String apiBase;
 
   /**
    * @param exchangeSpecification The exchange specification
    */
   public IntersangoPublicHttpMarketDataService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
+    this.apiBase = String.format("%s/api/", exchangeSpecification.getUri());
   }
 
   @Override
@@ -78,9 +79,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
 
     // Adapt to XChange DTOs
     long value_int = (long) (Double.parseDouble(intersangoTicker.getLast()) * IntersangoProperties.PRICE_INT_2_DECIMAL_FACTOR);
-    double value_decimal = Double.parseDouble(intersangoTicker.getLast());
-    int factor = IntersangoProperties.PRICE_INT_2_DECIMAL_FACTOR;
-    Money last = new Money(value_int, value_decimal, factor);
+    BigMoney last = MoneyUtils.fromSatoshi(value_int);
     long volume = (long) (Double.parseDouble(intersangoTicker.getVol()) * IntersangoProperties.VOLUME_INT_2_DECIMAL_FACTOR);
 
     Ticker ticker = new Ticker(last, symbolPair, volume);

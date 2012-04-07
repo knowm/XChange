@@ -6,15 +6,12 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.IntersangoPublicHttpMarketDataService;
 import com.xeiam.xchange.intersango.v0_1.service.trade.IntersangoTradeService;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * <p>
  * Exchange implementation to provide the following to applications:
  * </p>
  * <ul>
- * <li>A wrapper for the MtGox Bitcoin exchange API</li>
+ * <li>A wrapper for the MtGox BTC exchange API</li>
  * </ul>
  * 
  * @since 0.0.1  
@@ -34,17 +31,19 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
     }
     this.marketDataService = new IntersangoPublicHttpMarketDataService(exchangeSpecification);
     this.tradeService = new IntersangoTradeService(exchangeSpecification);
+    this.streamingMarketDataService = new IntersangoStreamingMarketDataService(exchangeSpecification);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    Map<String, Object> parameters = new HashMap<String, Object>();
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    exchangeSpecification.setUri("https://intersango.com");
+    exchangeSpecification.setVersion("1");
+    exchangeSpecification.setHost("intersango.com");
+    exchangeSpecification.setPort(1337);
 
-    parameters.put(ExchangeSpecification.API_URI, "https://intersango.com");
-    parameters.put(ExchangeSpecification.API_VERSION, "1");
-
-    return new ExchangeSpecification(this.getClass().getCanonicalName(), parameters);
+    return exchangeSpecification;
   }
 
 }

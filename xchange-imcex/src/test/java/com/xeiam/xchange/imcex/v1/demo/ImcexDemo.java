@@ -28,13 +28,16 @@ import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.TradeService;
+import org.joda.money.CurrencyUnit;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connecting to Mt Gox Bitcoin exchange</li>
+ * <li>Connecting to Mt Gox BTC exchange</li>
  * <li>Retrieving market data</li>
  * </ul>
  * 
@@ -66,9 +69,9 @@ public class ImcexDemo {
     Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
 
     // Perform a crude conversion from the internal representation
-    double btcusd = ticker.getLast().getValue_decimal();
+    String btcusd = ticker.getLast().convertedTo(CurrencyUnit.USD, BigDecimal.valueOf(4.0)).toString();
 
-    System.out.printf("Current exchange rate for BTC to USD: %.4f", btcusd);
+    System.out.printf("Current exchange rate for BTC to USD: %s", btcusd);
   }
 
   /**

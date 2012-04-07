@@ -26,6 +26,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.TradeService;
 
@@ -37,7 +38,7 @@ import java.util.Map;
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connecting to Intersango Bitcoin exchange</li>
+ * <li>Connecting to Intersango BTC exchange</li>
  * <li>Retrieving market data</li>
  * <li>Retrieving basic trade data</li>
  * <li>Retrieving authenticated account data</li>
@@ -53,10 +54,10 @@ public class IntersangoExchangeDemo {
   public static void main(String[] args) {
 
     Map<String, Object> params = new HashMap<String, Object>();
-    params.put(ExchangeSpecification.API_KEY, args[0]);
-    params.put(ExchangeSpecification.API_URI, "https://intersango.com");
-    params.put(ExchangeSpecification.API_VERSION, "v0.1");
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.intersango.v0_1.IntersangoExchange", params);
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
+    exchangeSpecification.setUri("https://intersango.com");
+    exchangeSpecification.setVersion("v0.1");
+    exchangeSpecification.setApiKey(args[0]);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Demonstrate the public market data service
@@ -64,6 +65,9 @@ public class IntersangoExchangeDemo {
 
     // Demonstrate the private account data service
     demoAccountService(exchange);
+
+    // Demonstrate the streaming market data service
+    demoStreamingMarketDataService(exchange);
 
   }
 
@@ -100,6 +104,21 @@ public class IntersangoExchangeDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
 
     System.out.printf("Account info: %s%n", accountInfo);
+  }
+
+  /**
+   * Demonstrates how to connect to the AccountService for Intersango
+   *
+   * @param exchange The exchange
+   */
+  private static void demoStreamingMarketDataService(Exchange exchange) {
+
+    // Interested in the private data feed (requires authentication)
+    StreamingMarketDataService streamingMarketDataService = exchange.getStreamingMarketDataService();
+
+    // TODO Fix this
+    streamingMarketDataService.addListener(null);
+
   }
 
 }

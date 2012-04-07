@@ -21,9 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1.demo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.SymbolPair;
@@ -31,13 +28,15 @@ import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connecting to Mt Gox Bitcoin exchange</li>
+ * <li>Connecting to Mt Gox BTC exchange</li>
  * <li>Retrieving the last tick</li>
  * <li>Retrieving the current order book</li>
  * <li>Retrieving the current full order book</li>
@@ -59,7 +58,7 @@ public class MtGoxMarketdataDemo {
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
-    double btcusd = ticker.getLast().getValue_decimal();
+    String btcusd = ticker.getLast().toString();
     System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
     // Get the current orderbook

@@ -22,6 +22,7 @@
 package com.xeiam.xchange;
 
 import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -57,6 +58,19 @@ public interface Exchange {
    * @return The exchange's market data service
    */
   MarketDataService getMarketDataService();
+
+  /**
+   * <p>
+   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
+   * </p>
+   * <p>
+   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to
+   * provide a suitable implementation of the listener to allow event callbacks to take place.
+   * </p>
+   *
+   * @return The exchange's "push" market data service
+   */
+  StreamingMarketDataService getStreamingMarketDataService();
 
   /**
    * <p>

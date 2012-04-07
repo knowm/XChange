@@ -47,7 +47,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/authenticated/%s/", apiURI, apiVersion);
+  private final String apiBase;
 
   /**
    * Initialise common properties from the exchange specification
@@ -56,19 +56,15 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
    */
   public IntersangoTradeService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
+    this.apiBase = String.format("%s/api/authenticated/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
   }
 
   @Override
   public AccountInfo getAccountInfo() {
 
-    // Verify against Intersango requirements
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
-
     // Build request
     String url = apiBase + "listAccounts.php";
-    String postBody = "api_key=" + apiKey;
+    String postBody = "api_key=" + exchangeSpecification.getApiKey();
 
     // Request data
     IntersangoWallet[] intersangoWallets = httpTemplate.postForJsonObject(url, IntersangoWallet[].class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
@@ -98,16 +94,10 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
   @Override
   public OpenOrders getOpenOrders() {
 
-    // TODO Verify this
-
-    // Verify against Intersango requirements
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     // Build request
     String url = apiBase + "/listOrders.php";
-    String postBody = "api_key=" + apiKey;
+    String postBody = "api_key=" + exchangeSpecification.getApiKey();
 
     // Request data
     IntersangoOpenOrder[] intersangoOpenOrder = httpTemplate.postForJsonObject(url, IntersangoOpenOrder[].class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
@@ -137,11 +127,6 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
 
     // TODO Verify this
 
-    // Verify against Intersango requirements
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
-
     Assert.notNull(marketOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
     Assert.notNull(marketOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
     Assert.notNull(marketOrder.getType(), "getType() cannot be null");
@@ -153,7 +138,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
     String amount = "" + marketOrder.getAmount_int();
 
     String url = apiBase + "/placeLimitOrder.php";
-    String postBody = "api_key=" + apiKey + "&type=" + type + "&amount_int=" + amount;
+    String postBody = "api_key=" + exchangeSpecification.getApiKey() + "&type=" + type + "&amount_int=" + amount;
 
     // Request data
     IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
@@ -165,11 +150,6 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
   public boolean placeLimitOrder(LimitOrder limitOrder) {
 
     // TODO Verify this
-
-    // Verify against Intersango requirements
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     Assert.notNull(limitOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
     Assert.notNull(limitOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
@@ -184,7 +164,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
     String price_int = "" + limitOrder.getPrice_int();
 
     String url = apiBase + "/placeLimitOrder.php";
-    String postBody = "api_key=" + apiKey + "&type=" + type + "&amount_int=" + amount;
+    String postBody = "api_key=" + exchangeSpecification.getApiKey() + "&type=" + type + "&amount_int=" + amount;
 
     // Request data
     IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));

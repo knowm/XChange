@@ -50,7 +50,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBaseURI = String.format("%s/api/%s/", apiURI, apiVersion);
+  private final String apiBaseURI;
 
   /**
    * Initialize common properties from the exchange specification
@@ -59,16 +59,14 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
    */
   public MtGoxTradeService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
+
+    Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
+    Assert.notNull(exchangeSpecification.getVersion(), "Exchange specification version cannot be null");
+    this.apiBaseURI= String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
   }
 
   @Override
   public AccountInfo getAccountInfo() {
-
-    // verify
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     // Build request
     String url = apiBaseURI + "/generic/private/info?raw";
@@ -98,12 +96,6 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
   @Override
   public OpenOrders getOpenOrders() {
-
-    // verify
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     // Build request
     String url = apiBaseURI + "/generic/private/orders?raw";
@@ -135,12 +127,6 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   @Override
   public boolean placeMarketOrder(MarketOrder marketOrder) {
 
-    // verify
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
-
     Assert.notNull(marketOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
     Assert.notNull(marketOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
     Assert.notNull(marketOrder.getType(), "getType() cannot be null");
@@ -162,12 +148,6 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
   @Override
   public boolean placeLimitOrder(LimitOrder limitOrder) {
-
-    // verify
-    Assert.notNull(apiKey, "apiKey cannot be null");
-    Assert.notNull(apiSecret, "apiSecret cannot be null");
-    Assert.notNull(apiURI, "apiURI cannot be null");
-    Assert.notNull(apiVersion, "apiVersion cannot be null");
 
     Assert.notNull(limitOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
     Assert.notNull(limitOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
@@ -202,8 +182,8 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
       Map<String, String> headerKeyValues = new HashMap<String, String>();
 
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, apiSecret));
+      headerKeyValues.put("Rest-Key", URLEncoder.encode(exchangeSpecification.getApiKey(), HttpTemplate.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, exchangeSpecification.getSecretKey()));
       return headerKeyValues;
 
     } catch (GeneralSecurityException e) {

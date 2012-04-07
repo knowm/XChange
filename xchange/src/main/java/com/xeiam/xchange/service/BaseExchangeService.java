@@ -21,11 +21,10 @@
  */
 package com.xeiam.xchange.service;
 
-import com.xeiam.xchange.utils.HttpTemplate;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.HttpTemplate;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * <p>
@@ -42,14 +41,15 @@ public abstract class BaseExchangeService {
    */
   protected ObjectMapper mapper = new ObjectMapper();
 
-  protected final String apiURI;
-  protected final String apiVersion;
-  protected final String apiKey;
-  protected final String apiSecret;
-
-  protected final String username;
-  protected final String password;
+  /**
+   * HTTP template to provide data access facilities
+   */
   protected HttpTemplate httpTemplate = new HttpTemplate();
+
+  /**
+   * The exchange specification containing session-specific information
+   */
+  protected final ExchangeSpecification exchangeSpecification;
 
   /**
    * Initialize common properties from the exchange specification
@@ -60,52 +60,8 @@ public abstract class BaseExchangeService {
 
     Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
 
-    // Configure the API URI
-    if (exchangeSpecification.getParameter(ExchangeSpecification.API_URI) != null) {
-      this.apiURI = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_URI);
-    } else {
-      // Use the default
-      this.apiURI = null;
-    }
+    this.exchangeSpecification = exchangeSpecification;
 
-    // Configure the API version
-    if (exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION) != null) {
-      this.apiVersion = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_VERSION);
-    } else {
-      // Use the default
-      this.apiVersion = null;
-    }
-
-    // Configure the API key
-    if (exchangeSpecification.getParameter(ExchangeSpecification.API_KEY) != null) {
-      this.apiKey = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_KEY);
-    } else {
-      // Use the default
-      this.apiKey = null;
-    }
-
-    // Configure the API secret
-    if (exchangeSpecification.getParameter(ExchangeSpecification.API_SECRET) != null) {
-      this.apiSecret = (String) exchangeSpecification.getParameter(ExchangeSpecification.API_SECRET);
-    } else {
-      // Use the default
-      this.apiSecret = null;
-    }
-
-    // Configure the credentials
-    if (exchangeSpecification.getParameter(ExchangeSpecification.USERNAME) != null) {
-      this.username = (String) exchangeSpecification.getParameter(ExchangeSpecification.USERNAME);
-    } else {
-      // Use the default
-      this.username = null;
-    }
-
-    if (exchangeSpecification.getParameter(ExchangeSpecification.PASSWORD) != null) {
-      this.password = (String) exchangeSpecification.getParameter(ExchangeSpecification.PASSWORD);
-    } else {
-      // Use the default
-      this.password = null;
-    }
   }
 
   public void setHttpTemplate(HttpTemplate httpTemplate) {

@@ -1,8 +1,7 @@
 package com.xeiam.xchange;
 
-import net.jcip.annotations.Immutable;
-
 import com.xeiam.xchange.utils.Assert;
+import net.jcip.annotations.Immutable;
 
 /**
  * <p>
@@ -27,7 +26,7 @@ public class SymbolPair {
   public static final SymbolPair USD_AUD = new SymbolPair("USD", "AUD");
   public static final SymbolPair USD_CAD = new SymbolPair("USD", "CAD");
 
-  // Provide some courtesy Bitcoin major symbols
+  // Provide some courtesy BTC major symbols
   public static final SymbolPair BTC_USD = new SymbolPair("BTC");
   public static final SymbolPair BTC_GBP = new SymbolPair("BTC", "GBP");
   public static final SymbolPair BTC_EUR = new SymbolPair("BTC", "EUR");

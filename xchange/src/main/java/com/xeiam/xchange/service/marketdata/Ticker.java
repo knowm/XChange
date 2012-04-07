@@ -21,9 +21,11 @@
  */
 package com.xeiam.xchange.service.marketdata;
 
-import net.jcip.annotations.Immutable;
-
 import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.utils.DateUtils;
+import net.jcip.annotations.Immutable;
+import org.joda.money.BigMoney;
+import org.joda.time.DateTime;
 
 /**
  * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade. This class is immutable.
@@ -32,7 +34,8 @@ import com.xeiam.xchange.SymbolPair;
 public final class Ticker {
 
   // TODO add timestamp? Only if exchanges provide it. So far MtGox doesn't. If several provide it, let's add it and set it null as default.
-  private final Money last;
+  private final DateTime timestamp;
+  private final BigMoney last;
   private final SymbolPair symbolPair;
   private final long volume;
 
@@ -43,14 +46,14 @@ public final class Ticker {
    * @param symbolPair
    * @param volume
    */
-  public Ticker(Money last, SymbolPair symbolPair, long volume) {
-
+  public Ticker(BigMoney last, SymbolPair symbolPair, long volume) {
     this.last = last;
     this.symbolPair = symbolPair;
     this.volume = volume;
+    this.timestamp = DateUtils.nowUtc();
   }
 
-  public Money getLast() {
+  public BigMoney getLast() {
     return last;
   }
 

@@ -23,7 +23,7 @@ package com.xeiam.xchange;
 
 /**
  * <p
- * Exception to provide the following to {@link}:
+ * Exception to provide the following to services:
  * </p>
  * <ul>
  * <li>Indication that the the requested symbol is not available from exchange</li>

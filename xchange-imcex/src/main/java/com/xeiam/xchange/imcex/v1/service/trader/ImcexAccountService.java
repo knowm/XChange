@@ -21,16 +21,11 @@
  */
 package com.xeiam.xchange.imcex.v1.service.trader;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.LimitOrder;
-import com.xeiam.xchange.service.trade.MarketOrder;
-import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImcexAccountService extends BaseExchangeService implements TradeService {
 
@@ -42,7 +37,7 @@ public class ImcexAccountService extends BaseExchangeService implements TradeSer
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/%s/", apiURI, apiVersion);
+  private final String apiBase;
 
   /**
    * Initialise common properties from the exchange specification
@@ -51,6 +46,7 @@ public class ImcexAccountService extends BaseExchangeService implements TradeSer
    */
   public ImcexAccountService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
+    this.apiBase  = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
   }
 
   @Override
