@@ -178,9 +178,9 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     List<Trade> tradesList = new ArrayList<Trade>();
     for (int i = 0; i < mtGoxTrades.length; i++) {
       Date date = new Date(mtGoxTrades[i].getDate() * 1000L);
-
       long amount_int = mtGoxTrades[i].getAmount_int();
       long price_int = mtGoxTrades[i].getPrice_int();
+      // TODO use a symbol service, and throw exception? when no symbol is found?
       String price_currency = (mtGoxTrades[i].getPrice_currency());
       String trade_type = mtGoxTrades[i].getTrade_type();
       Trade trade = new Trade(date, amount_int, price_int, price_currency, trade_type);

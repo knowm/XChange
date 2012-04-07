@@ -15,8 +15,6 @@ import com.xeiam.xchange.utils.Assert;
  * <p>
  * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
  * </p>
- * 
- * @since 0.0.1
  */
 @Immutable
 public class SymbolPair {

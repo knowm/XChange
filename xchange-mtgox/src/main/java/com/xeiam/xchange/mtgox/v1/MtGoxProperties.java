@@ -28,7 +28,6 @@ import java.util.List;
 
 /**
  * A central place for shared Mt Gox properties
- * TODO Consider an enum for this
  */
 public class MtGoxProperties {
 
@@ -52,7 +51,9 @@ public class MtGoxProperties {
     new SymbolPair("BTC", "RUB"),
     new SymbolPair("BTC", "SEK"),
     new SymbolPair("BTC", "SGD"),
-    new SymbolPair("BTC", "THB"));
+    new SymbolPair("BTC", "THB")
+    
+  );
 
   public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
 
