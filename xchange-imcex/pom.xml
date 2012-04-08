@@ -11,7 +11,7 @@
   <groupId>com.xeiam.xchange.provider</groupId>
   <artifactId>xchange-imcex</artifactId>
   <!-- This version is independent of the parent -->
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
 
   <name>Imcex Exchange</name>
   <description>XChange implementations for the Imcex Exchange. Handles multiple currencies.</description>
