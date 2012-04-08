@@ -36,13 +36,13 @@ If you want to include XChange in your projects, you will need to reference one 
 <dependency>
   <groupId>com.xeiam.xchange</groupId>
   <artifactId>xchange</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
 </dependency>
 <!-- XChange MtGox Exchange support -->
 <dependency>
   <groupId>com.xeiam.xchange</groupId>
   <artifactId>xchange-mtgox</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
 </dependency>
 
 The XChange Java artifacts are currently hosted in the BitCoinJ Nexus repository here:
