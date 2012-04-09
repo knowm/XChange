@@ -19,45 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
-
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Before;
-import org.junit.Test;
+package com.xeiam.xchange.mtgox.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.SymbolPair;
-import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.OrderBook;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.TradeService;
 
-//TODO Probably move this test class as it may cause problems with unit testing
 /**
- * Test requesting full depth at MtGox
+ * Test requesting all open orders at MtGox
  */
-public class FullDepthTest {
+public class OpenOrdersDemo {
 
-  MarketDataService marketDataService;
+  private static TradeService tradeService;
 
-  @Before
-  public void setUp() {
+  public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
+    exchangeSpecification.setUri("https://mtgox.com");
+    exchangeSpecification.setVersion("1");
+    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getMarketDataService();
+    // Interested in the private trading functionality (authentication)
+    tradeService = mtgox.getTradeService();
+
+    // Get the open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
+
+    // Verify that there were no errors in getting the open orders
+    System.out.println(openOrders != null);
   }
 
-  @Test
-  public void testLastTicker() {
-
-    // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook(SymbolPair.BTC_USD);
-    System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
-
-    // Verify that the full orderBook is not null
-    assertTrue(fullOrderBook != null);
-  }
 }

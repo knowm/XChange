@@ -19,12 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
-
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Before;
-import org.junit.Test;
+package com.xeiam.xchange.mtgox.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -32,32 +27,27 @@ import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 
-// TODO Probably move this test class as it may cause problems with unit testing
 /**
  * Test requesting depth at MtGox
  */
-public class DepthTest {
+public class DepthDemo {
 
-  MarketDataService marketDataService;
+  private static MarketDataService marketDataService;
 
-  @Before
-  public void setUp() {
+  public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
     marketDataService = mtGox.getMarketDataService();
-  }
-
-  @Test
-  public void testLastTicker() {
 
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(SymbolPair.BTC_USD);
     System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
     // Verify that the orderBook is not null
-    assertTrue(orderBook != null);
+    System.out.println(orderBook != null);
   }
+
 }

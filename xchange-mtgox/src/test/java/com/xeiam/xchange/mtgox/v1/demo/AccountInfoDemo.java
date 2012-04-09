@@ -19,31 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade;
+package com.xeiam.xchange.mtgox.v1.demo;
 
-import com.xeiam.xchange.Constants;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
-import com.xeiam.xchange.service.trade.LimitOrder;
-import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.TradeService;
-import org.junit.Before;
-import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-
-//TODO Probably move this test class as it may cause problems with unit testing
 /**
- * Test placing a limit order at MtGox
+ * Demo requesting account info at MtGox
  */
-public class LimitOrderTest {
+public class AccountInfoDemo {
 
-  TradeService tradeService;
+  private static TradeService tradeService;
 
-  @Before
-  public void setUp() {
+  public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
@@ -51,41 +42,14 @@ public class LimitOrderTest {
     exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
     exchangeSpecification.setUri("https://mtgox.com");
     exchangeSpecification.setVersion("1");
-
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
     tradeService = mtgox.getTradeService();
+
+    // Get the account information
+    AccountInfo accountInfo = tradeService.getAccountInfo();
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
   }
 
-  @Test
-  public void testLimitOrder() {
-
-    long btcAmount = (long) (Math.random() * MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR);
-    // place a limit order
-    LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(Constants.BID);
-    limitOrder.setAmountCurrency("BTC");
-    limitOrder.setAmount_int(btcAmount); // 1 BTC
-    limitOrder.setPriceCurrency("USD");
-    limitOrder.setPrice_int(125000); // $1.25
-    boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
-
-    // Verify that the order placement was successful
-    assertTrue(limitOrderSuccess);
-
-    // get open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-
-    // find limit order that was just placed
-    boolean found = false;
-    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-      if (openOrder.getAmount_int().longValue() == limitOrder.getAmount_int().longValue()) {
-        found = true;
-      }
-    }
-
-    // Verify that the limit order is contained in the OpenOrders
-    assertTrue(found);
-  }
 }

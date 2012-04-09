@@ -19,45 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.demo;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.Ticker;
-import org.junit.Before;
-import org.junit.Test;
+import com.xeiam.xchange.service.marketdata.OrderBook;
 
-import static org.junit.Assert.assertTrue;
-
-//TODO Probably move this test class as it may cause problems with unit testing
 /**
- * Test requesting last tick at MtGox
+ * Test requesting full depth at MtGox
  */
-public class TickerTest {
+public class FullDepthDemo {
 
-  MarketDataService marketDataService;
+  private static MarketDataService marketDataService;
 
-  @Before
-  public void setUp() {
+  public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
     marketDataService = mtGox.getMarketDataService();
+
+    // Get the current full orderbook
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook(SymbolPair.BTC_USD);
+    System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
+
+    // Verify that the full orderBook is not null
+    System.out.println(fullOrderBook != null);
   }
 
-  @Test
-  public void testLastTicker() {
-
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
-    String btcusd = ticker.getLast().getAmount().toPlainString();
-    System.out.println("Current exchange rate for BTC / USD: " + btcusd);
-
-    // Verify that the exchange rate exists
-    assertTrue(btcusd.length() > 0);
-  }
 }
