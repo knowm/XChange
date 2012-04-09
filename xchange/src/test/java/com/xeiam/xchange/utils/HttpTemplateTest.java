@@ -40,7 +40,7 @@ public class HttpTemplateTest {
     Map<String, String> httpHeaders = new HashMap<String, String>();
 
     // Perform the test
-    testObject.getForJsonObject("http://example.com/ticker", TestTicker.class, objectMapper, httpHeaders);
+    testObject.getForJsonObject("http://example.com/ticker", DummyTicker.class, objectMapper, httpHeaders);
 
     // Verify the results
 

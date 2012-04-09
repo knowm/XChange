@@ -3,7 +3,7 @@ package com.xeiam.xchange.utils;
 /**
  * A mutable Ticker class used for HttpTemplate testing.
  */
-public class TestTicker {
+public class DummyTicker {
 
   long last;
   long volume;
