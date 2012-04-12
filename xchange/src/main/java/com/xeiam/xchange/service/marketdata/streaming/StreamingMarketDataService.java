@@ -31,33 +31,17 @@ package com.xeiam.xchange.service.marketdata.streaming;
  */
 public interface StreamingMarketDataService {
   /**
-   * <p>Allows an external application to receive market data events</p>
+   * <p>Allows an external application to receive market data events. This has the effect of creating the connection
+   * to the upstream server for this instance.</p>
+   */
+  MarketDataListener registerMarketDataListener(MarketDataListener marketDataListener);
+
+  /**
+   * <p>Allows an external application to stop receiving market data events. This has the effect of breaking the
+   * connection to the upstream server for this instance.</p>
    *
-   * @param marketDataListener The listener interested in market data events
+   * @param marketDataListener The market data listener
    */
-  void addListener(MarketDataListener marketDataListener);
+  void unregisterMarketDataListener(MarketDataListener marketDataListener);
 
-  /**
-   * <p>Allows an external application to stop receiving market data events. When all event listeners
-   * have been removed, then the disconnect() method is triggered to conserve resources.</p>
-   *
-   * @param marketDataListener The listener interested in market data events
-   */
-  void removeListener(MarketDataListener marketDataListener);
-
-  /**
-   * <p>Fire the market data event</p>
-   * @param marketDataEvent The market data event
-   */
-  void fireMarketDataEvent(MarketDataEvent marketDataEvent);
-
-  /**
-   * <p>Connect to the upstream market data</p>
-   */
-  void connect();
-
-  /**
-   * <p>Disconnect from the upstream market data</p>
-   */
-  void disconnect();
 }

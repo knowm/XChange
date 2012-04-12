@@ -1,7 +1,5 @@
 package com.xeiam.xchange.service.marketdata.streaming;
 
-import com.xeiam.xchange.service.marketdata.Ticker;
-
 /**
  * <p>Event interface to provide the following to API:</p>
  * <ul>
@@ -18,8 +16,4 @@ public interface MarketDataEvent {
    */
   byte[] getRawData();
   
-  /**
-   * @return A Ticker detailing the latest market data at the exchange, or null if conversion was not possible
-   */
-  Ticker getTicker();
 }

@@ -22,9 +22,8 @@
 package com.xeiam.xchange.intersango.v0_1;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
+import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.SocketStreamingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
@@ -33,37 +32,23 @@ import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService
  */
 public class IntersangoStreamingMarketDataService implements StreamingMarketDataService {
 
-  SocketStreamingMarketDataService socketStreamingMarketDataService;
+  DefaultStreamingMarketDataService defaultStreamingMarketDataService;
   
   public IntersangoStreamingMarketDataService(ExchangeSpecification exchangeSpecification) {
     String host = exchangeSpecification.getHost();
     int port = exchangeSpecification.getPort();
     
-    socketStreamingMarketDataService = new SocketStreamingMarketDataService(host,port);
+    defaultStreamingMarketDataService = new DefaultStreamingMarketDataService(host,port);
   }
 
   @Override
-  public void addListener(MarketDataListener marketDataListener) {
-    // TODO Implement this
+  public MarketDataListener registerMarketDataListener(MarketDataListener marketDataListener) {
+    // TODO Implement the exchange-specific event producer
+    return null;
   }
 
   @Override
-  public void removeListener(MarketDataListener marketDataListener) {
-    // TODO Implement this
-  }
-
-  @Override
-  public void fireMarketDataEvent(MarketDataEvent marketDataEvent) {
-    // TODO Implement this
-  }
-
-  @Override
-  public void connect() {
-    // TODO Implement this
-  }
-
-  @Override
-  public void disconnect() {
+  public void unregisterMarketDataListener(MarketDataListener marketDataListener) {
     // TODO Implement this
   }
 }

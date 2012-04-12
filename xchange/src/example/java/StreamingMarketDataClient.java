@@ -1,11 +1,9 @@
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.SocketStreamingMarketDataService;
+import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -30,7 +28,7 @@ public class StreamingMarketDataClient extends JFrame implements MarketDataListe
   private final JButton connect;
   private final JButton close;
   private final JTextArea ta;
-  private SocketStreamingMarketDataService socketClient = null;
+  private DefaultStreamingMarketDataService defaultClient = null;
 
   /**
    * The main entry point to the demonstration
@@ -80,8 +78,8 @@ public class StreamingMarketDataClient extends JFrame implements MarketDataListe
     addWindowListener(new java.awt.event.WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
-        if (socketClient != null) {
-          socketClient.disconnect();
+        if (defaultClient != null) {
+          defaultClient.disconnect();
         }
         dispose();
       }
@@ -98,9 +96,9 @@ public class StreamingMarketDataClient extends JFrame implements MarketDataListe
       connect.setEnabled(false);
       uriField.setEditable(false);
 
-      socketClient = new SocketStreamingMarketDataService(uriField.getText(), 1337);
+      defaultClient = new DefaultStreamingMarketDataService(uriField.getText(), 1337, 10);
     } else if (e.getSource() == close) {
-      socketClient.disconnect();
+      defaultClient.disconnect();
     }
   }
 
