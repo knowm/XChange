@@ -1,3 +1,5 @@
+package com.xeiam.xchange.examples;
+
 import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
 import com.xeiam.xchange.streaming.socketio.IOCallback;
 import com.xeiam.xchange.streaming.socketio.SocketIO;

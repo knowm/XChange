@@ -1,3 +1,5 @@
+package com.xeiam.xchange.examples;
+
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
@@ -21,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * <p>A simple WebSocketServer implementation for an exchange</p>
  * <h3>How to use it</h3>
- * <p>Simply run this up through main() before attempting a connection with multiple WebSocketExchangeClient instances</p>
+ * <p>Simply run this up through main() before attempting a connection with multiple {@link WebSocketExchangeClient} instances</p>
  */
 public class WebSocketExchangeServer extends WebSocketServer {
 

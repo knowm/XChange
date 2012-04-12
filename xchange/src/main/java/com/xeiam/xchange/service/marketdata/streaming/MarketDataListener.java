@@ -18,11 +18,6 @@ import java.util.concurrent.BlockingQueue;
 public interface MarketDataListener {
 
   /**
-   * @return The blocking queue that links the XChange thread pool to the client thread pool
-   */
-  BlockingQueue<MarketDataEvent> getMarketDataEventQueue();
-
-  /**
    * @param marketDataEvents The blocking queue that links the XChange thread pool to the client thread pool
    */
   void setMarketDataEventQueue(BlockingQueue<MarketDataEvent> marketDataEvents);

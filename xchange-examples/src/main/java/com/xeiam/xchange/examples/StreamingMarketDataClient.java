@@ -1,6 +1,8 @@
+package com.xeiam.xchange.examples;
+
 import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataListener;
+import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.net.MalformedURLException;
-import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * <p>Streaming market data client to provide the following to XChange:</p>
@@ -21,7 +24,7 @@ import java.util.concurrent.BlockingQueue;
  * <h3>How to use it</h3>
  * <p>Simply run this up through main() and click Connect. The default settings will connect to the Intersango exchange</p>
  */
-public class StreamingMarketDataClient extends JFrame implements MarketDataListener, ActionListener {
+public class StreamingMarketDataClient extends JFrame implements ActionListener {
 
   private final Logger log = LoggerFactory.getLogger(StreamingMarketDataClient.class);
 
@@ -32,6 +35,10 @@ public class StreamingMarketDataClient extends JFrame implements MarketDataListe
   private final JButton connect;
   private final JButton close;
   private final JTextArea ta;
+
+  private StreamingMarketDataService streamingMarketDataService = null;
+  private ExecutorService executorService= null;
+
 
   /**
    * The main entry point to the demonstration
@@ -85,6 +92,12 @@ public class StreamingMarketDataClient extends JFrame implements MarketDataListe
     addWindowListener(new java.awt.event.WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
+        if (streamingMarketDataService != null) {
+          streamingMarketDataService.unregisterMarketDataListener();
+        }
+        if (executorService != null) {
+          executorService.shutdownNow();
+        }
         dispose();
       }
     });
@@ -100,25 +113,35 @@ public class StreamingMarketDataClient extends JFrame implements MarketDataListe
       connect.setEnabled(false);
       hostField.setEditable(false);
 
-      StreamingMarketDataService defaultClient = new DefaultStreamingMarketDataService(hostField.getText(), Integer.valueOf(portField.getText()));
+      // Target an exchange endpoint directly
+      streamingMarketDataService = new DefaultStreamingMarketDataService(hostField.getText(), Integer.valueOf(portField.getText()));
+      RunnableMarketDataListener listener = new RunnableMarketDataListener() {
+        @Override
+        public void handleEvent(MarketDataEvent event) {
+          // Perform very basic reporting to illustrate different threads
+          String data = new String(event.getRawData());
+          log.debug("Event data: {}", data);
+          ta.append("Received: " + data + "\n");
+          ta.setCaretPosition(ta.getDocument().getLength());
+        }
+
+      };
+      streamingMarketDataService.registerMarketDataListener(listener);
+
+      // Start a new thread for the listener
+      executorService = Executors.newSingleThreadExecutor();
+      executorService.submit(listener);
     }
-  }
 
-  // TODO Fix this
-  public void onUpdate(MarketDataEvent event) {
-    ta.append(event.getRawData().toString() + "\n");
-    ta.setCaretPosition(ta.getDocument().getLength());
+    // Handle application shutdown gracefully
+    if (e.getSource() == close) {
+      if (streamingMarketDataService != null) {
+        streamingMarketDataService.unregisterMarketDataListener();
+      }
+      if (executorService != null) {
+        executorService.shutdownNow();
+      }
+    }
 
-  }
-
-  @Override
-  public BlockingQueue<MarketDataEvent> getMarketDataEventQueue() {
-    // TODO Implement this
-    return null;
-  }
-
-  @Override
-  public void setMarketDataEventQueue(BlockingQueue<MarketDataEvent> marketDataEvents) {
-    // TODO Implement this
   }
 }

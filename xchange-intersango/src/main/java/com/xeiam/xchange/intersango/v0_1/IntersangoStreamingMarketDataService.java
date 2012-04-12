@@ -48,7 +48,7 @@ public class IntersangoStreamingMarketDataService implements StreamingMarketData
   }
 
   @Override
-  public void unregisterMarketDataListener(MarketDataListener marketDataListener) {
+  public void unregisterMarketDataListener() {
     // TODO Implement this
   }
 }

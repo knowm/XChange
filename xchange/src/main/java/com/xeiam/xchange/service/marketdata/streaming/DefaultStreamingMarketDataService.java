@@ -1,15 +1,13 @@
 package com.xeiam.xchange.service.marketdata.streaming;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
+import com.xeiam.xchange.utils.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.utils.Assert;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * <p>
@@ -28,7 +26,7 @@ public class DefaultStreamingMarketDataService implements StreamingMarketDataSer
 
   private final String host;
   private final int port;
-  private final ScheduledExecutorService executorService;
+  private final ExecutorService executorService;
 
   /**
    * A direct socket connection only requires a host and a port (no protocol)
@@ -42,7 +40,7 @@ public class DefaultStreamingMarketDataService implements StreamingMarketDataSer
     this.host = host;
     this.port = port;
 
-    executorService = Executors.newSingleThreadScheduledExecutor();
+    executorService = Executors.newSingleThreadExecutor();
   }
 
   @Override
@@ -53,10 +51,9 @@ public class DefaultStreamingMarketDataService implements StreamingMarketDataSer
     // Create a queue for a producer-consumer pair
     BlockingQueue<MarketDataEvent> marketDataEvents = new ArrayBlockingQueue<MarketDataEvent>(1024);
 
-    // Schedule market data event producer
+    // Start the producer
     // TODO Consider refactoring to inject this producer via an extensible getter with constructor
-    // (this will decouple this
-    executorService.scheduleAtFixedRate(new SocketMarketDataEventProducer(host, port, marketDataEvents), 0L, 10L, TimeUnit.SECONDS);
+    executorService.submit(new SocketMarketDataEventProducer(host, port, marketDataEvents));
 
     marketDataListener.setMarketDataEventQueue(marketDataEvents);
 
@@ -64,11 +61,8 @@ public class DefaultStreamingMarketDataService implements StreamingMarketDataSer
   }
 
   @Override
-  public synchronized void unregisterMarketDataListener(MarketDataListener marketDataListener) {
-    // TODO Implement this
-    // if (!marketDataListeners.remove(runnableMarketDataListener)) {
-    // throw new IllegalArgumentException("Unknown marketDataListener - possible coding error. " + runnableMarketDataListener.toString());
-    // }
+  public synchronized void unregisterMarketDataListener() {
+    executorService.shutdownNow();
   }
 
 }

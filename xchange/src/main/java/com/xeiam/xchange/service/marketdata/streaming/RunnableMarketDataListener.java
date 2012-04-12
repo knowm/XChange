@@ -1,9 +1,9 @@
 package com.xeiam.xchange.service.marketdata.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
  * <li>Simple extension point for a {@link Runnable} designed for use with an ExecutorService</li>
  * </ul>
  * Example:<br>
- * 
+ *
  * <pre>
  * </pre>
- * 
+ *
  * @since 0.0.1
  */
 public abstract class RunnableMarketDataListener implements MarketDataListener, Runnable {
@@ -28,16 +28,20 @@ public abstract class RunnableMarketDataListener implements MarketDataListener, 
   /**
    * Constructor
    */
-  RunnableMarketDataListener() {
+  public RunnableMarketDataListener() {
   }
 
   @Override
   public void run() {
     try {
-      // Block until an event occurs
-      handleEvent(marketDataEvents.take());
+      // Run forever (or until an interruption occurs)
+      while (true) {
+        // Block until an event occurs
+        handleEvent(marketDataEvents.take());
+      }
     } catch (InterruptedException e) {
-      log.warn(e.getMessage(), e);
+      // Expected shutdown mode
+      log.debug("Closing listener due to interrupt");
     }
   }
 
@@ -50,7 +54,7 @@ public abstract class RunnableMarketDataListener implements MarketDataListener, 
    * <p>
    * Client code is expected to implement this in a manner specific to their own application
    * </p>
-   * 
+   *
    * @param event The market data event containing the information
    */
   public abstract void handleEvent(MarketDataEvent event);

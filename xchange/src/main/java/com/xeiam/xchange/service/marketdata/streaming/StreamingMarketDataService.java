@@ -40,8 +40,7 @@ public interface StreamingMarketDataService {
    * <p>Allows an external application to stop receiving market data events. This has the effect of breaking the
    * connection to the upstream server for this instance.</p>
    *
-   * @param marketDataListener The market data listener
    */
-  void unregisterMarketDataListener(MarketDataListener marketDataListener);
+  void unregisterMarketDataListener();
 
 }

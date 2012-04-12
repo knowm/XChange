@@ -1,3 +1,5 @@
+package com.xeiam.xchange.examples;
+
 import com.xeiam.xchange.streaming.websocket.Draft;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
@@ -16,9 +18,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * <p>A simple WebSocketServer implementation for an exchange client</p>
+ * <p>A simple WebSocketExchangeClient implementation for an exchange client</p>
  * <h3>How to use it</h3>
- * <p>Simply run this up through main() after running WebSocketExchangeServer. Multiple instances add to the fun.</p>
+ * <p>Simply run this up through main() after running {@link WebSocketExchangeServer}. Multiple instances add to the fun.</p>
  */
 public class WebSocketExchangeClient extends JFrame implements ActionListener {
 
