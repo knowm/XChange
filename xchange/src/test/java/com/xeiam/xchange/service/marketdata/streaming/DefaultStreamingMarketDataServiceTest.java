@@ -3,9 +3,10 @@ package com.xeiam.xchange.service.marketdata.streaming;
 import java.net.MalformedURLException;
 import java.util.concurrent.BlockingQueue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
-//@Ignore
+@Ignore
 public class DefaultStreamingMarketDataServiceTest {
 
   @Test
