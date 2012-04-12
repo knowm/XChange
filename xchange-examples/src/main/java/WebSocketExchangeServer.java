@@ -1,9 +1,10 @@
 import com.xeiam.xchange.SymbolPair;
-import com.xeiam.xchange.money.Money;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketServer;
+import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,7 +19,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A simple WebSocketServer implementation for an exchange
+ * <p>A simple WebSocketServer implementation for an exchange</p>
+ * <h3>How to use it</h3>
+ * <p>Simply run this up through main() before attempting a connection with multiple WebSocketExchangeClient instances</p>
  */
 public class WebSocketExchangeServer extends WebSocketServer {
 
@@ -61,7 +64,8 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
         @Override
         public void run() {
-          Money money = Money.newUSD(random.nextLong());
+          // TODO Fix this
+          BigMoney money = MoneyUtils.parseFiat("USD "+random.nextLong());
           Ticker ticker = new Ticker(money, SymbolPair.BTC_USD,random.nextLong());
           try {
             exchangeServer.sendToAll(ticker.toString());

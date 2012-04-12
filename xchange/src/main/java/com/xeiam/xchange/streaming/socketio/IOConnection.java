@@ -241,11 +241,13 @@ class IOConnection {
         // Response should contain transport configuration data
         if (response.contains(":")) {
           String[] data = response.split(":");
-          if (data.length > 4) {
+          if (data.length > 3) {
             sessionId = data[0];
             heartbeatTimeout = Long.parseLong(data[1]) * 1000;
             closingTimeout = Long.parseLong(data[2]) * 1000;
             protocols = Arrays.asList(data[3].split(","));
+          } else {
+            log.warn("Insufficient protocol handshake data from server. Expected at least 4 entries.");
           }
         }
       } catch (IOException e) {

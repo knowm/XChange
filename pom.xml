@@ -5,7 +5,7 @@
 
   <groupId>com.xeiam.xchange</groupId>
   <artifactId>parent</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>XChange Parent</name>
@@ -49,6 +49,7 @@
     <module>xchange-mtgox</module>
     <module>xchange-intersango</module>
     <module>xchange-imcex</module>
+    <module>xchange-examples</module>
   </modules>
 
   <build>

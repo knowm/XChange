@@ -8,6 +8,7 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
+import com.xeiam.xchange.utils.Assert;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
@@ -53,8 +54,7 @@ public class SocketIO {
    * @throws java.net.MalformedURLException the malformed url exception
    */
   public SocketIO(final String url) throws MalformedURLException {
-    if (url == null)
-      throw new RuntimeException("url may not be null.");
+    Assert.notNull(url, "url cannot be null");
     setAndConnect(new URL(url), null);
   }
 
@@ -80,8 +80,9 @@ public class SocketIO {
    * @param callback the callback
    */
   public SocketIO(final URL url, final IOCallback callback) {
-    if (setAndConnect(url, callback) == false)
+    if (setAndConnect(url, callback) == false) {
       throw new RuntimeException("url and callback may not be null.");
+    }
   }
 
   /**

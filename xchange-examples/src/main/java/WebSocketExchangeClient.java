@@ -16,11 +16,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Provides a demonstration of connecting to an arbitrary WebSocket server
+ * <p>A simple WebSocketServer implementation for an exchange client</p>
+ * <h3>How to use it</h3>
+ * <p>Simply run this up through main() after running WebSocketExchangeServer. Multiple instances add to the fun.</p>
  */
 public class WebSocketExchangeClient extends JFrame implements ActionListener {
-
-  private static final long serialVersionUID = -6056260699202978657L;
 
 	private final JTextField uriField;
 	private final JButton connect;
@@ -30,7 +30,18 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
 	private final JComboBox draft;
 	private WebSocketClient cc;
 
-	public WebSocketExchangeClient(String defaultlocation) {
+  public static void main( String[] args ) {
+    WebSocket.DEBUG = true;
+    String location;
+    if( args.length != 0 ) {
+      location = args[ 0 ];
+    } else {
+      location = "ws://localhost:8887";
+    }
+    new WebSocketExchangeClient( location );
+  }
+
+  public WebSocketExchangeClient(String defaultlocation) {
 		super( "WebSocket Exchange Client" );
 		Container c = getContentPane();
 		GridLayout layout = new GridLayout();
@@ -65,7 +76,7 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
 		chatField.addActionListener( this );
 		c.add( chatField );
 
-		java.awt.Dimension d = new java.awt.Dimension( 300, 400 );
+		java.awt.Dimension d = new java.awt.Dimension( 600, 500 );
 		setPreferredSize( d );
 		setSize( d );
 
@@ -98,7 +109,6 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
 
 		} else if( e.getSource() == connect ) {
 			try {
-				// cc = new WebSocketExchangeClient(new URI(uriField.getText()), area, ( Draft ) draft.getSelectedItem() );
 				cc = new WebSocketClient( new URI( uriField.getText() ), (Draft) draft.getSelectedItem() ) {
 
 					public void onMessage( String message ) {
@@ -146,20 +156,6 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
 				ex.printStackTrace();
 			}
 		}
-	}
-
-	public static void main( String[] args ) {
-		WebSocket.DEBUG = true;
-		String location;
-		if( args.length != 0 ) {
-			location = args[ 0 ];
-			System.out.println("Default server url specified: \'" + location + "\'");
-		} else {
-			//location = "ws://localhost:8887";
-      location = "ws://intersango.com:1337";
-      System.out.println("Default server url not specified: defaulting to \'" + location + "\'");
-		}
-		new WebSocketExchangeClient( location );
 	}
 
 }

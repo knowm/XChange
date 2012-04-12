@@ -19,15 +19,12 @@ import java.net.MalformedURLException;
  * <ul>
  * <li>Demonstration of connection to exchange server over SocketIO</li>
  * </ul>
- *
- * @since 0.0.1
- *         
+ * <h3>How to use it</h3>
+ * <p>Simply run this up through main() and click Connect. The default settings will connect to the MtGox exchange</p>
  */
 public class SocketIOExchangeClient extends JFrame implements IOCallback, ActionListener {
 
-  private final Logger log = LoggerFactory.getLogger(StreamingMarketDataClient.class);
-
-  private static final long serialVersionUID = -6056260699201258657L;
+  private final Logger log = LoggerFactory.getLogger(SocketIOExchangeClient.class);
 
   private final JTextField uriField;
   private final JButton connect;
@@ -47,7 +44,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   public static void main(String[] args) throws MalformedURLException, InterruptedException {
 
     // Require a client to respond to events
-    StreamingMarketDataClient client = new StreamingMarketDataClient("http://socketio.mtgox.com/mtgox");
+    new SocketIOExchangeClient("http://socketio.mtgox.com/mtgox");
 
     // TODO HTTPS handshake working for MtGox demo
     // new SocketIO("https://socketio.mtgox.com/mtgox",client);
@@ -87,7 +84,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     messageField.addActionListener(this);
     c.add(messageField);
 
-    java.awt.Dimension d = new java.awt.Dimension(300, 400);
+    java.awt.Dimension d = new java.awt.Dimension(600, 500);
     setPreferredSize(d);
     setSize(d);
 
@@ -120,7 +117,10 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
         close.setEnabled(true);
         connect.setEnabled(false);
         uriField.setEditable(false);
+
+        // The client creates a SocketIO connection to the host registering itself for the callbacks
         socketClient = new SocketIO(uriField.getText(), this);
+
       } catch (MalformedURLException e1) {
         e1.printStackTrace();
       }
@@ -171,7 +171,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
         JSONObject last = (JSONObject) ticker.get("last");
         if (last != null) {
           String display = (String) last.get("display");
-          ta.append(display.toString()+"\n");
+          ta.append(display.toString() + "\n");
           ta.setCaretPosition(ta.getDocument().getLength());
         }
       }
