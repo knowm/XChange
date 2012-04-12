@@ -1,8 +1,5 @@
 package com.xeiam.xchange.service.marketdata.streaming;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,14 +7,18 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.concurrent.BlockingQueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * <p>Producer to provide the following to {@link MarketDataListener}:</p>
+ * <p>
+ * Producer to provide the following to {@link MarketDataListener}:
+ * </p>
  * <ul>
  * <li>Raw market data from the upstream server</li>
  * </ul>
- *
+ * 
  * @since 0.0.1
- *         
  */
 class SocketMarketDataEventProducer implements Runnable {
 
@@ -27,6 +28,13 @@ class SocketMarketDataEventProducer implements Runnable {
   private final int port;
   private final BlockingQueue<MarketDataEvent> queue;
 
+  /**
+   * Constructor
+   * 
+   * @param host
+   * @param port
+   * @param queue
+   */
   SocketMarketDataEventProducer(String host, int port, BlockingQueue<MarketDataEvent> queue) {
     this.host = host;
     this.port = port;
@@ -35,8 +43,11 @@ class SocketMarketDataEventProducer implements Runnable {
 
   @Override
   public void run() {
-    log.debug("Executing against '{}:{}'",host, port);
+
+    log.debug("Executing against '{}:{}'", host, port);
+
     try {
+
       Socket socket;
       BufferedReader in;
 
@@ -44,7 +55,7 @@ class SocketMarketDataEventProducer implements Runnable {
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
       final String data = in.readLine();
-      log.debug("Received data '{}'",data);
+      log.debug("Received data '{}'", data);
 
       MarketDataEvent marketDataEvent = new MarketDataEvent() {
         @Override
@@ -56,7 +67,6 @@ class SocketMarketDataEventProducer implements Runnable {
 
       in.close();
       socket.close();
-
 
     } catch (UnknownHostException e) {
       log.warn(e.getMessage(), e);

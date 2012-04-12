@@ -1,14 +1,12 @@
 package com.xeiam.xchange.service.marketdata.streaming;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
 import java.net.MalformedURLException;
 import java.util.concurrent.BlockingQueue;
 
-@Ignore
-public class DefaultStreamingMarketDataServiceTest {
+import org.junit.Test;
 
+//@Ignore
+public class DefaultStreamingMarketDataServiceTest {
 
   @Test
   public void testRegisterMarketDataListener_expectSuccess() throws MalformedURLException, InterruptedException {
@@ -31,7 +29,7 @@ public class DefaultStreamingMarketDataServiceTest {
     testObject.registerMarketDataListener(marketDataListener);
 
     // Assert
-    Thread.sleep(10000L);
+    Thread.sleep(100000L);
   }
 
 }
