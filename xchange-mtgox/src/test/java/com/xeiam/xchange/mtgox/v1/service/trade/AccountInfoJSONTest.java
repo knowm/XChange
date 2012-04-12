@@ -26,9 +26,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
 
 /**
  * Test MtGoxAccountInfo JSON parsing
@@ -48,6 +49,6 @@ public class AccountInfoJSONTest {
     System.out.println(mtGoxAccountInfo.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxAccountInfo.getLogin().equals("test"));
+    assertTrue(mtGoxAccountInfo.getLogin().equals("xchange"));
   }
 }

@@ -21,6 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.PacingViolationException;
@@ -30,17 +39,14 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.marketdata.*;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.Order;
+import com.xeiam.xchange.service.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.Trade;
+import com.xeiam.xchange.service.marketdata.Trades;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>
@@ -55,8 +61,8 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   private final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
 
   /**
-   * time stamps used to pace API calls
-   * TODO Consider a scheduled ExecutorService with Callable?
+   * time stamps used to pace API calls 
+   * TODO Consider a scheduled ExecutorService with Callable? yes, that will be much better I think. ~Tim
    */
   private long tickerRequestTimeStamp = 0L;
   private long orderBookRequestTimeStamp = 0L;

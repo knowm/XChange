@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.xeiam.xchange.mtgox.v1.MtGoxValue;
+import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
  * Data object representing Account Info from Mt Gox

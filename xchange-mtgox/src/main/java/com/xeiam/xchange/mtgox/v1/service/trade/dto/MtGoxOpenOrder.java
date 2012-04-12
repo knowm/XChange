@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade.dto;
 
-import com.xeiam.xchange.mtgox.v1.MtGoxValue;
+import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
  * Data object representing Open Orders from Mt Gox

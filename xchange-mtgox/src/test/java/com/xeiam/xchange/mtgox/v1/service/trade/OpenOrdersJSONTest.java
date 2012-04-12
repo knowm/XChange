@@ -26,9 +26,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
 
 /**
  * Test MtGoxOpenOrders JSON parsing
@@ -48,6 +49,6 @@ public class OpenOrdersJSONTest {
     System.out.println(mtGoxOpenOrders[0].getOid());
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxOpenOrders[0].getOid().equals("3ac69c79-caeb-4ee2-bc05-5185df8476d9"));
+    assertTrue(mtGoxOpenOrders[0].getOid().equals("055e81e4-fe38-4b3c-bbca-69e61724f64a"));
   }
 }

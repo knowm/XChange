@@ -27,9 +27,10 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 
 /**
  * Test MtGoxTicker JSON parsing
@@ -47,6 +48,6 @@ public class TickerJSONTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(5.77397));
+    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(4.89002));
   }
 }

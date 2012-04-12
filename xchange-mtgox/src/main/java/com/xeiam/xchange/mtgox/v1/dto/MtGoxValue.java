@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1;
+package com.xeiam.xchange.mtgox.v1.dto;
 
 /**
  * Data object representing a Value from Mt Gox
@@ -29,6 +29,7 @@ public class MtGoxValue {
   private double value;
   private long value_int;
   private String display;
+  private String display_short;
   private String currency;
 
   public double getValue() {
@@ -55,6 +56,14 @@ public class MtGoxValue {
     this.display = display;
   }
 
+  public String getDisplay_short() {
+    return display_short;
+  }
+
+  public void setDisplay_short(String display_short) {
+    this.display_short = display_short;
+  }
+
   public String getCurrency() {
     return currency;
   }
@@ -65,7 +74,7 @@ public class MtGoxValue {
 
   @Override
   public String toString() {
-    return "MtGoxValue [value=" + value + ", value_int=" + value_int + ", display=" + display + ", currency=" + currency + "]";
+    return "MtGoxValue [value=" + value + ", value_int=" + value_int + ", display=" + display + ", display_short=" + display_short + ", currency=" + currency + "]";
   }
 
 }

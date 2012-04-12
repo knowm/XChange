@@ -1,70 +1,79 @@
 {
-
   "high":{
-    "value":"5.98700",
-    "value_int":"598700",
-    "display":"$5.98700",
+    "value":"4.98000",
+    "value_int":"498000",
+    "display":"$4.98000",
+    "display_short":"$4.98",
     "currency":"USD"
   },
   "low":{
-    "value":"5.70829",
-    "value_int":"570829",
-    "display":"$5.70829",
+    "value":"4.84272",
+    "value_int":"484272",
+    "display":"$4.84272",
+    "display_short":"$4.84",
     "currency":"USD"
   },
   "avg":{
-    "value":"5.86021",
-    "value_int":"586021",
-    "display":"$5.86021",
+    "value":"4.89555",
+    "value_int":"489555",
+    "display":"$4.89555",
+    "display_short":"$4.90",
     "currency":"USD"
   },
   "vwap":{
-    "value":"5.83167",
-    "value_int":"583167",
-    "display":"$5.83167",
+    "value":"4.90378",
+    "value_int":"490378",
+    "display":"$4.90378",
+    "display_short":"$4.90",
     "currency":"USD"
   },
   "vol":{
-    "value":"33094.29177057",
-    "value_int":"3309429177057",
-    "display":"33,094.29177057 BTC",
+    "value":"57759.66891627",
+    "value_int":"5775966891627",
+    "display":"57,759.66891627\u00a0BTC",
+    "display_short":"57,759.67\u00a0BTC",
     "currency":"BTC"
   },
   "last_local":{
-    "value":"5.79000",
-    "value_int":"579000",
-    "display":"$5.79000",
+    "value":"4.89000",
+    "value_int":"489000",
+    "display":"$4.89000",
+    "display_short":"$4.89",
     "currency":"USD"
   },
   "last":{
-    "value":"5.79000",
-    "value_int":"579000",
-    "display":"$5.79000",
+    "value":"4.89000",
+    "value_int":"489000",
+    "display":"$4.89000",
+    "display_short":"$4.89",
     "currency":"USD"
   },
   "last_orig":{
-    "value":"5.79000",
-    "value_int":"579000",
-    "display":"$5.79000",
+    "value":"4.89000",
+    "value_int":"489000",
+    "display":"$4.89000",
+    "display_short":"$4.89",
     "currency":"USD"
   },
   "last_all":{
-    "value":"5.79000",
-    "value_int":"579000",
-    "display":"$5.79000",
+    "value":"4.89000",
+    "value_int":"489000",
+    "display":"$4.89000",
+    "display_short":"$4.89",
     "currency":"USD"
   },
   "buy":{
-    "value":"5.77397",
-    "value_int":"577397",
-    "display":"$5.77397",
+    "value":"4.89002",
+    "value_int":"489002",
+    "display":"$4.89002",
+    "display_short":"$4.89",
     "currency":"USD"
   },
   "sell":{
-    "value":"5.78999",
-    "value_int":"578999",
-    "display":"$5.78999",
+    "value":"4.91227",
+    "value_int":"491227",
+    "display":"$4.91227",
+    "display_short":"$4.91",
     "currency":"USD"
   }
-
 }
