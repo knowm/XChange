@@ -51,8 +51,6 @@ public class OpenOrdersDemo {
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
 
-    // Verify that there were no errors in getting the open orders
-    System.out.println(openOrders != null);
   }
 
 }

@@ -61,8 +61,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   private final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
 
   /**
-   * time stamps used to pace API calls 
-   * TODO Consider a scheduled ExecutorService with Callable? yes, that will be much better I think. ~Tim
+   * time stamps used to pace API calls TODO Consider a scheduled ExecutorService with Callable? yes, that will be much better I think. ~Tim
    */
   private long tickerRequestTimeStamp = 0L;
   private long orderBookRequestTimeStamp = 0L;
@@ -98,7 +97,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    BigMoney money = MoneyUtils.fromSatoshi(mtGoxTicker.getLast_orig().getValue_int());
+    BigMoney money = MoneyUtils.parseFiat(mtGoxTicker.getLast_orig().getCurrency() + " " + mtGoxTicker.getLast_orig().getValue());
     long volume = mtGoxTicker.getVol().getValue_int();
     Ticker ticker = new Ticker(money, symbolPair, volume);
 

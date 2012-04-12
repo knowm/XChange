@@ -44,11 +44,12 @@ public class TickerDemo {
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
-    String btcusd = ticker.getLast().getAmount().toPlainString();
+    double value = ticker.getLast().getAmount().doubleValue();
+    String currency = ticker.getLast().getCurrencyUnit().toString();
+    System.out.println("Current exchange rate for BTC / USD: " + currency + " " + value);
+    String btcusd = ticker.getLast().toString();
     System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
-    // Verify that the exchange rate exists
-    System.out.println(btcusd.length() > 0);
   }
 
 }
