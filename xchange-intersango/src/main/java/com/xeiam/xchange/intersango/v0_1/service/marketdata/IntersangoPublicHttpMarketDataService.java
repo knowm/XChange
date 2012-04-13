@@ -80,9 +80,11 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
     // Adapt to XChange DTOs
     long value_int = (long) (Double.parseDouble(intersangoTicker.getLast()) * IntersangoProperties.PRICE_INT_2_DECIMAL_FACTOR);
     BigMoney last = MoneyUtils.fromSatoshi(value_int);
+    BigMoney bid = MoneyUtils.fromSatoshi(value_int);
+    BigMoney ask = MoneyUtils.fromSatoshi(value_int);
     long volume = (long) (Double.parseDouble(intersangoTicker.getVol()) * IntersangoProperties.VOLUME_INT_2_DECIMAL_FACTOR);
 
-    Ticker ticker = new Ticker(last, symbolPair, volume);
+    Ticker ticker = new Ticker(last, bid, ask, symbolPair, volume);
 
     return ticker;
   }
@@ -97,7 +99,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
    * <li>3 = BTC:USD</li>
    * <li>4 = BTC:PLN</li>
    * </ul>
-   * 
+   *
    * @param symbolPair The symbol pair
    * @return A suitable ID if possible
    */
@@ -141,6 +143,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   // TODO verify that intersango has cached data with Gary
+
   /**
    * <p>
    * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.

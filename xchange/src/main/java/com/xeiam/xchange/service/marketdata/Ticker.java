@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,21 +33,24 @@ import org.joda.time.DateTime;
 @Immutable
 public final class Ticker {
 
-  // TODO add timestamp? Only if exchanges provide it. So far MtGox doesn't. If several provide it, let's add it and set it null as default.
   private final DateTime timestamp;
   private final BigMoney last;
+  private final BigMoney bid;
+  private final BigMoney ask;
   private final SymbolPair symbolPair;
   private final long volume;
 
   /**
    * Constructor
-   * 
+   *
    * @param last
    * @param symbolPair
    * @param volume
    */
-  public Ticker(BigMoney last, SymbolPair symbolPair, long volume) {
+  public Ticker(BigMoney last, BigMoney bid, BigMoney ask, SymbolPair symbolPair, long volume) {
     this.last = last;
+    this.bid = bid;
+    this.ask = ask;
     this.symbolPair = symbolPair;
     this.volume = volume;
     this.timestamp = DateUtils.nowUtc();
@@ -55,6 +58,14 @@ public final class Ticker {
 
   public BigMoney getLast() {
     return last;
+  }
+
+  public BigMoney getBid() {
+    return bid;
+  }
+
+  public BigMoney getAsk() {
+    return ask;
   }
 
   public SymbolPair getSymbolPair() {
@@ -67,7 +78,13 @@ public final class Ticker {
 
   @Override
   public String toString() {
-    return "Ticker [last=" + last + ", symbolPair=" + symbolPair + ", volume=" + volume + "]";
+    return "Ticker{" +
+            "timestamp=" + timestamp +
+            ", last=" + last +
+            ", bid=" + bid +
+            ", ask=" + ask +
+            ", symbolPair=" + symbolPair +
+            ", volume=" + volume +
+            '}';
   }
-
 }

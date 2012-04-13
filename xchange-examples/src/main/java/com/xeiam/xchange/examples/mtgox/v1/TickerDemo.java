@@ -46,19 +46,23 @@ public class TickerDemo {
     Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
-    System.out.println("Current exchange rate for BTC / USD: " + currency + " " + value);
-    String btcusd = ticker.getLast().toString();
-    System.out.println("Current exchange rate for BTC / USD: " + btcusd);
+    System.out.println("Last: " + currency + "-" + value);
+
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Bid: " + ticker.getBid().toString());
+    System.out.println("Ask: " + ticker.getAsk().toString());
 
     // Get the latest ticker data showing BTC to EUR
     ticker = marketDataService.getTicker(SymbolPair.BTC_EUR);
-    String btceur = ticker.getLast().toString();
-    System.out.println("Current exchange rate for BTC / EUR: " + btceur);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Bid: " + ticker.getBid().toString());
+    System.out.println("Ask: " + ticker.getAsk().toString());
 
     // Get the latest ticker data showing BTC to USD
     ticker = marketDataService.getTicker(SymbolPair.BTC_GBP);
-    String btcgbp = ticker.getLast().toString();
-    System.out.println("Current exchange rate for BTC / GBP: " + btcgbp);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Bid: " + ticker.getBid().toString());
+    System.out.println("Ask: " + ticker.getAsk().toString());
 
   }
 

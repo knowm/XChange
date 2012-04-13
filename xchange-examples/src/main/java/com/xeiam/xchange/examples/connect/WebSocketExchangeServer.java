@@ -69,7 +69,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
         public void run() {
           // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
-          Ticker ticker = new Ticker(money, SymbolPair.BTC_USD, random.nextLong());
+          Ticker ticker = new Ticker(money, money, money, SymbolPair.BTC_USD, random.nextLong());
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {

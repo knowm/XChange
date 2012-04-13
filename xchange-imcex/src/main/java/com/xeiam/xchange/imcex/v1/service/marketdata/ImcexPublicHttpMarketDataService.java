@@ -78,8 +78,10 @@ public class ImcexPublicHttpMarketDataService extends BaseExchangeService implem
     // TODO This assumes BTC and Satoshis and needs correction
     long satoshis = Long.parseLong(imcexTicker.getReturn().getLast_orig().getValue_int());
     BigMoney last = MoneyUtils.fromSatoshi(satoshis);
+    BigMoney bid = MoneyUtils.fromSatoshi(satoshis);
+    BigMoney ask = MoneyUtils.fromSatoshi(satoshis);
     long volume = Long.parseLong(imcexTicker.getReturn().getVol().getValue_int());
-    Ticker ticker = new Ticker(last, symbolPair, volume);
+    Ticker ticker = new Ticker(last, bid, ask, symbolPair, volume);
 
     return ticker;
   }
