@@ -19,60 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.demo;
+package com.xeiam.xchange.examples.mtgox.v1;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
-import com.xeiam.xchange.service.marketdata.Ticker;
-import com.xeiam.xchange.service.marketdata.Trades;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connecting to Mt Gox BTC exchange</li>
- * <li>Retrieving the last tick</li>
- * <li>Retrieving the current order book</li>
- * <li>Retrieving the current full order book</li>
- * <li>Retrieving trades</li>
- * </ul>
+ * Test requesting depth at MtGox
  */
-public class MtGoxMarketdataDemo {
+public class DepthDemo {
 
-  private final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
+  private static MarketDataService marketDataService;
 
   public static void main(String[] args) {
 
-    // Demonstrate the public market data service
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    MarketDataService marketDataService = mtGox.getMarketDataService();
-
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
-    String btcusd = ticker.getLast().toString();
-    System.out.println("Current exchange rate for BTC / USD: " + btcusd);
+    marketDataService = mtGox.getMarketDataService();
 
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(SymbolPair.BTC_USD);
     System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
-    // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook(SymbolPair.BTC_USD);
-    System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
-
-    // Get trades
-    Trades trades = marketDataService.getTrades(new SymbolPair("BTC", "PLN"));
-    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
-
+    // Verify that the orderBook is not null
+    System.out.println(orderBook != null);
   }
 
 }

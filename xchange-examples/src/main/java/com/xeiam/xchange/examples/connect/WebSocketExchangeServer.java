@@ -1,4 +1,4 @@
-package com.xeiam.xchange.examples;
+package com.xeiam.xchange.examples.connect;
 
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.Ticker;
@@ -28,47 +28,48 @@ import java.util.concurrent.TimeUnit;
 public class WebSocketExchangeServer extends WebSocketServer {
 
   public WebSocketExchangeServer(int port) throws UnknownHostException {
-		super( new InetSocketAddress( InetAddress.getByName( "localhost" ), port ) );
-	}
-	
-	public WebSocketExchangeServer(InetSocketAddress address) {
-		super( address );
-	}
+    super(new InetSocketAddress(InetAddress.getByName("localhost"), port));
+  }
+
+  public WebSocketExchangeServer(InetSocketAddress address) {
+    super(address);
+  }
 
   /**
    * Main entry point to the demo
+   *
    * @param args Command line arguments (not used)
    * @throws InterruptedException If something goes wrong
-   * @throws IOException If something goes wrong
+   * @throws IOException          If something goes wrong
    */
-  public static void main( String[] args ) throws InterruptedException , IOException {
+  public static void main(String[] args) throws InterruptedException, IOException {
     WebSocket.DEBUG = true;
     int port = 8887;
-    
+
     // Create local exchange server
-    final WebSocketExchangeServer exchangeServer = new WebSocketExchangeServer( port );
+    final WebSocketExchangeServer exchangeServer = new WebSocketExchangeServer(port);
     exchangeServer.start();
     System.out.println("ExchangeServer started on port: " + exchangeServer.getPort());
 
     // Set up a some local currencies quoted against BTC
-    List<String> currencies = new ArrayList<String>(Arrays.asList("USD","GBP","EUR"));
+    List<String> currencies = new ArrayList<String>(Arrays.asList("USD", "GBP", "EUR"));
 
     // Create a continuously updating set of trade data
-    ScheduledExecutorService executorService = Executors.newScheduledThreadPool(currencies.size()*2);
+    ScheduledExecutorService executorService = Executors.newScheduledThreadPool(currencies.size() * 2);
 
     // Create a scheduled update of values
     for (int i = 0; i < currencies.size(); i++) {
 
       // Schedule producers and consumers at different rates for demo
       executorService.scheduleAtFixedRate(new Runnable() {
-        
+
         private final SecureRandom random = new SecureRandom();
 
         @Override
         public void run() {
           // TODO Fix this
-          BigMoney money = MoneyUtils.parseFiat("USD "+random.nextLong());
-          Ticker ticker = new Ticker(money, SymbolPair.BTC_USD,random.nextLong());
+          BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
+          Ticker ticker = new Ticker(money, SymbolPair.BTC_USD, random.nextLong());
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {
@@ -76,7 +77,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
           }
 
         }
-      }, 1L, 2L,TimeUnit.SECONDS);
+      }, 1L, 2L, TimeUnit.SECONDS);
     }
 
     // Keep running until a timeout occurs
@@ -84,36 +85,36 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
   }
 
-	public void onClientOpen( WebSocket conn, HandshakeData handshake ) {
-		try {
-			this.sendToAll( conn + " is monitoring trades" );
-		} catch ( InterruptedException ex ) {
-			ex.printStackTrace();
-		}
-		System.out.println(conn + " is monitoring trades");
-	}
+  public void onClientOpen(WebSocket conn, HandshakeData handshake) {
+    try {
+      this.sendToAll(conn + " is monitoring trades");
+    } catch (InterruptedException ex) {
+      ex.printStackTrace();
+    }
+    System.out.println(conn + " is monitoring trades");
+  }
 
-	public void onClientClose( WebSocket conn, int code, String reason, boolean remote ) {
-		try {
-			this.sendToAll( conn + " has disconnected" );
-		} catch ( InterruptedException ex ) {
-			ex.printStackTrace();
-		}
+  public void onClientClose(WebSocket conn, int code, String reason, boolean remote) {
+    try {
+      this.sendToAll(conn + " has disconnected");
+    } catch (InterruptedException ex) {
+      ex.printStackTrace();
+    }
     System.out.println(conn + " has disconnected");
-	}
+  }
 
-	public void onClientMessage( WebSocket conn, String message ) {
-		try {
-			this.sendToAll( conn + ": " + message );
-		} catch ( InterruptedException ex ) {
-			ex.printStackTrace();
-		}
+  public void onClientMessage(WebSocket conn, String message) {
+    try {
+      this.sendToAll(conn + ": " + message);
+    } catch (InterruptedException ex) {
+      ex.printStackTrace();
+    }
     System.out.println(conn + ": " + message);
-	}
+  }
 
-	@Override
-	public void onError( WebSocket conn, Exception ex ) {
-		ex.printStackTrace();
-	}
+  @Override
+  public void onError(WebSocket conn, Exception ex) {
+    ex.printStackTrace();
+  }
 
 }

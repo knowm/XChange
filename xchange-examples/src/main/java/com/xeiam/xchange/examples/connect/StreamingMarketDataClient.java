@@ -1,4 +1,4 @@
-package com.xeiam.xchange.examples;
+package com.xeiam.xchange.examples.connect;
 
 import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
@@ -37,14 +37,13 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
   private final JTextArea ta;
 
   private StreamingMarketDataService streamingMarketDataService = null;
-  private ExecutorService executorService= null;
+  private ExecutorService executorService = null;
 
 
   /**
    * The main entry point to the demonstration
    *
    * @param args CLI arguments (ignored)
-   *
    * @throws java.net.MalformedURLException If something goes wrong
    * @throws InterruptedException           If something goes wrong
    */

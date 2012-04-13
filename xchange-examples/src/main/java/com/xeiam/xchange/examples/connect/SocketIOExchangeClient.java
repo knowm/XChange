@@ -1,4 +1,4 @@
-package com.xeiam.xchange.examples;
+package com.xeiam.xchange.examples.connect;
 
 import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
 import com.xeiam.xchange.streaming.socketio.IOCallback;
@@ -39,7 +39,6 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
    * The main entry point to the demonstration
    *
    * @param args CLI arguments (ignored)
-   *
    * @throws MalformedURLException If something goes wrong
    * @throws InterruptedException  If something goes wrong
    */

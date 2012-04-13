@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,18 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.demo;
+package com.xeiam.xchange.examples.mtgox.v1;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.Trades;
 
 /**
- * Test requesting last tick at MtGox
+ * Test requesting trades at MtGox
  */
-public class TickerDemo {
+public class TradesDemo {
 
   private static MarketDataService marketDataService;
 
@@ -42,24 +42,12 @@ public class TickerDemo {
     // Interested in the public market data feed (no authentication)
     marketDataService = mtGox.getMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
-    System.out.println("Current exchange rate for BTC / USD: " + currency + " " + value);
-    String btcusd = ticker.getLast().toString();
-    System.out.println("Current exchange rate for BTC / USD: " + btcusd);
+    // Get trades
+    Trades trades = marketDataService.getTrades(new SymbolPair("BTC", "PLN"));
+    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
-    // Get the latest ticker data showing BTC to EUR
-    ticker = marketDataService.getTicker(SymbolPair.BTC_EUR);
-    String btceur = ticker.getLast().toString();
-    System.out.println("Current exchange rate for BTC / EUR: " + btceur);
-
-    // Get the latest ticker data showing BTC to USD
-    ticker = marketDataService.getTicker(SymbolPair.BTC_GBP);
-    String btcgbp = ticker.getLast().toString();
-    System.out.println("Current exchange rate for BTC / GBP: " + btcgbp);
-
+    // Verify that trades is not null
+    System.out.println(trades != null);
   }
 
 }
