@@ -15,6 +15,7 @@ import net.jcip.annotations.Immutable;
  * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
  * </p>
  */
+// TODO Refactor rename this to CurrencyPair
 @Immutable
 public class SymbolPair {
 

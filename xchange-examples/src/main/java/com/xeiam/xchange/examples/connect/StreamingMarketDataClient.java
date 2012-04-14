@@ -1,6 +1,7 @@
 package com.xeiam.xchange.examples.connect;
 
-import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketDataService;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
 import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
@@ -30,8 +31,6 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
 
   private static final long serialVersionUID = -6056260699201258657L;
 
-  private final JTextField hostField;
-  private final JTextField portField;
   private final JButton connect;
   private final JButton close;
   private final JTextArea ta;
@@ -50,25 +49,17 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
   public static void main(String[] args) throws MalformedURLException, InterruptedException {
 
     // Require a client to respond to events
-    new StreamingMarketDataClient("intersango.com", 1337);
+    new StreamingMarketDataClient();
 
   }
 
-  public StreamingMarketDataClient(String host, int port) {
-    super("Direct Socket Streaming Exchange Client");
+  public StreamingMarketDataClient() {
+    super("Intersango Direct Socket Streaming Exchange Client");
     Container c = getContentPane();
     GridLayout layout = new GridLayout();
     layout.setColumns(1);
     layout.setRows(5);
     c.setLayout(layout);
-
-    hostField = new JTextField();
-    hostField.setText(host);
-    c.add(hostField);
-
-    portField = new JTextField();
-    portField.setText(String.valueOf(port));
-    c.add(portField);
 
     connect = new JButton("Connect");
     connect.addActionListener(this);
@@ -92,7 +83,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
       @Override
       public void windowClosing(WindowEvent e) {
         if (streamingMarketDataService != null) {
-          streamingMarketDataService.unregisterMarketDataListener();
+          streamingMarketDataService.stop();
         }
         if (executorService != null) {
           executorService.shutdownNow();
@@ -110,10 +101,12 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
     if (e.getSource() == connect) {
       close.setEnabled(true);
       connect.setEnabled(false);
-      hostField.setEditable(false);
 
-      // Target an exchange endpoint directly
-      streamingMarketDataService = new DefaultStreamingMarketDataService(hostField.getText(), Integer.valueOf(portField.getText()));
+      // Construct an Exchange that we know to use a direct socket to support streaming market data
+      Exchange intersango = IntersangoExchange.newInstance();
+      streamingMarketDataService = intersango.getStreamingMarketDataService();
+
+      // Create a runnable listener so we can bind it to a thread
       RunnableMarketDataListener listener = new RunnableMarketDataListener() {
         @Override
         public void handleEvent(MarketDataEvent event) {
@@ -125,7 +118,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
         }
 
       };
-      streamingMarketDataService.registerMarketDataListener(listener);
+      streamingMarketDataService.start(listener);
 
       // Start a new thread for the listener
       executorService = Executors.newSingleThreadExecutor();
@@ -134,9 +127,11 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
 
     // Handle application shutdown gracefully
     if (e.getSource() == close) {
+      // Stop the streaming market data service
       if (streamingMarketDataService != null) {
-        streamingMarketDataService.unregisterMarketDataListener();
+        streamingMarketDataService.stop();
       }
+      // Stop our listener
       if (executorService != null) {
         executorService.shutdownNow();
       }

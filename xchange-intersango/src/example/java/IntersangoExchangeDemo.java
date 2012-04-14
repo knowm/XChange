@@ -117,7 +117,7 @@ public class IntersangoExchangeDemo {
     StreamingMarketDataService streamingMarketDataService = exchange.getStreamingMarketDataService();
 
     // TODO Fix this
-    streamingMarketDataService.registerMarketDataListener();
+    streamingMarketDataService.start();
 
   }
 

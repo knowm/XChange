@@ -1,6 +1,9 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketDataService;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.service.marketdata.streaming.BaseStreamingMarketDataService;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -10,18 +13,15 @@ import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketData
  * <li></li>
  * </ul>
  * 
- * @since 0.0.1 TODO Implement this using a SocketIO based producer
+ * @since 0.0.1
  */
-public class MtGoxStreamingMarketDataService extends DefaultStreamingMarketDataService {
+public class MtGoxStreamingMarketDataService extends BaseStreamingMarketDataService {
 
   /**
-   * A direct socket connection only requires a host and a port (no protocol)
-   * 
-   * @param host The host name
-   * @param port The port to connect to
+   * @param exchangeSpecification The exchange specification providing the required connection data
    */
-  public MtGoxStreamingMarketDataService(String host, int port) {
-    super(host, port);
+  public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
+    super(exchangeSpecification);
+    // TODO Implement this using a SocketIO based producer
   }
-
 }

@@ -26,21 +26,26 @@ package com.xeiam.xchange.service.marketdata.streaming;
  * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
  * </p>
  * <ul>
- * <li>Standard methods available to explore the market data using streaming data feeds</li>
+ * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
  * </ul>
+ * <p>Note that the asynchronous nature of this service strongly encourages a thread based implementation.</p>
  */
 public interface StreamingMarketDataService {
   /**
-   * <p>Allows an external application to receive market data events. This has the effect of creating the connection
-   * to the upstream server for this instance.</p>
+   * <p>Start the service and provide a suitable runnable market data listener to receive events.
+   * This will be configured by the service. </p>
    */
-  MarketDataListener registerMarketDataListener(MarketDataListener marketDataListener);
+  void start(RunnableMarketDataListener runnableMarketDataListener);
 
   /**
-   * <p>Allows an external application to stop receiving market data events. This has the effect of breaking the
-   * connection to the upstream server for this instance.</p>
-   *
+   * <p>Closes the connection to the upstream server for this instance.</p>
    */
-  void unregisterMarketDataListener();
+  void stop();
 
+  /**
+   * @return The runnable market data event producer
+   */
+  RunnableMarketDataEventProducer getRunnableMarketDataEventProducer();
+
+  void setRunnableMarketDataEventProducer(RunnableMarketDataEventProducer runnableMarketDataEventProducer);
 }

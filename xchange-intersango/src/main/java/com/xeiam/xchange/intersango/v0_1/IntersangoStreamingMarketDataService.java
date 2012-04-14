@@ -22,33 +22,22 @@
 package com.xeiam.xchange.intersango.v0_1;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.marketdata.streaming.DefaultStreamingMarketDataService;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+import com.xeiam.xchange.service.marketdata.streaming.BaseStreamingMarketDataService;
+
+import java.io.IOException;
 
 /**
  * <p>Streaming market data service for the Intersango exchange</p>
  * <p>Intersango provide a direct socket implementation so no SocketIO or websockets</p>
  */
-public class IntersangoStreamingMarketDataService implements StreamingMarketDataService {
+public class IntersangoStreamingMarketDataService extends BaseStreamingMarketDataService {
 
-  DefaultStreamingMarketDataService defaultStreamingMarketDataService;
-  
-  public IntersangoStreamingMarketDataService(ExchangeSpecification exchangeSpecification) {
-    String host = exchangeSpecification.getHost();
-    int port = exchangeSpecification.getPort();
-    
-    defaultStreamingMarketDataService = new DefaultStreamingMarketDataService(host,port);
+
+  /**
+   * @param exchangeSpecification The exchange specification providing the required connection data
+   */
+  public IntersangoStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
+    super(exchangeSpecification);
   }
 
-  @Override
-  public MarketDataListener registerMarketDataListener(MarketDataListener marketDataListener) {
-    // TODO Implement the exchange-specific event producer
-    return null;
-  }
-
-  @Override
-  public void unregisterMarketDataListener() {
-    // TODO Implement this
-  }
 }

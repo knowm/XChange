@@ -2,9 +2,12 @@ package com.xeiam.xchange.intersango.v0_1;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.IntersangoPublicHttpMarketDataService;
 import com.xeiam.xchange.intersango.v0_1.service.trade.IntersangoTradeService;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -24,6 +27,15 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
   public IntersangoExchange() {
   }
 
+  /**
+   * @return A default configuration for this exchange
+   */
+  public static Exchange newInstance() {
+    Exchange exchange = new IntersangoExchange();
+    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
+    return exchange;
+  }
+
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification == null) {
@@ -31,7 +43,11 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
     }
     this.marketDataService = new IntersangoPublicHttpMarketDataService(exchangeSpecification);
     this.tradeService = new IntersangoTradeService(exchangeSpecification);
-    this.streamingMarketDataService = new IntersangoStreamingMarketDataService(exchangeSpecification);
+    try {
+      this.streamingMarketDataService = new IntersangoStreamingMarketDataService(exchangeSpecification);
+    } catch (IOException e) {
+      throw new ExchangeException("Streaming market data service failed",e);
+    }
   }
 
   @Override

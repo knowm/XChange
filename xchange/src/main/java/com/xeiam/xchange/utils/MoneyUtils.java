@@ -1,9 +1,9 @@
 package com.xeiam.xchange.utils;
 
-import java.math.RoundingMode;
-
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
+
+import java.math.RoundingMode;
 
 /**
  * <p>
@@ -42,6 +42,7 @@ public class MoneyUtils {
   /**
    * @param value A whole number of satoshis (e.g. 1 provides the same as "BTC 0.00000001")
    * @return A standard Bitcoin currency BigMoney that can handle complex calculations using a scale of 12 regardless of the minor part
+   * TODO Add method to include a scaling factor from a long to act as a multiplier/divisor
    */
   public static BigMoney fromSatoshi(long value) {
 

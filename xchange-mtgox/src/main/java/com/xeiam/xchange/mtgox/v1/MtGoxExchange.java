@@ -43,6 +43,15 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   public MtGoxExchange() {
   }
 
+  /**
+   * @return A default configuration for this exchange
+   */
+  public static Exchange newInstance() {
+    Exchange exchange = new MtGoxExchange();
+    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
+    return exchange;
+  }
+
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
