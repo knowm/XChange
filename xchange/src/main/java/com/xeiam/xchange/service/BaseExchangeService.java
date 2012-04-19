@@ -24,6 +24,7 @@ package com.xeiam.xchange.service;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.HttpTemplate;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -53,7 +54,7 @@ public abstract class BaseExchangeService {
 
   /**
    * Initialize common properties from the exchange specification
-   * 
+   *
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
   protected BaseExchangeService(ExchangeSpecification exchangeSpecification) {
@@ -61,6 +62,8 @@ public abstract class BaseExchangeService {
     Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
 
     this.exchangeSpecification = exchangeSpecification;
+
+    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false); // could also annotate individual classes with @JsonIgnoreProperties(ignoreUnknown = true)
 
   }
 
