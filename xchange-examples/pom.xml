@@ -36,19 +36,19 @@
     </dependency>
     <!-- XChange MtGox exchange support -->
     <dependency>
-      <groupId>com.xeiam.xchange.provider</groupId>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
     <!-- XChange Intersango exchange support -->
     <dependency>
-      <groupId>com.xeiam.xchange.provider</groupId>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-intersango</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
     <!-- XChange Imcex exchange support -->
     <dependency>
-      <groupId>com.xeiam.xchange.provider</groupId>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-imcex</artifactId>
       <version>${project.parent.version}</version>
     </dependency>

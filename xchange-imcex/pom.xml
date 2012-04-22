@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.xeiam.xchange.provider</groupId>
+  <groupId>com.xeiam.xchange</groupId>
   <artifactId>xchange-imcex</artifactId>
   <!-- This version is independent of the parent -->
   <version>0.0.1-SNAPSHOT</version>
