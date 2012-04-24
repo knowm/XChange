@@ -48,7 +48,6 @@
     <module>xchange</module>
     <module>xchange-mtgox</module>
     <module>xchange-intersango</module>
-    <module>xchange-imcex</module>
     <module>xchange-examples</module>
   </modules>
 
