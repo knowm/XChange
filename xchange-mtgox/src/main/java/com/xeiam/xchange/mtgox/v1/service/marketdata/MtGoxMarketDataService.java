@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.PacingViolationException;
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
@@ -75,7 +75,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public Ticker getTicker(SymbolPair symbolPair) {
+  public Ticker getTicker(CurrencyPair symbolPair) {
 
     // verify
     Assert.notNull(symbolPair, "symbolPair cannot be null");
@@ -101,7 +101,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public OrderBook getOrderBook(SymbolPair symbolPair) {
+  public OrderBook getOrderBook(CurrencyPair symbolPair) {
 
     // Verify
     Assert.notNull(symbolPair, "symbolPair cannot be null");
@@ -126,7 +126,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public OrderBook getFullOrderBook(SymbolPair symbolPair) {
+  public OrderBook getFullOrderBook(CurrencyPair symbolPair) {
 
     // Verify
     Assert.notNull(symbolPair, "symbolPair cannot be null");
@@ -151,7 +151,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public Trades getTrades(SymbolPair symbolPair) {
+  public Trades getTrades(CurrencyPair symbolPair) {
 
     // Verify
     Assert.notNull(symbolPair, "symbol cannot be null");
@@ -191,7 +191,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public List<SymbolPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() {
     return MtGoxProperties.SYMBOL_PAIRS;
   }
 }

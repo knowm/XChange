@@ -25,7 +25,7 @@ import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 
 /**
  * <p>
@@ -46,7 +46,7 @@ public interface MarketDataService {
    * @return The symbol pairs supported by this exchange (e.g. EUR/USD)
    * @throws NotAvailableFromExchangeException
    */
-  List<SymbolPair> getExchangeSymbols() throws NotAvailableFromExchangeException;
+  List<CurrencyPair> getExchangeSymbols() throws NotAvailableFromExchangeException;
 
   /**
    * <p>
@@ -57,7 +57,7 @@ public interface MarketDataService {
    * @return The Ticker
    * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
    */
-  Ticker getTicker(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
+  Ticker getTicker(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
 
   /**
    * <p>
@@ -68,7 +68,7 @@ public interface MarketDataService {
    * @return The order book in a reduced form (if possible)
    * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
    */
-  OrderBook getOrderBook(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
+  OrderBook getOrderBook(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
 
   /**
    * <p>
@@ -79,7 +79,7 @@ public interface MarketDataService {
    * @return The full order book
    * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
    */
-  OrderBook getFullOrderBook(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
+  OrderBook getFullOrderBook(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
 
   /**
    * <p>
@@ -90,6 +90,6 @@ public interface MarketDataService {
    * @return The trade data
    * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
    */
-  Trades getTrades(SymbolPair symbolPair) throws NotAvailableFromExchangeException;
+  Trades getTrades(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
 
 }

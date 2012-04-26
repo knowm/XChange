@@ -21,39 +21,54 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import com.xeiam.xchange.SymbolPair;
-
 import java.util.Arrays;
 import java.util.List;
+
+import com.xeiam.xchange.CurrencyPair;
 
 /**
  * A central place for shared Mt Gox properties
  */
 public class MtGoxProperties {
 
-  public static final int REFRESH_RATE = 10; // [seconds]
-
   // TODO Move into a symbol service
-  public static final List<SymbolPair> SYMBOL_PAIRS = Arrays.asList(
-      
-    SymbolPair.BTC_USD,
-    SymbolPair.BTC_EUR,
-    SymbolPair.BTC_GBP,
-    SymbolPair.BTC_AUD,
-    SymbolPair.BTC_CAD,
-    SymbolPair.BTC_CHF,
-    SymbolPair.BTC_JPY,
-    new SymbolPair("BTC", "CNY"),
-    new SymbolPair("BTC", "DKK"),
-    new SymbolPair("BTC", "HKD"),
-    new SymbolPair("BTC", "NZD"),
-    new SymbolPair("BTC", "PLN"),
-    new SymbolPair("BTC", "RUB"),
-    new SymbolPair("BTC", "SEK"),
-    new SymbolPair("BTC", "SGD"),
-    new SymbolPair("BTC", "THB")
-    
+  public static final List<CurrencyPair> SYMBOL_PAIRS = Arrays.asList(
+
+  CurrencyPair.BTC_USD,
+
+  CurrencyPair.BTC_EUR,
+
+  CurrencyPair.BTC_GBP,
+
+  CurrencyPair.BTC_AUD,
+
+  CurrencyPair.BTC_CAD,
+
+  CurrencyPair.BTC_CHF,
+
+  CurrencyPair.BTC_JPY,
+
+  new CurrencyPair("BTC", "CNY"),
+
+  new CurrencyPair("BTC", "DKK"),
+
+  new CurrencyPair("BTC", "HKD"),
+
+  new CurrencyPair("BTC", "NZD"),
+
+  new CurrencyPair("BTC", "PLN"),
+
+  new CurrencyPair("BTC", "RUB"),
+
+  new CurrencyPair("BTC", "SEK"),
+
+  new CurrencyPair("BTC", "SGD"),
+
+  new CurrencyPair("BTC", "THB")
+
   );
+
+  public static final int REFRESH_RATE = 10; // [seconds]
 
   public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
 

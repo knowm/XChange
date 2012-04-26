@@ -24,7 +24,7 @@ package com.xeiam.xchange.intersango.v0_1;
 import java.util.Arrays;
 import java.util.List;
 
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 
 /**
  * <p>
@@ -34,15 +34,16 @@ import com.xeiam.xchange.SymbolPair;
 // TODO verify values in this class with Gary
 public class IntersangoProperties {
 
-  public static final int REFRESH_RATE = 10; // [seconds]
+  public static final List<CurrencyPair> SYMBOL_PAIRS = Arrays.asList(
 
-  public static final List<SymbolPair> SYMBOL_PAIRS = Arrays.asList(SymbolPair.BTC_USD, SymbolPair.BTC_EUR, SymbolPair.BTC_GBP, new SymbolPair("BTC", "CNY"), new SymbolPair("BTC", "DKK"), new SymbolPair("BTC", "HKD"),
-      new SymbolPair("BTC", "NZD"), new SymbolPair("BTC", "PLN"), new SymbolPair("BTC", "RUB"), new SymbolPair("BTC", "SEK"), new SymbolPair("BTC", "SGD"), new SymbolPair("BTC", "THB"));
+  CurrencyPair.BTC_USD,
 
-  public static final int VOLUME_INT_2_DECIMAL_FACTOR = 100000000;
+  CurrencyPair.BTC_EUR,
 
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 1000;
+  CurrencyPair.BTC_GBP,
 
-  public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+  new CurrencyPair("BTC", "PLN")
+
+  );
 
 }

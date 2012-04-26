@@ -23,7 +23,7 @@ package com.xeiam.xchange.examples.mtgox.v1;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
@@ -57,20 +57,20 @@ public class MtGoxMarketdataDemo {
     MarketDataService marketDataService = mtGox.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     String btcusd = ticker.getLast().toString();
     System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getOrderBook(SymbolPair.BTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
     // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook(SymbolPair.BTC_USD);
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook(CurrencyPair.BTC_USD);
     System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
     // Get trades
-    Trades trades = marketDataService.getTrades(new SymbolPair("BTC", "PLN"));
+    Trades trades = marketDataService.getTrades(new CurrencyPair("BTC", "PLN"));
     System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
   }

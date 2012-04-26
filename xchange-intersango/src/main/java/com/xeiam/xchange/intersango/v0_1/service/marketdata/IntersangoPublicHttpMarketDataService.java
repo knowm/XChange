@@ -21,10 +21,16 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.marketdata;
 
-import com.xeiam.xchange.CachedDataSession;
+import java.util.HashMap;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.SymbolPair;
 import com.xeiam.xchange.intersango.v0_1.IntersangoProperties;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoDepth;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
@@ -34,12 +40,6 @@ import com.xeiam.xchange.service.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.Trades;
 import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>
@@ -49,7 +49,7 @@ import java.util.List;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class IntersangoPublicHttpMarketDataService extends BaseExchangeService implements MarketDataService, CachedDataSession {
+public class IntersangoPublicHttpMarketDataService extends BaseExchangeService implements MarketDataService {
 
   /**
    * Provides logging for this class
@@ -70,7 +70,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public Ticker getTicker(SymbolPair symbolPair) {
+  public Ticker getTicker(CurrencyPair symbolPair) {
 
     String currencyPairId = getCurrencyPairId(symbolPair);
 
@@ -78,11 +78,11 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
     IntersangoTicker intersangoTicker = httpTemplate.getForJsonObject(apiBase + "ticker.php?currency_pair_id=" + currencyPairId, IntersangoTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    long value_int = (long) (Double.parseDouble(intersangoTicker.getLast()) * IntersangoProperties.PRICE_INT_2_DECIMAL_FACTOR);
+    long value_int = (long) (Double.parseDouble(intersangoTicker.getLast()));
     BigMoney last = MoneyUtils.fromSatoshi(value_int);
     BigMoney bid = MoneyUtils.fromSatoshi(value_int);
     BigMoney ask = MoneyUtils.fromSatoshi(value_int);
-    long volume = (long) (Double.parseDouble(intersangoTicker.getVol()) * IntersangoProperties.VOLUME_INT_2_DECIMAL_FACTOR);
+    long volume = (long) (Double.parseDouble(intersangoTicker.getVol()));
 
     Ticker ticker = new Ticker(last, bid, ask, symbolPair, volume);
 
@@ -99,11 +99,11 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
    * <li>3 = BTC:USD</li>
    * <li>4 = BTC:PLN</li>
    * </ul>
-   *
+   * 
    * @param symbolPair The symbol pair
    * @return A suitable ID if possible
    */
-  String getCurrencyPairId(SymbolPair symbolPair) {
+  String getCurrencyPairId(CurrencyPair symbolPair) {
 
     if (!"BTC".equalsIgnoreCase(symbolPair.baseSymbol)) {
       throw new NotAvailableFromExchangeException("Symbol " + symbolPair.baseSymbol + " is not available");
@@ -124,7 +124,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public OrderBook getOrderBook(SymbolPair symbolPair) {
+  public OrderBook getOrderBook(CurrencyPair symbolPair) {
 
     // Request data
     IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
@@ -133,29 +133,17 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   }
 
   @Override
-  public Trades getTrades(SymbolPair symbolPair) {
+  public Trades getTrades(CurrencyPair symbolPair) {
     return null;
   }
 
   @Override
-  public OrderBook getFullOrderBook(SymbolPair symbolPair) {
+  public OrderBook getFullOrderBook(CurrencyPair symbolPair) {
     return null;
   }
 
-  // TODO verify that intersango has cached data with Gary
-
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
-   * </p>
-   */
   @Override
-  public int getRefreshRate() {
-    return IntersangoProperties.REFRESH_RATE;
-  }
-
-  @Override
-  public List<SymbolPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() {
     return IntersangoProperties.SYMBOL_PAIRS;
   }
 }

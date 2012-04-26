@@ -1,15 +1,8 @@
 package com.xeiam.xchange.examples.connect;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
-import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -17,13 +10,31 @@ import java.net.MalformedURLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
+import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
+import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+
 /**
- * <p>Streaming market data client to provide the following to XChange:</p>
+ * <p>
+ * Streaming market data client to provide the following to XChange:
+ * </p>
  * <ul>
  * <li>Demonstration of connection to exchange server using direct socket and displaying events</li>
  * </ul>
  * <h3>How to use it</h3>
- * <p>Simply run this up through main() and click Connect. The default settings will connect to the Intersango exchange</p>
+ * <p>
+ * Simply run this up through main() and click Connect. The default settings will connect to the Intersango exchange
+ * </p>
  */
 public class StreamingMarketDataClient extends JFrame implements ActionListener {
 
@@ -38,13 +49,12 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
   private StreamingMarketDataService streamingMarketDataService = null;
   private ExecutorService executorService = null;
 
-
   /**
    * The main entry point to the demonstration
-   *
+   * 
    * @param args CLI arguments (ignored)
    * @throws java.net.MalformedURLException If something goes wrong
-   * @throws InterruptedException           If something goes wrong
+   * @throws InterruptedException If something goes wrong
    */
   public static void main(String[] args) throws MalformedURLException, InterruptedException {
 
@@ -53,7 +63,11 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
 
   }
 
+  /**
+   * Constructor
+   */
   public StreamingMarketDataClient() {
+
     super("Intersango Direct Socket Streaming Exchange Client");
     Container c = getContentPane();
     GridLayout layout = new GridLayout();
@@ -96,6 +110,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
     setVisible(true);
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
 
     if (e.getSource() == connect) {

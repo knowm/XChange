@@ -1,6 +1,6 @@
 package com.xeiam.xchange.examples.connect;
 
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.service.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
@@ -69,7 +69,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
         public void run() {
           // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
-          Ticker ticker = new Ticker(money, money, money, SymbolPair.BTC_USD, random.nextLong());
+          Ticker ticker = new Ticker(money, money, money, CurrencyPair.BTC_USD, random.nextLong());
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {

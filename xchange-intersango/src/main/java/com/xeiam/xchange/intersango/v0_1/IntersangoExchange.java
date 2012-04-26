@@ -1,13 +1,13 @@
 package com.xeiam.xchange.intersango.v0_1;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.IntersangoPublicHttpMarketDataService;
 import com.xeiam.xchange.intersango.v0_1.service.trade.IntersangoTradeService;
-
-import java.io.IOException;
 
 /**
  * <p>
@@ -17,7 +17,7 @@ import java.io.IOException;
  * <li>A wrapper for the MtGox BTC exchange API</li>
  * </ul>
  * 
- * @since 0.0.1  
+ * @since 0.0.1
  */
 public class IntersangoExchange extends BaseExchange implements Exchange {
 
@@ -31,6 +31,7 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
    * @return A default configuration for this exchange
    */
   public static Exchange newInstance() {
+
     Exchange exchange = new IntersangoExchange();
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
     return exchange;
@@ -38,6 +39,7 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
@@ -46,7 +48,7 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
     try {
       this.streamingMarketDataService = new IntersangoStreamingMarketDataService(exchangeSpecification);
     } catch (IOException e) {
-      throw new ExchangeException("Streaming market data service failed",e);
+      throw new ExchangeException("Streaming market data service failed", e);
     }
   }
 

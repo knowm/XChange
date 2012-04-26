@@ -21,13 +21,13 @@ public class IntersangoPublicHttpMarketDataServiceTest {
 
     IntersangoPublicHttpMarketDataService testObject = (IntersangoPublicHttpMarketDataService) intersango.getMarketDataService();
 
-    assertEquals("1", testObject.getCurrencyPairId(SymbolPair.BTC_GBP));
-    assertEquals("2", testObject.getCurrencyPairId(SymbolPair.BTC_EUR));
-    assertEquals("3", testObject.getCurrencyPairId(SymbolPair.BTC_USD));
-    assertEquals("4", testObject.getCurrencyPairId(new SymbolPair("BTC", "PLN")));
+    assertEquals("1", testObject.getCurrencyPairId(CurrencyPair.BTC_GBP));
+    assertEquals("2", testObject.getCurrencyPairId(CurrencyPair.BTC_EUR));
+    assertEquals("3", testObject.getCurrencyPairId(CurrencyPair.BTC_USD));
+    assertEquals("4", testObject.getCurrencyPairId(new CurrencyPair("BTC", "PLN")));
 
     try {
-      testObject.getCurrencyPairId(new SymbolPair("---", "USD"));
+      testObject.getCurrencyPairId(new CurrencyPair("---", "USD"));
       fail();
     } catch (NotAvailableFromExchangeException e) {
       // Do nothing
@@ -54,7 +54,7 @@ public class IntersangoPublicHttpMarketDataServiceTest {
       }
     });
 
-    testObject.getOrderBook(SymbolPair.BTC_USD);
+    testObject.getOrderBook(CurrencyPair.BTC_USD);
     
   }
 

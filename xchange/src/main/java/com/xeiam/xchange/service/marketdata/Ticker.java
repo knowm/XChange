@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.service.marketdata;
 
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.utils.DateUtils;
 import net.jcip.annotations.Immutable;
 import org.joda.money.BigMoney;
@@ -37,7 +37,7 @@ public final class Ticker {
   private final BigMoney last;
   private final BigMoney bid;
   private final BigMoney ask;
-  private final SymbolPair symbolPair;
+  private final CurrencyPair symbolPair;
   private final long volume;
 
   /**
@@ -47,7 +47,7 @@ public final class Ticker {
    * @param symbolPair
    * @param volume
    */
-  public Ticker(BigMoney last, BigMoney bid, BigMoney ask, SymbolPair symbolPair, long volume) {
+  public Ticker(BigMoney last, BigMoney bid, BigMoney ask, CurrencyPair symbolPair, long volume) {
     this.last = last;
     this.bid = bid;
     this.ask = ask;
@@ -68,7 +68,7 @@ public final class Ticker {
     return ask;
   }
 
-  public SymbolPair getSymbolPair() {
+  public CurrencyPair getSymbolPair() {
     return symbolPair;
   }
 

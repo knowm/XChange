@@ -23,7 +23,7 @@ package com.xeiam.xchange.examples.mtgox.v1;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.OrderBook;
 
@@ -43,7 +43,7 @@ public class DepthDemo {
     marketDataService = mtGox.getMarketDataService();
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getOrderBook(SymbolPair.BTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
     // Verify that the orderBook is not null

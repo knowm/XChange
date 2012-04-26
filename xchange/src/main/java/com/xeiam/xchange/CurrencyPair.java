@@ -1,7 +1,8 @@
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.utils.Assert;
 import net.jcip.annotations.Immutable;
+
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -15,26 +16,25 @@ import net.jcip.annotations.Immutable;
  * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
  * </p>
  */
-// TODO Refactor rename this to CurrencyPair
 @Immutable
-public class SymbolPair {
+public class CurrencyPair {
 
   // Provide some standard major symbols
-  public static final SymbolPair EUR_USD = new SymbolPair("EUR");
-  public static final SymbolPair GBP_USD = new SymbolPair("GBP");
-  public static final SymbolPair USD_JPY = new SymbolPair("USD", "JPY");
-  public static final SymbolPair USD_CHF = new SymbolPair("USD", "CHF");
-  public static final SymbolPair USD_AUD = new SymbolPair("USD", "AUD");
-  public static final SymbolPair USD_CAD = new SymbolPair("USD", "CAD");
+  public static final CurrencyPair EUR_USD = new CurrencyPair("EUR");
+  public static final CurrencyPair GBP_USD = new CurrencyPair("GBP");
+  public static final CurrencyPair USD_JPY = new CurrencyPair("USD", "JPY");
+  public static final CurrencyPair USD_CHF = new CurrencyPair("USD", "CHF");
+  public static final CurrencyPair USD_AUD = new CurrencyPair("USD", "AUD");
+  public static final CurrencyPair USD_CAD = new CurrencyPair("USD", "CAD");
 
   // Provide some courtesy BTC major symbols
-  public static final SymbolPair BTC_USD = new SymbolPair("BTC");
-  public static final SymbolPair BTC_GBP = new SymbolPair("BTC", "GBP");
-  public static final SymbolPair BTC_EUR = new SymbolPair("BTC", "EUR");
-  public static final SymbolPair BTC_JPY = new SymbolPair("BTC", "JPY");
-  public static final SymbolPair BTC_CHF = new SymbolPair("BTC", "CHF");
-  public static final SymbolPair BTC_AUD = new SymbolPair("BTC", "AUD");
-  public static final SymbolPair BTC_CAD = new SymbolPair("BTC", "CAD");
+  public static final CurrencyPair BTC_USD = new CurrencyPair("BTC");
+  public static final CurrencyPair BTC_GBP = new CurrencyPair("BTC", "GBP");
+  public static final CurrencyPair BTC_EUR = new CurrencyPair("BTC", "EUR");
+  public static final CurrencyPair BTC_JPY = new CurrencyPair("BTC", "JPY");
+  public static final CurrencyPair BTC_CHF = new CurrencyPair("BTC", "CHF");
+  public static final CurrencyPair BTC_AUD = new CurrencyPair("BTC", "AUD");
+  public static final CurrencyPair BTC_CAD = new CurrencyPair("BTC", "CAD");
 
   public final String baseSymbol;
   public final String counterSymbol;
@@ -46,7 +46,7 @@ public class SymbolPair {
    * 
    * @param baseSymbol The base symbol (single unit)
    */
-  public SymbolPair(String baseSymbol) {
+  public CurrencyPair(String baseSymbol) {
     this(baseSymbol, "USD");
   }
 
@@ -58,7 +58,7 @@ public class SymbolPair {
    * @param baseSymbol The base symbol (single unit)
    * @param counterSymbol The counter symbol (multiple units)
    */
-  public SymbolPair(String baseSymbol, String counterSymbol) {
+  public CurrencyPair(String baseSymbol, String counterSymbol) {
 
     Assert.hasLength(baseSymbol, 3, "baseSymbol cannot be null and must be 3 characters in length");
     Assert.hasLength(counterSymbol, 3, "counterSymbol cannot be null and must be 3 characters in length");

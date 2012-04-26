@@ -23,7 +23,7 @@ package com.xeiam.xchange.examples.mtgox.v1;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.service.marketdata.Ticker;
 
@@ -43,7 +43,7 @@ public class TickerDemo {
     marketDataService = mtGox.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
     System.out.println("Last: " + currency + "-" + value);
@@ -53,13 +53,13 @@ public class TickerDemo {
     System.out.println("Ask: " + ticker.getAsk().toString());
 
     // Get the latest ticker data showing BTC to EUR
-    ticker = marketDataService.getTicker(SymbolPair.BTC_EUR);
+    ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Bid: " + ticker.getBid().toString());
     System.out.println("Ask: " + ticker.getAsk().toString());
 
     // Get the latest ticker data showing BTC to USD
-    ticker = marketDataService.getTicker(SymbolPair.BTC_GBP);
+    ticker = marketDataService.getTicker(CurrencyPair.BTC_GBP);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Bid: " + ticker.getBid().toString());
     System.out.println("Ask: " + ticker.getAsk().toString());
