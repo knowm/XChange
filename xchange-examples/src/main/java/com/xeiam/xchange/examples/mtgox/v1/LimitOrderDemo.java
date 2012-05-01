@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
-import com.xeiam.xchange.Constants;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.trade.LimitOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -54,7 +54,7 @@ public class LimitOrderDemo {
     long btcAmount = (long) (Math.random() * MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR);
     // place a limit order
     LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(Constants.BID);
+    limitOrder.setType(Order.BID);
     limitOrder.setAmountCurrency("BTC");
     limitOrder.setAmount_int(btcAmount); // 1 BTC
     limitOrder.setPriceCurrency("USD");

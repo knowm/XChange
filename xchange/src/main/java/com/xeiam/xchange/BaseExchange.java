@@ -49,6 +49,7 @@ public abstract class BaseExchange implements Exchange {
     return tradeService;
   }
 
+  @Override
   public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }

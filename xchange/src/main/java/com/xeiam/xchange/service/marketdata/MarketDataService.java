@@ -23,9 +23,9 @@ package com.xeiam.xchange.service.marketdata;
 
 import java.util.List;
 
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.CurrencyPair;
 
 /**
  * <p>

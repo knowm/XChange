@@ -1,28 +1,60 @@
+/**
+ * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.examples.connect;
 
-import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
-import com.xeiam.xchange.streaming.socketio.IOCallback;
-import com.xeiam.xchange.streaming.socketio.SocketIO;
-import com.xeiam.xchange.streaming.socketio.SocketIOException;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Container;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.net.MalformedURLException;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
+import com.xeiam.xchange.streaming.socketio.IOCallback;
+import com.xeiam.xchange.streaming.socketio.SocketIO;
+import com.xeiam.xchange.streaming.socketio.SocketIOException;
+
 /**
- * <p>Socket IO client to provide the following to XChange:</p>
+ * <p>
+ * Socket IO client to provide the following to XChange:
+ * </p>
  * <ul>
  * <li>Demonstration of connection to exchange server over SocketIO</li>
  * </ul>
  * <h3>How to use it</h3>
- * <p>Simply run this up through main() and click Connect. The default settings will connect to the MtGox exchange</p>
+ * <p>
+ * Simply run this up through main() and click Connect. The default settings will connect to the MtGox exchange
+ * </p>
  */
 public class SocketIOExchangeClient extends JFrame implements IOCallback, ActionListener {
 
@@ -37,10 +69,10 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
 
   /**
    * The main entry point to the demonstration
-   *
+   * 
    * @param args CLI arguments (ignored)
    * @throws MalformedURLException If something goes wrong
-   * @throws InterruptedException  If something goes wrong
+   * @throws InterruptedException If something goes wrong
    */
   public static void main(String[] args) throws MalformedURLException, InterruptedException {
 
@@ -54,7 +86,13 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
 
   }
 
+  /**
+   * Constructor
+   * 
+   * @param rawUri
+   */
   public SocketIOExchangeClient(String rawUri) {
+
     super("SocketIO Exchange Client");
     Container c = getContentPane();
     GridLayout layout = new GridLayout();
@@ -103,6 +141,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     setVisible(true);
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
 
     if (e.getSource() == messageField) {
@@ -111,10 +150,9 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
         messageField.setText("");
         messageField.requestFocus();
       }
-
     } else if (e.getSource() == connect) {
-      try {
 
+      try {
         close.setEnabled(true);
         connect.setEnabled(false);
         uriField.setEditable(false);
@@ -130,17 +168,19 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     }
   }
 
-  public void onError(Exception ex) {
-    ta.append("Exception occurred ...\n" + ex + "\n");
-    ta.setCaretPosition(ta.getDocument().getLength());
-    ex.printStackTrace();
-    connect.setEnabled(true);
-    uriField.setEditable(true);
-    close.setEnabled(false);
-  }
+  // public void onError(Exception ex) {
+  //
+  // ta.append("Exception occurred ...\n" + ex + "\n");
+  // ta.setCaretPosition(ta.getDocument().getLength());
+  // ex.printStackTrace();
+  // connect.setEnabled(true);
+  // uriField.setEditable(true);
+  // close.setEnabled(false);
+  // }
 
   @Override
   public void onDisconnect() {
+
     log.debug("Disconnected");
     ta.append("You have been disconnected\n");
     ta.setCaretPosition(ta.getDocument().getLength());
@@ -151,6 +191,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
 
   @Override
   public void onConnect() {
+
     log.debug("Connected");
     ta.append("You are connected\n");
     ta.setCaretPosition(ta.getDocument().getLength());
@@ -159,6 +200,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
 
   @Override
   public void onMessage(String data, IOAcknowledge ack) {
+
     log.debug("Message: " + data);
     ta.append("Received: " + data + "\n");
     ta.setCaretPosition(ta.getDocument().getLength());
@@ -166,6 +208,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
 
   @Override
   public void onMessage(JSONObject json, IOAcknowledge ack) {
+
     try {
       JSONObject ticker = (JSONObject) json.get("ticker");
       if (ticker != null) {

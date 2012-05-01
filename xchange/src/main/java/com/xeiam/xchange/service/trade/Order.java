@@ -21,33 +21,24 @@
  */
 package com.xeiam.xchange.service.trade;
 
-import com.xeiam.xchange.Constants;
-
 /**
  * Data object representing an order
  */
 public class Order {
 
+  /**
+   * Order Types
+   */
+  public static String BID = "BID";
+  public static String ASK = "ASK";
+
+  // TODO use enum
   private String type;
+  // TODO use Money
   private Long amount_int;
+  // TODO use CurrencyPair
   private String amountCurrency;
   private String priceCurrency;
-
-  public static String getBid() {
-    return Constants.BID;
-  }
-
-  public static void setBid(String bid) {
-    Constants.BID = bid;
-  }
-
-  public static String getAsk() {
-    return Constants.ASK;
-  }
-
-  public static void setAsk(String ask) {
-    Constants.ASK = ask;
-  }
 
   public String getType() {
     return type;

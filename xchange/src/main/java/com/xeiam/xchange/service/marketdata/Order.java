@@ -26,6 +26,7 @@ import net.jcip.annotations.Immutable;
 /**
  * Data object representing a buy or sell order
  */
+// TODO perhaps merge this with other Order class
 @Immutable
 public final class Order {
 

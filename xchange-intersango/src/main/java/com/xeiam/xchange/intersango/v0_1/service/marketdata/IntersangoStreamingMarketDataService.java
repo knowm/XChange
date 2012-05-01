@@ -19,19 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v0_1;
+package com.xeiam.xchange.intersango.v0_1.service.marketdata;
+
+import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.marketdata.streaming.BaseStreamingMarketDataService;
 
-import java.io.IOException;
-
 /**
- * <p>Streaming market data service for the Intersango exchange</p>
- * <p>Intersango provide a direct socket implementation so no SocketIO or websockets</p>
+ * <p>
+ * Streaming market data service for the Intersango exchange
+ * </p>
+ * <p>
+ * Intersango provide a direct socket implementation so no SocketIO or websockets
+ * </p>
  */
 public class IntersangoStreamingMarketDataService extends BaseStreamingMarketDataService {
-
 
   /**
    * @param exchangeSpecification The exchange specification providing the required connection data

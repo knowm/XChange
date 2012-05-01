@@ -21,21 +21,27 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.trade;
 
-import com.xeiam.xchange.Constants;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoGenericResponse;
 import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoOpenOrder;
 import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoWallet;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.*;
+import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.LimitOrder;
+import com.xeiam.xchange.service.trade.MarketOrder;
+import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.Order;
+import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.Wallet;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class IntersangoTradeService extends BaseExchangeService implements TradeService {
 
@@ -51,7 +57,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
 
   /**
    * Initialise common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
   public IntersangoTradeService(ExchangeSpecification exchangeSpecification) {
@@ -80,7 +86,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
         Wallet wallet = new Wallet();
         // Balance provided to 10dp
         // TODO Rethink the Wallet to use BigDecimal or Money
-        wallet.setAmount_int( (long) (Double.valueOf(intersangoWallet.getBalance()) * 10000000000L));
+        wallet.setAmount_int((long) (Double.valueOf(intersangoWallet.getBalance()) * 10000000000L));
         wallet.setCurrency(intersangoWallet.getCurrency_abbreviation());
         wallets.add(wallet);
       }
@@ -94,7 +100,6 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
   @Override
   public OpenOrders getOpenOrders() {
 
-
     // Build request
     String url = apiBase + "/listOrders.php";
     String postBody = "api_key=" + exchangeSpecification.getApiKey();
@@ -106,7 +111,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
     List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
     for (int i = 0; i < intersangoOpenOrder.length; i++) {
       LimitOrder openOrder = new LimitOrder();
-      openOrder.setType(intersangoOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
+      openOrder.setType(intersangoOpenOrder[i].getType().equalsIgnoreCase("bid") ? Order.BID : Order.ASK);
       openOrder.setAmount_int(Long.valueOf(intersangoOpenOrder[i].getAmount()));
       openOrder.setAmountCurrency(intersangoOpenOrder[i].getAmount());
 
@@ -134,7 +139,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
 
     // Build request
     String symbol = marketOrder.getAmountCurrency() + marketOrder.getPriceCurrency();
-    String type = marketOrder.getType().equals(Constants.BID) ? "bid" : "ask";
+    String type = marketOrder.getType().equals(Order.BID) ? "bid" : "ask";
     String amount = "" + marketOrder.getAmount_int();
 
     String url = apiBase + "/placeLimitOrder.php";
@@ -159,7 +164,7 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
 
     // Build request
     String symbol = limitOrder.getAmountCurrency() + limitOrder.getPriceCurrency();
-    String type = limitOrder.getType().equals(Constants.BID) ? "bid" : "ask";
+    String type = limitOrder.getType().equals(Order.BID) ? "bid" : "ask";
     String amount = "" + limitOrder.getAmount_int();
     String price_int = "" + limitOrder.getPrice_int();
 
@@ -174,9 +179,8 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
 
   /**
    * Generates necessary authentication header values for Intersango
-   *
+   * 
    * @param postBody
-   *
    * @return
    */
   private Map<String, String> getIntersangoAuthenticationHeaderKeyValues(String postBody) {
@@ -184,16 +188,16 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
     Map<String, String> headerKeyValues = new HashMap<String, String>();
     return headerKeyValues;
 
-//    try {
-//
-//      Map<String, String> headerKeyValues = new HashMap<String, String>();
-//
-//      headerKeyValues.put("api_key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
-//      return headerKeyValues;
-//
-//    } catch (UnsupportedEncodingException e) {
-//      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
-//    }
+    // try {
+    //
+    // Map<String, String> headerKeyValues = new HashMap<String, String>();
+    //
+    // headerKeyValues.put("api_key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
+    // return headerKeyValues;
+    //
+    // } catch (UnsupportedEncodingException e) {
+    // throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
+    // }
   }
 
 }

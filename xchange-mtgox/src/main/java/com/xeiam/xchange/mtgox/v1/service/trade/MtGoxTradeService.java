@@ -21,20 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
-import com.xeiam.xchange.Constants;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
-import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.*;
-import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.utils.CryptoUtils;
-import com.xeiam.xchange.utils.HttpTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
@@ -42,6 +28,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.service.trade.LimitOrder;
+import com.xeiam.xchange.service.trade.MarketOrder;
+import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.Order;
+import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.Wallet;
+import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.CryptoUtils;
+import com.xeiam.xchange.utils.HttpTemplate;
 
 public class MtGoxTradeService extends BaseExchangeService implements TradeService {
 
@@ -62,7 +69,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     Assert.notNull(exchangeSpecification.getVersion(), "Exchange specification version cannot be null");
-    this.apiBaseURI= String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
+    this.apiBaseURI = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
   }
 
   @Override
@@ -81,11 +88,11 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
     List<Wallet> wallets = new ArrayList<Wallet>();
     Wallet usdWallet = new Wallet();
-    usdWallet.setCurrency(Constants.USD);
+    usdWallet.setCurrency(Currencies.USD);
     usdWallet.setAmount_int(mtGoxAccountInfo.getWallets().getUSD().getBalance().getValue_int());
     wallets.add(usdWallet);
     Wallet btcWallet = new Wallet();
-    btcWallet.setCurrency(Constants.BTC);
+    btcWallet.setCurrency(Currencies.BTC);
     btcWallet.setAmount_int(mtGoxAccountInfo.getWallets().getBTC().getBalance().getValue_int());
     wallets.add(btcWallet);
     accountInfo.setWallets(wallets);
@@ -108,7 +115,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
     for (int i = 0; i < mtGoxOpenOrder.length; i++) {
       LimitOrder openOrder = new LimitOrder();
-      openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Constants.BID : Constants.ASK);
+      openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? Order.BID : Order.ASK);
       openOrder.setAmount_int(mtGoxOpenOrder[i].getAmount().getValue_int());
       openOrder.setAmountCurrency(mtGoxOpenOrder[i].getAmount().getCurrency());
 
@@ -134,7 +141,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
     // Build request
     String symbol = marketOrder.getAmountCurrency() + marketOrder.getPriceCurrency();
-    String type = marketOrder.getType().equals(Constants.BID) ? "bid" : "ask";
+    String type = marketOrder.getType().equals(Order.BID) ? "bid" : "ask";
     String amount = "" + marketOrder.getAmount_int();
     String url = apiBaseURI + symbol + "/private/order/add";
 
@@ -157,7 +164,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
     // Build request
     String symbol = limitOrder.getAmountCurrency() + limitOrder.getPriceCurrency();
-    String type = limitOrder.getType().equals(Constants.BID) ? "bid" : "ask";
+    String type = limitOrder.getType().equals(Order.BID) ? "bid" : "ask";
     String amount = "" + limitOrder.getAmount_int();
     String price_int = "" + limitOrder.getPrice_int();
     String url = apiBaseURI + symbol + "/private/order/add";

@@ -20,10 +20,8 @@ import java.net.MalformedURLException;
  * <li>Demonstration of connection to Intersango exchange server over socket IO</li>
  * </ul>
  *
- * @since 0.0.1
  *
  * TODO Talk to Intersango about their SocketIO implementation - it's not handshaking correctly
- *         
  */
 public class IntersangoSocketIOClientDemo extends JFrame implements IOCallback, ActionListener {
 

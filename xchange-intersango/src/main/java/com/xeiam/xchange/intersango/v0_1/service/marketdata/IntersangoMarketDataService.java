@@ -49,12 +49,12 @@ import com.xeiam.xchange.utils.MoneyUtils;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class IntersangoPublicHttpMarketDataService extends BaseExchangeService implements MarketDataService {
+public class IntersangoMarketDataService extends BaseExchangeService implements MarketDataService {
 
   /**
    * Provides logging for this class
    */
-  private final Logger log = LoggerFactory.getLogger(IntersangoPublicHttpMarketDataService.class);
+  private final Logger log = LoggerFactory.getLogger(IntersangoMarketDataService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -64,7 +64,7 @@ public class IntersangoPublicHttpMarketDataService extends BaseExchangeService i
   /**
    * @param exchangeSpecification The exchange specification
    */
-  public IntersangoPublicHttpMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public IntersangoMarketDataService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
     this.apiBase = String.format("%s/api/", exchangeSpecification.getUri());
   }

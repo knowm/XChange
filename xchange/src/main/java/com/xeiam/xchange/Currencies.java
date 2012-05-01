@@ -24,12 +24,12 @@ package com.xeiam.xchange;
 /**
  * Global Exchange-relevant constants
  */
-public class Constants {
+public class Currencies {
 
   /**
    * Private constructor so it cannot be instantiated
    */
-  private Constants() {
+  private Currencies() {
   }
 
   /**
@@ -37,11 +37,5 @@ public class Constants {
    */
   public static final String BTC = "BTC";
   public static final String USD = "USD";
-
-  /**
-   * Order Types
-   */
-  public static String BID = "BID";
-  public static String ASK = "ASK";
 
 }

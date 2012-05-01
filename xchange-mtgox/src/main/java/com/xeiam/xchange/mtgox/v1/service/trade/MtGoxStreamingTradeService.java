@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service.trade;
 
 import java.io.IOException;
 
@@ -28,18 +28,18 @@ import com.xeiam.xchange.service.marketdata.streaming.BaseStreamingMarketDataSer
 
 /**
  * <p>
- * Streaming market data service for the MtGox exchange
+ * Streaming market data service to provide the following to applications:
  * </p>
- * <p>
- * MtGox provides a SocketIO implementation
- * </p>
+ * <ul>
+ * <li></li>
+ * </ul>
  */
-public class MtGoxStreamingMarketDataService extends BaseStreamingMarketDataService {
+public class MtGoxStreamingTradeService extends BaseStreamingMarketDataService {
 
   /**
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
-  public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
+  public MtGoxStreamingTradeService(ExchangeSpecification exchangeSpecification) throws IOException {
     super(exchangeSpecification);
     // TODO Implement this using a SocketIO based producer
   }

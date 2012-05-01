@@ -44,7 +44,6 @@ import java.util.Map;
  * <li>Retrieving authenticated account data</li>
  * </ul>
  *
- * @since 0.0.1  
  */
 public class IntersangoExchangeDemo {
 

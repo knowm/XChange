@@ -1,12 +1,25 @@
+/**
+ * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.examples.connect;
-
-import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.service.marketdata.Ticker;
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
-import com.xeiam.xchange.streaming.websocket.WebSocket;
-import com.xeiam.xchange.streaming.websocket.WebSocketServer;
-import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,10 +33,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.WebSocket;
+import com.xeiam.xchange.streaming.websocket.WebSocketServer;
+import com.xeiam.xchange.utils.MoneyUtils;
+
 /**
- * <p>A simple WebSocketServer implementation for an exchange</p>
+ * <p>
+ * A simple WebSocketServer implementation for an exchange
+ * </p>
  * <h3>How to use it</h3>
- * <p>Simply run this up through main() before attempting a connection with multiple {@link WebSocketExchangeClient} instances</p>
+ * <p>
+ * Simply run this up through main() before attempting a connection with multiple {@link WebSocketExchangeClient} instances
+ * </p>
  */
 public class WebSocketExchangeServer extends WebSocketServer {
 
@@ -37,10 +63,10 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
   /**
    * Main entry point to the demo
-   *
+   * 
    * @param args Command line arguments (not used)
    * @throws InterruptedException If something goes wrong
-   * @throws IOException          If something goes wrong
+   * @throws IOException If something goes wrong
    */
   public static void main(String[] args) throws InterruptedException, IOException {
     WebSocket.DEBUG = true;
@@ -85,6 +111,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
   }
 
+  @Override
   public void onClientOpen(WebSocket conn, HandshakeData handshake) {
     try {
       this.sendToAll(conn + " is monitoring trades");
@@ -94,6 +121,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
     System.out.println(conn + " is monitoring trades");
   }
 
+  @Override
   public void onClientClose(WebSocket conn, int code, String reason, boolean remote) {
     try {
       this.sendToAll(conn + " has disconnected");
@@ -103,6 +131,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
     System.out.println(conn + " has disconnected");
   }
 
+  @Override
   public void onClientMessage(WebSocket conn, String message) {
     try {
       this.sendToAll(conn + ": " + message);

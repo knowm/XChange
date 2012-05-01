@@ -31,8 +31,6 @@ import org.joda.time.DateTimeZone;
  * <ul>
  * <li>Provision of standard date and time handling</li>
  * </ul>
- * 
- * @since 0.0.1
  */
 public class DateUtils {
 
