@@ -15,7 +15,7 @@ public interface IOAcknowledge {
 
   /**
    * Acknowledges a socket.io message.
-   *
+   * 
    * @param args may be all types
    */
   void ack(Object... args);

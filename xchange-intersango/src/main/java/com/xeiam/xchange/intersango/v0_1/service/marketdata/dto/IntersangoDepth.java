@@ -22,8 +22,7 @@
 package com.xeiam.xchange.intersango.v0_1.service.marketdata.dto;
 
 /**
- * Data object representing market depth from Intersango
- * TODO Use the correct implementation
+ * Data object representing market depth from Intersango TODO Use the correct implementation
  */
 public class IntersangoDepth {
 

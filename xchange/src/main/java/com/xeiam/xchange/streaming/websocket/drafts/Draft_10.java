@@ -203,22 +203,22 @@ public class Draft_10 extends Draft {
 
   private OpCode toOpcode(byte opcode) throws InvalidFrameException {
     switch (opcode) {
-      case 0:
-        return OpCode.CONTINUOUS;
-      case 1:
-        return OpCode.TEXT;
-      case 2:
-        return OpCode.BINARY;
+    case 0:
+      return OpCode.CONTINUOUS;
+    case 1:
+      return OpCode.TEXT;
+    case 2:
+      return OpCode.BINARY;
       // 3-7 are not yet defined
-      case 8:
-        return OpCode.CLOSING;
-      case 9:
-        return OpCode.PING;
-      case 10:
-        return OpCode.PONG;
+    case 8:
+      return OpCode.CLOSING;
+    case 9:
+      return OpCode.PING;
+    case 10:
+      return OpCode.PONG;
       // 11-15 are not yet defined
-      default:
-        throw new InvalidFrameException("unknow opCode " + (short) opcode);
+    default:
+      throw new InvalidFrameException("unknow opCode " + (short) opcode);
     }
   }
 
@@ -285,12 +285,12 @@ public class Draft_10 extends Draft {
     int realpacketsize = 2;
     if (maxpacketsize < realpacketsize)
       throw new IncompleteException(realpacketsize);
-    byte b1 = buffer.get( /*0*/);
+    byte b1 = buffer.get( /* 0 */);
     boolean FIN = b1 >> 8 != 0;
     byte rsv = (byte) ((b1 & ~(byte) 128) >> 4);
     if (rsv != 0)
       throw new InvalidFrameException("bad rsv " + rsv);
-    byte b2 = buffer.get( /*1*/);
+    byte b2 = buffer.get( /* 1 */);
     boolean MASK = (b2 & -128) != 0;
     int payloadlength = (byte) (b2 & ~(byte) 128);
     OpCode optcode = toOpcode((byte) (b1 & 15));
@@ -311,8 +311,8 @@ public class Draft_10 extends Draft {
         if (maxpacketsize < realpacketsize)
           throw new IncompleteException(realpacketsize);
         byte[] sizebytes = new byte[3];
-        sizebytes[1] = buffer.get( /*1 + 1*/);
-        sizebytes[2] = buffer.get( /*1 + 2*/);
+        sizebytes[1] = buffer.get( /* 1 + 1 */);
+        sizebytes[2] = buffer.get( /* 1 + 2 */);
         payloadlength = new BigInteger(sizebytes).intValue();
       } else {
         realpacketsize += 8; // additional length bytes
@@ -320,7 +320,7 @@ public class Draft_10 extends Draft {
           throw new IncompleteException(realpacketsize);
         byte[] bytes = new byte[8];
         for (int i = 0; i < 8; i++) {
-          bytes[i] = buffer.get( /*1 + i*/);
+          bytes[i] = buffer.get( /* 1 + i */);
         }
         long length = new BigInteger(bytes).longValue();
         if (length > Integer.MAX_VALUE) {
@@ -344,7 +344,7 @@ public class Draft_10 extends Draft {
       byte[] maskskey = new byte[4];
       buffer.get(maskskey);
       for (int i = 0; i < payloadlength; i++) {
-        payload.put((byte) ((byte) buffer.get( /*payloadstart + i*/) ^ (byte) maskskey[i % 4]));
+        payload.put((byte) ((byte) buffer.get( /* payloadstart + i */) ^ (byte) maskskey[i % 4]));
       }
     } else {
       payload.put(buffer.array(), buffer.position(), payload.limit());

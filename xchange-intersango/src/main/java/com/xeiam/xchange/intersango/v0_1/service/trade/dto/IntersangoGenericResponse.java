@@ -22,7 +22,9 @@
 package com.xeiam.xchange.intersango.v0_1.service.trade.dto;
 
 /**
- * <p>Data object representing a response message from Intersango on authenticated API</p>
+ * <p>
+ * Data object representing a response message from Intersango on authenticated API
+ * </p>
  */
 public class IntersangoGenericResponse {
 

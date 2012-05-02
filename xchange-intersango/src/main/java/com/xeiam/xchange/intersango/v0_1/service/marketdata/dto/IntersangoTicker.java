@@ -21,34 +21,41 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.marketdata.dto;
 
-public class IntersangoTicker{
+public class IntersangoTicker {
   private String buy;
   private String last;
   private String sell;
   private String vol;
 
-  public String getBuy(){
+  public String getBuy() {
     return this.buy;
   }
-  public void setBuy(String buy){
+
+  public void setBuy(String buy) {
     this.buy = buy;
   }
-  public String getLast(){
+
+  public String getLast() {
     return this.last;
   }
-  public void setLast(String last){
+
+  public void setLast(String last) {
     this.last = last;
   }
-  public String getSell(){
+
+  public String getSell() {
     return this.sell;
   }
-  public void setSell(String sell){
+
+  public void setSell(String sell) {
     this.sell = sell;
   }
-  public String getVol(){
+
+  public String getVol() {
     return this.vol;
   }
-  public void setVol(String vol){
+
+  public void setVol(String vol) {
     this.vol = vol;
   }
 }

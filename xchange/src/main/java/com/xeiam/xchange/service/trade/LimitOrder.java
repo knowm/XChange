@@ -21,19 +21,29 @@
  */
 package com.xeiam.xchange.service.trade;
 
+import org.joda.money.BigMoney;
+
 /**
  * Data object representing a limit order
  */
 public class LimitOrder extends Order {
 
-  private long price_int;
+  /**
+   * The limit price
+   */
+  private BigMoney limitPrice;
 
-  public long getPrice_int() {
-    return price_int;
+  public BigMoney getLimitPrice() {
+    return limitPrice;
   }
 
-  public void setPrice_int(long price_int) {
-    this.price_int = price_int;
+  public void setLimitPrice(BigMoney limitPrice) {
+    this.limitPrice = limitPrice;
+  }
+
+  @Override
+  public String toString() {
+    return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
   }
 
 }

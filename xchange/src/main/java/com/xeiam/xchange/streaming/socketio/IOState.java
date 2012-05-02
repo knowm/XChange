@@ -10,7 +10,17 @@ package com.xeiam.xchange.streaming.socketio;
  */
 public enum IOState {
 
-  STATE_INIT, STATE_HANDSHAKE, STATE_CONNECTING, STATE_READY, STATE_INTERRUPTED, STATE_INVALID,
+  STATE_INIT,
+
+  STATE_HANDSHAKE,
+
+  STATE_CONNECTING,
+
+  STATE_READY,
+
+  STATE_INTERRUPTED,
+
+  STATE_INVALID,
   // End of enum
   ;
 

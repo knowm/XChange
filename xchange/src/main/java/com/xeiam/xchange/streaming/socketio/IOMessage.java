@@ -12,8 +12,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- * <p>Defines the transport level messages for socket.io</p>
- * <p>These are typically of the form a:b:c:d with "a" being the message type</p>
+ * <p>
+ * Defines the transport level messages for socket.io
+ * </p>
+ * <p>
+ * These are typically of the form a:b:c:d with "a" being the message type
+ * </p>
  */
 class IOMessage {
 
@@ -99,11 +103,11 @@ class IOMessage {
 
   /**
    * Instantiates a new IOMessage by given data.
-   *
-   * @param type      the type
-   * @param id        the id
+   * 
+   * @param type the type
+   * @param id the id
    * @param namespace the namespace
-   * @param data      the data
+   * @param data the data
    */
   public IOMessage(int type, String id, String namespace, String data) {
     this.fields[FIELD_TYPE] = "" + type;
@@ -115,19 +119,18 @@ class IOMessage {
 
   /**
    * Instantiates a new IOMessage by given data.
-   *
-   * @param type      the type
+   * 
+   * @param type the type
    * @param namespace the namespace
-   * @param data      the data
+   * @param data the data
    */
   public IOMessage(int type, String namespace, String data) {
     this(type, null, namespace, data);
   }
 
   /**
-   * Instantiates a new IOMessage from a String representation. If the String
-   * is not well formated, the result is undefined.
-   *
+   * Instantiates a new IOMessage from a String representation. If the String is not well formated, the result is undefined.
+   * 
    * @param message the message
    */
   public IOMessage(String message) {
@@ -160,7 +163,7 @@ class IOMessage {
 
   /**
    * Returns the type of this IOMessage.
-   *
+   * 
    * @return the type
    */
   public int getType() {
@@ -169,7 +172,7 @@ class IOMessage {
 
   /**
    * Returns the id of this IOMessage.
-   *
+   * 
    * @return the id
    */
   public String getId() {
@@ -178,7 +181,7 @@ class IOMessage {
 
   /**
    * Sets the id of this IOMessage
-   *
+   * 
    * @param id The ID
    */
   public void setId(String id) {
@@ -187,7 +190,7 @@ class IOMessage {
 
   /**
    * Returns the endpoint of this IOMessage.
-   *
+   * 
    * @return the endpoint
    */
   public String getEndpoint() {
@@ -196,7 +199,7 @@ class IOMessage {
 
   /**
    * Returns the data of this IOMessage.
-   *
+   * 
    * @return the data
    */
   public String getData() {

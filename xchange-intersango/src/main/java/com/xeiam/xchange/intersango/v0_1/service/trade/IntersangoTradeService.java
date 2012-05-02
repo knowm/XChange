@@ -30,18 +30,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoGenericResponse;
-import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoOpenOrder;
 import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoWallet;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.LimitOrder;
 import com.xeiam.xchange.service.trade.MarketOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.Order;
 import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.service.trade.Wallet;
-import com.xeiam.xchange.utils.Assert;
 
 public class IntersangoTradeService extends BaseExchangeService implements TradeService {
 
@@ -100,81 +96,83 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
   @Override
   public OpenOrders getOpenOrders() {
 
-    // Build request
-    String url = apiBase + "/listOrders.php";
-    String postBody = "api_key=" + exchangeSpecification.getApiKey();
+    return null;
 
-    // Request data
-    IntersangoOpenOrder[] intersangoOpenOrder = httpTemplate.postForJsonObject(url, IntersangoOpenOrder[].class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
-
-    // Adapt to XChange DTOs
-    List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
-    for (int i = 0; i < intersangoOpenOrder.length; i++) {
-      LimitOrder openOrder = new LimitOrder();
-      openOrder.setType(intersangoOpenOrder[i].getType().equalsIgnoreCase("bid") ? Order.BID : Order.ASK);
-      openOrder.setAmount_int(Long.valueOf(intersangoOpenOrder[i].getAmount()));
-      openOrder.setAmountCurrency(intersangoOpenOrder[i].getAmount());
-
-      openOrder.setPrice_int(Long.parseLong(intersangoOpenOrder[i].getPrice()));
-      openOrder.setPriceCurrency(intersangoOpenOrder[i].getPrice());
-
-      openOrdersList.add(openOrder);
-    }
-    OpenOrders openOrders = new OpenOrders();
-    openOrders.setOpenOrders(openOrdersList);
-
-    return openOrders;
+    // // Build request
+    // String url = apiBase + "/listOrders.php";
+    // String postBody = "api_key=" + exchangeSpecification.getApiKey();
+    //
+    // // Request data
+    // IntersangoOpenOrder[] intersangoOpenOrder = httpTemplate.postForJsonObject(url, IntersangoOpenOrder[].class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
+    //
+    // // Adapt to XChange DTOs
+    // List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
+    // for (int i = 0; i < intersangoOpenOrder.length; i++) {
+    // LimitOrder openOrder = new LimitOrder();
+    // openOrder.setType(intersangoOpenOrder[i].getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
+    // openOrder.setTradableAmount(Long.valueOf(intersangoOpenOrder[i].getAmount()));
+    // openOrder.setTradableIdentifier(intersangoOpenOrder[i].getAmount());
+    //
+    // openOrder.setPrice_int(Long.parseLong(intersangoOpenOrder[i].getPrice()));
+    // openOrder.setPriceCurrency(intersangoOpenOrder[i].getPrice());
+    //
+    // openOrdersList.add(openOrder);
+    // }
+    // OpenOrders openOrders = new OpenOrders();
+    // openOrders.setOpenOrders(openOrdersList);
+    //
+    // return openOrders;
 
   }
 
   @Override
   public boolean placeMarketOrder(MarketOrder marketOrder) {
 
-    // TODO Verify this
-
-    Assert.notNull(marketOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
-    Assert.notNull(marketOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
-    Assert.notNull(marketOrder.getType(), "getType() cannot be null");
-    Assert.notNull(marketOrder.getAmount_int(), "getAmount_int() cannot be null");
-
-    // Build request
-    String symbol = marketOrder.getAmountCurrency() + marketOrder.getPriceCurrency();
-    String type = marketOrder.getType().equals(Order.BID) ? "bid" : "ask";
-    String amount = "" + marketOrder.getAmount_int();
-
-    String url = apiBase + "/placeLimitOrder.php";
-    String postBody = "api_key=" + exchangeSpecification.getApiKey() + "&type=" + type + "&amount_int=" + amount;
-
-    // Request data
-    IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
-
-    return intersangoSuccess.getError().equals("success") ? true : false;
+    return false;
+    // Assert.notNull(marketOrder.getTradableIdentifier(), "getAmountCurrency() cannot be null");
+    // Assert.notNull(marketOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
+    // Assert.notNull(marketOrder.getType(), "getType() cannot be null");
+    // Assert.notNull(marketOrder.getTradableAmount(), "getAmount_int() cannot be null");
+    //
+    // // Build request
+    // String symbol = marketOrder.getTradableIdentifier() + marketOrder.getPriceCurrency();
+    // String type = marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
+    // String amount = "" + marketOrder.getTradableAmount();
+    //
+    // String url = apiBase + "/placeLimitOrder.php";
+    // String postBody = "api_key=" + exchangeSpecification.getApiKey() + "&type=" + type + "&amount_int=" + amount;
+    //
+    // // Request data
+    // IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
+    //
+    // return intersangoSuccess.getError().equals("success") ? true : false;
   }
 
   @Override
   public boolean placeLimitOrder(LimitOrder limitOrder) {
 
-    // TODO Verify this
+    return false;
 
-    Assert.notNull(limitOrder.getAmountCurrency(), "getAmountCurrency() cannot be null");
-    Assert.notNull(limitOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
-    Assert.notNull(limitOrder.getType(), "getType() cannot be null");
-    Assert.notNull(limitOrder.getAmount_int(), "getAmount_int() cannot be null");
-    Assert.notNull(limitOrder.getPrice_int(), "getPrice_int() cannot be null");
-
-    // Build request
-    String symbol = limitOrder.getAmountCurrency() + limitOrder.getPriceCurrency();
-    String type = limitOrder.getType().equals(Order.BID) ? "bid" : "ask";
-    String amount = "" + limitOrder.getAmount_int();
-    String price_int = "" + limitOrder.getPrice_int();
-
-    String url = apiBase + "/placeLimitOrder.php";
-    String postBody = "api_key=" + exchangeSpecification.getApiKey() + "&type=" + type + "&amount_int=" + amount;
-
-    // Request data
-    IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
-
-    return intersangoSuccess.getError().equals("success") ? true : false;
+    //
+    // Assert.notNull(limitOrder.getTradableIdentifier(), "getAmountCurrency() cannot be null");
+    // Assert.notNull(limitOrder.getPriceCurrency(), "getPriceCurrency() cannot be null");
+    // Assert.notNull(limitOrder.getType(), "getType() cannot be null");
+    // Assert.notNull(limitOrder.getTradableAmount(), "getAmount_int() cannot be null");
+    // Assert.notNull(limitOrder.getPrice_int(), "getPrice_int() cannot be null");
+    //
+    // // Build request
+    // String symbol = limitOrder.getTradableIdentifier() + limitOrder.getPriceCurrency();
+    // String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
+    // String amount = "" + limitOrder.getTradableAmount();
+    // String price_int = "" + limitOrder.getPrice_int();
+    //
+    // String url = apiBase + "/placeLimitOrder.php";
+    // String postBody = "api_key=" + exchangeSpecification.getApiKey() + "&type=" + type + "&amount_int=" + amount;
+    //
+    // // Request data
+    // IntersangoGenericResponse intersangoSuccess = httpTemplate.postForJsonObject(url, IntersangoGenericResponse.class, postBody, mapper, getIntersangoAuthenticationHeaderKeyValues(postBody));
+    //
+    // return intersangoSuccess.getError().equals("success") ? true : false;
   }
 
   /**

@@ -8,12 +8,7 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 public interface FrameData {
 
   enum OpCode {
-    CONTINUOUS,
-    TEXT,
-    BINARY,
-    PING,
-    PONG,
-    CLOSING
+    CONTINUOUS, TEXT, BINARY, PING, PONG, CLOSING
     // end of enum
     ;
   }

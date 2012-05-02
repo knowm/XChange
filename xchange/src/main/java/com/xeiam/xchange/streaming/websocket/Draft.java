@@ -50,7 +50,7 @@ public abstract class Draft {
 
       }
     }
-    //ensure that there wont be any bytes skipped
+    // ensure that there wont be any bytes skipped
     buf.position(buf.position() - sbuf.position());
     return null;
   }

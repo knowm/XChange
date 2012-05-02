@@ -8,7 +8,6 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocketClient;
 
@@ -39,25 +38,21 @@ class WebSocketTransport extends WebSocketClient implements IOTransport {
 
   /**
    * Creates a new Transport for the given url an {@link IOConnection}.
-   *
-   * @param url        the url
+   * 
+   * @param url the url
    * @param connection the connection
-   *
    * @return the iO transport
    */
   public static IOTransport create(URL url, IOConnection connection) {
-    URI uri = URI.create(
-      PATTERN_HTTP.matcher(url.toString()).replaceFirst("ws")
-        + IOConnection.SOCKET_IO_1 + TRANSPORT_NAME
-        + "/" + connection.getSessionId());
+    URI uri = URI.create(PATTERN_HTTP.matcher(url.toString()).replaceFirst("ws") + IOConnection.SOCKET_IO_1 + TRANSPORT_NAME + "/" + connection.getSessionId());
 
     return new WebSocketTransport(uri, connection);
   }
 
   /**
    * Instantiates a new WebSocket transport.
-   *
-   * @param uri        the uri
+   * 
+   * @param uri the uri
    * @param connection the connection
    */
   public WebSocketTransport(URI uri, IOConnection connection) {

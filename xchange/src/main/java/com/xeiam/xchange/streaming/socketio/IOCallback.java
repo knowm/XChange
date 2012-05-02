@@ -27,32 +27,32 @@ public interface IOCallback {
 
   /**
    * On message. Called when the server sends String data.
-   *
+   * 
    * @param data the data.
-   * @param ack  an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
+   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
    */
   void onMessage(String data, IOAcknowledge ack);
 
   /**
    * On message. Called when the server sends JSON data.
-   *
+   * 
    * @param json JSON object sent by server.
-   * @param ack  an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
+   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
    */
   void onMessage(JSONObject json, IOAcknowledge ack);
 
   /**
    * On [Event]. Called when server emits an event.
-   *
+   * 
    * @param event Name of the event
-   * @param ack   an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
-   * @param args  Arguments of the event
+   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
+   * @param args Arguments of the event
    */
   void on(String event, IOAcknowledge ack, Object... args);
 
   /**
    * On error. Called when socket is in an undefined state. No reconnect attempts will be made.
-   *
+   * 
    * @param socketIOException the last exception describing the error
    */
   void onError(SocketIOException socketIOException);

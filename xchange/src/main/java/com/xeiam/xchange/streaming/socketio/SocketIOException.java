@@ -20,7 +20,7 @@ public class SocketIOException extends Exception {
 
   /**
    * Instantiates a new SocketIOException.
-   *
+   * 
    * @param message the message
    */
   public SocketIOException(String message) {
@@ -29,9 +29,9 @@ public class SocketIOException extends Exception {
 
   /**
    * Instantiates a new SocketIOException.
-   *
+   * 
    * @param message The message
-   * @param cause   The cause
+   * @param cause The cause
    */
   public SocketIOException(String message, Exception cause) {
     super(message, cause);

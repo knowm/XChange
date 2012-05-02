@@ -64,10 +64,9 @@ public interface Exchange {
    * A market data service typically consists of a regularly updated list of the available prices for the various symbols
    * </p>
    * <p>
-   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to
-   * provide a suitable implementation of the listener to allow event callbacks to take place.
+   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take place.
    * </p>
-   *
+   * 
    * @return The exchange's "push" market data service
    */
   StreamingMarketDataService getStreamingMarketDataService();

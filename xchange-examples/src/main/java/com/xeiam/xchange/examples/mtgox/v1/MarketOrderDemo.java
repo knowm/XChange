@@ -21,11 +21,13 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.trade.MarketOrder;
-import com.xeiam.xchange.service.trade.Order;
+import com.xeiam.xchange.service.trade.Order.OrderType;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -50,10 +52,10 @@ public class MarketOrderDemo {
 
     // place a market order
     MarketOrder marketOrder = new MarketOrder();
-    marketOrder.setType(Order.BID);
-    marketOrder.setAmountCurrency("BTC");
-    marketOrder.setAmount_int(100000000L); // 1 BTC
-    marketOrder.setPriceCurrency("USD");
+    marketOrder.setType(OrderType.BID);
+    marketOrder.setTradableIdentifier("BTC");
+    marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
+    marketOrder.setTransactionCurrency("USD");
     boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
 
     // Verify that the order placement was successful

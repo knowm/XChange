@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
+import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -28,7 +32,7 @@ import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.LimitOrder;
 import com.xeiam.xchange.service.trade.MarketOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.Order;
+import com.xeiam.xchange.service.trade.Order.OrderType;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -65,20 +69,20 @@ public class MtGoxTradeDemo {
 
     // place a market order
     MarketOrder marketOrder = new MarketOrder();
-    marketOrder.setType(Order.BID);
-    marketOrder.setAmountCurrency("BTC");
-    marketOrder.setAmount_int(100000000L); // 1 BTC
-    marketOrder.setPriceCurrency("USD");
+    marketOrder.setType(OrderType.BID);
+    marketOrder.setTradableIdentifier("BTC");
+    marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
+    marketOrder.setTransactionCurrency("USD");
     boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
     System.out.println("Market Order Successful: " + marketOrderSuccess);
 
     // place a limit order
     LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(Order.BID);
-    limitOrder.setAmountCurrency("BTC");
-    limitOrder.setAmount_int(100000000L); // 1 BTC
-    limitOrder.setPriceCurrency("USD");
-    limitOrder.setPrice_int(425000); // $4.25
+    limitOrder.setType(OrderType.BID);
+    limitOrder.setTradableIdentifier("BTC");
+    limitOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
+    BigMoney limitPrice = BigMoney.parse("USD 1.25");
+    limitOrder.setLimitPrice(limitPrice);
     boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order Successful: " + limitOrderSuccess);
 

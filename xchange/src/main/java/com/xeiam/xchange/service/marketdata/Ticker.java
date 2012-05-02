@@ -42,7 +42,7 @@ public final class Ticker {
 
   /**
    * Constructor
-   *
+   * 
    * @param last
    * @param symbolPair
    * @param volume
@@ -78,13 +78,6 @@ public final class Ticker {
 
   @Override
   public String toString() {
-    return "Ticker{" +
-            "timestamp=" + timestamp +
-            ", last=" + last +
-            ", bid=" + bid +
-            ", ask=" + ask +
-            ", symbolPair=" + symbolPair +
-            ", volume=" + volume +
-            '}';
+    return "Ticker{" + "timestamp=" + timestamp + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", symbolPair=" + symbolPair + ", volume=" + volume + '}';
   }
 }

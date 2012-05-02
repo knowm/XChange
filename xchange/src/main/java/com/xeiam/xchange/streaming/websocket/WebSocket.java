@@ -26,14 +26,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Represents one end (client or server) of a single WebSocket connection.
- * Takes care of the "handshake" phase, then allows for easy sending of
- * text frames, and recieving frames through an event-based model.
- *
- * This is an inner class, used by <tt>WebSocketClient</tt> and <tt>WebSocketServer</tt>, and should never need to be instantiated directly
- * by your code. However, instances are exposed in <tt>WebSocketServer</tt> through the <i>onClientOpen</i>, <i>onClientClose</i>,
+ * Represents one end (client or server) of a single WebSocket connection. Takes care of the "handshake" phase, then allows for easy sending of text frames, and recieving frames through an event-based model. This is an inner class, used by
+ * <tt>WebSocketClient</tt> and <tt>WebSocketServer</tt>, and should never need to be instantiated directly by your code. However, instances are exposed in <tt>WebSocketServer</tt> through the <i>onClientOpen</i>, <i>onClientClose</i>,
  * <i>onClientMessage</i> callbacks.
- *
+ * 
  * @author Nathan Rajlich
  */
 public final class WebSocket {
@@ -41,22 +37,18 @@ public final class WebSocket {
   private final Logger log = LoggerFactory.getLogger(WebSocket.class);
 
   public enum Role {
-    CLIENT,
-    SERVER
+    CLIENT, SERVER
   }
 
   /**
-   * The default port of WebSockets, as defined in the spec. If the default
-   * constructor is used, DEFAULT_PORT will be the port the WebSocketServer
-   * is binded to. Note that ports under 1024 usually require root permissions.
+   * The default port of WebSockets, as defined in the spec. If the default constructor is used, DEFAULT_PORT will be the port the WebSocketServer is binded to. Note that ports under 1024 usually require root permissions.
    */
   public static final int DEFAULT_PORT = 80;
 
-  public static/*final*/ boolean DEBUG = false; // must be final in the future in order to take advantage of VM optimization
+  public static/* final */boolean DEBUG = false; // must be final in the future in order to take advantage of VM optimization
 
   /**
-   * Internally used to determine whether to receive data as part of the
-   * remote handshake, or as part of a text frame.
+   * Internally used to determine whether to receive data as part of the remote handshake, or as part of a text frame.
    */
   private boolean handshakeComplete = false;
 
@@ -93,13 +85,10 @@ public final class WebSocket {
 
   /**
    * Used in {@link WebSocketServer} and {@link WebSocketClient}.
-   *
-   * @param draft         Which draft to use
-   * @param socketChannel The <tt>SocketChannel</tt> instance to read and
-   *                      write to. The channel should already be registered
-   *                      with a Selector before construction of this object.
-   * @param listener      The {@link WebSocketListener} to notify of events when
-   *                      they occur.
+   * 
+   * @param draft Which draft to use
+   * @param socketChannel The <tt>SocketChannel</tt> instance to read and write to. The channel should already be registered with a Selector before construction of this object.
+   * @param listener The {@link WebSocketListener} to notify of events when they occur.
    */
   public WebSocket(WebSocketListener listener, Draft draft, SocketChannel socketChannel) {
     init(listener, draft, socketChannel);
@@ -130,9 +119,8 @@ public final class WebSocket {
   }
 
   /**
-   * Should be called when a Selector has a key that is writable for this
-   * WebSocket's SocketChannel connection.
-   *
+   * Should be called when a Selector has a key that is writable for this WebSocket's SocketChannel connection.
+   * 
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   void handleRead() throws IOException {
@@ -291,10 +279,9 @@ public final class WebSocket {
   }
 
   /**
-   * sends the closing handshake.
-   * may be send in response to an other handshake.
-   *
-   * @param code    The error code
+   * sends the closing handshake. may be send in response to an other handshake.
+   * 
+   * @param code The error code
    * @param message The message
    */
   public void close(int code, String message) {
@@ -326,16 +313,15 @@ public final class WebSocket {
   }
 
   /**
-   * closes the socket no matter if the closing handshake completed.
-   * Does not send any not yet written data before closing.
-   * Calling this method more than once will have no effect.
-   *
-   * @param code    The error code
+   * closes the socket no matter if the closing handshake completed. Does not send any not yet written data before closing. Calling this method more than once will have no effect.
+   * 
+   * @param code The error code
    * @param message The message
-   * @param remote  Indicates who "generated" <code>code</code>.<br>
-   *                <code>true</code> means that this endpoint received the <code>code</code> from the other endpoint.<br>
-   *                false means this endpoint decided to send the given code,<br>
-   *                <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other <code>code</code>. <br>
+   * @param remote Indicates who "generated" <code>code</code>.<br>
+   *          <code>true</code> means that this endpoint received the <code>code</code> from the other endpoint.<br>
+   *          false means this endpoint decided to send the given code,<br>
+   *          <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other
+   *          <code>code</code>. <br>
    */
   public void closeConnection(int code, String message, boolean remote) {
     if (connectionClosed) {
@@ -368,7 +354,6 @@ public final class WebSocket {
 
   /**
    * @param text The text to send
-   *
    * @throws InterruptedException If something goes wrong
    */
   public void send(String text) throws InterruptedException {
@@ -410,7 +395,7 @@ public final class WebSocket {
 
   /**
    * Flushes the socket write buffer
-   *
+   * 
    * @throws java.io.IOException If something goes wrong
    */
   public void flush() throws IOException {

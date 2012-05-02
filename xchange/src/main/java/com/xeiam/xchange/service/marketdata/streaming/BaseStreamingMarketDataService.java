@@ -60,6 +60,7 @@ public class BaseStreamingMarketDataService implements StreamingMarketDataServic
   public BaseStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
 
     Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
+    // TODO is this really necessary???
     Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
 
     this.exchangeSpecification = exchangeSpecification;

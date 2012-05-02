@@ -21,55 +21,60 @@
  */
 package com.xeiam.xchange.service.trade;
 
+import java.math.BigDecimal;
+
 /**
  * Data object representing an order
  */
 public class Order {
 
+  public enum OrderType {
+
+    BID, ASK;
+  }
+
   /**
-   * Order Types
+   * Order type i.e. bid or ask
    */
-  public static String BID = "BID";
-  public static String ASK = "ASK";
+  private OrderType type;
 
-  // TODO use enum
-  private String type;
-  // TODO use Money
-  private Long amount_int;
-  // TODO use CurrencyPair
-  private String amountCurrency;
-  private String priceCurrency;
+  /**
+   * Amount to be ordered / amount that was ordered
+   */
+  private BigDecimal tradableAmount;
 
-  public String getType() {
+  /**
+   * An identifier that uniquely identifies the tradable
+   */
+  private String tradableIdentifier;
+
+  public OrderType getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(OrderType type) {
     this.type = type;
   }
 
-  public Long getAmount_int() {
-    return amount_int;
+  public BigDecimal getTradableAmount() {
+    return tradableAmount;
   }
 
-  public void setAmount_int(Long amount_int) {
-    this.amount_int = amount_int;
+  public void setTradableAmount(BigDecimal tradableAmount) {
+    this.tradableAmount = tradableAmount;
   }
 
-  public String getAmountCurrency() {
-    return amountCurrency;
+  public String getTradableIdentifier() {
+    return tradableIdentifier;
   }
 
-  public void setAmountCurrency(String amountCurrency) {
-    this.amountCurrency = amountCurrency;
+  public void setTradableIdentifier(String tradableIdentifier) {
+    this.tradableIdentifier = tradableIdentifier;
   }
 
-  public String getPriceCurrency() {
-    return priceCurrency;
-  }
-
-  public void setPriceCurrency(String priceCurrency) {
-    this.priceCurrency = priceCurrency;
+  @Override
+  public String toString() {
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + "]";
   }
 
 }

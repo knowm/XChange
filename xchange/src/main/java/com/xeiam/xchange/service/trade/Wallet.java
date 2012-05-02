@@ -22,7 +22,9 @@
 package com.xeiam.xchange.service.trade;
 
 /**
- * <p>Data object representing a Wallet, which is simply defined by an amount of money in a given currency</p>
+ * <p>
+ * Data object representing a Wallet, which is simply defined by an amount of money in a given currency
+ * </p>
  * TODO Review the fields to combine MtGox and Intersango (consider BigDecimal and/or Money)
  */
 public class Wallet {

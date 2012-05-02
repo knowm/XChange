@@ -21,14 +21,10 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxMarketDataService;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxStreamingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.trade.MtGoxTradeService;
 
 /**
@@ -64,11 +60,11 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     }
     this.marketDataService = new MtGoxMarketDataService(exchangeSpecification);
     this.tradeService = new MtGoxTradeService(exchangeSpecification);
-    try {
-      this.streamingMarketDataService = new MtGoxStreamingMarketDataService(exchangeSpecification);
-    } catch (IOException e) {
-      throw new ExchangeException("Streaming market data service failed", e);
-    }
+    // try {
+    // this.streamingMarketDataService = new MtGoxStreamingMarketDataService(exchangeSpecification);
+    // } catch (IOException e) {
+    // throw new ExchangeException("Streaming market data service failed", e);
+    // }
   }
 
   @Override

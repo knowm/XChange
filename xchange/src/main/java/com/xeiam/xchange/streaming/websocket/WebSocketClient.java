@@ -11,13 +11,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * The <tt>WebSocketClient</tt> is an abstract class that expects a valid
- * "ws://" URI to connect to. When connected, an instance recieves important
- * events related to the life of the connection. A subclass must implement
- * <var>onOpen</var>, <var>onClose</var>, and <var>onMessage</var> to be
- * useful. An instance can send messages to it's connected server via the
- * <var>send</var> method.
- *
+ * The <tt>WebSocketClient</tt> is an abstract class that expects a valid "ws://" URI to connect to. When connected, an instance recieves important events related to the life of the connection. A subclass must implement <var>onOpen</var>,
+ * <var>onClose</var>, and <var>onMessage</var> to be useful. An instance can send messages to it's connected server via the <var>send</var> method.
+ * 
  * @author Nathan Rajlich
  */
 public abstract class WebSocketClient extends WebSocketAdapter implements Runnable {
@@ -48,9 +44,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Constructs a WebSocketClient instance and sets it to the connect to the
-   * specified URI. The client does not attampt to connect automatically. You
-   * must call <var>connect</var> first to initiate the socket connection.
+   * Constructs a WebSocketClient instance and sets it to the connect to the specified URI. The client does not attampt to connect automatically. You must call <var>connect</var> first to initiate the socket connection.
    */
   public WebSocketClient(URI serverUri, Draft draft) {
     if (serverUri == null) {
@@ -65,7 +59,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 
   /**
    * Gets the URI that this WebSocketClient is connected to.
-   *
+   * 
    * @return The <tt>URI</tt> for this WebSocketClient.
    */
   public URI getURI() {
@@ -77,9 +71,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Starts a background thread that attempts and maintains a WebSocket
-   * connection to the URI specified in the constructor or via <var>setURI</var>.
-   * <var>setURI</var>.
+   * Starts a background thread that attempts and maintains a WebSocket connection to the URI specified in the constructor or via <var>setURI</var>. <var>setURI</var>.
    */
   public void connect() {
     if (thread != null)
@@ -96,7 +88,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 
   /**
    * Sends <var>text</var> to the connected WebSocket server.
-   *
+   * 
    * @param text The String to send to the WebSocket server.
    */
   public void send(String text) throws NotYetConnectedException, InterruptedException {
@@ -137,7 +129,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
       return;
     }
     conn = new WebSocket(this, draft, client);
-    try/*IO*/ {
+    try/* IO */{
       while (!Thread.interrupted() && !conn.isClosed()) {
         SelectionKey key = null;
         conn.flush();
@@ -231,7 +223,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 
   /**
    * Calls subclass' implementation of <var>onMessage</var>.
-   *
+   * 
    * @param conn
    * @param message
    */
@@ -242,7 +234,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 
   /**
    * Calls subclass' implementation of <var>onOpen</var>.
-   *
+   * 
    * @param conn
    */
   @Override
@@ -252,7 +244,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 
   /**
    * Calls subclass' implementation of <var>onClose</var>.
-   *
+   * 
    * @param conn
    */
   @Override
@@ -263,7 +255,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
 
   /**
    * Calls subclass' implementation of <var>onIOError</var>.
-   *
+   * 
    * @param conn
    */
   @Override

@@ -14,22 +14,18 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * <tt>WebSocketServer</tt> is an abstract class that only takes care of the
- * HTTP handshake portion of WebSockets. It's up to a subclass to add
- * functionality/purpose to the server.
- *
+ * <tt>WebSocketServer</tt> is an abstract class that only takes care of the HTTP handshake portion of WebSockets. It's up to a subclass to add functionality/purpose to the server.
+ * 
  * @author Nathan Rajlich
  */
 public abstract class WebSocketServer extends WebSocketAdapter implements Runnable {
 
   /**
-   * Holds the list of active WebSocket connections. "Active" means WebSocket
-   * handshake is complete and socket can be written to, or read from.
+   * Holds the list of active WebSocket connections. "Active" means WebSocket handshake is complete and socket can be written to, or read from.
    */
   private final CopyOnWriteArraySet<WebSocket> connections;
   /**
-   * The port number that this WebSocket server should listen on. Default is
-   * WebSocket.DEFAULT_PORT.
+   * The port number that this WebSocket server should listen on. Default is WebSocket.DEFAULT_PORT.
    */
   private InetSocketAddress address;
   /**
@@ -48,9 +44,8 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   private Thread thread;
 
   /**
-   * Default constructor. Creates a WebSocketServer that will attempt to
-   * listen on port WebSocket.DEFAULT_PORT.
-   *
+   * Default constructor. Creates a WebSocketServer that will attempt to listen on port WebSocket.DEFAULT_PORT.
+   * 
    * @throws java.net.UnknownHostException If something goes wrong
    */
   public WebSocketServer() throws UnknownHostException {
@@ -59,7 +54,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
   /**
    * Creates a WebSocketServer that will attempt to listen on the default port (80)
-   *
+   * 
    * @param address The socket address
    */
   public WebSocketServer(InetSocketAddress address) {
@@ -67,12 +62,10 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Creates a WebSocketServer that will attempt to listen on port <var>port</var>,
-   * and comply with <tt>Draft</tt> version <var>draft</var>.
-   *
+   * Creates a WebSocketServer that will attempt to listen on port <var>port</var>, and comply with <tt>Draft</tt> version <var>draft</var>.
+   * 
    * @param address The socket address
-   * @param draft   The version of the WebSocket protocol that this server
-   *                instance should comply to.
+   * @param draft The version of the WebSocket protocol that this server instance should comply to.
    */
   public WebSocketServer(InetSocketAddress address, Draft draft) {
     this.connections = new CopyOnWriteArraySet<WebSocket>();
@@ -81,9 +74,8 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Starts the server thread that binds to the currently set port number and
-   * listeners for WebSocket connection requests.
-   *
+   * Starts the server thread that binds to the currently set port number and listeners for WebSocket connection requests.
+   * 
    * @throws IllegalStateException
    */
   public void start() {
@@ -93,10 +85,8 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Closes all connected clients sockets, then closes the underlying
-   * ServerSocketChannel, effectively killing the server socket thread and
-   * freeing the port the server was bound to.
-   *
+   * Closes all connected clients sockets, then closes the underlying ServerSocketChannel, effectively killing the server socket thread and freeing the port the server was bound to.
+   * 
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   public void stop() throws IOException {
@@ -110,9 +100,8 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
   /**
    * Sends <var>text</var> to all currently connected WebSocket clients.
-   *
+   * 
    * @param text The String to send across the network.
-   *
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   public void sendToAll(String text) throws InterruptedException {
@@ -122,12 +111,10 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Sends <var>text</var> to all currently connected WebSocket clients,
-   * except for the specified <var>connection</var>.
-   *
+   * Sends <var>text</var> to all currently connected WebSocket clients, except for the specified <var>connection</var>.
+   * 
    * @param connection The {@link WebSocket} connection to ignore.
-   * @param text       The String to send to every connection except <var>connection</var>.
-   *
+   * @param text The String to send to every connection except <var>connection</var>.
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   public void sendToAllExcept(WebSocket connection, String text) throws InterruptedException {
@@ -143,12 +130,10 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Sends <var>text</var> to all currently connected WebSocket clients,
-   * except for those found in the Set <var>connections</var>.
-   *
+   * Sends <var>text</var> to all currently connected WebSocket clients, except for those found in the Set <var>connections</var>.
+   * 
    * @param connections The WebSocket connections
-   * @param text        The text to send
-   *
+   * @param text The text to send
    * @throws InterruptedException If something goes wrong
    */
   public void sendToAllExcept(Set<WebSocket> connections, String text) throws InterruptedException {
@@ -165,7 +150,6 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
   /*
    * Returns a WebSocket[] of currently connected clients
-   *
    * @return The currently connected clients in a WebSocket[]
    */
   public Set<WebSocket> connections() {
@@ -174,7 +158,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
   /**
    * Sets the address that this WebSocketServer should listen on
-   *
+   * 
    * @param address The socket address
    */
   public void setAddress(InetSocketAddress address) {
@@ -187,7 +171,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
   /**
    * Gets the port number that this server listens on.
-   *
+   * 
    * @return The port number.
    */
   public int getPort() {
@@ -207,7 +191,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
       server = ServerSocketChannel.open();
       server.configureBlocking(false);
       server.socket().bind(address);
-      //InetAddress.getLocalHost()
+      // InetAddress.getLocalHost()
       selector = Selector.open();
       server.register(selector, server.validOps());
     } catch (IOException ex) {
@@ -277,17 +261,10 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Gets the XML string that should be returned if a client requests a Flash
-   * security policy.
-   *
-   * The default implementation allows access from all remote domains, but
-   * only on the port that this WebSocketServer is listening on.
-   *
-   * This is specifically implemented for gitime's WebSocket client for Flash:
-   * http://github.com/gimite/web-socket-js
-   *
-   * @return An XML String that conforms to Flash's security policy. You MUST
-   *         not include the null char at the end, it is appended automatically.
+   * Gets the XML string that should be returned if a client requests a Flash security policy. The default implementation allows access from all remote domains, but only on the port that this WebSocketServer is listening on. This is specifically
+   * implemented for gitime's WebSocket client for Flash: http://github.com/gimite/web-socket-js
+   * 
+   * @return An XML String that conforms to Flash's security policy. You MUST not include the null char at the end, it is appended automatically.
    */
   protected String getFlashSecurityPolicy() {
     return "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"" + getPort() + "\" /></cross-domain-policy>";

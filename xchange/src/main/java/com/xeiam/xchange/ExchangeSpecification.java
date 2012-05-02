@@ -49,7 +49,7 @@ public class ExchangeSpecification {
 
   /**
    * Dynamic binding
-   *
+   * 
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
   public ExchangeSpecification(String exchangeClassName) {
@@ -58,7 +58,7 @@ public class ExchangeSpecification {
 
   /**
    * Static binding
-   *
+   * 
    * @param exchangeClass The exchange class
    */
   public ExchangeSpecification(Class exchangeClass) {
@@ -74,7 +74,6 @@ public class ExchangeSpecification {
 
   /**
    * @param key The key into the parameter map (recommend using the provided standard static entries)
-   *
    * @return Any additional exchangeSpecificParameters that the {@link Exchange} may consume to configure services
    */
   public Object getParameter(String key) {

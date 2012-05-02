@@ -22,7 +22,7 @@
 package com.xeiam.xchange;
 
 /**
- * Global Exchange-relevant constants
+ * Global currency symbols
  */
 public class Currencies {
 

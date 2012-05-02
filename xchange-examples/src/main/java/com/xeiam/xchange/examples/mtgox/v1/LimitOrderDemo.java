@@ -21,13 +21,16 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
+import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.service.trade.LimitOrder;
 import com.xeiam.xchange.service.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.Order;
+import com.xeiam.xchange.service.trade.Order.OrderType;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**
@@ -51,32 +54,25 @@ public class LimitOrderDemo {
     // Interested in the private trading functionality (authentication)
     tradeService = mtgox.getTradeService();
 
-    long btcAmount = (long) (Math.random() * MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR);
     // place a limit order
     LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(Order.BID);
-    limitOrder.setAmountCurrency("BTC");
-    limitOrder.setAmount_int(btcAmount); // 1 BTC
-    limitOrder.setPriceCurrency("USD");
-    limitOrder.setPrice_int(125000); // $1.25
+    limitOrder.setType(OrderType.BID);
+    limitOrder.setTradableIdentifier("BTC");
+    limitOrder.setTradableAmount(new BigDecimal(Math.random()));
+    BigMoney limitPrice = BigMoney.parse("USD 1.25");
+    limitOrder.setLimitPrice(limitPrice);
     boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
 
     // Verify that the order placement was successful
-    System.out.println(limitOrderSuccess);
+    System.out.println("Limit Order placement successful? " + limitOrderSuccess);
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();
 
-    // find limit order that was just placed
-    boolean found = false;
     for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-      if (openOrder.getAmount_int().longValue() == limitOrder.getAmount_int().longValue()) {
-        found = true;
-      }
+      System.out.println(openOrder.toString());
     }
 
-    // Verify that the limit order is contained in the OpenOrders
-    System.out.println(found);
   }
 
 }
