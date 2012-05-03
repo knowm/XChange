@@ -36,7 +36,7 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.dto.trade.AccountInfo;
 
 /**
  * Test class for testing HttpTemplate methods

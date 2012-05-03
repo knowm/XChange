@@ -24,8 +24,8 @@ package com.xeiam.xchange.examples.mtgox.v1;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.Trades;
 
 /**
  * Test requesting trades at MtGox

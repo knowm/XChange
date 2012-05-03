@@ -19,64 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata;
+package com.xeiam.xchange.dto.trade;
 
-import net.jcip.annotations.Immutable;
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.dto.Order;
 
 /**
- * Data object representing a buy or sell order
+ * Data object representing a limit order
  */
-// TODO perhaps merge this with other Order class
-@Immutable
-public final class Order {
-
-  private final double price;
-  private final double amount;
-  private final long price_int;
-  private final long amount_int;
-  private final long stamp;
+public class LimitOrder extends Order {
 
   /**
-   * Constructor
-   * 
-   * @param price
-   * @param amount
-   * @param price_int
-   * @param amount_int
-   * @param stamp
+   * The limit price
    */
-  public Order(double price, double amount, long price_int, long amount_int, long stamp) {
+  private BigMoney limitPrice;
 
-    this.price = price;
-    this.amount = amount;
-    this.price_int = price_int;
-    this.amount_int = amount_int;
-    this.stamp = stamp;
+  public BigMoney getLimitPrice() {
+    return limitPrice;
   }
 
-  public double getPrice() {
-    return price;
-  }
-
-  public double getAmount() {
-    return amount;
-  }
-
-  public long getPrice_int() {
-    return price_int;
-  }
-
-  public long getAmount_int() {
-    return amount_int;
-  }
-
-  public long getStamp() {
-    return stamp;
+  public void setLimitPrice(BigMoney limitPrice) {
+    this.limitPrice = limitPrice;
   }
 
   @Override
   public String toString() {
-    return "Order [price=" + price + ", amount=" + amount + ", price_int=" + price_int + ", amount_int=" + amount_int + ", stamp=" + stamp + "]";
+    return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
   }
 
 }

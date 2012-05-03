@@ -33,7 +33,7 @@ import org.junit.Test;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.trade.AccountInfo;
+import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.utils.HttpTemplate;
 
 public class IntersangoTradeServiceTest {

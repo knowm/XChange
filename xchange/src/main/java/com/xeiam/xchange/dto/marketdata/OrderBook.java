@@ -19,33 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.trade;
+package com.xeiam.xchange.dto.marketdata;
+
+import java.util.List;
+
+import net.jcip.annotations.Immutable;
+
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
- * Data object representing a market order
- * <p>
- * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market orders are filled. Market orders are therefore used when certainty of execution is a priority over
- * price of execution.
- * </p>
+ * Data object representing OrderBook
  */
-public class MarketOrder extends Order {
+@Immutable
+public final class OrderBook {
+
+  private final List<LimitOrder> asks;
+  private final List<LimitOrder> bids;
 
   /**
-   * The currency used to settle the market order transaction
+   * Constructor
+   * 
+   * @param asks
+   * @param bids
    */
-  private String transactionCurrency;
+  public OrderBook(List<LimitOrder> asks, List<LimitOrder> bids) {
 
-  public String getTransactionCurrency() {
-    return transactionCurrency;
+    this.asks = asks;
+    this.bids = bids;
   }
 
-  public void setTransactionCurrency(String transactionCurrency) {
-    this.transactionCurrency = transactionCurrency;
+  public List<LimitOrder> getAsks() {
+    return asks;
+  }
+
+  public List<LimitOrder> getBids() {
+    return bids;
   }
 
   @Override
   public String toString() {
-    return "MarketOrder [transactionCurrency=" + transactionCurrency + ", " + super.toString() + "]";
+    return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
 }

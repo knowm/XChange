@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketServer;

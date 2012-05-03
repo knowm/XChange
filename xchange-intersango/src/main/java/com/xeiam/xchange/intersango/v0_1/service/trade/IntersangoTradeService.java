@@ -30,14 +30,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.dto.trade.AccountInfo;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoWallet;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.LimitOrder;
-import com.xeiam.xchange.service.trade.MarketOrder;
-import com.xeiam.xchange.service.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
-import com.xeiam.xchange.service.trade.Wallet;
 
 public class IntersangoTradeService extends BaseExchangeService implements TradeService {
 

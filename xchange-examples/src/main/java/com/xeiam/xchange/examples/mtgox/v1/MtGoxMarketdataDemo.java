@@ -24,10 +24,10 @@ package com.xeiam.xchange.examples.mtgox.v1;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.OrderBook;
-import com.xeiam.xchange.service.marketdata.Ticker;
-import com.xeiam.xchange.service.marketdata.Trades;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

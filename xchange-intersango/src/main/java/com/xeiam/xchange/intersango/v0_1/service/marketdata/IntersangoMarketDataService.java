@@ -31,14 +31,14 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.intersango.v0_1.IntersangoProperties;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoDepth;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.OrderBook;
-import com.xeiam.xchange.service.marketdata.Ticker;
-import com.xeiam.xchange.service.marketdata.Trades;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**

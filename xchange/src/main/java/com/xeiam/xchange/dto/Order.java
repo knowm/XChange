@@ -19,65 +19,62 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata;
+package com.xeiam.xchange.dto;
 
-import java.util.Date;
-
-import net.jcip.annotations.Immutable;
+import java.math.BigDecimal;
 
 /**
- * Data object representing a Trade
+ * Data object representing an order
  */
-@Immutable
-public final class Trade {
+public class Order {
 
-  private final Date date;
-  private final long amount_int;
-  private final long price_int;
-  // TODO refactor to SymbolPair
-  private final String price_currency;
-  private final String trade_type;
+  public enum OrderType {
+
+    BID, ASK;
+  }
 
   /**
-   * Constructor
-   * 
-   * @param date
-   * @param amount_int
-   * @param price_int
-   * @param price_currency
-   * @param trade_type
+   * Order type i.e. bid or ask
    */
-  public Trade(Date date, long amount_int, long price_int, String price_currency, String trade_type) {
-    this.date = date;
-    this.amount_int = amount_int;
-    this.price_int = price_int;
-    this.price_currency = price_currency;
-    this.trade_type = trade_type;
+  private OrderType type;
+
+  /**
+   * Amount to be ordered / amount that was ordered
+   */
+  private BigDecimal tradableAmount;
+
+  /**
+   * An identifier that uniquely identifies the tradable
+   */
+  private String tradableIdentifier;
+
+  public OrderType getType() {
+    return type;
   }
 
-  public Date getDate() {
-    return date;
+  public void setType(OrderType type) {
+    this.type = type;
   }
 
-  public long getAmount_int() {
-    return amount_int;
+  public BigDecimal getTradableAmount() {
+    return tradableAmount;
   }
 
-  public long getPrice_int() {
-    return price_int;
+  public void setTradableAmount(BigDecimal tradableAmount) {
+    this.tradableAmount = tradableAmount;
   }
 
-  public String getPrice_currency() {
-    return price_currency;
+  public String getTradableIdentifier() {
+    return tradableIdentifier;
   }
 
-  public String getTrade_type() {
-    return trade_type;
+  public void setTradableIdentifier(String tradableIdentifier) {
+    this.tradableIdentifier = tradableIdentifier;
   }
 
   @Override
   public String toString() {
-    return "Trade [date=" + date + ", amount_int=" + amount_int + ", price_int=" + price_int + ", price_currency=" + price_currency + ", trade_type=" + trade_type + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + "]";
   }
 
 }

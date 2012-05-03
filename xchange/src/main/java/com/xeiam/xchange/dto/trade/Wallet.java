@@ -19,44 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata;
-
-import java.util.List;
-
-import net.jcip.annotations.Immutable;
+package com.xeiam.xchange.dto.trade;
 
 /**
- * Data object representing OrderBook
+ * <p>
+ * Data object representing a Wallet, which is simply defined by an amount of money in a given currency
+ * </p>
+ * TODO Review the fields to combine MtGox and Intersango (consider BigDecimal and/or Money)
  */
-@Immutable
-public final class OrderBook {
+public class Wallet {
 
-  private final List<Order> asks;
-  private final List<Order> bids;
+  private String currency;
+  private long amount_int;
 
-  /**
-   * Constructor
-   * 
-   * @param asks
-   * @param bids
-   */
-  public OrderBook(List<Order> asks, List<Order> bids) {
-
-    this.asks = asks;
-    this.bids = bids;
+  public String getCurrency() {
+    return currency;
   }
 
-  public List<Order> getAsks() {
-    return asks;
+  public void setCurrency(String currency) {
+    this.currency = currency;
   }
 
-  public List<Order> getBids() {
-    return bids;
+  public long getAmount_int() {
+    return amount_int;
+  }
+
+  public void setAmount_int(long amount_int) {
+    this.amount_int = amount_int;
   }
 
   @Override
   public String toString() {
-    return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    return "Wallet [currency=" + currency + ", amount_int=" + amount_int + "]";
   }
 
 }

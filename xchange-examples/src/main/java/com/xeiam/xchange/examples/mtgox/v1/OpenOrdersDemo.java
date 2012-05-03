@@ -24,7 +24,7 @@ package com.xeiam.xchange.examples.mtgox.v1;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
 
 /**

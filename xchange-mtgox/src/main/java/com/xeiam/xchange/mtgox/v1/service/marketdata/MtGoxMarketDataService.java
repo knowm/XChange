@@ -21,26 +21,33 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.PacingViolationException;
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.marketdata.*;
+import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>
@@ -117,12 +124,10 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    // TODO Require an adapter here
-    List<Order> asks = new ArrayList(mtgoxDepth.getAsks());
-    List<Order> bids = new ArrayList(mtgoxDepth.getBids());
-    OrderBook depth = new OrderBook(asks, bids);
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), symbolPair.counterSymbol, OrderType.ASK);
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), symbolPair.counterSymbol, OrderType.BID);
 
-    return depth;
+    return new OrderBook(asks, bids);
   }
 
   @Override
@@ -142,12 +147,10 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    // TODO Require an adapter here
-    List<Order> asks = new ArrayList(mtgoxFullDepth.getAsks());
-    List<Order> bids = new ArrayList(mtgoxFullDepth.getBids());
-    OrderBook depth = new OrderBook(asks, bids);
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), symbolPair.counterSymbol, OrderType.ASK);
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), symbolPair.counterSymbol, OrderType.BID);
 
-    return depth;
+    return new OrderBook(asks, bids);
   }
 
   @Override

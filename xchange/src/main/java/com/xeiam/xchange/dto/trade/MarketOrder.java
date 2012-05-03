@@ -19,38 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.trade;
+package com.xeiam.xchange.dto.trade;
+
+import com.xeiam.xchange.dto.Order;
 
 /**
+ * Data object representing a market order
  * <p>
- * Data object representing a Wallet, which is simply defined by an amount of money in a given currency
+ * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market orders are filled. Market orders are therefore used when certainty of execution is a priority over
+ * price of execution.
  * </p>
- * TODO Review the fields to combine MtGox and Intersango (consider BigDecimal and/or Money)
  */
-public class Wallet {
+public class MarketOrder extends Order {
 
-  private String currency;
-  private long amount_int;
+  /**
+   * The currency used to settle the market order transaction
+   */
+  private String transactionCurrency;
 
-  public String getCurrency() {
-    return currency;
+  public String getTransactionCurrency() {
+    return transactionCurrency;
   }
 
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
-  public long getAmount_int() {
-    return amount_int;
-  }
-
-  public void setAmount_int(long amount_int) {
-    this.amount_int = amount_int;
+  public void setTransactionCurrency(String transactionCurrency) {
+    this.transactionCurrency = transactionCurrency;
   }
 
   @Override
   public String toString() {
-    return "Wallet [currency=" + currency + ", amount_int=" + amount_int + "]";
+    return "MarketOrder [transactionCurrency=" + transactionCurrency + ", " + super.toString() + "]";
   }
 
 }

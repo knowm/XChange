@@ -21,6 +21,11 @@
  */
 package com.xeiam.xchange.service.trade;
 
+import com.xeiam.xchange.dto.trade.AccountInfo;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+
 /**
  * <p>
  * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
