@@ -179,10 +179,17 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     return new Trades(tradesList);
   }
 
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier
+   * @param currency
+   */
   private void verify(String tradableIdentifier, String currency) {
+
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
   }
 
