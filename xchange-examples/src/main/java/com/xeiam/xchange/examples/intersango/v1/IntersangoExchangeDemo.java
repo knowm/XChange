@@ -1,4 +1,6 @@
-package com.xeiam.xchange.examples.intersango.v1; /**
+package com.xeiam.xchange.examples.intersango.v1;
+
+/**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -20,7 +22,14 @@ package com.xeiam.xchange.examples.intersango.v1; /**
  * SOFTWARE.
  */
 
-import com.xeiam.xchange.CurrencyPair;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.AccountInfo;
@@ -30,12 +39,6 @@ import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
 import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.TradeService;
-import org.joda.money.BigMoney;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * <p>
@@ -72,7 +75,7 @@ public class IntersangoExchangeDemo {
 
   /**
    * Demonstrates how to connect to the MarketDataService for MtGox
-   *
+   * 
    * @param exchange The exchange
    */
   private static void demoMarketDataService(Exchange exchange) {
@@ -81,7 +84,7 @@ public class IntersangoExchangeDemo {
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
 
     BigMoney btcusd = ticker.getLast();
 
@@ -90,7 +93,7 @@ public class IntersangoExchangeDemo {
 
   /**
    * Demonstrates how to connect to the AccountService for Intersango
-   *
+   * 
    * @param exchange The exchange
    */
   private static void demoAccountService(Exchange exchange) {
@@ -106,12 +109,12 @@ public class IntersangoExchangeDemo {
 
   /**
    * Demonstrates how to connect to the AccountService for Intersango
-   *
+   * 
    * @param exchange The exchange
    */
   private static void demoStreamingMarketDataService(Exchange exchange) {
 
-// Construct an Exchange that we know to use a direct socket to support streaming market data
+    // Construct an Exchange that we know to use a direct socket to support streaming market data
     Exchange intersango = IntersangoExchange.newInstance();
     StreamingMarketDataService streamingMarketDataService = intersango.getStreamingMarketDataService();
 
