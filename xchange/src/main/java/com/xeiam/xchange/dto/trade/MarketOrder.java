@@ -32,22 +32,8 @@ import com.xeiam.xchange.dto.Order;
  */
 public class MarketOrder extends Order {
 
-  /**
-   * The currency used to settle the market order transaction
-   */
-  private String transactionCurrency;
-
-  public String getTransactionCurrency() {
-    return transactionCurrency;
-  }
-
-  public void setTransactionCurrency(String transactionCurrency) {
-    this.transactionCurrency = transactionCurrency;
-  }
-
   @Override
   public String toString() {
-    return "MarketOrder [transactionCurrency=" + transactionCurrency + ", " + super.toString() + "]";
+    return super.toString();
   }
-
 }

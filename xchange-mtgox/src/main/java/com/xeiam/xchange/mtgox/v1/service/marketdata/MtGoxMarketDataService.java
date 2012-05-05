@@ -40,7 +40,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
+import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
@@ -82,10 +82,9 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair symbolPair) {
+  public Ticker getTicker(String tradableIdentifier, String currency) {
 
-    // verify
-    Assert.notNull(symbolPair, "symbolPair cannot be null");
+    verify(tradableIdentifier, currency);
 
     // check for pacing violation
     if (System.currentTimeMillis() < tickerRequestTimeStamp + getRefreshRate()) {
@@ -95,23 +94,22 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     tickerRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
+    MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     BigMoney last = MoneyUtils.parseFiat(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
     BigMoney bid = MoneyUtils.parseFiat(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
     BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
     long volume = mtGoxTicker.getVol().getValue_int();
-    Ticker ticker = new Ticker(last, bid, ask, symbolPair, volume);
+    Ticker ticker = new Ticker(last, bid, ask, tradableIdentifier, volume);
 
     return ticker;
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair symbolPair) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency) {
 
-    // Verify
-    Assert.notNull(symbolPair, "symbolPair cannot be null");
+    verify(tradableIdentifier, currency);
 
     // Check for pacing violation
     if (System.currentTimeMillis() < orderBookRequestTimeStamp + getRefreshRate()) {
@@ -121,20 +119,19 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     orderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), symbolPair.counterSymbol, OrderType.ASK);
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), symbolPair.counterSymbol, OrderType.BID);
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, OrderType.ASK);
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, OrderType.BID);
 
     return new OrderBook(asks, bids);
   }
 
   @Override
-  public OrderBook getFullOrderBook(CurrencyPair symbolPair) {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-    // Verify
-    Assert.notNull(symbolPair, "symbolPair cannot be null");
+    verify(tradableIdentifier, currency);
 
     // check for pacing violation
     if (System.currentTimeMillis() < fullOrderBookRequestTimeStamp + getRefreshRate()) {
@@ -144,21 +141,19 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     fullOrderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), symbolPair.counterSymbol, OrderType.ASK);
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), symbolPair.counterSymbol, OrderType.BID);
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, OrderType.ASK);
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, OrderType.BID);
 
     return new OrderBook(asks, bids);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair symbolPair) {
+  public Trades getTrades(String tradableIdentifier, String currency) {
 
-    // Verify
-    Assert.notNull(symbolPair, "symbol cannot be null");
-
+    verify(tradableIdentifier, currency);
     // Check for pacing violation
     if (System.currentTimeMillis() < tradesRequestTimeStamp + getRefreshRate()) {
       tradesRequestTimeStamp = System.currentTimeMillis();
@@ -167,7 +162,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
+    MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
 
     List<Trade> tradesList = new ArrayList<Trade>();
     for (int i = 0; i < mtGoxTrades.length; i++) {
@@ -183,6 +178,13 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     return new Trades(tradesList);
   }
 
+  private void verify(String tradableIdentifier, String currency) {
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid");
+
+  }
+
   /**
    * <p>
    * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
@@ -190,11 +192,11 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
    */
   @Override
   public int getRefreshRate() {
-    return MtGoxProperties.REFRESH_RATE;
+    return MtGoxUtils.REFRESH_RATE;
   }
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
-    return MtGoxProperties.SYMBOL_PAIRS;
+    return MtGoxUtils.CURRENCY_PAIRS;
   }
 }

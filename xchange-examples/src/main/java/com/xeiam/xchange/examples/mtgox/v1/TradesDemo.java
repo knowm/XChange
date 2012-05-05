@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -43,7 +43,7 @@ public class TradesDemo {
     marketDataService = mtGox.getMarketDataService();
 
     // Get trades
-    Trades trades = marketDataService.getTrades(new CurrencyPair("BTC", "PLN"));
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
     System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
     // Verify that trades is not null

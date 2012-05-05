@@ -27,7 +27,7 @@ import java.util.List;
 
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
+import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxOrder;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -40,7 +40,7 @@ public class MtGoxAdapters {
 
     LimitOrder limitOrder = new LimitOrder();
     limitOrder.setType(orderType);
-    limitOrder.setTradableAmount(new BigDecimal((double) mtGoxOrder.getAmount_int() / MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    limitOrder.setTradableAmount(new BigDecimal((double) mtGoxOrder.getAmount_int() / MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     limitOrder.setTradableIdentifier("BTC");
     limitOrder.setLimitPrice(MoneyUtils.parseFiat(currency + " " + mtGoxOrder.getPrice()));
     return limitOrder;

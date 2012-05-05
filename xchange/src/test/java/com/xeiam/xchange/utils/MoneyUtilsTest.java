@@ -39,6 +39,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testConstructors() {
+
     // String
     // create a monetary value
     BigMoney testObject1 = MoneyUtils.parseFiat("USD 23.87");
@@ -52,6 +53,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testIncompatibleCurrencies() {
+
     BigMoney testObject1 = MoneyUtils.parseFiat("USD 10.50");
     BigMoney testObject2 = MoneyUtils.parseFiat("GBP 10.50");
     try {
@@ -67,6 +69,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComparisonOperators() {
+
     BigMoney testObject1 = MoneyUtils.parseFiat("USD 10.50");
     BigMoney testObject2 = MoneyUtils.parseFiat("USD 10.50");
     BigMoney testObject3 = MoneyUtils.parseFiat("USD 10.51");
@@ -89,6 +92,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testSimpleAdd() {
+
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 0.00");
@@ -104,6 +108,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComplexAdd() {
+
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 0");
@@ -119,6 +124,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testSimpleSubtract() {
+
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 0.00");
@@ -134,6 +140,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComplexSubtract() {
+
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 0");
@@ -149,6 +156,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testSimpleMultiply() {
+
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 10.00");
@@ -165,6 +173,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testSimpleIntegerMultiply() {
+
     String[] column = new String[] { "1", "2", "3", "4" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 10.00");
@@ -181,6 +190,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComplexMultiply() {
+
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 13.33");
@@ -197,6 +207,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testSimpleDivide() {
+
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 270.00");
@@ -213,6 +224,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testSimpleIntegerDivide() {
+
     String[] column = new String[] { "1", "2", "3", "4" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 270.00");
@@ -229,6 +241,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComplexIntegerDivideAndMultiply() {
+
     String[] column = new String[] { "1", "2", "3", "4" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 270.00");
@@ -248,6 +261,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComplexDivide() {
+
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
     BigMoney testObject = MoneyUtils.parseFiat("USD 435700.42");
@@ -265,6 +279,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComplexDivideAndMultiplyBitcoin() {
+
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
     BigMoney testObject = MoneyUtils.parseBitcoin("BTC 20999999.12345678");
@@ -289,6 +304,7 @@ public class MoneyUtilsTest {
    */
   @Test
   public void testComplexDivideAndMultiplySatoshi() {
+
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
     BigMoney testObject = MoneyUtils.fromSatoshi(2099999912345678L);

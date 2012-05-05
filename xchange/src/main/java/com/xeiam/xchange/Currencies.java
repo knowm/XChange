@@ -37,5 +37,8 @@ public class Currencies {
    */
   public static final String BTC = "BTC";
   public static final String USD = "USD";
+  public static final String PLN = "PLN";
+  public static final String EUR = "EUR";
+  public static final String GBP = "GBP";
 
 }

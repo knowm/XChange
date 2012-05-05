@@ -35,15 +35,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
+import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
@@ -121,7 +123,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
       LimitOrder openOrder = new LimitOrder();
       openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
-      openOrder.setTradableAmount(new BigDecimal(mtGoxOpenOrder[i].getAmount().getValue_int()).divide(new BigDecimal(MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
+      openOrder.setTradableAmount(new BigDecimal(mtGoxOpenOrder[i].getAmount().getValue_int()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
       openOrder.setTradableIdentifier(mtGoxOpenOrder[i].getAmount().getCurrency());
       BigMoney limitPrice = MoneyUtils.parseFiat(mtGoxOpenOrder[i].getPrice().getCurrency() + " " + mtGoxOpenOrder[i].getPrice().getValue());
       openOrder.setLimitPrice(limitPrice);
@@ -138,16 +140,13 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   @Override
   public boolean placeMarketOrder(MarketOrder marketOrder) {
 
-    Assert.notNull(marketOrder.getTradableIdentifier(), "getTradableIdentifier() cannot be null");
-    Assert.notNull(marketOrder.getType(), "getType() cannot be null");
-    Assert.notNull(marketOrder.getTransactionCurrency(), "getTransactionCurrency() cannot be null");
-    Assert.notNull(marketOrder.getTradableAmount(), "getAmount_int() cannot be null");
+    verify(marketOrder);
 
     // Build request
     String symbol = marketOrder.getTradableIdentifier() + marketOrder.getTransactionCurrency();
     // TODO check validity of symbol against MtGox
     String type = marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
-    String amount = "" + (marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
+    String amount = "" + (marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
     String url = apiBaseURI + symbol + "/private/order/add";
 
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount;
@@ -161,18 +160,19 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
   @Override
   public boolean placeLimitOrder(LimitOrder limitOrder) {
 
-    Assert.notNull(limitOrder.getTradableIdentifier(), "getTradableIdentifier() cannot be null");
-    Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
-    Assert.notNull(limitOrder.getType(), "getType() cannot be null");
-    Assert.notNull(limitOrder.getTradableAmount(), "getAmount_int() cannot be null");
+    verify(limitOrder);
     Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
+    Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
 
     // Build request
     String symbol = limitOrder.getTradableIdentifier() + limitOrder.getLimitPrice().getCurrencyUnit().toString();
     // TODO check validity of symbol against MtGox
     String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
-    String amount = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
-    String price_int = "" + limitOrder.getLimitPrice().getAmount().multiply(new BigDecimal(MtGoxProperties.PRICE_INT_2_DECIMAL_FACTOR)).longValue();
+    String amount = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
+
+    // handle JPY case TODO test this
+    String price_int = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
+
     String url = apiBaseURI + symbol + "/private/order/add";
 
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount + "&price_int=" + price_int;
@@ -181,6 +181,15 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
     return mtGoxSuccess.getResult().equals("success") ? true : false;
+  }
+
+  private void verify(Order order) {
+
+    Assert.notNull(order.getTradableIdentifier(), "getTradableIdentifier() cannot be null");
+    Assert.notNull(order.getType(), "getType() cannot be null");
+    Assert.notNull(order.getTradableAmount(), "getAmount_int() cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(order.getTradableIdentifier(), order.getTransactionCurrency())), "currencyPair is not valid");
+
   }
 
   /**

@@ -19,62 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1;
+package com.xeiam.xchange.utils;
 
-import java.util.Arrays;
-import java.util.List;
+import java.math.BigDecimal;
 
-import com.xeiam.xchange.CurrencyPair;
+import org.junit.Test;
 
-/**
- * A central place for shared Mt Gox properties
- */
-public class MtGoxProperties {
+public class BigDecimalTest {
 
-  // TODO Move into a symbol service
-  public static final List<CurrencyPair> SYMBOL_PAIRS = Arrays.asList(
+  @Test
+  public void testOfScale() {
 
-  CurrencyPair.BTC_USD,
+    String priceInt = "1367855538833463456346";
+    BigDecimal price = new BigDecimal(priceInt).divide(new BigDecimal(100000000));
+    System.out.println(price);
 
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_GBP,
-
-  CurrencyPair.BTC_AUD,
-
-  CurrencyPair.BTC_CAD,
-
-  CurrencyPair.BTC_CHF,
-
-  CurrencyPair.BTC_JPY,
-
-  new CurrencyPair("BTC", "CNY"),
-
-  new CurrencyPair("BTC", "DKK"),
-
-  new CurrencyPair("BTC", "HKD"),
-
-  new CurrencyPair("BTC", "NZD"),
-
-  new CurrencyPair("BTC", "PLN"),
-
-  new CurrencyPair("BTC", "RUB"),
-
-  new CurrencyPair("BTC", "SEK"),
-
-  new CurrencyPair("BTC", "SGD"),
-
-  new CurrencyPair("BTC", "THB")
-
-  );
-
-  public static final int REFRESH_RATE = 10; // [seconds]
-
-  public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
-
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
-
-  // TODO handle this
-  public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+  }
 
 }

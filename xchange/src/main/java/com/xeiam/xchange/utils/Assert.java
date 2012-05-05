@@ -35,6 +35,20 @@ public abstract class Assert {
 
   /**
    * <p>
+   * Asserts that a condition is true
+   * </p>
+   * 
+   * @param boolean The condition under test
+   * @param message The message for any exception
+   */
+  public static void isTrue(boolean condition, String message) {
+    if (!condition) {
+      throw new IllegalArgumentException(message);
+    }
+  }
+
+  /**
+   * <p>
    * Asserts that an object is not null
    * </p>
    * 

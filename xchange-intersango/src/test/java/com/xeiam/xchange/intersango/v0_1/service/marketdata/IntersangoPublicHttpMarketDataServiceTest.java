@@ -31,6 +31,7 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -79,7 +80,7 @@ public class IntersangoPublicHttpMarketDataServiceTest {
       }
     });
 
-    testObject.getOrderBook(CurrencyPair.BTC_USD);
+    testObject.getOrderBook(Currencies.BTC, Currencies.USD);
 
   }
 

@@ -37,7 +37,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
  * <ul>
  * <li>Standard methods available to explore the market data</li>
  * </ul>
- * TODO Consider the blocking nature and perhaps go for a TODO MarketDataCallback or MarketDataListener approach?
  */
 public interface MarketDataService {
 
@@ -53,46 +52,50 @@ public interface MarketDataService {
 
   /**
    * <p>
-   * Get a ticker representing the current exchange rate for a symbol pair
+   * Get a ticker representing the current exchange rate
    * </p>
    * 
-   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
+   * @param currency The currency of interest, null if irrelevant
    * @return The Ticker
-   * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
+   * @throws NotAvailableFromExchangeException If the exchange does not support this request
    */
-  Ticker getTicker(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
+  Ticker getTicker(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
 
   /**
    * <p>
-   * Get an order book representing the current offered exchange rates for a symbol pair
+   * Get an order book representing the current offered exchange rates
    * </p>
    * 
-   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
-   * @return The order book in a reduced form (if possible)
-   * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
+   * @param currency The currency of interest, null if irrelevant
+   * @return The Ticker
+   * @throws NotAvailableFromExchangeException If the exchange does not support this request
    */
-  OrderBook getOrderBook(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
+  OrderBook getOrderBook(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
 
   /**
    * <p>
-   * Get a full order book representing the current offered exchange rates for a symbol pair
+   * Get a full order book representing the current offered exchange rates
    * </p>
    * 
-   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
-   * @return The full order book
-   * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
+   * @param currency The currency of interest, null if irrelevant
+   * @return The Ticker
+   * @throws NotAvailableFromExchangeException If the exchange does not support this request
    */
-  OrderBook getFullOrderBook(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
+  OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
 
   /**
    * <p>
-   * Get the trades recently performed by the exchange for a symbol pair
+   * Get the trades recently performed by the exchange
    * </p>
    * 
-   * @param symbolPair The symbol pair to use (e.g. EUR/USD)
-   * @return The trade data
-   * @throws NotAvailableFromExchangeException If the exchange does not support the symbol pair
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
+   * @param currency The currency of interest, null if irrelevant
+   * @return The Ticker
+   * @throws NotAvailableFromExchangeException If the exchange does not support this request
    */
-  Trades getTrades(CurrencyPair symbolPair) throws NotAvailableFromExchangeException;
+  Trades getTrades(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
 
 }

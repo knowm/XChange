@@ -21,10 +21,8 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.marketdata;
 
-import java.util.HashMap;
 import java.util.List;
 
-import org.joda.money.BigMoney;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +33,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.intersango.v0_1.IntersangoProperties;
-import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoDepth;
-import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * <p>
@@ -70,23 +65,25 @@ public class IntersangoMarketDataService extends BaseExchangeService implements 
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair symbolPair) {
+  public Ticker getTicker(String tradableIdentifier, String currency) {
 
-    String currencyPairId = getCurrencyPairId(symbolPair);
+    return null;
 
-    // Request data
-    IntersangoTicker intersangoTicker = httpTemplate.getForJsonObject(apiBase + "ticker.php?currency_pair_id=" + currencyPairId, IntersangoTicker.class, mapper, new HashMap<String, String>());
-
-    // Adapt to XChange DTOs
-    long value_int = (long) (Double.parseDouble(intersangoTicker.getLast()));
-    BigMoney last = MoneyUtils.fromSatoshi(value_int);
-    BigMoney bid = MoneyUtils.fromSatoshi(value_int);
-    BigMoney ask = MoneyUtils.fromSatoshi(value_int);
-    long volume = (long) (Double.parseDouble(intersangoTicker.getVol()));
-
-    Ticker ticker = new Ticker(last, bid, ask, symbolPair, volume);
-
-    return ticker;
+    // String currencyPairId = getCurrencyPairId(symbolPair);
+    //
+    // // Request data
+    // IntersangoTicker intersangoTicker = httpTemplate.getForJsonObject(apiBase + "ticker.php?currency_pair_id=" + currencyPairId, IntersangoTicker.class, mapper, new HashMap<String, String>());
+    //
+    // // Adapt to XChange DTOs
+    // long value_int = (long) (Double.parseDouble(intersangoTicker.getLast()));
+    // BigMoney last = MoneyUtils.fromSatoshi(value_int);
+    // BigMoney bid = MoneyUtils.fromSatoshi(value_int);
+    // BigMoney ask = MoneyUtils.fromSatoshi(value_int);
+    // long volume = (long) (Double.parseDouble(intersangoTicker.getVol()));
+    //
+    // Ticker ticker = new Ticker(last, bid, ask, symbolPair, volume);
+    //
+    // return ticker;
   }
 
   /**
@@ -124,21 +121,21 @@ public class IntersangoMarketDataService extends BaseExchangeService implements 
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair symbolPair) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency) {
 
     // Request data
-    IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
+    // IntersangoDepth intersangoDepth = httpTemplate.getForJsonObject(apiBase + symbolPair.baseSymbol + symbolPair.counterSymbol + "/public/depth?raw", IntersangoDepth.class, mapper, new HashMap<String, String>());
 
     return null;
   }
 
   @Override
-  public Trades getTrades(CurrencyPair symbolPair) {
+  public Trades getTrades(String tradableIdentifier, String currency) {
     return null;
   }
 
   @Override
-  public OrderBook getFullOrderBook(CurrencyPair symbolPair) {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
     return null;
   }
 

@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -43,7 +43,7 @@ public class FullDepthDemo {
     marketDataService = mtGox.getMarketDataService();
 
     // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook(CurrencyPair.BTC_USD);
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
     System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
   }

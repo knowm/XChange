@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 /**
  * Data object representing an order
  */
+// TODO needs currency?
 public class Order {
 
   public enum OrderType {
@@ -47,6 +48,11 @@ public class Order {
    * An identifier that uniquely identifies the tradable
    */
   private String tradableIdentifier;
+
+  /**
+   * The currency used to settle the market order transaction
+   */
+  private String transactionCurrency;
 
   public OrderType getType() {
     return type;
@@ -72,9 +78,17 @@ public class Order {
     this.tradableIdentifier = tradableIdentifier;
   }
 
+  public String getTransactionCurrency() {
+    return transactionCurrency;
+  }
+
+  public void setTransactionCurrency(String transactionCurrency) {
+    this.transactionCurrency = transactionCurrency;
+  }
+
   @Override
   public String toString() {
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + super.toString() + "]";
   }
 
 }

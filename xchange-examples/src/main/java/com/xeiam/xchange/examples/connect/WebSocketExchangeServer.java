@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
@@ -69,6 +69,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
    * @throws IOException If something goes wrong
    */
   public static void main(String[] args) throws InterruptedException, IOException {
+
     WebSocket.DEBUG = true;
     int port = 8887;
 
@@ -95,7 +96,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
         public void run() {
           // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
-          Ticker ticker = new Ticker(money, money, money, CurrencyPair.BTC_USD, random.nextLong());
+          Ticker ticker = new Ticker(money, money, money, Currencies.BTC, random.nextLong());
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {

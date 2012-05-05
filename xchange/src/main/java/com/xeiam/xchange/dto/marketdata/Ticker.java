@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.utils.DateUtils;
 import net.jcip.annotations.Immutable;
+
 import org.joda.money.BigMoney;
 import org.joda.time.DateTime;
+
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade. This class is immutable.
@@ -33,25 +34,27 @@ import org.joda.time.DateTime;
 @Immutable
 public final class Ticker {
 
-  private final DateTime timestamp;
   private final BigMoney last;
   private final BigMoney bid;
   private final BigMoney ask;
-  private final CurrencyPair symbolPair;
+  private final String tradableIdentifier;
   private final long volume;
+  private final DateTime timestamp;
 
   /**
    * Constructor
    * 
    * @param last
-   * @param symbolPair
+   * @param bid
+   * @param ask
+   * @param tradableIdentifier
    * @param volume
    */
-  public Ticker(BigMoney last, BigMoney bid, BigMoney ask, CurrencyPair symbolPair, long volume) {
+  public Ticker(BigMoney last, BigMoney bid, BigMoney ask, String tradableIdentifier, long volume) {
     this.last = last;
     this.bid = bid;
     this.ask = ask;
-    this.symbolPair = symbolPair;
+    this.tradableIdentifier = tradableIdentifier;
     this.volume = volume;
     this.timestamp = DateUtils.nowUtc();
   }
@@ -68,16 +71,21 @@ public final class Ticker {
     return ask;
   }
 
-  public CurrencyPair getSymbolPair() {
-    return symbolPair;
+  public String getTradableIdentifier() {
+    return tradableIdentifier;
   }
 
   public long getVolume() {
     return volume;
   }
 
+  public DateTime getTimestamp() {
+    return timestamp;
+  }
+
   @Override
   public String toString() {
-    return "Ticker{" + "timestamp=" + timestamp + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", symbolPair=" + symbolPair + ", volume=" + volume + '}';
+    return "Ticker [timestamp=" + timestamp + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", tradableIdentifier=" + tradableIdentifier + ", volume=" + volume + "]";
   }
+
 }
