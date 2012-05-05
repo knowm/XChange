@@ -25,12 +25,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxProperties;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxOrder;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs
@@ -43,7 +42,7 @@ public class MtGoxAdapters {
     limitOrder.setType(orderType);
     limitOrder.setTradableAmount(new BigDecimal((double) mtGoxOrder.getAmount_int() / MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     limitOrder.setTradableIdentifier("BTC");
-    limitOrder.setLimitPrice(BigMoney.parse(currency + " " + mtGoxOrder.getPrice()));
+    limitOrder.setLimitPrice(MoneyUtils.parseFiat(currency + " " + mtGoxOrder.getPrice()));
     return limitOrder;
 
   }

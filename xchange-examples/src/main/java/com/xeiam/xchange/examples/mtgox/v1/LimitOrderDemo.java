@@ -32,6 +32,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Test placing a limit order at MtGox
@@ -59,7 +60,7 @@ public class LimitOrderDemo {
     limitOrder.setType(OrderType.BID);
     limitOrder.setTradableIdentifier("BTC");
     limitOrder.setTradableAmount(new BigDecimal(Math.random()));
-    BigMoney limitPrice = BigMoney.parse("USD 1.25");
+    BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
     limitOrder.setLimitPrice(limitPrice);
     boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
 

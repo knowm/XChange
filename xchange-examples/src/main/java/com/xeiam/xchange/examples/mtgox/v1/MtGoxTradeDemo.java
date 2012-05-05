@@ -34,6 +34,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * <p>
@@ -81,7 +82,7 @@ public class MtGoxTradeDemo {
     limitOrder.setType(OrderType.BID);
     limitOrder.setTradableIdentifier("BTC");
     limitOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
-    BigMoney limitPrice = BigMoney.parse("USD 1.25");
+    BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
     limitOrder.setLimitPrice(limitPrice);
     boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order Successful: " + limitOrderSuccess);

@@ -74,6 +74,7 @@ public class MtGoxProperties {
 
   public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
 
+  // TODO handle this
   public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
 
 }

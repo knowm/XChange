@@ -52,6 +52,7 @@ import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpTemplate;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 public class MtGoxTradeService extends BaseExchangeService implements TradeService {
 
@@ -122,7 +123,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
       openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
       openOrder.setTradableAmount(new BigDecimal(mtGoxOpenOrder[i].getAmount().getValue_int()).divide(new BigDecimal(MtGoxProperties.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
       openOrder.setTradableIdentifier(mtGoxOpenOrder[i].getAmount().getCurrency());
-      BigMoney limitPrice = BigMoney.parse(mtGoxOpenOrder[i].getPrice().getCurrency() + " " + mtGoxOpenOrder[i].getPrice().getValue());
+      BigMoney limitPrice = MoneyUtils.parseFiat(mtGoxOpenOrder[i].getPrice().getCurrency() + " " + mtGoxOpenOrder[i].getPrice().getValue());
       openOrder.setLimitPrice(limitPrice);
 
       openOrdersList.add(openOrder);
