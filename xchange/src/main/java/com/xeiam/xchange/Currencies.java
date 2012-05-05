@@ -24,6 +24,7 @@ package com.xeiam.xchange;
 /**
  * Global currency symbols
  */
+// TODO maybe use enum??
 public class Currencies {
 
   /**

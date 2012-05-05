@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 /**
  * Data object representing an order
  */
-// TODO needs currency?
 public class Order {
 
   public enum OrderType {

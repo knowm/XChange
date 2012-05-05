@@ -34,7 +34,6 @@ import org.joda.money.BigMoney;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -44,8 +43,8 @@ import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.v1.service.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
@@ -91,17 +90,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     // Adapt to XChange DTOs
     AccountInfo accountInfo = new AccountInfo();
     accountInfo.setUsername(mtGoxAccountInfo.getLogin());
-
-    List<Wallet> wallets = new ArrayList<Wallet>();
-    Wallet usdWallet = new Wallet();
-    usdWallet.setCurrency(Currencies.USD);
-    usdWallet.setAmount_int(mtGoxAccountInfo.getWallets().getUSD().getBalance().getValue_int());
-    wallets.add(usdWallet);
-    Wallet btcWallet = new Wallet();
-    btcWallet.setCurrency(Currencies.BTC);
-    btcWallet.setAmount_int(mtGoxAccountInfo.getWallets().getBTC().getBalance().getValue_int());
-    wallets.add(btcWallet);
-    accountInfo.setWallets(wallets);
+    accountInfo.setWallets(MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
 
     return accountInfo;
 

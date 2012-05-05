@@ -26,7 +26,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
- * Data object representing an Account Currency from Mt Gox
+ * Data object representing a Wallet from Mt Gox
  */
 public class MtGoxWallet {
 

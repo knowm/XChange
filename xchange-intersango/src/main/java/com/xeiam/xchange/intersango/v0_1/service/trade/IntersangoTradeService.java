@@ -21,9 +21,7 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.trade;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -34,7 +32,6 @@ import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.intersango.v0_1.service.trade.dto.IntersangoWallet;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.trade.TradeService;
@@ -73,21 +70,21 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
 
     // Adapt to XChange DTOs
     AccountInfo accountInfo = new AccountInfo();
-    // TODO Fill in more information in the AccountInfo
-    accountInfo.setUsername("example");
-
-    List<Wallet> wallets = new ArrayList<Wallet>();
-    if (intersangoWallets != null) {
-      for (IntersangoWallet intersangoWallet : intersangoWallets) {
-        Wallet wallet = new Wallet();
-        // Balance provided to 10dp
-        // TODO Rethink the Wallet to use BigDecimal or Money
-        wallet.setAmount_int((long) (Double.valueOf(intersangoWallet.getBalance()) * 10000000000L));
-        wallet.setCurrency(intersangoWallet.getCurrency_abbreviation());
-        wallets.add(wallet);
-      }
-    }
-    accountInfo.setWallets(wallets);
+    // // TODO Fill in more information in the AccountInfo
+    // accountInfo.setUsername("example");
+    //
+    // List<Wallet> wallets = new ArrayList<Wallet>();
+    // if (intersangoWallets != null) {
+    // for (IntersangoWallet intersangoWallet : intersangoWallets) {
+    // Wallet wallet = new Wallet();
+    // // Balance provided to 10dp
+    // // TODO Rethink the Wallet to use BigDecimal or Money
+    // wallet.setAmount_int((long) (Double.valueOf(intersangoWallet.getBalance()) * 10000000000L));
+    // wallet.setCurrency(intersangoWallet.getCurrency_abbreviation());
+    // wallets.add(wallet);
+    // }
+    // }
+    // accountInfo.setWallets(wallets);
 
     return accountInfo;
 

@@ -19,25 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade;
+package com.xeiam.xchange.mtgox.v1.service;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.mtgox.v1.service.trade.AccountInfoJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxWallet;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
- * Test MtGoxAccountInfo JSON parsing
+ * Tests the MtGoxAdapter class
  */
-public class AccountInfoJSONTest {
+public class MtGoxAdapterTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  public void testNullWallet() throws IOException {
 
     // Read in the JSON from the example resources
     InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/trade/example-accountinfo-data.json");
@@ -45,11 +49,13 @@ public class AccountInfoJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
+    MtGoxWallet CADWallet = mtGoxAccountInfo.getWallets().getCAD();
+    assertTrue("CAD should NOT be null", CADWallet != null);
 
-    System.out.println(mtGoxAccountInfo.toString());
+    List<com.xeiam.xchange.dto.trade.Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
+    assertTrue("CAD should be null", !wallets.contains(new com.xeiam.xchange.dto.trade.Wallet(MoneyUtils.parseFiat("CAD 0.0"))));
+    assertTrue("BTC should NOT be null", wallets.contains(new com.xeiam.xchange.dto.trade.Wallet(MoneyUtils.parseFiat("BTC 0.0"))));
 
-    // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxAccountInfo.getLogin().equals("xchange"));
+    assertTrue("List size should be true!", wallets.size() == 2);
   }
-
 }

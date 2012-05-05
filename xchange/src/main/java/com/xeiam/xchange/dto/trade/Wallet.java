@@ -21,36 +21,67 @@
  */
 package com.xeiam.xchange.dto.trade;
 
+import net.jcip.annotations.Immutable;
+
+import org.joda.money.BigMoney;
+
 /**
  * <p>
- * Data object representing a Wallet, which is simply defined by an amount of money in a given currency
+ * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
  * </p>
- * TODO Review the fields to combine MtGox and Intersango (consider BigDecimal and/or Money)
  */
+@Immutable
 public class Wallet {
 
-  private String currency;
-  private long amount_int;
+  private final BigMoney cash;
 
-  public String getCurrency() {
-    return currency;
+  /**
+   * Constructor
+   * 
+   * @param cash
+   */
+  public Wallet(BigMoney cash) {
+    super();
+    this.cash = cash;
   }
 
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
-  public long getAmount_int() {
-    return amount_int;
-  }
-
-  public void setAmount_int(long amount_int) {
-    this.amount_int = amount_int;
+  public BigMoney getCash() {
+    return cash;
   }
 
   @Override
   public String toString() {
-    return "Wallet [currency=" + currency + ", amount_int=" + amount_int + "]";
+    return "Wallet [cash=" + cash + "]";
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((cash == null) ? 0 : cash.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Wallet other = (Wallet) obj;
+    if (cash == null) {
+      if (other.cash != null) {
+        return false;
+      }
+    } else if (!cash.equals(other.cash)) {
+      return false;
+    }
+    return true;
   }
 
 }

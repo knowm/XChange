@@ -41,6 +41,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.v1.service.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;

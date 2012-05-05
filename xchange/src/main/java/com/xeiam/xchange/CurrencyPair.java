@@ -57,18 +57,18 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_AUD = new CurrencyPair("BTC", "AUD");
   public static final CurrencyPair BTC_CAD = new CurrencyPair("BTC", "CAD");
 
-  public final String baseSymbol;
-  public final String counterSymbol;
+  public final String baseCurrency;
+  public final String counterCurrency;
 
   /**
    * <p>
    * Reduced constructor using the global reserve currency symbol (USD) as the default counter
    * </p>
    * 
-   * @param baseSymbol The base symbol (single unit)
+   * @param baseCurrency The base symbol (single unit)
    */
-  public CurrencyPair(String baseSymbol) {
-    this(baseSymbol, "USD");
+  public CurrencyPair(String baseCurrency) {
+    this(baseCurrency, "USD");
   }
 
   /**
@@ -76,20 +76,20 @@ public class CurrencyPair {
    * Full constructor
    * </p>
    * 
-   * @param baseSymbol The base symbol (single unit)
-   * @param counterSymbol The counter symbol (multiple units)
+   * @param baseCurrency The base symbol (single unit)
+   * @param counterCurrency The counter symbol (multiple units)
    */
-  public CurrencyPair(String baseSymbol, String counterSymbol) {
+  public CurrencyPair(String baseCurrency, String counterCurrency) {
 
-    Assert.hasLength(baseSymbol, 3, "baseSymbol cannot be null and must be 3 characters in length");
-    Assert.hasLength(counterSymbol, 3, "counterSymbol cannot be null and must be 3 characters in length");
-    this.baseSymbol = baseSymbol;
-    this.counterSymbol = counterSymbol;
+    Assert.hasLength(baseCurrency, 3, "baseCurrency cannot be null and must be 3 characters in length");
+    Assert.hasLength(counterCurrency, 3, "counterCurrency cannot be null and must be 3 characters in length");
+    this.baseCurrency = baseCurrency;
+    this.counterCurrency = counterCurrency;
   }
 
   @Override
   public String toString() {
-    return baseSymbol + "/" + counterSymbol;
+    return baseCurrency + "/" + counterCurrency;
   }
 
 }

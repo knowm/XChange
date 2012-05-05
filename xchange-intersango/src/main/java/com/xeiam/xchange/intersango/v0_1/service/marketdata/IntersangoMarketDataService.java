@@ -102,19 +102,19 @@ public class IntersangoMarketDataService extends BaseExchangeService implements 
    */
   String getCurrencyPairId(CurrencyPair symbolPair) {
 
-    if (!"BTC".equalsIgnoreCase(symbolPair.baseSymbol)) {
-      throw new NotAvailableFromExchangeException("Symbol " + symbolPair.baseSymbol + " is not available");
+    if (!"BTC".equalsIgnoreCase(symbolPair.baseCurrency)) {
+      throw new NotAvailableFromExchangeException("Symbol " + symbolPair.baseCurrency + " is not available");
     }
-    if ("GBP".equalsIgnoreCase(symbolPair.counterSymbol)) {
+    if ("GBP".equalsIgnoreCase(symbolPair.counterCurrency)) {
       return "1";
     }
-    if ("EUR".equalsIgnoreCase(symbolPair.counterSymbol)) {
+    if ("EUR".equalsIgnoreCase(symbolPair.counterCurrency)) {
       return "2";
     }
-    if ("USD".equalsIgnoreCase(symbolPair.counterSymbol)) {
+    if ("USD".equalsIgnoreCase(symbolPair.counterCurrency)) {
       return "3";
     }
-    if ("PLN".equalsIgnoreCase(symbolPair.counterSymbol)) {
+    if ("PLN".equalsIgnoreCase(symbolPair.counterCurrency)) {
       return "4";
     }
     throw new NotAvailableFromExchangeException("Symbol pair " + symbolPair + " is not available");

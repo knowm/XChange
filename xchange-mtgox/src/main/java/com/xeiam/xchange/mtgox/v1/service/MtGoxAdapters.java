@@ -19,16 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.money.BigMoney;
+
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxOrder;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxWallet;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.Wallets;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -36,6 +41,14 @@ import com.xeiam.xchange.utils.MoneyUtils;
  */
 public class MtGoxAdapters {
 
+  /**
+   * Adapts a MtGoxOrder to a LimitOrder
+   * 
+   * @param mtGoxOrder
+   * @param currency
+   * @param orderType
+   * @return
+   */
   public static LimitOrder adaptOrder(MtGoxOrder mtGoxOrder, String currency, OrderType orderType) {
 
     LimitOrder limitOrder = new LimitOrder();
@@ -47,6 +60,14 @@ public class MtGoxAdapters {
 
   }
 
+  /**
+   * Adapts a List of MtGoxOrders to a List of LimitOrders
+   * 
+   * @param mtGoxOrders
+   * @param currency
+   * @param orderType
+   * @return
+   */
   public static List<LimitOrder> adaptOrders(List<MtGoxOrder> mtGoxOrders, String currency, OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -56,6 +77,44 @@ public class MtGoxAdapters {
     }
 
     return limitOrders;
+  }
+
+  /**
+   * Adapts a MtGox Wallet to a XChange Wallet
+   * 
+   * @param mtGoxWallet
+   * @return
+   */
+  public static Wallet adaptWallet(MtGoxWallet mtGoxWallet) {
+
+    if (mtGoxWallet.getBalance().getCurrency() == null) { // use the presence of a currency String to indicate existing wallet at MtGox
+      return null;// an account maybe doesn't contain a MtGoxWallet
+    } else {
+      // TODO what about JPY? could be no problem here.
+      BigMoney cash = MoneyUtils.parseFiat(mtGoxWallet.getBalance().getCurrency() + " " + mtGoxWallet.getBalance().getValue());
+      return new com.xeiam.xchange.dto.trade.Wallet(cash);
+    }
+
+  }
+
+  /**
+   * Adapts a List of MtGox Wallets to a List of XChange Wallets
+   * 
+   * @param mtGoxWallets
+   * @return
+   */
+  public static List<com.xeiam.xchange.dto.trade.Wallet> adaptWallets(Wallets mtGoxWallets) {
+
+    List<com.xeiam.xchange.dto.trade.Wallet> wallets = new ArrayList<com.xeiam.xchange.dto.trade.Wallet>();
+
+    for (MtGoxWallet mtGoxWallet : mtGoxWallets.getMtGoxWallets()) {
+      com.xeiam.xchange.dto.trade.Wallet wallet = adaptWallet(mtGoxWallet);
+      if (wallet != null) {
+        wallets.add(wallet);
+      }
+    }
+    return wallets;
+
   }
 
 }

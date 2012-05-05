@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade.dto;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -28,30 +31,175 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class Wallets {
 
-  private MtGoxWallet bTC = new MtGoxWallet();
-  private MtGoxWallet uSD = new MtGoxWallet();
+  private MtGoxWallet BTC = new MtGoxWallet();
+  private MtGoxWallet USD = new MtGoxWallet();
+  private MtGoxWallet EUR = new MtGoxWallet();
+  private MtGoxWallet GBP = new MtGoxWallet();
+  private MtGoxWallet AUD = new MtGoxWallet();
+  private MtGoxWallet CAD = new MtGoxWallet();
+  private MtGoxWallet CHF = new MtGoxWallet();
+  private MtGoxWallet JPY = new MtGoxWallet();
+  private MtGoxWallet CNY = new MtGoxWallet();
+  private MtGoxWallet DKK = new MtGoxWallet();
+  private MtGoxWallet HKD = new MtGoxWallet();
+  private MtGoxWallet NZD = new MtGoxWallet();
+  private MtGoxWallet PLN = new MtGoxWallet();
+  private MtGoxWallet RUB = new MtGoxWallet();
+  private MtGoxWallet SEK = new MtGoxWallet();
+  private MtGoxWallet THB = new MtGoxWallet();
 
   @JsonProperty("BTC")
   public MtGoxWallet getBTC() {
-    return this.bTC;
+    return this.BTC;
   }
 
   public void setBTC(MtGoxWallet bTC) {
-    this.bTC = bTC;
+    this.BTC = bTC;
   }
 
   @JsonProperty("USD")
   public MtGoxWallet getUSD() {
-    return this.uSD;
+    return this.USD;
   }
 
   public void setUSD(MtGoxWallet uSD) {
-    this.uSD = uSD;
+    this.USD = uSD;
+  }
+
+  @JsonProperty("EUR")
+  public MtGoxWallet getEUR() {
+    return EUR;
+  }
+
+  public void setEUR(MtGoxWallet eUR) {
+    EUR = eUR;
+  }
+
+  @JsonProperty("GBP")
+  public MtGoxWallet getGBP() {
+    return GBP;
+  }
+
+  public void setGBP(MtGoxWallet gBP) {
+    GBP = gBP;
+  }
+
+  @JsonProperty("AUD")
+  public MtGoxWallet getAUD() {
+    return AUD;
+  }
+
+  public void setAUD(MtGoxWallet aUD) {
+    AUD = aUD;
+  }
+
+  @JsonProperty("CAD")
+  public MtGoxWallet getCAD() {
+    return CAD;
+  }
+
+  public void setCAD(MtGoxWallet cAD) {
+    CAD = cAD;
+  }
+
+  @JsonProperty("CHF")
+  public MtGoxWallet getCHF() {
+    return CHF;
+  }
+
+  public void setCHF(MtGoxWallet cHF) {
+    CHF = cHF;
+  }
+
+  @JsonProperty("JPY")
+  public MtGoxWallet getJPY() {
+    return JPY;
+  }
+
+  public void setJPY(MtGoxWallet jPY) {
+    JPY = jPY;
+  }
+
+  @JsonProperty("CNY")
+  public MtGoxWallet getCNY() {
+    return CNY;
+  }
+
+  public void setCNY(MtGoxWallet cNY) {
+    CNY = cNY;
+  }
+
+  @JsonProperty("DKK")
+  public MtGoxWallet getDKK() {
+    return DKK;
+  }
+
+  public void setDKK(MtGoxWallet dKK) {
+    DKK = dKK;
+  }
+
+  @JsonProperty("HKD")
+  public MtGoxWallet getHKD() {
+    return HKD;
+  }
+
+  public void setHKD(MtGoxWallet hKD) {
+    HKD = hKD;
+  }
+
+  @JsonProperty("NZD")
+  public MtGoxWallet getNZD() {
+    return NZD;
+  }
+
+  public void setNZD(MtGoxWallet nZD) {
+    NZD = nZD;
+  }
+
+  @JsonProperty("PLN")
+  public MtGoxWallet getPLN() {
+    return PLN;
+  }
+
+  public void setPLN(MtGoxWallet pLN) {
+    PLN = pLN;
+  }
+
+  @JsonProperty("RUB")
+  public MtGoxWallet getRUB() {
+    return RUB;
+  }
+
+  public void setRUB(MtGoxWallet rUB) {
+    RUB = rUB;
+  }
+
+  @JsonProperty("SEK")
+  public MtGoxWallet getSEK() {
+    return SEK;
+  }
+
+  public void setSEK(MtGoxWallet sEK) {
+    SEK = sEK;
+  }
+
+  @JsonProperty("THB")
+  public MtGoxWallet getTHB() {
+    return THB;
+  }
+
+  public void setTHB(MtGoxWallet tHB) {
+    THB = tHB;
+  }
+
+  public List<MtGoxWallet> getMtGoxWallets() {
+    return Arrays.asList(BTC, USD, EUR, GBP, AUD, CAD, CHF, JPY, CNY, DKK, HKD, NZD, PLN, RUB, SEK, THB);
   }
 
   @Override
   public String toString() {
-    return "Wallets [bTC=" + bTC + ", uSD=" + uSD + "]";
+    return "Wallets [BTC=" + BTC + ", USD=" + USD + ", EUR=" + EUR + ", GBP=" + GBP + ", AUD=" + AUD + ", CAD=" + CAD + ", CHF=" + CHF + ", JPY=" + JPY + ", CNY=" + CNY + ", DKK=" + DKK + ", HKD=" + HKD + ", NZD=" + NZD
+        + ", PLN=" + PLN + ", RUB=" + RUB + ", SEK=" + SEK + ", THB=" + THB + "]";
   }
 
 }
