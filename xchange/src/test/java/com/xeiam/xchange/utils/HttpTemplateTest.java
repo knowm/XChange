@@ -36,8 +36,6 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.dto.trade.AccountInfo;
-
 /**
  * Test class for testing HttpTemplate methods
  */
@@ -61,10 +59,10 @@ public class HttpTemplateTest {
     Map<String, String> httpHeaders = new HashMap<String, String>();
 
     // Perform the test
-    testObject.getForJsonObject("http://example.com/ticker", DummyTicker.class, objectMapper, httpHeaders);
+    DummyTicker ticker = testObject.getForJsonObject("http://example.com/ticker", DummyTicker.class, objectMapper, httpHeaders);
 
     // Verify the results
-
+    assertEquals(34567L, ticker.getVolume());
   }
 
   @Test
@@ -94,7 +92,7 @@ public class HttpTemplateTest {
     ObjectMapper objectMapper = new ObjectMapper();
     Map<String, String> httpHeaders = new HashMap<String, String>();
 
-    AccountInfo accountInfo = testObject.postForJsonObject("http://example.org/accountinfo", AccountInfo.class, "Example", objectMapper, httpHeaders);
+    DummyAccountInfo accountInfo = testObject.postForJsonObject("http://example.org/accountinfo", DummyAccountInfo.class, "Example", objectMapper, httpHeaders);
 
     assertEquals("test", accountInfo.getUsername());
 

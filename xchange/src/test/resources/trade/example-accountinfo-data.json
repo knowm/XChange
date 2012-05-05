@@ -1,7 +1,6 @@
 {
-  "username":"test",
-  "wallets":[{
-    "currency":"BTC",
-    "amount_int": "123456"
-  }]
+   "username":"test",
+   "currency":"BTC",
+   "amount_int":"123456"
+
 }
