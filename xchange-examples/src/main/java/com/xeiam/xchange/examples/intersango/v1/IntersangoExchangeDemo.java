@@ -1,4 +1,4 @@
-/**
+package com.xeiam.xchange.examples.intersango.v1; /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -20,18 +20,22 @@
  * SOFTWARE.
  */
 
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.SymbolPair;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.trade.AccountInfo;
+import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
-import com.xeiam.xchange.service.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
+import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import com.xeiam.xchange.service.trade.AccountInfo;
 import com.xeiam.xchange.service.trade.TradeService;
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * <p>
@@ -43,30 +47,26 @@ import java.util.Map;
  * <li>Retrieving basic trade data</li>
  * <li>Retrieving authenticated account data</li>
  * </ul>
- *
  */
 public class IntersangoExchangeDemo {
+
+  private static final Logger log = LoggerFactory.getLogger(IntersangoExchangeDemo.class);
 
   /**
    * @param args [0] is the API key provided by Intersango
    */
   public static void main(String[] args) {
 
-    Map<String, Object> params = new HashMap<String, Object>();
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
-    exchangeSpecification.setUri("https://intersango.com");
-    exchangeSpecification.setVersion("v0.1");
-    exchangeSpecification.setApiKey(args[0]);
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    Exchange exchange = IntersangoExchange.newInstance();
 
     // Demonstrate the public market data service
     demoMarketDataService(exchange);
 
-    // Demonstrate the private account data service
-    demoAccountService(exchange);
-
     // Demonstrate the streaming market data service
     demoStreamingMarketDataService(exchange);
+
+    // Demonstrate the private account data service
+    demoAccountService(exchange);
 
   }
 
@@ -81,12 +81,11 @@ public class IntersangoExchangeDemo {
     MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(SymbolPair.BTC_USD);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
-    // Perform a crude conversion from the internal representation
-    double btcusd = (double) ticker.getLast() / 10000;
+    BigMoney btcusd = ticker.getLast();
 
-    System.out.printf("Current exchange rate for BTC to USD: %.4f%n", btcusd);
+    log.debug("Current exchange rate: {}", btcusd.multipliedBy(10000).toString());
   }
 
   /**
@@ -102,7 +101,7 @@ public class IntersangoExchangeDemo {
     // Get the latest ticker data showing BTC to USD
     AccountInfo accountInfo = accountService.getAccountInfo();
 
-    System.out.printf("Account info: %s%n", accountInfo);
+    log.debug("Account info: {}", accountInfo);
   }
 
   /**
@@ -112,11 +111,25 @@ public class IntersangoExchangeDemo {
    */
   private static void demoStreamingMarketDataService(Exchange exchange) {
 
-    // Interested in the private data feed (requires authentication)
-    StreamingMarketDataService streamingMarketDataService = exchange.getStreamingMarketDataService();
+// Construct an Exchange that we know to use a direct socket to support streaming market data
+    Exchange intersango = IntersangoExchange.newInstance();
+    StreamingMarketDataService streamingMarketDataService = intersango.getStreamingMarketDataService();
 
-    // TODO Fix this
-    streamingMarketDataService.start();
+    // Create a runnable listener so we can bind it to a thread
+    RunnableMarketDataListener listener = new RunnableMarketDataListener() {
+      @Override
+      public void handleEvent(MarketDataEvent event) {
+        // Perform very basic reporting to illustrate different threads
+        String data = new String(event.getRawData());
+        log.debug("Event data: {}", data);
+      }
+
+    };
+    streamingMarketDataService.start(listener);
+
+    // Start a new thread for the listener
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    executorService.submit(listener);
 
   }
 
