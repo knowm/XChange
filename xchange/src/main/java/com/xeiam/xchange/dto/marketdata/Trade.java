@@ -21,9 +21,14 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import net.jcip.annotations.Immutable;
+
+import org.joda.money.BigMoney;
+import org.joda.time.DateTime;
+
+import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Data object representing a Trade
@@ -31,53 +36,78 @@ import net.jcip.annotations.Immutable;
 @Immutable
 public final class Trade {
 
-  private final Date date;
-  private final long amount_int;
-  private final long price_int;
-  // TODO refactor to SymbolPair
-  private final String price_currency;
-  private final String trade_type;
+  /**
+   * Did this trade result from the execution of a bid or a ask?
+   */
+  private final OrderType type;
+  /**
+   * Amount that was traded
+   */
+  private final BigDecimal tradableAmount;
+  /**
+   * An identifier that uniquely identifies the tradable
+   */
+  private final String tradableIdentifier;
+
+  /**
+   * The currency used to settle the market order transaction
+   */
+  private final String transactionCurrency;
+  /**
+   * The price
+   */
+  private final BigMoney price;
+
+  private final DateTime timestamp;
 
   /**
    * Constructor
    * 
-   * @param date
-   * @param amount_int
-   * @param price_int
-   * @param price_currency
-   * @param trade_type
+   * @param type
+   * @param tradableAmount
+   * @param tradableIdentifier
+   * @param transactionCurrency
+   * @param price
+   * @param timestamp
    */
-  public Trade(Date date, long amount_int, long price_int, String price_currency, String trade_type) {
-    this.date = date;
-    this.amount_int = amount_int;
-    this.price_int = price_int;
-    this.price_currency = price_currency;
-    this.trade_type = trade_type;
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, DateTime timestamp) {
+    super();
+    this.type = type;
+    this.tradableAmount = tradableAmount;
+    this.tradableIdentifier = tradableIdentifier;
+    this.transactionCurrency = transactionCurrency;
+    this.price = price;
+    this.timestamp = timestamp;
   }
 
-  public Date getDate() {
-    return date;
+  public OrderType getType() {
+    return type;
   }
 
-  public long getAmount_int() {
-    return amount_int;
+  public BigDecimal getTradableAmount() {
+    return tradableAmount;
   }
 
-  public long getPrice_int() {
-    return price_int;
+  public String getTradableIdentifier() {
+    return tradableIdentifier;
   }
 
-  public String getPrice_currency() {
-    return price_currency;
+  public String getTransactionCurrency() {
+    return transactionCurrency;
   }
 
-  public String getTrade_type() {
-    return trade_type;
+  public BigMoney getPrice() {
+    return price;
+  }
+
+  public DateTime getTimestamp() {
+    return timestamp;
   }
 
   @Override
   public String toString() {
-    return "Trade [date=" + date + ", amount_int=" + amount_int + ", price_int=" + price_int + ", price_currency=" + price_currency + ", trade_type=" + trade_type + "]";
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price + ", timestamp=" + timestamp
+        + "]";
   }
 
 }

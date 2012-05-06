@@ -28,6 +28,7 @@ import java.util.List;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * A central place for shared Mt Gox properties
@@ -86,16 +87,30 @@ public class MtGoxUtils {
    * @param price
    * @return
    */
-  // TODO make sure MtGox agrees with this
+  // TODO make sure MtGox agrees with this, it could be that scaling is only used when reading values FROM MtGox
   public static String getPriceString(BigMoney price) {
 
-    String price_int = "";
     if (!price.getCurrencyUnit().toString().equals("JPY")) {
-      price_int = "" + price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).longValue();
+      return "" + price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).longValue();
     } else { // JPY
-      price_int = "" + price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)).longValue();
+      return "" + price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)).longValue();
     }
-    return price_int;
+  }
+
+  /**
+   * Converts a currenca and long price into a BigMoney Object
+   * 
+   * @param currency
+   * @param price
+   * @return
+   */
+  // TODO test the creation of the BigDecimal here for trailing decimal garbage
+  public static BigMoney getPrice(String currency, long price) {
+    if (!currency.equals("JPY")) {
+      return MoneyUtils.parseFiat(currency + " " + (double) price / MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR);
+    } else { // JPY
+      return MoneyUtils.parseFiat(currency + " " + (double) price / MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR);
+    }
   }
 
   /**

@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +35,6 @@ import com.xeiam.xchange.PacingViolationException;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
@@ -165,18 +162,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     // Request data
     MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
 
-    List<Trade> tradesList = new ArrayList<Trade>();
-    for (int i = 0; i < mtGoxTrades.length; i++) {
-      Date date = new Date(mtGoxTrades[i].getDate() * 1000L);
-      long amount_int = mtGoxTrades[i].getAmount_int();
-      long price_int = mtGoxTrades[i].getPrice_int();
-      // TODO use a symbol service, and throw exception? when no symbol is found?
-      String price_currency = (mtGoxTrades[i].getPrice_currency());
-      String trade_type = mtGoxTrades[i].getTrade_type();
-      Trade trade = new Trade(date, amount_int, price_int, price_currency, trade_type);
-      tradesList.add(trade);
-    }
-    return new Trades(tradesList);
+    return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }
 
   /**

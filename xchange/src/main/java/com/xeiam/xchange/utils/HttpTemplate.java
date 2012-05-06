@@ -286,7 +286,7 @@ public class HttpTemplate {
       responseString = sb.toString();
     }
 
-    log.trace("responseString: " + responseString);
+    log.info("responseString: " + responseString);
 
     return responseString;
   }
