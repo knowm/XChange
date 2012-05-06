@@ -31,7 +31,6 @@ import com.xeiam.xchange.CurrencyPair;
  * Static configuration for the Intersango exchange
  * </p>
  */
-// TODO verify values in this class with Gary
 public class IntersangoProperties {
 
   public static final List<CurrencyPair> SYMBOL_PAIRS = Arrays.asList(

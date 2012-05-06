@@ -78,7 +78,6 @@ public class IntersangoTradeService extends BaseExchangeService implements Trade
     // for (IntersangoWallet intersangoWallet : intersangoWallets) {
     // Wallet wallet = new Wallet();
     // // Balance provided to 10dp
-    // // TODO Rethink the Wallet to use BigDecimal or Money
     // wallet.setAmount_int((long) (Double.valueOf(intersangoWallet.getBalance()) * 10000000000L));
     // wallet.setCurrency(intersangoWallet.getCurrency_abbreviation());
     // wallets.add(wallet);

@@ -133,7 +133,6 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
     // Build request
     String symbol = marketOrder.getTradableIdentifier() + marketOrder.getTransactionCurrency();
-    // TODO check validity of symbol against MtGox
     String type = marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
     String amount = "" + (marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
     String url = apiBaseURI + symbol + "/private/order/add";
@@ -155,7 +154,6 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
 
     // Build request
     String symbol = limitOrder.getTradableIdentifier() + limitOrder.getLimitPrice().getCurrencyUnit().toString();
-    // TODO check validity of symbol against MtGox
     String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
     String amount = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
 
