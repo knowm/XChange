@@ -116,6 +116,7 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
       openOrder.setTradableIdentifier(mtGoxOpenOrder[i].getAmount().getCurrency());
       BigMoney limitPrice = MoneyUtils.parseFiat(mtGoxOpenOrder[i].getPrice().getCurrency() + " " + mtGoxOpenOrder[i].getPrice().getValue());
       openOrder.setLimitPrice(limitPrice);
+      openOrder.setTransactionCurrency(mtGoxOpenOrder[i].getCurrency());
 
       openOrdersList.add(openOrder);
     }
