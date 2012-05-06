@@ -87,7 +87,6 @@ public class Order {
 
   @Override
   public String toString() {
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + super.toString() + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + "]";
   }
-
 }
