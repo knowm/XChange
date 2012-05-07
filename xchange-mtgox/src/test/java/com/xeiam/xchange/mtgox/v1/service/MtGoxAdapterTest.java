@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -31,9 +32,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.DepthJSONTest;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.TradesJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.service.trade.AccountInfoJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
@@ -97,6 +101,25 @@ public class MtGoxAdapterTest {
   @Test
   public void testTradeAdapter() throws IOException {
 
+    // Read in the JSON from the example resources
+    InputStream is = TradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
+
+    Trades trades = MtGoxAdapters.adaptTrades(mtGoxTrades);
+    System.out.println(trades.getTrades().size());
+    assertTrue("Trades size should be 90", trades.getTrades().size() == 90);
+
+    // verify all fields filled
+    System.out.println(trades.getTrades().get(0).toString());
+    assertTrue("price should be 15.6", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 15.6);
+    assertTrue("order type should be ASK", trades.getTrades().get(0).getType() == OrderType.ASK);
+    assertTrue("tradableAmount should be 0.7", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.7);
+    assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
+    assertEquals("timestamp should be 2012-04-11T22:48:46.000+02:00]", trades.getTrades().get(0).getTimestamp().toString(), "2012-04-11T22:48:46.000+02:00");
   }
 
   @Test

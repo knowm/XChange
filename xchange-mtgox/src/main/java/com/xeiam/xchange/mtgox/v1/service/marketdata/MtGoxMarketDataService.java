@@ -94,6 +94,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
+    // TODO use an adapter
     BigMoney last = MoneyUtils.parseFiat(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
     BigMoney bid = MoneyUtils.parseFiat(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
     BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
