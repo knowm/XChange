@@ -25,12 +25,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.joda.money.BigMoney;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +50,6 @@ import com.xeiam.xchange.service.trade.TradeService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpTemplate;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 public class MtGoxTradeService extends BaseExchangeService implements TradeService {
 
@@ -104,26 +100,10 @@ public class MtGoxTradeService extends BaseExchangeService implements TradeServi
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
     // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrder = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
 
     // Adapt to XChange DTOs
-    List<LimitOrder> openOrdersList = new ArrayList<LimitOrder>();
-    for (int i = 0; i < mtGoxOpenOrder.length; i++) {
-
-      LimitOrder openOrder = new LimitOrder();
-      openOrder.setType(mtGoxOpenOrder[i].getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
-      openOrder.setTradableAmount(new BigDecimal(mtGoxOpenOrder[i].getAmount().getValue_int()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
-      openOrder.setTradableIdentifier(mtGoxOpenOrder[i].getAmount().getCurrency());
-      BigMoney limitPrice = MoneyUtils.parseFiat(mtGoxOpenOrder[i].getPrice().getCurrency() + " " + mtGoxOpenOrder[i].getPrice().getValue());
-      openOrder.setLimitPrice(limitPrice);
-      openOrder.setTransactionCurrency(mtGoxOpenOrder[i].getCurrency());
-
-      openOrdersList.add(openOrder);
-    }
-    OpenOrders openOrders = new OpenOrders();
-    openOrders.setOpenOrders(openOrdersList);
-
-    return openOrders;
+    return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
 
   }
 

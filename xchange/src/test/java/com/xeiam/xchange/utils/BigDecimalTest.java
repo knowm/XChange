@@ -21,19 +21,33 @@
  */
 package com.xeiam.xchange.utils;
 
+import static org.junit.Assert.assertTrue;
+
 import java.math.BigDecimal;
 
 import org.junit.Test;
 
+/**
+ * Tests various BigMoney and BigDecimal behavior
+ */
 public class BigDecimalTest {
 
   @Test
-  public void testOfScale() {
+  public void test() {
 
-    String priceInt = "1367855538833463456346";
-    BigDecimal price = new BigDecimal(priceInt).divide(new BigDecimal(100000000));
-    System.out.println(price);
+    int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
+
+    long amount_int = 23385868;
+
+    // FYI DO NOT divide like this
+    BigDecimal testAmount = new BigDecimal((double) amount_int / BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR);
+    System.out.println(testAmount);
+    assertTrue("testAmount should be 0.2338586800000000132104815975253586657345294952392578125", testAmount.toPlainString().equals("0.2338586800000000132104815975253586657345294952392578125"));
+
+    // FYI DO divide like this
+    BigDecimal testAmount2 = new BigDecimal(amount_int).divide(new BigDecimal(BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    System.out.println(testAmount2.toPlainString());
+    assertTrue("testAmount2 should be 0.23385868", testAmount2.toPlainString().equals("0.23385868"));
 
   }
-
 }

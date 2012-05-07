@@ -59,7 +59,7 @@ public class MtGoxAdapters {
 
     LimitOrder limitOrder = new LimitOrder();
     limitOrder.setType(orderType.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
-    limitOrder.setTradableAmount(new BigDecimal((double) amount_int / MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    limitOrder.setTradableAmount(new BigDecimal(amount_int).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
     limitOrder.setTradableIdentifier(Currencies.BTC);
     limitOrder.setLimitPrice(MoneyUtils.parseFiat(currency + " " + price));
     limitOrder.setTransactionCurrency(currency);

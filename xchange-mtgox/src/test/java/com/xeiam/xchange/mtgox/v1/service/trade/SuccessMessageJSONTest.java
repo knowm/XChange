@@ -26,9 +26,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxGenericResponse;
 
 /**
  * Test MtGoxGenericResponse JSON parsing
@@ -45,7 +46,7 @@ public class SuccessMessageJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     MtGoxGenericResponse mtGoxGenericResponse = mapper.readValue(is, MtGoxGenericResponse.class);
 
-    System.out.println(mtGoxGenericResponse.getResult());
+    // System.out.println(mtGoxGenericResponse.getResult());
 
     // Verify that the example data was unmarshalled correctly
     assertTrue(mtGoxGenericResponse.getResult().equals("success"));

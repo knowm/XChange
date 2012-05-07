@@ -23,19 +23,28 @@ package com.xeiam.xchange.dto.trade;
 
 import java.util.List;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Data object representing open orders
  */
+@Immutable
 public class OpenOrders {
 
   List<LimitOrder> openOrders;
 
-  public List<LimitOrder> getOpenOrders() {
-    return openOrders;
+  /**
+   * Constructor
+   * 
+   * @param openOrders
+   */
+  public OpenOrders(List<LimitOrder> openOrders) {
+    super();
+    this.openOrders = openOrders;
   }
 
-  public void setOpenOrders(List<LimitOrder> openOrders) {
-    this.openOrders = openOrders;
+  public List<LimitOrder> getOpenOrders() {
+    return openOrders;
   }
 
   @Override

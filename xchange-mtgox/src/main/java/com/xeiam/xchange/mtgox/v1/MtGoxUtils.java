@@ -78,7 +78,6 @@ public class MtGoxUtils {
 
   public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
 
-  // TODO handle this
   public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
 
   /**
@@ -91,9 +90,9 @@ public class MtGoxUtils {
   public static String getPriceString(BigMoney price) {
 
     if (!price.getCurrencyUnit().toString().equals("JPY")) {
-      return "" + price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).longValue();
+      return price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
     } else { // JPY
-      return "" + price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)).longValue();
+      return price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
     }
   }
 
@@ -104,12 +103,13 @@ public class MtGoxUtils {
    * @param price
    * @return
    */
-  // TODO test the creation of the BigDecimal here for trailing decimal garbage
   public static BigMoney getPrice(String currency, long price) {
+
     if (!currency.equals("JPY")) {
-      return MoneyUtils.parseFiat(currency + " " + (double) price / MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR);
+
+      return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
     } else { // JPY
-      return MoneyUtils.parseFiat(currency + " " + (double) price / MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR);
+      return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)));
     }
   }
 

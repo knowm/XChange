@@ -19,36 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade;
+package com.xeiam.xchange.mtgox.v1.service;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.money.BigMoney;
 import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
- * Test MtGoxOpenOrders JSON parsing
+ * Test class for MtGoxUtils class
  */
-public class OpenOrdersJSONTest {
+public class MtGoxUtilsTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  public void testJPYScaling() {
 
-    // Read in the JSON from the example resources
-    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/trade/example-openorders-data.json");
+    BigMoney priceJPY = MoneyUtils.parseFiat("JPY 544.44");
+    String mtGoxRequestStringJPY = MtGoxUtils.getPriceString(priceJPY);
+    // System.out.println(mtGoxRequestStringJPY);
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
+    BigMoney priceUSD = MoneyUtils.parseFiat("USD 5.4444");
+    String mtGoxRequestStringUSD = MtGoxUtils.getPriceString(priceUSD);
+    // System.out.println(mtGoxRequestStringUSD);
 
-    // System.out.println(mtGoxOpenOrders[0].getOid());
+    assertEquals("Unexpected value", mtGoxRequestStringJPY, mtGoxRequestStringUSD);
 
-    // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxOpenOrders[0].getOid().equals("055e81e4-fe38-4b3c-bbca-69e61724f64a"));
   }
 }
