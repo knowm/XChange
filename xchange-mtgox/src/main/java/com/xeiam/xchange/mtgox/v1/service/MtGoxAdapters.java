@@ -30,12 +30,14 @@ import org.joda.time.DateTime;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxOrder;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxWallet;
@@ -167,6 +169,17 @@ public class MtGoxAdapters {
       tradesList.add(adaptTrade(mtGoxTrades[i]));
     }
     return new Trades(tradesList);
+  }
+
+  public static Ticker adaptTicker(MtGoxTicker mtGoxTicker) {
+
+    BigMoney last = MoneyUtils.parseFiat(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
+    BigMoney bid = MoneyUtils.parseFiat(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
+    BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
+    long volume = mtGoxTicker.getVol().getValue_int();
+
+    return new Ticker(last, bid, ask, mtGoxTicker.getVol().getCurrency(), volume);
+
   }
 
 }

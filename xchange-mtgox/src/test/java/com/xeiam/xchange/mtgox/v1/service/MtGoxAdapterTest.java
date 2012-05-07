@@ -32,11 +32,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.DepthJSONTest;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.TickerJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.TradesJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.service.trade.AccountInfoJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
@@ -65,7 +68,7 @@ public class MtGoxAdapterTest {
     assertTrue("ASKS size should be 38", openorders.size() == 38);
 
     // verify all fields filled
-    System.out.println(openorders.get(0).toString());
+    // System.out.println(openorders.get(0).toString());
     assertTrue("limit price should be 1.25", openorders.get(0).getLimitPrice().getAmount().doubleValue() == 1.25);
     assertTrue("order type should be BID", openorders.get(0).getType() == OrderType.BID);
     assertTrue("tradableAmount should be 0.23385868", openorders.get(0).getTradableAmount().doubleValue() == 0.23385868);
@@ -109,11 +112,11 @@ public class MtGoxAdapterTest {
     MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     Trades trades = MtGoxAdapters.adaptTrades(mtGoxTrades);
-    System.out.println(trades.getTrades().size());
+    // System.out.println(trades.getTrades().size());
     assertTrue("Trades size should be 90", trades.getTrades().size() == 90);
 
     // verify all fields filled
-    System.out.println(trades.getTrades().get(0).toString());
+    // System.out.println(trades.getTrades().get(0).toString());
     assertTrue("price should be 15.6", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 15.6);
     assertTrue("order type should be ASK", trades.getTrades().get(0).getType() == OrderType.ASK);
     assertTrue("tradableAmount should be 0.7", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.7);
@@ -147,5 +150,25 @@ public class MtGoxAdapterTest {
     // System.out.println(wallets.get(0).toString());
     assertTrue("wallets.get(0).getBalance().getAmount().doubleValue() should be 0.0", wallets.get(0).getBalance().getAmount().doubleValue() == 0.0);
     assertTrue("wallets.get(0).getBalance().getCurrencyUnit().toString() should be BTC", wallets.get(0).getBalance().getCurrencyUnit().toString().equals("BTC"));
+  }
+
+  @Test
+  public void testTickerAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
+
+    Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
+    System.out.println(ticker.toString());
+
+    assertEquals("last should be USD 4.91227", ticker.getLast().toString(), "USD 4.89");
+    assertEquals("bid should be USD 4.91227", ticker.getBid().toString(), "USD 4.89002");
+    assertEquals("ask should be USD 4.91227", ticker.getAsk().toString(), "USD 4.91227");
+    assertEquals("volume should be USD 4.91227", ticker.getVolume(), 5775966891627L);
+
   }
 }

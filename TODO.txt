@@ -1,0 +1,1 @@
+1. allow access to raw data objects from exchanges

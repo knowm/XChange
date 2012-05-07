@@ -24,7 +24,6 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
 import java.util.HashMap;
 import java.util.List;
 
-import org.joda.money.BigMoney;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,6 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.marketdata.MarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * <p>
@@ -94,14 +92,7 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    // TODO use an adapter
-    BigMoney last = MoneyUtils.parseFiat(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
-    BigMoney bid = MoneyUtils.parseFiat(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
-    BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
-    long volume = mtGoxTicker.getVol().getValue_int();
-    Ticker ticker = new Ticker(last, bid, ask, tradableIdentifier, volume);
-
-    return ticker;
+    return MtGoxAdapters.adaptTicker(mtGoxTicker);
   }
 
   @Override
