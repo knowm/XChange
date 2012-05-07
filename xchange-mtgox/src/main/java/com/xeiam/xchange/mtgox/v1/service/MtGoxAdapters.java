@@ -37,6 +37,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxOrder;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxWallet;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.Wallets;
 import com.xeiam.xchange.utils.MoneyUtils;
@@ -54,13 +55,14 @@ public class MtGoxAdapters {
    * @param orderType
    * @return
    */
-  public static LimitOrder adaptOrder(MtGoxOrder mtGoxOrder, String currency, OrderType orderType) {
+  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderType) {
 
     LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(orderType);
-    limitOrder.setTradableAmount(new BigDecimal((double) mtGoxOrder.getAmount_int() / MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    limitOrder.setType(orderType.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
+    limitOrder.setTradableAmount(new BigDecimal((double) amount_int / MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     limitOrder.setTradableIdentifier(Currencies.BTC);
-    limitOrder.setLimitPrice(MoneyUtils.parseFiat(currency + " " + mtGoxOrder.getPrice()));
+    limitOrder.setLimitPrice(MoneyUtils.parseFiat(currency + " " + price));
+    limitOrder.setTransactionCurrency(currency);
     return limitOrder;
 
   }
@@ -73,12 +75,23 @@ public class MtGoxAdapters {
    * @param orderType
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<MtGoxOrder> mtGoxOrders, String currency, OrderType orderType) {
+  public static List<LimitOrder> adaptOrders(List<MtGoxOrder> mtGoxOrders, String currency, String orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (MtGoxOrder mtGoxOrder : mtGoxOrders) {
-      limitOrders.add(adaptOrder(mtGoxOrder, currency, orderType));
+      limitOrders.add(adaptOrder(mtGoxOrder.getAmount_int(), mtGoxOrder.getPrice(), currency, orderType));
+    }
+
+    return limitOrders;
+  }
+
+  public static List<LimitOrder> adaptOrders(MtGoxOpenOrder[] mtGoxOpenOrders) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+
+    for (int i = 0; i < mtGoxOpenOrders.length; i++) {
+      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue_int(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType()));
     }
 
     return limitOrders;
@@ -129,6 +142,7 @@ public class MtGoxAdapters {
    * @return
    */
   public static Trade adaptTrade(MtGoxTrade mtGoxTrade) {
+
     OrderType orderType = mtGoxTrade.getTrade_type().equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = new BigDecimal(mtGoxTrade.getAmount_int()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     String tradableIdentifier = mtGoxTrade.getItem();
@@ -154,4 +168,5 @@ public class MtGoxAdapters {
     }
     return new Trades(tradesList);
   }
+
 }

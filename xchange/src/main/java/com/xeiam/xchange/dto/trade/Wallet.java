@@ -33,35 +33,36 @@ import org.joda.money.BigMoney;
 @Immutable
 public class Wallet {
 
-  private final BigMoney cash;
+  private final BigMoney balance;
 
   /**
    * Constructor
    * 
    * @param cash
    */
-  public Wallet(BigMoney cash) {
+  public Wallet(BigMoney balance) {
     super();
-    this.cash = cash;
+    this.balance = balance;
   }
 
-  public BigMoney getCash() {
-    return cash;
+  public BigMoney getBalance() {
+    return balance;
   }
 
   @Override
   public String toString() {
-    return "Wallet [cash=" + cash + "]";
+    return "Wallet [balance= " + balance + "]";
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((cash == null) ? 0 : cash.hashCode());
+    result = prime * result + ((balance == null) ? 0 : balance.hashCode());
     return result;
   }
 
+  // two wallets are the same of their balances are equal
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -74,11 +75,11 @@ public class Wallet {
       return false;
     }
     Wallet other = (Wallet) obj;
-    if (cash == null) {
-      if (other.cash != null) {
+    if (balance == null) {
+      if (other.balance != null) {
         return false;
       }
-    } else if (!cash.equals(other.cash)) {
+    } else if (!balance.equals(other.balance)) {
       return false;
     }
     return true;

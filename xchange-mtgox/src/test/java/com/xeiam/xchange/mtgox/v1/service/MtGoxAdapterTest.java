@@ -30,8 +30,14 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.DepthJSONTest;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.service.trade.AccountInfoJSONTest;
+import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxWallet;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -41,7 +47,60 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public class MtGoxAdapterTest {
 
   @Test
-  public void testNullWallet() throws IOException {
+  public void testOrderAdapterWithOpenOrders() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/trade/example-openorders-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
+
+    List<LimitOrder> openorders = MtGoxAdapters.adaptOrders(mtGoxOpenOrders);
+    // System.out.println(openorders.size());
+    assertTrue("ASKS size should be 38", openorders.size() == 38);
+
+    // verify all fields filled
+    System.out.println(openorders.get(0).toString());
+    assertTrue("limit price should be 1.25", openorders.get(0).getLimitPrice().getAmount().doubleValue() == 1.25);
+    assertTrue("order type should be BID", openorders.get(0).getType() == OrderType.BID);
+    assertTrue("tradableAmount should be 0.23385868", openorders.get(0).getTradableAmount().doubleValue() == 0.23385868);
+    assertTrue("tradableIdentifier should be BTC", openorders.get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("transactionCurrency should be USD", openorders.get(0).getTransactionCurrency().equals("USD"));
+
+  }
+
+  @Test
+  public void testOrderAdapterWithDepth() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = DepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
+
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask");
+    // System.out.println(openorders.size());
+    assertTrue("ASKS size should be 1582", asks.size() == 1582);
+
+    // verify all fields filled
+    // System.out.println(asks.get(0).toString());
+    assertTrue("limit price should be 18.1", asks.get(0).getLimitPrice().getAmount().doubleValue() == 18.1);
+    assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
+    assertTrue("tradableAmount should be 20", asks.get(0).getTradableAmount().doubleValue() == 20.0);
+    assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
+
+  }
+
+  @Test
+  public void testTradeAdapter() throws IOException {
+
+  }
+
+  @Test
+  public void testWalletAdapter() throws IOException {
 
     // Read in the JSON from the example resources
     InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/trade/example-accountinfo-data.json");
@@ -49,13 +108,21 @@ public class MtGoxAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
+
+    // in MtGoxAccountInfo.getWallets, no wallets are null
     MtGoxWallet CADWallet = mtGoxAccountInfo.getWallets().getCAD();
     assertTrue("CAD should NOT be null", CADWallet != null);
+    MtGoxWallet USDWallet = mtGoxAccountInfo.getWallets().getUSD();
+    assertTrue("USD should NOT be null", USDWallet != null);
 
+    // in Wallet(s), only wallets from MtGoxAccountInfo.getWallets that contained data are NOT null.
     List<com.xeiam.xchange.dto.trade.Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
+    assertTrue("List size should be true!", wallets.size() == 2);
     assertTrue("CAD should be null", !wallets.contains(new com.xeiam.xchange.dto.trade.Wallet(MoneyUtils.parseFiat("CAD 0.0"))));
     assertTrue("BTC should NOT be null", wallets.contains(new com.xeiam.xchange.dto.trade.Wallet(MoneyUtils.parseFiat("BTC 0.0"))));
 
-    assertTrue("List size should be true!", wallets.size() == 2);
+    // System.out.println(wallets.get(0).toString());
+    assertTrue("wallets.get(0).getBalance().getAmount().doubleValue() should be 0.0", wallets.get(0).getBalance().getAmount().doubleValue() == 0.0);
+    assertTrue("wallets.get(0).getBalance().getCurrencyUnit().toString() should be BTC", wallets.get(0).getBalance().getCurrencyUnit().toString().equals("BTC"));
   }
 }

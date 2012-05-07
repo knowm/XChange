@@ -32,7 +32,6 @@ import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.PacingViolationException;
-import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -120,8 +119,8 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, OrderType.ASK);
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, OrderType.BID);
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, "ask");
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, "bid");
 
     return new OrderBook(asks, bids);
   }
@@ -142,8 +141,8 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
     MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, OrderType.ASK);
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, OrderType.BID);
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask");
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid");
 
     return new OrderBook(asks, bids);
   }
