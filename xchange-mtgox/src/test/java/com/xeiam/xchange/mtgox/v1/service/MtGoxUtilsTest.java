@@ -22,10 +22,13 @@
 package com.xeiam.xchange.mtgox.v1.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.joda.money.BigMoney;
 import org.junit.Test;
 
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -46,6 +49,15 @@ public class MtGoxUtilsTest {
     // System.out.println(mtGoxRequestStringUSD);
 
     assertEquals("Unexpected value", mtGoxRequestStringJPY, mtGoxRequestStringUSD);
+
+  }
+
+  @Test
+  public void testIsValidCurrencyPair() {
+
+    assertTrue(MtGoxUtils.isValidCurrencyPair(CurrencyPair.BTC_USD));
+    assertTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "USD")));
+    assertFalse(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD")));
 
   }
 }

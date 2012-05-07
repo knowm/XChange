@@ -97,7 +97,7 @@ public class MtGoxUtils {
   }
 
   /**
-   * Converts a currenca and long price into a BigMoney Object
+   * Converts a currency and long price into a BigMoney Object
    * 
    * @param currency
    * @param price
@@ -119,10 +119,8 @@ public class MtGoxUtils {
    * @param currencyPair
    * @return
    */
-  // TODO somehow implement this
   public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-    return true;
-    // return CURRENCY_PAIRS.contains(currencyPair);
+    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
 }
