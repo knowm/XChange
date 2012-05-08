@@ -72,6 +72,11 @@ public class MtGoxUtils {
 
   );
 
+  /**
+   * <p>
+   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
+   * </p>
+   */
   public static final int REFRESH_RATE = 10; // [seconds]
 
   public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;

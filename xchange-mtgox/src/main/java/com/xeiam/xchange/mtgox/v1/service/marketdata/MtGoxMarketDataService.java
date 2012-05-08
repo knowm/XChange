@@ -24,9 +24,6 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata;
 import java.util.HashMap;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -54,10 +51,8 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxMarketDataService extends BaseExchangeService implements MarketDataService, CachedDataSession {
 
-  private final Logger log = LoggerFactory.getLogger(MtGoxMarketDataService.class);
-
   /**
-   * time stamps used to pace API calls TODO Consider a scheduled ExecutorService with Callable? yes, that will be much better I think. ~Tim
+   * time stamps used to pace API calls
    */
   private long tickerRequestTimeStamp = 0L;
   private long orderBookRequestTimeStamp = 0L;
@@ -170,11 +165,6 @@ public class MtGoxMarketDataService extends BaseExchangeService implements Marke
 
   }
 
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
-   * </p>
-   */
   @Override
   public int getRefreshRate() {
     return MtGoxUtils.REFRESH_RATE;

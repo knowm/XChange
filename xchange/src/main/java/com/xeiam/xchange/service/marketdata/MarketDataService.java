@@ -69,7 +69,7 @@ public interface MarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The Ticker
+   * @return The OrderBook
    * @throws NotAvailableFromExchangeException If the exchange does not support this request
    */
   OrderBook getOrderBook(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
@@ -81,7 +81,7 @@ public interface MarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The Ticker
+   * @return The OrderBook
    * @throws NotAvailableFromExchangeException If the exchange does not support this request
    */
   OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
@@ -93,7 +93,7 @@ public interface MarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The Ticker
+   * @return The Trades
    * @throws NotAvailableFromExchangeException If the exchange does not support this request
    */
   Trades getTrades(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;

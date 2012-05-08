@@ -32,7 +32,7 @@ package com.xeiam.xchange;
 public interface CachedDataSession {
 
   /**
-   * Many exchanges cache data, and only refresh it at a certain rate.
+   * Some exchanges cache data, and only refresh it at a certain rate.
    * 
    * @return The maximum allowable refresh rate in seconds
    */
