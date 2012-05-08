@@ -34,11 +34,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
-import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
 import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.async.AsyncTradeService;
 
 /**
  * <p>
@@ -74,14 +74,14 @@ public class IntersangoExchangeDemo {
   }
 
   /**
-   * Demonstrates how to connect to the MarketDataService for MtGox
+   * Demonstrates how to connect to the MarketDataService for Intersango
    * 
    * @param exchange The exchange
    */
   private static void demoMarketDataService(Exchange exchange) {
 
     // Interested in the public market data feed (no authentication)
-    MarketDataService marketDataService = exchange.getMarketDataService();
+    AsyncMarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
@@ -99,7 +99,7 @@ public class IntersangoExchangeDemo {
   private static void demoAccountService(Exchange exchange) {
 
     // Interested in the private data feed (requires authentication)
-    TradeService accountService = exchange.getTradeService();
+    AsyncTradeService accountService = exchange.getTradeService();
 
     // Get the latest ticker data showing BTC to USD
     AccountInfo accountInfo = accountService.getAccountInfo();

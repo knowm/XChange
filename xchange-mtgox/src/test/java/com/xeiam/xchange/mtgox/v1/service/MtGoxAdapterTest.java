@@ -35,17 +35,18 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.DepthJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.TickerJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.TradesJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxDepth;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.dto.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.service.trade.AccountInfoJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxWallet;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**

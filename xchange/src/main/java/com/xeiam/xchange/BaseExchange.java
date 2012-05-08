@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.async.AsyncTradeService;
 
 /**
  * <p>
@@ -35,17 +35,17 @@ import com.xeiam.xchange.service.trade.TradeService;
  */
 public abstract class BaseExchange implements Exchange {
 
-  protected MarketDataService marketDataService;
-  protected TradeService tradeService;
+  protected AsyncMarketDataService marketDataService;
+  protected AsyncTradeService tradeService;
   protected StreamingMarketDataService streamingMarketDataService;
 
   @Override
-  public MarketDataService getMarketDataService() {
+  public AsyncMarketDataService getMarketDataService() {
     return marketDataService;
   }
 
   @Override
-  public TradeService getTradeService() {
+  public AsyncTradeService getTradeService() {
     return tradeService;
   }
 
@@ -60,12 +60,12 @@ public abstract class BaseExchange implements Exchange {
   }
 
   // Package local for testing
-  void setMarketDataService(MarketDataService marketDataService) {
+  void setMarketDataService(AsyncMarketDataService marketDataService) {
     this.marketDataService = marketDataService;
   }
 
   // Package local for testing
-  public void setTradeService(TradeService tradeService) {
+  public void setTradeService(AsyncTradeService tradeService) {
     this.tradeService = tradeService;
   }
 }

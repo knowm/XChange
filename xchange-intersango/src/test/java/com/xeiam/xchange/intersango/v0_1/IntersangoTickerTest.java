@@ -21,7 +21,8 @@
  */
 package com.xeiam.xchange.intersango.v0_1;
 
-import com.xeiam.xchange.intersango.v0_1.service.marketdata.dto.IntersangoTicker;
+import com.xeiam.xchange.intersango.v0_1.dto.marketdata.IntersangoTicker;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 

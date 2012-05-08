@@ -29,7 +29,7 @@ import java.io.InputStream;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.service.trade.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 
 /**
  * Test MtGoxOpenOrders JSON parsing

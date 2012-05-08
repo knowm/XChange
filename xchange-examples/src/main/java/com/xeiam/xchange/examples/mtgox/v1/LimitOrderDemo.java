@@ -31,7 +31,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.async.AsyncTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -39,7 +39,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
  */
 public class LimitOrderDemo {
 
-  private static TradeService tradeService;
+  private static AsyncTradeService tradeService;
 
   public static void main(String[] args) {
 

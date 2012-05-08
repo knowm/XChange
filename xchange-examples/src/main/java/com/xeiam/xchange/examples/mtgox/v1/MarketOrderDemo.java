@@ -28,14 +28,14 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.async.AsyncTradeService;
 
 /**
  * Test placing a market order at MtGox
  */
 public class MarketOrderDemo {
 
-  private static TradeService tradeService;
+  private static AsyncTradeService tradeService;
 
   public static void main(String[] args) {
 

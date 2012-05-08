@@ -24,6 +24,8 @@ package com.xeiam.xchange.service.marketdata.streaming;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.xeiam.xchange.service.marketdata.streaming.websocket.BaseWebSocketMarketDataService;
+
 @Ignore
 public class BaseStreamingMarketDataServiceTest {
 
@@ -33,7 +35,7 @@ public class BaseStreamingMarketDataServiceTest {
     // TODO Add mock ExchangeSpecification and mock producer
 
     // Arrange
-    BaseStreamingMarketDataService testObject = new BaseStreamingMarketDataService(null);
+    BaseWebSocketMarketDataService testObject = new BaseWebSocketMarketDataService(null);
     RunnableMarketDataListener marketDataListener = new RunnableMarketDataListener() {
       @Override
       public void handleEvent(MarketDataEvent event) {

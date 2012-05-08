@@ -25,14 +25,14 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.async.AsyncTradeService;
 
 /**
  * Test requesting all open orders at MtGox
  */
 public class OpenOrdersDemo {
 
-  private static TradeService tradeService;
+  private static AsyncTradeService tradeService;
 
   public static void main(String[] args) {
 

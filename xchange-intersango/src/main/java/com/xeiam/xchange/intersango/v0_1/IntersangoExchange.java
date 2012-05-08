@@ -27,9 +27,9 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.intersango.v0_1.service.marketdata.IntersangoMarketDataService;
-import com.xeiam.xchange.intersango.v0_1.service.marketdata.IntersangoStreamingMarketDataService;
-import com.xeiam.xchange.intersango.v0_1.service.trade.IntersangoTradeService;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.async.IntersangoAsyncMarketDataService;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.streaming.websocket.IntersangoStreamingMarketDataService;
+import com.xeiam.xchange.intersango.v0_1.service.trade.async.IntersangoAsyncTradeService;
 
 /**
  * <p>
@@ -63,8 +63,8 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
-    this.marketDataService = new IntersangoMarketDataService(exchangeSpecification);
-    this.tradeService = new IntersangoTradeService(exchangeSpecification);
+    this.marketDataService = new IntersangoAsyncMarketDataService(exchangeSpecification);
+    this.tradeService = new IntersangoAsyncTradeService(exchangeSpecification);
     try {
       this.streamingMarketDataService = new IntersangoStreamingMarketDataService(exchangeSpecification);
     } catch (IOException e) {

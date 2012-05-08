@@ -33,7 +33,7 @@ import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.async.AsyncTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -58,7 +58,7 @@ public class MtGoxTradeDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
-    TradeService tradeService = mtgox.getTradeService();
+    AsyncTradeService tradeService = mtgox.getTradeService();
 
     // Get the account information
     AccountInfo accountInfo = tradeService.getAccountInfo();

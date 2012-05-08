@@ -21,11 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.MtGoxMarketDataService;
-import com.xeiam.xchange.mtgox.v1.service.trade.MtGoxTradeService;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.async.MtGoxAsyncMarketDataService;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStreamingMarketDataService;
+import com.xeiam.xchange.mtgox.v1.service.trade.async.MtGoxAsyncTradeService;
 
 /**
  * <p>
@@ -58,13 +62,13 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
-    this.marketDataService = new MtGoxMarketDataService(exchangeSpecification);
-    this.tradeService = new MtGoxTradeService(exchangeSpecification);
-    // try {
-    // this.streamingMarketDataService = new MtGoxStreamingMarketDataService(exchangeSpecification);
-    // } catch (IOException e) {
-    // throw new ExchangeException("Streaming market data service failed", e);
-    // }
+    this.marketDataService = new MtGoxAsyncMarketDataService(exchangeSpecification);
+    this.tradeService = new MtGoxAsyncTradeService(exchangeSpecification);
+    try {
+      this.streamingMarketDataService = new MtGoxStreamingMarketDataService(exchangeSpecification);
+    } catch (IOException e) {
+      throw new ExchangeException("Streaming market data service failed", e);
+    }
   }
 
   @Override
@@ -73,6 +77,8 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setUri("https://mtgox.com");
     exchangeSpecification.setVersion("1");
+    exchangeSpecification.setHost("mtgox.com");
+    exchangeSpecification.setPort(80);
 
     return exchangeSpecification;
   }

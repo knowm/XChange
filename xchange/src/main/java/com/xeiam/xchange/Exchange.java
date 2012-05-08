@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import com.xeiam.xchange.service.trade.TradeService;
+import com.xeiam.xchange.service.trade.async.AsyncTradeService;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public interface Exchange {
    * 
    * @return The exchange's market data service
    */
-  MarketDataService getMarketDataService();
+  AsyncMarketDataService getMarketDataService();
 
   /**
    * <p>
@@ -81,5 +81,5 @@ public interface Exchange {
    * 
    * @return The exchange's account service
    */
-  TradeService getTradeService();
+  AsyncTradeService getTradeService();
 }

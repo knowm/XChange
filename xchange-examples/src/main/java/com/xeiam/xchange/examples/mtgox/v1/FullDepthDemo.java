@@ -25,14 +25,14 @@ import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.service.marketdata.MarketDataService;
+import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
 
 /**
  * Test requesting full depth at MtGox
  */
 public class FullDepthDemo {
 
-  private static MarketDataService marketDataService;
+  private static AsyncMarketDataService marketDataService;
 
   public static void main(String[] args) {
 
