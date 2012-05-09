@@ -21,13 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
-
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -41,7 +34,14 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
+import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
+import org.joda.time.DateTime;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs
@@ -149,7 +149,8 @@ public class MtGoxAdapters {
     String tradableIdentifier = mtGoxTrade.getItem();
     String transactionCurrency = mtGoxTrade.getPrice_currency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPrice_int());
-    DateTime dateTime = new DateTime(mtGoxTrade.getDate() * 1000L);
+
+    DateTime dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
 
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }

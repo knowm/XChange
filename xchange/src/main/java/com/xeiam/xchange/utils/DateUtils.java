@@ -37,4 +37,8 @@ public class DateUtils {
   public static DateTime nowUtc() {
     return new DateTime().withZone(DateTimeZone.UTC);
   }
+
+  public static DateTime fromMillisUtc(long millis) {
+    return new DateTime(millis).withZone(DateTimeZone.UTC);
+  }
 }
