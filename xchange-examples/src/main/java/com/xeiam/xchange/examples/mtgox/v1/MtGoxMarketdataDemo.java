@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -55,7 +54,7 @@ public class MtGoxMarketdataDemo {
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    AsyncMarketDataService marketDataService = mtGox.getAsyncMarketDataService();
+    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);

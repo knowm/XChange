@@ -19,9 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata.async;
-
-import java.util.List;
+package com.xeiam.xchange.service.marketdata.polling;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.Exchange;
@@ -30,6 +28,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 
+import java.util.List;
+
 /**
  * <p>
  * Interface to provide the following to {@link Exchange}:
@@ -37,8 +37,9 @@ import com.xeiam.xchange.dto.marketdata.Trades;
  * <ul>
  * <li>Standard methods available to explore the market data</li>
  * </ul>
+ * <p>The implementation of this service is expected to be based on a client polling mechanism of some kind</p>
  */
-public interface AsyncMarketDataService {
+public interface PollingMarketDataService {
 
   /**
    * <p>

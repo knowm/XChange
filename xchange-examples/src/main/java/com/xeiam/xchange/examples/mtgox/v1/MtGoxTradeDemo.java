@@ -21,10 +21,6 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
-import java.math.BigDecimal;
-
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -33,8 +29,11 @@ import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -58,7 +57,7 @@ public class MtGoxTradeDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
-    AsyncTradeService tradeService = mtgox.getTradeService();
+    PollingTradeService tradeService = mtgox.getTradeService();
 
     // Get the account information
     AccountInfo accountInfo = tradeService.getAccountInfo();

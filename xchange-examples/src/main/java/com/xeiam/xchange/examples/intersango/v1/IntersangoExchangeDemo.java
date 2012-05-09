@@ -22,23 +22,22 @@ package com.xeiam.xchange.examples.intersango.v1;
  * SOFTWARE.
  */
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.joda.money.BigMoney;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
-import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
 import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * <p>
@@ -81,7 +80,7 @@ public class IntersangoExchangeDemo {
   private static void demoMarketDataService(Exchange exchange) {
 
     // Interested in the public market data feed (no authentication)
-    AsyncMarketDataService marketDataService = exchange.getAsyncMarketDataService();
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
@@ -99,7 +98,7 @@ public class IntersangoExchangeDemo {
   private static void demoAccountService(Exchange exchange) {
 
     // Interested in the private data feed (requires authentication)
-    AsyncTradeService accountService = exchange.getTradeService();
+    PollingTradeService accountService = exchange.getTradeService();
 
     // Get the latest ticker data showing BTC to USD
     AccountInfo accountInfo = accountService.getAccountInfo();

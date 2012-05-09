@@ -19,17 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.trade.async;
-
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.security.GeneralSecurityException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeException;
@@ -46,14 +36,23 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class MtGoxAsyncTradeService extends BaseExchangeService implements AsyncTradeService {
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
+import java.util.HashMap;
+import java.util.Map;
 
-  private final Logger log = LoggerFactory.getLogger(MtGoxAsyncTradeService.class);
+public class MtGoxPollingTradeService extends BaseExchangeService implements PollingTradeService {
+
+  private final Logger log = LoggerFactory.getLogger(MtGoxPollingTradeService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -65,7 +64,7 @@ public class MtGoxAsyncTradeService extends BaseExchangeService implements Async
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
-  public MtGoxAsyncTradeService(ExchangeSpecification exchangeSpecification) {
+  public MtGoxPollingTradeService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");

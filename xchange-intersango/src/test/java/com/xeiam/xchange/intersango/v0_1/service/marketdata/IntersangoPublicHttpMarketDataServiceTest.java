@@ -21,23 +21,18 @@
  */
 package com.xeiam.xchange.intersango.v0_1.service.marketdata;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import com.xeiam.xchange.*;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.polling.IntersangoPollingMarketDataService;
+import com.xeiam.xchange.utils.HttpTemplate;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.Currencies;
-import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.intersango.v0_1.service.marketdata.async.IntersangoAsyncMarketDataService;
-import com.xeiam.xchange.utils.HttpTemplate;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class IntersangoPublicHttpMarketDataServiceTest {
 
@@ -46,7 +41,7 @@ public class IntersangoPublicHttpMarketDataServiceTest {
 
     Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
 
-    IntersangoAsyncMarketDataService testObject = (IntersangoAsyncMarketDataService) intersango.getAsyncMarketDataService();
+    IntersangoPollingMarketDataService testObject = (IntersangoPollingMarketDataService) intersango.getPollingMarketDataService();
 
     assertEquals("1", testObject.getCurrencyPairId(CurrencyPair.BTC_GBP));
     assertEquals("2", testObject.getCurrencyPairId(CurrencyPair.BTC_EUR));
@@ -66,7 +61,7 @@ public class IntersangoPublicHttpMarketDataServiceTest {
 
     Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
 
-    IntersangoAsyncMarketDataService testObject = (IntersangoAsyncMarketDataService) intersango.getAsyncMarketDataService();
+    IntersangoPollingMarketDataService testObject = (IntersangoPollingMarketDataService) intersango.getPollingMarketDataService();
 
     testObject.setHttpTemplate(new HttpTemplate() {
       @Override

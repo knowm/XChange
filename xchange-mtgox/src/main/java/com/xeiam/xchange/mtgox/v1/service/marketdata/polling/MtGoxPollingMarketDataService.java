@@ -19,10 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata.async;
-
-import java.util.HashMap;
-import java.util.List;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
@@ -38,8 +35,11 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -49,7 +49,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class MtGoxAsyncMarketDataService extends BaseExchangeService implements AsyncMarketDataService, CachedDataSession {
+public class MtGoxPollingMarketDataService extends BaseExchangeService implements PollingMarketDataService, CachedDataSession {
 
   /**
    * time stamps used to pace API calls
@@ -67,7 +67,7 @@ public class MtGoxAsyncMarketDataService extends BaseExchangeService implements 
   /**
    * @param exchangeSpecification The exchange specification
    */
-  public MtGoxAsyncMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
   }
 

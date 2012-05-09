@@ -19,13 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v0_1.service.trade.async;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.xeiam.xchange.intersango.v0_1.service.trade.polling;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.AccountInfo;
@@ -34,14 +28,19 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.intersango.v0_1.dto.trade.IntersangoWallet;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class IntersangoAsyncTradeService extends BaseExchangeService implements AsyncTradeService {
+import java.util.HashMap;
+import java.util.Map;
+
+public class IntersangoPollingTradeService extends BaseExchangeService implements PollingTradeService {
 
   /**
    * Provides logging for this class
    */
-  private final Logger log = LoggerFactory.getLogger(IntersangoAsyncTradeService.class);
+  private final Logger log = LoggerFactory.getLogger(IntersangoPollingTradeService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -53,7 +52,7 @@ public class IntersangoAsyncTradeService extends BaseExchangeService implements 
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
-  public IntersangoAsyncTradeService(ExchangeSpecification exchangeSpecification) {
+  public IntersangoPollingTradeService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
     this.apiBase = String.format("%s/api/authenticated/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
   }

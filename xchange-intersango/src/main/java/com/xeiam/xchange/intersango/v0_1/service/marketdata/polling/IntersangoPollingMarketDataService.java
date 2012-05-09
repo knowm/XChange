@@ -19,12 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v0_1.service.marketdata.async;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.xeiam.xchange.intersango.v0_1.service.marketdata.polling;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -34,7 +29,11 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.intersango.v0_1.IntersangoProperties;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * <p>
@@ -44,12 +43,12 @@ import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class IntersangoAsyncMarketDataService extends BaseExchangeService implements AsyncMarketDataService {
+public class IntersangoPollingMarketDataService extends BaseExchangeService implements PollingMarketDataService {
 
   /**
    * Provides logging for this class
    */
-  private final Logger log = LoggerFactory.getLogger(IntersangoAsyncMarketDataService.class);
+  private final Logger log = LoggerFactory.getLogger(IntersangoPollingMarketDataService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -59,7 +58,7 @@ public class IntersangoAsyncMarketDataService extends BaseExchangeService implem
   /**
    * @param exchangeSpecification The exchange specification
    */
-  public IntersangoAsyncMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public IntersangoPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
     this.apiBase = String.format("%s/api/", exchangeSpecification.getUri());
   }

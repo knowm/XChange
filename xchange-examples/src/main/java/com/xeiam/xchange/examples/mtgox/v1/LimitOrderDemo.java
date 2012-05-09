@@ -21,25 +21,24 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
-import java.math.BigDecimal;
-
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
+
+import java.math.BigDecimal;
 
 /**
  * Test placing a limit order at MtGox
  */
 public class LimitOrderDemo {
 
-  private static AsyncTradeService tradeService;
+  private static PollingTradeService tradeService;
 
   public static void main(String[] args) {
 

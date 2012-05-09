@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.async.MtGoxAsyncMarketDataService;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStreamingMarketDataService;
-import com.xeiam.xchange.mtgox.v1.service.trade.async.MtGoxAsyncTradeService;
+import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -62,8 +62,8 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
-    this.marketDataService = new MtGoxAsyncMarketDataService(exchangeSpecification);
-    this.tradeService = new MtGoxAsyncTradeService(exchangeSpecification);
+    this.marketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
+    this.tradeService = new MtGoxPollingTradeService(exchangeSpecification);
     try {
       this.streamingMarketDataService = new MtGoxStreamingMarketDataService(exchangeSpecification);
     } catch (IOException e) {

@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public interface Exchange {
    * 
    * @return The exchange's market data service
    */
-  AsyncMarketDataService getAsyncMarketDataService();
+  PollingMarketDataService getPollingMarketDataService();
 
   /**
    * <p>
@@ -81,5 +81,5 @@ public interface Exchange {
    * 
    * @return The exchange's account service
    */
-  AsyncTradeService getTradeService();
+  PollingTradeService getTradeService();
 }

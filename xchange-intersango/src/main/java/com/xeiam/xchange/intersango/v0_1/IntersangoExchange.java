@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.intersango.v0_1;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.intersango.v0_1.service.marketdata.async.IntersangoAsyncMarketDataService;
+import com.xeiam.xchange.intersango.v0_1.service.marketdata.polling.IntersangoPollingMarketDataService;
 import com.xeiam.xchange.intersango.v0_1.service.marketdata.streaming.websocket.IntersangoStreamingMarketDataService;
-import com.xeiam.xchange.intersango.v0_1.service.trade.async.IntersangoAsyncTradeService;
+import com.xeiam.xchange.intersango.v0_1.service.trade.polling.IntersangoPollingTradeService;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -63,8 +63,8 @@ public class IntersangoExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
-    this.marketDataService = new IntersangoAsyncMarketDataService(exchangeSpecification);
-    this.tradeService = new IntersangoAsyncTradeService(exchangeSpecification);
+    this.marketDataService = new IntersangoPollingMarketDataService(exchangeSpecification);
+    this.tradeService = new IntersangoPollingTradeService(exchangeSpecification);
     try {
       this.streamingMarketDataService = new IntersangoStreamingMarketDataService(exchangeSpecification);
     } catch (IOException e) {

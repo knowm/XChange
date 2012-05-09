@@ -25,14 +25,14 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.AccountInfo;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * Demo requesting account info at MtGox
  */
 public class AccountInfoDemo {
 
-  private static AsyncTradeService tradeService;
+  private static PollingTradeService tradeService;
 
   public static void main(String[] args) {
 

@@ -21,21 +21,21 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.service.trade.async.AsyncTradeService;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+
+import java.math.BigDecimal;
 
 /**
  * Test placing a market order at MtGox
  */
 public class MarketOrderDemo {
 
-  private static AsyncTradeService tradeService;
+  private static PollingTradeService tradeService;
 
   public static void main(String[] args) {
 

@@ -25,14 +25,14 @@ import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
  * Test requesting trades at MtGox
  */
 public class TradesDemo {
 
-  private static AsyncMarketDataService marketDataService;
+  private static PollingMarketDataService marketDataService;
 
   public static void main(String[] args) {
 
@@ -40,7 +40,7 @@ public class TradesDemo {
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getAsyncMarketDataService();
+    marketDataService = mtGox.getPollingMarketDataService();
 
     // Get trades
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);

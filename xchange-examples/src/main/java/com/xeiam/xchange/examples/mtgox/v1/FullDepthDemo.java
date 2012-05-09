@@ -25,14 +25,14 @@ import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.service.marketdata.async.AsyncMarketDataService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
  * Test requesting full depth at MtGox
  */
 public class FullDepthDemo {
 
-  private static AsyncMarketDataService marketDataService;
+  private static PollingMarketDataService marketDataService;
 
   public static void main(String[] args) {
 
@@ -40,7 +40,7 @@ public class FullDepthDemo {
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getAsyncMarketDataService();
+    marketDataService = mtGox.getPollingMarketDataService();
 
     // Get the current full orderbook
     OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
