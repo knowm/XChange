@@ -81,7 +81,7 @@ public class IntersangoExchangeDemo {
   private static void demoMarketDataService(Exchange exchange) {
 
     // Interested in the public market data feed (no authentication)
-    AsyncMarketDataService marketDataService = exchange.getMarketDataService();
+    AsyncMarketDataService marketDataService = exchange.getAsyncMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);

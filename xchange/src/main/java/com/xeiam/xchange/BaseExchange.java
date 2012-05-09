@@ -40,7 +40,7 @@ public abstract class BaseExchange implements Exchange {
   protected StreamingMarketDataService streamingMarketDataService;
 
   @Override
-  public AsyncMarketDataService getMarketDataService() {
+  public AsyncMarketDataService getAsyncMarketDataService() {
     return marketDataService;
   }
 

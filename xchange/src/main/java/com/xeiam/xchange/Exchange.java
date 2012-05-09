@@ -57,7 +57,7 @@ public interface Exchange {
    * 
    * @return The exchange's market data service
    */
-  AsyncMarketDataService getMarketDataService();
+  AsyncMarketDataService getAsyncMarketDataService();
 
   /**
    * <p>

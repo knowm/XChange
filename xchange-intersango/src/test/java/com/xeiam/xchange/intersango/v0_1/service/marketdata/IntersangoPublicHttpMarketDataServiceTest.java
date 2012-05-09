@@ -46,7 +46,7 @@ public class IntersangoPublicHttpMarketDataServiceTest {
 
     Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
 
-    IntersangoAsyncMarketDataService testObject = (IntersangoAsyncMarketDataService) intersango.getMarketDataService();
+    IntersangoAsyncMarketDataService testObject = (IntersangoAsyncMarketDataService) intersango.getAsyncMarketDataService();
 
     assertEquals("1", testObject.getCurrencyPairId(CurrencyPair.BTC_GBP));
     assertEquals("2", testObject.getCurrencyPairId(CurrencyPair.BTC_EUR));
@@ -66,7 +66,7 @@ public class IntersangoPublicHttpMarketDataServiceTest {
 
     Exchange intersango = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.intersango.v0_1.IntersangoExchange");
 
-    IntersangoAsyncMarketDataService testObject = (IntersangoAsyncMarketDataService) intersango.getMarketDataService();
+    IntersangoAsyncMarketDataService testObject = (IntersangoAsyncMarketDataService) intersango.getAsyncMarketDataService();
 
     testObject.setHttpTemplate(new HttpTemplate() {
       @Override
