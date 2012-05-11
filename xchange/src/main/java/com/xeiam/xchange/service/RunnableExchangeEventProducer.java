@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata.streaming;
+package com.xeiam.xchange.service;
 
 /**
  * <p>
@@ -29,6 +29,6 @@ package com.xeiam.xchange.service.marketdata.streaming;
  * <li>Provides the intention to use a thread to obtain market data</li>
  * </ul>
  */
-public interface RunnableMarketDataEventProducer extends MarketDataEventProducer, Runnable {
+public interface RunnableExchangeEventProducer extends ExchangeEventProducer, Runnable {
 
 }

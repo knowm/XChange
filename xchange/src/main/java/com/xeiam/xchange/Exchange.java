@@ -21,8 +21,8 @@
  */
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.service.StreamingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -69,7 +69,7 @@ public interface Exchange {
    * 
    * @return The exchange's "push" market data service
    */
-  StreamingMarketDataService getStreamingMarketDataService();
+  StreamingExchangeService getStreamingMarketDataService();
 
   /**
    * <p>

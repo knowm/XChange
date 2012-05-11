@@ -19,26 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata.streaming;
-
-import java.util.concurrent.BlockingQueue;
+package com.xeiam.xchange.service;
 
 /**
  * <p>
- * Listener to provide the following to API:
+ * Event interface to provide the following to API:
  * </p>
  * <ul>
- * <li>Callback methods for market data events</li>
+ * <li>Provision of exchange information to listeners through different implementations</li>
  * </ul>
- * <p>
- * A {@link MarketDataListener} is normally executed in a client thread using an executor service and to facilitate this the {@link RunnableMarketDataListener} is provided as an extension point
- * </p>
  */
-public interface MarketDataListener {
+public interface ExchangeEvent {
 
   /**
-   * @param marketDataEvents The blocking queue that links the XChange thread pool to the client thread pool
+   * @return The raw data provided by the upstream server
    */
-  void setMarketDataEventQueue(BlockingQueue<MarketDataEvent> marketDataEvents);
+  byte[] getRawData();
 
 }

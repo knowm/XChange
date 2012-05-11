@@ -24,23 +24,22 @@ package com.xeiam.xchange.mtgox.v1.service.trade.streaming.socketio;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.marketdata.streaming.websocket.BaseWebSocketMarketDataService;
+import com.xeiam.xchange.service.BaseSocketIOExchangeService;
 
 /**
  * <p>
- * Streaming market data service to provide the following to applications:
+ * Streaming trade data service for the MtGox exchange
  * </p>
- * <ul>
- * <li></li>
- * </ul>
+ * <p>
+ * MtGox provides a SocketIO implementation
+ * </p>
  */
-public class MtGoxStreamingTradeService extends BaseWebSocketMarketDataService {
+public class MtGoxStreamingTradeService extends BaseSocketIOExchangeService {
 
   /**
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public MtGoxStreamingTradeService(ExchangeSpecification exchangeSpecification) throws IOException {
     super(exchangeSpecification);
-    // TODO Implement this using a SocketIO based producer
   }
 }

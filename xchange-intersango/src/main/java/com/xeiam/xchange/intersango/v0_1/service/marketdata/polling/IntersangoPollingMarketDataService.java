@@ -28,7 +28,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.intersango.v0_1.IntersangoProperties;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ import java.util.List;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class IntersangoPollingMarketDataService extends BaseExchangeService implements PollingMarketDataService {
+public class IntersangoPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
   /**
    * Provides logging for this class

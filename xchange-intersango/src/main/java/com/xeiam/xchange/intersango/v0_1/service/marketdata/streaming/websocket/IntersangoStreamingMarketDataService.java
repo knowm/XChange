@@ -24,7 +24,7 @@ package com.xeiam.xchange.intersango.v0_1.service.marketdata.streaming.websocket
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.marketdata.streaming.websocket.BaseWebSocketMarketDataService;
+import com.xeiam.xchange.service.BaseWebSocketExchangeService;
 
 /**
  * <p>
@@ -34,7 +34,7 @@ import com.xeiam.xchange.service.marketdata.streaming.websocket.BaseWebSocketMar
  * Intersango provide a direct socket implementation so no SocketIO or websockets
  * </p>
  */
-public class IntersangoStreamingMarketDataService extends BaseWebSocketMarketDataService {
+public class IntersangoStreamingMarketDataService extends BaseWebSocketExchangeService {
 
   /**
    * @param exchangeSpecification The exchange specification providing the required connection data

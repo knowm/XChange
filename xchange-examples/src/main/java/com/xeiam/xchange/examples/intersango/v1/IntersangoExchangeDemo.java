@@ -27,10 +27,10 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
+import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.RunnableExchangeEventListener;
+import com.xeiam.xchange.service.StreamingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
-import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import org.joda.money.BigMoney;
 import org.slf4j.Logger;
@@ -115,12 +115,12 @@ public class IntersangoExchangeDemo {
 
     // Construct an Exchange that we know to use a direct socket to support streaming market data
     Exchange intersango = IntersangoExchange.newInstance();
-    StreamingMarketDataService streamingMarketDataService = intersango.getStreamingMarketDataService();
+    StreamingExchangeService streamingMarketDataService = intersango.getStreamingMarketDataService();
 
     // Create a runnable listener so we can bind it to a thread
-    RunnableMarketDataListener listener = new RunnableMarketDataListener() {
+    RunnableExchangeEventListener listener = new RunnableExchangeEventListener() {
       @Override
-      public void handleEvent(MarketDataEvent event) {
+      public void handleEvent(ExchangeEvent event) {
         // Perform very basic reporting to illustrate different threads
         String data = new String(event.getRawData());
         log.debug("Event data: {}", data);

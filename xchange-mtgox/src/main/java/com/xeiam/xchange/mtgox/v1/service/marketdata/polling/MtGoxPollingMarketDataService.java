@@ -34,7 +34,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
@@ -49,7 +49,7 @@ import java.util.List;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class MtGoxPollingMarketDataService extends BaseExchangeService implements PollingMarketDataService, CachedDataSession {
+public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
 
   /**
    * time stamps used to pace API calls

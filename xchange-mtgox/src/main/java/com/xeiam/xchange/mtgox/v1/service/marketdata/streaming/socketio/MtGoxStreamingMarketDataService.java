@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.marketdata.streaming.websocket.BaseWebSocketMarketDataService;
+import com.xeiam.xchange.service.BaseSocketIOExchangeService;
 
 /**
  * <p>
@@ -34,13 +34,19 @@ import com.xeiam.xchange.service.marketdata.streaming.websocket.BaseWebSocketMar
  * MtGox provides a SocketIO implementation
  * </p>
  */
-public class MtGoxStreamingMarketDataService extends BaseWebSocketMarketDataService {
+public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService {
 
   /**
+   * Configured from the super class reading of the exchange specification
+   */
+  private final String apiBase = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
+
+  /**
+   * Constructor
+   * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
     super(exchangeSpecification);
-    // TODO Implement this using a SocketIO based producer
   }
 }

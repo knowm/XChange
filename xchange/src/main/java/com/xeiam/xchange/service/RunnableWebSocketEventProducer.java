@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata.streaming.websocket;
+package com.xeiam.xchange.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,23 +30,20 @@ import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataEventProducer;
 
 /**
  * <p>
- * Producer to provide the following to {@link MarketDataListener}:
+ * Producer to provide the following to {@link ExchangeEventListener}:
  * </p>
  * <ul>
  * <li>Raw market data from the upstream server</li>
  * </ul>
  */
-public class RunnableWebSocketMarketDataEventProducer implements RunnableMarketDataEventProducer {
+public class RunnableWebSocketEventProducer implements RunnableExchangeEventProducer {
 
-  private final Logger log = LoggerFactory.getLogger(RunnableWebSocketMarketDataEventProducer.class);
+  private final Logger log = LoggerFactory.getLogger(RunnableWebSocketEventProducer.class);
 
-  private final BlockingQueue<MarketDataEvent> queue;
+  private final BlockingQueue<ExchangeEvent> queue;
   private final Socket socket;
   private final boolean stopRequested = false;
 
@@ -56,7 +53,7 @@ public class RunnableWebSocketMarketDataEventProducer implements RunnableMarketD
    * @param socket The underlying socket to use (operates in a
    * @param queue The market data event queue for the producer to work against
    */
-  RunnableWebSocketMarketDataEventProducer(Socket socket, BlockingQueue<MarketDataEvent> queue) {
+  RunnableWebSocketEventProducer(Socket socket, BlockingQueue<ExchangeEvent> queue) {
     this.queue = queue;
     this.socket = socket;
   }
@@ -81,7 +78,7 @@ public class RunnableWebSocketMarketDataEventProducer implements RunnableMarketD
         log.debug("Received data '{}'", data);
 
         // Create an event
-        MarketDataEvent marketDataEvent = new MarketDataEvent() {
+        ExchangeEvent marketDataEvent = new ExchangeEvent() {
           @Override
           public byte[] getRawData() {
             return data.getBytes();

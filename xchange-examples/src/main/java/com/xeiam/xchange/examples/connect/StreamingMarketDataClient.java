@@ -41,9 +41,9 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
-import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.RunnableExchangeEventListener;
+import com.xeiam.xchange.service.StreamingExchangeService;
 
 /**
  * <p>
@@ -67,7 +67,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
   private final JButton close;
   private final JTextArea ta;
 
-  private StreamingMarketDataService streamingMarketDataService = null;
+  private StreamingExchangeService streamingMarketDataService = null;
   private ExecutorService executorService = null;
 
   /**
@@ -143,9 +143,9 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
       streamingMarketDataService = intersango.getStreamingMarketDataService();
 
       // Create a runnable listener so we can bind it to a thread
-      RunnableMarketDataListener listener = new RunnableMarketDataListener() {
+      RunnableExchangeEventListener listener = new RunnableExchangeEventListener() {
         @Override
-        public void handleEvent(MarketDataEvent event) {
+        public void handleEvent(ExchangeEvent event) {
           // Perform very basic reporting to illustrate different threads
           String data = new String(event.getRawData());
           log.debug("Event data: {}", data);

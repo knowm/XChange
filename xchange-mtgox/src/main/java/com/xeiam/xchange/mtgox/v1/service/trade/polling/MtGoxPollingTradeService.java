@@ -35,7 +35,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
@@ -50,7 +50,7 @@ import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MtGoxPollingTradeService extends BaseExchangeService implements PollingTradeService {
+public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
   private final Logger log = LoggerFactory.getLogger(MtGoxPollingTradeService.class);
 

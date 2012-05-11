@@ -23,9 +23,6 @@ package com.xeiam.xchange.service;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.utils.HttpTemplate;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * <p>
@@ -38,22 +35,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 public abstract class BaseExchangeService {
 
   /**
-   * Jackson JSON to Java object mapper
-   */
-  protected ObjectMapper mapper = new ObjectMapper();
-
-  /**
-   * HTTP template to provide data access facilities
-   */
-  protected HttpTemplate httpTemplate = new HttpTemplate();
-
-  /**
    * The exchange specification containing session-specific information
    */
   protected final ExchangeSpecification exchangeSpecification;
 
   /**
-   * Initialize common properties from the exchange specification
+   * Constructor Initialize common properties from the exchange specification
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
@@ -63,11 +50,6 @@ public abstract class BaseExchangeService {
 
     this.exchangeSpecification = exchangeSpecification;
 
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false); // could also annotate individual classes with @JsonIgnoreProperties(ignoreUnknown = true)
-
   }
 
-  public void setHttpTemplate(HttpTemplate httpTemplate) {
-    this.httpTemplate = httpTemplate;
-  }
 }

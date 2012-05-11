@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata.streaming;
+package com.xeiam.xchange.service;
 
 import java.util.concurrent.BlockingQueue;
 
@@ -38,16 +38,16 @@ import org.slf4j.LoggerFactory;
  * <pre>
  * </pre>
  */
-public abstract class RunnableMarketDataListener implements MarketDataListener, Runnable {
+public abstract class RunnableExchangeEventListener implements ExchangeEventListener, Runnable {
 
-  private final Logger log = LoggerFactory.getLogger(RunnableMarketDataListener.class);
+  private final Logger log = LoggerFactory.getLogger(RunnableExchangeEventListener.class);
 
-  private BlockingQueue<MarketDataEvent> marketDataEvents;
+  private BlockingQueue<ExchangeEvent> marketDataEvents;
 
   /**
    * Constructor
    */
-  public RunnableMarketDataListener() {
+  public RunnableExchangeEventListener() {
   }
 
   @Override
@@ -65,7 +65,7 @@ public abstract class RunnableMarketDataListener implements MarketDataListener, 
   }
 
   @Override
-  public void setMarketDataEventQueue(BlockingQueue<MarketDataEvent> marketDataEvents) {
+  public void setMarketDataEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents) {
     this.marketDataEvents = marketDataEvents;
   }
 
@@ -76,5 +76,5 @@ public abstract class RunnableMarketDataListener implements MarketDataListener, 
    * 
    * @param event The market data event containing the information
    */
-  public abstract void handleEvent(MarketDataEvent event);
+  public abstract void handleEvent(ExchangeEvent event);
 }

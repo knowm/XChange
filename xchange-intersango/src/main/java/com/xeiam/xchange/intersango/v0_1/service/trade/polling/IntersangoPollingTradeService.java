@@ -27,7 +27,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.intersango.v0_1.dto.trade.IntersangoWallet;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IntersangoPollingTradeService extends BaseExchangeService implements PollingTradeService {
+public class IntersangoPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
   /**
    * Provides logging for this class

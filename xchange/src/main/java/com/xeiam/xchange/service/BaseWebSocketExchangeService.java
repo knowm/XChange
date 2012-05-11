@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.marketdata.streaming.websocket;
+package com.xeiam.xchange.service;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -33,10 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.marketdata.streaming.MarketDataEvent;
-import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataEventProducer;
-import com.xeiam.xchange.service.marketdata.streaming.RunnableMarketDataListener;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -47,33 +43,32 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Connection to an upstream market data source with a configured provider</li>
  * </ul>
  */
-public class BaseWebSocketMarketDataService implements StreamingMarketDataService {
+public abstract class BaseWebSocketExchangeService extends BaseExchangeService implements StreamingExchangeService {
 
-  private final Logger log = LoggerFactory.getLogger(BaseWebSocketMarketDataService.class);
+  private final Logger log = LoggerFactory.getLogger(BaseWebSocketExchangeService.class);
 
   private final ExecutorService executorService;
-  private final ExchangeSpecification exchangeSpecification;
-  private final BlockingQueue<MarketDataEvent> marketDataEvents = new ArrayBlockingQueue<MarketDataEvent>(1024);
+  private final BlockingQueue<ExchangeEvent> marketDataEvents = new ArrayBlockingQueue<ExchangeEvent>(1024);
 
   private Socket socket;
-  private RunnableMarketDataEventProducer runnableMarketDataEventProducer = null;
+  private RunnableExchangeEventProducer runnableMarketDataEventProducer = null;
 
   /**
+   * Constructor
+   * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
-  public BaseWebSocketMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
+  public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
 
-    Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
+    super(exchangeSpecification);
     // TODO is this really necessary???
     Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
-
-    this.exchangeSpecification = exchangeSpecification;
 
     executorService = Executors.newSingleThreadExecutor();
   }
 
   @Override
-  public synchronized void start(RunnableMarketDataListener runnableMarketDataListener) {
+  public synchronized void start(RunnableExchangeEventListener runnableMarketDataListener) {
 
     // Validate inputs
     Assert.notNull(runnableMarketDataListener, "runnableMarketDataListener cannot be null");
@@ -89,7 +84,7 @@ public class BaseWebSocketMarketDataService implements StreamingMarketDataServic
     } catch (IOException e) {
       throw new ExchangeException("Failed to open socket: " + e.getMessage(), e);
     }
-    this.runnableMarketDataEventProducer = new RunnableWebSocketMarketDataEventProducer(socket, marketDataEvents);
+    this.runnableMarketDataEventProducer = new RunnableWebSocketEventProducer(socket, marketDataEvents);
 
     runnableMarketDataListener.setMarketDataEventQueue(marketDataEvents);
     executorService.submit(runnableMarketDataEventProducer);
@@ -119,12 +114,12 @@ public class BaseWebSocketMarketDataService implements StreamingMarketDataServic
   }
 
   @Override
-  public RunnableMarketDataEventProducer getRunnableMarketDataEventProducer() {
+  public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
     return runnableMarketDataEventProducer;
   }
 
   @Override
-  public void setRunnableMarketDataEventProducer(RunnableMarketDataEventProducer runnableMarketDataEventProducer) {
+  public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
     this.runnableMarketDataEventProducer = runnableMarketDataEventProducer;
   }
 }
