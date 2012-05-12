@@ -19,38 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1;
+package com.xeiam.xchange.examples.mtgox.v1.polling;
 
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Test requesting all open orders at MtGox
+ * Test requesting trades at MtGox
  */
-public class OpenOrdersDemo {
+public class TradesDemo {
 
-  private static PollingTradeService tradeService;
+  private static PollingMarketDataService marketDataService;
 
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setUri("https://mtgox.com");
-    exchangeSpecification.setVersion("1");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
-    // Interested in the private trading functionality (authentication)
-    tradeService = mtgox.getTradeService();
+    // Interested in the public market data feed (no authentication)
+    marketDataService = mtGox.getPollingMarketDataService();
 
-    // Get the open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
+    // Get trades
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
+    // Verify that trades is not null
+    System.out.println("Trades NOT null ? " + trades != null);
   }
 
 }

@@ -1,18 +1,16 @@
-package com.xeiam.xchange.examples.intersango.v1;
-
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,6 +19,14 @@ package com.xeiam.xchange.examples.intersango.v1;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.xeiam.xchange.examples.intersango.v1;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.joda.money.BigMoney;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
@@ -32,12 +38,6 @@ import com.xeiam.xchange.service.RunnableExchangeEventListener;
 import com.xeiam.xchange.service.StreamingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import org.joda.money.BigMoney;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * <p>
@@ -98,7 +98,7 @@ public class IntersangoExchangeDemo {
   private static void demoAccountService(Exchange exchange) {
 
     // Interested in the private data feed (requires authentication)
-    PollingTradeService accountService = exchange.getTradeService();
+    PollingTradeService accountService = exchange.getPollingTradeService();
 
     // Get the latest ticker data showing BTC to USD
     AccountInfo accountInfo = accountService.getAccountInfo();
@@ -127,7 +127,7 @@ public class IntersangoExchangeDemo {
       }
 
     };
-    streamingMarketDataService.start(listener);
+    streamingMarketDataService.connect(null, listener);
 
     // Start a new thread for the listener
     ExecutorService executorService = Executors.newSingleThreadExecutor();

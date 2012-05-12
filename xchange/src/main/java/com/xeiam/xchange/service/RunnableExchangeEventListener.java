@@ -52,6 +52,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
 
   @Override
   public void run() {
+
     try {
       // Run forever (or until an interruption occurs)
       while (true) {
@@ -65,7 +66,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
   }
 
   @Override
-  public void setMarketDataEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents) {
+  public void setExchangeEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents) {
     this.marketDataEvents = marketDataEvents;
   }
 

@@ -51,7 +51,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   private final BlockingQueue<ExchangeEvent> marketDataEvents = new ArrayBlockingQueue<ExchangeEvent>(1024);
 
   private Socket socket;
-  private RunnableExchangeEventProducer runnableMarketDataEventProducer = null;
+  private RunnableExchangeEventProducer runnableExchangeEventProducer = null;
 
   /**
    * Constructor
@@ -61,14 +61,12 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
 
     super(exchangeSpecification);
-    // TODO is this really necessary???
     Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
-
     executorService = Executors.newSingleThreadExecutor();
   }
 
   @Override
-  public synchronized void start(RunnableExchangeEventListener runnableMarketDataListener) {
+  public synchronized void connect(String url, RunnableExchangeEventListener runnableMarketDataListener) {
 
     // Validate inputs
     Assert.notNull(runnableMarketDataListener, "runnableMarketDataListener cannot be null");
@@ -84,17 +82,23 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     } catch (IOException e) {
       throw new ExchangeException("Failed to open socket: " + e.getMessage(), e);
     }
-    this.runnableMarketDataEventProducer = new RunnableWebSocketEventProducer(socket, marketDataEvents);
+    this.runnableExchangeEventProducer = new RunnableWebSocketEventProducer(socket, marketDataEvents);
 
-    runnableMarketDataListener.setMarketDataEventQueue(marketDataEvents);
-    executorService.submit(runnableMarketDataEventProducer);
+    runnableMarketDataListener.setExchangeEventQueue(marketDataEvents);
+    executorService.submit(runnableExchangeEventProducer);
 
     log.debug("Started OK");
 
   }
 
   @Override
-  public synchronized void stop() {
+  public void send(String message) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public synchronized void disconnect() {
     try {
       if (!executorService.isShutdown()) {
         // We close on the socket to get an immediate result
@@ -115,11 +119,11 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
   @Override
   public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
-    return runnableMarketDataEventProducer;
+    return runnableExchangeEventProducer;
   }
 
   @Override
   public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
-    this.runnableMarketDataEventProducer = runnableMarketDataEventProducer;
+    this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 }

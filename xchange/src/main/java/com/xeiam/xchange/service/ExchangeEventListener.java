@@ -39,6 +39,6 @@ public interface ExchangeEventListener {
   /**
    * @param marketDataEvents The blocking queue that links the XChange thread pool to the client thread pool
    */
-  void setMarketDataEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents);
+  void setExchangeEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents);
 
 }

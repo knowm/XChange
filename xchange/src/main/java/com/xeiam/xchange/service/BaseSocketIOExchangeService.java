@@ -48,9 +48,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   private final Logger log = LoggerFactory.getLogger(BaseSocketIOExchangeService.class);
 
   private final ExecutorService executorService;
-  private final BlockingQueue<ExchangeEvent> marketDataEvents = new ArrayBlockingQueue<ExchangeEvent>(1024);
+  private final BlockingQueue<ExchangeEvent> exchangeEvents = new ArrayBlockingQueue<ExchangeEvent>(1024);
 
-  private SocketIO socketClient;
+  private SocketIO socketIO;
   private RunnableExchangeEventProducer runnableMarketDataEventProducer = null;
 
   /**
@@ -68,10 +68,10 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   }
 
   @Override
-  public synchronized void start(RunnableExchangeEventListener runnableMarketDataListener) {
+  public synchronized void connect(String url, RunnableExchangeEventListener runnableExchangeEventListener) {
 
     // Validate inputs
-    Assert.notNull(runnableMarketDataListener, "runnableMarketDataListener cannot be null");
+    Assert.notNull(runnableExchangeEventListener, "runnableMarketDataListener cannot be null");
 
     // Validate state
     if (executorService.isShutdown()) {
@@ -79,15 +79,14 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     }
 
     try {
-      log.debug("Attempting to open a direct socket against {}:{}", exchangeSpecification.getHost(), exchangeSpecification.getPort());
-      // this.socket = new Socket(exchangeSpecification.getHost(), exchangeSpecification.getPort());
-      this.socketClient = new SocketIO(exchangeSpecification.getHost(), (RunnableSocketIOEventProducer) runnableMarketDataEventProducer);
+      log.debug("Attempting to open a socketIO against {}:{}", url, exchangeSpecification.getPort());
+      this.runnableMarketDataEventProducer = new RunnableSocketIOEventProducer(socketIO, exchangeEvents);
+      this.socketIO = new SocketIO(url, (RunnableSocketIOEventProducer) runnableMarketDataEventProducer);
     } catch (IOException e) {
       throw new ExchangeException("Failed to open socket: " + e.getMessage(), e);
     }
-    this.runnableMarketDataEventProducer = new RunnableSocketIOEventProducer(socketClient, marketDataEvents);
 
-    runnableMarketDataListener.setMarketDataEventQueue(marketDataEvents);
+    runnableExchangeEventListener.setExchangeEventQueue(exchangeEvents);
     executorService.submit(runnableMarketDataEventProducer);
 
     log.debug("Started OK");
@@ -95,13 +94,18 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   }
 
   @Override
-  public synchronized void stop() {
+  public void send(String message) {
+    this.socketIO.send(message);
+  }
+
+  @Override
+  public synchronized void disconnect() {
     if (!executorService.isShutdown()) {
       // We close on the socket to get an immediate result
       // otherwise the producer would block until the exchange
       // sent a message which could be forever
-      if (socketClient != null) {
-        socketClient.disconnect();
+      if (socketIO != null) {
+        socketIO.disconnect();
       }
     }
     executorService.shutdownNow();

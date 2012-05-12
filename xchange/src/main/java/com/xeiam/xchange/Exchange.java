@@ -21,8 +21,8 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.StreamingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -61,6 +61,18 @@ public interface Exchange {
 
   /**
    * <p>
+   * An trade service typically provides access to the user's private exchange data
+   * </p>
+   * <p>
+   * Typically access to the account is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
+   * </p>
+   * 
+   * @return The exchange's account service
+   */
+  PollingTradeService getPollingTradeService();
+
+  /**
+   * <p>
    * A market data service typically consists of a regularly updated list of the available prices for the various symbols
    * </p>
    * <p>
@@ -69,17 +81,6 @@ public interface Exchange {
    * 
    * @return The exchange's "push" market data service
    */
-  StreamingExchangeService getStreamingMarketDataService();
+  StreamingMarketDataService getStreamingMarketDataService();
 
-  /**
-   * <p>
-   * An account service typically provides access to the user's private exchange data
-   * </p>
-   * <p>
-   * Typically access to the account is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
-   * </p>
-   * 
-   * @return The exchange's account service
-   */
-  PollingTradeService getTradeService();
 }

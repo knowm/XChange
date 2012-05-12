@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,36 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.intersango.v0_1.service.marketdata.streaming.websocket;
+package com.xeiam.xchange.service.marketdata.streaming;
 
-import java.io.IOException;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.service.BaseWebSocketExchangeService;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+import com.xeiam.xchange.service.StreamingExchangeService;
 
 /**
  * <p>
- * Streaming market data service for the Intersango exchange
+ * Interface to provide the following to {@link Exchange}:
  * </p>
+ * <ul>
+ * <li>Standard methods available to explore the market data</li>
+ * </ul>
  * <p>
- * Intersango provide a direct socket implementation so no SocketIO or websockets
+ * The implementation of this service is expected to be based on a client streaming mechanism of some kind
  * </p>
  */
-public class IntersangoStreamingMarketDataService extends BaseWebSocketExchangeService implements StreamingMarketDataService {
+public interface StreamingMarketDataService extends StreamingExchangeService {
 
-  /**
-   * @param exchangeSpecification The exchange specification providing the required connection data
-   */
-  public IntersangoStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
-    super(exchangeSpecification);
-  }
-
-  @Override
-  public void getTicker() throws NotAvailableFromExchangeException {
-    // TODO Auto-generated method stub
-
-  }
+  void getTicker() throws NotAvailableFromExchangeException;
 
 }

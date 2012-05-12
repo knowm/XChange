@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -29,14 +31,12 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketD
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStreamingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
 
-import java.io.IOException;
-
 /**
  * <p>
  * Exchange implementation to provide the following to applications:
  * </p>
  * <ul>
- * <li>A wrapper for the MtGox BTC exchange API</li>
+ * <li>A wrapper for the MtGox exchange API</li>
  * </ul>
  */
 public class MtGoxExchange extends BaseExchange implements Exchange {

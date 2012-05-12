@@ -19,23 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1;
+package com.xeiam.xchange.examples.mtgox.v1.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.AccountInfo;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
 
 import java.math.BigDecimal;
 
 /**
- * Test placing a market order at MtGox
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connecting to Mt Gox BTC exchange with authentication</li>
+ * <li>Retrieving account info data</li>
+ * </ul>
  */
-public class MarketOrderDemo {
-
-  private static PollingTradeService tradeService;
+public class MtGoxTradeDemo {
 
   public static void main(String[] args) {
 
@@ -48,7 +57,15 @@ public class MarketOrderDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
-    tradeService = mtgox.getTradeService();
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
+
+    // Get the account information
+    AccountInfo accountInfo = tradeService.getAccountInfo();
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
+
+    // Get the open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
 
     // place a market order
     MarketOrder marketOrder = new MarketOrder();
@@ -57,9 +74,17 @@ public class MarketOrderDemo {
     marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
     marketOrder.setTransactionCurrency("USD");
     boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order Successful: " + marketOrderSuccess);
 
-    // Verify that the order placement was successful
-    System.out.println(marketOrderSuccess);
+    // place a limit order
+    LimitOrder limitOrder = new LimitOrder();
+    limitOrder.setType(OrderType.BID);
+    limitOrder.setTradableIdentifier("BTC");
+    limitOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
+    BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
+    limitOrder.setLimitPrice(limitPrice);
+    boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order Successful: " + limitOrderSuccess);
+
   }
-
 }

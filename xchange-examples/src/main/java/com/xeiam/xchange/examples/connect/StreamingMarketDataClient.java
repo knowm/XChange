@@ -43,7 +43,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.intersango.v0_1.IntersangoExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
-import com.xeiam.xchange.service.StreamingExchangeService;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
  * <p>
@@ -67,7 +67,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
   private final JButton close;
   private final JTextArea ta;
 
-  private StreamingExchangeService streamingMarketDataService = null;
+  private StreamingMarketDataService streamingMarketDataService = null;
   private ExecutorService executorService = null;
 
   /**
@@ -118,7 +118,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
       @Override
       public void windowClosing(WindowEvent e) {
         if (streamingMarketDataService != null) {
-          streamingMarketDataService.stop();
+          streamingMarketDataService.disconnect();
         }
         if (executorService != null) {
           executorService.shutdownNow();
@@ -154,7 +154,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
         }
 
       };
-      streamingMarketDataService.start(listener);
+      streamingMarketDataService.connect(null, listener);
 
       // Start a new thread for the listener
       executorService = Executors.newSingleThreadExecutor();
@@ -165,7 +165,7 @@ public class StreamingMarketDataClient extends JFrame implements ActionListener 
     if (e.getSource() == close) {
       // Stop the streaming market data service
       if (streamingMarketDataService != null) {
-        streamingMarketDataService.stop();
+        streamingMarketDataService.disconnect();
       }
       // Stop our listener
       if (executorService != null) {

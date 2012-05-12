@@ -22,9 +22,20 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.BaseSocketIOExchangeService;
+import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.RunnableExchangeEventListener;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
  * <p>
@@ -34,12 +45,16 @@ import com.xeiam.xchange.service.BaseSocketIOExchangeService;
  * MtGox provides a SocketIO implementation
  * </p>
  */
-public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService {
+public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService implements StreamingMarketDataService {
+
+  private final Logger log = LoggerFactory.getLogger(MtGoxStreamingMarketDataService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
+  // private final String apiBase = String.format("http://socketio.%s", exchangeSpecification.getHost());
+
+  private final String apiBase = String.format("http://socketio.%s/mtgox", exchangeSpecification.getHost());
 
   /**
    * Constructor
@@ -49,4 +64,42 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
     super(exchangeSpecification);
   }
+
+  @Override
+  public void getTicker() throws NotAvailableFromExchangeException {
+
+    // log.debug(apiBase);
+
+    // Construct an Exchange that we know to use a direct socket to support streaming market data
+    Exchange mtGox = MtGoxExchange.newInstance();
+    StreamingMarketDataService streamingExchangeService = mtGox.getStreamingMarketDataService();
+
+    // Create a runnable listener so we can bind it to a thread
+    RunnableExchangeEventListener listener = new RunnableExchangeEventListener() {
+      @Override
+      public void handleEvent(ExchangeEvent event) {
+        // Perform very basic reporting to illustrate different threads
+        String data = new String(event.getRawData());
+        log.debug("Event data: {}", data);
+      }
+    };
+
+    streamingExchangeService.connect(apiBase, listener);
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    streamingExchangeService.send("{\"op\": \"unsubscribe\",\"channel\": \"d5f06780-30a8-4a48-a2f8-7ed181b4a13f\"}"); // ticker
+    streamingExchangeService.send("{\"op\": \"unsubscribe\",\"channel\": \"dbf1dee9-4f2e-4a08-8cb7-748919a71b21\"}"); // trades
+    streamingExchangeService.send("{\"op\": \"unsubscribe\",\"channel\": \"24e67e0d-1cad-4cc0-9e7a-f8523ef460fe\"}"); // depth
+    streamingExchangeService.send("{\"op\":\"mtgox.subscribe\",\"type\":\"ticker\"}");
+
+    // Start a new thread for the listener
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    executorService.submit(listener);
+
+  }
+
 }

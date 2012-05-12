@@ -30,7 +30,6 @@ import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * <p>
  * Producer to provide the following to {@link ExchangeEventListener}:

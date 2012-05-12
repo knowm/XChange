@@ -23,6 +23,7 @@ package com.xeiam.xchange.service;
 
 import java.util.concurrent.BlockingQueue;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +46,7 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   private final Logger log = LoggerFactory.getLogger(RunnableSocketIOEventProducer.class);
 
   private final BlockingQueue<ExchangeEvent> queue;
-  private final SocketIO socketClient;
-  private final boolean stopRequested = false;
+  private final SocketIO socketIO;
 
   /**
    * Package constructor
@@ -56,95 +56,68 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
    */
   RunnableSocketIOEventProducer(SocketIO socketClient, BlockingQueue<ExchangeEvent> queue) {
     this.queue = queue;
-    this.socketClient = socketClient;
+    this.socketIO = socketClient;
   }
 
   @Override
   public void run() {
 
-    // BufferedReader in = null;
-    //
-    // if (stopRequested) {
-    // return;
-    // }
-    //
-    // try {
-    //
-    // in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    //
-    // // Do this forever
-    // while (true) {
-    // // The readLine() will be interrupted by the external thread managing the socket
-    // final String data = in.readLine();
-    // log.debug("Received data '{}'", data);
-    //
-    // // Create an event
-    // ExchangeEvent marketDataEvent = new ExchangeEvent() {
-    // @Override
-    // public byte[] getRawData() {
-    // return data.getBytes();
-    // }
-    // };
-    // queue.put(marketDataEvent);
-    // }
-    //
-    // } catch (IOException e) {
-    // log.warn(e.getMessage(), e);
-    // } catch (InterruptedException e) {
-    // // Cannot put onto the queue we're probably shutting down
-    // log.debug("Closing producer due to interrupt.");
-    // } finally {
-    // if (in != null) {
-    // try {
-    // in.close();
-    // } catch (IOException e1) {
-    // log.warn(e1.getMessage(), e1);
-    // }
-    // }
-    // if (socket != null) {
-    // try {
-    // socket.close();
-    // } catch (IOException e1) {
-    // log.warn(e1.getMessage(), e1);
-    // }
-    // }
-    //
-    // }
   }
 
   @Override
   public void onDisconnect() {
-    // TODO Auto-generated method stub
 
+    log.debug("Disconnected");
   }
 
   @Override
   public void onConnect() {
-    // TODO Auto-generated method stub
+
+    log.debug("Connected");
 
   }
 
   @Override
   public void onMessage(String data, IOAcknowledge ack) {
-    // TODO Auto-generated method stub
 
+    log.debug("Message: " + data);
   }
 
   @Override
   public void onMessage(JSONObject json, IOAcknowledge ack) {
-    // TODO Auto-generated method stub
 
+    try {
+      JSONObject ticker = (JSONObject) json.get("ticker");
+      if (ticker != null) {
+        JSONObject last = (JSONObject) ticker.get("last");
+        if (last != null) {
+          final String display = (String) last.get("display");
+          // log.debug(display);
+          // Create an event
+          ExchangeEvent marketDataEvent = new ExchangeEvent() {
+            @Override
+            public byte[] getRawData() {
+              return display.getBytes();
+            }
+          };
+          queue.put(marketDataEvent);
+        }
+      }
+    } catch (JSONException e) {
+      // Ignore (probably an "op")
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block, handle this properly
+      e.printStackTrace();
+    }
   }
 
   @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
-    // TODO Auto-generated method stub
-
+    log.debug("Event: " + event);
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
-    // TODO Auto-generated method stub
-
+    log.debug("Error: " + socketIOException.getMessage());
   }
 }

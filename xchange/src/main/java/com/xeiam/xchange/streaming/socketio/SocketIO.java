@@ -1,3 +1,24 @@
+/**
+ * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 /*
  * socket.io-java-client SocketIO.java
  *
@@ -8,154 +29,61 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-import com.xeiam.xchange.utils.Assert;
-import org.json.JSONObject;
-
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * The Class SocketIO.
  */
 public class SocketIO {
 
+  private final Logger log = LoggerFactory.getLogger(SocketIO.class);
+
   /**
    * callback of this Socket.
    */
-  private IOCallback callback;
+  private final IOCallback callback;
 
   /**
    * connection of this Socket.
    */
   private IOConnection connection;
 
-  /**
-   * namespace.
-   */
   private String namespace;
 
-  private URL url;
+  private final URL url;
 
   /**
-   * Instantiates a new socket.io connection. The object connects after calling {@link #connect(java.net.URL, IOCallback)} or {@link #connect(String, IOCallback)}
-   */
-  public SocketIO() {
-
-  }
-
-  /**
-   * Instantiates a new socket.io connection. The object connects after calling {@link #connect(IOCallback)}
-   * 
-   * @param url the url
-   * @throws java.net.MalformedURLException the malformed url exception
-   */
-  public SocketIO(final String url) throws MalformedURLException {
-    Assert.notNull(url, "url cannot be null");
-    setAndConnect(new URL(url), null);
-  }
-
-  /**
-   * Instantiates a new socket.io object and connects to the given url. Do not call any of the connect() methods afterwards.
-   * 
-   * @param url the url
-   * @param callback the callback
-   * @throws java.net.MalformedURLException the malformed url exception
+   * Constructor Instantiates a new socket.io connection.
    */
   public SocketIO(final String url, final IOCallback callback) throws MalformedURLException {
-    connect(url, callback);
+
+    Assert.notNull(url, "url cannot be null");
+    this.url = new URL(url);
+    Assert.notNull(callback, "callback cannot be null");
+    this.callback = callback;
+    connect();
   }
 
   /**
-   * Instantiates a new socket.io object and connects to the given url. Do not call any of the connect() methods afterwards.
-   * 
-   * @param url the url
-   * @param callback the callback
+   * connects to supplied host
    */
-  public SocketIO(final URL url, final IOCallback callback) {
-    if (setAndConnect(url, callback) == false) {
-      throw new RuntimeException("url and callback may not be null.");
-    }
-  }
+  public void connect() {
 
-  /**
-   * Instantiates a new socket.io connection. The object connects after calling {@link #connect(IOCallback)}
-   * 
-   * @param url the url
-   */
-  public SocketIO(final URL url) {
-    setAndConnect(url, null);
-  }
+    log.debug("connect()");
 
-  /**
-   * connects to supplied host using callback. Do only use this method if you instantiate {@link com.xeiam.xchange.streaming.socketio.SocketIO} using {@link #SocketIO()}.
-   * 
-   * @param url the url
-   * @param callback the callback
-   */
-  public void connect(final String url, final IOCallback callback) throws MalformedURLException {
-    if (setAndConnect(new URL(url), callback) == false) {
-      if (url == null || callback == null)
-        throw new RuntimeException("url and callback may not be null.");
-      else
-        throw new RuntimeException("connect(String, IOCallback) can only be invoked after SocketIO()");
+    final String origin = this.url.getProtocol() + "://" + this.url.getAuthority();
+    this.namespace = this.url.getPath();
+    if (this.namespace.equals("/")) {
+      this.namespace = "";
     }
-  }
-
-  /**
-   * connects to supplied host using callback. Do only use this method if you instantiate {@link com.xeiam.xchange.streaming.socketio.SocketIO} using {@link #SocketIO()}.
-   * 
-   * @param url the url
-   * @param callback the callback
-   */
-  public void connect(URL url, IOCallback callback) {
-    if (setAndConnect(url, callback) == false) {
-      if (url == null || callback == null)
-        throw new RuntimeException("url and callback may not be null.");
-      else
-        throw new RuntimeException("connect(URL, IOCallback) can only be invoked after SocketIO()");
-    }
-  }
-
-  /**
-   * connects to an already set host. Do only use this method if you instantiate {@link com.xeiam.xchange.streaming.socketio.SocketIO} using {@link #SocketIO(String)} or {@link #SocketIO(java.net.URL)}.
-   * 
-   * @param callback the callback
-   */
-  public void connect(IOCallback callback) {
-    if (setAndConnect(null, callback) == false) {
-      if (callback == null)
-        throw new RuntimeException("callback may not be null.");
-      else if (this.url == null)
-        throw new RuntimeException("connect(IOCallback) can only be invoked after SocketIO(String) or SocketIO(URL)");
-    }
-  }
-
-  /**
-   * Sets url and callback and initiates connecting if both are present
-   * 
-   * @param url the url
-   * @param callback the callback
-   * @return true if connecting has been initiated, false if not
-   */
-  private boolean setAndConnect(URL url, IOCallback callback) {
-    if ((this.url != null && url != null) || (this.callback != null && callback != null))
-      return false;
-    if (url != null) {
-      this.url = url;
-    }
-    if (callback != null) {
-      this.callback = callback;
-    }
-    if (this.callback != null && this.url != null) {
-      final String origin = this.url.getProtocol() + "://" + this.url.getAuthority();
-      this.namespace = this.url.getPath();
-      if (this.namespace.equals("/")) {
-        this.namespace = "";
-      }
-      this.connection = IOConnection.register(origin, this);
-      return true;
-    }
-    return false;
+    this.connection = IOConnection.register(origin, this);
   }
 
   /**

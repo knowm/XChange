@@ -21,8 +21,8 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.StreamingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -37,7 +37,7 @@ public abstract class BaseExchange implements Exchange {
 
   protected PollingMarketDataService marketDataService;
   protected PollingTradeService tradeService;
-  protected StreamingExchangeService streamingMarketDataService;
+  protected StreamingMarketDataService streamingMarketDataService;
 
   @Override
   public PollingMarketDataService getPollingMarketDataService() {
@@ -45,17 +45,17 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public PollingTradeService getTradeService() {
+  public PollingTradeService getPollingTradeService() {
     return tradeService;
   }
 
   @Override
-  public StreamingExchangeService getStreamingMarketDataService() {
+  public StreamingMarketDataService getStreamingMarketDataService() {
     return streamingMarketDataService;
   }
 
   // Package local for testing
-  void setStreamingMarketDataService(StreamingExchangeService streamingMarketDataService) {
+  void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
     this.streamingMarketDataService = streamingMarketDataService;
   }
 

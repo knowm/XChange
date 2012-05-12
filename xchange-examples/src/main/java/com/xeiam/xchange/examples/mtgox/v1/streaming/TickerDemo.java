@@ -19,20 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1;
+package com.xeiam.xchange.examples.mtgox.v1.streaming;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
- * Test requesting trades at MtGox
+ * Test requesting last tick at MtGox
  */
-public class TradesDemo {
+public class TickerDemo {
 
-  private static PollingMarketDataService marketDataService;
+  private static StreamingMarketDataService streamingMarketDataService;
 
   public static void main(String[] args) {
 
@@ -40,14 +38,11 @@ public class TradesDemo {
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getPollingMarketDataService();
+    streamingMarketDataService = mtGox.getStreamingMarketDataService();
 
-    // Get trades
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
+    // Get the latest ticker data showing BTC to USD
+    streamingMarketDataService.getTicker();
 
-    // Verify that trades is not null
-    System.out.println("Trades NOT null ? " + trades != null);
   }
 
 }

@@ -35,17 +35,24 @@ package com.xeiam.xchange.service;
 public interface StreamingExchangeService {
   /**
    * <p>
-   * Start the service and provide a suitable runnable market data listener to receive events. This will be configured by the service.
+   * Start the service and provide a suitable runnable event listener to receive events. This will be configured by the service.
    * </p>
    */
-  void start(RunnableExchangeEventListener runnableMarketDataListener);
+  void connect(String url, RunnableExchangeEventListener runnableMarketDataListener);
 
   /**
    * <p>
    * Closes the connection to the upstream server for this instance.
    * </p>
    */
-  void stop();
+  void disconnect();
+
+  /**
+   * <p>
+   * sends a message to the upstream server for this instance.
+   * </p>
+   */
+  void send(String message);
 
   /**
    * @return The runnable market data event producer
