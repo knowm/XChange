@@ -8,13 +8,12 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
-import com.xeiam.xchange.streaming.websocket.WebSocketClient;
-
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.util.regex.Pattern;
+
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.WebSocketClient;
 
 /**
  * The Class WebSocketTransport.
@@ -43,8 +42,8 @@ class WebSocketTransport extends WebSocketClient implements IOTransport {
    * @param connection the connection
    * @return the iO transport
    */
-  public static IOTransport create(URL url, IOConnection connection) {
-    URI uri = URI.create(PATTERN_HTTP.matcher(url.toString()).replaceFirst("ws") + IOConnection.SOCKET_IO_1 + TRANSPORT_NAME + "/" + connection.getSessionId());
+  public static IOTransport create(String urlString, IOConnection connection) {
+    URI uri = URI.create(PATTERN_HTTP.matcher(urlString).replaceFirst("ws") + IOConnection.SOCKET_IO_1 + TRANSPORT_NAME + "/" + connection.getSessionId());
 
     return new WebSocketTransport(uri, connection);
   }

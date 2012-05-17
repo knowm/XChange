@@ -8,15 +8,17 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
+import org.json.JSONArray;
+
 /**
  * The Interface IOAcknowledge.
  */
 public interface IOAcknowledge {
-
-  /**
-   * Acknowledges a socket.io message.
-   * 
-   * @param args may be all types
-   */
-  void ack(Object... args);
+	
+	/**
+	 * Acknowledges a socket.io message.
+	 *
+	 * @param args may be all types which can be serialized by {@link JSONArray#put(Object)}
+	 */
+	void ack(Object... args);
 }

@@ -52,7 +52,6 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   /**
    * Configured from the super class reading of the exchange specification
    */
-  // private final String apiBase = String.format("http://socketio.%s", exchangeSpecification.getHost());
 
   private final String apiBase = String.format("http://socketio.%s/mtgox", exchangeSpecification.getHost());
 
@@ -84,22 +83,14 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
       }
     };
 
-    streamingExchangeService.connect(apiBase, listener);
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    streamingExchangeService.send("{\"op\": \"unsubscribe\",\"channel\": \"d5f06780-30a8-4a48-a2f8-7ed181b4a13f\"}"); // ticker
-    streamingExchangeService.send("{\"op\": \"unsubscribe\",\"channel\": \"dbf1dee9-4f2e-4a08-8cb7-748919a71b21\"}"); // trades
-    streamingExchangeService.send("{\"op\": \"unsubscribe\",\"channel\": \"24e67e0d-1cad-4cc0-9e7a-f8523ef460fe\"}"); // depth
-    streamingExchangeService.send("{\"op\":\"mtgox.subscribe\",\"type\":\"ticker\"}");
+    // String url = apiBase;
+    String url = apiBase + "?Channel=ticker";
+    log.debug(url);
+    streamingExchangeService.connect(url, listener);
 
     // Start a new thread for the listener
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     executorService.submit(listener);
 
   }
-
 }

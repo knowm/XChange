@@ -67,12 +67,14 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   @Override
   public void onDisconnect() {
 
+    // TODO handle this
     log.debug("Disconnected");
   }
 
   @Override
   public void onConnect() {
 
+    // TODO handle this
     log.debug("Connected");
 
   }
@@ -80,6 +82,7 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   @Override
   public void onMessage(String data, IOAcknowledge ack) {
 
+    // TODO handle this
     log.debug("Message: " + data);
   }
 
@@ -113,11 +116,13 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
 
   @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
+    // TODO handle this
     log.debug("Event: " + event);
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
+    // TODO handle this
     log.debug("Error: " + socketIOException.getMessage());
   }
 }

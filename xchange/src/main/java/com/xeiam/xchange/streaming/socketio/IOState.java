@@ -8,6 +8,7 @@ package com.xeiam.xchange.streaming.socketio;
  * <li>Named state for socket.io protocol</li>
  * </ul>
  */
+// TODO why do we have this enum??
 public enum IOState {
 
   STATE_INIT,
