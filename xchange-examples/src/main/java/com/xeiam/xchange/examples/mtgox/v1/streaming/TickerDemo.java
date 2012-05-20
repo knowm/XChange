@@ -29,23 +29,30 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
- * Test requesting last tick at MtGox
+ * Test requesting streaming Ticker at MtGox
  */
 public class TickerDemo {
 
-  private static StreamingMarketDataService streamingMarketDataService;
+  private StreamingMarketDataService streamingMarketDataService;
 
   public static void main(String[] args) {
+
+    TickerDemo tickerDemo = new TickerDemo();
+    tickerDemo.start();
+  }
+
+  private void start() {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
-    // Interested in the public market data feed (no authentication)
+    // Interested in the public streaming market data feed (no authentication)
     streamingMarketDataService = mtGox.getStreamingMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
+    // Get blocking queue that receives streaming ticker data
     BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.getTicker();
 
+    // take streaming ticker data from the queue and do something with it
     while (true) {
       try {
         doSomething(tickerQueue.take());
@@ -56,9 +63,8 @@ public class TickerDemo {
 
   }
 
-  private static void doSomething(Ticker ticker) {
+  private void doSomething(Ticker ticker) {
     System.out.println(ticker.toString());
-
   }
 
 }

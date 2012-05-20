@@ -29,14 +29,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
@@ -45,6 +43,7 @@ import com.xeiam.xchange.service.BaseSocketIOExchangeService;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+import com.xeiam.xchange.utils.JSONUtils;
 
 /**
  * <p>
@@ -57,6 +56,8 @@ import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService
 public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService implements StreamingMarketDataService {
 
   private final Logger log = LoggerFactory.getLogger(MtGoxStreamingMarketDataService.class);
+
+  ObjectMapper tickerObjectMapper = new ObjectMapper();
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -74,7 +75,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   }
 
   @Override
-  public BlockingQueue<Ticker> getTicker() throws NotAvailableFromExchangeException {
+  public BlockingQueue<Ticker> getTicker() {
 
     // Construct an Exchange that we know to use a direct socket to support streaming market data
     Exchange mtGox = MtGoxExchange.newInstance();
@@ -91,62 +92,16 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
         String data = new String(event.getRawData());
         // log.debug("Event data: {}", data);
 
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> userInMap = null;
-        try {
-          userInMap = mapper.readValue(data, new TypeReference<Map<String, Object>>() {
-          });
-          userInMap.get("ticker").toString(); // try this, expecting to fail for non-ticker JSON objects
-          // log.debug(userInMap.get("ticker").toString());
-          // log.debug(mapper.writeValueAsString(userInMap.get("ticker")));
-        } catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        } catch (Exception e) {
-          // Do nothing, the JSON was corrupt or an irrelevant data object was sent
-          log.debug("Not a problem, but Exception parsing: " + data);
+        // get raw JSON
+        Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(data, tickerObjectMapper);
+
+        if (rawJSON.get("ticker") == null) { // some JSON came in that is not mtgox ticker data
           return;
         }
-        // Use Jackson to parse it
-        mapper = new ObjectMapper();
-        MtGoxTicker mtGoxTicker = null;
-        try {
-          mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
-          // log.debug(mtGoxTicker.toString());
-        } catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
 
-        // ObjectMapper mapper = new ObjectMapper();
-        // try {
-        // Map<String, Object> userInMap = mapper.readValue(data, new TypeReference<Map<String, Object>>() {
-        // });
-        // log.debug(userInMap.get("ticker").toString());
-        //
-        // } catch (JsonParseException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // } catch (JsonMappingException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
+        // Get MtGoxTicker from JSON String
+        MtGoxTicker mtGoxTicker = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("ticker"), tickerObjectMapper), MtGoxTicker.class, tickerObjectMapper);
 
-        // ObjectMapper objectMapper = new ObjectMapper();
-        // MtGoxTicker mtGoxTicker;
-        // try {
-        // mtGoxTicker = objectMapper.readValue(data, MtGoxTicker.class);
-        // } catch (JsonParseException e) {
-        // throw new ExchangeException("JsonParseException!", e);
-        // } catch (JsonMappingException e) {
-        // throw new ExchangeException("JsonMappingException!", e);
-        // } catch (IOException e) {
-        // throw new ExchangeException("IOException!", e);
-        // }
-        //
         // Adapt to XChange DTOs
         Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
         // log.debug(ticker.toString());

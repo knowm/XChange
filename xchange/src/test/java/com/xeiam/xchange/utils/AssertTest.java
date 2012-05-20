@@ -28,6 +28,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+/**
+ * Test class for testing various Assert methods
+ */
 public class AssertTest {
 
   @Test

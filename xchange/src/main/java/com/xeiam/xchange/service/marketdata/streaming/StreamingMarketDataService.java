@@ -24,7 +24,6 @@ package com.xeiam.xchange.service.marketdata.streaming;
 import java.util.concurrent.BlockingQueue;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.StreamingExchangeService;
 
@@ -41,6 +40,6 @@ import com.xeiam.xchange.service.StreamingExchangeService;
  */
 public interface StreamingMarketDataService extends StreamingExchangeService {
 
-  BlockingQueue<Ticker> getTicker() throws NotAvailableFromExchangeException;
+  BlockingQueue<Ticker> getTicker();
 
 }

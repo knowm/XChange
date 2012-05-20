@@ -79,13 +79,9 @@ public class HttpTemplate {
     Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(objectMapper, "objectMapper cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
-    try {
-      httpHeaders.put("Accept", "application/json");
-      return objectMapper.readValue(getForString(urlString, httpHeaders), returnType);
-    } catch (IOException e) {
-      // Rethrow as runtime exception
-      throw new HttpException(e.getMessage(), e);
-    }
+    httpHeaders.put("Accept", "application/json");
+
+    return JSONUtils.getJsonObject(getForString(urlString, httpHeaders), returnType, objectMapper);
   }
 
   /**
@@ -104,13 +100,7 @@ public class HttpTemplate {
     Assert.notNull(objectMapper, "objectMapper cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
 
-    try {
-      httpHeaders.put("Accept", "application/json");
-      return objectMapper.readValue(postForString(urlString, postBody, httpHeaders), returnType);
-    } catch (IOException e) {
-      // Rethrow as runtime exception
-      throw new HttpException(e.getMessage(), e);
-    }
+    return JSONUtils.getJsonObject(postForString(urlString, postBody, httpHeaders), returnType, objectMapper);
   }
 
   /**

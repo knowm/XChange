@@ -28,7 +28,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Test requesting last tick at MtGox
+ * Test requesting polling Ticker at MtGox
  */
 public class TickerDemo {
 
@@ -39,7 +39,7 @@ public class TickerDemo {
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
-    // Interested in the public market data feed (no authentication)
+    // Interested in the public polling market data feed (no authentication)
     marketDataService = mtGox.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD

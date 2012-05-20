@@ -32,6 +32,9 @@ import java.math.RoundingMode;
 import org.joda.money.BigMoney;
 import org.junit.Test;
 
+/**
+ * Test class for testing MoneyUtils methods
+ */
 public class MoneyUtilsTest {
 
   /**
