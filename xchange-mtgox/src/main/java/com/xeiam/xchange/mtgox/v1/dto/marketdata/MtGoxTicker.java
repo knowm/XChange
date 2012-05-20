@@ -128,4 +128,10 @@ public class MtGoxTicker {
     this.sell = sell;
   }
 
+  @Override
+  public String toString() {
+    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last_local=" + last_local + ", last=" + last + ", last_orig=" + last_orig + ", last_all=" + last_all
+        + ", buy=" + buy + ", sell=" + sell + "]";
+  }
+
 }

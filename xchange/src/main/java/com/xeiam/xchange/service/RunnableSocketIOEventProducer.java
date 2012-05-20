@@ -23,7 +23,6 @@ package com.xeiam.xchange.service;
 
 import java.util.concurrent.BlockingQueue;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,38 +79,65 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   }
 
   @Override
-  public void onMessage(String data, IOAcknowledge ack) {
+  public void onMessage(final String data, IOAcknowledge ack) {
 
-    // TODO handle this
-    log.debug("Message: " + data);
-  }
+    // log.debug("onMessage (String)");
 
-  @Override
-  public void onMessage(JSONObject json, IOAcknowledge ack) {
-
-    try {
-      JSONObject ticker = (JSONObject) json.get("ticker");
-      if (ticker != null) {
-        JSONObject last = (JSONObject) ticker.get("last");
-        if (last != null) {
-          final String display = (String) last.get("display");
-          // log.debug(display);
-          // Create an event
-          ExchangeEvent marketDataEvent = new ExchangeEvent() {
-            @Override
-            public byte[] getRawData() {
-              return display.getBytes();
-            }
-          };
-          queue.put(marketDataEvent);
-        }
+    ExchangeEvent marketDataEvent = new ExchangeEvent() {
+      @Override
+      public byte[] getRawData() {
+        return data.getBytes();
       }
-    } catch (JSONException e) {
-      // Ignore (probably an "op")
+    };
+    try {
+      queue.put(marketDataEvent);
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block, handle this properly
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void onMessage(final JSONObject json, IOAcknowledge ack) {
+
+    // log.debug("onMessage (JSON)");
+
+    ExchangeEvent marketDataEvent = new ExchangeEvent() {
+      @Override
+      public byte[] getRawData() {
+        return json.toString().getBytes();
+      }
+    };
+    try {
+      queue.put(marketDataEvent);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block, handle this properly
+      e.printStackTrace();
+    }
+
+    // try {
+    // JSONObject ticker = (JSONObject) json.get("ticker");
+    // if (ticker != null) {
+    // JSONObject last = (JSONObject) ticker.get("last");
+    // if (last != null) {
+    // final String display = (String) last.get("display");
+    // // log.debug(display);
+    // // Create an event
+    // ExchangeEvent marketDataEvent = new ExchangeEvent() {
+    // @Override
+    // public byte[] getRawData() {
+    // return display.getBytes();
+    // }
+    // };
+    // queue.put(marketDataEvent);
+    // }
+    // }
+    // } catch (JSONException e) {
+    // // Ignore (probably an "op")
+    // } catch (InterruptedException e) {
+    // // TODO Auto-generated catch block, handle this properly
+    // e.printStackTrace();
+    // }
   }
 
   @Override

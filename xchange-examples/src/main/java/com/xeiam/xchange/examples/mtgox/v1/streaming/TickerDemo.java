@@ -21,8 +21,11 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.streaming;
 
+import java.util.concurrent.BlockingQueue;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
@@ -41,7 +44,20 @@ public class TickerDemo {
     streamingMarketDataService = mtGox.getStreamingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    streamingMarketDataService.getTicker();
+    BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.getTicker();
+
+    while (true) {
+      try {
+        doSomething(tickerQueue.take());
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+
+  }
+
+  private static void doSomething(Ticker ticker) {
+    System.out.println(ticker.toString());
 
   }
 

@@ -26,8 +26,10 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.junit.Test;
 
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
@@ -49,5 +51,26 @@ public class TickerJSONTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(4.89002));
+  }
+
+  @Test
+  public void testStreamingUnmarshal() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-streaming-data.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
+    });
+    System.out.println(userInMap.get("ticker").toString());
+    System.out.println(mapper.writeValueAsString(userInMap.get("ticker")));
+
+    // Use Jackson to parse it
+    mapper = new ObjectMapper();
+    MtGoxTicker mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(5.10991));
+
   }
 }

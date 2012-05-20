@@ -22,14 +22,14 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,25 +87,69 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     RunnableExchangeEventListener listener = new RunnableExchangeEventListener() {
       @Override
       public void handleEvent(ExchangeEvent event) {
-        // Perform very basic reporting to illustrate different threads
-        String data = new String(event.getRawData());
-        log.debug("Event data: {}", data);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        MtGoxTicker mtGoxTicker;
+        String data = new String(event.getRawData());
+        // log.debug("Event data: {}", data);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> userInMap = null;
         try {
-          mtGoxTicker = objectMapper.readValue(data, MtGoxTicker.class);
-        } catch (JsonParseException e) {
-          throw new ExchangeException("JsonParseException!", e);
-        } catch (JsonMappingException e) {
-          throw new ExchangeException("JsonMappingException!", e);
+          userInMap = mapper.readValue(data, new TypeReference<Map<String, Object>>() {
+          });
+          userInMap.get("ticker").toString(); // try this, expecting to fail for non-ticker JSON objects
+          // log.debug(userInMap.get("ticker").toString());
+          // log.debug(mapper.writeValueAsString(userInMap.get("ticker")));
         } catch (IOException e) {
-          throw new ExchangeException("IOException!", e);
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (Exception e) {
+          // Do nothing, the JSON was corrupt or an irrelevant data object was sent
+          log.debug("Not a problem, but Exception parsing: " + data);
+          return;
+        }
+        // Use Jackson to parse it
+        mapper = new ObjectMapper();
+        MtGoxTicker mtGoxTicker = null;
+        try {
+          mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
+          // log.debug(mtGoxTicker.toString());
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
         }
 
+        // ObjectMapper mapper = new ObjectMapper();
+        // try {
+        // Map<String, Object> userInMap = mapper.readValue(data, new TypeReference<Map<String, Object>>() {
+        // });
+        // log.debug(userInMap.get("ticker").toString());
+        //
+        // } catch (JsonParseException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // } catch (JsonMappingException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // } catch (IOException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+
+        // ObjectMapper objectMapper = new ObjectMapper();
+        // MtGoxTicker mtGoxTicker;
+        // try {
+        // mtGoxTicker = objectMapper.readValue(data, MtGoxTicker.class);
+        // } catch (JsonParseException e) {
+        // throw new ExchangeException("JsonParseException!", e);
+        // } catch (JsonMappingException e) {
+        // throw new ExchangeException("JsonMappingException!", e);
+        // } catch (IOException e) {
+        // throw new ExchangeException("IOException!", e);
+        // }
+        //
         // Adapt to XChange DTOs
         Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
-        log.debug(ticker.toString());
+        // log.debug(ticker.toString());
 
         try {
           tickerQueue.put(ticker);
