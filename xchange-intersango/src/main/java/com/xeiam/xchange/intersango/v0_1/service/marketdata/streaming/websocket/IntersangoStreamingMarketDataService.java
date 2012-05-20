@@ -22,9 +22,11 @@
 package com.xeiam.xchange.intersango.v0_1.service.marketdata.streaming.websocket;
 
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.BaseWebSocketExchangeService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
@@ -46,9 +48,9 @@ public class IntersangoStreamingMarketDataService extends BaseWebSocketExchangeS
   }
 
   @Override
-  public void getTicker() throws NotAvailableFromExchangeException {
+  public BlockingQueue<Ticker> getTicker() throws NotAvailableFromExchangeException {
     // TODO Auto-generated method stub
-
+    return null;
   }
 
 }

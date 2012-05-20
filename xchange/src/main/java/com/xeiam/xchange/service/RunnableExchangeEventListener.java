@@ -26,6 +26,8 @@ import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.ExchangeException;
+
 /**
  * <p>
  * Abstract base class to provide the following to XChange clients:
@@ -77,5 +79,5 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
    * 
    * @param event The market data event containing the information
    */
-  public abstract void handleEvent(ExchangeEvent event);
+  public abstract void handleEvent(ExchangeEvent event) throws ExchangeException;
 }
