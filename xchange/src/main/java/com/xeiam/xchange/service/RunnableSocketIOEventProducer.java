@@ -37,7 +37,7 @@ import com.xeiam.xchange.streaming.socketio.SocketIOException;
  * Producer to provide the following to {@link ExchangeEventListener}:
  * </p>
  * <ul>
- * <li>Raw market data from the upstream server</li>
+ * <li>Raw exchange data from the upstream server</li>
  * </ul>
  */
 public class RunnableSocketIOEventProducer implements RunnableExchangeEventProducer, IOCallback {
@@ -48,10 +48,10 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   private final SocketIO socketIO;
 
   /**
-   * Package constructor
+   * Constructor
    * 
-   * @param socket The underlying socket to use (operates in a
-   * @param queue The market data event queue for the producer to work against
+   * @param socket The underlying socketio to use
+   * @param queue The exchange event queue for the producer to work against
    */
   RunnableSocketIOEventProducer(SocketIO socketClient, BlockingQueue<ExchangeEvent> queue) {
     this.queue = queue;
@@ -81,8 +81,6 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   @Override
   public void onMessage(final String data, IOAcknowledge ack) {
 
-    // log.debug("onMessage (String)");
-
     ExchangeEvent marketDataEvent = new ExchangeEvent() {
       @Override
       public byte[] getRawData() {
@@ -100,8 +98,6 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   @Override
   public void onMessage(final JSONObject json, IOAcknowledge ack) {
 
-    // log.debug("onMessage (JSON)");
-
     ExchangeEvent marketDataEvent = new ExchangeEvent() {
       @Override
       public byte[] getRawData() {
@@ -115,29 +111,6 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
       e.printStackTrace();
     }
 
-    // try {
-    // JSONObject ticker = (JSONObject) json.get("ticker");
-    // if (ticker != null) {
-    // JSONObject last = (JSONObject) ticker.get("last");
-    // if (last != null) {
-    // final String display = (String) last.get("display");
-    // // log.debug(display);
-    // // Create an event
-    // ExchangeEvent marketDataEvent = new ExchangeEvent() {
-    // @Override
-    // public byte[] getRawData() {
-    // return display.getBytes();
-    // }
-    // };
-    // queue.put(marketDataEvent);
-    // }
-    // }
-    // } catch (JSONException e) {
-    // // Ignore (probably an "op")
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block, handle this properly
-    // e.printStackTrace();
-    // }
   }
 
   @Override

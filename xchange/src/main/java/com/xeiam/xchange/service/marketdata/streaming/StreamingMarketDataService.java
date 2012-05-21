@@ -40,6 +40,16 @@ import com.xeiam.xchange.service.StreamingExchangeService;
  */
 public interface StreamingMarketDataService extends StreamingExchangeService {
 
-  BlockingQueue<Ticker> getTicker();
+  /**
+   * Request a streaming Ticker feed
+   * 
+   * @return a blocking queue that receives incoming Ticker objects
+   */
+  BlockingQueue<Ticker> requestTicker();
+
+  /**
+   * Cancel the streaming Ticker feed
+   */
+  void cancelTicker();
 
 }

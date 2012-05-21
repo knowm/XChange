@@ -50,7 +50,7 @@ public class TickerDemo {
     streamingMarketDataService = mtGox.getStreamingMarketDataService();
 
     // Get blocking queue that receives streaming ticker data
-    BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.getTicker();
+    BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.requestTicker();
 
     // take streaming ticker data from the queue and do something with it
     while (true) {

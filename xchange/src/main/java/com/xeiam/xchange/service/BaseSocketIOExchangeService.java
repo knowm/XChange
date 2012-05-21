@@ -37,10 +37,10 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Socket IO market data service to provide the following to streaming market data API:
+ * Socket IO exchange service to provide the following to streaming market data API:
  * </p>
  * <ul>
- * <li>Connection to an upstream market data source with a configured provider</li>
+ * <li>Connection to an upstream exchange data source with a configured provider</li>
  * </ul>
  */
 public abstract class BaseSocketIOExchangeService extends BaseExchangeService implements StreamingExchangeService {

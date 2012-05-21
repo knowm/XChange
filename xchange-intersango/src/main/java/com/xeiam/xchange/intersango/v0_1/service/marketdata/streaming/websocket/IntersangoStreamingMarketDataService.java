@@ -48,7 +48,7 @@ public class IntersangoStreamingMarketDataService extends BaseWebSocketExchangeS
   }
 
   @Override
-  public BlockingQueue<Ticker> getTicker() throws NotAvailableFromExchangeException {
+  public BlockingQueue<Ticker> requestTicker() throws NotAvailableFromExchangeException {
     // TODO Auto-generated method stub
     return null;
   }

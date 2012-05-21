@@ -75,7 +75,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   }
 
   @Override
-  public BlockingQueue<Ticker> getTicker() {
+  public BlockingQueue<Ticker> requestTicker() {
 
     // Construct an Exchange that we know to use a direct socket to support streaming market data
     Exchange mtGox = MtGoxExchange.newInstance();
@@ -114,9 +114,8 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
       }
     };
 
-    // String url = apiBase;
     String url = apiBase + "?Channel=ticker";
-    log.debug(url);
+    // log.debug(url);
     streamingExchangeService.connect(url, listener);
 
     // Start a new thread for the listener
@@ -125,5 +124,10 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
     return tickerQueue;
 
+  }
+
+  @Override
+  public void cancelTicker() {
+    disconnect();
   }
 }
