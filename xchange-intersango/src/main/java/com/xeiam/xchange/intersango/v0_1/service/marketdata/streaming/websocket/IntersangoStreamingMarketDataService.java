@@ -53,4 +53,10 @@ public class IntersangoStreamingMarketDataService extends BaseWebSocketExchangeS
     return null;
   }
 
+  @Override
+  public void cancelTicker() {
+    // TODO Auto-generated method stub
+
+  }
+
 }
