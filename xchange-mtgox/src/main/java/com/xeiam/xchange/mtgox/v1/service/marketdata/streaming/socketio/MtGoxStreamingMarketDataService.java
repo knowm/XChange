@@ -21,29 +21,26 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.service.BaseSocketIOExchangeService;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.utils.JSONUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * <p>
@@ -78,8 +75,10 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   public BlockingQueue<Ticker> requestTicker() {
 
     // Construct an Exchange that we know to use a direct socket to support streaming market data
-    Exchange mtGox = MtGoxExchange.newInstance();
-    StreamingMarketDataService streamingExchangeService = mtGox.getStreamingMarketDataService();
+
+    // TODO Why is this using a hard-coded exchange? Use provided exchangeSpecification
+    //Exchange mtGox = MtGoxExchange.newInstance();
+    //StreamingMarketDataService streamingExchangeService = mtGox.getStreamingMarketDataService();
 
     // blocking ticker queue
     final BlockingQueue<Ticker> tickerQueue = new LinkedBlockingQueue<Ticker>(1024);
@@ -89,6 +88,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
       @Override
       public void handleEvent(ExchangeEvent event) {
 
+        // TODO Consider a byte[] to JSONUtils (and HttpUtils) to simplify character encoding
         String data = new String(event.getRawData());
         // log.debug("Event data: {}", data);
 
@@ -116,7 +116,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
     String url = apiBase + "?Channel=ticker";
     // log.debug(url);
-    streamingExchangeService.connect(url, listener);
+    this.connect(url, listener);
 
     // Start a new thread for the listener
     ExecutorService executorService = Executors.newSingleThreadExecutor();

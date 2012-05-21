@@ -21,19 +21,17 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Test requesting streaming Ticker at MtGox
  */
 public class TickerDemo {
-
-  private StreamingMarketDataService streamingMarketDataService;
 
   public static void main(String[] args) {
 
@@ -43,11 +41,11 @@ public class TickerDemo {
 
   private void start() {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    // Use the default MtGox settings
+    Exchange mtGox = MtGoxExchange.newInstance();
 
     // Interested in the public streaming market data feed (no authentication)
-    streamingMarketDataService = mtGox.getStreamingMarketDataService();
+    StreamingMarketDataService streamingMarketDataService = mtGox.getStreamingMarketDataService();
 
     // Get blocking queue that receives streaming ticker data
     BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.requestTicker();
@@ -55,6 +53,7 @@ public class TickerDemo {
     // take streaming ticker data from the queue and do something with it
     while (true) {
       try {
+        // Put your ticker event handling code here
         doSomething(tickerQueue.take());
       } catch (InterruptedException e) {
         e.printStackTrace();
