@@ -40,12 +40,6 @@
       <artifactId>xchange-mtgox</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
-    <!-- XChange Intersango exchange support -->
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-intersango</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
 
     <!-- Third party dependencies -->
 
