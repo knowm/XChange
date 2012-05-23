@@ -4,18 +4,6 @@ XChange is a library providing a simple and consistent API for interacting with 
 
 In short, we invite pull requests.
 
-Acknowledgements
-================
-XChange is built upon the work of others and the following projects have generously provided much code and inspiration. Thanks to everyone who has helped in any capacity!
-
-WebSockets
-----------
-Based on the original work by Nathan Mische here: https://github.com/nmische/Java-WebSocket
-
-Socket.io
----------
-Based on the original work by Gottox here: https://github.com/Gottox/socket.io-java-client
-
 Getting Started
 ===============
 
@@ -36,13 +24,13 @@ If you want to include XChange in your projects, you will need to reference one 
 <dependency>
   <groupId>com.xeiam.xchange</groupId>
   <artifactId>xchange</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 <!-- XChange MtGox Exchange support -->
 <dependency>
   <groupId>com.xeiam.xchange</groupId>
   <artifactId>xchange-mtgox</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 
 The XChange Java artifacts are currently hosted in the BitCoinJ Nexus repository here:
