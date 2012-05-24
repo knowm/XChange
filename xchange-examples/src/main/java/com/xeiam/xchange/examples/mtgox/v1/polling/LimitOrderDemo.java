@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.polling;
 
+import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -29,9 +33,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
-
-import java.math.BigDecimal;
 
 /**
  * Test placing a limit order at MtGox
@@ -59,6 +60,7 @@ public class LimitOrderDemo {
     limitOrder.setType(OrderType.BID);
     limitOrder.setTradableIdentifier("BTC");
     limitOrder.setTradableAmount(new BigDecimal(Math.random()));
+    limitOrder.setTransactionCurrency("USD");
     BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
     limitOrder.setLimitPrice(limitPrice);
     boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
