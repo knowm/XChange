@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.service;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -52,8 +53,8 @@ public abstract class BasePollingExchangeService extends BaseExchangeService {
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
   protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
-
     super(exchangeSpecification);
+    this.mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   public void setHttpTemplate(HttpTemplate httpTemplate) {
