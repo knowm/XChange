@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.dto.trade;
 
-import net.jcip.annotations.Immutable;
-
 import org.joda.money.BigMoney;
 
 /**
@@ -30,7 +28,6 @@ import org.joda.money.BigMoney;
  * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
  * </p>
  */
-@Immutable
 public class Wallet {
 
   private final BigMoney balance;

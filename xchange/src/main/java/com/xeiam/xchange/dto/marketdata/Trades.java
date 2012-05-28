@@ -23,12 +23,9 @@ package com.xeiam.xchange.dto.marketdata;
 
 import java.util.List;
 
-import net.jcip.annotations.Immutable;
-
 /**
  * Data object representing Trades
  */
-@Immutable
 public final class Trades {
 
   private final List<Trade> trades;

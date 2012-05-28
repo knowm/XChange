@@ -23,12 +23,9 @@ package com.xeiam.xchange.dto.trade;
 
 import java.util.List;
 
-import net.jcip.annotations.Immutable;
-
 /**
  * Data object representing open orders
  */
-@Immutable
 public class OpenOrders {
 
   List<LimitOrder> openOrders;

@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange;
 
-import net.jcip.annotations.Immutable;
-
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -37,7 +35,6 @@ import com.xeiam.xchange.utils.Assert;
  * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
  * </p>
  */
-@Immutable
 public class CurrencyPair {
 
   // Provide some standard major symbols

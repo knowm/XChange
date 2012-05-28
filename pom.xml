@@ -144,31 +144,7 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Execute FindBugs during an install -->
-      <!-- TODO Get this working with the Maven3 site plugin -->
-      <!--<plugin>-->
-        <!--<groupId>org.codehaus.mojo</groupId>-->
-        <!--<artifactId>findbugs-maven-plugin</artifactId>-->
-        <!--<configuration>-->
-          <!--&lt;!&ndash; Ignore this error it is a hidden configuration entry &ndash;&gt;-->
-          <!--<targetJdk>1.6</targetJdk>-->
-          <!--<threshold>Normal</threshold>-->
-          <!--<effort>Max</effort>-->
-          <!--<xmlOutput>true</xmlOutput>-->
-          <!--<findbugsXmlOutput>true</findbugsXmlOutput>-->
-          <!--<findbugsXmlOutput>true</findbugsXmlOutput>-->
-          <!--<findbugsXmlOutputDirectory>target/findbugs</findbugsXmlOutputDirectory>-->
-        <!--</configuration>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>findbugs</id>-->
-            <!--<phase>verify</phase>-->
-            <!--<goals>-->
-              <!--<goal>check</goal>-->
-            <!--</goals>-->
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
+      
       <!-- Execute JXR (Source code cross-reference) during an install -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -187,29 +163,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Standard PMD detection and copy paste detection -->
-      <!-- TODO Get this working with Maven3 site plugin -->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-pmd-plugin</artifactId>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>pmd</id>-->
-            <!--<phase>verify</phase>-->
-            <!--<goals>-->
-              <!--<goal>check</goal>-->
-              <!--&lt;!&ndash; Don't break the build due to duplicated code but report it &ndash;&gt;-->
-              <!--<goal>cpd</goal>-->
-            <!--</goals>-->
-          <!--</execution>-->
-        <!--</executions>-->
-        <!--<configuration>-->
-          <!--<linkXRef>true</linkXRef>-->
-          <!--<sourceEncoding>utf-8</sourceEncoding>-->
-          <!--<minimumTokens>100</minimumTokens>-->
-          <!--<targetJdk>1.6</targetJdk>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
     </plugins>
   </build>
 
@@ -220,14 +173,19 @@
       <dependency>
         <groupId>org.codehaus.jackson</groupId>
         <artifactId>jackson-mapper-asl</artifactId>
-        <version>1.9.2</version>
+        <version>1.9.7</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-core-asl</artifactId>
+        <version>1.9.7</version>
       </dependency>
 
       <!-- SLF4J for logging API -->
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
+        <version>1.6.4</version>
       </dependency>
       <!-- Logback for implementation -->
       <dependency>
@@ -240,7 +198,7 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
+        <version>1.6.4</version>
         <scope>runtime</scope>
       </dependency>
 
@@ -258,32 +216,14 @@
         <version>0.6</version>
       </dependency>
 
-      <!-- JUnit with JMockit, Hamcrest (JMockit must be before JUnit on classpath) -->
-      <dependency>
-        <groupId>com.googlecode.jmockit</groupId>
-        <artifactId>jmockit</artifactId>
-        <version>0.999.11</version>
-        <scope>test</scope>
-      </dependency>
+      <!-- JUnit -->
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.8.2</version>
         <scope>test</scope>
       </dependency>
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-library</artifactId>
-        <version>1.1</version>
-        <scope>test</scope>
-      </dependency>
 
-      <!-- Findbugs annotations for the avoidance of doubt -->
-      <dependency>
-        <groupId>com.google.code.findbugs</groupId>
-        <artifactId>annotations</artifactId>
-        <version>1.3.9</version>
-      </dependency>
 
       <!-- Commons Codec for Crypto -->
       <dependency>
@@ -293,9 +233,5 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <properties>
-    <slf4j.version>1.6.4</slf4j.version>
-  </properties>
 
 </project>

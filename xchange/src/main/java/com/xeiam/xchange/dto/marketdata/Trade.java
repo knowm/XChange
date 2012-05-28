@@ -23,8 +23,6 @@ package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import net.jcip.annotations.Immutable;
-
 import org.joda.money.BigMoney;
 import org.joda.time.DateTime;
 
@@ -33,7 +31,6 @@ import com.xeiam.xchange.dto.Order.OrderType;
 /**
  * Data object representing a Trade
  */
-@Immutable
 public final class Trade {
 
   /**

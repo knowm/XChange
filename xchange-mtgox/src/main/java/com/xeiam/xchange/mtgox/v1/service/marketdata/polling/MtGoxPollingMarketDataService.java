@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
+import java.util.HashMap;
+import java.util.List;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -37,9 +40,6 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>

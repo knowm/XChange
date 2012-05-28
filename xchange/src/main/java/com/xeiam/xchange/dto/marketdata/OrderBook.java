@@ -23,14 +23,11 @@ package com.xeiam.xchange.dto.marketdata;
 
 import java.util.List;
 
-import net.jcip.annotations.Immutable;
-
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Data object representing OrderBook
  */
-@Immutable
 public final class OrderBook {
 
   private final List<LimitOrder> asks;

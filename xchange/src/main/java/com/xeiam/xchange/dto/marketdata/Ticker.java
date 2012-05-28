@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import net.jcip.annotations.Immutable;
-
 import org.joda.money.BigMoney;
 import org.joda.time.DateTime;
 
@@ -31,7 +29,6 @@ import com.xeiam.xchange.utils.DateUtils;
 /**
  * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade. This class is immutable.
  */
-@Immutable
 public final class Ticker {
 
   private final BigMoney last;
