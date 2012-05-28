@@ -4,48 +4,85 @@ XChange is a library providing a simple and consistent API for interacting with 
 
 In short, we invite pull requests.
 
+More info
+=========
+Project Site: http://xeiam.com/xchange.jsp
+Example Code: http://xeiam.com/xchange_examplecode.jsp
+Change Log: http://xeiam.com/xchange_changelog.jsp
+Java Docs: http://xeiam.com/xchange/javadoc/index.html
+
+Wiki
+====
+Home: https://github.com/timmolter/XChange/wiki
+Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes
+Milestones: https://github.com/timmolter/XChange/wiki/Milestones
+Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support
+Maven Integration: https://github.com/timmolter/XChange/wiki/Maven-Integration
+
+Build instructions
+========================
+Maven Build: https://github.com/timmolter/XChange/wiki/Maven-Integration
+
 Getting Started
 ===============
 
-Java build instructions
------------------------
-XChange Java is built with Maven 3.0.3+ (although earlier versions may work) as a reactor project.
-To build everything you need, simply enter
+Maven
+-----
+Maven Integration: https://github.com/timmolter/XChange/wiki/Maven-Integration
 
-mvn clean package
+Non-Maven
+---------
+Download Jars: http://xeiam.com/xchange.jsp
+Jar Dependencies:
 
-at the command line.
+Example Code (More at: http://xeiam.com/xchange_examplecode.jsp)
+===========
+package com.xeiam.xchange.examples.mtgox.v1.polling;
 
-Maven dependency management
----------------------------
-If you want to include XChange in your projects, you will need to reference one of the Maven repositories. These are listed in the parent pom.xml. Typically you would reference the XChange artifacts as follows:
+import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
-<!-- XChange core API -->
-<dependency>
-  <groupId>com.xeiam.xchange</groupId>
-  <artifactId>xchange</artifactId>
-  <version>1.0.0</version>
-</dependency>
-<!-- XChange MtGox Exchange support -->
-<dependency>
-  <groupId>com.xeiam.xchange</groupId>
-  <artifactId>xchange-mtgox</artifactId>
-  <version>1.0.0</version>
-</dependency>
+/**
+ * Test requesting polling Ticker at MtGox
+ */
+public class TickerDemo {
 
-The XChange Java artifacts are currently hosted in the BitCoinJ Nexus repository here:
+  private static PollingMarketDataService marketDataService;
 
-<repositories>
-   <repository>
-     <id>xchange-release</id>
-     <releases/>
-     <url>http://nexus.bitcoinj.org/content/repositories/releases</url>
-   </repository>
-   <repository>
-     <id>xchange-snapshot</id>
-     <snapshots/>
-     <url>http://nexus.bitcoinj.org/content/repositories/snapshots</url>
-   </repository>
- </repositories>
+  public static void main(String[] args) {
 
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+
+    // Interested in the public polling market data feed (no authentication)
+    marketDataService = mtGox.getPollingMarketDataService();
+
+    // Get the latest ticker data showing BTC to USD
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    double value = ticker.getLast().getAmount().doubleValue();
+    String currency = ticker.getLast().getCurrencyUnit().toString();
+    System.out.println("Last: " + currency + "-" + value);
+
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Bid: " + ticker.getBid().toString());
+    System.out.println("Ask: " + ticker.getAsk().toString());
+
+    // Get the latest ticker data showing BTC to EUR
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Bid: " + ticker.getBid().toString());
+    System.out.println("Ask: " + ticker.getAsk().toString());
+
+    // Get the latest ticker data showing BTC to GBP
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Bid: " + ticker.getBid().toString());
+    System.out.println("Ask: " + ticker.getAsk().toString());
+
+  }
+
+}
 
