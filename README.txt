@@ -19,9 +19,6 @@ Milestones: https://github.com/timmolter/XChange/wiki/Milestones
 Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support
 Maven Integration: https://github.com/timmolter/XChange/wiki/Maven-Integration
 
-Build instructions
-========================
-Maven Build: https://github.com/timmolter/XChange/wiki/Maven-Integration
 
 Getting Started
 ===============
@@ -33,10 +30,43 @@ Maven Integration: https://github.com/timmolter/XChange/wiki/Maven-Integration
 Non-Maven
 ---------
 Download Jars: http://xeiam.com/xchange.jsp
-Jar Dependencies:
+
+xchange dependencies
+--------------------
+> commons-codec:commons-codec:jar:1.6:compile
+> joda-time:joda-time:jar:1.6.2:compile
+> junit:junit:jar:4.8.2:test
+> org.codehaus.jackson:jackson-core-asl:jar:1.9.7:compile
+> org.codehaus.jackson:jackson-mapper-asl:jar:1.9.7:compile
+> org.joda:joda-money:jar:0.6:compile
+> org.slf4j:slf4j-api:jar:1.6.4:compile
+
+xchange-mtgox dependencies
+--------------------------
+> com.xeiam.xchange:xchange:jar:1.0.1-SNAPSHOT:compile
+> commons-codec:commons-codec:jar:1.6:compile
+> joda-time:joda-time:jar:1.6.2:compile
+> junit:junit:jar:4.8.2:test
+> org.codehaus.jackson:jackson-core-asl:jar:1.9.7:compile
+> org.codehaus.jackson:jackson-mapper-asl:jar:1.9.7:compile
+> org.joda:joda-money:jar:0.6:compile
+> org.slf4j:slf4j-api:jar:1.6.4:compile
+
+xchange-examples dependencies
+-----------------------------
+> com.xeiam.xchange:xchange:jar:1.0.1-SNAPSHOT:compile
+> com.xeiam.xchange:xchange-mtgox:jar:1.0.1-SNAPSHOT:compile
+> commons-codec:commons-codec:jar:1.6:compile
+> joda-time:joda-time:jar:1.6.2:compile
+> org.codehaus.jackson:jackson-core-asl:jar:1.9.7:compile
+> org.codehaus.jackson:jackson-mapper-asl:jar:1.9.7:compile
+> org.joda:joda-money:jar:0.6:compile
+> org.slf4j:slf4j-api:jar:1.6.4:compile
+
 
 Example Code (More at: http://xeiam.com/xchange_examplecode.jsp)
-===========
+================================================================
+
 package com.xeiam.xchange.examples.mtgox.v1.polling;
 
 import com.xeiam.xchange.Currencies;
