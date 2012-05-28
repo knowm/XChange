@@ -51,5 +51,4 @@ public class AccountInfoDemo {
     AccountInfo accountInfo = tradeService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
   }
-
 }

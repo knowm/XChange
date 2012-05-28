@@ -21,14 +21,14 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.polling;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-
-import java.math.BigDecimal;
 
 /**
  * Test placing a market order at MtGox
@@ -59,7 +59,6 @@ public class MarketOrderDemo {
     boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
 
     // Verify that the order placement was successful
-    System.out.println(marketOrderSuccess);
+    System.out.println("Market Order placement successful? " + marketOrderSuccess);
   }
-
 }

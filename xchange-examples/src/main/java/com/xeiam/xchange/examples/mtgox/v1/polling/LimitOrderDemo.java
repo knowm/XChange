@@ -70,11 +70,9 @@ public class LimitOrderDemo {
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();
-
     for (LimitOrder openOrder : openOrders.getOpenOrders()) {
       System.out.println(openOrder.toString());
     }
 
   }
-
 }
