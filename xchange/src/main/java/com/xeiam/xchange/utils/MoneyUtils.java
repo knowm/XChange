@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.utils;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.joda.money.BigMoney;
@@ -42,7 +43,12 @@ public class MoneyUtils {
    * @see org.joda.money.Money For a simpler approach for fiat currencies not requiring precise calculations (e.g. display only)
    */
   public static BigMoney parseFiat(String value) {
-    return BigMoney.parse(value);
+    try {
+      return BigMoney.parse(value);
+    } catch (IllegalArgumentException e) { // for example, BigMoney cannot handle scientific notation in its constructor
+      BigDecimal bigDecimal = new BigDecimal(value.substring(4));
+      return BigMoney.parse(value.substring(0, 3) + " " + bigDecimal.toPlainString()); // here we attempt to parse it manually with the BigDecimal constructor
+    }
   }
 
   /**

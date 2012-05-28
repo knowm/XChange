@@ -327,4 +327,12 @@ public class MoneyUtilsTest {
 
   }
 
+  @Test
+  public void testScientificNotation() {
+
+    String amount = "USD 1.0E7";
+    MoneyUtils.parseFiat(amount);
+
+  }
+
 }
