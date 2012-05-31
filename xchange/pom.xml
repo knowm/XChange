@@ -64,7 +64,6 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 
-
 		<!-- Commons Codec for Crypto -->
 		<dependency>
 			<groupId>commons-codec</groupId>
