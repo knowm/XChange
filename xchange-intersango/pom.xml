@@ -9,12 +9,12 @@
   </parent>
 
   <groupId>com.xeiam.xchange</groupId>
-  <artifactId>xchange-mtgox</artifactId>
+  <artifactId>xchange-intersango</artifactId>
   <!-- This version is independent of the parent -->
   <version>${project.parent.version}</version>
 
-  <name>MtGox Exchange</name>
-  <description>XChange implementations for the MtGox Exchange. Handles multiple currencies.</description>
+  <name>Intersango Exchange</name>
+  <description>XChange implementations for the Intersango Exchange. Handles multiple currencies.</description>
 
   <url>http://xeiam.com</url>
   <inceptionYear>2012</inceptionYear>
@@ -42,14 +42,21 @@
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
     </dependency>
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-core-asl</artifactId>
-      </dependency>
+
     <!-- SLF4J for logging API -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <!-- Logback for implementation -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    <!-- Java Commons Logging through SLF4J -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
     </dependency>
 
     <!-- All time handling is through Joda -->
@@ -57,15 +64,13 @@
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.joda</groupId>
-      <artifactId>joda-money</artifactId>
-    </dependency>
-    <!-- JUnit  -->
+
+    <!-- JUnit -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
+
 
   </dependencies>
 

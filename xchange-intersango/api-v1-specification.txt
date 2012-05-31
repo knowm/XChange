@@ -1,0 +1,10 @@
+Intersango Exchange API specification
+=====================================
+
+Online specification
+--------------------
+https://bitcoinconsultancy.com/wiki/Intersango/API
+
+Common API calls
+----------------
+Public market data
