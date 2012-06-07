@@ -5,13 +5,13 @@
   <parent>
     <groupId>com.xeiam.xchange</groupId>
     <artifactId>parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>develop-SNAPSHOT</version>
   </parent>
 
   <groupId>com.xeiam.xchange</groupId>
   <artifactId>xchange-intersango</artifactId>
   <!-- This version is independent of the parent -->
-  <version>1.0.0-SNAPSHOT</version>
+  <version>develop-SNAPSHOT</version>
 
   <name>Intersango Exchange</name>
   <description>XChange implementations for the Intersango Exchange. Handles multiple currencies.</description>
@@ -32,7 +32,7 @@
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange</artifactId>
       <!-- Keep the XChange core in line with the parent -->
-      <version>${project.parent.version}</version>
+      <version>develop-SNAPSHOT</version>
     </dependency>
 
     <!-- Third party dependencies -->
