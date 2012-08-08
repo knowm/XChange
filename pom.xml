@@ -5,7 +5,7 @@
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>parent</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
@@ -34,14 +34,14 @@
 	</scm>
 
 	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<url>http://nexus.bitcoinj.org/content/repositories/releases</url>
-		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
-			<url>http://nexus.bitcoinj.org/content/repositories/snapshots</url>
+			<id>xeiam_oss.snapshots</id>
+			<url>http://nexus.xeiam.com/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+			<id>xeiam_oss.releases</id>
+			<url>http://nexus.xeiam.com/content/repositories/releases</url>
+		</repository>
 	</distributionManagement>
 
 	<modules>
