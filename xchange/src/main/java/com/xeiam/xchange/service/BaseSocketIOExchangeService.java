@@ -62,7 +62,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
     super(exchangeSpecification);
 
-    Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
+    // Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
 
     executorService = Executors.newSingleThreadExecutor();
   }
@@ -95,11 +95,13 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   @Override
   public void send(String message) {
+
     this.socketIO.send(message);
   }
 
   @Override
   public synchronized void disconnect() {
+
     if (!executorService.isShutdown()) {
       // We close on the socket to get an immediate result
       // otherwise the producer would block until the exchange
@@ -114,11 +116,13 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   @Override
   public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
+
     return runnableMarketDataEventProducer;
   }
 
   @Override
   public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
+
     this.runnableMarketDataEventProducer = runnableMarketDataEventProducer;
   }
 

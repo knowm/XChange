@@ -93,12 +93,14 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
   @Override
   public void send(String message) {
+
     // TODO Auto-generated method stub
 
   }
 
   @Override
   public synchronized void disconnect() {
+
     try {
       if (!executorService.isShutdown()) {
         // We close on the socket to get an immediate result
@@ -119,11 +121,13 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
   @Override
   public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
+
     return runnableExchangeEventProducer;
   }
 
   @Override
   public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
+
     this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 }

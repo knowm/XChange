@@ -53,6 +53,7 @@ public class ExchangeSpecification {
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
   public ExchangeSpecification(String exchangeClassName) {
+
     this.exchangeClassName = exchangeClassName;
   }
 
@@ -62,6 +63,7 @@ public class ExchangeSpecification {
    * @param exchangeClass The exchange class
    */
   public ExchangeSpecification(Class exchangeClass) {
+
     this.exchangeClassName = exchangeClass.getCanonicalName();
   }
 
@@ -69,6 +71,7 @@ public class ExchangeSpecification {
    * @return The exchange class name for loading at runtime
    */
   public String getExchangeClassName() {
+
     return exchangeClassName;
   }
 
@@ -77,6 +80,7 @@ public class ExchangeSpecification {
    * @return Any additional exchangeSpecificParameters that the {@link Exchange} may consume to configure services
    */
   public Object getParameter(String key) {
+
     return exchangeSpecificParameters.get(key);
   }
 
@@ -84,10 +88,12 @@ public class ExchangeSpecification {
    * The host name of the server providing data (e.g. "intersango.com")
    */
   public String getHost() {
+
     return host;
   }
 
   public void setHost(String host) {
+
     this.host = host;
   }
 
@@ -95,10 +101,12 @@ public class ExchangeSpecification {
    * The API key. For MtGox this would be the "Rest-Key" field
    */
   public String getApiKey() {
+
     return apiKey;
   }
 
   public void setApiKey(String apiKey) {
+
     this.apiKey = apiKey;
   }
 
@@ -106,10 +114,12 @@ public class ExchangeSpecification {
    * The port number of the server providing direct socket data (e.g. "1337")
    */
   public int getPort() {
+
     return port;
   }
 
   public void setPort(int port) {
+
     this.port = port;
   }
 
@@ -117,10 +127,12 @@ public class ExchangeSpecification {
    * The API secret key typically used in HMAC signing of requests. For MtGox this would be the "Rest-Sign" field
    */
   public String getSecretKey() {
+
     return secretKey;
   }
 
   public void setSecretKey(String secretKey) {
+
     this.secretKey = secretKey;
   }
 
@@ -129,10 +141,12 @@ public class ExchangeSpecification {
    * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades")
    */
   public String getUri() {
+
     return uri;
   }
 
   public void setUri(String uri) {
+
     this.uri = uri;
   }
 
@@ -140,10 +154,12 @@ public class ExchangeSpecification {
    * The numerical API version to use (e.g. "1" or "0.3" etc)
    */
   public String getVersion() {
+
     return version;
   }
 
   public void setVersion(String version) {
+
     this.version = version;
   }
 
@@ -151,10 +167,12 @@ public class ExchangeSpecification {
    * Allows arbitrary exchange-specific parameters to be passed to the exchange implementation
    */
   public Map<String, Object> getExchangeSpecificParameters() {
+
     return exchangeSpecificParameters;
   }
 
   public void setExchangeSpecificParameters(Map<String, Object> exchangeSpecificParameters) {
+
     this.exchangeSpecificParameters = exchangeSpecificParameters;
   }
 
@@ -162,10 +180,12 @@ public class ExchangeSpecification {
    * The password for authentication
    */
   public String getPassword() {
+
     return password;
   }
 
   public void setPassword(String password) {
+
     this.password = password;
   }
 
@@ -173,10 +193,12 @@ public class ExchangeSpecification {
    * The username for authentication
    */
   public String getUserName() {
+
     return userName;
   }
 
   public void setUserName(String userName) {
+
     this.userName = userName;
   }
 }
