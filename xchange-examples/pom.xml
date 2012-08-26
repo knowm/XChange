@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>1.1.0</version>
 	</parent>
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-examples</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 
 	<name>XChange Examples</name>
 	<description>Provides a set of examples that demonstrate how to use XChange in client applications</description>
@@ -31,13 +31,13 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange</artifactId>
-			<version>1.2.0-SNAPSHOT</version>
+			<version>1.1.0</version>
 		</dependency>
 		<!-- XChange MtGox exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-mtgox</artifactId>
-			<version>1.2.0-SNAPSHOT</version>
+			<version>1.1.0</version>
 		</dependency>
 
 		<!-- Third party dependencies -->
