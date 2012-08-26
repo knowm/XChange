@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.1.0-SNAPSHOT</version>
+		<version>1.1.0</version>
 	</parent>
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 
 	<name>XChange</name>
 	<description>XChange is Java library providing a simple and consistent API for interacting with a diverse set of
@@ -30,6 +30,11 @@
 
 		<!-- Third party dependencies -->
 
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
 		<!-- Jackson JSON Mapper -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -38,12 +43,6 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
-		</dependency>
-
-		<!-- SLF4J for logging API -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- All time handling is through Joda Time -->

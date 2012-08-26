@@ -32,10 +32,12 @@ package com.xeiam.xchange;
 public class HttpException extends RuntimeException {
 
   public HttpException(String s) {
+
     super(s);
   }
 
   public HttpException(String s, Throwable throwable) {
+
     super(s, throwable);
   }
 }

@@ -65,6 +65,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */
   public MtGoxPollingTradeService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");

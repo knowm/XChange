@@ -68,6 +68,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
+
     super(exchangeSpecification);
   }
 
@@ -77,14 +78,15 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     // Construct an Exchange that we know to use a direct socket to support streaming market data
 
     // TODO Why is this using a hard-coded exchange? Use provided exchangeSpecification
-    //Exchange mtGox = MtGoxExchange.newInstance();
-    //StreamingMarketDataService streamingExchangeService = mtGox.getStreamingMarketDataService();
+    // Exchange mtGox = MtGoxExchange.newInstance();
+    // StreamingMarketDataService streamingExchangeService = mtGox.getStreamingMarketDataService();
 
     // blocking ticker queue
     final BlockingQueue<Ticker> tickerQueue = new LinkedBlockingQueue<Ticker>(1024);
 
     // Create a runnable listener so we can bind it to a thread
     RunnableExchangeEventListener listener = new RunnableExchangeEventListener() {
+
       @Override
       public void handleEvent(ExchangeEvent event) {
 
@@ -128,6 +130,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   @Override
   public void cancelTicker() {
+
     disconnect();
   }
 }

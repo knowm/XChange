@@ -54,10 +54,12 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public class WebSocketExchangeServer extends WebSocketServer {
 
   public WebSocketExchangeServer(int port) throws UnknownHostException {
+
     super(new InetSocketAddress(InetAddress.getByName("localhost"), port));
   }
 
   public WebSocketExchangeServer(InetSocketAddress address) {
+
     super(address);
   }
 
@@ -94,6 +96,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
         @Override
         public void run() {
+
           // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
           Ticker ticker = new Ticker(money, money, money, Currencies.BTC, random.nextLong());
@@ -114,6 +117,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
   @Override
   public void onClientOpen(WebSocket conn, HandshakeData handshake) {
+
     try {
       this.sendToAll(conn + " is monitoring trades");
     } catch (InterruptedException ex) {
@@ -124,6 +128,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
   @Override
   public void onClientClose(WebSocket conn, int code, String reason, boolean remote) {
+
     try {
       this.sendToAll(conn + " has disconnected");
     } catch (InterruptedException ex) {
@@ -134,6 +139,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
   @Override
   public void onClientMessage(WebSocket conn, String message) {
+
     try {
       this.sendToAll(conn + ": " + message);
     } catch (InterruptedException ex) {
@@ -144,6 +150,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
   @Override
   public void onError(WebSocket conn, Exception ex) {
+
     ex.printStackTrace();
   }
 

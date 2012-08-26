@@ -65,6 +65,7 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
   private WebSocketClient cc;
 
   public static void main(String[] args) {
+
     WebSocket.DEBUG = true;
     String location;
     if (args.length != 0) {
@@ -76,6 +77,7 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
   }
 
   public WebSocketExchangeClient(String defaultlocation) {
+
     super("WebSocket Exchange Client");
     Container c = getContentPane();
     GridLayout layout = new GridLayout();
@@ -115,8 +117,10 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
     setSize(d);
 
     addWindowListener(new java.awt.event.WindowAdapter() {
+
       @Override
       public void windowClosing(WindowEvent e) {
+
         if (cc != null) {
           cc.close();
         }
@@ -148,18 +152,21 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
 
           @Override
           public void onMessage(String message) {
+
             ta.append("got: " + message + "\n");
             ta.setCaretPosition(ta.getDocument().getLength());
           }
 
           @Override
           public void onOpen(HandshakeData handshake) {
+
             ta.append("You are connected to ExchangeServer: " + getURI() + "\n");
             ta.setCaretPosition(ta.getDocument().getLength());
           }
 
           @Override
           public void onClose(int code, String reason, boolean remote) {
+
             ta.append("You have been disconnected from: " + getURI() + "; Code: " + code + " " + reason + "\n");
             ta.setCaretPosition(ta.getDocument().getLength());
             connect.setEnabled(true);
@@ -170,6 +177,7 @@ public class WebSocketExchangeClient extends JFrame implements ActionListener {
 
           @Override
           public void onError(Exception ex) {
+
             ta.append("Exception occurred ...\n" + ex + "\n");
             ta.setCaretPosition(ta.getDocument().getLength());
             ex.printStackTrace();

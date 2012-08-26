@@ -41,31 +41,37 @@ public abstract class BaseExchange implements Exchange {
 
   @Override
   public PollingMarketDataService getPollingMarketDataService() {
+
     return marketDataService;
   }
 
   @Override
   public PollingTradeService getPollingTradeService() {
+
     return tradeService;
   }
 
   @Override
   public StreamingMarketDataService getStreamingMarketDataService() {
+
     return streamingMarketDataService;
   }
 
   // Package local for testing
   void setMarketDataService(PollingMarketDataService marketDataService) {
+
     this.marketDataService = marketDataService;
   }
 
   // Package local for testing
   public void setTradeService(PollingTradeService tradeService) {
+
     this.tradeService = tradeService;
   }
 
   // Package local for testing
   void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
+
     this.streamingMarketDataService = streamingMarketDataService;
   }
 }

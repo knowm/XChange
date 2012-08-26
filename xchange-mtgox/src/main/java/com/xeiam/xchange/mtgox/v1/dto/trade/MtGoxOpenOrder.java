@@ -40,87 +40,108 @@ public class MtGoxOpenOrder {
   private long priority;
 
   public String getOid() {
+
     return oid;
   }
 
   public void setOid(String oid) {
+
     this.oid = oid;
   }
 
   public String getCurrency() {
+
     return currency;
   }
 
   public void setCurrency(String currency) {
+
     this.currency = currency;
   }
 
   public String getItem() {
+
     return item;
   }
 
   public void setItem(String item) {
+
     this.item = item;
   }
 
   public String getType() {
+
     return type;
   }
 
   public void setType(String type) {
+
     this.type = type;
   }
 
   public MtGoxValue getAmount() {
+
     return amount;
   }
 
   public void setAmount(MtGoxValue amount) {
+
     this.amount = amount;
   }
 
   public MtGoxValue getInvalid_amount() {
+
     return invalid_amount;
   }
 
   public void setInvalid_amount(MtGoxValue invalid_amount) {
+
     this.invalid_amount = invalid_amount;
   }
 
   public MtGoxValue getPrice() {
+
     return price;
   }
 
   public void setPrice(MtGoxValue price) {
+
     this.price = price;
   }
 
   public String getStatus() {
+
     return status;
   }
 
   public void setStatus(String status) {
+
     this.status = status;
   }
 
   public long getDate() {
+
     return date;
   }
 
   public void setDate(long date) {
+
     this.date = date;
   }
 
   public long getPriority() {
+
     return priority;
   }
 
   public void setPriority(long priority) {
+
     this.priority = priority;
   }
 
   @Override
   public String toString() {
+
     return "MtGoxOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalid_amount=" + invalid_amount + ", price=" + price + ", status=" + status
         + ", date=" + date + ", priority=" + priority + "]";
   }

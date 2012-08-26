@@ -41,95 +41,118 @@ public class MtGoxTicker {
   public MtGoxValue sell = new MtGoxValue();
 
   public MtGoxValue getHigh() {
+
     return high;
   }
 
   public void setHigh(MtGoxValue high) {
+
     this.high = high;
   }
 
   public MtGoxValue getLow() {
+
     return low;
   }
 
   public void setLow(MtGoxValue low) {
+
     this.low = low;
   }
 
   public MtGoxValue getAvg() {
+
     return avg;
   }
 
   public void setAvg(MtGoxValue avg) {
+
     this.avg = avg;
   }
 
   public MtGoxValue getVwap() {
+
     return vwap;
   }
 
   public void setVwap(MtGoxValue vwap) {
+
     this.vwap = vwap;
   }
 
   public MtGoxValue getVol() {
+
     return vol;
   }
 
   public void setVol(MtGoxValue vol) {
+
     this.vol = vol;
   }
 
   public MtGoxValue getLast_local() {
+
     return last_local;
   }
 
   public void setLast_local(MtGoxValue last_local) {
+
     this.last_local = last_local;
   }
 
   public MtGoxValue getLast() {
+
     return last;
   }
 
   public void setLast(MtGoxValue last) {
+
     this.last = last;
   }
 
   public MtGoxValue getLast_orig() {
+
     return last_orig;
   }
 
   public void setLast_orig(MtGoxValue last_orig) {
+
     this.last_orig = last_orig;
   }
 
   public MtGoxValue getLast_all() {
+
     return last_all;
   }
 
   public void setLast_all(MtGoxValue last_all) {
+
     this.last_all = last_all;
   }
 
   public MtGoxValue getBuy() {
+
     return buy;
   }
 
   public void setBuy(MtGoxValue buy) {
+
     this.buy = buy;
   }
 
   public MtGoxValue getSell() {
+
     return sell;
   }
 
   public void setSell(MtGoxValue sell) {
+
     this.sell = sell;
   }
 
   @Override
   public String toString() {
+
     return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last_local=" + last_local + ", last=" + last + ", last_orig=" + last_orig + ", last_all=" + last_all
         + ", buy=" + buy + ", sell=" + sell + "]";
   }

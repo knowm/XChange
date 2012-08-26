@@ -33,47 +33,58 @@ public class MtGoxOrder {
   private long stamp;
 
   public double getPrice() {
+
     return price;
   }
 
   public void setPrice(double price) {
+
     this.price = price;
   }
 
   public double getAmount() {
+
     return amount;
   }
 
   public void setAmount(double amount) {
+
     this.amount = amount;
   }
 
   public long getPrice_int() {
+
     return price_int;
   }
 
   public void setPrice_int(long price_int) {
+
     this.price_int = price_int;
   }
 
   public long getAmount_int() {
+
     return amount_int;
   }
 
   public void setAmount_int(long amount_int) {
+
     this.amount_int = amount_int;
   }
 
   public long getStamp() {
+
     return stamp;
   }
 
   public void setStamp(long stamp) {
+
     this.stamp = stamp;
   }
 
   @Override
   public String toString() {
+
     return "MtGoxOrder [price=" + price + ", amount=" + amount + ", price_int=" + price_int + ", amount_int=" + amount_int + ", stamp=" + stamp + "]";
   }
 

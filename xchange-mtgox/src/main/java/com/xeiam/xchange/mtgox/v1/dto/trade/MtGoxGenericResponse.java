@@ -31,26 +31,32 @@ public class MtGoxGenericResponse {
   private String error;
 
   public String getResult() {
+
     return result;
   }
 
   public void setResult(String result) {
+
     this.result = result;
   }
 
   public String getReturn() {
+
     return _return;
   }
 
   public void setReturn(String _return) {
+
     this._return = _return;
   }
 
   public String getError() {
+
     return error;
   }
 
   public void setError(String error) {
+
     this.error = error;
   }
 

@@ -181,25 +181,10 @@
 				<version>1.9.7</version>
 			</dependency>
 
-			<!-- SLF4J for logging API -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.6.4</version>
-			</dependency>
-			<!-- Logback for implementation -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>0.9.29</version>
-				<scope>runtime</scope>
-			</dependency>
-			<!-- Java Commons Logging through SLF4J -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>1.6.4</version>
-				<scope>runtime</scope>
+				<version>1.0.6</version>
 			</dependency>
 
 			<!-- All time handling is through Joda Time -->
@@ -224,22 +209,12 @@
 				<scope>test</scope>
 			</dependency>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
 			<!-- Commons Codec for Crypto -->
 			<dependency>
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>1.6</version>
 			</dependency>
-<<<<<<< HEAD
-		</dependencies>
-	</dependencyManagement>
-
-</project>
-=======
 
 			<dependency>
 				<groupId>org.json</groupId>

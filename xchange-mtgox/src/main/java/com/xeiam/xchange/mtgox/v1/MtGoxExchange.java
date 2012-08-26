@@ -45,12 +45,14 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
    * Default constructor for ExchangeFactory
    */
   public MtGoxExchange() {
+
   }
 
   /**
    * @return A default configuration for this exchange
    */
   public static Exchange newInstance() {
+
     Exchange exchange = new MtGoxExchange();
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
     return exchange;

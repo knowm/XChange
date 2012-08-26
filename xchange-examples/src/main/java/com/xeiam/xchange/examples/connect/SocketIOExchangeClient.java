@@ -128,8 +128,10 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     setSize(d);
 
     addWindowListener(new java.awt.event.WindowAdapter() {
+
       @Override
       public void windowClosing(WindowEvent e) {
+
         if (socketClient != null) {
           socketClient.disconnect();
         }
@@ -226,11 +228,13 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
 
   @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
+
     log.debug("Event: " + event);
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
+
     log.debug("Error: " + socketIOException.getMessage());
   }
 }

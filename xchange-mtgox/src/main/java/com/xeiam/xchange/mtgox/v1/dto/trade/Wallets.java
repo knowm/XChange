@@ -50,154 +50,188 @@ public class Wallets {
 
   @JsonProperty("BTC")
   public MtGoxWallet getBTC() {
+
     return this.BTC;
   }
 
   public void setBTC(MtGoxWallet bTC) {
+
     this.BTC = bTC;
   }
 
   @JsonProperty("USD")
   public MtGoxWallet getUSD() {
+
     return this.USD;
   }
 
   public void setUSD(MtGoxWallet uSD) {
+
     this.USD = uSD;
   }
 
   @JsonProperty("EUR")
   public MtGoxWallet getEUR() {
+
     return EUR;
   }
 
   public void setEUR(MtGoxWallet eUR) {
+
     EUR = eUR;
   }
 
   @JsonProperty("GBP")
   public MtGoxWallet getGBP() {
+
     return GBP;
   }
 
   public void setGBP(MtGoxWallet gBP) {
+
     GBP = gBP;
   }
 
   @JsonProperty("AUD")
   public MtGoxWallet getAUD() {
+
     return AUD;
   }
 
   public void setAUD(MtGoxWallet aUD) {
+
     AUD = aUD;
   }
 
   @JsonProperty("CAD")
   public MtGoxWallet getCAD() {
+
     return CAD;
   }
 
   public void setCAD(MtGoxWallet cAD) {
+
     CAD = cAD;
   }
 
   @JsonProperty("CHF")
   public MtGoxWallet getCHF() {
+
     return CHF;
   }
 
   public void setCHF(MtGoxWallet cHF) {
+
     CHF = cHF;
   }
 
   @JsonProperty("JPY")
   public MtGoxWallet getJPY() {
+
     return JPY;
   }
 
   public void setJPY(MtGoxWallet jPY) {
+
     JPY = jPY;
   }
 
   @JsonProperty("CNY")
   public MtGoxWallet getCNY() {
+
     return CNY;
   }
 
   public void setCNY(MtGoxWallet cNY) {
+
     CNY = cNY;
   }
 
   @JsonProperty("DKK")
   public MtGoxWallet getDKK() {
+
     return DKK;
   }
 
   public void setDKK(MtGoxWallet dKK) {
+
     DKK = dKK;
   }
 
   @JsonProperty("HKD")
   public MtGoxWallet getHKD() {
+
     return HKD;
   }
 
   public void setHKD(MtGoxWallet hKD) {
+
     HKD = hKD;
   }
 
   @JsonProperty("NZD")
   public MtGoxWallet getNZD() {
+
     return NZD;
   }
 
   public void setNZD(MtGoxWallet nZD) {
+
     NZD = nZD;
   }
 
   @JsonProperty("PLN")
   public MtGoxWallet getPLN() {
+
     return PLN;
   }
 
   public void setPLN(MtGoxWallet pLN) {
+
     PLN = pLN;
   }
 
   @JsonProperty("RUB")
   public MtGoxWallet getRUB() {
+
     return RUB;
   }
 
   public void setRUB(MtGoxWallet rUB) {
+
     RUB = rUB;
   }
 
   @JsonProperty("SEK")
   public MtGoxWallet getSEK() {
+
     return SEK;
   }
 
   public void setSEK(MtGoxWallet sEK) {
+
     SEK = sEK;
   }
 
   @JsonProperty("THB")
   public MtGoxWallet getTHB() {
+
     return THB;
   }
 
   public void setTHB(MtGoxWallet tHB) {
+
     THB = tHB;
   }
 
   public List<MtGoxWallet> getMtGoxWallets() {
+
     return Arrays.asList(BTC, USD, EUR, GBP, AUD, CAD, CHF, JPY, CNY, DKK, HKD, NZD, PLN, RUB, SEK, THB);
   }
 
   @Override
   public String toString() {
+
     return "Wallets [BTC=" + BTC + ", USD=" + USD + ", EUR=" + EUR + ", GBP=" + GBP + ", AUD=" + AUD + ", CAD=" + CAD + ", CHF=" + CHF + ", JPY=" + JPY + ", CNY=" + CNY + ", DKK=" + DKK + ", HKD=" + HKD + ", NZD=" + NZD
         + ", PLN=" + PLN + ", RUB=" + RUB + ", SEK=" + SEK + ", THB=" + THB + "]";
   }

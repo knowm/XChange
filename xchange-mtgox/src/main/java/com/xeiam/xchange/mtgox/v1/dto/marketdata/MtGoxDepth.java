@@ -32,23 +32,28 @@ public class MtGoxDepth {
   private List<MtGoxOrder> bids;
 
   public List<MtGoxOrder> getAsks() {
+
     return asks;
   }
 
   public void setAsks(List<MtGoxOrder> asks) {
+
     this.asks = asks;
   }
 
   public List<MtGoxOrder> getBids() {
+
     return bids;
   }
 
   public void setBids(List<MtGoxOrder> bids) {
+
     this.bids = bids;
   }
 
   @Override
   public String toString() {
+
     return "MtGoxDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 

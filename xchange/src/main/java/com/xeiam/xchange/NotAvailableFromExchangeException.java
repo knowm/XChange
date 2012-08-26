@@ -32,10 +32,12 @@ package com.xeiam.xchange;
 public class NotAvailableFromExchangeException extends RuntimeException {
 
   public NotAvailableFromExchangeException(String message) {
+
     super(message);
   }
 
   public NotAvailableFromExchangeException() {
+
     this("Requested Information from Exchange is not available.");
   }
 

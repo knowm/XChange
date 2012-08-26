@@ -33,47 +33,58 @@ public class MtGoxValue {
   private String currency;
 
   public double getValue() {
+
     return value;
   }
 
   public void setValue(double value) {
+
     this.value = value;
   }
 
   public long getValue_int() {
+
     return value_int;
   }
 
   public void setValue_int(long value_int) {
+
     this.value_int = value_int;
   }
 
   public String getDisplay() {
+
     return display;
   }
 
   public void setDisplay(String display) {
+
     this.display = display;
   }
 
   public String getDisplay_short() {
+
     return display_short;
   }
 
   public void setDisplay_short(String display_short) {
+
     this.display_short = display_short;
   }
 
   public String getCurrency() {
+
     return currency;
   }
 
   public void setCurrency(String currency) {
+
     this.currency = currency;
   }
 
   @Override
   public String toString() {
+
     return "MtGoxValue [value=" + value + ", value_int=" + value_int + ", display=" + display + ", display_short=" + display_short + ", currency=" + currency + "]";
   }
 

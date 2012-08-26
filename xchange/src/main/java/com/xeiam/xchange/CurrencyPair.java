@@ -65,6 +65,7 @@ public class CurrencyPair {
    * @param baseCurrency The base symbol (single unit)
    */
   public CurrencyPair(String baseCurrency) {
+
     this(baseCurrency, "USD");
   }
 
@@ -86,11 +87,13 @@ public class CurrencyPair {
 
   @Override
   public String toString() {
+
     return baseCurrency + "/" + counterCurrency;
   }
 
   @Override
   public int hashCode() {
+
     final int prime = 31;
     int result = 1;
     result = prime * result + ((baseCurrency == null) ? 0 : baseCurrency.hashCode());
@@ -100,6 +103,7 @@ public class CurrencyPair {
 
   @Override
   public boolean equals(Object obj) {
+
     if (this == obj) {
       return true;
     }

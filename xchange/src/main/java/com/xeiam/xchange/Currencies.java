@@ -31,6 +31,7 @@ public class Currencies {
    * Private constructor so it cannot be instantiated
    */
   private Currencies() {
+
   }
 
   /**

@@ -125,6 +125,7 @@ public class MtGoxUtils {
    * @return
    */
   public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+
     return CURRENCY_PAIRS.contains(currencyPair);
   }
 

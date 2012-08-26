@@ -32,10 +32,12 @@ package com.xeiam.xchange;
 public class ExchangeException extends RuntimeException {
 
   public ExchangeException(String s) {
+
     super(s);
   }
 
   public ExchangeException(String s, Throwable throwable) {
+
     super(s, throwable);
   }
 }

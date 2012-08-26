@@ -40,6 +40,7 @@ public class MtGoxStreamingTradeService extends BaseSocketIOExchangeService {
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public MtGoxStreamingTradeService(ExchangeSpecification exchangeSpecification) throws IOException {
+
     super(exchangeSpecification);
   }
 }

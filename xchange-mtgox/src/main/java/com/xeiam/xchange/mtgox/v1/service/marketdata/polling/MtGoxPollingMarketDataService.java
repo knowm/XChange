@@ -68,6 +68,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
    * @param exchangeSpecification The exchange specification
    */
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
   }
 
@@ -167,11 +168,13 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   @Override
   public int getRefreshRate() {
+
     return MtGoxUtils.REFRESH_RATE;
   }
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
+
     return MtGoxUtils.CURRENCY_PAIRS;
   }
 }

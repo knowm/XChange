@@ -32,10 +32,12 @@ package com.xeiam.xchange;
 public class PacingViolationException extends RuntimeException {
 
   public PacingViolationException(String s) {
+
     super(s);
   }
 
   public PacingViolationException(String s, Throwable throwable) {
+
     super(s, throwable);
   }
 }

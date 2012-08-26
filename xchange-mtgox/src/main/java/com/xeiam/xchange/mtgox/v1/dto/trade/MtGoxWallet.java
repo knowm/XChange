@@ -38,51 +38,62 @@ public class MtGoxWallet {
 
   @JsonProperty("Balance")
   public MtGoxValue getBalance() {
+
     return this.balance;
   }
 
   public void setBalance(MtGoxValue balance) {
+
     this.balance = balance;
   }
 
   @JsonProperty("Daily_Withdraw_Limit")
   public MtGoxValue getDaily_Withdraw_Limit() {
+
     return this.daily_Withdraw_Limit;
   }
 
   public void setDaily_Withdraw_Limit(MtGoxValue daily_Withdraw_Limit) {
+
     this.daily_Withdraw_Limit = daily_Withdraw_Limit;
   }
 
   @JsonProperty("Max_Withdraw")
   public MtGoxValue getMax_Withdraw() {
+
     return this.max_Withdraw;
   }
 
   public void setMax_Withdraw(MtGoxValue max_Withdraw) {
+
     this.max_Withdraw = max_Withdraw;
   }
 
   @JsonProperty("Monthly_Withdraw_Limit")
   public MtGoxValue getMonthly_Withdraw_Limit() {
+
     return this.monthly_Withdraw_Limit;
   }
 
   public void setMonthly_Withdraw_Limit(MtGoxValue monthly_Withdraw_Limit) {
+
     this.monthly_Withdraw_Limit = monthly_Withdraw_Limit;
   }
 
   @JsonProperty("Operations")
   public int getOperations() {
+
     return this.operations;
   }
 
   public void setOperations(int operations) {
+
     this.operations = operations;
   }
 
   @Override
   public String toString() {
+
     return "MtGoxWallet [balance=" + balance + ", daily_Withdraw_Limit=" + daily_Withdraw_Limit + ", max_Withdraw=" + max_Withdraw + ", monthly_Withdraw_Limit=" + monthly_Withdraw_Limit + ", operations=" + operations
         + "]";
   }

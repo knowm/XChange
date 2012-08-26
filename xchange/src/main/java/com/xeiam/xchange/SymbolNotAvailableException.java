@@ -32,10 +32,12 @@ package com.xeiam.xchange;
 public class SymbolNotAvailableException extends RuntimeException {
 
   public SymbolNotAvailableException(String s) {
+
     super(s);
   }
 
   public SymbolNotAvailableException(String s, Throwable throwable) {
+
     super(s, throwable);
   }
 }
