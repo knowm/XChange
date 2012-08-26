@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.streaming;
 
+import java.util.concurrent.BlockingQueue;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Test requesting streaming Ticker at MtGox
@@ -59,10 +59,15 @@ public class TickerDemo {
         e.printStackTrace();
       }
     }
-
   }
 
+  /**
+   * Do something fun with the streaming data!
+   * 
+   * @param ticker
+   */
   private void doSomething(Ticker ticker) {
+
     System.out.println(ticker.toString());
   }
 
