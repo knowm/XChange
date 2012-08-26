@@ -21,14 +21,13 @@
  */
 package com.xeiam.xchange.service.marketdata.polling;
 
+import java.util.List;
+
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-
-import java.util.List;
 
 /**
  * <p>
@@ -37,7 +36,9 @@ import java.util.List;
  * <ul>
  * <li>Standard methods available to explore the market data</li>
  * </ul>
- * <p>The implementation of this service is expected to be based on a client polling mechanism of some kind</p>
+ * <p>
+ * The implementation of this service is expected to be based on a client polling mechanism of some kind
+ * </p>
  */
 public interface PollingMarketDataService {
 
@@ -46,10 +47,9 @@ public interface PollingMarketDataService {
    * Ask the exchange what symbol pairs it supports
    * </p>
    * 
-   * @return The symbol pairs supported by this exchange (e.g. EUR/USD)
-   * @throws NotAvailableFromExchangeException
+   * @return The symbol pairs supported by this exchange (e.g. EUR/USD) @
    */
-  List<CurrencyPair> getExchangeSymbols() throws NotAvailableFromExchangeException;
+  List<CurrencyPair> getExchangeSymbols();
 
   /**
    * <p>
@@ -58,10 +58,9 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The Ticker
-   * @throws NotAvailableFromExchangeException If the exchange does not support this request
+   * @return The Ticker @ If the exchange does not support this request
    */
-  Ticker getTicker(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
+  Ticker getTicker(String tradableIdentifier, String currency);
 
   /**
    * <p>
@@ -70,10 +69,9 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The OrderBook
-   * @throws NotAvailableFromExchangeException If the exchange does not support this request
+   * @return The OrderBook @ If the exchange does not support this request
    */
-  OrderBook getOrderBook(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
+  OrderBook getOrderBook(String tradableIdentifier, String currency);
 
   /**
    * <p>
@@ -82,10 +80,9 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The OrderBook
-   * @throws NotAvailableFromExchangeException If the exchange does not support this request
+   * @return The OrderBook @ If the exchange does not support this request
    */
-  OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
+  OrderBook getFullOrderBook(String tradableIdentifier, String currency);
 
   /**
    * <p>
@@ -94,9 +91,8 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The Trades
-   * @throws NotAvailableFromExchangeException If the exchange does not support this request
+   * @return The Trades @ If the exchange does not support this request
    */
-  Trades getTrades(String tradableIdentifier, String currency) throws NotAvailableFromExchangeException;
+  Trades getTrades(String tradableIdentifier, String currency);
 
 }

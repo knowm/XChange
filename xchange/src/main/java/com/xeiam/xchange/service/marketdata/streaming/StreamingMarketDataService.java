@@ -43,9 +43,11 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
   /**
    * Request a streaming Ticker feed
    * 
+   * @param tradableIdentifier
+   * @param currency
    * @return a blocking queue that receives incoming Ticker objects
    */
-  BlockingQueue<Ticker> requestTicker();
+  BlockingQueue<Ticker> requestTicker(String tradableIdentifier, String currency);
 
   /**
    * Cancel the streaming Ticker feed
