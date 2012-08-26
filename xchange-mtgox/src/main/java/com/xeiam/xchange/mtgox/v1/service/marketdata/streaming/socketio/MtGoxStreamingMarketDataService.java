@@ -21,26 +21,30 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.service.BaseSocketIOExchangeService;
-import com.xeiam.xchange.service.ExchangeEvent;
-import com.xeiam.xchange.service.RunnableExchangeEventListener;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import com.xeiam.xchange.utils.JSONUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
+import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
+import com.xeiam.xchange.service.BaseSocketIOExchangeService;
+import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.RunnableExchangeEventListener;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.JSONUtils;
 
 /**
  * <p>
@@ -73,7 +77,9 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   }
 
   @Override
-  public BlockingQueue<Ticker> requestTicker() {
+  public BlockingQueue<Ticker> requestTicker(String tradableIdentifier, String currency) {
+
+    verify(tradableIdentifier, currency);
 
     // Construct an Exchange that we know to use a direct socket to support streaming market data
 
@@ -116,7 +122,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
       }
     };
 
-    String url = apiBase + "?Channel=ticker";
+    String url = apiBase + "?Channel=ticker&Currency=" + currency;
     // log.debug(url);
     this.connect(url, listener);
 
@@ -132,5 +138,19 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   public void cancelTicker() {
 
     disconnect();
+  }
+
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier
+   * @param currency
+   */
+  private void verify(String tradableIdentifier, String currency) {
+
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+
   }
 }

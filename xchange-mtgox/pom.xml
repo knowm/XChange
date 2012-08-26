@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.1.0</version>
+		<version>1.2.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-mtgox</artifactId>
 	<!-- This version is independent of the parent -->
-	<version>1.1.0</version>
+	<version>1.2.0-SNAPSHOT</version>
 
 	<name>MtGox Exchange</name>
 	<description>XChange implementations for the MtGox Exchange. Handles multiple currencies.</description>
@@ -32,7 +32,7 @@
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange</artifactId>
 			<!-- Keep the XChange core in line with the parent -->
-			<version>1.1.0</version>
+			<version>1.2.0-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Third party dependencies -->
@@ -77,6 +77,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 
 	</dependencies>
 

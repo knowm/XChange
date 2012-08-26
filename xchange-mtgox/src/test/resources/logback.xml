@@ -43,26 +43,17 @@
 
   <!-- Selected third-party frameworks can be enabled here for development if required -->
 
-  <!-- Hibernate debugging -->
-  <!--<logger name="org.hibernate" level="DEBUG" />-->
-  <!--<logger name="org.hibernate.tool.hbm2ddl" level="DEBUG" />-->
-  <!--<logger name="org.hibernate.jdbc" level="DEBUG" />-->
-  <!--<logger name="org.hibernate.SQL" level="DEBUG" />-->
 
   <!-- Wire and Context logging for the HttpClient -->
   <logger name="org.apache.http.wire" level="DEBUG" />
   <logger name="org.apache.http.impl.client" level="DEBUG" />
 
-  <!-- Spring framework debugging -->
-  <!--<logger name="org.springframework" level="INFO" />-->
-  <!--<logger name="org.springframework.transaction" level="DEBUG" />-->
-  <!--<logger name="org.springframework.beans.factory.config" level="DEBUG" />-->
-  <!--<logger name="org.springframework.web" level="DEBUG" />-->
+
   <logger name="org.springframework.security" level="DEBUG" />
 
-  <!--<logger name="oejs" level="DEBUG" />-->
 
   <!-- Define logging for organisation applications only -->
   <logger name="com.xeiam.xchange" level="DEBUG" />
+  <logger name="com.xeiam.xchange.streaming" level="TRACE" />
 
 </configuration>

@@ -119,7 +119,7 @@ public class MtGoxUtils {
   }
 
   /**
-   * Checks is a given CurrencyPair is covered by this exchange
+   * Checks if a given CurrencyPair is covered by this exchange
    * 
    * @param currencyPair
    * @return
