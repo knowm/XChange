@@ -154,6 +154,7 @@ public class HttpTemplate {
    * @throws IOException If something goes wrong
    */
   HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+
     return (HttpURLConnection) new URL(urlString).openConnection();
   }
 
