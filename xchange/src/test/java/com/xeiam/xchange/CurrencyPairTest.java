@@ -26,7 +26,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-public class SymbolPairTest {
+public class CurrencyPairTest {
 
   @Test
   public void testMajors() {
