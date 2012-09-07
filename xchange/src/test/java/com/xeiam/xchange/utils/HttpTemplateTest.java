@@ -45,7 +45,7 @@ public class HttpTemplateTest {
   public void testGetForJsonObject() throws Exception {
 
     // Configure to use the example JSON objects
-    final HttpURLConnection mockHttpURLConnection = configureMockHttpURLConnectionForGet("/marketdata/example-ticker.json");
+    final HttpURLConnection mockHttpURLConnection = HttpURLConnectionUtils.configureMockHttpURLConnectionForGet("/marketdata/example-ticker.json");
 
     // Provide a mocked out HttpURLConnection
     HttpTemplate testObject = new HttpTemplate() {
@@ -136,42 +136,6 @@ public class HttpTemplateTest {
           // Provide a Windows charset
           return "application/json; charset=cp1252";
         }
-        return null;
-      }
-
-    };
-
-  }
-
-  /**
-   * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very complex workarounds. In the interests of simplicity an implementation approach is used.
-   * 
-   * @param resourcePath A classpath resource for the input stream to use in the response
-   * @return A mock HttpURLConnection
-   * @throws MalformedURLException If something goes wrong
-   */
-  private HttpURLConnection configureMockHttpURLConnectionForGet(final String resourcePath) throws MalformedURLException {
-    return new HttpURLConnection(new URL("http://example.org")) {
-      @Override
-      public void disconnect() {
-      }
-
-      @Override
-      public boolean usingProxy() {
-        return false;
-      }
-
-      @Override
-      public void connect() throws IOException {
-      }
-
-      @Override
-      public InputStream getInputStream() throws IOException {
-        return HttpTemplateTest.class.getResourceAsStream(resourcePath);
-      }
-
-      @Override
-      public String getHeaderField(String s) {
         return null;
       }
 

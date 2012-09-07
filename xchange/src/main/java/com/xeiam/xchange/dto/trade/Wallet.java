@@ -27,7 +27,10 @@ import org.joda.money.BigMoney;
  * <p>
  * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
  * </p>
+ * @deprecated Use AccountService methods instead
+ * @since 0.0.1
  */
+@Deprecated
 public class Wallet {
 
   private final BigMoney balance;
@@ -35,7 +38,7 @@ public class Wallet {
   /**
    * Constructor
    * 
-   * @param cash
+   * @param balance The amount
    */
   public Wallet(BigMoney balance) {
     super();
@@ -53,13 +56,11 @@ public class Wallet {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((balance == null) ? 0 : balance.hashCode());
-    return result;
+    return balance.hashCode();
   }
 
   // two wallets are the same of their balances are equal
+  // Note: Does not take currency into account
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {

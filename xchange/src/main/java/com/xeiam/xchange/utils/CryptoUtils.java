@@ -21,15 +21,17 @@
  */
 package com.xeiam.xchange.utils;
 
+import com.xeiam.xchange.ExchangeException;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 import java.util.Date;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Various cryptography utility methods
@@ -48,9 +50,15 @@ public class CryptoUtils {
    * 
    * @param base64Data The data to decode
    * @return The decoded data as a String
+   * @deprecated Use {@link }Base64} directly
    */
+  @Deprecated
   public static String decodeBase64String(String base64Data) {
-    return new String(Base64.decodeBase64(base64Data.getBytes()));
+    try {
+      return new String(Base64.decode(base64Data.getBytes()));
+    } catch (IOException e) {
+      throw new ExchangeException("Could not decode Base 64 string",e);
+    }
   }
 
   /**
@@ -65,12 +73,15 @@ public class CryptoUtils {
    */
   public static String computeSignature(String algorithm, String baseString, String secretKeyString) throws GeneralSecurityException, UnsupportedEncodingException {
 
-    SecretKey secretKey;
-    secretKey = new SecretKeySpec(Base64.decodeBase64(secretKeyString.getBytes()), algorithm);
-    Mac mac = Mac.getInstance(algorithm);
-    mac.init(secretKey);
-    mac.update(baseString.getBytes());
-    return new String(Base64.encodeBase64(mac.doFinal())).trim();
+    try {
+      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyString.getBytes()), algorithm);
+      Mac mac = Mac.getInstance(algorithm);
+      mac.init(secretKey);
+      mac.update(baseString.getBytes());
+      return Base64.encodeBytes(mac.doFinal()).trim();
+    } catch (IOException e) {
+      throw new ExchangeException("Could not decode Base 64 string",e);
+    }
   }
 
 }

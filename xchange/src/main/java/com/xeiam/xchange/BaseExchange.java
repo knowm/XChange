@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.service.account.WithdrawalService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
@@ -38,6 +39,7 @@ public abstract class BaseExchange implements Exchange {
   protected PollingMarketDataService marketDataService;
   protected PollingTradeService tradeService;
   protected StreamingMarketDataService streamingMarketDataService;
+  protected WithdrawalService withdrawalService;
 
   @Override
   public PollingMarketDataService getPollingMarketDataService() {
@@ -57,21 +59,25 @@ public abstract class BaseExchange implements Exchange {
     return streamingMarketDataService;
   }
 
-  // Package local for testing
-  void setMarketDataService(PollingMarketDataService marketDataService) {
+  public WithdrawalService getWithdrawalService() {
+    return withdrawalService;
+  }
 
+  /* package */ void setMarketDataService(PollingMarketDataService marketDataService) {
     this.marketDataService = marketDataService;
   }
 
-  // Package local for testing
-  public void setTradeService(PollingTradeService tradeService) {
-
+  /* package */ void setTradeService(PollingTradeService tradeService) {
     this.tradeService = tradeService;
   }
 
-  // Package local for testing
-  void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
-
+  /* package */ void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
     this.streamingMarketDataService = streamingMarketDataService;
   }
+
+  /* package */ void setWithdrawalService(WithdrawalService withdrawalService) {
+    this.withdrawalService = withdrawalService;
+  }
+
+
 }

@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.service.account.WithdrawalService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
@@ -82,4 +83,12 @@ public interface Exchange {
    * @return The exchange's "push" market data service
    */
   StreamingMarketDataService getStreamingMarketDataService();
+
+  /**
+   * <p>A withdrawal service is used to remove funds from the exchange</p>
+   *
+   * @return The exchange's "push" market data service
+   */
+  WithdrawalService getWithdrawalService();
+
 }

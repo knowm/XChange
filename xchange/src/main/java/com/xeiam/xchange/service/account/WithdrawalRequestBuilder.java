@@ -1,0 +1,14 @@
+package com.xeiam.xchange.service.account;
+
+/**
+ * <p>
+ * DTO to provide the following to {@link WithdrawalService}:</p>
+ * <ul>
+ * <li>Provision for standard fields required when initiating a withdrawal</li>
+ * </ul>
+ */
+
+public class WithdrawalRequestBuilder {
+
+
+}

@@ -30,7 +30,8 @@ public class Order {
 
   public enum OrderType {
 
-    BID, ASK;
+    BID,
+    ASK
   }
 
   /**

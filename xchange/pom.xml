@@ -13,7 +13,7 @@
 	<version>1.2.0-SNAPSHOT</version>
 
 	<name>XChange</name>
-	<description>XChange is Java library providing a simple and consistent API for interacting with a diverse set of
+	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of
     financial security exchanges including Bitcoin.
   </description>
 
@@ -27,6 +27,13 @@
 
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
+
+<!--
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-test</artifactId>
+        </dependency>
+-->
 
 		<!-- Third party dependencies -->
 
@@ -72,13 +79,6 @@
 					<artifactId>hamcrest-core</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-
-
-		<!-- Commons Codec for Crypto -->
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
 		</dependency>
 
 		<dependency>
