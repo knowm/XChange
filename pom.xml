@@ -19,30 +19,43 @@
     <url>http://xeiam.com</url>
   </organization>
 
-  <developers>
-    <developer>
-      <name>Tim Molter</name>
-    </developer>
-    <developer>
-      <name>Gary Rowe</name>
-      <email>g.rowe@froot.co.uk</email>
-    </developer>
-  </developers>
-
-  <scm>
-    <url>git://github.com/timmolter/XChange.git</url>
-  </scm>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>xeiam_oss.snapshots</id>
-      <url>http://nexus.xeiam.com/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>xeiam_oss.releases</id>
-      <url>http://nexus.xeiam.com/content/repositories/releases</url>
-    </repository>
-  </distributionManagement>
+	<developers>
+		<developer>
+			<name>Tim Molter</name>
+		</developer>
+		<developer>
+			<name>Gary Rowe</name>
+			<email>g.rowe@froot.co.uk</email>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>MIT</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/timmolter/XChange/issues</url>
+	</issueManagement>
+	<scm>
+		<url>git://github.com/timmolter/XChange</url>
+	</scm>
+	<ciManagement>
+		<url>http://ci.xeiam.com/</url>
+	</ciManagement>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>xeiam_oss.snapshots</id>
+			<url>http://nexus.xeiam.com/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>xeiam_oss.releases</id>
+			<url>http://nexus.xeiam.com/content/repositories/releases</url>
+		</repository>
+	</distributionManagement>
 
   <modules>
     <module>xchange</module>
@@ -51,100 +64,100 @@
     <module>xchange-test</module>
   </modules>
 
-  <build>
-    <pluginManagement>
-      <plugins>
-        <!-- Ensure compilation is done under Java 6 in all environments -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.3.2</version>
-          <configuration>
-            <source>1.6</source>
-            <target>1.6</target>
-            <showDeprecation>true</showDeprecation>
-            <showWarnings>true</showWarnings>
-          </configuration>
-        </plugin>
-        <!-- Generates a source code JAR during package -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>2.0.4</version>
-          <executions>
-            <execution>
-              <id>attach-sources</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <!-- Generates a Javadoc JAR during package -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.5</version>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <!-- Generate a FindBugs report -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>2.3.2</version>
-        </plugin>
-        <!-- Generate a PMD report -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>2.5</version>
-        </plugin>
-        <!-- Source code cross referencing -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.1</version>
-          <configuration>
-            <aggregate>true</aggregate>
-            <linkJavadoc>true</linkJavadoc>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <!-- Generates a source code JAR during package -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Generates a Javadoc JAR during package -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Ensure compilation is done under Java 6 in all environments -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<showDeprecation>true</showDeprecation>
+						<showWarnings>true</showWarnings>
+					</configuration>
+				</plugin>
+				<!-- Generates a source code JAR during package -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.2</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Generates a Javadoc JAR during package -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.5</version>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- Generate a FindBugs report -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>2.3.2</version>
+				</plugin>
+				<!-- Generate a PMD report -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<!-- Source code cross referencing -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jxr-plugin</artifactId>
+					<version>2.1</version>
+					<configuration>
+						<aggregate>true</aggregate>
+						<linkJavadoc>true</linkJavadoc>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<!-- Generates a source code JAR during package -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Generates a Javadoc JAR during package -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
       <!-- Execute JXR (Source code cross-reference) during an install -->
       <plugin>
@@ -239,7 +252,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-
 
       <!-- Commons Codec for Crypto -->
       <dependency>
