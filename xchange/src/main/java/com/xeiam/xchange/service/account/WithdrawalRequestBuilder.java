@@ -2,13 +2,11 @@ package com.xeiam.xchange.service.account;
 
 /**
  * <p>
- * DTO to provide the following to {@link WithdrawalService}:</p>
+ * Signature interface to provide the following to {@link WithdrawalService}:</p>
  * <ul>
- * <li>Provision for standard fields required when initiating a withdrawal</li>
+ * <li>Provision for an arbitrary exchange-specific implementation</li>
  * </ul>
  */
-
-public class WithdrawalRequestBuilder {
-
+public interface WithdrawalRequestBuilder {
 
 }

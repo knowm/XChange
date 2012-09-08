@@ -9,17 +9,15 @@ import org.joda.money.BigMoney;
  * <ul>
  * <li>Standard methods available to allow withdrawals from an exchange account</li>
  * </ul>
- * <p>
- * The implementation of this service is expected to be based on a client polling mechanism of some kind
+ * <p>All exchanges are unique in the way that they permit their customers to withdraw funds. To that end this
+ * API forces the implementation of a {@link WithdrawalRequestBuilder} that allows an individual exchange
+ * to construct the necessary values as required.
  * </p>
  */
 public interface WithdrawalService {
 
   /**
-   *
-   * @param amount
-   * @return
+   * @return A suitable withdrawal request builder for the given exchange
    */
-  WithdrawalResponse withdraw(BigMoney amount);
-
+  WithdrawalRequestBuilder newWithdrawalRequest();
 }
