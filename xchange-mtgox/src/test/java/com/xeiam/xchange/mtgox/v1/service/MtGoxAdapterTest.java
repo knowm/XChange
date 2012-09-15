@@ -131,7 +131,7 @@ public class MtGoxAdapterTest {
   public void testWalletAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/trade/example-accountinfo-data.json");
+    InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
