@@ -19,13 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.dto.trade;
+package com.xeiam.xchange.mtgox.v1.dto.account;
 
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
+import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
 
 /**
  * Data object representing Account Info from Mt Gox

@@ -29,7 +29,7 @@ import java.io.InputStream;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 
 /**
  * Test MtGoxAccountInfo JSON parsing
