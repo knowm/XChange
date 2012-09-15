@@ -29,7 +29,6 @@ import org.joda.money.BigMoney;
  * </p>
  * 
  * @deprecated Use AccountService methods instead
- * @since 0.0.1
  */
 @Deprecated
 public class Wallet {
