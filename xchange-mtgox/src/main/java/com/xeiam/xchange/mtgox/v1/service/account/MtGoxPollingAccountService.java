@@ -16,7 +16,7 @@ import com.xeiam.xchange.utils.CryptoUtils;
  * XChange service to provide the following to {@link com.xeiam.xchange.Exchange}:
  * </p>
  * <ul>
- * <li>MtGox specific methods to handle withdrawal operations</li>
+ * <li>MtGox specific methods to handle account-related operations</li>
  * </ul>
  */
 public class MtGoxPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
