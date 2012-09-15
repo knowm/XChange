@@ -63,10 +63,8 @@ public class LimitOrderDemo {
     limitOrder.setTransactionCurrency("USD");
     BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
     limitOrder.setLimitPrice(limitPrice);
-    boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
-
-    // Verify that the order placement was successful
-    System.out.println("Limit Order placement successful? " + limitOrderSuccess);
+    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();

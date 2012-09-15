@@ -56,9 +56,8 @@ public class MarketOrderDemo {
     marketOrder.setTradableIdentifier("BTC");
     marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
     marketOrder.setTransactionCurrency("USD");
-    boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
+    String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + marketOrderReturnValue);
 
-    // Verify that the order placement was successful
-    System.out.println("Market Order placement successful? " + marketOrderSuccess);
   }
 }

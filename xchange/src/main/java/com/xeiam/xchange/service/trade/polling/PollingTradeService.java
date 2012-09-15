@@ -43,8 +43,10 @@ public interface PollingTradeService {
 
   public OpenOrders getOpenOrders();
 
-  public boolean placeMarketOrder(MarketOrder marketOrder);
+  public String placeMarketOrder(MarketOrder marketOrder);
 
-  public boolean placeLimitOrder(LimitOrder limitOrder);
+  public String placeLimitOrder(LimitOrder limitOrder);
+
+  public boolean cancelOrder(String orderId);
 
 }

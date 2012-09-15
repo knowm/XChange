@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -82,7 +83,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public boolean placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) {
 
     verify(marketOrder);
 
@@ -98,11 +99,11 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
         MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
-    return mtGoxSuccess.getResult().equals("success") ? true : false;
+    return mtGoxSuccess.getReturn();
   }
 
   @Override
-  public boolean placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) {
 
     verify(limitOrder);
     Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
@@ -121,7 +122,25 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
         MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
-    return mtGoxSuccess.getResult().equals("success") ? true : false;
+    return mtGoxSuccess.getReturn();
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) {
+
+    // Assert.notNull(orderId, "orderId cannot be null");
+    //
+    // // Build request
+    // String url = exchangeSpecification.getUri() + "/api/0/cancelOrder.php";
+    // String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&oid=" + orderId;
+    //
+    // // Request data
+    // MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
+    // MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    //
+    // return mtGoxSuccess.getResult().equals("success") ? true : false;
+
+    throw new NotAvailableFromExchangeException();
   }
 
   private void verify(Order order) {

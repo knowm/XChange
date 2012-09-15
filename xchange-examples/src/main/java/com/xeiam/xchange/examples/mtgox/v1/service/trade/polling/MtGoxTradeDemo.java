@@ -76,8 +76,8 @@ public class MtGoxTradeDemo {
     marketOrder.setTradableIdentifier("BTC");
     marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
     marketOrder.setTransactionCurrency("USD");
-    boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
-    System.out.println("Market Order Successful: " + marketOrderSuccess);
+    String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + marketOrderReturnValue);
 
     // place a limit order
     LimitOrder limitOrder = new LimitOrder();
@@ -87,8 +87,8 @@ public class MtGoxTradeDemo {
     limitOrder.setTransactionCurrency("USD");
     BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
     limitOrder.setLimitPrice(limitPrice);
-    boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
-    System.out.println("Limit Order Successful: " + limitOrderSuccess);
+    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
   }
 }
