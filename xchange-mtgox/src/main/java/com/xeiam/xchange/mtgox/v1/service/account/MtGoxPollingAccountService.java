@@ -1,7 +1,7 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
@@ -52,12 +52,11 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
     accountInfo.setWallets(MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
 
     return accountInfo;
-
   }
 
   @Override
-  public String withdraw() {
+  public String withdrawFunds() {
 
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 }
