@@ -53,6 +53,7 @@ public class RunnableWebSocketEventProducer implements RunnableExchangeEventProd
    * @param queue The market data event queue for the producer to work against
    */
   RunnableWebSocketEventProducer(Socket socket, BlockingQueue<ExchangeEvent> queue) {
+
     this.queue = queue;
     this.socket = socket;
   }
@@ -78,8 +79,10 @@ public class RunnableWebSocketEventProducer implements RunnableExchangeEventProd
 
         // Create an event
         ExchangeEvent marketDataEvent = new ExchangeEvent() {
+
           @Override
           public byte[] getRawData() {
+
             return data.getBytes();
           }
         };

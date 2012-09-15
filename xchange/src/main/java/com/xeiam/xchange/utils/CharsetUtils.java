@@ -40,6 +40,7 @@ public class CharsetUtils {
    * @return UTF-8 encoding in bytes
    */
   public static byte[] toByteArrayUtf8(String input) {
+
     try {
       return input.getBytes("UTF8");
     } catch (UnsupportedEncodingException e) {
@@ -53,6 +54,7 @@ public class CharsetUtils {
    * @return ASCII encoding in bytes
    */
   public static byte[] toByteArrayAscii(String input) {
+
     try {
       return input.getBytes("ASCII");
     } catch (UnsupportedEncodingException e) {
@@ -66,6 +68,7 @@ public class CharsetUtils {
    * @return An ASCII encoded version of the byte array
    */
   public static String toStringAscii(byte[] bytes) {
+
     return toStringAscii(bytes, 0, bytes.length);
   }
 
@@ -80,6 +83,7 @@ public class CharsetUtils {
    * @return The encoded String
    */
   public static String toStringAscii(byte[] bytes, int offset, int length) {
+
     try {
       return new String(bytes, offset, length, "ASCII");
     } catch (UnsupportedEncodingException e) {
@@ -89,6 +93,7 @@ public class CharsetUtils {
   }
 
   public static String toStringUtf8(byte[] bytes) throws InvalidDataException {
+
     return toStringUtf8(bytes, 0, bytes.length);
   }
 
@@ -104,6 +109,7 @@ public class CharsetUtils {
    * @throws com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException If something goes wrong
    */
   public static String toStringUtf8(byte[] bytes, int offset, int length) throws InvalidDataException {
+
     CharsetDecoder decode = Charset.forName("UTF8").newDecoder();
     decode.onMalformedInput(codingErrorAction);
     decode.onUnmappableCharacter(codingErrorAction);

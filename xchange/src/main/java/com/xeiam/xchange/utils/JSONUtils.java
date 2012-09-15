@@ -42,8 +42,7 @@ public class JSONUtils {
    * @param jsonString
    * @param returnType
    * @param objectMapper
-   * @return
-   * TODO Refactor Change Signature from String to byte[]
+   * @return TODO Refactor Change Signature from String to byte[]
    */
   public static <T> T getJsonObject(String jsonString, Class<T> returnType, ObjectMapper objectMapper) {
 
@@ -62,8 +61,7 @@ public class JSONUtils {
    * 
    * @param jsonString
    * @param objectMapper
-   * @return
-   * TODO Refactor Change Signature from String to byte[]
+   * @return TODO Refactor Change Signature from String to byte[]
    */
   public static Map<String, Object> getJsonGenericMap(String jsonString, ObjectMapper objectMapper) {
 
@@ -83,8 +81,7 @@ public class JSONUtils {
    * 
    * @param object
    * @param objectMapper
-   * @return
-   * TODO Refactor Change Signature to return byte[]
+   * @return TODO Refactor Change Signature to return byte[]
    */
   public static String getJSONString(Object object, ObjectMapper objectMapper) {
 

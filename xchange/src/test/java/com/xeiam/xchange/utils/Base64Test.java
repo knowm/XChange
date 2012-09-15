@@ -35,11 +35,13 @@ import org.junit.Test;
  * Based on <a href="http://iharder.sourceforge.net/current/java/base64/Base64Test.java">iHarder</a>
  */
 public class Base64Test extends TestCase {
+
   private static final long SEED = 12345678;
   private static Random s_random = new Random(SEED);
 
   @Test
   public void testStreams() throws Exception {
+
     for (int i = 0; i < 100; ++i) {
       runStreamTest(i);
     }
@@ -52,12 +54,14 @@ public class Base64Test extends TestCase {
   }
 
   private byte[] createData(int length) throws Exception {
+
     byte[] bytes = new byte[length];
     s_random.nextBytes(bytes);
     return bytes;
   }
 
   private void runStreamTest(int length) throws Exception {
+
     byte[] data = createData(length);
     ByteArrayOutputStream out_bytes = new ByteArrayOutputStream();
     OutputStream out = new Base64.OutputStream(out_bytes);

@@ -45,6 +45,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   private Draft draft;
 
   public WebSocketClient(URI serverURI) {
+
     this(serverURI, new Draft_10());
   }
 
@@ -52,6 +53,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    * Constructs a WebSocketClient instance and sets it to the connect to the specified URI. The client does not attampt to connect automatically. You must call <var>connect</var> first to initiate the socket connection.
    */
   public WebSocketClient(URI serverUri, Draft draft) {
+
     if (serverUri == null) {
       throw new IllegalArgumentException();
     }
@@ -68,10 +70,12 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    * @return The <tt>URI</tt> for this WebSocketClient.
    */
   public URI getURI() {
+
     return uri;
   }
 
   public Draft getDraft() {
+
     return draft;
   }
 
@@ -79,6 +83,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    * Starts a background thread that attempts and maintains a WebSocket connection to the URI specified in the constructor or via <var>setURI</var>. <var>setURI</var>.
    */
   public void connect() {
+
     if (thread != null)
       throw new IllegalStateException("already/still connected");
     thread = new Thread(this);
@@ -86,6 +91,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   public void close() {
+
     if (thread != null) {
       thread.interrupt();
     }
@@ -97,12 +103,14 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    * @param text The String to send to the WebSocket server.
    */
   public void send(String text) throws NotYetConnectedException, InterruptedException {
+
     if (conn != null) {
       conn.send(text);
     }
   }
 
   private void tryToConnect(InetSocketAddress remote) throws IOException {
+
     client = SocketChannel.open();
     client.configureBlocking(false);
     client.connect(remote);
@@ -111,6 +119,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   public void run() {
+
     if (thread == null)
       thread = Thread.currentThread();
     interruptableRun();
@@ -118,6 +127,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   protected void interruptableRun() {
+
     try {
       tryToConnect(new InetSocketAddress(uri.getHost(), getPort()));
     } catch (ClosedByInterruptException e) {
@@ -192,11 +202,13 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   private int getPort() {
+
     int port = uri.getPort();
     return port == -1 ? WebSocket.DEFAULT_PORT : port;
   }
 
   private void finishConnect() throws IOException, InvalidHandshakeException, InterruptedException {
+
     if (client.isConnectionPending()) {
       client.finishConnect();
     }
@@ -208,6 +220,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   private void sendHandshake() throws IOException, InvalidHandshakeException, InterruptedException {
+
     String path;
     String part1 = uri.getPath();
     String part2 = uri.getQuery();
@@ -234,6 +247,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    */
   @Override
   public void onMessage(WebSocket conn, String message) {
+
     onMessage(message);
   }
 
@@ -244,6 +258,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    */
   @Override
   public void onOpen(WebSocket conn, HandshakeData handshake) {
+
     onOpen(handshake);
   }
 
@@ -254,6 +269,7 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    */
   @Override
   public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+
     thread.interrupt();
     onClose(code, reason, remote);
   }
@@ -265,11 +281,13 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    */
   @Override
   public void onError(WebSocket conn, Exception ex) {
+
     onError(ex);
   }
 
   @Override
   public void onWriteDemand(WebSocket conn) {
+
     selector.wakeup();
   }
 

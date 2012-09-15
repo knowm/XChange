@@ -313,6 +313,7 @@ public class Base64 {
    * be picked.
    */
   private final static byte[] getAlphabet(int options) {
+
     if ((options & URL_SAFE) == URL_SAFE) {
       return _URL_SAFE_ALPHABET;
     } else if ((options & ORDERED) == ORDERED) {
@@ -327,6 +328,7 @@ public class Base64 {
    * picked.
    */
   private final static byte[] getDecodabet(int options) {
+
     if ((options & URL_SAFE) == URL_SAFE) {
       return _URL_SAFE_DECODABET;
     } else if ((options & ORDERED) == ORDERED) {
@@ -340,6 +342,7 @@ public class Base64 {
    * Defeats instantiation.
    */
   private Base64() {
+
   }
 
   /* ******** E N C O D I N G M E T H O D S ******** */
@@ -355,6 +358,7 @@ public class Base64 {
    * @since 1.5.1
    */
   private static byte[] encode3to4(byte[] b4, byte[] threeBytes, int numSigBytes, int options) {
+
     encode3to4(threeBytes, 0, numSigBytes, b4, 0, options);
     return b4;
   } // end encode3to4
@@ -429,6 +433,7 @@ public class Base64 {
    * @since 2.3
    */
   public static void encode(java.nio.ByteBuffer raw, java.nio.ByteBuffer encoded) {
+
     byte[] raw3 = new byte[3];
     byte[] enc4 = new byte[4];
 
@@ -448,6 +453,7 @@ public class Base64 {
    * @since 2.3
    */
   public static void encode(java.nio.ByteBuffer raw, java.nio.CharBuffer encoded) {
+
     byte[] raw3 = new byte[3];
     byte[] enc4 = new byte[4];
 
@@ -476,6 +482,7 @@ public class Base64 {
    * @since 1.4
    */
   public static String encodeObject(java.io.Serializable serializableObject) throws java.io.IOException {
+
     return encodeObject(serializableObject, NO_OPTIONS);
   } // end encodeObject
 
@@ -576,6 +583,7 @@ public class Base64 {
    * @since 1.4
    */
   public static String encodeBytes(byte[] source) {
+
     // Since we're not going to have the GZIP encoding turned on,
     // we're not going to have an java.io.IOException thrown, so
     // we should not force the user to have to catch it.
@@ -617,6 +625,7 @@ public class Base64 {
    * @since 2.0
    */
   public static String encodeBytes(byte[] source, int options) throws java.io.IOException {
+
     return encodeBytes(source, 0, source.length, options);
   } // end encodeBytes
 
@@ -635,6 +644,7 @@ public class Base64 {
    * @since 1.4
    */
   public static String encodeBytes(byte[] source, int off, int len) {
+
     // Since we're not going to have the GZIP encoding turned on,
     // we're not going to have an java.io.IOException thrown, so
     // we should not force the user to have to catch it.
@@ -679,6 +689,7 @@ public class Base64 {
    * @since 2.0
    */
   public static String encodeBytes(byte[] source, int off, int len, int options) throws java.io.IOException {
+
     byte[] encoded = encodeBytesToBytes(source, off, len, options);
 
     // Return value according to relevant encoding.
@@ -700,6 +711,7 @@ public class Base64 {
    * @since 2.3.1
    */
   public static byte[] encodeBytesToBytes(byte[] source) {
+
     byte[] encoded = null;
     try {
       encoded = encodeBytesToBytes(source, 0, source.length, Base64.NO_OPTIONS);
@@ -924,6 +936,7 @@ public class Base64 {
    * @since 2.3.1
    */
   public static byte[] decode(byte[] source) throws java.io.IOException {
+
     byte[] decoded = null;
     // try {
     decoded = decode(source, 0, source.length, Base64.NO_OPTIONS);
@@ -1013,6 +1026,7 @@ public class Base64 {
    * @since 1.4
    */
   public static byte[] decode(String s) throws java.io.IOException {
+
     return decode(s, NO_OPTIONS);
   }
 
@@ -1106,6 +1120,7 @@ public class Base64 {
    * @since 1.5
    */
   public static Object decodeToObject(String encodedObject) throws java.io.IOException, ClassNotFoundException {
+
     return decodeToObject(encodedObject, NO_OPTIONS, null);
   }
 
@@ -1142,8 +1157,10 @@ public class Base64 {
       // the provided class loader.
       else {
         ois = new java.io.ObjectInputStream(bais) {
+
           @Override
           public Class<?> resolveClass(java.io.ObjectStreamClass streamClass) throws java.io.IOException, ClassNotFoundException {
+
             Class c = Class.forName(streamClass.getName(), false, loader);
             if (c == null) {
               return super.resolveClass(streamClass);
@@ -1423,6 +1440,7 @@ public class Base64 {
      * @since 1.3
      */
     public InputStream(java.io.InputStream in) {
+
       this(in, DECODE);
     } // end constructor
 
@@ -1573,6 +1591,7 @@ public class Base64 {
      */
     @Override
     public int read(byte[] dest, int off, int len) throws java.io.IOException {
+
       int i;
       int b;
       for (i = 0; i < len; i++) {
@@ -1619,6 +1638,7 @@ public class Base64 {
      * @since 1.3
      */
     public OutputStream(java.io.OutputStream out) {
+
       this(out, ENCODE);
     } // end constructor
 
@@ -1643,6 +1663,7 @@ public class Base64 {
      * @since 1.3
      */
     public OutputStream(java.io.OutputStream out, int options) {
+
       super(out);
       this.breakLines = (options & DO_BREAK_LINES) != 0;
       this.encode = (options & ENCODE) != 0;
@@ -1664,6 +1685,7 @@ public class Base64 {
      */
     @Override
     public void write(int theByte) throws java.io.IOException {
+
       // Encoding suspended?
       if (suspendEncoding) {
         this.out.write(theByte);
@@ -1715,6 +1737,7 @@ public class Base64 {
      */
     @Override
     public void write(byte[] theBytes, int off, int len) throws java.io.IOException {
+
       // Encoding suspended?
       if (suspendEncoding) {
         this.out.write(theBytes, off, len);
@@ -1733,6 +1756,7 @@ public class Base64 {
      * @throws java.io.IOException if there's an error.
      */
     public void flushBase64() throws java.io.IOException {
+
       if (position > 0) {
         if (encode) {
           out.write(encode3to4(b4, buffer, position, options));
@@ -1752,6 +1776,7 @@ public class Base64 {
      */
     @Override
     public void close() throws java.io.IOException {
+
       // 1. Ensure that pending characters are written
       flushBase64();
 
@@ -1770,6 +1795,7 @@ public class Base64 {
      * @since 1.5.1
      */
     public void suspendEncoding() throws java.io.IOException {
+
       flushBase64();
       this.suspendEncoding = true;
     } // end suspendEncoding
@@ -1780,6 +1806,7 @@ public class Base64 {
      * @since 1.5.1
      */
     public void resumeEncoding() {
+
       this.suspendEncoding = false;
     } // end resumeEncoding
 

@@ -29,18 +29,22 @@ import com.xeiam.xchange.utils.CharsetUtils;
 public class Draft_10 extends Draft {
 
   private class IncompleteException extends Throwable {
+
     private int preferedsize;
 
     public IncompleteException(int preferedsize) {
+
       this.preferedsize = preferedsize;
     }
 
     public int getPreferedSize() {
+
       return preferedsize;
     }
   }
 
   public static int readVersion(HandshakeData handshakeData) {
+
     String vers = handshakeData.getFieldValue("Sec-WebSocket-Version");
     if (vers.length() > 0) {
       int v;
@@ -59,6 +63,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public HandshakeState acceptHandshakeAsClient(HandshakeData request, HandshakeData response) throws InvalidHandshakeException {
+
     if (!request.hasFieldValue("Sec-WebSocket-Key") || !response.hasFieldValue("Sec-WebSocket-Accept"))
       return HandshakeState.NOT_MATCHED;
 
@@ -73,6 +78,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public HandshakeState acceptHandshakeAsServer(HandshakeData handshakeData) throws InvalidHandshakeException {
+
     // Sec-WebSocket-Origin is only required for browser clients
     int v = readVersion(handshakeData);
     if (v == 7 || v == 8)// g
@@ -82,6 +88,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public ByteBuffer createBinaryFrame(FrameData frameData) {
+
     byte[] mes = frameData.getPayloadData();
     boolean mask = role == Role.CLIENT; // frameData.isTransferMasked();
     int sizebytes = mes.length <= 125 ? 1 : mes.length <= 65535 ? 2 : 8;
@@ -122,6 +129,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public List<FrameData> createFrames(byte[] binary, boolean mask) {
+
     FrameBuilder curframe = new DefaultFrameData();
     try {
       curframe.setPayload(binary);
@@ -136,6 +144,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public List<FrameData> createFrames(String text, boolean mask) {
+
     FrameBuilder curframe = new DefaultFrameData();
     byte[] pay = CharsetUtils.toByteArrayUtf8(text);
     try {
@@ -150,6 +159,7 @@ public class Draft_10 extends Draft {
   }
 
   private byte fromOpcode(OpCode opCode) {
+
     if (opCode == OpCode.CONTINUOUS)
       return 0;
     else if (opCode == OpCode.TEXT)
@@ -166,6 +176,7 @@ public class Draft_10 extends Draft {
   }
 
   private String generateFinalKey(String in) {
+
     String seckey = in.trim();
     String acc = seckey + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
     MessageDigest sh1;
@@ -179,6 +190,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public HandshakeBuilder postProcessHandshakeRequestAsClient(HandshakeBuilder request) {
+
     request.put("Upgrade", "websocket");
     request.put("Connection", "Upgrade"); // to respond to a Connection keep alives
     request.put("Sec-WebSocket-Version", "8");
@@ -192,6 +204,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public HandshakeBuilder postProcessHandshakeResponseAsServer(HandshakeData request, HandshakeBuilder response) throws InvalidHandshakeException {
+
     response.put("Upgrade", "websocket");
     response.put("Connection", request.getFieldValue("Connection")); // to respond to a Connection keep alives
     response.setHttpStatusMessage("Switching Protocols");
@@ -203,6 +216,7 @@ public class Draft_10 extends Draft {
   }
 
   private byte[] toByteArray(long val, int bytecount) {
+
     byte[] buffer = new byte[bytecount];
     int highest = 8 * bytecount - 8;
     for (int i = 0; i < bytecount; i++) {
@@ -212,6 +226,7 @@ public class Draft_10 extends Draft {
   }
 
   private OpCode toOpcode(byte opcode) throws InvalidFrameException {
+
     switch (opcode) {
     case 0:
       return OpCode.CONTINUOUS;
@@ -234,6 +249,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public List<FrameData> translateFrame(ByteBuffer buffer) throws LimitExceededException, InvalidDataException {
+
     List<FrameData> frames = new LinkedList<FrameData>();
     FrameData cur;
 
@@ -291,6 +307,7 @@ public class Draft_10 extends Draft {
   }
 
   public FrameData translateSingleFrame(ByteBuffer buffer) throws IncompleteException, InvalidDataException {
+
     int maxpacketsize = buffer.limit() - buffer.position();
     int realpacketsize = 2;
     if (maxpacketsize < realpacketsize)
@@ -375,6 +392,7 @@ public class Draft_10 extends Draft {
 
   @Override
   public void reset() {
+
     incompleteframe = null;
   }
 }

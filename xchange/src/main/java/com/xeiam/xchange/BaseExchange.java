@@ -60,24 +60,28 @@ public abstract class BaseExchange implements Exchange {
   }
 
   public WithdrawalService getWithdrawalService() {
+
     return withdrawalService;
   }
 
-  /* package */ void setMarketDataService(PollingMarketDataService marketDataService) {
+  /* package */void setMarketDataService(PollingMarketDataService marketDataService) {
+
     this.marketDataService = marketDataService;
   }
 
-  /* package */ void setTradeService(PollingTradeService tradeService) {
+  /* package */void setTradeService(PollingTradeService tradeService) {
+
     this.tradeService = tradeService;
   }
 
-  /* package */ void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
+  /* package */void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
+
     this.streamingMarketDataService = streamingMarketDataService;
   }
 
-  /* package */ void setWithdrawalService(WithdrawalService withdrawalService) {
+  /* package */void setWithdrawalService(WithdrawalService withdrawalService) {
+
     this.withdrawalService = withdrawalService;
   }
-
 
 }

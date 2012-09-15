@@ -44,11 +44,13 @@ public class Draft_75 extends Draft {
 
   @Override
   public HandshakeState acceptHandshakeAsClient(HandshakeData request, HandshakeData response) {
+
     return request.getFieldValue("WebSocket-Origin").equals(response.getFieldValue("Origin")) && basicAccept(response) ? HandshakeState.MATCHED : HandshakeState.NOT_MATCHED;
   }
 
   @Override
   public HandshakeState acceptHandshakeAsServer(HandshakeData handshakeData) {
+
     if (handshakeData.hasFieldValue("Origin") && basicAccept(handshakeData)) {
       return HandshakeState.MATCHED;
     }
@@ -57,6 +59,7 @@ public class Draft_75 extends Draft {
 
   @Override
   public ByteBuffer createBinaryFrame(FrameData frameData) {
+
     byte[] pay = frameData.getPayloadData();
     ByteBuffer b = ByteBuffer.allocate(pay.length + 2);
     b.put(START_OF_FRAME);
@@ -68,11 +71,13 @@ public class Draft_75 extends Draft {
 
   @Override
   public List<FrameData> createFrames(byte[] binary, boolean mask) {
+
     throw new RuntimeException("not yet implemented");
   }
 
   @Override
   public List<FrameData> createFrames(String text, boolean mask) {
+
     FrameBuilder frame = new DefaultFrameData();
     try {
       frame.setPayload(CharsetUtils.toByteArrayUtf8(text));
@@ -87,6 +92,7 @@ public class Draft_75 extends Draft {
 
   @Override
   public HandshakeBuilder postProcessHandshakeRequestAsClient(HandshakeBuilder request) throws InvalidHandshakeException {
+
     request.put("Upgrade", "WebSocket");
     request.put("Connection", "Upgrade");
     if (!request.hasFieldValue("Origin")) {
@@ -98,6 +104,7 @@ public class Draft_75 extends Draft {
 
   @Override
   public HandshakeBuilder postProcessHandshakeResponseAsServer(HandshakeData request, HandshakeBuilder response) throws InvalidHandshakeException {
+
     response.setHttpStatusMessage("Web Socket Protocol Handshake");
     response.put("Upgrade", "WebSocket");
     response.put("Connection", request.getFieldValue("Connection")); // to respond to a Connection keep alive
@@ -110,6 +117,7 @@ public class Draft_75 extends Draft {
 
   @Override
   public List<FrameData> translateFrame(ByteBuffer buffer) throws InvalidDataException {
+
     List<FrameData> frames = new LinkedList<FrameData>();
     while (buffer.hasRemaining()) {
       byte newestByte = buffer.get();
@@ -151,6 +159,7 @@ public class Draft_75 extends Draft {
 
   @Override
   public void reset() {
+
     readingState = false;
     this.currentFrame = null;
   }

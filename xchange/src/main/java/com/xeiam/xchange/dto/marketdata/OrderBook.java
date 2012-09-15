@@ -46,15 +46,18 @@ public final class OrderBook {
   }
 
   public List<LimitOrder> getAsks() {
+
     return asks;
   }
 
   public List<LimitOrder> getBids() {
+
     return bids;
   }
 
   @Override
   public String toString() {
+
     return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 

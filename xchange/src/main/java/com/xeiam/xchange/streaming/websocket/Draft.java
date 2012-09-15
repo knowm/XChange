@@ -36,6 +36,7 @@ public abstract class Draft {
   protected Role role = null;
 
   public static ByteBuffer readLine(ByteBuffer buf) {
+
     ByteBuffer sbuf = ByteBuffer.allocate(buf.remaining());
     byte prev = '0';
     byte cur = '0';
@@ -56,11 +57,13 @@ public abstract class Draft {
   }
 
   public static String readStringLine(ByteBuffer buf) {
+
     ByteBuffer b = readLine(buf);
     return b == null ? null : CharsetUtils.toStringAscii(b.array(), 0, b.limit());
   }
 
   public static HandshakeBuilder translateHandshakeHttp(ByteBuffer buf) throws InvalidHandshakeException {
+
     DefaultHandshakeData draft = new DefaultHandshakeData();
 
     String line = readStringLine(buf);
@@ -89,6 +92,7 @@ public abstract class Draft {
   public abstract HandshakeState acceptHandshakeAsServer(HandshakeData handshakeData) throws InvalidHandshakeException;
 
   protected boolean basicAccept(HandshakeData handshakeData) {
+
     return handshakeData.getFieldValue("Upgrade").equalsIgnoreCase("websocket") && handshakeData.getFieldValue("Connection").toLowerCase(Locale.ENGLISH).contains("upgrade");
   }
 
@@ -101,10 +105,12 @@ public abstract class Draft {
   public abstract void reset();
 
   public List<ByteBuffer> createHandshake(HandshakeData handshakeData, Role ownrole) {
+
     return createHandshake(handshakeData, ownrole, true);
   }
 
   public List<ByteBuffer> createHandshake(HandshakeData handshakeData, Role ownrole, boolean withcontent) {
+
     StringBuilder bui = new StringBuilder(100);
     if (ownrole == Role.CLIENT) {
       bui.append("GET ");
@@ -144,16 +150,19 @@ public abstract class Draft {
   public abstract List<FrameData> translateFrame(ByteBuffer buffer) throws InvalidDataException;
 
   public HandshakeData translateHandshake(ByteBuffer buf) throws InvalidHandshakeException {
+
     return translateHandshakeHttp(buf);
   }
 
   public int checkAlloc(int bytecount) throws LimitExceededException, InvalidDataException {
+
     if (bytecount < 0)
       throw new InvalidDataException(CloseFrame.PROTOCOL_ERROR, "Negative count");
     return bytecount;
   }
 
   public void setParseMode(Role role) {
+
     this.role = role;
   }
 

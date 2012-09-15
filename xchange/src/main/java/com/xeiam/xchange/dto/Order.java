@@ -30,8 +30,7 @@ public class Order {
 
   public enum OrderType {
 
-    BID,
-    ASK
+    BID, ASK
   }
 
   /**
@@ -55,39 +54,48 @@ public class Order {
   private String transactionCurrency;
 
   public OrderType getType() {
+
     return type;
   }
 
   public void setType(OrderType type) {
+
     this.type = type;
   }
 
   public BigDecimal getTradableAmount() {
+
     return tradableAmount;
   }
 
   public void setTradableAmount(BigDecimal tradableAmount) {
+
     this.tradableAmount = tradableAmount;
   }
 
   public String getTradableIdentifier() {
+
     return tradableIdentifier;
   }
 
   public void setTradableIdentifier(String tradableIdentifier) {
+
     this.tradableIdentifier = tradableIdentifier;
   }
 
   public String getTransactionCurrency() {
+
     return transactionCurrency;
   }
 
   public void setTransactionCurrency(String transactionCurrency) {
+
     this.transactionCurrency = transactionCurrency;
   }
 
   @Override
   public String toString() {
+
     return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + "]";
   }
 }

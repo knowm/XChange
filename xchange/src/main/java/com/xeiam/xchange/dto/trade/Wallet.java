@@ -27,6 +27,7 @@ import org.joda.money.BigMoney;
  * <p>
  * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
  * </p>
+ * 
  * @deprecated Use AccountService methods instead
  * @since 0.0.1
  */
@@ -41,21 +42,25 @@ public class Wallet {
    * @param balance The amount
    */
   public Wallet(BigMoney balance) {
+
     super();
     this.balance = balance;
   }
 
   public BigMoney getBalance() {
+
     return balance;
   }
 
   @Override
   public String toString() {
+
     return "Wallet [balance= " + balance + "]";
   }
 
   @Override
   public int hashCode() {
+
     return balance.hashCode();
   }
 
@@ -63,6 +68,7 @@ public class Wallet {
   // Note: Does not take currency into account
   @Override
   public boolean equals(Object obj) {
+
     if (this == obj) {
       return true;
     }

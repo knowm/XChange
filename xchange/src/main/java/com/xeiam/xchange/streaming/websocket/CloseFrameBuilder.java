@@ -12,23 +12,27 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
   private String reason;
 
   public CloseFrameBuilder() {
+
     super(OpCode.CLOSING);
     setFin(true);
   }
 
   public CloseFrameBuilder(int code) throws InvalidDataException {
+
     super(OpCode.CLOSING);
     setFin(true);
     setCodeAndMessage(code, "");
   }
 
   public CloseFrameBuilder(int code, String m) throws InvalidDataException {
+
     super(OpCode.CLOSING);
     setFin(true);
     setCodeAndMessage(code, m);
   }
 
   private void setCodeAndMessage(int code, String m) throws InvalidDataException {
+
     byte[] by = CharsetUtils.toByteArrayUtf8(m);
     ByteBuffer buf = ByteBuffer.allocate(4);
     buf.putInt(code);
@@ -40,6 +44,7 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
   }
 
   private void initCloseCode() throws InvalidFrameException {
+
     code = CloseFrame.NOCODE;
     byte[] payload = getPayloadData();
     if (payload.length >= 2) {
@@ -58,10 +63,12 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
 
   @Override
   public int getCloseCode() {
+
     return code;
   }
 
   private void initMessage() throws InvalidDataException {
+
     if (code == CloseFrame.NOCODE) {
       reason = CharsetUtils.toStringUtf8(getPayloadData());
     } else {
@@ -72,16 +79,19 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
 
   @Override
   public String getMessage() {
+
     return reason;
   }
 
   @Override
   public String toString() {
+
     return super.toString() + "code: " + code;
   }
 
   @Override
   public void setPayload(byte[] payload) throws InvalidDataException {
+
     super.setPayload(payload);
     initCloseCode();
     initMessage();
@@ -89,6 +99,7 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
 
   @Override
   public byte[] getPayloadData() {
+
     if (code == NOCODE)
       return new byte[0];
     return super.getPayloadData();

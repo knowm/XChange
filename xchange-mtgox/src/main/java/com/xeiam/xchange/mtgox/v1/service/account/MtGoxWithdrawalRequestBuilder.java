@@ -6,13 +6,13 @@ import com.xeiam.xchange.service.account.WithdrawalRequestBuilder;
 
 /**
  * <p>
- * Builder to provide the following to {@link MtGoxWithdrawalService}:</p>
+ * Builder to provide the following to {@link MtGoxWithdrawalService}:
+ * </p>
  * <ul>
  * <li>HTTP+HTML request/response builder</li>
  * </ul>
  * <p>
- * MtGox provides a withdrawal API only through its website interface, not via the v1 REST API. Consequently, this
- * builder handles the process of gathering the necessary information to conduct the series of requests.
+ * MtGox provides a withdrawal API only through its website interface, not via the v1 REST API. Consequently, this builder handles the process of gathering the necessary information to conduct the series of requests.
  * </p>
  */
 
@@ -33,11 +33,12 @@ public class MtGoxWithdrawalRequestBuilder implements WithdrawalRequestBuilder {
   private boolean isBuilt = false;
 
   public static MtGoxWithdrawalRequestBuilder newWithdrawalRequest() {
+
     return new MtGoxWithdrawalRequestBuilder();
   }
 
-
   public MtGoxWithdrawalRequest build() {
+
     validateState();
 
     // WithdrawalRequest is a DTO and so requires a default constructor
@@ -60,52 +61,62 @@ public class MtGoxWithdrawalRequestBuilder implements WithdrawalRequestBuilder {
   }
 
   private void validateState() {
+
     if (isBuilt) {
       throw new IllegalStateException("The entity has been built");
     }
   }
 
   public MtGoxWithdrawalRequestBuilder withUsername(String username) {
+
     this.username = username;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withPassword(String password) {
+
     this.password = password;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withYubiKey(String yubiKey) {
+
     this.yubiKey = yubiKey;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withBankName(String bankName) {
+
     this.bankName = bankName;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withSortCode(String sortCode) {
+
     this.sortCode = sortCode;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withAccountNumber(String accountNumber) {
+
     this.accountNumber = accountNumber;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withIBAN(String iban) {
+
     this.iban = iban;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withBIC(String bic) {
+
     this.bic = bic;
     return this;
   }
 
   public MtGoxWithdrawalRequestBuilder withMoney(BigMoney money) {
+
     this.money = money;
     return this;
   }

@@ -49,8 +49,10 @@ public class HttpTemplateTest {
 
     // Provide a mocked out HttpURLConnection
     HttpTemplate testObject = new HttpTemplate() {
+
       @Override
       HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+
         return mockHttpURLConnection;
       }
     };
@@ -83,8 +85,10 @@ public class HttpTemplateTest {
 
     // Configure the test object (overridden methods are tested elsewhere)
     HttpTemplate testObject = new HttpTemplate() {
+
       @Override
       HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+
         return mockHttpURLConnection;
       }
     };
@@ -106,32 +110,40 @@ public class HttpTemplateTest {
    * @throws MalformedURLException If something goes wrong
    */
   private HttpURLConnection configureMockHttpURLConnectionForPost(final String resourcePath) throws MalformedURLException {
+
     return new HttpURLConnection(new URL("http://example.org")) {
+
       @Override
       public void disconnect() {
+
       }
 
       @Override
       public boolean usingProxy() {
+
         return false;
       }
 
       @Override
       public void connect() throws IOException {
+
       }
 
       @Override
       public InputStream getInputStream() throws IOException {
+
         return HttpTemplateTest.class.getResourceAsStream(resourcePath);
       }
 
       @Override
       public OutputStream getOutputStream() throws IOException {
+
         return new ByteArrayOutputStream();
       }
 
       @Override
       public String getHeaderField(String s) {
+
         if ("Content-Type".equalsIgnoreCase(s)) {
           // Provide a Windows charset
           return "application/json; charset=cp1252";

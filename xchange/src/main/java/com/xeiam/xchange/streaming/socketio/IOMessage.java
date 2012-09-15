@@ -100,6 +100,7 @@ class IOMessage {
    * @param data the data
    */
   public IOMessage(int type, String namespace, String data) {
+
     this(type, null, namespace, data);
   }
 
@@ -109,6 +110,7 @@ class IOMessage {
    * @param message the message
    */
   public IOMessage(String message) {
+
     String[] fields = message.split(":", NUM_FIELDS);
     for (int i = 0; i < fields.length; i++) {
       this.fields[i] = fields[i];
@@ -123,6 +125,7 @@ class IOMessage {
    */
   @Override
   public String toString() {
+
     StringBuilder builder = new StringBuilder();
     for (int i = 0; i < fields.length; i++) {
       builder.append(':');
@@ -139,6 +142,7 @@ class IOMessage {
    * @return the type
    */
   public int getType() {
+
     return type;
   }
 
@@ -148,6 +152,7 @@ class IOMessage {
    * @return the id
    */
   public String getId() {
+
     return fields[FIELD_ID];
   }
 
@@ -157,6 +162,7 @@ class IOMessage {
    * @param id
    */
   public void setId(String id) {
+
     fields[FIELD_ID] = id;
   }
 
@@ -166,6 +172,7 @@ class IOMessage {
    * @return the endpoint
    */
   public String getEndpoint() {
+
     return fields[FIELD_ENDPOINT];
   }
 
@@ -175,6 +182,7 @@ class IOMessage {
    * @return the data
    */
   public String getData() {
+
     return fields[FIELD_DATA];
   }
 

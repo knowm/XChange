@@ -54,6 +54,7 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
    * @param queue The exchange event queue for the producer to work against
    */
   RunnableSocketIOEventProducer(SocketIO socketClient, BlockingQueue<ExchangeEvent> queue) {
+
     this.queue = queue;
     this.socketIO = socketClient;
   }
@@ -82,8 +83,10 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   public void onMessage(final String data, IOAcknowledge ack) {
 
     ExchangeEvent marketDataEvent = new ExchangeEvent() {
+
       @Override
       public byte[] getRawData() {
+
         return data.getBytes();
       }
     };
@@ -99,8 +102,10 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   public void onMessage(final JSONObject json, IOAcknowledge ack) {
 
     ExchangeEvent marketDataEvent = new ExchangeEvent() {
+
       @Override
       public byte[] getRawData() {
+
         return json.toString().getBytes();
       }
     };
@@ -115,12 +120,14 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
 
   @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
+
     // TODO handle this
     log.debug("Event: " + event);
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
+
     // TODO handle this
     log.debug("Error: " + socketIOException.getMessage());
   }

@@ -1,18 +1,22 @@
 package com.xeiam.xchange.streaming.websocket.exceptions;
 
 public class InvalidDataException extends Exception {
+
   private int closecode;
 
   public InvalidDataException(int closecode) {
+
     this.closecode = closecode;
   }
 
   public InvalidDataException(int closecode, String s) {
+
     super(s);
     this.closecode = closecode;
   }
 
   public InvalidDataException(int closecode, Throwable t) {
+
     super(t);
     if (t instanceof InvalidDataException) {
       closecode = ((InvalidDataException) t).getCloseCode();
@@ -20,6 +24,7 @@ public class InvalidDataException extends Exception {
   }
 
   public InvalidDataException(int closecode, String s, Throwable t) {
+
     super(s, t);
     if (t instanceof InvalidDataException) {
       closecode = ((InvalidDataException) t).getCloseCode();
@@ -27,6 +32,7 @@ public class InvalidDataException extends Exception {
   }
 
   public int getCloseCode() {
+
     return closecode;
   }
 

@@ -63,6 +63,7 @@ public class SocketIO {
    * @throws MalformedURLException the malformed url exception
    */
   public SocketIO(final String url) throws MalformedURLException {
+
     if (url == null) {
       throw new RuntimeException("url may not be null.");
     }
@@ -77,6 +78,7 @@ public class SocketIO {
    * @throws MalformedURLException the malformed url exception
    */
   public SocketIO(final String url, Properties headers) throws MalformedURLException {
+
     if (url == null) {
       throw new RuntimeException("url may not be null.");
     }
@@ -96,6 +98,7 @@ public class SocketIO {
    * @throws MalformedURLException the malformed url exception
    */
   public SocketIO(final String url, final IOCallback callback) throws MalformedURLException {
+
     connect(url, callback);
   }
 
@@ -106,6 +109,7 @@ public class SocketIO {
    * @param callback the callback
    */
   public SocketIO(final URL url, final IOCallback callback) {
+
     if (setAndConnect(url, callback) == false) {
       throw new RuntimeException("url and callback may not be null.");
     }
@@ -117,6 +121,7 @@ public class SocketIO {
    * @param url the url
    */
   public SocketIO(final URL url) {
+
     setAndConnect(url, null);
   }
 
@@ -126,6 +131,7 @@ public class SocketIO {
    * @param socketFactory
    */
   public static void setDefaultSSLSocketFactory(SSLSocketFactory socketFactory) {
+
     IOConnection.setDefaultSSLSocketFactory(socketFactory);
   }
 
@@ -136,6 +142,7 @@ public class SocketIO {
    * @param callback the callback
    */
   public void connect(final String url, final IOCallback callback) throws MalformedURLException {
+
     if (setAndConnect(new URL(url), callback) == false) {
       if (url == null || callback == null) {
         throw new RuntimeException("url and callback may not be null.");
@@ -152,6 +159,7 @@ public class SocketIO {
    * @param callback the callback
    */
   public void connect(URL url, IOCallback callback) {
+
     if (setAndConnect(url, callback) == false) {
       if (url == null || callback == null) {
         throw new RuntimeException("url and callback may not be null.");
@@ -167,6 +175,7 @@ public class SocketIO {
    * @param callback the callback
    */
   public void connect(IOCallback callback) {
+
     if (setAndConnect(null, callback) == false) {
       if (callback == null) {
         throw new RuntimeException("callback may not be null.");
@@ -184,6 +193,7 @@ public class SocketIO {
    * @return true if connecting has been initiated, false if not
    */
   private boolean setAndConnect(URL url, IOCallback callback) {
+
     if ((this.url != null && url != null) || (this.callback != null && callback != null)) {
       return false;
     }
@@ -212,6 +222,7 @@ public class SocketIO {
    * @param args arguments. can be any argument {@link org.json.JSONArray#put(Object)} can take.
    */
   public void emit(final String event, final Object... args) {
+
     this.connection.emit(this, event, null, args);
   }
 
@@ -223,6 +234,7 @@ public class SocketIO {
    * @param args arguments. can be any argument {@link org.json.JSONArray#put(Object)} can take.
    */
   public void emit(final String event, IOAcknowledge ack, final Object... args) {
+
     this.connection.emit(this, event, ack, args);
   }
 
@@ -232,6 +244,7 @@ public class SocketIO {
    * @return the callback
    */
   public IOCallback getCallback() {
+
     return this.callback;
   }
 
@@ -241,6 +254,7 @@ public class SocketIO {
    * @return the namespace
    */
   public String getNamespace() {
+
     return this.namespace;
   }
 
@@ -250,6 +264,7 @@ public class SocketIO {
    * @param json the JSON object
    */
   public void send(final JSONObject json) {
+
     this.connection.send(this, null, json);
   }
 
@@ -260,6 +275,7 @@ public class SocketIO {
    * @param json the JSON object
    */
   public void send(IOAcknowledge ack, final JSONObject json) {
+
     this.connection.send(this, ack, json);
   }
 
@@ -269,6 +285,7 @@ public class SocketIO {
    * @param message the message String
    */
   public void send(final String message) {
+
     this.connection.send(this, null, message);
   }
 
@@ -279,6 +296,7 @@ public class SocketIO {
    * @param message the message String
    */
   public void send(IOAcknowledge ack, final String message) {
+
     this.connection.send(this, ack, message);
   }
 
@@ -286,6 +304,7 @@ public class SocketIO {
    * Disconnect the socket.
    */
   public void disconnect() {
+
     this.connection.unregister(this);
   }
 
@@ -293,6 +312,7 @@ public class SocketIO {
    * Triggers the transport to reconnect. This had become useful on some android devices which do not shut down tcp-connections when switching from HSDPA to Wifi
    */
   public void reconnect() {
+
     this.connection.reconnect();
   }
 
@@ -302,6 +322,7 @@ public class SocketIO {
    * @return true if a connection is established, false if the transport is not connected or currently connecting
    */
   public boolean isConnected() {
+
     return this.connection.isConnected();
   }
 
@@ -311,6 +332,7 @@ public class SocketIO {
    * @return the name of the currently used transport
    */
   public String getTransport() {
+
     IOTransport transport = this.connection.getTransport();
     return transport != null ? transport.getName() : null;
   }
@@ -321,6 +343,7 @@ public class SocketIO {
    * @return the headers used while handshaking
    */
   public Properties getHeaders() {
+
     return headers;
   }
 
@@ -330,6 +353,7 @@ public class SocketIO {
    * @param headers the headers used while handshaking
    */
   void setHeaders(Properties headers) {
+
     this.headers = headers;
   }
 
@@ -339,6 +363,7 @@ public class SocketIO {
    * @return SocketIO.this for daisy chaining.
    */
   public SocketIO addHeader(String key, String value) {
+
     if (this.connection != null) {
       throw new RuntimeException("You may only set headers before connecting.\n" + " Try to use new SocketIO().addHeader(key, value).connect(host, callback) "
           + "instead of SocketIO(host, callback).addHeader(key, value)");
@@ -353,6 +378,7 @@ public class SocketIO {
    * @return the header value or {@code null} if not present
    */
   public String getHeader(String key) {
+
     if (this.headers.contains(key)) {
       return this.headers.getProperty(key);
     }

@@ -33,6 +33,7 @@ public class SocketIOException extends Exception {
    * @param message the message
    */
   public SocketIOException(String message) {
+
     super(message);
   }
 
@@ -42,6 +43,7 @@ public class SocketIOException extends Exception {
    * @param ex the exception.
    */
   public SocketIOException(String message, Exception ex) {
+
     super(message, ex);
   }
 }

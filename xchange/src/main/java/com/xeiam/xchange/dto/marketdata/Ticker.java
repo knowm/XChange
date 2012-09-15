@@ -48,6 +48,7 @@ public final class Ticker {
    * @param volume
    */
   public Ticker(BigMoney last, BigMoney bid, BigMoney ask, String tradableIdentifier, long volume) {
+
     this.last = last;
     this.bid = bid;
     this.ask = ask;
@@ -57,31 +58,38 @@ public final class Ticker {
   }
 
   public BigMoney getLast() {
+
     return last;
   }
 
   public BigMoney getBid() {
+
     return bid;
   }
 
   public BigMoney getAsk() {
+
     return ask;
   }
 
   public String getTradableIdentifier() {
+
     return tradableIdentifier;
   }
 
   public long getVolume() {
+
     return volume;
   }
 
   public DateTime getTimestamp() {
+
     return timestamp;
   }
 
   @Override
   public String toString() {
+
     return "Ticker [timestamp=" + timestamp + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", tradableIdentifier=" + tradableIdentifier + ", volume=" + volume + "]";
   }
 

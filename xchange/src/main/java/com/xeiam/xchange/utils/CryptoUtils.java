@@ -41,6 +41,7 @@ public class CryptoUtils {
    * @return A numerical nonce using the number of milliseconds since the start of the epoch
    */
   public static String getNumericalNonce() {
+
     return Long.toString(new Date().getTime());
   }
 
@@ -53,10 +54,11 @@ public class CryptoUtils {
    */
   @Deprecated
   public static String decodeBase64String(String base64Data) {
+
     try {
       return new String(Base64.decode(base64Data.getBytes()));
     } catch (IOException e) {
-      throw new ExchangeException("Could not decode Base 64 string",e);
+      throw new ExchangeException("Could not decode Base 64 string", e);
     }
   }
 
@@ -79,7 +81,7 @@ public class CryptoUtils {
       mac.update(baseString.getBytes());
       return Base64.encodeBytes(mac.doFinal()).trim();
     } catch (IOException e) {
-      throw new ExchangeException("Could not decode Base 64 string",e);
+      throw new ExchangeException("Could not decode Base 64 string", e);
     }
   }
 

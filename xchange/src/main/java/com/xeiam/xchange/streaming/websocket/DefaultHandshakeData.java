@@ -12,10 +12,12 @@ public class DefaultHandshakeData implements HandshakeBuilder {
   private LinkedHashMap<String, String> map;
 
   public DefaultHandshakeData() {
+
     map = new LinkedHashMap<String, String>();
   }
 
   public DefaultHandshakeData(HandshakeData h) {
+
     httpstatusmessage = h.getHttpStatusMessage();
     resourcedescriptor = h.getResourceDescriptor();
     content = h.getContent();
@@ -29,17 +31,20 @@ public class DefaultHandshakeData implements HandshakeBuilder {
 
   @Override
   public String getResourceDescriptor() {
+
     // validate resourcedescriptor
     return resourcedescriptor == null || (resourcedescriptor.length() == 0) ? "" : resourcedescriptor;
   }
 
   @Override
   public Iterator<String> iterateHttpFields() {
+
     return Collections.unmodifiableSet(map.keySet()).iterator();// Safety first
   }
 
   @Override
   public String getFieldValue(String name) {
+
     String s = map.get(name);
     if (s == null) {
       return "";
@@ -49,36 +54,43 @@ public class DefaultHandshakeData implements HandshakeBuilder {
 
   @Override
   public byte[] getContent() {
+
     return content;
   }
 
   @Override
   public void setContent(byte[] content) {
+
     this.content = content;
   }
 
   @Override
   public void setResourceDescriptor(String resourcedescriptor) throws IllegalArgumentException {
+
     this.resourcedescriptor = resourcedescriptor;
   }
 
   @Override
   public void put(String name, String value) {
+
     map.put(name, value);
   }
 
   @Override
   public boolean hasFieldValue(String name) {
+
     return map.containsKey(name);
   }
 
   @Override
   public String getHttpStatusMessage() {
+
     return httpstatusmessage;
   }
 
   @Override
   public void setHttpStatusMessage(String message) {
+
     this.httpstatusmessage = message;
 
   }

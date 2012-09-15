@@ -12,8 +12,6 @@ import com.xeiam.xchange.utils.HttpURLConnectionUtils;
 
 public class MtGoxWithdrawalServiceTest {
 
-
-
   // TODO Implement this
   @Test
   public void testWithdraw_ExpectSuccess() throws Exception {
@@ -25,7 +23,9 @@ public class MtGoxWithdrawalServiceTest {
 
     // Provide a mocked out HttpURLConnection
     MtGoxWithdrawalRequest withdrawalRequest = new MtGoxWithdrawalRequest() {
+
       HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+
         return mockHttpURLConnection;
       }
     };
@@ -37,13 +37,9 @@ public class MtGoxWithdrawalServiceTest {
 
     // TODO Flesh this out
 
-/*
-    WithdrawalResponse actualResponse = testObject.newWithdrawalRequest()
-      .withMoney(MoneyUtils.parseFiat("USD 10.50"))
-      .withdraw();
-
-    assertEquals(actualResponse.get)
-*/
+    /*
+     * WithdrawalResponse actualResponse = testObject.newWithdrawalRequest() .withMoney(MoneyUtils.parseFiat("USD 10.50")) .withdraw(); assertEquals(actualResponse.get)
+     */
 
   }
 }

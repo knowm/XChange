@@ -36,16 +36,19 @@ public class OpenOrders {
    * @param openOrders
    */
   public OpenOrders(List<LimitOrder> openOrders) {
+
     super();
     this.openOrders = openOrders;
   }
 
   public List<LimitOrder> getOpenOrders() {
+
     return openOrders;
   }
 
   @Override
   public String toString() {
+
     return "OpenOrders [openOrders=" + openOrders + "]";
   }
 

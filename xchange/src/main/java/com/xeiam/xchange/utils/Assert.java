@@ -42,6 +42,7 @@ public abstract class Assert {
    * @param message The message for any exception
    */
   public static void isTrue(boolean condition, String message) {
+
     if (!condition) {
       throw new IllegalArgumentException(message);
     }
@@ -56,6 +57,7 @@ public abstract class Assert {
    * @param message The message for any exception
    */
   public static void notNull(Object object, String message) {
+
     if (object == null) {
       throw new IllegalArgumentException(message);
     }
@@ -68,6 +70,7 @@ public abstract class Assert {
    * @param message The message for any exception
    */
   public static void hasLength(String input, int length, String message) {
+
     notNull(input, message);
     if (input.length() != length) {
       throw new IllegalArgumentException(message);
@@ -81,6 +84,7 @@ public abstract class Assert {
    * @param message The message for any exception
    */
   public static void hasSize(Collection input, int length, String message) {
+
     notNull(input, message);
     if (input.size() != length) {
       throw new IllegalArgumentException(message);

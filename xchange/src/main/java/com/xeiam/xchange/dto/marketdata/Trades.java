@@ -36,15 +36,18 @@ public final class Trades {
    * @param trades
    */
   public Trades(List<Trade> trades) {
+
     this.trades = trades;
   }
 
   public List<Trade> getTrades() {
+
     return trades;
   }
 
   @Override
   public String toString() {
+
     return "Trades [trades=" + trades.toString() + "]";
   }
 

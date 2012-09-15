@@ -10,5 +10,4 @@ package com.xeiam.xchange.service.account;
  */
 public abstract class BaseWithdrawalService implements WithdrawalService {
 
-
 }

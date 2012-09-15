@@ -3,6 +3,7 @@ package com.xeiam.xchange.streaming.websocket;
 import java.util.Iterator;
 
 public interface HandshakeData {
+
   public String getHttpStatusMessage();
 
   public String getResourceDescriptor();

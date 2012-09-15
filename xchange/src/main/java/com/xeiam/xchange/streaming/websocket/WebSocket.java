@@ -92,10 +92,12 @@ public final class WebSocket {
    * @param listener The {@link WebSocketListener} to notify of events when they occur.
    */
   public WebSocket(WebSocketListener listener, Draft draft, SocketChannel socketChannel) {
+
     init(listener, draft, socketChannel);
   }
 
   public WebSocket(WebSocketListener listener, List<Draft> drafts, SocketChannel socketChannel) {
+
     init(listener, null, socketChannel);
     this.role = Role.SERVER;
     if (known_drafts == null || known_drafts.isEmpty()) {
@@ -110,6 +112,7 @@ public final class WebSocket {
   }
 
   private void init(WebSocketListener listener, Draft draft, SocketChannel sockchannel) {
+
     this.socketChannel = sockchannel;
     this.bufferQueue = new LinkedBlockingQueue<ByteBuffer>(10);
     this.socketBuffer = ByteBuffer.allocate(65558);
@@ -125,6 +128,7 @@ public final class WebSocket {
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   void handleRead() throws IOException {
+
     if (!socketBuffer.hasRemaining()) {
       socketBuffer.rewind();
       socketBuffer.limit(socketBuffer.capacity());
@@ -286,6 +290,7 @@ public final class WebSocket {
    * @param message The message
    */
   public void close(int code, String message) {
+
     try {
       closeDirect(code, message);
     } catch (IOException e) {
@@ -294,6 +299,7 @@ public final class WebSocket {
   }
 
   public void closeDirect(int code, String message) throws IOException {
+
     if (!closeHandshakeSent) {
       if (handshakeComplete) {
         flush();
@@ -325,6 +331,7 @@ public final class WebSocket {
    *          <code>code</code>. <br>
    */
   public void closeConnection(int code, String message, boolean remote) {
+
     if (connectionClosed) {
       return;
     }
@@ -342,14 +349,17 @@ public final class WebSocket {
   }
 
   public void closeConnection(int code, boolean remote) {
+
     closeConnection(code, "", remote);
   }
 
   public void close(int code) {
+
     close(code, "");
   }
 
   public void close(InvalidDataException e) {
+
     close(e.getCloseCode(), e.getMessage());
   }
 
@@ -358,6 +368,7 @@ public final class WebSocket {
    * @throws InterruptedException If something goes wrong
    */
   public void send(String text) throws InterruptedException {
+
     if (text == null)
       throw new IllegalArgumentException("Cannot send 'null' data to a WebSocket.");
     send(draft.createFrames(text, role == Role.CLIENT));
@@ -365,12 +376,14 @@ public final class WebSocket {
 
   // TODO there should be a send for bytebuffers
   public void send(byte[] bytes) throws IllegalArgumentException, NotYetConnectedException, InterruptedException {
+
     if (bytes == null)
       throw new IllegalArgumentException("Cannot send 'null' data to a WebSocket.");
     send(draft.createFrames(bytes, role == Role.CLIENT));
   }
 
   private void send(Collection<FrameData> frames) throws InterruptedException {
+
     if (!this.handshakeComplete)
       throw new NotYetConnectedException();
     for (FrameData f : frames) {
@@ -379,18 +392,21 @@ public final class WebSocket {
   }
 
   public void sendFrame(FrameData frameData) throws InterruptedException {
+
     if (DEBUG)
       log.trace("send frame: " + frameData);
     channelWrite(draft.createBinaryFrame(frameData));
   }
 
   private void sendFrameDirect(FrameData frameData) throws IOException {
+
     if (DEBUG)
       log.trace("send frame: " + frameData);
     channelWriteDirect(draft.createBinaryFrame(frameData));
   }
 
   boolean hasBufferedData() {
+
     return !this.bufferQueue.isEmpty();
   }
 
@@ -400,6 +416,7 @@ public final class WebSocket {
    * @throws java.io.IOException If something goes wrong
    */
   public void flush() throws IOException {
+
     ByteBuffer buffer = this.bufferQueue.peek();
     while (buffer != null) {
       socketChannel.write(buffer);
@@ -413,6 +430,7 @@ public final class WebSocket {
   }
 
   public HandshakeState isFlashEdgeCase(ByteBuffer request) {
+
     if (flash_policy_index >= FLASH_POLICY_REQUEST.length)
       return HandshakeState.NOT_MATCHED;
     request.mark();
@@ -426,6 +444,7 @@ public final class WebSocket {
   }
 
   public void startHandshake(HandshakeBuilder handshakedata) throws InvalidHandshakeException, InterruptedException {
+
     if (handshakeComplete)
       throw new IllegalStateException("Handshake has allready been sent.");
     this.handshakerequest = handshakedata;
@@ -433,6 +452,7 @@ public final class WebSocket {
   }
 
   private void channelWrite(ByteBuffer buf) throws InterruptedException {
+
     if (DEBUG)
       log.trace("write(" + buf.limit() + "): {" + (buf.limit() > 1000 ? "too big to display" : new String(buf.array())) + "}");
     buf.rewind();
@@ -441,23 +461,27 @@ public final class WebSocket {
   }
 
   private void channelWrite(List<ByteBuffer> bufs) throws InterruptedException {
+
     for (ByteBuffer b : bufs) {
       channelWrite(b);
     }
   }
 
   private void channelWriteDirect(ByteBuffer buf) throws IOException {
+
     while (buf.hasRemaining())
       socketChannel.write(buf);
   }
 
   private void writeDirect(List<ByteBuffer> bufs) throws IOException {
+
     for (ByteBuffer b : bufs) {
       channelWriteDirect(b);
     }
   }
 
   private void deliverMessage(FrameData d) throws InvalidDataException {
+
     if (d.getOpCode() == OpCode.TEXT) {
       wsl.onMessage(this, CharsetUtils.toStringUtf8(d.getPayloadData()));
     } else if (d.getOpCode() == OpCode.BINARY) {
@@ -469,6 +493,7 @@ public final class WebSocket {
   }
 
   private void open(HandshakeData d) throws IOException {
+
     if (DEBUG)
       log.trace("open using draft: " + draft.getClass().getSimpleName());
     handshakeComplete = true;
@@ -476,14 +501,17 @@ public final class WebSocket {
   }
 
   public InetSocketAddress getRemoteSocketAddress() {
+
     return (InetSocketAddress) socketChannel.socket().getRemoteSocketAddress();
   }
 
   public InetSocketAddress getLocalSocketAddress() {
+
     return (InetSocketAddress) socketChannel.socket().getLocalSocketAddress();
   }
 
   public boolean isClosed() {
+
     return connectionClosed;
   }
 

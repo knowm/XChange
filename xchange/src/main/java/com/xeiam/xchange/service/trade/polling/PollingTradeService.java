@@ -36,7 +36,9 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
  * <li>Place market orders on the exchange</li>
  * <li>Place limit orders on the exchange</li>
  * </ul>
- * <p>The implementation of this service is expected to be based on a client polling mechanism of some kind</p>
+ * <p>
+ * The implementation of this service is expected to be based on a client polling mechanism of some kind
+ * </p>
  */
 public interface PollingTradeService {
 

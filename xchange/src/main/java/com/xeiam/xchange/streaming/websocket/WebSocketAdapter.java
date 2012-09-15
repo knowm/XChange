@@ -8,32 +8,39 @@ public abstract class WebSocketAdapter implements WebSocketListener {
 
   @Override
   public HandshakeBuilder onHandshakeRecievedAsServer(WebSocket conn, Draft draft, HandshakeData request) throws IOException {
+
     return new DefaultHandshakeData();
   }
 
   @Override
   public boolean onHandshakeRecievedAsClient(WebSocket conn, HandshakeData request, HandshakeData response) throws IOException {
+
     return true;
   }
 
   @Override
   public void onMessage(WebSocket conn, String message) {
+
   }
 
   @Override
   public void onOpen(WebSocket conn, HandshakeData handshake) {
+
   }
 
   @Override
   public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+
   }
 
   @Override
   public void onMessage(WebSocket conn, byte[] blob) {
+
   }
 
   @Override
   public void onPing(WebSocket conn, FrameData f) {
+
     DefaultFrameData resp = new DefaultFrameData(f);
     resp.setOpCode(OpCode.PONG);
     try {
@@ -45,6 +52,7 @@ public abstract class WebSocketAdapter implements WebSocketListener {
 
   @Override
   public void onPong(WebSocket conn, FrameData f) {
+
   }
 
   /**
@@ -55,11 +63,13 @@ public abstract class WebSocketAdapter implements WebSocketListener {
    */
   @Override
   public String getFlashPolicy(WebSocket conn) {
+
     return "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"" + conn.getLocalSocketAddress().getPort() + "\" /></cross-domain-policy>\0";
   }
 
   @Override
   public void onError(WebSocket conn, Exception ex) {
+
   }
 
 }

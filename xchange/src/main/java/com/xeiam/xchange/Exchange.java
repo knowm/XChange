@@ -85,8 +85,10 @@ public interface Exchange {
   StreamingMarketDataService getStreamingMarketDataService();
 
   /**
-   * <p>A withdrawal service is used to remove funds from the exchange</p>
-   *
+   * <p>
+   * A withdrawal service is used to remove funds from the exchange
+   * </p>
+   * 
    * @return The exchange's "push" market data service
    */
   WithdrawalService getWithdrawalService();

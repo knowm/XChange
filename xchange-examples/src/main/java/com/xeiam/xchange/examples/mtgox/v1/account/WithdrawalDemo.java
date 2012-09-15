@@ -47,18 +47,8 @@ public class WithdrawalDemo {
     MtGoxWithdrawalService withdrawalService = (MtGoxWithdrawalService) mtgox.getWithdrawalService();
 
     // Build the withdrawal request
-    MtGoxWithdrawalRequest withdrawalRequest = withdrawalService
-      .newWithdrawalRequest()
-      .withUsername("example")
-      .withPassword("password")
-      .withYubiKey("123456")
-      .withBankName("EXAMPLE BANK")
-      .withSortCode("12-34-56")
-      .withAccountNumber("0012345678")
-      .withIBAN("AB12 CDEF 3456 7890 1234 56")
-      .withBIC("EXAMPLE12")
-      .withMoney(MoneyUtils.parseFiat("USD 15.00"))
-      .build();
+    MtGoxWithdrawalRequest withdrawalRequest = withdrawalService.newWithdrawalRequest().withUsername("example").withPassword("password").withYubiKey("123456").withBankName("EXAMPLE BANK").withSortCode("12-34-56")
+        .withAccountNumber("0012345678").withIBAN("AB12 CDEF 3456 7890 1234 56").withBIC("EXAMPLE12").withMoney(MoneyUtils.parseFiat("USD 15.00")).build();
 
   }
 

@@ -33,6 +33,7 @@ package com.xeiam.xchange.service;
  * </p>
  */
 public interface StreamingExchangeService {
+
   /**
    * <p>
    * Start the service and provide a suitable runnable event listener to receive events. This will be configured by the service.

@@ -73,6 +73,7 @@ class XhrTransport implements IOTransport {
      * Instantiates a new receiver thread.
      */
     public PollThread() {
+
       super(TRANSPORT_NAME);
     }
 
@@ -82,6 +83,7 @@ class XhrTransport implements IOTransport {
      */
     @Override
     public void run() {
+
       connection.transportConnected();
       while (isConnect()) {
         try {
@@ -144,6 +146,7 @@ class XhrTransport implements IOTransport {
    * @return the iO transport
    */
   public static IOTransport create(String urlString, IOConnection connection) {
+
     try {
       URL xhrUrl = new URL(urlString + IOConnection.SOCKET_IO_1 + TRANSPORT_NAME + "/" + connection.getSessionId());
       return new XhrTransport(xhrUrl, connection);
@@ -160,6 +163,7 @@ class XhrTransport implements IOTransport {
    * @param connection the connection
    */
   public XhrTransport(URL url, IOConnection connection) {
+
     this.connection = connection;
     this.url = url;
   }
@@ -170,6 +174,7 @@ class XhrTransport implements IOTransport {
    */
   @Override
   public void connect() {
+
     this.setConnect(true);
     pollThread = new PollThread();
     pollThread.start();
@@ -181,6 +186,7 @@ class XhrTransport implements IOTransport {
    */
   @Override
   public void disconnect() {
+
     this.setConnect(false);
     pollThread.interrupt();
   }
@@ -191,6 +197,7 @@ class XhrTransport implements IOTransport {
    */
   @Override
   public void send(String text) throws IOException {
+
     sendBulk(new String[] { text });
   }
 
@@ -200,6 +207,7 @@ class XhrTransport implements IOTransport {
    */
   @Override
   public boolean canSendBulk() {
+
     return true;
   }
 
@@ -209,6 +217,7 @@ class XhrTransport implements IOTransport {
    */
   @Override
   public void sendBulk(String[] texts) throws IOException {
+
     queue.addAll(Arrays.asList(texts));
     if (isBlocked()) {
       pollThread.interrupt();
@@ -222,6 +231,7 @@ class XhrTransport implements IOTransport {
    */
   @Override
   public void invalidate() {
+
     this.connection = null;
   }
 
@@ -231,6 +241,7 @@ class XhrTransport implements IOTransport {
    * @return true, if is connect
    */
   private synchronized boolean isConnect() {
+
     return connect;
   }
 
@@ -240,6 +251,7 @@ class XhrTransport implements IOTransport {
    * @param connect the new connect
    */
   private synchronized void setConnect(boolean connect) {
+
     this.connect = connect;
   }
 
@@ -249,6 +261,7 @@ class XhrTransport implements IOTransport {
    * @return true, if is blocked
    */
   private synchronized boolean isBlocked() {
+
     return blocked;
   }
 
@@ -258,11 +271,13 @@ class XhrTransport implements IOTransport {
    * @param blocked the new blocked
    */
   private synchronized void setBlocked(boolean blocked) {
+
     this.blocked = blocked;
   }
 
   @Override
   public String getName() {
+
     return TRANSPORT_NAME;
   }
 }

@@ -32,23 +32,28 @@ public class AccountInfo {
   private List<Wallet> wallets;
 
   public String getUsername() {
+
     return username;
   }
 
   public void setUsername(String username) {
+
     this.username = username;
   }
 
   public List<Wallet> getWallets() {
+
     return wallets;
   }
 
   public void setWallets(List<Wallet> wallets) {
+
     this.wallets = wallets;
   }
 
   @Override
   public String toString() {
+
     return "AccountInfo [username=" + username + ", wallets=" + wallets + "]";
   }
 

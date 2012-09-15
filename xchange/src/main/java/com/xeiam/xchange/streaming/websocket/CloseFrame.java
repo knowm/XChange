@@ -4,6 +4,7 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 
 public interface CloseFrame extends FrameData {
+
   /**
    * indicates a normal closure, meaning whatever purpose the connection was established for has been fulfilled.
    */

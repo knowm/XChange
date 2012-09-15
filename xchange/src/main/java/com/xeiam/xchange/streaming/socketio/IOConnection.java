@@ -158,6 +158,7 @@ class IOConnection implements IOCallback {
      */
     @Override
     public void run() {
+
       setState(STATE_INVALID);
       error(new SocketIOException("Timeout Error. No heartbeat from server within life time of the socket. closing.", lastException));
     }
@@ -177,6 +178,7 @@ class IOConnection implements IOCallback {
      */
     @Override
     public void run() {
+
       connectTransport();
       if (!keepAliveInQueue) {
         sendPlain("2::");
@@ -189,10 +191,12 @@ class IOConnection implements IOCallback {
    * The Class ConnectThread. Handles connecting to the server with an {@link IOTransport}
    */
   private class ConnectThread extends Thread {
+
     /**
      * Instantiates a new thread for handshaking/connecting.
      */
     public ConnectThread() {
+
       super("ConnectThread");
     }
 
@@ -201,6 +205,7 @@ class IOConnection implements IOCallback {
      */
     @Override
     public void run() {
+
       if (IOConnection.this.getState() == STATE_INIT) {
         handshake();
       }
@@ -215,6 +220,7 @@ class IOConnection implements IOCallback {
    * @param socketFactory
    */
   public static void setDefaultSSLSocketFactory(SSLSocketFactory socketFactory) {
+
     sslSocketFactory = socketFactory;
   }
 
@@ -226,6 +232,7 @@ class IOConnection implements IOCallback {
    * @return a IOConnection object
    */
   static public IOConnection register(String origin, SocketIO socket) {
+
     List<IOConnection> list = connections.get(origin);
     if (list == null) {
       list = new LinkedList<IOConnection>();
@@ -250,6 +257,7 @@ class IOConnection implements IOCallback {
    * @return true, if successfully registered on this transport, otherwise false.
    */
   public boolean register(SocketIO socket) {
+
     String namespace = socket.getNamespace();
     if (sockets.containsKey(namespace)) {
       return false;
@@ -267,6 +275,7 @@ class IOConnection implements IOCallback {
    * @param socket the socket to be shut down
    */
   public void unregister(SocketIO socket) {
+
     sendPlain("0::" + socket.getNamespace());
     sockets.remove(socket.getNamespace());
     socket.getCallback().onDisconnect();
@@ -280,6 +289,7 @@ class IOConnection implements IOCallback {
    * Handshake.
    */
   private void handshake() {
+
     URL url;
     String response;
     URLConnection connection;
@@ -316,6 +326,7 @@ class IOConnection implements IOCallback {
    * Connect transport.
    */
   private void connectTransport() {
+
     if (getState() == STATE_INVALID) {
       return;
     }
@@ -338,6 +349,7 @@ class IOConnection implements IOCallback {
    * @return an {@link IOAcknowledge} instance, may be <code>null</code> if server doesn't request one.
    */
   private IOAcknowledge remoteAcknowledge(IOMessage message) {
+
     String _id = message.getId();
     if (_id.equals("")) {
       return null;
@@ -347,8 +359,10 @@ class IOConnection implements IOCallback {
     final String id = _id;
     final String endPoint = message.getEndpoint();
     return new IOAcknowledge() {
+
       @Override
       public void ack(Object... args) {
+
         JSONArray array = new JSONArray();
         for (Object o : args) {
           try {
@@ -370,6 +384,7 @@ class IOConnection implements IOCallback {
    * @param ack the {@link IOAcknowledge}
    */
   private void synthesizeAck(IOMessage message, IOAcknowledge ack) {
+
     if (ack != null) {
       int id = nextId++;
       acknowledge.put(id, ack);
@@ -384,6 +399,7 @@ class IOConnection implements IOCallback {
    * @param socket the socket
    */
   private IOConnection(String url, SocketIO socket) {
+
     try {
       this.url = new URL(url);
       this.urlStr = url;
@@ -400,6 +416,7 @@ class IOConnection implements IOCallback {
    * Cleanup. IOConnection is not usable after this calling this.
    */
   private void cleanup() {
+
     setState(STATE_INVALID);
     if (transport != null) {
       transport.disconnect();
@@ -423,6 +440,7 @@ class IOConnection implements IOCallback {
    * @param e an exception
    */
   protected void error(SocketIOException e) {
+
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().onError(e);
     }
@@ -435,6 +453,7 @@ class IOConnection implements IOCallback {
    * @param text the Text to be send.
    */
   private void sendPlain(String text) {
+
     synchronized (outputBuffer) {
       if (getState() == STATE_READY) {
         try {
@@ -454,6 +473,7 @@ class IOConnection implements IOCallback {
    * Invalidates an {@link IOTransport}, used for forced reconnecting.
    */
   private void invalidateTransport() {
+
     if (transport != null) {
       transport.invalidate();
     }
@@ -464,6 +484,7 @@ class IOConnection implements IOCallback {
    * Reset timeout.
    */
   private void resetTimeout() {
+
     if (heartbeatTimeoutTask != null) {
       heartbeatTimeoutTask.cancel();
     }
@@ -479,6 +500,7 @@ class IOConnection implements IOCallback {
    * @throws SocketIOException
    */
   private IOCallback findCallback(IOMessage message) throws SocketIOException {
+
     if ("".equals(message.getEndpoint())) {
       return this;
     }
@@ -493,6 +515,7 @@ class IOConnection implements IOCallback {
    * Transport connected. {@link IOTransport} calls this when a connection is established.
    */
   public void transportConnected() {
+
     setState(STATE_READY);
     if (reconnectTask != null) {
       reconnectTask.cancel();
@@ -530,6 +553,7 @@ class IOConnection implements IOCallback {
    * Transport disconnected. {@link IOTransport} calls this when a connection has been shut down.
    */
   public void transportDisconnected() {
+
     this.lastException = null;
     setState(STATE_INTERRUPTED);
     reconnect();
@@ -541,6 +565,7 @@ class IOConnection implements IOCallback {
    * @param error the error {@link IOTransport} calls this, when an exception has occurred and the transport is not usable anymore.
    */
   public void transportError(Exception error) {
+
     this.lastException = error;
     setState(STATE_INTERRUPTED);
     reconnect();
@@ -552,6 +577,7 @@ class IOConnection implements IOCallback {
    * @param text the text
    */
   public void transportData(String text) {
+
     if (!text.startsWith(FRAME_DELIMITER)) {
       transportMessage(text);
       return;
@@ -715,6 +741,7 @@ class IOConnection implements IOCallback {
    * forces a reconnect. This had become useful on some android devices which do not shut down TCP-connections when switching from HSDPA to Wifi
    */
   public void reconnect() {
+
     synchronized (this) {
       if (getState() != STATE_INVALID) {
         invalidateTransport();
@@ -734,6 +761,7 @@ class IOConnection implements IOCallback {
    * @return the session id to connect to the right Session.
    */
   public String getSessionId() {
+
     return sessionId;
   }
 
@@ -745,6 +773,7 @@ class IOConnection implements IOCallback {
    * @param text the text
    */
   public void send(SocketIO socket, IOAcknowledge ack, String text) {
+
     IOMessage message = new IOMessage(IOMessage.TYPE_MESSAGE, socket.getNamespace(), text);
     synthesizeAck(message, ack);
     sendPlain(message.toString());
@@ -758,6 +787,7 @@ class IOConnection implements IOCallback {
    * @param json the json
    */
   public void send(SocketIO socket, IOAcknowledge ack, JSONObject json) {
+
     IOMessage message = new IOMessage(IOMessage.TYPE_JSON_MESSAGE, socket.getNamespace(), json.toString());
     synthesizeAck(message, ack);
     sendPlain(message.toString());
@@ -772,6 +802,7 @@ class IOConnection implements IOCallback {
    * @param args the arguments to be send
    */
   public void emit(SocketIO socket, String event, IOAcknowledge ack, Object... args) {
+
     try {
       JSONObject json = new JSONObject().put("name", event).put("args", new JSONArray(Arrays.asList(args)));
       IOMessage message = new IOMessage(IOMessage.TYPE_EVENT, socket.getNamespace(), json.toString());
@@ -789,6 +820,7 @@ class IOConnection implements IOCallback {
    * @return true, if is connected
    */
   public boolean isConnected() {
+
     return getState() == STATE_READY;
   }
 
@@ -798,6 +830,7 @@ class IOConnection implements IOCallback {
    * @return current state
    */
   private synchronized int getState() {
+
     return state;
   }
 
@@ -807,6 +840,7 @@ class IOConnection implements IOCallback {
    * @param state the new state
    */
   private synchronized void setState(int state) {
+
     this.state = state;
   }
 
@@ -816,11 +850,13 @@ class IOConnection implements IOCallback {
    * @return currently used transport
    */
   public IOTransport getTransport() {
+
     return transport;
   }
 
   @Override
   public void onDisconnect() {
+
     SocketIO socket = sockets.get("");
     if (socket != null) {
       socket.getCallback().onDisconnect();
@@ -829,6 +865,7 @@ class IOConnection implements IOCallback {
 
   @Override
   public void onConnect() {
+
     SocketIO socket = sockets.get("");
     if (socket != null) {
       socket.getCallback().onConnect();
@@ -837,6 +874,7 @@ class IOConnection implements IOCallback {
 
   @Override
   public void onMessage(String data, IOAcknowledge ack) {
+
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().onMessage(data, ack);
     }
@@ -844,6 +882,7 @@ class IOConnection implements IOCallback {
 
   @Override
   public void onMessage(JSONObject json, IOAcknowledge ack) {
+
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().onMessage(json, ack);
     }
@@ -851,6 +890,7 @@ class IOConnection implements IOCallback {
 
   @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
+
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().on(event, ack, args);
     }
@@ -858,6 +898,7 @@ class IOConnection implements IOCallback {
 
   @Override
   public void onError(SocketIOException socketIOException) {
+
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().onError(socketIOException);
     }

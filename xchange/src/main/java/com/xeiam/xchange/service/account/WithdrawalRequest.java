@@ -2,9 +2,11 @@ package com.xeiam.xchange.service.account;
 
 /**
  * <p>
- * Signature interface to provide the following to {@link com.xeiam.xchange.service.account.WithdrawalService}:</p>
+ * Signature interface to provide the following to {@link com.xeiam.xchange.service.account.WithdrawalService}:
+ * </p>
  * <ul>
  * <li>Provision for implementation-specific fields required when initiating a withdrawal</li>
  * </ul>
  */
-public interface WithdrawalRequest {}
+public interface WithdrawalRequest {
+}

@@ -17,6 +17,7 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeExceptio
 public class Draft_76 extends Draft_75 {
 
   public static byte[] createChallenge(String key1, String key2, byte[] key3) throws InvalidHandshakeException {
+
     byte[] part1 = getPart(key1);
     byte[] part2 = getPart(key2);
     byte[] challenge = new byte[16];
@@ -46,6 +47,7 @@ public class Draft_76 extends Draft_75 {
   }
 
   private static String generateKey() {
+
     Random r = new Random();
     long maxNumber = 4294967295L;
     long spaces = r.nextInt(12) + 1;
@@ -75,6 +77,7 @@ public class Draft_76 extends Draft_75 {
   }
 
   private static byte[] getPart(String key) throws InvalidHandshakeException {
+
     try {
       long keyNumber = Long.parseLong(key.replaceAll("[^0-9]", ""));
       long keySpace = key.split("\u0020").length - 1;
@@ -92,6 +95,7 @@ public class Draft_76 extends Draft_75 {
 
   @Override
   public HandshakeState acceptHandshakeAsClient(HandshakeData request, HandshakeData response) {
+
     if (failed) {
       return HandshakeState.NOT_MATCHED;
     }
@@ -127,6 +131,7 @@ public class Draft_76 extends Draft_75 {
 
   @Override
   public HandshakeBuilder postProcessHandshakeRequestAsClient(HandshakeBuilder request) {
+
     request.put("Upgrade", "WebSocket");
     request.put("Connection", "Upgrade");
     request.put("Sec-WebSocket-Key1", generateKey());
@@ -140,6 +145,7 @@ public class Draft_76 extends Draft_75 {
 
   @Override
   public HandshakeBuilder postProcessHandshakeResponseAsServer(HandshakeData request, HandshakeBuilder response) throws InvalidHandshakeException {
+
     response.setHttpStatusMessage("WebSocket Protocol Handshake");
     response.put("Upgrade", "WebSocket");
     response.put("Connection", request.getFieldValue("Connection")); // to respond to a Connection keep alive
@@ -158,6 +164,7 @@ public class Draft_76 extends Draft_75 {
 
   @Override
   public HandshakeData translateHandshake(ByteBuffer buf) throws InvalidHandshakeException {
+
     HandshakeBuilder bui = translateHandshakeHttp(buf);
     byte[] key3 = new byte[role == Role.SERVER ? 8 : 16];
     try {

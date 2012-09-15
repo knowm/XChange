@@ -68,6 +68,7 @@ public final class Trade {
    * @param timestamp
    */
   public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, DateTime timestamp) {
+
     super();
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -78,31 +79,38 @@ public final class Trade {
   }
 
   public OrderType getType() {
+
     return type;
   }
 
   public BigDecimal getTradableAmount() {
+
     return tradableAmount;
   }
 
   public String getTradableIdentifier() {
+
     return tradableIdentifier;
   }
 
   public String getTransactionCurrency() {
+
     return transactionCurrency;
   }
 
   public BigMoney getPrice() {
+
     return price;
   }
 
   public DateTime getTimestamp() {
+
     return timestamp;
   }
 
   @Override
   public String toString() {
+
     return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price + ", timestamp=" + timestamp
         + "]";
   }

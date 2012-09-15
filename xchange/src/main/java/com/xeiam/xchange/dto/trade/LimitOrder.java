@@ -36,15 +36,18 @@ public class LimitOrder extends Order {
   private BigMoney limitPrice;
 
   public BigMoney getLimitPrice() {
+
     return limitPrice;
   }
 
   public void setLimitPrice(BigMoney limitPrice) {
+
     this.limitPrice = limitPrice;
   }
 
   @Override
   public String toString() {
+
     return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
   }
 

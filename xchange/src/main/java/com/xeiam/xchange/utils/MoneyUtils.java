@@ -43,6 +43,7 @@ public class MoneyUtils {
    * @see org.joda.money.Money For a simpler approach for fiat currencies not requiring precise calculations (e.g. display only)
    */
   public static BigMoney parseFiat(String value) {
+
     try {
       return BigMoney.parse(value);
     } catch (IllegalArgumentException e) { // for example, BigMoney cannot handle scientific notation in its constructor

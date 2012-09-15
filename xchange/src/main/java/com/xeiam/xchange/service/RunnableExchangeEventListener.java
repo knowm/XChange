@@ -50,6 +50,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
    * Constructor
    */
   public RunnableExchangeEventListener() {
+
   }
 
   @Override
@@ -69,6 +70,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
 
   @Override
   public void setExchangeEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents) {
+
     this.marketDataEvents = marketDataEvents;
   }
 

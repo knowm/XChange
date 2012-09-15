@@ -49,6 +49,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @throws java.net.UnknownHostException If something goes wrong
    */
   public WebSocketServer() throws UnknownHostException {
+
     this(new InetSocketAddress(InetAddress.getLocalHost(), WebSocket.DEFAULT_PORT), null);
   }
 
@@ -58,6 +59,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @param address The socket address
    */
   public WebSocketServer(InetSocketAddress address) {
+
     this(address, null);
   }
 
@@ -68,6 +70,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @param draft The version of the WebSocket protocol that this server instance should comply to.
    */
   public WebSocketServer(InetSocketAddress address, Draft draft) {
+
     this.connections = new CopyOnWriteArraySet<WebSocket>();
     this.draft = draft;
     setAddress(address);
@@ -79,6 +82,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @throws IllegalStateException
    */
   public void start() {
+
     if (thread != null)
       throw new IllegalStateException("Already started");
     new Thread(this).start();
@@ -90,6 +94,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   public void stop() throws IOException {
+
     for (WebSocket ws : connections) {
       ws.close(CloseFrame.NORMAL);
     }
@@ -105,6 +110,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   public void sendToAll(String text) throws InterruptedException {
+
     for (WebSocket c : this.connections) {
       c.send(text);
     }
@@ -118,6 +124,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @throws java.io.IOException When socket related I/O errors occur.
    */
   public void sendToAllExcept(WebSocket connection, String text) throws InterruptedException {
+
     if (connection == null) {
       throw new NullPointerException("'connection' cannot be null");
     }
@@ -137,6 +144,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @throws InterruptedException If something goes wrong
    */
   public void sendToAllExcept(Set<WebSocket> connections, String text) throws InterruptedException {
+
     if (connections == null) {
       throw new NullPointerException("'connections' cannot be null");
     }
@@ -153,6 +161,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @return The currently connected clients in a WebSocket[]
    */
   public Set<WebSocket> connections() {
+
     return Collections.unmodifiableSet(this.connections);
   }
 
@@ -162,10 +171,12 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @param address The socket address
    */
   public void setAddress(InetSocketAddress address) {
+
     this.address = address;
   }
 
   public InetSocketAddress getAddress() {
+
     return this.address;
   }
 
@@ -175,15 +186,18 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @return The port number.
    */
   public int getPort() {
+
     return getAddress().getPort();
   }
 
   public Draft getDraft() {
+
     return this.draft;
   }
 
   @Override
   public void run() {
+
     if (thread != null)
       throw new IllegalStateException("This instance of " + getClass().getSimpleName() + " can only be started once the same time.");
     thread = Thread.currentThread();
@@ -267,16 +281,19 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
    * @return An XML String that conforms to Flash's security policy. You MUST not include the null char at the end, it is appended automatically.
    */
   protected String getFlashSecurityPolicy() {
+
     return "<cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"" + getPort() + "\" /></cross-domain-policy>";
   }
 
   @Override
   public void onMessage(WebSocket conn, String message) {
+
     onClientMessage(conn, message);
   }
 
   @Override
   public void onOpen(WebSocket conn, HandshakeData handshake) {
+
     if (this.connections.add(conn)) {
       onClientOpen(conn, handshake);
     }
@@ -284,6 +301,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
   @Override
   public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+
     if (this.connections.remove(conn)) {
       onClientClose(conn, code, reason, remote);
     }
@@ -291,6 +309,7 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
 
   @Override
   public void onWriteDemand(WebSocket conn) {
+
     selector.wakeup();
   }
 
