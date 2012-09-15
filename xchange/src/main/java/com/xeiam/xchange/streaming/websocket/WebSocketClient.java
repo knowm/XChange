@@ -1,14 +1,19 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
-import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.nio.channels.*;
+import java.nio.channels.ClosedByInterruptException;
+import java.nio.channels.NotYetConnectedException;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
+import java.nio.channels.UnresolvedAddressException;
 import java.util.Iterator;
 import java.util.Set;
+
+import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
 
 /**
  * The <tt>WebSocketClient</tt> is an abstract class that expects a valid "ws://" URI to connect to. When connected, an instance recieves important events related to the life of the connection. A subclass must implement <var>onOpen</var>,

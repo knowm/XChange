@@ -1,16 +1,16 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
-import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
-import com.xeiam.xchange.streaming.websocket.exceptions.LimitExceededException;
-import com.xeiam.xchange.utils.CharsetUtils;
-
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+
+import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.LimitExceededException;
+import com.xeiam.xchange.utils.CharsetUtils;
 
 public abstract class Draft {
 

@@ -21,6 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.time.DateTime;
+
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -36,12 +43,6 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs
@@ -107,7 +108,7 @@ public class MtGoxAdapters {
   public static Wallet adaptWallet(MtGoxWallet mtGoxWallet) {
 
     if (mtGoxWallet.getBalance().getCurrency() == null) { // use the presence of a currency String to indicate existing wallet at MtGox
-      return null;// an account maybe doesn't contain a MtGoxWallet
+      return null; // an account maybe doesn't contain a MtGoxWallet
     } else {
       // TODO what about JPY? could be no problem here.
       BigMoney cash = MoneyUtils.parseFiat(mtGoxWallet.getBalance().getCurrency() + " " + mtGoxWallet.getBalance().getValue());

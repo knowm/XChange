@@ -1,18 +1,18 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
-import com.xeiam.xchange.streaming.websocket.DefaultHandshakeData;
-import com.xeiam.xchange.streaming.websocket.HandshakeBuilder;
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
-import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
-import com.xeiam.xchange.streaming.websocket.exceptions.IncompleteHandshakeException;
-import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
-
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Random;
+
+import com.xeiam.xchange.streaming.websocket.DefaultHandshakeData;
+import com.xeiam.xchange.streaming.websocket.HandshakeBuilder;
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
+import com.xeiam.xchange.streaming.websocket.exceptions.IncompleteHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
 
 public class Draft_76 extends Draft_75 {
 

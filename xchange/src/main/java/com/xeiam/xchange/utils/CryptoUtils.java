@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.ExchangeException;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 import java.util.Date;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * Various cryptography utility methods

@@ -1,8 +1,8 @@
 package com.xeiam.xchange.streaming.websocket;
 
-import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
-
 import java.io.IOException;
+
+import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
 
 public abstract class WebSocketAdapter implements WebSocketListener {
 

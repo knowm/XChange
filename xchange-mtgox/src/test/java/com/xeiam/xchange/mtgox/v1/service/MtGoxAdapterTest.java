@@ -21,6 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v1.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
+
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -38,15 +48,6 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.TradesJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.AccountInfoJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
 import com.xeiam.xchange.utils.MoneyUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the MtGoxAdapter class

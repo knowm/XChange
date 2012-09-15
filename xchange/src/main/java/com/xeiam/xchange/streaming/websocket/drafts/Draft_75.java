@@ -1,17 +1,22 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
-import com.xeiam.xchange.streaming.websocket.*;
-import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
-import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
-import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
-import com.xeiam.xchange.streaming.websocket.exceptions.NotSendableException;
-import com.xeiam.xchange.utils.CharsetUtils;
-
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import com.xeiam.xchange.streaming.websocket.DefaultFrameData;
+import com.xeiam.xchange.streaming.websocket.Draft;
+import com.xeiam.xchange.streaming.websocket.FrameBuilder;
+import com.xeiam.xchange.streaming.websocket.FrameData;
+import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
+import com.xeiam.xchange.streaming.websocket.HandshakeBuilder;
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.NotSendableException;
+import com.xeiam.xchange.utils.CharsetUtils;
 
 public class Draft_75 extends Draft {
 

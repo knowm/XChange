@@ -1,13 +1,14 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import com.xeiam.xchange.utils.HttpURLConnectionUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
+
+import com.xeiam.xchange.utils.HttpURLConnectionUtils;
 
 public class MtGoxWithdrawalServiceTest {
 

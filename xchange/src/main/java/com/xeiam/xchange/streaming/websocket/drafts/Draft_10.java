@@ -1,12 +1,5 @@
 package com.xeiam.xchange.streaming.websocket.drafts;
 
-import com.xeiam.xchange.streaming.websocket.*;
-import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
-import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
-import com.xeiam.xchange.streaming.websocket.exceptions.*;
-import com.xeiam.xchange.utils.Base64;
-import com.xeiam.xchange.utils.CharsetUtils;
-
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
@@ -15,6 +8,23 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import com.xeiam.xchange.streaming.websocket.CloseFrameBuilder;
+import com.xeiam.xchange.streaming.websocket.DefaultFrameData;
+import com.xeiam.xchange.streaming.websocket.Draft;
+import com.xeiam.xchange.streaming.websocket.FrameBuilder;
+import com.xeiam.xchange.streaming.websocket.FrameData;
+import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
+import com.xeiam.xchange.streaming.websocket.HandshakeBuilder;
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.WebSocket.Role;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
+import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
+import com.xeiam.xchange.streaming.websocket.exceptions.LimitExceededException;
+import com.xeiam.xchange.streaming.websocket.exceptions.NotSendableException;
+import com.xeiam.xchange.utils.Base64;
+import com.xeiam.xchange.utils.CharsetUtils;
 
 public class Draft_10 extends Draft {
 

@@ -27,10 +27,10 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 
 /**
  * Test MtGoxDepth JSON parsing

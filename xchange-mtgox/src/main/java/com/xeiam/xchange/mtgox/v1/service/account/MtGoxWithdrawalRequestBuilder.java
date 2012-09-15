@@ -1,8 +1,8 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import com.xeiam.xchange.service.account.WithdrawalRequest;
-import com.xeiam.xchange.service.account.WithdrawalRequestBuilder;
 import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.service.account.WithdrawalRequestBuilder;
 
 /**
  * <p>

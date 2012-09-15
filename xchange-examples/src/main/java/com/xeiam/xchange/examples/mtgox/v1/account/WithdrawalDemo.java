@@ -24,11 +24,8 @@ package com.xeiam.xchange.examples.mtgox.v1.account;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.dto.trade.AccountInfo;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v1.service.account.MtGoxWithdrawalRequest;
 import com.xeiam.xchange.mtgox.v1.service.account.MtGoxWithdrawalService;
-import com.xeiam.xchange.service.account.WithdrawalService;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**

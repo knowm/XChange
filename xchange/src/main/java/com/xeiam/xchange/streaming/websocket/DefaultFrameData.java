@@ -1,10 +1,10 @@
 package com.xeiam.xchange.streaming.websocket;
 
+import java.nio.ByteBuffer;
+
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 import com.xeiam.xchange.utils.CharsetUtils;
-
-import java.nio.ByteBuffer;
 
 public class DefaultFrameData implements FrameBuilder {
   protected static byte[] emptyArray = {};

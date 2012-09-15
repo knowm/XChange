@@ -1,5 +1,19 @@
 package com.xeiam.xchange.streaming.websocket;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.NotYetConnectedException;
+import java.nio.channels.SocketChannel;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.streaming.websocket.Draft.HandshakeState;
 import com.xeiam.xchange.streaming.websocket.FrameData.OpCode;
 import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
@@ -11,19 +25,6 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidFrameException;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
 import com.xeiam.xchange.utils.CharsetUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.NotYetConnectedException;
-import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Represents one end (client or server) of a single WebSocket connection. Takes care of the "handshake" phase, then allows for easy sending of text frames, and recieving frames through an event-based model. This is an inner class, used by
