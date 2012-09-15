@@ -27,6 +27,7 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.mtgox.v1.service.account.MtGoxPollingAccountService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStreamingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
@@ -64,8 +65,9 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
-    this.marketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
-    this.tradeService = new MtGoxPollingTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new MtGoxPollingTradeService(exchangeSpecification);
+    this.pollingAccountService = new MtGoxPollingAccountService(exchangeSpecification);
     try {
       this.streamingMarketDataService = new MtGoxStreamingMarketDataService(exchangeSpecification);
     } catch (IOException e) {
@@ -84,4 +86,5 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+
 }

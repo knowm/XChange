@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.account.WithdrawalService;
+import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
@@ -36,21 +36,21 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  */
 public abstract class BaseExchange implements Exchange {
 
-  protected PollingMarketDataService marketDataService;
-  protected PollingTradeService tradeService;
+  protected PollingMarketDataService pollingMarketDataService;
+  protected PollingTradeService pollingTradeService;
   protected StreamingMarketDataService streamingMarketDataService;
-  protected WithdrawalService withdrawalService;
+  protected PollingAccountService pollingAccountService;
 
   @Override
   public PollingMarketDataService getPollingMarketDataService() {
 
-    return marketDataService;
+    return pollingMarketDataService;
   }
 
   @Override
   public PollingTradeService getPollingTradeService() {
 
-    return tradeService;
+    return pollingTradeService;
   }
 
   @Override
@@ -59,19 +59,20 @@ public abstract class BaseExchange implements Exchange {
     return streamingMarketDataService;
   }
 
-  public WithdrawalService getWithdrawalService() {
+  @Override
+  public PollingAccountService getPollingAccountService() {
 
-    return withdrawalService;
+    return pollingAccountService;
   }
 
-  /* package */void setMarketDataService(PollingMarketDataService marketDataService) {
+  /* package */void setPollingMarketDataService(PollingMarketDataService marketDataService) {
 
-    this.marketDataService = marketDataService;
+    this.pollingMarketDataService = marketDataService;
   }
 
-  /* package */void setTradeService(PollingTradeService tradeService) {
+  /* package */void setPollingTradeService(PollingTradeService tradeService) {
 
-    this.tradeService = tradeService;
+    this.pollingTradeService = tradeService;
   }
 
   /* package */void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
@@ -79,9 +80,9 @@ public abstract class BaseExchange implements Exchange {
     this.streamingMarketDataService = streamingMarketDataService;
   }
 
-  /* package */void setWithdrawalService(WithdrawalService withdrawalService) {
+  /* package */void setPollingAccountService(PollingAccountService pollingAccountService) {
 
-    this.withdrawalService = withdrawalService;
+    this.pollingAccountService = pollingAccountService;
   }
 
 }

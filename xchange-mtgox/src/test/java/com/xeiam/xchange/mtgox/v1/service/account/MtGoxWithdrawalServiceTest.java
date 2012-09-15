@@ -33,7 +33,7 @@ public class MtGoxWithdrawalServiceTest {
     ObjectMapper objectMapper = new ObjectMapper();
     Map<String, String> httpHeaders = new HashMap<String, String>();
 
-    MtGoxWithdrawalService testObject = new MtGoxWithdrawalService();
+    // MtGoxPollingAccountService testObject = new MtGoxPollingAccountService();
 
     // TODO Flesh this out
 

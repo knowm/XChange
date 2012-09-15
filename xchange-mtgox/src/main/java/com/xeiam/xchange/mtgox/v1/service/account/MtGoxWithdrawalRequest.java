@@ -2,11 +2,11 @@ package com.xeiam.xchange.mtgox.v1.service.account;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.service.account.WithdrawalRequest;
+import com.xeiam.xchange.dto.account.WithdrawalRequest;
 
 /**
  * <p>
- * DTO to provide the following to {@link MtGoxWithdrawalService}:
+ * DTO to provide the following to {@link MtGoxPollingAccountService}:
  * </p>
  * <ul>
  * <li>Implements the request for the MtGox exchange</li>

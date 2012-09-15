@@ -1,4 +1,4 @@
-package com.xeiam.xchange.service.account;
+package com.xeiam.xchange.dto.account;
 
 /**
  * <p>

@@ -19,50 +19,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.polling;
+package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Test requesting polling Ticker at MtGox
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connecting to Mt Gox BTC exchange</li>
+ * <li>Retrieving the last tick</li>
+ * <li>Retrieving the current order book</li>
+ * <li>Retrieving the current full order book</li>
+ * <li>Retrieving trades</li>
+ * </ul>
  */
-public class TickerDemo {
+public class MtGoxMarketdataDemo {
 
-  private static PollingMarketDataService marketDataService;
+  private final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
 
   public static void main(String[] args) {
 
+    // Demonstrate the public market data service
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
-    // Interested in the public polling market data feed (no authentication)
-    marketDataService = mtGox.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
-    System.out.println("Last: " + currency + "-" + value);
+    String btcusd = ticker.getLast().toString();
+    System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Bid: " + ticker.getBid().toString());
-    System.out.println("Ask: " + ticker.getAsk().toString());
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+    System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
-    // Get the latest ticker data showing BTC to EUR
-    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Bid: " + ticker.getBid().toString());
-    System.out.println("Ask: " + ticker.getAsk().toString());
+    // Get the current full orderbook
+    OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
-    // Get the latest ticker data showing BTC to GBP
-    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Bid: " + ticker.getBid().toString());
-    System.out.println("Ask: " + ticker.getAsk().toString());
+    // Get trades
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
   }
 

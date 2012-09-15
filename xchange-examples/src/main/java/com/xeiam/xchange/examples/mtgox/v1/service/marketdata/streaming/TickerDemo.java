@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.streaming;
+package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
 import java.util.concurrent.BlockingQueue;
 

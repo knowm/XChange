@@ -19,21 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.polling;
+package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
 import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
- * Test placing a market order at MtGox
+ * Test placing a limit order at MtGox
  */
-public class MarketOrderDemo {
+public class LimitOrderDemo {
 
   private static PollingTradeService tradeService;
 
@@ -45,20 +49,30 @@ public class MarketOrderDemo {
     exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
     exchangeSpecification.setUri("https://mtgox.com");
     exchangeSpecification.setVersion("1");
+
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
     tradeService = mtgox.getPollingTradeService();
 
-    // place a market order
-    MarketOrder marketOrder = new MarketOrder();
-    marketOrder.setType(OrderType.BID);
-    marketOrder.setTradableIdentifier("BTC");
-    marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
-    marketOrder.setTransactionCurrency("USD");
-    boolean marketOrderSuccess = tradeService.placeMarketOrder(marketOrder);
+    // place a limit order
+    LimitOrder limitOrder = new LimitOrder();
+    limitOrder.setType(OrderType.BID);
+    limitOrder.setTradableIdentifier("BTC");
+    limitOrder.setTradableAmount(new BigDecimal(Math.random()));
+    limitOrder.setTransactionCurrency("USD");
+    BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
+    limitOrder.setLimitPrice(limitPrice);
+    boolean limitOrderSuccess = tradeService.placeLimitOrder(limitOrder);
 
     // Verify that the order placement was successful
-    System.out.println("Market Order placement successful? " + marketOrderSuccess);
+    System.out.println("Limit Order placement successful? " + limitOrderSuccess);
+
+    // get open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
+      System.out.println(openOrder.toString());
+    }
+
   }
 }

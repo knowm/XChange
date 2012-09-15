@@ -19,14 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.account;
+package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.service.account.MtGoxWithdrawalRequest;
-import com.xeiam.xchange.mtgox.v1.service.account.MtGoxWithdrawalService;
-import com.xeiam.xchange.utils.MoneyUtils;
+import com.xeiam.xchange.mtgox.v1.service.account.MtGoxPollingAccountService;
 
 /**
  * Demo requesting account info at MtGox
@@ -44,11 +42,11 @@ public class WithdrawalDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private withdrawal functionality (requires authentication)
-    MtGoxWithdrawalService withdrawalService = (MtGoxWithdrawalService) mtgox.getWithdrawalService();
+    MtGoxPollingAccountService pollingAccountService = (MtGoxPollingAccountService) mtgox.getPollingAccountService();
 
     // Build the withdrawal request
-    MtGoxWithdrawalRequest withdrawalRequest = withdrawalService.newWithdrawalRequest().withUsername("example").withPassword("password").withYubiKey("123456").withBankName("EXAMPLE BANK").withSortCode("12-34-56")
-        .withAccountNumber("0012345678").withIBAN("AB12 CDEF 3456 7890 1234 56").withBIC("EXAMPLE12").withMoney(MoneyUtils.parseFiat("USD 15.00")).build();
+    // MtGoxWithdrawalRequest withdrawalRequest = withdrawalService.newWithdrawalRequest().withUsername("example").withPassword("password").withYubiKey("123456").withBankName("EXAMPLE BANK").withSortCode("12-34-56")
+    // .withAccountNumber("0012345678").withIBAN("AB12 CDEF 3456 7890 1234 56").withBIC("EXAMPLE12").withMoney(MoneyUtils.parseFiat("USD 15.00")).build();
 
   }
 

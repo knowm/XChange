@@ -2,11 +2,11 @@ package com.xeiam.xchange.mtgox.v1.service.account;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.service.account.WithdrawalRequestBuilder;
+import com.xeiam.xchange.dto.account.WithdrawalRequestBuilder;
 
 /**
  * <p>
- * Builder to provide the following to {@link MtGoxWithdrawalService}:
+ * Builder to provide the following to {@link MtGoxPollingAccountService}:
  * </p>
  * <ul>
  * <li>HTTP+HTML request/response builder</li>

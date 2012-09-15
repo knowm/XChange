@@ -19,32 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.trade.polling;
-
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
+package com.xeiam.xchange;
 
 /**
  * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
+ * Exception to provide the following to API:
  * </p>
  * <ul>
- * <li>Retrieve the user's account info on the exchange</li>
- * <li>Retrieve the user's open orders on the exchange</li>
- * <li>Place market orders on the exchange</li>
- * <li>Place limit orders on the exchange</li>
+ * <li>Indication that the exchange does not support the requested function or data</li>
  * </ul>
- * <p>
- * The implementation of this service is expected to be based on a client polling mechanism of some kind
- * </p>
  */
-public interface PollingTradeService {
+public class NotYetImplementedForExchangeException extends RuntimeException {
 
-  public OpenOrders getOpenOrders();
+  public NotYetImplementedForExchangeException(String message) {
 
-  public boolean placeMarketOrder(MarketOrder marketOrder);
+    super(message);
+  }
 
-  public boolean placeLimitOrder(LimitOrder limitOrder);
+  public NotYetImplementedForExchangeException() {
+
+    this("Capability not yet implemented for exchange.");
+  }
 
 }

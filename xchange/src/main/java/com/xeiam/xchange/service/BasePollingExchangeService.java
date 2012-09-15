@@ -55,7 +55,7 @@ public abstract class BasePollingExchangeService extends BaseExchangeService {
   protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   public void setHttpTemplate(HttpTemplate httpTemplate) {

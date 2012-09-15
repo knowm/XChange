@@ -21,13 +21,21 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.utils.CryptoUtils;
+import com.xeiam.xchange.utils.HttpTemplate;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -127,6 +135,28 @@ public class MtGoxUtils {
   public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
     return CURRENCY_PAIRS.contains(currencyPair);
+  }
+
+  /**
+   * Generates necessary authentication header values for MtGox
+   * 
+   * @param postBody
+   * @return
+   */
+  public static Map<String, String> getMtGoxAuthenticationHeaderKeyValues(String postBody, String apiKey, String secretKey) {
+
+    try {
+
+      Map<String, String> headerKeyValues = new HashMap<String, String>();
+      headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey));
+      return headerKeyValues;
+
+    } catch (GeneralSecurityException e) {
+      throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
+    } catch (UnsupportedEncodingException e) {
+      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
+    }
   }
 
 }

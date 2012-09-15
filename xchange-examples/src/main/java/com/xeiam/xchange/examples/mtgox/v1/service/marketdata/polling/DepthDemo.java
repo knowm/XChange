@@ -19,18 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.polling;
+package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Test requesting trades at MtGox
+ * Test requesting depth at MtGox
  */
-public class TradesDemo {
+public class DepthDemo {
 
   private static PollingMarketDataService marketDataService;
 
@@ -42,12 +42,13 @@ public class TradesDemo {
     // Interested in the public market data feed (no authentication)
     marketDataService = mtGox.getPollingMarketDataService();
 
-    // Get trades
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+    System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
-    // Verify that trades is not null
-    System.out.println("Trades NOT null ? " + trades != null);
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
   }
 
 }
