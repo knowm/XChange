@@ -33,6 +33,6 @@ public interface PollingAccountService {
 
   public AccountInfo getAccountInfo();
 
-  public String withdraw();
+  public String withdrawFunds();
 
 }
