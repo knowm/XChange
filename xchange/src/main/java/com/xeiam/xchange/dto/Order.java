@@ -33,25 +33,20 @@ public class Order {
     BID, ASK
   }
 
-  /**
-   * Order type i.e. bid or ask
-   */
+  /** Order type i.e. bid or ask */
   private OrderType type;
 
-  /**
-   * Amount to be ordered / amount that was ordered
-   */
+  /** Amount to be ordered / amount that was ordered */
   private BigDecimal tradableAmount;
 
-  /**
-   * An identifier that uniquely identifies the tradable
-   */
+  /** An identifier that uniquely identifies the tradeable */
   private String tradableIdentifier;
 
-  /**
-   * The currency used to settle the market order transaction
-   */
+  /** The currency used to settle the market order transaction */
   private String transactionCurrency;
+
+  /** An identifier that uniquely identifies the order */
+  private String id;
 
   public OrderType getType() {
 
@@ -93,9 +88,20 @@ public class Order {
     this.transactionCurrency = transactionCurrency;
   }
 
+  public String getId() {
+
+    return id;
+  }
+
+  public void setId(String id) {
+
+    this.id = id;
+  }
+
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", id=" + id + "]";
   }
+
 }

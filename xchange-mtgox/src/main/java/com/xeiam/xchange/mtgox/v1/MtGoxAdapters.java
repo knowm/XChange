@@ -57,7 +57,7 @@ public class MtGoxAdapters {
    * @param orderType
    * @return
    */
-  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderType) {
+  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderType, String id) {
 
     LimitOrder limitOrder = new LimitOrder();
     limitOrder.setType(orderType.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
@@ -65,6 +65,7 @@ public class MtGoxAdapters {
     limitOrder.setTradableIdentifier(Currencies.BTC);
     limitOrder.setLimitPrice(MoneyUtils.parseFiat(currency + " " + price));
     limitOrder.setTransactionCurrency(currency);
+    limitOrder.setId(id);
     return limitOrder;
 
   }
@@ -77,12 +78,12 @@ public class MtGoxAdapters {
    * @param orderType
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<MtGoxOrder> mtGoxOrders, String currency, String orderType) {
+  public static List<LimitOrder> adaptOrders(List<MtGoxOrder> mtGoxOrders, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (MtGoxOrder mtGoxOrder : mtGoxOrders) {
-      limitOrders.add(adaptOrder(mtGoxOrder.getAmount_int(), mtGoxOrder.getPrice(), currency, orderType));
+      limitOrders.add(adaptOrder(mtGoxOrder.getAmount_int(), mtGoxOrder.getPrice(), currency, orderType, id));
     }
 
     return limitOrders;
@@ -93,7 +94,7 @@ public class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (int i = 0; i < mtGoxOpenOrders.length; i++) {
-      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue_int(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType()));
+      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue_int(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(), mtGoxOpenOrders[i].getOid()));
     }
 
     return limitOrders;

@@ -107,8 +107,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, "ask");
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, "bid");
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, "ask", "");
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, "bid", "");
 
     return new OrderBook(asks, bids);
   }
@@ -129,8 +129,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask");
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid");
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
 
     return new OrderBook(asks, bids);
   }

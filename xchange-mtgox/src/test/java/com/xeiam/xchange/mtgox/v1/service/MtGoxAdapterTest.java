@@ -42,10 +42,10 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
+import com.xeiam.xchange.mtgox.v1.service.account.AccountInfoJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.DepthJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.TickerJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.TradesJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.trade.AccountInfoJSONTest;
 import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -88,7 +88,7 @@ public class MtGoxAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask");
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask", "id_567");
     // System.out.println(openorders.size());
     assertTrue("ASKS size should be 1582", asks.size() == 1582);
 
