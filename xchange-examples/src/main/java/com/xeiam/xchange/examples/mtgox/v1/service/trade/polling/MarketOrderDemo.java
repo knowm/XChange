@@ -51,11 +51,13 @@ public class MarketOrderDemo {
     tradeService = mtgox.getPollingTradeService();
 
     // place a market order
-    MarketOrder marketOrder = new MarketOrder();
-    marketOrder.setType(OrderType.BID);
-    marketOrder.setTradableIdentifier("BTC");
-    marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
-    marketOrder.setTransactionCurrency("USD");
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(1);
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
+
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+
     String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
     System.out.println("Market Order return value: " + marketOrderReturnValue);
 

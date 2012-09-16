@@ -30,6 +30,8 @@ import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Data object representing a Trade
+ * 
+ * @immutable
  */
 public final class Trade {
 

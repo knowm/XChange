@@ -21,12 +21,16 @@
  */
 package com.xeiam.xchange.dto.trade;
 
+import java.math.BigDecimal;
+
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.dto.Order;
 
 /**
  * Data object representing a limit order
+ * 
+ * @immutable
  */
 public class LimitOrder extends Order {
 
@@ -35,14 +39,41 @@ public class LimitOrder extends Order {
    */
   private BigMoney limitPrice;
 
+  /**
+   * Constructor
+   * 
+   * @param type
+   * @param tradableAmount
+   * @param tradableIdentifier
+   * @param transactionCurrency
+   * @param id
+   * @param limitPrice
+   */
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, BigMoney limitPrice) {
+
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id);
+    this.limitPrice = limitPrice;
+  }
+
+  /**
+   * Constructor
+   * 
+   * @param type
+   * @param tradableAmount
+   * @param tradableIdentifier
+   * @param transactionCurrency
+   * @param id
+   * @param limitPrice
+   */
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice) {
+
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "");
+    this.limitPrice = limitPrice;
+  }
+
   public BigMoney getLimitPrice() {
 
     return limitPrice;
-  }
-
-  public void setLimitPrice(BigMoney limitPrice) {
-
-    this.limitPrice = limitPrice;
   }
 
   @Override

@@ -54,18 +54,20 @@ public class MtGoxAdapters {
    * 
    * @param mtGoxOrder
    * @param currency
-   * @param orderType
+   * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderType, String id) {
+  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderTypeString, String id) {
 
-    LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(orderType.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK);
-    limitOrder.setTradableAmount(new BigDecimal(amount_int).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
-    limitOrder.setTradableIdentifier(Currencies.BTC);
-    limitOrder.setLimitPrice(MoneyUtils.parseFiat(currency + " " + price));
-    limitOrder.setTransactionCurrency(currency);
-    limitOrder.setId(id);
+    // place a limit order
+    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal tradeableAmount = (new BigDecimal(amount_int).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
+    String tradableIdentifier = Currencies.BTC;
+    String transactionCurrency = currency;
+    BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
+
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+
     return limitOrder;
 
   }

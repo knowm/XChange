@@ -25,6 +25,8 @@ import java.math.BigDecimal;
 
 /**
  * Data object representing an order
+ * 
+ * @immutable
  */
 public class Order {
 
@@ -48,14 +50,27 @@ public class Order {
   /** An identifier that uniquely identifies the order */
   private String id;
 
+  /**
+   * Constructor
+   * 
+   * @param type
+   * @param tradableAmount
+   * @param tradableIdentifier
+   * @param transactionCurrency
+   * @param id
+   */
+  public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id) {
+
+    this.type = type;
+    this.tradableAmount = tradableAmount;
+    this.tradableIdentifier = tradableIdentifier;
+    this.transactionCurrency = transactionCurrency;
+    this.id = id;
+  }
+
   public OrderType getType() {
 
     return type;
-  }
-
-  public void setType(OrderType type) {
-
-    this.type = type;
   }
 
   public BigDecimal getTradableAmount() {
@@ -63,19 +78,9 @@ public class Order {
     return tradableAmount;
   }
 
-  public void setTradableAmount(BigDecimal tradableAmount) {
-
-    this.tradableAmount = tradableAmount;
-  }
-
   public String getTradableIdentifier() {
 
     return tradableIdentifier;
-  }
-
-  public void setTradableIdentifier(String tradableIdentifier) {
-
-    this.tradableIdentifier = tradableIdentifier;
   }
 
   public String getTransactionCurrency() {
@@ -83,19 +88,9 @@ public class Order {
     return transactionCurrency;
   }
 
-  public void setTransactionCurrency(String transactionCurrency) {
-
-    this.transactionCurrency = transactionCurrency;
-  }
-
   public String getId() {
 
     return id;
-  }
-
-  public void setId(String id) {
-
-    this.id = id;
   }
 
   @Override

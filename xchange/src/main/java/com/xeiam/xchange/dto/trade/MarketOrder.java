@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.dto.trade;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.dto.Order;
 
 /**
@@ -29,8 +31,38 @@ import com.xeiam.xchange.dto.Order;
  * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market orders are filled. Market orders are therefore used when certainty of execution is a priority over
  * price of execution.
  * </p>
+ * 
+ * @immutable
  */
 public class MarketOrder extends Order {
+
+  /**
+   * Constructor
+   * 
+   * @param type
+   * @param tradableAmount
+   * @param tradableIdentifier
+   * @param transactionCurrency
+   * @param id
+   */
+  public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id) {
+
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id);
+  }
+
+  /**
+   * Constructor
+   * 
+   * @param type
+   * @param tradableAmount
+   * @param tradableIdentifier
+   * @param transactionCurrency
+   * @param id
+   */
+  public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency) {
+
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "");
+  }
 
   @Override
   public String toString() {

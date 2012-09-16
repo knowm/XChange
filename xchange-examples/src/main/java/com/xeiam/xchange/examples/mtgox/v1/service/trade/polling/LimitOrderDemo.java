@@ -56,13 +56,14 @@ public class LimitOrderDemo {
     tradeService = mtgox.getPollingTradeService();
 
     // place a limit order
-    LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(OrderType.BID);
-    limitOrder.setTradableIdentifier("BTC");
-    limitOrder.setTradableAmount(new BigDecimal(Math.random()));
-    limitOrder.setTransactionCurrency("USD");
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(Math.random());
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
     BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
-    limitOrder.setLimitPrice(limitPrice);
+
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 

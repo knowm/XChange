@@ -71,22 +71,23 @@ public class MtGoxTradeDemo {
     System.out.println("Open Orders: " + openOrders.toString());
 
     // place a market order
-    MarketOrder marketOrder = new MarketOrder();
-    marketOrder.setType(OrderType.BID);
-    marketOrder.setTradableIdentifier("BTC");
-    marketOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
-    marketOrder.setTransactionCurrency("USD");
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(1);
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
+
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
     String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
     System.out.println("Market Order return value: " + marketOrderReturnValue);
 
     // place a limit order
-    LimitOrder limitOrder = new LimitOrder();
-    limitOrder.setType(OrderType.BID);
-    limitOrder.setTradableIdentifier("BTC");
-    limitOrder.setTradableAmount(new BigDecimal(1)); // 1 BTC
-    limitOrder.setTransactionCurrency("USD");
+    orderType = (OrderType.BID);
+    tradeableAmount = new BigDecimal(Math.random());
+    tradableIdentifier = "BTC";
+    transactionCurrency = "USD";
     BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
-    limitOrder.setLimitPrice(limitPrice);
+
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 

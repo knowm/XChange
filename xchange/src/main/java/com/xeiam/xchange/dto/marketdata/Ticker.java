@@ -28,7 +28,10 @@ import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade. This class is immutable.
+ * 
+ * @immutable
  */
+
 public final class Ticker {
 
   private final BigMoney last;
