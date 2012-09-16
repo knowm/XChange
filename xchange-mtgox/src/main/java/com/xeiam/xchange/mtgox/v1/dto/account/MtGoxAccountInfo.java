@@ -30,6 +30,8 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
 
 /**
  * Data object representing Account Info from Mt Gox
+ * 
+ * @immutable
  */
 public class MtGoxAccountInfo {
 
@@ -41,117 +43,87 @@ public class MtGoxAccountInfo {
   private String created;
   private String last_Login;
   private Wallets wallets;
-  private MtGoxValue monthly_Volume = new MtGoxValue();
+  private MtGoxValue monthly_Volume;
   private double trade_Fee;
 
-  @JsonProperty("Login")
+  /**
+   * Constructor
+   * 
+   * @param login
+   * @param index
+   * @param id
+   * @param rights
+   * @param language
+   * @param created
+   * @param last_Login
+   * @param wallets
+   * @param monthly_Volume
+   * @param trade_Fee
+   */
+  public MtGoxAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language,
+      @JsonProperty("Created") String created, @JsonProperty("Last_Login") String last_Login, @JsonProperty("Wallets") Wallets wallets, @JsonProperty("Monthly_Volume") MtGoxValue monthly_Volume,
+      @JsonProperty("Trade_Fee") double trade_Fee) {
+
+    this.login = login;
+    this.index = index;
+    this.id = id;
+    this.rights = rights;
+    this.language = language;
+    this.created = created;
+    this.last_Login = last_Login;
+    this.wallets = wallets;
+    this.monthly_Volume = monthly_Volume;
+    this.trade_Fee = trade_Fee;
+  }
+
   public String getLogin() {
 
     return login;
   }
 
-  public void setLogin(String login) {
-
-    this.login = login;
-  }
-
-  @JsonProperty("Index")
   public String getIndex() {
 
     return index;
   }
 
-  public void setIndex(String index) {
-
-    this.index = index;
-  }
-
-  @JsonProperty("Id")
   public String getId() {
 
     return id;
   }
 
-  public void setId(String id) {
-
-    this.id = id;
-  }
-
-  @JsonProperty("Rights")
   public List<String> getRights() {
 
     return rights;
   }
 
-  public void setRights(List<String> rights) {
-
-    this.rights = rights;
-  }
-
-  @JsonProperty("Language")
   public String getLanguage() {
 
     return language;
   }
 
-  public void setLanguage(String language) {
-
-    this.language = language;
-  }
-
-  @JsonProperty("Created")
   public String getCreated() {
 
     return created;
   }
 
-  public void setCreated(String created) {
-
-    this.created = created;
-  }
-
-  @JsonProperty("Last_Login")
   public String getLast_Login() {
 
     return last_Login;
   }
 
-  public void setLast_Login(String last_Login) {
-
-    this.last_Login = last_Login;
-  }
-
-  @JsonProperty("Wallets")
   public Wallets getWallets() {
 
     return wallets;
   }
 
-  public void setWallets(Wallets wallets) {
-
-    this.wallets = wallets;
-  }
-
-  @JsonProperty("Monthly_Volume")
   public MtGoxValue getMonthly_Volume() {
 
     return monthly_Volume;
   }
 
-  public void setMonthly_Volume(MtGoxValue monthly_Volume) {
-
-    this.monthly_Volume = monthly_Volume;
-  }
-
-  @JsonProperty("Trade_Fee")
   public double getTrade_Fee() {
 
     return trade_Fee;
-  }
-
-  public void setTrade_Fee(double trade_Fee) {
-
-    this.trade_Fee = trade_Fee;
   }
 
   @Override

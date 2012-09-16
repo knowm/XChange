@@ -21,33 +21,64 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
  * Data object representing Ticker from Mt Gox
+ * 
+ * @immutable
  */
 public class MtGoxTicker {
 
-  public MtGoxValue high = new MtGoxValue();
-  public MtGoxValue low = new MtGoxValue();
-  public MtGoxValue avg = new MtGoxValue();
-  public MtGoxValue vwap = new MtGoxValue();
-  public MtGoxValue vol = new MtGoxValue();
-  public MtGoxValue last_local = new MtGoxValue();
-  public MtGoxValue last = new MtGoxValue();
-  public MtGoxValue last_orig = new MtGoxValue();
-  public MtGoxValue last_all = new MtGoxValue();
-  public MtGoxValue buy = new MtGoxValue();
-  public MtGoxValue sell = new MtGoxValue();
+  public MtGoxValue high;
+  public MtGoxValue low;
+  public MtGoxValue avg;
+  public MtGoxValue vwap;
+  public MtGoxValue vol;
+  public MtGoxValue last_local;
+  public MtGoxValue last;
+  public MtGoxValue last_orig;
+  public MtGoxValue last_all;
+  public MtGoxValue buy;
+  public MtGoxValue sell;
+
+  /**
+   * Constructor
+   * 
+   * @param high
+   * @param low
+   * @param avg
+   * @param vwap
+   * @param vol
+   * @param last_local
+   * @param last
+   * @param last_orig
+   * @param last_all
+   * @param buy
+   * @param sell
+   */
+  public MtGoxTicker(@JsonProperty("high") MtGoxValue high, @JsonProperty("low") MtGoxValue low, @JsonProperty("avg") MtGoxValue avg, @JsonProperty("vwap") MtGoxValue vwap, @JsonProperty("vol") MtGoxValue vol,
+      @JsonProperty("last_local") MtGoxValue last_local, @JsonProperty("last") MtGoxValue last, @JsonProperty("last_orig") MtGoxValue last_orig, @JsonProperty("last_all") MtGoxValue last_all,
+      @JsonProperty("buy") MtGoxValue buy, @JsonProperty("sell") MtGoxValue sell) {
+
+    this.high = high;
+    this.low = low;
+    this.avg = avg;
+    this.vwap = vwap;
+    this.vol = vol;
+    this.last_local = last_local;
+    this.last = last;
+    this.last_orig = last_orig;
+    this.last_all = last_all;
+    this.buy = buy;
+    this.sell = sell;
+  }
 
   public MtGoxValue getHigh() {
 
     return high;
-  }
-
-  public void setHigh(MtGoxValue high) {
-
-    this.high = high;
   }
 
   public MtGoxValue getLow() {
@@ -55,19 +86,9 @@ public class MtGoxTicker {
     return low;
   }
 
-  public void setLow(MtGoxValue low) {
-
-    this.low = low;
-  }
-
   public MtGoxValue getAvg() {
 
     return avg;
-  }
-
-  public void setAvg(MtGoxValue avg) {
-
-    this.avg = avg;
   }
 
   public MtGoxValue getVwap() {
@@ -75,19 +96,9 @@ public class MtGoxTicker {
     return vwap;
   }
 
-  public void setVwap(MtGoxValue vwap) {
-
-    this.vwap = vwap;
-  }
-
   public MtGoxValue getVol() {
 
     return vol;
-  }
-
-  public void setVol(MtGoxValue vol) {
-
-    this.vol = vol;
   }
 
   public MtGoxValue getLast_local() {
@@ -95,19 +106,9 @@ public class MtGoxTicker {
     return last_local;
   }
 
-  public void setLast_local(MtGoxValue last_local) {
-
-    this.last_local = last_local;
-  }
-
   public MtGoxValue getLast() {
 
     return last;
-  }
-
-  public void setLast(MtGoxValue last) {
-
-    this.last = last;
   }
 
   public MtGoxValue getLast_orig() {
@@ -115,19 +116,9 @@ public class MtGoxTicker {
     return last_orig;
   }
 
-  public void setLast_orig(MtGoxValue last_orig) {
-
-    this.last_orig = last_orig;
-  }
-
   public MtGoxValue getLast_all() {
 
     return last_all;
-  }
-
-  public void setLast_all(MtGoxValue last_all) {
-
-    this.last_all = last_all;
   }
 
   public MtGoxValue getBuy() {
@@ -135,19 +126,9 @@ public class MtGoxTicker {
     return buy;
   }
 
-  public void setBuy(MtGoxValue buy) {
-
-    this.buy = buy;
-  }
-
   public MtGoxValue getSell() {
 
     return sell;
-  }
-
-  public void setSell(MtGoxValue sell) {
-
-    this.sell = sell;
   }
 
   @Override

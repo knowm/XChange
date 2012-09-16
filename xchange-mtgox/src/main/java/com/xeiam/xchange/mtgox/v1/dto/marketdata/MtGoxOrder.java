@@ -21,8 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Data object representing a buy or sell order from Mt Gox
+ * 
+ * @immutable
  */
 public class MtGoxOrder {
 
@@ -32,14 +36,27 @@ public class MtGoxOrder {
   private long amount_int;
   private long stamp;
 
+  /**
+   * Constructor
+   * 
+   * @param price
+   * @param amount
+   * @param price_int
+   * @param amount_int
+   * @param stamp
+   */
+  public MtGoxOrder(@JsonProperty("price") double price, @JsonProperty("amount") double amount, @JsonProperty("price_int") long price_int, @JsonProperty("amount_int") long amount_int, @JsonProperty("stamp") long stamp) {
+
+    this.price = price;
+    this.amount = amount;
+    this.price_int = price_int;
+    this.amount_int = amount_int;
+    this.stamp = stamp;
+  }
+
   public double getPrice() {
 
     return price;
-  }
-
-  public void setPrice(double price) {
-
-    this.price = price;
   }
 
   public double getAmount() {
@@ -47,19 +64,9 @@ public class MtGoxOrder {
     return amount;
   }
 
-  public void setAmount(double amount) {
-
-    this.amount = amount;
-  }
-
   public long getPrice_int() {
 
     return price_int;
-  }
-
-  public void setPrice_int(long price_int) {
-
-    this.price_int = price_int;
   }
 
   public long getAmount_int() {
@@ -67,19 +74,9 @@ public class MtGoxOrder {
     return amount_int;
   }
 
-  public void setAmount_int(long amount_int) {
-
-    this.amount_int = amount_int;
-  }
-
   public long getStamp() {
 
     return stamp;
-  }
-
-  public void setStamp(long stamp) {
-
-    this.stamp = stamp;
   }
 
   @Override

@@ -23,32 +23,38 @@ package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Data object representing depth from Mt Gox
+ * 
+ * @immutable
  */
 public class MtGoxDepth {
 
   private List<MtGoxOrder> asks;
   private List<MtGoxOrder> bids;
 
+  /**
+   * Constructor
+   * 
+   * @param asks
+   * @param bids
+   */
+  public MtGoxDepth(@JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids) {
+
+    this.asks = asks;
+    this.bids = bids;
+  }
+
   public List<MtGoxOrder> getAsks() {
 
     return asks;
   }
 
-  public void setAsks(List<MtGoxOrder> asks) {
-
-    this.asks = asks;
-  }
-
   public List<MtGoxOrder> getBids() {
 
     return bids;
-  }
-
-  public void setBids(List<MtGoxOrder> bids) {
-
-    this.bids = bids;
   }
 
   @Override

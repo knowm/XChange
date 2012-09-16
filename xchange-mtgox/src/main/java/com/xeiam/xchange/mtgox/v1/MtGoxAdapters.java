@@ -110,7 +110,7 @@ public class MtGoxAdapters {
    */
   public static Wallet adaptWallet(MtGoxWallet mtGoxWallet) {
 
-    if (mtGoxWallet.getBalance().getCurrency() == null) { // use the presence of a currency String to indicate existing wallet at MtGox
+    if (mtGoxWallet == null) { // use the presence of a currency String to indicate existing wallet at MtGox
       return null; // an account maybe doesn't contain a MtGoxWallet
     } else {
       // TODO what about JPY? could be no problem here.

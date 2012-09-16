@@ -25,6 +25,8 @@ import java.util.List;
 
 /**
  * Data object representing open orders
+ * 
+ * @immutable
  */
 public class OpenOrders {
 

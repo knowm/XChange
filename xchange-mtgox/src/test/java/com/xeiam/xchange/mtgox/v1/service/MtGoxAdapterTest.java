@@ -139,7 +139,7 @@ public class MtGoxAdapterTest {
 
     // in MtGoxAccountInfo.getWallets, no wallets are null
     MtGoxWallet CADWallet = mtGoxAccountInfo.getWallets().getCAD();
-    assertTrue("CAD should NOT be null", CADWallet != null);
+    assertTrue("CAD should be null", CADWallet == null);
     MtGoxWallet USDWallet = mtGoxAccountInfo.getWallets().getUSD();
     assertTrue("USD should NOT be null", USDWallet != null);
 

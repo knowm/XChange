@@ -21,8 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.trade;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Data object representing a response message from Mt Gox after placing and order
+ * 
+ * @immutable
  */
 public class MtGoxGenericResponse {
 
@@ -30,14 +34,23 @@ public class MtGoxGenericResponse {
   private String _return;
   private String error;
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param _return
+   * @param error
+   */
+  public MtGoxGenericResponse(@JsonProperty("result") String result, @JsonProperty("return") String _return, @JsonProperty("error") String error) {
+
+    this.result = result;
+    this._return = _return;
+    this.error = error;
+  }
+
   public String getResult() {
 
     return result;
-  }
-
-  public void setResult(String result) {
-
-    this.result = result;
   }
 
   public String getReturn() {
@@ -45,19 +58,9 @@ public class MtGoxGenericResponse {
     return _return;
   }
 
-  public void setReturn(String _return) {
-
-    this._return = _return;
-  }
-
   public String getError() {
 
     return error;
-  }
-
-  public void setError(String error) {
-
-    this.error = error;
   }
 
 }
