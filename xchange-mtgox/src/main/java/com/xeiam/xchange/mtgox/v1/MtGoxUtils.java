@@ -43,7 +43,6 @@ import com.xeiam.xchange.utils.MoneyUtils;
  */
 public class MtGoxUtils {
 
-  // TODO Move into a symbol service
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   CurrencyPair.BTC_USD,
@@ -60,23 +59,23 @@ public class MtGoxUtils {
 
   CurrencyPair.BTC_JPY,
 
-  new CurrencyPair("BTC", "CNY"),
+  CurrencyPair.BTC_CNY,
 
-  new CurrencyPair("BTC", "DKK"),
+  CurrencyPair.BTC_DKK,
 
-  new CurrencyPair("BTC", "HKD"),
+  CurrencyPair.BTC_HKD,
 
-  new CurrencyPair("BTC", "NZD"),
+  CurrencyPair.BTC_NZD,
 
-  new CurrencyPair("BTC", "PLN"),
+  CurrencyPair.BTC_PLN,
 
-  new CurrencyPair("BTC", "RUB"),
+  CurrencyPair.BTC_RUB,
 
-  new CurrencyPair("BTC", "SEK"),
+  CurrencyPair.BTC_SEK,
 
-  new CurrencyPair("BTC", "SGD"),
+  CurrencyPair.BTC_SGD,
 
-  new CurrencyPair("BTC", "THB")
+  CurrencyPair.BTC_THB
 
   );
 

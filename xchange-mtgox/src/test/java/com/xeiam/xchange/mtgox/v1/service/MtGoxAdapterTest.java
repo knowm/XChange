@@ -31,10 +31,12 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
@@ -144,10 +146,10 @@ public class MtGoxAdapterTest {
     assertTrue("USD should NOT be null", USDWallet != null);
 
     // in Wallet(s), only wallets from MtGoxAccountInfo.getWallets that contained data are NOT null.
-    List<com.xeiam.xchange.dto.trade.Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
+    List<Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
     assertTrue("List size should be true!", wallets.size() == 2);
-    assertTrue("CAD should be null", !wallets.contains(new com.xeiam.xchange.dto.trade.Wallet(MoneyUtils.parseFiat("CAD 0.0"))));
-    assertTrue("BTC should NOT be null", wallets.contains(new com.xeiam.xchange.dto.trade.Wallet(MoneyUtils.parseFiat("BTC 0.0"))));
+    assertTrue("CAD should be null", !wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parseFiat("CAD 0.0"))));
+    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parseFiat("BTC 0.0"))));
 
     // System.out.println(wallets.get(0).toString());
     assertTrue("wallets.get(0).getBalance().getAmount().doubleValue() should be 0.0", wallets.get(0).getBalance().getAmount().doubleValue() == 0.0);

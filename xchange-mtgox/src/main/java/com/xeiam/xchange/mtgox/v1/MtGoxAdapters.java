@@ -115,7 +115,7 @@ public class MtGoxAdapters {
     } else {
       // TODO what about JPY? could be no problem here.
       BigMoney cash = MoneyUtils.parseFiat(mtGoxWallet.getBalance().getCurrency() + " " + mtGoxWallet.getBalance().getValue());
-      return new com.xeiam.xchange.dto.trade.Wallet(cash);
+      return new Wallet(mtGoxWallet.getBalance().getCurrency(), cash);
     }
 
   }
@@ -126,12 +126,12 @@ public class MtGoxAdapters {
    * @param mtGoxWallets
    * @return
    */
-  public static List<com.xeiam.xchange.dto.trade.Wallet> adaptWallets(Wallets mtGoxWallets) {
+  public static List<Wallet> adaptWallets(Wallets mtGoxWallets) {
 
-    List<com.xeiam.xchange.dto.trade.Wallet> wallets = new ArrayList<com.xeiam.xchange.dto.trade.Wallet>();
+    List<Wallet> wallets = new ArrayList<Wallet>();
 
     for (MtGoxWallet mtGoxWallet : mtGoxWallets.getMtGoxWallets()) {
-      com.xeiam.xchange.dto.trade.Wallet wallet = adaptWallet(mtGoxWallet);
+      Wallet wallet = adaptWallet(mtGoxWallet);
       if (wallet != null) {
         wallets.add(wallet);
       }

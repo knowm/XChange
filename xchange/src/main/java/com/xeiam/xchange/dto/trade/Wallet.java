@@ -27,20 +27,29 @@ import org.joda.money.BigMoney;
  * <p>
  * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
  * </p>
+ * 
+ * @immutable
  */
 public class Wallet {
 
+  private final String currency;
   private final BigMoney balance;
 
   /**
    * Constructor
    * 
-   * @param balance The amount
+   * @param currency
+   * @param balance
    */
-  public Wallet(BigMoney balance) {
+  public Wallet(String currency, BigMoney balance) {
 
-    super();
+    this.currency = currency;
     this.balance = balance;
+  }
+
+  public String getCurrency() {
+
+    return currency;
   }
 
   public BigMoney getBalance() {
@@ -51,37 +60,39 @@ public class Wallet {
   @Override
   public String toString() {
 
-    return "Wallet [balance= " + balance + "]";
+    return "Wallet [currency=" + currency + ", balance=" + balance + "]";
   }
 
   @Override
   public int hashCode() {
 
-    return balance.hashCode();
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((balance == null) ? 0 : balance.hashCode());
+    result = prime * result + ((currency == null) ? 0 : currency.hashCode());
+    return result;
   }
 
-  // two wallets are the same of their balances are equal
-  // Note: Does not take currency into account
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj) {
+    if (this == obj)
       return true;
-    }
-    if (obj == null) {
+    if (obj == null)
       return false;
-    }
-    if (getClass() != obj.getClass()) {
+    if (getClass() != obj.getClass())
       return false;
-    }
     Wallet other = (Wallet) obj;
     if (balance == null) {
-      if (other.balance != null) {
+      if (other.balance != null)
         return false;
-      }
-    } else if (!balance.equals(other.balance)) {
+    } else if (!balance.equals(other.balance))
       return false;
-    }
+    if (currency == null) {
+      if (other.currency != null)
+        return false;
+    } else if (!currency.equals(other.currency))
+      return false;
     return true;
   }
 
