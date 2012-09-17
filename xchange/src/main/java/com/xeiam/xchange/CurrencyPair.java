@@ -53,6 +53,15 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_CHF = new CurrencyPair("BTC", "CHF");
   public static final CurrencyPair BTC_AUD = new CurrencyPair("BTC", "AUD");
   public static final CurrencyPair BTC_CAD = new CurrencyPair("BTC", "CAD");
+  public static final CurrencyPair BTC_CNY = new CurrencyPair("BTC", "CNY");
+  public static final CurrencyPair BTC_DKK = new CurrencyPair("BTC", "DKK");
+  public static final CurrencyPair BTC_HKD = new CurrencyPair("BTC", "HKD");
+  public static final CurrencyPair BTC_NZD = new CurrencyPair("BTC", "NZD");
+  public static final CurrencyPair BTC_PLN = new CurrencyPair("BTC", "PLN");
+  public static final CurrencyPair BTC_RUB = new CurrencyPair("BTC", "RUB");
+  public static final CurrencyPair BTC_SEK = new CurrencyPair("BTC", "SEK");
+  public static final CurrencyPair BTC_SGD = new CurrencyPair("BTC", "SGD");
+  public static final CurrencyPair BTC_THB = new CurrencyPair("BTC", "THB");
 
   public final String baseCurrency;
   public final String counterCurrency;
