@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.xeiam.xchange</groupId>
-  <artifactId>parent</artifactId>
+  <artifactId>xchange-parent</artifactId>
   <version>1.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
@@ -58,7 +58,7 @@
 	</distributionManagement>
 
   <modules>
-    <module>xchange</module>
+    <module>xchange-core</module>
     <module>xchange-mtgox</module>
     <module>xchange-examples</module>
     <module>xchange-test</module>
