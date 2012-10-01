@@ -5,11 +5,11 @@
   <parent>
     <groupId>com.xeiam.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>${currentVersion}</version>
   </parent>
 
   <artifactId>xchange-core</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>${currentVersion}</version>
 
   <name>XChange Core</name>
   <description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of
@@ -27,15 +27,7 @@
   <!-- Parent provides default configuration for dependencies -->
   <dependencies>
 
-    <!-- Project dependencies (version automatically set through parent) -->
-    <!-- XChange Test provides useful test utilities -->
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-test</artifactId>
-    </dependency>
-
     <!-- Third party dependencies -->
-
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>

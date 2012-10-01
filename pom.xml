@@ -1,23 +1,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.xeiam.xchange</groupId>
-  <artifactId>xchange-parent</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <properties>
+        <currentVersion>1.2.0-SNAPSHOT</currentVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+    
+	<groupId>com.xeiam.xchange</groupId>
+	<artifactId>xchange-parent</artifactId>
+	<version>${currentVersion}</version>
+	<packaging>pom</packaging>
 
-  <name>XChange Parent</name>
-  <description>XChange Parent provides a consistent set of libraries for modules to use</description>
+	<name>XChange Parent</name>
+	<description>XChange Parent provides a consistent set of libraries for modules to use</description>
 
-  <url>http://xeiam.com</url>
-  <inceptionYear>2012</inceptionYear>
+	<url>http://xeiam.com</url>
+	<inceptionYear>2012</inceptionYear>
 
-  <organization>
-    <name>Xeiam, LLC</name>
-    <url>http://xeiam.com</url>
-  </organization>
+	<organization>
+		<name>Xeiam, LLC</name>
+		<url>http://xeiam.com</url>
+	</organization>
 
 	<developers>
 		<developer>
@@ -57,12 +63,12 @@
 		</repository>
 	</distributionManagement>
 
-  <modules>
-    <module>xchange-core</module>
-    <module>xchange-mtgox</module>
-    <module>xchange-examples</module>
-    <module>xchange-test</module>
-  </modules>
+	<modules>
+		<module>xchange-core</module>
+		<module>xchange-mtgox</module>
+		<module>xchange-examples</module>
+		<module>xchange-cavirtex</module>
+	</modules>
 
 	<build>
 		<pluginManagement>
@@ -159,114 +165,107 @@
 				</executions>
 			</plugin>
 
-      <!-- Execute JXR (Source code cross-reference) during an install -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <configuration>
-          <aggregate>true</aggregate>
-          <linkJavadoc>true</linkJavadoc>
-          <javadocDir>target/apidocs</javadocDir>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>jxr</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+			<!-- Execute JXR (Source code cross-reference) during an install -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+					<linkJavadoc>true</linkJavadoc>
+					<javadocDir>target/apidocs</javadocDir>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>jxr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
-  <dependencyManagement>
-    <dependencies>
+	<dependencyManagement>
+		<dependencies>
 
-      <!-- Project modules -->
+			<!-- Project modules -->
 
-      <!-- XChange provides support classes and interfaces for generic exchange interaction -->
-      <dependency>
-        <groupId>com.xeiam.xchange</groupId>
-        <artifactId>xchange</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+			<!-- XChange provides support classes and interfaces for generic exchange 
+				interaction -->
+			<dependency>
+				<groupId>com.xeiam.xchange</groupId>
+				<artifactId>xchange</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
-      <!-- XChange Test provides support classes for testing -->
-      <dependency>
-        <groupId>com.xeiam.xchange</groupId>
-        <artifactId>xchange-test</artifactId>
-        <version>${project.version}</version>
-        <scope>test</scope>
-      </dependency>
+			<!-- Jackson JSON Mapper -->
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.7</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>1.9.7</version>
+			</dependency>
 
-      <!-- Jackson JSON Mapper -->
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-mapper-asl</artifactId>
-        <version>1.9.7</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-core-asl</artifactId>
-        <version>1.9.7</version>
-      </dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.0.6</version>
+			</dependency>
 
-      <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>1.0.6</version>
-      </dependency>
+			<!-- All time handling is through Joda Time -->
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>1.6.2</version>
+			</dependency>
 
-      <!-- All time handling is through Joda Time -->
-      <dependency>
-        <groupId>joda-time</groupId>
-        <artifactId>joda-time</artifactId>
-        <version>1.6.2</version>
-      </dependency>
+			<!-- All money handling is through Joda Money -->
+			<dependency>
+				<groupId>org.joda</groupId>
+				<artifactId>joda-money</artifactId>
+				<version>0.6</version>
+			</dependency>
 
-      <!-- All money handling is through Joda Money -->
-      <dependency>
-        <groupId>org.joda</groupId>
-        <artifactId>joda-money</artifactId>
-        <version>0.6</version>
-      </dependency>
+			<!-- JUnit -->
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-library</artifactId>
+				<version>1.3</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<!-- dep leaves out hamcrest classes -->
+				<artifactId>junit-dep</artifactId>
+				<version>4.10</version>
+				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.hamcrest</groupId>
+						<artifactId>hamcrest-core</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-      <!-- JUnit -->
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest-library</artifactId>
-        <version>1.3</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <!-- dep leaves out hamcrest classes -->
-        <artifactId>junit-dep</artifactId>
-        <version>4.10</version>
-        <scope>test</scope>
-        <exclusions>
-          <exclusion>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
+			<!-- Commons Codec for Crypto -->
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.6</version>
+			</dependency>
 
-      <!-- Commons Codec for Crypto -->
-      <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>1.6</version>
-      </dependency>
+			<dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>20090211</version>
+			</dependency>
 
-      <dependency>
-        <groupId>org.json</groupId>
-        <artifactId>json</artifactId>
-        <version>20090211</version>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
