@@ -1,7 +1,6 @@
 package com.xeiam.xchange.virtex.dto.marketdata;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.joda.money.BigMoney;
 
 /**
  * <p>
@@ -17,8 +16,7 @@ public class VirtExTrade {
   private float date;
   private float price;
   private long tid;
-  
-  
+
   /**
    * Constructor
    * 
@@ -34,15 +32,13 @@ public class VirtExTrade {
    * @param tid
    * @param trade_type
    */
-  public VirtExTrade(@JsonProperty("amount") float amount, @JsonProperty("date") float date, @JsonProperty("price") float price,
-      @JsonProperty("tid") long tid) {
+  public VirtExTrade(@JsonProperty("amount") float amount, @JsonProperty("date") float date, @JsonProperty("price") float price, @JsonProperty("tid") long tid) {
 
     this.amount = amount;
     this.date = date;
     this.price = price;
     this.tid = tid;
   }
-  
 
   public float getAmount() {
 
@@ -58,17 +54,16 @@ public class VirtExTrade {
 
     this.date = date;
   }
-  
+
   public float getDate() {
 
-	    return date;
-	  }
+    return date;
+  }
 
   public void setPrice(float price) {
 
     this.price = price;
   }
-  
 
   public float getPrice() {
 

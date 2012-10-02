@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.virtex;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;

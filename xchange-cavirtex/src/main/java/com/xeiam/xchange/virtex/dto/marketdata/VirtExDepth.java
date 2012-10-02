@@ -21,17 +21,15 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
-import java.util.List;
-
 /**
  * Data object representing depth from Mt Gox
  */
 public class VirtExDepth {
 
-  //private double[][] asks;
-  //private double[][] bids;
-	double[][] asks;
-	double[][] bids;
+  // private double[][] asks;
+  // private double[][] bids;
+  double[][] asks;
+  double[][] bids;
 
   public double[][] getAsks() {
 

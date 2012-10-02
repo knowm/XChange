@@ -32,14 +32,14 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.service.BasePollingExchangeService;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.virtex.VirtExAdapters;
 import com.xeiam.xchange.virtex.VirtExUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
-import com.xeiam.xchange.service.BasePollingExchangeService;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -85,10 +85,9 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     tickerRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-   VirtExTicker VirtExTicker = httpTemplate.getForJsonObject(apiBase + currency + "/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
-     //VirtExTicker VirtExTicker = httpTemplate.getForJsonObject("https://www.cavirtex.com/api/CAD/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
+    VirtExTicker VirtExTicker = httpTemplate.getForJsonObject(apiBase + currency + "/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
+    // VirtExTicker VirtExTicker = httpTemplate.getForJsonObject("https://www.cavirtex.com/api/CAD/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
 
-    
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTicker(VirtExTicker);
   }
@@ -109,9 +108,9 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     VirtExDepth VirtExDepth = httpTemplate.getForJsonObject(apiBase + currency + "/orderbook.json", VirtExDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    //List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), currency, "ask", "");
-    //List<LimitOrder> bids = VirtExAdapters.adaptOrders(VirtExDepth.getBids(), currency, "bid", "");
-    
+    // List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), currency, "ask", "");
+    // List<LimitOrder> bids = VirtExAdapters.adaptOrders(VirtExDepth.getBids(), currency, "bid", "");
+
     List<LimitOrder> asks = null;
     List<LimitOrder> bids = null;
 
@@ -161,10 +160,11 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     return VirtExUtils.CURRENCY_PAIRS;
   }
 
-@Override
-public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
-	// TODO Auto-generated method stub
-	return null;
-}
+  @Override
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 }
