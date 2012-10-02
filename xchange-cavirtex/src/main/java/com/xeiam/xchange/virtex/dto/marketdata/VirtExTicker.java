@@ -21,16 +21,48 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
-
 /**
  * Data object representing Ticker from VirtEx
  */
+// todo make immutable. see MtGoxTicker.
 public class VirtExTicker {
 
+  public float last;
+  public float bid;
+  public float ask;
   public float high;
   public float low;
   public float volume;
-  public float last;
+
+  public float getLast() {
+
+    return last;
+  }
+
+  public void setLast(float last) {
+
+    this.last = last;
+  }
+
+  public float getBid() {
+
+    return bid;
+  }
+
+  public void setBid(float bid) {
+
+    this.bid = bid;
+  }
+
+  public float getAsk() {
+
+    return ask;
+  }
+
+  public void setAsk(float ask) {
+
+    this.ask = ask;
+  }
 
   public float getHigh() {
 
@@ -52,32 +84,20 @@ public class VirtExTicker {
     this.low = low;
   }
 
-  public float getLast() {
+  public float getVolume() {
 
-    return last;
+    return volume;
   }
 
-  public void setLast(float last) {
+  public void setVolume(float volume) {
 
-    this.last = last;
+    this.volume = volume;
   }
-  
-  public float getVol() {
-	  
-		return volume;
-	}
-  
-  public void setVol(float volume) {
-	
-		this.volume = volume;
-	}
- 
 
   @Override
   public String toString() {
 
-    return "VirtExTicker [high=" + high + ", low=" + low + ", volume=" + volume + ", last=" + last + "]";
+    return "VirtExTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
   }
-
 
 }

@@ -30,19 +30,19 @@ import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
  * 
  * @immutable
  */
-public class MtGoxTicker {
+public final class MtGoxTicker {
 
-  public MtGoxValue high;
-  public MtGoxValue low;
-  public MtGoxValue avg;
-  public MtGoxValue vwap;
-  public MtGoxValue vol;
-  public MtGoxValue last_local;
-  public MtGoxValue last;
-  public MtGoxValue last_orig;
-  public MtGoxValue last_all;
-  public MtGoxValue buy;
-  public MtGoxValue sell;
+  public final MtGoxValue high;
+  public final MtGoxValue low;
+  public final MtGoxValue avg;
+  public final MtGoxValue vwap;
+  public final MtGoxValue vol;
+  public final MtGoxValue last_local;
+  public final MtGoxValue last;
+  public final MtGoxValue last_orig;
+  public final MtGoxValue last_all;
+  public final MtGoxValue buy;
+  public final MtGoxValue sell;
 
   /**
    * Constructor

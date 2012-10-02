@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.joda.money.BigMoney;
 import org.joda.time.DateTime;
 
@@ -34,30 +36,41 @@ import com.xeiam.xchange.utils.DateUtils;
 
 public final class Ticker {
 
+  private final String tradableIdentifier;
   private final BigMoney last;
   private final BigMoney bid;
   private final BigMoney ask;
-  private final String tradableIdentifier;
-  private final long volume;
+  private final BigMoney high;
+  private final BigMoney low;
+  private final BigDecimal volume;
   private final DateTime timestamp;
 
   /**
    * Constructor
    * 
+   * @param tradableIdentifier
    * @param last
    * @param bid
    * @param ask
-   * @param tradableIdentifier
+   * @param high
+   * @param low
    * @param volume
    */
-  public Ticker(BigMoney last, BigMoney bid, BigMoney ask, String tradableIdentifier, long volume) {
+  public Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
 
+    this.tradableIdentifier = tradableIdentifier;
     this.last = last;
     this.bid = bid;
     this.ask = ask;
-    this.tradableIdentifier = tradableIdentifier;
+    this.high = high;
+    this.low = low;
     this.volume = volume;
     this.timestamp = DateUtils.nowUtc();
+  }
+
+  public String getTradableIdentifier() {
+
+    return tradableIdentifier;
   }
 
   public BigMoney getLast() {
@@ -75,12 +88,17 @@ public final class Ticker {
     return ask;
   }
 
-  public String getTradableIdentifier() {
+  public BigMoney getHigh() {
 
-    return tradableIdentifier;
+    return high;
   }
 
-  public long getVolume() {
+  public BigMoney getLow() {
+
+    return low;
+  }
+
+  public BigDecimal getVolume() {
 
     return volume;
   }
@@ -93,7 +111,7 @@ public final class Ticker {
   @Override
   public String toString() {
 
-    return "Ticker [timestamp=" + timestamp + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", tradableIdentifier=" + tradableIdentifier + ", volume=" + volume + "]";
+    return "Ticker [tradableIdentifier=" + tradableIdentifier + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp=" + timestamp + "]";
   }
 
 }

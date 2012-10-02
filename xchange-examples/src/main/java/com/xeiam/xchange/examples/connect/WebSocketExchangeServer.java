@@ -22,6 +22,7 @@
 package com.xeiam.xchange.examples.connect;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -99,7 +100,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
           // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
-          Ticker ticker = new Ticker(money, money, money, Currencies.BTC, random.nextLong());
+          Ticker ticker = new Ticker(Currencies.BTC, money, money, money, money, money, new BigDecimal(98887726.001));
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {

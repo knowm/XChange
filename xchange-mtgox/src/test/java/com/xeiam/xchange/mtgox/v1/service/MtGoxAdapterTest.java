@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -169,10 +170,10 @@ public class MtGoxAdapterTest {
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
     System.out.println(ticker.toString());
 
-    assertEquals("last should be USD 4.91227", ticker.getLast().toString(), "USD 4.89");
-    assertEquals("bid should be USD 4.91227", ticker.getBid().toString(), "USD 4.89002");
+    assertEquals("last should be USD 4.89", ticker.getLast().toString(), "USD 4.89");
+    assertEquals("bid should be USD 4.89002", ticker.getBid().toString(), "USD 4.89002");
     assertEquals("ask should be USD 4.91227", ticker.getAsk().toString(), "USD 4.91227");
-    assertEquals("volume should be USD 4.91227", ticker.getVolume(), 5775966891627L);
+    assertEquals("volume should be 57759.66891627", ticker.getVolume(), new BigDecimal(57759.66891627));
 
   }
 }

@@ -10,19 +10,19 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class MtGoxTrade {
+public final class MtGoxTrade {
 
-  private double amount;
-  private long amount_int;
-  private Long date;
-  private String item;
-  private double price;
-  private String price_currency;
-  private long price_int;
-  private String primary;
-  private String properties;
-  private long tid;
-  private String trade_type;
+  private final double amount;
+  private final long amount_int;
+  private final Long date;
+  private final String item;
+  private final double price;
+  private final String price_currency;
+  private final long price_int;
+  private final String primary;
+  private final String properties;
+  private final long tid;
+  private final String trade_type;
 
   /**
    * Constructor

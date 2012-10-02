@@ -180,9 +180,11 @@ public class MtGoxAdapters {
     BigMoney last = MoneyUtils.parseFiat(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
     BigMoney bid = MoneyUtils.parseFiat(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
     BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
-    long volume = mtGoxTicker.getVol().getValue_int();
+    BigMoney high = MoneyUtils.parseFiat(mtGoxTicker.getHigh().getCurrency() + " " + mtGoxTicker.getHigh().getValue());
+    BigMoney low = MoneyUtils.parseFiat(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
+    BigDecimal volume = new BigDecimal(mtGoxTicker.getVol().getValue());
 
-    return new Ticker(last, bid, ask, mtGoxTicker.getVol().getCurrency(), volume);
+    return new Ticker(mtGoxTicker.getVol().getCurrency(), last, bid, ask, high, low, volume);
 
   }
 
