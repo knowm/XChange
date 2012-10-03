@@ -21,16 +21,9 @@ public class VirtExTrade {
    * Constructor
    * 
    * @param amount
-   * @param amount_int
    * @param date
-   * @param item
    * @param price
-   * @param price_currency
-   * @param price_int
-   * @param primary
-   * @param properties
    * @param tid
-   * @param trade_type
    */
   public VirtExTrade(@JsonProperty("amount") float amount, @JsonProperty("date") float date, @JsonProperty("price") float price, @JsonProperty("tid") long tid) {
 

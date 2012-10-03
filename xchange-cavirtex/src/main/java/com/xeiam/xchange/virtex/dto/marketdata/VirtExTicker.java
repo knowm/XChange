@@ -21,57 +21,61 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Data object representing Ticker from VirtEx
+ * 
+ * @immutable
  */
-// todo make immutable. see MtGoxTicker.
-public class VirtExTicker {
 
-  public float last;
-  public float bid;
-  public float ask;
-  public float high;
-  public float low;
-  public float volume;
+public final class VirtExTicker {
 
+  public final float last;
+  public final float high;
+  public final float low;
+  public final float volume;
+  //public float bid; //Value does not exist on VirtEx Ticker API
+  //public float ask; //Value does not exist on VirtEx Ticker API
+  
+  /**
+   * Constructor
+   * 
+   * @param high
+   * @param low
+   * @param volume
+   * @param last
+   */
+  
+  public VirtExTicker(@JsonProperty("high") float high, @JsonProperty("low") float low, @JsonProperty("volume") float volume, @JsonProperty("last") float last) {
+
+	    this.high = high;
+	    this.low = low;
+	    this.volume = volume;
+	    this.last = last;
+	  }
+	  
   public float getLast() {
 
     return last;
   }
 
-  public void setLast(float last) {
-
-    this.last = last;
-  }
-
-  public float getBid() {
-
-    return bid;
-  }
+/*
 
   public void setBid(float bid) {
 
     this.bid = bid;
   }
 
-  public float getAsk() {
-
-    return ask;
-  }
-
   public void setAsk(float ask) {
 
     this.ask = ask;
   }
+ */
 
   public float getHigh() {
 
     return high;
-  }
-
-  public void setHigh(float high) {
-
-    this.high = high;
   }
 
   public float getLow() {
@@ -79,25 +83,17 @@ public class VirtExTicker {
     return low;
   }
 
-  public void setLow(float low) {
-
-    this.low = low;
-  }
-
   public float getVolume() {
 
     return volume;
   }
 
-  public void setVolume(float volume) {
-
-    this.volume = volume;
-  }
-
   @Override
   public String toString() {
 
-    return "VirtExTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
+    //return "VirtExTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
+	return "VirtExTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
+
   }
 
 }

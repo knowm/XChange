@@ -133,13 +133,14 @@ public class VirtExAdapters {
   public static Ticker adaptTicker(VirtExTicker virtExTicker) {
 
     BigMoney last = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLast());
-    BigMoney bid = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getBid());
-    BigMoney ask = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getAsk());
+    //BigMoney bid = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getBid()); // Values not available via Virtex Ticker
+    //BigMoney ask = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getAsk()); // Values not available via Virtex Ticker
     BigMoney high = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getHigh());
     BigMoney low = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLow());
     BigDecimal volume = new BigDecimal(virtExTicker.getVolume());
 
-    return new Ticker("CAD", last, bid, ask, high, low, volume);
+    //return new Ticker("CAD", last, bid, ask, high, low, volume);
+    return new Ticker("CAD", last, null, null, high, low, volume);
   }
 
 }
