@@ -19,46 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.virtex.dto.marketdata;
+package com.xeiam.xchange.virtex.service;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import org.joda.money.BigMoney;
+import org.junit.Test;
+
+import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.virtex.VirtExUtils;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
- * Data object representing depth from Candian Virtual Exchange
- *
- * @immutable
+ * Test class for VirtExUtils class
  */
+public class VirtExUtilsTest {
 
-public class VirtExDepth {
+  @Test
+  public void testIsValidCurrencyPair() {
 
-   	private List<VirtExOrder> asks;
-   	private List<VirtExOrder> bids;
-   	
-    /**
-     * Constructor
-     * 
-     * @param asks
-     * @param bids
-     */
-    public VirtExDepth(@JsonProperty("asks") List<VirtExOrder> asks, @JsonProperty("bids") List<VirtExOrder> bids) {
+    assertTrue(VirtExUtils.isValidCurrencyPair(CurrencyPair.BTC_CAD));
+    assertTrue(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "CAD")));
+    assertFalse(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD")));
 
-      this.asks = asks;
-      this.bids = bids;
-    }
-
- 	public List<VirtExOrder> getAsks(){
-		return asks;
-	}
- 	public List<VirtExOrder> getBids(){
-		return bids;
-	}
-
-  @Override
-  public String toString() {
-
-    return "VirtExDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
-
 }

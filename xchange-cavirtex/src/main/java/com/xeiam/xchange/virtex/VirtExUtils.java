@@ -31,75 +31,18 @@ import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
- * A central place for shared Mt Gox properties
+ * A central place for shared VirtEx properties
  */
 public class VirtExUtils {
 
   // TODO Move into a symbol service
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_GBP,
-
-  CurrencyPair.BTC_AUD,
-
-  CurrencyPair.BTC_CAD,
-
-  CurrencyPair.BTC_CHF,
-
-  CurrencyPair.BTC_JPY,
-
-  new CurrencyPair("BTC", "CNY"),
-
-  new CurrencyPair("BTC", "DKK"),
-
-  new CurrencyPair("BTC", "HKD"),
-
-  new CurrencyPair("BTC", "NZD"),
-
-  new CurrencyPair("BTC", "PLN"),
-
-  new CurrencyPair("BTC", "RUB"),
-
-  new CurrencyPair("BTC", "SEK"),
-
-  new CurrencyPair("BTC", "SGD"),
-
-  new CurrencyPair("BTC", "THB")
+  CurrencyPair.BTC_CAD
 
   );
 
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/VirtEx/API), data is cached for 10 seconds.
-   * </p>
-   */
   public static final int REFRESH_RATE = 10; // [seconds]
-
-  public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
-
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
-
-  public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
-
-  /**
-   * Converts a price in decimal form to a properly scaled int-String for Mt Gox
-   * 
-   * @param price
-   * @return
-   */
-  // TODO make sure VirtEx agrees with this, it could be that scaling is only used when reading values FROM VirtEx
-  public static String getPriceString(BigMoney price) {
-
-    if (!price.getCurrencyUnit().toString().equals("JPY")) {
-      return price.getAmount().multiply(new BigDecimal(VirtExUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    } else { // JPY
-      return price.getAmount().multiply(new BigDecimal(VirtExUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    }
-  }
 
   /**
    * Converts a currency and long price into a BigMoney Object
@@ -110,12 +53,7 @@ public class VirtExUtils {
    */
   public static BigMoney getPrice(String currency, float price) {
 
-    if (!currency.equals("JPY")) {
-
       return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
-    } else { // JPY
-      return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price).divide(new BigDecimal(VirtExUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)));
-    }
   }
 
   /**

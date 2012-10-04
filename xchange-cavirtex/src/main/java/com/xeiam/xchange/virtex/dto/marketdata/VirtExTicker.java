@@ -31,12 +31,12 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public final class VirtExTicker {
 
-  public final float last;
-  public final float high;
-  public final float low;
-  public final float volume;
-  //public float bid; //Value does not exist on VirtEx Ticker API
-  //public float ask; //Value does not exist on VirtEx Ticker API
+  public final double last;
+  public final double high;
+  public final double low;
+  public final double volume;
+  //public double bid; //Value does not exist on VirtEx Ticker API
+  //public double ask; //Value does not exist on VirtEx Ticker API
   
   /**
    * Constructor
@@ -47,7 +47,7 @@ public final class VirtExTicker {
    * @param last
    */
   
-  public VirtExTicker(@JsonProperty("high") float high, @JsonProperty("low") float low, @JsonProperty("volume") float volume, @JsonProperty("last") float last) {
+  public VirtExTicker(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("volume") double volume, @JsonProperty("last") double last) {
 
 	    this.high = high;
 	    this.low = low;
@@ -55,35 +55,35 @@ public final class VirtExTicker {
 	    this.last = last;
 	  }
 	  
-  public float getLast() {
+  public double getLast() {
 
     return last;
   }
 
 /*
 
-  public void setBid(float bid) {
+  public void setBid(double bid) {
 
     this.bid = bid;
   }
 
-  public void setAsk(float ask) {
+  public void setAsk(double ask) {
 
     this.ask = ask;
   }
  */
 
-  public float getHigh() {
+  public double getHigh() {
 
     return high;
   }
 
-  public float getLow() {
+  public double getLow() {
 
     return low;
   }
 
-  public float getVolume() {
+  public double getVolume() {
 
     return volume;
   }

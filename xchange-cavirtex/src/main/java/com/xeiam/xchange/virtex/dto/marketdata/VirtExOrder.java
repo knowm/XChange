@@ -21,32 +21,39 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
- * Data object representing a buy or sell order from Mt Gox
+ * Data object representing a buy or sell order from VirtEx
+ * 
+ * @immutable
  */
 public class VirtExOrder {
 
   private double price;
   private double amount;
 
+  /**
+   * Constructor
+   * 
+   * @param price
+   * @param amount
+   */
+  
+  public VirtExOrder(@JsonProperty("price") double price, @JsonProperty("amount") double amount) {
+
+	    this.price = price;
+	    this.amount = amount;
+	  }
+
   public double getPrice() {
 
     return price;
   }
 
-  public void setPrice(double price) {
-
-    this.price = price;
-  }
-
   public double getAmount() {
 
     return amount;
-  }
-
-  public void setAmount(double amount) {
-
-    this.amount = amount;
   }
 
   @Override

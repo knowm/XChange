@@ -19,46 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.virtex.dto.marketdata;
+package com.xeiam.xchange.virtex.service.marketdata;
 
-import java.util.List;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
+
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
 
 /**
- * Data object representing depth from Candian Virtual Exchange
- *
- * @immutable
+ * Test VirtExDepth JSON parsing
  */
+public class VirtExDepthJSONTest {
 
-public class VirtExDepth {
+  @Test
+  public void testUnmarshal() throws IOException {
 
-   	private List<VirtExOrder> asks;
-   	private List<VirtExOrder> bids;
-   	
-    /**
-     * Constructor
-     * 
-     * @param asks
-     * @param bids
-     */
-    public VirtExDepth(@JsonProperty("asks") List<VirtExOrder> asks, @JsonProperty("bids") List<VirtExOrder> bids) {
+    // Read in the JSON from the example resources
+    InputStream is = VirtExDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
-      this.asks = asks;
-      this.bids = bids;
-    }
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    //VirtExDepth VirtExDepth = mapper.readValue(is, VirtExDepth.class);
 
- 	public List<VirtExOrder> getAsks(){
-		return asks;
-	}
- 	public List<VirtExOrder> getBids(){
-		return bids;
-	}
-
-  @Override
-  public String toString() {
-
-    return "VirtExDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    // Verify that the example data was unmarshalled correctly
+    //assertThat("Unexpected Return Buy value", (long) VirtExDepth.getAsks().get(0).getAmount(), equalTo(2000000000L));
   }
-
 }

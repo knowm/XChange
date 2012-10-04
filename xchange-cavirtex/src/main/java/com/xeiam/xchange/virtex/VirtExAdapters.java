@@ -46,18 +46,18 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 public class VirtExAdapters {
 
   /**
-   * Adapts a MtGoxOrder to a LimitOrder
+   * Adapts a VirtExOrder to a LimitOrder
    * 
-   * @param mtGoxOrder
+   * @param virtExOrder
    * @param currency
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal tradeableAmount = (new BigDecimal(amount_int).divide(new BigDecimal(VirtExUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
+    BigDecimal tradeableAmount = (new BigDecimal(amount));
     String tradableIdentifier = Currencies.BTC;
     String transactionCurrency = currency;
     BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
@@ -81,7 +81,7 @@ public class VirtExAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (VirtExOrder virtExOrder : virtExOrders) {
-      limitOrders.add(adaptOrder((long) virtExOrder.getAmount(), virtExOrder.getPrice(), currency, orderType, id));
+      limitOrders.add(adaptOrder(virtExOrder.getAmount(), virtExOrder.getPrice(), currency, orderType, id));
     }
 
     return limitOrders;
@@ -123,11 +123,8 @@ public class VirtExAdapters {
 
   public static String getPriceString(BigMoney price) {
 
-    if (!price.getCurrencyUnit().toString().equals("JPY")) {
-      return price.getAmount().multiply(new BigDecimal(VirtExUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    } else { // JPY
-      return price.getAmount().multiply(new BigDecimal(VirtExUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    }
+   
+      return price.getAmount().stripTrailingZeros().toPlainString();
   }
 
   public static Ticker adaptTicker(VirtExTicker virtExTicker) {
