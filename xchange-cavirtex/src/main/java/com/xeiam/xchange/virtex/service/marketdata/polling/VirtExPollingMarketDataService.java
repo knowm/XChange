@@ -43,7 +43,7 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
 /**
  * <p>
- * Implementation of the market data service for Mt Gox
+ * Implementation of the market data service for VirtEx
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
@@ -56,7 +56,6 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
    */
   private long tickerRequestTimeStamp = 0L;
   private long orderBookRequestTimeStamp = 0L;
-  private long fullOrderBookRequestTimeStamp = 0L;
   private long tradesRequestTimeStamp = 0L;
 
   /**
@@ -86,7 +85,6 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
 
     // Request data
     VirtExTicker VirtExTicker = httpTemplate.getForJsonObject(apiBase + currency + "/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
-    // VirtExTicker VirtExTicker = httpTemplate.getForJsonObject("https://www.cavirtex.com/api/CAD/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTicker(VirtExTicker);

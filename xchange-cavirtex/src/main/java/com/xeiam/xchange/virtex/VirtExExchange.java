@@ -31,7 +31,7 @@ import com.xeiam.xchange.virtex.service.marketdata.polling.VirtExPollingMarketDa
  * Exchange implementation to provide the following to applications:
  * </p>
  * <ul>
- * <li>A wrapper for the MtGox exchange API</li>
+ * <li>A wrapper for the VirtEx exchange API</li>
  * </ul>
  */
 public class VirtExExchange extends BaseExchange implements Exchange {

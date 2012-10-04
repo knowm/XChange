@@ -26,7 +26,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Data object representing depth from Candian Virtual Exchange
+ * Data object representing depth from VirtEx
  *
  * @immutable
  */

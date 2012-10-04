@@ -23,6 +23,8 @@ package com.xeiam.xchange.virtex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.joda.money.BigMoney;
@@ -70,7 +72,7 @@ public class VirtExAdapters {
 	  /**
 	   * Adapts a List of MtGoxOrders to a List of LimitOrders
 	   * 
-	   * @param mtGoxOrders
+	   * @param virtexOrders
 	   * @param currency
 	   * @param orderType
 	   * @return
@@ -78,7 +80,20 @@ public class VirtExAdapters {
 	  public static List<LimitOrder> adaptOrders(List<float[]> virtexOrders, String currency, String orderType, String id) {
 
 	    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
+	    
+	    // VirtEx Orderbook is not in order; Need to sort the list in proper numerical order
+	    Collections.sort(virtexOrders, new Comparator<float[]>() {
+	    	
+			public int compare(float[] entry1, float[] entry2) {
+				if (entry1[0] > entry2[0]) {
+					return 1;
+				} else if (entry1[0] < entry2[0]) {
+					return -1;
+				} else
+					return 0;
+			}
+		});
+	    
 	    for (float[] virtexOrder : virtexOrders) {
 	      limitOrders.add(adaptOrder(virtexOrder[1], virtexOrder[0], currency, orderType, id));
 	    }
@@ -105,9 +120,9 @@ public class VirtExAdapters {
   }
 
   /**
-   * Adapts a MtGoxTrade[] to a Trades Object
+   * Adapts a VirtExTrade[] to a Trades Object
    * 
-   * @param mtGoxTrades
+   * @param VirtExTrades
    * @return
    */
   public static Trades adaptTrades(VirtExTrade[] virtexTrades) {

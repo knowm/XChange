@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * <p>
- * Data object representing a Trade from Mt Gox
+ * Data object representing a Trade from VirtEx
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * 
