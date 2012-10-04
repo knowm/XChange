@@ -33,8 +33,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class VirtExDepth {
 
-   	private List<VirtExOrder> asks;
-   	private List<VirtExOrder> bids;
+   	private List<float[]> asks;
+   	private List<float[]> bids;
    	
     /**
      * Constructor
@@ -42,16 +42,16 @@ public class VirtExDepth {
      * @param asks
      * @param bids
      */
-    public VirtExDepth(@JsonProperty("asks") List<VirtExOrder> asks, @JsonProperty("bids") List<VirtExOrder> bids) {
+    public VirtExDepth(@JsonProperty("asks") List<float[]> asks, @JsonProperty("bids") List<float[]> bids) {
 
       this.asks = asks;
       this.bids = bids;
     }
 
- 	public List<VirtExOrder> getAsks(){
+ 	public List<float[]> getAsks(){
 		return asks;
 	}
- 	public List<VirtExOrder> getBids(){
+ 	public List<float[]> getBids(){
 		return bids;
 	}
 

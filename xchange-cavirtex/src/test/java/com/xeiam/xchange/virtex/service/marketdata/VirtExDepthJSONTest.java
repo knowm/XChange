@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -45,9 +46,9 @@ public class VirtExDepthJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    //VirtExDepth VirtExDepth = mapper.readValue(is, VirtExDepth.class);
+    VirtExDepth virtExDepth = mapper.readValue(is, VirtExDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    //assertThat("Unexpected Return Buy value", (long) VirtExDepth.getAsks().get(0).getAmount(), equalTo(2000000000L));
+    //assertThat("Unexpected Return Buy value", (long) VirtExDepth.getAsks().get(0)[0], equalTo(2000000000L));
   }
 }

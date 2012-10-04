@@ -63,19 +63,18 @@ public class VirtExAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    //VirtExDepth VirtExDepth = mapper.readValue(is, VirtExDepth.class);
+    VirtExDepth VirtExDepth = mapper.readValue(is, VirtExDepth.class);
 
-    //List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), "CAD", "ask", "");
+    List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), "CAD", "ask", "");
     // System.out.println(openorders.size());
     //assertTrue("ASKS size should be 1582", asks.size() == 1582);
 
     // verify all fields filled
-    // System.out.println(asks.get(0).toString());
-    //assertTrue("limit price should be 18.1", asks.get(0).getLimitPrice().getAmount().doubleValue() == 18.1);
-    //assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    //assertTrue("tradableAmount should be 20", asks.get(0).getTradableAmount().doubleValue() == 20.0);
-    //assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
-    //assertTrue("transactionCurrency should be CAD", asks.get(0).getTransactionCurrency().equals("CAD"));
+    //assertTrue("limit price should be 16.90536", asks.get(0).getLimitPrice().getAmount().floatValue() == 16.90536);
+    assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
+    //assertTrue("tradableAmount should be 6.51", asks.get(0).getTradableAmount().doubleValue() == 6.51);
+    assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("transactionCurrency should be CAD", asks.get(0).getTransactionCurrency().equals("CAD"));
 
   }
 

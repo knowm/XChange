@@ -36,7 +36,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExOrder;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
@@ -53,39 +52,39 @@ public class VirtExAdapters {
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
+	public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
 
-    // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal tradeableAmount = (new BigDecimal(amount));
-    String tradableIdentifier = Currencies.BTC;
-    String transactionCurrency = currency;
-    BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
+	    // place a limit order
+	    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+	    BigDecimal tradeableAmount = new BigDecimal(amount);
+	    String tradableIdentifier = Currencies.BTC;
+	    String transactionCurrency = currency;
+	    BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+	    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
 
-    return limitOrder;
+	    return limitOrder;
 
-  }
+	  }
 
-  /**
-   * Adapts a List of MtGoxOrders to a List of LimitOrders
-   * 
-   * @param mtGoxOrders
-   * @param currency
-   * @param orderType
-   * @return
-   */
-  public static List<LimitOrder> adaptOrders(List<VirtExOrder> virtExOrders, String currency, String orderType, String id) {
+	  /**
+	   * Adapts a List of MtGoxOrders to a List of LimitOrders
+	   * 
+	   * @param mtGoxOrders
+	   * @param currency
+	   * @param orderType
+	   * @return
+	   */
+	  public static List<LimitOrder> adaptOrders(List<float[]> virtexOrders, String currency, String orderType, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+	    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (VirtExOrder virtExOrder : virtExOrders) {
-      limitOrders.add(adaptOrder(virtExOrder.getAmount(), virtExOrder.getPrice(), currency, orderType, id));
-    }
+	    for (float[] virtexOrder : virtexOrders) {
+	      limitOrders.add(adaptOrder(virtexOrder[1], virtexOrder[0], currency, orderType, id));
+	    }
 
-    return limitOrders;
-  }
+	    return limitOrders;
+	  }
 
   /**
    * Adapts a VirtExTrade to a Trade Object
