@@ -1,3 +1,24 @@
+/**
+ * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -6,16 +27,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * <p>
  * Data object representing a Trade from VirtEx
  * </p>
- * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * 
- * @see <a href="http://jsongen.byingtondesign.com/">The JSONGen service</a>
+ * @immutable
  */
-public class VirtExTrade {
+public final class VirtExTrade {
 
-  private float amount;
-  private float date;
-  private float price;
-  private long tid;
+  private final float amount;
+  private final float date;
+  private final float price;
+  private final long tid;
 
   /**
    * Constructor
@@ -38,24 +58,9 @@ public class VirtExTrade {
     return amount;
   }
 
-  public void setAmount(float amount) {
-
-    this.amount = amount;
-  }
-
-  public void setDate(float date) {
-
-    this.date = date;
-  }
-
   public float getDate() {
 
     return date;
-  }
-
-  public void setPrice(float price) {
-
-    this.price = price;
   }
 
   public float getPrice() {
@@ -66,11 +71,6 @@ public class VirtExTrade {
   public long getTid() {
 
     return tid;
-  }
-
-  public void setTid(long tid) {
-
-    this.tid = tid;
   }
 
   @Override

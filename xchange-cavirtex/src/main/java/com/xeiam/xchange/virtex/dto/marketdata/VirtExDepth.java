@@ -30,11 +30,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
+public final class VirtExDepth {
 
-public class VirtExDepth {
-
-  private List<float[]> asks;
-  private List<float[]> bids;
+  private final List<float[]> asks;
+  private final List<float[]> bids;
 
   /**
    * Constructor

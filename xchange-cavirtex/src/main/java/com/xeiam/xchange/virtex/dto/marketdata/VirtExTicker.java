@@ -28,7 +28,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-
 public final class VirtExTicker {
 
   public final double last;
@@ -47,7 +46,6 @@ public final class VirtExTicker {
    * @param volume
    * @param last
    */
-
   public VirtExTicker(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("volume") double volume, @JsonProperty("last") double last) {
 
     this.high = high;
@@ -60,10 +58,6 @@ public final class VirtExTicker {
 
     return last;
   }
-
-  /*
-   * public void setBid(double bid) { this.bid = bid; } public void setAsk(double ask) { this.ask = ask; }
-   */
 
   public double getHigh() {
 
@@ -83,7 +77,6 @@ public final class VirtExTicker {
   @Override
   public String toString() {
 
-    // return "VirtExTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
     return "VirtExTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
 
   }

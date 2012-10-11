@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.virtex.service.marketdata;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -45,6 +49,6 @@ public class VirtExDepthJSONTest {
     VirtExDepth virtExDepth = mapper.readValue(is, VirtExDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    // assertThat("Unexpected Return Buy value", (long) VirtExDepth.getAsks().get(0)[0], equalTo(2000000000L));
+    assertThat(virtExDepth.getAsks().get(0)[0], is(equalTo(16.90536f)));
   }
 }

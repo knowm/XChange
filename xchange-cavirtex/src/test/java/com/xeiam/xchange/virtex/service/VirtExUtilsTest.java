@@ -40,6 +40,5 @@ public class VirtExUtilsTest {
     assertTrue(VirtExUtils.isValidCurrencyPair(CurrencyPair.BTC_CAD));
     assertTrue(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "CAD")));
     assertFalse(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD")));
-
   }
 }
