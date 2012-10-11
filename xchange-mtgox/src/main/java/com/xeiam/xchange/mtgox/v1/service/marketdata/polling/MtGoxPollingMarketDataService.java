@@ -92,7 +92,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
 

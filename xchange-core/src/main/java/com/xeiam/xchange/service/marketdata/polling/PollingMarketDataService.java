@@ -71,7 +71,7 @@ public interface PollingMarketDataService {
    * @param currency The currency of interest, null if irrelevant
    * @return The OrderBook @ If the exchange does not support this request
    */
-  OrderBook getOrderBook(String tradableIdentifier, String currency);
+  OrderBook getPartialOrderBook(String tradableIdentifier, String currency);
 
   /**
    * <p>

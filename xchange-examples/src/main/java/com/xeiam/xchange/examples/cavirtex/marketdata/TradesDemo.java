@@ -19,35 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
+package com.xeiam.xchange.examples.cavirtex.marketdata;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Test requesting depth at MtGox
+ * Demonstrate requesting Trades at VirtEx
  */
-public class DepthDemo {
-
-  private static PollingMarketDataService marketDataService;
+public class TradesDemo {
 
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.virtex.VirtExExchange");
 
-    // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getPollingMarketDataService();
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
-    // Get the current orderbook
-    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
-    System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
+    // Get the latest trade data for BTC/CAD
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.CAD);
 
-    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
-    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+    System.out.println(trades.toString());
 
   }
 

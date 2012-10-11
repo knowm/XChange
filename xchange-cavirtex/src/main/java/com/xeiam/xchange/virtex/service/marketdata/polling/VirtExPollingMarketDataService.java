@@ -27,6 +27,7 @@ import java.util.List;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.PacingViolationException;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -83,6 +84,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     }
     tickerRequestTimeStamp = System.currentTimeMillis();
 
+    System.out.println(apiBase + currency + "/ticker.json");
     // Request data
     VirtExTicker VirtExTicker = httpTemplate.getForJsonObject(apiBase + currency + "/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
 
@@ -91,7 +93,13 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
 
@@ -153,13 +161,6 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   public List<CurrencyPair> getExchangeSymbols() {
 
     return VirtExUtils.CURRENCY_PAIRS;
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
-
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }
