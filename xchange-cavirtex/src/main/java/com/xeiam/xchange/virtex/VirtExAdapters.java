@@ -54,52 +54,53 @@ public class VirtExAdapters {
    * @param orderTypeString
    * @return
    */
-	public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
 
-	    // place a limit order
-	    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-	    BigDecimal tradeableAmount = new BigDecimal(amount);
-	    String tradableIdentifier = Currencies.BTC;
-	    String transactionCurrency = currency;
-	    BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
+    // place a limit order
+    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal tradeableAmount = new BigDecimal(amount);
+    String tradableIdentifier = Currencies.BTC;
+    String transactionCurrency = currency;
+    BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
-	    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
 
-	    return limitOrder;
+    return limitOrder;
 
-	  }
+  }
 
-	  /**
-	   * Adapts a List of MtGoxOrders to a List of LimitOrders
-	   * 
-	   * @param virtexOrders
-	   * @param currency
-	   * @param orderType
-	   * @return
-	   */
-	  public static List<LimitOrder> adaptOrders(List<float[]> virtexOrders, String currency, String orderType, String id) {
+  /**
+   * Adapts a List of MtGoxOrders to a List of LimitOrders
+   * 
+   * @param virtexOrders
+   * @param currency
+   * @param orderType
+   * @return
+   */
+  public static List<LimitOrder> adaptOrders(List<float[]> virtexOrders, String currency, String orderType, String id) {
 
-	    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-	    
-	    // VirtEx Orderbook is not in order; Need to sort the list in proper numerical order
-	    Collections.sort(virtexOrders, new Comparator<float[]>() {
-	    	
-			public int compare(float[] entry1, float[] entry2) {
-				if (entry1[0] > entry2[0]) {
-					return 1;
-				} else if (entry1[0] < entry2[0]) {
-					return -1;
-				} else
-					return 0;
-			}
-		});
-	    
-	    for (float[] virtexOrder : virtexOrders) {
-	      limitOrders.add(adaptOrder(virtexOrder[1], virtexOrder[0], currency, orderType, id));
-	    }
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-	    return limitOrders;
-	  }
+    // VirtEx Orderbook is not in order; Need to sort the list in proper numerical order
+    Collections.sort(virtexOrders, new Comparator<float[]>() {
+
+      public int compare(float[] entry1, float[] entry2) {
+
+        if (entry1[0] > entry2[0]) {
+          return 1;
+        } else if (entry1[0] < entry2[0]) {
+          return -1;
+        } else
+          return 0;
+      }
+    });
+
+    for (float[] virtexOrder : virtexOrders) {
+      limitOrders.add(adaptOrder(virtexOrder[1], virtexOrder[0], currency, orderType, id));
+    }
+
+    return limitOrders;
+  }
 
   /**
    * Adapts a VirtExTrade to a Trade Object
@@ -137,20 +138,19 @@ public class VirtExAdapters {
 
   public static String getPriceString(BigMoney price) {
 
-   
-      return price.getAmount().stripTrailingZeros().toPlainString();
+    return price.getAmount().stripTrailingZeros().toPlainString();
   }
 
   public static Ticker adaptTicker(VirtExTicker virtExTicker) {
 
     BigMoney last = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLast());
-    //BigMoney bid = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getBid()); // Values not available via Virtex Ticker
-    //BigMoney ask = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getAsk()); // Values not available via Virtex Ticker
+    // BigMoney bid = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getBid()); // Values not available via Virtex Ticker
+    // BigMoney ask = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getAsk()); // Values not available via Virtex Ticker
     BigMoney high = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getHigh());
     BigMoney low = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLow());
     BigDecimal volume = new BigDecimal(virtExTicker.getVolume());
 
-    //return new Ticker("CAD", last, bid, ask, high, low, volume);
+    // return new Ticker("CAD", last, bid, ask, high, low, volume);
     return new Ticker("CAD", last, null, null, high, low, volume);
   }
 

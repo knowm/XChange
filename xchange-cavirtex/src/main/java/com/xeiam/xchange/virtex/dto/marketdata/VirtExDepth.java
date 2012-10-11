@@ -27,33 +27,36 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing depth from VirtEx
- *
+ * 
  * @immutable
  */
 
 public class VirtExDepth {
 
-   	private List<float[]> asks;
-   	private List<float[]> bids;
-   	
-    /**
-     * Constructor
-     * 
-     * @param asks
-     * @param bids
-     */
-    public VirtExDepth(@JsonProperty("asks") List<float[]> asks, @JsonProperty("bids") List<float[]> bids) {
+  private List<float[]> asks;
+  private List<float[]> bids;
 
-      this.asks = asks;
-      this.bids = bids;
-    }
+  /**
+   * Constructor
+   * 
+   * @param asks
+   * @param bids
+   */
+  public VirtExDepth(@JsonProperty("asks") List<float[]> asks, @JsonProperty("bids") List<float[]> bids) {
 
- 	public List<float[]> getAsks(){
-		return asks;
-	}
- 	public List<float[]> getBids(){
-		return bids;
-	}
+    this.asks = asks;
+    this.bids = bids;
+  }
+
+  public List<float[]> getAsks() {
+
+    return asks;
+  }
+
+  public List<float[]> getBids() {
+
+    return bids;
+  }
 
   @Override
   public String toString() {

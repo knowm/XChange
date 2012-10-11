@@ -35,9 +35,10 @@ public final class VirtExTicker {
   public final double high;
   public final double low;
   public final double volume;
-  //public double bid; //Value does not exist on VirtEx Ticker API
-  //public double ask; //Value does not exist on VirtEx Ticker API
-  
+
+  // public double bid; //Value does not exist on VirtEx Ticker API
+  // public double ask; //Value does not exist on VirtEx Ticker API
+
   /**
    * Constructor
    * 
@@ -46,32 +47,23 @@ public final class VirtExTicker {
    * @param volume
    * @param last
    */
-  
+
   public VirtExTicker(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("volume") double volume, @JsonProperty("last") double last) {
 
-	    this.high = high;
-	    this.low = low;
-	    this.volume = volume;
-	    this.last = last;
-	  }
-	  
+    this.high = high;
+    this.low = low;
+    this.volume = volume;
+    this.last = last;
+  }
+
   public double getLast() {
 
     return last;
   }
 
-/*
-
-  public void setBid(double bid) {
-
-    this.bid = bid;
-  }
-
-  public void setAsk(double ask) {
-
-    this.ask = ask;
-  }
- */
+  /*
+   * public void setBid(double bid) { this.bid = bid; } public void setAsk(double ask) { this.ask = ask; }
+   */
 
   public double getHigh() {
 
@@ -91,8 +83,8 @@ public final class VirtExTicker {
   @Override
   public String toString() {
 
-    //return "VirtExTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
-	return "VirtExTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
+    // return "VirtExTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
+    return "VirtExTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
 
   }
 

@@ -21,16 +21,13 @@
  */
 package com.xeiam.xchange.virtex.service;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.joda.money.BigMoney;
 import org.junit.Test;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.virtex.VirtExUtils;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Test class for VirtExUtils class

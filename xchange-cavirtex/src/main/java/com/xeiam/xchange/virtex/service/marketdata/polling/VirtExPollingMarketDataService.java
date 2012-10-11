@@ -106,8 +106,8 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     VirtExDepth VirtExDepth = httpTemplate.getForJsonObject(apiBase + currency + "/orderbook.json", VirtExDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-     List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), currency, "ask", "");
-     List<LimitOrder> bids = VirtExAdapters.adaptOrders(VirtExDepth.getBids(), currency, "bid", "");
+    List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), currency, "ask", "");
+    List<LimitOrder> bids = VirtExAdapters.adaptOrders(VirtExDepth.getBids(), currency, "bid", "");
 
     return new OrderBook(asks, bids);
   }

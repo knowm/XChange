@@ -52,7 +52,7 @@ public class VirtExUtils {
    */
   public static BigMoney getPrice(String currency, float price) {
 
-      return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
+    return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
   }
 
   /**
