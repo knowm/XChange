@@ -48,8 +48,18 @@ Add this to dependencies in pom.xml:
 
     <dependency>
       <groupId>com.xeiam</groupId>
-      <artifactId>xchange</artifactId>
-      <version>1.2.0</version>
+      <artifactId>xchange-core</artifactId>
+      <version>1.2.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam</groupId>
+      <artifactId>xchange-mtgox</artifactId>
+      <version>1.2.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam</groupId>
+      <artifactId>xchange-cavirtex</artifactId>
+      <version>1.0.1-SNAPSHOT</version>
     </dependency>
 
 Building
