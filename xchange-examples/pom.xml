@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-cavirtex</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Third party dependencies -->

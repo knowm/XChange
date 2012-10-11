@@ -11,7 +11,7 @@
 
 	<artifactId>xchange-cavirtex</artifactId>
 	<!-- This version is independent of the parent -->
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 
 	<name>VirtEx Exchange</name>
 	<description>XChange implementations for the VirtEx Exchange.</description>
