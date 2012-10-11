@@ -5,13 +5,12 @@
 
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
-		<artifactId>parent</artifactId>
-		<version>1.1.0</version>
+		<artifactId>xchange-parent</artifactId>
+		<version>${currentVersion}</version>
 	</parent>
 
-	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-examples</artifactId>
-	<version>1.1.0</version>
+	<version>${currentVersion}</version>
 
 	<name>XChange Examples</name>
 	<description>Provides a set of examples that demonstrate how to use XChange in client applications</description>
@@ -30,21 +29,26 @@
 		<!-- XChange dependencies -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange</artifactId>
-			<version>1.1.0</version>
+			<artifactId>xchange-core</artifactId>
+			<version>${currentVersion}</version>
 		</dependency>
 		<!-- XChange MtGox exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-mtgox</artifactId>
-			<version>1.1.0</version>
+			<version>${currentVersion}</version>
+		</dependency>
+		<!-- XChange VirtEx exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-cavirtex</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<!-- Third party dependencies -->
-
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- All money handling is through Joda Money -->

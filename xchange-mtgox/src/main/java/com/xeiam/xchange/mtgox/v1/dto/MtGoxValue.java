@@ -21,8 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Data object representing a Value from Mt Gox
+ * 
+ * @immutable
  */
 public class MtGoxValue {
 
@@ -31,6 +35,25 @@ public class MtGoxValue {
   private String display;
   private String display_short;
   private String currency;
+
+  /**
+   * Constructor
+   * 
+   * @param value
+   * @param value_int
+   * @param display
+   * @param display_short
+   * @param currency
+   */
+  public MtGoxValue(@JsonProperty("value") double value, @JsonProperty("value_int") long value_int, @JsonProperty("display") String display, @JsonProperty("display_short") String display_short,
+      @JsonProperty("currency") String currency) {
+
+    this.value = value;
+    this.value_int = value_int;
+    this.display = display;
+    this.display_short = display_short;
+    this.currency = currency;
+  }
 
   public double getValue() {
 

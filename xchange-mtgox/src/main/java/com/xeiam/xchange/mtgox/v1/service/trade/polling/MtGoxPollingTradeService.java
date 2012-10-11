@@ -21,34 +21,27 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
+import java.math.BigDecimal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
-import com.xeiam.xchange.utils.HttpTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.security.GeneralSecurityException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
@@ -74,25 +67,6 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
-
-    // Build request
-    String url = apiBaseURI + "/generic/private/info?raw";
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
-
-    // Request data
-    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
-
-    // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo();
-    accountInfo.setUsername(mtGoxAccountInfo.getLogin());
-    accountInfo.setWallets(MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
-
-    return accountInfo;
-
-  }
-
-  @Override
   public OpenOrders getOpenOrders() {
 
     // Build request
@@ -100,7 +74,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
     // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper,
+        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
     // Adapt to XChange DTOs
     return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
@@ -108,7 +83,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public boolean placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) {
 
     verify(marketOrder);
 
@@ -121,13 +96,14 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount;
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
+        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
-    return mtGoxSuccess.getResult().equals("success") ? true : false;
+    return mtGoxSuccess.getReturn();
   }
 
   @Override
-  public boolean placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) {
 
     verify(limitOrder);
     Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
@@ -143,9 +119,28 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount_int + "&price_int=" + price_int;
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, getMtGoxAuthenticationHeaderKeyValues(postBody));
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
+        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
-    return mtGoxSuccess.getResult().equals("success") ? true : false;
+    return mtGoxSuccess.getReturn();
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) {
+
+    // Assert.notNull(orderId, "orderId cannot be null");
+    //
+    // // Build request
+    // String url = exchangeSpecification.getUri() + "/api/0/cancelOrder.php";
+    // String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&oid=" + orderId;
+    //
+    // // Request data
+    // MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
+    // MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    //
+    // return mtGoxSuccess.getResult().equals("success") ? true : false;
+
+    throw new NotAvailableFromExchangeException();
   }
 
   private void verify(Order order) {
@@ -157,26 +152,4 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
   }
 
-  /**
-   * Generates necessary authentication header values for MtGox
-   * 
-   * @param postBody
-   * @return
-   */
-  private Map<String, String> getMtGoxAuthenticationHeaderKeyValues(String postBody) {
-
-    try {
-
-      Map<String, String> headerKeyValues = new HashMap<String, String>();
-
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(exchangeSpecification.getApiKey(), HttpTemplate.CHARSET_UTF_8));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, exchangeSpecification.getSecretKey()));
-      return headerKeyValues;
-
-    } catch (GeneralSecurityException e) {
-      throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
-    } catch (UnsupportedEncodingException e) {
-      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
-    }
-  }
 }

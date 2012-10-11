@@ -1,35 +1,64 @@
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * <p>
  * Data object representing a Trade from Mt Gox
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * 
- * @see <a href="http://jsongen.byingtondesign.com/">The JSONGen service</a>
+ * @immutable
  */
-public class MtGoxTrade {
+public final class MtGoxTrade {
 
-  private double amount;
-  private long amount_int;
-  private Long date;
-  private String item;
-  private double price;
-  private String price_currency;
-  private long price_int;
-  private String primary;
-  private String properties;
-  private long tid;
-  private String trade_type;
+  private final double amount;
+  private final long amount_int;
+  private final Long date;
+  private final String item;
+  private final double price;
+  private final String price_currency;
+  private final long price_int;
+  private final String primary;
+  private final String properties;
+  private final long tid;
+  private final String trade_type;
+
+  /**
+   * Constructor
+   * 
+   * @param amount
+   * @param amount_int
+   * @param date
+   * @param item
+   * @param price
+   * @param price_currency
+   * @param price_int
+   * @param primary
+   * @param properties
+   * @param tid
+   * @param trade_type
+   */
+  public MtGoxTrade(@JsonProperty("amount") double amount, @JsonProperty("amount_int") long amount_int, @JsonProperty("date") Long date, @JsonProperty("item") String item, @JsonProperty("price") double price,
+      @JsonProperty("price_currency") String price_currency, @JsonProperty("price_int") long price_int, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties,
+      @JsonProperty("tid") long tid, @JsonProperty("trade_type") String trade_type) {
+
+    this.amount = amount;
+    this.amount_int = amount_int;
+    this.date = date;
+    this.item = item;
+    this.price = price;
+    this.price_currency = price_currency;
+    this.price_int = price_int;
+    this.primary = primary;
+    this.properties = properties;
+    this.tid = tid;
+    this.trade_type = trade_type;
+  }
 
   public double getAmount() {
 
     return amount;
-  }
-
-  public void setAmount(double amount) {
-
-    this.amount = amount;
   }
 
   public long getAmount_int() {
@@ -37,19 +66,9 @@ public class MtGoxTrade {
     return amount_int;
   }
 
-  public void setAmount_int(long amount_int) {
-
-    this.amount_int = amount_int;
-  }
-
   public Long getDate() {
 
     return date;
-  }
-
-  public void setDate(Long date) {
-
-    this.date = date;
   }
 
   public String getItem() {
@@ -57,19 +76,9 @@ public class MtGoxTrade {
     return item;
   }
 
-  public void setItem(String item) {
-
-    this.item = item;
-  }
-
   public double getPrice() {
 
     return price;
-  }
-
-  public void setPrice(double price) {
-
-    this.price = price;
   }
 
   public String getPrice_currency() {
@@ -77,19 +86,9 @@ public class MtGoxTrade {
     return price_currency;
   }
 
-  public void setPrice_currency(String price_currency) {
-
-    this.price_currency = price_currency;
-  }
-
   public long getPrice_int() {
 
     return price_int;
-  }
-
-  public void setPrice_int(long price_int) {
-
-    this.price_int = price_int;
   }
 
   public String getPrimary() {
@@ -97,19 +96,9 @@ public class MtGoxTrade {
     return primary;
   }
 
-  public void setPrimary(String primary) {
-
-    this.primary = primary;
-  }
-
   public String getProperties() {
 
     return properties;
-  }
-
-  public void setProperties(String properties) {
-
-    this.properties = properties;
   }
 
   public long getTid() {
@@ -117,19 +106,9 @@ public class MtGoxTrade {
     return tid;
   }
 
-  public void setTid(long tid) {
-
-    this.tid = tid;
-  }
-
   public String getTrade_type() {
 
     return trade_type;
-  }
-
-  public void setTrade_type(String trade_type) {
-
-    this.trade_type = trade_type;
   }
 
   @Override

@@ -1,3 +1,0 @@
-1. allow access to raw data objects from exchanges
-2. create a "pacing service" for Throttled Services?
-3. make JSON objects immutable by using method described here: http://www.cowtowncoder.com/blog/archives/2010/11/entry_434.html

@@ -4,14 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
-		<artifactId>parent</artifactId>
-		<version>1.1.0</version>
+		<artifactId>xchange-parent</artifactId>
+		<version>${currentVersion}</version>
 	</parent>
 
-	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-mtgox</artifactId>
 	<!-- This version is independent of the parent -->
-	<version>1.1.0</version>
+	<version>${currentVersion}</version>
 
 	<name>MtGox Exchange</name>
 	<description>XChange implementations for the MtGox Exchange. Handles multiple currencies.</description>
@@ -27,19 +26,17 @@
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 
-		<!-- Project dependencies -->
+		<!-- Project dependencies (version automatically set through parent) -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange</artifactId>
-			<!-- Keep the XChange core in line with the parent -->
-			<version>1.1.0</version>
+			<artifactId>xchange-core</artifactId>
+			<version>${currentVersion}</version>
 		</dependency>
 
 		<!-- Third party dependencies -->
-
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- Jackson JSON Mapper -->
@@ -81,10 +78,6 @@
 
 	</dependencies>
 
-	<properties>
-		<!-- Use Windows encoding to allow Eclipse to render the copyright symbol 
-			correctly -->
-		<project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
-	</properties>
+
 
 </project>

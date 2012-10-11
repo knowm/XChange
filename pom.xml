@@ -3,9 +3,15 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
+	<properties>
+		<currentVersion>1.2.0</currentVersion>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
 	<groupId>com.xeiam.xchange</groupId>
-	<artifactId>parent</artifactId>
-	<version>1.1.0</version>
+	<artifactId>xchange-parent</artifactId>
+	<version>${currentVersion}</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
@@ -28,11 +34,24 @@
 			<email>g.rowe@froot.co.uk</email>
 		</developer>
 	</developers>
-
+	<licenses>
+		<license>
+			<name>MIT</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/timmolter/XChange/issues</url>
+	</issueManagement>
 	<scm>
-		<url>git://github.com/timmolter/XChange.git</url>
+		<url>git://github.com/timmolter/XChange</url>
 	</scm>
-
+	<ciManagement>
+		<url>http://ci.xeiam.com/</url>
+	</ciManagement>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>xeiam_oss.snapshots</id>
@@ -45,9 +64,10 @@
 	</distributionManagement>
 
 	<modules>
-		<module>xchange</module>
+		<module>xchange-core</module>
 		<module>xchange-mtgox</module>
 		<module>xchange-examples</module>
+		<module>xchange-cavirtex</module>
 	</modules>
 
 	<build>
@@ -69,7 +89,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
-					<version>2.0.4</version>
+					<version>2.2</version>
 					<executions>
 						<execution>
 							<id>attach-sources</id>
@@ -93,81 +113,22 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- Generate a FindBugs report -->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>findbugs-maven-plugin</artifactId>
-					<version>2.3.2</version>
-				</plugin>
-				<!-- Generate a PMD report -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-pmd-plugin</artifactId>
-					<version>2.5</version>
-				</plugin>
-				<!-- Source code cross referencing -->
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jxr-plugin</artifactId>
-					<version>2.1</version>
-					<configuration>
-						<aggregate>true</aggregate>
-						<linkJavadoc>true</linkJavadoc>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
-		<plugins>
-			<!-- Generates a source code JAR during package -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- Generates a Javadoc JAR during package -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Execute JXR (Source code cross-reference) during an install -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<configuration>
-					<aggregate>true</aggregate>
-					<linkJavadoc>true</linkJavadoc>
-					<javadocDir>target/apidocs</javadocDir>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>verify</phase>
-						<goals>
-							<goal>jxr</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
 	</build>
 
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- Project modules -->
+
+			<!-- XChange provides support classes and interfaces for generic exchange 
+				interaction -->
+			<dependency>
+				<groupId>com.xeiam.xchange</groupId>
+				<artifactId>xchange</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<!-- Jackson JSON Mapper -->
 			<dependency>
@@ -182,9 +143,9 @@
 			</dependency>
 
 			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.0.6</version>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.6.6</version>
 			</dependency>
 
 			<!-- All time handling is through Joda Time -->
@@ -221,7 +182,6 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-
 
 			<!-- Commons Codec for Crypto -->
 			<dependency>

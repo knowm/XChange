@@ -21,10 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.trade;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
  * Data object representing Open Orders from Mt Gox
+ * 
+ * @immutable
  */
 public class MtGoxOpenOrder {
 
@@ -32,21 +36,45 @@ public class MtGoxOpenOrder {
   private String currency;
   private String item;
   private String type;
-  private MtGoxValue amount = new MtGoxValue();
-  private MtGoxValue invalid_amount = new MtGoxValue();
-  private MtGoxValue price = new MtGoxValue();
+  private MtGoxValue amount;
+  private MtGoxValue invalid_amount;
+  private MtGoxValue price;
   private String status;
   private long date;
   private long priority;
 
+  /**
+   * Constructor
+   * 
+   * @param oid
+   * @param currency
+   * @param item
+   * @param type
+   * @param amount
+   * @param invalid_amount
+   * @param price
+   * @param status
+   * @param date
+   * @param priority
+   */
+  public MtGoxOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type, @JsonProperty("amount") MtGoxValue amount,
+      @JsonProperty("invalid_amount") MtGoxValue invalid_amount, @JsonProperty("price") MtGoxValue price, @JsonProperty("status") String status, @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
+
+    this.oid = oid;
+    this.currency = currency;
+    this.item = item;
+    this.type = type;
+    this.amount = amount;
+    this.invalid_amount = invalid_amount;
+    this.price = price;
+    this.status = status;
+    this.date = date;
+    this.priority = priority;
+  }
+
   public String getOid() {
 
     return oid;
-  }
-
-  public void setOid(String oid) {
-
-    this.oid = oid;
   }
 
   public String getCurrency() {
@@ -54,19 +82,9 @@ public class MtGoxOpenOrder {
     return currency;
   }
 
-  public void setCurrency(String currency) {
-
-    this.currency = currency;
-  }
-
   public String getItem() {
 
     return item;
-  }
-
-  public void setItem(String item) {
-
-    this.item = item;
   }
 
   public String getType() {
@@ -74,19 +92,9 @@ public class MtGoxOpenOrder {
     return type;
   }
 
-  public void setType(String type) {
-
-    this.type = type;
-  }
-
   public MtGoxValue getAmount() {
 
     return amount;
-  }
-
-  public void setAmount(MtGoxValue amount) {
-
-    this.amount = amount;
   }
 
   public MtGoxValue getInvalid_amount() {
@@ -94,19 +102,9 @@ public class MtGoxOpenOrder {
     return invalid_amount;
   }
 
-  public void setInvalid_amount(MtGoxValue invalid_amount) {
-
-    this.invalid_amount = invalid_amount;
-  }
-
   public MtGoxValue getPrice() {
 
     return price;
-  }
-
-  public void setPrice(MtGoxValue price) {
-
-    this.price = price;
   }
 
   public String getStatus() {
@@ -114,29 +112,14 @@ public class MtGoxOpenOrder {
     return status;
   }
 
-  public void setStatus(String status) {
-
-    this.status = status;
-  }
-
   public long getDate() {
 
     return date;
   }
 
-  public void setDate(long date) {
-
-    this.date = date;
-  }
-
   public long getPriority() {
 
     return priority;
-  }
-
-  public void setPriority(long priority) {
-
-    this.priority = priority;
   }
 
   @Override
