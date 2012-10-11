@@ -6,20 +6,19 @@ XChange is a library providing a simple and consistent API for interacting with 
 More Info
 =========
 
-Project Site: http://xeiam.com/xchange.jsp
-Example Code: http://xeiam.com/xchange_examplecode.jsp
-Change Log: http://xeiam.com/xchange_changelog.jsp
-Java Docs: http://xeiam.com/xchange/javadoc/index.html
+Project Site: http://xeiam.com/xchange.jsp  
+Example Code: http://xeiam.com/xchange_examplecode.jsp  
+Change Log: http://xeiam.com/xchange_changelog.jsp  
+Java Docs: http://xeiam.com/xchange/javadoc/index.html  
 
 Wiki
 ====
 
-Home: https://github.com/timmolter/XChange/wiki
-Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes
-Milestones: https://github.com/timmolter/XChange/wiki/Milestones
-Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support
-Maven Integration: https://github.com/timmolter/XChange/wiki/Maven-Integration
-
+Home: https://github.com/timmolter/XChange/wiki  
+Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes  
+Milestones: https://github.com/timmolter/XChange/wiki/Milestones  
+Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support  
+Maven Integration: https://github.com/timmolter/XChange/wiki/Maven-Integration  
 
 Getting Started
 ===============
