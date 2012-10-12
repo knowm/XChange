@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>xchange-mtgox</artifactId>
-    <!-- This version is tied to the version of the parent -->
+	<!-- This version is tied to the version of the parent -->
 	<version>${currentVersion}</version>
 
 	<name>MtGox Exchange</name>
@@ -34,30 +34,7 @@
 		</dependency>
 
 		<!-- Third party dependencies -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
 
-		<!-- Jackson JSON Mapper -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-		</dependency>
-
-		<!-- All time handling is through Joda -->
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.joda</groupId>
-			<artifactId>joda-money</artifactId>
-		</dependency>
 		<!-- JUnit -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -75,9 +52,6 @@
 			</exclusions>
 		</dependency>
 
-
 	</dependencies>
-
-
 
 </project>

@@ -46,18 +46,6 @@
 			<version>${currentVersion}</version>
 		</dependency>
 
-		<!-- Third party dependencies -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-
-		<!-- All money handling is through Joda Money -->
-		<dependency>
-			<groupId>org.joda</groupId>
-			<artifactId>joda-money</artifactId>
-		</dependency>
-
 	</dependencies>
 
 </project>

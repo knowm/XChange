@@ -56,6 +56,11 @@
 			<artifactId>joda-money</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+		</dependency>
+
 		<!-- JUnit -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -71,11 +76,6 @@
 					<artifactId>hamcrest-core</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
 		</dependency>
 
 	</dependencies>

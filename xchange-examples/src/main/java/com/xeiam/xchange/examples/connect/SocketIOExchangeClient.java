@@ -36,8 +36,6 @@ import javax.swing.JTextField;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
 import com.xeiam.xchange.streaming.socketio.IOCallback;
@@ -57,8 +55,6 @@ import com.xeiam.xchange.streaming.socketio.SocketIOException;
  * </p>
  */
 public class SocketIOExchangeClient extends JFrame implements IOCallback, ActionListener {
-
-  private final Logger log = LoggerFactory.getLogger(SocketIOExchangeClient.class);
 
   private final JTextField uriField;
   private final JButton connect;
@@ -183,7 +179,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   @Override
   public void onDisconnect() {
 
-    log.debug("Disconnected");
+    System.out.println("Disconnected");
     ta.append("You have been disconnected\n");
     ta.setCaretPosition(ta.getDocument().getLength());
     connect.setEnabled(true);
@@ -194,7 +190,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   @Override
   public void onConnect() {
 
-    log.debug("Connected");
+    System.out.println("Connected");
     ta.append("You are connected\n");
     ta.setCaretPosition(ta.getDocument().getLength());
 
@@ -203,7 +199,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   @Override
   public void onMessage(String data, IOAcknowledge ack) {
 
-    log.debug("Message: " + data);
+    System.out.println("Message: " + data);
     ta.append("Received: " + data + "\n");
     ta.setCaretPosition(ta.getDocument().getLength());
   }
@@ -229,12 +225,12 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
 
-    log.debug("Event: " + event);
+    System.out.println("Event: " + event);
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
 
-    log.debug("Error: " + socketIOException.getMessage());
+    System.out.println("Error: " + socketIOException.getMessage());
   }
 }
