@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>xchange-mtgox</artifactId>
-	<!-- This version is independent of the parent -->
+    <!-- This version is tied to the version of the parent -->
 	<version>${currentVersion}</version>
 
 	<name>MtGox Exchange</name>

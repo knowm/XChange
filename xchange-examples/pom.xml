@@ -10,6 +10,7 @@
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
+	<!-- This version is tied to the version of the parent -->
 	<version>${currentVersion}</version>
 
 	<name>XChange Examples</name>
@@ -42,7 +43,7 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-cavirtex</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>${currentVersion}</version>
 		</dependency>
 
 		<!-- Third party dependencies -->

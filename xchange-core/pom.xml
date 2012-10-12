@@ -9,12 +9,13 @@
 	</parent>
 
 	<artifactId>xchange-core</artifactId>
+	<!-- This version is tied to the version of the parent -->
 	<version>${currentVersion}</version>
 
 	<name>XChange Core</name>
 	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of
     financial security exchanges including Bitcoin.
-  </description>
+    </description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
