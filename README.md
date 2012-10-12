@@ -47,17 +47,17 @@ The XChange artifacts are currently hosted on the Xeiam Nexus repository here:
 Add this to dependencies in pom.xml:
 
     <dependency>
-      <groupId>com.xeiam</groupId>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
       <version>1.2.0</version>
     </dependency>
     <dependency>
-      <groupId>com.xeiam</groupId>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
       <version>1.2.0</version>
     </dependency>
     <dependency>
-      <groupId>com.xeiam</groupId>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-cavirtex</artifactId>
       <version>1.0.0</version>
     </dependency>
