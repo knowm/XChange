@@ -65,24 +65,31 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   }
 
   @Override
-  public void onDisconnect() {
-
-    // TODO handle this
-    log.debug("Disconnected");
-  }
-
-  @Override
   public void onConnect() {
 
-    // TODO handle this
-    log.debug("Connected");
+    log.debug("onConnect");
+
+    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+
+      @Override
+      public byte[] getRawData() {
+
+        String message = "{\"message\":\"connected\"}";
+        return message.getBytes();
+      }
+    };
+    try {
+      queue.put(exchangeEvent);
+    } catch (InterruptedException e) {
+      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
+    }
 
   }
 
   @Override
   public void onMessage(final String data, IOAcknowledge ack) {
 
-    ExchangeEvent marketDataEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new ExchangeEvent() {
 
       @Override
       public byte[] getRawData() {
@@ -91,17 +98,16 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
       }
     };
     try {
-      queue.put(marketDataEvent);
+      queue.put(exchangeEvent);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block, handle this properly
-      e.printStackTrace();
+      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
     }
   }
 
   @Override
   public void onMessage(final JSONObject json, IOAcknowledge ack) {
 
-    ExchangeEvent marketDataEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new ExchangeEvent() {
 
       @Override
       public byte[] getRawData() {
@@ -110,25 +116,78 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
       }
     };
     try {
-      queue.put(marketDataEvent);
+      queue.put(exchangeEvent);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block, handle this properly
-      e.printStackTrace();
+      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
     }
 
   }
 
   @Override
-  public void on(String event, IOAcknowledge ack, Object... args) {
+  public void onDisconnect() {
 
-    // TODO handle this
-    log.debug("Event: " + event);
+    log.debug("onDisconnect");
+
+    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+
+      @Override
+      public byte[] getRawData() {
+
+        String message = "{\"message\":\"disconnected\"}";
+        return message.getBytes();
+      }
+    };
+    try {
+      queue.put(exchangeEvent);
+    } catch (InterruptedException e) {
+      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
+    }
+
+  }
+
+  @Override
+  public void on(final String event, IOAcknowledge ack, Object... args) {
+
+    log.debug("on: " + event);
+
+    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+
+      @Override
+      public byte[] getRawData() {
+
+        String message = "{\"message\":\"" + event + "\"}";
+        return message.getBytes();
+      }
+    };
+    try {
+      queue.put(exchangeEvent);
+    } catch (InterruptedException e) {
+      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
+    }
+
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
 
-    // TODO handle this
-    log.debug("Error: " + socketIOException.getMessage());
+    log.error("onError: " + socketIOException.getMessage());
+
+    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+
+      @Override
+      public byte[] getRawData() {
+
+        String message = "{\"message\":\"SocketIOException\"}";
+        return message.getBytes();
+      }
+    };
+    try {
+      queue.put(exchangeEvent);
+    } catch (InterruptedException e) {
+      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
+    }
+
+    socketIO.reconnect();
+
   }
 }

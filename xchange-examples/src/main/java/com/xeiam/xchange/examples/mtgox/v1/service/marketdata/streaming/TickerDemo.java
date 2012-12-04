@@ -51,6 +51,9 @@ public class TickerDemo {
     // Get blocking queue that receives streaming ticker data
     BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.requestTicker(Currencies.BTC, Currencies.USD);
 
+    // note: probably won't be connected quite yet
+    System.out.println("isConnected: " + streamingMarketDataService.isConnected());
+
     // take streaming ticker data from the queue and do something with it
     while (true) {
       try {
@@ -60,6 +63,7 @@ public class TickerDemo {
         e.printStackTrace();
       }
     }
+
   }
 
   /**

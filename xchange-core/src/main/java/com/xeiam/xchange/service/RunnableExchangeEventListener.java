@@ -44,7 +44,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
 
   private final Logger log = LoggerFactory.getLogger(RunnableExchangeEventListener.class);
 
-  private BlockingQueue<ExchangeEvent> marketDataEvents;
+  private BlockingQueue<ExchangeEvent> exchangeEvents;
 
   /**
    * Constructor
@@ -60,7 +60,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
       // Run forever (or until an interruption occurs)
       while (true) {
         // Block until an event occurs
-        handleEvent(marketDataEvents.take());
+        handleEvent(exchangeEvents.take());
       }
     } catch (InterruptedException e) {
       // Expected shutdown mode
@@ -69,9 +69,9 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
   }
 
   @Override
-  public void setExchangeEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents) {
+  public void setExchangeEventQueue(BlockingQueue<ExchangeEvent> exchangeEvents) {
 
-    this.marketDataEvents = marketDataEvents;
+    this.exchangeEvents = exchangeEvents;
   }
 
   /**
@@ -79,7 +79,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
    * Client code is expected to implement this in a manner specific to their own application
    * </p>
    * 
-   * @param event The market data event containing the information
+   * @param event The exchange event containing the information
    */
   public abstract void handleEvent(ExchangeEvent event) throws ExchangeException;
 }

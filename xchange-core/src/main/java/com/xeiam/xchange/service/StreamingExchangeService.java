@@ -39,7 +39,7 @@ public interface StreamingExchangeService {
    * Start the service and provide a suitable runnable event listener to receive events. This will be configured by the service.
    * </p>
    */
-  void connect(String url, RunnableExchangeEventListener runnableMarketDataListener);
+  void connect(String url, RunnableExchangeEventListener runnableExchangeEventListener);
 
   /**
    * <p>
@@ -58,7 +58,15 @@ public interface StreamingExchangeService {
   /**
    * @return The runnable market data event producer
    */
-  RunnableExchangeEventProducer getRunnableMarketDataEventProducer();
+  RunnableExchangeEventProducer getRunnableExchangeEventProducer();
 
-  void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
+  /**
+   * @param runnableMarketDataEventProducer
+   */
+  void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
+
+  /**
+   * @return if the streaming channel is connected or not
+   */
+  boolean isConnected();
 }

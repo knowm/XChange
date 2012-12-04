@@ -63,7 +63,6 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   /**
    * Configured from the super class reading of the exchange specification
    */
-
   private final String apiBase = String.format("http://socketio.%s/mtgox", exchangeSpecification.getHost());
 
   /**
@@ -79,13 +78,9 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   @Override
   public BlockingQueue<Ticker> requestTicker(String tradableIdentifier, String currency) {
 
+    log.info("requesting Ticker...");
+
     verify(tradableIdentifier, currency);
-
-    // Construct an Exchange that we know to use a direct socket to support streaming market data
-
-    // TODO Why is this using a hard-coded exchange? Use provided exchangeSpecification
-    // Exchange mtGox = MtGoxExchange.newInstance();
-    // StreamingMarketDataService streamingExchangeService = mtGox.getStreamingMarketDataService();
 
     // blocking ticker queue
     final BlockingQueue<Ticker> tickerQueue = new LinkedBlockingQueue<Ticker>(1024);
@@ -94,16 +89,18 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     RunnableExchangeEventListener listener = new RunnableExchangeEventListener() {
 
       @Override
-      public void handleEvent(ExchangeEvent event) {
+      public void handleEvent(ExchangeEvent exchangeEvent) {
 
-        // TODO Consider a byte[] to JSONUtils (and HttpUtils) to simplify character encoding
-        String data = new String(event.getRawData());
-        // log.debug("Event data: {}", data);
+        String eventContent = new String(exchangeEvent.getRawData());
+        // log.debug("Event data: {}", eventContent);
 
         // get raw JSON
-        Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(data, tickerObjectMapper);
+        Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(eventContent, tickerObjectMapper);
 
         if (rawJSON.get("ticker") == null) { // some JSON came in that is not mtgox ticker data
+          log.info(eventContent);
+          log.info("socketIO.isConnected(): " + socketIO.isConnected());
+
           return;
         }
 
@@ -123,7 +120,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     };
 
     String url = apiBase + "?Channel=ticker&Currency=" + currency;
-    // log.debug(url);
+    log.debug(url);
     this.connect(url, listener);
 
     // Start a new thread for the listener
@@ -140,6 +137,12 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     disconnect();
   }
 
+  @Override
+  public boolean isConnected() {
+
+    return socketIO.isConnected();
+  }
+
   /**
    * Verify
    * 
@@ -153,4 +156,5 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
   }
+
 }

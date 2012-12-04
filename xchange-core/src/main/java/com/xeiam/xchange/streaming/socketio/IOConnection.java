@@ -152,10 +152,6 @@ class IOConnection implements IOCallback {
    */
   private class HearbeatTimeoutTask extends TimerTask {
 
-    /*
-     * (non-Javadoc)
-     * @see java.util.TimerTask#run()
-     */
     @Override
     public void run() {
 
@@ -172,10 +168,6 @@ class IOConnection implements IOCallback {
    */
   private class ReconnectTask extends TimerTask {
 
-    /*
-     * (non-Javadoc)
-     * @see java.util.TimerTask#run()
-     */
     @Override
     public void run() {
 
@@ -307,11 +299,11 @@ class IOConnection implements IOCallback {
       for (Entry<Object, Object> entry : headers.entrySet()) {
         connection.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
       }
-      log.info("> " + connection.toString());
+      log.debug("> " + connection.toString());
       InputStream stream = connection.getInputStream();
       Scanner in = new Scanner(stream);
       response = in.nextLine();
-      log.info("< " + response);
+      log.debug("< " + response);
       String[] data = response.split(":");
       sessionId = data[0];
       heartbeatTimeout = Long.parseLong(data[1]) * 1000;
@@ -430,7 +422,7 @@ class IOConnection implements IOCallback {
         connections.remove(urlStr);
       }
     }
-    log.info("Cleanup");
+    log.debug("cleanup");
     backgroundTimer.cancel();
   }
 
@@ -457,10 +449,10 @@ class IOConnection implements IOCallback {
     synchronized (outputBuffer) {
       if (getState() == STATE_READY) {
         try {
-          log.info("> " + text);
+          log.debug("> " + text);
           transport.send(text);
         } catch (Exception e) {
-          log.info("IOEx: saving");
+          log.debug("IOEx: saving");
           outputBuffer.add(text);
         }
       } else {
@@ -529,11 +521,11 @@ class IOConnection implements IOCallback {
         try {
           // DEBUG
           String[] texts = outputBuffer.toArray(new String[outputBuffer.size()]);
-          log.info("Bulk start:");
+          log.debug("Bulk start:");
           for (String text : texts) {
-            log.info("> " + text);
+            log.debug("> " + text);
           }
-          log.info("Bulk end");
+          log.debug("Bulk end");
           // DEBUG END
           transport.sendBulk(texts);
         } catch (IOException e) {
@@ -553,6 +545,8 @@ class IOConnection implements IOCallback {
    * Transport disconnected. {@link IOTransport} calls this when a connection has been shut down.
    */
   public void transportDisconnected() {
+
+    log.debug("transportDisconnected called!");
 
     this.lastException = null;
     setState(STATE_INTERRUPTED);
@@ -606,7 +600,7 @@ class IOConnection implements IOCallback {
    */
   public void transportMessage(String text) {
 
-    log.info("< " + text);
+    log.debug("< " + text);
 
     IOMessage message;
     try {
@@ -741,6 +735,8 @@ class IOConnection implements IOCallback {
    * forces a reconnect. This had become useful on some android devices which do not shut down TCP-connections when switching from HSDPA to Wifi
    */
   public void reconnect() {
+
+    log.info("reconnect called!");
 
     synchronized (this) {
       if (getState() != STATE_INVALID) {

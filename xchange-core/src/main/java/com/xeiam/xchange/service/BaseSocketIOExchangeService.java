@@ -50,8 +50,8 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   private final ExecutorService executorService;
   private final BlockingQueue<ExchangeEvent> exchangeEvents = new ArrayBlockingQueue<ExchangeEvent>(1024);
 
-  private SocketIO socketIO;
-  private RunnableExchangeEventProducer runnableMarketDataEventProducer = null;
+  protected SocketIO socketIO;
+  private RunnableExchangeEventProducer runnableExchangeEventProducer = null;
 
   /**
    * Constructor
@@ -80,17 +80,16 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
     try {
       log.debug("Attempting to open a socketIO against {}:{}", url, exchangeSpecification.getPort());
-      this.runnableMarketDataEventProducer = new RunnableSocketIOEventProducer(socketIO, exchangeEvents);
-      this.socketIO = new SocketIO(url, (RunnableSocketIOEventProducer) runnableMarketDataEventProducer);
+      this.runnableExchangeEventProducer = new RunnableSocketIOEventProducer(socketIO, exchangeEvents);
+      this.socketIO = new SocketIO(url, (RunnableSocketIOEventProducer) runnableExchangeEventProducer);
     } catch (IOException e) {
-      throw new ExchangeException("Failed to open socket: " + e.getMessage(), e);
+      throw new ExchangeException("Failed to open socket!", e);
     }
 
     runnableExchangeEventListener.setExchangeEventQueue(exchangeEvents);
-    executorService.submit(runnableMarketDataEventProducer);
+    executorService.submit(runnableExchangeEventProducer);
 
     log.debug("Started OK");
-
   }
 
   @Override
@@ -115,15 +114,15 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   }
 
   @Override
-  public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
+  public RunnableExchangeEventProducer getRunnableExchangeEventProducer() {
 
-    return runnableMarketDataEventProducer;
+    return runnableExchangeEventProducer;
   }
 
   @Override
-  public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
+  public void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
 
-    this.runnableMarketDataEventProducer = runnableMarketDataEventProducer;
+    this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 
 }

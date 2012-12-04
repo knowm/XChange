@@ -23,10 +23,10 @@ package com.xeiam.xchange.service;
 
 /**
  * <p>
- * Interface to provide the following to market data event producers:
+ * Interface to provide the following to exchange event producers:
  * </p>
  * <ul>
- * <li>Provides the intention to use a thread to obtain market data</li>
+ * <li>Provides the intention to use a thread to obtain exchnage data</li>
  * </ul>
  */
 public interface RunnableExchangeEventProducer extends ExchangeEventProducer, Runnable {

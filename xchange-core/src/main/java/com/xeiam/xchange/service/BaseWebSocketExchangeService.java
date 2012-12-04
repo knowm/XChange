@@ -120,13 +120,13 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   }
 
   @Override
-  public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
+  public RunnableExchangeEventProducer getRunnableExchangeEventProducer() {
 
     return runnableExchangeEventProducer;
   }
 
   @Override
-  public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
+  public void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
 
     this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }

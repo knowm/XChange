@@ -35,16 +35,16 @@ import org.json.JSONObject;
  */
 public class SocketIO {
 
-  /** callback of this Socket. */
+  /** callback of this Socket */
   private IOCallback callback;
 
-  /** connection of this Socket. */
+  /** connection of this Socket */
   private IOConnection connection;
 
-  /** namespace. */
+  /** namespace */
   private String namespace;
 
-  /** Used for setting header during handshaking. */
+  /** Used for setting header during handshaking */
   private Properties headers = new Properties();
 
   private URL url;
