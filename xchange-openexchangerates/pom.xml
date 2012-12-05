@@ -2,19 +2,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
 		<version>${currentVersion}</version>
 	</parent>
 
-	<artifactId>xchange-cavirtex</artifactId>
+	<artifactId>xchange-openexchangerates</artifactId>
 	<!-- This version is tied to the version of the parent -->
 	<version>${currentVersion}</version>
 
-	<name>VirtEx Exchange</name>
-	<description>XChange implementations for the VirtEx Exchange.</description>
+	<name>Open Exchange Rates</name>
+	<description>XChange implementations for Open Exchange Rates. Handles multiple currencies.</description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
@@ -37,6 +36,5 @@
 		<!-- Third party dependencies -->
 
 	</dependencies>
-
 
 </project>

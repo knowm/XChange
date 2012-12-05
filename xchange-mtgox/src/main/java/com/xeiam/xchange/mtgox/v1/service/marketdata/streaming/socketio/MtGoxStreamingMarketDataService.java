@@ -76,7 +76,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   }
 
   @Override
-  public BlockingQueue<Ticker> requestTicker(String tradableIdentifier, String currency) {
+  public BlockingQueue<Ticker> requestTicker(String tradableIdentifier, final String currency) {
 
     log.info("requesting Ticker...");
 
@@ -92,7 +92,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
       public void handleEvent(ExchangeEvent exchangeEvent) {
 
         String eventContent = new String(exchangeEvent.getRawData());
-        // log.debug("Event data: {}", eventContent);
+        // log.info("Event data: {}", eventContent);
 
         // get raw JSON
         Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(eventContent, tickerObjectMapper);
@@ -100,7 +100,11 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
         if (rawJSON.get("ticker") == null) { // some JSON came in that is not mtgox ticker data
           log.info(eventContent);
           log.info("socketIO.isConnected(): " + socketIO.isConnected());
-
+          // if SocketIOException, abort
+          // if (rawJSON.get("message").equals("SocketIOException")) {
+          // disconnect();
+          // connectNow(currency, this);
+          // }
           return;
         }
 
@@ -119,9 +123,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
       }
     };
 
-    String url = apiBase + "?Channel=ticker&Currency=" + currency;
-    log.debug(url);
-    this.connect(url, listener);
+    connectNow(currency, listener);
 
     // Start a new thread for the listener
     ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -129,6 +131,13 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
     return tickerQueue;
 
+  }
+
+  private void connectNow(String currency, RunnableExchangeEventListener listener) {
+
+    String url = apiBase + "?Channel=ticker&Currency=" + currency;
+    log.debug(url);
+    this.connect(url, listener);
   }
 
   @Override

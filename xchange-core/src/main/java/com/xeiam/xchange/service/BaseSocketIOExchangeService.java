@@ -62,8 +62,6 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
     super(exchangeSpecification);
 
-    // Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
-
     executorService = Executors.newSingleThreadExecutor();
   }
 

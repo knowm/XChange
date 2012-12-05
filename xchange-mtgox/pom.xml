@@ -35,23 +35,6 @@
 
 		<!-- Third party dependencies -->
 
-		<!-- JUnit -->
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-library</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<!-- dep leaves out hamcrest classes -->
-			<artifactId>junit-dep</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.hamcrest</groupId>
-					<artifactId>hamcrest-core</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
 	</dependencies>
 
 </project>

@@ -405,7 +405,7 @@ class IOConnection implements IOCallback {
   }
 
   /**
-   * Cleanup. IOConnection is not usable after this calling this.
+   * Cleanup. IOConnection is not usable after calling this.
    */
   private void cleanup() {
 

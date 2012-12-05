@@ -187,7 +187,7 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
       log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
     }
 
-    socketIO.reconnect();
+    // once this occurs, the connection is not usable anymore.
 
   }
 }

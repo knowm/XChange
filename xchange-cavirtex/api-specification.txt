@@ -3,7 +3,7 @@ VirtEx Exchange API specification
 
 Public API
 
-Orders
+Ticker
 ------
 https://www.cavirtex.com/api/CAD/ticker.json
 
