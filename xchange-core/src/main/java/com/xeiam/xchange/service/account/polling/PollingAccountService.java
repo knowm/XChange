@@ -17,6 +17,7 @@ package com.xeiam.xchange.service.account.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.DepositAddressSpec;
 
 /**
  * <p>
@@ -34,5 +35,7 @@ public interface PollingAccountService {
   public AccountInfo getAccountInfo();
 
   public String withdrawFunds();
+  
+  public String requestBitcoinDepositAddress(DepositAddressSpec addressSpec);
 
 }

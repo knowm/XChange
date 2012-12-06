@@ -1,11 +1,16 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.DepositAddressSpec;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxDepositResponse;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
@@ -59,4 +64,30 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     throw new NotAvailableFromExchangeException();
   }
+
+  @Override
+  public String requestBitcoinDepositAddress(DepositAddressSpec addressSpec) {
+    
+    try {
+    
+      // Build request
+      String url = apiBaseURI + "/generic/bitcoin/address";
+      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+      if (addressSpec.getDescription() != null) {
+        postBody += "&description=" + URLEncoder.encode(addressSpec.getDescription(), "UTF-8");
+      }
+      if (addressSpec.getNotificationUrl() != null) {
+        postBody += "&ipn=" + URLEncoder.encode(addressSpec.getNotificationUrl(), "UTF-8");
+      }
+      
+      // Request data
+      MtGoxDepositResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxDepositResponse.class, postBody, mapper,
+          MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+      
+      return mtGoxSuccess.getReturn().getAddres();
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError(e);
+    }
+  }
+  
 }
