@@ -21,33 +21,39 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import java.math.BigDecimal;
-
+import com.xeiam.xchange.utils.DateUtils;
 import org.joda.money.BigMoney;
 import org.joda.time.DateTime;
 
-import com.xeiam.xchange.utils.DateUtils;
+import java.math.BigDecimal;
 
 /**
- * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade. This class is immutable.
- * 
- * @immutable
+ * <p>A class encapsulating the most basic information a "Ticker" should contain.</p>
+ * <p>A ticker contains data representing the latest trade.</p>
  */
 
 public final class Ticker {
 
-  private final String tradableIdentifier;
-  private final BigMoney last;
-  private final BigMoney bid;
-  private final BigMoney ask;
-  private final BigMoney high;
-  private final BigMoney low;
-  private final BigDecimal volume;
-  private final DateTime timestamp;
+  private String tradableIdentifier;
+  private BigMoney last;
+  private BigMoney bid;
+  private BigMoney ask;
+  private BigMoney high;
+  private BigMoney low;
+  private BigDecimal volume;
+  private DateTime timestamp;
+
+  private ErrorMessage errorMessage;
+
+  /**
+   * Prevent arbitrary construction outside of the Builder
+   */
+  Ticker() {
+  }
 
   /**
    * Constructor
-   * 
+   *
    * @param tradableIdentifier
    * @param last
    * @param bid
@@ -55,7 +61,12 @@ public final class Ticker {
    * @param high
    * @param low
    * @param volume
+   *
+   * Note: Too many parameters for this constructor - refactored to use Builder
+   *
+   * @deprecated This constructor will be removed in 1.4.0
    */
+  @Deprecated
   public Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
 
     this.tradableIdentifier = tradableIdentifier;
@@ -69,43 +80,75 @@ public final class Ticker {
   }
 
   public String getTradableIdentifier() {
-
     return tradableIdentifier;
   }
 
-  public BigMoney getLast() {
+  /* package */ void setTradableIdentifier(String tradableIdentifier) {
+    this.tradableIdentifier = tradableIdentifier;
+  }
 
+  public BigMoney getLast() {
     return last;
   }
 
-  public BigMoney getBid() {
+  /* package */  void setLast(BigMoney last) {
+    this.last = last;
+  }
 
+  public BigMoney getBid() {
     return bid;
   }
 
-  public BigMoney getAsk() {
+  /* package */  void setBid(BigMoney bid) {
+    this.bid = bid;
+  }
 
+  public BigMoney getAsk() {
     return ask;
   }
 
-  public BigMoney getHigh() {
+  /* package */  void setAsk(BigMoney ask) {
+    this.ask = ask;
+  }
 
+  public BigMoney getHigh() {
     return high;
   }
 
-  public BigMoney getLow() {
+  /* package */  void setHigh(BigMoney high) {
+    this.high = high;
+  }
 
+  public BigMoney getLow() {
     return low;
   }
 
-  public BigDecimal getVolume() {
+  /* package */  void setLow(BigMoney low) {
+    this.low = low;
+  }
 
+  public BigDecimal getVolume() {
     return volume;
   }
 
-  public DateTime getTimestamp() {
+  /* package */  void setVolume(BigDecimal volume) {
+    this.volume = volume;
+  }
 
+  public DateTime getTimestamp() {
     return timestamp;
+  }
+
+  /* package */  void setTimestamp(DateTime timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  public ErrorMessage getErrorMessage() {
+    return errorMessage;
+  }
+
+  /* package */  void setErrorMessage(ErrorMessage errorMessage) {
+    this.errorMessage = errorMessage;
   }
 
   @Override

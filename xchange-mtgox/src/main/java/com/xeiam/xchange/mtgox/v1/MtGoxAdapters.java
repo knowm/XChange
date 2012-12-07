@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.xeiam.xchange.dto.marketdata.TickerBuilder;
 import org.joda.money.BigMoney;
 import org.joda.time.DateTime;
 
@@ -184,7 +185,38 @@ public class MtGoxAdapters {
     BigMoney low = MoneyUtils.parseFiat(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
     BigDecimal volume = new BigDecimal(mtGoxTicker.getVol().getValue());
 
-    return new Ticker(mtGoxTicker.getVol().getCurrency(), last, bid, ask, high, low, volume);
+    return TickerBuilder
+      .newInstance()
+      .withTradableIdentifier(mtGoxTicker.getVol().getCurrency())
+      .withLast(last)
+      .withBid(bid)
+      .withAsk(ask)
+      .withHigh(high)
+      .withLow(low)
+      .withVolume(volume)
+      .build();
+
+  }
+
+  public static Ticker adaptTickerWithError(MtGoxTicker mtGoxTicker) {
+
+    BigMoney last = MoneyUtils.parseFiat(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
+    BigMoney bid = MoneyUtils.parseFiat(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
+    BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
+    BigMoney high = MoneyUtils.parseFiat(mtGoxTicker.getHigh().getCurrency() + " " + mtGoxTicker.getHigh().getValue());
+    BigMoney low = MoneyUtils.parseFiat(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
+    BigDecimal volume = new BigDecimal(mtGoxTicker.getVol().getValue());
+
+    return TickerBuilder
+      .newInstance()
+      .withTradableIdentifier(mtGoxTicker.getVol().getCurrency())
+      .withLast(last)
+      .withBid(bid)
+      .withAsk(ask)
+      .withHigh(high)
+      .withLow(low)
+      .withVolume(volume)
+      .build();
 
   }
 

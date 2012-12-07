@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import java.util.List;
-
 import com.xeiam.xchange.dto.trade.LimitOrder;
+
+import java.util.List;
 
 /**
  * Data object representing OrderBook
@@ -34,6 +34,8 @@ public final class OrderBook {
 
   private final List<LimitOrder> asks;
   private final List<LimitOrder> bids;
+
+  private ErrorMessage errorMessage;
 
   /**
    * Constructor
@@ -55,6 +57,14 @@ public final class OrderBook {
   public List<LimitOrder> getBids() {
 
     return bids;
+  }
+
+  public ErrorMessage getErrorMessage() {
+    return errorMessage;
+  }
+
+  public void setErrorMessage(ErrorMessage errorMessage) {
+    this.errorMessage = errorMessage;
   }
 
   @Override

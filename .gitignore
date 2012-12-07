@@ -1,12 +1,9 @@
 .classpath
 .project
-target/
 .settings/
 .idea/
+*.iml
+*.iws
+.DS_Store
 log/
-parent.iml
-xchange-imcex/xchange-imcex.iml
-xchange/xchange.iml
-xchange-mtgox/xchange-mtgox.iml
-xchange-intersango/xchange-intersango.iml
-xchange-examples/xchange-examples.iml
+target/
