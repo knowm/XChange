@@ -45,7 +45,13 @@
 			<artifactId>xchange-cavirtex</artifactId>
 			<version>${currentVersion}</version>
 		</dependency>
-
+        <!-- XChange Open Exchange Rates exchange support -->
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-openexchangerates</artifactId>
+            <version>${currentVersion}</version>
+        </dependency>
+        
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>

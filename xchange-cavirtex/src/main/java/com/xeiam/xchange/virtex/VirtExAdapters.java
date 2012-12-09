@@ -21,6 +21,15 @@
  */
 package com.xeiam.xchange.virtex;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.time.DateTime;
+
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -32,14 +41,6 @@ import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
-import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Various adapters for converting from VirtEx DTOs to XChange DTOs
@@ -48,21 +49,15 @@ public class VirtExAdapters {
 
   /**
    * Adapts a VirtExOrder to a LimitOrder
-   *
+   * 
    * @param amount
    * @param price
    * @param currency
    * @param orderTypeString
    * @param id
-   *
    * @return
    */
-  public static LimitOrder adaptOrder(
-    double amount,
-    double price,
-    String currency,
-    String orderTypeString,
-    String id) {
+  public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -71,37 +66,29 @@ public class VirtExAdapters {
     String transactionCurrency = currency;
     BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
-    LimitOrder limitOrder = new LimitOrder(
-      orderType,
-      tradeableAmount,
-      tradableIdentifier,
-      transactionCurrency,
-      limitPrice);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
 
     return limitOrder;
 
   }
 
   /**
-   * Adapts a List of MtGoxOrders to a List of LimitOrders
-   *
+   * Adapts a List of virtexOrders to a List of LimitOrders
+   * 
    * @param virtexOrders
    * @param currency
    * @param orderType
-   *
+   * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(
-    List<float[]> virtexOrders,
-    String currency,
-    String orderType,
-    String id) {
+  public static List<LimitOrder> adaptOrders(List<float[]> virtexOrders, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     // VirtEx Orderbook is not in order; Need to sort the list in proper numerical order
     Collections.sort(virtexOrders, new Comparator<float[]>() {
 
+      @Override
       public int compare(float[] entry1, float[] entry2) {
 
         if (entry1[0] > entry2[0]) {
@@ -122,9 +109,8 @@ public class VirtExAdapters {
 
   /**
    * Adapts a VirtExTrade to a Trade Object
-   *
+   * 
    * @param virtExTrade A VirtEx trade
-   *
    * @return The XChange Trade
    */
   public static Trade adaptTrade(VirtExTrade virtExTrade) {
@@ -141,9 +127,8 @@ public class VirtExAdapters {
 
   /**
    * Adapts a VirtExTrade[] to a Trades Object
-   *
+   * 
    * @param virtexTrades The VirtEx trade data
-   *
    * @return The trades
    */
   public static Trades adaptTrades(VirtExTrade[] virtexTrades) {
@@ -160,6 +145,12 @@ public class VirtExAdapters {
     return price.getAmount().stripTrailingZeros().toPlainString();
   }
 
+  /**
+   * Adapts a VirtExTicker to a Ticker Object
+   * 
+   * @param virtExTicker
+   * @return
+   */
   public static Ticker adaptTicker(VirtExTicker virtExTicker) {
 
     BigMoney last = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLast());
@@ -170,16 +161,7 @@ public class VirtExAdapters {
     BigDecimal volume = new BigDecimal(virtExTicker.getVolume());
 
     // return new Ticker("CAD", last, bid, ask, high, low, volume);
-    return TickerBuilder
-      .newInstance()
-      .withTradableIdentifier("CAD")
-      .withLast(last)
-      .withBid(null)
-      .withAsk(null)
-      .withHigh(high)
-      .withLow(low)
-      .withVolume(volume)
-      .build();
+    return TickerBuilder.newInstance().withTradableIdentifier("CAD").withLast(last).withBid(null).withAsk(null).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
 }

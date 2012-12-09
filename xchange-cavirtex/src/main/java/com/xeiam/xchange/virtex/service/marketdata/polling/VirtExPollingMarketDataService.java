@@ -62,7 +62,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("%s/api/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
+  private final String apiBase = String.format("%s/api/", exchangeSpecification.getUri());
 
   /**
    * @param exchangeSpecification The exchange specification

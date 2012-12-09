@@ -11,6 +11,6 @@ Currencies
 ------
 http://openexchangerates.org/api/currencies.json?app_id=ab32c922bca749ec9345b4717914ee1f
 
-Important!
+Data update rate!
 ------
-Look into pacing rate and implement it as in MtGox.
+According to https://openexchangerates.org/about, the rates are updated once an hour. Therefore, to limit APIs calls, the rates are cached and refreshed once per hour.
