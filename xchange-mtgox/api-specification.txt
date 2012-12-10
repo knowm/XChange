@@ -1,0 +1,6 @@
+MtGox API specification
+================================
+
+Full Depth
+------
+According to https://en.bitcoin.it/wiki/MtGox/API/HTTP/v1: WARNING : since this is a big download, there is a rate limit on how often you can get it, limit your requests to 5 / hour or you could be dropped / banned.
