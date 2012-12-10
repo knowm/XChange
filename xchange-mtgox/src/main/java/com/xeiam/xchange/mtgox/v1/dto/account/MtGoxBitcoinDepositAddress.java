@@ -24,11 +24,11 @@ package com.xeiam.xchange.mtgox.v1.dto.account;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Data object representing the content of the "return" property of a response message from Mt Gox after requestion a deposit address
+ * Data object representing the content of a response message from MtGox after requesting a bitcoin deposit address
  * 
  * @immutable
  */
-public class MtGoxDepositReturn {
+public final class MtGoxBitcoinDepositAddress {
 
   private String address;
 
@@ -37,7 +37,7 @@ public class MtGoxDepositReturn {
    * 
    * @param address
    */
-  public MtGoxDepositReturn(@JsonProperty("addr") String address) {
+  public MtGoxBitcoinDepositAddress(@JsonProperty("addr") String address) {
 
     this.address = address;
   }

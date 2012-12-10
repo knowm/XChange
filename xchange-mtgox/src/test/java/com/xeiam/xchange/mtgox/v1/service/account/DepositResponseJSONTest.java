@@ -21,7 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +31,7 @@ import java.io.InputStream;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxDepositResponse;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 
 /**
  * Test MtGoxDepositResponse JSON parsing
@@ -44,13 +46,11 @@ public class DepositResponseJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxDepositResponse mtGoxDepositResponse = mapper.readValue(is, MtGoxDepositResponse.class);
+    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mapper.readValue(is, MtGoxBitcoinDepositAddress.class);
 
-    System.out.println(mtGoxDepositResponse.toString());
+    System.out.println(mtGoxBitcoinDepositAddress.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertEquals("success", mtGoxDepositResponse.getResult());
-    assertEquals("18dGNs5Bd6pPMuSchLHQtb1k996YpUHs3j", mtGoxDepositResponse.getReturn().getAddres());
+    assertThat("Unexpected Return address value", "15xmfK1f1BnUWVaoZpjPWJmUHaexp8FHVs", is(equalTo(mtGoxBitcoinDepositAddress.getAddres())));
   }
-
 }

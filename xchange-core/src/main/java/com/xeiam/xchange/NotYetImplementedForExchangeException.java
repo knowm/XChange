@@ -26,7 +26,7 @@ package com.xeiam.xchange;
  * Exception to provide the following to API:
  * </p>
  * <ul>
- * <li>Indication that the exchange does not support the requested function or data</li>
+ * <li>Indication that the exchange supports the requested function or data, but it's not yet been implemented</li>
  * </ul>
  */
 public class NotYetImplementedForExchangeException extends RuntimeException {

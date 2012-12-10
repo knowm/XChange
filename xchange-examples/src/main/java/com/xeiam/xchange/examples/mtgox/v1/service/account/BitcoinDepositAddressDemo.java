@@ -24,7 +24,6 @@ package com.xeiam.xchange.examples.mtgox.v1.service.account;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.dto.account.DepositAddressSpec;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
@@ -48,9 +47,7 @@ public class BitcoinDepositAddressDemo {
     accountService = mtgox.getPollingAccountService();
 
     // Request a Bitcoin deposit address
-    DepositAddressSpec addressSpec = new DepositAddressSpec();
-    addressSpec.setDescription("Demonstation address");
-    String address = accountService.requestBitcoinDepositAddress(addressSpec);
+    String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);
     System.out.println("Address to deposit Bitcoins to: " + address);
   }
 }
