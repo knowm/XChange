@@ -41,8 +41,6 @@ public class VirtExUtils {
 
   );
 
-  public static final int REFRESH_RATE = 10; // [seconds]
-
   /**
    * Converts a currency and long price into a BigMoney Object
    * 
