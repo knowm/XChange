@@ -68,6 +68,7 @@
 		<module>xchange-mtgox</module>
 		<module>xchange-examples</module>
 		<module>xchange-cavirtex</module>
+		<module>xchange-btce</module>
 		<module>xchange-openexchangerates</module>
 	</modules>
 
