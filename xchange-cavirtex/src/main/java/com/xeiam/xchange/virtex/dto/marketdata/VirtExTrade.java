@@ -32,9 +32,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class VirtExTrade {
 
-  private final float amount;
-  private final float date;
-  private final float price;
+  private final double amount;
+  private final double date;
+  private final double price;
   private final long tid;
 
   /**
@@ -45,7 +45,7 @@ public final class VirtExTrade {
    * @param price
    * @param tid
    */
-  public VirtExTrade(@JsonProperty("amount") float amount, @JsonProperty("date") float date, @JsonProperty("price") float price, @JsonProperty("tid") long tid) {
+  public VirtExTrade(@JsonProperty("amount") double amount, @JsonProperty("date") double date, @JsonProperty("price") double price, @JsonProperty("tid") long tid) {
 
     this.amount = amount;
     this.date = date;
@@ -53,17 +53,17 @@ public final class VirtExTrade {
     this.tid = tid;
   }
 
-  public float getAmount() {
+  public double getAmount() {
 
     return amount;
   }
 
-  public float getDate() {
+  public double getDate() {
 
     return date;
   }
 
-  public float getPrice() {
+  public double getPrice() {
 
     return price;
   }

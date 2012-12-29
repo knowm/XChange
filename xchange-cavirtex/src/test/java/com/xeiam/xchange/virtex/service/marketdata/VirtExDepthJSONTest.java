@@ -49,6 +49,6 @@ public class VirtExDepthJSONTest {
     VirtExDepth virtExDepth = mapper.readValue(is, VirtExDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(virtExDepth.getAsks().get(0)[0], is(equalTo(16.90536f)));
+    assertThat(virtExDepth.getAsks().get(0)[0], is(equalTo(16.90536)));
   }
 }

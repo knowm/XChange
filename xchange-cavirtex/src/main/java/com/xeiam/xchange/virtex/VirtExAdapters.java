@@ -81,15 +81,15 @@ public class VirtExAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<float[]> virtexOrders, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<double[]> virtexOrders, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     // VirtEx Orderbook is not in order; Need to sort the list in proper numerical order
-    Collections.sort(virtexOrders, new Comparator<float[]>() {
+    Collections.sort(virtexOrders, new Comparator<double[]>() {
 
       @Override
-      public int compare(float[] entry1, float[] entry2) {
+      public int compare(double[] entry1, double[] entry2) {
 
         if (entry1[0] > entry2[0]) {
           return 1;
@@ -100,7 +100,7 @@ public class VirtExAdapters {
       }
     });
 
-    for (float[] virtexOrder : virtexOrders) {
+    for (double[] virtexOrder : virtexOrders) {
       limitOrders.add(adaptOrder(virtexOrder[1], virtexOrder[0], currency, orderType, id));
     }
 
@@ -154,14 +154,11 @@ public class VirtExAdapters {
   public static Ticker adaptTicker(VirtExTicker virtExTicker) {
 
     BigMoney last = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLast());
-    // BigMoney bid = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getBid()); // Values not available via Virtex Ticker
-    // BigMoney ask = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getAsk()); // Values not available via Virtex Ticker
     BigMoney high = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getHigh());
     BigMoney low = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLow());
     BigDecimal volume = new BigDecimal(virtExTicker.getVolume());
 
-    // return new Ticker("CAD", last, bid, ask, high, low, volume);
-    return TickerBuilder.newInstance().withTradableIdentifier("CAD").withLast(last).withBid(null).withAsk(null).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier("CAD").withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
 }

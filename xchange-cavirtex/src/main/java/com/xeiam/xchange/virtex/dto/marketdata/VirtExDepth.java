@@ -32,8 +32,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class VirtExDepth {
 
-  private final List<float[]> asks;
-  private final List<float[]> bids;
+  private final List<double[]> asks;
+  private final List<double[]> bids;
 
   /**
    * Constructor
@@ -41,18 +41,18 @@ public final class VirtExDepth {
    * @param asks
    * @param bids
    */
-  public VirtExDepth(@JsonProperty("asks") List<float[]> asks, @JsonProperty("bids") List<float[]> bids) {
+  public VirtExDepth(@JsonProperty("asks") List<double[]> asks, @JsonProperty("bids") List<double[]> bids) {
 
     this.asks = asks;
     this.bids = bids;
   }
 
-  public List<float[]> getAsks() {
+  public List<double[]> getAsks() {
 
     return asks;
   }
 
-  public List<float[]> getBids() {
+  public List<double[]> getBids() {
 
     return bids;
   }
