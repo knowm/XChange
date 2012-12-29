@@ -41,22 +41,17 @@ public class BTCEUtils {
 	
 	CurrencyPair.BTC_EUR,
 	
-	CurrencyPair.EUR_USD
+	CurrencyPair.EUR_USD,
 	
-	// Currently unsupported currencies
-	//    RUR - Old Russian Ruble (1 RUB = 1000 RUR?) 
-	//    LTC - Litecoin
-	//    NMC - Namecoin
+	CurrencyPair.BTC_RUR,
 	
-	// CurrencyPair.BTC_RUR,
+	CurrencyPair.LTC_BTC,
 	
-	// CurrencyPair.LTC_BTC,
+	CurrencyPair.LTC_RUR,
 	
-	// CurrencyPair.LTC_RUR,
+	CurrencyPair.NMC_BTC,
 	
-	// CurrencyPair.NMC_BTC,
-	
-	// CurrencyPair.USD_RUR,
+	CurrencyPair.USD_RUR
 	
 	);
 
