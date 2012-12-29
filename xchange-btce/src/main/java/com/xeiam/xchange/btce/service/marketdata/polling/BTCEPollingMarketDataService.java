@@ -54,7 +54,7 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService
 	/**
 	 * Configured from the super class reading of the exchange specification
 	 */
-	private final String apiBase = String.format("%s/api/2",
+	private final String apiBase = String.format("%s/api/2/",
 			exchangeSpecification.getUri());
 
 	/**
@@ -72,10 +72,10 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService
 
 		verify(tradableIdentifier, currency);
 
-		String url = apiBase + "/btc_usd" + "/ticker";
+		String url = apiBase + tradableIdentifier + "_" + currency + "/ticker";
 
 		// Request data
-		BTCETicker BTCETicker = httpTemplate.getForJsonObject(url,
+		BTCETicker BTCETicker = httpTemplate.getForJsonObject(url.toLowerCase(),
 				BTCETicker.class, mapper, new HashMap<String, String>());
 
 		// Adapt to XChange DTOs
@@ -94,10 +94,10 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService
 
 		verify(tradableIdentifier, currency);
 
-		String url = apiBase + "/btc_usd" + "/depth";
+		String url = apiBase + tradableIdentifier + "_" + currency + "/depth";
 
 		// Request data
-		BTCEDepth BTCEDepth = httpTemplate.getForJsonObject(url,
+		BTCEDepth BTCEDepth = httpTemplate.getForJsonObject(url.toLowerCase(),
 				BTCEDepth.class, mapper, new HashMap<String, String>());
 
 		// Adapt to XChange DTOs
@@ -114,10 +114,10 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService
 
 		verify(tradableIdentifier, currency);
 
-		String url = apiBase + "/btc_usd" + "/trades";
+		String url = apiBase + tradableIdentifier + "_" + currency + "/trades";
 
 		// Request data
-		BTCETrade[] BTCETrades = httpTemplate.getForJsonObject(url,
+		BTCETrade[] BTCETrades = httpTemplate.getForJsonObject(url.toLowerCase(),
 				BTCETrade[].class, mapper, new HashMap<String, String>());
 
 		return BTCEAdapters.adaptTrades(BTCETrades);

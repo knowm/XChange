@@ -37,8 +37,27 @@ public class BTCEUtils {
 
 	public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-	CurrencyPair.BTC_USD
-
+	CurrencyPair.BTC_USD,
+	
+	CurrencyPair.BTC_EUR,
+	
+	CurrencyPair.EUR_USD
+	
+	// Currently unsupported currencies
+	//    RUR - Old Russian Ruble (1 RUB = 1000 RUR?) 
+	//    LTC - Litecoin
+	//    NMC - Namecoin
+	
+	// CurrencyPair.BTC_RUR,
+	
+	// CurrencyPair.LTC_BTC,
+	
+	// CurrencyPair.LTC_RUR,
+	
+	// CurrencyPair.NMC_BTC,
+	
+	// CurrencyPair.USD_RUR,
+	
 	);
 
 	/**
