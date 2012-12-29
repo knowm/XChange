@@ -170,7 +170,7 @@ public class BTCEAdapters {
 		BigDecimal volume = new BigDecimal(BTCETicker.getTicker().getVol());
 
 		// return new Ticker("CAD", last, bid, ask, high, low, volume);
-		return TickerBuilder.newInstance().withTradableIdentifier("USD")
+		return TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC)
 				.withLast(last).withBid(bid).withAsk(ask).withHigh(high)
 				.withLow(low).withVolume(volume).build();
 	}

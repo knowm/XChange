@@ -117,12 +117,10 @@ public class VirtExAdapters {
 
     OrderType orderType = virtExTrade.equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = new BigDecimal(virtExTrade.getAmount());
-    // BigMoney price = MoneyUtils.parseFiat("CAD" + VirtExTrade.getPrice());
     BigMoney price = VirtExUtils.getPrice("CAD", virtExTrade.getPrice());
-
     DateTime dateTime = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, null, "CAD", price, dateTime);
+    return new Trade(orderType, amount, Currencies.BTC, Currencies.CAD, price, dateTime);
   }
 
   /**
