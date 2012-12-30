@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.openexchangerates;
+package com.xeiam.xchange.examples.openexchangerates.marketdata;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
