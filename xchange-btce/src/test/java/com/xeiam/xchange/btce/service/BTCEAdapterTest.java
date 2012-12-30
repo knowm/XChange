@@ -32,10 +32,6 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
@@ -43,6 +39,10 @@ import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.service.marketdata.BTCEDepthJSONTest;
 import com.xeiam.xchange.btce.service.marketdata.BTCETickerJSONTest;
 import com.xeiam.xchange.btce.service.marketdata.BTCETradesJSONTest;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Tests the BTCEAdapter class

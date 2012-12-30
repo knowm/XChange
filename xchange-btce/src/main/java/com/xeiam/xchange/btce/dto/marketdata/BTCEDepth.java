@@ -31,37 +31,36 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @immutable
  */
 public class BTCEDepth {
-	private final List<double[]> asks;
-	private final List<double[]> bids;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param asks
-	 * @param bids
-	 */
-	public BTCEDepth(@JsonProperty("asks") List<double[]> asks,
-			@JsonProperty("bids") List<double[]> bids) {
+  private final List<double[]> asks;
+  private final List<double[]> bids;
 
-		this.asks = asks;
-		this.bids = bids;
-	}
+  /**
+   * Constructor
+   * 
+   * @param asks
+   * @param bids
+   */
+  public BTCEDepth(@JsonProperty("asks") List<double[]> asks, @JsonProperty("bids") List<double[]> bids) {
 
-	public List<double[]> getAsks() {
+    this.asks = asks;
+    this.bids = bids;
+  }
 
-		return asks;
-	}
+  public List<double[]> getAsks() {
 
-	public List<double[]> getBids() {
+    return asks;
+  }
 
-		return bids;
-	}
+  public List<double[]> getBids() {
 
-	@Override
-	public String toString() {
+    return bids;
+  }
 
-		return "BTCEDepth [asks=" + asks.toString() + ", bids="
-				+ bids.toString() + "]";
-	}
+  @Override
+  public String toString() {
+
+    return "BTCEDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+  }
 
 }

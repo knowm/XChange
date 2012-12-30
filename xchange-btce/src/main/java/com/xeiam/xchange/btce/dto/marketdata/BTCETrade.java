@@ -31,73 +31,76 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @immutable
  */
 public class BTCETrade {
-	private final double amount;
-	private final long date;
-	private final double price;
-	private final long tid;
-	private String item;
-	private String price_currency;
-	private String trade_type;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param amount
-	 * @param date
-	 * @param price
-	 * @param tid
-	 * @param item
-	 * @param price_currency
-	 * @param trade_type
-	 */
-	public BTCETrade(@JsonProperty("amount") double amount,
-			@JsonProperty("date") long date,
-			@JsonProperty("price") double price, @JsonProperty("tid") long tid,
-			@JsonProperty("item") String item,
-			@JsonProperty("price_currency") String price_currency,
-			@JsonProperty("trade_type") String trade_type) {
+  private final double amount;
+  private final long date;
+  private final double price;
+  private final long tid;
+  private String item;
+  private String price_currency;
+  private String trade_type;
 
-		this.amount = amount;
-		this.date = date;
-		this.price = price;
-		this.tid = tid;
-		this.item = item;
-		this.price_currency = price_currency;
-		this.trade_type = trade_type;
-	}
+  /**
+   * Constructor
+   * 
+   * @param amount
+   * @param date
+   * @param price
+   * @param tid
+   * @param item
+   * @param price_currency
+   * @param trade_type
+   */
+  public BTCETrade(@JsonProperty("amount") double amount, @JsonProperty("date") long date, @JsonProperty("price") double price, @JsonProperty("tid") long tid, @JsonProperty("item") String item,
+      @JsonProperty("price_currency") String price_currency, @JsonProperty("trade_type") String trade_type) {
 
-	public double getAmount() {
-		return amount;
-	}
+    this.amount = amount;
+    this.date = date;
+    this.price = price;
+    this.tid = tid;
+    this.item = item;
+    this.price_currency = price_currency;
+    this.trade_type = trade_type;
+  }
 
-	public long getDate() {
-		return date;
-	}
+  public double getAmount() {
 
-	public String getItem() {
-		return item;
-	}
+    return amount;
+  }
 
-	public double getPrice() {
-		return price;
-	}
+  public long getDate() {
 
-	public String getPrice_currency() {
-		return price_currency;
-	}
+    return date;
+  }
 
-	public long getTid() {
-		return tid;
-	}
+  public String getItem() {
 
-	public String getTrade_type() {
-		return trade_type;
-	}
+    return item;
+  }
 
-	@Override
-	public String toString() {
+  public double getPrice() {
 
-		return "BTCETrades [amount=" + amount + ", date=" + date + ", price="
-				+ price + ", tid=" + tid + "]";
-	}
+    return price;
+  }
+
+  public String getPrice_currency() {
+
+    return price_currency;
+  }
+
+  public long getTid() {
+
+    return tid;
+  }
+
+  public String getTrade_type() {
+
+    return trade_type;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCETrades [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + "]";
+  }
 }

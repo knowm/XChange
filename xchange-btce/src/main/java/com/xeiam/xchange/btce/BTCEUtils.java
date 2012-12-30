@@ -35,47 +35,47 @@ import com.xeiam.xchange.utils.MoneyUtils;
  */
 public class BTCEUtils {
 
-	public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-	CurrencyPair.BTC_USD,
-	
-	CurrencyPair.BTC_EUR,
-	
-	CurrencyPair.EUR_USD,
-	
-	CurrencyPair.BTC_RUR,
-	
-	CurrencyPair.LTC_BTC,
-	
-	CurrencyPair.LTC_RUR,
-	
-	CurrencyPair.NMC_BTC,
-	
-	CurrencyPair.USD_RUR
-	
-	);
+  CurrencyPair.BTC_USD,
 
-	/**
-	 * Converts a currency and long price into a BigMoney Object
-	 * 
-	 * @param currency
-	 * @param price
-	 * @return
-	 */
-	public static BigMoney getPrice(String currency, double price) {
+  CurrencyPair.BTC_EUR,
 
-		return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
-	}
+  CurrencyPair.EUR_USD,
 
-	/**
-	 * Checks if a given CurrencyPair is covered by this exchange
-	 * 
-	 * @param currencyPair
-	 * @return
-	 */
-	public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+  CurrencyPair.BTC_RUR,
 
-		return CURRENCY_PAIRS.contains(currencyPair);
-	}
+  CurrencyPair.LTC_BTC,
+
+  CurrencyPair.LTC_RUR,
+
+  CurrencyPair.NMC_BTC,
+
+  CurrencyPair.USD_RUR
+
+  );
+
+  /**
+   * Converts a currency and long price into a BigMoney Object
+   * 
+   * @param currency
+   * @param price
+   * @return
+   */
+  public static BigMoney getPrice(String currency, double price) {
+
+    return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
+  }
+
+  /**
+   * Checks if a given CurrencyPair is covered by this exchange
+   * 
+   * @param currencyPair
+   * @return
+   */
+  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+
+    return CURRENCY_PAIRS.contains(currencyPair);
+  }
 
 }

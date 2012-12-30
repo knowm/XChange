@@ -29,89 +29,93 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @immutable
  */
 public class BTCETickerObject {
-	public final double last;
-	public final double high;
-	public final double low;
-	public final double avg;
-	public final double buy;
-	public final double sell;
-	public final double server_time;
-	public final double vol;
-	public final double vol_cur;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param high
-	 * @param low
-	 * @param vol
-	 * @param last
-	 * @param avg
-	 * @param buy
-	 * @param sell
-	 * @param server_times
-	 * @param vol_cur
-	 */
-	public BTCETickerObject(@JsonProperty("high") double high,
-			@JsonProperty("low") double low, @JsonProperty("vol") double vol,
-			@JsonProperty("last") double last, @JsonProperty("avg") double avg,
-			@JsonProperty("buy") double buy,
-			@JsonProperty("server_time") double server_time,
-			@JsonProperty("vol_cur") double vol_cur,
-			@JsonProperty("sell") double sell) {
+  public final double last;
+  public final double high;
+  public final double low;
+  public final double avg;
+  public final double buy;
+  public final double sell;
+  public final double server_time;
+  public final double vol;
+  public final double vol_cur;
 
-		this.high = high;
-		this.low = low;
-		this.last = last;
-		this.avg = avg;
-		this.buy = buy;
-		this.sell = sell;
-		this.server_time = server_time;
-		this.vol = vol;
-		this.vol_cur = vol_cur;
-	}
+  /**
+   * Constructor
+   * 
+   * @param high
+   * @param low
+   * @param vol
+   * @param last
+   * @param avg
+   * @param buy
+   * @param sell
+   * @param server_times
+   * @param vol_cur
+   */
+  public BTCETickerObject(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("vol") double vol, @JsonProperty("last") double last, @JsonProperty("avg") double avg,
+      @JsonProperty("buy") double buy, @JsonProperty("server_time") double server_time, @JsonProperty("vol_cur") double vol_cur, @JsonProperty("sell") double sell) {
 
-	public double getAvg() {
-		return avg;
-	}
+    this.high = high;
+    this.low = low;
+    this.last = last;
+    this.avg = avg;
+    this.buy = buy;
+    this.sell = sell;
+    this.server_time = server_time;
+    this.vol = vol;
+    this.vol_cur = vol_cur;
+  }
 
-	public double getBuy() {
-		return buy;
-	}
+  public double getAvg() {
 
-	public double getHigh() {
-		return high;
-	}
+    return avg;
+  }
 
-	public double getLast() {
-		return last;
-	}
+  public double getBuy() {
 
-	public double getLow() {
-		return low;
-	}
+    return buy;
+  }
 
-	public double getSell() {
-		return sell;
-	}
+  public double getHigh() {
 
-	public double getServer_time() {
-		return server_time;
-	}
+    return high;
+  }
 
-	public double getVol() {
-		return vol;
-	}
+  public double getLast() {
 
-	public double getVol_cur() {
-		return vol_cur;
-	}
+    return last;
+  }
 
-	@Override
-	public String toString() {
+  public double getLow() {
 
-		return "BTCETicker [last=" + last + ", high=" + high + ", low=" + low
-				+ ", volume=" + vol + "]";
+    return low;
+  }
 
-	}
+  public double getSell() {
+
+    return sell;
+  }
+
+  public double getServer_time() {
+
+    return server_time;
+  }
+
+  public double getVol() {
+
+    return vol;
+  }
+
+  public double getVol_cur() {
+
+    return vol_cur;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCETicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + vol + "]";
+
+  }
 }

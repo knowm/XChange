@@ -36,43 +36,41 @@ import com.xeiam.xchange.btce.service.marketdata.polling.BTCEPollingMarketDataSe
  */
 public class BTCEExchange extends BaseExchange implements Exchange {
 
-	/**
-	 * Default constructor for ExchangeFactory
-	 */
-	public BTCEExchange() {
+  /**
+   * Default constructor for ExchangeFactory
+   */
+  public BTCEExchange() {
 
-	}
+  }
 
-	/**
-	 * @return A default configuration for this exchange
-	 */
-	public static Exchange newInstance() {
+  /**
+   * @return A default configuration for this exchange
+   */
+  public static Exchange newInstance() {
 
-		Exchange exchange = new BTCEExchange();
-		exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-		return exchange;
-	}
+    Exchange exchange = new BTCEExchange();
+    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
+    return exchange;
+  }
 
-	@Override
-	public void applySpecification(ExchangeSpecification exchangeSpecification) {
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
-		if (exchangeSpecification == null) {
-			exchangeSpecification = getDefaultExchangeSpecification();
-		}
-		this.pollingMarketDataService = new BTCEPollingMarketDataService(
-				exchangeSpecification);
-	}
+    if (exchangeSpecification == null) {
+      exchangeSpecification = getDefaultExchangeSpecification();
+    }
+    this.pollingMarketDataService = new BTCEPollingMarketDataService(exchangeSpecification);
+  }
 
-	@Override
-	public ExchangeSpecification getDefaultExchangeSpecification() {
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
 
-		ExchangeSpecification exchangeSpecification = new ExchangeSpecification(
-				this.getClass().getCanonicalName());
-		exchangeSpecification.setUri("https://btc-e.com");
-		exchangeSpecification.setVersion("");
-		exchangeSpecification.setHost("btc-e.com");
-		exchangeSpecification.setPort(80);
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    exchangeSpecification.setUri("https://btc-e.com");
+    exchangeSpecification.setVersion("");
+    exchangeSpecification.setHost("btc-e.com");
+    exchangeSpecification.setPort(80);
 
-		return exchangeSpecification;
-	}
+    return exchangeSpecification;
+  }
 }

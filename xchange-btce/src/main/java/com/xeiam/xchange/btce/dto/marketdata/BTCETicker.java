@@ -22,7 +22,6 @@
 package com.xeiam.xchange.btce.dto.marketdata;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import com.xeiam.xchange.btce.dto.marketdata.BTCETickerObject;
 
 /**
  * Data object representing Ticker from BTCE
@@ -30,13 +29,16 @@ import com.xeiam.xchange.btce.dto.marketdata.BTCETickerObject;
  * @immutable
  */
 public class BTCETicker {
-	private BTCETickerObject ticker;
 
-	public BTCETicker(@JsonProperty("ticker") BTCETickerObject ticker) {
-		this.ticker = ticker;
-	}
+  private BTCETickerObject ticker;
 
-	public BTCETickerObject getTicker() {
-		return ticker;
-	}
+  public BTCETicker(@JsonProperty("ticker") BTCETickerObject ticker) {
+
+    this.ticker = ticker;
+  }
+
+  public BTCETickerObject getTicker() {
+
+    return ticker;
+  }
 }
