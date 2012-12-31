@@ -74,7 +74,7 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
     BTCETicker BTCETicker = httpTemplate.getForJsonObject(url.toLowerCase(), BTCETicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    return BTCEAdapters.adaptTicker(BTCETicker);
+    return BTCEAdapters.adaptTicker(BTCETicker, currency);
   }
 
   @Override

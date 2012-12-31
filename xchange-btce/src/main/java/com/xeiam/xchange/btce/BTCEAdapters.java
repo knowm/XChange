@@ -111,11 +111,12 @@ public class BTCEAdapters {
 
     OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = new BigDecimal(BTCETrade.getAmount());
-    BigMoney price = BTCEUtils.getPrice("USD", BTCETrade.getPrice());
+    String currency = BTCETrade.getPrice_currency();
+    BigMoney price = BTCEUtils.getPrice(currency, BTCETrade.getPrice());
     String tradableIdentifier = BTCETrade.getItem();
     DateTime dateTime = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, "USD", price, dateTime);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, dateTime);
   }
 
   /**
@@ -145,16 +146,15 @@ public class BTCEAdapters {
    * @param BTCETicker
    * @return
    */
-  public static Ticker adaptTicker(BTCETicker BTCETicker) {
-
-    BigMoney last = MoneyUtils.parseFiat("USD" + " " + BTCETicker.getTicker().getLast());
-    BigMoney bid = MoneyUtils.parseFiat("USD" + " " + BTCETicker.getTicker().getSell());
-    BigMoney ask = MoneyUtils.parseFiat("USD" + " " + BTCETicker.getTicker().getBuy());
-    BigMoney high = MoneyUtils.parseFiat("USD" + " " + BTCETicker.getTicker().getHigh());
-    BigMoney low = MoneyUtils.parseFiat("USD" + " " + BTCETicker.getTicker().getLow());
+  public static Ticker adaptTicker(BTCETicker BTCETicker, String currency) {
+	  
+    BigMoney last = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLast());
+    BigMoney bid = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getSell());
+    BigMoney ask = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getBuy());
+    BigMoney high = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getHigh());
+    BigMoney low = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLow());
     BigDecimal volume = new BigDecimal(BTCETicker.getTicker().getVol());
 
-    // return new Ticker("CAD", last, bid, ask, high, low, volume);
     return TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
 

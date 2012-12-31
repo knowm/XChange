@@ -105,7 +105,7 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
 
-    Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker);
+    Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "USD");
 
     assertEquals("last should be USD 13.07", ticker.getLast().toString(), "USD 13.07");
     assertEquals("low should be USD 13", ticker.getLow().toString(), "USD 13.0");
