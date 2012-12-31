@@ -57,6 +57,12 @@
 			<artifactId>xchange-btce</artifactId>
 			<version>${currentVersion}</version>
 		</dependency>
+		<!-- XChange Bitstamp exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bitstamp</artifactId>
+			<version>${currentVersion}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
