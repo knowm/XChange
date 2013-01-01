@@ -3,7 +3,6 @@ package com.xeiam.xchange.bitstamp.polling;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.api.BitStamp;
-import com.xeiam.xchange.bitstamp.api.BitstampFactory;
 import com.xeiam.xchange.bitstamp.api.model.Transaction;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.*;
@@ -30,9 +29,9 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   private static final CurrencyUnit BTC = CurrencyUnit.of("BTC");
   private static final CurrencyUnit USD = CurrencyUnit.of("USD");
 
-  public BitstampPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitstampPollingMarketDataService(ExchangeSpecification exchangeSpecification, BitStamp bitstampEndpoint) {
     super(exchangeSpecification);
-    bitStamp = BitstampFactory.createResteasyEndpoint();
+    this.bitStamp = bitstampEndpoint;
   }
 
   @Override
