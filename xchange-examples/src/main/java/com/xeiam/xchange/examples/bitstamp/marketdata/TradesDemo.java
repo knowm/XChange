@@ -36,11 +36,11 @@ public class TradesDemo {
   public static void main(String[] args) {
 
     // Use the factory to get Bitstamp exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/CAD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);

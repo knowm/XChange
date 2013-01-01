@@ -36,11 +36,11 @@ public class TickerDemo {
   public static void main(String[] args) {
 
     // Use the factory to get Bitstamp exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
-//    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+//    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
