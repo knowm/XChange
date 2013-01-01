@@ -1,4 +1,4 @@
-package si.mazi.bitstampapi.model;
+package com.xeiam.xchange.bitstamp.api.model;
 
 /**
  * @author Matija Mazi <br/>

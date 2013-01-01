@@ -1,4 +1,4 @@
-package si.mazi.bitstampapi.model;
+package com.xeiam.xchange.bitstamp.api.model;
 
 import java.util.List;
 

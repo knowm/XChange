@@ -1,4 +1,4 @@
-package si.mazi.bitstampapi;
+package com.xeiam.xchange.bitstamp.api;
 
 import org.testng.annotations.Test;
 

@@ -1,4 +1,4 @@
-package si.mazi.bitstampapi;
+package com.xeiam.xchange.bitstamp.api;
 
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;

@@ -1,4 +1,4 @@
-package si.mazi.bitstampapi.model;
+package com.xeiam.xchange.bitstamp.api.model;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 

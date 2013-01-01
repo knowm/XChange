@@ -1,6 +1,6 @@
-package si.mazi.bitstampapi;
+package com.xeiam.xchange.bitstamp.api;
 
-import si.mazi.bitstampapi.model.*;
+import com.xeiam.xchange.bitstamp.api.model.*;
 
 import javax.ws.rs.*;
 import java.util.List;

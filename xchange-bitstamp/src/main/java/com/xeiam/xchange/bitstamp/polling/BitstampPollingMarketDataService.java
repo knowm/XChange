@@ -2,6 +2,9 @@ package com.xeiam.xchange.bitstamp.polling;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitstamp.api.BitStamp;
+import com.xeiam.xchange.bitstamp.api.BitstampFactory;
+import com.xeiam.xchange.bitstamp.api.model.Transaction;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.*;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -10,9 +13,6 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.time.DateTime;
-import si.mazi.bitstampapi.BitStamp;
-import si.mazi.bitstampapi.BitstampFactory;
-import si.mazi.bitstampapi.model.Transaction;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -44,7 +44,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   public Ticker getTicker(String tradableIdentifier, String currency) {
     checkArgument(tradableIdentifier.equals(BTC.getCode()));
     checkArgument(currency.equals(USD.getCode()));
-    si.mazi.bitstampapi.model.Ticker tck = bitStamp.getTicker();
+    com.xeiam.xchange.bitstamp.api.model.Ticker tck = bitStamp.getTicker();
     return new TickerBuilder()
         .withAsk(BigMoney.of(USD, tck.getAsk()))
         .withBid(BigMoney.of(USD, tck.getBid()))
@@ -62,7 +62,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
-    si.mazi.bitstampapi.model.OrderBook orderBook = bitStamp.getOrderBook();
+    com.xeiam.xchange.bitstamp.api.model.OrderBook orderBook = bitStamp.getOrderBook();
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
     return new OrderBook(asks, bids);
