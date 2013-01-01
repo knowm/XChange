@@ -63,11 +63,7 @@ public class BTCEAdapters {
     String tradableIdentifier = Currencies.BTC;
     String transactionCurrency = currency;
     BigMoney limitPrice;
-    try{
-    	limitPrice = MoneyUtils.parseFiat(currency + " " + price);
-    } catch (Exception e){
-    	limitPrice = MoneyUtils.parseFiat("USD " + price); // Set to arbitrary currency if not supported
-    }
+    limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
     LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
 
