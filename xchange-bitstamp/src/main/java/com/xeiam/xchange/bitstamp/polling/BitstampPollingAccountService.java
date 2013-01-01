@@ -26,8 +26,8 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
   @Override
   public AccountInfo getAccountInfo() {
-    String userName = exchangeSpecification.getUserName();
-    Balance balance = bitstamp.getBalance(userName, exchangeSpecification.getPassword());
+    String userName = getUser();
+    Balance balance = bitstamp.getBalance(userName, getPwd());
     AccountInfo accountInfo = new AccountInfo();
     accountInfo.setUsername(userName);
     accountInfo.setWallets(Arrays.asList(
@@ -42,8 +42,26 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
     throw new UnsupportedOperationException("Funds withdrawal not yet implemented.");
   }
 
+  /**
+   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return
+   * the same address).
+   *
+   * @param description must be null
+   * @param notificationUrl must be null
+   */
   @Override
   public String requestBitcoinDepositAddress(String description, String notificationUrl) {
-    throw new UnsupportedOperationException("Deposit address request not yet implemented.");
+    if (description != null || notificationUrl != null) {
+      throw new IllegalArgumentException("Description and notification URL are not supported.");
+    }
+    return bitstamp.getBitcoinDepositAddress(getUser(), getPwd());
+  }
+
+  private String getPwd() {
+    return exchangeSpecification.getPassword();
+  }
+
+  private String getUser() {
+    return exchangeSpecification.getUserName();
   }
 }

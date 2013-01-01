@@ -26,5 +26,7 @@ public class BitstampAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
+    String depositAddress = accountService.requestBitcoinDepositAddress(null, null);
+    System.out.println("Deposit address: " + depositAddress);
   }
 }
