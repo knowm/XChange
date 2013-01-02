@@ -33,26 +33,11 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.9.9</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>${version.resteasy-jaxrs}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.scannotation</groupId>
-					<artifactId>scannotation</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-client</artifactId>
-			<version>${version.resteasy-jaxrs}</version>
-		</dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+      <version>2.6.4</version>
+    </dependency>
 
 	</dependencies>
 
