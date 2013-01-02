@@ -40,6 +40,22 @@ public class QueryStringBuilder {
     return this;
   }
 
+  public static QueryStringBuilder of() {
+    return new QueryStringBuilder();
+  }
+
+  public static QueryStringBuilder of(String param, Object value) {
+    return new QueryStringBuilder().add(param, value);
+  }
+
+  public static QueryStringBuilder of(String p1, Object v1, String p2, Object v2) {
+    return of(p1, v1).add(p2, v2);
+  }
+
+  public static QueryStringBuilder of(String p1, Object v1, String p2, Object v2, String p3, Object v3) {
+    return of(p1, v1, p2, v2).add(p3, v3);
+  }
+
   @Override
   public String toString() {
 

@@ -51,7 +51,7 @@ public class BitStampImpl implements BitStamp {
   @Override
   public Transaction[] getTransactions(@QueryParam("timedelta") long timedeltaSec) {
 
-    return getForJsonObject("transactions", Transaction[].class, new QueryStringBuilder().add("timedelta", timedeltaSec));
+    return getForJsonObject("transactions", Transaction[].class, QueryStringBuilder.of("timedelta", timedeltaSec));
   }
 
   @Override
@@ -129,7 +129,7 @@ public class BitStampImpl implements BitStamp {
 
   private QueryStringBuilder userPass(String user, String password) {
 
-    return new QueryStringBuilder().add("user", user).add("password", password);
+    return QueryStringBuilder.of("user", user, "password", password);
   }
 
 }
