@@ -1,6 +1,6 @@
 package com.xeiam.xchange.bitstamp.api;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * @author Matija Mazi <br/>

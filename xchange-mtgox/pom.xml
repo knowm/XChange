@@ -33,8 +33,6 @@
 			<version>${currentVersion}</version>
 		</dependency>
 
-		<!-- Third party dependencies -->
-
 	</dependencies>
 
 </project>
