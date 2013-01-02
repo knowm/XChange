@@ -254,7 +254,7 @@ class IOConnection implements IOCallback {
   /**
    * Set the socket factory used for SSL connections.
    *
-   * @param socketFactory
+   * @param socketFactory The socket factory
    */
   public static void setDefaultSSLSocketFactory(SSLSocketFactory socketFactory) {
 
@@ -393,7 +393,7 @@ class IOConnection implements IOCallback {
     String _id = message.getId();
     if (_id.equals("")) {
       return null;
-    } else if (_id.endsWith("+") == false) {
+    } else if (!_id.endsWith("+")) {
       _id = _id + "+";
     }
     final String id = _id;
@@ -703,7 +703,7 @@ class IOConnection implements IOCallback {
         try {
           JSONObject obj = null;
           String data = message.getData();
-          if (data.trim().equals("null") == false) {
+          if (!"null".equals(data.trim())) {
             obj = new JSONObject(data);
           }
           try {
@@ -723,7 +723,7 @@ class IOConnection implements IOCallback {
             JSONArray args = event.getJSONArray("args");
             argsArray = new Object[args.length()];
             for (int i = 0; i < args.length(); i++) {
-              if (args.isNull(i) == false) {
+              if (!args.isNull(i)) {
                 argsArray[i] = args.get(i);
               }
             }
