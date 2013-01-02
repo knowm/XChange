@@ -1,3 +1,25 @@
+/**
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.bitstamp.api.model;
 
 /**
@@ -5,64 +27,77 @@ package com.xeiam.xchange.bitstamp.api.model;
  * @created 4/20/12 7:12 PM
  */
 public class Ticker {
-    double last;
-    double high;
-    double low;
-    double volume;
-    double bid;
-    double ask;
 
-    public double getLast() {
-        return last;
-    }
+  double last;
+  double high;
+  double low;
+  double volume;
+  double bid;
+  double ask;
 
-    public void setLast(double last) {
-        this.last = last;
-    }
+  public double getLast() {
 
-    public double getHigh() {
-        return high;
-    }
+    return last;
+  }
 
-    public void setHigh(double high) {
-        this.high = high;
-    }
+  public void setLast(double last) {
 
-    public double getLow() {
-        return low;
-    }
+    this.last = last;
+  }
 
-    public void setLow(double low) {
-        this.low = low;
-    }
+  public double getHigh() {
 
-    public double getVolume() {
-        return volume;
-    }
+    return high;
+  }
 
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
+  public void setHigh(double high) {
 
-    public double getBid() {
-        return bid;
-    }
+    this.high = high;
+  }
 
-    public void setBid(double bid) {
-        this.bid = bid;
-    }
+  public double getLow() {
 
-    public double getAsk() {
-        return ask;
-    }
+    return low;
+  }
 
-    public void setAsk(double ask) {
-        this.ask = ask;
-    }
+  public void setLow(double low) {
 
-    @Override
-    public String toString() {
-        return String.format("Ticker{last=%s, high=%s, low=%s, volume=%s, bid=%s, ask=%s}",
-            last, high, low, volume, bid, ask);
-    }
+    this.low = low;
+  }
+
+  public double getVolume() {
+
+    return volume;
+  }
+
+  public void setVolume(double volume) {
+
+    this.volume = volume;
+  }
+
+  public double getBid() {
+
+    return bid;
+  }
+
+  public void setBid(double bid) {
+
+    this.bid = bid;
+  }
+
+  public double getAsk() {
+
+    return ask;
+  }
+
+  public void setAsk(double ask) {
+
+    this.ask = ask;
+  }
+
+  @Override
+  public String toString() {
+
+    return String.format("Ticker{last=%s, high=%s, low=%s, volume=%s, bid=%s, ask=%s}", last, high, low, volume, bid, ask);
+  }
 }
