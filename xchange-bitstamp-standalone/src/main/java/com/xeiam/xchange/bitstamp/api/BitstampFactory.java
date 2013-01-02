@@ -22,11 +22,9 @@
  */
 package com.xeiam.xchange.bitstamp.api;
 
+import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
+import org.apache.cxf.jaxrs.provider.ProviderFactory;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 /**
  * @author Matija Mazi <br/>
@@ -35,15 +33,11 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
 public class BitstampFactory {
 
   static {
-    ResteasyProviderFactory factory = ResteasyProviderFactory.getInstance();
-    factory.registerProviderInstance(new JacksonJsonProvider());
-    RegisterBuiltin.register(factory);
+    ProviderFactory factory = ProviderFactory.getSharedInstance();
+    factory.registerUserProvider(new JacksonJsonProvider());
   }
 
   public static BitStamp createResteasyEndpoint() {
-
-    ResteasyClient client = new ResteasyClient();
-    ResteasyWebTarget target = client.target("https://www.bitstamp.net/");
-    return target.proxy(BitStamp.class);
+    return JAXRSClientFactory.create("https://www.bitstamp.net/", BitStamp.class);
   }
 }
