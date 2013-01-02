@@ -50,19 +50,9 @@ public class Balance {
     return usdBalance;
   }
 
-  public void setUsdBalance(double usdBalance) {
-
-    this.usdBalance = usdBalance;
-  }
-
   public double getBtcBalance() {
 
     return btcBalance;
-  }
-
-  public void setBtcBalance(double btcBalance) {
-
-    this.btcBalance = btcBalance;
   }
 
   public double getUsdReserved() {
@@ -70,19 +60,9 @@ public class Balance {
     return usdReserved;
   }
 
-  public void setUsdReserved(double usdReserved) {
-
-    this.usdReserved = usdReserved;
-  }
-
   public double getBtcReserved() {
 
     return btcReserved;
-  }
-
-  public void setBtcReserved(double btcReserved) {
-
-    this.btcReserved = btcReserved;
   }
 
   public double getUsdAvailable() {
@@ -90,29 +70,14 @@ public class Balance {
     return usdAvailable;
   }
 
-  public void setUsdAvailable(double usdAvailable) {
-
-    this.usdAvailable = usdAvailable;
-  }
-
   public double getBtcAvailable() {
 
     return btcAvailable;
   }
 
-  public void setBtcAvailable(double btcAvailable) {
-
-    this.btcAvailable = btcAvailable;
-  }
-
   public double getFee() {
 
     return fee;
-  }
-
-  public void setFee(double fee) {
-
-    this.fee = fee;
   }
 
   @Override

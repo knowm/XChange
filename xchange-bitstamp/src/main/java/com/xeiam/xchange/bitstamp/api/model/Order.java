@@ -40,19 +40,9 @@ public class Order {
     return datetime;
   }
 
-  public void setDatetime(String datetime) {
-
-    this.datetime = datetime;
-  }
-
   public int getId() {
 
     return id;
-  }
-
-  public void setId(int id) {
-
-    this.id = id;
   }
 
   public int getType() {
@@ -60,29 +50,14 @@ public class Order {
     return type;
   }
 
-  public void setType(int type) {
-
-    this.type = type;
-  }
-
   public double getPrice() {
 
     return price;
   }
 
-  public void setPrice(double price) {
-
-    this.price = price;
-  }
-
   public double getAmount() {
 
     return amount;
-  }
-
-  public void setAmount(double amount) {
-
-    this.amount = amount;
   }
 
   @Override

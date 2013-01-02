@@ -40,19 +40,9 @@ public class UserTransaction {
     return datetime;
   }
 
-  public void setDatetime(String datetime) {
-
-    this.datetime = datetime;
-  }
-
   public long getId() {
 
     return id;
-  }
-
-  public void setId(long id) {
-
-    this.id = id;
   }
 
   /** (0 - deposit; 1 - withdrawal; 2 - market trade) */
@@ -76,19 +66,9 @@ public class UserTransaction {
     return type == 2;
   }
 
-  public void setType(int type) {
-
-    this.type = type;
-  }
-
   public double getUsd() {
 
     return usd;
-  }
-
-  public void setUsd(double usd) {
-
-    this.usd = usd;
   }
 
   public double getBtc() {
@@ -96,19 +76,9 @@ public class UserTransaction {
     return btc;
   }
 
-  public void setBtc(double btc) {
-
-    this.btc = btc;
-  }
-
   public double getFee() {
 
     return fee;
-  }
-
-  public void setFee(double fee) {
-
-    this.fee = fee;
   }
 
   @Override

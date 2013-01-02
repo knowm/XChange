@@ -41,19 +41,9 @@ public class Transaction implements Serializable {
     return tid;
   }
 
-  public void setTid(int tid) {
-
-    this.tid = tid;
-  }
-
   public double getPrice() {
 
     return price;
-  }
-
-  public void setPrice(double price) {
-
-    this.price = price;
   }
 
   public double getAmount() {
@@ -61,19 +51,9 @@ public class Transaction implements Serializable {
     return amount;
   }
 
-  public void setAmount(double amount) {
-
-    this.amount = amount;
-  }
-
   public long getDate() {
 
     return date;
-  }
-
-  public void setDate(long date) {
-
-    this.date = date;
   }
 
   public Date getTransactionDate() {

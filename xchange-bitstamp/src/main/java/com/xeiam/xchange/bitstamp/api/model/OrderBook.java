@@ -39,20 +39,10 @@ public class OrderBook {
     return bids;
   }
 
-  public void setBids(List<List<Double>> bids) {
-
-    this.bids = bids;
-  }
-
   /** (price, amount) */
   public List<List<Double>> getAsks() {
 
     return asks;
-  }
-
-  public void setAsks(List<List<Double>> asks) {
-
-    this.asks = asks;
   }
 
   @Override

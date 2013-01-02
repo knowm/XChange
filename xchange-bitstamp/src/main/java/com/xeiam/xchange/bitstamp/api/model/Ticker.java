@@ -40,19 +40,9 @@ public class Ticker {
     return last;
   }
 
-  public void setLast(double last) {
-
-    this.last = last;
-  }
-
   public double getHigh() {
 
     return high;
-  }
-
-  public void setHigh(double high) {
-
-    this.high = high;
   }
 
   public double getLow() {
@@ -60,19 +50,9 @@ public class Ticker {
     return low;
   }
 
-  public void setLow(double low) {
-
-    this.low = low;
-  }
-
   public double getVolume() {
 
     return volume;
-  }
-
-  public void setVolume(double volume) {
-
-    this.volume = volume;
   }
 
   public double getBid() {
@@ -80,19 +60,9 @@ public class Ticker {
     return bid;
   }
 
-  public void setBid(double bid) {
-
-    this.bid = bid;
-  }
-
   public double getAsk() {
 
     return ask;
-  }
-
-  public void setAsk(double ask) {
-
-    this.ask = ask;
   }
 
   @Override
