@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.xeiam.xchange</groupId>
+  <artifactId>xchange-bitstamp-standalone</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>Standalone Java API for the Bitstamp Exchange</name>
+  <description>Bitstamp Exchange Standalone API (no dependencies on other XChange modules)</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.resteasy-jaxrs>3.0-beta-1</version.resteasy-jaxrs>
+  </properties>
+
+  <url>http://xeiam.com</url>
+  <inceptionYear>2012</inceptionYear>
+
+  <organization>
+    <name>Xeiam, LLC</name>
+    <url>http://xeiam.com</url>
+  </organization>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-jaxrs</artifactId>
+      <version>1.9.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-jaxrs</artifactId>
+      <version>${version.resteasy-jaxrs}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-client</artifactId>
+      <version>${version.resteasy-jaxrs}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.5.2</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>
