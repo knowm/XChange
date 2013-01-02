@@ -22,11 +22,6 @@
  */
 package com.xeiam.xchange.bitstamp.polling;
 
-import java.util.Arrays;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.api.BitStamp;
 import com.xeiam.xchange.bitstamp.api.model.Balance;
@@ -34,6 +29,10 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
+import java.util.Arrays;
 
 /**
  * @author Matija Mazi <br/>
@@ -56,9 +55,10 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
     Balance balance = bitstamp.getBalance(userName, getPwd());
     AccountInfo accountInfo = new AccountInfo();
     accountInfo.setUsername(userName);
-    accountInfo.setWallets(Arrays.asList(new Wallet("USD", BigMoney.of(CurrencyUnit.USD, balance.getUsdBalance()))
-    // new Wallet("BTC", BigMoney.of(CurrencyUnit.of(Currency.getInstance("BTC")), balance.getBtcBalance()))
-        ));
+    accountInfo.setWallets(Arrays.asList(
+        new Wallet("USD", BigMoney.of(CurrencyUnit.USD, balance.getUsdBalance())),
+        new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), balance.getBtcBalance()))
+    ));
     return accountInfo;
   }
 
