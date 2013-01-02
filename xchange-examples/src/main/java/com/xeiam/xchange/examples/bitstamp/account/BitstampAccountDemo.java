@@ -8,8 +8,14 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
- * @author Matija Mazi <br/>
- * @created 1/1/13 6:53 PM
+ * <p> Example showing the following: </p>
+ * <ul>
+ * <li>Connect to Bitstamp exchange with authentication</li>
+ * <li>View account balance</li>
+ * <li>Get the bitcoin deposit address</li>
+ * </ul>
+ *
+ * <p>Provide the username and password as the first two program arguments.</p>
  */
 public class BitstampAccountDemo {
   public static void main(String[] args) {
