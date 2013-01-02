@@ -7,6 +7,7 @@ package com.xeiam.xchange.bitstamp.api.model;
 public class Order {
     private int id;
     private String datetime;
+    /** 0 - buy (bid); 1 - sell (ask) */
     private int type;
     private double price;
     private double amount;
