@@ -11,7 +11,7 @@
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>${currentVersion}</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
