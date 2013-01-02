@@ -41,8 +41,6 @@ public class VirtExUtils {
 
   );
 
-  public static final int REFRESH_RATE = 10; // [seconds]
-
   /**
    * Converts a currency and long price into a BigMoney Object
    * 
@@ -50,7 +48,7 @@ public class VirtExUtils {
    * @param price
    * @return
    */
-  public static BigMoney getPrice(String currency, float price) {
+  public static BigMoney getPrice(String currency, double price) {
 
     return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
   }

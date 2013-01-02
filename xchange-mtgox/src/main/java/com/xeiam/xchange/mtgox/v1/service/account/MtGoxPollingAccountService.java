@@ -1,11 +1,16 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
@@ -57,6 +62,32 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds() {
 
-    throw new NotAvailableFromExchangeException();
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String requestBitcoinDepositAddress(String description, String notificationUrl) {
+
+    try {
+
+      // Build request
+      String url = apiBaseURI + "generic/bitcoin/address?raw";
+      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+      if (description != null) {
+        postBody += "&description=" + URLEncoder.encode(description, "UTF-8");
+      }
+      if (notificationUrl != null) {
+        postBody += "&ipn=" + URLEncoder.encode(notificationUrl, "UTF-8");
+      }
+
+      // Request data
+      MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = httpTemplate.postForJsonObject(url, MtGoxBitcoinDepositAddress.class, postBody, mapper,
+          MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+
+      return mtGoxBitcoinDepositAddress.getAddres();
+
+    } catch (UnsupportedEncodingException e) {
+      throw new ExchangeException("Problem generating HTTP request  (Unsupported Encoding)", e);
+    }
   }
 }

@@ -24,10 +24,8 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 import java.util.HashMap;
 import java.util.List;
 
-import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.PacingViolationException;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -49,15 +47,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
-
-  /**
-   * time stamps used to pace API calls
-   */
-  private long tickerRequestTimeStamp = 0L;
-  private long orderBookRequestTimeStamp = 0L;
-  private long fullOrderBookRequestTimeStamp = 0L;
-  private long tradesRequestTimeStamp = 0L;
+public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -77,13 +67,6 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
     verify(tradableIdentifier, currency);
 
-    // check for pacing violation
-    if (System.currentTimeMillis() < tickerRequestTimeStamp + getRefreshRate()) {
-      tickerRequestTimeStamp = System.currentTimeMillis();
-      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    }
-    tickerRequestTimeStamp = System.currentTimeMillis();
-
     // Request data
     MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
 
@@ -95,13 +78,6 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
-
-    // Check for pacing violation
-    if (System.currentTimeMillis() < orderBookRequestTimeStamp + getRefreshRate()) {
-      orderBookRequestTimeStamp = System.currentTimeMillis();
-      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    }
-    orderBookRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
     MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
@@ -118,13 +94,6 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
     verify(tradableIdentifier, currency);
 
-    // check for pacing violation
-    if (System.currentTimeMillis() < fullOrderBookRequestTimeStamp + getRefreshRate()) {
-      fullOrderBookRequestTimeStamp = System.currentTimeMillis();
-      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    }
-    fullOrderBookRequestTimeStamp = System.currentTimeMillis();
-
     // Request data
     MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
 
@@ -137,14 +106,6 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
-
-    verify(tradableIdentifier, currency);
-    // Check for pacing violation
-    if (System.currentTimeMillis() < tradesRequestTimeStamp + getRefreshRate()) {
-      tradesRequestTimeStamp = System.currentTimeMillis();
-      throw new PacingViolationException("MtGox caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    }
-    tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
     MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
@@ -164,12 +125,6 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     Assert.notNull(currency, "currency cannot be null");
     Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
-  }
-
-  @Override
-  public int getRefreshRate() {
-
-    return MtGoxUtils.REFRESH_RATE;
   }
 
   @Override

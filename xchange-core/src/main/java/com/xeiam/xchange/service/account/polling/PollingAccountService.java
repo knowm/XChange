@@ -35,4 +35,11 @@ public interface PollingAccountService {
 
   public String withdrawFunds();
 
+  /**
+   * @param description
+   * @param notificationUrl
+   * @return a bitcoin address
+   */
+  public String requestBitcoinDepositAddress(String description, String notificationUrl);
+
 }

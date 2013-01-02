@@ -62,6 +62,12 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_SEK = new CurrencyPair("BTC", "SEK");
   public static final CurrencyPair BTC_SGD = new CurrencyPair("BTC", "SGD");
   public static final CurrencyPair BTC_THB = new CurrencyPair("BTC", "THB");
+  
+  public static final CurrencyPair BTC_RUR = new CurrencyPair("BTC", "RUR");
+  public static final CurrencyPair LTC_BTC = new CurrencyPair("LTC", "BTC");
+  public static final CurrencyPair LTC_RUR = new CurrencyPair("LTC", "RUR");
+  public static final CurrencyPair NMC_BTC = new CurrencyPair("NMC", "BTC");
+  public static final CurrencyPair USD_RUR = new CurrencyPair("USD", "RUR");
 
   public final String baseCurrency;
   public final String counterCurrency;

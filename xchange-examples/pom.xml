@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>${currentVersion}</version>
+		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
 	<!-- This version is tied to the version of the parent -->
-	<version>${currentVersion}</version>
+	<version>1.3.0-SNAPSHOT</version>
 
 	<name>XChange Examples</name>
 	<description>Provides a set of examples that demonstrate how to use XChange in client applications</description>
@@ -31,19 +31,37 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>${currentVersion}</version>
+			<version>1.3.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange MtGox exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-mtgox</artifactId>
-			<version>${currentVersion}</version>
+			<version>1.3.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange VirtEx exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-cavirtex</artifactId>
-			<version>${currentVersion}</version>
+			<version>1.3.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange Open Exchange Rates exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-openexchangerates</artifactId>
+			<version>1.3.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange BTC-E exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-btce</artifactId>
+			<version>1.3.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange Bitstamp exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bitstamp</artifactId>
+			<version>1.3.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

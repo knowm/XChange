@@ -82,7 +82,7 @@ public class VirtExAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     VirtExTrade[] VirtExTrades = mapper.readValue(is, VirtExTrade[].class);
 
-    Trades trades = VirtExAdapters.adaptTrades(VirtExTrades);
+    Trades trades = VirtExAdapters.adaptTrades(VirtExTrades, "CAD", "BTC");
     // System.out.println(trades.getTrades().size());
     assertTrue("Trades size should be 558", trades.getTrades().size() == 558);
 
@@ -93,7 +93,7 @@ public class VirtExAdapterTest {
     assertTrue("tradableAmount should be 13.000000000", trades.getTrades().get(0).getTradableAmount().doubleValue() == 13.000000000);
     // assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
     // assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
-    assertEquals("timestamp incorrect", "2012-09-26T15:23:44.000Z", trades.getTrades().get(0).getTimestamp().toString());
+    assertEquals("timestamp incorrect", "2012-09-26T15:23:19.000Z", trades.getTrades().get(0).getTimestamp().toString());
   }
 
   @Test
@@ -106,7 +106,7 @@ public class VirtExAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     VirtExTicker VirtExTicker = mapper.readValue(is, VirtExTicker.class);
 
-    Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker);
+    Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker, "CAD", "BTC");
     System.out.println(ticker.toString());
 
     assertEquals("last should be CAD 12.32900", ticker.getLast().toString(), "CAD 12.329");

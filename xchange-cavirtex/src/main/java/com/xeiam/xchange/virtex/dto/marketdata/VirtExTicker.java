@@ -35,9 +35,6 @@ public final class VirtExTicker {
   public final double low;
   public final double volume;
 
-  // public double bid; //Value does not exist on VirtEx Ticker API
-  // public double ask; //Value does not exist on VirtEx Ticker API
-
   /**
    * Constructor
    * 
