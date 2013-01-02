@@ -7,80 +7,96 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @created 4/20/12 7:30 PM
  */
 public class Balance {
-    @JsonProperty("usd_balance")
-    private double usdBalance;
-    @JsonProperty("btc_balance")
-    private double btcBalance;
-    @JsonProperty("usd_reserved")
-    private double usdReserved;
-    @JsonProperty("btc_reserved")
-    private double btcReserved;
-    @JsonProperty("usd_available")
-    private double usdAvailable;
-    @JsonProperty("btc_available")
-    private double btcAvailable;
 
-    private double fee;
+  @JsonProperty("usd_balance")
+  private double usdBalance;
+  @JsonProperty("btc_balance")
+  private double btcBalance;
+  @JsonProperty("usd_reserved")
+  private double usdReserved;
+  @JsonProperty("btc_reserved")
+  private double btcReserved;
+  @JsonProperty("usd_available")
+  private double usdAvailable;
+  @JsonProperty("btc_available")
+  private double btcAvailable;
 
-    public double getUsdBalance() {
-        return usdBalance;
-    }
+  private double fee;
 
-    public void setUsdBalance(double usdBalance) {
-        this.usdBalance = usdBalance;
-    }
+  public double getUsdBalance() {
 
-    public double getBtcBalance() {
-        return btcBalance;
-    }
+    return usdBalance;
+  }
 
-    public void setBtcBalance(double btcBalance) {
-        this.btcBalance = btcBalance;
-    }
+  public void setUsdBalance(double usdBalance) {
 
-    public double getUsdReserved() {
-        return usdReserved;
-    }
+    this.usdBalance = usdBalance;
+  }
 
-    public void setUsdReserved(double usdReserved) {
-        this.usdReserved = usdReserved;
-    }
+  public double getBtcBalance() {
 
-    public double getBtcReserved() {
-        return btcReserved;
-    }
+    return btcBalance;
+  }
 
-    public void setBtcReserved(double btcReserved) {
-        this.btcReserved = btcReserved;
-    }
+  public void setBtcBalance(double btcBalance) {
 
-    public double getUsdAvailable() {
-        return usdAvailable;
-    }
+    this.btcBalance = btcBalance;
+  }
 
-    public void setUsdAvailable(double usdAvailable) {
-        this.usdAvailable = usdAvailable;
-    }
+  public double getUsdReserved() {
 
-    public double getBtcAvailable() {
-        return btcAvailable;
-    }
+    return usdReserved;
+  }
 
-    public void setBtcAvailable(double btcAvailable) {
-        this.btcAvailable = btcAvailable;
-    }
+  public void setUsdReserved(double usdReserved) {
 
-    public double getFee() {
-        return fee;
-    }
+    this.usdReserved = usdReserved;
+  }
 
-    public void setFee(double fee) {
-        this.fee = fee;
-    }
+  public double getBtcReserved() {
 
-    @Override
-    public String toString() {
-        return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}",
-            usdBalance, btcBalance, usdReserved, btcReserved, usdAvailable, btcAvailable, fee);
-    }
+    return btcReserved;
+  }
+
+  public void setBtcReserved(double btcReserved) {
+
+    this.btcReserved = btcReserved;
+  }
+
+  public double getUsdAvailable() {
+
+    return usdAvailable;
+  }
+
+  public void setUsdAvailable(double usdAvailable) {
+
+    this.usdAvailable = usdAvailable;
+  }
+
+  public double getBtcAvailable() {
+
+    return btcAvailable;
+  }
+
+  public void setBtcAvailable(double btcAvailable) {
+
+    this.btcAvailable = btcAvailable;
+  }
+
+  public double getFee() {
+
+    return fee;
+  }
+
+  public void setFee(double fee) {
+
+    this.fee = fee;
+  }
+
+  @Override
+  public String toString() {
+
+    return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}", usdBalance, btcBalance, usdReserved, btcReserved, usdAvailable, btcAvailable,
+        fee);
+  }
 }

@@ -11,15 +11,17 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
  * @created 12/19/12 7:45 AM
  */
 public class BitstampFactory {
-    static {
-        ResteasyProviderFactory factory = ResteasyProviderFactory.getInstance();
-        factory.registerProviderInstance(new JacksonJsonProvider());
-        RegisterBuiltin.register(factory);
-    }
 
-    public static BitStamp createResteasyEndpoint() {
-        ResteasyClient client = new ResteasyClient();
-        ResteasyWebTarget target = client.target("https://www.bitstamp.net/");
-        return target.proxy(BitStamp.class);
-    }
+  static {
+    ResteasyProviderFactory factory = ResteasyProviderFactory.getInstance();
+    factory.registerProviderInstance(new JacksonJsonProvider());
+    RegisterBuiltin.register(factory);
+  }
+
+  public static BitStamp createResteasyEndpoint() {
+
+    ResteasyClient client = new ResteasyClient();
+    ResteasyWebTarget target = client.target("https://www.bitstamp.net/");
+    return target.proxy(BitStamp.class);
+  }
 }

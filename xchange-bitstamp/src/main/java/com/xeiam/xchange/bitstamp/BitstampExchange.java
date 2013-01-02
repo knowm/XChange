@@ -14,8 +14,10 @@ import com.xeiam.xchange.bitstamp.polling.BitstampPollingTradeService;
  * @created 12/30/12 9:36 PM
  */
 public class BitstampExchange extends BaseExchange implements Exchange {
+
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
+
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setUri("https://www.bitstamp.net");
     exchangeSpecification.setVersion("");
@@ -26,6 +28,7 @@ public class BitstampExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }

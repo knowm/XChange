@@ -7,10 +7,11 @@ import org.testng.annotations.Test;
  */
 public class BitStampTest {
 
-    @Test
-    public void testBsApi() throws Exception {
-        BitStamp bitStamp = BitstampFactory.createResteasyEndpoint();
-        System.out.println(bitStamp.getTicker());
-        System.out.println(bitStamp.getOrderBook());
-    }
+  @Test
+  public void testBsApi() throws Exception {
+
+    BitStamp bitStamp = BitstampFactory.createResteasyEndpoint();
+    System.out.println(bitStamp.getTicker());
+    System.out.println(bitStamp.getOrderBook());
+  }
 }
