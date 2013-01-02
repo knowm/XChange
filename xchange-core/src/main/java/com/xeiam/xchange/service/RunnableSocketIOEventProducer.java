@@ -21,16 +21,14 @@
  */
 package com.xeiam.xchange.service;
 
-import java.util.concurrent.BlockingQueue;
-
+import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
+import com.xeiam.xchange.streaming.socketio.IOCallback;
+import com.xeiam.xchange.streaming.socketio.SocketIOException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
-import com.xeiam.xchange.streaming.socketio.IOCallback;
-import com.xeiam.xchange.streaming.socketio.SocketIO;
-import com.xeiam.xchange.streaming.socketio.SocketIOException;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -38,6 +36,7 @@ import com.xeiam.xchange.streaming.socketio.SocketIOException;
  * </p>
  * <ul>
  * <li>Raw exchange data from the upstream server</li>
+ * <li>Provision of event type to allow consumers to handle messages efficiently</li>
  * </ul>
  */
 public class RunnableSocketIOEventProducer implements RunnableExchangeEventProducer, IOCallback {
@@ -45,81 +44,50 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   private final Logger log = LoggerFactory.getLogger(RunnableSocketIOEventProducer.class);
 
   private final BlockingQueue<ExchangeEvent> queue;
-  private final SocketIO socketIO;
 
   /**
    * Constructor
-   * 
-   * @param socket The underlying socketio to use
+   *
    * @param queue The exchange event queue for the producer to work against
    */
-  RunnableSocketIOEventProducer(SocketIO socketClient, BlockingQueue<ExchangeEvent> queue) {
-
+  RunnableSocketIOEventProducer(BlockingQueue<ExchangeEvent> queue) {
     this.queue = queue;
-    this.socketIO = socketClient;
   }
 
   @Override
-  public void run() {
-
-  }
+  public void run() {}
 
   @Override
   public void onConnect() {
 
     log.debug("onConnect");
 
-    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(
+      ExchangeEventType.CONNECT,
+      "connected");
 
-      @Override
-      public byte[] getRawData() {
-
-        String message = "{\"message\":\"connected\"}";
-        return message.getBytes();
-      }
-    };
-    try {
-      queue.put(exchangeEvent);
-    } catch (InterruptedException e) {
-      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
-    }
+    addToQueue(exchangeEvent);
 
   }
 
   @Override
   public void onMessage(final String data, IOAcknowledge ack) {
 
-    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new DefaultExchangeEvent(
+      ExchangeEventType.MESSAGE,
+      data.getBytes());
 
-      @Override
-      public byte[] getRawData() {
-
-        return data.getBytes();
-      }
-    };
-    try {
-      queue.put(exchangeEvent);
-    } catch (InterruptedException e) {
-      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
-    }
+    addToQueue(exchangeEvent);
   }
 
   @Override
   public void onMessage(final JSONObject json, IOAcknowledge ack) {
 
-    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new DefaultExchangeEvent(
+      ExchangeEventType.JSON_MESSAGE,
+      json.toString().getBytes());
 
-      @Override
-      public byte[] getRawData() {
-
-        return json.toString().getBytes();
-      }
-    };
-    try {
-      queue.put(exchangeEvent);
-    } catch (InterruptedException e) {
-      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
-    }
+    addToQueue(exchangeEvent);
 
   }
 
@@ -128,20 +96,11 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
 
     log.debug("onDisconnect");
 
-    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(
+      ExchangeEventType.DISCONNECT,
+      "disconnected");
 
-      @Override
-      public byte[] getRawData() {
-
-        String message = "{\"message\":\"disconnected\"}";
-        return message.getBytes();
-      }
-    };
-    try {
-      queue.put(exchangeEvent);
-    } catch (InterruptedException e) {
-      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
-    }
+    addToQueue(exchangeEvent);
 
   }
 
@@ -150,44 +109,32 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
 
     log.debug("on: " + event);
 
-    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(
+      ExchangeEventType.EVENT,
+      event);
 
-      @Override
-      public byte[] getRawData() {
-
-        String message = "{\"message\":\"" + event + "\"}";
-        return message.getBytes();
-      }
-    };
-    try {
-      queue.put(exchangeEvent);
-    } catch (InterruptedException e) {
-      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
-    }
+    addToQueue(exchangeEvent);
 
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
 
-    log.error("onError: " + socketIOException.getMessage());
+    log.error("onError: {}", socketIOException.getMessage(),socketIOException);
 
-    ExchangeEvent exchangeEvent = new ExchangeEvent() {
+    ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(
+      ExchangeEventType.ERROR,
+      socketIOException.getMessage());
 
-      @Override
-      public byte[] getRawData() {
+    addToQueue(exchangeEvent);
 
-        String message = "{\"message\":\"SocketIOException\"}";
-        return message.getBytes();
-      }
-    };
+  }
+
+  private void addToQueue(ExchangeEvent exchangeEvent) {
     try {
       queue.put(exchangeEvent);
     } catch (InterruptedException e) {
-      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!");
+      log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!",e);
     }
-
-    // once this occurs, the connection is not usable anymore.
-
   }
 }

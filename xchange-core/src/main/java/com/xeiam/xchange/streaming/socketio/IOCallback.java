@@ -25,47 +25,47 @@ package com.xeiam.xchange.streaming.socketio;
 import org.json.JSONObject;
 
 /**
- * The Interface IOCallback. A callback interface to SocketIO
+ * A callback interface to SocketIO
  */
 public interface IOCallback {
 
   /**
-   * On disconnect. Called when the socket disconnects and there are no further attempts to reconnect
+   * Called when the socket disconnects and there are no further attempts to reconnect
    */
   void onDisconnect();
 
   /**
-   * On connect. Called when the socket becomes ready so it is now able to receive data
+   * Called when the socket becomes ready so it is now able to receive data
    */
   void onConnect();
 
   /**
-   * On message. Called when the server sends String data.
+   * Called when the server sends String data
    * 
-   * @param data the data.
-   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
+   * @param data the data
+   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code>
    */
   void onMessage(String data, IOAcknowledge ack);
 
   /**
-   * On message. Called when the server sends JSON data.
+   * Called when the server sends JSON data.
    * 
-   * @param json JSON object sent by server.
-   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
+   * @param json JSON object sent by server
+   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code>
    */
   void onMessage(JSONObject json, IOAcknowledge ack);
 
   /**
-   * On [Event]. Called when server emits an event.
+   * Called when server emits an event
    * 
    * @param event Name of the event
-   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code> if there's none
+   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code>
    * @param args Arguments of the event
    */
   void on(String event, IOAcknowledge ack, Object... args);
 
   /**
-   * On error. Called when socket is in an undefined state. No reconnect attempts will be made.
+   * Called when socket is in an undefined state. No reconnect attempts will be made.
    * 
    * @param socketIOException the last exception describing the error
    */
