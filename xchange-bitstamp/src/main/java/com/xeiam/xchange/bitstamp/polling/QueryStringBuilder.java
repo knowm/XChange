@@ -20,20 +20,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.api;
+package com.xeiam.xchange.bitstamp.polling;
 
-import org.junit.Test;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Matija Mazi <br/>
+ * @created 1/2/13 5:52 PM
  */
-public class BitStampTest {
+public class QueryStringBuilder {
+  private Map<String, Object> data = new LinkedHashMap<String, Object>();
 
-  @Test
-  public void testBsApi() throws Exception {
+  public QueryStringBuilder add(String param, Object value) {
 
-    BitStamp bitStamp = BitstampFactory.createResteasyEndpoint();
-    System.out.println(bitStamp.getTicker());
-    System.out.println(bitStamp.getOrderBook());
+    data.put(param, value);
+    return this;
+  }
+
+  @Override
+  public String toString() {
+
+    return toString(false);
+  }
+
+  public String toString(boolean encode) {
+    StringBuilder b = new StringBuilder();
+    for (String param : data.keySet()) {
+      if (b.length() > 0) {
+        b.append('&');
+      }
+        b.append(param).append('=').append(encode(data.get(param), encode));
+    }
+    return b.toString();
+  }
+
+  private String encode(Object data, boolean encode)  {
+    try {
+      return encode ? URLEncoder.encode(data.toString(), "UTF-8") : data.toString();
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Illegal encoding, fix the code.", e); // should not happen
+    }
   }
 }

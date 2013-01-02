@@ -42,10 +42,10 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
   private BitStamp bitstamp;
 
-  public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification, BitStamp bitstampEndpoint) {
+  public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    bitstamp = bitstampEndpoint;
+    this.bitstamp = new BitStampImpl(httpTemplate, exchangeSpecification, mapper);
   }
 
   @Override

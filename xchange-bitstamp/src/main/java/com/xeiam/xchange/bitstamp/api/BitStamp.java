@@ -22,21 +22,9 @@
  */
 package com.xeiam.xchange.bitstamp.api;
 
-import java.util.List;
+import com.xeiam.xchange.bitstamp.api.model.*;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
-import com.xeiam.xchange.bitstamp.api.model.Balance;
-import com.xeiam.xchange.bitstamp.api.model.Order;
-import com.xeiam.xchange.bitstamp.api.model.OrderBook;
-import com.xeiam.xchange.bitstamp.api.model.Ticker;
-import com.xeiam.xchange.bitstamp.api.model.Transaction;
-import com.xeiam.xchange.bitstamp.api.model.UserTransaction;
+import javax.ws.rs.*;
 
 /**
  * @author Matija Mazi <br/>
@@ -65,12 +53,12 @@ public interface BitStamp {
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public List<Transaction> getTransactions();
+  public Transaction[] getTransactions();
 
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public List<Transaction> getTransactions(@QueryParam("timedelta") long timedeltaSec);
+  public Transaction[] getTransactions(@QueryParam("timedelta") long timedeltaSec);
 
   /** @return true if order has been found and canceled. */
   @POST
@@ -86,17 +74,17 @@ public interface BitStamp {
   @POST
   @Path("user_transactions/")
   @Produces("application/json")
-  public List<UserTransaction> getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @QueryParam("timedelta") long timedeltaSec);
+  public UserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @QueryParam("timedelta") long timedeltaSec);
 
   @POST
   @Path("user_transactions/")
   @Produces("application/json")
-  public List<UserTransaction> getUserTransactions(@FormParam("user") String user, @FormParam("password") String password);
+  public UserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password);
 
   @POST
   @Path("open_orders/")
   @Produces("application/json")
-  public List<Order> getOpenOrders(@FormParam("user") String user, @FormParam("password") String password);
+  public Order[] getOpenOrders(@FormParam("user") String user, @FormParam("password") String password);
 
   /** buy limit order */
   @POST

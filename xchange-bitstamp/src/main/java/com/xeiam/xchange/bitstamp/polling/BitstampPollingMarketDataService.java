@@ -22,29 +22,24 @@
  */
 package com.xeiam.xchange.bitstamp.polling;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.joda.time.DateTime;
-
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.api.BitStamp;
 import com.xeiam.xchange.bitstamp.api.model.Transaction;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.TickerBuilder;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.*;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.joda.time.DateTime;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Matija Mazi <br/>
@@ -57,10 +52,10 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   private static final CurrencyUnit BTC = CurrencyUnit.of("BTC");
   private static final CurrencyUnit USD = CurrencyUnit.of("USD");
 
-  public BitstampPollingMarketDataService(ExchangeSpecification exchangeSpecification, BitStamp bitstampEndpoint) {
+  public BitstampPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitStamp = bitstampEndpoint;
+    this.bitStamp = new BitStampImpl(httpTemplate, exchangeSpecification, mapper);
   }
 
   @Override
@@ -112,7 +107,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
 
-    List<Transaction> transactions = bitStamp.getTransactions(24 * 3600); // 24 hours
+    Transaction[] transactions = bitStamp.getTransactions(24 * 3600); // 24 hours
     List<Trade> trades = new ArrayList<Trade>();
     for (Transaction tx : transactions) {
       trades.add(new Trade(null, new BigDecimal(tx.getAmount()), "BTC", "USD", BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), new DateTime(tx.getTransactionDate())));
