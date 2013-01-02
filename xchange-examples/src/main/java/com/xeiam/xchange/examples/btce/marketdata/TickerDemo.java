@@ -41,7 +41,7 @@ public class TickerDemo {
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    Ticker ticker = marketDataService.getTicker(Currencies.LTC, Currencies.RUR);
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
 
@@ -50,6 +50,7 @@ public class TickerDemo {
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
     System.out.println("Low: " + ticker.getLow().toString());
+    System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
 
   }
 

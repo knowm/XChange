@@ -28,7 +28,6 @@ import java.util.List;
 import org.joda.money.BigMoney;
 import org.joda.time.DateTime;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -55,12 +54,11 @@ public class BTCEAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(double amount, double price, String tradableIdentifier, String currency, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal tradeableAmount = new BigDecimal(amount);
-    String tradableIdentifier = Currencies.BTC;
     String transactionCurrency = currency;
     BigMoney limitPrice;
     limitPrice = MoneyUtils.parseFiat(currency + " " + price);
@@ -80,7 +78,7 @@ public class BTCEAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<double[]> BTCEOrders, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<double[]> BTCEOrders, String tradableIdentifier, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
@@ -88,9 +86,9 @@ public class BTCEAdapters {
       // Bid orderbook is reversed order. Insert at index 0 instead of
       // appending
       if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(BTCEOrder[1], BTCEOrder[0], currency, orderType, id));
+        limitOrders.add(0, adaptOrder(BTCEOrder[1], BTCEOrder[0], tradableIdentifier, currency, orderType, id));
       } else {
-        limitOrders.add(adaptOrder(BTCEOrder[1], BTCEOrder[0], currency, orderType, id));
+        limitOrders.add(adaptOrder(BTCEOrder[1], BTCEOrder[0], tradableIdentifier, currency, orderType, id));
       }
     }
 
@@ -131,10 +129,10 @@ public class BTCEAdapters {
     return new Trades(tradesList);
   }
 
-  public static String getPriceString(BigMoney price) {
-
-    return price.getAmount().stripTrailingZeros().toPlainString();
-  }
+  // public static String getPriceString(BigMoney price) {
+  //
+  // return price.getAmount().stripTrailingZeros().toPlainString();
+  // }
 
   /**
    * Adapts a BTCETicker to a Ticker Object
@@ -142,8 +140,8 @@ public class BTCEAdapters {
    * @param BTCETicker
    * @return
    */
-  public static Ticker adaptTicker(BTCETicker BTCETicker, String currency) {
-	  
+  public static Ticker adaptTicker(BTCETicker BTCETicker, String tradableIdentifier, String currency) {
+
     BigMoney last = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLast());
     BigMoney bid = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getSell());
     BigMoney ask = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getBuy());
@@ -151,7 +149,7 @@ public class BTCEAdapters {
     BigMoney low = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLow());
     BigDecimal volume = new BigDecimal(BTCETicker.getTicker().getVol());
 
-    return TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
 }

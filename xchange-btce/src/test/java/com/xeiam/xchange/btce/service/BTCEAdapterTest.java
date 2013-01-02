@@ -59,7 +59,7 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
 
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(BTCEDepth.getAsks(), "USD", "ask", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(BTCEDepth.getAsks(), "BTC", "USD", "ask", "");
     // System.out.println(openorders.size());
     // assertTrue("ASKS size should be 1582", asks.size() == 1582);
 
@@ -90,7 +90,7 @@ public class BTCEAdapterTest {
     assertTrue("price should be 13.07", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 13.07);
     assertTrue("order type should be ASK", trades.getTrades().get(0).getType() == OrderType.ASK);
     assertTrue("tradableAmount should be 1.0", trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.0);
-    // assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
     // assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
     assertEquals("timestamp incorrect", "2012-12-22T08:06:14.000Z", trades.getTrades().get(0).getTimestamp().toString());
   }
@@ -105,12 +105,13 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
 
-    Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "USD");
+    Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "BTC", "USD");
 
     assertEquals("last should be USD 13.07", ticker.getLast().toString(), "USD 13.07");
     assertEquals("low should be USD 13", ticker.getLow().toString(), "USD 13.0");
     assertEquals("high should be USD 13.23", ticker.getHigh().toString(), "USD 13.23");
     assertEquals("volume should be 40418.44988", ticker.getVolume(), new BigDecimal(40418.44988));
+    assertEquals("Tradable Identifier should be BTC", ticker.getTradableIdentifier(), "BTC");
 
   }
 }
