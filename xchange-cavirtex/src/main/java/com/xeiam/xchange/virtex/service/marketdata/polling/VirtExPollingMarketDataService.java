@@ -69,13 +69,12 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     verify(tradableIdentifier, currency);
 
     String url = apiBase + currency + "/ticker.json";
-    // System.out.println(url);
 
     // Request data
     VirtExTicker VirtExTicker = httpTemplate.getForJsonObject(url, VirtExTicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(VirtExTicker);
+    return VirtExAdapters.adaptTicker(VirtExTicker, currency, tradableIdentifier);
   }
 
   @Override
@@ -111,7 +110,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     // Request data
     VirtExTrade[] VirtExTrades = httpTemplate.getForJsonObject(url, VirtExTrade[].class, mapper, new HashMap<String, String>());
 
-    return VirtExAdapters.adaptTrades(VirtExTrades);
+    return VirtExAdapters.adaptTrades(VirtExTrades, currency, tradableIdentifier);
   }
 
   /**

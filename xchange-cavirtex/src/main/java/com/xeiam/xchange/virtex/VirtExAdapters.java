@@ -113,14 +113,14 @@ public class VirtExAdapters {
    * @param virtExTrade A VirtEx trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(VirtExTrade virtExTrade) {
+  public static Trade adaptTrade(VirtExTrade virtExTrade, String currency, String tradableIdentifier) {
 
     OrderType orderType = virtExTrade.equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = new BigDecimal(virtExTrade.getAmount());
-    BigMoney price = VirtExUtils.getPrice("CAD", virtExTrade.getPrice());
+    BigMoney price = VirtExUtils.getPrice(currency, virtExTrade.getPrice());
     DateTime dateTime = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, Currencies.BTC, Currencies.CAD, price, dateTime);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, dateTime);
   }
 
   /**
@@ -129,11 +129,11 @@ public class VirtExAdapters {
    * @param virtexTrades The VirtEx trade data
    * @return The trades
    */
-  public static Trades adaptTrades(VirtExTrade[] virtexTrades) {
+  public static Trades adaptTrades(VirtExTrade[] virtexTrades, String currency, String tradableIdentifier) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
     for (VirtExTrade virtexTrade : virtexTrades) {
-      tradesList.add(adaptTrade(virtexTrade));
+      tradesList.add(adaptTrade(virtexTrade, currency, tradableIdentifier));
     }
     return new Trades(tradesList);
   }
@@ -149,14 +149,14 @@ public class VirtExAdapters {
    * @param virtExTicker
    * @return
    */
-  public static Ticker adaptTicker(VirtExTicker virtExTicker) {
+  public static Ticker adaptTicker(VirtExTicker virtExTicker, String currency, String tradableIdentifier) {
 
-    BigMoney last = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLast());
-    BigMoney high = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getHigh());
-    BigMoney low = MoneyUtils.parseFiat("CAD" + " " + virtExTicker.getLow());
+    BigMoney last = MoneyUtils.parseFiat(currency + " " + virtExTicker.getLast());
+    BigMoney high = MoneyUtils.parseFiat(currency + " " + virtExTicker.getHigh());
+    BigMoney low = MoneyUtils.parseFiat(currency + " " + virtExTicker.getLow());
     BigDecimal volume = new BigDecimal(virtExTicker.getVolume());
 
-    return TickerBuilder.newInstance().withTradableIdentifier("CAD").withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
 }

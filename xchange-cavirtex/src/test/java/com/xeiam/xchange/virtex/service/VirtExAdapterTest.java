@@ -82,7 +82,7 @@ public class VirtExAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     VirtExTrade[] VirtExTrades = mapper.readValue(is, VirtExTrade[].class);
 
-    Trades trades = VirtExAdapters.adaptTrades(VirtExTrades);
+    Trades trades = VirtExAdapters.adaptTrades(VirtExTrades, "CAD", "BTC");
     // System.out.println(trades.getTrades().size());
     assertTrue("Trades size should be 558", trades.getTrades().size() == 558);
 
@@ -106,7 +106,7 @@ public class VirtExAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     VirtExTicker VirtExTicker = mapper.readValue(is, VirtExTicker.class);
 
-    Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker);
+    Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker, "CAD", "BTC");
     System.out.println(ticker.toString());
 
     assertEquals("last should be CAD 12.32900", ticker.getLast().toString(), "CAD 12.329");

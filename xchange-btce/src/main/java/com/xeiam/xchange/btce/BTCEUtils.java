@@ -43,15 +43,15 @@ public class BTCEUtils {
 
   CurrencyPair.EUR_USD,
 
-  CurrencyPair.BTC_RUR,
+  //CurrencyPair.BTC_RUR,
 
   CurrencyPair.LTC_BTC,
 
-  CurrencyPair.LTC_RUR,
+  //CurrencyPair.LTC_RUR,
 
-  CurrencyPair.NMC_BTC,
+  CurrencyPair.NMC_BTC
 
-  CurrencyPair.USD_RUR
+  //CurrencyPair.USD_RUR
 
   );
 
