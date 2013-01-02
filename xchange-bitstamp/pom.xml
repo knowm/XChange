@@ -1,46 +1,46 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.xeiam.xchange</groupId>
-    <artifactId>xchange-parent</artifactId>
-    <version>${currentVersion}</version>
-  </parent>
+	<parent>
+		<groupId>com.xeiam.xchange</groupId>
+		<artifactId>xchange-parent</artifactId>
+		<version>${currentVersion}</version>
+	</parent>
 
-  <artifactId>xchange-bitstamp</artifactId>
-  <!-- This version is tied to the version of the parent -->
-  <version>${currentVersion}</version>
+	<artifactId>xchange-bitstamp</artifactId>
+	<!-- This version is tied to the version of the parent -->
+	<version>${currentVersion}</version>
 
-  <name>Bitstamp Exchange</name>
-  <description>XChange implementations for the Bitstamp Exchange.</description>
+	<name>Bitstamp Exchange</name>
+	<description>XChange implementations for the Bitstamp Exchange.</description>
 
-  <url>http://xeiam.com</url>
-  <inceptionYear>2012</inceptionYear>
+	<url>http://xeiam.com</url>
+	<inceptionYear>2012</inceptionYear>
 
-  <organization>
-    <name>Xeiam, LLC</name>
-    <url>http://xeiam.com</url>
-  </organization>
+	<organization>
+		<name>Xeiam, LLC</name>
+		<url>http://xeiam.com</url>
+	</organization>
 
-  <!-- Parent provides default configuration for dependencies -->
-  <dependencies>
+	<!-- Parent provides default configuration for dependencies -->
+	<dependencies>
 
-    <!-- Project dependencies (version automatically set through parent) -->
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-core</artifactId>
-      <version>${currentVersion}</version>
-    </dependency>
+		<!-- Project dependencies (version automatically set through parent) -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-core</artifactId>
+			<version>${currentVersion}</version>
+		</dependency>
 
-    <!-- Third party dependencies -->
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitstamp-standalone</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
+		<!-- Third party dependencies -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bitstamp-standalone</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 
-  </dependencies>
+	</dependencies>
 
 </project>

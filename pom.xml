@@ -70,8 +70,8 @@
 		<module>xchange-cavirtex</module>
 		<module>xchange-btce</module>
 		<module>xchange-openexchangerates</module>
-    <module>xchange-bitstamp</module>
-    <module>xchange-bitstamp-standalone</module>
+		<module>xchange-bitstamp</module>
+		<module>xchange-bitstamp-standalone</module>
 	</modules>
 
 	<build>
