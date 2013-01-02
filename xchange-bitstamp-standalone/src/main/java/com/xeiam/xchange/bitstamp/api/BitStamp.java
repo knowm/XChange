@@ -79,6 +79,10 @@ public interface BitStamp {
     @Produces("application/json")
     public Order sell(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") double amount, @FormParam("price") double price);
 
-    // todo: bitstamp code handling, send to user, withdrawals, get deposit address
+    @POST
+    @Path("bitcoin_deposit_address/")
+    @Produces("application/json")
+    public String getBitcoinDepositAddress(@FormParam("user") String user, @FormParam("password") String password);
 
+    // todo: bitstamp code handling, send to user, withdrawals
 }
