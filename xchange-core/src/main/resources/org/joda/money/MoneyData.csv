@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Code,Numeric,DecPlaces,CountryCodes
 AED,784,2,AE
 AFN,971,2,AF
@@ -178,4 +179,5 @@ ZAR,710,2,ZA
 ZMK,894,0,ZM
 ZWL,932,2,ZW
 BTC,-1,-1,
+NMC,-1,-1,
 LTC,-1,-1,
