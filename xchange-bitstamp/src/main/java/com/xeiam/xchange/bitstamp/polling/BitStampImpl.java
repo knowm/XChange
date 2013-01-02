@@ -30,21 +30,6 @@ public class BitStampImpl implements BitStamp {
     this.mapper = mapper;
   }
 
-  private String getPwd() {
-
-    return exchangeSpecification.getPassword();
-  }
-
-  private String getUser() {
-
-    return exchangeSpecification.getUserName();
-  }
-
-  private QueryStringBuilder userPass(String user, String password) {
-
-    return new QueryStringBuilder().add("user", user).add("password", password);
-  }
-
   @Override
   public OrderBook getOrderBook() {
 
@@ -140,6 +125,11 @@ public class BitStampImpl implements BitStamp {
   protected  <T> T postForJsonObject(String method, Class<T> returnType, QueryStringBuilder postBody) {
 
     return httpTemplate.postForJsonObject(getUrl(method), returnType, postBody.toString(false), mapper, new HashMap<String, String>());
+  }
+
+  private QueryStringBuilder userPass(String user, String password) {
+
+    return new QueryStringBuilder().add("user", user).add("password", password);
   }
 
 }
