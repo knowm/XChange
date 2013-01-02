@@ -86,7 +86,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public boolean cancelOrder(String orderId) {
 
-    return bitstamp.cancelOrder(getUser(), getPwd(), Integer.parseInt(orderId)).equals("true");
+    return bitstamp.cancelOrder(getUser(), getPwd(), Integer.parseInt(orderId)).equals(true);
   }
 
   private String getPwd() {
