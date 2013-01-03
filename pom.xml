@@ -72,6 +72,7 @@
 		<module>xchange-openexchangerates</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-campbx</module>
+		<module>xchange-bitcoincharts</module>
 	</modules>
 
 	<build>
