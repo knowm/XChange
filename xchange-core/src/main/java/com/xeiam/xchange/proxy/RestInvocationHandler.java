@@ -30,12 +30,18 @@ import javax.ws.rs.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author Matija Mazi <br/>
 */
 public class RestInvocationHandler implements InvocationHandler {
+  @SuppressWarnings("unchecked")
+  private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class);
+
   private final HttpTemplate httpTemplate;
   private final ExchangeSpecification exchangeSpecification;
   private final ObjectMapper mapper;
@@ -54,40 +60,56 @@ public class RestInvocationHandler implements InvocationHandler {
 
     Path path = method.getAnnotation(Path.class);
     Class<?> returnType = method.getReturnType();
-    Params params = new Params();
+    Map<Class<? extends Annotation>, Params> params = createParamsMap();
     Annotation[][] paramAnnotations = method.getParameterAnnotations();
-    boolean useGetMethod = method.isAnnotationPresent(GET.class);
     for (int i = 0; i < paramAnnotations.length; i++) {
       Annotation[] paramAnns = paramAnnotations[i];
-      String paramName = getParamName(paramAnns, useGetMethod);
-      params.add(paramName, args[i]);
+      for (Annotation paramAnn : paramAnns) {
+        String paramName = getParamName(paramAnn);
+        if (paramName != null) {
+          params.get(paramAnn.annotationType()).add(paramName, args[i]);
+        }
+      }
     }
-    if (useGetMethod) {
-      return getForJsonObject(path.value(), returnType, params);
+    if (method.isAnnotationPresent(GET.class)) {
+      return getForJsonObject(path.value(), returnType, params.get(QueryParam.class));
+    } else if (method.isAnnotationPresent(POST.class)) {
+      return postForJsonObject(path.value(), returnType, params.get(FormParam.class));
     } else {
-      if (!method.isAnnotationPresent(POST.class)) {
-        throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
-      }
-      return postForJsonObject(path.value(), returnType, params);
+      throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
     }
   }
 
-  private String getParamName(Annotation[] paramAnns, boolean useGetMethod) {
+  private static String getParamName(Annotation queryParam) {
 
-    Class<? extends Annotation> paramAnnClass = useGetMethod ? QueryParam.class : FormParam.class;
-    Annotation queryParam = findElementOfClass(paramAnns, paramAnnClass);
-    return useGetMethod ? QueryParam.class.cast(queryParam).value() : FormParam.class.cast(queryParam).value();
-  }
-
-  private static <T, U extends T> U findElementOfClass(T[] paramAnns, Class<U> classU) {
-
-    for (T ann : paramAnns) {
-      if (classU.isInstance(ann)) {
-        //noinspection unchecked
-        return (U) ann;
+    for (Class<? extends Annotation> annotationClass : PARAM_ANNOTATION_CLASSES) {
+      String paramName = getValueOrNull(annotationClass, queryParam);
+      if (paramName != null) {
+        return paramName;
       }
     }
-    throw new IllegalArgumentException("Cannot find element of class " + classU);
+    // This is not one of the annotations in PARAM_ANNOTATION_CLASSES.
+    return null;
+  }
+
+  private static <T extends Annotation> String getValueOrNull(Class<T> annotationClass, Annotation ann) {
+    if (!annotationClass.isInstance(ann)) {
+      return null;
+    }
+    try {
+      return (String) ann.getClass().getMethod("value").invoke(ann);
+    } catch (Exception e) {
+      throw new RuntimeException("Annotation " + annotationClass + " has no element 'value'.");
+    }
+  }
+
+  private static Map<Class<? extends Annotation>, Params> createParamsMap() {
+
+    Map<Class<? extends Annotation>, Params> map = new HashMap<Class<? extends Annotation>, Params>();
+    for (Class<? extends Annotation> annotationClass : PARAM_ANNOTATION_CLASSES) {
+      map.put(annotationClass, new Params());
+    }
+    return map;
   }
 
   private String getUrl(String method) {
@@ -96,7 +118,7 @@ public class RestInvocationHandler implements InvocationHandler {
     return String.format("%s/%s/%s", exchangeSpecification.getUri(), intfacePath , method);
   }
 
-  protected <T> T getForJsonObject(String method, Class<T> returnType, Params params) {
+  private <T> T getForJsonObject(String method, Class<T> returnType, Params params) {
 
     String url = getUrl(method);
     if (params != null) {
@@ -106,7 +128,7 @@ public class RestInvocationHandler implements InvocationHandler {
     return httpTemplate.getForJsonObject(url, returnType, mapper, new HashMap<String, String>());
   }
 
-  protected  <T> T postForJsonObject(String method, Class<T> returnType, Params postBody) {
+  private  <T> T postForJsonObject(String method, Class<T> returnType, Params postBody) {
 
     return httpTemplate.postForJsonObject(getUrl(method), returnType, postBody.asFormEncodedPostBody(), mapper, new HashMap<String, String>());
   }
