@@ -41,15 +41,6 @@
 			<version>1.3.0-SNAPSHOT</version>
 		</dependency>
 
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>jsr311-api</artifactId>
-      <version>1.1.1</version>
-      <!-- The jax-rs annotations are not read by Java currently; they serve only as documentation.
-           May be used in the future to automatically create stubs though. -->
-      <scope>provided</scope>
-    </dependency>
-
   </dependencies>
 
 </project>

@@ -28,6 +28,7 @@ import com.xeiam.xchange.bitstamp.api.model.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import org.joda.money.BigMoney;
@@ -51,7 +52,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = new BitStampImpl(httpTemplate, exchangeSpecification, mapper);
+    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, httpTemplate, exchangeSpecification, mapper);
   }
 
   @Override
