@@ -31,28 +31,28 @@ import java.util.Map;
  * @author Matija Mazi <br/>
  * @created 1/2/13 5:52 PM
  */
-public class QueryStringBuilder {
+public class Params {
   private Map<String, Object> data = new LinkedHashMap<String, Object>();
 
-  public QueryStringBuilder add(String param, Object value) {
+  public Params add(String param, Object value) {
 
     data.put(param, value);
     return this;
   }
 
-  public static QueryStringBuilder of() {
-    return new QueryStringBuilder();
+  public static Params of() {
+    return new Params();
   }
 
-  public static QueryStringBuilder of(String param, Object value) {
-    return new QueryStringBuilder().add(param, value);
+  public static Params of(String param, Object value) {
+    return new Params().add(param, value);
   }
 
-  public static QueryStringBuilder of(String p1, Object v1, String p2, Object v2) {
+  public static Params of(String p1, Object v1, String p2, Object v2) {
     return of(p1, v1).add(p2, v2);
   }
 
-  public static QueryStringBuilder of(String p1, Object v1, String p2, Object v2, String p3, Object v3) {
+  public static Params of(String p1, Object v1, String p2, Object v2, String p3, Object v3) {
     return of(p1, v1, p2, v2).add(p3, v3);
   }
 
@@ -62,7 +62,7 @@ public class QueryStringBuilder {
     return toString(false);
   }
 
-  public String toString(boolean encode) {
+  private String toString(boolean encode) {
     StringBuilder b = new StringBuilder();
     for (String param : data.keySet()) {
       if (b.length() > 0) {
@@ -79,5 +79,13 @@ public class QueryStringBuilder {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Illegal encoding, fix the code.", e); // should not happen
     }
+  }
+
+  public String asQueryString() {
+    return toString(true);
+  }
+
+  public String asFormEncodedPostBody() {
+    return toString(false);
   }
 }

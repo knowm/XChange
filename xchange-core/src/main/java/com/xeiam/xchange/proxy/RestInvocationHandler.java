@@ -54,7 +54,7 @@ public class RestInvocationHandler implements InvocationHandler {
 
     Path path = method.getAnnotation(Path.class);
     Class<?> returnType = method.getReturnType();
-    QueryStringBuilder params = new QueryStringBuilder();
+    Params params = new Params();
     Annotation[][] paramAnnotations = method.getParameterAnnotations();
     boolean useGetMethod = method.isAnnotationPresent(GET.class);
     for (int i = 0; i < paramAnnotations.length; i++) {
@@ -96,18 +96,18 @@ public class RestInvocationHandler implements InvocationHandler {
     return String.format("%s/%s/%s", exchangeSpecification.getUri(), intfacePath , method);
   }
 
-  protected <T> T getForJsonObject(String method, Class<T> returnType, QueryStringBuilder params) {
+  protected <T> T getForJsonObject(String method, Class<T> returnType, Params params) {
 
     String url = getUrl(method);
     if (params != null) {
-      url += "?" + params.toString(true);
+      url += "?" + params.asQueryString();
     }
 
     return httpTemplate.getForJsonObject(url, returnType, mapper, new HashMap<String, String>());
   }
 
-  protected  <T> T postForJsonObject(String method, Class<T> returnType, QueryStringBuilder postBody) {
+  protected  <T> T postForJsonObject(String method, Class<T> returnType, Params postBody) {
 
-    return httpTemplate.postForJsonObject(getUrl(method), returnType, postBody.toString(false), mapper, new HashMap<String, String>());
+    return httpTemplate.postForJsonObject(getUrl(method), returnType, postBody.asFormEncodedPostBody(), mapper, new HashMap<String, String>());
   }
 }
