@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.polling;
+package com.xeiam.xchange.proxy;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
