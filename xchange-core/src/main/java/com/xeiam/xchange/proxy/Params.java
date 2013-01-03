@@ -88,4 +88,15 @@ public class Params {
   public String asFormEncodedPostBody() {
     return toString(false);
   }
+
+  public boolean isEmpty() {
+    return data.isEmpty();
+  }
+
+  public String applyToPath(String path) {
+    for (String paramName : data.keySet()) {
+      path = path.replace("{" + paramName + "}", data.get(paramName).toString());
+    }
+    return path;
+  }
 }

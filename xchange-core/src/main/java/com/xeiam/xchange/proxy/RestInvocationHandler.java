@@ -58,13 +58,17 @@ public class RestInvocationHandler implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-    Path path = method.getAnnotation(Path.class);
+    String path = method.getAnnotation(Path.class).value();
     Class<?> returnType = method.getReturnType();
     Map<Class<? extends Annotation>, Params> params = getArgumentMap(method, args);
+    Params pathParams = params.get(PathParam.class);
+    if (!pathParams.isEmpty()) {
+      path = pathParams.applyToPath(path);
+    }
     if (method.isAnnotationPresent(GET.class)) {
-      return getForJsonObject(path.value(), returnType, params.get(QueryParam.class));
+      return getForJsonObject(path, returnType, params.get(QueryParam.class));
     } else if (method.isAnnotationPresent(POST.class)) {
-      return postForJsonObject(path.value(), returnType, params.get(FormParam.class));
+      return postForJsonObject(path, returnType, params.get(FormParam.class));
     } else {
       throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
     }
