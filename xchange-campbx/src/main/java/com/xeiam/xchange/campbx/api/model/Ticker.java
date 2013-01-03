@@ -24,6 +24,8 @@ package com.xeiam.xchange.campbx.api.model;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.math.BigDecimal;
+
 /**
  * @author Matija Mazi <br/>
  *
@@ -33,23 +35,23 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class Ticker {
 
   @JsonProperty("Last Trade")
-  double last;
+  BigDecimal last;
   @JsonProperty("Best Bid")
-  double bid;
+  BigDecimal bid;
   @JsonProperty("Best Ask")
-  double ask;
+  BigDecimal ask;
 
-  public double getLast() {
+  public BigDecimal getLast() {
 
     return last;
   }
 
-  public double getBid() {
+  public BigDecimal getBid() {
 
     return bid;
   }
 
-  public double getAsk() {
+  public BigDecimal getAsk() {
 
     return ask;
   }

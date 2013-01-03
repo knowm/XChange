@@ -91,19 +91,19 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
     return new OrderBook(asks, bids);
   }
 
-  private List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<Double>> orders) {
+  private List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (List<Double> ask : orders) {
+    for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(tradableIdentifier, currency, ask, orderType));
     }
     return limitOrders;
   }
 
-  private LimitOrder createOrder(String tradableIdentifier, String currency, List<Double> priceAndAmount, Order.OrderType orderType) {
+  private LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, new BigDecimal(priceAndAmount.get(1)), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
+    return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
   }
 
   @Override
