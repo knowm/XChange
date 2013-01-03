@@ -40,7 +40,7 @@ import java.util.Map;
 */
 public class RestInvocationHandler implements InvocationHandler {
   @SuppressWarnings("unchecked")
-  private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class);
+  private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class, HeaderParam.class);
 
   private final HttpTemplate httpTemplate;
   private final ExchangeSpecification exchangeSpecification;
@@ -62,13 +62,11 @@ public class RestInvocationHandler implements InvocationHandler {
     Class<?> returnType = method.getReturnType();
     Map<Class<? extends Annotation>, Params> params = getArgumentMap(method, args);
     Params pathParams = params.get(PathParam.class);
-    if (!pathParams.isEmpty()) {
-      path = pathParams.applyToPath(path);
-    }
+    path = pathParams.applyToPath(path);
     if (method.isAnnotationPresent(GET.class)) {
-      return getForJsonObject(path, returnType, params.get(QueryParam.class));
+      return getForJsonObject(path, returnType, params);
     } else if (method.isAnnotationPresent(POST.class)) {
-      return postForJsonObject(path, returnType, params.get(FormParam.class));
+      return postForJsonObject(path, returnType, params);
     } else {
       throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
     }
@@ -124,21 +122,25 @@ public class RestInvocationHandler implements InvocationHandler {
   private String getUrl(String method) {
 
     // todo: make more robust in terms of path separator ('/') handling
-    return String.format("%s/%s/%s", exchangeSpecification.getUri(), intfacePath , method);
+    return String.format("%s/%s/%s", exchangeSpecification.getUri(), intfacePath, method);
   }
 
-  private <T> T getForJsonObject(String method, Class<T> returnType, Params params) {
+  private <T> T getForJsonObject(String methodPath, Class<T> returnType, Map<Class<? extends Annotation>, Params> params) {
 
-    String url = getUrl(method);
-    if (params != null) {
-      url += "?" + params.asQueryString();
+    String url = getUrl(methodPath);
+    Params queryParams = params.get(QueryParam.class);
+    if (queryParams != null) {
+      url += "?" + queryParams.asQueryString();
     }
 
     return httpTemplate.getForJsonObject(url, returnType, mapper, new HashMap<String, String>());
   }
 
-  private  <T> T postForJsonObject(String method, Class<T> returnType, Params postBody) {
+  private <T> T postForJsonObject(String methodPath, Class<T> returnType, Map<Class<? extends Annotation>, Params> params) {
 
-    return httpTemplate.postForJsonObject(getUrl(method), returnType, postBody.asFormEncodedPostBody(), mapper, new HashMap<String, String>());
+    String postBody = params.get(FormParam.class).asFormEncodedPostBody();
+    Map<String, String> asHttpHeaders = params.get(HeaderParam.class).getAsHttpHeaders();
+
+    return httpTemplate.postForJsonObject(getUrl(methodPath), returnType, postBody, mapper, asHttpHeaders);
   }
 }

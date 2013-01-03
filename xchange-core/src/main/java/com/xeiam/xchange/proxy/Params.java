@@ -24,19 +24,19 @@ package com.xeiam.xchange.proxy;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * @author Matija Mazi <br/>
- * @created 1/2/13 5:52 PM
  */
 public class Params {
-  private Map<String, Object> data = new LinkedHashMap<String, Object>();
+  private Map<String, String> data = new LinkedHashMap<String, String>();
 
   public Params add(String param, Object value) {
 
-    data.put(param, value);
+    data.put(param, value.toString());
     return this;
   }
 
@@ -73,9 +73,9 @@ public class Params {
     return b.toString();
   }
 
-  private String encode(Object data, boolean encode)  {
+  private String encode(String data, boolean encode)  {
     try {
-      return encode ? URLEncoder.encode(data.toString(), "UTF-8") : data.toString();
+      return encode ? URLEncoder.encode(data, "UTF-8") : data;
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Illegal encoding, fix the code.", e); // should not happen
     }
@@ -89,14 +89,14 @@ public class Params {
     return toString(false);
   }
 
-  public boolean isEmpty() {
-    return data.isEmpty();
-  }
-
   public String applyToPath(String path) {
     for (String paramName : data.keySet()) {
-      path = path.replace("{" + paramName + "}", data.get(paramName).toString());
+      path = path.replace("{" + paramName + "}", data.get(paramName));
     }
     return path;
+  }
+
+  public Map<String, String> getAsHttpHeaders() {
+    return new HashMap<String, String>(data);
   }
 }
