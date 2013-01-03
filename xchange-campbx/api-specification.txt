@@ -1,0 +1,18 @@
+CampBX Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://campbx.com/api.php
+
+Ticker
+------
+http://CampBX.com/api/xticker.php
+
+Orders
+------
+http://CampBX.com/api/xdepth.php
+
+
