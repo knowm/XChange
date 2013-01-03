@@ -23,6 +23,7 @@
 package com.xeiam.xchange.bitstamp.api.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -33,20 +34,20 @@ public class Transaction implements Serializable {
 
   private long date;
   private int tid;
-  private double price;
-  private double amount;
+  private BigDecimal price;
+  private BigDecimal amount;
 
   public int getTid() {
 
     return tid;
   }
 
-  public double getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }
@@ -61,20 +62,19 @@ public class Transaction implements Serializable {
     return new Date(date * 1000);
   }
 
-  public Double calculateFeeBtc() {
+  public BigDecimal calculateFeeBtc() {
 
-    return roundUp(amount * .5) / 100.;
+    return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));
   }
 
-  private long roundUp(double x) {
-
-    long n = (long) x;
-    return x == n ? n : n + 1;
+  private BigDecimal roundUp(BigDecimal x) {
+    long n = x.longValue();
+    return new BigDecimal(x.equals(new BigDecimal(n)) ? n : n + 1);
   }
 
-  public Double calculateFeeUsd() {
+  public BigDecimal calculateFeeUsd() {
 
-    return calculateFeeBtc() * price;
+    return calculateFeeBtc().multiply(price);
   }
 
   @Override

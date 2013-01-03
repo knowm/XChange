@@ -25,6 +25,7 @@ package com.xeiam.xchange.bitstamp.polling;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.api.BitStamp;
+import com.xeiam.xchange.bitstamp.api.model.BitstampTicker;
 import com.xeiam.xchange.bitstamp.api.model.Transaction;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.*;
@@ -70,9 +71,9 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
     checkArgument(tradableIdentifier.equals(BTC.getCode()));
     checkArgument(currency.equals(USD.getCode()));
-    com.xeiam.xchange.bitstamp.api.model.Ticker tck = bitstamp.getTicker();
+    BitstampTicker tck = bitstamp.getTicker();
     return new TickerBuilder().withAsk(BigMoney.of(USD, tck.getAsk())).withBid(BigMoney.of(USD, tck.getBid())).withHigh(BigMoney.of(USD, tck.getHigh())).withLow(BigMoney.of(USD, tck.getLow()))
-        .withLast(BigMoney.of(USD, tck.getLast())).withVolume(new BigDecimal(tck.getVolume())).build();
+        .withLast(BigMoney.of(USD, tck.getLast())).withVolume(tck.getVolume()).build();
   }
 
   @Override
@@ -90,19 +91,19 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
     return new OrderBook(asks, bids);
   }
 
-  private List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<Double>> orders) {
+  private List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (List<Double> ask : orders) {
+    for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(tradableIdentifier, currency, ask, orderType));
     }
     return limitOrders;
   }
 
-  private LimitOrder createOrder(String tradableIdentifier, String currency, List<Double> priceAndAmount, Order.OrderType orderType) {
+  private LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, new BigDecimal(priceAndAmount.get(1)), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
+    return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
   }
 
   @Override
@@ -111,7 +112,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
     Transaction[] transactions = bitstamp.getTransactions(24 * 3600); // 24 hours
     List<Trade> trades = new ArrayList<Trade>();
     for (Transaction tx : transactions) {
-      trades.add(new Trade(null, new BigDecimal(tx.getAmount()), "BTC", "USD", BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), new DateTime(tx.getTransactionDate())));
+      trades.add(new Trade(null, tx.getAmount(), "BTC", "USD", BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), new DateTime(tx.getTransactionDate())));
     }
     return new Trades(trades);
   }

@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.bitstamp.api.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -30,17 +31,17 @@ import java.util.List;
  */
 public class OrderBook {
 
-  private List<List<Double>> bids;
-  private List<List<Double>> asks;
+  private List<List<BigDecimal>> bids;
+  private List<List<BigDecimal>> asks;
 
   /** (price, amount) */
-  public List<List<Double>> getBids() {
+  public List<List<BigDecimal>> getBids() {
 
     return bids;
   }
 
   /** (price, amount) */
-  public List<List<Double>> getAsks() {
+  public List<List<BigDecimal>> getAsks() {
 
     return asks;
   }

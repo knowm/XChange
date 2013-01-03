@@ -34,7 +34,6 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
     Order[] openOrders = bitstamp.getOpenOrders(getUser(), getPwd());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (Order oo : openOrders) {
-      orders.add(new LimitOrder(oo.getType() == 0 ? BID : ASK, new BigDecimal(oo.getAmount()), "BTC", "USD", Integer.toString(oo.getId()), BigMoney.of(CurrencyUnit.USD, oo.getPrice())));
+      orders.add(new LimitOrder(oo.getType() == 0 ? BID : ASK, oo.getAmount(), "BTC", "USD", Integer.toString(oo.getId()), BigMoney.of(CurrencyUnit.USD, oo.getPrice())));
     }
     return new OpenOrders(orders);
   }

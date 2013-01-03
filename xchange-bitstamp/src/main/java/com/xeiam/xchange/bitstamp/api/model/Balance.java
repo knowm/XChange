@@ -24,6 +24,8 @@ package com.xeiam.xchange.bitstamp.api.model;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.math.BigDecimal;
+
 /**
  * @author Matija Mazi <br/>
  * @created 4/20/12 7:30 PM
@@ -31,51 +33,51 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class Balance {
 
   @JsonProperty("usd_balance")
-  private double usdBalance;
+  private BigDecimal usdBalance;
   @JsonProperty("btc_balance")
-  private double btcBalance;
+  private BigDecimal btcBalance;
   @JsonProperty("usd_reserved")
-  private double usdReserved;
+  private BigDecimal usdReserved;
   @JsonProperty("btc_reserved")
-  private double btcReserved;
+  private BigDecimal btcReserved;
   @JsonProperty("usd_available")
-  private double usdAvailable;
+  private BigDecimal usdAvailable;
   @JsonProperty("btc_available")
-  private double btcAvailable;
+  private BigDecimal btcAvailable;
 
-  private double fee;
+  private BigDecimal fee;
 
-  public double getUsdBalance() {
+  public BigDecimal getUsdBalance() {
 
     return usdBalance;
   }
 
-  public double getBtcBalance() {
+  public BigDecimal getBtcBalance() {
 
     return btcBalance;
   }
 
-  public double getUsdReserved() {
+  public BigDecimal getUsdReserved() {
 
     return usdReserved;
   }
 
-  public double getBtcReserved() {
+  public BigDecimal getBtcReserved() {
 
     return btcReserved;
   }
 
-  public double getUsdAvailable() {
+  public BigDecimal getUsdAvailable() {
 
     return usdAvailable;
   }
 
-  public double getBtcAvailable() {
+  public BigDecimal getBtcAvailable() {
 
     return btcAvailable;
   }
 
-  public double getFee() {
+  public BigDecimal getFee() {
 
     return fee;
   }

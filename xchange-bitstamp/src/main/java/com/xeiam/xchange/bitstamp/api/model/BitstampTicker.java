@@ -22,45 +22,47 @@
  */
 package com.xeiam.xchange.bitstamp.api.model;
 
+import java.math.BigDecimal;
+
 /**
  * @author Matija Mazi <br/>
  * @created 4/20/12 7:12 PM
  */
-public class Ticker {
+public class BitstampTicker {
 
-  double last;
-  double high;
-  double low;
-  double volume;
-  double bid;
-  double ask;
+  private BigDecimal last;
+  private BigDecimal high;
+  private BigDecimal low;
+  private BigDecimal volume;
+  private BigDecimal bid;
+  private BigDecimal ask;
 
-  public double getLast() {
+  public BigDecimal getLast() {
 
     return last;
   }
 
-  public double getHigh() {
+  public BigDecimal getHigh() {
 
     return high;
   }
 
-  public double getLow() {
+  public BigDecimal getLow() {
 
     return low;
   }
 
-  public double getVolume() {
+  public BigDecimal getVolume() {
 
     return volume;
   }
 
-  public double getBid() {
+  public BigDecimal getBid() {
 
     return bid;
   }
 
-  public double getAsk() {
+  public BigDecimal getAsk() {
 
     return ask;
   }
@@ -68,6 +70,6 @@ public class Ticker {
   @Override
   public String toString() {
 
-    return String.format("Ticker{last=%s, high=%s, low=%s, volume=%s, bid=%s, ask=%s}", last, high, low, volume, bid, ask);
+    return String.format("BitstampTicker{last=%s, high=%s, low=%s, volume=%s, bid=%s, ask=%s}", last, high, low, volume, bid, ask);
   }
 }

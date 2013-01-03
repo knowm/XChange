@@ -45,7 +45,7 @@ public interface BitStamp {
   @GET
   @Path("ticker/")
   @Produces("application/json")
-  public Ticker getTicker();
+  public BitstampTicker getTicker();
 
   /**
    * Returns descending list of transactions.

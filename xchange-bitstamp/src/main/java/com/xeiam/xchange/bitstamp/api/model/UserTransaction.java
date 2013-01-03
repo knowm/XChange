@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.bitstamp.api.model;
 
+import java.math.BigDecimal;
+
 /**
  * @author Matija Mazi <br/>
  * @created 4/20/12 7:33 PM
@@ -31,9 +33,9 @@ public class UserTransaction {
   private String datetime;
   private long id;
   private int type;
-  private double usd;
-  private double btc;
-  private double fee;
+  private BigDecimal usd;
+  private BigDecimal btc;
+  private BigDecimal fee;
 
   public String getDatetime() {
 
@@ -66,17 +68,17 @@ public class UserTransaction {
     return type == 2;
   }
 
-  public double getUsd() {
+  public BigDecimal getUsd() {
 
     return usd;
   }
 
-  public double getBtc() {
+  public BigDecimal getBtc() {
 
     return btc;
   }
 
-  public double getFee() {
+  public BigDecimal getFee() {
 
     return fee;
   }

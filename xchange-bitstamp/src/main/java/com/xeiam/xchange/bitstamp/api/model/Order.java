@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.bitstamp.api.model;
 
+import java.math.BigDecimal;
+
 /**
  * @author Matija Mazi <br/>
  * @created 4/20/12 7:34 PM
@@ -32,8 +34,8 @@ public class Order {
   private String datetime;
   /** 0 - buy (bid); 1 - sell (ask) */
   private int type;
-  private double price;
-  private double amount;
+  private BigDecimal price;
+  private BigDecimal amount;
 
   public String getDatetime() {
 
@@ -50,12 +52,12 @@ public class Order {
     return type;
   }
 
-  public double getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }
