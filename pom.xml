@@ -71,6 +71,7 @@
 		<module>xchange-btce</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-bitstamp</module>
+		<module>xchange-campbx</module>
 	</modules>
 
 	<build>
