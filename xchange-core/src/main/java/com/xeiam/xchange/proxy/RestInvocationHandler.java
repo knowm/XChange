@@ -60,6 +60,17 @@ public class RestInvocationHandler implements InvocationHandler {
 
     Path path = method.getAnnotation(Path.class);
     Class<?> returnType = method.getReturnType();
+    Map<Class<? extends Annotation>, Params> params = getArgumentMap(method, args);
+    if (method.isAnnotationPresent(GET.class)) {
+      return getForJsonObject(path.value(), returnType, params.get(QueryParam.class));
+    } else if (method.isAnnotationPresent(POST.class)) {
+      return postForJsonObject(path.value(), returnType, params.get(FormParam.class));
+    } else {
+      throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
+    }
+  }
+
+  private static Map<Class<? extends Annotation>, Params> getArgumentMap(Method method, Object[] args) {
     Map<Class<? extends Annotation>, Params> params = createParamsMap();
     Annotation[][] paramAnnotations = method.getParameterAnnotations();
     for (int i = 0; i < paramAnnotations.length; i++) {
@@ -71,13 +82,7 @@ public class RestInvocationHandler implements InvocationHandler {
         }
       }
     }
-    if (method.isAnnotationPresent(GET.class)) {
-      return getForJsonObject(path.value(), returnType, params.get(QueryParam.class));
-    } else if (method.isAnnotationPresent(POST.class)) {
-      return postForJsonObject(path.value(), returnType, params.get(FormParam.class));
-    } else {
-      throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
-    }
+    return params;
   }
 
   private static String getParamName(Annotation queryParam) {
