@@ -1,7 +1,7 @@
 XChange
 =======
 
-XChange is a library providing a simple and consistent API for interacting with a diverse set of financial security exchanges, including support for Bitcoin. The primary development platform is Java, but developers are encouraged to port this code to their own language. Ideally, these ports can be fed back into the overall XChange project so that everyone can benefit from improvements in one central location.
+XChange is a library providing a simple and consistent API for interacting with a diverse set of financial security exchanges, including support for Bitcoin. A complete list of implemented exchanges, data providers and brokers can be found on our [Exchange Support](https://github.com/timmolter/XChange/wiki/Exchange-Support) page. If you'd like to submit a new implementation for another exchange, please take a look at [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices) first, as there are lots of time-saving tips! For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). Additional information can be found by browsing through the Wiki pages. 
 
 More Info
 =========
@@ -49,19 +49,29 @@ Add this to dependencies in pom.xml:
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>1.2.1-SNAPSHOT</version>
+      <version>1.3.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
-      <version>1.2.1-SNAPSHOT</version>
+      <version>1.3.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-cavirtex</artifactId>
-      <version>1.2.1-SNAPSHOT</version>
+      <version>1.3.0-SNAPSHOT</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-btce</artifactId>
+      <version>1.3.0-SNAPSHOT</version>
+    </dependency>
+        <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitstamp</artifactId>
+      <version>1.3.0-SNAPSHOT</version>
+    </dependency>
+    
 Building
 ===============
 mvn clean package  
