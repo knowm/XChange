@@ -22,7 +22,6 @@
  */
 package com.xeiam.xchange.proxy;
 
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.HttpTemplate;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -43,16 +42,16 @@ public class RestInvocationHandler implements InvocationHandler {
   private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class, HeaderParam.class);
 
   private final HttpTemplate httpTemplate;
-  private final ExchangeSpecification exchangeSpecification;
   private final ObjectMapper mapper;
   private final String intfacePath;
+  private final String url;
 
-  public RestInvocationHandler(HttpTemplate httpTemplate, ExchangeSpecification exchangeSpecification, ObjectMapper mapper, Class<?> restInterface) {
+  public RestInvocationHandler(HttpTemplate httpTemplate, ObjectMapper mapper, Class<?> restInterface, String url) {
 
     this.httpTemplate = httpTemplate;
-    this.exchangeSpecification = exchangeSpecification;
     this.mapper = mapper;
-    intfacePath = restInterface.getAnnotation(Path.class).value();
+    this.intfacePath = restInterface.getAnnotation(Path.class).value();
+    this.url = url;
   }
 
   @Override
@@ -122,7 +121,7 @@ public class RestInvocationHandler implements InvocationHandler {
   private String getUrl(String method) {
 
     // todo: make more robust in terms of path separator ('/') handling
-    return String.format("%s/%s/%s", exchangeSpecification.getUri(), intfacePath, method);
+    return String.format("%s/%s/%s", url, intfacePath, method);
   }
 
   private <T> T getForJsonObject(String methodPath, Class<T> returnType, Map<Class<? extends Annotation>, Params> params) {

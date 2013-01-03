@@ -51,7 +51,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, httpTemplate, exchangeSpecification, mapper);
+    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getUri(), httpTemplate, mapper);
   }
 
   @Override

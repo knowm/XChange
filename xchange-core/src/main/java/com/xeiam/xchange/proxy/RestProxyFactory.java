@@ -22,7 +22,6 @@
  */
 package com.xeiam.xchange.proxy;
 
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.HttpTemplate;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -40,13 +39,14 @@ public class RestProxyFactory {
    * {@link javax.ws.rs.Path}, {@link javax.ws.rs.GET}, {@link javax.ws.rs.POST}, {@link javax.ws.rs.QueryParam},
    * {@link javax.ws.rs.FormParam}, {@link javax.ws.rs.HeaderParam}, {@link javax.ws.rs.PathParam}.
    *
+   *
    * @param restInterface The interface to implment.
-   * @param <I> The interface to implement.
+   * @param url The service base url
    * @return a proxy implementation of restInterface.
    */
-  public static <I> I createProxy(Class<I> restInterface, HttpTemplate httpTemplate, ExchangeSpecification exchangeSpecification, ObjectMapper mapper) {
+  public static <I> I createProxy(Class<I> restInterface, String url, HttpTemplate httpTemplate, ObjectMapper mapper) {
 
-    RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, exchangeSpecification, mapper, restInterface);
+    RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, mapper, restInterface, url);
     Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[]{restInterface}, restInvocationHandler);
     //noinspection unchecked
     return (I) proxy;
