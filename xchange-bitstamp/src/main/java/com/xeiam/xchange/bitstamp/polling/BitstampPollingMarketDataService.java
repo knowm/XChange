@@ -29,6 +29,7 @@ import com.xeiam.xchange.bitstamp.api.model.Transaction;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.*;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import org.joda.money.BigMoney;
@@ -48,14 +49,14 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(CurrencyPair.BTC_USD);
 
-  private final BitStamp bitStamp;
+  private final BitStamp bitstamp;
   private static final CurrencyUnit BTC = CurrencyUnit.of("BTC");
   private static final CurrencyUnit USD = CurrencyUnit.of("USD");
 
   public BitstampPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitStamp = new BitStampImpl(httpTemplate, exchangeSpecification, mapper);
+    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, httpTemplate, exchangeSpecification, mapper);
   }
 
   @Override
@@ -69,7 +70,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
     checkArgument(tradableIdentifier.equals(BTC.getCode()));
     checkArgument(currency.equals(USD.getCode()));
-    com.xeiam.xchange.bitstamp.api.model.Ticker tck = bitStamp.getTicker();
+    com.xeiam.xchange.bitstamp.api.model.Ticker tck = bitstamp.getTicker();
     return new TickerBuilder().withAsk(BigMoney.of(USD, tck.getAsk())).withBid(BigMoney.of(USD, tck.getBid())).withHigh(BigMoney.of(USD, tck.getHigh())).withLow(BigMoney.of(USD, tck.getLow()))
         .withLast(BigMoney.of(USD, tck.getLast())).withVolume(new BigDecimal(tck.getVolume())).build();
   }
@@ -83,7 +84,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-    com.xeiam.xchange.bitstamp.api.model.OrderBook orderBook = bitStamp.getOrderBook();
+    com.xeiam.xchange.bitstamp.api.model.OrderBook orderBook = bitstamp.getOrderBook();
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
     return new OrderBook(asks, bids);
@@ -107,7 +108,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
 
-    Transaction[] transactions = bitStamp.getTransactions(24 * 3600); // 24 hours
+    Transaction[] transactions = bitstamp.getTransactions(24 * 3600); // 24 hours
     List<Trade> trades = new ArrayList<Trade>();
     for (Transaction tx : transactions) {
       trades.add(new Trade(null, new BigDecimal(tx.getAmount()), "BTC", "USD", BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), new DateTime(tx.getTransactionDate())));
