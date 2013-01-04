@@ -30,6 +30,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
+
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
@@ -68,8 +69,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
   /**
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
-   * 
-   * @param description must be null
+   * @param description     must be null
    * @param notificationUrl must be null
    */
   @Override

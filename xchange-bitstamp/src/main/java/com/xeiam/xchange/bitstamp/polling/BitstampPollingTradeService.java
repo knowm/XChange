@@ -31,6 +31,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 

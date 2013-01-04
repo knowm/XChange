@@ -25,6 +25,7 @@ package com.xeiam.xchange.bitstamp.api;
 import com.xeiam.xchange.bitstamp.api.model.*;
 
 import javax.ws.rs.*;
+
 import java.math.BigDecimal;
 
 /**

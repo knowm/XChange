@@ -33,6 +33,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.time.DateTime;
