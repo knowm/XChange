@@ -1,8 +1,5 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
@@ -15,6 +12,10 @@ import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
 
 /**
  * <p>
@@ -60,7 +61,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   }
 
   @Override
-  public String withdrawFunds() {
+  public String withdrawFunds(BigDecimal amount, String address) {
 
     throw new NotYetImplementedForExchangeException();
   }

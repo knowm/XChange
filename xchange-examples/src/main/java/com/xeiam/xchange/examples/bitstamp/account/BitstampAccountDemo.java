@@ -7,6 +7,8 @@ import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
+import java.math.BigDecimal;
+
 /**
  * <p> Example showing the following: </p>
  * <ul>
@@ -34,5 +36,8 @@ public class BitstampAccountDemo {
 
     String depositAddress = accountService.requestBitcoinDepositAddress(null, null);
     System.out.println("Deposit address: " + depositAddress);
+
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
+    System.out.println("withdrawResult = " + withdrawResult);
   }
 }
