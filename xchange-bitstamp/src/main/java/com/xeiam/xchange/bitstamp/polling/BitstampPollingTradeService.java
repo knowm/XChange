@@ -22,6 +22,12 @@
  */
 package com.xeiam.xchange.bitstamp.polling;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.api.BitStamp;
 import com.xeiam.xchange.bitstamp.api.model.Order;
@@ -31,11 +37,6 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.xeiam.xchange.dto.Order.OrderType.ASK;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
@@ -76,9 +77,9 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     Order ord;
     if (limitOrder.getType() == BID) {
-      ord = bitstamp.buy(getUser(), getPwd(), limitOrder.getTradableAmount().doubleValue(), limitOrder.getLimitPrice().getAmount().doubleValue());
+      ord = bitstamp.buy(getUser(), getPwd(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     } else {
-      ord = bitstamp.sell(getUser(), getPwd(), limitOrder.getTradableAmount().doubleValue(), limitOrder.getLimitPrice().getAmount().doubleValue());
+      ord = bitstamp.sell(getUser(), getPwd(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     return Integer.toString(ord.getId());
   }

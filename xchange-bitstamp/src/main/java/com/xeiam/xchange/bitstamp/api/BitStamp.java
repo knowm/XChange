@@ -25,6 +25,7 @@ package com.xeiam.xchange.bitstamp.api;
 import com.xeiam.xchange.bitstamp.api.model.*;
 
 import javax.ws.rs.*;
+
 import java.math.BigDecimal;
 
 /**
@@ -91,13 +92,13 @@ public interface BitStamp {
   @POST
   @Path("buy/")
   @Produces("application/json")
-  public Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") double amount, @FormParam("price") double price);
+  public Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
 
   /** sell limit order */
   @POST
   @Path("sell/")
   @Produces("application/json")
-  public Order sell(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") double amount, @FormParam("price") double price);
+  public Order sell(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
 
   @POST
   @Path("bitcoin_deposit_address/")

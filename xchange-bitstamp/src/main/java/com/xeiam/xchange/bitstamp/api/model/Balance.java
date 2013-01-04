@@ -22,9 +22,9 @@
  */
 package com.xeiam.xchange.bitstamp.api.model;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.math.BigDecimal;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
