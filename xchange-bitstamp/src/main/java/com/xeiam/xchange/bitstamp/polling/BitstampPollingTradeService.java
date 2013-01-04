@@ -76,9 +76,9 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     Order ord;
     if (limitOrder.getType() == BID) {
-      ord = bitstamp.buy(getUser(), getPwd(), limitOrder.getTradableAmount().doubleValue(), limitOrder.getLimitPrice().getAmount().doubleValue());
+      ord = bitstamp.buy(getUser(), getPwd(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     } else {
-      ord = bitstamp.sell(getUser(), getPwd(), limitOrder.getTradableAmount().doubleValue(), limitOrder.getLimitPrice().getAmount().doubleValue());
+      ord = bitstamp.sell(getUser(), getPwd(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     return Integer.toString(ord.getId());
   }
