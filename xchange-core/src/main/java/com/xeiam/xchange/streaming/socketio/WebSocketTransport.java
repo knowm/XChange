@@ -22,12 +22,12 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.WebSocketClient;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.regex.Pattern;
-
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
-import com.xeiam.xchange.streaming.websocket.WebSocketClient;
 
 /**
  * The Class WebSocketTransport.
@@ -52,7 +52,7 @@ class WebSocketTransport extends WebSocketClient implements IOTransport {
   /**
    * Creates a new Transport for the given url an {@link IOConnection}.
    * 
-   * @param url the url
+   * @param urlString the url
    * @param connection the connection
    * @return the iO transport
    */

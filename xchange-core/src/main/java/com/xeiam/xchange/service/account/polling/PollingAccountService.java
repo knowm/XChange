@@ -18,6 +18,8 @@ package com.xeiam.xchange.service.account.polling;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 
+import java.math.BigDecimal;
+
 /**
  * <p>
  * Interface to provide the following to {@link Exchange}:
@@ -33,7 +35,7 @@ public interface PollingAccountService {
 
   public AccountInfo getAccountInfo();
 
-  public String withdrawFunds();
+  public String withdrawFunds(BigDecimal amount, String address);
 
   /**
    * @param description

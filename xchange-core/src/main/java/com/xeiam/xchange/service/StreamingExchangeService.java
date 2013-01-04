@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.service;
 
+import java.util.concurrent.BlockingQueue;
+
 /**
  * <p>
  * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
@@ -61,12 +63,22 @@ public interface StreamingExchangeService {
   RunnableExchangeEventProducer getRunnableExchangeEventProducer();
 
   /**
-   * @param runnableMarketDataEventProducer
+   * @param runnableMarketDataEventProducer The runnable market data event producer
    */
   void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
 
   /**
-   * @return if the streaming channel is connected or not
+   * @return True if the streaming channel is connected
+   * @deprecated In favour of tracking the ExchangeEventType instead
    */
+  @Deprecated
   boolean isConnected();
+
+  /**
+   * The consumer exchange event queue
+   *
+   * @return A blocking queue consisting of raw exchange events (such as connect/disconnect notifications)
+   */
+  BlockingQueue<ExchangeEvent> getEventQueue();
+
 }

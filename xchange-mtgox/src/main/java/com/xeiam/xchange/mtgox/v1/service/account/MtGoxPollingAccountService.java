@@ -1,5 +1,8 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -16,6 +19,7 @@ import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 
 /**
@@ -64,7 +68,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   }
 
   @Override
-  public String withdrawFunds() {
+  public String withdrawFunds(BigDecimal amount, String address) {
+
     Object result = mtGox1.withdrawBtc(
         MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()),
         new HmacPostBodyDigest(exchangeSpecification.getSecretKey()),

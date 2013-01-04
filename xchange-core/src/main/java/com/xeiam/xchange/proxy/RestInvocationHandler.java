@@ -33,8 +33,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 /**
-* @author Matija Mazi <br/>
-*/
+ * @author Matija Mazi <br/>
+ */
 public class RestInvocationHandler implements InvocationHandler {
 
   private final HttpTemplate httpTemplate;
@@ -68,7 +68,7 @@ public class RestInvocationHandler implements InvocationHandler {
 
   private String getUrl(String method, String queryString) {
 
-    // todo: make more robust in terms of path separator ('/') handling
+    // TODO make more robust in terms of path separator ('/') handling
     String completeUrl = String.format("%s/%s/%s", this.baseUrl, intfacePath, method);
     if (queryString != null && !queryString.isEmpty()) {
       completeUrl += "?" + queryString;

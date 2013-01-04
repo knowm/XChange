@@ -33,12 +33,9 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
-/**
- * @author Matija Mazi <br/>
- * @created 1/1/13 6:40 PM
- */
 public class BitstampPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
   private BitStamp bitstamp;
@@ -64,9 +61,9 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   }
 
   @Override
-  public String withdrawFunds() {
+  public String withdrawFunds(BigDecimal amount, String address) {
 
-    throw new UnsupportedOperationException("Funds withdrawal not yet implemented.");
+    return bitstamp.withdrawBitcoin(getUser(), getPwd(), amount, address).toString();
   }
 
   /**

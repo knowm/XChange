@@ -37,12 +37,14 @@ import java.util.Map;
  * @author Matija Mazi <br/>
  */
 public class AllParams {
+
   @SuppressWarnings("unchecked")
   private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class, HeaderParam.class);
 
   private Map<Class<? extends Annotation>, Params> paramsMap;
 
   private AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
+
     this.paramsMap = paramsMap;
     for (Params params : paramsMap.values()) {
       params.setAllParams(this);
@@ -50,10 +52,12 @@ public class AllParams {
   }
 
   static AllParams createInstance(Method method, Object[] args) {
+
      return new AllParams(createParamsMap(method, args));
   }
 
   private static Map<Class<? extends Annotation>, Params> createParamsMap(Method method, Object[] args) {
+
     Map<Class<? extends Annotation>, Params> params = createEmptyMap();
     Annotation[][] paramAnnotations = method.getParameterAnnotations();
     for (int i = 0; i < paramAnnotations.length; i++) {
@@ -81,6 +85,7 @@ public class AllParams {
   }
 
   private static <T extends Annotation> String getValueOrNull(Class<T> annotationClass, Annotation ann) {
+
     if (!annotationClass.isInstance(ann)) {
       return null;
     }
@@ -101,18 +106,22 @@ public class AllParams {
   }
 
   String getPath(String methodPath) {
+
     return paramsMap.get(PathParam.class).applyToPath(methodPath);
   }
 
   String getPostBody() {
+
     return paramsMap.get(FormParam.class).asFormEncodedPostBody();
   }
 
   Map<String, String> getHttpHeaders() {
+
     return paramsMap.get(HeaderParam.class).getAsHttpHeaders();
   }
 
   String getQueryString() {
+
     return paramsMap.get(QueryParam.class).asQueryString();
   }
 }

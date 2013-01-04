@@ -162,7 +162,7 @@
 			<dependency>
 				<groupId>org.joda</groupId>
 				<artifactId>joda-money</artifactId>
-				<version>0.6</version>
+				<version>0.7</version>
 			</dependency>
 
 			<!-- Commons Codec for Crypto -->
@@ -177,7 +177,13 @@
 				<artifactId>json</artifactId>
 				<version>20090211</version>
 			</dependency>
-
+			
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>jsr311-api</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 
@@ -202,11 +208,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>jsr311-api</artifactId>
-      <version>1.1.1</version>
-    </dependency>
 	</dependencies>
 
 </project>

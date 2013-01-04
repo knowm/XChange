@@ -63,12 +63,27 @@ Add this to dependencies in pom.xml:
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-openexchangerates</artifactId>
+      <version>1.3.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-btce</artifactId>
+      <version>1.3.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitstamp</artifactId>
       <version>1.3.0-SNAPSHOT</version>
     </dependency>
         <dependency>
       <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitstamp</artifactId>
+      <artifactId>xchange-campbx</artifactId>
+      <version>1.3.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitcoincharts</artifactId>
       <version>1.3.0-SNAPSHOT</version>
     </dependency>
     

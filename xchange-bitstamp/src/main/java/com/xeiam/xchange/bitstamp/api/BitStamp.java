@@ -25,6 +25,7 @@ package com.xeiam.xchange.bitstamp.api;
 import com.xeiam.xchange.bitstamp.api.model.*;
 
 import javax.ws.rs.*;
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi <br/>
@@ -103,5 +104,10 @@ public interface BitStamp {
   @Produces("application/json")
   public String getBitcoinDepositAddress(@FormParam("user") String user, @FormParam("password") String password);
 
-  // todo: bitstamp code handling, send to user, withdrawals
+  @POST
+  @Path("bitcoin_withdrawal/")
+  @Produces("application/json")
+  public Object withdrawBitcoin(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("address") String address);
+
+  // todo: bitstamp code handling, send to user
 }
