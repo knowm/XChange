@@ -31,24 +31,29 @@ import java.util.Map;
  * @author Matija Mazi <br/>
  */
 public class Params {
+
   private Map<String, Object> data = new LinkedHashMap<String, Object>();
   private AllParams allParams;
 
   private Params() { }
 
   public static Params of() {
+
     return new Params();
   }
 
   public static Params of(String param, Object value) {
+
     return of().add(param, value);
   }
 
   public static Params of(String p1, Object v1, String p2, Object v2) {
+
     return of(p1, v1).add(p2, v2);
   }
 
   public static Params of(String p1, Object v1, String p2, Object v2, String p3, Object v3) {
+
     return of(p1, v1, p2, v2).add(p3, v3);
   }
 
@@ -59,6 +64,7 @@ public class Params {
   }
 
   private String toQueryString(boolean encode) {
+
     StringBuilder b = new StringBuilder();
     for (String param : data.keySet()) {
       if (b.length() > 0) {
@@ -70,6 +76,7 @@ public class Params {
   }
 
   private String encode(String data, boolean encode)  {
+
     try {
       return encode ? URLEncoder.encode(data, "UTF-8") : data;
     } catch (UnsupportedEncodingException e) {
@@ -78,18 +85,22 @@ public class Params {
   }
 
   void setAllParams(AllParams allParams) {
+
     this.allParams = allParams;
   }
 
   public String asQueryString() {
+
     return toQueryString(true);
   }
 
   public String asFormEncodedPostBody() {
+
     return toQueryString(false);
   }
 
   public String applyToPath(String path) {
+
     for (String paramName : data.keySet()) {
       path = path.replace("{" + paramName + "}", getParamValue(paramName));
     }
@@ -97,6 +108,7 @@ public class Params {
   }
 
   public Map<String, String> getAsHttpHeaders() {
+
     Map<String, String> stringMap = new LinkedHashMap<String, String>();
     for (String key : data.keySet()) {
       stringMap.put(key, getParamValue(key));
@@ -105,6 +117,7 @@ public class Params {
   }
 
   private String getParamValue(String key) {
+
     Object paramValue = data.get(key);
     if (paramValue instanceof ParamsDigest) {
       return ((ParamsDigest) paramValue).digestParams(allParams);
@@ -114,6 +127,7 @@ public class Params {
 
   @Override
   public String toString() {
+
     return toQueryString(false);
   }
 }
