@@ -23,7 +23,9 @@ package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.proxy.HmacPostBodyDigest;
 import com.xeiam.xchange.proxy.Params;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
