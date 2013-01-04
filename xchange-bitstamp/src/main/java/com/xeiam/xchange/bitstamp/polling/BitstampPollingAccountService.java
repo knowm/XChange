@@ -22,6 +22,12 @@
  */
 package com.xeiam.xchange.bitstamp.polling;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.api.BitStamp;
 import com.xeiam.xchange.bitstamp.api.model.Balance;
@@ -30,12 +36,6 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
 
 public class BitstampPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 

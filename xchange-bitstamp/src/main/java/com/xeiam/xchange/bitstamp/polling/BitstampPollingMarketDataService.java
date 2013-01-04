@@ -22,27 +22,31 @@
  */
 package com.xeiam.xchange.bitstamp.polling;
 
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.joda.time.DateTime;
+
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.api.BitStamp;
 import com.xeiam.xchange.bitstamp.api.model.BitstampTicker;
 import com.xeiam.xchange.bitstamp.api.model.Transaction;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.*;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.joda.time.DateTime;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Matija Mazi <br/>
