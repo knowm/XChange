@@ -22,26 +22,25 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
+import org.json.JSONObject;
+
+import javax.net.ssl.SSLSocketFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
-
-import javax.net.ssl.SSLSocketFactory;
-
-import org.json.JSONObject;
 
 /**
  * The Class SocketIO.
  */
 public class SocketIO {
 
-  /** callback of this Socket */
+  /** Callback of this Socket */
   private IOCallback callback;
 
-  /** connection of this Socket */
+  /** Connection of this Socket */
   private IOConnection connection;
 
-  /** namespace */
+  /** Namespace */
   private String namespace;
 
   /** Used for setting header during handshaking */
@@ -110,7 +109,7 @@ public class SocketIO {
    */
   public SocketIO(final URL url, final IOCallback callback) {
 
-    if (setAndConnect(url, callback) == false) {
+    if (!setAndConnect(url, callback)) {
       throw new RuntimeException("url and callback may not be null.");
     }
   }
@@ -128,7 +127,7 @@ public class SocketIO {
   /**
    * Set the socket factory used for SSL connections.
    * 
-   * @param socketFactory
+   * @param socketFactory The SSL socket factory
    */
   public static void setDefaultSSLSocketFactory(SSLSocketFactory socketFactory) {
 
@@ -143,7 +142,7 @@ public class SocketIO {
    */
   public void connect(final String url, final IOCallback callback) throws MalformedURLException {
 
-    if (setAndConnect(new URL(url), callback) == false) {
+    if (!setAndConnect(new URL(url), callback)) {
       if (url == null || callback == null) {
         throw new RuntimeException("url and callback may not be null.");
       } else {
@@ -160,7 +159,7 @@ public class SocketIO {
    */
   public void connect(URL url, IOCallback callback) {
 
-    if (setAndConnect(url, callback) == false) {
+    if (!setAndConnect(url, callback)) {
       if (url == null || callback == null) {
         throw new RuntimeException("url and callback may not be null.");
       } else {
@@ -176,7 +175,7 @@ public class SocketIO {
    */
   public void connect(IOCallback callback) {
 
-    if (setAndConnect(null, callback) == false) {
+    if (!setAndConnect(null, callback)) {
       if (callback == null) {
         throw new RuntimeException("callback may not be null.");
       } else if (this.url == null) {
@@ -227,7 +226,8 @@ public class SocketIO {
   }
 
   /**
-   * Emits an event to the Socket.IO server. If the connection is not established, the call will be buffered and sent as soon as it is possible.
+   * Emits an event to the Socket.IO server. If the connection is not established, the call will be buffered
+   * and sent as soon as it is possible.
    * 
    * @param event the event name
    * @param ack an acknowledge implementation
@@ -309,7 +309,8 @@ public class SocketIO {
   }
 
   /**
-   * Triggers the transport to reconnect. This had become useful on some android devices which do not shut down tcp-connections when switching from HSDPA to Wifi
+   * Triggers the transport to reconnect. This had become useful on some android devices which do not shut
+   * down TCP connections when switching from HSDPA to Wifi
    */
   public void reconnect() {
 

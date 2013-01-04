@@ -21,12 +21,11 @@
  */
 package com.xeiam.xchange.service;
 
-import java.util.concurrent.BlockingQueue;
-
+import com.xeiam.xchange.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeException;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -35,10 +34,6 @@ import com.xeiam.xchange.ExchangeException;
  * <ul>
  * <li>Simple extension point for a {@link Runnable} designed for use with an ExecutorService</li>
  * </ul>
- * Example:<br>
- * 
- * <pre>
- * </pre>
  */
 public abstract class RunnableExchangeEventListener implements ExchangeEventListener, Runnable {
 
