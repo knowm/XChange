@@ -57,6 +57,11 @@ public class Params {
     return of(p1, v1, p2, v2).add(p3, v3);
   }
 
+  public static Params of(String p1, Object v1, String p2, Object v2, String p3, Object v3, String p4, Object v4) {
+
+    return of(p1, v1, p2, v2, p3, v3).add(p4, v4);
+  }
+
   public Params add(String param, Object value) {
 
     data.put(param, value);

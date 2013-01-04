@@ -23,6 +23,7 @@ package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.proxy.Params;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +72,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     // Build request
     String url = apiBaseURI + "/generic/private/orders?raw";
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce()).asFormEncodedPostBody();
 
     // Request data
     MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper,
@@ -93,7 +94,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String amount = "" + (marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
     String url = apiBaseURI + symbol + "/private/order/add";
 
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount;
+    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount).asFormEncodedPostBody();
 
     // Request data
     MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
@@ -116,7 +117,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String price_int = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
     String url = apiBaseURI + symbol + "/private/order/add";
 
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&type=" + type + "&amount_int=" + amount_int + "&price_int=" + price_int;
+    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount_int, "price_int", price_int).asFormEncodedPostBody();
 
     // Request data
     MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
