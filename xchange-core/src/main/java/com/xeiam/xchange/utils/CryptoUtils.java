@@ -21,16 +21,14 @@
  */
 package com.xeiam.xchange.utils;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.util.Date;
+import com.xeiam.xchange.ExchangeException;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import com.xeiam.xchange.ExchangeException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
 
 /**
  * Various cryptography utility methods
@@ -70,9 +68,8 @@ public class CryptoUtils {
    * @param secretKeyString The secret key to use for signing
    * @return A base 64 encoded signature
    * @throws GeneralSecurityException If something goes wrong
-   * @throws UnsupportedEncodingException If something goes wrong
    */
-  public static String computeSignature(String algorithm, String baseString, String secretKeyString) throws GeneralSecurityException, UnsupportedEncodingException {
+  public static String computeSignature(String algorithm, String baseString, String secretKeyString) throws GeneralSecurityException {
 
     try {
       SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyString.getBytes()), algorithm);

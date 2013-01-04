@@ -21,6 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
+import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.utils.CryptoUtils;
+import com.xeiam.xchange.utils.HttpTemplate;
+import com.xeiam.xchange.utils.MoneyUtils;
+import org.joda.money.BigMoney;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -29,14 +36,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.joda.money.BigMoney;
-
-import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.utils.CryptoUtils;
-import com.xeiam.xchange.utils.HttpTemplate;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * A central place for shared Mt Gox properties
@@ -147,15 +146,28 @@ public class MtGoxUtils {
     try {
 
       Map<String, String> headerKeyValues = new HashMap<String, String>();
-      headerKeyValues.put("Rest-Key", URLEncoder.encode(apiKey, HttpTemplate.CHARSET_UTF_8));
+      headerKeyValues.put("Rest-Key", urlEncode(apiKey));
       headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey));
       return headerKeyValues;
 
     } catch (GeneralSecurityException e) {
       throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
-    } catch (UnsupportedEncodingException e) {
-      throw new ExchangeException("Problem generating secure HTTP request  (Unsupported Encoding)", e);
     }
   }
 
+  public static String createSignature(String secretKey, String postBody) {
+    try {
+      return CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey);
+    } catch (GeneralSecurityException e) {
+      throw new ExchangeException("Security exception creating signature for request", e);
+    }
+  }
+
+  public static String urlEncode(String str) {
+    try {
+      return URLEncoder.encode(str, HttpTemplate.CHARSET_UTF_8);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Problem encoding, probably bug in code.", e);
+    }
+  }
 }
