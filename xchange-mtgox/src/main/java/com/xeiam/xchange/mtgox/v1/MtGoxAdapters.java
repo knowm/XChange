@@ -53,12 +53,13 @@ public class MtGoxAdapters {
   /**
    * Adapts a MtGoxOrder to a LimitOrder
    * 
-   * @param mtGoxOrder
+   *
+   * @param price
    * @param currency
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(long amount_int, BigDecimal price, String currency, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -183,7 +184,7 @@ public class MtGoxAdapters {
     BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
     BigMoney high = MoneyUtils.parseFiat(mtGoxTicker.getHigh().getCurrency() + " " + mtGoxTicker.getHigh().getValue());
     BigMoney low = MoneyUtils.parseFiat(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
-    BigDecimal volume = new BigDecimal(mtGoxTicker.getVol().getValue());
+    BigDecimal volume = mtGoxTicker.getVol().getValue();
 
     return TickerBuilder
       .newInstance()
@@ -205,7 +206,7 @@ public class MtGoxAdapters {
     BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
     BigMoney high = MoneyUtils.parseFiat(mtGoxTicker.getHigh().getCurrency() + " " + mtGoxTicker.getHigh().getValue());
     BigMoney low = MoneyUtils.parseFiat(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
-    BigDecimal volume = new BigDecimal(mtGoxTicker.getVol().getValue());
+    BigDecimal volume = mtGoxTicker.getVol().getValue();
 
     return TickerBuilder
       .newInstance()

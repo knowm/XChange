@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -30,8 +32,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class MtGoxOrder {
 
-  private double price;
-  private double amount;
+  private BigDecimal price;
+  private BigDecimal amount;
   private long price_int;
   private long amount_int;
   private long stamp;
@@ -45,7 +47,7 @@ public class MtGoxOrder {
    * @param amount_int
    * @param stamp
    */
-  public MtGoxOrder(@JsonProperty("price") double price, @JsonProperty("amount") double amount, @JsonProperty("price_int") long price_int, @JsonProperty("amount_int") long amount_int, @JsonProperty("stamp") long stamp) {
+  public MtGoxOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long price_int, @JsonProperty("amount_int") long amount_int, @JsonProperty("stamp") long stamp) {
 
     this.price = price;
     this.amount = amount;
@@ -54,12 +56,12 @@ public class MtGoxOrder {
     this.stamp = stamp;
   }
 
-  public double getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }

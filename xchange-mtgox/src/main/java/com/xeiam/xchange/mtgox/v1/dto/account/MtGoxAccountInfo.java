@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.account;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -44,7 +45,7 @@ public class MtGoxAccountInfo {
   private String last_Login;
   private Wallets wallets;
   private MtGoxValue monthly_Volume;
-  private double trade_Fee;
+  private BigDecimal trade_Fee;
 
   /**
    * Constructor
@@ -62,7 +63,7 @@ public class MtGoxAccountInfo {
    */
   public MtGoxAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language,
       @JsonProperty("Created") String created, @JsonProperty("Last_Login") String last_Login, @JsonProperty("Wallets") Wallets wallets, @JsonProperty("Monthly_Volume") MtGoxValue monthly_Volume,
-      @JsonProperty("Trade_Fee") double trade_Fee) {
+      @JsonProperty("Trade_Fee") BigDecimal trade_Fee) {
 
     this.login = login;
     this.index = index;
@@ -121,7 +122,7 @@ public class MtGoxAccountInfo {
     return monthly_Volume;
   }
 
-  public double getTrade_Fee() {
+  public BigDecimal getTrade_Fee() {
 
     return trade_Fee;
   }

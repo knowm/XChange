@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -30,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class MtGoxValue {
 
-  private double value;
+  private BigDecimal value;
   private long value_int;
   private String display;
   private String display_short;
@@ -45,7 +47,7 @@ public class MtGoxValue {
    * @param display_short
    * @param currency
    */
-  public MtGoxValue(@JsonProperty("value") double value, @JsonProperty("value_int") long value_int, @JsonProperty("display") String display, @JsonProperty("display_short") String display_short,
+  public MtGoxValue(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long value_int, @JsonProperty("display") String display, @JsonProperty("display_short") String display_short,
       @JsonProperty("currency") String currency) {
 
     this.value = value;
@@ -55,12 +57,12 @@ public class MtGoxValue {
     this.currency = currency;
   }
 
-  public double getValue() {
+  public BigDecimal getValue() {
 
     return value;
   }
 
-  public void setValue(double value) {
+  public void setValue(BigDecimal value) {
 
     this.value = value;
   }
