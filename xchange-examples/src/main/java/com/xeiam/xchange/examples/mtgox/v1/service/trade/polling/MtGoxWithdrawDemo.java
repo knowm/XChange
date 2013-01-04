@@ -26,6 +26,8 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
+import java.math.BigDecimal;
+
 /**
  * <p>
  * Example showing the following:
@@ -49,7 +51,7 @@ public class MtGoxWithdrawDemo {
 
     PollingAccountService accountService = mtgox.getPollingAccountService();
 
-    String withdrawResult = accountService.withdrawFunds();
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 }

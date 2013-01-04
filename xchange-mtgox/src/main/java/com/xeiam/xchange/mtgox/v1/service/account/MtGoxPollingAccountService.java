@@ -74,8 +74,9 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
         MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()),
         new HmacPostBodyDigest(exchangeSpecification.getSecretKey()),
         CryptoUtils.getNumericalNonce(),
-        "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi",
-        1, 1, false, false);
+        address,
+        amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), // TODO is the factor OK?
+        1, false, false);
     return result.toString();
   }
 
