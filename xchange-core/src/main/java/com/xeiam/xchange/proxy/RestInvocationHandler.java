@@ -22,10 +22,6 @@
  */
 package com.xeiam.xchange.proxy;
 
-import com.xeiam.xchange.utils.HttpTemplate;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import javax.ws.rs.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -34,10 +30,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.xeiam.xchange.utils.HttpTemplate;
+
 /**
-* @author Matija Mazi <br/>
-*/
+ * @author Matija Mazi <br/>
+ */
 public class RestInvocationHandler implements InvocationHandler {
+
   @SuppressWarnings("unchecked")
   private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class, HeaderParam.class);
 
@@ -72,6 +81,7 @@ public class RestInvocationHandler implements InvocationHandler {
   }
 
   private static Map<Class<? extends Annotation>, Params> getArgumentMap(Method method, Object[] args) {
+
     Map<Class<? extends Annotation>, Params> params = createParamsMap();
     Annotation[][] paramAnnotations = method.getParameterAnnotations();
     for (int i = 0; i < paramAnnotations.length; i++) {
@@ -99,6 +109,7 @@ public class RestInvocationHandler implements InvocationHandler {
   }
 
   private static <T extends Annotation> String getValueOrNull(Class<T> annotationClass, Annotation ann) {
+
     if (!annotationClass.isInstance(ann)) {
       return null;
     }
@@ -120,7 +131,7 @@ public class RestInvocationHandler implements InvocationHandler {
 
   private String getUrl(String method) {
 
-    // todo: make more robust in terms of path separator ('/') handling
+    // TODO make more robust in terms of path separator ('/') handling
     return String.format("%s/%s/%s", url, intfacePath, method);
   }
 
