@@ -24,7 +24,6 @@ package com.xeiam.xchange.proxy;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,20 +31,17 @@ import java.util.Map;
  * @author Matija Mazi <br/>
  */
 public class Params {
-  private Map<String, String> data = new LinkedHashMap<String, String>();
+  private Map<String, Object> data = new LinkedHashMap<String, Object>();
+  private AllParams allParams;
 
-  public Params add(String param, Object value) {
-
-    data.put(param, value.toString());
-    return this;
-  }
+  private Params() { }
 
   public static Params of() {
     return new Params();
   }
 
   public static Params of(String param, Object value) {
-    return new Params().add(param, value);
+    return of().add(param, value);
   }
 
   public static Params of(String p1, Object v1, String p2, Object v2) {
@@ -56,19 +52,19 @@ public class Params {
     return of(p1, v1, p2, v2).add(p3, v3);
   }
 
-  @Override
-  public String toString() {
+  public Params add(String param, Object value) {
 
-    return toString(false);
+    data.put(param, value);
+    return this;
   }
 
-  private String toString(boolean encode) {
+  private String toQueryString(boolean encode) {
     StringBuilder b = new StringBuilder();
     for (String param : data.keySet()) {
       if (b.length() > 0) {
         b.append('&');
       }
-        b.append(param).append('=').append(encode(data.get(param), encode));
+        b.append(param).append('=').append(encode(getParamValue(param), encode));
     }
     return b.toString();
   }
@@ -81,22 +77,43 @@ public class Params {
     }
   }
 
+  void setAllParams(AllParams allParams) {
+    this.allParams = allParams;
+  }
+
   public String asQueryString() {
-    return toString(true);
+    return toQueryString(true);
   }
 
   public String asFormEncodedPostBody() {
-    return toString(false);
+    return toQueryString(false);
   }
 
   public String applyToPath(String path) {
     for (String paramName : data.keySet()) {
-      path = path.replace("{" + paramName + "}", data.get(paramName));
+      path = path.replace("{" + paramName + "}", getParamValue(paramName));
     }
     return path;
   }
 
   public Map<String, String> getAsHttpHeaders() {
-    return new HashMap<String, String>(data);
+    Map<String, String> stringMap = new LinkedHashMap<String, String>();
+    for (String key : data.keySet()) {
+      stringMap.put(key, getParamValue(key));
+    }
+    return stringMap;
+  }
+
+  private String getParamValue(String key) {
+    Object paramValue = data.get(key);
+    if (paramValue instanceof ParamsDigest) {
+      return ((ParamsDigest) paramValue).digestParams(allParams);
+    }
+    return paramValue.toString();
+  }
+
+  @Override
+  public String toString() {
+    return toQueryString(false);
   }
 }

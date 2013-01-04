@@ -44,6 +44,9 @@ public class AllParams {
 
   private AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
     this.paramsMap = paramsMap;
+    for (Params params : paramsMap.values()) {
+      params.setAllParams(this);
+    }
   }
 
   static AllParams createInstance(Method method, Object[] args) {
@@ -92,7 +95,7 @@ public class AllParams {
 
     Map<Class<? extends Annotation>, Params> map = new HashMap<Class<? extends Annotation>, Params>();
     for (Class<? extends Annotation> annotationClass : PARAM_ANNOTATION_CLASSES) {
-      map.put(annotationClass, new Params());
+      map.put(annotationClass, Params.of());
     }
     return map;
   }

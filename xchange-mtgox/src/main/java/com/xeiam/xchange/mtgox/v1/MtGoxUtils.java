@@ -155,14 +155,6 @@ public class MtGoxUtils {
     }
   }
 
-  public static String createSignature(String secretKey, String postBody) {
-    try {
-      return CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey);
-    } catch (GeneralSecurityException e) {
-      throw new ExchangeException("Security exception creating signature for request", e);
-    }
-  }
-
   public static String urlEncode(String str) {
     try {
       return URLEncoder.encode(str, HttpTemplate.CHARSET_UTF_8);
