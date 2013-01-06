@@ -34,8 +34,6 @@ import com.xeiam.xchange.ExchangeException;
  */
 public class JSONUtils {
 
-  // private final Logger log = LoggerFactory.getLogger(JSONUtils.class);
-
   /**
    * Creates a POJO from a Jackson-annotated class given a jsonString
    * 

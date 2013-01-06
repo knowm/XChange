@@ -23,9 +23,6 @@ package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
 import java.math.BigDecimal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -44,9 +41,10 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
 
+/**
+ * @author timmolter
+ */
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
-
-  private final Logger log = LoggerFactory.getLogger(MtGoxPollingTradeService.class);
 
   /**
    * Configured from the super class reading of the exchange specification

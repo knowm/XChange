@@ -55,6 +55,11 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
   private final CampBX campbx;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public CampBXPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

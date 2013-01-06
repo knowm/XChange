@@ -1,4 +1,4 @@
-BTCE Exchange API specification
+BTC-E Exchange API specification
 ================================
 
 Public API

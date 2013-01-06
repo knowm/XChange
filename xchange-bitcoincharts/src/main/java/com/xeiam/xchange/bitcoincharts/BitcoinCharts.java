@@ -25,7 +25,7 @@ package com.xeiam.xchange.bitcoincharts;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import com.xeiam.xchange.bitcoincharts.dto.MarketData;
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.MarketData;
 
 /**
  * @author Matija Mazi <br/>

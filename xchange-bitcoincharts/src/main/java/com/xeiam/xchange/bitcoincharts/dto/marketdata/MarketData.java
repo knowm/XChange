@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoincharts.dto;
+package com.xeiam.xchange.bitcoincharts.dto.marketdata;
 
 import java.math.BigDecimal;
 

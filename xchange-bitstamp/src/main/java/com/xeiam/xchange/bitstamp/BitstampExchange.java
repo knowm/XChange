@@ -25,9 +25,9 @@ package com.xeiam.xchange.bitstamp;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitstamp.polling.BitstampPollingAccountService;
-import com.xeiam.xchange.bitstamp.polling.BitstampPollingMarketDataService;
-import com.xeiam.xchange.bitstamp.polling.BitstampPollingTradeService;
+import com.xeiam.xchange.bitstamp.service.account.polling.BitstampPollingAccountService;
+import com.xeiam.xchange.bitstamp.service.marketdata.polling.BitstampPollingMarketDataService;
+import com.xeiam.xchange.bitstamp.service.trade.polling.BitstampPollingTradeService;
 
 /**
  * @author Matija Mazi <br/>

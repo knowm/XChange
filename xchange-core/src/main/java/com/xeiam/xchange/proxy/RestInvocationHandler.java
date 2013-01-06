@@ -44,6 +44,14 @@ public class RestInvocationHandler implements InvocationHandler {
   private final String intfacePath;
   private final String baseUrl;
 
+  /**
+   * Constructor
+   * 
+   * @param httpTemplate
+   * @param mapper
+   * @param restInterface
+   * @param url
+   */
   public RestInvocationHandler(HttpTemplate httpTemplate, ObjectMapper mapper, Class<?> restInterface, String url) {
 
     this.httpTemplate = httpTemplate;
