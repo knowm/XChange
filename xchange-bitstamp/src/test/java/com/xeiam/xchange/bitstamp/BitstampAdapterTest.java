@@ -33,7 +33,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
-import com.xeiam.xchange.bitstamp.dto.marketdata.Transaction;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -54,7 +54,7 @@ public class BitstampAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook bitstampOrderBook = mapper.readValue(is, com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook.class);
+    com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook bitstampOrderBook = mapper.readValue(is, com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook.class);
 
     OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, "USD", "BTC");
     assertThat(orderBook.getBids().size(), is(equalTo(107)));
@@ -76,7 +76,7 @@ public class BitstampAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Transaction[] transactions = mapper.readValue(is, Transaction[].class);
+    BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
 
     Trades trades = BitstampAdapters.adaptTrades(transactions, "USD", "BTC");
     assertThat(trades.getTrades().size(), is(equalTo(125)));

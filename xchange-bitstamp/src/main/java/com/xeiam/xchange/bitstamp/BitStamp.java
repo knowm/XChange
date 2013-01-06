@@ -31,12 +31,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import com.xeiam.xchange.bitstamp.dto.account.Balance;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
-import com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook;
-import com.xeiam.xchange.bitstamp.dto.marketdata.Transaction;
-import com.xeiam.xchange.bitstamp.dto.trade.Order;
-import com.xeiam.xchange.bitstamp.dto.trade.UserTransaction;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
 /**
  * @author Matija Mazi <br/>
@@ -52,7 +52,7 @@ public interface BitStamp {
   @GET
   @Path("order_book/")
   @Produces("application/json")
-  public OrderBook getOrderBook();
+  public BitstampOrderBook getOrderBook();
 
   @GET
   @Path("ticker/")
@@ -65,7 +65,7 @@ public interface BitStamp {
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public Transaction[] getTransactions();
+  public BitstampTransaction[] getTransactions();
 
   // @GET
   // @Path("transactions/")
@@ -81,34 +81,34 @@ public interface BitStamp {
   @POST
   @Path("balance/")
   @Produces("application/json")
-  public Balance getBalance(@FormParam("user") String user, @FormParam("password") String password);
+  public BitstampBalance getBalance(@FormParam("user") String user, @FormParam("password") String password);
 
   @POST
   @Path("user_transactions/")
   @Produces("application/json")
-  public UserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @QueryParam("timedelta") long timedeltaSec);
+  public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @QueryParam("timedelta") long timedeltaSec);
 
   @POST
   @Path("user_transactions/")
   @Produces("application/json")
-  public UserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password);
+  public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password);
 
   @POST
   @Path("open_orders/")
   @Produces("application/json")
-  public Order[] getOpenOrders(@FormParam("user") String user, @FormParam("password") String password);
+  public BitstampOrder[] getOpenOrders(@FormParam("user") String user, @FormParam("password") String password);
 
   /** buy limit order */
   @POST
   @Path("buy/")
   @Produces("application/json")
-  public Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
+  public BitstampOrder buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
 
   /** sell limit order */
   @POST
   @Path("sell/")
   @Produces("application/json")
-  public Order sell(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
+  public BitstampOrder sell(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
 
   @POST
   @Path("bitcoin_deposit_address/")

@@ -45,7 +45,7 @@ public class FullDepthJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook orderBook = mapper.readValue(is, com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook.class);
+    com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook orderBook = mapper.readValue(is, com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(orderBook.getBids().get(0).get(0), is(equalTo(new BigDecimal("13.07"))));

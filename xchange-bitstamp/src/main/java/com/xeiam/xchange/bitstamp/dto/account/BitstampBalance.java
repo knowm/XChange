@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.dto.marketdata;
+package com.xeiam.xchange.bitstamp.dto.account;
 
 import java.math.BigDecimal;
 
@@ -28,72 +28,64 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 8:34 AM
- * @immutable
+ * @created 4/20/12 7:30 PM
  */
-public final class Transaction {
+public class BitstampBalance {
 
-  private final long date;
-  private final int tid;
-  private final BigDecimal price;
-  private final BigDecimal amount;
+  @JsonProperty("usd_balance")
+  private BigDecimal usdBalance;
+  @JsonProperty("btc_balance")
+  private BigDecimal btcBalance;
+  @JsonProperty("usd_reserved")
+  private BigDecimal usdReserved;
+  @JsonProperty("btc_reserved")
+  private BigDecimal btcReserved;
+  @JsonProperty("usd_available")
+  private BigDecimal usdAvailable;
+  @JsonProperty("btc_available")
+  private BigDecimal btcAvailable;
 
-  /**
-   * Constructor
-   * 
-   * @param date
-   * @param tid
-   * @param price
-   * @param amount
-   */
-  public Transaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
+  private BigDecimal fee;
 
-    this.date = date;
-    this.tid = tid;
-    this.price = price;
-    this.amount = amount;
+  public BigDecimal getUsdBalance() {
+
+    return usdBalance;
   }
 
-  public int getTid() {
+  public BigDecimal getBtcBalance() {
 
-    return tid;
+    return btcBalance;
   }
 
-  public BigDecimal getPrice() {
+  public BigDecimal getUsdReserved() {
 
-    return price;
+    return usdReserved;
   }
 
-  public BigDecimal getAmount() {
+  public BigDecimal getBtcReserved() {
 
-    return amount;
+    return btcReserved;
   }
 
-  public long getDate() {
+  public BigDecimal getUsdAvailable() {
 
-    return date;
+    return usdAvailable;
   }
 
-  public BigDecimal calculateFeeBtc() {
+  public BigDecimal getBtcAvailable() {
 
-    return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));
+    return btcAvailable;
   }
 
-  private BigDecimal roundUp(BigDecimal x) {
+  public BigDecimal getFee() {
 
-    long n = x.longValue();
-    return new BigDecimal(x.equals(new BigDecimal(n)) ? n : n + 1);
-  }
-
-  public BigDecimal calculateFeeUsd() {
-
-    return calculateFeeBtc().multiply(price);
+    return fee;
   }
 
   @Override
   public String toString() {
 
-    return "Transaction [date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + "]";
+    return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}", usdBalance, btcBalance, usdReserved, btcReserved,
+        usdAvailable, btcAvailable, fee);
   }
-
 }

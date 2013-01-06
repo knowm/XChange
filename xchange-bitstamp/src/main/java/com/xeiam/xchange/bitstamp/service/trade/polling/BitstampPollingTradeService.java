@@ -34,7 +34,7 @@ import org.joda.money.CurrencyUnit;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitStamp;
-import com.xeiam.xchange.bitstamp.dto.trade.Order;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -64,9 +64,9 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public OpenOrders getOpenOrders() {
 
-    Order[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    BitstampOrder[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
-    for (Order oo : openOrders) {
+    for (BitstampOrder oo : openOrders) {
       orders.add(new LimitOrder(oo.getType() == 0 ? BID : ASK, oo.getAmount(), "BTC", "USD", Integer.toString(oo.getId()), BigMoney.of(CurrencyUnit.USD, oo.getPrice())));
     }
     return new OpenOrders(orders);
@@ -81,7 +81,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
 
-    Order ord;
+    BitstampOrder ord;
     if (limitOrder.getType() == BID) {
       ord = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     } else {

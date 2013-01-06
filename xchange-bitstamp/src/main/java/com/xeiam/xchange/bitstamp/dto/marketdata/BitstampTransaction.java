@@ -20,72 +20,80 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.dto.trade;
+package com.xeiam.xchange.bitstamp.dto.marketdata;
 
 import java.math.BigDecimal;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 7:33 PM
+ * @created 4/20/12 8:34 AM
+ * @immutable
  */
-public class UserTransaction {
+public final class BitstampTransaction {
 
-  private String datetime;
-  private long id;
-  private int type;
-  private BigDecimal usd;
-  private BigDecimal btc;
-  private BigDecimal fee;
+  private final long date;
+  private final int tid;
+  private final BigDecimal price;
+  private final BigDecimal amount;
 
-  public String getDatetime() {
+  /**
+   * Constructor
+   * 
+   * @param date
+   * @param tid
+   * @param price
+   * @param amount
+   */
+  public BitstampTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
-    return datetime;
+    this.date = date;
+    this.tid = tid;
+    this.price = price;
+    this.amount = amount;
   }
 
-  public long getId() {
+  public int getTid() {
 
-    return id;
+    return tid;
   }
 
-  /** (0 - deposit; 1 - withdrawal; 2 - market trade) */
-  public int getType() {
+  public BigDecimal getPrice() {
 
-    return type;
+    return price;
   }
 
-  public boolean isDeposit() {
+  public BigDecimal getAmount() {
 
-    return type == 0;
+    return amount;
   }
 
-  public boolean isWithdrawal() {
+  public long getDate() {
 
-    return type == 1;
+    return date;
   }
 
-  public boolean isMarketTrade() {
+  public BigDecimal calculateFeeBtc() {
 
-    return type == 2;
+    return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));
   }
 
-  public BigDecimal getUsd() {
+  private BigDecimal roundUp(BigDecimal x) {
 
-    return usd;
+    long n = x.longValue();
+    return new BigDecimal(x.equals(new BigDecimal(n)) ? n : n + 1);
   }
 
-  public BigDecimal getBtc() {
+  public BigDecimal calculateFeeUsd() {
 
-    return btc;
-  }
-
-  public BigDecimal getFee() {
-
-    return fee;
+    return calculateFeeBtc().multiply(price);
   }
 
   @Override
   public String toString() {
 
-    return String.format("UserTransaction{datetime=%s, id=%d, type=%d, usd=%s, btc=%s, fee=%s}", datetime, id, type, usd, btc, fee);
+    return "Transaction [date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + "]";
   }
+
 }

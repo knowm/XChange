@@ -30,7 +30,7 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
-import com.xeiam.xchange.bitstamp.dto.marketdata.Transaction;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -54,7 +54,7 @@ public class BitstampAdapters {
    * @param tradableIdentifier
    * @return
    */
-  public static OrderBook adaptOrders(com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook orderBook, String currency, String tradableIdentifier) {
+  public static OrderBook adaptOrders(com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook orderBook, String currency, String tradableIdentifier) {
 
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
@@ -91,10 +91,10 @@ public class BitstampAdapters {
    * @param tradableIdentifier
    * @return
    */
-  public static Trades adaptTrades(Transaction[] transactions, String currency, String tradableIdentifier) {
+  public static Trades adaptTrades(BitstampTransaction[] transactions, String currency, String tradableIdentifier) {
 
     List<Trade> trades = new ArrayList<Trade>();
-    for (Transaction tx : transactions) {
+    for (BitstampTransaction tx : transactions) {
       trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L)));
     }
     return new Trades(trades);

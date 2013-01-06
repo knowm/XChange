@@ -28,7 +28,7 @@ import java.math.BigDecimal;
  * @author Matija Mazi <br/>
  * @created 4/20/12 7:34 PM
  */
-public class Order {
+public class BitstampOrder {
 
   private int id;
   private String datetime;

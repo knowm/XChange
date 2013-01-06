@@ -30,7 +30,7 @@ import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitStamp;
-import com.xeiam.xchange.bitstamp.dto.account.Balance;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.proxy.RestProxyFactory;
@@ -60,7 +60,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   public AccountInfo getAccountInfo() {
 
     String userName = exchangeSpecification.getUserName();
-    Balance balance = bitstamp.getBalance(userName, exchangeSpecification.getPassword());
+    BitstampBalance balance = bitstamp.getBalance(userName, exchangeSpecification.getPassword());
 
     AccountInfo accountInfo = new AccountInfo();
     accountInfo.setUsername(userName);

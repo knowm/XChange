@@ -20,50 +20,72 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.dto.marketdata;
+package com.xeiam.xchange.bitstamp.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi
- * @created 4/20/12 6:51 PM
- * @immutable
+ * @author Matija Mazi <br/>
+ * @created 4/20/12 7:33 PM
  */
-public final class OrderBook {
+public class BitstampUserTransaction {
 
-  private final List<List<BigDecimal>> bids;
-  private final List<List<BigDecimal>> asks;
+  private String datetime;
+  private long id;
+  private int type;
+  private BigDecimal usd;
+  private BigDecimal btc;
+  private BigDecimal fee;
 
-  /**
-   * Constructor
-   * 
-   * @param bids
-   * @param asks
-   */
-  public OrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
+  public String getDatetime() {
 
-    this.bids = bids;
-    this.asks = asks;
+    return datetime;
   }
 
-  /** (price, amount) */
-  public List<List<BigDecimal>> getBids() {
+  public long getId() {
 
-    return bids;
+    return id;
   }
 
-  /** (price, amount) */
-  public List<List<BigDecimal>> getAsks() {
+  /** (0 - deposit; 1 - withdrawal; 2 - market trade) */
+  public int getType() {
 
-    return asks;
+    return type;
+  }
+
+  public boolean isDeposit() {
+
+    return type == 0;
+  }
+
+  public boolean isWithdrawal() {
+
+    return type == 1;
+  }
+
+  public boolean isMarketTrade() {
+
+    return type == 2;
+  }
+
+  public BigDecimal getUsd() {
+
+    return usd;
+  }
+
+  public BigDecimal getBtc() {
+
+    return btc;
+  }
+
+  public BigDecimal getFee() {
+
+    return fee;
   }
 
   @Override
   public String toString() {
 
-    return String.format("OrderBook{bids=%s, asks=%s}", bids, asks);
+    return String.format("UserTransaction{datetime=%s, id=%d, type=%d, usd=%s, btc=%s, fee=%s}", datetime, id, type, usd, btc, fee);
   }
 }
