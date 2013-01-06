@@ -21,8 +21,9 @@
  */
 package com.xeiam.xchange.bitstamp.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,9 +48,9 @@ public class FullDepthJSONTest {
     com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook orderBook = mapper.readValue(is, com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return bid price value", orderBook.getBids().get(0).get(0), equalTo(new BigDecimal("13.07")));
-    assertThat("Unexpected Return bid amount value", orderBook.getBids().get(0).get(1), equalTo(new BigDecimal("7.43517000")));
-    assertThat("Unexpected Return Buy value", orderBook.getAsks().get(0).get(0), equalTo(new BigDecimal("13.15")));
-    assertThat("Unexpected Return Buy value", orderBook.getAsks().get(0).get(1), equalTo(new BigDecimal("843.29085332")));
+    assertThat(orderBook.getBids().get(0).get(0), is(equalTo(new BigDecimal("13.07"))));
+    assertThat(orderBook.getBids().get(0).get(1), is(equalTo(new BigDecimal("7.43517000"))));
+    assertThat(orderBook.getAsks().get(0).get(0), is(equalTo(new BigDecimal("13.15"))));
+    assertThat(orderBook.getAsks().get(0).get(1), is(equalTo(new BigDecimal("843.29085332"))));
   }
 }

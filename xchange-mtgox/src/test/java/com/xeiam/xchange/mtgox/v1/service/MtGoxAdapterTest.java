@@ -21,7 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v1.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -127,7 +129,7 @@ public class MtGoxAdapterTest {
     assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
-    assertEquals("timestamp incorrect", "2012-04-11T20:48:46.000Z", trades.getTrades().get(0).getTimestamp().toString());
+    assertThat("2012-04-11T20:48:46.000Z", is(equalTo(trades.getTrades().get(0).getTimestamp().toString())));
   }
 
   @Test
@@ -148,9 +150,10 @@ public class MtGoxAdapterTest {
 
     // in Wallet(s), only wallets from MtGoxAccountInfo.getWallets that contained data are NOT null.
     List<Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
+    System.out.println(wallets.toString());
     assertTrue("List size should be true!", wallets.size() == 2);
     assertTrue("CAD should be null", !wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parseFiat("CAD 0.0"))));
-    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parseFiat("BTC 0.0"))));
+    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parseFiat("BTC 0.00000000"))));
 
     // System.out.println(wallets.get(0).toString());
     assertTrue("wallets.get(0).getBalance().getAmount().doubleValue() should be 0.0", wallets.get(0).getBalance().getAmount().doubleValue() == 0.0);
@@ -168,12 +171,12 @@ public class MtGoxAdapterTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
-    System.out.println(ticker.toString());
+    // System.out.println(ticker.toString());
 
-    assertEquals("last should be USD 4.89", ticker.getLast().toString(), "USD 4.89");
-    assertEquals("bid should be USD 4.89002", ticker.getBid().toString(), "USD 4.89002");
-    assertEquals("ask should be USD 4.91227", ticker.getAsk().toString(), "USD 4.91227");
-    assertEquals("volume should be 57759.66891627", ticker.getVolume(), new BigDecimal(57759.66891627));
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parseFiat("USD 4.89000"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parseFiat("USD 4.89002"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parseFiat("USD 4.91227"))));
+    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("57759.66891627"))));
 
   }
 }
