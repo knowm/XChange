@@ -35,6 +35,9 @@ public class Params {
   private Map<String, Object> data = new LinkedHashMap<String, Object>();
   private AllParams allParams;
 
+  /**
+   * private Constructor to prevent instantiation
+   */
   private Params() {
 
   }

@@ -37,7 +37,6 @@ public class TickerDemo {
 
     // Use the factory to get Bitstamp exchange API using default settings
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
-    // Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();

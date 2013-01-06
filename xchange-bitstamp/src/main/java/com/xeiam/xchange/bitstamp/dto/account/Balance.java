@@ -20,56 +20,72 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.api.model;
+package com.xeiam.xchange.bitstamp.dto.account;
 
 import java.math.BigDecimal;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 7:12 PM
+ * @created 4/20/12 7:30 PM
  */
-public class BitstampTicker {
+public class Balance {
 
-  private BigDecimal last;
-  private BigDecimal high;
-  private BigDecimal low;
-  private BigDecimal volume;
-  private BigDecimal bid;
-  private BigDecimal ask;
+  @JsonProperty("usd_balance")
+  private BigDecimal usdBalance;
+  @JsonProperty("btc_balance")
+  private BigDecimal btcBalance;
+  @JsonProperty("usd_reserved")
+  private BigDecimal usdReserved;
+  @JsonProperty("btc_reserved")
+  private BigDecimal btcReserved;
+  @JsonProperty("usd_available")
+  private BigDecimal usdAvailable;
+  @JsonProperty("btc_available")
+  private BigDecimal btcAvailable;
 
-  public BigDecimal getLast() {
+  private BigDecimal fee;
 
-    return last;
+  public BigDecimal getUsdBalance() {
+
+    return usdBalance;
   }
 
-  public BigDecimal getHigh() {
+  public BigDecimal getBtcBalance() {
 
-    return high;
+    return btcBalance;
   }
 
-  public BigDecimal getLow() {
+  public BigDecimal getUsdReserved() {
 
-    return low;
+    return usdReserved;
   }
 
-  public BigDecimal getVolume() {
+  public BigDecimal getBtcReserved() {
 
-    return volume;
+    return btcReserved;
   }
 
-  public BigDecimal getBid() {
+  public BigDecimal getUsdAvailable() {
 
-    return bid;
+    return usdAvailable;
   }
 
-  public BigDecimal getAsk() {
+  public BigDecimal getBtcAvailable() {
 
-    return ask;
+    return btcAvailable;
+  }
+
+  public BigDecimal getFee() {
+
+    return fee;
   }
 
   @Override
   public String toString() {
 
-    return String.format("BitstampTicker{last=%s, high=%s, low=%s, volume=%s, bid=%s, ask=%s}", last, high, low, volume, bid, ask);
+    return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}", usdBalance, btcBalance, usdReserved, btcReserved,
+        usdAvailable, btcAvailable, fee);
   }
 }

@@ -20,67 +20,72 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.api.model;
+package com.xeiam.xchange.bitstamp.dto.trade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 8:34 AM
+ * @created 4/20/12 7:33 PM
  */
-public class Transaction implements Serializable {
+public class UserTransaction {
 
-  private long date;
-  private int tid;
-  private BigDecimal price;
-  private BigDecimal amount;
+  private String datetime;
+  private long id;
+  private int type;
+  private BigDecimal usd;
+  private BigDecimal btc;
+  private BigDecimal fee;
 
-  public int getTid() {
+  public String getDatetime() {
 
-    return tid;
+    return datetime;
   }
 
-  public BigDecimal getPrice() {
+  public long getId() {
 
-    return price;
+    return id;
   }
 
-  public BigDecimal getAmount() {
+  /** (0 - deposit; 1 - withdrawal; 2 - market trade) */
+  public int getType() {
 
-    return amount;
+    return type;
   }
 
-  public long getDate() {
+  public boolean isDeposit() {
 
-    return date;
+    return type == 0;
   }
 
-  public Date getTransactionDate() {
+  public boolean isWithdrawal() {
 
-    return new Date(date * 1000);
+    return type == 1;
   }
 
-  public BigDecimal calculateFeeBtc() {
+  public boolean isMarketTrade() {
 
-    return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));
+    return type == 2;
   }
 
-  private BigDecimal roundUp(BigDecimal x) {
+  public BigDecimal getUsd() {
 
-    long n = x.longValue();
-    return new BigDecimal(x.equals(new BigDecimal(n)) ? n : n + 1);
+    return usd;
   }
 
-  public BigDecimal calculateFeeUsd() {
+  public BigDecimal getBtc() {
 
-    return calculateFeeBtc().multiply(price);
+    return btc;
+  }
+
+  public BigDecimal getFee() {
+
+    return fee;
   }
 
   @Override
   public String toString() {
 
-    return String.format("Transaction{date=%s, tid=%d, price=%s, amount=%s}", getTransactionDate(), tid, price, amount);
+    return String.format("UserTransaction{datetime=%s, id=%d, type=%d, usd=%s, btc=%s, fee=%s}", datetime, id, type, usd, btc, fee);
   }
 }

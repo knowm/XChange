@@ -32,8 +32,8 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitstamp.api.BitStamp;
-import com.xeiam.xchange.bitstamp.api.model.Order;
+import com.xeiam.xchange.bitstamp.BitStamp;
+import com.xeiam.xchange.bitstamp.dto.trade.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;

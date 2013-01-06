@@ -29,8 +29,8 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitstamp.api.BitStamp;
-import com.xeiam.xchange.bitstamp.api.model.Balance;
+import com.xeiam.xchange.bitstamp.BitStamp;
+import com.xeiam.xchange.bitstamp.dto.account.Balance;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.proxy.RestProxyFactory;

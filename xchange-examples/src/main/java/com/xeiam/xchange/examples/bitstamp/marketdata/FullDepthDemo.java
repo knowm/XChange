@@ -31,7 +31,7 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Order Book at Bitstamp
  */
-public class DepthDemo {
+public class FullDepthDemo {
 
   public static void main(String[] args) {
 

@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.api;
+package com.xeiam.xchange.bitstamp;
 
 import java.math.BigDecimal;
 
@@ -31,12 +31,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import com.xeiam.xchange.bitstamp.api.model.Balance;
-import com.xeiam.xchange.bitstamp.api.model.BitstampTicker;
-import com.xeiam.xchange.bitstamp.api.model.Order;
-import com.xeiam.xchange.bitstamp.api.model.OrderBook;
-import com.xeiam.xchange.bitstamp.api.model.Transaction;
-import com.xeiam.xchange.bitstamp.api.model.UserTransaction;
+import com.xeiam.xchange.bitstamp.dto.account.Balance;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
+import com.xeiam.xchange.bitstamp.dto.marketdata.OrderBook;
+import com.xeiam.xchange.bitstamp.dto.marketdata.Transaction;
+import com.xeiam.xchange.bitstamp.dto.trade.Order;
+import com.xeiam.xchange.bitstamp.dto.trade.UserTransaction;
 
 /**
  * @author Matija Mazi <br/>
@@ -67,10 +67,10 @@ public interface BitStamp {
   @Produces("application/json")
   public Transaction[] getTransactions();
 
-  @GET
-  @Path("transactions/")
-  @Produces("application/json")
-  public Transaction[] getTransactions(@QueryParam("timedelta") long timedeltaSec);
+  // @GET
+  // @Path("transactions/")
+  // @Produces("application/json")
+  // public Transaction[] getTransactions(@QueryParam("timedelta") long timedeltaSec);
 
   /** @return true if order has been found and canceled. */
   @POST

@@ -28,8 +28,8 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
@@ -49,7 +49,7 @@ public class TickerDemo {
   private void start() {
 
     // Use the default MtGox settings
-    Exchange mtGox = MtGoxExchange.newInstance();
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public streaming market data feed (no authentication)
     StreamingMarketDataService streamingMarketDataService = mtGox.getStreamingMarketDataService();

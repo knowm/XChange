@@ -20,19 +20,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.api.model;
+package com.xeiam.xchange.bitstamp.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * @author Matija Mazi <br/>
- * @created 4/20/12 6:51 PM
- */
-public class OrderBook {
+import org.codehaus.jackson.annotate.JsonProperty;
 
-  private List<List<BigDecimal>> bids;
-  private List<List<BigDecimal>> asks;
+/**
+ * @author Matija Mazi
+ * @created 4/20/12 6:51 PM
+ * @immutable
+ */
+public final class OrderBook {
+
+  private final List<List<BigDecimal>> bids;
+  private final List<List<BigDecimal>> asks;
+
+  /**
+   * Constructor
+   * 
+   * @param bids
+   * @param asks
+   */
+  public OrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
+
+    this.bids = bids;
+    this.asks = asks;
+  }
 
   /** (price, amount) */
   public List<List<BigDecimal>> getBids() {

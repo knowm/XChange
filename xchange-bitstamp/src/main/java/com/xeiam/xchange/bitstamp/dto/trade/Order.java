@@ -20,72 +20,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.api.model;
+package com.xeiam.xchange.bitstamp.dto.trade;
 
 import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 7:33 PM
+ * @created 4/20/12 7:34 PM
  */
-public class UserTransaction {
+public class Order {
 
+  private int id;
   private String datetime;
-  private long id;
+  /** 0 - buy (bid); 1 - sell (ask) */
   private int type;
-  private BigDecimal usd;
-  private BigDecimal btc;
-  private BigDecimal fee;
+  private BigDecimal price;
+  private BigDecimal amount;
 
   public String getDatetime() {
 
     return datetime;
   }
 
-  public long getId() {
+  public int getId() {
 
     return id;
   }
 
-  /** (0 - deposit; 1 - withdrawal; 2 - market trade) */
   public int getType() {
 
     return type;
   }
 
-  public boolean isDeposit() {
+  public BigDecimal getPrice() {
 
-    return type == 0;
+    return price;
   }
 
-  public boolean isWithdrawal() {
+  public BigDecimal getAmount() {
 
-    return type == 1;
-  }
-
-  public boolean isMarketTrade() {
-
-    return type == 2;
-  }
-
-  public BigDecimal getUsd() {
-
-    return usd;
-  }
-
-  public BigDecimal getBtc() {
-
-    return btc;
-  }
-
-  public BigDecimal getFee() {
-
-    return fee;
+    return amount;
   }
 
   @Override
   public String toString() {
 
-    return String.format("UserTransaction{datetime=%s, id=%d, type=%d, usd=%s, btc=%s, fee=%s}", datetime, id, type, usd, btc, fee);
+    return String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price, amount);
   }
 }
