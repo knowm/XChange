@@ -22,15 +22,17 @@
  */
 package com.xeiam.xchange.proxy;
 
-import com.xeiam.xchange.utils.HttpTemplate;
-import org.codehaus.jackson.map.ObjectMapper;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.HashMap;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>

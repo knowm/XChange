@@ -26,5 +26,6 @@ package com.xeiam.xchange.proxy;
  * @author Matija Mazi <br/>
  */
 public interface ParamsDigest {
+
   String digestParams(AllParams allParams);
 }

@@ -29,6 +29,7 @@ import com.xeiam.xchange.bitcoincharts.dto.MarketData;
 public class BitcoinChartsDemo {
 
   public static void main(String[] args) {
+
     BitcoinCharts bitcoinCharts = BitcoinChartsFactory.createInstance();
     MarketData[] marketData = bitcoinCharts.getMarketData();
     for (MarketData data : marketData) {

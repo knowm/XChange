@@ -28,7 +28,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.polling.CampBXPollingMarketDataService;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class CampBXExchange extends BaseExchange implements Exchange {
 

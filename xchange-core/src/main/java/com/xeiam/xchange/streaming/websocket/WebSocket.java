@@ -27,9 +27,9 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeExceptio
 import com.xeiam.xchange.utils.CharsetUtils;
 
 /**
- * Represents one end (client or server) of a single WebSocket connection. Takes care of the "handshake" phase, then allows for easy sending of text frames, and recieving frames through an event-based model. This is an inner class, used by
- * <tt>WebSocketClient</tt> and <tt>WebSocketServer</tt>, and should never need to be instantiated directly by your code. However, instances are exposed in <tt>WebSocketServer</tt> through the <i>onClientOpen</i>, <i>onClientClose</i>,
- * <i>onClientMessage</i> callbacks.
+ * Represents one end (client or server) of a single WebSocket connection. Takes care of the "handshake" phase, then allows for easy sending of text frames, and recieving frames through an event-based
+ * model. This is an inner class, used by <tt>WebSocketClient</tt> and <tt>WebSocketServer</tt>, and should never need to be instantiated directly by your code. However, instances are exposed in
+ * <tt>WebSocketServer</tt> through the <i>onClientOpen</i>, <i>onClientClose</i>, <i>onClientMessage</i> callbacks.
  * 
  * @author Nathan Rajlich
  */
@@ -42,7 +42,8 @@ public final class WebSocket {
   }
 
   /**
-   * The default port of WebSockets, as defined in the spec. If the default constructor is used, DEFAULT_PORT will be the port the WebSocketServer is binded to. Note that ports under 1024 usually require root permissions.
+   * The default port of WebSockets, as defined in the spec. If the default constructor is used, DEFAULT_PORT will be the port the WebSocketServer is binded to. Note that ports under 1024 usually
+   * require root permissions.
    */
   public static final int DEFAULT_PORT = 80;
 
@@ -141,7 +142,8 @@ public final class WebSocket {
 
     if (socketBuffer.hasRemaining()) {
       if (DEBUG)
-        log.trace("process(" + socketBuffer.remaining() + "): {" + (socketBuffer.remaining() > 1000 ? "too big to display" : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())) + "}");
+        log.trace("process(" + socketBuffer.remaining() + "): {"
+            + (socketBuffer.remaining() > 1000 ? "too big to display" : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())) + "}");
       if (!handshakeComplete) {
         HandshakeData handshake;
         HandshakeState handshakeState;
@@ -327,8 +329,8 @@ public final class WebSocket {
    * @param remote Indicates who "generated" <code>code</code>.<br>
    *          <code>true</code> means that this endpoint received the <code>code</code> from the other endpoint.<br>
    *          false means this endpoint decided to send the given code,<br>
-   *          <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other
-   *          <code>code</code>. <br>
+   *          <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same
+   *          time this endpoint does do but with an other <code>code</code>. <br>
    */
   public void closeConnection(int code, String message, boolean remote) {
 

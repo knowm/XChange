@@ -61,9 +61,9 @@ public class MtGoxAccountInfo {
    * @param monthly_Volume
    * @param trade_Fee
    */
-  public MtGoxAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language,
-      @JsonProperty("Created") String created, @JsonProperty("Last_Login") String last_Login, @JsonProperty("Wallets") Wallets wallets, @JsonProperty("Monthly_Volume") MtGoxValue monthly_Volume,
-      @JsonProperty("Trade_Fee") BigDecimal trade_Fee) {
+  public MtGoxAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights,
+      @JsonProperty("Language") String language, @JsonProperty("Created") String created, @JsonProperty("Last_Login") String last_Login, @JsonProperty("Wallets") Wallets wallets,
+      @JsonProperty("Monthly_Volume") MtGoxValue monthly_Volume, @JsonProperty("Trade_Fee") BigDecimal trade_Fee) {
 
     this.login = login;
     this.index = index;
@@ -130,8 +130,8 @@ public class MtGoxAccountInfo {
   @Override
   public String toString() {
 
-    return "MtGoxAccountInfo [login=" + login + ", index=" + index + ", rights=" + rights + ", language=" + language + ", created=" + created + ", last_Login=" + last_Login + ", wallets=" + wallets + ", trade_Fee="
-        + trade_Fee + "]";
+    return "MtGoxAccountInfo [login=" + login + ", index=" + index + ", rights=" + rights + ", language=" + language + ", created=" + created + ", last_Login=" + last_Login + ", wallets=" + wallets
+        + ", trade_Fee=" + trade_Fee + "]";
   }
 
 }

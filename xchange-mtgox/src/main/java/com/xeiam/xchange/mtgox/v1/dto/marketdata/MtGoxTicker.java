@@ -59,9 +59,9 @@ public final class MtGoxTicker {
    * @param buy
    * @param sell
    */
-  public MtGoxTicker(@JsonProperty("high") MtGoxValue high, @JsonProperty("low") MtGoxValue low, @JsonProperty("avg") MtGoxValue avg, @JsonProperty("vwap") MtGoxValue vwap, @JsonProperty("vol") MtGoxValue vol,
-      @JsonProperty("last_local") MtGoxValue last_local, @JsonProperty("last") MtGoxValue last, @JsonProperty("last_orig") MtGoxValue last_orig, @JsonProperty("last_all") MtGoxValue last_all,
-      @JsonProperty("buy") MtGoxValue buy, @JsonProperty("sell") MtGoxValue sell) {
+  public MtGoxTicker(@JsonProperty("high") MtGoxValue high, @JsonProperty("low") MtGoxValue low, @JsonProperty("avg") MtGoxValue avg, @JsonProperty("vwap") MtGoxValue vwap,
+      @JsonProperty("vol") MtGoxValue vol, @JsonProperty("last_local") MtGoxValue last_local, @JsonProperty("last") MtGoxValue last, @JsonProperty("last_orig") MtGoxValue last_orig,
+      @JsonProperty("last_all") MtGoxValue last_all, @JsonProperty("buy") MtGoxValue buy, @JsonProperty("sell") MtGoxValue sell) {
 
     this.high = high;
     this.low = low;
@@ -134,8 +134,8 @@ public final class MtGoxTicker {
   @Override
   public String toString() {
 
-    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last_local=" + last_local + ", last=" + last + ", last_orig=" + last_orig + ", last_all=" + last_all
-        + ", buy=" + buy + ", sell=" + sell + "]";
+    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last_local=" + last_local + ", last=" + last + ", last_orig=" + last_orig
+        + ", last_all=" + last_all + ", buy=" + buy + ", sell=" + sell + "]";
   }
 
 }

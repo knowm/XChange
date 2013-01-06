@@ -22,13 +22,14 @@
 package com.xeiam.xchange.service;
 
 /**
- * <p>Enum to provide the following to {@link RunnableExchangeEventProducer}:</p>
+ * <p>
+ * Enum to provide the following to {@link RunnableExchangeEventProducer}:
+ * </p>
  * <ul>
  * <li>Classification of event type to allow clients to take appropriate action</li>
  * </ul>
- *
- * @since 1.3.0
- *         
+ * 
+ * @since 1.3.0  
  */
 public enum ExchangeEventType {
 
@@ -64,6 +65,5 @@ public enum ExchangeEventType {
 
   /* End of enum */
   ;
-
 
 }

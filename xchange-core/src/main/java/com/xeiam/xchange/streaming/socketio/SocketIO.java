@@ -22,12 +22,13 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-import org.json.JSONObject;
-
-import javax.net.ssl.SSLSocketFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
+
+import javax.net.ssl.SSLSocketFactory;
+
+import org.json.JSONObject;
 
 /**
  * The Class SocketIO.
@@ -226,8 +227,7 @@ public class SocketIO {
   }
 
   /**
-   * Emits an event to the Socket.IO server. If the connection is not established, the call will be buffered
-   * and sent as soon as it is possible.
+   * Emits an event to the Socket.IO server. If the connection is not established, the call will be buffered and sent as soon as it is possible.
    * 
    * @param event the event name
    * @param ack an acknowledge implementation
@@ -309,8 +309,7 @@ public class SocketIO {
   }
 
   /**
-   * Triggers the transport to reconnect. This had become useful on some android devices which do not shut
-   * down TCP connections when switching from HSDPA to Wifi
+   * Triggers the transport to reconnect. This had become useful on some android devices which do not shut down TCP connections when switching from HSDPA to Wifi
    */
   public void reconnect() {
 
@@ -339,7 +338,8 @@ public class SocketIO {
   }
 
   /**
-   * Returns the headers used while handshaking. These Properties are not necessarily the ones set by {@link #addHeader(String, String)} or {@link #SocketIO(String, Properties)} but the ones used for the handshake.
+   * Returns the headers used while handshaking. These Properties are not necessarily the ones set by {@link #addHeader(String, String)} or {@link #SocketIO(String, Properties)} but the ones used for
+   * the handshake.
    * 
    * @return the headers used while handshaking
    */

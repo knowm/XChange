@@ -22,12 +22,12 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
-import com.xeiam.xchange.streaming.websocket.WebSocketClient;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.regex.Pattern;
+
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.WebSocketClient;
 
 /**
  * The Class WebSocketTransport.

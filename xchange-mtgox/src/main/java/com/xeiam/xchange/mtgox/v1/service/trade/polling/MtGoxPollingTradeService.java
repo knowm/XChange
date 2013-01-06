@@ -23,7 +23,6 @@ package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.proxy.Params;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +38,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import com.xeiam.xchange.proxy.Params;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
@@ -75,8 +75,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce()).asFormEncodedPostBody();
 
     // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
+        .getApiKey(), exchangeSpecification.getSecretKey()));
 
     // Adapt to XChange DTOs
     return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
@@ -97,8 +97,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount).asFormEncodedPostBody();
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
+        exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
     return mtGoxSuccess.getReturn();
   }
@@ -120,8 +120,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount_int, "price_int", price_int).asFormEncodedPostBody();
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
+        exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
     return mtGoxSuccess.getReturn();
   }

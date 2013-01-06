@@ -85,8 +85,8 @@ public class MtGoxWallet {
   @Override
   public String toString() {
 
-    return "MtGoxWallet [balance=" + balance + ", daily_Withdraw_Limit=" + daily_Withdraw_Limit + ", max_Withdraw=" + max_Withdraw + ", monthly_Withdraw_Limit=" + monthly_Withdraw_Limit + ", operations=" + operations
-        + "]";
+    return "MtGoxWallet [balance=" + balance + ", daily_Withdraw_Limit=" + daily_Withdraw_Limit + ", max_Withdraw=" + max_Withdraw + ", monthly_Withdraw_Limit=" + monthly_Withdraw_Limit
+        + ", operations=" + operations + "]";
   }
 
 }

@@ -22,11 +22,21 @@
  */
 package com.xeiam.xchange.bitstamp.api;
 
-import com.xeiam.xchange.bitstamp.api.model.*;
-
-import javax.ws.rs.*;
-
 import java.math.BigDecimal;
+
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
+import com.xeiam.xchange.bitstamp.api.model.Balance;
+import com.xeiam.xchange.bitstamp.api.model.BitstampTicker;
+import com.xeiam.xchange.bitstamp.api.model.Order;
+import com.xeiam.xchange.bitstamp.api.model.OrderBook;
+import com.xeiam.xchange.bitstamp.api.model.Transaction;
+import com.xeiam.xchange.bitstamp.api.model.UserTransaction;
 
 /**
  * @author Matija Mazi <br/>

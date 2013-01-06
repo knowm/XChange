@@ -275,8 +275,8 @@ public abstract class WebSocketServer extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Gets the XML string that should be returned if a client requests a Flash security policy. The default implementation allows access from all remote domains, but only on the port that this WebSocketServer is listening on. This is specifically
-   * implemented for gitime's WebSocket client for Flash: http://github.com/gimite/web-socket-js
+   * Gets the XML string that should be returned if a client requests a Flash security policy. The default implementation allows access from all remote domains, but only on the port that this
+   * WebSocketServer is listening on. This is specifically implemented for gitime's WebSocket client for Flash: http://github.com/gimite/web-socket-js
    * 
    * @return An XML String that conforms to Flash's security policy. You MUST not include the null char at the end, it is appended automatically.
    */

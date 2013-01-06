@@ -21,14 +21,15 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.ExchangeException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Date;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Date;
+
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * Various cryptography utility methods

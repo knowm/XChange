@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.service.marketdata.streaming;
 
+import java.util.concurrent.BlockingQueue;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.StreamingExchangeService;
-
-import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -52,7 +52,7 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
 
   /**
    * Request a streaming Ticker feed
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (e.g. "Bitcoin")
    * @param currency The currency symbol
    * @return A blocking queue consisting of received Ticker objects

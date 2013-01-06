@@ -1,5 +1,9 @@
 package com.xeiam.xchange.mtgox.v1.service.account;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
@@ -12,10 +16,6 @@ import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
-
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
 
 /**
  * <p>
@@ -49,8 +49,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
     // Request data
-    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
+        .getApiKey(), exchangeSpecification.getSecretKey()));
 
     // Adapt to XChange DTOs
     AccountInfo accountInfo = new AccountInfo();
@@ -82,8 +82,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
       }
 
       // Request data
-      MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = httpTemplate.postForJsonObject(url, MtGoxBitcoinDepositAddress.class, postBody, mapper,
-          MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+      MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = httpTemplate.postForJsonObject(url, MtGoxBitcoinDepositAddress.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(
+          postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
       return mtGoxBitcoinDepositAddress.getAddres();
 

@@ -47,7 +47,8 @@ public class MtGoxOrder {
    * @param amount_int
    * @param stamp
    */
-  public MtGoxOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long price_int, @JsonProperty("amount_int") long amount_int, @JsonProperty("stamp") long stamp) {
+  public MtGoxOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long price_int, @JsonProperty("amount_int") long amount_int,
+      @JsonProperty("stamp") long stamp) {
 
     this.price = price;
     this.amount = amount;

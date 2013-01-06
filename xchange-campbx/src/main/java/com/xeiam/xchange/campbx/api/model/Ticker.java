@@ -22,15 +22,13 @@
  */
 package com.xeiam.xchange.campbx.api.model;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.math.BigDecimal;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- *
- * Sample json:
- * {"Last Trade":"13.25","Best Bid":"13.17","Best Ask":"13.30"}
+ *         Sample json: {"Last Trade":"13.25","Best Bid":"13.17","Best Ask":"13.30"}
  */
 public class Ticker {
 

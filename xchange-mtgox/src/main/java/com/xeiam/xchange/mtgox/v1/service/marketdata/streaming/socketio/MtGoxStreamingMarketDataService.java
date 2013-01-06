@@ -21,6 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
+import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -29,12 +36,6 @@ import com.xeiam.xchange.service.BaseSocketIOExchangeService;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * <p>
@@ -62,7 +63,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
@@ -77,6 +78,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   // TODO Remove this in v1.4.0
   @Override
   public BlockingQueue<Ticker> requestTicker(String tradableIdentifier, final String currency) {
+
     return getTickerQueue(tradableIdentifier, currency);
   }
 
@@ -103,6 +105,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   @Override
   public void cancelTicker() {
+
     disconnect();
   }
 
@@ -114,17 +117,15 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   /**
    * Verify that the exchange can provide a stream
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (exchange specific)
-   * @param currency           The currency
+   * @param currency The currency
    */
   private void verify(String tradableIdentifier, String currency) {
 
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(
-      new CurrencyPair(tradableIdentifier, currency)),
-      "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
   }
 

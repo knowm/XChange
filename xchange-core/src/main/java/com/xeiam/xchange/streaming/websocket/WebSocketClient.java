@@ -16,8 +16,8 @@ import com.xeiam.xchange.streaming.websocket.drafts.Draft_10;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeException;
 
 /**
- * The <tt>WebSocketClient</tt> is an abstract class that expects a valid "ws://" URI to connect to. When connected, an instance recieves important events related to the life of the connection. A subclass must implement <var>onOpen</var>,
- * <var>onClose</var>, and <var>onMessage</var> to be useful. An instance can send messages to it's connected server via the <var>send</var> method.
+ * The <tt>WebSocketClient</tt> is an abstract class that expects a valid "ws://" URI to connect to. When connected, an instance recieves important events related to the life of the connection. A
+ * subclass must implement <var>onOpen</var>, <var>onClose</var>, and <var>onMessage</var> to be useful. An instance can send messages to it's connected server via the <var>send</var> method.
  * 
  * @author Nathan Rajlich
  */
@@ -50,7 +50,8 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
   }
 
   /**
-   * Constructs a WebSocketClient instance and sets it to the connect to the specified URI. The client does not attampt to connect automatically. You must call <var>connect</var> first to initiate the socket connection.
+   * Constructs a WebSocketClient instance and sets it to the connect to the specified URI. The client does not attampt to connect automatically. You must call <var>connect</var> first to initiate the
+   * socket connection.
    */
   public WebSocketClient(URI serverUri, Draft draft) {
 

@@ -57,8 +57,9 @@ public class MtGoxOpenOrder {
    * @param date
    * @param priority
    */
-  public MtGoxOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type, @JsonProperty("amount") MtGoxValue amount,
-      @JsonProperty("invalid_amount") MtGoxValue invalid_amount, @JsonProperty("price") MtGoxValue price, @JsonProperty("status") String status, @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
+  public MtGoxOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type,
+      @JsonProperty("amount") MtGoxValue amount, @JsonProperty("invalid_amount") MtGoxValue invalid_amount, @JsonProperty("price") MtGoxValue price, @JsonProperty("status") String status,
+      @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
 
     this.oid = oid;
     this.currency = currency;
@@ -125,8 +126,8 @@ public class MtGoxOpenOrder {
   @Override
   public String toString() {
 
-    return "MtGoxOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalid_amount=" + invalid_amount + ", price=" + price + ", status=" + status
-        + ", date=" + date + ", priority=" + priority + "]";
+    return "MtGoxOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalid_amount=" + invalid_amount + ", price=" + price
+        + ", status=" + status + ", date=" + date + ", priority=" + priority + "]";
   }
 
 }

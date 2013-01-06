@@ -76,7 +76,7 @@ public interface StreamingExchangeService {
 
   /**
    * The consumer exchange event queue
-   *
+   * 
    * @return A blocking queue consisting of raw exchange events (such as connect/disconnect notifications)
    */
   BlockingQueue<ExchangeEvent> getEventQueue();

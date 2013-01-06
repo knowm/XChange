@@ -70,10 +70,10 @@ public class Wallets {
    * @param sEK
    * @param tHB
    */
-  public Wallets(@JsonProperty("BTC") MtGoxWallet bTC, @JsonProperty("USD") MtGoxWallet uSD, @JsonProperty("EUR") MtGoxWallet eUR, @JsonProperty("GBP") MtGoxWallet gBP, @JsonProperty("AUD") MtGoxWallet aUD,
-      @JsonProperty("CAD") MtGoxWallet cAD, @JsonProperty("CHF") MtGoxWallet cHF, @JsonProperty("JPY") MtGoxWallet jPY, @JsonProperty("CNY") MtGoxWallet cNY, @JsonProperty("DKK") MtGoxWallet dKK,
-      @JsonProperty("HKD") MtGoxWallet hKD, @JsonProperty("NZD") MtGoxWallet nZD, @JsonProperty("PLN") MtGoxWallet pLN, @JsonProperty("RUB") MtGoxWallet rUB, @JsonProperty("SEK") MtGoxWallet sEK,
-      @JsonProperty("THB") MtGoxWallet tHB) {
+  public Wallets(@JsonProperty("BTC") MtGoxWallet bTC, @JsonProperty("USD") MtGoxWallet uSD, @JsonProperty("EUR") MtGoxWallet eUR, @JsonProperty("GBP") MtGoxWallet gBP,
+      @JsonProperty("AUD") MtGoxWallet aUD, @JsonProperty("CAD") MtGoxWallet cAD, @JsonProperty("CHF") MtGoxWallet cHF, @JsonProperty("JPY") MtGoxWallet jPY, @JsonProperty("CNY") MtGoxWallet cNY,
+      @JsonProperty("DKK") MtGoxWallet dKK, @JsonProperty("HKD") MtGoxWallet hKD, @JsonProperty("NZD") MtGoxWallet nZD, @JsonProperty("PLN") MtGoxWallet pLN, @JsonProperty("RUB") MtGoxWallet rUB,
+      @JsonProperty("SEK") MtGoxWallet sEK, @JsonProperty("THB") MtGoxWallet tHB) {
 
     BTC = bTC;
     USD = uSD;
@@ -181,8 +181,8 @@ public class Wallets {
   @Override
   public String toString() {
 
-    return "Wallets [BTC=" + BTC + ", USD=" + USD + ", EUR=" + EUR + ", GBP=" + GBP + ", AUD=" + AUD + ", CAD=" + CAD + ", CHF=" + CHF + ", JPY=" + JPY + ", CNY=" + CNY + ", DKK=" + DKK + ", HKD=" + HKD + ", NZD=" + NZD
-        + ", PLN=" + PLN + ", RUB=" + RUB + ", SEK=" + SEK + ", THB=" + THB + "]";
+    return "Wallets [BTC=" + BTC + ", USD=" + USD + ", EUR=" + EUR + ", GBP=" + GBP + ", AUD=" + AUD + ", CAD=" + CAD + ", CHF=" + CHF + ", JPY=" + JPY + ", CNY=" + CNY + ", DKK=" + DKK + ", HKD="
+        + HKD + ", NZD=" + NZD + ", PLN=" + PLN + ", RUB=" + RUB + ", SEK=" + SEK + ", THB=" + THB + "]";
   }
 
 }

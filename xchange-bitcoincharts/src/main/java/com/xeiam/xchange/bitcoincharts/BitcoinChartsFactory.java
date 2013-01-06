@@ -22,12 +22,19 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
-import com.xeiam.xchange.proxy.RestProxyFactory;
-import com.xeiam.xchange.utils.HttpTemplate;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.xeiam.xchange.proxy.RestProxyFactory;
+import com.xeiam.xchange.utils.HttpTemplate;
+
+/**
+ * @author Matija Mazi
+ * @create Jan 6, 2013
+ */
 public class BitcoinChartsFactory {
+
   public static BitcoinCharts createInstance() {
+
     return RestProxyFactory.createProxy(BitcoinCharts.class, "http://bitcoincharts.com", new HttpTemplate(), new ObjectMapper());
   }
 }

@@ -21,14 +21,14 @@
  */
 package com.xeiam.xchange.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -48,9 +48,9 @@ public class RunnableWebSocketEventProducer implements RunnableExchangeEventProd
 
   /**
    * Package constructor
-   *
+   * 
    * @param socket The underlying socket to use (operates in a
-   * @param queue  The market data event queue for the producer to work against
+   * @param queue The market data event queue for the producer to work against
    */
   RunnableWebSocketEventProducer(Socket socket, BlockingQueue<ExchangeEvent> queue) {
 
@@ -78,9 +78,7 @@ public class RunnableWebSocketEventProducer implements RunnableExchangeEventProd
         log.debug("Received data '{}'", data);
 
         // Create an event
-        ExchangeEvent marketDataEvent = new DefaultExchangeEvent(
-          ExchangeEventType.MESSAGE,
-          data.getBytes());
+        ExchangeEvent marketDataEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, data.getBytes());
 
         queue.put(marketDataEvent);
       }

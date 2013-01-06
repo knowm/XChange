@@ -21,15 +21,19 @@
  */
 package com.xeiam.xchange.service;
 
+import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.streaming.socketio.SocketIO;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.concurrent.*;
 
 /**
  * <p>
@@ -64,6 +68,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public BaseSocketIOExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
+
     super(exchangeSpecification);
   }
 
@@ -133,6 +138,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   @Override
   public BlockingQueue<ExchangeEvent> getEventQueue() {
+
     return consumerEventQueue;
   }
 }

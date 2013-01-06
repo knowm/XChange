@@ -22,16 +22,17 @@
  */
 package com.xeiam.xchange.proxy;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 /**
  * @author Matija Mazi <br/>
@@ -53,7 +54,7 @@ public class AllParams {
 
   static AllParams createInstance(Method method, Object[] args) {
 
-     return new AllParams(createParamsMap(method, args));
+    return new AllParams(createParamsMap(method, args));
   }
 
   private static Map<Class<? extends Annotation>, Params> createParamsMap(Method method, Object[] args) {

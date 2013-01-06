@@ -39,9 +39,9 @@ public final class MtGoxTrade {
    * @param tid
    * @param trade_type
    */
-  public MtGoxTrade(@JsonProperty("amount") double amount, @JsonProperty("amount_int") long amount_int, @JsonProperty("date") Long date, @JsonProperty("item") String item, @JsonProperty("price") double price,
-      @JsonProperty("price_currency") String price_currency, @JsonProperty("price_int") long price_int, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties,
-      @JsonProperty("tid") long tid, @JsonProperty("trade_type") String trade_type) {
+  public MtGoxTrade(@JsonProperty("amount") double amount, @JsonProperty("amount_int") long amount_int, @JsonProperty("date") Long date, @JsonProperty("item") String item,
+      @JsonProperty("price") double price, @JsonProperty("price_currency") String price_currency, @JsonProperty("price_int") long price_int, @JsonProperty("primary") String primary,
+      @JsonProperty("properties") String properties, @JsonProperty("tid") long tid, @JsonProperty("trade_type") String trade_type) {
 
     this.amount = amount;
     this.amount_int = amount_int;
@@ -114,8 +114,8 @@ public final class MtGoxTrade {
   @Override
   public String toString() {
 
-    return "MtGoxTrades [amount=" + amount + ", amount_int=" + amount_int + ", date=" + date + ", item=" + item + ", price=" + price + ", price_currency=" + price_currency + ", price_int=" + price_int + ", primary="
-        + primary + ", properties=" + properties + ", tid=" + tid + ", trade_type=" + trade_type + "]";
+    return "MtGoxTrades [amount=" + amount + ", amount_int=" + amount_int + ", date=" + date + ", item=" + item + ", price=" + price + ", price_currency=" + price_currency + ", price_int="
+        + price_int + ", primary=" + primary + ", properties=" + properties + ", tid=" + tid + ", trade_type=" + trade_type + "]";
   }
 
 }

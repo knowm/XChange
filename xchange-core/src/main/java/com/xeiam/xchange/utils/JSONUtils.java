@@ -21,12 +21,13 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.ExchangeException;
+import java.io.IOException;
+import java.util.Map;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-import java.io.IOException;
-import java.util.Map;
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * Central place for common JSON operations
@@ -56,9 +57,8 @@ public class JSONUtils {
   }
 
   /**
-   * Get a generic map holding the raw data from the JSON string to allow manual type differentiation
-   * TODO Refactor Change Signature from String to byte[]
-   *
+   * Get a generic map holding the raw data from the JSON string to allow manual type differentiation TODO Refactor Change Signature from String to byte[]
+   * 
    * @param jsonString The JSON string
    * @param objectMapper The object mapper
    * @return The map

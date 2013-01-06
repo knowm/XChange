@@ -22,16 +22,16 @@
  */
 package com.xeiam.xchange.campbx.api;
 
-import com.xeiam.xchange.campbx.api.model.OrderBook;
-import com.xeiam.xchange.campbx.api.model.Ticker;
-
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import com.xeiam.xchange.campbx.api.model.OrderBook;
+import com.xeiam.xchange.campbx.api.model.Ticker;
+
 /**
  * @author Matija Mazi <br/>
- * See https://campbx.com/api.php for up-to-date docs.
+ *         See https://campbx.com/api.php for up-to-date docs.
  */
 @Path("api")
 @Produces("application/json")

@@ -21,16 +21,17 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
+import java.util.concurrent.BlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Test requesting streaming Ticker at MtGox
@@ -62,7 +63,7 @@ public class TickerDemo {
     // Take streaming ticker data from the queue and do something with it for the first few ticks
     int count = 0;
     try {
-      while (count < 3) {
+      while (true) {
         // Exhaust exchange events first
         while (!eventQueue.isEmpty()) {
           ExchangeEvent exchangeEvent = eventQueue.take();
@@ -76,8 +77,8 @@ public class TickerDemo {
         }
       }
 
-      log.info("Disconnecting (event queue threads will be suspended)...");
-      streamingMarketDataService.disconnect();
+      // log.info("Disconnecting (event queue threads will be suspended)...");
+      // streamingMarketDataService.disconnect();
 
     } catch (InterruptedException e) {
       e.printStackTrace();
@@ -86,7 +87,7 @@ public class TickerDemo {
 
   /**
    * Do something fun with the streaming data!
-   *
+   * 
    * @param ticker The market data ticker
    */
   private void doSomething(Ticker ticker) {

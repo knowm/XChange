@@ -1,14 +1,15 @@
 package com.xeiam.xchange.service;
 
-import com.xeiam.xchange.streaming.socketio.SocketIOException;
-import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import static org.junit.Assert.assertEquals;
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.xeiam.xchange.streaming.socketio.SocketIOException;
 
 public class RunnableSocketIOEventProducerTest {
 
@@ -17,11 +18,10 @@ public class RunnableSocketIOEventProducerTest {
 
   @Before
   public void onSetUp() {
+
     queue = new ArrayBlockingQueue<ExchangeEvent>(5);
 
-    testObject = new RunnableSocketIOEventProducer(
-      queue
-    );
+    testObject = new RunnableSocketIOEventProducer(queue);
 
   }
 
@@ -32,7 +32,7 @@ public class RunnableSocketIOEventProducerTest {
 
     ExchangeEvent event = queue.take();
 
-    assertEquals(event.getEventType(),ExchangeEventType.CONNECT);
+    assertEquals(event.getEventType(), ExchangeEventType.CONNECT);
 
   }
 
@@ -43,7 +43,7 @@ public class RunnableSocketIOEventProducerTest {
 
     ExchangeEvent event = queue.take();
 
-    assertEquals(event.getEventType(),ExchangeEventType.DISCONNECT);
+    assertEquals(event.getEventType(), ExchangeEventType.DISCONNECT);
 
   }
 
@@ -54,7 +54,7 @@ public class RunnableSocketIOEventProducerTest {
 
     ExchangeEvent event = queue.take();
 
-    assertEquals(event.getEventType(),ExchangeEventType.MESSAGE);
+    assertEquals(event.getEventType(), ExchangeEventType.MESSAGE);
 
   }
 
@@ -67,7 +67,7 @@ public class RunnableSocketIOEventProducerTest {
 
     ExchangeEvent event = queue.take();
 
-    assertEquals(event.getEventType(),ExchangeEventType.JSON_MESSAGE);
+    assertEquals(event.getEventType(), ExchangeEventType.JSON_MESSAGE);
 
   }
 
@@ -78,7 +78,7 @@ public class RunnableSocketIOEventProducerTest {
 
     ExchangeEvent event = queue.take();
 
-    assertEquals(event.getEventType(),ExchangeEventType.EVENT);
+    assertEquals(event.getEventType(), ExchangeEventType.EVENT);
 
   }
 
@@ -91,7 +91,7 @@ public class RunnableSocketIOEventProducerTest {
 
     ExchangeEvent event = queue.take();
 
-    assertEquals(event.getEventType(),ExchangeEventType.ERROR);
+    assertEquals(event.getEventType(), ExchangeEventType.ERROR);
 
   }
 

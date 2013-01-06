@@ -37,6 +37,10 @@ import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
+/**
+ * @author Matija Mazi
+ * @create 12/30/12
+ */
 public class BitstampPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
   private BitStamp bitstamp;
@@ -54,10 +58,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
     Balance balance = bitstamp.getBalance(userName, getPwd());
     AccountInfo accountInfo = new AccountInfo();
     accountInfo.setUsername(userName);
-    accountInfo.setWallets(Arrays.asList(
-        new Wallet("USD", BigMoney.of(CurrencyUnit.USD, balance.getUsdBalance())),
-        new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), balance.getBtcBalance()))
-    ));
+    accountInfo.setWallets(Arrays.asList(new Wallet("USD", BigMoney.of(CurrencyUnit.USD, balance.getUsdBalance())), new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), balance.getBtcBalance()))));
     return accountInfo;
   }
 
@@ -69,7 +70,8 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
   /**
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
-   * @param description     must be null
+   * 
+   * @param description must be null
    * @param notificationUrl must be null
    */
   @Override

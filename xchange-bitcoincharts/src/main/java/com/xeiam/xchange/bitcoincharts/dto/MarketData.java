@@ -22,11 +22,16 @@
  */
 package com.xeiam.xchange.bitcoincharts.dto;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import java.math.BigDecimal;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
+/**
+ * @author Matija Mazi
+ * @create Jan 6, 2013
+ */
 public class MarketData {
+
   private BigDecimal ask;
   private BigDecimal avg;
   private BigDecimal bid;
@@ -42,63 +47,64 @@ public class MarketData {
   private BigDecimal volume;
 
   public BigDecimal getAsk() {
+
     return ask;
   }
 
   public BigDecimal getAvg() {
+
     return avg;
   }
 
   public BigDecimal getBid() {
+
     return bid;
   }
 
   public BigDecimal getClose() {
+
     return close;
   }
 
   public String getCurrency() {
+
     return currency;
   }
 
   public BigDecimal getCurrencyVolume() {
+
     return currencyVolume;
   }
 
   public BigDecimal getHigh() {
+
     return high;
   }
 
   public BigDecimal getLatestTrade() {
+
     return latestTrade;
   }
 
   public BigDecimal getLow() {
+
     return low;
   }
 
   public String getSymbol() {
+
     return symbol;
   }
 
   public BigDecimal getVolume() {
+
     return volume;
   }
 
   @Override
   public String toString() {
-    return "MarketData{" +
-        "symbol='" + symbol + '\'' +
-        ", currency='" + currency + '\'' +
-        ", ask=" + ask +
-        ", avg=" + avg +
-        ", bid=" + bid +
-        ", close=" + close +
-        ", currencyVolume=" + currencyVolume +
-        ", high=" + high +
-        ", latestTrade=" + latestTrade +
-        ", low=" + low +
-        ", volume=" + volume +
-        '}';
+
+    return "MarketData{" + "symbol='" + symbol + '\'' + ", currency='" + currency + '\'' + ", ask=" + ask + ", avg=" + avg + ", bid=" + bid + ", close=" + close + ", currencyVolume=" + currencyVolume
+        + ", high=" + high + ", latestTrade=" + latestTrade + ", low=" + low + ", volume=" + volume + '}';
   }
 }

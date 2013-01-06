@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.dto.trade.LimitOrder;
-
 import java.util.List;
+
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Data object representing OrderBook
@@ -60,10 +60,12 @@ public final class OrderBook {
   }
 
   public ErrorMessage getErrorMessage() {
+
     return errorMessage;
   }
 
   public void setErrorMessage(ErrorMessage errorMessage) {
+
     this.errorMessage = errorMessage;
   }
 

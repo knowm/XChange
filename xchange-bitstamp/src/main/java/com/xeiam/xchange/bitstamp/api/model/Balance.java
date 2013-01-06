@@ -85,7 +85,7 @@ public class Balance {
   @Override
   public String toString() {
 
-    return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}", usdBalance, btcBalance, usdReserved, btcReserved, usdAvailable, btcAvailable,
-        fee);
+    return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}", usdBalance, btcBalance, usdReserved, btcReserved,
+        usdAvailable, btcAvailable, fee);
   }
 }

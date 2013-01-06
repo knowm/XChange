@@ -21,15 +21,6 @@
  */
 package com.xeiam.xchange.examples.connect;
 
-import com.xeiam.xchange.Currencies;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.TickerBuilder;
-import com.xeiam.xchange.streaming.websocket.HandshakeData;
-import com.xeiam.xchange.streaming.websocket.WebSocket;
-import com.xeiam.xchange.streaming.websocket.WebSocketServer;
-import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.InetAddress;
@@ -42,6 +33,16 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.TickerBuilder;
+import com.xeiam.xchange.streaming.websocket.HandshakeData;
+import com.xeiam.xchange.streaming.websocket.WebSocket;
+import com.xeiam.xchange.streaming.websocket.WebSocketServer;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * <p>
@@ -100,16 +101,8 @@ public class WebSocketExchangeServer extends WebSocketServer {
 
           // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
-          Ticker ticker = TickerBuilder
-            .newInstance()
-            .withTradableIdentifier(Currencies.BTC)
-            .withLast(money)
-            .withBid(money)
-            .withAsk(money)
-            .withHigh(money)
-            .withLow(money)
-            .withVolume(new BigDecimal(98887726.001))
-            .build();
+          Ticker ticker = TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC).withLast(money).withBid(money).withAsk(money).withHigh(money).withLow(money).withVolume(
+              new BigDecimal(98887726.001)).build();
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {
