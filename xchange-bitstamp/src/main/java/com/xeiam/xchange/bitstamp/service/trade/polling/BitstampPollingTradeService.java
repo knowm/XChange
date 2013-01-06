@@ -32,6 +32,7 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitStamp;
 import com.xeiam.xchange.bitstamp.dto.trade.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -49,6 +50,11 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
   private BitStamp bitstamp;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -58,7 +64,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public OpenOrders getOpenOrders() {
 
-    Order[] openOrders = bitstamp.getOpenOrders(getUser(), getPwd());
+    Order[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (Order oo : openOrders) {
       orders.add(new LimitOrder(oo.getType() == 0 ? BID : ASK, oo.getAmount(), "BTC", "USD", Integer.toString(oo.getId()), BigMoney.of(CurrencyUnit.USD, oo.getPrice())));
@@ -69,7 +75,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
 
-    throw new UnsupportedOperationException("Placing market orders not supported by Bitstamp API.");
+    throw new NotAvailableFromExchangeException("Placing market orders not supported by Bitstamp API.");
   }
 
   @Override
@@ -77,9 +83,9 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     Order ord;
     if (limitOrder.getType() == BID) {
-      ord = bitstamp.buy(getUser(), getPwd(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      ord = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     } else {
-      ord = bitstamp.sell(getUser(), getPwd(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      ord = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     return Integer.toString(ord.getId());
   }
@@ -87,16 +93,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public boolean cancelOrder(String orderId) {
 
-    return bitstamp.cancelOrder(getUser(), getPwd(), Integer.parseInt(orderId)).equals(true);
+    return bitstamp.cancelOrder(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), Integer.parseInt(orderId)).equals(true);
   }
 
-  private String getPwd() {
-
-    return exchangeSpecification.getPassword();
-  }
-
-  private String getUser() {
-
-    return exchangeSpecification.getUserName();
-  }
 }

@@ -45,6 +45,11 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
   private BitStamp bitstamp;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -54,18 +59,20 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   @Override
   public AccountInfo getAccountInfo() {
 
-    String userName = getUser();
-    Balance balance = bitstamp.getBalance(userName, getPwd());
+    String userName = exchangeSpecification.getUserName();
+    Balance balance = bitstamp.getBalance(userName, exchangeSpecification.getPassword());
+
     AccountInfo accountInfo = new AccountInfo();
     accountInfo.setUsername(userName);
     accountInfo.setWallets(Arrays.asList(new Wallet("USD", BigMoney.of(CurrencyUnit.USD, balance.getUsdBalance())), new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), balance.getBtcBalance()))));
+
     return accountInfo;
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    return bitstamp.withdrawBitcoin(getUser(), getPwd(), amount, address).toString();
+    return bitstamp.withdrawBitcoin(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), amount, address).toString();
   }
 
   /**
@@ -80,16 +87,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
     if (description != null || notificationUrl != null) {
       throw new IllegalArgumentException("Description and notification URL are not supported.");
     }
-    return bitstamp.getBitcoinDepositAddress(getUser(), getPwd());
+    return bitstamp.getBitcoinDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 
-  private String getPwd() {
-
-    return exchangeSpecification.getPassword();
-  }
-
-  private String getUser() {
-
-    return exchangeSpecification.getUserName();
-  }
 }
