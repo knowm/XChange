@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.campbx.polling;
+package com.xeiam.xchange.campbx.service.marketdata.polling;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -33,7 +33,7 @@ import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.api.CampBX;
+import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -77,7 +77,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
     checkArgument(tradableIdentifier.equals(BTC.getCode()));
     checkArgument(currency.equals(USD.getCode()));
-    com.xeiam.xchange.campbx.api.model.Ticker tck = campbx.getTicker();
+    com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker tck = campbx.getTicker();
     return new TickerBuilder().withAsk(BigMoney.of(USD, tck.getAsk())).withBid(BigMoney.of(USD, tck.getBid())).withLast(BigMoney.of(USD, tck.getLast())).build();
   }
 
@@ -90,7 +90,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-    com.xeiam.xchange.campbx.api.model.OrderBook orderBook = campbx.getOrderBook();
+    com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook orderBook = campbx.getOrderBook();
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
     return new OrderBook(asks, bids);

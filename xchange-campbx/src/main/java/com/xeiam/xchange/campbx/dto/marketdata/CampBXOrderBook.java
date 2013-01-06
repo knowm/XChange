@@ -20,36 +20,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.campbx;
+package com.xeiam.xchange.campbx.dto.marketdata;
 
-import com.xeiam.xchange.BaseExchange;
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.service.marketdata.polling.CampBXPollingMarketDataService;
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi
+ * @immutable
  */
-public class CampBXExchange extends BaseExchange implements Exchange {
+public final class CampBXOrderBook {
 
-  @Override
-  public ExchangeSpecification getDefaultExchangeSpecification() {
+  private final List<List<BigDecimal>> bids;
+  private final List<List<BigDecimal>> asks;
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://campbx.com");
-    exchangeSpecification.setVersion("");
-    exchangeSpecification.setHost("campbx.com");
-    exchangeSpecification.setPort(80);
-    return exchangeSpecification;
+  /**
+   * Constructor
+   * 
+   * @param bids
+   * @param asks
+   */
+  public CampBXOrderBook(@JsonProperty("Bids") List<List<BigDecimal>> bids, @JsonProperty("Asks") List<List<BigDecimal>> asks) {
+
+    this.bids = bids;
+    this.asks = asks;
+  }
+
+  /** (price, amount) */
+  public List<List<BigDecimal>> getBids() {
+
+    return bids;
+  }
+
+  /** (price, amount) */
+  public List<List<BigDecimal>> getAsks() {
+
+    return asks;
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+  public String toString() {
 
-    if (exchangeSpecification == null) {
-      exchangeSpecification = getDefaultExchangeSpecification();
-    }
-    this.pollingMarketDataService = new CampBXPollingMarketDataService(exchangeSpecification);
+    return String.format("OrderBook{bids=%s, asks=%s}", bids, asks);
   }
-
 }

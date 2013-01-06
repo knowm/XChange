@@ -20,43 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.campbx.api.model;
+package com.xeiam.xchange.campbx;
 
-import java.math.BigDecimal;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
+import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 
 /**
  * @author Matija Mazi <br/>
- *         Sample json: {"Last Trade":"13.25","Best Bid":"13.17","Best Ask":"13.30"}
+ *         See https://campbx.com/api.php for up-to-date docs.
  */
-public class Ticker {
+@Path("api")
+@Produces("application/json")
+public interface CampBX {
 
-  @JsonProperty("Last Trade")
-  BigDecimal last;
-  @JsonProperty("Best Bid")
-  BigDecimal bid;
-  @JsonProperty("Best Ask")
-  BigDecimal ask;
+  @POST
+  @Path("xdepth.php")
+  @Produces("application/json")
+  public CampBXOrderBook getOrderBook();
 
-  public BigDecimal getLast() {
+  @POST
+  @Path("xticker.php")
+  @Produces("application/json")
+  public CampBXTicker getTicker();
 
-    return last;
-  }
-
-  public BigDecimal getBid() {
-
-    return bid;
-  }
-
-  public BigDecimal getAsk() {
-
-    return ask;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("Ticker{last=%s, bid=%s, ask=%s}", last, bid, ask);
-  }
 }
