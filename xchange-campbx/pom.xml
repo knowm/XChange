@@ -27,7 +27,6 @@
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 
-		<!-- Project dependencies (version automatically set through parent) -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
