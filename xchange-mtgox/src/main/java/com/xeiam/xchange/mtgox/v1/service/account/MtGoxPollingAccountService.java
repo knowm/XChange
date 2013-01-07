@@ -52,12 +52,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
     MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
         .getApiKey(), exchangeSpecification.getSecretKey()));
 
-    // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo();
-    accountInfo.setUsername(mtGoxAccountInfo.getLogin());
-    accountInfo.setWallets(MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
-
-    return accountInfo;
+    return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
   }
 
   @Override

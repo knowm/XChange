@@ -32,12 +32,12 @@ import com.xeiam.xchange.dto.Order;
  * 
  * @immutable
  */
-public class LimitOrder extends Order {
+public final class LimitOrder extends Order {
 
   /**
    * The limit price
    */
-  private BigMoney limitPrice;
+  private final BigMoney limitPrice;
 
   /**
    * Constructor

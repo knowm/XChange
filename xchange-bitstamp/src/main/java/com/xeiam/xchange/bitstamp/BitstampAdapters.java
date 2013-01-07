@@ -24,20 +24,24 @@ package com.xeiam.xchange.bitstamp;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -45,6 +49,22 @@ import com.xeiam.xchange.utils.MoneyUtils;
  * Various adapters for converting from Bitstamp DTOs to XChange DTOs
  */
 public class BitstampAdapters {
+
+  /**
+   * Adapts a BitstampBalance to a AccountInfo
+   * 
+   * @param mtGoxAccountInfo
+   * @return
+   */
+  public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
+
+    // Adapt to XChange DTOs
+    // AccountInfo accountInfo = new AccountInfo(mtGoxAccountInfo.getLogin(), MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
+    Wallet usdWallet = new Wallet("USD", BigMoney.of(CurrencyUnit.USD, bitstampBalance.getUsdBalance()));
+    Wallet btcWallet = new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), bitstampBalance.getBtcBalance()));
+
+    return new AccountInfo(userName, Arrays.asList(usdWallet, btcWallet));
+  }
 
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object

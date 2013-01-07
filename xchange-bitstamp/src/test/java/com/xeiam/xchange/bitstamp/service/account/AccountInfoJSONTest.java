@@ -19,20 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.account;
+package com.xeiam.xchange.bitstamp.service.account;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 
 /**
- * Test MtGoxAccountInfo JSON parsing
+ * Test BitStamp Full Depth JSON parsing
  */
 public class AccountInfoJSONTest {
 
@@ -44,12 +47,15 @@ public class AccountInfoJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
-
-    // System.out.println(mtGoxAccountInfo.toString());
+    BitstampBalance bitstampBalance = mapper.readValue(is, BitstampBalance.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxAccountInfo.getLogin().equals("xchange"));
+    assertThat(bitstampBalance.getBtcAvailable(), is(equalTo(new BigDecimal("6.99990000"))));
+    assertThat(bitstampBalance.getBtcReserved(), is(equalTo(new BigDecimal("0"))));
+    assertThat(bitstampBalance.getBtcBalance(), is(equalTo(new BigDecimal("6.99990000"))));
+    assertThat(bitstampBalance.getUsdAvailable(), is(equalTo(new BigDecimal("0.00"))));
+    assertThat(bitstampBalance.getUsdBalance(), is(equalTo(new BigDecimal("172.87"))));
+    assertThat(bitstampBalance.getUsdReserved(), is(equalTo(new BigDecimal("172.87"))));
+    assertThat(bitstampBalance.getFee(), is(equalTo(new BigDecimal("0.5000"))));
   }
-
 }

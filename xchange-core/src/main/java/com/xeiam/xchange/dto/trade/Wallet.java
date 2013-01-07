@@ -30,7 +30,7 @@ import org.joda.money.BigMoney;
  * 
  * @immutable
  */
-public class Wallet {
+public final class Wallet {
 
   private final String currency;
   private final BigMoney balance;

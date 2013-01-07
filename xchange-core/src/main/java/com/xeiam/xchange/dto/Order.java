@@ -36,19 +36,19 @@ public class Order {
   }
 
   /** Order type i.e. bid or ask */
-  private OrderType type;
+  private final OrderType type;
 
   /** Amount to be ordered / amount that was ordered */
-  private BigDecimal tradableAmount;
+  private final BigDecimal tradableAmount;
 
   /** An identifier that uniquely identifies the tradeable */
-  private String tradableIdentifier;
+  private final String tradableIdentifier;
 
   /** The currency used to settle the market order transaction */
-  private String transactionCurrency;
+  private final String transactionCurrency;
 
   /** An identifier that uniquely identifies the order */
-  private String id;
+  private final String id;
 
   /**
    * Constructor

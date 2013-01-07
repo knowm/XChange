@@ -34,7 +34,7 @@ import com.xeiam.xchange.dto.Order;
  * 
  * @immutable
  */
-public class MarketOrder extends Order {
+public final class MarketOrder extends Order {
 
   /**
    * Constructor

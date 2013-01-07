@@ -28,9 +28,9 @@ import java.util.List;
  * 
  * @immutable
  */
-public class OpenOrders {
+public final class OpenOrders {
 
-  List<LimitOrder> openOrders;
+  private final List<LimitOrder> openOrders;
 
   /**
    * Constructor
@@ -39,7 +39,6 @@ public class OpenOrders {
    */
   public OpenOrders(List<LimitOrder> openOrders) {
 
-    super();
     this.openOrders = openOrders;
   }
 

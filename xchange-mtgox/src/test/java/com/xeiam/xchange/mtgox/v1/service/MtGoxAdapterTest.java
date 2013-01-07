@@ -36,6 +36,7 @@ import org.junit.Test;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -47,11 +48,6 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
-import com.xeiam.xchange.mtgox.v1.service.account.AccountInfoJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.DepthJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.TickerJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.TradesJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -60,10 +56,26 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public class MtGoxAdapterTest {
 
   @Test
+  public void testAccountInfoAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
+
+    AccountInfo accountInfo = MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
+    assertThat(accountInfo.getUsername(), is(equalTo("xchange")));
+    assertThat(accountInfo.getWallets().get(0).getCurrency(), is(equalTo("BTC")));
+    assertThat(accountInfo.getWallets().get(0).getBalance(), is(equalTo(MoneyUtils.parseFiat("BTC 0.00000000"))));
+  }
+
+  @Test
   public void testOrderAdapterWithOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/trade/example-openorders-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/trade/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -87,7 +99,7 @@ public class MtGoxAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = DepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -111,7 +123,7 @@ public class MtGoxAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -136,7 +148,7 @@ public class MtGoxAdapterTest {
   public void testWalletAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -164,7 +176,7 @@ public class MtGoxAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

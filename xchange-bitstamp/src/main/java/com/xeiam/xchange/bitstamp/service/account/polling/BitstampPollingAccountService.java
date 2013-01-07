@@ -23,16 +23,12 @@
 package com.xeiam.xchange.bitstamp.service.account.polling;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitStamp;
+import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
@@ -59,14 +55,9 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   @Override
   public AccountInfo getAccountInfo() {
 
-    String userName = exchangeSpecification.getUserName();
-    BitstampBalance balance = bitstamp.getBalance(userName, exchangeSpecification.getPassword());
+    BitstampBalance bitstampBalance = bitstamp.getBalance(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
 
-    AccountInfo accountInfo = new AccountInfo();
-    accountInfo.setUsername(userName);
-    accountInfo.setWallets(Arrays.asList(new Wallet("USD", BigMoney.of(CurrencyUnit.USD, balance.getUsdBalance())), new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), balance.getBtcBalance()))));
-
-    return accountInfo;
+    return BitstampAdapters.adaptAccountInfo(bitstampBalance, exchangeSpecification.getUserName());
   }
 
   @Override

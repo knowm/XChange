@@ -32,9 +32,11 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -45,6 +47,24 @@ import com.xeiam.xchange.utils.MoneyUtils;
  * Tests the BitstampAdapter class
  */
 public class BitstampAdapterTest {
+
+  @Test
+  public void testAccountInfoAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampBalance bitstampBalance = mapper.readValue(is, BitstampBalance.class);
+
+    AccountInfo accountInfo = BitstampAdapters.adaptAccountInfo(bitstampBalance, "Joe Mama");
+    assertThat(accountInfo.getUsername(), is(equalTo("Joe Mama")));
+    assertThat(accountInfo.getWallets().get(0).getCurrency(), is(equalTo("USD")));
+    assertThat(accountInfo.getWallets().get(0).getBalance(), is(equalTo(MoneyUtils.parseFiat("USD 172.87"))));
+    assertThat(accountInfo.getWallets().get(1).getCurrency(), is(equalTo("BTC")));
+    assertThat(accountInfo.getWallets().get(1).getBalance(), is(equalTo(MoneyUtils.parseFiat("BTC 6.99990000"))));
+  }
 
   @Test
   public void testOrderAdapterWithDepth() throws IOException {
