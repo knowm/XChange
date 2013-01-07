@@ -32,8 +32,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;

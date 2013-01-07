@@ -33,6 +33,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -40,7 +41,6 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -67,14 +67,14 @@ public class BitstampAdapterTest {
   }
 
   @Test
-  public void testOrderAdapterWithDepth() throws IOException {
+  public void testOrderBookAdapter() throws IOException {
 
     // Read in the JSON from the example resources
     InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook bitstampOrderBook = mapper.readValue(is, com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook.class);
+    BitstampOrderBook bitstampOrderBook = mapper.readValue(is, BitstampOrderBook.class);
 
     OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, "USD", "BTC");
     assertThat(orderBook.getBids().size(), is(equalTo(107)));
@@ -99,15 +99,15 @@ public class BitstampAdapterTest {
     BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
 
     Trades trades = BitstampAdapters.adaptTrades(transactions, "USD", "BTC");
+    System.out.println(trades.getTrades().toString());
     assertThat(trades.getTrades().size(), is(equalTo(125)));
 
     // verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice(), is(equalTo(MoneyUtils.parseFiat("USD 13.06"))));
+    assertThat(trades.getTrades().get(0).getPrice(), is(equalTo(MoneyUtils.parseFiat("USD 13.14"))));
     assertThat(trades.getTrades().get(0).getType(), is(equalTo(null)));
-    assertThat(trades.getTrades().get(0).getTradableAmount(), is(equalTo(new BigDecimal("28.75328052"))));
+    assertThat(trades.getTrades().get(0).getTradableAmount(), is(equalTo(new BigDecimal("10.11643836"))));
     assertThat(trades.getTrades().get(0).getTradableIdentifier(), is(equalTo("BTC")));
     assertThat(trades.getTrades().get(0).getTransactionCurrency(), is(equalTo("USD")));
-    assertThat(trades.getTrades().get(0).getTimestamp(), is(equalTo(DateUtils.fromMillisUtc((1357492264L * 1000L)))));
   }
 
   @Test

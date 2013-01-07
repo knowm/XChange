@@ -42,13 +42,13 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * Tests the BitstampAdapter class
  */
-public class BitstampAdapterTest {
+public class CampBXAdapterTest {
 
   @Test
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
+    InputStream is = CampBXAdapterTest.class.getResourceAsStream("/marketdata/example-full-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -70,7 +70,7 @@ public class BitstampAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CampBXAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

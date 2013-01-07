@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.ListUtils;
 
 /**
  * Data object representing OrderBook
@@ -52,23 +52,15 @@ public final class OrderBook {
 
   public List<LimitOrder> getAsks() {
 
+    Collections.sort(asks);
     return asks;
   }
 
   public List<LimitOrder> getBids() {
 
+    Collections.sort(bids);
     return bids;
   }
-  
-  public List<LimitOrder> getSortedBids() {
-
-	    return ListUtils.sortBids(bids);
-	  }
-  
-  public List<LimitOrder> getSortedAsks() {
-
-	    return ListUtils.sortAsks(asks);
-	  }
 
   public ErrorMessage getErrorMessage() {
 

@@ -32,7 +32,7 @@ import com.xeiam.xchange.dto.Order;
  * 
  * @immutable
  */
-public final class LimitOrder extends Order {
+public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   /**
    * The limit price
@@ -80,6 +80,13 @@ public final class LimitOrder extends Order {
   public String toString() {
 
     return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
+  }
+
+  @Override
+  public int compareTo(LimitOrder limitOrder) {
+
+    return this.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) * (getType() == OrderType.BID ? -1 : 1);
+
   }
 
 }

@@ -45,6 +45,10 @@ public class FullDepthDemo {
     OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
 
     System.out.println(orderBook.toString());
+    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
 
   }
 
