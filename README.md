@@ -29,26 +29,24 @@ Download Jars: http://xeiam.com/xchange.jsp
 
 Maven
 -----
-The XChange artifacts are currently hosted on the Xeiam Nexus repository here:
+The XChange release artifacts are hosted on Maven Central. Otherwise if you need the latest snapshots, they are hosted at oss.sonatype.org. Add the following repository to your pom.xml file.
 
-    <repositories>
-      <repository>
-        <id>xchange-release</id>
-        <releases/>
-        <url>http://nexus.xeiam.com/content/repositories/releases</url>
-      </repository>
-      <repository>
-        <id>xchange-snapshot</id>
-        <snapshots/>
-        <url>http://nexus.xeiam.com/content/repositories/snapshots/</url>
-      </repository>
-    </repositories>
+    <repository>
+      <id>xchange-snapshot</id>
+      <snapshots/>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
   
-Add this to dependencies in pom.xml:
+Add the following dependencies in your pom.xml file. You will need at least xchange-core. At the additional dependencies for the exchange implementations you are interested in. There is example code for all the implementations in xchange-examples.
 
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
+      <version>1.3.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-examples</artifactId>
       <version>1.3.0-SNAPSHOT</version>
     </dependency>
     <dependency>
