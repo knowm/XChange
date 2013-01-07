@@ -205,7 +205,7 @@
 		<!-- <id>xeiam_oss.releases</id> -->
 		<!-- <url>http://nexus.xeiam.com/content/repositories/releases</url> -->
 		<!-- </repository> -->
-		<downloadUrl>http://oss.sonatype.org/content/repositories/xeiam-releases</downloadUrl>
+		<downloadUrl>https://oss.sonatype.org/content/groups/public/com/xeiam/xchange</downloadUrl>
 	</distributionManagement>
 	<profiles>
 		<profile>
