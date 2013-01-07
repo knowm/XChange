@@ -72,12 +72,10 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
    * @param description must be null
    * @param notificationUrl must be null
    */
+  // TODO the method arguements are not relevant to bitstamp
   @Override
   public String requestBitcoinDepositAddress(String description, String notificationUrl) {
 
-    if (description != null || notificationUrl != null) {
-      throw new IllegalArgumentException("Description and notification URL are not supported.");
-    }
     return bitstamp.getBitcoinDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 
