@@ -23,8 +23,6 @@ package com.xeiam.xchange.virtex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.joda.money.BigMoney;
@@ -84,21 +82,6 @@ public class VirtExAdapters {
   public static List<LimitOrder> adaptOrders(List<double[]> virtexOrders, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
-    // VirtEx Orderbook is not in order; Need to sort the list in proper numerical order
-    Collections.sort(virtexOrders, new Comparator<double[]>() {
-
-      @Override
-      public int compare(double[] entry1, double[] entry2) {
-
-        if (entry1[0] > entry2[0]) {
-          return 1;
-        } else if (entry1[0] < entry2[0]) {
-          return -1;
-        } else
-          return 0;
-      }
-    });
 
     for (double[] virtexOrder : virtexOrders) {
       limitOrders.add(adaptOrder(virtexOrder[1], virtexOrder[0], currency, orderType, id));

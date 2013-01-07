@@ -23,6 +23,8 @@ package com.xeiam.xchange.dto.marketdata;
 
 import java.util.List;
 
+import com.xeiam.xchange.utils.ListUtils;
+
 /**
  * Data object representing Trades
  * 
@@ -46,6 +48,11 @@ public final class Trades {
 
     return trades;
   }
+  
+  public List<Trade> getSortedTrades() {
+
+	return ListUtils.sortTrades(trades);
+	  }
 
   @Override
   public String toString() {
