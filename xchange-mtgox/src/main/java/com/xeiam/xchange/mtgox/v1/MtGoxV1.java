@@ -1,4 +1,4 @@
-package com.xeiam.xchange.mtgox.v1.service.trade.polling;
+package com.xeiam.xchange.mtgox.v1;
 
 import java.math.BigDecimal;
 
@@ -23,7 +23,7 @@ import com.xeiam.xchange.proxy.HmacPostBodyDigest;
  * @author Matija Mazi <br/>
  */
 @Path("api/1")
-public interface MtGox1 {
+public interface MtGoxV1 {
 
   @GET
   @Path("/{ident}{currency}/public/ticker?raw")

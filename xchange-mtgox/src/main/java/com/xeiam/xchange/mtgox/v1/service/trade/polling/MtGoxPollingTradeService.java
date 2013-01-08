@@ -23,11 +23,10 @@ package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.proxy.HmacPostBodyDigest;
 import com.xeiam.xchange.proxy.Params;
 import com.xeiam.xchange.proxy.RestProxyFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -41,13 +40,10 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.proxy.Params;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.CryptoUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author timmolter
@@ -58,7 +54,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
    * Configured from the super class reading of the exchange specification
    */
   private final String apiBaseURI;
-  private MtGox1 mtGox1;
+  private MtGoxV1 mtGoxV1;
 
   /**
    * Initialize common properties from the exchange specification
@@ -72,30 +68,16 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     Assert.notNull(exchangeSpecification.getVersion(), "Exchange specification version cannot be null");
     this.apiBaseURI = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
-    this.mtGox1 = RestProxyFactory.createProxy(MtGox1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
   }
 
   @Override
   public OpenOrders getOpenOrders() {
 
-/*
-    // Build request
-    String url = apiBaseURI + "/generic/private/orders?raw";
-    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce()).asFormEncodedPostBody();
-
-    // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
-        .getApiKey(), exchangeSpecification.getSecretKey()));
-
-    // Adapt to XChange DTOs
-    return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
-*/
-
-    // Alternatively, this could be done using MtGox1:
     String nonce = CryptoUtils.getNumericalNonce();
     String apiKey = MtGoxUtils.urlEncode(exchangeSpecification.getApiKey());
     HmacPostBodyDigest postBodyDigest = new HmacPostBodyDigest(exchangeSpecification.getSecretKey());
-    MtGoxOpenOrder[] mtGoxOpenOrders = mtGox1.getOpenOrders(apiKey, postBodyDigest, nonce);
+    MtGoxOpenOrder[] mtGoxOpenOrders = mtGoxV1.getOpenOrders(apiKey, postBodyDigest, nonce);
     return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
   }
 
@@ -132,7 +114,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String amount_int = "" + amount_;
     String price_int = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
 
-    MtGoxGenericResponse mtGoxSuccess = mtGox1.placeLimitOrder(
+    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeLimitOrder(
         exchangeSpecification.getApiKey(),
         new HmacPostBodyDigest(exchangeSpecification.getSecretKey()),
         CryptoUtils.getNumericalNonce(),
@@ -143,19 +125,6 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
         price_int
     );
 
-/*
-    // Build request
-    String amountInt = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
-    String priceInt = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
-    String url = apiBaseURI + symbol + "/private/order/add";
-
-    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amountInt, "price_int", priceInt).asFormEncodedPostBody();
-
-    // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
-        exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
-
-*/
     return mtGoxSuccess.getReturn();
   }
 
