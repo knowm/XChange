@@ -30,10 +30,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class VirtExTicker {
 
-  public final double last;
-  public final double high;
-  public final double low;
-  public final double volume;
+  private final double last;
+  private final double high;
+  private final double low;
+  private final double volume;
 
   /**
    * Constructor

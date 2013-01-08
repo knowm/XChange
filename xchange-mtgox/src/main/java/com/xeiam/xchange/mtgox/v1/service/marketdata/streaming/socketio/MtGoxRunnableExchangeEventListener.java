@@ -51,7 +51,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
   private static final Logger log = LoggerFactory.getLogger(MtGoxRunnableExchangeEventListener.class);
 
-  ObjectMapper tickerObjectMapper = new ObjectMapper();
+  private ObjectMapper tickerObjectMapper = new ObjectMapper();
 
   private final BlockingQueue<Ticker> tickerQueue;
   private final BlockingQueue<ExchangeEvent> eventQueue;

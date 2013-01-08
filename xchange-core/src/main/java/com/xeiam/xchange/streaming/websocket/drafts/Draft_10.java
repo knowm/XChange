@@ -101,7 +101,7 @@ public class Draft_10 extends Draft {
     assert (payloadlengthbytes.length == sizebytes);
 
     if (sizebytes == 1) {
-      buf.put((byte) ((byte) payloadlengthbytes[0] | (mask ? (byte) -128 : 0)));
+      buf.put((byte) (payloadlengthbytes[0] | (mask ? (byte) -128 : 0)));
     } else if (sizebytes == 2) {
       buf.put((byte) ((byte) 126 | (mask ? (byte) -128 : 0)));
       buf.put(payloadlengthbytes);
@@ -328,33 +328,32 @@ public class Draft_10 extends Draft {
       }
     }
 
-    if (payloadlength >= 0 && payloadlength <= 125) {
+    if (payloadlength < 0 || payloadlength > 125) {
+    }
+    if (optcode == OpCode.PING || optcode == OpCode.PONG || optcode == OpCode.CLOSING) {
+      throw new InvalidFrameException("more than 125 octets");
+    }
+    if (payloadlength == 126) {
+      realpacketsize += 2; // additional length bytes
+      if (maxpacketsize < realpacketsize)
+        throw new IncompleteException(realpacketsize);
+      byte[] sizebytes = new byte[3];
+      sizebytes[1] = buffer.get( /* 1 + 1 */);
+      sizebytes[2] = buffer.get( /* 1 + 2 */);
+      payloadlength = new BigInteger(sizebytes).intValue();
     } else {
-      if (optcode == OpCode.PING || optcode == OpCode.PONG || optcode == OpCode.CLOSING) {
-        throw new InvalidFrameException("more than 125 octets");
+      realpacketsize += 8; // additional length bytes
+      if (maxpacketsize < realpacketsize)
+        throw new IncompleteException(realpacketsize);
+      byte[] bytes = new byte[8];
+      for (int i = 0; i < 8; i++) {
+        bytes[i] = buffer.get( /* 1 + i */);
       }
-      if (payloadlength == 126) {
-        realpacketsize += 2; // additional length bytes
-        if (maxpacketsize < realpacketsize)
-          throw new IncompleteException(realpacketsize);
-        byte[] sizebytes = new byte[3];
-        sizebytes[1] = buffer.get( /* 1 + 1 */);
-        sizebytes[2] = buffer.get( /* 1 + 2 */);
-        payloadlength = new BigInteger(sizebytes).intValue();
+      long length = new BigInteger(bytes).longValue();
+      if (length > Integer.MAX_VALUE) {
+        throw new LimitExceededException("Payloadsize is to big...");
       } else {
-        realpacketsize += 8; // additional length bytes
-        if (maxpacketsize < realpacketsize)
-          throw new IncompleteException(realpacketsize);
-        byte[] bytes = new byte[8];
-        for (int i = 0; i < 8; i++) {
-          bytes[i] = buffer.get( /* 1 + i */);
-        }
-        long length = new BigInteger(bytes).longValue();
-        if (length > Integer.MAX_VALUE) {
-          throw new LimitExceededException("Payloadsize is to big...");
-        } else {
-          payloadlength = (int) length;
-        }
+        payloadlength = (int) length;
       }
     }
 
@@ -371,7 +370,7 @@ public class Draft_10 extends Draft {
       byte[] maskskey = new byte[4];
       buffer.get(maskskey);
       for (int i = 0; i < payloadlength; i++) {
-        payload.put((byte) ((byte) buffer.get( /* payloadstart + i */) ^ (byte) maskskey[i % 4]));
+        payload.put((byte) (buffer.get( /* payloadstart + i */) ^ maskskey[i % 4]));
       }
     } else {
       payload.put(buffer.array(), buffer.position(), payload.limit());

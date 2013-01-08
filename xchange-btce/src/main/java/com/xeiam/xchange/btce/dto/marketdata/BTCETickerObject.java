@@ -28,17 +28,17 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class BTCETickerObject {
+public final class BTCETickerObject {
 
-  public final double last;
-  public final double high;
-  public final double low;
-  public final double avg;
-  public final double buy;
-  public final double sell;
-  public final double server_time;
-  public final double vol;
-  public final double vol_cur;
+  private final double last;
+  private final double high;
+  private final double low;
+  private final double avg;
+  private final double buy;
+  private final double sell;
+  private final double server_time;
+  private final double vol;
+  private final double vol_cur;
 
   /**
    * Constructor

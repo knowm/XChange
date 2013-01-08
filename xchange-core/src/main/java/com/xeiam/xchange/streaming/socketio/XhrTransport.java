@@ -109,6 +109,7 @@ class XhrTransport implements IOTransport {
             InputStream input = urlConnection.getInputStream();
             byte[] buffer = new byte[1024];
             while (input.read(buffer) > 0) {
+              // NOP
             }
             input.close();
           } else {
