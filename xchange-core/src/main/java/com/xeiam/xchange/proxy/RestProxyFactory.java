@@ -44,7 +44,12 @@ public class RestProxyFactory {
   public static <I> I createProxy(Class<I> restInterface, String url, HttpTemplate httpTemplate, ObjectMapper mapper) {
 
     RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, mapper, restInterface, url);
-    Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[] { restInterface }, restInvocationHandler);
+    return createProxy(restInterface, restInvocationHandler);
+  }
+
+  static <I> I createProxy(Class<I> restInterface, RestInvocationHandler restInvocationHandler) {
+
+    Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[]{restInterface}, restInvocationHandler);
     // noinspection unchecked
     return (I) proxy;
   }
