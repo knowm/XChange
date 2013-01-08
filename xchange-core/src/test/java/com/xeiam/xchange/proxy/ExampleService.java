@@ -24,30 +24,33 @@ package com.xeiam.xchange.proxy;
 
 import java.math.BigDecimal;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 
 /**
  * @author Matija Mazi <br/>
  */
-@Path("api")
+@Path("api/2")
 public interface ExampleService {
 
   @POST
   @Path("buy/")
   @Produces("application/json")
-  public Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
+  Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
 
   @POST
   @Path("bitcoin_withdrawal/{user}")
   @Produces("application/json")
-  public Object withdrawBitcoin(@PathParam("user") String user, @FormParam("password") String password, @QueryParam("amount") BigDecimal amount, @QueryParam("address") String address);
+  Object withdrawBitcoin(@PathParam("user") String user, @FormParam("password") String password, @QueryParam("amount") BigDecimal amount, @QueryParam("address") String address);
+
+  @GET
+  @Path("{ident}_{currency}/ticker")
+  Ticker getTicker(
+      @PathParam("ident") String tradeableIdentifier,
+      @PathParam("currency") String currency
+  );
 
   /*
    * @GET

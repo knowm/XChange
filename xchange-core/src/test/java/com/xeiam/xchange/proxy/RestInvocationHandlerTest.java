@@ -22,15 +22,16 @@
  */
 package com.xeiam.xchange.proxy;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.utils.HttpTemplate;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Matija Mazi <br/>
@@ -44,13 +45,16 @@ public class RestInvocationHandlerTest {
     ExampleService proxy = RestProxyFactory.createProxy(ExampleService.class, testHandler);
 
     proxy.buy("john", "secret", new BigDecimal("3.14"), new BigDecimal("10.00"));
-    assertRequestData(testHandler, "https://example.com/api/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14&price=10.00");
+    assertRequestData(testHandler, "https://example.com/api/2/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14&price=10.00");
 
     proxy.buy("john", "secret", new BigDecimal("3.14"), null);
-    assertRequestData(testHandler, "https://example.com/api/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14");
+    assertRequestData(testHandler, "https://example.com/api/2/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14");
 
     proxy.withdrawBitcoin("john", "secret", new BigDecimal("3.14"), "mybitcoinaddress");
-    assertRequestData(testHandler, "https://example.com/api/bitcoin_withdrawal/john?amount=3.14&address=mybitcoinaddress", HttpTemplate.HttpMethod.POST, Object.class, "password=secret");
+    assertRequestData(testHandler, "https://example.com/api/2/bitcoin_withdrawal/john?amount=3.14&address=mybitcoinaddress", HttpTemplate.HttpMethod.POST, Object.class, "password=secret");
+
+    proxy.getTicker("btc", "usd");
+    assertRequestData(testHandler, "https://example.com/api/2/btc_usd/ticker", HttpTemplate.HttpMethod.GET, Ticker.class, "");
   }
 
   private void assertRequestData(TestRestInvocationHandler testHandler, String url, HttpTemplate.HttpMethod httpMethod, Class resultClass, String postBody) {
