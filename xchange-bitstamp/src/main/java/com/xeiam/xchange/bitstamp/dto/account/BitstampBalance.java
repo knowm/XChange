@@ -28,24 +28,37 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 7:30 PM
+ *
+ * @immutable
  */
 public class BitstampBalance {
 
-  @JsonProperty("usd_balance")
-  private BigDecimal usdBalance;
-  @JsonProperty("btc_balance")
-  private BigDecimal btcBalance;
-  @JsonProperty("usd_reserved")
-  private BigDecimal usdReserved;
-  @JsonProperty("btc_reserved")
-  private BigDecimal btcReserved;
-  @JsonProperty("usd_available")
-  private BigDecimal usdAvailable;
-  @JsonProperty("btc_available")
-  private BigDecimal btcAvailable;
+  private final BigDecimal usdBalance;
+  private final BigDecimal btcBalance;
+  private final BigDecimal usdReserved;
+  private final BigDecimal btcReserved;
+  private final BigDecimal usdAvailable;
+  private final BigDecimal btcAvailable;
+  private final BigDecimal fee;
 
-  private BigDecimal fee;
+  public BitstampBalance(
+      @JsonProperty("usd_balance") BigDecimal usdBalance,
+      @JsonProperty("btc_balance") BigDecimal btcBalance,
+      @JsonProperty("usd_reserved") BigDecimal usdReserved,
+      @JsonProperty("btc_reserved") BigDecimal btcReserved,
+      @JsonProperty("usd_available") BigDecimal usdAvailable,
+      @JsonProperty("btc_available") BigDecimal btcAvailable,
+      @JsonProperty("fee") BigDecimal fee
+  ) {
+
+    this.usdBalance = usdBalance;
+    this.btcBalance = btcBalance;
+    this.usdReserved = usdReserved;
+    this.btcReserved = btcReserved;
+    this.usdAvailable = usdAvailable;
+    this.btcAvailable = btcAvailable;
+    this.fee = fee;
+  }
 
   public BigDecimal getUsdBalance() {
 

@@ -24,18 +24,38 @@ package com.xeiam.xchange.bitstamp.dto.trade;
 
 import java.math.BigDecimal;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 7:33 PM
+ *
+ * @immutable
  */
 public class BitstampUserTransaction {
 
-  private String datetime;
-  private long id;
-  private int type;
-  private BigDecimal usd;
-  private BigDecimal btc;
-  private BigDecimal fee;
+  private final String datetime;
+  private final long id;
+  private final int type;
+  private final BigDecimal usd;
+  private final BigDecimal btc;
+  private final BigDecimal fee;
+
+  public BitstampUserTransaction(
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("id") long id,
+      @JsonProperty("type") int type,
+      @JsonProperty("usd") BigDecimal usd,
+      @JsonProperty("btc") BigDecimal btc,
+      @JsonProperty("fee") BigDecimal fee)
+  {
+
+    this.datetime = datetime;
+    this.id = id;
+    this.type = type;
+    this.usd = usd;
+    this.btc = btc;
+    this.fee = fee;
+  }
 
   public String getDatetime() {
 
