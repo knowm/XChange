@@ -45,6 +45,8 @@ public class WithdrawalFundsDemo {
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();
 
+    System.out.println(accountService.getAccountInfo());
+
     String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
     System.out.println("transactionID= " + transactionID);
   }

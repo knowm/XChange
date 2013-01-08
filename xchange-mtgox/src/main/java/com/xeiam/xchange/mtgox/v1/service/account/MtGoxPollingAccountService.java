@@ -32,8 +32,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBaseURI;
   private final MtGox1 mtGox1;
+  private HmacPostBodyDigest signatureCreator;
 
   public MtGoxPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
@@ -41,21 +41,14 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     Assert.notNull(exchangeSpecification.getVersion(), "Exchange specification version cannot be null");
-    this.apiBaseURI = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
     this.mtGox1 = RestProxyFactory.createProxy(MtGox1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    signatureCreator = new HmacPostBodyDigest(exchangeSpecification.getSecretKey());
   }
 
   @Override
   public AccountInfo getAccountInfo() {
 
-    // Build request
-    String url = apiBaseURI + "/generic/private/info?raw";
-    String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
-
-    // Request data
-    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
-        .getApiKey(), exchangeSpecification.getSecretKey()));
-
+    MtGoxAccountInfo mtGoxAccountInfo = mtGox1.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
   }
 
@@ -63,38 +56,33 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   public String withdrawFunds(BigDecimal amount, String address) {
 
     Object result = mtGox1.withdrawBtc(
-        MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()),
-        new HmacPostBodyDigest(exchangeSpecification.getSecretKey()),
-        CryptoUtils.getNumericalNonce(),
+        exchangeSpecification.getApiKey(),
+        signatureCreator,
+        getNonce(),
         address,
         amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), // TODO is the factor OK?
         1, false, false);
+    // todo! result as object
+    System.out.println(result);
     return result.toString();
   }
 
   @Override
   public String requestBitcoinDepositAddress(String description, String notificationUrl) {
 
-    try {
+    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGox1.requestDepositAddress(
+        exchangeSpecification.getApiKey(),
+        signatureCreator,
+        getNonce(),
+        description,
+        notificationUrl
+    );
 
-      // Build request
-      String url = apiBaseURI + "generic/bitcoin/address?raw";
-      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
-      if (description != null) {
-        postBody += "&description=" + URLEncoder.encode(description, "UTF-8");
-      }
-      if (notificationUrl != null) {
-        postBody += "&ipn=" + URLEncoder.encode(notificationUrl, "UTF-8");
-      }
+    return mtGoxBitcoinDepositAddress.getAddres();
+  }
 
-      // Request data
-      MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = httpTemplate.postForJsonObject(url, MtGoxBitcoinDepositAddress.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(
-          postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+  private long getNonce() {
 
-      return mtGoxBitcoinDepositAddress.getAddres();
-
-    } catch (UnsupportedEncodingException e) {
-      throw new ExchangeException("Problem generating HTTP request  (Unsupported Encoding)", e);
-    }
+    return System.currentTimeMillis();
   }
 }
