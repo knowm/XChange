@@ -40,7 +40,7 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 5:53 PM See https://www.bitstamp.net/api/ for up-to-date docs.
+ * @created 4/20/12 5:53 PM
  */
 @Path("api")
 @Produces("application/json")
@@ -120,5 +120,4 @@ public interface BitStamp {
   @Produces("application/json")
   public Object withdrawBitcoin(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("address") String address);
 
-  // todo: bitstamp code handling, send to user
 }
