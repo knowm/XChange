@@ -46,6 +46,8 @@ public class WithdrawalFundsDemo {
 
     System.out.println(accountService.getAccountInfo());
 
+    // Withdrawal transactions don't seem to appear for amounts less than 0.01, even though the API returns success.
+    // Change the amount to see the transaction appear in the block chain.
     String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
     System.out.println("transactionID= " + transactionID);
   }
