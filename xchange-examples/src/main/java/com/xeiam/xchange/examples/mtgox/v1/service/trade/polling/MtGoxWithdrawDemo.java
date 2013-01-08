@@ -50,8 +50,9 @@ public class MtGoxWithdrawDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     PollingAccountService accountService = mtgox.getPollingAccountService();
+    System.out.println(accountService.getAccountInfo());
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(3), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 }
