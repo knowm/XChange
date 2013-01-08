@@ -9,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import com.sun.istack.internal.NotNull;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
@@ -56,15 +55,15 @@ public interface MtGoxV1 {
   @POST
   @Path("generic/private/info?raw")
   MtGoxAccountInfo getAccountInfo(
-      @HeaderParam("Rest-Key") @NotNull String apiKey,
-      @HeaderParam("Rest-Sign") @NotNull HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Key") String apiKey,
+      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce);
 
   @POST
   @Path("generic/bitcoin/address?raw")
   MtGoxBitcoinDepositAddress requestDepositAddress(
-      @HeaderParam("Rest-Key") @NotNull String apiKey,
-      @HeaderParam("Rest-Sign") @NotNull HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Key") String apiKey,
+      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce,
       @FormParam("description") String description,
       @FormParam("ipn") String notificationUrl
@@ -73,15 +72,15 @@ public interface MtGoxV1 {
   @POST
   @Path("generic/private/orders?raw")
   MtGoxOpenOrder[] getOpenOrders(
-      @HeaderParam("Rest-Key") @NotNull String apiKey,
-      @HeaderParam("Rest-Sign") @NotNull HmacPostBodyDigest postBodySignatureCreator,
-      @FormParam("nonce") String nonce);
+      @HeaderParam("Rest-Key") String apiKey,
+      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
+      @FormParam("nonce") long nonce);
 
   @POST
   @Path("generic/bitcoin/send_simple")
   Object withdrawBtc(
-      @HeaderParam("Rest-Key") @NotNull String apiKey,
-      @HeaderParam("Rest-Sign") @NotNull HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Key") String apiKey,
+      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce,
       @FormParam("address") String address,
       @FormParam("amount_int") int amount,
@@ -89,12 +88,15 @@ public interface MtGoxV1 {
       @FormParam("no_instant") boolean noInstant,
       @FormParam("green") boolean green);
 
+  /**
+   * @param amount can be omitted to place market order
+   */
   @POST
   @Path("{tradeIdent}{currency}/private/order/add")
-  MtGoxGenericResponse placeLimitOrder(
-      @HeaderParam("Rest-Key") @NotNull String apiKey,
-      @HeaderParam("Rest-Sign") @NotNull HmacPostBodyDigest postBodySignatureCreator,
-      @FormParam("nonce") String nonce,
+  MtGoxGenericResponse placeOrder(
+      @HeaderParam("Rest-Key") String apiKey,
+      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
+      @FormParam("nonce") long nonce,
       @PathParam("tradeIdent") String tradableIdentifier,
       @PathParam("currency") String currency,
       @FormParam("type") String type,

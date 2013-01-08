@@ -47,7 +47,7 @@ public class AllParams implements Serializable {
 
   private Map<Class<? extends Annotation>, Params> paramsMap;
 
-  private AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
+  AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
 
     this.paramsMap = paramsMap;
     for (Params params : paramsMap.values()) {
