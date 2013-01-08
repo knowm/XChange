@@ -26,8 +26,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -63,39 +61,35 @@ public class RestInvocationHandler implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-    Class<?> returnType = method.getReturnType();
-    AllParams params = AllParams.createInstance(method, args);
-    String path = method.getAnnotation(Path.class).value();
-    path = params.getPath(path);
-    if (method.isAnnotationPresent(GET.class)) {
-      return getForJsonObject(path, returnType, params);
-    } else if (method.isAnnotationPresent(POST.class)) {
-      return postForJsonObject(path, returnType, params);
-    } else {
-      throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
+    RestRequestData restRequestData = RestRequestData.create(method, args, baseUrl, intfacePath);
+    return invokeHttp(restRequestData);
+  }
+
+  protected Object invokeHttp(RestRequestData restRequestData) {
+
+    if (restRequestData.httpMethod != null) {
+      switch (restRequestData.httpMethod) {
+        case GET:
+          return getForJsonObject(restRequestData);
+        case POST:
+          return postForJsonObject(restRequestData);
+      }
     }
+    throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
   }
 
-  private String getUrl(String method, String queryString) {
+  private Object postForJsonObject(RestRequestData restRequestData) {
 
-    // TODO make more robust in terms of path separator ('/') handling
-    String completeUrl = String.format("%s/%s/%s", this.baseUrl, intfacePath, method);
-    if (queryString != null && !queryString.isEmpty()) {
-      completeUrl += "?" + queryString;
-    }
-    return completeUrl;
+    AllParams allParams = restRequestData.params;
+
+    return httpTemplate.postForJsonObject(restRequestData.url, restRequestData.returnType, allParams.getPostBody(), mapper, allParams.getHttpHeaders());
   }
 
-  private <T> T getForJsonObject(String methodPath, Class<T> returnType, AllParams params) {
+  private Object getForJsonObject(RestRequestData restRequestData) {
 
-    String queryString = params.getQueryString();
-    String url = getUrl(methodPath, queryString);
+    String url = restRequestData.url;
 
-    return httpTemplate.getForJsonObject(url, returnType, mapper, new HashMap<String, String>());
+    return httpTemplate.getForJsonObject(url, restRequestData.returnType, mapper, new HashMap<String, String>());
   }
 
-  private <T> T postForJsonObject(String methodPath, Class<T> returnType, AllParams allParams) {
-
-    return httpTemplate.postForJsonObject(getUrl(methodPath, null), returnType, allParams.getPostBody(), mapper, allParams.getHttpHeaders());
-  }
 }

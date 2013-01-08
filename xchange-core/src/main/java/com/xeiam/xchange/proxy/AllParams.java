@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.proxy;
 
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ import javax.ws.rs.QueryParam;
 /**
  * @author Matija Mazi <br/>
  */
-public class AllParams {
+public class AllParams implements Serializable {
 
   @SuppressWarnings("unchecked")
   private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class, HeaderParam.class);
