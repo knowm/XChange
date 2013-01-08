@@ -89,7 +89,7 @@ public final class MtGoxAdapters {
     String transactionCurrency = currency;
     BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, id, limitPrice);
 
     return limitOrder;
 
