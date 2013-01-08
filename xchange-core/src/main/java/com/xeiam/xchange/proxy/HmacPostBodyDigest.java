@@ -42,7 +42,8 @@ import com.xeiam.xchange.utils.Base64;
  */
 public class HmacPostBodyDigest implements ParamsDigest {
 
-  private Mac mac;
+  private static final String HMAC_SHA_512 = "HmacSHA512";
+  private final Mac mac;
 
   /**
    * Constructor
@@ -51,8 +52,8 @@ public class HmacPostBodyDigest implements ParamsDigest {
   private HmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
 
     try {
-      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), "HmacSHA512");
-      mac = Mac.getInstance("HmacSHA512");
+      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_512);
+      mac = Mac.getInstance(HMAC_SHA_512);
       mac.init(secretKey);
     } catch (IOException e) {
       throw new IllegalArgumentException("Could not decode Base 64 string", e);
