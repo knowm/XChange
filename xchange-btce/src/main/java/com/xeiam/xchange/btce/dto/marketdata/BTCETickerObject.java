@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.btce.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -30,15 +32,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class BTCETickerObject {
 
-  private final double last;
-  private final double high;
-  private final double low;
-  private final double avg;
-  private final double buy;
-  private final double sell;
-  private final double serverTime;
-  private final double vol;
-  private final double volCur;
+  private final BigDecimal last;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal avg;
+  private final BigDecimal buy;
+  private final BigDecimal sell;
+  private final BigDecimal serverTime;
+  private final BigDecimal vol;
+  private final BigDecimal volCur;
 
   /**
    * Constructor
@@ -53,8 +55,8 @@ public final class BTCETickerObject {
    * @param volCur
    * @param sell
    */
-  public BTCETickerObject(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("vol") double vol, @JsonProperty("last") double last, @JsonProperty("avg") double avg,
-      @JsonProperty("buy") double buy, @JsonProperty("server_time") double serverTime, @JsonProperty("vol_cur") double volCur, @JsonProperty("sell") double sell) {
+  public BTCETickerObject(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last, @JsonProperty("avg") BigDecimal avg,
+      @JsonProperty("buy") BigDecimal buy, @JsonProperty("server_time") BigDecimal serverTime, @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("sell") BigDecimal sell) {
 
     this.high = high;
     this.low = low;
@@ -67,47 +69,47 @@ public final class BTCETickerObject {
     this.volCur = volCur;
   }
 
-  public double getAvg() {
+  public BigDecimal getAvg() {
 
     return avg;
   }
 
-  public double getBuy() {
+  public BigDecimal getBuy() {
 
     return buy;
   }
 
-  public double getHigh() {
+  public BigDecimal getHigh() {
 
     return high;
   }
 
-  public double getLast() {
+  public BigDecimal getLast() {
 
     return last;
   }
 
-  public double getLow() {
+  public BigDecimal getLow() {
 
     return low;
   }
 
-  public double getSell() {
+  public BigDecimal getSell() {
 
     return sell;
   }
 
-  public double getServerTime() {
+  public BigDecimal getServerTime() {
 
     return serverTime;
   }
 
-  public double getVol() {
+  public BigDecimal getVol() {
 
     return vol;
   }
 
-  public double getVolCur() {
+  public BigDecimal getVolCur() {
 
     return volCur;
   }

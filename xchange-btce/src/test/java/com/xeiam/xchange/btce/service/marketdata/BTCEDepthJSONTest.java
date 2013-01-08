@@ -21,17 +21,18 @@
  */
 package com.xeiam.xchange.btce.service.marketdata;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test BTCEDepth JSON parsing
@@ -49,6 +50,6 @@ public class BTCEDepthJSONTest {
     BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BTCEDepth.getAsks().get(0)[0], is(equalTo(13.07)));
+    assertThat(BTCEDepth.getAsks().get(0)[0], is(equalTo(new BigDecimal("13.07"))));
   }
 }

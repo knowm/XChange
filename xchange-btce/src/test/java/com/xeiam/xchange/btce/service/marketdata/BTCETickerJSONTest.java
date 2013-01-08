@@ -21,16 +21,17 @@
  */
 package com.xeiam.xchange.btce.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test BTCETicker JSON parsing
@@ -48,10 +49,10 @@ public class BTCETickerJSONTest {
     BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Last value", BTCETicker.getTicker().getLast(), equalTo(13.07));
-    assertThat("Unexpected Return High value", BTCETicker.getTicker().getHigh(), equalTo(13.23));
-    assertThat("Unexpected Return Low value", BTCETicker.getTicker().getLow(), equalTo(13.0));
-    assertThat("Unexpected Return Volume value", BTCETicker.getTicker().getVol(), equalTo(40418.44988));
+    assertThat("Unexpected Return Last value", BTCETicker.getTicker().getLast(), equalTo(new BigDecimal("13.07")));
+    assertThat("Unexpected Return High value", BTCETicker.getTicker().getHigh(), equalTo(new BigDecimal("13.23")));
+    assertThat("Unexpected Return Low value", BTCETicker.getTicker().getLow(), equalTo(new BigDecimal("13")));
+    assertThat("Unexpected Return Volume value", BTCETicker.getTicker().getVol(), equalTo(new BigDecimal("40418.44988")));
   }
 
 }

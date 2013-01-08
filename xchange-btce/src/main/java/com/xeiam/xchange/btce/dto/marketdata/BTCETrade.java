@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.btce.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -32,9 +34,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class BTCETrade {
 
-  private final double amount;
+  private final BigDecimal amount;
   private final long date;
-  private final double price;
+  private final BigDecimal price;
   private final long tid;
   private String item;
   private String priceCurrency;
@@ -51,7 +53,7 @@ public class BTCETrade {
    * @param priceCurrency
    * @param tradeType
    */
-  public BTCETrade(@JsonProperty("amount") double amount, @JsonProperty("date") long date, @JsonProperty("price") double price, @JsonProperty("tid") long tid, @JsonProperty("item") String item,
+  public BTCETrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid, @JsonProperty("item") String item,
       @JsonProperty("price_currency") String priceCurrency, @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
@@ -63,7 +65,7 @@ public class BTCETrade {
     this.tradeType = tradeType;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }
@@ -78,7 +80,7 @@ public class BTCETrade {
     return item;
   }
 
-  public double getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }

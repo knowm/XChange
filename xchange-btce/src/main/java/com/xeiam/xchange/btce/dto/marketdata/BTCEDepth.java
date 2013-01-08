@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.btce.dto.marketdata;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -32,8 +33,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class BTCEDepth {
 
-  private final List<double[]> asks;
-  private final List<double[]> bids;
+  private final List<BigDecimal[]> asks;
+  private final List<BigDecimal[]> bids;
 
   /**
    * Constructor
@@ -41,18 +42,18 @@ public class BTCEDepth {
    * @param asks
    * @param bids
    */
-  public BTCEDepth(@JsonProperty("asks") List<double[]> asks, @JsonProperty("bids") List<double[]> bids) {
+  public BTCEDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
 
     this.asks = asks;
     this.bids = bids;
   }
 
-  public List<double[]> getAsks() {
+  public List<BigDecimal[]> getAsks() {
 
     return asks;
   }
 
-  public List<double[]> getBids() {
+  public List<BigDecimal[]> getBids() {
 
     return bids;
   }

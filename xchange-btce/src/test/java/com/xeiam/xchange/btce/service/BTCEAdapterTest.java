@@ -21,9 +21,6 @@
  */
 package com.xeiam.xchange.btce.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -43,6 +40,9 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the BTCEAdapter class
@@ -108,9 +108,9 @@ public class BTCEAdapterTest {
     Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "BTC", "USD");
 
     assertEquals("last should be USD 13.07", ticker.getLast().toString(), "USD 13.07");
-    assertEquals("low should be USD 13", ticker.getLow().toString(), "USD 13.0");
+    assertEquals("low should be USD 13", ticker.getLow().toString(), "USD 13");
     assertEquals("high should be USD 13.23", ticker.getHigh().toString(), "USD 13.23");
-    assertEquals("volume should be 40418.44988", ticker.getVolume(), new BigDecimal(40418.44988));
+    assertEquals("volume should be 40418.44988", ticker.getVolume(), new BigDecimal("40418.44988"));
     assertEquals("Tradable Identifier should be BTC", ticker.getTradableIdentifier(), "BTC");
 
   }

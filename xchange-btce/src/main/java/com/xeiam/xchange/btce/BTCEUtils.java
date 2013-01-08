@@ -65,13 +65,14 @@ public final class BTCEUtils {
   /**
    * Converts a currency and long price into a BigMoney Object
    * 
+   *
    * @param currency
    * @param price
    * @return
    */
-  public static BigMoney getPrice(String currency, double price) {
+  public static BigMoney getPrice(String currency, BigDecimal price) {
 
-    return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
+    return MoneyUtils.parseFiat(currency + " " + price);
   }
 
   /**

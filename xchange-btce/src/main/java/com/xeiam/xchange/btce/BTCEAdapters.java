@@ -54,6 +54,7 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCEOrder to a LimitOrder
    * 
+   *
    * @param amount
    * @param price
    * @param currency
@@ -61,35 +62,32 @@ public final class BTCEAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(double amount, double price, String tradableIdentifier, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal tradeableAmount = new BigDecimal(amount);
-    String transactionCurrency = currency;
     BigMoney limitPrice;
     limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
-
-    return limitOrder;
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
 
   }
 
   /**
    * Adapts a List of BTCEOrders to a List of LimitOrders
    * 
+   *
    * @param BTCEOrders
    * @param currency
    * @param orderType
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<double[]> BTCEOrders, String tradableIdentifier, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> BTCEOrders, String tradableIdentifier, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (double[] btceOrder : BTCEOrders) {
+    for (BigDecimal[] btceOrder : BTCEOrders) {
       // Bid orderbook is reversed order. Insert at index 0 instead of
       // appending
       if (orderType.equalsIgnoreCase("bid")) {
@@ -111,7 +109,7 @@ public final class BTCEAdapters {
   public static Trade adaptTrade(BTCETrade BTCETrade) {
 
     OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = new BigDecimal(BTCETrade.getAmount());
+    BigDecimal amount = BTCETrade.getAmount();
     String currency = BTCETrade.getPriceCurrency();
     BigMoney price = BTCEUtils.getPrice(currency, BTCETrade.getPrice());
     String tradableIdentifier = BTCETrade.getItem();
@@ -149,7 +147,7 @@ public final class BTCEAdapters {
     BigMoney ask = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getBuy());
     BigMoney high = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getHigh());
     BigMoney low = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLow());
-    BigDecimal volume = new BigDecimal(BTCETicker.getTicker().getVol());
+    BigDecimal volume = BTCETicker.getTicker().getVol();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
