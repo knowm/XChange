@@ -33,14 +33,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.utils.CryptoUtils;
-
 public class HmacPostBodyDigestTest {
 
-  /**
-   * Provides logging for this class
-   */
-  private final Logger log = LoggerFactory.getLogger(CryptoUtils.class);
+  private static final Logger log = LoggerFactory.getLogger(HmacPostBodyDigestTest.class);
 
   @Test
   public void testSignature() throws GeneralSecurityException {
@@ -50,7 +45,7 @@ public class HmacPostBodyDigestTest {
     Map<Class<? extends Annotation>, Params> paramsMap = new HashMap<Class<? extends Annotation>, Params>();
     paramsMap.put(FormParam.class, Params.of("nonce", 1328626350245256L));
 
-    String restSign = new HmacPostBodyDigest(secretKey).digestParams(new AllParams(paramsMap));
+    String restSign = HmacPostBodyDigest.createInstance(secretKey).digestParams(new AllParams(paramsMap));
     log.debug("Rest-Sign    : " + restSign);
     String expectedResult = "eNjLVoVh6LVQfzgv7qFMCL48b5d2Qd1gvratXGA76W6+g46Jl9TNkiTCHks5sLXjfAQ1rGnvWxRHu6pYjC5FSQ==";
     log.debug("Expected-Sign: " + expectedResult);

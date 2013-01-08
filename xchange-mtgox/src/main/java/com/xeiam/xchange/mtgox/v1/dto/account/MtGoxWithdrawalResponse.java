@@ -30,6 +30,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class MtGoxWithdrawalResponse {
 
+  /**
+   * Bitcion transaction id (in the block chain)
+   */
   private final String transactionId;
 
   /**

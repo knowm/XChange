@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
-
-import java.math.BigDecimal;
 
 /**
  * <p>
@@ -46,13 +46,12 @@ public class MtGoxWithdrawDemo {
     exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
     exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
     exchangeSpecification.setUri("https://mtgox.com");
-    exchangeSpecification.setVersion("1");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     PollingAccountService accountService = mtgox.getPollingAccountService();
     System.out.println(accountService.getAccountInfo());
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(3), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 }

@@ -39,7 +39,6 @@ public class WithdrawalFundsDemo {
     exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
     exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
     exchangeSpecification.setUri("https://mtgox.com");
-    exchangeSpecification.setVersion("1");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private account functionality (authentication)
@@ -47,6 +46,9 @@ public class WithdrawalFundsDemo {
 
     System.out.println(accountService.getAccountInfo());
 
+    // Withdrawal transactions may be slow to appear for amounts less than 0.01, even though the API returns success.
+    // Change the amount to 0.01 or more to see the transaction appear in the block chain quickly.
+    // May be a general Bitcoin thing.
     String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
     System.out.println("transactionID= " + transactionID);
   }

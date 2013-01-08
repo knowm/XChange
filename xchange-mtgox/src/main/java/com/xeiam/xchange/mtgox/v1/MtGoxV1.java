@@ -78,7 +78,7 @@ public interface MtGoxV1 {
       @FormParam("nonce") long nonce);
 
   @POST
-  @Path("generic/bitcoin/send_simple")
+  @Path("generic/bitcoin/send_simple?raw")
   MtGoxWithdrawalResponse withdrawBtc(
       @HeaderParam("Rest-Key") String apiKey,
       @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,

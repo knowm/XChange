@@ -40,7 +40,6 @@ public class ExchangeSpecification {
   private String secretKey;
   private String apiKey;
   private String uri;
-  private String version;
   private String host;
   private int port = 80;
   private final String exchangeClassName;
@@ -148,19 +147,6 @@ public class ExchangeSpecification {
   public void setUri(String uri) {
 
     this.uri = uri;
-  }
-
-  /**
-   * The numerical API version to use (e.g. "1" or "0.3" etc)
-   */
-  public String getVersion() {
-
-    return version;
-  }
-
-  public void setVersion(String version) {
-
-    this.version = version;
   }
 
   /**

@@ -67,7 +67,6 @@ public class OERExchange extends BaseExchange implements Exchange {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setUri("http://openexchangerates.org");
-    exchangeSpecification.setVersion("");
     exchangeSpecification.setHost("openexchangerates.org");
     exchangeSpecification.setPort(80);
 
