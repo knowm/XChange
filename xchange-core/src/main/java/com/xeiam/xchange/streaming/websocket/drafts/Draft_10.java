@@ -329,31 +329,31 @@ public class Draft_10 extends Draft {
     }
 
     if (payloadlength < 0 || payloadlength > 125) {
-    }
-    if (optcode == OpCode.PING || optcode == OpCode.PONG || optcode == OpCode.CLOSING) {
-      throw new InvalidFrameException("more than 125 octets");
-    }
-    if (payloadlength == 126) {
-      realpacketsize += 2; // additional length bytes
-      if (maxpacketsize < realpacketsize)
-        throw new IncompleteException(realpacketsize);
-      byte[] sizebytes = new byte[3];
-      sizebytes[1] = buffer.get( /* 1 + 1 */);
-      sizebytes[2] = buffer.get( /* 1 + 2 */);
-      payloadlength = new BigInteger(sizebytes).intValue();
-    } else {
-      realpacketsize += 8; // additional length bytes
-      if (maxpacketsize < realpacketsize)
-        throw new IncompleteException(realpacketsize);
-      byte[] bytes = new byte[8];
-      for (int i = 0; i < 8; i++) {
-        bytes[i] = buffer.get( /* 1 + i */);
+      if (optcode == OpCode.PING || optcode == OpCode.PONG || optcode == OpCode.CLOSING) {
+        throw new InvalidFrameException("more than 125 octets");
       }
-      long length = new BigInteger(bytes).longValue();
-      if (length > Integer.MAX_VALUE) {
-        throw new LimitExceededException("Payloadsize is to big...");
+      if (payloadlength == 126) {
+        realpacketsize += 2; // additional length bytes
+        if (maxpacketsize < realpacketsize)
+          throw new IncompleteException(realpacketsize);
+        byte[] sizebytes = new byte[3];
+        sizebytes[1] = buffer.get( /* 1 + 1 */);
+        sizebytes[2] = buffer.get( /* 1 + 2 */);
+        payloadlength = new BigInteger(sizebytes).intValue();
       } else {
-        payloadlength = (int) length;
+        realpacketsize += 8; // additional length bytes
+        if (maxpacketsize < realpacketsize)
+          throw new IncompleteException(realpacketsize);
+        byte[] bytes = new byte[8];
+        for (int i = 0; i < 8; i++) {
+          bytes[i] = buffer.get( /* 1 + i */);
+        }
+        long length = new BigInteger(bytes).longValue();
+        if (length > Integer.MAX_VALUE) {
+          throw new LimitExceededException("Payloadsize is to big...");
+        } else {
+          payloadlength = (int) length;
+        }
       }
     }
 
