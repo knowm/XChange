@@ -27,7 +27,9 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -60,6 +62,15 @@ public class MarketOrderDemo {
 
     String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
     System.out.println("Market Order return value: " + marketOrderReturnValue);
+
+    // get open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
+      if (openOrder.getId().equals(marketOrderReturnValue)) {
+        System.out.println("This is the order we just placed:");
+      }
+      System.out.println(openOrder.toString());
+    }
 
   }
 }

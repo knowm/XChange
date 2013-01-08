@@ -36,6 +36,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
 /**
+ * This holds name-value mapping for various types of params used in REST (QueryParam, PathParam, FormParam, HeaderParam).
+ *
  * @author Matija Mazi <br/>
  */
 public class AllParams implements Serializable {
@@ -45,7 +47,7 @@ public class AllParams implements Serializable {
 
   private Map<Class<? extends Annotation>, Params> paramsMap;
 
-  private AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
+  AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
 
     this.paramsMap = paramsMap;
     for (Params params : paramsMap.values()) {
@@ -119,7 +121,7 @@ public class AllParams implements Serializable {
 
   Map<String, String> getHttpHeaders() {
 
-    return paramsMap.get(HeaderParam.class).getAsHttpHeaders();
+    return paramsMap.get(HeaderParam.class).asHttpHeaders();
   }
 
   String getQueryString() {

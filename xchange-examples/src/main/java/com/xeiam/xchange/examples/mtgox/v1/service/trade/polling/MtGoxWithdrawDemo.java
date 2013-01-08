@@ -19,22 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.account;
-
-import java.math.BigDecimal;
+package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
+import java.math.BigDecimal;
+
 /**
- * Demo requesting account info at MtGox
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connecting to Mt Gox BTC exchange with authentication</li>
+ * <li>Retrieving account info data</li>
+ * </ul>
  */
-public class WithdrawalFundsDemo {
+public class MtGoxWithdrawDemo {
 
   public static void main(String[] args) {
 
+    // Use the factory to get the version 1 MtGox exchange API using default settings
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
     exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
     exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
@@ -42,13 +49,10 @@ public class WithdrawalFundsDemo {
     exchangeSpecification.setVersion("1");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();
-
     System.out.println(accountService.getAccountInfo());
 
-    String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
-    System.out.println("transactionID= " + transactionID);
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(3), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+    System.out.println("withdrawResult = " + withdrawResult);
   }
-
 }

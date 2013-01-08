@@ -33,23 +33,22 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.proxy.Params;
+import com.xeiam.xchange.proxy.HmacPostBodyDigest;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.utils.CryptoUtils;
 
 /**
  * @author timmolter
  */
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final String apiBaseURI;
+  private final HmacPostBodyDigest postBodySignatureCreator;
+  private MtGoxV1 mtGoxV1;
 
   /**
    * Initialize common properties from the exchange specification
@@ -62,23 +61,18 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     Assert.notNull(exchangeSpecification.getVersion(), "Exchange specification version cannot be null");
-    this.apiBaseURI = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    postBodySignatureCreator = new HmacPostBodyDigest(exchangeSpecification.getSecretKey());
   }
 
   @Override
   public OpenOrders getOpenOrders() {
 
-    // Build request
-    String url = apiBaseURI + "/generic/private/orders?raw";
-    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce()).asFormEncodedPostBody();
-
-    // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
-        .getApiKey(), exchangeSpecification.getSecretKey()));
-
-    // Adapt to XChange DTOs
+    MtGoxOpenOrder[] mtGoxOpenOrders = mtGoxV1.getOpenOrders(
+        MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()),
+        postBodySignatureCreator,
+        getNonce());
     return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
-
   }
 
   @Override
@@ -86,17 +80,15 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     verify(marketOrder);
 
-    // Build request
-    String symbol = marketOrder.getTradableIdentifier() + marketOrder.getTransactionCurrency();
-    String type = marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
-    String amount = "" + (marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
-    String url = apiBaseURI + symbol + "/private/order/add";
-
-    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount).asFormEncodedPostBody();
-
-    // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
-        exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeOrder(
+        exchangeSpecification.getApiKey(),
+        postBodySignatureCreator,
+        getNonce(),
+        marketOrder.getTradableIdentifier(),
+        marketOrder.getTransactionCurrency(),
+        marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask",
+        marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)),
+        null);
 
     return mtGoxSuccess.getReturn();
   }
@@ -108,18 +100,16 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
     Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
 
-    // Build request
-    String symbol = limitOrder.getTradableIdentifier() + limitOrder.getLimitPrice().getCurrencyUnit().toString();
-    String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
-    String amountInt = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
-    String priceInt = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
-    String url = apiBaseURI + symbol + "/private/order/add";
-
-    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amountInt, "price_int", priceInt).asFormEncodedPostBody();
-
-    // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
-        exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeOrder(
+        exchangeSpecification.getApiKey(),
+        postBodySignatureCreator,
+        getNonce(),
+        limitOrder.getTradableIdentifier(),
+        limitOrder.getLimitPrice().getCurrencyUnit().toString(),
+        limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask",
+        limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)),
+        MtGoxUtils.getPriceString(limitOrder.getLimitPrice())
+    );
 
     return mtGoxSuccess.getReturn();
   }
@@ -137,6 +127,11 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     Assert.notNull(order.getTradableAmount(), "getAmount_int() cannot be null");
     Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(order.getTradableIdentifier(), order.getTransactionCurrency())), "currencyPair is not valid");
 
+  }
+
+  private long getNonce() {
+
+    return System.currentTimeMillis();
   }
 
 }

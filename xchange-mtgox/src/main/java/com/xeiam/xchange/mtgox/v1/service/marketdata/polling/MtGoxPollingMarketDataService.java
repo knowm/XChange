@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.xeiam.xchange.CurrencyPair;
@@ -32,9 +31,11 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
@@ -49,10 +50,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final String apiBase = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
+  private final MtGoxV1 mtGoxV1;
 
   /**
    * @param exchangeSpecification The exchange specification
@@ -60,6 +58,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
   }
 
   @Override
@@ -68,7 +67,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     verify(tradableIdentifier, currency);
 
     // Request data
-    MtGoxTicker mtGoxTicker = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/ticker?raw", MtGoxTicker.class, mapper, new HashMap<String, String>());
+    MtGoxTicker mtGoxTicker = mtGoxV1.getTicker(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     return MtGoxAdapters.adaptTicker(mtGoxTicker);
@@ -80,7 +79,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     verify(tradableIdentifier, currency);
 
     // Request data
-    MtGoxDepth mtgoxDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/depth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxDepth = mtGoxV1.getDepth(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, "ask", "");
@@ -94,8 +93,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
     verify(tradableIdentifier, currency);
 
-    // Request data
-    MtGoxDepth mtgoxFullDepth = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/fulldepth?raw", MtGoxDepth.class, mapper, new HashMap<String, String>());
+    MtGoxDepth mtgoxFullDepth = mtGoxV1.getFullDepth(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
@@ -108,7 +106,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   public Trades getTrades(String tradableIdentifier, String currency) {
 
     // Request data
-    MtGoxTrade[] mtGoxTrades = httpTemplate.getForJsonObject(apiBase + tradableIdentifier + currency + "/public/trades?raw", MtGoxTrade[].class, mapper, new HashMap<String, String>());
+    MtGoxTrade[] mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
 
     return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }

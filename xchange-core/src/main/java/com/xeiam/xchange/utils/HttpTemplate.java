@@ -21,23 +21,18 @@
  */
 package com.xeiam.xchange.utils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import com.xeiam.xchange.HttpException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.HttpException;
 
 /**
  * Various HTTP utility methods
@@ -99,6 +94,9 @@ public class HttpTemplate {
     Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(objectMapper, "objectMapper cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
+//    log.info("urlString = {}", urlString);
+//    log.info("postBody = {}", postBody);
+//    log.info("httpHeaders = {}", httpHeaders);
 
     return JSONUtils.getJsonObject(postForString(urlString, postBody, httpHeaders), returnType, objectMapper);
   }

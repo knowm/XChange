@@ -143,26 +143,6 @@ public final class MtGoxUtils {
     return CURRENCY_PAIRS.contains(currencyPair);
   }
 
-  /**
-   * Generates necessary authentication header values for MtGox
-   * 
-   * @param postBody
-   * @return
-   */
-  public static Map<String, String> getMtGoxAuthenticationHeaderKeyValues(String postBody, String apiKey, String secretKey) {
-
-    try {
-
-      Map<String, String> headerKeyValues = new HashMap<String, String>();
-      headerKeyValues.put("Rest-Key", urlEncode(apiKey));
-      headerKeyValues.put("Rest-Sign", CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey));
-      return headerKeyValues;
-
-    } catch (GeneralSecurityException e) {
-      throw new ExchangeException("Problem generating secure HTTP request (General Security)", e);
-    }
-  }
-
   public static String urlEncode(String str) {
 
     try {
