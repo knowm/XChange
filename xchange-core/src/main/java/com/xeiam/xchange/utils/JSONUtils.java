@@ -26,6 +26,8 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeException;
 
@@ -33,6 +35,8 @@ import com.xeiam.xchange.ExchangeException;
  * Central place for common JSON operations
  */
 public class JSONUtils {
+
+  private static final Logger log = LoggerFactory.getLogger(JSONUtils.class);
 
   /**
    * Creates a POJO from a Jackson-annotated class given a jsonString
@@ -50,6 +54,7 @@ public class JSONUtils {
       return objectMapper.readValue(jsonString, returnType);
     } catch (IOException e) {
       // Rethrow as runtime exception
+      log.error("Error unmarshalling from json: " + jsonString);
       throw new ExchangeException("Problem getting JSON object", e);
     }
   }
