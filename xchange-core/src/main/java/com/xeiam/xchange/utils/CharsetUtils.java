@@ -74,7 +74,8 @@ public class CharsetUtils {
 
   /**
    * <p>
-   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the length of the subarray
+   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the
+   * length of the subarray
    * </p>
    * 
    * @param bytes The bytes to be decoded into characters
@@ -99,7 +100,8 @@ public class CharsetUtils {
 
   /**
    * <p>
-   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the length of the subarray
+   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the
+   * length of the subarray
    * </p>
    * 
    * @param bytes The bytes to be decoded into characters

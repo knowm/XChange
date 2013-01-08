@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.bitstamp.trade;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -31,16 +33,17 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
 
-import java.math.BigDecimal;
-
 /**
- * <p> Example showing the following: </p>
+ * <p>
+ * Example showing the following:
+ * </p>
  * <ul>
  * <li>Connect to Bitstamp exchange with authentication</li>
  * <li>Enter, review and cancel limit orders</li>
  * </ul>
- *
- * <p>Provide the username and password as the first two program arguments.</p>
+ * <p>
+ * Provide the username and password as the first two program arguments.
+ * </p>
  */
 public class BitstampTradeDemo {
 
@@ -70,6 +73,7 @@ public class BitstampTradeDemo {
   }
 
   private static void printOpenOrders(PollingTradeService tradeService) {
+
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
   }

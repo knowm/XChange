@@ -24,11 +24,12 @@ package com.xeiam.xchange.examples.bitcoincharts;
 
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsFactory;
-import com.xeiam.xchange.bitcoincharts.dto.MarketData;
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.MarketData;
 
 public class BitcoinChartsDemo {
 
   public static void main(String[] args) {
+
     BitcoinCharts bitcoinCharts = BitcoinChartsFactory.createInstance();
     MarketData[] marketData = bitcoinCharts.getMarketData();
     for (MarketData data : marketData) {

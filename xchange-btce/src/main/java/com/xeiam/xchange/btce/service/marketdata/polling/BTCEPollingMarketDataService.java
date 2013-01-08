@@ -71,10 +71,10 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
     String url = apiBase + tradableIdentifier + "_" + currency + "/ticker";
 
     // Request data
-    BTCETicker BTCETicker = httpTemplate.getForJsonObject(url.toLowerCase(), BTCETicker.class, mapper, new HashMap<String, String>());
+    BTCETicker btceTicker = httpTemplate.getForJsonObject(url.toLowerCase(), BTCETicker.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    return BTCEAdapters.adaptTicker(BTCETicker, tradableIdentifier, currency);
+    return BTCEAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);
   }
 
   @Override
@@ -91,11 +91,11 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
     String url = apiBase + tradableIdentifier + "_" + currency + "/depth";
 
     // Request data
-    BTCEDepth BTCEDepth = httpTemplate.getForJsonObject(url.toLowerCase(), BTCEDepth.class, mapper, new HashMap<String, String>());
+    BTCEDepth btceDepth = httpTemplate.getForJsonObject(url.toLowerCase(), BTCEDepth.class, mapper, new HashMap<String, String>());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(BTCEDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(BTCEDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
 
     return new OrderBook(asks, bids);
   }

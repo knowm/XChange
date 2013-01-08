@@ -25,10 +25,10 @@ package com.xeiam.xchange.campbx;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.polling.CampBXPollingMarketDataService;
+import com.xeiam.xchange.campbx.service.marketdata.polling.CampBXPollingMarketDataService;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class CampBXExchange extends BaseExchange implements Exchange {
 

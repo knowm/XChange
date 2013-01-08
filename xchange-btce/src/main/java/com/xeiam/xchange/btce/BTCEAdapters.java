@@ -42,7 +42,14 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * Various adapters for converting from BTCE DTOs to XChange DTOs
  */
-public class BTCEAdapters {
+public final class BTCEAdapters {
+
+  /**
+   * private Constructor
+   */
+  private BTCEAdapters() {
+
+  }
 
   /**
    * Adapts a BTCEOrder to a LimitOrder
@@ -82,13 +89,13 @@ public class BTCEAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (double[] BTCEOrder : BTCEOrders) {
+    for (double[] btceOrder : BTCEOrders) {
       // Bid orderbook is reversed order. Insert at index 0 instead of
       // appending
       if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(BTCEOrder[1], BTCEOrder[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
       } else {
-        limitOrders.add(adaptOrder(BTCEOrder[1], BTCEOrder[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
       }
     }
 
@@ -105,7 +112,7 @@ public class BTCEAdapters {
 
     OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = new BigDecimal(BTCETrade.getAmount());
-    String currency = BTCETrade.getPrice_currency();
+    String currency = BTCETrade.getPriceCurrency();
     BigMoney price = BTCEUtils.getPrice(currency, BTCETrade.getPrice());
     String tradableIdentifier = BTCETrade.getItem();
     DateTime dateTime = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
@@ -128,11 +135,6 @@ public class BTCEAdapters {
     }
     return new Trades(tradesList);
   }
-
-  // public static String getPriceString(BigMoney price) {
-  //
-  // return price.getAmount().stripTrailingZeros().toPlainString();
-  // }
 
   /**
    * Adapts a BTCETicker to a Ticker Object

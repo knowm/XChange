@@ -3,8 +3,13 @@ package com.xeiam.xchange.mtgox.v1.service.account;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
@@ -13,6 +18,7 @@ import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGox1;
 import com.xeiam.xchange.proxy.HmacPostBodyDigest;
 import com.xeiam.xchange.proxy.RestProxyFactory;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
@@ -36,7 +42,6 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
    * Configured from the super class reading of the exchange specification
    */
   private final String apiBaseURI;
-  private final MtGox1 mtGox1;
 
   public MtGoxPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
@@ -45,7 +50,6 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     Assert.notNull(exchangeSpecification.getVersion(), "Exchange specification version cannot be null");
     this.apiBaseURI = String.format("%s/api/%s/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
-    this.mtGox1 = RestProxyFactory.createProxy(MtGox1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
   }
 
   @Override
@@ -56,15 +60,10 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
     String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
 
     // Request data
-    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxAccountInfo mtGoxAccountInfo = httpTemplate.postForJsonObject(url, MtGoxAccountInfo.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
+        .getApiKey(), exchangeSpecification.getSecretKey()));
 
-    // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo();
-    accountInfo.setUsername(mtGoxAccountInfo.getLogin());
-    accountInfo.setWallets(MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
-
-    return accountInfo;
+    return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
   }
 
   @Override
@@ -96,8 +95,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
       }
 
       // Request data
-      MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = httpTemplate.postForJsonObject(url, MtGoxBitcoinDepositAddress.class, postBody, mapper,
-          MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+      MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = httpTemplate.postForJsonObject(url, MtGoxBitcoinDepositAddress.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(
+          postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
       return mtGoxBitcoinDepositAddress.getAddres();
 

@@ -31,24 +31,24 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class Wallets {
+public final class Wallets {
 
-  private MtGoxWallet BTC;
-  private MtGoxWallet USD;
-  private MtGoxWallet EUR;
-  private MtGoxWallet GBP;
-  private MtGoxWallet AUD;
-  private MtGoxWallet CAD;
-  private MtGoxWallet CHF;
-  private MtGoxWallet JPY;
-  private MtGoxWallet CNY;
-  private MtGoxWallet DKK;
-  private MtGoxWallet HKD;
-  private MtGoxWallet NZD;
-  private MtGoxWallet PLN;
-  private MtGoxWallet RUB;
-  private MtGoxWallet SEK;
-  private MtGoxWallet THB;
+  private final MtGoxWallet BTC;
+  private final MtGoxWallet USD;
+  private final MtGoxWallet EUR;
+  private final MtGoxWallet GBP;
+  private final MtGoxWallet AUD;
+  private final MtGoxWallet CAD;
+  private final MtGoxWallet CHF;
+  private final MtGoxWallet JPY;
+  private final MtGoxWallet CNY;
+  private final MtGoxWallet DKK;
+  private final MtGoxWallet HKD;
+  private final MtGoxWallet NZD;
+  private final MtGoxWallet PLN;
+  private final MtGoxWallet RUB;
+  private final MtGoxWallet SEK;
+  private final MtGoxWallet THB;
 
   /**
    * Constructor
@@ -70,10 +70,10 @@ public class Wallets {
    * @param sEK
    * @param tHB
    */
-  public Wallets(@JsonProperty("BTC") MtGoxWallet bTC, @JsonProperty("USD") MtGoxWallet uSD, @JsonProperty("EUR") MtGoxWallet eUR, @JsonProperty("GBP") MtGoxWallet gBP, @JsonProperty("AUD") MtGoxWallet aUD,
-      @JsonProperty("CAD") MtGoxWallet cAD, @JsonProperty("CHF") MtGoxWallet cHF, @JsonProperty("JPY") MtGoxWallet jPY, @JsonProperty("CNY") MtGoxWallet cNY, @JsonProperty("DKK") MtGoxWallet dKK,
-      @JsonProperty("HKD") MtGoxWallet hKD, @JsonProperty("NZD") MtGoxWallet nZD, @JsonProperty("PLN") MtGoxWallet pLN, @JsonProperty("RUB") MtGoxWallet rUB, @JsonProperty("SEK") MtGoxWallet sEK,
-      @JsonProperty("THB") MtGoxWallet tHB) {
+  public Wallets(@JsonProperty("BTC") MtGoxWallet bTC, @JsonProperty("USD") MtGoxWallet uSD, @JsonProperty("EUR") MtGoxWallet eUR, @JsonProperty("GBP") MtGoxWallet gBP,
+      @JsonProperty("AUD") MtGoxWallet aUD, @JsonProperty("CAD") MtGoxWallet cAD, @JsonProperty("CHF") MtGoxWallet cHF, @JsonProperty("JPY") MtGoxWallet jPY, @JsonProperty("CNY") MtGoxWallet cNY,
+      @JsonProperty("DKK") MtGoxWallet dKK, @JsonProperty("HKD") MtGoxWallet hKD, @JsonProperty("NZD") MtGoxWallet nZD, @JsonProperty("PLN") MtGoxWallet pLN, @JsonProperty("RUB") MtGoxWallet rUB,
+      @JsonProperty("SEK") MtGoxWallet sEK, @JsonProperty("THB") MtGoxWallet tHB) {
 
     BTC = bTC;
     USD = uSD;
@@ -181,8 +181,8 @@ public class Wallets {
   @Override
   public String toString() {
 
-    return "Wallets [BTC=" + BTC + ", USD=" + USD + ", EUR=" + EUR + ", GBP=" + GBP + ", AUD=" + AUD + ", CAD=" + CAD + ", CHF=" + CHF + ", JPY=" + JPY + ", CNY=" + CNY + ", DKK=" + DKK + ", HKD=" + HKD + ", NZD=" + NZD
-        + ", PLN=" + PLN + ", RUB=" + RUB + ", SEK=" + SEK + ", THB=" + THB + "]";
+    return "Wallets [BTC=" + BTC + ", USD=" + USD + ", EUR=" + EUR + ", GBP=" + GBP + ", AUD=" + AUD + ", CAD=" + CAD + ", CHF=" + CHF + ", JPY=" + JPY + ", CNY=" + CNY + ", DKK=" + DKK + ", HKD="
+        + HKD + ", NZD=" + NZD + ", PLN=" + PLN + ", RUB=" + RUB + ", SEK=" + SEK + ", THB=" + THB + "]";
   }
 
 }

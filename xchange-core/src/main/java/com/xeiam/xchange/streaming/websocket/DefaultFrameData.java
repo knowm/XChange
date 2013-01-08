@@ -98,7 +98,8 @@ public class DefaultFrameData implements FrameBuilder {
   @Override
   public String toString() {
 
-    return "FrameData{ opCode:" + getOpCode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedPayload.limit() + ", payload:" + CharsetUtils.toByteArrayUtf8(new String(unmaskedPayload.array())) + "}";
+    return "FrameData{ opCode:" + getOpCode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedPayload.limit() + ", payload:" + CharsetUtils.toByteArrayUtf8(new String(unmaskedPayload.array()))
+        + "}";
   }
 
 }

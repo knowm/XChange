@@ -33,7 +33,14 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * A central place for shared BTC-E properties
  */
-public class BTCEUtils {
+public final class BTCEUtils {
+
+  /**
+   * private Constructor
+   */
+  private BTCEUtils() {
+
+  }
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 

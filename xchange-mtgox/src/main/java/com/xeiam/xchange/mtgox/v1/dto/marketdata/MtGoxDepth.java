@@ -30,10 +30,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class MtGoxDepth {
+public final class MtGoxDepth {
 
-  private List<MtGoxOrder> asks;
-  private List<MtGoxOrder> bids;
+  private final List<MtGoxOrder> asks;
+  private final List<MtGoxOrder> bids;
 
   /**
    * Constructor

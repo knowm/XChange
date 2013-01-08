@@ -33,7 +33,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
  * 
  * @immutable
  */
-public final class Trade {
+public final class Trade implements Comparable<Trade> {
 
   /**
    * Did this trade result from the execution of a bid or a ask?
@@ -113,8 +113,20 @@ public final class Trade {
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price + ", timestamp=" + timestamp
-        + "]";
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
+        + ", timestamp=" + timestamp + "]";
+  }
+
+  @Override
+  public int compareTo(Trade trade) {
+
+    if (this.getTimestamp().isBefore(trade.getTimestamp())) {
+      return -1;
+    } else if (this.getTimestamp().isAfter(trade.getTimestamp())) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
 }

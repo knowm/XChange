@@ -32,6 +32,11 @@ public class BTCETicker {
 
   private BTCETickerObject ticker;
 
+  /**
+   * Constructor
+   * 
+   * @param ticker
+   */
   public BTCETicker(@JsonProperty("ticker") BTCETickerObject ticker) {
 
     this.ticker = ticker;
@@ -41,4 +46,11 @@ public class BTCETicker {
 
     return ticker;
   }
+
+  @Override
+  public String toString() {
+
+    return "BTCETicker [ticker=" + ticker.toString() + "]";
+  }
+
 }

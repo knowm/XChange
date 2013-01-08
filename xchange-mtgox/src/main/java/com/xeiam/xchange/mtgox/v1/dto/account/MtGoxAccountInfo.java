@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.account;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -33,18 +34,18 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
  * 
  * @immutable
  */
-public class MtGoxAccountInfo {
+public final class MtGoxAccountInfo {
 
-  private String login;
-  private String index;
-  private String id;
-  private List<String> rights;
-  private String language;
-  private String created;
-  private String last_Login;
-  private Wallets wallets;
-  private MtGoxValue monthly_Volume;
-  private double trade_Fee;
+  private final String login;
+  private final String index;
+  private final String id;
+  private final List<String> rights;
+  private final String language;
+  private final String created;
+  private final String lastLogin;
+  private final Wallets wallets;
+  private final MtGoxValue monthlyVolume;
+  private final BigDecimal tradeFee;
 
   /**
    * Constructor
@@ -55,14 +56,14 @@ public class MtGoxAccountInfo {
    * @param rights
    * @param language
    * @param created
-   * @param last_Login
+   * @param lastLogin
    * @param wallets
-   * @param monthly_Volume
-   * @param trade_Fee
+   * @param monthlyVolume
+   * @param tradeFee
    */
-  public MtGoxAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language,
-      @JsonProperty("Created") String created, @JsonProperty("Last_Login") String last_Login, @JsonProperty("Wallets") Wallets wallets, @JsonProperty("Monthly_Volume") MtGoxValue monthly_Volume,
-      @JsonProperty("Trade_Fee") double trade_Fee) {
+  public MtGoxAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights,
+      @JsonProperty("Language") String language, @JsonProperty("Created") String created, @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Wallets wallets,
+      @JsonProperty("Monthly_Volume") MtGoxValue monthlyVolume, @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
 
     this.login = login;
     this.index = index;
@@ -70,10 +71,10 @@ public class MtGoxAccountInfo {
     this.rights = rights;
     this.language = language;
     this.created = created;
-    this.last_Login = last_Login;
+    this.lastLogin = lastLogin;
     this.wallets = wallets;
-    this.monthly_Volume = monthly_Volume;
-    this.trade_Fee = trade_Fee;
+    this.monthlyVolume = monthlyVolume;
+    this.tradeFee = tradeFee;
   }
 
   public String getLogin() {
@@ -106,9 +107,9 @@ public class MtGoxAccountInfo {
     return created;
   }
 
-  public String getLast_Login() {
+  public String getLastLogin() {
 
-    return last_Login;
+    return lastLogin;
   }
 
   public Wallets getWallets() {
@@ -116,21 +117,21 @@ public class MtGoxAccountInfo {
     return wallets;
   }
 
-  public MtGoxValue getMonthly_Volume() {
+  public MtGoxValue getMonthlyVolume() {
 
-    return monthly_Volume;
+    return monthlyVolume;
   }
 
-  public double getTrade_Fee() {
+  public BigDecimal getTradeFee() {
 
-    return trade_Fee;
+    return tradeFee;
   }
 
   @Override
   public String toString() {
 
-    return "MtGoxAccountInfo [login=" + login + ", index=" + index + ", rights=" + rights + ", language=" + language + ", created=" + created + ", last_Login=" + last_Login + ", wallets=" + wallets + ", trade_Fee="
-        + trade_Fee + "]";
+    return "MtGoxAccountInfo [login=" + login + ", index=" + index + ", id=" + id + ", rights=" + rights + ", language=" + language + ", created=" + created + ", lastLogin=" + lastLogin
+        + ", wallets=" + wallets + ", monthlyVolume=" + monthlyVolume + ", tradeFee=" + tradeFee + "]";
   }
 
 }

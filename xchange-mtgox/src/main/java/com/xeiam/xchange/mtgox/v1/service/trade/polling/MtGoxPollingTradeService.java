@@ -41,6 +41,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import com.xeiam.xchange.proxy.Params;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
@@ -48,11 +49,10 @@ import com.xeiam.xchange.utils.CryptoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
-
+/**
+ * @author timmolter
+ */
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
-
-  private final Logger log = LoggerFactory.getLogger(MtGoxPollingTradeService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -84,8 +84,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce()).asFormEncodedPostBody();
 
     // Request data
-    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxOpenOrder[] mtGoxOpenOrders = httpTemplate.postForJsonObject(url, MtGoxOpenOrder[].class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification
+        .getApiKey(), exchangeSpecification.getSecretKey()));
 
     // Adapt to XChange DTOs
     return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
@@ -113,8 +113,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount).asFormEncodedPostBody();
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
+        exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
     return mtGoxSuccess.getReturn();
   }
@@ -145,32 +145,21 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
 /*
     // Build request
+    String amountInt = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
+    String priceInt = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
     String url = apiBaseURI + symbol + "/private/order/add";
 
-    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount_int, "price_int", price_int).asFormEncodedPostBody();
+    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amountInt, "price_int", priceInt).asFormEncodedPostBody();
 
     // Request data
-    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
-        MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
-*/
+    MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
+        exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
     return mtGoxSuccess.getReturn();
   }
 
   @Override
   public boolean cancelOrder(String orderId) {
-
-    // Assert.notNull(orderId, "orderId cannot be null");
-    //
-    // // Build request
-    // String url = exchangeSpecification.getUri() + "/api/0/cancelOrder.php";
-    // String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&oid=" + orderId;
-    //
-    // // Request data
-    // MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
-    // MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
-    //
-    // return mtGoxSuccess.getResult().equals("success") ? true : false;
 
     throw new NotAvailableFromExchangeException();
   }

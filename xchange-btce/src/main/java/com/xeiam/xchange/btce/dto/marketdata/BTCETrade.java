@@ -37,8 +37,8 @@ public class BTCETrade {
   private final double price;
   private final long tid;
   private String item;
-  private String price_currency;
-  private String trade_type;
+  private String priceCurrency;
+  private String tradeType;
 
   /**
    * Constructor
@@ -48,19 +48,19 @@ public class BTCETrade {
    * @param price
    * @param tid
    * @param item
-   * @param price_currency
-   * @param trade_type
+   * @param priceCurrency
+   * @param tradeType
    */
   public BTCETrade(@JsonProperty("amount") double amount, @JsonProperty("date") long date, @JsonProperty("price") double price, @JsonProperty("tid") long tid, @JsonProperty("item") String item,
-      @JsonProperty("price_currency") String price_currency, @JsonProperty("trade_type") String trade_type) {
+      @JsonProperty("price_currency") String priceCurrency, @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
     this.date = date;
     this.price = price;
     this.tid = tid;
     this.item = item;
-    this.price_currency = price_currency;
-    this.trade_type = trade_type;
+    this.priceCurrency = priceCurrency;
+    this.tradeType = tradeType;
   }
 
   public double getAmount() {
@@ -83,9 +83,9 @@ public class BTCETrade {
     return price;
   }
 
-  public String getPrice_currency() {
+  public String getPriceCurrency() {
 
-    return price_currency;
+    return priceCurrency;
   }
 
   public long getTid() {
@@ -93,14 +93,15 @@ public class BTCETrade {
     return tid;
   }
 
-  public String getTrade_type() {
+  public String getTradeType() {
 
-    return trade_type;
+    return tradeType;
   }
 
   @Override
   public String toString() {
 
-    return "BTCETrades [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + "]";
+    return "BTCETrade [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + ", item=" + item + ", priceCurrency=" + priceCurrency + ", tradeType=" + tradeType + "]";
   }
+
 }

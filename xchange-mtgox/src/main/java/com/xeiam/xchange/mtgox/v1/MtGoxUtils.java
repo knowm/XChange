@@ -21,13 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.utils.CryptoUtils;
-import com.xeiam.xchange.utils.HttpTemplate;
-import com.xeiam.xchange.utils.MoneyUtils;
-import org.joda.money.BigMoney;
-
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -37,10 +30,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.utils.CryptoUtils;
+import com.xeiam.xchange.utils.HttpTemplate;
+import com.xeiam.xchange.utils.MoneyUtils;
+
 /**
  * A central place for shared Mt Gox properties
  */
-public class MtGoxUtils {
+public final class MtGoxUtils {
+
+  /**
+   * private Constructor
+   */
+  private MtGoxUtils() {
+
+  }
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
@@ -156,6 +164,7 @@ public class MtGoxUtils {
   }
 
   public static String urlEncode(String str) {
+
     try {
       return URLEncoder.encode(str, HttpTemplate.CHARSET_UTF_8);
     } catch (UnsupportedEncodingException e) {

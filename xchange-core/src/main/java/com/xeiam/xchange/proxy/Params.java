@@ -35,7 +35,12 @@ public class Params {
   private Map<String, Object> data = new LinkedHashMap<String, Object>();
   private AllParams allParams;
 
-  private Params() { }
+  /**
+   * private Constructor to prevent instantiation
+   */
+  private Params() {
+
+  }
 
   public static Params of() {
 
@@ -75,12 +80,12 @@ public class Params {
       if (b.length() > 0) {
         b.append('&');
       }
-        b.append(param).append('=').append(encode(getParamValue(param), encode));
+      b.append(param).append('=').append(encode(getParamValue(param), encode));
     }
     return b.toString();
   }
 
-  private String encode(String data, boolean encode)  {
+  private String encode(String data, boolean encode) {
 
     try {
       return encode ? URLEncoder.encode(data, "UTF-8") : data;

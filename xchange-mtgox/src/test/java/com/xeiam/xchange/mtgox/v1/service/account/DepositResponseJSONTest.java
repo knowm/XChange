@@ -51,6 +51,6 @@ public class DepositResponseJSONTest {
     System.out.println(mtGoxBitcoinDepositAddress.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return address value", "15xmfK1f1BnUWVaoZpjPWJmUHaexp8FHVs", is(equalTo(mtGoxBitcoinDepositAddress.getAddres())));
+    assertThat("15xmfK1f1BnUWVaoZpjPWJmUHaexp8FHVs", is(equalTo(mtGoxBitcoinDepositAddress.getAddres())));
   }
 }

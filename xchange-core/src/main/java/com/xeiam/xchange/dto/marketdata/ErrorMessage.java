@@ -1,13 +1,14 @@
 package com.xeiam.xchange.dto.marketdata;
 
 /**
- * <p>Value object to provide the following to XChange feeds:</p>
+ * <p>
+ * Value object to provide the following to XChange feeds:
+ * </p>
  * <ul>
  * <li>Unified representation of an error message</li>
  * </ul>
- *
- * @since 1.3.0
- *         
+ * 
+ * @since 1.3.0  
  */
 public class ErrorMessage {
 
@@ -32,6 +33,7 @@ public class ErrorMessage {
   private String developerMessage;
 
   public ErrorMessage(int httpStatus, int xchangeCode, String userMessage, String developerMessage) {
+
     this.httpStatus = httpStatus;
     this.xchangeCode = xchangeCode;
     this.userMessage = userMessage;
@@ -39,18 +41,22 @@ public class ErrorMessage {
   }
 
   public int getHttpStatus() {
+
     return httpStatus;
   }
 
   public int getXchangeCode() {
+
     return xchangeCode;
   }
 
   public String getUserMessage() {
+
     return userMessage;
   }
 
   public String getDeveloperMessage() {
+
     return developerMessage;
   }
 }

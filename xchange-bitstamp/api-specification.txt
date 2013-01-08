@@ -9,7 +9,7 @@ https://www.bitstamp.net/api/
 
 Ticker
 ------
- https://www.bitstamp.net/api/ticker/
+https://www.bitstamp.net/api/ticker/
 
 Orders
 ------

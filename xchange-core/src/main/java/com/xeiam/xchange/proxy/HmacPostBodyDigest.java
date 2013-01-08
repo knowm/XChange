@@ -22,30 +22,32 @@
  */
 package com.xeiam.xchange.proxy;
 
+import java.security.GeneralSecurityException;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.utils.CryptoUtils;
 
-import java.security.GeneralSecurityException;
-
 /**
- * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest
- * of the post body (composed of @FormParam's).
- *
- * Don't use as the value of a @FormParam, it will probably cause an infinite loop.
+ * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably
+ * cause an infinite loop.
  */
 public class HmacPostBodyDigest implements ParamsDigest {
+
   private String secretKey;
 
   public HmacPostBodyDigest(String secretKey) {
+
     this.secretKey = secretKey;
   }
 
   @Override
   public String digestParams(AllParams allParams) {
+
     return createSignature(secretKey, allParams.getPostBody());
   }
 
   public static String createSignature(String secretKey, String postBody) {
+
     try {
       return CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey);
     } catch (GeneralSecurityException e) {

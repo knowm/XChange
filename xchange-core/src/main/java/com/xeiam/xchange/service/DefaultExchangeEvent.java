@@ -22,12 +22,14 @@
 package com.xeiam.xchange.service;
 
 /**
- * <p>Exchange event that provides convenience constructors for JSON wrapping</p>
- *
- * @since 1.3.0
- *         
+ * <p>
+ * Exchange event that provides convenience constructors for JSON wrapping
+ * </p>
+ * 
+ * @since 1.3.0  
  */
 public class DefaultExchangeEvent implements ExchangeEvent {
+
   protected final byte[] internalRawData;
   protected final ExchangeEventType exchangeEventType;
 
@@ -36,9 +38,10 @@ public class DefaultExchangeEvent implements ExchangeEvent {
    * @param rawData The raw message content (original reference is kept)
    */
   public DefaultExchangeEvent(ExchangeEventType exchangeEventType, byte[] rawData) {
+
     this.exchangeEventType = exchangeEventType;
     internalRawData = new byte[rawData.length];
-    System.arraycopy( rawData, 0, internalRawData, 0, rawData.length );
+    System.arraycopy(rawData, 0, internalRawData, 0, rawData.length);
   }
 
   @Override
@@ -46,7 +49,7 @@ public class DefaultExchangeEvent implements ExchangeEvent {
 
     // Avoid exposing the internal state to consumers
     byte[] rawDataClone = new byte[internalRawData.length];
-    System.arraycopy( internalRawData, 0, rawDataClone, 0, internalRawData.length );
+    System.arraycopy(internalRawData, 0, rawDataClone, 0, internalRawData.length);
 
     return rawDataClone;
 
@@ -54,6 +57,7 @@ public class DefaultExchangeEvent implements ExchangeEvent {
 
   @Override
   public ExchangeEventType getEventType() {
+
     return exchangeEventType;
   }
 }

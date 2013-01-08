@@ -67,8 +67,9 @@ public abstract class Draft {
     DefaultHandshakeData draft = new DefaultHandshakeData();
 
     String line = readStringLine(buf);
-    if (line == null)
+    if (line == null) {
       throw new InvalidHandshakeException("could not match http status line");
+    }
 
     String[] firstLineTokens = line.split(" ");// eg. GET / HTTP/1.1
     if (firstLineTokens.length < 3) {
@@ -79,8 +80,9 @@ public abstract class Draft {
     line = readStringLine(buf);
     while (line != null && line.length() > 0) {
       String[] pair = line.split(":", 2);
-      if (pair.length != 2)
+      if (pair.length != 2) {
         throw new InvalidHandshakeException("not an http header");
+      }
       draft.put(pair[0], pair[1].replaceFirst("^ +", ""));
       line = readStringLine(buf);
     }
@@ -137,8 +139,9 @@ public abstract class Draft {
     byte[] content = withcontent ? handshakeData.getContent() : null;
     ByteBuffer bytebuffer = ByteBuffer.allocate((content == null ? 0 : content.length) + httpheader.length);
     bytebuffer.put(httpheader);
-    if (content != null)
+    if (content != null) {
       bytebuffer.put(content);
+    }
     bytebuffer.flip();
     return Collections.singletonList(bytebuffer);
   }
@@ -156,8 +159,9 @@ public abstract class Draft {
 
   public int checkAlloc(int bytecount) throws LimitExceededException, InvalidDataException {
 
-    if (bytecount < 0)
+    if (bytecount < 0) {
       throw new InvalidDataException(CloseFrame.PROTOCOL_ERROR, "Negative count");
+    }
     return bytecount;
   }
 

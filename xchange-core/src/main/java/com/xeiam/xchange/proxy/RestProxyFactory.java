@@ -22,10 +22,11 @@
  */
 package com.xeiam.xchange.proxy;
 
-import com.xeiam.xchange.utils.HttpTemplate;
+import java.lang.reflect.Proxy;
+
 import org.codehaus.jackson.map.ObjectMapper;
 
-import java.lang.reflect.Proxy;
+import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>
@@ -33,13 +34,9 @@ import java.lang.reflect.Proxy;
 public class RestProxyFactory {
 
   /**
-   * Create a proxy implementation of restInterface.
-   *
-   * The interface must be annotated with jax-rs annotations. Basic support exists for
-   * {@link javax.ws.rs.Path}, {@link javax.ws.rs.GET}, {@link javax.ws.rs.POST}, {@link javax.ws.rs.QueryParam},
-   * {@link javax.ws.rs.FormParam}, {@link javax.ws.rs.HeaderParam}, {@link javax.ws.rs.PathParam}.
-   *
-   *
+   * Create a proxy implementation of restInterface. The interface must be annotated with jax-rs annotations. Basic support exists for {@link javax.ws.rs.Path}, {@link javax.ws.rs.GET},
+   * {@link javax.ws.rs.POST}, {@link javax.ws.rs.QueryParam}, {@link javax.ws.rs.FormParam}, {@link javax.ws.rs.HeaderParam}, {@link javax.ws.rs.PathParam}.
+   * 
    * @param restInterface The interface to implment.
    * @param url The service base url
    * @return a proxy implementation of restInterface.
@@ -47,8 +44,8 @@ public class RestProxyFactory {
   public static <I> I createProxy(Class<I> restInterface, String url, HttpTemplate httpTemplate, ObjectMapper mapper) {
 
     RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, mapper, restInterface, url);
-    Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[]{restInterface}, restInvocationHandler);
-    //noinspection unchecked
+    Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[] { restInterface }, restInvocationHandler);
+    // noinspection unchecked
     return (I) proxy;
   }
 }

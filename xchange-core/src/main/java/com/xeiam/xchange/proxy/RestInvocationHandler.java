@@ -22,15 +22,17 @@
  */
 package com.xeiam.xchange.proxy;
 
-import com.xeiam.xchange.utils.HttpTemplate;
-import org.codehaus.jackson.map.ObjectMapper;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.HashMap;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>
@@ -42,6 +44,14 @@ public class RestInvocationHandler implements InvocationHandler {
   private final String intfacePath;
   private final String baseUrl;
 
+  /**
+   * Constructor
+   * 
+   * @param httpTemplate
+   * @param mapper
+   * @param restInterface
+   * @param url
+   */
   public RestInvocationHandler(HttpTemplate httpTemplate, ObjectMapper mapper, Class<?> restInterface, String url) {
 
     this.httpTemplate = httpTemplate;

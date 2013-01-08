@@ -64,15 +64,17 @@ public class Draft_10 extends Draft {
   @Override
   public HandshakeState acceptHandshakeAsClient(HandshakeData request, HandshakeData response) throws InvalidHandshakeException {
 
-    if (!request.hasFieldValue("Sec-WebSocket-Key") || !response.hasFieldValue("Sec-WebSocket-Accept"))
+    if (!request.hasFieldValue("Sec-WebSocket-Key") || !response.hasFieldValue("Sec-WebSocket-Accept")) {
       return HandshakeState.NOT_MATCHED;
+    }
 
     String seckey_answere = response.getFieldValue("Sec-WebSocket-Accept");
     String seckey_challenge = request.getFieldValue("Sec-WebSocket-Key");
     seckey_challenge = generateFinalKey(seckey_challenge);
 
-    if (seckey_challenge.equals(seckey_answere))
+    if (seckey_challenge.equals(seckey_answere)) {
       return HandshakeState.MATCHED;
+    }
     return HandshakeState.NOT_MATCHED;
   }
 
@@ -81,8 +83,9 @@ public class Draft_10 extends Draft {
 
     // Sec-WebSocket-Origin is only required for browser clients
     int v = readVersion(handshakeData);
-    if (v == 7 || v == 8)// g
+    if (v == 7 || v == 8) {
       return basicAccept(handshakeData) ? HandshakeState.MATCHED : HandshakeState.NOT_MATCHED;
+    }
     return HandshakeState.NOT_MATCHED;
   }
 
@@ -101,15 +104,16 @@ public class Draft_10 extends Draft {
     assert (payloadlengthbytes.length == sizebytes);
 
     if (sizebytes == 1) {
-      buf.put((byte) ((byte) payloadlengthbytes[0] | (mask ? (byte) -128 : 0)));
+      buf.put((byte) (payloadlengthbytes[0] | (mask ? (byte) -128 : 0)));
     } else if (sizebytes == 2) {
       buf.put((byte) ((byte) 126 | (mask ? (byte) -128 : 0)));
       buf.put(payloadlengthbytes);
     } else if (sizebytes == 8) {
       buf.put((byte) ((byte) 127 | (mask ? (byte) -128 : 0)));
       buf.put(payloadlengthbytes);
-    } else
+    } else {
       throw new RuntimeException("Size representation not supported/specified");
+    }
 
     if (mask) {
       ByteBuffer maskkey = ByteBuffer.allocate(4);
@@ -118,8 +122,9 @@ public class Draft_10 extends Draft {
       for (int i = 0; i < mes.length; i++) {
         buf.put((byte) (mes[i] ^ maskkey.get(i % 4)));
       }
-    } else
+    } else {
       buf.put(mes);
+    }
     // translateFrame ( buf.array () , buf.array ().length );
     assert (buf.remaining() == 0) : buf.remaining();
     buf.flip();
@@ -160,18 +165,19 @@ public class Draft_10 extends Draft {
 
   private byte fromOpcode(OpCode opCode) {
 
-    if (opCode == OpCode.CONTINUOUS)
+    if (opCode == OpCode.CONTINUOUS) {
       return 0;
-    else if (opCode == OpCode.TEXT)
+    } else if (opCode == OpCode.TEXT) {
       return 1;
-    else if (opCode == OpCode.BINARY)
+    } else if (opCode == OpCode.BINARY) {
       return 2;
-    else if (opCode == OpCode.CLOSING)
+    } else if (opCode == OpCode.CLOSING) {
       return 8;
-    else if (opCode == OpCode.PING)
+    } else if (opCode == OpCode.PING) {
       return 9;
-    else if (opCode == OpCode.PONG)
+    } else if (opCode == OpCode.PONG) {
       return 10;
+    }
     throw new RuntimeException("Don't know how to handle " + opCode.toString());
   }
 
@@ -209,8 +215,9 @@ public class Draft_10 extends Draft {
     response.put("Connection", request.getFieldValue("Connection")); // to respond to a Connection keep alives
     response.setHttpStatusMessage("Switching Protocols");
     String seckey = request.getFieldValue("Sec-WebSocket-Key");
-    if (seckey == null)
+    if (seckey == null) {
       throw new InvalidHandshakeException("missing Sec-WebSocket-Key");
+    }
     response.put("Sec-WebSocket-Accept", generateFinalKey(seckey));
     return response;
   }
@@ -310,13 +317,15 @@ public class Draft_10 extends Draft {
 
     int maxpacketsize = buffer.limit() - buffer.position();
     int realpacketsize = 2;
-    if (maxpacketsize < realpacketsize)
+    if (maxpacketsize < realpacketsize) {
       throw new IncompleteException(realpacketsize);
+    }
     byte b1 = buffer.get( /* 0 */);
     boolean FIN = b1 >> 8 != 0;
     byte rsv = (byte) ((b1 & ~(byte) 128) >> 4);
-    if (rsv != 0)
+    if (rsv != 0) {
       throw new InvalidFrameException("bad rsv " + rsv);
+    }
     byte b2 = buffer.get( /* 1 */);
     boolean MASK = (b2 & -128) != 0;
     int payloadlength = (byte) (b2 & ~(byte) 128);
@@ -328,23 +337,24 @@ public class Draft_10 extends Draft {
       }
     }
 
-    if (payloadlength >= 0 && payloadlength <= 125) {
-    } else {
+    if (payloadlength < 0 || payloadlength > 125) {
       if (optcode == OpCode.PING || optcode == OpCode.PONG || optcode == OpCode.CLOSING) {
         throw new InvalidFrameException("more than 125 octets");
       }
       if (payloadlength == 126) {
         realpacketsize += 2; // additional length bytes
-        if (maxpacketsize < realpacketsize)
+        if (maxpacketsize < realpacketsize) {
           throw new IncompleteException(realpacketsize);
+        }
         byte[] sizebytes = new byte[3];
         sizebytes[1] = buffer.get( /* 1 + 1 */);
         sizebytes[2] = buffer.get( /* 1 + 2 */);
         payloadlength = new BigInteger(sizebytes).intValue();
       } else {
         realpacketsize += 8; // additional length bytes
-        if (maxpacketsize < realpacketsize)
+        if (maxpacketsize < realpacketsize) {
           throw new IncompleteException(realpacketsize);
+        }
         byte[] bytes = new byte[8];
         for (int i = 0; i < 8; i++) {
           bytes[i] = buffer.get( /* 1 + i */);
@@ -363,15 +373,16 @@ public class Draft_10 extends Draft {
     // int payloadstart = foff + realpacketsize;
     realpacketsize += payloadlength;
 
-    if (maxpacketsize < realpacketsize)
+    if (maxpacketsize < realpacketsize) {
       throw new IncompleteException(realpacketsize);
+    }
 
     ByteBuffer payload = ByteBuffer.allocate(checkAlloc(payloadlength));
     if (MASK) {
       byte[] maskskey = new byte[4];
       buffer.get(maskskey);
       for (int i = 0; i < payloadlength; i++) {
-        payload.put((byte) ((byte) buffer.get( /* payloadstart + i */) ^ (byte) maskskey[i % 4]));
+        payload.put((byte) (buffer.get( /* payloadstart + i */) ^ maskskey[i % 4]));
       }
     } else {
       payload.put(buffer.array(), buffer.position(), payload.limit());

@@ -22,14 +22,13 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
-import com.xeiam.xchange.bitcoincharts.dto.MarketData;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.MarketData;
+
 /**
- * @author Matija Mazi <br/>
- * See http://bitcoincharts.com/about/markets-api/ for up-to-date docs.
+ * @author Matija Mazi
  */
 @Path("t")
 public interface BitcoinCharts {

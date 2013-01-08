@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public final class Trades {
   private final List<Trade> trades;
 
   /**
-   * Constuctor
+   * Constructor
    * 
    * @param trades
    */
@@ -44,6 +45,7 @@ public final class Trades {
 
   public List<Trade> getTrades() {
 
+    Collections.sort(trades);
     return trades;
   }
 

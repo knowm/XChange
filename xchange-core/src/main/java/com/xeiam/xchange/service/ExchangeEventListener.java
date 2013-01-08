@@ -31,8 +31,7 @@ import java.util.concurrent.BlockingQueue;
  * <li>Callback methods for exchange events</li>
  * </ul>
  * <p>
- * A {@link ExchangeEventListener} is normally executed in a client thread using an executor service and to facilitate
- * this the {@link RunnableExchangeEventListener} is provided as an extension point
+ * A {@link ExchangeEventListener} is normally executed in a client thread using an executor service and to facilitate this the {@link RunnableExchangeEventListener} is provided as an extension point
  * </p>
  */
 public interface ExchangeEventListener {

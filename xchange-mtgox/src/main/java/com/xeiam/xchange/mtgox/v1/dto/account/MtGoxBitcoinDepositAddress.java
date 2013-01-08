@@ -30,7 +30,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class MtGoxBitcoinDepositAddress {
 
-  private String address;
+  private final String address;
 
   /**
    * Constructor
@@ -50,7 +50,7 @@ public final class MtGoxBitcoinDepositAddress {
   @Override
   public String toString() {
 
-    return "MtGoxDepositReturn [addr=" + address + "]";
+    return "MtGoxBitcoinDepositAddress [address=" + address + "]";
   }
 
 }

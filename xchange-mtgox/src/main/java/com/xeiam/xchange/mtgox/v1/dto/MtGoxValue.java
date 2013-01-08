@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -28,51 +30,41 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class MtGoxValue {
+public final class MtGoxValue {
 
-  private double value;
-  private long value_int;
-  private String display;
-  private String display_short;
-  private String currency;
+  private final BigDecimal value;
+  private final long valueInt;
+  private final String display;
+  private final String displayShort;
+  private final String currency;
 
   /**
    * Constructor
    * 
    * @param value
-   * @param value_int
+   * @param valueInt
    * @param display
-   * @param display_short
+   * @param displayShort
    * @param currency
    */
-  public MtGoxValue(@JsonProperty("value") double value, @JsonProperty("value_int") long value_int, @JsonProperty("display") String display, @JsonProperty("display_short") String display_short,
+  public MtGoxValue(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("display") String display, @JsonProperty("display_short") String displayShort,
       @JsonProperty("currency") String currency) {
 
     this.value = value;
-    this.value_int = value_int;
+    this.valueInt = valueInt;
     this.display = display;
-    this.display_short = display_short;
+    this.displayShort = displayShort;
     this.currency = currency;
   }
 
-  public double getValue() {
+  public BigDecimal getValue() {
 
     return value;
   }
 
-  public void setValue(double value) {
+  public long getValueInt() {
 
-    this.value = value;
-  }
-
-  public long getValue_int() {
-
-    return value_int;
-  }
-
-  public void setValue_int(long value_int) {
-
-    this.value_int = value_int;
+    return valueInt;
   }
 
   public String getDisplay() {
@@ -80,19 +72,9 @@ public class MtGoxValue {
     return display;
   }
 
-  public void setDisplay(String display) {
+  public String getDisplayShort() {
 
-    this.display = display;
-  }
-
-  public String getDisplay_short() {
-
-    return display_short;
-  }
-
-  public void setDisplay_short(String display_short) {
-
-    this.display_short = display_short;
+    return displayShort;
   }
 
   public String getCurrency() {
@@ -100,15 +82,10 @@ public class MtGoxValue {
     return currency;
   }
 
-  public void setCurrency(String currency) {
-
-    this.currency = currency;
-  }
-
   @Override
   public String toString() {
 
-    return "MtGoxValue [value=" + value + ", value_int=" + value_int + ", display=" + display + ", display_short=" + display_short + ", currency=" + currency + "]";
+    return "MtGoxValue [value=" + value + ", valueInt=" + valueInt + ", display=" + display + ", displayShort=" + displayShort + ", currency=" + currency + "]";
   }
 
 }

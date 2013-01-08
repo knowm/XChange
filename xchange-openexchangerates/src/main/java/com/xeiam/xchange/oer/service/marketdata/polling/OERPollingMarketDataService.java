@@ -47,7 +47,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
    */
   private long tickerRequestTimeStamp = 0L;
 
-  OERTickers cachedOERTickers;
+  private OERTickers cachedOERTickers;
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -82,16 +82,13 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
     verify(tradableIdentifier, currency);
 
     // check for pacing violation
-    if (tickerRequestTimeStamp != 0L && System.currentTimeMillis() - tickerRequestTimeStamp < getRefreshRate()) {
+    if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
 
-      // return rate from cache
-      // System.out.println("using cached tickers");
-      // throw new PacingViolationException("Open Exchange Rates caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    } else {
-      // System.out.println("requesting tickers");
+      System.out.println("requesting tickers");
+
       // request data new
       String tickerURL = apiBase + "/latest.json?app_id=" + exchangeSpecification.getApiKey();
-      // System.out.println(tickerURL);
+
       // Request data
       cachedOERTickers = httpTemplate.getForJsonObject(tickerURL, OERTickers.class, mapper, new HashMap<String, String>());
     }

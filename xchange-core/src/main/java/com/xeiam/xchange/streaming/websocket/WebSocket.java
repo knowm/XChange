@@ -27,9 +27,9 @@ import com.xeiam.xchange.streaming.websocket.exceptions.InvalidHandshakeExceptio
 import com.xeiam.xchange.utils.CharsetUtils;
 
 /**
- * Represents one end (client or server) of a single WebSocket connection. Takes care of the "handshake" phase, then allows for easy sending of text frames, and recieving frames through an event-based model. This is an inner class, used by
- * <tt>WebSocketClient</tt> and <tt>WebSocketServer</tt>, and should never need to be instantiated directly by your code. However, instances are exposed in <tt>WebSocketServer</tt> through the <i>onClientOpen</i>, <i>onClientClose</i>,
- * <i>onClientMessage</i> callbacks.
+ * Represents one end (client or server) of a single WebSocket connection. Takes care of the "handshake" phase, then allows for easy sending of text frames, and recieving frames through an event-based
+ * model. This is an inner class, used by <tt>WebSocketClient</tt> and <tt>WebSocketServer</tt>, and should never need to be instantiated directly by your code. However, instances are exposed in
+ * <tt>WebSocketServer</tt> through the <i>onClientOpen</i>, <i>onClientClose</i>, <i>onClientMessage</i> callbacks.
  * 
  * @author Nathan Rajlich
  */
@@ -42,7 +42,8 @@ public final class WebSocket {
   }
 
   /**
-   * The default port of WebSockets, as defined in the spec. If the default constructor is used, DEFAULT_PORT will be the port the WebSocketServer is binded to. Note that ports under 1024 usually require root permissions.
+   * The default port of WebSockets, as defined in the spec. If the default constructor is used, DEFAULT_PORT will be the port the WebSocketServer is binded to. Note that ports under 1024 usually
+   * require root permissions.
    */
   public static final int DEFAULT_PORT = 80;
 
@@ -140,8 +141,10 @@ public final class WebSocket {
     }
 
     if (socketBuffer.hasRemaining()) {
-      if (DEBUG)
-        log.trace("process(" + socketBuffer.remaining() + "): {" + (socketBuffer.remaining() > 1000 ? "too big to display" : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())) + "}");
+      if (DEBUG) {
+        log.trace("process(" + socketBuffer.remaining() + "): {"
+            + (socketBuffer.remaining() > 1000 ? "too big to display" : new String(socketBuffer.array(), socketBuffer.position(), socketBuffer.remaining())) + "}");
+      }
       if (!handshakeComplete) {
         HandshakeData handshake;
         HandshakeState handshakeState;
@@ -225,8 +228,9 @@ public final class WebSocket {
         try {
           frames = draft.translateFrame(socketBuffer);
           for (FrameData f : frames) {
-            if (DEBUG)
+            if (DEBUG) {
               log.trace("matched frame: " + f);
+            }
             OpCode curop = f.getOpCode();
             if (curop == OpCode.CLOSING) {
               int code = CloseFrame.NOCODE;
@@ -312,8 +316,9 @@ public final class WebSocket {
       } else {
         closeConnection(CloseFrame.NEVERCONNECTED, false);
       }
-      if (code == CloseFrame.PROTOCOL_ERROR)// this endpoint found a PROTOCOL_ERROR
+      if (code == CloseFrame.PROTOCOL_ERROR) {
         closeConnection(code, false);
+      }
       closeHandshakeSent = true;
       return;
     }
@@ -327,8 +332,8 @@ public final class WebSocket {
    * @param remote Indicates who "generated" <code>code</code>.<br>
    *          <code>true</code> means that this endpoint received the <code>code</code> from the other endpoint.<br>
    *          false means this endpoint decided to send the given code,<br>
-   *          <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same time this endpoint does do but with an other
-   *          <code>code</code>. <br>
+   *          <code>remote</code> may also be true if this endpoint started the closing handshake since the other endpoint may not simply echo the <code>code</code> but close the connection the same
+   *          time this endpoint does do but with an other <code>code</code>. <br>
    */
   public void closeConnection(int code, String message, boolean remote) {
 
@@ -342,8 +347,9 @@ public final class WebSocket {
       wsl.onError(this, e);
     }
     this.wsl.onClose(this, code, message, remote);
-    if (draft != null)
+    if (draft != null) {
       draft.reset();
+    }
     currentframe = null;
     handshakerequest = null;
   }
@@ -369,23 +375,26 @@ public final class WebSocket {
    */
   public void send(String text) throws InterruptedException {
 
-    if (text == null)
+    if (text == null) {
       throw new IllegalArgumentException("Cannot send 'null' data to a WebSocket.");
+    }
     send(draft.createFrames(text, role == Role.CLIENT));
   }
 
   // TODO there should be a send for bytebuffers
   public void send(byte[] bytes) throws IllegalArgumentException, NotYetConnectedException, InterruptedException {
 
-    if (bytes == null)
+    if (bytes == null) {
       throw new IllegalArgumentException("Cannot send 'null' data to a WebSocket.");
+    }
     send(draft.createFrames(bytes, role == Role.CLIENT));
   }
 
   private void send(Collection<FrameData> frames) throws InterruptedException {
 
-    if (!this.handshakeComplete)
+    if (!this.handshakeComplete) {
       throw new NotYetConnectedException();
+    }
     for (FrameData f : frames) {
       sendFrame(f);
     }
@@ -393,15 +402,17 @@ public final class WebSocket {
 
   public void sendFrame(FrameData frameData) throws InterruptedException {
 
-    if (DEBUG)
+    if (DEBUG) {
       log.trace("send frame: " + frameData);
+    }
     channelWrite(draft.createBinaryFrame(frameData));
   }
 
   private void sendFrameDirect(FrameData frameData) throws IOException {
 
-    if (DEBUG)
+    if (DEBUG) {
       log.trace("send frame: " + frameData);
+    }
     channelWriteDirect(draft.createBinaryFrame(frameData));
   }
 
@@ -431,8 +442,9 @@ public final class WebSocket {
 
   public HandshakeState isFlashEdgeCase(ByteBuffer request) {
 
-    if (flash_policy_index >= FLASH_POLICY_REQUEST.length)
+    if (flash_policy_index >= FLASH_POLICY_REQUEST.length) {
       return HandshakeState.NOT_MATCHED;
+    }
     request.mark();
     for (; request.hasRemaining() && flash_policy_index < FLASH_POLICY_REQUEST.length; flash_policy_index++) {
       if (FLASH_POLICY_REQUEST[flash_policy_index] != request.get()) {
@@ -445,16 +457,18 @@ public final class WebSocket {
 
   public void startHandshake(HandshakeBuilder handshakedata) throws InvalidHandshakeException, InterruptedException {
 
-    if (handshakeComplete)
+    if (handshakeComplete) {
       throw new IllegalStateException("Handshake has allready been sent.");
+    }
     this.handshakerequest = handshakedata;
     channelWrite(draft.createHandshake(draft.postProcessHandshakeRequestAsClient(handshakedata), role));
   }
 
   private void channelWrite(ByteBuffer buf) throws InterruptedException {
 
-    if (DEBUG)
+    if (DEBUG) {
       log.trace("write(" + buf.limit() + "): {" + (buf.limit() > 1000 ? "too big to display" : new String(buf.array())) + "}");
+    }
     buf.rewind();
     bufferQueue.put(buf);
     wsl.onWriteDemand(this);
@@ -469,8 +483,9 @@ public final class WebSocket {
 
   private void channelWriteDirect(ByteBuffer buf) throws IOException {
 
-    while (buf.hasRemaining())
+    while (buf.hasRemaining()) {
       socketChannel.write(buf);
+    }
   }
 
   private void writeDirect(List<ByteBuffer> bufs) throws IOException {
@@ -487,15 +502,17 @@ public final class WebSocket {
     } else if (d.getOpCode() == OpCode.BINARY) {
       wsl.onMessage(this, d.getPayloadData());
     } else {
-      if (DEBUG)
+      if (DEBUG) {
         log.trace("Ignoring frame:" + d.toString());
+      }
     }
   }
 
   private void open(HandshakeData d) throws IOException {
 
-    if (DEBUG)
+    if (DEBUG) {
       log.trace("open using draft: " + draft.getClass().getSimpleName());
+    }
     handshakeComplete = true;
     wsl.onOpen(this, d);
   }

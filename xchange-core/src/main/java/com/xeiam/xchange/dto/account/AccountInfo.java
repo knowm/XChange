@@ -27,30 +27,29 @@ import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * Data object representing account information
+ * 
+ * @immutable
  */
-public class AccountInfo {
+public final class AccountInfo {
 
-  private String username;
-  private List<Wallet> wallets;
+  private final String username;
+  private final List<Wallet> wallets;
+
+  public AccountInfo(String username, List<Wallet> wallets) {
+
+    super();
+    this.username = username;
+    this.wallets = wallets;
+  }
 
   public String getUsername() {
 
     return username;
   }
 
-  public void setUsername(String username) {
-
-    this.username = username;
-  }
-
   public List<Wallet> getWallets() {
 
     return wallets;
-  }
-
-  public void setWallets(List<Wallet> wallets) {
-
-    this.wallets = wallets;
   }
 
   @Override

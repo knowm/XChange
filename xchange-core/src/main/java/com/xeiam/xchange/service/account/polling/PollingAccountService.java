@@ -15,10 +15,10 @@
  */
 package com.xeiam.xchange.service.account.polling;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
-
-import java.math.BigDecimal;
 
 /**
  * <p>

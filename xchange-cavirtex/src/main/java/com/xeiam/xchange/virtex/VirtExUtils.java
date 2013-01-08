@@ -33,7 +33,14 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * A central place for shared VirtEx properties
  */
-public class VirtExUtils {
+public final class VirtExUtils {
+
+  /**
+   * private Constructor
+   */
+  private VirtExUtils() {
+
+  }
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 

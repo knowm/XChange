@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.service;
 
-import com.xeiam.xchange.ExchangeException;
+import java.util.concurrent.BlockingQueue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.BlockingQueue;
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * <p>

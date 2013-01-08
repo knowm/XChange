@@ -32,12 +32,12 @@ import com.xeiam.xchange.dto.Order;
  * 
  * @immutable
  */
-public class LimitOrder extends Order {
+public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   /**
    * The limit price
    */
-  private BigMoney limitPrice;
+  private final BigMoney limitPrice;
 
   /**
    * Constructor
@@ -80,6 +80,13 @@ public class LimitOrder extends Order {
   public String toString() {
 
     return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
+  }
+
+  @Override
+  public int compareTo(LimitOrder limitOrder) {
+
+    return this.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) * (getType() == OrderType.BID ? -1 : 1);
+
   }
 
 }
