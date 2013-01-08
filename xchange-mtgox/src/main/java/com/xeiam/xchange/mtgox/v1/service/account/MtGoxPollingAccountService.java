@@ -57,7 +57,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
         signatureCreator,
         getNonce(),
         address,
-        amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), // TODO is the factor OK?
+        amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(),
         1, false, false);
     return result.getTransactionId();
   }
