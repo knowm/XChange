@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.proxy;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
@@ -30,7 +31,7 @@ import java.util.Map;
 /**
  * @author Matija Mazi <br/>
  */
-public class Params {
+public class Params implements Serializable {
 
   private Map<String, Object> data = new LinkedHashMap<String, Object>();
   private AllParams allParams;
