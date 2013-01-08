@@ -124,8 +124,9 @@ public final class Trade implements Comparable<Trade> {
       return -1;
     } else if (this.getTimestamp().isAfter(trade.getTimestamp())) {
       return 1;
-    } else
+    } else {
       return 0;
+    }
   }
 
 }

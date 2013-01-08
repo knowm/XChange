@@ -48,6 +48,6 @@ public class FullDepthJSONTest {
     MtGoxDepth mtGoxFullDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmount_int(), equalTo(727610000L));
+    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmountInt(), equalTo(727610000L));
   }
 }

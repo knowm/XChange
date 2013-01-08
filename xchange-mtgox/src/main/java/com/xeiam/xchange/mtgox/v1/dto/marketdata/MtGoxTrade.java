@@ -13,47 +13,47 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public final class MtGoxTrade {
 
   private final double amount;
-  private final long amount_int;
+  private final long amountInt;
   private final Long date;
   private final String item;
   private final double price;
-  private final String price_currency;
-  private final long price_int;
+  private final String priceCurrency;
+  private final long priceInt;
   private final String primary;
   private final String properties;
   private final long tid;
-  private final String trade_type;
+  private final String tradeType;
 
   /**
    * Constructor
    * 
    * @param amount
-   * @param amount_int
+   * @param amountInt
    * @param date
    * @param item
    * @param price
-   * @param price_currency
-   * @param price_int
+   * @param priceCurrency
+   * @param priceInt
    * @param primary
    * @param properties
    * @param tid
-   * @param trade_type
+   * @param tradeType
    */
-  public MtGoxTrade(@JsonProperty("amount") double amount, @JsonProperty("amount_int") long amount_int, @JsonProperty("date") Long date, @JsonProperty("item") String item,
-      @JsonProperty("price") double price, @JsonProperty("price_currency") String price_currency, @JsonProperty("price_int") long price_int, @JsonProperty("primary") String primary,
-      @JsonProperty("properties") String properties, @JsonProperty("tid") long tid, @JsonProperty("trade_type") String trade_type) {
+  public MtGoxTrade(@JsonProperty("amount") double amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item,
+      @JsonProperty("price") double price, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary,
+      @JsonProperty("properties") String properties, @JsonProperty("tid") long tid, @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
-    this.amount_int = amount_int;
+    this.amountInt = amountInt;
     this.date = date;
     this.item = item;
     this.price = price;
-    this.price_currency = price_currency;
-    this.price_int = price_int;
+    this.priceCurrency = priceCurrency;
+    this.priceInt = priceInt;
     this.primary = primary;
     this.properties = properties;
     this.tid = tid;
-    this.trade_type = trade_type;
+    this.tradeType = tradeType;
   }
 
   public double getAmount() {
@@ -61,9 +61,9 @@ public final class MtGoxTrade {
     return amount;
   }
 
-  public long getAmount_int() {
+  public long getAmountInt() {
 
-    return amount_int;
+    return amountInt;
   }
 
   public Long getDate() {
@@ -81,14 +81,14 @@ public final class MtGoxTrade {
     return price;
   }
 
-  public String getPrice_currency() {
+  public String getPriceCurrency() {
 
-    return price_currency;
+    return priceCurrency;
   }
 
-  public long getPrice_int() {
+  public long getPriceInt() {
 
-    return price_int;
+    return priceInt;
   }
 
   public String getPrimary() {
@@ -106,16 +106,16 @@ public final class MtGoxTrade {
     return tid;
   }
 
-  public String getTrade_type() {
+  public String getTradeType() {
 
-    return trade_type;
+    return tradeType;
   }
 
   @Override
   public String toString() {
 
-    return "MtGoxTrades [amount=" + amount + ", amount_int=" + amount_int + ", date=" + date + ", item=" + item + ", price=" + price + ", price_currency=" + price_currency + ", price_int="
-        + price_int + ", primary=" + primary + ", properties=" + properties + ", tid=" + tid + ", trade_type=" + trade_type + "]";
+    return "MtGoxTrade [amount=" + amount + ", amountInt=" + amountInt + ", date=" + date + ", item=" + item + ", price=" + price + ", priceCurrency=" + priceCurrency + ", priceInt=" + priceInt
+        + ", primary=" + primary + ", properties=" + properties + ", tid=" + tid + ", tradeType=" + tradeType + "]";
   }
 
 }

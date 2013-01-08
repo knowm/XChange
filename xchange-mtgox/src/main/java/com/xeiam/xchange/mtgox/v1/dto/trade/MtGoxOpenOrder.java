@@ -98,7 +98,7 @@ public final class MtGoxOpenOrder {
     return amount;
   }
 
-  public MtGoxValue getInvalid_amount() {
+  public MtGoxValue getInvalidAmount() {
 
     return invalidAmount;
   }
@@ -126,8 +126,8 @@ public final class MtGoxOpenOrder {
   @Override
   public String toString() {
 
-    return "MtGoxOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalid_amount=" + invalidAmount + ", price=" + price
-        + ", status=" + status + ", date=" + date + ", priority=" + priority + "]";
+    return "MtGoxOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalidAmount=" + invalidAmount + ", price=" + price + ", status="
+        + status + ", date=" + date + ", priority=" + priority + "]";
   }
 
 }

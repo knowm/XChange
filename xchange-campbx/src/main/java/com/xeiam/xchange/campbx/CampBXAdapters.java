@@ -41,7 +41,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * Various adapters for converting from CampBX DTOs to XChange DTOs
  */
-public class CampBXAdapters {
+public final class CampBXAdapters {
 
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object

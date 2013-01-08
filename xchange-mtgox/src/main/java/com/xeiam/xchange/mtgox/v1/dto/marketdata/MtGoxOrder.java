@@ -43,17 +43,17 @@ public final class MtGoxOrder {
    * 
    * @param price
    * @param amount
-   * @param price_int
-   * @param amount_int
+   * @param priceInt
+   * @param amountInt
    * @param stamp
    */
-  public MtGoxOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long price_int, @JsonProperty("amount_int") long amount_int,
+  public MtGoxOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long priceInt, @JsonProperty("amount_int") long amountInt,
       @JsonProperty("stamp") long stamp) {
 
     this.price = price;
     this.amount = amount;
-    this.priceInt = price_int;
-    this.amountInt = amount_int;
+    this.priceInt = priceInt;
+    this.amountInt = amountInt;
     this.stamp = stamp;
   }
 
@@ -67,12 +67,12 @@ public final class MtGoxOrder {
     return amount;
   }
 
-  public long getPrice_int() {
+  public long getPriceInt() {
 
     return priceInt;
   }
 
-  public long getAmount_int() {
+  public long getAmountInt() {
 
     return amountInt;
   }
@@ -85,7 +85,7 @@ public final class MtGoxOrder {
   @Override
   public String toString() {
 
-    return "MtGoxOrder [price=" + price + ", amount=" + amount + ", price_int=" + priceInt + ", amount_int=" + amountInt + ", stamp=" + stamp + "]";
+    return "MtGoxOrder [price=" + price + ", amount=" + amount + ", priceInt=" + priceInt + ", amountInt=" + amountInt + ", stamp=" + stamp + "]";
   }
 
 }

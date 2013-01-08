@@ -36,9 +36,9 @@ public final class BTCETickerObject {
   private final double avg;
   private final double buy;
   private final double sell;
-  private final double server_time;
+  private final double serverTime;
   private final double vol;
-  private final double vol_cur;
+  private final double volCur;
 
   /**
    * Constructor
@@ -49,12 +49,12 @@ public final class BTCETickerObject {
    * @param last
    * @param avg
    * @param buy
+   * @param serverTime
+   * @param volCur
    * @param sell
-   * @param server_times
-   * @param vol_cur
    */
   public BTCETickerObject(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("vol") double vol, @JsonProperty("last") double last, @JsonProperty("avg") double avg,
-      @JsonProperty("buy") double buy, @JsonProperty("server_time") double server_time, @JsonProperty("vol_cur") double vol_cur, @JsonProperty("sell") double sell) {
+      @JsonProperty("buy") double buy, @JsonProperty("server_time") double serverTime, @JsonProperty("vol_cur") double volCur, @JsonProperty("sell") double sell) {
 
     this.high = high;
     this.low = low;
@@ -62,9 +62,9 @@ public final class BTCETickerObject {
     this.avg = avg;
     this.buy = buy;
     this.sell = sell;
-    this.server_time = server_time;
+    this.serverTime = serverTime;
     this.vol = vol;
-    this.vol_cur = vol_cur;
+    this.volCur = volCur;
   }
 
   public double getAvg() {
@@ -97,9 +97,9 @@ public final class BTCETickerObject {
     return sell;
   }
 
-  public double getServer_time() {
+  public double getServerTime() {
 
-    return server_time;
+    return serverTime;
   }
 
   public double getVol() {
@@ -107,15 +107,16 @@ public final class BTCETickerObject {
     return vol;
   }
 
-  public double getVol_cur() {
+  public double getVolCur() {
 
-    return vol_cur;
+    return volCur;
   }
 
   @Override
   public String toString() {
 
-    return "BTCETicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + vol + "]";
-
+    return "BTCETickerObject [last=" + last + ", high=" + high + ", low=" + low + ", avg=" + avg + ", buy=" + buy + ", sell=" + sell + ", serverTime=" + serverTime + ", vol=" + vol + ", volCur="
+        + volCur + "]";
   }
+
 }

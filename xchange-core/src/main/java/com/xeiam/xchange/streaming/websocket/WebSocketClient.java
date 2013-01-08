@@ -85,8 +85,9 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
    */
   public void connect() {
 
-    if (thread != null)
+    if (thread != null) {
       throw new IllegalStateException("already/still connected");
+    }
     thread = new Thread(this);
     thread.start();
   }
@@ -119,10 +120,12 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
     client.register(selector, SelectionKey.OP_CONNECT);
   }
 
+  @Override
   public void run() {
 
-    if (thread == null)
+    if (thread == null) {
       thread = Thread.currentThread();
+    }
     interruptableRun();
     thread = null;
   }
@@ -225,12 +228,14 @@ public abstract class WebSocketClient extends WebSocketAdapter implements Runnab
     String path;
     String part1 = uri.getPath();
     String part2 = uri.getQuery();
-    if (part1 == null || part1.length() == 0)
+    if (part1 == null || part1.length() == 0) {
       path = "/";
-    else
+    } else {
       path = part1;
-    if (part2 != null)
+    }
+    if (part2 != null) {
       path += "?" + part2;
+    }
     int port = getPort();
     String host = uri.getHost() + (port != WebSocket.DEFAULT_PORT ? ":" + port : "");
 

@@ -62,7 +62,7 @@ public final class MtGoxValue {
     return value;
   }
 
-  public long getValue_int() {
+  public long getValueInt() {
 
     return valueInt;
   }
@@ -72,7 +72,7 @@ public final class MtGoxValue {
     return display;
   }
 
-  public String getDisplay_short() {
+  public String getDisplayShort() {
 
     return displayShort;
   }

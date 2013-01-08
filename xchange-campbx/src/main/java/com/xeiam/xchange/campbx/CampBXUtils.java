@@ -29,7 +29,7 @@ import com.xeiam.xchange.CurrencyPair;
 /**
  * A central place for shared CampBX properties
  */
-public class CampBXUtils {
+public final class CampBXUtils {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 

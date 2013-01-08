@@ -64,9 +64,4 @@ public final class MarketOrder extends Order {
     super(type, tradableAmount, tradableIdentifier, transactionCurrency, "");
   }
 
-  @Override
-  public String toString() {
-
-    return super.toString();
-  }
 }

@@ -29,7 +29,7 @@ import com.xeiam.xchange.CurrencyPair;
 /**
  * A central place for shared Bitstamp properties
  */
-public class BitstampUtils {
+public final class BitstampUtils {
 
   /**
    * private Constructor

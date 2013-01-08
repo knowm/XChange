@@ -107,7 +107,7 @@ public final class MtGoxAccountInfo {
     return created;
   }
 
-  public String getLast_Login() {
+  public String getLastLogin() {
 
     return lastLogin;
   }
@@ -117,12 +117,12 @@ public final class MtGoxAccountInfo {
     return wallets;
   }
 
-  public MtGoxValue getMonthly_Volume() {
+  public MtGoxValue getMonthlyVolume() {
 
     return monthlyVolume;
   }
 
-  public BigDecimal getTrade_Fee() {
+  public BigDecimal getTradeFee() {
 
     return tradeFee;
   }
@@ -130,8 +130,8 @@ public final class MtGoxAccountInfo {
   @Override
   public String toString() {
 
-    return "MtGoxAccountInfo [login=" + login + ", index=" + index + ", rights=" + rights + ", language=" + language + ", created=" + created + ", last_Login=" + lastLogin + ", wallets=" + wallets
-        + ", trade_Fee=" + tradeFee + "]";
+    return "MtGoxAccountInfo [login=" + login + ", index=" + index + ", id=" + id + ", rights=" + rights + ", language=" + language + ", created=" + created + ", lastLogin=" + lastLogin
+        + ", wallets=" + wallets + ", monthlyVolume=" + monthlyVolume + ", tradeFee=" + tradeFee + "]";
   }
 
 }

@@ -34,7 +34,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * A central place for shared OER properties
  */
-public class OERUtils {
+public final class OERUtils {
 
   /**
    * private Constructor

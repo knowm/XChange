@@ -50,7 +50,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs
  */
-public class MtGoxAdapters {
+public final class MtGoxAdapters {
 
   /**
    * private Constructor
@@ -108,7 +108,7 @@ public class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (MtGoxOrder mtGoxOrder : mtGoxOrders) {
-      limitOrders.add(adaptOrder(mtGoxOrder.getAmount_int(), mtGoxOrder.getPrice(), currency, orderType, id));
+      limitOrders.add(adaptOrder(mtGoxOrder.getAmountInt(), mtGoxOrder.getPrice(), currency, orderType, id));
     }
 
     return limitOrders;
@@ -119,7 +119,7 @@ public class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (int i = 0; i < mtGoxOpenOrders.length; i++) {
-      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue_int(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(),
+      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValueInt(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(),
           mtGoxOpenOrders[i].getOid()));
     }
 
@@ -172,11 +172,11 @@ public class MtGoxAdapters {
    */
   public static Trade adaptTrade(MtGoxTrade mtGoxTrade) {
 
-    OrderType orderType = mtGoxTrade.getTrade_type().equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = new BigDecimal(mtGoxTrade.getAmount_int()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    OrderType orderType = mtGoxTrade.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = new BigDecimal(mtGoxTrade.getAmountInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     String tradableIdentifier = mtGoxTrade.getItem();
-    String transactionCurrency = mtGoxTrade.getPrice_currency();
-    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPrice_int());
+    String transactionCurrency = mtGoxTrade.getPriceCurrency();
+    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPriceInt());
 
     DateTime dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
 

@@ -52,26 +52,26 @@ public final class MtGoxTicker {
    * @param avg
    * @param vwap
    * @param vol
-   * @param last_local
+   * @param lastLocal
    * @param last
-   * @param last_orig
-   * @param last_all
+   * @param lastOrig
+   * @param lastAll
    * @param buy
    * @param sell
    */
   public MtGoxTicker(@JsonProperty("high") MtGoxValue high, @JsonProperty("low") MtGoxValue low, @JsonProperty("avg") MtGoxValue avg, @JsonProperty("vwap") MtGoxValue vwap,
-      @JsonProperty("vol") MtGoxValue vol, @JsonProperty("last_local") MtGoxValue last_local, @JsonProperty("last") MtGoxValue last, @JsonProperty("last_orig") MtGoxValue last_orig,
-      @JsonProperty("last_all") MtGoxValue last_all, @JsonProperty("buy") MtGoxValue buy, @JsonProperty("sell") MtGoxValue sell) {
+      @JsonProperty("vol") MtGoxValue vol, @JsonProperty("last_local") MtGoxValue lastLocal, @JsonProperty("last") MtGoxValue last, @JsonProperty("last_orig") MtGoxValue lastOrig,
+      @JsonProperty("last_all") MtGoxValue lastAll, @JsonProperty("buy") MtGoxValue buy, @JsonProperty("sell") MtGoxValue sell) {
 
     this.high = high;
     this.low = low;
     this.avg = avg;
     this.vwap = vwap;
     this.vol = vol;
-    this.lastLocal = last_local;
+    this.lastLocal = lastLocal;
     this.last = last;
-    this.lastOrig = last_orig;
-    this.lastAll = last_all;
+    this.lastOrig = lastOrig;
+    this.lastAll = lastAll;
     this.buy = buy;
     this.sell = sell;
   }
@@ -101,7 +101,7 @@ public final class MtGoxTicker {
     return vol;
   }
 
-  public MtGoxValue getLast_local() {
+  public MtGoxValue getLastLocal() {
 
     return lastLocal;
   }
@@ -111,12 +111,12 @@ public final class MtGoxTicker {
     return last;
   }
 
-  public MtGoxValue getLast_orig() {
+  public MtGoxValue getLastOrig() {
 
     return lastOrig;
   }
 
-  public MtGoxValue getLast_all() {
+  public MtGoxValue getLastAll() {
 
     return lastAll;
   }

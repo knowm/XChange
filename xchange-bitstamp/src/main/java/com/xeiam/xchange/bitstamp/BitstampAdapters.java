@@ -48,7 +48,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * Various adapters for converting from Bitstamp DTOs to XChange DTOs
  */
-public class BitstampAdapters {
+public final class BitstampAdapters {
 
   /**
    * private Constructor
@@ -66,7 +66,6 @@ public class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    // AccountInfo accountInfo = new AccountInfo(mtGoxAccountInfo.getLogin(), MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
     Wallet usdWallet = new Wallet("USD", BigMoney.of(CurrencyUnit.USD, bitstampBalance.getUsdBalance()));
     Wallet btcWallet = new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), bitstampBalance.getBtcBalance()));
 

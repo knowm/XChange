@@ -43,7 +43,7 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 /**
  * Various adapters for converting from VirtEx DTOs to XChange DTOs
  */
-public class VirtExAdapters {
+public final class VirtExAdapters {
 
   /**
    * private Constructor

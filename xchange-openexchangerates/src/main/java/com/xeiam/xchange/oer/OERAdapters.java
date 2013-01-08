@@ -30,7 +30,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * Various adapters for converting from OER DTOs to XChange DTOs
  */
-public class OERAdapters {
+public final class OERAdapters {
 
   /**
    * private Constructor

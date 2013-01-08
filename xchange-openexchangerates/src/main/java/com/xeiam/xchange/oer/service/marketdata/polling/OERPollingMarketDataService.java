@@ -47,7 +47,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
    */
   private long tickerRequestTimeStamp = 0L;
 
-  OERTickers cachedOERTickers;
+  private OERTickers cachedOERTickers;
 
   /**
    * Configured from the super class reading of the exchange specification

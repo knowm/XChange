@@ -111,11 +111,11 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     // Build request
     String symbol = limitOrder.getTradableIdentifier() + limitOrder.getLimitPrice().getCurrencyUnit().toString();
     String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
-    String amount_int = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
-    String price_int = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
+    String amountInt = "" + (limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
+    String priceInt = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
     String url = apiBaseURI + symbol + "/private/order/add";
 
-    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amount_int, "price_int", price_int).asFormEncodedPostBody();
+    String postBody = Params.of("nonce", CryptoUtils.getNumericalNonce(), "type", type, "amount_int", amountInt, "price_int", priceInt).asFormEncodedPostBody();
 
     // Request data
     MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
@@ -126,18 +126,6 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
   @Override
   public boolean cancelOrder(String orderId) {
-
-    // Assert.notNull(orderId, "orderId cannot be null");
-    //
-    // // Build request
-    // String url = exchangeSpecification.getUri() + "/api/0/cancelOrder.php";
-    // String postBody = "nonce=" + CryptoUtils.getNumericalNonce() + "&oid=" + orderId;
-    //
-    // // Request data
-    // MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper,
-    // MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody, exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
-    //
-    // return mtGoxSuccess.getResult().equals("success") ? true : false;
 
     throw new NotAvailableFromExchangeException();
   }

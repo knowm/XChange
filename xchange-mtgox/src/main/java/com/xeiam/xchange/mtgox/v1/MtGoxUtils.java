@@ -41,7 +41,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * A central place for shared Mt Gox properties
  */
-public class MtGoxUtils {
+public final class MtGoxUtils {
 
   /**
    * private Constructor

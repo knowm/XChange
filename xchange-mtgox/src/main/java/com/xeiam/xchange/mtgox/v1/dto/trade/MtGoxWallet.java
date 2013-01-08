@@ -62,17 +62,17 @@ public final class MtGoxWallet {
     return this.balance;
   }
 
-  public MtGoxValue getDaily_Withdraw_Limit() {
+  public MtGoxValue getDailyWithdrawLimit() {
 
     return this.dailyWithdrawLimit;
   }
 
-  public MtGoxValue getMax_Withdraw() {
+  public MtGoxValue getMaxWithdraw() {
 
     return this.maxWithdraw;
   }
 
-  public MtGoxValue getMonthly_Withdraw_Limit() {
+  public MtGoxValue getMonthlyWithdrawLimit() {
 
     return this.monthlyWithdrawLimit;
   }
@@ -85,7 +85,7 @@ public final class MtGoxWallet {
   @Override
   public String toString() {
 
-    return "MtGoxWallet [balance=" + balance + ", daily_Withdraw_Limit=" + dailyWithdrawLimit + ", max_Withdraw=" + maxWithdraw + ", monthly_Withdraw_Limit=" + monthlyWithdrawLimit + ", operations="
+    return "MtGoxWallet [balance=" + balance + ", dailyWithdrawLimit=" + dailyWithdrawLimit + ", maxWithdraw=" + maxWithdraw + ", monthlyWithdrawLimit=" + monthlyWithdrawLimit + ", operations="
         + operations + "]";
   }
 
