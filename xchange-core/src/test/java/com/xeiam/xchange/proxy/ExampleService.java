@@ -52,6 +52,10 @@ public interface ExampleService {
       @PathParam("currency") String currency
   );
 
+  @POST
+  @FormParam("method")
+  Object getInfo(Long from, Long count);
+
   /*
    * @GET
    * @Path("order_book/")

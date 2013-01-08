@@ -60,7 +60,8 @@ public class RestRequestData implements Serializable {
   static RestRequestData create(Method method, Object[] args, String baseUrl, String intfacePath) {
 
     AllParams params = AllParams.createInstance(method, args);
-    String path = params.getPath(method.getAnnotation(Path.class).value());
+    Path pathAnn = method.getAnnotation(Path.class);
+    String path = pathAnn == null ? null : params.getPath(pathAnn.value());
     HttpTemplate.HttpMethod httpMethod = method.isAnnotationPresent(GET.class) ? HttpTemplate.HttpMethod.GET : method.isAnnotationPresent(POST.class) ? HttpTemplate.HttpMethod.POST : null;
     String url1 = getUrl(baseUrl, path, intfacePath, params.getQueryString());
     return new RestRequestData(method.getReturnType(), params, httpMethod, url1);
@@ -69,11 +70,19 @@ public class RestRequestData implements Serializable {
   private static String getUrl(String baseUrl, String method, String intfacePath, String queryString) {
 
     // TODO make more robust in terms of path separator ('/') handling
-    String completeUrl = String.format("%s/%s/%s", baseUrl, intfacePath, method);
-    if (queryString != null && !queryString.isEmpty()) {
-      completeUrl += "?" + queryString;
-    }
+    String completeUrl = baseUrl;
+    completeUrl = appendIfNotNull(completeUrl, intfacePath, "/");
+    completeUrl = appendIfNotNull(completeUrl, method, "/");
+    completeUrl = appendIfNotNull(completeUrl, queryString, "?");
     return completeUrl;
+  }
+
+  private static String appendIfNotNull(String url, String next, String separator) {
+
+    if (next != null && !next.isEmpty()) {
+      url += separator + next;
+    }
+    return url;
   }
 
 }

@@ -73,6 +73,13 @@ public class AllParams implements Serializable {
         }
       }
     }
+    for (Class<? extends Annotation> paramAnnotationClass : PARAM_ANNOTATION_CLASSES) {
+      if (method.isAnnotationPresent(paramAnnotationClass)) {
+        Annotation paramAnn = method.getAnnotation(paramAnnotationClass);
+        String paramName = getParamName(paramAnn);
+        params.get(paramAnnotationClass).add(paramName, method.getName());
+      }
+    }
     return params;
   }
 

@@ -55,6 +55,9 @@ public class RestInvocationHandlerTest {
 
     proxy.getTicker("btc", "usd");
     assertRequestData(testHandler, "https://example.com/api/2/btc_usd/ticker", HttpTemplate.HttpMethod.GET, Ticker.class, "");
+
+    proxy.getInfo(1000L, 2000L);
+    assertRequestData(testHandler, "https://example.com/api/2", HttpTemplate.HttpMethod.POST, Object.class, "method=getInfo");
   }
 
   private void assertRequestData(TestRestInvocationHandler testHandler, String url, HttpTemplate.HttpMethod httpMethod, Class resultClass, String postBody) {
