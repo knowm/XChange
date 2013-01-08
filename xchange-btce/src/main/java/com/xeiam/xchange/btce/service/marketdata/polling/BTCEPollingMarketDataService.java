@@ -21,12 +21,14 @@
  */
 package com.xeiam.xchange.btce.service.marketdata.polling;
 
-import java.util.HashMap;
 import java.util.List;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.btce.BTCE;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEUtils;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
@@ -36,9 +38,10 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.BasePollingExchangeService;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * <p>
@@ -48,19 +51,16 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BTCEPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final String apiBase = String.format("%s/api/2/", exchangeSpecification.getUri());
+  private final BTCE btce;
 
   /**
    * @param exchangeSpecification The exchange specification
    */
   public BTCEPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getUri(), new HttpTemplate(), new ObjectMapper());
   }
 
   @Override
@@ -68,10 +68,7 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
 
     verify(tradableIdentifier, currency);
 
-    String url = apiBase + tradableIdentifier + "_" + currency + "/ticker";
-
-    // Request data
-    BTCETicker btceTicker = httpTemplate.getForJsonObject(url.toLowerCase(), BTCETicker.class, mapper, new HashMap<String, String>());
+    BTCETicker btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     // Adapt to XChange DTOs
     return BTCEAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);
@@ -88,10 +85,7 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
 
     verify(tradableIdentifier, currency);
 
-    String url = apiBase + tradableIdentifier + "_" + currency + "/depth";
-
-    // Request data
-    BTCEDepth btceDepth = httpTemplate.getForJsonObject(url.toLowerCase(), BTCEDepth.class, mapper, new HashMap<String, String>());
+    BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
@@ -105,10 +99,7 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
 
     verify(tradableIdentifier, currency);
 
-    String url = apiBase + tradableIdentifier + "_" + currency + "/trades";
-
-    // Request data
-    BTCETrade[] BTCETrades = httpTemplate.getForJsonObject(url.toLowerCase(), BTCETrade[].class, mapper, new HashMap<String, String>());
+    BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return BTCEAdapters.adaptTrades(BTCETrades);
   }

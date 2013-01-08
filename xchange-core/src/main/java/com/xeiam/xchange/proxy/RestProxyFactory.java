@@ -40,12 +40,12 @@ public class RestProxyFactory {
    * {@link javax.ws.rs.POST}, {@link javax.ws.rs.QueryParam}, {@link javax.ws.rs.FormParam}, {@link javax.ws.rs.HeaderParam}, {@link javax.ws.rs.PathParam}.
    * 
    * @param restInterface The interface to implment.
-   * @param url The service base url
+   * @param baseUrl The service base baseUrl
    * @return a proxy implementation of restInterface.
    */
-  public static <I> I createProxy(Class<I> restInterface, String url, HttpTemplate httpTemplate, ObjectMapper mapper) {
+  public static <I> I createProxy(Class<I> restInterface, String baseUrl, HttpTemplate httpTemplate, ObjectMapper mapper) {
 
-    RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, mapper, restInterface, url);
+    RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, mapper, restInterface, baseUrl);
     return createProxy(restInterface, restInvocationHandler);
   }
 
