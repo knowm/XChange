@@ -85,10 +85,12 @@ public class Params implements Serializable {
 
     StringBuilder b = new StringBuilder();
     for (String param : data.keySet()) {
-      if (b.length() > 0) {
-        b.append('&');
+      if (isParamSet(param)) {
+        if (b.length() > 0) {
+          b.append('&');
+        }
+        b.append(param).append('=').append(encode(getParamValue(param), encode));
       }
-      b.append(param).append('=').append(encode(getParamValue(param), encode));
     }
     return b.toString();
   }
@@ -120,7 +122,9 @@ public class Params implements Serializable {
   public String applyToPath(String path) {
 
     for (String paramName : data.keySet()) {
-      path = path.replace("{" + paramName + "}", getParamValue(paramName));
+      if (isParamSet(paramName)) {
+        path = path.replace("{" + paramName + "}", getParamValue(paramName));
+      }
     }
     return path;
   }
@@ -129,7 +133,9 @@ public class Params implements Serializable {
 
     Map<String, String> stringMap = new LinkedHashMap<String, String>();
     for (String key : data.keySet()) {
-      stringMap.put(key, getParamValue(key));
+      if (isParamSet(key)) {
+        stringMap.put(key, getParamValue(key));
+      }
     }
     return stringMap;
   }
@@ -141,6 +147,10 @@ public class Params implements Serializable {
       return ((ParamsDigest) paramValue).digestParams(allParams);
     }
     return paramValue.toString();
+  }
+
+  private boolean isParamSet(String key) {
+    return data.containsKey(key) && data.get(key) != null;
   }
 
   @Override

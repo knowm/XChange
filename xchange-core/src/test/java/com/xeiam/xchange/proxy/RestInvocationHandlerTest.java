@@ -46,6 +46,9 @@ public class RestInvocationHandlerTest {
     proxy.buy("john", "secret", new BigDecimal("3.14"), new BigDecimal("10.00"));
     assertRequestData(testHandler, "https://example.com/api/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14&price=10.00");
 
+    proxy.buy("john", "secret", new BigDecimal("3.14"), null);
+    assertRequestData(testHandler, "https://example.com/api/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14");
+
     proxy.withdrawBitcoin("john", "secret", new BigDecimal("3.14"), "mybitcoinaddress");
     assertRequestData(testHandler, "https://example.com/api/bitcoin_withdrawal/john?amount=3.14&address=mybitcoinaddress", HttpTemplate.HttpMethod.POST, Object.class, "password=secret");
   }
