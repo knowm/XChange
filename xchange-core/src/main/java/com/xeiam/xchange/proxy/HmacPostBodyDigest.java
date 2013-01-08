@@ -22,45 +22,56 @@
  */
 package com.xeiam.xchange.proxy;
 
-import java.security.GeneralSecurityException;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.utils.CryptoUtils;
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import com.xeiam.xchange.utils.Base64;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably
  * cause an infinite loop.
- *
+ * <p/>
  * This may be used for REST APIs where some parameters' values must be digests of other parameters.
  * An example is the MtGox API v1, where the Rest-Sign header parameter must be a digest of the request body
  * (which is composed of @FormParams).
  */
 public class HmacPostBodyDigest implements ParamsDigest {
 
-  private String secretKey;
+  private Mac mac;
 
   /**
    * Constructor
-   * 
-   * @param secretKey
-   */
-  public HmacPostBodyDigest(String secretKey) {
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * */
+  private HmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
 
-    this.secretKey = secretKey;
+    try {
+      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), "HmacSHA512");
+      mac = Mac.getInstance("HmacSHA512");
+      mac.init(secretKey);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Could not decode Base 64 string", e);
+    } catch (InvalidKeyException e) {
+      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+    }
+  }
+
+  public static HmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+
+    return secretKeyBase64 == null ? null : new HmacPostBodyDigest(secretKeyBase64);
   }
 
   @Override
   public String digestParams(AllParams allParams) {
 
-    return createSignature(secretKey, allParams.getPostBody());
-  }
-
-  public static String createSignature(String secretKey, String postBody) {
-
-    try {
-      return CryptoUtils.computeSignature("HmacSHA512", postBody, secretKey);
-    } catch (GeneralSecurityException e) {
-      throw new ExchangeException("Security exception creating signature for request", e);
-    }
+    mac.update(allParams.getPostBody().getBytes());
+    return Base64.encodeBytes(mac.doFinal()).trim();
   }
 }
