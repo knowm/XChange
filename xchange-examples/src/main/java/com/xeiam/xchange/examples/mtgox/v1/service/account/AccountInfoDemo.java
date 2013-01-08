@@ -32,8 +32,6 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  */
 public class AccountInfoDemo {
 
-  private static PollingAccountService accountService;
-
   public static void main(String[] args) {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
@@ -44,7 +42,7 @@ public class AccountInfoDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private account functionality (authentication)
-    accountService = mtgox.getPollingAccountService();
+    PollingAccountService accountService = mtgox.getPollingAccountService();
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();

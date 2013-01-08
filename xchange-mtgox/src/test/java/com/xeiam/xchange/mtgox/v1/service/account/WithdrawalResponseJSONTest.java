@@ -31,26 +31,26 @@ import java.io.InputStream;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 
 /**
- * Test MtGoxDepositResponse JSON parsing
+ * Test MtGoxWithdrawalResponse JSON parsing
  */
-public class DepositResponseJSONTest {
+public class WithdrawalResponseJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = DepositResponseJSONTest.class.getResourceAsStream("/account/example-deposit-response.json");
+    InputStream is = WithdrawalResponseJSONTest.class.getResourceAsStream("/account/example-withdrawal-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mapper.readValue(is, MtGoxBitcoinDepositAddress.class);
+    MtGoxWithdrawalResponse mtGoxWithdrawalResponse = mapper.readValue(is, MtGoxWithdrawalResponse.class);
 
-    System.out.println(mtGoxBitcoinDepositAddress.toString());
+    System.out.println(mtGoxWithdrawalResponse.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("15xmfK1f1BnUWVaoZpjPWJmUHaexp8FHVs", is(equalTo(mtGoxBitcoinDepositAddress.getAddres())));
+    assertThat("9921d2c5abecfd3604e921888b32e48256c914156cc76c4c8eca1ad2709b48e6", is(equalTo(mtGoxWithdrawalResponse.getTransactionId())));
   }
 }

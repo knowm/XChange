@@ -21,19 +21,20 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.service.account.MtGoxPollingAccountService;
+import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
  * Demo requesting account info at MtGox
  */
-public class WithdrawalDemo {
+public class WithdrawalFundsDemo {
 
   public static void main(String[] args) {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
     exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
     exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
@@ -41,14 +42,11 @@ public class WithdrawalDemo {
     exchangeSpecification.setVersion("1");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    // Interested in the private withdrawal functionality (requires authentication)
-    MtGoxPollingAccountService pollingAccountService = (MtGoxPollingAccountService) mtgox.getPollingAccountService();
+    // Interested in the private account functionality (authentication)
+    PollingAccountService accountService = mtgox.getPollingAccountService();
 
-    // Build the withdrawal request
-    // MtGoxWithdrawalRequest withdrawalRequest =
-    // withdrawalService.newWithdrawalRequest().withUsername("example").withPassword("password").withYubiKey("123456").withBankName("EXAMPLE BANK").withSortCode("12-34-56")
-    // .withAccountNumber("0012345678").withIBAN("AB12 CDEF 3456 7890 1234 56").withBIC("EXAMPLE12").withMoney(MoneyUtils.parseFiat("USD 15.00")).build();
-
+    String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
+    System.out.println("transactionID= " + transactionID);
   }
 
 }

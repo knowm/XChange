@@ -19,38 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.account;
+package com.xeiam.xchange.mtgox.v1.dto.account;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Test MtGoxDepositResponse JSON parsing
+ * Data object representing the content of a response message from MtGox after requesting a bitcoin withdrawal
+ * 
+ * @immutable
  */
-public class DepositResponseJSONTest {
+public final class MtGoxWithdrawalResponse {
 
-  @Test
-  public void testUnmarshal() throws IOException {
+  private final String transactionId;
 
-    // Read in the JSON from the example resources
-    InputStream is = DepositResponseJSONTest.class.getResourceAsStream("/account/example-deposit-response.json");
+  /**
+   * Constructor
+   * 
+   * @param transactionId
+   */
+  public MtGoxWithdrawalResponse(@JsonProperty("trx") String transactionId) {
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mapper.readValue(is, MtGoxBitcoinDepositAddress.class);
-
-    System.out.println(mtGoxBitcoinDepositAddress.toString());
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat("15xmfK1f1BnUWVaoZpjPWJmUHaexp8FHVs", is(equalTo(mtGoxBitcoinDepositAddress.getAddres())));
+    this.transactionId = transactionId;
   }
+
+  public String getTransactionId() {
+
+    return transactionId;
+  }
+
+  @Override
+  public String toString() {
+
+    return "MtGoxWithdrawalResponse [transactionId=" + transactionId + "]";
+  }
+
 }

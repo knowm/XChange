@@ -6,12 +6,12 @@ import java.net.URLEncoder;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
@@ -58,7 +58,24 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    throw new NotYetImplementedForExchangeException();
+    Assert.notNull(amount, "amount cannot be null!");
+    Assert.notNull(address, "address cannot be null!");
+
+    try {
+      // Build request
+      String url = apiBaseURI + "generic/bitcoin/send_simple?raw";
+      String postBody = "nonce=" + CryptoUtils.getNumericalNonce();
+      postBody += "&amount_int=" + URLEncoder.encode(amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString(), "UTF-8");
+      postBody += "&address=" + URLEncoder.encode(address, "UTF-8");
+
+      MtGoxWithdrawalResponse mtGoxWithdrawalResponse = httpTemplate.postForJsonObject(url, MtGoxWithdrawalResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
+          exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
+
+      return mtGoxWithdrawalResponse.getTransactionId();
+
+    } catch (UnsupportedEncodingException e) {
+      throw new ExchangeException("Problem generating HTTP request  (Unsupported Encoding)", e);
+    }
   }
 
   @Override

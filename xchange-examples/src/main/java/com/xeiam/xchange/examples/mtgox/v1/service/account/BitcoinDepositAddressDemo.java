@@ -31,8 +31,6 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  */
 public class BitcoinDepositAddressDemo {
 
-  private static PollingAccountService accountService;
-
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
@@ -44,7 +42,7 @@ public class BitcoinDepositAddressDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private account functionality (authentication)
-    accountService = mtgox.getPollingAccountService();
+    PollingAccountService accountService = mtgox.getPollingAccountService();
 
     // Request a Bitcoin deposit address
     String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);
