@@ -28,11 +28,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class MtGoxGenericResponse {
+public final class MtGoxGenericResponse {
 
-  private String result;
-  private String _return;
-  private String error;
+  private final String result;
+  private final String _return;
+  private final String error;
 
   /**
    * Constructor

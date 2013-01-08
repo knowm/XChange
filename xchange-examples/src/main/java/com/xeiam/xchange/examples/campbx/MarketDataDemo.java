@@ -44,8 +44,6 @@ public class MarketDataDemo {
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
 
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Bid: " + ticker.getBid());

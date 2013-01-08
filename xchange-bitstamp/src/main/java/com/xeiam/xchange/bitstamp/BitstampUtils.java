@@ -31,6 +31,13 @@ import com.xeiam.xchange.CurrencyPair;
  */
 public class BitstampUtils {
 
+  /**
+   * private Constructor
+   */
+  private BitstampUtils() {
+
+  }
+
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   CurrencyPair.BTC_USD

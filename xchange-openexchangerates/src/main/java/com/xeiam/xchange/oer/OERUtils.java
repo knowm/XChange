@@ -36,6 +36,13 @@ import com.xeiam.xchange.utils.MoneyUtils;
  */
 public class OERUtils {
 
+  /**
+   * private Constructor
+   */
+  private OERUtils() {
+
+  }
+
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   new CurrencyPair(Currencies.AED, Currencies.USD), new CurrencyPair(Currencies.AFN, Currencies.USD), new CurrencyPair(Currencies.ALL, Currencies.USD),

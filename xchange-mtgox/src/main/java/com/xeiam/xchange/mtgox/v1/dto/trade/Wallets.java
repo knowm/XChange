@@ -31,24 +31,24 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class Wallets {
+public final class Wallets {
 
-  private MtGoxWallet BTC;
-  private MtGoxWallet USD;
-  private MtGoxWallet EUR;
-  private MtGoxWallet GBP;
-  private MtGoxWallet AUD;
-  private MtGoxWallet CAD;
-  private MtGoxWallet CHF;
-  private MtGoxWallet JPY;
-  private MtGoxWallet CNY;
-  private MtGoxWallet DKK;
-  private MtGoxWallet HKD;
-  private MtGoxWallet NZD;
-  private MtGoxWallet PLN;
-  private MtGoxWallet RUB;
-  private MtGoxWallet SEK;
-  private MtGoxWallet THB;
+  private final MtGoxWallet BTC;
+  private final MtGoxWallet USD;
+  private final MtGoxWallet EUR;
+  private final MtGoxWallet GBP;
+  private final MtGoxWallet AUD;
+  private final MtGoxWallet CAD;
+  private final MtGoxWallet CHF;
+  private final MtGoxWallet JPY;
+  private final MtGoxWallet CNY;
+  private final MtGoxWallet DKK;
+  private final MtGoxWallet HKD;
+  private final MtGoxWallet NZD;
+  private final MtGoxWallet PLN;
+  private final MtGoxWallet RUB;
+  private final MtGoxWallet SEK;
+  private final MtGoxWallet THB;
 
   /**
    * Constructor

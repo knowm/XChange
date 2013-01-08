@@ -30,30 +30,30 @@ import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
  * 
  * @immutable
  */
-public class MtGoxWallet {
+public final class MtGoxWallet {
 
-  private MtGoxValue balance;
-  private MtGoxValue daily_Withdraw_Limit;
-  private MtGoxValue max_Withdraw;
-  private MtGoxValue monthly_Withdraw_Limit;
-  private int operations;
+  private final MtGoxValue balance;
+  private final MtGoxValue dailyWithdrawLimit;
+  private final MtGoxValue maxWithdraw;
+  private final MtGoxValue monthlyWithdrawLimit;
+  private final int operations;
 
   /**
    * Constructor
    * 
    * @param balance
-   * @param daily_Withdraw_Limit
-   * @param max_Withdraw
-   * @param monthly_Withdraw_Limit
+   * @param dailyWithdrawLimit
+   * @param maxWithdraw
+   * @param monthlyWithdrawLimit
    * @param operations
    */
-  public MtGoxWallet(@JsonProperty("Balance") MtGoxValue balance, @JsonProperty("Daily_Withdraw_Limit") MtGoxValue daily_Withdraw_Limit, @JsonProperty("Max_Withdraw") MtGoxValue max_Withdraw,
-      @JsonProperty("Monthly_Withdraw_Limit") MtGoxValue monthly_Withdraw_Limit, @JsonProperty("Operations") int operations) {
+  public MtGoxWallet(@JsonProperty("Balance") MtGoxValue balance, @JsonProperty("Daily_Withdraw_Limit") MtGoxValue dailyWithdrawLimit, @JsonProperty("Max_Withdraw") MtGoxValue maxWithdraw,
+      @JsonProperty("Monthly_Withdraw_Limit") MtGoxValue monthlyWithdrawLimit, @JsonProperty("Operations") int operations) {
 
     this.balance = balance;
-    this.daily_Withdraw_Limit = daily_Withdraw_Limit;
-    this.max_Withdraw = max_Withdraw;
-    this.monthly_Withdraw_Limit = monthly_Withdraw_Limit;
+    this.dailyWithdrawLimit = dailyWithdrawLimit;
+    this.maxWithdraw = maxWithdraw;
+    this.monthlyWithdrawLimit = monthlyWithdrawLimit;
     this.operations = operations;
   }
 
@@ -64,17 +64,17 @@ public class MtGoxWallet {
 
   public MtGoxValue getDaily_Withdraw_Limit() {
 
-    return this.daily_Withdraw_Limit;
+    return this.dailyWithdrawLimit;
   }
 
   public MtGoxValue getMax_Withdraw() {
 
-    return this.max_Withdraw;
+    return this.maxWithdraw;
   }
 
   public MtGoxValue getMonthly_Withdraw_Limit() {
 
-    return this.monthly_Withdraw_Limit;
+    return this.monthlyWithdrawLimit;
   }
 
   public int getOperations() {
@@ -85,8 +85,8 @@ public class MtGoxWallet {
   @Override
   public String toString() {
 
-    return "MtGoxWallet [balance=" + balance + ", daily_Withdraw_Limit=" + daily_Withdraw_Limit + ", max_Withdraw=" + max_Withdraw + ", monthly_Withdraw_Limit=" + monthly_Withdraw_Limit
-        + ", operations=" + operations + "]";
+    return "MtGoxWallet [balance=" + balance + ", daily_Withdraw_Limit=" + dailyWithdrawLimit + ", max_Withdraw=" + maxWithdraw + ", monthly_Withdraw_Limit=" + monthlyWithdrawLimit + ", operations="
+        + operations + "]";
   }
 
 }

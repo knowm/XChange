@@ -46,6 +46,13 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 public class VirtExAdapters {
 
   /**
+   * private Constructor
+   */
+  private VirtExAdapters() {
+
+  }
+
+  /**
    * Adapts a VirtExOrder to a LimitOrder
    * 
    * @param amount

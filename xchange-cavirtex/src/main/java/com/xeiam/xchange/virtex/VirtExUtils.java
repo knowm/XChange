@@ -35,6 +35,13 @@ import com.xeiam.xchange.utils.MoneyUtils;
  */
 public class VirtExUtils {
 
+  /**
+   * private Constructor
+   */
+  private VirtExUtils() {
+
+  }
+
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   CurrencyPair.BTC_CAD

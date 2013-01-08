@@ -51,6 +51,13 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public class BitstampAdapters {
 
   /**
+   * private Constructor
+   */
+  private BitstampAdapters() {
+
+  }
+
+  /**
    * Adapts a BitstampBalance to a AccountInfo
    * 
    * @param mtGoxAccountInfo

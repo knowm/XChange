@@ -37,10 +37,10 @@ public final class MtGoxTicker {
   private final MtGoxValue avg;
   private final MtGoxValue vwap;
   private final MtGoxValue vol;
-  private final MtGoxValue last_local;
+  private final MtGoxValue lastLocal;
   private final MtGoxValue last;
-  private final MtGoxValue last_orig;
-  private final MtGoxValue last_all;
+  private final MtGoxValue lastOrig;
+  private final MtGoxValue lastAll;
   private final MtGoxValue buy;
   private final MtGoxValue sell;
 
@@ -68,10 +68,10 @@ public final class MtGoxTicker {
     this.avg = avg;
     this.vwap = vwap;
     this.vol = vol;
-    this.last_local = last_local;
+    this.lastLocal = last_local;
     this.last = last;
-    this.last_orig = last_orig;
-    this.last_all = last_all;
+    this.lastOrig = last_orig;
+    this.lastAll = last_all;
     this.buy = buy;
     this.sell = sell;
   }
@@ -103,7 +103,7 @@ public final class MtGoxTicker {
 
   public MtGoxValue getLast_local() {
 
-    return last_local;
+    return lastLocal;
   }
 
   public MtGoxValue getLast() {
@@ -113,12 +113,12 @@ public final class MtGoxTicker {
 
   public MtGoxValue getLast_orig() {
 
-    return last_orig;
+    return lastOrig;
   }
 
   public MtGoxValue getLast_all() {
 
-    return last_all;
+    return lastAll;
   }
 
   public MtGoxValue getBuy() {
@@ -134,8 +134,8 @@ public final class MtGoxTicker {
   @Override
   public String toString() {
 
-    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last_local=" + last_local + ", last=" + last + ", last_orig=" + last_orig
-        + ", last_all=" + last_all + ", buy=" + buy + ", sell=" + sell + "]";
+    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last_local=" + lastLocal + ", last=" + last + ", last_orig=" + lastOrig
+        + ", last_all=" + lastAll + ", buy=" + buy + ", sell=" + sell + "]";
   }
 
 }

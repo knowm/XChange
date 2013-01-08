@@ -45,6 +45,13 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public class BTCEAdapters {
 
   /**
+   * private Constructor
+   */
+  private BTCEAdapters() {
+
+  }
+
+  /**
    * Adapts a BTCEOrder to a LimitOrder
    * 
    * @param amount

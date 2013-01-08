@@ -30,13 +30,13 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * 
  * @immutable
  */
-public class MtGoxOrder {
+public final class MtGoxOrder {
 
-  private BigDecimal price;
-  private BigDecimal amount;
-  private long price_int;
-  private long amount_int;
-  private long stamp;
+  private final BigDecimal price;
+  private final BigDecimal amount;
+  private final long priceInt;
+  private final long amountInt;
+  private final long stamp;
 
   /**
    * Constructor
@@ -52,8 +52,8 @@ public class MtGoxOrder {
 
     this.price = price;
     this.amount = amount;
-    this.price_int = price_int;
-    this.amount_int = amount_int;
+    this.priceInt = price_int;
+    this.amountInt = amount_int;
     this.stamp = stamp;
   }
 
@@ -69,12 +69,12 @@ public class MtGoxOrder {
 
   public long getPrice_int() {
 
-    return price_int;
+    return priceInt;
   }
 
   public long getAmount_int() {
 
-    return amount_int;
+    return amountInt;
   }
 
   public long getStamp() {
@@ -85,7 +85,7 @@ public class MtGoxOrder {
   @Override
   public String toString() {
 
-    return "MtGoxOrder [price=" + price + ", amount=" + amount + ", price_int=" + price_int + ", amount_int=" + amount_int + ", stamp=" + stamp + "]";
+    return "MtGoxOrder [price=" + price + ", amount=" + amount + ", price_int=" + priceInt + ", amount_int=" + amountInt + ", stamp=" + stamp + "]";
   }
 
 }

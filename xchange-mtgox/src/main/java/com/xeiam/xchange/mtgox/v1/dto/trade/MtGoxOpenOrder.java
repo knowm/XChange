@@ -30,18 +30,18 @@ import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
  * 
  * @immutable
  */
-public class MtGoxOpenOrder {
+public final class MtGoxOpenOrder {
 
-  private String oid;
-  private String currency;
-  private String item;
-  private String type;
-  private MtGoxValue amount;
-  private MtGoxValue invalid_amount;
-  private MtGoxValue price;
-  private String status;
-  private long date;
-  private long priority;
+  private final String oid;
+  private final String currency;
+  private final String item;
+  private final String type;
+  private final MtGoxValue amount;
+  private final MtGoxValue invalidAmount;
+  private final MtGoxValue price;
+  private final String status;
+  private final long date;
+  private final long priority;
 
   /**
    * Constructor
@@ -51,14 +51,14 @@ public class MtGoxOpenOrder {
    * @param item
    * @param type
    * @param amount
-   * @param invalid_amount
+   * @param invalidAmount
    * @param price
    * @param status
    * @param date
    * @param priority
    */
   public MtGoxOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type,
-      @JsonProperty("amount") MtGoxValue amount, @JsonProperty("invalid_amount") MtGoxValue invalid_amount, @JsonProperty("price") MtGoxValue price, @JsonProperty("status") String status,
+      @JsonProperty("amount") MtGoxValue amount, @JsonProperty("invalid_amount") MtGoxValue invalidAmount, @JsonProperty("price") MtGoxValue price, @JsonProperty("status") String status,
       @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
 
     this.oid = oid;
@@ -66,7 +66,7 @@ public class MtGoxOpenOrder {
     this.item = item;
     this.type = type;
     this.amount = amount;
-    this.invalid_amount = invalid_amount;
+    this.invalidAmount = invalidAmount;
     this.price = price;
     this.status = status;
     this.date = date;
@@ -100,7 +100,7 @@ public class MtGoxOpenOrder {
 
   public MtGoxValue getInvalid_amount() {
 
-    return invalid_amount;
+    return invalidAmount;
   }
 
   public MtGoxValue getPrice() {
@@ -126,7 +126,7 @@ public class MtGoxOpenOrder {
   @Override
   public String toString() {
 
-    return "MtGoxOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalid_amount=" + invalid_amount + ", price=" + price
+    return "MtGoxOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalid_amount=" + invalidAmount + ", price=" + price
         + ", status=" + status + ", date=" + date + ", priority=" + priority + "]";
   }
 

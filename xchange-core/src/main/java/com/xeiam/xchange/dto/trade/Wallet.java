@@ -76,23 +76,30 @@ public final class Wallet {
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Wallet other = (Wallet) obj;
     if (balance == null) {
-      if (other.balance != null)
+      if (other.balance != null) {
         return false;
-    } else if (!balance.equals(other.balance))
+      }
+    } else if (!balance.equals(other.balance)) {
       return false;
+    }
     if (currency == null) {
-      if (other.currency != null)
+      if (other.currency != null) {
         return false;
-    } else if (!currency.equals(other.currency))
+      }
+    } else if (!currency.equals(other.currency)) {
       return false;
+    }
     return true;
   }
 

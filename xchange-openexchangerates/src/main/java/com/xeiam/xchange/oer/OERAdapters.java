@@ -32,6 +32,13 @@ import com.xeiam.xchange.utils.MoneyUtils;
  */
 public class OERAdapters {
 
+  /**
+   * private Constructor
+   */
+  private OERAdapters() {
+
+  }
+
   public static Ticker adaptTicker(String tradableIdentifier, Double exchangeRate, Long timestamp) {
 
     BigMoney last = MoneyUtils.parseFiat(tradableIdentifier + " " + exchangeRate);

@@ -53,6 +53,13 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public class MtGoxAdapters {
 
   /**
+   * private Constructor
+   */
+  private MtGoxAdapters() {
+
+  }
+
+  /**
    * Adapts a MtGoxAccountInfo to a AccountInfo
    * 
    * @param mtGoxAccountInfo
