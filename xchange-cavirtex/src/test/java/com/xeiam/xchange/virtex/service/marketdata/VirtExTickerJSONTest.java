@@ -21,16 +21,17 @@
  */
 package com.xeiam.xchange.virtex.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test VirtExTicker JSON parsing
@@ -48,10 +49,10 @@ public class VirtExTickerJSONTest {
     VirtExTicker VirtExTicker = mapper.readValue(is, VirtExTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Last value", VirtExTicker.getLast(), equalTo(12.32900));
-    assertThat("Unexpected Return High value", VirtExTicker.getHigh(), equalTo(12.37989));
-    assertThat("Unexpected Return Low value", VirtExTicker.getLow(), equalTo(11.64001));
-    assertThat("Unexpected Return Volume value", VirtExTicker.getVolume(), equalTo(1866.56));
+    assertThat("Unexpected Return Last value", VirtExTicker.getLast(), equalTo(new BigDecimal("12.32900")));
+    assertThat("Unexpected Return High value", VirtExTicker.getHigh(), equalTo(new BigDecimal("12.37989")));
+    assertThat("Unexpected Return Low value", VirtExTicker.getLow(), equalTo(new BigDecimal("11.64001")));
+    assertThat("Unexpected Return Volume value", VirtExTicker.getVolume(), equalTo(new BigDecimal("1866.56")));
   }
 
 }

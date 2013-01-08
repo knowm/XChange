@@ -55,6 +55,7 @@ public final class VirtExAdapters {
   /**
    * Adapts a VirtExOrder to a LimitOrder
    * 
+   *
    * @param amount
    * @param price
    * @param currency
@@ -62,35 +63,32 @@ public final class VirtExAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(double amount, double price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal tradeableAmount = new BigDecimal(amount);
     String tradableIdentifier = Currencies.BTC;
-    String transactionCurrency = currency;
     BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
-
-    return limitOrder;
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
 
   }
 
   /**
    * Adapts a List of virtexOrders to a List of LimitOrders
    * 
+   *
    * @param virtexOrders
    * @param currency
    * @param orderType
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<double[]> virtexOrders, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> virtexOrders, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (double[] virtexOrder : virtexOrders) {
+    for (BigDecimal[] virtexOrder : virtexOrders) {
       limitOrders.add(adaptOrder(virtexOrder[1], virtexOrder[0], currency, orderType, id));
     }
 
@@ -105,8 +103,9 @@ public final class VirtExAdapters {
    */
   public static Trade adaptTrade(VirtExTrade virtExTrade, String currency, String tradableIdentifier) {
 
+    // todo: virtExTrade.equals("bid") can't be true
     OrderType orderType = virtExTrade.equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = new BigDecimal(virtExTrade.getAmount());
+    BigDecimal amount = virtExTrade.getAmount();
     BigMoney price = VirtExUtils.getPrice(currency, virtExTrade.getPrice());
     DateTime dateTime = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
@@ -144,7 +143,7 @@ public final class VirtExAdapters {
     BigMoney last = MoneyUtils.parseFiat(currency + " " + virtExTicker.getLast());
     BigMoney high = MoneyUtils.parseFiat(currency + " " + virtExTicker.getHigh());
     BigMoney low = MoneyUtils.parseFiat(currency + " " + virtExTicker.getLow());
-    BigDecimal volume = new BigDecimal(virtExTicker.getVolume());
+    BigDecimal volume = virtExTicker.getVolume();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
   }

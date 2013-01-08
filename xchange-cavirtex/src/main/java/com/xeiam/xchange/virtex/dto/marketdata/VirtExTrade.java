@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -32,9 +34,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class VirtExTrade {
 
-  private final double amount;
+  private final BigDecimal amount;
   private final double date;
-  private final double price;
+  private final BigDecimal price;
   private final long tid;
 
   /**
@@ -45,7 +47,7 @@ public final class VirtExTrade {
    * @param price
    * @param tid
    */
-  public VirtExTrade(@JsonProperty("amount") double amount, @JsonProperty("date") double date, @JsonProperty("price") double price, @JsonProperty("tid") long tid) {
+  public VirtExTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") double date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid) {
 
     this.amount = amount;
     this.date = date;
@@ -53,7 +55,7 @@ public final class VirtExTrade {
     this.tid = tid;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }
@@ -63,7 +65,7 @@ public final class VirtExTrade {
     return date;
   }
 
-  public double getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }

@@ -21,16 +21,17 @@
  */
 package com.xeiam.xchange.virtex.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test VirtExTrade[] JSON parsing
@@ -48,7 +49,7 @@ public class VirtExTradesJSONTest {
     VirtExTrade[] VirtExTrades = mapper.readValue(is, VirtExTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", (double) VirtExTrades[0].getPrice(), equalTo(11.500000000));
+    assertThat("Unexpected Return Buy value", VirtExTrades[0].getPrice(), equalTo(new BigDecimal("11.500000000")));
     // System.out.println(VirtExTrades[0].toString());
   }
 }

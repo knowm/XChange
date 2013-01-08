@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -30,10 +32,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class VirtExTicker {
 
-  private final double last;
-  private final double high;
-  private final double low;
-  private final double volume;
+  private final BigDecimal last;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal volume;
 
   /**
    * Constructor
@@ -43,7 +45,7 @@ public final class VirtExTicker {
    * @param volume
    * @param last
    */
-  public VirtExTicker(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("volume") double volume, @JsonProperty("last") double last) {
+  public VirtExTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
 
     this.high = high;
     this.low = low;
@@ -51,22 +53,22 @@ public final class VirtExTicker {
     this.last = last;
   }
 
-  public double getLast() {
+  public BigDecimal getLast() {
 
     return last;
   }
 
-  public double getHigh() {
+  public BigDecimal getHigh() {
 
     return high;
   }
 
-  public double getLow() {
+  public BigDecimal getLow() {
 
     return low;
   }
 
-  public double getVolume() {
+  public BigDecimal getVolume() {
 
     return volume;
   }

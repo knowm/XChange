@@ -21,9 +21,6 @@
  */
 package com.xeiam.xchange.virtex.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -43,6 +40,9 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExDepthJSONTest;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExTickerJSONTest;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExTradesJSONTest;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the VirtExAdapter class
@@ -109,10 +109,10 @@ public class VirtExAdapterTest {
     Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker, "CAD", "BTC");
     System.out.println(ticker.toString());
 
-    assertEquals("last should be CAD 12.32900", ticker.getLast().toString(), "CAD 12.329");
+    assertEquals("last should be CAD 12.32900", ticker.getLast().toString(), "CAD 12.32900");
     assertEquals("bid should be CAD 11.64001", ticker.getLow().toString(), "CAD 11.64001");
     assertEquals("ask should be CAD 12.37989", ticker.getHigh().toString(), "CAD 12.37989");
-    assertEquals("volume should be 1866.56", ticker.getVolume(), new BigDecimal(1866.56));
+    assertEquals("volume should be 1866.56", ticker.getVolume(), new BigDecimal("1866.56"));
 
   }
 }
