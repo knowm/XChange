@@ -21,18 +21,23 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.HttpException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.HttpException;
 
 /**
  * Various HTTP utility methods
@@ -166,7 +171,7 @@ public class HttpTemplate {
    */
   String getForString(String urlString, Map<String, String> httpHeaders) {
 
-    Assert.notNull(httpHeaders, "urlString cannot be null");
+    Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders cannot be null");
 
     String responseString = "";
