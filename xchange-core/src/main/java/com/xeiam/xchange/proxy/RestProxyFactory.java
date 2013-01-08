@@ -30,6 +30,8 @@ import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>
+ *
+ * @see #createProxy(Class, String, com.xeiam.xchange.utils.HttpTemplate, org.codehaus.jackson.map.ObjectMapper)
  */
 public class RestProxyFactory {
 
@@ -44,6 +46,11 @@ public class RestProxyFactory {
   public static <I> I createProxy(Class<I> restInterface, String url, HttpTemplate httpTemplate, ObjectMapper mapper) {
 
     RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, mapper, restInterface, url);
+    return createProxy(restInterface, restInvocationHandler);
+  }
+
+  static <I> I createProxy(Class<I> restInterface, RestInvocationHandler restInvocationHandler) {
+
     Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[] { restInterface }, restInvocationHandler);
     // noinspection unchecked
     return (I) proxy;
