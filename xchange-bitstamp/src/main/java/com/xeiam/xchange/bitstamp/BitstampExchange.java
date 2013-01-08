@@ -40,7 +40,6 @@ public class BitstampExchange extends BaseExchange implements Exchange {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setUri("https://www.bitstamp.net");
-    exchangeSpecification.setVersion("");
     exchangeSpecification.setHost("www.bitstamp.net");
     exchangeSpecification.setPort(80);
     return exchangeSpecification;
