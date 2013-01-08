@@ -9,6 +9,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.proxy.HmacPostBodyDigest;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
@@ -51,16 +52,14 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    Object result = mtGoxV1.withdrawBtc(
+    MtGoxWithdrawalResponse result = mtGoxV1.withdrawBtc(
         exchangeSpecification.getApiKey(),
         signatureCreator,
         getNonce(),
         address,
         amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), // TODO is the factor OK?
         1, false, false);
-    // todo! result as object
-    System.out.println(result);
-    return result.toString();
+    return result.getTransactionId();
   }
 
   @Override

@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
@@ -78,7 +79,7 @@ public interface MtGoxV1 {
 
   @POST
   @Path("generic/bitcoin/send_simple")
-  Object withdrawBtc(
+  MtGoxWithdrawalResponse withdrawBtc(
       @HeaderParam("Rest-Key") String apiKey,
       @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce,
