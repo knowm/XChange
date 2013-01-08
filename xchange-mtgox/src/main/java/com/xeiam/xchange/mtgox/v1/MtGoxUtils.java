@@ -24,17 +24,12 @@ package com.xeiam.xchange.mtgox.v1;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.security.GeneralSecurityException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.utils.CryptoUtils;
 import com.xeiam.xchange.utils.HttpTemplate;
 import com.xeiam.xchange.utils.MoneyUtils;
 
