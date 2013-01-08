@@ -35,6 +35,11 @@ public class HmacPostBodyDigest implements ParamsDigest {
 
   private String secretKey;
 
+  /**
+   * Constructor
+   * 
+   * @param secretKey
+   */
   public HmacPostBodyDigest(String secretKey) {
 
     this.secretKey = secretKey;
