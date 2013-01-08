@@ -155,6 +155,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     MtGoxGenericResponse mtGoxSuccess = httpTemplate.postForJsonObject(url, MtGoxGenericResponse.class, postBody, mapper, MtGoxUtils.getMtGoxAuthenticationHeaderKeyValues(postBody,
         exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey()));
 
+*/
     return mtGoxSuccess.getReturn();
   }
 
