@@ -51,7 +51,7 @@ public class RestProxyFactory {
 
   static <I> I createProxy(Class<I> restInterface, RestInvocationHandler restInvocationHandler) {
 
-    Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[]{restInterface}, restInvocationHandler);
+    Object proxy = Proxy.newProxyInstance(restInterface.getClassLoader(), new Class[] { restInterface }, restInvocationHandler);
     // noinspection unchecked
     return (I) proxy;
   }

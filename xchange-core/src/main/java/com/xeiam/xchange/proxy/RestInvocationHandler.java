@@ -69,10 +69,10 @@ public class RestInvocationHandler implements InvocationHandler {
 
     if (restRequestData.httpMethod != null) {
       switch (restRequestData.httpMethod) {
-        case GET:
-          return getForJsonObject(restRequestData);
-        case POST:
-          return postForJsonObject(restRequestData);
+      case GET:
+        return getForJsonObject(restRequestData);
+      case POST:
+        return postForJsonObject(restRequestData);
       }
     }
     throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");

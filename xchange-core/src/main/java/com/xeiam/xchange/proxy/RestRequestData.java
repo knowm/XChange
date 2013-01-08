@@ -32,16 +32,24 @@ import javax.ws.rs.Path;
 import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
-* @author Matija Mazi <br/>
-*/
-class RestRequestData implements Serializable {
+ * @author Matija Mazi <br/>
+ */
+public class RestRequestData implements Serializable {
 
-  final Class<?> returnType;
-  final AllParams params;
-  final HttpTemplate.HttpMethod httpMethod;
-  final String url;
+  protected final Class<?> returnType;
+  protected final AllParams params;
+  protected final HttpTemplate.HttpMethod httpMethod;
+  protected final String url;
 
-  RestRequestData(Class<?> returnType, AllParams params, HttpTemplate.HttpMethod httpMethod, String url) {
+  /**
+   * private Constructor
+   * 
+   * @param returnType
+   * @param params
+   * @param httpMethod
+   * @param url
+   */
+  public RestRequestData(Class<?> returnType, AllParams params, HttpTemplate.HttpMethod httpMethod, String url) {
 
     this.returnType = returnType;
     this.params = params;
@@ -53,9 +61,7 @@ class RestRequestData implements Serializable {
 
     AllParams params = AllParams.createInstance(method, args);
     String path = params.getPath(method.getAnnotation(Path.class).value());
-    HttpTemplate.HttpMethod httpMethod = method.isAnnotationPresent(GET.class) ? HttpTemplate.HttpMethod.GET :
-        method.isAnnotationPresent(POST.class) ? HttpTemplate.HttpMethod.POST :
-            null;
+    HttpTemplate.HttpMethod httpMethod = method.isAnnotationPresent(GET.class) ? HttpTemplate.HttpMethod.GET : method.isAnnotationPresent(POST.class) ? HttpTemplate.HttpMethod.POST : null;
     String url1 = getUrl(baseUrl, path, intfacePath, params.getQueryString());
     return new RestRequestData(method.getReturnType(), params, httpMethod, url1);
   }
