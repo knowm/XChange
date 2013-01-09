@@ -49,7 +49,7 @@ import com.xeiam.xchange.utils.Assert;
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
   private final ParamsDigest postBodySignatureCreator;
-  private MtGoxV1 mtGoxV1;
+  private final MtGoxV1 mtGoxV1;
 
   /**
    * Initialize common properties from the exchange specification
