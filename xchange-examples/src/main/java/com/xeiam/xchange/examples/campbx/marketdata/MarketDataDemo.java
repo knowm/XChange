@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.campbx;
+package com.xeiam.xchange.examples.campbx.marketdata;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
@@ -30,7 +30,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at Campbx
+ * Demonstrate requesting Market Data from CampBX
  */
 public class MarketDataDemo {
 

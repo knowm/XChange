@@ -1,6 +1,6 @@
-/*
- * Copyright (C) 2012 - 2013 Matija Mazi
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -29,10 +29,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /** @author Matija Mazi <br/> */
 public class BTCEOpenOrdersReturn extends BTCEReturn<Map<Long, BTCEOrder>> {
 
-  public BTCEOpenOrdersReturn(
-      @JsonProperty("success") boolean success,
-      @JsonProperty("return") Map<Long, BTCEOrder> value,
-      @JsonProperty("error") String error) {
+  public BTCEOpenOrdersReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, BTCEOrder> value, @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

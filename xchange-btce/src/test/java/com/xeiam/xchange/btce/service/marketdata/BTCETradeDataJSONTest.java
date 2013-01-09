@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.btce.service.marketdata;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -33,11 +37,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
-import com.xeiam.xchange.btce.dto.marketdata.*;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.xeiam.xchange.btce.dto.marketdata.BTCECancelOrderResult;
+import com.xeiam.xchange.btce.dto.marketdata.BTCECancelOrderReturn;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEOpenOrdersReturn;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEOrder;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEPlaceOrderReturn;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
 
 /**
  * Test BTCEDepth JSON parsing
@@ -49,8 +55,8 @@ public class BTCETradeDataJSONTest {
 
     BTCEOpenOrdersReturn result = getResult("/account/example-open-orders-data.json", BTCEOpenOrdersReturn.class);
     // Verify that the example data was unmarshalled correctly
-    Map<Long,BTCEOrder> rv = result.getReturnValue();
-    assertThat(rv.keySet(), is(CoreMatchers.<Set>equalTo(new HashSet<Long>(Arrays.asList(343152L)))));
+    Map<Long, BTCEOrder> rv = result.getReturnValue();
+    assertThat(rv.keySet(), is(CoreMatchers.<Set> equalTo(new HashSet<Long>(Arrays.asList(343152L)))));
     assertThat(rv.get(343152L).getTimestampCreated(), is(equalTo(1342448420L)));
   }
 
@@ -60,7 +66,7 @@ public class BTCETradeDataJSONTest {
     BTCECancelOrderReturn result = getResult("/account/example-cancel-order-data.json", BTCECancelOrderReturn.class);
     // Verify that the example data was unmarshalled correctly
     BTCECancelOrderResult rv = result.getReturnValue();
-    Map<String,BigDecimal> funds = rv.getFunds();
+    Map<String, BigDecimal> funds = rv.getFunds();
     assertThat(funds.keySet().containsAll(Arrays.asList("btc", "nmc", "usd")), is(equalTo(true)));
     assertThat(funds.get("usd"), is(equalTo(new BigDecimal(325))));
     assertThat(rv.getOrderId(), is(343154L));
