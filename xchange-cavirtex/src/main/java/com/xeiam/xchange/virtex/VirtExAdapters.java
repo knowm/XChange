@@ -101,13 +101,11 @@ public final class VirtExAdapters {
    */
   public static Trade adaptTrade(VirtExTrade virtExTrade, String currency, String tradableIdentifier) {
 
-    // todo: virtExTrade.equals("bid") can't be true
-    OrderType orderType = virtExTrade.equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = virtExTrade.getAmount();
-    BigMoney price = VirtExUtils.getPrice(currency, virtExTrade.getPrice());
+    BigMoney price = MoneyUtils.parseFiat(currency + " " + virtExTrade.getPrice());
     DateTime dateTime = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, dateTime);
+    return new Trade(null, amount, tradableIdentifier, currency, price, dateTime);
   }
 
   /**
