@@ -38,11 +38,10 @@ public interface PollingAccountService {
   public String withdrawFunds(BigDecimal amount, String address);
 
   /**
-   * @param description
-   * @param notificationUrl
-   * @return a bitcoin address
+   * @param arguments
+   * @return
    */
-  public String requestBitcoinDepositAddress(String description, String notificationUrl);
+  public String requestBitcoinDepositAddress(final String... arguments);
 
   // TODO: Transaction history, trade history
 }

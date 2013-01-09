@@ -24,8 +24,7 @@ package com.xeiam.xchange.examples.mtgox.v1.service.account;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
@@ -35,11 +34,7 @@ public class WithdrawalFundsDemo {
 
   public static void main(String[] args) {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setUri("https://mtgox.com");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    Exchange mtgox = MtGoxExamplesUtils.createExchange();
 
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();

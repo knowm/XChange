@@ -1,5 +1,6 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,35 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
+package com.xeiam.xchange.examples.mtgox.v1.service;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.ExchangeSpecification;
 
 /**
- * Test requesting trades at MtGox
+ * @author Matija Mazi <br/>
  */
-public class TradesDemo {
+public class MtGoxExamplesUtils {
 
-  private static PollingMarketDataService marketDataService;
-
-  public static void main(String[] args) {
+  public static Exchange createExchange() {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
-
-    // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getPollingMarketDataService();
-
-    // Get trades
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
-
-    // Verify that trades is not null
-    System.out.println("Trades NOT null ? " + trades != null);
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
+    exchangeSpecification.setUri("https://mtgox.com");
+    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    return mtgox;
   }
-
 }

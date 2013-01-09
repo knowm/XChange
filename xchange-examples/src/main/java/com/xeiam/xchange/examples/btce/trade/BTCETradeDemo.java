@@ -28,7 +28,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.btce.BTCEDemoUtils;
+import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -39,7 +39,7 @@ public class BTCETradeDemo {
 
   public static void main(String[] args) {
 
-    Exchange btce = BTCEDemoUtils.createExchange();
+    Exchange btce = BTCEExamplesUtils.createExchange();
     PollingTradeService tradeService = btce.getPollingTradeService();
 
     printOpenOrders(tradeService);

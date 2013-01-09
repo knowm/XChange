@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,24 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce;
+package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
 
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * @author Matija Mazi <br/>
+ * Test requesting trades at MtGox
  */
-public class BTCEDemoUtils {
+public class TradesDemo {
 
-  public static Exchange createExchange() {
+  private static PollingMarketDataService marketDataService;
 
-    ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
-    exSpec.setSecretKey("4df0c1438aee12cd04be9d50bae23b4b4245c3ac9b37993908411c4d3023af77");
-    exSpec.setApiKey("82FE1OI8-6KVWGK2L-GFR3UETO-Y3G3NZQ7-0QISCMTU");
-    exSpec.setUri("https://btc-e.com");
-    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+  public static void main(String[] args) {
+
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+
+    // Interested in the public market data feed (no authentication)
+    marketDataService = mtGox.getPollingMarketDataService();
+
+    // Get trades
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
+
+    // Verify that trades is not null
+    System.out.println("Trades NOT null ? " + trades != null);
   }
+
 }

@@ -58,8 +58,10 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String description, String notificationUrl) {
+  public String requestBitcoinDepositAddress(final String... arguments) {
 
+    String description = arguments[0];
+    String notificationUrl = arguments[1];
     MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), description, notificationUrl);
 
     return mtGoxBitcoinDepositAddress.getAddres();
