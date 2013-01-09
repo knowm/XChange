@@ -27,6 +27,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,9 +48,9 @@ public class AllParams implements Serializable {
 
   private Map<Class<? extends Annotation>, Params> paramsMap;
 
-  AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
+  public AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
 
-    this.paramsMap = paramsMap;
+    this.paramsMap = new LinkedHashMap<Class<? extends Annotation>, Params>(paramsMap);
     for (Params params : paramsMap.values()) {
       params.setAllParams(this);
     }
@@ -116,22 +117,22 @@ public class AllParams implements Serializable {
     return map;
   }
 
-  String getPath(String methodPath) {
+  public String getPath(String methodPath) {
 
     return paramsMap.get(PathParam.class).applyToPath(methodPath);
   }
 
-  String getPostBody() {
+  public String getPostBody() {
 
     return paramsMap.get(FormParam.class).asFormEncodedPostBody();
   }
 
-  Map<String, String> getHttpHeaders() {
+  public Map<String, String> getHttpHeaders() {
 
     return paramsMap.get(HeaderParam.class).asHttpHeaders();
   }
 
-  String getQueryString() {
+  public String getQueryString() {
 
     return paramsMap.get(QueryParam.class).asQueryString();
   }

@@ -17,7 +17,7 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.proxy.HmacPostBodyDigest;
+import com.xeiam.xchange.proxy.ParamsDigest;
 
 /**
  * @author Matija Mazi <br/>
@@ -57,14 +57,14 @@ public interface MtGoxV1 {
   @Path("generic/private/info?raw")
   MtGoxAccountInfo getAccountInfo(
       @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce);
 
   @POST
   @Path("generic/bitcoin/address?raw")
   MtGoxBitcoinDepositAddress requestDepositAddress(
       @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce,
       @FormParam("description") String description,
       @FormParam("ipn") String notificationUrl
@@ -74,14 +74,14 @@ public interface MtGoxV1 {
   @Path("generic/private/orders?raw")
   MtGoxOpenOrder[] getOpenOrders(
       @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce);
 
   @POST
   @Path("generic/bitcoin/send_simple?raw")
   MtGoxWithdrawalResponse withdrawBtc(
       @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce,
       @FormParam("address") String address,
       @FormParam("amount_int") int amount,
@@ -90,13 +90,14 @@ public interface MtGoxV1 {
       @FormParam("green") boolean green);
 
   /**
+   * @param postBodySignatureCreator
    * @param amount can be omitted to place market order
    */
   @POST
   @Path("{tradeIdent}{currency}/private/order/add")
   MtGoxGenericResponse placeOrder(
       @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") HmacPostBodyDigest postBodySignatureCreator,
+      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") long nonce,
       @PathParam("tradeIdent") String tradableIdentifier,
       @PathParam("currency") String currency,

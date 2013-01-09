@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.proxy;
+package com.xeiam.xchange.mtgox.v1.service;
 
 import java.lang.annotation.Annotation;
 import java.security.GeneralSecurityException;
@@ -33,9 +33,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HmacPostBodyDigestTest {
+import com.xeiam.xchange.proxy.AllParams;
+import com.xeiam.xchange.proxy.Params;
 
-  private static final Logger log = LoggerFactory.getLogger(HmacPostBodyDigestTest.class);
+public class MtGoxHmacPostBodyDigestTest {
+
+  private static final Logger log = LoggerFactory.getLogger(MtGoxHmacPostBodyDigestTest.class);
 
   @Test
   public void testSignature() throws GeneralSecurityException {
@@ -45,7 +48,7 @@ public class HmacPostBodyDigestTest {
     Map<Class<? extends Annotation>, Params> paramsMap = new HashMap<Class<? extends Annotation>, Params>();
     paramsMap.put(FormParam.class, Params.of("nonce", 1328626350245256L));
 
-    String restSign = HmacPostBodyDigest.createInstance(secretKey).digestParams(new AllParams(paramsMap));
+    String restSign = MtGoxHmacPostBodyDigest.createInstance(secretKey).digestParams(new AllParams(paramsMap));
     log.debug("Rest-Sign    : " + restSign);
     String expectedResult = "eNjLVoVh6LVQfzgv7qFMCL48b5d2Qd1gvratXGA76W6+g46Jl9TNkiTCHks5sLXjfAQ1rGnvWxRHu6pYjC5FSQ==";
     log.debug("Expected-Sign: " + expectedResult);

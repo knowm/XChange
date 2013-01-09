@@ -10,7 +10,8 @@ import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
-import com.xeiam.xchange.proxy.HmacPostBodyDigest;
+import com.xeiam.xchange.mtgox.v1.service.MtGoxHmacPostBodyDigest;
+import com.xeiam.xchange.proxy.ParamsDigest;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
@@ -30,7 +31,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
    * Configured from the super class reading of the exchange specification
    */
   private final MtGoxV1 mtGoxV1;
-  private HmacPostBodyDigest signatureCreator;
+  private ParamsDigest signatureCreator;
 
   public MtGoxPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
@@ -38,7 +39,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
-    signatureCreator = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    signatureCreator = MtGoxHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override

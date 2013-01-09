@@ -24,18 +24,23 @@ package com.xeiam.xchange.btce;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 import org.joda.time.DateTime;
 
+import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfo;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -152,4 +157,14 @@ public final class BTCEAdapters {
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
+  public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
+
+    List<Wallet> wallets = new ArrayList<Wallet>();
+    Map<String,BigDecimal> funds = btceAccountInfo.getFunds();
+    for (String lcCurrency : funds.keySet()) {
+      String currency = lcCurrency.toUpperCase();
+      wallets.add(new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), funds.get(lcCurrency))));
+    }
+    return new AccountInfo(null, wallets);
+  }
 }

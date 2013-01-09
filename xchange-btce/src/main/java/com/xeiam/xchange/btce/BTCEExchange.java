@@ -24,7 +24,9 @@ package com.xeiam.xchange.btce;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.btce.service.account.polling.BTCEPollingAccountService;
 import com.xeiam.xchange.btce.service.marketdata.polling.BTCEPollingMarketDataService;
+import com.xeiam.xchange.btce.service.trade.polling.BTCEPollingTradeService;
 
 /**
  * <p>
@@ -60,6 +62,8 @@ public class BTCEExchange extends BaseExchange implements Exchange {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
     this.pollingMarketDataService = new BTCEPollingMarketDataService(exchangeSpecification);
+    this.pollingAccountService = new BTCEPollingAccountService(exchangeSpecification);
+    this.pollingTradeService = new BTCEPollingTradeService(exchangeSpecification);
   }
 
   @Override

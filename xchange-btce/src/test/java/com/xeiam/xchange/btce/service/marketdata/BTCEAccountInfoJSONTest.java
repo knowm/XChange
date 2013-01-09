@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 Xeiam LLC http://xeiam.com
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,53 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.btce.service.marketdata;
 
-import org.codehaus.jackson.map.DeserializationConfig;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.HttpTemplate;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfoResult;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * <p>
- * Abstract base class to provide the following to exchange services:
- * </p>
- * <ul>
- * <li>Provision of standard specification parsing</li>
- * </ul>
+ * Test BTCEDepth JSON parsing
  */
-public abstract class BasePollingExchangeService extends BaseExchangeService {
+public class BTCEAccountInfoJSONTest {
 
-  /**
-   * Jackson JSON to Java object mapper
-   */
-  protected ObjectMapper mapper = createMapper();
+  @Test
+  public void testUnmarshal() throws IOException {
 
-  /**
-   * HTTP template to provide data access facilities
-   */
-  protected HttpTemplate httpTemplate = new HttpTemplate();
+    // Read in the JSON from the example resources
+    InputStream is = BTCEAccountInfoJSONTest.class.getResourceAsStream("/account/example-account-info.json");
 
-  /**
-   * Initialize common properties from the exchange specification
-   *
-   * @param exchangeSpecification The exchange specification with the configuration parameters
-   */
-  protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
-
-    super(exchangeSpecification);
-  }
-
-  public void setHttpTemplate(HttpTemplate httpTemplate) {
-
-    this.httpTemplate = httpTemplate;
-  }
-
-  public static ObjectMapper createMapper() {
-
+    // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    return mapper;
+    BTCEAccountInfoResult ai = mapper.readValue(is, BTCEAccountInfoResult.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat(ai.getValue().getRights().isInfo(), is(equalTo(true)));
+    assertThat(ai.getValue().getFunds().get("btc"), is(equalTo(new BigDecimal("0.1"))));
   }
 }

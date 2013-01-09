@@ -36,7 +36,8 @@ import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.proxy.HmacPostBodyDigest;
+import com.xeiam.xchange.mtgox.v1.service.MtGoxHmacPostBodyDigest;
+import com.xeiam.xchange.proxy.ParamsDigest;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
@@ -47,7 +48,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private final HmacPostBodyDigest postBodySignatureCreator;
+  private final ParamsDigest postBodySignatureCreator;
   private MtGoxV1 mtGoxV1;
 
   /**
@@ -61,7 +62,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
-    postBodySignatureCreator = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    postBodySignatureCreator = MtGoxHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override
