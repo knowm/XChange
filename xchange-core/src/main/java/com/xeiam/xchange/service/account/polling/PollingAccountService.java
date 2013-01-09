@@ -44,4 +44,5 @@ public interface PollingAccountService {
    */
   public String requestBitcoinDepositAddress(String description, String notificationUrl);
 
+  // TODO: Transaction history, trade history
 }
