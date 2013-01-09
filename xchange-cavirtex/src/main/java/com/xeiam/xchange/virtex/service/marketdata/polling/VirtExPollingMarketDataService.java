@@ -59,7 +59,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   public VirtExPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchangeSpecification.getUri());
   }
 
   @Override

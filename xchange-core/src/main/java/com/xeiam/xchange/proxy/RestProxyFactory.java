@@ -24,13 +24,12 @@ package com.xeiam.xchange.proxy;
 
 import java.lang.reflect.Proxy;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>
- * @see #createProxy(Class, String, com.xeiam.xchange.utils.HttpTemplate, org.codehaus.jackson.map.ObjectMapper)
+ * @see #createProxy(Class, String, com.xeiam.xchange.proxy.HttpTemplate, org.codehaus.jackson.map.ObjectMapper)
  */
 public class RestProxyFactory {
 
@@ -42,9 +41,12 @@ public class RestProxyFactory {
    * @param baseUrl The service base baseUrl
    * @return a proxy implementation of restInterface.
    */
-  public static <I> I createProxy(Class<I> restInterface, String baseUrl, HttpTemplate httpTemplate, ObjectMapper mapper) {
+  public static <I> I createProxy(Class<I> restInterface, String baseUrl) {
 
-    RestInvocationHandler restInvocationHandler = new RestInvocationHandler(httpTemplate, mapper, restInterface, baseUrl);
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    RestInvocationHandler restInvocationHandler = new RestInvocationHandler(new HttpTemplate(), mapper, restInterface, baseUrl);
     return createProxy(restInterface, restInvocationHandler);
   }
 

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.utils;
+package com.xeiam.xchange.proxy;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -37,7 +37,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.HttpException;
+import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.JSONUtils;
 
 /**
  * Various HTTP utility methods
@@ -61,7 +62,7 @@ public class HttpTemplate {
     // Accept text/plain by default (typically becomes application/json or application/xml)
     defaultHttpHeaders.put("Accept", "text/plain");
     // User agent provides statistics for servers, but some use it for content negotiation so fake good agents
-    defaultHttpHeaders.put("User-Agent", "XChange/0.0.1 JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
+    defaultHttpHeaders.put("User-Agent", "XChange/1.X.X JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
 
   }
 
@@ -156,7 +157,7 @@ public class HttpTemplate {
    * @return An HttpURLConnection based on the given parameter
    * @throws IOException If something goes wrong
    */
-  HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+  public HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
 
     return (HttpURLConnection) new URL(urlString).openConnection();
   }
@@ -250,7 +251,7 @@ public class HttpTemplate {
    * @return A String representation of the input stream
    * @throws IOException If something goes wrong
    */
-  String readInputStreamAsEncodedString(InputStream inputStream, String responseEncoding) throws IOException {
+  public String readInputStreamAsEncodedString(InputStream inputStream, String responseEncoding) throws IOException {
 
     String responseString;
 

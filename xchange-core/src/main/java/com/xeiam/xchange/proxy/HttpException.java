@@ -19,11 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.proxy;
 
 /**
  * <p>
- * Exception to provide the following to {@link com.xeiam.xchange.utils.HttpTemplate}:
+ * Exception to provide the following to {@link com.xeiam.xchange.proxy.HttpTemplate}:
  * </p>
  * <ul>
  * <li>Indication that there was an HTTP communication problem</li>
@@ -31,11 +31,22 @@ package com.xeiam.xchange;
  */
 public class HttpException extends RuntimeException {
 
+  /**
+   * Constructor
+   * 
+   * @param s
+   */
   public HttpException(String s) {
 
     super(s);
   }
 
+  /**
+   * Constructor
+   * 
+   * @param s
+   * @param throwable
+   */
   public HttpException(String s, Throwable throwable) {
 
     super(s, throwable);

@@ -37,10 +37,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.proxy.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * <p>
@@ -59,7 +57,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
    */
   public BTCEPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getUri(), new HttpTemplate(), BasePollingExchangeService.createMapper());
+    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getUri());
   }
 
   @Override

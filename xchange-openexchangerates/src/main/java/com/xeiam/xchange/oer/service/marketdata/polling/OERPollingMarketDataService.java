@@ -60,7 +60,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   public OERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.openExchangeRates = RestProxyFactory.createProxy(OpenExchangeRates.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    this.openExchangeRates = RestProxyFactory.createProxy(OpenExchangeRates.class, exchangeSpecification.getUri());
   }
 
   @Override

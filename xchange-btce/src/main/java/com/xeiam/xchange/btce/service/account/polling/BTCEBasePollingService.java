@@ -31,8 +31,6 @@ import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
 import com.xeiam.xchange.btce.service.BTCEHmacPostBodyDigest;
 import com.xeiam.xchange.proxy.ParamsDigest;
 import com.xeiam.xchange.proxy.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>
@@ -47,7 +45,7 @@ public class BTCEBasePollingService {
 
   public BTCEBasePollingService(ExchangeSpecification spec) {
 
-    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, spec.getUri(), new HttpTemplate(), BasePollingExchangeService.createMapper());
+    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, spec.getUri());
     this.apiKey = spec.getApiKey();
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(spec.getSecretKey());
   }
