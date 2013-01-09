@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.examples.btce.account;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btce.BtceDemoUtils;
@@ -31,7 +29,7 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
 /**
  * Demo requesting account info at MtGox
  */
-public class BtceAccountInfoDemo {
+public class BTCEAccountInfoDemo {
 
   public static void main(String[] args) {
 
@@ -43,11 +41,5 @@ public class BtceAccountInfoDemo {
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
-
-    String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);
-    System.out.println("Address to deposit Bitcoins to: " + address);
-
-    String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
-    System.out.println("transactionID= " + transactionID);
   }
 }

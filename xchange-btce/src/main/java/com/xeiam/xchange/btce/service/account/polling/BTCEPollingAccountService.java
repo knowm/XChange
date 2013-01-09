@@ -39,13 +39,13 @@ public class BTCEPollingAccountService implements PollingAccountService {
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
-    // todo!
-    return null;
+
+    throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
   }
 
   @Override
   public String requestBitcoinDepositAddress(String description, String notificationUrl) {
-    // todo!
-    return null;
+
+    throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
   }
 }
