@@ -20,27 +20,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.account;
+package com.xeiam.xchange.btce.dto.marketdata;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.btce.BTCEDemoUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Demo requesting account info at MtGox
+ * @author Matija Mazi <br/>
  */
-public class BTCEAccountInfoDemo {
+public class BTCECancelOrderReturn extends BTCEReturn<BTCECancelOrderResult> {
 
-  public static void main(String[] args) {
+  public BTCECancelOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCECancelOrderResult value, @JsonProperty("error") String error) {
 
-    Exchange btce = BTCEDemoUtils.createExchange();
-
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = btce.getPollingAccountService();
-
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    super(success, value, error);
   }
 }

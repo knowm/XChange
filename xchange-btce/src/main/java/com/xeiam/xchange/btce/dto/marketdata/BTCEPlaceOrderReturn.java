@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2012 - 2013 Matija Mazi
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,27 +20,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.account;
+package com.xeiam.xchange.btce.dto.marketdata;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.btce.BTCEDemoUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Demo requesting account info at MtGox
+ * @author Matija Mazi <br/>
  */
-public class BTCEAccountInfoDemo {
+public class BTCEPlaceOrderReturn extends BTCEReturn<BTCEPlaceOrderResult> {
 
-  public static void main(String[] args) {
+  public BTCEPlaceOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEPlaceOrderResult value, @JsonProperty("error") String error) {
 
-    Exchange btce = BTCEDemoUtils.createExchange();
-
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = btce.getPollingAccountService();
-
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    super(success, value, error);
   }
 }

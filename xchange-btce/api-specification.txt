@@ -6,6 +6,7 @@ Public API
 Documentation
 -------------
 https://btc-e.com/page/2 (last entry in FAQ)
+https://btc-e.com/api/documentation
 
 Ticker
 ------

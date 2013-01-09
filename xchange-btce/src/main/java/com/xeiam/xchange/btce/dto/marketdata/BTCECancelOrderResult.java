@@ -20,44 +20,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.service.account.polling;
+package com.xeiam.xchange.btce.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.BTCEAdapters;
-import com.xeiam.xchange.btce.BTCEAuthenticated;
-import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfoReturn;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
+ *         {funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}
  */
-public class BTCEPollingAccountService extends BTCEBasePollingService implements PollingAccountService {
+public class BTCECancelOrderResult {
 
-  public BTCEPollingAccountService(ExchangeSpecification spec) {
+  private final long orderId;
+  private final Map<String, BigDecimal> funds;
 
-    super(spec);
+  public BTCECancelOrderResult(@JsonProperty("order_id") long orderId, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+
+    this.orderId = orderId;
+    this.funds = funds;
+  }
+
+  public long getOrderId() {
+
+    return orderId;
+  }
+
+  public Map<String, BigDecimal> getFunds() {
+
+    return funds;
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public String toString() {
 
-    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
-    checkResult(info);
-    return BTCEAdapters.adaptAccountInfo(info.getReturnValue());
+    return MessageFormat.format("BTCECancelOrderResult[orderId={0}, funds={1}]", orderId, funds);
   }
 
-  @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
-
-    throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
-  }
-
-  @Override
-  public String requestBitcoinDepositAddress(String description, String notificationUrl) {
-
-    throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
-  }
 }

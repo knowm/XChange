@@ -21,10 +21,6 @@
  */
 package com.xeiam.xchange.btce.service.marketdata;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -32,7 +28,11 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfoResult;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfoReturn;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test BTCEDepth JSON parsing
@@ -43,14 +43,14 @@ public class BTCEAccountInfoJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCEAccountInfoJSONTest.class.getResourceAsStream("/account/example-account-info.json");
+    InputStream is = BTCEAccountInfoJSONTest.class.getResourceAsStream("/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCEAccountInfoResult ai = mapper.readValue(is, BTCEAccountInfoResult.class);
+    BTCEAccountInfoReturn ai = mapper.readValue(is, BTCEAccountInfoReturn.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(ai.getValue().getRights().isInfo(), is(equalTo(true)));
-    assertThat(ai.getValue().getFunds().get("btc"), is(equalTo(new BigDecimal("0.1"))));
+    assertThat(ai.getReturnValue().getRights().isInfo(), is(equalTo(true)));
+    assertThat(ai.getReturnValue().getFunds().get("btc"), is(equalTo(new BigDecimal("0.1"))));
   }
 }

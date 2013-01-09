@@ -31,6 +31,7 @@ import org.joda.money.CurrencyUnit;
 import org.joda.time.DateTime;
 
 import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfo;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEOrder;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -40,6 +41,7 @@ import com.xeiam.xchange.dto.marketdata.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
@@ -164,5 +166,19 @@ public final class BTCEAdapters {
       wallets.add(new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), funds.get(lcCurrency))));
     }
     return new AccountInfo(null, wallets);
+  }
+
+  public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {
+
+    List<LimitOrder> os = new ArrayList<LimitOrder>();
+    for (Long id : btceOrderMap.keySet()) {
+      BTCEOrder o = btceOrderMap.get(id);
+      OrderType orderType = o.getType() == BTCEOrder.Type.buy ? OrderType.BID : OrderType.ASK;
+      String[] pair = o.getPair().split("_");
+      String currency = pair[1].toUpperCase();
+      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), o.getAmount());
+      os.add(new LimitOrder(orderType, o.getAmount(), pair[0].toUpperCase(), currency, Long.toString(id), price));
+    }
+    return new OpenOrders(os);
   }
 }

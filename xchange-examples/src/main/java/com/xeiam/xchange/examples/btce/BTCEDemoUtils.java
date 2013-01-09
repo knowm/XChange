@@ -8,13 +8,13 @@ import com.xeiam.xchange.btce.BTCEExchange;
 /**
  * @author Matija Mazi <br/>
  */
-public class BtceDemoUtils {
+public class BTCEDemoUtils {
 
   public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
-    exSpec.setSecretKey("be7ea6f91c627097dac1526c4691e4e98c732b7af3cfe85c8472075475fe7536");
-    exSpec.setApiKey("SIUNFHSF-9HKXHVKG-FTHTGGH1-62CYKF11-R0YANNCV");
+    exSpec.setSecretKey("4df0c1438aee12cd04be9d50bae23b4b4245c3ac9b37993908411c4d3023af77");
+    exSpec.setApiKey("82FE1OI8-6KVWGK2L-GFR3UETO-Y3G3NZQ7-0QISCMTU");
     exSpec.setUri("https://btc-e.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }

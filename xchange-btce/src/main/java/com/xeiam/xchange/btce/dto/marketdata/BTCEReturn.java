@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2012 - 2013 Matija Mazi
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,27 +20,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.account;
+package com.xeiam.xchange.btce.dto.marketdata;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.btce.BTCEDemoUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * Demo requesting account info at MtGox
+ * @author Matija Mazi <br/>
  */
-public class BTCEAccountInfoDemo {
+public class BTCEReturn<V> {
 
-  public static void main(String[] args) {
+  private final boolean success;
+  private final V returnValue;
+  private final String error;
 
-    Exchange btce = BTCEDemoUtils.createExchange();
+  @JsonCreator
+  public BTCEReturn(@JsonProperty("success") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("error") String error) {
 
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = btce.getPollingAccountService();
+    this.success = success;
+    this.returnValue = returnValue;
+    this.error = error;
+  }
 
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+  /*
+   * @JsonCreator public BTCEReturn(@JsonProperty("success") boolean success, @JsonProperty("error") String error) { this.success = success; this.error = error; this.value = null; }
+   */
+
+  public boolean isSuccess() {
+
+    return success;
+  }
+
+  public V getReturnValue() {
+
+    return returnValue;
+  }
+
+  public String getError() {
+
+    return error;
+  }
+
+  @Override
+  public String toString() {
+
+    return String.format("BTCEReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
   }
 }
