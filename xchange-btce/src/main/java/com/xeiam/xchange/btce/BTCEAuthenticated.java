@@ -33,31 +33,20 @@ import com.xeiam.xchange.proxy.ParamsDigest;
 /** @author Matija Mazi <br/> */
 @Path("tapi")
 public interface BTCEAuthenticated {
+
   /**
-   * @param from   The ID of the transaction to start displaying with;  default	0
-   * @param count  The number of transactions for displaying	          default 1,000
-   * @param fromId The ID of the transaction to start displaying with	  default	0
-   * @param endId  The ID of the transaction to finish displaying with	default ∞
-   * @param order  sorting	ASC or DESC	                                default DESC
-   * @param since  When to start displaying?	UNIX time	                default 0
-   * @param end    When to finish displaying?	UNIX time	                default ∞
-   *
+   * @param from The ID of the transaction to start displaying with; default 0
+   * @param count The number of transactions for displaying default 1,000
+   * @param fromId The ID of the transaction to start displaying with default 0
+   * @param endId The ID of the transaction to finish displaying with default ∞
+   * @param order sorting ASC or DESC default DESC
+   * @param since When to start displaying? UNIX time default 0
+   * @param end When to finish displaying? UNIX time default ∞
    * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}}
    */
   @POST
   @FormParam("method")
-  BTCEAccountInfoResult getInfo(
-      @HeaderParam("Key") String apiKey,
-      @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") Integer nonce,
-      @FormParam("from") Long from,
-      @FormParam("count") Long count,
-      @FormParam("from_id") Long fromId,
-      @FormParam("end_id") Long endId,
-      @FormParam("order") String order,
-      @FormParam("since") Long since,
-      @FormParam("end") Long end);
-
-
+  BTCEAccountInfoResult getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") Integer nonce, @FormParam("from") Long from,
+      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") String order, @FormParam("since") Long since, @FormParam("end") Long end);
 
 }

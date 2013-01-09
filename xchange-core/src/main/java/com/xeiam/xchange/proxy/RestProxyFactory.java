@@ -30,7 +30,6 @@ import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>
- *
  * @see #createProxy(Class, String, com.xeiam.xchange.utils.HttpTemplate, org.codehaus.jackson.map.ObjectMapper)
  */
 public class RestProxyFactory {

@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.proxy;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -30,8 +32,6 @@ import org.junit.Test;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.utils.HttpTemplate;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Matija Mazi <br/>

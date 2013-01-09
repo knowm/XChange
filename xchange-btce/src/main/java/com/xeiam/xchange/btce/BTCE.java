@@ -35,25 +35,17 @@ import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
  */
 @Path("api/2")
 public interface BTCE {
+
   @GET
   @Path("{ident}_{currency}/ticker")
-  BTCETicker getTicker(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  BTCETicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
   @Path("{ident}_{currency}/depth?raw")
-  BTCEDepth getFullDepth(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  BTCEDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
   @Path("{ident}_{currency}/trades")
-  BTCETrade[] getTrades(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  BTCETrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
 }

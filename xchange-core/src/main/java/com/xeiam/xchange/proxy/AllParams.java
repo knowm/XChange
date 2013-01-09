@@ -38,7 +38,7 @@ import javax.ws.rs.QueryParam;
 
 /**
  * This holds name-value mapping for various types of params used in REST (QueryParam, PathParam, FormParam, HeaderParam).
- *
+ * 
  * @author Matija Mazi <br/>
  */
 public class AllParams implements Serializable {

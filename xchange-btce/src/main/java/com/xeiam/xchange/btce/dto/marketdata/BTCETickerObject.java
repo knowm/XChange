@@ -55,8 +55,9 @@ public final class BTCETickerObject {
    * @param volCur
    * @param sell
    */
-  public BTCETickerObject(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last, @JsonProperty("avg") BigDecimal avg,
-      @JsonProperty("buy") BigDecimal buy, @JsonProperty("server_time") BigDecimal serverTime, @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("sell") BigDecimal sell) {
+  public BTCETickerObject(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("avg") BigDecimal avg, @JsonProperty("buy") BigDecimal buy, @JsonProperty("server_time") BigDecimal serverTime, @JsonProperty("vol_cur") BigDecimal volCur,
+      @JsonProperty("sell") BigDecimal sell) {
 
     this.high = high;
     this.low = low;

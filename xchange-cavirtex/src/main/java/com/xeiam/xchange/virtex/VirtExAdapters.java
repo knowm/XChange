@@ -55,7 +55,6 @@ public final class VirtExAdapters {
   /**
    * Adapts a VirtExOrder to a LimitOrder
    * 
-   *
    * @param amount
    * @param price
    * @param currency
@@ -77,7 +76,6 @@ public final class VirtExAdapters {
   /**
    * Adapts a List of virtexOrders to a List of LimitOrders
    * 
-   *
    * @param virtexOrders
    * @param currency
    * @param orderType

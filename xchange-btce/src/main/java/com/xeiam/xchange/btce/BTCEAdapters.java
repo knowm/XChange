@@ -59,7 +59,6 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCEOrder to a LimitOrder
    * 
-   *
    * @param amount
    * @param price
    * @param currency
@@ -81,7 +80,6 @@ public final class BTCEAdapters {
   /**
    * Adapts a List of BTCEOrders to a List of LimitOrders
    * 
-   *
    * @param BTCEOrders
    * @param currency
    * @param orderType
@@ -160,7 +158,7 @@ public final class BTCEAdapters {
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
-    Map<String,BigDecimal> funds = btceAccountInfo.getFunds();
+    Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
       wallets.add(new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), funds.get(lcCurrency))));

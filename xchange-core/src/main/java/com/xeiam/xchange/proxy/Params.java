@@ -29,13 +29,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * This class provides support for various types of HTTP params, especially in the context of RESTful web services,
- * but may be also used to construct urls in other contexts.
+ * This class provides support for various types of HTTP params, especially in the context of RESTful web services, but may be also used to construct urls in other contexts.
  * <p/>
  * Eg. this can be used to produce a URL query string:
- * <p>Params.of("username", "john", "score", 2, "answer", "yes/no").asQueryString()</p>
+ * <p>
+ * Params.of("username", "john", "score", 2, "answer", "yes/no").asQueryString()
+ * </p>
  * will produce:
- * <p>username=john&score=2&answer=yes%2Fno</p>
+ * <p>
+ * username=john&score=2&answer=yes%2Fno
+ * </p>
+ * 
  * @author Matija Mazi <br/>
  */
 public class Params implements Serializable {
@@ -150,6 +154,7 @@ public class Params implements Serializable {
   }
 
   private boolean isParamSet(String key) {
+
     return data.containsKey(key) && data.get(key) != null;
   }
 

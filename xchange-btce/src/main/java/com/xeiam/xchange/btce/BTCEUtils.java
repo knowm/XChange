@@ -65,7 +65,6 @@ public final class BTCEUtils {
   /**
    * Converts a currency and long price into a BigMoney Object
    * 
-   *
    * @param currency
    * @param price
    * @return

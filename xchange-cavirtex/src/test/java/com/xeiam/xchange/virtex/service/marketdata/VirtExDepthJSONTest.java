@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.virtex.service.marketdata;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -29,10 +33,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test VirtExDepth JSON parsing

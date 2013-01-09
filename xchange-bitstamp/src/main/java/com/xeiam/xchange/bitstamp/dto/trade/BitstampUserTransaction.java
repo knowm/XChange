@@ -28,7 +28,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- *
  * @immutable
  */
 public class BitstampUserTransaction {
@@ -40,14 +39,8 @@ public class BitstampUserTransaction {
   private final BigDecimal btc;
   private final BigDecimal fee;
 
-  public BitstampUserTransaction(
-      @JsonProperty("datetime") String datetime,
-      @JsonProperty("id") long id,
-      @JsonProperty("type") int type,
-      @JsonProperty("usd") BigDecimal usd,
-      @JsonProperty("btc") BigDecimal btc,
-      @JsonProperty("fee") BigDecimal fee)
-  {
+  public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("type") int type, @JsonProperty("usd") BigDecimal usd,
+      @JsonProperty("btc") BigDecimal btc, @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = datetime;
     this.id = id;

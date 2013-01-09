@@ -24,7 +24,7 @@ package com.xeiam.xchange.proxy;
 
 /**
  * This may be used for REST APIs where some parameters' values must be digests of other parameters.
- *
+ * 
  * @author Matija Mazi <br/>
  */
 public interface ParamsDigest {

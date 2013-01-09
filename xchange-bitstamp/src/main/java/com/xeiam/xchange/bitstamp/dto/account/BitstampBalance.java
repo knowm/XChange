@@ -28,7 +28,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- *
  * @immutable
  */
 public class BitstampBalance {
@@ -41,15 +40,9 @@ public class BitstampBalance {
   private final BigDecimal btcAvailable;
   private final BigDecimal fee;
 
-  public BitstampBalance(
-      @JsonProperty("usd_balance") BigDecimal usdBalance,
-      @JsonProperty("btc_balance") BigDecimal btcBalance,
-      @JsonProperty("usd_reserved") BigDecimal usdReserved,
-      @JsonProperty("btc_reserved") BigDecimal btcReserved,
-      @JsonProperty("usd_available") BigDecimal usdAvailable,
-      @JsonProperty("btc_available") BigDecimal btcAvailable,
-      @JsonProperty("fee") BigDecimal fee
-  ) {
+  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("btc_balance") BigDecimal btcBalance, @JsonProperty("usd_reserved") BigDecimal usdReserved,
+      @JsonProperty("btc_reserved") BigDecimal btcReserved, @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.usdBalance = usdBalance;
     this.btcBalance = btcBalance;

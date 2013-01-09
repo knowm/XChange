@@ -15,8 +15,8 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
-* @author Matija Mazi <br/>
-*/
+ * @author Matija Mazi <br/>
+ */
 public class BTCEPollingAccountService implements PollingAccountService {
 
   private final String apiKey;

@@ -68,10 +68,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   @Override
   public OpenOrders getOpenOrders() {
 
-    MtGoxOpenOrder[] mtGoxOpenOrders = mtGoxV1.getOpenOrders(
-        MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()),
-        postBodySignatureCreator,
-        getNonce());
+    MtGoxOpenOrder[] mtGoxOpenOrders = mtGoxV1.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()), postBodySignatureCreator, getNonce());
     return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
   }
 
@@ -80,15 +77,9 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     verify(marketOrder);
 
-    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeOrder(
-        exchangeSpecification.getApiKey(),
-        postBodySignatureCreator,
-        getNonce(),
-        marketOrder.getTradableIdentifier(),
-        marketOrder.getTransactionCurrency(),
-        marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask",
-        marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)),
-        null);
+    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), marketOrder.getTradableIdentifier(), marketOrder
+        .getTransactionCurrency(), marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(
+        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
 
     return mtGoxSuccess.getReturn();
   }
@@ -100,16 +91,9 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
     Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
 
-    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeOrder(
-        exchangeSpecification.getApiKey(),
-        postBodySignatureCreator,
-        getNonce(),
-        limitOrder.getTradableIdentifier(),
-        limitOrder.getLimitPrice().getCurrencyUnit().toString(),
-        limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask",
-        limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)),
-        MtGoxUtils.getPriceString(limitOrder.getLimitPrice())
-    );
+    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), limitOrder.getTradableIdentifier(), limitOrder.getLimitPrice()
+        .getCurrencyUnit().toString(), limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask", limitOrder.getTradableAmount().multiply(
+        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), MtGoxUtils.getPriceString(limitOrder.getLimitPrice()));
 
     return mtGoxSuccess.getReturn();
   }

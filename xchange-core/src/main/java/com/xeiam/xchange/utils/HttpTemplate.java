@@ -99,9 +99,9 @@ public class HttpTemplate {
     Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(objectMapper, "objectMapper cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
-//    log.info("urlString = {}", urlString);
-//    log.info("postBody = {}", postBody);
-//    log.info("httpHeaders = {}", httpHeaders);
+    // log.info("urlString = {}", urlString);
+    // log.info("postBody = {}", postBody);
+    // log.info("httpHeaders = {}", httpHeaders);
 
     return JSONUtils.getJsonObject(postForString(urlString, postBody, httpHeaders), returnType, objectMapper);
   }

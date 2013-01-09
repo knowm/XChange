@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Matija Mazi <br/>
  */
 public class BTCEResult<V> {
+
   private final boolean success;
   private final V value;
   private final String error;
@@ -19,15 +20,9 @@ public class BTCEResult<V> {
     this.error = error;
   }
 
-/*
-  @JsonCreator
-  public BTCEResult(@JsonProperty("success") boolean success, @JsonProperty("error") String error) {
-
-    this.success = success;
-    this.error = error;
-    this.value = null;
-  }
-*/
+  /*
+   * @JsonCreator public BTCEResult(@JsonProperty("success") boolean success, @JsonProperty("error") String error) { this.success = success; this.error = error; this.value = null; }
+   */
 
   public boolean isSuccess() {
 

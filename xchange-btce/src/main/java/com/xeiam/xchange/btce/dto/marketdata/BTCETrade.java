@@ -53,8 +53,8 @@ public class BTCETrade {
    * @param priceCurrency
    * @param tradeType
    */
-  public BTCETrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid, @JsonProperty("item") String item,
-      @JsonProperty("price_currency") String priceCurrency, @JsonProperty("trade_type") String tradeType) {
+  public BTCETrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid,
+      @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
     this.date = date;

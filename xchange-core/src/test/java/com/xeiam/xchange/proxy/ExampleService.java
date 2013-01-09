@@ -24,7 +24,13 @@ package com.xeiam.xchange.proxy;
 
 import java.math.BigDecimal;
 
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -47,10 +53,7 @@ public interface ExampleService {
 
   @GET
   @Path("{ident}_{currency}/ticker")
-  Ticker getTicker(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  Ticker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @POST
   @FormParam("method")

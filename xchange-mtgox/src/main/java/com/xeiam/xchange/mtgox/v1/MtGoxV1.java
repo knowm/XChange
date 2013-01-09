@@ -27,67 +27,37 @@ public interface MtGoxV1 {
 
   @GET
   @Path("/{ident}{currency}/public/ticker?raw")
-  MtGoxTicker getTicker(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  MtGoxTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
   @Path("/{ident}{currency}/public/depth?raw")
-  MtGoxDepth getDepth(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  MtGoxDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
   @Path("/{ident}{currency}/public/fulldepth?raw")
-  MtGoxDepth getFullDepth(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  MtGoxDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
   @Path("/{ident}{currency}/public/trades?raw")
-  MtGoxTrade[] getTrades(
-      @PathParam("ident") String tradeableIdentifier,
-      @PathParam("currency") String currency
-  );
+  MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @POST
   @Path("generic/private/info?raw")
-  MtGoxAccountInfo getAccountInfo(
-      @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") long nonce);
+  MtGoxAccountInfo getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   @POST
   @Path("generic/bitcoin/address?raw")
-  MtGoxBitcoinDepositAddress requestDepositAddress(
-      @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") long nonce,
-      @FormParam("description") String description,
-      @FormParam("ipn") String notificationUrl
-  );
+  MtGoxBitcoinDepositAddress requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @FormParam("description") String description, @FormParam("ipn") String notificationUrl);
 
   @POST
   @Path("generic/private/orders?raw")
-  MtGoxOpenOrder[] getOpenOrders(
-      @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") long nonce);
+  MtGoxOpenOrder[] getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   @POST
   @Path("generic/bitcoin/send_simple?raw")
-  MtGoxWithdrawalResponse withdrawBtc(
-      @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") long nonce,
-      @FormParam("address") String address,
-      @FormParam("amount_int") int amount,
-      @FormParam("fee_int") int fee,
-      @FormParam("no_instant") boolean noInstant,
-      @FormParam("green") boolean green);
+  MtGoxWithdrawalResponse withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green);
 
   /**
    * @param postBodySignatureCreator
@@ -95,14 +65,8 @@ public interface MtGoxV1 {
    */
   @POST
   @Path("{tradeIdent}{currency}/private/order/add")
-  MtGoxGenericResponse placeOrder(
-      @HeaderParam("Rest-Key") String apiKey,
-      @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") long nonce,
-      @PathParam("tradeIdent") String tradableIdentifier,
-      @PathParam("currency") String currency,
-      @FormParam("type") String type,
-      @FormParam("amount_int") BigDecimal amount,
+  MtGoxGenericResponse placeOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount_int") BigDecimal amount,
       @FormParam("price_int") String price);
 
 }

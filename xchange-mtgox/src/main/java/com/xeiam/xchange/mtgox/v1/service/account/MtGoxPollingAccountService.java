@@ -52,26 +52,15 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    MtGoxWithdrawalResponse result = mtGoxV1.withdrawBtc(
-        exchangeSpecification.getApiKey(),
-        signatureCreator,
-        getNonce(),
-        address,
-        amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(),
-        1, false, false);
+    MtGoxWithdrawalResponse result = mtGoxV1.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), address, amount.multiply(
+        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
     return result.getTransactionId();
   }
 
   @Override
   public String requestBitcoinDepositAddress(String description, String notificationUrl) {
 
-    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(
-        exchangeSpecification.getApiKey(),
-        signatureCreator,
-        getNonce(),
-        description,
-        notificationUrl
-    );
+    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), description, notificationUrl);
 
     return mtGoxBitcoinDepositAddress.getAddres();
   }

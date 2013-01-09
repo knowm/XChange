@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.virtex.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -40,9 +43,6 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExDepthJSONTest;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExTickerJSONTest;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExTradesJSONTest;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the VirtExAdapter class
