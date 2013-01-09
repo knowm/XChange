@@ -32,15 +32,13 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  */
 public class FullDepthDemo {
 
-  private static PollingMarketDataService marketDataService;
-
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
     // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
 
     // Get the current full orderbook
     OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
