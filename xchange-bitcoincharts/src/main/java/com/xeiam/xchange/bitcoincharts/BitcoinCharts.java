@@ -25,7 +25,7 @@ package com.xeiam.xchange.bitcoincharts;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import com.xeiam.xchange.bitcoincharts.dto.marketdata.MarketData;
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 
 /**
  * @author Matija Mazi
@@ -35,6 +35,6 @@ public interface BitcoinCharts {
 
   @GET
   @Path("markets.json")
-  public MarketData[] getMarketData();
+  public BitcoinChartsTicker[] getMarketData();
 
 }

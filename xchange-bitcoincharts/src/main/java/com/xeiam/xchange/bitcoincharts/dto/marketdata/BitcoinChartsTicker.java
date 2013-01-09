@@ -29,22 +29,53 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * @author Matija Mazi
  * @create Jan 6, 2013
+ * @immutable
  */
-public class MarketData {
+public final class BitcoinChartsTicker {
 
-  private BigDecimal ask;
-  private BigDecimal avg;
-  private BigDecimal bid;
-  private BigDecimal close;
-  private String currency;
-  @JsonProperty("currency_volume")
-  private BigDecimal currencyVolume;
-  private BigDecimal high;
-  @JsonProperty("latest_trade")
-  private BigDecimal latestTrade;
-  private BigDecimal low;
-  private String symbol;
-  private BigDecimal volume;
+  private final BigDecimal ask;
+  private final BigDecimal avg;
+  private final BigDecimal bid;
+  private final BigDecimal close;
+  private final String currency;
+  private final BigDecimal currencyVolume;
+  private final BigDecimal high;
+  private final BigDecimal latestTrade;
+  private final BigDecimal low;
+  private final String symbol;
+  private final BigDecimal volume;
+
+  /**
+   * Constructor
+   * 
+   * @param ask
+   * @param avg
+   * @param bid
+   * @param close
+   * @param currency
+   * @param currencyVolume
+   * @param high
+   * @param latestTrade
+   * @param low
+   * @param symbol
+   * @param volume
+   */
+  public BitcoinChartsTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("avg") BigDecimal avg, @JsonProperty("bid") BigDecimal bid, @JsonProperty("close") BigDecimal close,
+      @JsonProperty("currency") String currency, @JsonProperty("currency_volume") BigDecimal currencyVolume, @JsonProperty("high") BigDecimal high,
+      @JsonProperty("latest_trade") BigDecimal latestTrade, @JsonProperty("low") BigDecimal low, @JsonProperty("symbol") String symbol, @JsonProperty("volume") BigDecimal volume) {
+
+    this.ask = ask;
+    this.avg = avg;
+    this.bid = bid;
+    this.close = close;
+    this.currency = currency;
+    this.currencyVolume = currencyVolume;
+    this.high = high;
+    this.latestTrade = latestTrade;
+    this.low = low;
+    this.symbol = symbol;
+    this.volume = volume;
+  }
 
   public BigDecimal getAsk() {
 
@@ -104,7 +135,8 @@ public class MarketData {
   @Override
   public String toString() {
 
-    return "MarketData{" + "symbol='" + symbol + '\'' + ", currency='" + currency + '\'' + ", ask=" + ask + ", avg=" + avg + ", bid=" + bid + ", close=" + close + ", currencyVolume=" + currencyVolume
-        + ", high=" + high + ", latestTrade=" + latestTrade + ", low=" + low + ", volume=" + volume + '}';
+    return "BitcoinChartsTickers [ask=" + ask + ", avg=" + avg + ", bid=" + bid + ", close=" + close + ", currency=" + currency + ", currencyVolume=" + currencyVolume + ", high=" + high
+        + ", latestTrade=" + latestTrade + ", low=" + low + ", symbol=" + symbol + ", volume=" + volume + "]";
   }
+
 }

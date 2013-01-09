@@ -30,14 +30,14 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * 
- * @immutable
  * @author timmolter
  * @create Dec 6, 2012
+ * @immutable
  */
-public class OERTickers {
+public final class OERTickers {
 
-  private Rates rates;
-  private Long timestamp;
+  private final Rates rates;
+  private final Long timestamp;
 
   /**
    * Constructor
@@ -59,6 +59,12 @@ public class OERTickers {
   public Long getTimestamp() {
 
     return this.timestamp;
+  }
+
+  @Override
+  public String toString() {
+
+    return "OERTickers [rates=" + rates + ", timestamp=" + timestamp + "]";
   }
 
 }

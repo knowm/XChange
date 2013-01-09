@@ -24,15 +24,21 @@ package com.xeiam.xchange.examples.bitcoincharts;
 
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsFactory;
-import com.xeiam.xchange.bitcoincharts.dto.marketdata.MarketData;
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 
-public class BitcoinChartsDemo {
+/**
+ * Demonstrates using the REST proxy to get the raw deserialized JSON object from BitcoinCharts
+ * 
+ * @author timmolter
+ * @create Jan 9, 2013
+ */
+public class BitcoinChartsRawDataDemo {
 
   public static void main(String[] args) {
 
     BitcoinCharts bitcoinCharts = BitcoinChartsFactory.createInstance();
-    MarketData[] marketData = bitcoinCharts.getMarketData();
-    for (MarketData data : marketData) {
+    BitcoinChartsTicker[] marketData = bitcoinCharts.getMarketData();
+    for (BitcoinChartsTicker data : marketData) {
       System.out.println(data.getSymbol() + ": " + data);
     }
   }

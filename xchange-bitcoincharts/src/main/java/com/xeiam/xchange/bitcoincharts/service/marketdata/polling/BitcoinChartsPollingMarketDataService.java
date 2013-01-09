@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xeiam.xchange.oer.service.marketdata.polling;
+package com.xeiam.xchange.bitcoincharts.service.marketdata.polling;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
 
 import com.xeiam.xchange.CachedDataSession;
+import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
+import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
+import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.oer.OERAdapters;
-import com.xeiam.xchange.oer.OERUtils;
-import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
-import com.xeiam.xchange.oer.dto.marketdata.Rates;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
@@ -40,40 +38,38 @@ import com.xeiam.xchange.utils.Assert;
  * @author timmolter
  * @create Dec 9, 2012
  */
-public class OERPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
+public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
+
+  private final BitcoinCharts bitcoinCharts;
 
   /**
    * time stamps used to pace API calls
    */
   private long tickerRequestTimeStamp = 0L;
 
-  private OERTickers cachedOERTickers;
-
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final String apiBase = String.format("%s/api/", exchangeSpecification.getUri());
+  private BitcoinChartsTicker[] cachedBitcoinChartsTickers;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The exchange specification
    */
-  public OERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitcoinChartsPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchangeSpecification.getUri(), httpTemplate, mapper);
   }
 
   @Override
   public int getRefreshRate() {
 
-    return OERUtils.REFRESH_RATE;
+    return BitcoinChartsUtils.REFRESH_RATE;
   }
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    return OERUtils.CURRENCY_PAIRS;
+    return BitcoinChartsUtils.CURRENCY_PAIRS;
   }
 
   @Override
@@ -86,39 +82,12 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
       System.out.println("requesting tickers");
 
-      // request data new
-      String tickerURL = apiBase + "/latest.json?app_id=" + exchangeSpecification.getApiKey();
-
       // Request data
-      cachedOERTickers = httpTemplate.getForJsonObject(tickerURL, OERTickers.class, mapper, new HashMap<String, String>());
+      cachedBitcoinChartsTickers = bitcoinCharts.getMarketData();
     }
     tickerRequestTimeStamp = System.currentTimeMillis();
 
-    Rates rates = cachedOERTickers.getRates();
-
-    Method method = null;
-    try {
-      method = Rates.class.getMethod("get" + tradableIdentifier, null);
-    } catch (SecurityException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    } catch (NoSuchMethodException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    }
-
-    Double exchangeRate = null;
-    try {
-      exchangeRate = (Double) method.invoke(rates, null);
-    } catch (IllegalArgumentException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    } catch (IllegalAccessException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    } catch (InvocationTargetException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    }
-    // System.out.println(exchangeRate);
-
-    // Adapt to XChange DTOs
-    return OERAdapters.adaptTicker(tradableIdentifier, exchangeRate, cachedOERTickers.getTimestamp() * 1000L);
+    return BitcoinChartsAdapters.adaptTicker(cachedBitcoinChartsTickers, tradableIdentifier);
   }
 
   @Override
@@ -148,8 +117,8 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   private void verify(String tradableIdentifier, String currency) {
 
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.isTrue(currency.equals("USD"), "Base curreny must be USD for this exchange");
-    Assert.isTrue(OERUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+    Assert.isTrue(currency.equals(Currencies.BTC), "Base curreny must be " + Currencies.BTC + " for this exchange");
+    Assert.isTrue(BitcoinChartsUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
   }
 

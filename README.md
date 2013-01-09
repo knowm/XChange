@@ -88,7 +88,7 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 Building
 ===============
 mvn clean package  
-mvn javadoc:javadoc 
+mvn javadoc:aggregate 
 
 Donations
 ===============

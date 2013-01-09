@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.utils.Assert;
-
 /**
  * <p>
  * Value object to provide the following to API:
@@ -94,8 +92,6 @@ public class CurrencyPair {
    */
   public CurrencyPair(String baseCurrency, String counterCurrency) {
 
-    Assert.hasLength(baseCurrency, 3, "baseCurrency cannot be null and must be 3 characters in length");
-    Assert.hasLength(counterCurrency, 3, "counterCurrency cannot be null and must be 3 characters in length");
     this.baseCurrency = baseCurrency;
     this.counterCurrency = counterCurrency;
   }

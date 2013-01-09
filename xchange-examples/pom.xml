@@ -79,7 +79,11 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.xeiam</groupId>
+			<artifactId>xchart</artifactId>
 		</dependency>
 
 	</dependencies>
