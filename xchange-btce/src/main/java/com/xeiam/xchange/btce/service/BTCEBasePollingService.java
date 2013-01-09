@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.service.account.polling;
+package com.xeiam.xchange.btce.service;
 
 import org.joda.time.DateTime;
 
@@ -28,7 +28,6 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
-import com.xeiam.xchange.btce.service.BTCEHmacPostBodyDigest;
 import com.xeiam.xchange.proxy.ParamsDigest;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;

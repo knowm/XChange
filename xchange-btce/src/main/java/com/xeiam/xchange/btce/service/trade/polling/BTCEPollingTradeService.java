@@ -31,7 +31,7 @@ import com.xeiam.xchange.btce.dto.marketdata.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEOpenOrdersReturn;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEOrder;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEPlaceOrderReturn;
-import com.xeiam.xchange.btce.service.account.polling.BTCEBasePollingService;
+import com.xeiam.xchange.btce.service.BTCEBasePollingService;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;

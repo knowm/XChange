@@ -28,6 +28,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfoReturn;
+import com.xeiam.xchange.btce.service.BTCEBasePollingService;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
