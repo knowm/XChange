@@ -36,7 +36,6 @@ import com.xeiam.xchange.utils.DateUtils;
  * A ticker contains data representing the latest trade.
  * </p>
  */
-
 public final class Ticker {
 
   private String tradableIdentifier;

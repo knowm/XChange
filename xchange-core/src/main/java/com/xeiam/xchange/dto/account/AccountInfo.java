@@ -35,9 +35,14 @@ public final class AccountInfo {
   private final String username;
   private final List<Wallet> wallets;
 
+  /**
+   * Constructor
+   * 
+   * @param username
+   * @param wallets
+   */
   public AccountInfo(String username, List<Wallet> wallets) {
 
-    super();
     this.username = username;
     this.wallets = wallets;
   }

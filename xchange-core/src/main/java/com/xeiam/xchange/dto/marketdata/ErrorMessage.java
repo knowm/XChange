@@ -32,6 +32,14 @@ public class ErrorMessage {
    */
   private String developerMessage;
 
+  /**
+   * Constructor
+   * 
+   * @param httpStatus
+   * @param xchangeCode
+   * @param userMessage
+   * @param developerMessage
+   */
   public ErrorMessage(int httpStatus, int xchangeCode, String userMessage, String developerMessage) {
 
     this.httpStatus = httpStatus;
