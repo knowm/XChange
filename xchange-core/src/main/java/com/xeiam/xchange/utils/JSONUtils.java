@@ -44,8 +44,9 @@ public class JSONUtils {
    * @param jsonString
    * @param returnType
    * @param objectMapper
-   * @return TODO Refactor Change Signature from String to byte[]
+   * @return
    */
+  // TODO Refactor Change Signature from String to byte[]
   public static <T> T getJsonObject(String jsonString, Class<T> returnType, ObjectMapper objectMapper) {
 
     Assert.notNull(jsonString, "jsonString cannot be null");
@@ -60,12 +61,13 @@ public class JSONUtils {
   }
 
   /**
-   * Get a generic map holding the raw data from the JSON string to allow manual type differentiation TODO Refactor Change Signature from String to byte[]
+   * Get a generic map holding the raw data from the JSON string to allow manual type differentiation
    * 
    * @param jsonString The JSON string
    * @param objectMapper The object mapper
    * @return The map
    */
+  // TODO Refactor Change Signature from String to byte[]
   public static Map<String, Object> getJsonGenericMap(String jsonString, ObjectMapper objectMapper) {
 
     Assert.notNull(jsonString, "jsonString cannot be null");
@@ -84,8 +86,9 @@ public class JSONUtils {
    * 
    * @param object
    * @param objectMapper
-   * @return TODO Refactor Change Signature to return byte[]
+   * @return
    */
+  // TODO Refactor Change Signature from String to byte[]
   public static String getJSONString(Object object, ObjectMapper objectMapper) {
 
     Assert.notNull(object, "object cannot be null");

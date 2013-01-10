@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,19 +54,6 @@ public class RunnableSocketIOEventProducerTest {
     ExchangeEvent event = queue.take();
 
     assertEquals(event.getEventType(), ExchangeEventType.MESSAGE);
-
-  }
-
-  @Test
-  public void testOnJsonMessage() throws Exception {
-
-    JSONObject jsonObject = new JSONObject();
-
-    testObject.onMessage(jsonObject, null);
-
-    ExchangeEvent event = queue.take();
-
-    assertEquals(event.getEventType(), ExchangeEventType.JSON_MESSAGE);
 
   }
 

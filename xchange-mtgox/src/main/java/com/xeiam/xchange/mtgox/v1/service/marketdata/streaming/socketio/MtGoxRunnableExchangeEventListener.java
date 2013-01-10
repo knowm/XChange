@@ -44,8 +44,6 @@ import com.xeiam.xchange.utils.JSONUtils;
  * <li>Provision of dedicated Ticker queue</li>
  * <li>Provision of dedicated non-Ticker event queue</li>
  * </ul>
- * 
- * @since 1.3.0  
  */
 public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventListener {
 
@@ -90,6 +88,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
       // Determine what has been sent
       if (rawJSON.containsKey("ticker")) {
+
         // Get MtGoxTicker from JSON String
         MtGoxTicker mtGoxTicker = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("ticker"), tickerObjectMapper), MtGoxTicker.class, tickerObjectMapper);
 

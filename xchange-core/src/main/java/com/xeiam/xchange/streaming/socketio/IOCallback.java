@@ -22,8 +22,6 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-import org.json.JSONObject;
-
 /**
  * A callback interface to SocketIO
  */
@@ -46,14 +44,6 @@ public interface IOCallback {
    * @param ack an {@link IOAcknowledge} instance, may be <code>null</code>
    */
   void onMessage(String data, IOAcknowledge ack);
-
-  /**
-   * Called when the server sends JSON data.
-   * 
-   * @param json JSON object sent by server
-   * @param ack an {@link IOAcknowledge} instance, may be <code>null</code>
-   */
-  void onMessage(JSONObject json, IOAcknowledge ack);
 
   /**
    * Called when server emits an event

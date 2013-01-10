@@ -34,9 +34,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
 import com.xeiam.xchange.streaming.socketio.IOCallback;
 import com.xeiam.xchange.streaming.socketio.SocketIO;
@@ -202,24 +199,6 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     System.out.println("Message: " + data);
     ta.append("Received: " + data + "\n");
     ta.setCaretPosition(ta.getDocument().getLength());
-  }
-
-  @Override
-  public void onMessage(JSONObject json, IOAcknowledge ack) {
-
-    try {
-      JSONObject ticker = (JSONObject) json.get("ticker");
-      if (ticker != null) {
-        JSONObject last = (JSONObject) ticker.get("last");
-        if (last != null) {
-          String display = (String) last.get("display");
-          ta.append(display.toString() + "\n");
-          ta.setCaretPosition(ta.getDocument().getLength());
-        }
-      }
-    } catch (JSONException e) {
-      // Ignore (probably an "op")
-    }
   }
 
   @Override

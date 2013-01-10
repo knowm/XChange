@@ -23,7 +23,6 @@ package com.xeiam.xchange.service;
 
 import java.util.concurrent.BlockingQueue;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,15 +77,6 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
     ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, data.getBytes());
 
     addToQueue(exchangeEvent);
-  }
-
-  @Override
-  public void onMessage(final JSONObject json, IOAcknowledge ack) {
-
-    ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.JSON_MESSAGE, json.toString().getBytes());
-
-    addToQueue(exchangeEvent);
-
   }
 
   @Override

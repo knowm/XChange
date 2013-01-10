@@ -28,8 +28,6 @@ import java.util.Properties;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import org.json.JSONObject;
-
 /**
  * The Class SocketIO.
  */
@@ -258,26 +256,26 @@ public class SocketIO {
     return this.namespace;
   }
 
-  /**
-   * Send JSON data to the Socket.io server.
-   * 
-   * @param json the JSON object
-   */
-  public void send(final JSONObject json) {
-
-    this.connection.send(this, null, json);
-  }
-
-  /**
-   * Send JSON data to the Socket.io server.
-   * 
-   * @param ack an acknowledge implementation
-   * @param json the JSON object
-   */
-  public void send(IOAcknowledge ack, final JSONObject json) {
-
-    this.connection.send(this, ack, json);
-  }
+  // /**
+  // * Send JSON data to the Socket.io server.
+  // *
+  // * @param json the JSON object
+  // */
+  // public void send(final JSONObject json) {
+  //
+  // this.connection.send(this, null, json);
+  // }
+  //
+  // /**
+  // * Send JSON data to the Socket.io server.
+  // *
+  // * @param ack an acknowledge implementation
+  // * @param json the JSON object
+  // */
+  // public void send(IOAcknowledge ack, final JSONObject json) {
+  //
+  // this.connection.send(this, ack, json);
+  // }
 
   /**
    * Send String data to the Socket.io server.

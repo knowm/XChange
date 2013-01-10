@@ -711,7 +711,8 @@ class IOConnection implements IOCallback {
           obj = new JSONObject(data);
         }
         try {
-          findCallback(message).onMessage(obj, remoteAcknowledge(message));
+          // TODO Don't convert to String??
+          findCallback(message).onMessage(obj.toString(), remoteAcknowledge(message));
         } catch (Exception e) {
           error(new SocketIOException("Exception was thrown in onMessage(JSONObject).\n" + "Message was: " + message.toString(), e));
         }
@@ -833,19 +834,19 @@ class IOConnection implements IOCallback {
     sendPlain(message.toString());
   }
 
-  /**
-   * sends a JSON message from {@link SocketIO} to the {@link IOTransport}.
-   * 
-   * @param socket the socket
-   * @param ack acknowledge package which can be called from the server
-   * @param json the json
-   */
-  public void send(SocketIO socket, IOAcknowledge ack, JSONObject json) {
-
-    IOMessage message = new IOMessage(IOMessage.TYPE_JSON_MESSAGE, socket.getNamespace(), json.toString());
-    synthesizeAck(message, ack);
-    sendPlain(message.toString());
-  }
+  // /**
+  // * sends a JSON message from {@link SocketIO} to the {@link IOTransport}.
+  // *
+  // * @param socket the socket
+  // * @param ack acknowledge package which can be called from the server
+  // * @param json the json
+  // */
+  // public void send(SocketIO socket, IOAcknowledge ack, JSONObject json) {
+  //
+  // IOMessage message = new IOMessage(IOMessage.TYPE_JSON_MESSAGE, socket.getNamespace(), json.toString());
+  // synthesizeAck(message, ack);
+  // sendPlain(message.toString());
+  // }
 
   /**
    * emits an event from {@link SocketIO} to the {@link IOTransport}.
@@ -931,14 +932,6 @@ class IOConnection implements IOCallback {
 
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().onMessage(data, ack);
-    }
-  }
-
-  @Override
-  public void onMessage(JSONObject json, IOAcknowledge ack) {
-
-    for (SocketIO socket : sockets.values()) {
-      socket.getCallback().onMessage(json, ack);
     }
   }
 
