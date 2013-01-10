@@ -41,6 +41,11 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 /** @author Matija Mazi <br/> */
 public class BTCEPollingTradeService extends BTCEBasePollingService implements PollingTradeService {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public BTCEPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

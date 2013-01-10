@@ -42,11 +42,16 @@ public class BTCEBasePollingService {
   protected final BTCEAuthenticated btce;
   protected final ParamsDigest signatureCreator;
 
-  public BTCEBasePollingService(ExchangeSpecification spec) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public BTCEBasePollingService(ExchangeSpecification exchangeSpecification) {
 
-    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, spec.getUri());
-    this.apiKey = spec.getApiKey();
-    this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(spec.getSecretKey());
+    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchangeSpecification.getUri());
+    this.apiKey = exchangeSpecification.getApiKey();
+    this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   protected int nextNonce() {

@@ -37,9 +37,14 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  */
 public class BTCEPollingAccountService extends BTCEBasePollingService implements PollingAccountService {
 
-  public BTCEPollingAccountService(ExchangeSpecification spec) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public BTCEPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(spec);
+    super(exchangeSpecification);
   }
 
   @Override
