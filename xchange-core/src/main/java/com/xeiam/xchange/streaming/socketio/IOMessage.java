@@ -105,7 +105,7 @@ class IOMessage {
   }
 
   /**
-   * Constructor - Instantiates a new IOMessage from a String representation. If the String is not well formated, the result is undefined.
+   * Constructor - Instantiates a new IOMessage from a String representation. If the String is not well formatted, the result is undefined.
    * 
    * @param message the message
    */

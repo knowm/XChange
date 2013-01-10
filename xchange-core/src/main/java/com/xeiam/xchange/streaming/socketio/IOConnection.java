@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Scanner;
@@ -42,9 +43,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +56,8 @@ import org.slf4j.LoggerFactory;
 class IOConnection implements IOCallback {
 
   private final Logger log = LoggerFactory.getLogger(IOConnection.class);
+
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   public static final String FRAME_DELIMITER = "\ufffd";
 
@@ -409,15 +413,13 @@ class IOConnection implements IOCallback {
       @Override
       public void ack(Object... args) {
 
-        JSONArray array = new JSONArray();
-        for (Object o : args) {
-          try {
-            array.put(o == null ? JSONObject.NULL : o);
-          } catch (Exception e) {
-            error(new SocketIOException("You can only put values in IOAcknowledge.ack() which can be handled by JSONArray.put()", e));
-          }
+        String jsonString = null;
+        try {
+          jsonString = objectMapper.writeValueAsString(args);
+        } catch (Exception e) {
+          error(new SocketIOException("You can only put values in IOAcknowledge.ack() which can be serialized", e));
         }
-        IOMessage ackMsg = new IOMessage(IOMessage.TYPE_ACK, endPoint, id + array.toString());
+        IOMessage ackMsg = new IOMessage(IOMessage.TYPE_ACK, endPoint, id + jsonString);
         sendPlain(ackMsg.toString());
       }
     };
@@ -704,49 +706,60 @@ class IOConnection implements IOCallback {
       }
       break;
     case IOMessage.TYPE_JSON_MESSAGE:
+
       try {
-        JSONObject obj = null;
-        String data = message.getData();
-        if (!"null".equals(data.trim())) {
-          obj = new JSONObject(data);
-        }
-        try {
-          // TODO Don't convert to String??
-          findCallback(message).onMessage(obj.toString(), remoteAcknowledge(message));
-        } catch (Exception e) {
-          error(new SocketIOException("Exception was thrown in onMessage(JSONObject).\n" + "Message was: " + message.toString(), e));
-        }
-      } catch (JSONException e) {
-        log.warn("Malformated JSON received");
+        // test if JSON is valid by catching a parse Exception
+        objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
+        });
+        // JSONUtils.getJsonGenericMap(message.getData(), objectMapper);
+        findCallback(message).onMessage(message.getData(), remoteAcknowledge(message));
+      } catch (JsonParseException e) {
+        log.warn("Malformated JSON received: " + message.getData());
+      } catch (Exception e) {
+        error(new SocketIOException("Exception was thrown in onMessage(JSON).\n" + "Message was: " + message.toString(), e));
       }
+
       break;
     case IOMessage.TYPE_EVENT:
+
       try {
-        JSONObject event = new JSONObject(message.getData());
+
+        Map<String, Object> map = objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
+        });
+
         Object[] argsArray;
-        if (event.has("args")) {
-          JSONArray args = event.getJSONArray("args");
-          argsArray = new Object[args.length()];
-          for (int i = 0; i < args.length(); i++) {
-            if (!args.isNull(i)) {
-              argsArray[i] = args.get(i);
+        if (map.containsKey("args")) {
+
+          Object argsString = map.get("args");
+          List<Object> argObjects = objectMapper.readValue(argsString.toString(), new TypeReference<List<Object>>() {
+          });
+
+          argsArray = new Object[argObjects.size()];
+          for (int i = 0; i < argObjects.size(); i++) {
+            if (argObjects.get(i) != null) {
+              argsArray[i] = argObjects.get(i);
             }
           }
         } else {
           argsArray = new Object[0];
         }
-        String eventName = event.getString("name");
+        String eventName = map.get("name").toString();
         try {
           findCallback(message).on(eventName, remoteAcknowledge(message), argsArray);
         } catch (Exception e) {
-          error(new SocketIOException("Exception was thrown in on(String, JSONObject[]).\n" + "Message was: " + message.toString(), e));
+          error(new SocketIOException("Exception was thrown in on(String, JSON[]).\n" + "Message was: " + message.toString(), e));
         }
-      } catch (JSONException e) {
-        log.warn("Malformated JSON received");
+      } catch (JsonParseException e) {
+        log.warn("Malformated JSON received: " + message.getData());
+      } catch (JsonMappingException e) {
+        log.warn("Mapping JSON received: " + message.getData());
+      } catch (IOException e) {
+        log.warn("IO Exception: " + message.getData());
       }
       break;
 
     case IOMessage.TYPE_ACK:
+
       String[] data = message.getData().split("\\+", 2);
       if (data.length == 2) {
         try {
@@ -755,17 +768,26 @@ class IOConnection implements IOCallback {
           if (ack == null) {
             log.warn("Received unknown ack packet");
           } else {
-            JSONArray array = new JSONArray(data[1]);
-            Object[] args = new Object[array.length()];
-            for (int i = 0; i < args.length; i++) {
-              args[i] = array.get(i);
+
+            List<Object> argObjects = objectMapper.readValue(data[1].toString(), new TypeReference<List<Object>>() {
+            });
+            Object[] argsArray = new Object[argObjects.size()];
+            for (int i = 0; i < argObjects.size(); i++) {
+              if (argObjects.get(i) != null) {
+                argsArray[i] = argObjects.get(i);
+              }
             }
-            ack.ack(args);
+            ack.ack(argsArray);
+
           }
         } catch (NumberFormatException e) {
           log.warn("Received malformated Acknowledge! This is potentially filling up the acknowledges!");
-        } catch (JSONException e) {
-          log.warn("Received malformated Acknowledge data!");
+        } catch (JsonParseException e) {
+          log.warn("Malformated JSON received: " + message.getData());
+        } catch (JsonMappingException e) {
+          log.warn("Mapping JSON received: " + message.getData());
+        } catch (IOException e) {
+          log.warn("IO Exception: " + message.getData());
         }
       } else if (data.length == 1) {
         sendPlain("6:::" + data[0]);
@@ -834,20 +856,6 @@ class IOConnection implements IOCallback {
     sendPlain(message.toString());
   }
 
-  // /**
-  // * sends a JSON message from {@link SocketIO} to the {@link IOTransport}.
-  // *
-  // * @param socket the socket
-  // * @param ack acknowledge package which can be called from the server
-  // * @param json the json
-  // */
-  // public void send(SocketIO socket, IOAcknowledge ack, JSONObject json) {
-  //
-  // IOMessage message = new IOMessage(IOMessage.TYPE_JSON_MESSAGE, socket.getNamespace(), json.toString());
-  // synthesizeAck(message, ack);
-  // sendPlain(message.toString());
-  // }
-
   /**
    * emits an event from {@link SocketIO} to the {@link IOTransport}.
    * 
@@ -858,12 +866,19 @@ class IOConnection implements IOCallback {
    */
   public void emit(SocketIO socket, String event, IOAcknowledge ack, Object... args) {
 
+    String jsonString = null;
     try {
-      JSONObject json = new JSONObject().put("name", event).put("args", new JSONArray(Arrays.asList(args)));
-      IOMessage message = new IOMessage(IOMessage.TYPE_EVENT, socket.getNamespace(), json.toString());
+
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("name", event);
+      map.put("args", args);
+      jsonString = objectMapper.writeValueAsString(map);
+
+      IOMessage message = new IOMessage(IOMessage.TYPE_EVENT, socket.getNamespace(), jsonString);
       synthesizeAck(message, ack);
       sendPlain(message.toString());
-    } catch (JSONException e) {
+
+    } catch (Exception e) {
       error(new SocketIOException("Error while emitting an event. Make sure you only try to send arguments, which can be serialized into JSON."));
     }
 

@@ -46,7 +46,6 @@ public class JSONUtils {
    * @param objectMapper
    * @return
    */
-  // TODO Refactor Change Signature from String to byte[]
   public static <T> T getJsonObject(String jsonString, Class<T> returnType, ObjectMapper objectMapper) {
 
     Assert.notNull(jsonString, "jsonString cannot be null");
@@ -67,7 +66,6 @@ public class JSONUtils {
    * @param objectMapper The object mapper
    * @return The map
    */
-  // TODO Refactor Change Signature from String to byte[]
   public static Map<String, Object> getJsonGenericMap(String jsonString, ObjectMapper objectMapper) {
 
     Assert.notNull(jsonString, "jsonString cannot be null");
@@ -88,7 +86,6 @@ public class JSONUtils {
    * @param objectMapper
    * @return
    */
-  // TODO Refactor Change Signature from String to byte[]
   public static String getJSONString(Object object, ObjectMapper objectMapper) {
 
     Assert.notNull(object, "object cannot be null");

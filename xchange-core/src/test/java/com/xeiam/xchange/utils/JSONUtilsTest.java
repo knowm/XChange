@@ -29,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -93,6 +94,34 @@ public class JSONUtilsTest {
     // System.out.println(sb.toString());
     br.close();
     return sb.toString();
+
+  }
+
+  // @Test
+  public void testSerialization1() {
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    String event = "blah";
+    Object[] args = new Object[] { "Bar", "Foo" };
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("name", event);
+    map.put("args", args);
+    String jsonString = JSONUtils.getJSONString(map, objectMapper);
+    // System.out.println(jsonString);
+
+  }
+
+  @Test
+  public void testSerialization2() {
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    Object[] args = new Object[] { "Bar", "Foo", null };
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("args", args);
+    String jsonString = JSONUtils.getJSONString(args, objectMapper);
+    System.out.println(jsonString);
 
   }
 }
