@@ -120,5 +120,5 @@ public interface BitStamp {
   @Produces("application/json")
   public Object withdrawBitcoin(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("address") String address);
 
-  // todo: bitstamp code handling, send to user
+  // TODO: bitstamp code handling, send to user
 }

@@ -38,7 +38,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
     super(exchangeSpecification);
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
     signatureCreator = MtGoxHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
@@ -58,8 +58,10 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String description, String notificationUrl) {
+  public String requestBitcoinDepositAddress(final String... arguments) {
 
+    String description = arguments[0];
+    String notificationUrl = arguments[1];
     MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), description, notificationUrl);
 
     return mtGoxBitcoinDepositAddress.getAddres();

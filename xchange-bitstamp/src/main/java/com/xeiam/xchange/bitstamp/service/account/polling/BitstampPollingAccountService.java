@@ -49,7 +49,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getUri());
   }
 
   @Override
@@ -72,9 +72,8 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
    * @param description must be null
    * @param notificationUrl must be null
    */
-  // TODO the method arguements are not relevant to bitstamp
   @Override
-  public String requestBitcoinDepositAddress(String description, String notificationUrl) {
+  public String requestBitcoinDepositAddress(final String... arguments) {
 
     return bitstamp.getBitcoinDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }

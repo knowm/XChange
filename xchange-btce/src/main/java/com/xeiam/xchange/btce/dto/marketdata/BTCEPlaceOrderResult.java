@@ -1,6 +1,6 @@
-/*
- * Copyright (C) 2012 - 2013 Matija Mazi
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -39,10 +39,7 @@ public class BTCEPlaceOrderResult {
   private final BigDecimal remains;
   private final Map<String, BigDecimal> funds;
 
-  public BTCEPlaceOrderResult(
-      @JsonProperty("order_id") long orderId,
-      @JsonProperty("received") BigDecimal received,
-      @JsonProperty("remains") BigDecimal remains,
+  public BTCEPlaceOrderResult(@JsonProperty("order_id") long orderId, @JsonProperty("received") BigDecimal received, @JsonProperty("remains") BigDecimal remains,
       @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
     this.orderId = orderId;

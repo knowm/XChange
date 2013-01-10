@@ -1,16 +1,17 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,25 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.examples.mtgox.v1.service;
+
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 
 /**
- * <p>
- * Exception to provide the following to {@link com.xeiam.xchange.utils.HttpTemplate}:
- * </p>
- * <ul>
- * <li>Indication that there was an HTTP communication problem</li>
- * </ul>
+ * @author Matija Mazi <br/>
  */
-public class HttpException extends RuntimeException {
+public class MtGoxExamplesUtils {
 
-  public HttpException(String s) {
+  public static Exchange createExchange() {
 
-    super(s);
-  }
-
-  public HttpException(String s, Throwable throwable) {
-
-    super(s, throwable);
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
+    exchangeSpecification.setUri("https://mtgox.com");
+    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    return mtgox;
   }
 }

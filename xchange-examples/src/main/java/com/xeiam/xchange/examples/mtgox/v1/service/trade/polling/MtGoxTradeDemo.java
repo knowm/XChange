@@ -26,13 +26,12 @@ import java.math.BigDecimal;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
@@ -50,12 +49,7 @@ public class MtGoxTradeDemo {
 
   public static void main(String[] args) {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setUri("https://mtgox.com");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    Exchange mtgox = MtGoxExamplesUtils.createExchange();
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();

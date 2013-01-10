@@ -24,7 +24,7 @@ package com.xeiam.xchange.examples.btce.account;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.btce.BTCEDemoUtils;
+import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
@@ -34,7 +34,7 @@ public class BTCEAccountInfoDemo {
 
   public static void main(String[] args) {
 
-    Exchange btce = BTCEDemoUtils.createExchange();
+    Exchange btce = BTCEExamplesUtils.createExchange();
 
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = btce.getPollingAccountService();

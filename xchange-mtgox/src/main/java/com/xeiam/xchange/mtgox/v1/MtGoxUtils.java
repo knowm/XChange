@@ -30,7 +30,6 @@ import java.util.List;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.utils.HttpTemplate;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -141,7 +140,7 @@ public final class MtGoxUtils {
   public static String urlEncode(String str) {
 
     try {
-      return URLEncoder.encode(str, HttpTemplate.CHARSET_UTF_8);
+      return URLEncoder.encode(str, "UTF-8");
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Problem encoding, probably bug in code.", e);
     }

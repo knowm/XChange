@@ -21,11 +21,7 @@
  */
 package com.xeiam.xchange.service;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * <p>
@@ -38,16 +34,6 @@ import com.xeiam.xchange.utils.HttpTemplate;
 public abstract class BasePollingExchangeService extends BaseExchangeService {
 
   /**
-   * Jackson JSON to Java object mapper
-   */
-  protected ObjectMapper mapper = createMapper();
-
-  /**
-   * HTTP template to provide data access facilities
-   */
-  protected HttpTemplate httpTemplate = new HttpTemplate();
-
-  /**
    * Initialize common properties from the exchange specification
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
@@ -57,15 +43,4 @@ public abstract class BasePollingExchangeService extends BaseExchangeService {
     super(exchangeSpecification);
   }
 
-  public void setHttpTemplate(HttpTemplate httpTemplate) {
-
-    this.httpTemplate = httpTemplate;
-  }
-
-  public static ObjectMapper createMapper() {
-
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    return mapper;
-  }
 }

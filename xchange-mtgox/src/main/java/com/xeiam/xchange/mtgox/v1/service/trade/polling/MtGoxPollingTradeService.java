@@ -49,7 +49,7 @@ import com.xeiam.xchange.utils.Assert;
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
   private final ParamsDigest postBodySignatureCreator;
-  private MtGoxV1 mtGoxV1;
+  private final MtGoxV1 mtGoxV1;
 
   /**
    * Initialize common properties from the exchange specification
@@ -61,7 +61,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     super(exchangeSpecification);
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri(), httpTemplate, mapper);
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
     postBodySignatureCreator = MtGoxHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 

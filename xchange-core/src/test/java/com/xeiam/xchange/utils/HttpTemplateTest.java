@@ -36,6 +36,8 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.proxy.HttpTemplate;
+
 /**
  * Test class for testing HttpTemplate methods
  */
@@ -51,7 +53,7 @@ public class HttpTemplateTest {
     HttpTemplate testObject = new HttpTemplate() {
 
       @Override
-      HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+      public HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
 
         return mockHttpURLConnection;
       }
@@ -87,7 +89,7 @@ public class HttpTemplateTest {
     HttpTemplate testObject = new HttpTemplate() {
 
       @Override
-      HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+      public HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
 
         return mockHttpURLConnection;
       }

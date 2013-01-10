@@ -116,7 +116,7 @@ public final class BTCEAdapters {
     OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = BTCETrade.getAmount();
     String currency = BTCETrade.getPriceCurrency();
-    BigMoney price = BTCEUtils.getPrice(currency, BTCETrade.getPrice());
+    BigMoney price = MoneyUtils.parseFiat(currency + " " + BTCETrade.getPrice());
     String tradableIdentifier = BTCETrade.getItem();
     DateTime dateTime = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
 

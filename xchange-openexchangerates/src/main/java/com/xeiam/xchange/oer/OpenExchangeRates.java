@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,33 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
+package com.xeiam.xchange.oer;
 
-import java.math.BigDecimal;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 
 /**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connecting to Mt Gox BTC exchange with authentication</li>
- * <li>Retrieving account info data</li>
- * </ul>
+ * @author timmolter
+ * @create Jan 9, 2013
  */
-public class MtGoxWithdrawDemo {
+@Path("api")
+public interface OpenExchangeRates {
 
-  public static void main(String[] args) {
+  @GET
+  @Path("latest.json?app_id={app_id}")
+  @Produces("application/json")
+  public OERTickers getTickers(@PathParam("app_id") String appId);
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
-
-    PollingAccountService accountService = mtgox.getPollingAccountService();
-    System.out.println(accountService.getAccountInfo());
-
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
-    System.out.println("withdrawResult = " + withdrawResult);
-  }
 }

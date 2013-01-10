@@ -49,9 +49,7 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
   @Override
   public OpenOrders getOpenOrders() {
 
-    BTCEOpenOrdersReturn orders = btce.OrderList(
-        apiKey, signatureCreator, nextNonce(), null, null, null, null,
-        BTCEAuthenticated.SortOrder.DESC, null, null, null, 1);
+    BTCEOpenOrdersReturn orders = btce.OrderList(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, null, 1);
     if ("no orders".equals(orders.getError())) {
       return new OpenOrders(new ArrayList<LimitOrder>());
     }
@@ -70,8 +68,7 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
 
     String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type,
-        limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
     checkResult(ret);
     return Long.toString(ret.getReturnValue().getOrderId());
   }

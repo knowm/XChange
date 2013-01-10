@@ -17,7 +17,6 @@ package com.xeiam.xchange.oer.service.marketdata.polling;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.List;
 
 import com.xeiam.xchange.CachedDataSession;
@@ -30,8 +29,10 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.oer.OERAdapters;
 import com.xeiam.xchange.oer.OERUtils;
+import com.xeiam.xchange.oer.OpenExchangeRates;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 import com.xeiam.xchange.oer.dto.marketdata.Rates;
+import com.xeiam.xchange.proxy.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
@@ -42,17 +43,14 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class OERPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
 
+  private final OpenExchangeRates openExchangeRates;
+
   /**
    * time stamps used to pace API calls
    */
   private long tickerRequestTimeStamp = 0L;
 
   private OERTickers cachedOERTickers;
-
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final String apiBase = String.format("%s/api/", exchangeSpecification.getUri());
 
   /**
    * Constructor
@@ -62,6 +60,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   public OERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.openExchangeRates = RestProxyFactory.createProxy(OpenExchangeRates.class, exchangeSpecification.getUri());
   }
 
   @Override
@@ -86,16 +85,13 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
       System.out.println("requesting tickers");
 
-      // request data new
-      String tickerURL = apiBase + "/latest.json?app_id=" + exchangeSpecification.getApiKey();
-
-      // Request data
-      cachedOERTickers = httpTemplate.getForJsonObject(tickerURL, OERTickers.class, mapper, new HashMap<String, String>());
+      cachedOERTickers = openExchangeRates.getTickers(exchangeSpecification.getApiKey());
     }
     tickerRequestTimeStamp = System.currentTimeMillis();
 
     Rates rates = cachedOERTickers.getRates();
 
+    // Use reflection to get at data.
     Method method = null;
     try {
       method = Rates.class.getMethod("get" + tradableIdentifier, null);

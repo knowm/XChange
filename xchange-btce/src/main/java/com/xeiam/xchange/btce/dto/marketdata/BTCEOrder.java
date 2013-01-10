@@ -1,6 +1,6 @@
-/*
- * Copyright (C) 2012 - 2013 Matija Mazi
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -38,13 +38,8 @@ public class BTCEOrder {
   /** 0: active; 1: ??; 2: cancelled */
   private final int status;
 
-  public BTCEOrder(
-      @JsonProperty("status") int status,
-      @JsonProperty("timestamp_created") Long timestampCreated,
-      @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("type") Type type,
-      @JsonProperty("pair") String pair) {
+  public BTCEOrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 
     this.status = status;
     this.timestampCreated = timestampCreated;
@@ -87,9 +82,10 @@ public class BTCEOrder {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEOrder[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}]",
-        pair, type, amount, rate, timestampCreated, status);
+    return MessageFormat.format("BTCEOrder[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}]", pair, type, amount, rate, timestampCreated, status);
   }
 
-  public static enum Type {buy, sell}
+  public static enum Type {
+    buy, sell
+  }
 }

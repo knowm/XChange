@@ -30,7 +30,6 @@ import javax.ws.rs.Path;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>

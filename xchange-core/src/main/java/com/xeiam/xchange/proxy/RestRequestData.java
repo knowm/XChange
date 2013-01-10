@@ -29,7 +29,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>

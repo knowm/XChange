@@ -19,43 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.campbx;
+package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.campbx.CampBXExchange;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at Campbx
+ * Test requesting trades at MtGox
  */
-public class MarketDataDemo {
+public class TradesDemo {
+
+  private static PollingMarketDataService marketDataService;
 
   public static void main(String[] args) {
 
-    // Use the factory to get Campbx exchange API using default settings
-    Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = campbx.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    marketDataService = mtGox.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    // Get trades
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
-    System.out.println("Last: " + ticker.getLast());
-    System.out.println("Bid: " + ticker.getBid());
-    System.out.println("Ask: " + ticker.getAsk());
-    System.out.println("Volume: " + ticker.getVolume());
-    System.out.println("High: " + ticker.getHigh());
-    System.out.println("Low: " + ticker.getLow());
-
-    // Get the latest order book data for BTC/USD
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
-
-    System.out.println("Order book: " + orderBook);
+    // Verify that trades is not null
+    System.out.println("Trades NOT null ? " + trades != null);
   }
 
 }

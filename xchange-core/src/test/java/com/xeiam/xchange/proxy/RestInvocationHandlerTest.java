@@ -31,7 +31,6 @@ import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * @author Matija Mazi <br/>

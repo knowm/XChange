@@ -57,7 +57,7 @@ public class BTCEPollingAccountService extends BTCEBasePollingService implements
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String description, String notificationUrl) {
+  public String requestBitcoinDepositAddress(final String... arguments) {
 
     throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
   }

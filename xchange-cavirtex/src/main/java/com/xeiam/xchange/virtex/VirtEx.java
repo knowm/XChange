@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,33 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
+package com.xeiam.xchange.virtex;
 
-import java.math.BigDecimal;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
 /**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connecting to Mt Gox BTC exchange with authentication</li>
- * <li>Retrieving account info data</li>
- * </ul>
+ * @author timmolter
+ * @create Jan 9, 2013
  */
-public class MtGoxWithdrawDemo {
+@Path("api")
+public interface VirtEx {
 
-  public static void main(String[] args) {
+  @GET
+  @Path("{currency}/ticker.json")
+  @Produces("application/json")
+  public VirtExTicker getTicker(@PathParam("currency") String currency);
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+  @GET
+  @Path("{currency}/orderbook.json")
+  @Produces("application/json")
+  public VirtExDepth getDepth(@PathParam("currency") String currency);
 
-    PollingAccountService accountService = mtgox.getPollingAccountService();
-    System.out.println(accountService.getAccountInfo());
+  @GET
+  @Path("{currency}/trades.json")
+  @Produces("application/json")
+  public VirtExTrade[] getTrades(@PathParam("currency") String currency);
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
-    System.out.println("withdrawResult = " + withdrawResult);
-  }
 }

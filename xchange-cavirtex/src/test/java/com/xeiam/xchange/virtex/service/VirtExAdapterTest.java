@@ -83,16 +83,11 @@ public class VirtExAdapterTest {
     VirtExTrade[] VirtExTrades = mapper.readValue(is, VirtExTrade[].class);
 
     Trades trades = VirtExAdapters.adaptTrades(VirtExTrades, "CAD", "BTC");
-    // System.out.println(trades.getTrades().size());
     assertTrue("Trades size should be 558", trades.getTrades().size() == 558);
 
     // verify all fields filled
-    // System.out.println(trades.getTrades().get(0).toString());
     assertTrue("price should be 11.500000000", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 11.500000000);
-    assertTrue("order type should be ASK", trades.getTrades().get(0).getType() == OrderType.ASK);
     assertTrue("tradableAmount should be 13.000000000", trades.getTrades().get(0).getTradableAmount().doubleValue() == 13.000000000);
-    // assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
-    // assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
     assertEquals("timestamp incorrect", "2012-09-26T15:23:19.000Z", trades.getTrades().get(0).getTimestamp().toString());
   }
 

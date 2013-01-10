@@ -21,14 +21,10 @@
  */
 package com.xeiam.xchange.virtex;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * A central place for shared VirtEx properties
@@ -47,18 +43,6 @@ public final class VirtExUtils {
   CurrencyPair.BTC_CAD
 
   );
-
-  /**
-   * Converts a currency and long price into a BigMoney Object
-   * 
-   * @param currency
-   * @param price
-   * @return
-   */
-  public static BigMoney getPrice(String currency, BigDecimal price) {
-
-    return MoneyUtils.parseFiat(currency + " " + price);
-  }
 
   /**
    * Checks if a given CurrencyPair is covered by this exchange
