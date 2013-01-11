@@ -22,7 +22,6 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-
 /**
  * The Interface IOAcknowledge.
  */
