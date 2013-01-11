@@ -33,7 +33,6 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  * Demo requesting polling Ticker at BitcoinCharts
  * 
  * @author timmolter
- * @create Jan 9, 2013
  */
 public class BitcoinChartsTickerDemo {
 

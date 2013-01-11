@@ -34,7 +34,6 @@ import com.xeiam.xchart.SwingWrapper;
  * Demonstrates plotting an OrderBook with XChart
  * 
  * @author timmolter
- * @create Jan 9, 2013
  */
 public class MtGoxOrderBookChartDemo {
 

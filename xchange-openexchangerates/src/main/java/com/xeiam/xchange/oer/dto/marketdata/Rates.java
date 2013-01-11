@@ -27,7 +27,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * The exchange rates
  * 
  * @author timmolter
- * @create Dec 9, 2012
  */
 public class Rates {
 

@@ -28,7 +28,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi
- * @create Jan 6, 2013
  * @immutable
  */
 public final class BitcoinChartsTicker {

@@ -26,7 +26,6 @@ import com.xeiam.xchange.proxy.RestProxyFactory;
 
 /**
  * @author Matija Mazi
- * @create Jan 6, 2013
  */
 public class BitcoinChartsFactory {
 

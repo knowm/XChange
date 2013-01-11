@@ -30,7 +30,6 @@ import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 
 /**
  * @author timmolter
- * @create Jan 9, 2013
  */
 @Path("api")
 public interface OpenExchangeRates {

@@ -32,7 +32,6 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
 /**
  * @author timmolter
- * @create Jan 9, 2013
  */
 @Path("api")
 public interface VirtEx {

@@ -30,7 +30,6 @@ import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
  * Demonstrates using the REST proxy to get the raw deserialized JSON object from BitcoinCharts
  * 
  * @author timmolter
- * @create Jan 9, 2013
  */
 public class BitcoinChartsRawDataDemo {
 

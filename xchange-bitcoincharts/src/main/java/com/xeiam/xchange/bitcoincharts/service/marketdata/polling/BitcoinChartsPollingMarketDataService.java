@@ -36,7 +36,6 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author timmolter
- * @create Dec 9, 2012
  */
 public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
 

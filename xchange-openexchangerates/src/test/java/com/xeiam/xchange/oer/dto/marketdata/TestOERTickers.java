@@ -27,7 +27,6 @@ import org.junit.Test;
 
 /**
  * @author timmolter
- * @create Dec 6, 2012
  */
 public class TestOERTickers {
 
