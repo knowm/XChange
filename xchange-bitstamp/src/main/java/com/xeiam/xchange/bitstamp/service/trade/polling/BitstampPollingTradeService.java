@@ -44,7 +44,6 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * @author Matija Mazi
- * @created 1/1/13 6:40 PM
  */
 public class BitstampPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 

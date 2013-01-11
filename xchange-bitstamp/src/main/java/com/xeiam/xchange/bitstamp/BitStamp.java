@@ -40,7 +40,7 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 5:53 PM See https://www.bitstamp.net/api/ for up-to-date docs.
+ *         See https://www.bitstamp.net/api/ for up-to-date docs.
  */
 @Path("api")
 @Produces("application/json")

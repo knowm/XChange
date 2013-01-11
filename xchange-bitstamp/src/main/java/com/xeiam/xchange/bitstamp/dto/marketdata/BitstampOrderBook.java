@@ -29,7 +29,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi
- * @created 4/20/12 6:51 PM
  * @immutable
  */
 public final class BitstampOrderBook {

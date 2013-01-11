@@ -28,7 +28,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- * @created 4/20/12 8:34 AM
  * @immutable
  */
 public final class BitstampTransaction {
