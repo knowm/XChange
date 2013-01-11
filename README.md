@@ -1,3 +1,6 @@
+# XChange
+A Financial Exchange Library for Java
+
 # Description
 XChange is a library providing a simple and consistent API for interacting with a diverse set of financial security exchanges, including support for Bitcoin. 
 
@@ -19,6 +22,16 @@ Usage is very simple: Create an Exchange instance, get the appropriate service, 
     System.out.println(ticker.toString());
     
 All exchange implementations expose the same API, but you can also directly access the raw data.
+
+Now go ahead and [study some more examples](http://xeiam.com/xchange_examplecode.jsp), [download the thing](http://xeiam.com/xchange_changelog.jsp) and [provide feedback](https://github.com/timmolter/XChange/issues).
+
+# Features
+* MIT license
+* consistent API across all implemented exchanges
+* active development
+* very minimal 3rd party dependencies
+* modular components
+* polling and streaming capability
     
 # More Info
 Project Site: http://xeiam.com/xchange.jsp  
