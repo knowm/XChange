@@ -36,7 +36,7 @@ import com.xeiam.xchart.SwingWrapper;
  * @author timmolter
  * @create Jan 9, 2013
  */
-public class OrderBookChartDemo {
+public class MtGoxOrderBookChartDemo {
 
   public static void main(String[] args) {
 
@@ -52,7 +52,7 @@ public class OrderBookChartDemo {
     OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
 
     // Create Chart
-    Chart chart = new Chart(1000, 700);
+    Chart chart = new Chart(800, 500);
 
     // Customize Chart
     chart.setTitle("MtGox Order Book");
