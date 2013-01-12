@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,25 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service;
+package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
- * @author Matija Mazi
+ * Test placing a limit order at MtGox
  */
-public class MtGoxExamplesUtils {
+public class CancelOrderDemo {
 
-  public static Exchange createExchange() {
+  public static void main(String[] args) {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setUri("https://mtgox.com");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
-    return mtgox;
+    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+
+    // Interested in the private trading functionality (authentication)
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
+
+    tradeService.cancelOrder("26ec3826-6ac2-4eee-813e-74ede1e0bac1");
+
+    // get open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
+      System.out.println(openOrder.toString());
+    }
+
   }
 }

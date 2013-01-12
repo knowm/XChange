@@ -63,4 +63,10 @@ public final class MtGoxGenericResponse {
     return error;
   }
 
+  @Override
+  public String toString() {
+
+    return "MtGoxGenericResponse [result=" + result + ", _return=" + _return + ", error=" + error + "]";
+  }
+
 }
