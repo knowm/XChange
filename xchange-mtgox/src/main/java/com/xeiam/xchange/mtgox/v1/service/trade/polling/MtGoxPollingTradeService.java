@@ -53,7 +53,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   private final MtGoxV1 mtGoxV1;
 
   /**
-   * Initialize common properties from the exchange specification
+   * Constructor
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
    */

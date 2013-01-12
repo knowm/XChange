@@ -75,13 +75,6 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   }
 
-  // TODO Remove this in v1.4.0
-  @Override
-  public BlockingQueue<Ticker> requestTicker(String tradableIdentifier, final String currency) {
-
-    return getTickerQueue(tradableIdentifier, currency);
-  }
-
   @Override
   public BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, final String currency) {
 

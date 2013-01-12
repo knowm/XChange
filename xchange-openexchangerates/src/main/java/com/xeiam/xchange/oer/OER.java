@@ -32,7 +32,7 @@ import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
  * @author timmolter
  */
 @Path("api")
-public interface OpenExchangeRates {
+public interface OER {
 
   @GET
   @Path("latest.json?app_id={app_id}")

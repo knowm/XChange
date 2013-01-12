@@ -53,6 +53,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   private final MtGoxV1 mtGoxV1;
 
   /**
+   * Constructor
+   * 
    * @param exchangeSpecification The exchange specification
    */
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {

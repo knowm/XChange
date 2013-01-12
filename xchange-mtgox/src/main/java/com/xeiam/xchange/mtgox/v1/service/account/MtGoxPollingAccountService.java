@@ -33,6 +33,11 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   private final MtGoxV1 mtGoxV1;
   private ParamsDigest signatureCreator;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public MtGoxPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

@@ -46,16 +46,6 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
    * @param tradableIdentifier The tradable identifier (e.g. "Bitcoin")
    * @param currency The currency symbol
    * @return A blocking queue consisting of received Ticker objects
-   * @deprecated Use <code>getTickerQueue</code> instead. Method removal in v1.4.0.
-   */
-  BlockingQueue<Ticker> requestTicker(String tradableIdentifier, String currency);
-
-  /**
-   * Request a streaming Ticker feed
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. "Bitcoin")
-   * @param currency The currency symbol
-   * @return A blocking queue consisting of received Ticker objects
    */
   BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, String currency);
 

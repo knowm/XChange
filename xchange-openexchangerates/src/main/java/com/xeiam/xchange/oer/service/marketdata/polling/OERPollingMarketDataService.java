@@ -29,7 +29,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.oer.OERAdapters;
 import com.xeiam.xchange.oer.OERUtils;
-import com.xeiam.xchange.oer.OpenExchangeRates;
+import com.xeiam.xchange.oer.OER;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 import com.xeiam.xchange.oer.dto.marketdata.Rates;
 import com.xeiam.xchange.proxy.RestProxyFactory;
@@ -42,7 +42,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class OERPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
 
-  private final OpenExchangeRates openExchangeRates;
+  private final OER openExchangeRates;
 
   /**
    * time stamps used to pace API calls
@@ -59,7 +59,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   public OERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.openExchangeRates = RestProxyFactory.createProxy(OpenExchangeRates.class, exchangeSpecification.getUri());
+    this.openExchangeRates = RestProxyFactory.createProxy(OER.class, exchangeSpecification.getUri());
   }
 
   @Override

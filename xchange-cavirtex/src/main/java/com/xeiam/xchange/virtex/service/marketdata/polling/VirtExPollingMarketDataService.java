@@ -54,6 +54,8 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   private final VirtEx virtEx;
 
   /**
+   * Constructor
+   * 
    * @param exchangeSpecification The exchange specification
    */
   public VirtExPollingMarketDataService(ExchangeSpecification exchangeSpecification) {

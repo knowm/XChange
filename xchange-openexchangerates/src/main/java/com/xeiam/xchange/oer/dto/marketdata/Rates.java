@@ -24,7 +24,7 @@ package com.xeiam.xchange.oer.dto.marketdata;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * The exchange rates
+ * The exchange rates. Purposely made not immutable due to lack of motivation to crate monster constructor
  * 
  * @author timmolter
  */

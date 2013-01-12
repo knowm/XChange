@@ -55,6 +55,8 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
   private final BlockingQueue<ExchangeEvent> eventQueue;
 
   /**
+   * Constructor
+   * 
    * @param tickerQueue The consumer Ticker queue
    * @param eventQueue The consumer exchange event queue
    */

@@ -60,13 +60,9 @@ public class BTCEAdapterTest {
     BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
 
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(BTCEDepth.getAsks(), "BTC", "USD", "ask", "");
-    // System.out.println(openorders.size());
-    // assertTrue("ASKS size should be 1582", asks.size() == 1582);
 
     // verify all fields filled
-    // assertTrue("limit price should be 16.90536", asks.get(0).getLimitPrice().getAmount().floatValue() == 16.90536);
     assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    // assertTrue("tradableAmount should be 6.51", asks.get(0).getTradableAmount().doubleValue() == 6.51);
     assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
 
