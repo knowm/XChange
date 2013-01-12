@@ -30,6 +30,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxV0;
@@ -101,16 +102,23 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   @Override
   public boolean cancelOrder(String orderId) {
 
-    // throw new NotAvailableFromExchangeException();
     MtGoxV0 mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getUri());
 
-    // verify(limitOrder);
     Assert.notNull(orderId, "orderId cannot be null");
 
-    MtGoxGenericResponse mtGoxSuccess = mtGoxV0.cancelOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), orderId);
-    System.out.println(mtGoxSuccess.toString());
+    MtGoxCancelOrder mtGoxCancelOrder = mtGoxV0.cancelOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), orderId);
 
-    return true;
+    System.out.println(mtGoxCancelOrder.toString());
+
+    boolean orderGone = true;
+    for (int i = 0; i < mtGoxCancelOrder.getOrders().size(); i++) {
+      if (mtGoxCancelOrder.getOrders().get(i).getOid().equals(orderId)) {
+        orderGone = false;
+        break;
+      }
+    }
+
+    return orderGone;
   }
 
   private void verify(Order order) {

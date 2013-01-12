@@ -28,7 +28,7 @@ import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
- * Test placing a limit order at MtGox
+ * Test placing a limit order at MtGox. Note thaht this is using the old V0 API, since at this time the V1 API has no cancel order functionality
  */
 public class CancelOrderDemo {
 
@@ -39,7 +39,8 @@ public class CancelOrderDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    tradeService.cancelOrder("26ec3826-6ac2-4eee-813e-74ede1e0bac1");
+    boolean orderIdNonExistant = tradeService.cancelOrder("e20f9e00-0af9-4662-8c1b-da79a7a84756");
+    System.out.println("orderIdNonExistant= " + orderIdNonExistant);
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();

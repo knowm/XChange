@@ -41,12 +41,35 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
  */
 public interface PollingTradeService {
 
+  /**
+   * Gets the open orders
+   * 
+   * @return the open orders
+   */
   public OpenOrders getOpenOrders();
 
+  /**
+   * Place a limit order
+   * 
+   * @param marketOrder
+   * @return Place a limit order
+   */
   public String placeMarketOrder(MarketOrder marketOrder);
 
+  /**
+   * Place a limit order
+   * 
+   * @param limitOrder
+   * @return the order ID
+   */
   public String placeLimitOrder(LimitOrder limitOrder);
 
+  /**
+   * cancels order with matching orderId
+   * 
+   * @param orderId
+   * @return true if the given orderId is not found in existing orders, false otherwise.
+   */
   public boolean cancelOrder(String orderId);
 
 }
