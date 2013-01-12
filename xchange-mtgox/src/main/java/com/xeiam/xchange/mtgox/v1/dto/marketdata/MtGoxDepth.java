@@ -28,7 +28,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Data object representing depth from Mt Gox
  * 
- * @immutable
+
  */
 public final class MtGoxDepth {
 

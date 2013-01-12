@@ -31,7 +31,7 @@ import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 @Path("api/2")
 public interface BTCE {

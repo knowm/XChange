@@ -29,7 +29,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Data object representing Wallets from Mt Gox
  * 
- * @immutable
+
  */
 public final class Wallets {
 

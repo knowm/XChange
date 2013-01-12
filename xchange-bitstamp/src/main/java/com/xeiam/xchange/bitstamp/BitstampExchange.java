@@ -30,7 +30,7 @@ import com.xeiam.xchange.bitstamp.service.marketdata.polling.BitstampPollingMark
 import com.xeiam.xchange.bitstamp.service.trade.polling.BitstampPollingTradeService;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BitstampExchange extends BaseExchange implements Exchange {
 

@@ -27,8 +27,7 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
- * @immutable
+ * @author Matija Mazi
  */
 public final class BitstampTransaction {
 

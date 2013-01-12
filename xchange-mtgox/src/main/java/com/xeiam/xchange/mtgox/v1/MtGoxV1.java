@@ -20,7 +20,7 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.proxy.ParamsDigest;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 @Path("api/1")
 public interface MtGoxV1 {

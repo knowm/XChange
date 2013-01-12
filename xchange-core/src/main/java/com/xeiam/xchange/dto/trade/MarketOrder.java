@@ -32,7 +32,7 @@ import com.xeiam.xchange.dto.Order;
  * used when certainty of execution is a priority over price of execution.
  * </p>
  * 
- * @immutable
+
  */
 public final class MarketOrder extends Order {
 

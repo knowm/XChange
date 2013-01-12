@@ -26,7 +26,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Data object representing a response message from Mt Gox after placing and order
  * 
- * @immutable
+
  */
 public final class MtGoxGenericResponse {
 

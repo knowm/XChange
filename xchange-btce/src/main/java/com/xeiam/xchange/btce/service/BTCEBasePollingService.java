@@ -32,7 +32,7 @@ import com.xeiam.xchange.proxy.ParamsDigest;
 import com.xeiam.xchange.proxy.RestProxyFactory;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BTCEBasePollingService {
 

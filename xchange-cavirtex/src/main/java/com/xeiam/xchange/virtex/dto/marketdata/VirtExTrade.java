@@ -30,7 +30,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Data object representing a Trade from VirtEx
  * </p>
  * 
- * @immutable
+
  */
 public final class VirtExTrade {
 

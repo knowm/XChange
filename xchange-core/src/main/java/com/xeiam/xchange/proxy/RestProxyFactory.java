@@ -28,7 +28,7 @@ import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  * @see #createProxy(Class, String, com.xeiam.xchange.proxy.HttpTemplate, org.codehaus.jackson.map.ObjectMapper)
  */
 public class RestProxyFactory {

@@ -30,7 +30,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class RestRequestData implements Serializable {
 

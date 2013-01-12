@@ -28,7 +28,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Data object representing a Value from Mt Gox
  * 
- * @immutable
+
  */
 public final class MtGoxValue {
 

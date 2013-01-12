@@ -36,7 +36,7 @@ import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 @Path("api/2")
 public interface ExampleService {

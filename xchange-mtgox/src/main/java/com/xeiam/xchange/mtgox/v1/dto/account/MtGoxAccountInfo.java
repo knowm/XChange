@@ -32,7 +32,7 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
 /**
  * Data object representing Account Info from Mt Gox
  * 
- * @immutable
+
  */
 public final class MtGoxAccountInfo {
 

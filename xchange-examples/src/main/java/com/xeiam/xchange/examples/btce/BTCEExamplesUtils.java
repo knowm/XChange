@@ -28,7 +28,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEExchange;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BTCEExamplesUtils {
 

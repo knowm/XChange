@@ -40,7 +40,7 @@ import java.util.Map;
  * username=john&score=2&answer=yes%2Fno
  * </p>
  * 
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class Params implements Serializable {
 

@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Data object representing Trades
  * 
- * @immutable
+
  */
 public final class Trades {
 

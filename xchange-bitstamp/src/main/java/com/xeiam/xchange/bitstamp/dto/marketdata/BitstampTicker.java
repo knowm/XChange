@@ -28,7 +28,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi
- * @immutable
  */
 public final class BitstampTicker {
 

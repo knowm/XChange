@@ -28,7 +28,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 /**
  * Data object representing account information
  * 
- * @immutable
+
  */
 public final class AccountInfo {
 

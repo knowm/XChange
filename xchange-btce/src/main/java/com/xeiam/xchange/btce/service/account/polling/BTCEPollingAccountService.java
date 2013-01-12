@@ -33,7 +33,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BTCEPollingAccountService extends BTCEBasePollingService implements PollingAccountService {
 

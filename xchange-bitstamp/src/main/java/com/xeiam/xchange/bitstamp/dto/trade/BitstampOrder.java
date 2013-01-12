@@ -27,10 +27,9 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
- * @immutable
+ * @author Matija Mazi
  */
-public class BitstampOrder {
+public final class BitstampOrder {
 
   private final int id;
   private final String datetime;
@@ -39,6 +38,15 @@ public class BitstampOrder {
   private final BigDecimal price;
   private final BigDecimal amount;
 
+  /**
+   * Constructor
+   * 
+   * @param id
+   * @param datetime
+   * @param type
+   * @param price
+   * @param amount
+   */
   public BitstampOrder(@JsonProperty("id") int id, @JsonProperty("datetime") String datetime, @JsonProperty("type") int type, @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount) {
 

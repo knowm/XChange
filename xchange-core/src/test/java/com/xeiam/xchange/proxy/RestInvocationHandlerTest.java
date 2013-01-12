@@ -33,7 +33,7 @@ import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class RestInvocationHandlerTest {
 

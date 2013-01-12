@@ -37,7 +37,7 @@ import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.proxy.ParamsDigest;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 @Path("tapi")
 public interface BTCEAuthenticated {

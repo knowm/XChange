@@ -28,7 +28,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * Data object representing Ticker from VirtEx
  * 
- * @immutable
+
  */
 public final class VirtExTicker {
 

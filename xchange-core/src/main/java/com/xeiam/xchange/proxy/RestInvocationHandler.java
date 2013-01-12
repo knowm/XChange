@@ -31,7 +31,7 @@ import javax.ws.rs.Path;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class RestInvocationHandler implements InvocationHandler {
 

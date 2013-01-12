@@ -41,7 +41,7 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class CampBXPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 

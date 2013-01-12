@@ -35,7 +35,6 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
  * @author Matija Mazi
- * @create 12/30/12
  */
 public class BitstampPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 

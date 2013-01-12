@@ -28,7 +28,7 @@ import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 /**
  * Data object representing Open Orders from Mt Gox
  * 
- * @immutable
+
  */
 public final class MtGoxOpenOrder {
 

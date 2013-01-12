@@ -33,7 +33,7 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BTCETradeDemo {
 

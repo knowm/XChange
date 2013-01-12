@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * 
- * @immutable
+
  */
 public final class MtGoxTrade {
 

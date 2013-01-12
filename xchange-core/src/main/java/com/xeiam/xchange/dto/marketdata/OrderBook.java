@@ -29,7 +29,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 /**
  * Data object representing OrderBook
  * 
- * @immutable
+
  */
 public final class OrderBook {
 

@@ -27,10 +27,9 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
- * @immutable
+ * @author Matija Mazi
  */
-public class BitstampBalance {
+public final class BitstampBalance {
 
   private final BigDecimal usdBalance;
   private final BigDecimal btcBalance;
@@ -40,6 +39,17 @@ public class BitstampBalance {
   private final BigDecimal btcAvailable;
   private final BigDecimal fee;
 
+  /**
+   * Constructor
+   * 
+   * @param usdBalance
+   * @param btcBalance
+   * @param usdReserved
+   * @param btcReserved
+   * @param usdAvailable
+   * @param btcAvailable
+   * @param fee
+   */
   public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("btc_balance") BigDecimal btcBalance, @JsonProperty("usd_reserved") BigDecimal usdReserved,
       @JsonProperty("btc_reserved") BigDecimal btcReserved, @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
       @JsonProperty("fee") BigDecimal fee) {
