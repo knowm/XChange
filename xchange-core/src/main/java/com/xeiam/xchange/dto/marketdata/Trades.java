@@ -26,8 +26,6 @@ import java.util.List;
 
 /**
  * Data object representing Trades
- * 
-
  */
 public final class Trades {
 

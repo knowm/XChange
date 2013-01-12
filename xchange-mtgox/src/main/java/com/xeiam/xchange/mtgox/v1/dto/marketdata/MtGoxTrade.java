@@ -7,8 +7,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Data object representing a Trade from Mt Gox
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
- * 
-
  */
 public final class MtGoxTrade {
 

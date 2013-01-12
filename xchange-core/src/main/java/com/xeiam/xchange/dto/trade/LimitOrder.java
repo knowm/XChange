@@ -29,8 +29,6 @@ import com.xeiam.xchange.dto.Order;
 
 /**
  * Data object representing a limit order
- * 
-
  */
 public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 

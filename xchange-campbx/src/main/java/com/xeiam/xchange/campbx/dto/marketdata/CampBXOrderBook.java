@@ -29,7 +29,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi
-
  */
 public final class CampBXOrderBook {
 

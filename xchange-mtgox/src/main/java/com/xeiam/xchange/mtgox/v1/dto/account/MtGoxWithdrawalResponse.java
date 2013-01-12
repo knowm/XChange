@@ -25,8 +25,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing the content of a response message from MtGox after requesting a bitcoin withdrawal
- * 
-
  */
 public final class MtGoxWithdrawalResponse {
 

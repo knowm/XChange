@@ -27,8 +27,6 @@ import org.joda.money.BigMoney;
  * <p>
  * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
  * </p>
- * 
-
  */
 public final class Wallet {
 

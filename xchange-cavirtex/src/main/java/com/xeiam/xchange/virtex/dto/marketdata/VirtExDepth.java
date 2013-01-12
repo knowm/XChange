@@ -28,8 +28,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing depth from VirtEx
- * 
-
  */
 public final class VirtExDepth {
 

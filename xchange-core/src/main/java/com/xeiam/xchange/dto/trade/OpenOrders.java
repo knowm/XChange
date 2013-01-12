@@ -25,8 +25,6 @@ import java.util.List;
 
 /**
  * Data object representing open orders
- * 
-
  */
 public final class OpenOrders {
 

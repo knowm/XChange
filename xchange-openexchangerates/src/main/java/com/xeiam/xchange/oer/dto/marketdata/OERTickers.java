@@ -31,7 +31,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * 
  * @author timmolter
-
  */
 public final class OERTickers {
 

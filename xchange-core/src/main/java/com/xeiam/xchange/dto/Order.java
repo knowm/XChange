@@ -25,8 +25,6 @@ import java.math.BigDecimal;
 
 /**
  * Data object representing an order
- * 
-
  */
 public class Order {
 
