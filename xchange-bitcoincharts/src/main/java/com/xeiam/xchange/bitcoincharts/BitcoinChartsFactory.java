@@ -29,6 +29,11 @@ import com.xeiam.xchange.proxy.RestProxyFactory;
  */
 public class BitcoinChartsFactory {
 
+  /**
+   * Get a RestProxy for BitcoinCharts
+   * 
+   * @return the Rest Proxy
+   */
   public static BitcoinCharts createInstance() {
 
     return RestProxyFactory.createProxy(BitcoinCharts.class, "http://bitcoincharts.com");
