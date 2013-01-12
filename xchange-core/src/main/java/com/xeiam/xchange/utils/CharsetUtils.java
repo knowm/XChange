@@ -31,9 +31,19 @@ import java.nio.charset.CodingErrorAction;
 import com.xeiam.xchange.streaming.websocket.CloseFrame;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
 
+/**
+ * @author timmolter
+ */
 public class CharsetUtils {
 
   public static CodingErrorAction codingErrorAction = CodingErrorAction.REPORT;
+
+  /**
+   * private Constructor
+   */
+  private CharsetUtils() {
+
+  }
 
   /**
    * @param input The string to be converted

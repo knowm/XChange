@@ -34,6 +34,13 @@ import org.joda.time.DateTimeZone;
  */
 public class DateUtils {
 
+  /**
+   * private Constructor
+   */
+  private DateUtils() {
+
+  }
+
   public static DateTime nowUtc() {
 
     return new DateTime().withZone(DateTimeZone.UTC);

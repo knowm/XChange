@@ -38,6 +38,13 @@ import org.joda.money.CurrencyUnit;
 public class MoneyUtils {
 
   /**
+   * private Constructor
+   */
+  private MoneyUtils() {
+
+  }
+
+  /**
    * @param value A general-purpose currency and value representation (e.g. "USD 3210.12345678")
    * @return A standard fiat currency BigMoney that can handle complex calculations and display using a scale inferred from the minor part
    * @see org.joda.money.Money For a simpler approach for fiat currencies not requiring precise calculations (e.g. display only)

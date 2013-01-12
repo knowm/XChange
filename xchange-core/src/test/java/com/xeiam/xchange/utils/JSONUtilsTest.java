@@ -35,6 +35,8 @@ import java.util.Map;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.proxy.JSONUtils;
+
 /**
  * Test class for testing JSONUtils methods
  */

@@ -38,6 +38,8 @@ Project Site: http://xeiam.com/xchange.jsp
 Example Code: http://xeiam.com/xchange_examplecode.jsp  
 Change Log: http://xeiam.com/xchange_changelog.jsp  
 Java Docs: http://xeiam.com/xchange/javadoc/index.html  
+Sonar Code Quality: http://sonar.xeiam.com/
+Jenkins CI: http://ci.xeiam.com/
 
 # Wiki
 Home: https://github.com/timmolter/XChange/wiki  

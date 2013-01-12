@@ -30,6 +30,13 @@ import com.xeiam.xchange.proxy.RestProxyFactory;
 public class BitcoinChartsFactory {
 
   /**
+   * private Constructor
+   */
+  private BitcoinChartsFactory() {
+
+  }
+
+  /**
    * Get a RestProxy for BitcoinCharts
    * 
    * @return the Rest Proxy

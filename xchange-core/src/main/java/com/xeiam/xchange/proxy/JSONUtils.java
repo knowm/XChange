@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.utils;
+package com.xeiam.xchange.proxy;
 
 import java.io.IOException;
 import java.util.Map;
@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * Central place for common JSON operations
@@ -37,6 +38,13 @@ import com.xeiam.xchange.ExchangeException;
 public class JSONUtils {
 
   private static final Logger log = LoggerFactory.getLogger(JSONUtils.class);
+
+  /**
+   * private Constructor
+   */
+  private JSONUtils() {
+
+  }
 
   /**
    * Creates a POJO from a Jackson-annotated class given a jsonString
