@@ -29,8 +29,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * <p>
  * Data object representing a Trade from BTCE
  * </p>
- * 
- * @immutable
  */
 public class BTCETrade {
 

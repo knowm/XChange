@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.dto.marketdata;
+package com.xeiam.xchange.btce.dto.account;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -29,8 +29,7 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
- *         {funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}
+ * @author Matija Mazi
  */
 public class BTCEAccountInfo {
 
@@ -40,6 +39,15 @@ public class BTCEAccountInfo {
   private final Rights rights;
   private final Map<String, BigDecimal> funds;
 
+  /**
+   * Constructor
+   * 
+   * @param transactionCount
+   * @param openOrders
+   * @param serverTime
+   * @param rights
+   * @param funds
+   */
   public BTCEAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders, @JsonProperty("server_time") long serverTime,
       @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 

@@ -30,10 +30,10 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.time.DateTime;
 
-import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfo;
-import com.xeiam.xchange.btce.dto.marketdata.BTCEOrder;
+import com.xeiam.xchange.btce.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;

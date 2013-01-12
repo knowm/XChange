@@ -1,6 +1,6 @@
 /**
- * Copyright (C) 2012 - 2013 Matija Mazi
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,43 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.dto.marketdata;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.Map;
+package com.xeiam.xchange.btce.dto.account;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
+
 /**
- * @author Matija Mazi <br/>
- *         {funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}
+ * @author Matija Mazi
  */
-public class BTCECancelOrderResult {
+public class BTCEAccountInfoReturn extends BTCEReturn<BTCEAccountInfo> {
 
-  private final long orderId;
-  private final Map<String, BigDecimal> funds;
+  /**
+   * Constructor
+   * 
+   * @param success
+   * @param value
+   * @param error
+   */
+  public BTCEAccountInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEAccountInfo value, @JsonProperty("error") String error) {
 
-  public BTCECancelOrderResult(@JsonProperty("order_id") long orderId, @JsonProperty("funds") Map<String, BigDecimal> funds) {
-
-    this.orderId = orderId;
-    this.funds = funds;
+    super(success, value, error);
   }
-
-  public long getOrderId() {
-
-    return orderId;
-  }
-
-  public Map<String, BigDecimal> getFunds() {
-
-    return funds;
-  }
-
-  @Override
-  public String toString() {
-
-    return MessageFormat.format("BTCECancelOrderResult[orderId={0}, funds={1}]", orderId, funds);
-  }
-
 }

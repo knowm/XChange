@@ -20,16 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.dto.marketdata;
+package com.xeiam.xchange.btce.dto.trade;
+
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-/**
- * @author Matija Mazi <br/>
- */
-public class BTCEPlaceOrderReturn extends BTCEReturn<BTCEPlaceOrderResult> {
+import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
 
-  public BTCEPlaceOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEPlaceOrderResult value, @JsonProperty("error") String error) {
+/**
+ * @author Matija Mazi
+ */
+public class BTCEOpenOrdersReturn extends BTCEReturn<Map<Long, BTCEOrder>> {
+
+  /**
+   * Constructor
+   * 
+   * @param success
+   * @param value
+   * @param error
+   */
+  public BTCEOpenOrdersReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, BTCEOrder> value, @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

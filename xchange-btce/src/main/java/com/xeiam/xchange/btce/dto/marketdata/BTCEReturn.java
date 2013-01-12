@@ -26,7 +26,7 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BTCEReturn<V> {
 
@@ -34,6 +34,13 @@ public class BTCEReturn<V> {
   private final V returnValue;
   private final String error;
 
+  /**
+   * Constructor
+   * 
+   * @param success
+   * @param returnValue
+   * @param error
+   */
   @JsonCreator
   public BTCEReturn(@JsonProperty("success") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("error") String error) {
 
@@ -41,10 +48,6 @@ public class BTCEReturn<V> {
     this.returnValue = returnValue;
     this.error = error;
   }
-
-  /*
-   * @JsonCreator public BTCEReturn(@JsonProperty("success") boolean success, @JsonProperty("error") String error) { this.success = success; this.error = error; this.value = null; }
-   */
 
   public boolean isSuccess() {
 

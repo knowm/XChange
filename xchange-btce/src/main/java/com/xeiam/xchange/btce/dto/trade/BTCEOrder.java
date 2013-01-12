@@ -20,14 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.dto.marketdata;
+package com.xeiam.xchange.btce.dto.trade;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-/** @author Matija Mazi <br/> */
+/**
+ * @author Matija Mazi
+ */
 public class BTCEOrder {
 
   private final String pair;
@@ -38,6 +40,16 @@ public class BTCEOrder {
   /** 0: active; 1: ??; 2: cancelled */
   private final int status;
 
+  /**
+   * Constructor
+   * 
+   * @param status
+   * @param timestampCreated
+   * @param rate
+   * @param amount
+   * @param type
+   * @param pair
+   */
   public BTCEOrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 

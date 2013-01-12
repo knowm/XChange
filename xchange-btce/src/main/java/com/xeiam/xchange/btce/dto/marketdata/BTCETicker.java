@@ -25,8 +25,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing Ticker from BTCE
- * 
- * @immutable
  */
 public class BTCETicker {
 

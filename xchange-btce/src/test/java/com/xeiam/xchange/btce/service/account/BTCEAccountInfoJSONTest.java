@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.service.marketdata;
+package com.xeiam.xchange.btce.service.account;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -32,7 +32,7 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.btce.dto.marketdata.BTCEAccountInfoReturn;
+import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
 
 /**
  * Test BTCEDepth JSON parsing
