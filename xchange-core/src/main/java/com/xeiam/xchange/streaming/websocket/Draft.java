@@ -98,7 +98,7 @@ public abstract class Draft {
     return handshakeData.getFieldValue("Upgrade").equalsIgnoreCase("websocket") && handshakeData.getFieldValue("Connection").toLowerCase(Locale.ENGLISH).contains("upgrade");
   }
 
-  public abstract ByteBuffer createBinaryFrame(FrameData frameData); // TODO Allow to send data on the base of an Iterator or InputStream
+  public abstract ByteBuffer createBinaryFrame(FrameData frameData);
 
   public abstract List<FrameData> createFrames(byte[] binary, boolean mask);
 

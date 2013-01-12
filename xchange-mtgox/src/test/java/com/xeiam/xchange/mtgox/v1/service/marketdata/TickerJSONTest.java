@@ -50,7 +50,6 @@ public class TickerJSONTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    // TODO should use BigDecimal equality instead of double equality
     assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(4.89002));
     assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue().doubleValue(), equalTo(4.89000));
     assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(4.89002));
@@ -77,7 +76,6 @@ public class TickerJSONTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    // TODO should use BigDecimal equality instead of double equality
     assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(5.10991));
     assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue().doubleValue(), equalTo(5.10991));
     assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(5.10991));

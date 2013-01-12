@@ -99,7 +99,6 @@ public class WebSocketExchangeServer extends WebSocketServer {
         @Override
         public void run() {
 
-          // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
           Ticker ticker = TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC).withLast(money).withBid(money).withAsk(money).withHigh(money).withLow(money).withVolume(
               new BigDecimal(98887726.001)).build();

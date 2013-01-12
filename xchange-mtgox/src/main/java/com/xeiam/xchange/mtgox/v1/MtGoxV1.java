@@ -69,7 +69,7 @@ public interface MtGoxV1 {
       @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount_int") BigDecimal amount,
       @FormParam("price_int") String price);
 
-  // TODO eventually implement this when MtGox supprts it
+  // TODO eventually implement this when MtGox supports it, and get rid of V0 version
   // @POST
   // @Path("private/order/cancelorder")
   // MtGoxGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,

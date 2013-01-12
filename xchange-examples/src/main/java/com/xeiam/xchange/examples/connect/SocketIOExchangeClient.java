@@ -72,9 +72,9 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     // Require a client to respond to events
     new SocketIOExchangeClient("http://socketio.mtgox.com/mtgox");
 
-    // TODO HTTPS handshake working for MtGox demo
+    // HTTPS handshake working for MtGox demo
     // new SocketIO("https://socketio.mtgox.com/mtgox",client);
-    // TODO HTTP handshake working for internal exchange demo
+    // HTTP handshake working for internal exchange demo
     // new SocketIO("http://localhost:8887",client);
 
   }

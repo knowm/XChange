@@ -381,7 +381,6 @@ public final class WebSocket {
     send(draft.createFrames(text, role == Role.CLIENT));
   }
 
-  // TODO there should be a send for bytebuffers
   public void send(byte[] bytes) throws IllegalArgumentException, NotYetConnectedException, InterruptedException {
 
     if (bytes == null) {

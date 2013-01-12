@@ -43,7 +43,7 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
   /**
    * Request a streaming Ticker feed
    * 
-   * @param tradableIdentifier The tradable identifier (e.g. "Bitcoin")
+   * @param tradableIdentifier The tradeable identifier (e.g. "Bitcoin")
    * @param currency The currency symbol
    * @return A blocking queue consisting of received Ticker objects
    */

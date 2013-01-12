@@ -86,7 +86,6 @@ public class DefaultFrameData implements FrameBuilder {
     if (unmaskedPayload == null) {
       unmaskedPayload = ByteBuffer.wrap(nextFrame.getPayloadData());
     } else {
-      // TODO might be inefficient. Consider a global buffer pool
       ByteBuffer tmp = ByteBuffer.allocate(nextFrame.getPayloadData().length + unmaskedPayload.capacity());
       tmp.put(unmaskedPayload.array());
       tmp.put(nextFrame.getPayloadData());

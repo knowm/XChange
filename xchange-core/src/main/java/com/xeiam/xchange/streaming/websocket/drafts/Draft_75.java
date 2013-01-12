@@ -111,7 +111,6 @@ public class Draft_75 extends Draft {
     response.put("WebSocket-Origin", request.getFieldValue("Origin"));
     String location = "ws://" + request.getFieldValue("Host") + request.getResourceDescriptor();
     response.put("WebSocket-Location", location);
-    // TODO handle Sec-WebSocket-Protocol and Set-Cookie
     return response;
   }
 
@@ -136,7 +135,7 @@ public class Draft_75 extends Draft {
         }
         readingState = false;
         inframe = false;
-      } else { // Regular frame data, add to current frame buffer //TODO This code is very expensive and slow
+      } else { // Regular frame data, add to current frame buffer
         ByteBuffer frame = ByteBuffer.allocate(checkAlloc((this.currentFrame != null ? this.currentFrame.capacity() : 0) + 1));
         if (this.currentFrame != null) {
           this.currentFrame.rewind();

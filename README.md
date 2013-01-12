@@ -1,14 +1,14 @@
-# XChange
+## XChange
 A Financial Exchange Library for Java
 
-# Description
+## Description
 XChange is a library providing a simple and consistent API for interacting with a diverse set of financial security exchanges, including support for Bitcoin. 
 
 A complete list of implemented exchanges, data providers and brokers can be found on our [Exchange Support](https://github.com/timmolter/XChange/wiki/Exchange-Support) page. 
 
 Usage is very simple: Create an Exchange instance, get the appropriate service, and request data.
 
-# Example
+## Example
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
@@ -25,7 +25,7 @@ All exchange implementations expose the same API, but you can also directly acce
 
 Now go ahead and [study some more examples](http://xeiam.com/xchange_examplecode.jsp), [download the thing](http://xeiam.com/xchange_changelog.jsp) and [provide feedback](https://github.com/timmolter/XChange/issues).
 
-# Features
+## Features
 * MIT license
 * consistent API across all implemented exchanges
 * active development
@@ -33,27 +33,27 @@ Now go ahead and [study some more examples](http://xeiam.com/xchange_examplecode
 * modular components
 * polling and streaming capability
     
-# More Info
+## More Info
 Project Site: http://xeiam.com/xchange.jsp  
 Example Code: http://xeiam.com/xchange_examplecode.jsp  
 Change Log: http://xeiam.com/xchange_changelog.jsp  
 Java Docs: http://xeiam.com/xchange/javadoc/index.html  
-Sonar Code Quality: http://sonar.xeiam.com/
-Jenkins CI: http://ci.xeiam.com/
+Sonar Code Quality: http://sonar.xeiam.com/  
+Jenkins CI: http://ci.xeiam.com/  
 
-# Wiki
+## Wiki
 Home: https://github.com/timmolter/XChange/wiki  
 Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes  
 Milestones: https://github.com/timmolter/XChange/wiki/Milestones  
 Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support  
 New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices
 
-# Getting Started
+## Getting Started
 
-## Non-Maven
+### Non-Maven
 Download Jars: http://xeiam.com/xchange.jsp
 
-## Maven
+### Maven
 The XChange release artifacts are hosted on Maven Central. 
 
 For snapshots, add the following repository to your pom.xml file.
@@ -112,17 +112,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
       <version>1.3.0-SNAPSHOT</version>
     </dependency>
     
-# Building
+## Building
 mvn clean package  
 mvn javadoc:aggregate 
 
-# Bugs
+## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).
 
-# Contributing
+## Contributing
 If you'd like to submit a new implementation for another exchange, please take a look at [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices) first, as there are lots of time-saving tips! 
 
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
 
-# Donations
+## Donations
 17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6
