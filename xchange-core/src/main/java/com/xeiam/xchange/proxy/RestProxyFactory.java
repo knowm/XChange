@@ -29,7 +29,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * @author Matija Mazi
- * @see #createProxy(Class, String, com.xeiam.xchange.proxy.HttpTemplate, org.codehaus.jackson.map.ObjectMapper)
+ * @see #createProxy(Class, RestInvocationHandler)
  */
 public class RestProxyFactory {
 
