@@ -197,6 +197,7 @@ public class HttpTemplate {
         ((HttpURLConnection) connection).disconnect();
       }
     }
+    log.debug("responseString for {}: {}", urlString, responseString);
     return responseString;
   }
 
@@ -237,6 +238,7 @@ public class HttpTemplate {
       }
     }
 
+    log.debug("responseString for {}: {}", urlString, responseString);
     return responseString;
   }
 
