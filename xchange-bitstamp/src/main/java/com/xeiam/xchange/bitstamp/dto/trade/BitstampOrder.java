@@ -23,8 +23,12 @@
 package com.xeiam.xchange.bitstamp.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.xeiam.xchange.bitstamp.dto.util.BitstampUtil;
 
 /**
  * @author Matija Mazi
@@ -80,6 +84,12 @@ public final class BitstampOrder {
   public BigDecimal getAmount() {
 
     return amount;
+  }
+
+  @JsonIgnore
+  public Date getTime() {
+
+    return BitstampUtil.parseDate(getDatetime());
   }
 
   @Override
