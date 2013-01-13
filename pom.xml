@@ -7,10 +7,8 @@
 	<artifactId>xchange-parent</artifactId>
 	<version>1.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
 	<name>XChange Parent</name>
 	<description>XChange Parent provides a consistent set of libraries for modules to use</description>
-
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
 
@@ -28,6 +26,7 @@
 			<email>g.rowe@froot.co.uk</email>
 		</developer>
 	</developers>
+	
 	<licenses>
 		<license>
 			<name>MIT</name>
@@ -36,15 +35,18 @@
 			<comments>All source code is under the MIT license.</comments>
 		</license>
 	</licenses>
+	
 	<issueManagement>
 		<system>GitHub</system>
 		<url>https://github.com/timmolter/XChange/issues</url>
 	</issueManagement>
+	
 	<scm>
 		<connection>scm:git:git@github.com:timmolter/XChange.git</connection>
 		<developerConnection>scm:git:git@github.com:timmolter/XChange.git</developerConnection>
-		<url>https://github.com/timmolter/XChange</url>
+		<url>git@github.com:timmolter/XChange.git</url>
 	</scm>
+	
 	<ciManagement>
 		<url>http://ci.xeiam.com/</url>
 	</ciManagement>
