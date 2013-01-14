@@ -49,14 +49,7 @@ public class HttpTemplateTest {
     final HttpURLConnection mockHttpURLConnection = configureMockHttpURLConnectionForGet("/marketdata/example-ticker.json");
 
     // Provide a mocked out HttpURLConnection
-    HttpTemplate testObject = new HttpTemplate() {
-
-      @Override
-      public HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
-
-        return mockHttpURLConnection;
-      }
-    };
+    HttpTemplate testObject = new MockHttpTemplate(mockHttpURLConnection);
 
     // Perform the test
 
@@ -83,14 +76,7 @@ public class HttpTemplateTest {
     final HttpURLConnection mockHttpURLConnection = configureMockHttpURLConnectionForPost("/trade/example-accountinfo-data.json");
 
     // Configure the test object (overridden methods are tested elsewhere)
-    HttpTemplate testObject = new HttpTemplate() {
-
-      @Override
-      public HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
-
-        return mockHttpURLConnection;
-      }
-    };
+    HttpTemplate testObject = new MockHttpTemplate(mockHttpURLConnection);
 
     DummyAccountInfo accountInfo = testObject.executeRequest("http://example.org/accountinfo", DummyAccountInfo.class, "Example", new HashMap<String, String>(), HttpMethod.POST);
 
@@ -192,5 +178,21 @@ public class HttpTemplateTest {
 
     };
 
+  }
+
+  private static class MockHttpTemplate extends HttpTemplate {
+
+    private final HttpURLConnection mockHttpURLConnection;
+
+    public MockHttpTemplate(HttpURLConnection mockHttpURLConnection) {
+
+      this.mockHttpURLConnection = mockHttpURLConnection;
+    }
+
+    @Override
+    public HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+
+      return mockHttpURLConnection;
+    }
   }
 }
