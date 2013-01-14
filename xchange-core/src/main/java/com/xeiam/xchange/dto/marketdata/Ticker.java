@@ -47,8 +47,6 @@ public final class Ticker {
   private final BigDecimal volume;
   private final Date timestamp;
 
-  private ErrorMessage errorMessage;
-
   /**
    * Constructor
    * 
@@ -61,7 +59,7 @@ public final class Ticker {
    * @param volume
    * @param errorMessage
    */
-  private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume, ErrorMessage errorMessage) {
+  private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
 
     this.tradableIdentifier = tradableIdentifier;
     this.last = last;
@@ -70,7 +68,6 @@ public final class Ticker {
     this.high = high;
     this.low = low;
     this.volume = volume;
-    this.errorMessage = errorMessage;
     this.timestamp = DateUtils.nowUtc();
   }
 
@@ -114,16 +111,11 @@ public final class Ticker {
     return timestamp;
   }
 
-  public ErrorMessage getErrorMessage() {
-
-    return errorMessage;
-  }
-
   @Override
   public String toString() {
 
     return "Ticker [tradableIdentifier=" + tradableIdentifier + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp="
-        + timestamp + ", errorMessage=" + errorMessage + "]";
+        + timestamp + "]";
   }
 
   /**
@@ -144,7 +136,6 @@ public final class Ticker {
     private BigMoney high;
     private BigMoney low;
     private BigDecimal volume;
-    private ErrorMessage errorMessage;
 
     /**
      * @return A new instance of the builder
@@ -161,7 +152,7 @@ public final class Ticker {
 
       validateState();
 
-      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume, errorMessage);
+      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume);
 
       isBuilt = true;
 
@@ -214,12 +205,6 @@ public final class Ticker {
     public TickerBuilder withVolume(BigDecimal volume) {
 
       this.volume = volume;
-      return this;
-    }
-
-    public TickerBuilder withErrorMessage(ErrorMessage errorMessage) {
-
-      this.errorMessage = errorMessage;
       return this;
     }
 
