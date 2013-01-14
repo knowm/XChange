@@ -61,7 +61,7 @@ public class RestInvocationHandler implements InvocationHandler {
     return httpTemplate.executeRequest(
         restRequestData.url,
         restRequestData.returnType,
-        restRequestData.params.getPostBodyOrNull(),
+        restRequestData.params.getPostBody(),
         restRequestData.params.getHttpHeaders(),
         restRequestData.httpMethod);
   }

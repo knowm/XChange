@@ -131,7 +131,7 @@ public class HttpTemplate {
       connection.setDoInput(true);
 
       // Add content length to header
-      connection.setRequestProperty("Content-Length", Integer.toString(requestBody.length()));
+      connection.setRequestProperty("Content-Length", requestBody == null ? "0" : Integer.toString(requestBody.length()));
     }
 
     return connection;
