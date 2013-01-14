@@ -22,14 +22,14 @@
  */
 package com.xeiam.xchange.bitstamp.service.trade;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test Transaction[] JSON parsing
