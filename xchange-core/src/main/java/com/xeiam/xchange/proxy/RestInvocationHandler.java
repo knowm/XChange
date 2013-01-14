@@ -24,7 +24,6 @@ package com.xeiam.xchange.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 
 import javax.ws.rs.Path;
 
@@ -65,29 +64,13 @@ public class RestInvocationHandler implements InvocationHandler {
 
   protected Object invokeHttp(RestRequestData restRequestData) {
 
-    if (restRequestData.httpMethod != null) {
-      switch (restRequestData.httpMethod) {
-      case GET:
-        return getForJsonObject(restRequestData);
-      case POST:
-        return postForJsonObject(restRequestData);
-      }
-    }
-    throw new IllegalArgumentException("Only methods annotated with @GET or @POST supported.");
-  }
-
-  private Object postForJsonObject(RestRequestData restRequestData) {
-
-    AllParams allParams = restRequestData.params;
-
-    return httpTemplate.postForJsonObject(restRequestData.url, restRequestData.returnType, allParams.getPostBody(), mapper, allParams.getHttpHeaders());
-  }
-
-  private Object getForJsonObject(RestRequestData restRequestData) {
-
-    String url = restRequestData.url;
-
-    return httpTemplate.getForJsonObject(url, restRequestData.returnType, mapper, new HashMap<String, String>());
+    return httpTemplate.executeRequest(
+        restRequestData.url,
+        restRequestData.returnType,
+        restRequestData.params.getPostBodyOrNull(),
+        mapper,
+        restRequestData.params.getHttpHeaders(),
+        restRequestData.httpMethod);
   }
 
 }

@@ -127,6 +127,12 @@ public class AllParams implements Serializable {
     return paramsMap.get(FormParam.class).asFormEncodedPostBody();
   }
 
+  public String getPostBodyOrNull() {
+
+    String postBody = getPostBody();
+    return postBody.isEmpty() ? null : postBody;
+  }
+
   public Map<String, String> getHttpHeaders() {
 
     return paramsMap.get(HeaderParam.class).asHttpHeaders();

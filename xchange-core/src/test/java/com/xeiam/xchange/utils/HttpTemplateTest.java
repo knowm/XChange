@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.utils;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,12 +29,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.proxy.HttpMethod;
 import com.xeiam.xchange.proxy.HttpTemplate;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for testing HttpTemplate methods
@@ -59,11 +59,9 @@ public class HttpTemplateTest {
       }
     };
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    Map<String, String> httpHeaders = new HashMap<String, String>();
-
     // Perform the test
-    DummyTicker ticker = testObject.getForJsonObject("http://example.com/ticker", DummyTicker.class, objectMapper, httpHeaders);
+
+    DummyTicker ticker = testObject.executeRequest("http://example.com/ticker", DummyTicker.class, null, new ObjectMapper(), new HashMap<String, String>(), HttpMethod.GET);
 
     // Verify the results
     assertEquals(34567L, ticker.getVolume());
@@ -95,10 +93,7 @@ public class HttpTemplateTest {
       }
     };
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    Map<String, String> httpHeaders = new HashMap<String, String>();
-
-    DummyAccountInfo accountInfo = testObject.postForJsonObject("http://example.org/accountinfo", DummyAccountInfo.class, "Example", objectMapper, httpHeaders);
+    DummyAccountInfo accountInfo = testObject.executeRequest("http://example.org/accountinfo", DummyAccountInfo.class, "Example", new ObjectMapper(), new HashMap<String, String>(), HttpMethod.POST);
 
     assertEquals("test", accountInfo.getUsername());
 

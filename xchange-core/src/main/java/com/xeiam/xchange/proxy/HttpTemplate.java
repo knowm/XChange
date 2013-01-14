@@ -66,49 +66,30 @@ public class HttpTemplate {
   }
 
   /**
-   * Requests JSON via an HTTP GET and unmarshals it into an object graph
-   * 
+   * Requests JSON via an HTTP POST
+   *
    * @param urlString A string representation of a URL
    * @param returnType The required return type
+   * @param postBody The contents of the request body
    * @param objectMapper The Jackson ObjectMapper to use
    * @param httpHeaders Any custom header values (application/json is provided automatically)
-   * @return The contents of the response body as the given type mapped through Jackson
+   * @param method Http method (usually GET or POST)
+   * @return String - the fetched JSON String
    */
-  public <T> T getForJsonObject(String urlString, Class<T> returnType, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
+  public <T> T executeRequest(String urlString, Class<T> returnType, String postBody, ObjectMapper objectMapper, Map<String, String> httpHeaders, HttpMethod method) {
 
     Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(objectMapper, "objectMapper cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
     httpHeaders.put("Accept", "application/json");
 
-    return JSONUtils.getJsonObject(getForString(urlString, httpHeaders), returnType, objectMapper);
-  }
-
-  /**
-   * Requests JSON via an HTTP POST
-   * 
-   * @param urlString A string representation of a URL
-   * @param returnType The required return type
-   * @param postBody The contents of the request body
-   * @param objectMapper The Jackson ObjectMapper to use
-   * @param httpHeaders Any custom header values (application/json is provided automatically)
-   * @return String - the fetched JSON String
-   */
-  public <T> T postForJsonObject(String urlString, Class<T> returnType, String postBody, ObjectMapper objectMapper, Map<String, String> httpHeaders) {
-
-    Assert.notNull(urlString, "urlString cannot be null");
-    Assert.notNull(objectMapper, "objectMapper cannot be null");
-    Assert.notNull(httpHeaders, "httpHeaders should not be null");
-    // log.info("urlString = {}", urlString);
-    // log.info("postBody = {}", postBody);
-    // log.info("httpHeaders = {}", httpHeaders);
-
-    return JSONUtils.getJsonObject(postForString(urlString, postBody, httpHeaders), returnType, objectMapper);
+    String response = executeRequest(urlString, postBody, httpHeaders, method);
+    return JSONUtils.getJsonObject(response, returnType, objectMapper);
   }
 
   /**
    * Provides an internal convenience method to allow easy overriding by test classes
-   * 
+   *
    * @param method The HTTP method (e.g. GET, POST etc)
    * @param urlString A string representation of a URL
    * @param httpHeaders The HTTP headers (will override the defaults)
@@ -149,77 +130,34 @@ public class HttpTemplate {
     return connection;
   }
 
-  /**
-   * Provides an internal convenience method to allow easy overriding by test classes
-   * 
-   * @param urlString A string representation of a URL
-   * @return An HttpURLConnection based on the given parameter
-   * @throws IOException If something goes wrong
-   */
-  public HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
+  protected HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
 
     return (HttpURLConnection) new URL(urlString).openConnection();
   }
 
   /**
-   * Send an HTTP GET request, and receive server response
-   * 
+   * Executes an HTTP request with the given parameters.
+   *
+   * @param method The HTTP method (e.g. GET, POST etc)
    * @param urlString A string representation of a URL
-   * @param httpHeaders Any custom header values
-   * @return The contents of the response body as a String
-   * @see <a href="http://stackoverflow.com/questions/2793150/how-to-use-java-net-urlconnection-to-fire-and-handle-http-requests">Stack Overflow on URLConnection</a>
+   * @param httpHeaders The HTTP headers (will override the defaults)
+   * @param postBody The postBody (only required for POST configuration)
+   * @return The contents of the response body as String
    */
-  String getForString(String urlString, Map<String, String> httpHeaders) {
+  private String executeRequest(String urlString, String postBody, Map<String, String> httpHeaders, HttpMethod method) {
 
     Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders cannot be null");
 
     String responseString = "";
     URLConnection connection = null;
-
     try {
-      connection = configureURLConnection(HttpMethod.GET, urlString, httpHeaders, null);
-
-      // Minimise the impact of the HttpURLConnection on the job of getting the data
-      String responseEncoding = getResponseEncoding(connection);
-      InputStream inputStream = connection.getInputStream();
-
-      // Get the data
-      responseString = readInputStreamAsEncodedString(inputStream, responseEncoding);
-
-    } catch (MalformedURLException e) {
-      throw new HttpException("Problem GETing (malformed URL)", e);
-    } catch (IOException e) {
-      throw new HttpException("Problem GETing (IO)", e);
-    } finally {
-      // This is a bit messy
-      if (connection != null && connection instanceof HttpURLConnection) {
-        ((HttpURLConnection) connection).disconnect();
-      }
-    }
-    log.debug("responseString for {}: {}", urlString, responseString);
-    return responseString;
-  }
-
-  /**
-   * <p>
-   * Send an HTTP POST request, and receive server response
-   * </p>
-   * 
-   * @param urlString A string representation of a URL
-   * @param postBody The contents of the request body (treated as UTF-8)
-   * @param httpHeaders Any custom header values
-   * @return The contents of the response body as a String
-   */
-  String postForString(String urlString, String postBody, Map<String, String> httpHeaders) {
-
-    String responseString = "";
-    URLConnection connection = null;
-    try {
-      connection = configureURLConnection(HttpMethod.POST, urlString, httpHeaders, postBody);
+      connection = configureURLConnection(method, urlString, httpHeaders, postBody);
 
       // Perform the POST by writing to the output stream
-      connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
+      if (method == HttpMethod.POST) {
+        connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
+      }
 
       // Minimise the impact of the HttpURLConnection on the job of getting the data
       String responseEncoding = getResponseEncoding(connection);
@@ -229,10 +167,11 @@ public class HttpTemplate {
       responseString = readInputStreamAsEncodedString(inputStream, responseEncoding);
 
     } catch (MalformedURLException e) {
-      throw new HttpException("Problem POSTing (malformed URL)", e);
+      throw new HttpException("Problem " + method + "ing (malformed URL)", e);
     } catch (IOException e) {
-      throw new HttpException("Problem POSTing (IO)", e);
+      throw new HttpException("Problem " + method + "ing (IO)", e);
     } finally {
+      // This is a bit messy
       if (connection != null && connection instanceof HttpURLConnection) {
         ((HttpURLConnection) connection).disconnect();
       }
@@ -246,7 +185,7 @@ public class HttpTemplate {
    * <p>
    * Reads an InputStream as a String allowing for different encoding types
    * </p>
-   * 
+   *
    * @param inputStream The input stream
    * @param responseEncoding The encoding to use when converting to a String
    * @return A String representation of the input stream
