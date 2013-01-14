@@ -27,16 +27,12 @@ import java.lang.reflect.Method;
 
 import javax.ws.rs.Path;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-
 /**
  * @author Matija Mazi
  */
 public class RestInvocationHandler implements InvocationHandler {
 
   private final HttpTemplate httpTemplate;
-  private final ObjectMapper mapper;
   private final String intfacePath;
   private final String baseUrl;
 
@@ -51,8 +47,6 @@ public class RestInvocationHandler implements InvocationHandler {
     this.intfacePath = restInterface.getAnnotation(Path.class).value();
     this.baseUrl = url;
     this.httpTemplate = new HttpTemplate();
-    this.mapper = new ObjectMapper();
-    this.mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   @Override
@@ -68,7 +62,6 @@ public class RestInvocationHandler implements InvocationHandler {
         restRequestData.url,
         restRequestData.returnType,
         restRequestData.params.getPostBodyOrNull(),
-        mapper,
         restRequestData.params.getHttpHeaders(),
         restRequestData.httpMethod);
   }

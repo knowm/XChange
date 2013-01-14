@@ -33,6 +33,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,16 +72,17 @@ public class HttpTemplate {
    * @param urlString A string representation of a URL
    * @param returnType The required return type
    * @param postBody The contents of the request body
-   * @param objectMapper The Jackson ObjectMapper to use
    * @param httpHeaders Any custom header values (application/json is provided automatically)
    * @param method Http method (usually GET or POST)
    * @return String - the fetched JSON String
    */
-  public <T> T executeRequest(String urlString, Class<T> returnType, String postBody, ObjectMapper objectMapper, Map<String, String> httpHeaders, HttpMethod method) {
+  public <T> T executeRequest(String urlString, Class<T> returnType, String postBody, Map<String, String> httpHeaders, HttpMethod method) {
 
-    Assert.notNull(urlString, "urlString cannot be null");
-    Assert.notNull(objectMapper, "objectMapper cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     httpHeaders.put("Accept", "application/json");
 
     String response = executeRequest(urlString, postBody, httpHeaders, method);

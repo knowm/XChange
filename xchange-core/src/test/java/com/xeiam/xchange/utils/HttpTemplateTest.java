@@ -30,7 +30,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.proxy.HttpMethod;
@@ -61,7 +60,7 @@ public class HttpTemplateTest {
 
     // Perform the test
 
-    DummyTicker ticker = testObject.executeRequest("http://example.com/ticker", DummyTicker.class, null, new ObjectMapper(), new HashMap<String, String>(), HttpMethod.GET);
+    DummyTicker ticker = testObject.executeRequest("http://example.com/ticker", DummyTicker.class, null, new HashMap<String, String>(), HttpMethod.GET);
 
     // Verify the results
     assertEquals(34567L, ticker.getVolume());
@@ -93,7 +92,7 @@ public class HttpTemplateTest {
       }
     };
 
-    DummyAccountInfo accountInfo = testObject.executeRequest("http://example.org/accountinfo", DummyAccountInfo.class, "Example", new ObjectMapper(), new HashMap<String, String>(), HttpMethod.POST);
+    DummyAccountInfo accountInfo = testObject.executeRequest("http://example.org/accountinfo", DummyAccountInfo.class, "Example", new HashMap<String, String>(), HttpMethod.POST);
 
     assertEquals("test", accountInfo.getUsername());
 
