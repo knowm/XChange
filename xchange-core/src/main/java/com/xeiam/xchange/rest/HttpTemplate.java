@@ -66,6 +66,14 @@ public class HttpTemplate {
 
   }
 
+  private ObjectMapper objectMapper;
+
+  public HttpTemplate() {
+
+    objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+  }
+
   /**
    * Requests JSON via an HTTP POST
    *
@@ -79,9 +87,6 @@ public class HttpTemplate {
   public <T> T executeRequest(String urlString, Class<T> returnType, String postBody, Map<String, String> httpHeaders, HttpMethod method) {
 
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
-
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     httpHeaders.put("Accept", "application/json");
 
