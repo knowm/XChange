@@ -32,7 +32,7 @@ import com.xeiam.xchange.oer.OERAdapters;
 import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 import com.xeiam.xchange.oer.dto.marketdata.Rates;
-import com.xeiam.xchange.proxy.RestProxyFactory;
+import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.proxy;
+package com.xeiam.xchange.rest;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

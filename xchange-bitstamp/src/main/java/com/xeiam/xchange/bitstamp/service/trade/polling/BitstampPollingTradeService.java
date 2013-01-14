@@ -22,9 +22,6 @@
  */
 package com.xeiam.xchange.bitstamp.service.trade.polling;
 
-import static com.xeiam.xchange.dto.Order.OrderType.ASK;
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +35,12 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.proxy.RestProxyFactory;
+import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+
+import static com.xeiam.xchange.dto.Order.OrderType.ASK;
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author Matija Mazi

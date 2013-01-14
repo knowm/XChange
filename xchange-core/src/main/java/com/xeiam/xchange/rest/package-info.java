@@ -23,4 +23,4 @@
  * @see RestProxyFactory
  *
  */
-package com.xeiam.xchange.proxy;
+package com.xeiam.xchange.rest;

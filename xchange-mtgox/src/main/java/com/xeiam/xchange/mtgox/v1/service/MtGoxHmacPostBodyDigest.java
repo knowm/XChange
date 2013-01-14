@@ -30,8 +30,8 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.xeiam.xchange.proxy.AllParams;
-import com.xeiam.xchange.proxy.ParamsDigest;
+import com.xeiam.xchange.rest.AllParams;
+import com.xeiam.xchange.rest.ParamsDigest;
 import com.xeiam.xchange.utils.Base64;
 
 /**

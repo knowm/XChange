@@ -32,8 +32,8 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import com.xeiam.xchange.proxy.HttpMethod;
-import com.xeiam.xchange.proxy.HttpTemplate;
+import com.xeiam.xchange.rest.HttpMethod;
+import com.xeiam.xchange.rest.HttpTemplate;
 
 import static org.junit.Assert.assertEquals;
 

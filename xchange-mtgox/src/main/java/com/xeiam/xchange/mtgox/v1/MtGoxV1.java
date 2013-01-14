@@ -17,7 +17,7 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.proxy.ParamsDigest;
+import com.xeiam.xchange.rest.ParamsDigest;
 
 /**
  * @author Matija Mazi

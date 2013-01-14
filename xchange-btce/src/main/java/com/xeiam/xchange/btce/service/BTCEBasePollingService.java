@@ -26,8 +26,8 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
-import com.xeiam.xchange.proxy.ParamsDigest;
-import com.xeiam.xchange.proxy.RestProxyFactory;
+import com.xeiam.xchange.rest.ParamsDigest;
+import com.xeiam.xchange.rest.RestProxyFactory;
 
 /**
  * @author Matija Mazi

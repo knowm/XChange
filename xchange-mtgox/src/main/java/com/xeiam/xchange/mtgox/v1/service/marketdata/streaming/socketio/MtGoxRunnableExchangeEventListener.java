@@ -32,7 +32,7 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.proxy.JSONUtils;
+import com.xeiam.xchange.rest.JSONUtils;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 

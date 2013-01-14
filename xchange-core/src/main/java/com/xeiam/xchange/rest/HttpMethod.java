@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,14 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.proxy;
+package com.xeiam.xchange.rest;
 
 /**
- * This may be used for REST APIs where some parameters' values must be digests of other parameters.
- * 
- * @author Matija Mazi
- */
-public interface ParamsDigest {
-
-  public String digestParams(AllParams allParams);
+* @author Matija Mazi <br/>
+* @created 1/14/13 2:47 PM
+*/
+public enum HttpMethod {
+  GET, POST, PUT, DELETE, HEAD
 }

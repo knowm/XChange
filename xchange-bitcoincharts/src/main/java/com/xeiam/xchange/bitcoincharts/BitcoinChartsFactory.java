@@ -22,7 +22,7 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
-import com.xeiam.xchange.proxy.RestProxyFactory;
+import com.xeiam.xchange.rest.RestProxyFactory;
 
 /**
  * @author Matija Mazi

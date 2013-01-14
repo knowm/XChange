@@ -6,7 +6,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
-import com.xeiam.xchange.proxy.ParamsDigest;
+import com.xeiam.xchange.rest.ParamsDigest;
 
 /**
  * @author timmolter

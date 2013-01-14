@@ -33,8 +33,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.proxy.AllParams;
-import com.xeiam.xchange.proxy.Params;
+import com.xeiam.xchange.rest.AllParams;
+import com.xeiam.xchange.rest.Params;
 
 public class MtGoxHmacPostBodyDigestTest {
 
