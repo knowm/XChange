@@ -309,8 +309,4 @@ public class HttpTemplate {
     return charset;
   }
 
-  public enum HttpMethod {
-    GET, POST, PUT, DELETE, HEAD
-  }
-
 }

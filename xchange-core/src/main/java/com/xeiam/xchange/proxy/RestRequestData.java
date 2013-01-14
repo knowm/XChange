@@ -36,7 +36,7 @@ public class RestRequestData implements Serializable {
 
   protected final Class<?> returnType;
   protected final AllParams params;
-  protected final HttpTemplate.HttpMethod httpMethod;
+  protected final HttpMethod httpMethod;
   protected final String url;
 
   /**
@@ -47,7 +47,7 @@ public class RestRequestData implements Serializable {
    * @param httpMethod
    * @param url
    */
-  public RestRequestData(Class<?> returnType, AllParams params, HttpTemplate.HttpMethod httpMethod, String url) {
+  public RestRequestData(Class<?> returnType, AllParams params, HttpMethod httpMethod, String url) {
 
     this.returnType = returnType;
     this.params = params;
@@ -60,7 +60,7 @@ public class RestRequestData implements Serializable {
     AllParams params = AllParams.createInstance(method, args);
     Path pathAnn = method.getAnnotation(Path.class);
     String path = pathAnn == null ? null : params.getPath(pathAnn.value());
-    HttpTemplate.HttpMethod httpMethod = method.isAnnotationPresent(GET.class) ? HttpTemplate.HttpMethod.GET : method.isAnnotationPresent(POST.class) ? HttpTemplate.HttpMethod.POST : null;
+    HttpMethod httpMethod = method.isAnnotationPresent(GET.class) ? HttpMethod.GET : method.isAnnotationPresent(POST.class) ? HttpMethod.POST : null;
     String url1 = getUrl(baseUrl, path, intfacePath, params.getQueryString());
     return new RestRequestData(method.getReturnType(), params, httpMethod, url1);
   }

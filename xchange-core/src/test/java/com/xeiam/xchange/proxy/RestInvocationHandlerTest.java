@@ -43,22 +43,22 @@ public class RestInvocationHandlerTest {
     ExampleService proxy = RestProxyFactory.createProxy(ExampleService.class, testHandler);
 
     proxy.buy("john", "secret", new BigDecimal("3.14"), new BigDecimal("10.00"));
-    assertRequestData(testHandler, "https://example.com/api/2/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14&price=10.00");
+    assertRequestData(testHandler, "https://example.com/api/2/buy/", HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14&price=10.00");
 
     proxy.buy("john", "secret", new BigDecimal("3.14"), null);
-    assertRequestData(testHandler, "https://example.com/api/2/buy/", HttpTemplate.HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14");
+    assertRequestData(testHandler, "https://example.com/api/2/buy/", HttpMethod.POST, Order.class, "user=john&password=secret&amount=3.14");
 
     proxy.withdrawBitcoin("john", "secret", new BigDecimal("3.14"), "mybitcoinaddress");
-    assertRequestData(testHandler, "https://example.com/api/2/bitcoin_withdrawal/john?amount=3.14&address=mybitcoinaddress", HttpTemplate.HttpMethod.POST, Object.class, "password=secret");
+    assertRequestData(testHandler, "https://example.com/api/2/bitcoin_withdrawal/john?amount=3.14&address=mybitcoinaddress", HttpMethod.POST, Object.class, "password=secret");
 
     proxy.getTicker("btc", "usd");
-    assertRequestData(testHandler, "https://example.com/api/2/btc_usd/ticker", HttpTemplate.HttpMethod.GET, Ticker.class, "");
+    assertRequestData(testHandler, "https://example.com/api/2/btc_usd/ticker", HttpMethod.GET, Ticker.class, "");
 
     proxy.getInfo(1000L, 2000L);
-    assertRequestData(testHandler, "https://example.com/api/2", HttpTemplate.HttpMethod.POST, Object.class, "method=getInfo");
+    assertRequestData(testHandler, "https://example.com/api/2", HttpMethod.POST, Object.class, "method=getInfo");
   }
 
-  private void assertRequestData(TestRestInvocationHandler testHandler, String url, HttpTemplate.HttpMethod httpMethod, Class resultClass, String postBody) {
+  private void assertRequestData(TestRestInvocationHandler testHandler, String url, HttpMethod httpMethod, Class resultClass, String postBody) {
 
     assertEquals(url, testHandler.restRequestData.url);
     assertEquals(httpMethod, testHandler.restRequestData.httpMethod);
