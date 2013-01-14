@@ -48,6 +48,7 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
+import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -141,7 +142,7 @@ public class MtGoxAdapterTest {
     assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
-    assertThat("2012-04-11T20:48:46.000Z", is(equalTo(trades.getTrades().get(0).getTimestamp().toString())));
+    assertThat("2012-04-11 20:48:46 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
   }
 
   @Test

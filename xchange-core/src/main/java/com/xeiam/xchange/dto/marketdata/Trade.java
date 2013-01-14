@@ -22,9 +22,9 @@
 package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.dto.Order.OrderType;
 
@@ -55,7 +55,7 @@ public final class Trade implements Comparable<Trade> {
    */
   private final BigMoney price;
 
-  private final DateTime timestamp;
+  private final Date timestamp;
 
   /**
    * Constructor
@@ -67,9 +67,8 @@ public final class Trade implements Comparable<Trade> {
    * @param price
    * @param timestamp
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, DateTime timestamp) {
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp) {
 
-    super();
     this.type = type;
     this.tradableAmount = tradableAmount;
     this.tradableIdentifier = tradableIdentifier;
@@ -103,7 +102,7 @@ public final class Trade implements Comparable<Trade> {
     return price;
   }
 
-  public DateTime getTimestamp() {
+  public Date getTimestamp() {
 
     return timestamp;
   }
@@ -118,9 +117,9 @@ public final class Trade implements Comparable<Trade> {
   @Override
   public int compareTo(Trade trade) {
 
-    if (this.getTimestamp().isBefore(trade.getTimestamp())) {
+    if (this.getTimestamp().before(trade.getTimestamp())) {
       return -1;
-    } else if (this.getTimestamp().isAfter(trade.getTimestamp())) {
+    } else if (this.getTimestamp().after(trade.getTimestamp())) {
       return 1;
     } else {
       return 0;

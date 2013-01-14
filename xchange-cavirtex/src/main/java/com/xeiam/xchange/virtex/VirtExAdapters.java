@@ -23,15 +23,15 @@ package com.xeiam.xchange.virtex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -103,9 +103,9 @@ public final class VirtExAdapters {
 
     BigDecimal amount = virtExTrade.getAmount();
     BigMoney price = MoneyUtils.parseFiat(currency + " " + virtExTrade.getPrice());
-    DateTime dateTime = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
+    Date date = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
-    return new Trade(null, amount, tradableIdentifier, currency, price, dateTime);
+    return new Trade(null, amount, tradableIdentifier, currency, price, date);
   }
 
   /**

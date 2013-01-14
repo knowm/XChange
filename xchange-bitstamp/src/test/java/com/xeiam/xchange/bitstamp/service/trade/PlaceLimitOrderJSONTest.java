@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
@@ -54,6 +53,5 @@ public class PlaceLimitOrderJSONTest {
     assertThat("Unexpected new order amount", newOrder.getAmount(), is(BigDecimal.ONE));
     assertThat("Unexpected new order price", newOrder.getPrice(), is(new BigDecimal("1.25")));
     assertThat("Unexpected new order type", newOrder.getType(), is(0));
-    assertThat("Unexpected new order time", newOrder.getTime(), is(new DateTime(2013, 1, 7, 8, 44, 4, 0).toDate()));
   }
 }

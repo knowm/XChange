@@ -22,8 +22,6 @@
  */
 package com.xeiam.xchange.btce.service;
 
-import org.joda.time.DateTime;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
@@ -36,7 +34,7 @@ import com.xeiam.xchange.proxy.RestProxyFactory;
  */
 public class BTCEBasePollingService {
 
-  private static final long START_MILLIS = new DateTime(2013, 1, 1, 0, 0, 0).getMillis();
+  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
   protected final String apiKey;
   protected final BTCEAuthenticated btce;

@@ -24,7 +24,7 @@ package com.xeiam.xchange.oer;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**

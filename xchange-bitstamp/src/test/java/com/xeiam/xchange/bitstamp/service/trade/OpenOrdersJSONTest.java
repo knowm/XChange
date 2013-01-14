@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -31,7 +31,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
@@ -54,7 +53,6 @@ public class OpenOrdersJSONTest {
     assertThat("Unexpected order list size", orders.length, is(4));
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Date value", orders[1].getTime(), is(new DateTime(2013, 1, 2, 9, 59, 44, 0).toDate()));
     assertThat("Unexpected Return tid value", orders[1].getId(), is(equalTo(1262468)));
     assertThat("Unexpected Return price value", orders[1].getPrice(), is(equalTo(new BigDecimal("12.15"))));
     assertThat("Unexpected Return amount value", orders[1].getAmount(), is(equalTo(new BigDecimal("3.00000000"))));

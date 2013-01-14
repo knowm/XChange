@@ -40,12 +40,6 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 		</dependency>
 
-		<!-- All time handling is through Joda Time -->
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
-
 		<!-- All money handling is through Joda Money -->
 		<dependency>
 			<groupId>org.joda</groupId>

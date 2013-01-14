@@ -23,12 +23,12 @@ package com.xeiam.xchange.btce;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.btce.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
@@ -37,7 +37,7 @@ import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -118,9 +118,9 @@ public final class BTCEAdapters {
     String currency = BTCETrade.getPriceCurrency();
     BigMoney price = MoneyUtils.parseFiat(currency + " " + BTCETrade.getPrice());
     String tradableIdentifier = BTCETrade.getItem();
-    DateTime dateTime = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
+    Date date = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, dateTime);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date);
   }
 
   /**

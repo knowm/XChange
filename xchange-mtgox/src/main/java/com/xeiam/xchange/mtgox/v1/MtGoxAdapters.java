@@ -23,16 +23,16 @@ package com.xeiam.xchange.mtgox.v1;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -178,7 +178,7 @@ public final class MtGoxAdapters {
     String transactionCurrency = mtGoxTrade.getPriceCurrency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPriceInt());
 
-    DateTime dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
+    Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
 
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }

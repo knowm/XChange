@@ -22,9 +22,9 @@
 package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -38,23 +38,16 @@ import com.xeiam.xchange.utils.DateUtils;
  */
 public final class Ticker {
 
-  private String tradableIdentifier;
-  private BigMoney last;
-  private BigMoney bid;
-  private BigMoney ask;
-  private BigMoney high;
-  private BigMoney low;
-  private BigDecimal volume;
-  private DateTime timestamp;
+  private final String tradableIdentifier;
+  private final BigMoney last;
+  private final BigMoney bid;
+  private final BigMoney ask;
+  private final BigMoney high;
+  private final BigMoney low;
+  private final BigDecimal volume;
+  private final Date timestamp;
 
   private ErrorMessage errorMessage;
-
-  /**
-   * Prevent arbitrary construction outside of the Builder
-   */
-  Ticker() {
-
-  }
 
   /**
    * Constructor
@@ -65,11 +58,10 @@ public final class Ticker {
    * @param ask
    * @param high
    * @param low
-   * @param volume Note: Too many parameters for this constructor - refactored to use Builder
-   * @deprecated This constructor will be removed in 1.4.0
+   * @param volume
+   * @param errorMessage
    */
-  @Deprecated
-  public Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
+  private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume, ErrorMessage errorMessage) {
 
     this.tradableIdentifier = tradableIdentifier;
     this.last = last;
@@ -78,6 +70,7 @@ public final class Ticker {
     this.high = high;
     this.low = low;
     this.volume = volume;
+    this.errorMessage = errorMessage;
     this.timestamp = DateUtils.nowUtc();
   }
 
@@ -86,19 +79,9 @@ public final class Ticker {
     return tradableIdentifier;
   }
 
-  /* package */void setTradableIdentifier(String tradableIdentifier) {
-
-    this.tradableIdentifier = tradableIdentifier;
-  }
-
   public BigMoney getLast() {
 
     return last;
-  }
-
-  /* package */void setLast(BigMoney last) {
-
-    this.last = last;
   }
 
   public BigMoney getBid() {
@@ -106,19 +89,9 @@ public final class Ticker {
     return bid;
   }
 
-  /* package */void setBid(BigMoney bid) {
-
-    this.bid = bid;
-  }
-
   public BigMoney getAsk() {
 
     return ask;
-  }
-
-  /* package */void setAsk(BigMoney ask) {
-
-    this.ask = ask;
   }
 
   public BigMoney getHigh() {
@@ -126,19 +99,9 @@ public final class Ticker {
     return high;
   }
 
-  /* package */void setHigh(BigMoney high) {
-
-    this.high = high;
-  }
-
   public BigMoney getLow() {
 
     return low;
-  }
-
-  /* package */void setLow(BigMoney low) {
-
-    this.low = low;
   }
 
   public BigDecimal getVolume() {
@@ -146,19 +109,9 @@ public final class Ticker {
     return volume;
   }
 
-  /* package */void setVolume(BigDecimal volume) {
-
-    this.volume = volume;
-  }
-
-  public DateTime getTimestamp() {
+  public Date getTimestamp() {
 
     return timestamp;
-  }
-
-  /* package */void setTimestamp(DateTime timestamp) {
-
-    this.timestamp = timestamp;
   }
 
   public ErrorMessage getErrorMessage() {
@@ -166,16 +119,109 @@ public final class Ticker {
     return errorMessage;
   }
 
-  /* package */void setErrorMessage(ErrorMessage errorMessage) {
-
-    this.errorMessage = errorMessage;
-  }
-
   @Override
   public String toString() {
 
     return "Ticker [tradableIdentifier=" + tradableIdentifier + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp="
-        + timestamp + "]";
+        + timestamp + ", errorMessage=" + errorMessage + "]";
   }
 
+  /**
+   * <p>
+   * Builder to provide the following to {@link Ticker}:
+   * </p>
+   * <ul>
+   * <li>Provision of fluent chained construction interface</li>
+   * </ul>
+   *  
+   */
+  public static class TickerBuilder {
+
+    private String tradableIdentifier;
+    private BigMoney last;
+    private BigMoney bid;
+    private BigMoney ask;
+    private BigMoney high;
+    private BigMoney low;
+    private BigDecimal volume;
+    private ErrorMessage errorMessage;
+
+    /**
+     * @return A new instance of the builder
+     */
+    public static TickerBuilder newInstance() {
+
+      return new TickerBuilder();
+    }
+
+    // Prevent repeat builds
+    private boolean isBuilt = false;
+
+    public Ticker build() {
+
+      validateState();
+
+      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume, errorMessage);
+
+      isBuilt = true;
+
+      return ticker;
+    }
+
+    private void validateState() {
+
+      if (isBuilt) {
+        throw new IllegalStateException("The entity has been built");
+      }
+    }
+
+    public TickerBuilder withTradableIdentifier(String tradableIdentifier) {
+
+      this.tradableIdentifier = tradableIdentifier;
+      return this;
+    }
+
+    public TickerBuilder withLast(BigMoney last) {
+
+      this.last = last;
+      return this;
+    }
+
+    public TickerBuilder withBid(BigMoney bid) {
+
+      this.bid = bid;
+      return this;
+    }
+
+    public TickerBuilder withAsk(BigMoney ask) {
+
+      this.ask = ask;
+      return this;
+    }
+
+    public TickerBuilder withHigh(BigMoney high) {
+
+      this.high = high;
+      return this;
+    }
+
+    public TickerBuilder withLow(BigMoney low) {
+
+      this.low = low;
+      return this;
+    }
+
+    public TickerBuilder withVolume(BigDecimal volume) {
+
+      this.volume = volume;
+      return this;
+    }
+
+    public TickerBuilder withErrorMessage(ErrorMessage errorMessage) {
+
+      this.errorMessage = errorMessage;
+      return this;
+    }
+
+  }
 }

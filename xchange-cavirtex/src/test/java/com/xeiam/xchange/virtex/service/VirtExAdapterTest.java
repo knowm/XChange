@@ -36,6 +36,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.virtex.VirtExAdapters;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
@@ -88,7 +89,7 @@ public class VirtExAdapterTest {
     // verify all fields filled
     assertTrue("price should be 11.500000000", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 11.500000000);
     assertTrue("tradableAmount should be 13.000000000", trades.getTrades().get(0).getTradableAmount().doubleValue() == 13.000000000);
-    assertEquals("timestamp incorrect", "2012-09-26T15:23:19.000Z", trades.getTrades().get(0).getTimestamp().toString());
+    assertEquals("timestamp incorrect", "2012-09-26 15:23:19 GMT", DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()));
   }
 
   @Test

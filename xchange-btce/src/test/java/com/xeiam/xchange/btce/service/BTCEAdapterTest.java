@@ -43,6 +43,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Tests the BTCEAdapter class
@@ -88,7 +89,7 @@ public class BTCEAdapterTest {
     assertTrue("tradableAmount should be 1.0", trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.0);
     assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
     // assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
-    assertEquals("timestamp incorrect", "2012-12-22T08:06:14.000Z", trades.getTrades().get(0).getTimestamp().toString());
+    assertEquals("timestamp incorrect", "2012-12-22 08:06:14 GMT", DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()));
   }
 
   @Test
