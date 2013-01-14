@@ -25,12 +25,10 @@ package com.xeiam.xchange.examples.bitstamp.trade;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -42,19 +40,12 @@ import com.xeiam.xchange.utils.MoneyUtils;
  * <li>Connect to Bitstamp exchange with authentication</li>
  * <li>Enter, review and cancel limit orders</li>
  * </ul>
- * <p>
- * Provide the username and password as the first two program arguments.
- * </p>
  */
 public class BitstampTradeDemo {
 
   public static void main(String[] args) {
 
-    ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
-    exSpec.setUserName(args[0]);
-    exSpec.setPassword(args[1]);
-
-    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(exSpec);
+    Exchange bitstamp = BitstampDemoUtils.getExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
 
     printOpenOrders(tradeService);

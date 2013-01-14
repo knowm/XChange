@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,41 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitstamp.account;
-
-import java.math.BigDecimal;
+package com.xeiam.xchange.examples.bitstamp;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitstamp.BitstampExchange;
 
 /**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connect to Bitstamp exchange with authentication</li>
- * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- * </ul>
+ * @author Matija Mazi <br/>
  */
-public class BitstampAccountDemo {
+public class BitstampDemoUtils {
 
-  public static void main(String[] args) {
+  public static Exchange getExchange() {
 
-    Exchange bitstamp = BitstampDemoUtils.getExchange();
+    ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
+    exSpec.setUserName("34387");
+    exSpec.setPassword("H?kRyaslJp44");
 
-    PollingAccountService accountService = bitstamp.getPollingAccountService();
-
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
-
-    String depositAddress = accountService.requestBitcoinDepositAddress(null, null);
-    System.out.println("Deposit address: " + depositAddress);
-
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
-    System.out.println("withdrawResult = " + withdrawResult);
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }
