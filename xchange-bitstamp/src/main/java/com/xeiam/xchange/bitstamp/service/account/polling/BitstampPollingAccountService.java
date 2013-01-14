@@ -24,6 +24,7 @@ package com.xeiam.xchange.bitstamp.service.account.polling;
 
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitStamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
@@ -55,6 +56,9 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   public AccountInfo getAccountInfo() {
 
     BitstampBalance bitstampBalance = bitstamp.getBalance(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    if (bitstampBalance.getError() != null) {
+      throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
+    }
 
     return BitstampAdapters.adaptAccountInfo(bitstampBalance, exchangeSpecification.getUserName());
   }
@@ -68,8 +72,6 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   /**
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
    * 
-   * @param description must be null
-   * @param notificationUrl must be null
    */
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) {

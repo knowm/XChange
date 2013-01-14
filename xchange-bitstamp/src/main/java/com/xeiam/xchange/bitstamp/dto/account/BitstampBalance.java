@@ -38,6 +38,7 @@ public final class BitstampBalance {
   private final BigDecimal usdAvailable;
   private final BigDecimal btcAvailable;
   private final BigDecimal fee;
+  private final String error;
 
   /**
    * Constructor
@@ -52,7 +53,7 @@ public final class BitstampBalance {
    */
   public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("btc_balance") BigDecimal btcBalance, @JsonProperty("usd_reserved") BigDecimal usdReserved,
       @JsonProperty("btc_reserved") BigDecimal btcReserved, @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
-      @JsonProperty("fee") BigDecimal fee) {
+      @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
 
     this.usdBalance = usdBalance;
     this.btcBalance = btcBalance;
@@ -61,6 +62,7 @@ public final class BitstampBalance {
     this.usdAvailable = usdAvailable;
     this.btcAvailable = btcAvailable;
     this.fee = fee;
+    this.error = error;
   }
 
   public BigDecimal getUsdBalance() {
@@ -96,6 +98,11 @@ public final class BitstampBalance {
   public BigDecimal getFee() {
 
     return fee;
+  }
+
+  public String getError() {
+
+    return error;
   }
 
   @Override
