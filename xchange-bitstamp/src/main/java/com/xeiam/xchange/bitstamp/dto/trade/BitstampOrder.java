@@ -28,7 +28,7 @@ import java.util.Date;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.xeiam.xchange.bitstamp.dto.util.BitstampUtil;
+import com.xeiam.xchange.bitstamp.BitstampUtils;
 
 /**
  * @author Matija Mazi
@@ -89,7 +89,7 @@ public final class BitstampOrder {
   @JsonIgnore
   public Date getTime() {
 
-    return BitstampUtil.parseDate(getDatetime());
+    return BitstampUtils.parseDate(getDatetime());
   }
 
   @Override

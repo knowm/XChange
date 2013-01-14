@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Matija Mazi
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,15 +22,21 @@
  */
 package com.xeiam.xchange.bitstamp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * A central place for shared Bitstamp properties
  */
 public final class BitstampUtils {
+
+  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   /**
    * private Constructor
@@ -53,6 +60,21 @@ public final class BitstampUtils {
   public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
     return CURRENCY_PAIRS.contains(currencyPair);
+  }
+
+  /**
+   * Format a date String for Bitstamp
+   * 
+   * @param dateString
+   * @return
+   */
+  public static Date parseDate(String dateString) {
+
+    try {
+      return DATE_FORMAT.parse(dateString);
+    } catch (ParseException e) {
+      throw new ExchangeException("Illegal date/time format", e);
+    }
   }
 
 }
