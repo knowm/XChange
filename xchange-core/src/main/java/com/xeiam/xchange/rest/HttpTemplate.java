@@ -100,11 +100,11 @@ public class HttpTemplate {
    * @param method The HTTP method (e.g. GET, POST etc)
    * @param urlString A string representation of a URL
    * @param httpHeaders The HTTP headers (will override the defaults)
-   * @param postBody The postBody (only required for POST configuration)
+   * @param requestBody The request body (only required for POST method)
    * @return An HttpURLConnection based on the given parameters
    * @throws IOException If something goes wrong
    */
-  URLConnection configureURLConnection(HttpMethod method, String urlString, Map<String, String> httpHeaders, String postBody) throws IOException {
+  private URLConnection configureURLConnection(HttpMethod method, String urlString, Map<String, String> httpHeaders, String requestBody) throws IOException {
 
     Assert.notNull(method, "method cannot be null");
     Assert.notNull(method, "urlString cannot be null");
@@ -126,12 +126,12 @@ public class HttpTemplate {
     }
 
     // Perform additional configuration for POST
-    if ("POST".equalsIgnoreCase(method.name())) {
+    if (method == HttpMethod.POST) {
       connection.setDoOutput(true);
       connection.setDoInput(true);
 
       // Add content length to header
-      connection.setRequestProperty("Content-Length", Integer.toString(postBody.length()));
+      connection.setRequestProperty("Content-Length", Integer.toString(requestBody.length()));
     }
 
     return connection;
@@ -198,7 +198,7 @@ public class HttpTemplate {
    * @return A String representation of the input stream
    * @throws IOException If something goes wrong
    */
-  public String readInputStreamAsEncodedString(InputStream inputStream, String responseEncoding) throws IOException {
+   String readInputStreamAsEncodedString(InputStream inputStream, String responseEncoding) throws IOException {
 
     String responseString;
 

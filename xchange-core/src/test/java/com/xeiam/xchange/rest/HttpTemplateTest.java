@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.utils;
+package com.xeiam.xchange.rest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,8 +32,8 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import com.xeiam.xchange.rest.HttpMethod;
-import com.xeiam.xchange.rest.HttpTemplate;
+import com.xeiam.xchange.utils.DummyAccountInfo;
+import com.xeiam.xchange.utils.DummyTicker;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,7 +46,7 @@ public class HttpTemplateTest {
   public void testGetForJsonObject() throws Exception {
 
     // Configure to use the example JSON objects
-    final HttpURLConnection mockHttpURLConnection = HttpURLConnectionUtils.configureMockHttpURLConnectionForGet("/marketdata/example-ticker.json");
+    final HttpURLConnection mockHttpURLConnection = configureMockHttpURLConnectionForGet("/marketdata/example-ticker.json");
 
     // Provide a mocked out HttpURLConnection
     HttpTemplate testObject = new HttpTemplate() {
@@ -151,4 +151,46 @@ public class HttpTemplateTest {
 
   }
 
+  /**
+   * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very complex workarounds. In the interests of simplicity an implementation approach is used.
+   *
+   * @param resourcePath A classpath resource for the input stream to use in the response
+   * @return A mock HttpURLConnection
+   * @throws java.net.MalformedURLException If something goes wrong
+   */
+  public static HttpURLConnection configureMockHttpURLConnectionForGet(final String resourcePath) throws MalformedURLException {
+
+    return new HttpURLConnection(new URL("http://example.org")) {
+
+      @Override
+      public void disconnect() {
+
+      }
+
+      @Override
+      public boolean usingProxy() {
+
+        return false;
+      }
+
+      @Override
+      public void connect() throws IOException {
+
+      }
+
+      @Override
+      public InputStream getInputStream() throws IOException {
+
+        return HttpTemplateTest.class.getResourceAsStream(resourcePath);
+      }
+
+      @Override
+      public String getHeaderField(String s) {
+
+        return null;
+      }
+
+    };
+
+  }
 }
