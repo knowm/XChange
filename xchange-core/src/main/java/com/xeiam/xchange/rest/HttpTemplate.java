@@ -156,6 +156,8 @@ public class HttpTemplate {
     Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders cannot be null");
 
+    log.debug("Executing {} request at {}", method, urlString);
+
     String responseString = "";
     URLConnection connection = null;
     try {
@@ -184,7 +186,7 @@ public class HttpTemplate {
       }
     }
 
-    log.debug("responseString for {}: {}", urlString, responseString);
+    log.debug("Response body: {}", responseString);
     return responseString;
   }
 
