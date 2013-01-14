@@ -24,9 +24,6 @@ package com.xeiam.xchange.proxy;
 
 import java.lang.reflect.Proxy;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-
 /**
  * @author Matija Mazi
  * @see #createProxy(Class, RestInvocationHandler)
@@ -50,11 +47,7 @@ public class RestProxyFactory {
    */
   public static <I> I createProxy(Class<I> restInterface, String baseUrl) {
 
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-    RestInvocationHandler restInvocationHandler = new RestInvocationHandler(new HttpTemplate(), mapper, restInterface, baseUrl);
-    return createProxy(restInterface, restInvocationHandler);
+    return createProxy(restInterface, new RestInvocationHandler(restInterface, baseUrl));
   }
 
   static <I> I createProxy(Class<I> restInterface, RestInvocationHandler restInvocationHandler) {

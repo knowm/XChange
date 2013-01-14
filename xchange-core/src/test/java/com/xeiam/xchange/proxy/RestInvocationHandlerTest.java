@@ -22,15 +22,14 @@
  */
 package com.xeiam.xchange.proxy;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Matija Mazi
@@ -73,7 +72,7 @@ public class RestInvocationHandlerTest {
 
     public TestRestInvocationHandler() {
 
-      super(new HttpTemplate(), new ObjectMapper(), ExampleService.class, "https://example.com");
+      super(ExampleService.class, "https://example.com");
     }
 
     @Override
