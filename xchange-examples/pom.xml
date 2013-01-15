@@ -80,7 +80,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.xeiam</groupId>
+			<groupId>com.xeiam.xchart</groupId>
 			<artifactId>xchart</artifactId>
 		</dependency>
 
