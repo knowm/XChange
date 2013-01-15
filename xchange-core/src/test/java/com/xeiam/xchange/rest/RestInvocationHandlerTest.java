@@ -22,14 +22,14 @@
  */
 package com.xeiam.xchange.rest;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Matija Mazi

@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.rest;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +36,6 @@ import org.junit.Test;
 
 import com.xeiam.xchange.utils.DummyAccountInfo;
 import com.xeiam.xchange.utils.DummyTicker;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for testing HttpTemplate methods
@@ -139,7 +139,7 @@ public class HttpTemplateTest {
 
   /**
    * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very complex workarounds. In the interests of simplicity an implementation approach is used.
-   *
+   * 
    * @param resourcePath A classpath resource for the input stream to use in the response
    * @return A mock HttpURLConnection
    * @throws java.net.MalformedURLException If something goes wrong

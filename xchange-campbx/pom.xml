@@ -14,7 +14,7 @@
 	<version>1.3.0-SNAPSHOT</version>
 
 	<name>Campbx Exchange</name>
-	<description>XChange implementations for the campbx Exchange.</description>
+	<description>XChange implementations for the CampBX Exchange.</description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>

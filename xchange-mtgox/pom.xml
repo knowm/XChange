@@ -13,7 +13,7 @@
 	<version>1.3.0-SNAPSHOT</version>
 
 	<name>MtGox Exchange</name>
-	<description>XChange implementations for the MtGox Exchange. Handles multiple currencies.</description>
+	<description>XChange implementations for the MtGox Exchange.</description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
