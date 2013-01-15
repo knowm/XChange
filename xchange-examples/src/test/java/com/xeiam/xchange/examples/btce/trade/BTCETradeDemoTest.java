@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.btce.trade;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * @author Matija Mazi
  */
+
+@Category(OnlineTest.class)
 public class BTCETradeDemoTest {
 
   @Test

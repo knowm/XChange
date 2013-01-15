@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.cavirtex.marketdata;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrate requesting Trades at VirtEx
  */
+
+@Category(OnlineTest.class)
 public class TradesDemoTest {
 
   @Test

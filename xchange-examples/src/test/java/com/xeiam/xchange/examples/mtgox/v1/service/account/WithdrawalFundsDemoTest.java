@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demo requesting account info at MtGox
  */
+
+@Category(OnlineTest.class)
 public class WithdrawalFundsDemoTest {
 
   @Test

@@ -23,12 +23,17 @@
 package com.xeiam.xchange.examples.bitcoincharts;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrates using the REST proxy to get the raw deserialized JSON object from BitcoinCharts
- * 
+ *
  * @author timmolter
  */
+
+@Category(OnlineTest.class)
 public class BitcoinChartsRawDataDemoTest {
 
   @Test

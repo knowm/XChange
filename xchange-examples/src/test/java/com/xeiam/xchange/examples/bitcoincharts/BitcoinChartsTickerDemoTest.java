@@ -23,12 +23,17 @@
 package com.xeiam.xchange.examples.bitcoincharts;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demo requesting polling Ticker at BitcoinCharts
- * 
+ *
  * @author timmolter
  */
+
+@Category(OnlineTest.class)
 public class BitcoinChartsTickerDemoTest {
 
   @Test

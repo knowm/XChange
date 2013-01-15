@@ -23,12 +23,17 @@
 package com.xeiam.xchange.examples.charts;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
- * 
+ *
  * @author timmolter
  */
+
+@Category(OnlineTest.class)
 public class MtGoxOrderBookChartDemoTest {
 
   @Test

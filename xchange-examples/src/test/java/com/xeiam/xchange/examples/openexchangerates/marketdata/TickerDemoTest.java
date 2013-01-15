@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.openexchangerates.marketdata;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrate requesting Ticker at Open Exchange Rates
  */
+
+@Category(OnlineTest.class)
 public class TickerDemoTest {
 
   @Test

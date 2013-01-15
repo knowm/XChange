@@ -23,7 +23,11 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import com.xeiam.xchange.OnlineTest;
+
+@Category(OnlineTest.class)
 public class MtGoxMarketdataDemoTest {
 
   @Test

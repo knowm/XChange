@@ -23,16 +23,11 @@
 package com.xeiam.xchange.examples.bitstamp.trade;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-/**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connect to Bitstamp exchange with authentication</li>
- * <li>Enter, review and cancel limit orders</li>
- * </ul>
- */
+import com.xeiam.xchange.OnlineTest;
+
+@Category(OnlineTest.class)
 public class BitstampTradeDemoTest {
 
   @Test

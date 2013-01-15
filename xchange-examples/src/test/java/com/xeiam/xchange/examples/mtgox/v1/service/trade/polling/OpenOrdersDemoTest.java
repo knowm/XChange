@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Test requesting all open orders at MtGox
  */
+
+@Category(OnlineTest.class)
 public class OpenOrdersDemoTest {
 
   @Test

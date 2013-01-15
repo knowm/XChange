@@ -23,6 +23,9 @@
 package com.xeiam.xchange.examples.bitstamp.account;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * <p>
@@ -34,6 +37,8 @@ import org.junit.Test;
  * <li>Get the bitcoin deposit address</li>
  * </ul>
  */
+
+@Category(OnlineTest.class)
 public class BitstampAccountDemoTest {
 
   @Test

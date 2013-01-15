@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.campbx.marketdata;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrate requesting Market Data from CampBX
  */
+
+@Category(OnlineTest.class)
 public class MarketDataDemoTest {
 
   @Test

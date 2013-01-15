@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.bitstamp.marketdata;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrate requesting Order Book at Bitstamp
  */
+
+@Category(OnlineTest.class)
 public class TickerDemoTest {
 
   @Test

@@ -23,10 +23,15 @@
 package com.xeiam.xchange.examples.btce.marketdata;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrate requesting Order Book at BTC-E
  */
+
+@Category(OnlineTest.class)
 public class DepthDemoTest {
 
   @Test

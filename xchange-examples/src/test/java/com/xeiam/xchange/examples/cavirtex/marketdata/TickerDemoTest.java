@@ -22,36 +22,22 @@
  */
 package com.xeiam.xchange.examples.cavirtex.marketdata;
 
-import com.xeiam.xchange.Currencies;
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrate requesting Ticker at VirtEx
  */
-public class TickerDemo {
 
-  public static void main(String[] args) {
+@Category(OnlineTest.class)
+public class TickerDemoTest {
 
-    // Use the factory to get the VirtEx exchange API using default settings
-    Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.virtex.VirtExExchange");
+  @Test
+  public void testMain() throws Exception {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
-
-    // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.CAD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
-
-    System.out.println("Last: " + currency + "-" + value);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
-
+    TickerDemo.main(new String[]{});
   }
 
 }

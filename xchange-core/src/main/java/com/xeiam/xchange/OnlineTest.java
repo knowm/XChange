@@ -20,24 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.marketdata;
-
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import com.xeiam.xchange.OnlineTest;
+package com.xeiam.xchange;
 
 /**
- * Demonstrate requesting Order Book at BTC-E
+ * Use this to mark tests that require internet connection. These tests will not be run with mvn test but
+ * only in Maven's integration-test phase (eg. when running mvn install).
+ *
+ * Usage: annotate the test class with @{@link org.junit.experimental.categories.Category}(OnlineTest.class)
+ *
+ * This class is in xchange-core because it must be visible in all test sources, as well as in core
+ * (it is referenced in the core pom).
+ *
+ * @author Matija Mazi <br/>
  */
-
-@Category(OnlineTest.class)
-public class TickerDemoTest {
-
-  @Test
-  public void testMain() throws Exception {
-
-    TickerDemo.main(new String[]{});
-  }
+public interface OnlineTest {
 
 }

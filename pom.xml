@@ -106,7 +106,51 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.maven-surefire-plugin}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit47</artifactId>
+            <version>${version.maven-surefire-plugin}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <includes>
+            <include>**/*.class</include>
+          </includes>
+          <excludedGroups>com.xeiam.xchange.OnlineTest</excludedGroups>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${version.maven-surefire-plugin}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit47</artifactId>
+            <version>${version.maven-surefire-plugin}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <groups>com.xeiam.xchange.OnlineTest</groups>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>**/*.class</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
 	</build>
 
 	<dependencyManagement>
@@ -163,9 +207,15 @@
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${version.junit}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
 			<!-- dep leaves out hamcrest classes -->
 			<artifactId>junit-dep</artifactId>
-			<version>4.10</version>
+			<version>${version.junit}</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -222,6 +272,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+    <version.maven-surefire-plugin>2.13</version.maven-surefire-plugin>
+    <version.junit>4.11</version.junit>
+  </properties>
 
 </project>

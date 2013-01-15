@@ -23,6 +23,9 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * <p>
@@ -33,6 +36,8 @@ import org.junit.Test;
  * <li>Retrieving account info data</li>
  * </ul>
  */
+
+@Category(OnlineTest.class)
 public class MtGoxWithdrawDemoTest {
 
   @Test

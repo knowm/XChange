@@ -24,12 +24,14 @@ package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
 import java.util.concurrent.BlockingQueue;
 
+import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.OnlineTest;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
@@ -37,6 +39,8 @@ import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService
 /**
  * Test requesting streaming Ticker at MtGox
  */
+
+@Category(OnlineTest.class)
 public class TickerDemo {
 
   private static final Logger log = LoggerFactory.getLogger(TickerDemo.class);
