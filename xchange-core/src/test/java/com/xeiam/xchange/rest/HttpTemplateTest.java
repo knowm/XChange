@@ -139,7 +139,7 @@ public class HttpTemplateTest {
 
   /**
    * Mocking HttpURLConnection through JMockit leads to problems with URL constructors that introduce very complex workarounds. In the interests of simplicity an implementation approach is used.
-   *
+   * 
    * @param resourcePath A classpath resource for the input stream to use in the response
    * @return A mock HttpURLConnection
    * @throws java.net.MalformedURLException If something goes wrong
