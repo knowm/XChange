@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -37,7 +37,7 @@ public class MarketOrderDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    MarketOrderDemo.main(new String[]{});
+    MarketOrderDemo.main(new String[] {});
   }
 
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -29,7 +29,7 @@ import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demo requesting polling Ticker at BitcoinCharts
- *
+ * 
  * @author timmolter
  */
 
@@ -39,6 +39,6 @@ public class BitcoinChartsTickerDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    BitcoinChartsTickerDemo.main(new String[]{});
+    BitcoinChartsTickerDemo.main(new String[] {});
   }
 }

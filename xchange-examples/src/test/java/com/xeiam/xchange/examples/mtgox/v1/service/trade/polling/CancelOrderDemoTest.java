@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -33,6 +33,6 @@ public class CancelOrderDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    CancelOrderDemo.main(new String[]{});
+    CancelOrderDemo.main(new String[] {});
   }
 }

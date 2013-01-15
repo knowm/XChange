@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -37,7 +37,7 @@ public class TradesDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    TradesDemo.main(new String[]{});
+    TradesDemo.main(new String[] {});
   }
 
 }

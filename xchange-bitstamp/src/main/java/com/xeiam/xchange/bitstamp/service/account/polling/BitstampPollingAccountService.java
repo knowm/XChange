@@ -71,7 +71,6 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
   /**
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
-   * 
    */
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) {

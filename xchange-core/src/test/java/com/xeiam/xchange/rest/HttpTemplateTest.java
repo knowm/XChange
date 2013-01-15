@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.rest;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +36,6 @@ import org.junit.Test;
 
 import com.xeiam.xchange.utils.DummyAccountInfo;
 import com.xeiam.xchange.utils.DummyTicker;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for testing HttpTemplate methods

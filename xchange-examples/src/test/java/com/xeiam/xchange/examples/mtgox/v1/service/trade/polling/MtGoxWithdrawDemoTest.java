@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -43,6 +43,6 @@ public class MtGoxWithdrawDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    MtGoxWithdrawDemo.main(new String[]{});
+    MtGoxWithdrawDemo.main(new String[] {});
   }
 }

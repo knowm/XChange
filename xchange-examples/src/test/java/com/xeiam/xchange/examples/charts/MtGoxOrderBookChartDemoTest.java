@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -29,7 +29,7 @@ import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
- *
+ * 
  * @author timmolter
  */
 
@@ -39,6 +39,6 @@ public class MtGoxOrderBookChartDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    MtGoxOrderBookChartDemo.main(new String[]{});
+    MtGoxOrderBookChartDemo.main(new String[] {});
   }
 }

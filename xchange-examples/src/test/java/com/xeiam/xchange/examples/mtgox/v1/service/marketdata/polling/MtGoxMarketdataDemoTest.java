@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -33,7 +33,7 @@ public class MtGoxMarketdataDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    MtGoxMarketdataDemo.main(new String[]{});
+    MtGoxMarketdataDemo.main(new String[] {});
   }
 
 }

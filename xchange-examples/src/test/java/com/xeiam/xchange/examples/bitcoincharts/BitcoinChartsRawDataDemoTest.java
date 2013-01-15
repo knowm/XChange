@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -29,7 +29,7 @@ import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrates using the REST proxy to get the raw deserialized JSON object from BitcoinCharts
- *
+ * 
  * @author timmolter
  */
 
@@ -39,6 +39,6 @@ public class BitcoinChartsRawDataDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    com.xeiam.xchange.examples.bitcoincharts.BitcoinChartsRawDataDemo.main(new String[]{});
+    com.xeiam.xchange.examples.bitcoincharts.BitcoinChartsRawDataDemo.main(new String[] {});
   }
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -37,6 +37,6 @@ public class BTCETradeDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    BTCETradeDemo.main(new String[]{});
+    BTCETradeDemo.main(new String[] {});
   }
 }

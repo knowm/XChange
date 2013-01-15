@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -33,6 +33,6 @@ public class BitstampTradeDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    BitstampTradeDemo.main(new String[]{});
+    BitstampTradeDemo.main(new String[] {});
   }
 }
