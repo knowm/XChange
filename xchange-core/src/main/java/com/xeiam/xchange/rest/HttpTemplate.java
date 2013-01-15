@@ -76,7 +76,7 @@ public class HttpTemplate {
 
   /**
    * Requests JSON via an HTTP POST
-   *
+   * 
    * @param urlString A string representation of a URL
    * @param returnType The required return type
    * @param postBody The contents of the request body
@@ -96,7 +96,7 @@ public class HttpTemplate {
 
   /**
    * Provides an internal convenience method to allow easy overriding by test classes
-   *
+   * 
    * @param method The HTTP method (e.g. GET, POST etc)
    * @param urlString A string representation of a URL
    * @param httpHeaders The HTTP headers (will override the defaults)
@@ -144,7 +144,7 @@ public class HttpTemplate {
 
   /**
    * Executes an HTTP request with the given parameters.
-   *
+   * 
    * @param method The HTTP method (e.g. GET, POST etc)
    * @param urlString A string representation of a URL
    * @param httpHeaders The HTTP headers (will override the defaults)
@@ -192,13 +192,13 @@ public class HttpTemplate {
    * <p>
    * Reads an InputStream as a String allowing for different encoding types
    * </p>
-   *
+   * 
    * @param inputStream The input stream
    * @param responseEncoding The encoding to use when converting to a String
    * @return A String representation of the input stream
    * @throws IOException If something goes wrong
    */
-   String readInputStreamAsEncodedString(InputStream inputStream, String responseEncoding) throws IOException {
+  String readInputStreamAsEncodedString(InputStream inputStream, String responseEncoding) throws IOException {
 
     String responseString;
 
