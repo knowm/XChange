@@ -36,17 +36,17 @@ import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService
 /**
  * Test requesting streaming Ticker at MtGox
  */
-public class TickerDemo {
+public class StreamingTickerDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(TickerDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(StreamingTickerDemo.class);
 
   public static void main(String[] args) {
 
-    TickerDemo tickerDemo = new TickerDemo();
+    StreamingTickerDemo tickerDemo = new StreamingTickerDemo();
     tickerDemo.start();
   }
 
-  private void start() {
+  public void start() {
 
     // Use the default MtGox settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
