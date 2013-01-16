@@ -31,11 +31,19 @@ package com.xeiam.xchange;
  */
 public class NotYetImplementedForExchangeException extends RuntimeException {
 
+  /**
+   * Constructor
+   * 
+   * @param message
+   */
   public NotYetImplementedForExchangeException(String message) {
 
     super(message);
   }
 
+  /**
+   * Constructor
+   */
   public NotYetImplementedForExchangeException() {
 
     this("Capability not yet implemented for exchange.");

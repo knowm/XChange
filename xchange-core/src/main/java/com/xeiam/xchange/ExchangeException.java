@@ -23,19 +23,30 @@ package com.xeiam.xchange;
 
 /**
  * <p>
- * Exception to provide the following to {@link Session}:
+ * Exception to provide the following to :
  * </p>
  * <ul>
- * <li>Indication that the session could not start</li>
+ * <li>Indication of generic Exchange exception</li>
  * </ul>
  */
 public class ExchangeException extends RuntimeException {
 
+  /**
+   * Constructor
+   * 
+   * @param s
+   */
   public ExchangeException(String s) {
 
     super(s);
   }
 
+  /**
+   * Constructor
+   * 
+   * @param s
+   * @param throwable
+   */
   public ExchangeException(String s, Throwable throwable) {
 
     super(s, throwable);

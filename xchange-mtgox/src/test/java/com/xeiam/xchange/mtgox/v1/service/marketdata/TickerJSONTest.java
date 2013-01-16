@@ -68,8 +68,8 @@ public class TickerJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
     });
-    System.out.println(userInMap.get("ticker").toString());
-    System.out.println(mapper.writeValueAsString(userInMap.get("ticker")));
+//    System.out.println(userInMap.get("ticker").toString());
+//    System.out.println(mapper.writeValueAsString(userInMap.get("ticker")));
 
     // Use Jackson to parse it
     mapper = new ObjectMapper();

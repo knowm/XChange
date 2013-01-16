@@ -99,7 +99,6 @@ public class BitstampAdapterTest {
     BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
 
     Trades trades = BitstampAdapters.adaptTrades(transactions, "USD", "BTC");
-    System.out.println(trades.getTrades().toString());
     assertThat(trades.getTrades().size(), is(equalTo(125)));
 
     // verify all fields filled

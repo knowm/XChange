@@ -31,11 +31,19 @@ package com.xeiam.xchange;
  */
 public class NotAvailableFromExchangeException extends RuntimeException {
 
+  /**
+   * Constructor
+   * 
+   * @param message
+   */
   public NotAvailableFromExchangeException(String message) {
 
     super(message);
   }
 
+  /**
+   * Constructor
+   */
   public NotAvailableFromExchangeException() {
 
     this("Requested Information from Exchange is not available.");
