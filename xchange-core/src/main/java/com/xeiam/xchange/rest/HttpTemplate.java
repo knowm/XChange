@@ -49,12 +49,21 @@ public class HttpTemplate {
 
   private final Logger log = LoggerFactory.getLogger(HttpTemplate.class);
 
+  private ObjectMapper objectMapper;
+
   /**
    * Default request header fields
    */
-  private final static Map<String, String> defaultHttpHeaders = new HashMap<String, String>();
+  private Map<String, String> defaultHttpHeaders = new HashMap<String, String>();
 
-  static {
+  /**
+   * Constructor
+   */
+  public HttpTemplate() {
+
+    objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     // Always use UTF8
     defaultHttpHeaders.put("Accept-Charset", CHARSET_UTF_8);
     // Assume form encoding by default (typically becomes application/json or application/xml)
@@ -63,15 +72,6 @@ public class HttpTemplate {
     defaultHttpHeaders.put("Accept", "text/plain");
     // User agent provides statistics for servers, but some use it for content negotiation so fake good agents
     defaultHttpHeaders.put("User-Agent", "XChange/1.3.0 JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
-
-  }
-
-  private ObjectMapper objectMapper;
-
-  public HttpTemplate() {
-
-    objectMapper = new ObjectMapper();
-    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   /**
@@ -91,6 +91,7 @@ public class HttpTemplate {
     httpHeaders.put("Accept", "application/json");
 
     String response = executeRequest(urlString, postBody, httpHeaders, method);
+
     return JSONUtils.getJsonObject(response, returnType, objectMapper);
   }
 
@@ -137,6 +138,11 @@ public class HttpTemplate {
     return connection;
   }
 
+  /**
+   * @param urlString
+   * @return a HttpURLConnection instance
+   * @throws IOException
+   */
   protected HttpURLConnection getHttpURLConnection(String urlString) throws IOException {
 
     return (HttpURLConnection) new URL(urlString).openConnection();
