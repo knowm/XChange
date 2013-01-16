@@ -115,6 +115,7 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
 ## Building
 mvn clean package  
 mvn javadoc:aggregate 
+mvn clean integration-test -P run-integration-tests  
 
 ## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).
