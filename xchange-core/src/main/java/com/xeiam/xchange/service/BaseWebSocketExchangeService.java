@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -120,13 +120,13 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   }
 
   @Override
-  public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
+  public RunnableExchangeEventProducer getRunnableExchangeEventProducer() {
 
     return runnableExchangeEventProducer;
   }
 
   @Override
-  public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
+  public void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
 
     this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }

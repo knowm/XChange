@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -48,6 +48,6 @@ public class FullDepthJSONTest {
     MtGoxDepth mtGoxFullDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmount_int(), equalTo(727610000L));
+    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmountInt(), equalTo(727610000L));
   }
 }

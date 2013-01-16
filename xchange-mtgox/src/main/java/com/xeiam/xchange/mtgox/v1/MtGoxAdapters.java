@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -23,18 +23,21 @@ package com.xeiam.xchange.mtgox.v1;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxOrder;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
@@ -47,17 +50,37 @@ import com.xeiam.xchange.utils.MoneyUtils;
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs
  */
-public class MtGoxAdapters {
+public final class MtGoxAdapters {
+
+  /**
+   * private Constructor
+   */
+  private MtGoxAdapters() {
+
+  }
+
+  /**
+   * Adapts a MtGoxAccountInfo to a AccountInfo
+   * 
+   * @param mtGoxAccountInfo
+   * @return
+   */
+  public static AccountInfo adaptAccountInfo(MtGoxAccountInfo mtGoxAccountInfo) {
+
+    // Adapt to XChange DTOs
+    AccountInfo accountInfo = new AccountInfo(mtGoxAccountInfo.getLogin(), MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
+    return accountInfo;
+  }
 
   /**
    * Adapts a MtGoxOrder to a LimitOrder
    * 
-   * @param mtGoxOrder
+   * @param price
    * @param currency
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(long amount_int, double price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(long amount_int, BigDecimal price, String currency, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -66,7 +89,7 @@ public class MtGoxAdapters {
     String transactionCurrency = currency;
     BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, id, limitPrice);
 
     return limitOrder;
 
@@ -85,7 +108,7 @@ public class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (MtGoxOrder mtGoxOrder : mtGoxOrders) {
-      limitOrders.add(adaptOrder(mtGoxOrder.getAmount_int(), mtGoxOrder.getPrice(), currency, orderType, id));
+      limitOrders.add(adaptOrder(mtGoxOrder.getAmountInt(), mtGoxOrder.getPrice(), currency, orderType, id));
     }
 
     return limitOrders;
@@ -96,7 +119,8 @@ public class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (int i = 0; i < mtGoxOpenOrders.length; i++) {
-      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue_int(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(), mtGoxOpenOrders[i].getOid()));
+      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValueInt(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(),
+          mtGoxOpenOrders[i].getOid()));
     }
 
     return limitOrders;
@@ -148,13 +172,13 @@ public class MtGoxAdapters {
    */
   public static Trade adaptTrade(MtGoxTrade mtGoxTrade) {
 
-    OrderType orderType = mtGoxTrade.getTrade_type().equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = new BigDecimal(mtGoxTrade.getAmount_int()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    OrderType orderType = mtGoxTrade.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = new BigDecimal(mtGoxTrade.getAmountInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     String tradableIdentifier = mtGoxTrade.getItem();
-    String transactionCurrency = mtGoxTrade.getPrice_currency();
-    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPrice_int());
+    String transactionCurrency = mtGoxTrade.getPriceCurrency();
+    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPriceInt());
 
-    DateTime dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
+    Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
 
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }
@@ -182,9 +206,22 @@ public class MtGoxAdapters {
     BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
     BigMoney high = MoneyUtils.parseFiat(mtGoxTicker.getHigh().getCurrency() + " " + mtGoxTicker.getHigh().getValue());
     BigMoney low = MoneyUtils.parseFiat(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
-    BigDecimal volume = new BigDecimal(mtGoxTicker.getVol().getValue());
+    BigDecimal volume = mtGoxTicker.getVol().getValue();
 
-    return new Ticker(mtGoxTicker.getVol().getCurrency(), last, bid, ask, high, low, volume);
+    return TickerBuilder.newInstance().withTradableIdentifier(mtGoxTicker.getVol().getCurrency()).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+
+  }
+
+  public static Ticker adaptTickerWithError(MtGoxTicker mtGoxTicker) {
+
+    BigMoney last = MoneyUtils.parseFiat(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
+    BigMoney bid = MoneyUtils.parseFiat(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
+    BigMoney ask = MoneyUtils.parseFiat(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
+    BigMoney high = MoneyUtils.parseFiat(mtGoxTicker.getHigh().getCurrency() + " " + mtGoxTicker.getHigh().getValue());
+    BigMoney low = MoneyUtils.parseFiat(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
+    BigDecimal volume = mtGoxTicker.getVol().getValue();
+
+    return TickerBuilder.newInstance().withTradableIdentifier(mtGoxTicker.getVol().getCurrency()).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
 
   }
 

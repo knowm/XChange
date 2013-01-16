@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,7 +22,6 @@
 package com.xeiam.xchange;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -76,19 +75,4 @@ public class CurrencyPairTest {
 
   }
 
-  @Test
-  public void testValidation() {
-
-    String[][] testCases = new String[][] { { null, "USD" }, { "BTC", null }, { null, null }, { "BTCA", "USD" }, { "BT", "USD" }, { "BTC", "USDA" }, { "BTC", "US" }, };
-
-    for (int i = 0; i < testCases.length; i++) {
-      try {
-        new CurrencyPair(testCases[i][0], testCases[i][1]);
-        fail("Expected exception for " + testCases[i][0] + " " + testCases[i][1]);
-      } catch (IllegalArgumentException e) {
-        // Do nothing
-      }
-
-    }
-  }
 }

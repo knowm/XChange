@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -27,6 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -49,6 +50,6 @@ public class VirtExDepthJSONTest {
     VirtExDepth virtExDepth = mapper.readValue(is, VirtExDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(virtExDepth.getAsks().get(0)[0], is(equalTo(16.90536f)));
+    assertThat(virtExDepth.getAsks().get(0)[0], is(equalTo(new BigDecimal("16.905360000"))));
   }
 }

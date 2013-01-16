@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2012, Enno Boland
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013, Enno Boland
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Scanner;
@@ -42,9 +43,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,66 +57,108 @@ class IOConnection implements IOCallback {
 
   private final Logger log = LoggerFactory.getLogger(IOConnection.class);
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
   public static final String FRAME_DELIMITER = "\ufffd";
 
-  /** The Constant STATE_INIT. */
+  /**
+   * The Constant STATE_INIT.
+   */
   private static final int STATE_INIT = 0;
 
-  /** The Constant STATE_HANDSHAKE. */
+  /**
+   * The Constant STATE_HANDSHAKE.
+   */
   private static final int STATE_HANDSHAKE = 1;
 
-  /** The Constant STATE_CONNECTING. */
+  /**
+   * The Constant STATE_CONNECTING.
+   */
   private static final int STATE_CONNECTING = 2;
 
-  /** The Constant STATE_READY. */
+  /**
+   * The Constant STATE_READY.
+   */
   private static final int STATE_READY = 3;
 
-  /** The Constant STATE_INTERRUPTED. */
+  /**
+   * The Constant STATE_INTERRUPTED.
+   */
   private static final int STATE_INTERRUPTED = 4;
 
-  /** The Constant STATE_INVALID. */
+  /**
+   * The Constant STATE_INVALID.
+   */
   private static final int STATE_INVALID = 6;
 
-  /** The state. */
+  /**
+   * The state.
+   */
   private int state = STATE_INIT;
 
-  /** Socket.io path. */
+  /**
+   * Socket.io path.
+   */
   public static final String SOCKET_IO_1 = "/socket.io/1/";
 
-  /** The SSL socket factory for HTTPS connections */
+  /**
+   * The SSL socket factory for HTTPS connections
+   */
   private static SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
-  /** All available connections. */
+  /**
+   * All available connections.
+   */
   private static HashMap<String, List<IOConnection>> connections = new HashMap<String, List<IOConnection>>();
 
-  /** The url for this connection. */
+  /**
+   * The url for this connection.
+   */
   private URL url;
 
-  /** The transport for this connection. */
+  /**
+   * The transport for this connection.
+   */
   private IOTransport transport;
 
-  /** The connection timeout. */
+  /**
+   * The connection timeout.
+   */
   private final int connectTimeout = 10000;
 
-  /** The session id of this connection. */
+  /**
+   * The session id of this connection.
+   */
   private String sessionId;
 
-  /** The heartbeat timeout. Set by the server */
+  /**
+   * The heartbeat timeout. Set by the server
+   */
   private long heartbeatTimeout;
 
-  /** The closing timeout. Set By the server */
+  /**
+   * The closing timeout. Set By the server
+   */
   private long closingTimeout;
 
-  /** The protocols supported by the server. */
+  /**
+   * The protocols supported by the server.
+   */
   private List<String> protocols;
 
-  /** The output buffer used to cache messages while (re-)connecting. */
+  /**
+   * The output buffer used to cache messages while (re-)connecting.
+   */
   private ConcurrentLinkedQueue<String> outputBuffer = new ConcurrentLinkedQueue<String>();
 
-  /** The sockets of this connection. */
+  /**
+   * The sockets of this connection.
+   */
   private final HashMap<String, SocketIO> sockets = new HashMap<String, SocketIO>();
 
-  /** Custom Request headers used while handshaking */
+  /**
+   * Custom Request headers used while handshaking
+   */
   private final Properties headers;
 
   /**
@@ -122,10 +166,14 @@ class IOConnection implements IOCallback {
    */
   private SocketIO firstSocket = null;
 
-  /** The reconnect timer. IOConnect waits a second before trying to reconnect */
+  /**
+   * The reconnect timer. IOConnect waits a second before trying to reconnect
+   */
   final private Timer backgroundTimer = new Timer("backgroundTimer");
 
-  /** A String representation of {@link #url}. */
+  /**
+   * A String representation of {@link #url}.
+   */
   private String urlStr;
 
   /**
@@ -133,13 +181,19 @@ class IOConnection implements IOCallback {
    */
   private Exception lastException;
 
-  /** The next ID to use. */
+  /**
+   * The next ID to use.
+   */
   private int nextId = 1;
 
-  /** Acknowledges. */
+  /**
+   * Acknowledges.
+   */
   HashMap<Integer, IOAcknowledge> acknowledge = new HashMap<Integer, IOAcknowledge>();
 
-  /** true if there's already a keepalive in {@link #outputBuffer}. */
+  /**
+   * true if there's already a keepalive in {@link #outputBuffer}.
+   */
   private boolean keepAliveInQueue;
 
   /**
@@ -152,10 +206,6 @@ class IOConnection implements IOCallback {
    */
   private class HearbeatTimeoutTask extends TimerTask {
 
-    /*
-     * (non-Javadoc)
-     * @see java.util.TimerTask#run()
-     */
     @Override
     public void run() {
 
@@ -164,7 +214,9 @@ class IOConnection implements IOCallback {
     }
   }
 
-  /** The reconnect task. Null if no reconnection is in progress. */
+  /**
+   * The reconnect task. Null if no reconnection is in progress.
+   */
   private ReconnectTask reconnectTask = null;
 
   /**
@@ -172,10 +224,6 @@ class IOConnection implements IOCallback {
    */
   private class ReconnectTask extends TimerTask {
 
-    /*
-     * (non-Javadoc)
-     * @see java.util.TimerTask#run()
-     */
     @Override
     public void run() {
 
@@ -212,12 +260,14 @@ class IOConnection implements IOCallback {
       connectTransport();
     }
 
-  };
+  }
+
+  ;
 
   /**
    * Set the socket factory used for SSL connections.
    * 
-   * @param socketFactory
+   * @param socketFactory The socket factory
    */
   public static void setDefaultSSLSocketFactory(SSLSocketFactory socketFactory) {
 
@@ -307,11 +357,11 @@ class IOConnection implements IOCallback {
       for (Entry<Object, Object> entry : headers.entrySet()) {
         connection.setRequestProperty((String) entry.getKey(), (String) entry.getValue());
       }
-      log.info("> " + connection.toString());
+      log.debug("> " + connection.toString());
       InputStream stream = connection.getInputStream();
       Scanner in = new Scanner(stream);
       response = in.nextLine();
-      log.info("< " + response);
+      log.debug("< " + response);
       String[] data = response.split(":");
       sessionId = data[0];
       heartbeatTimeout = Long.parseLong(data[1]) * 1000;
@@ -323,7 +373,7 @@ class IOConnection implements IOCallback {
   }
 
   /**
-   * Connect transport.
+   * Connect transport
    */
   private void connectTransport() {
 
@@ -353,7 +403,7 @@ class IOConnection implements IOCallback {
     String _id = message.getId();
     if (_id.equals("")) {
       return null;
-    } else if (_id.endsWith("+") == false) {
+    } else if (!_id.endsWith("+")) {
       _id = _id + "+";
     }
     final String id = _id;
@@ -363,15 +413,13 @@ class IOConnection implements IOCallback {
       @Override
       public void ack(Object... args) {
 
-        JSONArray array = new JSONArray();
-        for (Object o : args) {
-          try {
-            array.put(o == null ? JSONObject.NULL : o);
-          } catch (Exception e) {
-            error(new SocketIOException("You can only put values in IOAcknowledge.ack() which can be handled by JSONArray.put()", e));
-          }
+        String jsonString = null;
+        try {
+          jsonString = objectMapper.writeValueAsString(args);
+        } catch (Exception e) {
+          error(new SocketIOException("You can only put values in IOAcknowledge.ack() which can be serialized", e));
         }
-        IOMessage ackMsg = new IOMessage(IOMessage.TYPE_ACK, endPoint, id + array.toString());
+        IOMessage ackMsg = new IOMessage(IOMessage.TYPE_ACK, endPoint, id + jsonString);
         sendPlain(ackMsg.toString());
       }
     };
@@ -413,7 +461,7 @@ class IOConnection implements IOCallback {
   }
 
   /**
-   * Cleanup. IOConnection is not usable after this calling this.
+   * Cleanup. IOConnection is not usable after calling this.
    */
   private void cleanup() {
 
@@ -430,7 +478,7 @@ class IOConnection implements IOCallback {
         connections.remove(urlStr);
       }
     }
-    log.info("Cleanup");
+    log.debug("cleanup");
     backgroundTimer.cancel();
   }
 
@@ -441,10 +489,14 @@ class IOConnection implements IOCallback {
    */
   protected void error(SocketIOException e) {
 
-    for (SocketIO socket : sockets.values()) {
-      socket.getCallback().onError(e);
+    // Ensure any errors during disconnect are ignored
+    if (state != STATE_INVALID) {
+
+      for (SocketIO socket : sockets.values()) {
+        socket.getCallback().onError(e);
+      }
+      cleanup();
     }
-    cleanup();
   }
 
   /**
@@ -457,10 +509,10 @@ class IOConnection implements IOCallback {
     synchronized (outputBuffer) {
       if (getState() == STATE_READY) {
         try {
-          log.info("> " + text);
+          log.debug("> " + text);
           transport.send(text);
         } catch (Exception e) {
-          log.info("IOEx: saving");
+          log.debug("IOEx: saving");
           outputBuffer.add(text);
         }
       } else {
@@ -529,11 +581,11 @@ class IOConnection implements IOCallback {
         try {
           // DEBUG
           String[] texts = outputBuffer.toArray(new String[outputBuffer.size()]);
-          log.info("Bulk start:");
+          log.debug("Bulk start:");
           for (String text : texts) {
-            log.info("> " + text);
+            log.debug("> " + text);
           }
-          log.info("Bulk end");
+          log.debug("Bulk end");
           // DEBUG END
           transport.sendBulk(texts);
         } catch (IOException e) {
@@ -553,6 +605,8 @@ class IOConnection implements IOCallback {
    * Transport disconnected. {@link IOTransport} calls this when a connection has been shut down.
    */
   public void transportDisconnected() {
+
+    log.debug("transportDisconnected called!");
 
     this.lastException = null;
     setState(STATE_INTERRUPTED);
@@ -606,7 +660,7 @@ class IOConnection implements IOCallback {
    */
   public void transportMessage(String text) {
 
-    log.info("< " + text);
+    log.debug("< " + text);
 
     IOMessage message;
     try {
@@ -652,48 +706,60 @@ class IOConnection implements IOCallback {
       }
       break;
     case IOMessage.TYPE_JSON_MESSAGE:
+
       try {
-        JSONObject obj = null;
-        String data = message.getData();
-        if (data.trim().equals("null") == false) {
-          obj = new JSONObject(data);
-        }
-        try {
-          findCallback(message).onMessage(obj, remoteAcknowledge(message));
-        } catch (Exception e) {
-          error(new SocketIOException("Exception was thrown in onMessage(JSONObject).\n" + "Message was: " + message.toString(), e));
-        }
-      } catch (JSONException e) {
-        log.warn("Malformated JSON received");
+        // test if JSON is valid by catching a parse Exception
+        objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
+        });
+        // JSONUtils.getJsonGenericMap(message.getData(), objectMapper);
+        findCallback(message).onMessage(message.getData(), remoteAcknowledge(message));
+      } catch (JsonParseException e) {
+        log.warn("Malformated JSON received: " + message.getData());
+      } catch (Exception e) {
+        error(new SocketIOException("Exception was thrown in onMessage(JSON).\n" + "Message was: " + message.toString(), e));
       }
+
       break;
     case IOMessage.TYPE_EVENT:
+
       try {
-        JSONObject event = new JSONObject(message.getData());
+
+        Map<String, Object> map = objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
+        });
+
         Object[] argsArray;
-        if (event.has("args")) {
-          JSONArray args = event.getJSONArray("args");
-          argsArray = new Object[args.length()];
-          for (int i = 0; i < args.length(); i++) {
-            if (args.isNull(i) == false) {
-              argsArray[i] = args.get(i);
+        if (map.containsKey("args")) {
+
+          Object argsString = map.get("args");
+          List<Object> argObjects = objectMapper.readValue(argsString.toString(), new TypeReference<List<Object>>() {
+          });
+
+          argsArray = new Object[argObjects.size()];
+          for (int i = 0; i < argObjects.size(); i++) {
+            if (argObjects.get(i) != null) {
+              argsArray[i] = argObjects.get(i);
             }
           }
         } else {
           argsArray = new Object[0];
         }
-        String eventName = event.getString("name");
+        String eventName = map.get("name").toString();
         try {
           findCallback(message).on(eventName, remoteAcknowledge(message), argsArray);
         } catch (Exception e) {
-          error(new SocketIOException("Exception was thrown in on(String, JSONObject[]).\n" + "Message was: " + message.toString(), e));
+          error(new SocketIOException("Exception was thrown in on(String, JSON[]).\n" + "Message was: " + message.toString(), e));
         }
-      } catch (JSONException e) {
-        log.warn("Malformated JSON received");
+      } catch (JsonParseException e) {
+        log.warn("Malformated JSON received: " + message.getData());
+      } catch (JsonMappingException e) {
+        log.warn("Mapping JSON received: " + message.getData());
+      } catch (IOException e) {
+        log.warn("IO Exception: " + message.getData());
       }
       break;
 
     case IOMessage.TYPE_ACK:
+
       String[] data = message.getData().split("\\+", 2);
       if (data.length == 2) {
         try {
@@ -702,17 +768,26 @@ class IOConnection implements IOCallback {
           if (ack == null) {
             log.warn("Received unknown ack packet");
           } else {
-            JSONArray array = new JSONArray(data[1]);
-            Object[] args = new Object[array.length()];
-            for (int i = 0; i < args.length; i++) {
-              args[i] = array.get(i);
+
+            List<Object> argObjects = objectMapper.readValue(data[1].toString(), new TypeReference<List<Object>>() {
+            });
+            Object[] argsArray = new Object[argObjects.size()];
+            for (int i = 0; i < argObjects.size(); i++) {
+              if (argObjects.get(i) != null) {
+                argsArray[i] = argObjects.get(i);
+              }
             }
-            ack.ack(args);
+            ack.ack(argsArray);
+
           }
         } catch (NumberFormatException e) {
           log.warn("Received malformated Acknowledge! This is potentially filling up the acknowledges!");
-        } catch (JSONException e) {
-          log.warn("Received malformated Acknowledge data!");
+        } catch (JsonParseException e) {
+          log.warn("Malformated JSON received: " + message.getData());
+        } catch (JsonMappingException e) {
+          log.warn("Mapping JSON received: " + message.getData());
+        } catch (IOException e) {
+          log.warn("IO Exception: " + message.getData());
         }
       } else if (data.length == 1) {
         sendPlain("6:::" + data[0]);
@@ -738,9 +813,11 @@ class IOConnection implements IOCallback {
   }
 
   /**
-   * forces a reconnect. This had become useful on some android devices which do not shut down TCP-connections when switching from HSDPA to Wifi
+   * Forces a reconnect. This had become useful on some android devices which do not shut down TCP-connections when switching from HSDPA to Wifi
    */
   public void reconnect() {
+
+    log.info("reconnect called!");
 
     synchronized (this) {
       if (getState() != STATE_INVALID) {
@@ -780,20 +857,6 @@ class IOConnection implements IOCallback {
   }
 
   /**
-   * sends a JSON message from {@link SocketIO} to the {@link IOTransport}.
-   * 
-   * @param socket the socket
-   * @param ack acknowledge package which can be called from the server
-   * @param json the json
-   */
-  public void send(SocketIO socket, IOAcknowledge ack, JSONObject json) {
-
-    IOMessage message = new IOMessage(IOMessage.TYPE_JSON_MESSAGE, socket.getNamespace(), json.toString());
-    synthesizeAck(message, ack);
-    sendPlain(message.toString());
-  }
-
-  /**
    * emits an event from {@link SocketIO} to the {@link IOTransport}.
    * 
    * @param socket the socket
@@ -803,12 +866,19 @@ class IOConnection implements IOCallback {
    */
   public void emit(SocketIO socket, String event, IOAcknowledge ack, Object... args) {
 
+    String jsonString = null;
     try {
-      JSONObject json = new JSONObject().put("name", event).put("args", new JSONArray(Arrays.asList(args)));
-      IOMessage message = new IOMessage(IOMessage.TYPE_EVENT, socket.getNamespace(), json.toString());
+
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("name", event);
+      map.put("args", args);
+      jsonString = objectMapper.writeValueAsString(map);
+
+      IOMessage message = new IOMessage(IOMessage.TYPE_EVENT, socket.getNamespace(), jsonString);
       synthesizeAck(message, ack);
       sendPlain(message.toString());
-    } catch (JSONException e) {
+
+    } catch (Exception e) {
       error(new SocketIOException("Error while emitting an event. Make sure you only try to send arguments, which can be serialized into JSON."));
     }
 
@@ -877,14 +947,6 @@ class IOConnection implements IOCallback {
 
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().onMessage(data, ack);
-    }
-  }
-
-  @Override
-  public void onMessage(JSONObject json, IOAcknowledge ack) {
-
-    for (SocketIO socket : sockets.values()) {
-      socket.getCallback().onMessage(json, ack);
     }
   }
 

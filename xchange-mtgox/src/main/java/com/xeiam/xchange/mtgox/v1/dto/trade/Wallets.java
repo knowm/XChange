@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,27 +28,25 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing Wallets from Mt Gox
- * 
- * @immutable
  */
-public class Wallets {
+public final class Wallets {
 
-  private MtGoxWallet BTC;
-  private MtGoxWallet USD;
-  private MtGoxWallet EUR;
-  private MtGoxWallet GBP;
-  private MtGoxWallet AUD;
-  private MtGoxWallet CAD;
-  private MtGoxWallet CHF;
-  private MtGoxWallet JPY;
-  private MtGoxWallet CNY;
-  private MtGoxWallet DKK;
-  private MtGoxWallet HKD;
-  private MtGoxWallet NZD;
-  private MtGoxWallet PLN;
-  private MtGoxWallet RUB;
-  private MtGoxWallet SEK;
-  private MtGoxWallet THB;
+  private final MtGoxWallet bTC;
+  private final MtGoxWallet uSD;
+  private final MtGoxWallet eUR;
+  private final MtGoxWallet gBP;
+  private final MtGoxWallet aUD;
+  private final MtGoxWallet cAD;
+  private final MtGoxWallet cHF;
+  private final MtGoxWallet jPY;
+  private final MtGoxWallet cNY;
+  private final MtGoxWallet dKK;
+  private final MtGoxWallet hKD;
+  private final MtGoxWallet nZD;
+  private final MtGoxWallet pLN;
+  private final MtGoxWallet rUB;
+  private final MtGoxWallet sEK;
+  private final MtGoxWallet tHB;
 
   /**
    * Constructor
@@ -70,119 +68,119 @@ public class Wallets {
    * @param sEK
    * @param tHB
    */
-  public Wallets(@JsonProperty("BTC") MtGoxWallet bTC, @JsonProperty("USD") MtGoxWallet uSD, @JsonProperty("EUR") MtGoxWallet eUR, @JsonProperty("GBP") MtGoxWallet gBP, @JsonProperty("AUD") MtGoxWallet aUD,
-      @JsonProperty("CAD") MtGoxWallet cAD, @JsonProperty("CHF") MtGoxWallet cHF, @JsonProperty("JPY") MtGoxWallet jPY, @JsonProperty("CNY") MtGoxWallet cNY, @JsonProperty("DKK") MtGoxWallet dKK,
-      @JsonProperty("HKD") MtGoxWallet hKD, @JsonProperty("NZD") MtGoxWallet nZD, @JsonProperty("PLN") MtGoxWallet pLN, @JsonProperty("RUB") MtGoxWallet rUB, @JsonProperty("SEK") MtGoxWallet sEK,
-      @JsonProperty("THB") MtGoxWallet tHB) {
+  public Wallets(@JsonProperty("BTC") MtGoxWallet bTC, @JsonProperty("USD") MtGoxWallet uSD, @JsonProperty("EUR") MtGoxWallet eUR, @JsonProperty("GBP") MtGoxWallet gBP,
+      @JsonProperty("AUD") MtGoxWallet aUD, @JsonProperty("CAD") MtGoxWallet cAD, @JsonProperty("CHF") MtGoxWallet cHF, @JsonProperty("JPY") MtGoxWallet jPY, @JsonProperty("CNY") MtGoxWallet cNY,
+      @JsonProperty("DKK") MtGoxWallet dKK, @JsonProperty("HKD") MtGoxWallet hKD, @JsonProperty("NZD") MtGoxWallet nZD, @JsonProperty("PLN") MtGoxWallet pLN, @JsonProperty("RUB") MtGoxWallet rUB,
+      @JsonProperty("SEK") MtGoxWallet sEK, @JsonProperty("THB") MtGoxWallet tHB) {
 
-    BTC = bTC;
-    USD = uSD;
-    EUR = eUR;
-    GBP = gBP;
-    AUD = aUD;
-    CAD = cAD;
-    CHF = cHF;
-    JPY = jPY;
-    CNY = cNY;
-    DKK = dKK;
-    HKD = hKD;
-    NZD = nZD;
-    PLN = pLN;
-    RUB = rUB;
-    SEK = sEK;
-    THB = tHB;
+    this.bTC = bTC;
+    this.uSD = uSD;
+    this.eUR = eUR;
+    this.gBP = gBP;
+    this.aUD = aUD;
+    this.cAD = cAD;
+    this.cHF = cHF;
+    this.jPY = jPY;
+    this.cNY = cNY;
+    this.dKK = dKK;
+    this.hKD = hKD;
+    this.nZD = nZD;
+    this.pLN = pLN;
+    this.rUB = rUB;
+    this.sEK = sEK;
+    this.tHB = tHB;
   }
 
   public MtGoxWallet getBTC() {
 
-    return this.BTC;
+    return this.bTC;
   }
 
   public MtGoxWallet getUSD() {
 
-    return this.USD;
+    return this.uSD;
   }
 
   public MtGoxWallet getEUR() {
 
-    return EUR;
+    return eUR;
   }
 
   public MtGoxWallet getGBP() {
 
-    return GBP;
+    return gBP;
   }
 
   public MtGoxWallet getAUD() {
 
-    return AUD;
+    return aUD;
   }
 
   public MtGoxWallet getCAD() {
 
-    return CAD;
+    return cAD;
   }
 
   public MtGoxWallet getCHF() {
 
-    return CHF;
+    return cHF;
   }
 
   public MtGoxWallet getJPY() {
 
-    return JPY;
+    return jPY;
   }
 
   public MtGoxWallet getCNY() {
 
-    return CNY;
+    return cNY;
   }
 
   public MtGoxWallet getDKK() {
 
-    return DKK;
+    return dKK;
   }
 
   public MtGoxWallet getHKD() {
 
-    return HKD;
+    return hKD;
   }
 
   public MtGoxWallet getNZD() {
 
-    return NZD;
+    return nZD;
   }
 
   public MtGoxWallet getPLN() {
 
-    return PLN;
+    return pLN;
   }
 
   public MtGoxWallet getRUB() {
 
-    return RUB;
+    return rUB;
   }
 
   public MtGoxWallet getSEK() {
 
-    return SEK;
+    return sEK;
   }
 
   public MtGoxWallet getTHB() {
 
-    return THB;
+    return tHB;
   }
 
   public List<MtGoxWallet> getMtGoxWallets() {
 
-    return Arrays.asList(BTC, USD, EUR, GBP, AUD, CAD, CHF, JPY, CNY, DKK, HKD, NZD, PLN, RUB, SEK, THB);
+    return Arrays.asList(bTC, uSD, eUR, gBP, aUD, cAD, cHF, jPY, cNY, dKK, hKD, nZD, pLN, rUB, sEK, tHB);
   }
 
   @Override
   public String toString() {
 
-    return "Wallets [BTC=" + BTC + ", USD=" + USD + ", EUR=" + EUR + ", GBP=" + GBP + ", AUD=" + AUD + ", CAD=" + CAD + ", CHF=" + CHF + ", JPY=" + JPY + ", CNY=" + CNY + ", DKK=" + DKK + ", HKD=" + HKD + ", NZD=" + NZD
-        + ", PLN=" + PLN + ", RUB=" + RUB + ", SEK=" + SEK + ", THB=" + THB + "]";
+    return "Wallets [BTC=" + bTC + ", USD=" + uSD + ", EUR=" + eUR + ", GBP=" + gBP + ", AUD=" + aUD + ", CAD=" + cAD + ", CHF=" + cHF + ", JPY=" + jPY + ", CNY=" + cNY + ", DKK=" + dKK + ", HKD="
+        + hKD + ", NZD=" + nZD + ", PLN=" + pLN + ", RUB=" + rUB + ", SEK=" + sEK + ", THB=" + tHB + "]";
   }
 
 }

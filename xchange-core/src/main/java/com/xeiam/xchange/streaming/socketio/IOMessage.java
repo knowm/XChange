@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2012, Enno Boland
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013, Enno Boland
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -105,7 +105,7 @@ class IOMessage {
   }
 
   /**
-   * Constructor - Instantiates a new IOMessage from a String representation. If the String is not well formated, the result is undefined.
+   * Constructor - Instantiates a new IOMessage from a String representation. If the String is not well formatted, the result is undefined.
    * 
    * @param message the message
    */

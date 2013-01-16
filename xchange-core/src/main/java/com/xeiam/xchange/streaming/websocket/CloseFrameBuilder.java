@@ -53,8 +53,9 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
       bb.put(payload, 0, 2);
       bb.position(0);
       code = bb.getInt();
-      if (code < 0 || code > Short.MAX_VALUE)
+      if (code < 0 || code > Short.MAX_VALUE) {
         code = CloseFrame.NOCODE;
+      }
       if (code < CloseFrame.NORMAL || code > CloseFrame.EXTENSION || code == NOCODE || code == 1004) {
         throw new InvalidFrameException("bad code " + code);
       }
@@ -100,8 +101,9 @@ public class CloseFrameBuilder extends DefaultFrameData implements CloseFrame {
   @Override
   public byte[] getPayloadData() {
 
-    if (code == NOCODE)
+    if (code == NOCODE) {
       return new byte[0];
+    }
     return super.getPayloadData();
   }
 

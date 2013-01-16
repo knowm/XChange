@@ -1,0 +1,21 @@
+Bitstamp Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.bitstamp.net/api/
+
+Ticker
+------
+https://www.bitstamp.net/api/ticker/
+
+Orders
+------
+https://www.bitstamp.net/api/order_book/
+
+Trades
+------
+https://www.bitstamp.net/api/transactions/
+

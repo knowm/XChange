@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,20 +21,20 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * <p>
  * Data object representing a Trade from VirtEx
  * </p>
- * 
- * @immutable
  */
 public final class VirtExTrade {
 
-  private final float amount;
-  private final float date;
-  private final float price;
+  private final BigDecimal amount;
+  private final double date;
+  private final BigDecimal price;
   private final long tid;
 
   /**
@@ -45,7 +45,7 @@ public final class VirtExTrade {
    * @param price
    * @param tid
    */
-  public VirtExTrade(@JsonProperty("amount") float amount, @JsonProperty("date") float date, @JsonProperty("price") float price, @JsonProperty("tid") long tid) {
+  public VirtExTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") double date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid) {
 
     this.amount = amount;
     this.date = date;
@@ -53,17 +53,17 @@ public final class VirtExTrade {
     this.tid = tid;
   }
 
-  public float getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }
 
-  public float getDate() {
+  public double getDate() {
 
     return date;
   }
 
-  public float getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }

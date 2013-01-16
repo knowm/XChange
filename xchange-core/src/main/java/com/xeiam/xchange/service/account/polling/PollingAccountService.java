@@ -15,6 +15,8 @@
  */
 package com.xeiam.xchange.service.account.polling;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 
@@ -31,8 +33,29 @@ import com.xeiam.xchange.dto.account.AccountInfo;
  */
 public interface PollingAccountService {
 
+  /**
+   * Get account info
+   * 
+   * @return the account info
+   */
   public AccountInfo getAccountInfo();
 
-  public String withdrawFunds();
+  /**
+   * Withdraw funds
+   * 
+   * @param amount
+   * @param address
+   * @return
+   */
+  public String withdrawFunds(BigDecimal amount, String address);
 
+  /**
+   * Request a bitcoin address to fund this account
+   * 
+   * @param arguments
+   * @return the bitcoin address
+   */
+  public String requestBitcoinDepositAddress(final String... arguments);
+
+  // TODO: Transaction history, trade history
 }

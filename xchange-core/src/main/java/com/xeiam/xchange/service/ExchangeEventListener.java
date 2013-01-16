@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -37,8 +37,8 @@ import java.util.concurrent.BlockingQueue;
 public interface ExchangeEventListener {
 
   /**
-   * @param marketDataEvents The blocking queue that links the XChange thread pool to the client thread pool
+   * @param exchangeEvents The blocking queue that links the XChange thread pool to the client thread pool
    */
-  void setExchangeEventQueue(BlockingQueue<ExchangeEvent> marketDataEvents);
+  void setExchangeEventQueue(BlockingQueue<ExchangeEvent> exchangeEvents);
 
 }

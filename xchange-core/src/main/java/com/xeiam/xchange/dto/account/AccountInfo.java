@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,29 +28,31 @@ import com.xeiam.xchange.dto.trade.Wallet;
 /**
  * Data object representing account information
  */
-public class AccountInfo {
+public final class AccountInfo {
 
-  private String username;
-  private List<Wallet> wallets;
+  private final String username;
+  private final List<Wallet> wallets;
+
+  /**
+   * Constructor
+   * 
+   * @param username
+   * @param wallets
+   */
+  public AccountInfo(String username, List<Wallet> wallets) {
+
+    this.username = username;
+    this.wallets = wallets;
+  }
 
   public String getUsername() {
 
     return username;
   }
 
-  public void setUsername(String username) {
-
-    this.username = username;
-  }
-
   public List<Wallet> getWallets() {
 
     return wallets;
-  }
-
-  public void setWallets(List<Wallet> wallets) {
-
-    this.wallets = wallets;
   }
 
   @Override

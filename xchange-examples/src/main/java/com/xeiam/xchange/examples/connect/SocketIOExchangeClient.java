@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -34,11 +34,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.streaming.socketio.IOAcknowledge;
 import com.xeiam.xchange.streaming.socketio.IOCallback;
 import com.xeiam.xchange.streaming.socketio.SocketIO;
@@ -57,8 +52,6 @@ import com.xeiam.xchange.streaming.socketio.SocketIOException;
  * </p>
  */
 public class SocketIOExchangeClient extends JFrame implements IOCallback, ActionListener {
-
-  private final Logger log = LoggerFactory.getLogger(SocketIOExchangeClient.class);
 
   private final JTextField uriField;
   private final JButton connect;
@@ -79,9 +72,9 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     // Require a client to respond to events
     new SocketIOExchangeClient("http://socketio.mtgox.com/mtgox");
 
-    // TODO HTTPS handshake working for MtGox demo
+    // HTTPS handshake working for MtGox demo
     // new SocketIO("https://socketio.mtgox.com/mtgox",client);
-    // TODO HTTP handshake working for internal exchange demo
+    // HTTP handshake working for internal exchange demo
     // new SocketIO("http://localhost:8887",client);
 
   }
@@ -183,7 +176,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   @Override
   public void onDisconnect() {
 
-    log.debug("Disconnected");
+    System.out.println("Disconnected");
     ta.append("You have been disconnected\n");
     ta.setCaretPosition(ta.getDocument().getLength());
     connect.setEnabled(true);
@@ -194,7 +187,7 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   @Override
   public void onConnect() {
 
-    log.debug("Connected");
+    System.out.println("Connected");
     ta.append("You are connected\n");
     ta.setCaretPosition(ta.getDocument().getLength());
 
@@ -203,38 +196,20 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
   @Override
   public void onMessage(String data, IOAcknowledge ack) {
 
-    log.debug("Message: " + data);
+    System.out.println("Message: " + data);
     ta.append("Received: " + data + "\n");
     ta.setCaretPosition(ta.getDocument().getLength());
   }
 
   @Override
-  public void onMessage(JSONObject json, IOAcknowledge ack) {
-
-    try {
-      JSONObject ticker = (JSONObject) json.get("ticker");
-      if (ticker != null) {
-        JSONObject last = (JSONObject) ticker.get("last");
-        if (last != null) {
-          String display = (String) last.get("display");
-          ta.append(display.toString() + "\n");
-          ta.setCaretPosition(ta.getDocument().getLength());
-        }
-      }
-    } catch (JSONException e) {
-      // Ignore (probably an "op")
-    }
-  }
-
-  @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
 
-    log.debug("Event: " + event);
+    System.out.println("Event: " + event);
   }
 
   @Override
   public void onError(SocketIOException socketIOException) {
 
-    log.debug("Error: " + socketIOException.getMessage());
+    System.out.println("Error: " + socketIOException.getMessage());
   }
 }

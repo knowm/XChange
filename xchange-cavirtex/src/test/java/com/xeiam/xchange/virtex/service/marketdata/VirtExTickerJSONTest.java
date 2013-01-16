@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -48,10 +49,10 @@ public class VirtExTickerJSONTest {
     VirtExTicker VirtExTicker = mapper.readValue(is, VirtExTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Last value", VirtExTicker.getLast(), equalTo(12.32900));
-    assertThat("Unexpected Return High value", VirtExTicker.getHigh(), equalTo(12.37989));
-    assertThat("Unexpected Return Low value", VirtExTicker.getLow(), equalTo(11.64001));
-    assertThat("Unexpected Return Volume value", VirtExTicker.getVolume(), equalTo(1866.56));
+    assertThat("Unexpected Return Last value", VirtExTicker.getLast(), equalTo(new BigDecimal("12.32900")));
+    assertThat("Unexpected Return High value", VirtExTicker.getHigh(), equalTo(new BigDecimal("12.37989")));
+    assertThat("Unexpected Return Low value", VirtExTicker.getLow(), equalTo(new BigDecimal("11.64001")));
+    assertThat("Unexpected Return Volume value", VirtExTicker.getVolume(), equalTo(new BigDecimal("1866.56")));
   }
 
 }

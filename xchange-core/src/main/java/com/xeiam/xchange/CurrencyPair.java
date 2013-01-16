@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,8 +20,6 @@
  * SOFTWARE.
  */
 package com.xeiam.xchange;
-
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -63,6 +61,12 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_SGD = new CurrencyPair("BTC", "SGD");
   public static final CurrencyPair BTC_THB = new CurrencyPair("BTC", "THB");
 
+  public static final CurrencyPair BTC_RUR = new CurrencyPair("BTC", "RUR");
+  public static final CurrencyPair LTC_BTC = new CurrencyPair("LTC", "BTC");
+  public static final CurrencyPair LTC_RUR = new CurrencyPair("LTC", "RUR");
+  public static final CurrencyPair NMC_BTC = new CurrencyPair("NMC", "BTC");
+  public static final CurrencyPair USD_RUR = new CurrencyPair("USD", "RUR");
+
   public final String baseCurrency;
   public final String counterCurrency;
 
@@ -88,8 +92,6 @@ public class CurrencyPair {
    */
   public CurrencyPair(String baseCurrency, String counterCurrency) {
 
-    Assert.hasLength(baseCurrency, 3, "baseCurrency cannot be null and must be 3 characters in length");
-    Assert.hasLength(counterCurrency, 3, "counterCurrency cannot be null and must be 3 characters in length");
     this.baseCurrency = baseCurrency;
     this.counterCurrency = counterCurrency;
   }

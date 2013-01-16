@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -38,6 +38,7 @@ import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketServer;
@@ -88,7 +89,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
     ScheduledExecutorService executorService = Executors.newScheduledThreadPool(currencies.size() * 2);
 
     // Create a scheduled update of values
-    for (int i = 0; i < currencies.size(); i++) {
+    for (String currency : currencies) {
 
       // Schedule producers and consumers at different rates for demo
       executorService.scheduleAtFixedRate(new Runnable() {
@@ -98,9 +99,9 @@ public class WebSocketExchangeServer extends WebSocketServer {
         @Override
         public void run() {
 
-          // TODO Fix this
           BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
-          Ticker ticker = new Ticker(Currencies.BTC, money, money, money, money, money, new BigDecimal(98887726.001));
+          Ticker ticker = TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC).withLast(money).withBid(money).withAsk(money).withHigh(money).withLow(money).withVolume(
+              new BigDecimal(98887726.001)).build();
           try {
             exchangeServer.sendToAll(ticker.toString());
           } catch (InterruptedException e) {

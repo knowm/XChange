@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -40,7 +40,6 @@ public class ExchangeSpecification {
   private String secretKey;
   private String apiKey;
   private String uri;
-  private String version;
   private String host;
   private int port = 80;
   private final String exchangeClassName;
@@ -148,19 +147,6 @@ public class ExchangeSpecification {
   public void setUri(String uri) {
 
     this.uri = uri;
-  }
-
-  /**
-   * The numerical API version to use (e.g. "1" or "0.3" etc)
-   */
-  public String getVersion() {
-
-    return version;
-  }
-
-  public void setVersion(String version) {
-
-    this.version = version;
   }
 
   /**

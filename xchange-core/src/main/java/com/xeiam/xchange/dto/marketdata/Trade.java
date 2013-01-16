@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,18 +22,16 @@
 package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Data object representing a Trade
- * 
- * @immutable
  */
-public final class Trade {
+public final class Trade implements Comparable<Trade> {
 
   /**
    * Did this trade result from the execution of a bid or a ask?
@@ -57,7 +55,7 @@ public final class Trade {
    */
   private final BigMoney price;
 
-  private final DateTime timestamp;
+  private final Date timestamp;
 
   /**
    * Constructor
@@ -69,9 +67,8 @@ public final class Trade {
    * @param price
    * @param timestamp
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, DateTime timestamp) {
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp) {
 
-    super();
     this.type = type;
     this.tradableAmount = tradableAmount;
     this.tradableIdentifier = tradableIdentifier;
@@ -105,7 +102,7 @@ public final class Trade {
     return price;
   }
 
-  public DateTime getTimestamp() {
+  public Date getTimestamp() {
 
     return timestamp;
   }
@@ -113,8 +110,20 @@ public final class Trade {
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price + ", timestamp=" + timestamp
-        + "]";
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
+        + ", timestamp=" + timestamp + "]";
+  }
+
+  @Override
+  public int compareTo(Trade trade) {
+
+    if (this.getTimestamp().before(trade.getTimestamp())) {
+      return -1;
+    } else if (this.getTimestamp().after(trade.getTimestamp())) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,7 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v1.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -34,6 +36,7 @@ import org.junit.Test;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -45,11 +48,7 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
-import com.xeiam.xchange.mtgox.v1.service.account.AccountInfoJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.DepthJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.TickerJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.TradesJSONTest;
-import com.xeiam.xchange.mtgox.v1.service.trade.OpenOrdersJSONTest;
+import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -58,10 +57,26 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public class MtGoxAdapterTest {
 
   @Test
+  public void testAccountInfoAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
+
+    AccountInfo accountInfo = MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
+    assertThat(accountInfo.getUsername(), is(equalTo("xchange")));
+    assertThat(accountInfo.getWallets().get(0).getCurrency(), is(equalTo("BTC")));
+    assertThat(accountInfo.getWallets().get(0).getBalance(), is(equalTo(MoneyUtils.parseFiat("BTC 0.00000000"))));
+  }
+
+  @Test
   public void testOrderAdapterWithOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/trade/example-openorders-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/trade/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -85,7 +100,7 @@ public class MtGoxAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = DepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -109,7 +124,7 @@ public class MtGoxAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -127,14 +142,14 @@ public class MtGoxAdapterTest {
     assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
-    assertEquals("timestamp incorrect", "2012-04-11T20:48:46.000Z", trades.getTrades().get(0).getTimestamp().toString());
+    assertThat("2012-04-11 20:48:46 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
   }
 
   @Test
   public void testWalletAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -148,9 +163,10 @@ public class MtGoxAdapterTest {
 
     // in Wallet(s), only wallets from MtGoxAccountInfo.getWallets that contained data are NOT null.
     List<Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
+    System.out.println(wallets.toString());
     assertTrue("List size should be true!", wallets.size() == 2);
     assertTrue("CAD should be null", !wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parseFiat("CAD 0.0"))));
-    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parseFiat("BTC 0.0"))));
+    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parseFiat("BTC 0.00000000"))));
 
     // System.out.println(wallets.get(0).toString());
     assertTrue("wallets.get(0).getBalance().getAmount().doubleValue() should be 0.0", wallets.get(0).getBalance().getAmount().doubleValue() == 0.0);
@@ -161,19 +177,19 @@ public class MtGoxAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
-    System.out.println(ticker.toString());
+    // System.out.println(ticker.toString());
 
-    assertEquals("last should be USD 4.89", ticker.getLast().toString(), "USD 4.89");
-    assertEquals("bid should be USD 4.89002", ticker.getBid().toString(), "USD 4.89002");
-    assertEquals("ask should be USD 4.91227", ticker.getAsk().toString(), "USD 4.91227");
-    assertEquals("volume should be 57759.66891627", ticker.getVolume(), new BigDecimal(57759.66891627));
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parseFiat("USD 4.89000"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parseFiat("USD 4.89002"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parseFiat("USD 4.91227"))));
+    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("57759.66891627"))));
 
   }
 }

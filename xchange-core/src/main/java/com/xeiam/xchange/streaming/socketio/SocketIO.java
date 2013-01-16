@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2012, Enno Boland
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013, Enno Boland
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,23 +28,21 @@ import java.util.Properties;
 
 import javax.net.ssl.SSLSocketFactory;
 
-import org.json.JSONObject;
-
 /**
  * The Class SocketIO.
  */
 public class SocketIO {
 
-  /** callback of this Socket. */
+  /** Callback of this Socket */
   private IOCallback callback;
 
-  /** connection of this Socket. */
+  /** Connection of this Socket */
   private IOConnection connection;
 
-  /** namespace. */
+  /** Namespace */
   private String namespace;
 
-  /** Used for setting header during handshaking. */
+  /** Used for setting header during handshaking */
   private Properties headers = new Properties();
 
   private URL url;
@@ -110,7 +108,7 @@ public class SocketIO {
    */
   public SocketIO(final URL url, final IOCallback callback) {
 
-    if (setAndConnect(url, callback) == false) {
+    if (!setAndConnect(url, callback)) {
       throw new RuntimeException("url and callback may not be null.");
     }
   }
@@ -128,7 +126,7 @@ public class SocketIO {
   /**
    * Set the socket factory used for SSL connections.
    * 
-   * @param socketFactory
+   * @param socketFactory The SSL socket factory
    */
   public static void setDefaultSSLSocketFactory(SSLSocketFactory socketFactory) {
 
@@ -143,7 +141,7 @@ public class SocketIO {
    */
   public void connect(final String url, final IOCallback callback) throws MalformedURLException {
 
-    if (setAndConnect(new URL(url), callback) == false) {
+    if (!setAndConnect(new URL(url), callback)) {
       if (url == null || callback == null) {
         throw new RuntimeException("url and callback may not be null.");
       } else {
@@ -160,7 +158,7 @@ public class SocketIO {
    */
   public void connect(URL url, IOCallback callback) {
 
-    if (setAndConnect(url, callback) == false) {
+    if (!setAndConnect(url, callback)) {
       if (url == null || callback == null) {
         throw new RuntimeException("url and callback may not be null.");
       } else {
@@ -176,7 +174,7 @@ public class SocketIO {
    */
   public void connect(IOCallback callback) {
 
-    if (setAndConnect(null, callback) == false) {
+    if (!setAndConnect(null, callback)) {
       if (callback == null) {
         throw new RuntimeException("callback may not be null.");
       } else if (this.url == null) {
@@ -258,26 +256,26 @@ public class SocketIO {
     return this.namespace;
   }
 
-  /**
-   * Send JSON data to the Socket.io server.
-   * 
-   * @param json the JSON object
-   */
-  public void send(final JSONObject json) {
-
-    this.connection.send(this, null, json);
-  }
-
-  /**
-   * Send JSON data to the Socket.io server.
-   * 
-   * @param ack an acknowledge implementation
-   * @param json the JSON object
-   */
-  public void send(IOAcknowledge ack, final JSONObject json) {
-
-    this.connection.send(this, ack, json);
-  }
+  // /**
+  // * Send JSON data to the Socket.io server.
+  // *
+  // * @param json the JSON object
+  // */
+  // public void send(final JSONObject json) {
+  //
+  // this.connection.send(this, null, json);
+  // }
+  //
+  // /**
+  // * Send JSON data to the Socket.io server.
+  // *
+  // * @param ack an acknowledge implementation
+  // * @param json the JSON object
+  // */
+  // public void send(IOAcknowledge ack, final JSONObject json) {
+  //
+  // this.connection.send(this, ack, json);
+  // }
 
   /**
    * Send String data to the Socket.io server.
@@ -309,7 +307,7 @@ public class SocketIO {
   }
 
   /**
-   * Triggers the transport to reconnect. This had become useful on some android devices which do not shut down tcp-connections when switching from HSDPA to Wifi
+   * Triggers the transport to reconnect. This had become useful on some android devices which do not shut down TCP connections when switching from HSDPA to Wifi
    */
   public void reconnect() {
 
@@ -338,7 +336,8 @@ public class SocketIO {
   }
 
   /**
-   * Returns the headers used while handshaking. These Properties are not necessarily the ones set by {@link #addHeader(String, String)} or {@link #SocketIO(String, Properties)} but the ones used for the handshake.
+   * Returns the headers used while handshaking. These Properties are not necessarily the ones set by {@link #addHeader(String, String)} or {@link #SocketIO(String, Properties)} but the ones used for
+   * the handshake.
    * 
    * @return the headers used while handshaking
    */

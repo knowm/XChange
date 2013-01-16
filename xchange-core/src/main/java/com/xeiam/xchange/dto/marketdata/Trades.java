@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,19 +21,18 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Data object representing Trades
- * 
- * @immutable
  */
 public final class Trades {
 
   private final List<Trade> trades;
 
   /**
-   * Constuctor
+   * Constructor
    * 
    * @param trades
    */
@@ -44,6 +43,7 @@ public final class Trades {
 
   public List<Trade> getTrades() {
 
+    Collections.sort(trades);
     return trades;
   }
 

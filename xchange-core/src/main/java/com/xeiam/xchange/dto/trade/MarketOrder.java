@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,13 +28,11 @@ import com.xeiam.xchange.dto.Order;
 /**
  * Data object representing a market order
  * <p>
- * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market orders are filled. Market orders are therefore used when certainty of execution is a priority over
- * price of execution.
+ * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market orders are filled. Market orders are therefore
+ * used when certainty of execution is a priority over price of execution.
  * </p>
- * 
- * @immutable
  */
-public class MarketOrder extends Order {
+public final class MarketOrder extends Order {
 
   /**
    * Constructor
@@ -64,9 +62,4 @@ public class MarketOrder extends Order {
     super(type, tradableAmount, tradableIdentifier, transactionCurrency, "");
   }
 
-  @Override
-  public String toString() {
-
-    return super.toString();
-  }
 }

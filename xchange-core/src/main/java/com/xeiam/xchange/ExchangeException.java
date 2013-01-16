@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -23,19 +23,30 @@ package com.xeiam.xchange;
 
 /**
  * <p>
- * Exception to provide the following to {@link Session}:
+ * Exception to provide the following to :
  * </p>
  * <ul>
- * <li>Indication that the session could not start</li>
+ * <li>Indication of generic Exchange exception</li>
  * </ul>
  */
 public class ExchangeException extends RuntimeException {
 
+  /**
+   * Constructor
+   * 
+   * @param s
+   */
   public ExchangeException(String s) {
 
     super(s);
   }
 
+  /**
+   * Constructor
+   * 
+   * @param s
+   * @param throwable
+   */
   public ExchangeException(String s, Throwable throwable) {
 
     super(s, throwable);

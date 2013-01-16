@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,39 +21,28 @@
  */
 package com.xeiam.xchange.virtex;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * A central place for shared VirtEx properties
  */
-public class VirtExUtils {
+public final class VirtExUtils {
+
+  /**
+   * private Constructor
+   */
+  private VirtExUtils() {
+
+  }
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   CurrencyPair.BTC_CAD
 
   );
-
-  public static final int REFRESH_RATE = 10; // [seconds]
-
-  /**
-   * Converts a currency and long price into a BigMoney Object
-   * 
-   * @param currency
-   * @param price
-   * @return
-   */
-  public static BigMoney getPrice(String currency, float price) {
-
-    return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price));
-  }
 
   /**
    * Checks if a given CurrencyPair is covered by this exchange

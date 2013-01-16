@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,12 +25,10 @@ import java.util.List;
 
 /**
  * Data object representing open orders
- * 
- * @immutable
  */
-public class OpenOrders {
+public final class OpenOrders {
 
-  List<LimitOrder> openOrders;
+  private final List<LimitOrder> openOrders;
 
   /**
    * Constructor
@@ -39,7 +37,6 @@ public class OpenOrders {
    */
   public OpenOrders(List<LimitOrder> openOrders) {
 
-    super();
     this.openOrders = openOrders;
   }
 

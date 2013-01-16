@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2012, Enno Boland
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013, Enno Boland
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -109,6 +109,7 @@ class XhrTransport implements IOTransport {
             InputStream input = urlConnection.getInputStream();
             byte[] buffer = new byte[1024];
             while (input.read(buffer) > 0) {
+              // NOP
             }
             input.close();
           } else {

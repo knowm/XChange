@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -27,10 +27,8 @@ import org.joda.money.BigMoney;
  * <p>
  * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
  * </p>
- * 
- * @immutable
  */
-public class Wallet {
+public final class Wallet {
 
   private final String currency;
   private final BigMoney balance;
@@ -76,23 +74,30 @@ public class Wallet {
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Wallet other = (Wallet) obj;
     if (balance == null) {
-      if (other.balance != null)
+      if (other.balance != null) {
         return false;
-    } else if (!balance.equals(other.balance))
+      }
+    } else if (!balance.equals(other.balance)) {
       return false;
+    }
     if (currency == null) {
-      if (other.currency != null)
+      if (other.currency != null) {
         return false;
-    } else if (!currency.equals(other.currency))
+      }
+    } else if (!currency.equals(other.currency)) {
       return false;
+    }
     return true;
   }
 

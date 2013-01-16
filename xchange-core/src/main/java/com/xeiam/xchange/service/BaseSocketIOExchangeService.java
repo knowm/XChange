@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,10 +22,10 @@
 package com.xeiam.xchange.service;
 
 import java.io.IOException;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +47,20 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   private final Logger log = LoggerFactory.getLogger(BaseSocketIOExchangeService.class);
 
-  private final ExecutorService executorService;
-  private final BlockingQueue<ExchangeEvent> exchangeEvents = new ArrayBlockingQueue<ExchangeEvent>(1024);
+  private final ExecutorService eventExecutorService = Executors.newFixedThreadPool(2);
 
-  private SocketIO socketIO;
-  private RunnableExchangeEventProducer runnableMarketDataEventProducer = null;
+  /** The event queue for the producer */
+  private final BlockingQueue<ExchangeEvent> producerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+
+  /**
+   * The event queue for the consumer
+   */
+  private final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+
+  protected SocketIO socketIO;
+
+  /** The exchange event producer */
+  private RunnableExchangeEventProducer runnableExchangeEventProducer;
 
   /**
    * Constructor
@@ -61,36 +70,37 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   public BaseSocketIOExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
 
     super(exchangeSpecification);
-
-    // Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
-
-    executorService = Executors.newSingleThreadExecutor();
   }
 
   @Override
   public synchronized void connect(String url, RunnableExchangeEventListener runnableExchangeEventListener) {
 
+    log.info("Connecting...");
+
     // Validate inputs
     Assert.notNull(runnableExchangeEventListener, "runnableMarketDataListener cannot be null");
 
     // Validate state
-    if (executorService.isShutdown()) {
+    if (eventExecutorService.isShutdown()) {
       throw new IllegalStateException("Service has been stopped. Create a new one rather than reuse a reference.");
     }
 
     try {
       log.debug("Attempting to open a socketIO against {}:{}", url, exchangeSpecification.getPort());
-      this.runnableMarketDataEventProducer = new RunnableSocketIOEventProducer(socketIO, exchangeEvents);
-      this.socketIO = new SocketIO(url, (RunnableSocketIOEventProducer) runnableMarketDataEventProducer);
+      this.runnableExchangeEventProducer = new RunnableSocketIOEventProducer(producerEventQueue);
+      this.socketIO = new SocketIO(url, (RunnableSocketIOEventProducer) runnableExchangeEventProducer);
     } catch (IOException e) {
-      throw new ExchangeException("Failed to open socket: " + e.getMessage(), e);
+      throw new ExchangeException("Failed to open socket!", e);
     }
 
-    runnableExchangeEventListener.setExchangeEventQueue(exchangeEvents);
-    executorService.submit(runnableMarketDataEventProducer);
+    // Configure the exchange event listener event queue
+    runnableExchangeEventListener.setExchangeEventQueue(producerEventQueue);
 
-    log.debug("Started OK");
+    // Submit the event threads to their services
+    eventExecutorService.submit(runnableExchangeEventProducer);
+    eventExecutorService.submit(runnableExchangeEventListener);
 
+    log.info("Socket connected OK. Check queues for events.");
   }
 
   @Override
@@ -102,7 +112,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   @Override
   public synchronized void disconnect() {
 
-    if (!executorService.isShutdown()) {
+    if (!eventExecutorService.isShutdown()) {
       // We close on the socket to get an immediate result
       // otherwise the producer would block until the exchange
       // sent a message which could be forever
@@ -110,20 +120,25 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
         socketIO.disconnect();
       }
     }
-    executorService.shutdownNow();
+    eventExecutorService.shutdownNow();
     log.debug("Stopped");
   }
 
   @Override
-  public RunnableExchangeEventProducer getRunnableMarketDataEventProducer() {
+  public RunnableExchangeEventProducer getRunnableExchangeEventProducer() {
 
-    return runnableMarketDataEventProducer;
+    return runnableExchangeEventProducer;
   }
 
   @Override
-  public void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
+  public void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
 
-    this.runnableMarketDataEventProducer = runnableMarketDataEventProducer;
+    this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 
+  @Override
+  public BlockingQueue<ExchangeEvent> getEventQueue() {
+
+    return consumerEventQueue;
+  }
 }

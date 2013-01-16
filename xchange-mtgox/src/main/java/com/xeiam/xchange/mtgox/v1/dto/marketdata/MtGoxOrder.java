@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,57 +21,58 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing a buy or sell order from Mt Gox
- * 
- * @immutable
  */
-public class MtGoxOrder {
+public final class MtGoxOrder {
 
-  private double price;
-  private double amount;
-  private long price_int;
-  private long amount_int;
-  private long stamp;
+  private final BigDecimal price;
+  private final BigDecimal amount;
+  private final long priceInt;
+  private final long amountInt;
+  private final long stamp;
 
   /**
    * Constructor
    * 
    * @param price
    * @param amount
-   * @param price_int
-   * @param amount_int
+   * @param priceInt
+   * @param amountInt
    * @param stamp
    */
-  public MtGoxOrder(@JsonProperty("price") double price, @JsonProperty("amount") double amount, @JsonProperty("price_int") long price_int, @JsonProperty("amount_int") long amount_int, @JsonProperty("stamp") long stamp) {
+  public MtGoxOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long priceInt, @JsonProperty("amount_int") long amountInt,
+      @JsonProperty("stamp") long stamp) {
 
     this.price = price;
     this.amount = amount;
-    this.price_int = price_int;
-    this.amount_int = amount_int;
+    this.priceInt = priceInt;
+    this.amountInt = amountInt;
     this.stamp = stamp;
   }
 
-  public double getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
 
     return amount;
   }
 
-  public long getPrice_int() {
+  public long getPriceInt() {
 
-    return price_int;
+    return priceInt;
   }
 
-  public long getAmount_int() {
+  public long getAmountInt() {
 
-    return amount_int;
+    return amountInt;
   }
 
   public long getStamp() {
@@ -82,7 +83,7 @@ public class MtGoxOrder {
   @Override
   public String toString() {
 
-    return "MtGoxOrder [price=" + price + ", amount=" + amount + ", price_int=" + price_int + ", amount_int=" + amount_int + ", stamp=" + stamp + "]";
+    return "MtGoxOrder [price=" + price + ", amount=" + amount + ", priceInt=" + priceInt + ", amountInt=" + amountInt + ", stamp=" + stamp + "]";
   }
 
 }

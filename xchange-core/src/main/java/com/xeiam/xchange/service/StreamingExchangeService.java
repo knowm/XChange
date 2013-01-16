@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.service;
 
+import java.util.concurrent.BlockingQueue;
+
 /**
  * <p>
  * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
@@ -39,7 +41,7 @@ public interface StreamingExchangeService {
    * Start the service and provide a suitable runnable event listener to receive events. This will be configured by the service.
    * </p>
    */
-  void connect(String url, RunnableExchangeEventListener runnableMarketDataListener);
+  void connect(String url, RunnableExchangeEventListener runnableExchangeEventListener);
 
   /**
    * <p>
@@ -58,7 +60,25 @@ public interface StreamingExchangeService {
   /**
    * @return The runnable market data event producer
    */
-  RunnableExchangeEventProducer getRunnableMarketDataEventProducer();
+  RunnableExchangeEventProducer getRunnableExchangeEventProducer();
 
-  void setRunnableMarketDataEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
+  /**
+   * @param runnableMarketDataEventProducer The runnable market data event producer
+   */
+  void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
+
+  /**
+   * @return True if the streaming channel is connected
+   * @deprecated In favour of tracking the ExchangeEventType instead
+   */
+  @Deprecated
+  boolean isConnected();
+
+  /**
+   * The consumer exchange event queue
+   * 
+   * @return A blocking queue consisting of raw exchange events (such as connect/disconnect notifications)
+   */
+  BlockingQueue<ExchangeEvent> getEventQueue();
+
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,8 +25,6 @@ import java.math.BigDecimal;
 
 /**
  * Data object representing an order
- * 
- * @immutable
  */
 public class Order {
 
@@ -36,19 +34,19 @@ public class Order {
   }
 
   /** Order type i.e. bid or ask */
-  private OrderType type;
+  private final OrderType type;
 
   /** Amount to be ordered / amount that was ordered */
-  private BigDecimal tradableAmount;
+  private final BigDecimal tradableAmount;
 
   /** An identifier that uniquely identifies the tradeable */
-  private String tradableIdentifier;
+  private final String tradableIdentifier;
 
   /** The currency used to settle the market order transaction */
-  private String transactionCurrency;
+  private final String transactionCurrency;
 
   /** An identifier that uniquely identifies the order */
-  private String id;
+  private final String id;
 
   /**
    * Constructor

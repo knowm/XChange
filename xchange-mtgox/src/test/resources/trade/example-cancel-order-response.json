@@ -1,0 +1,35 @@
+{
+   "usds":"0",
+   "btcs":"0.07099989",
+   "new_usds":{
+      "value":"0.00000",
+      "value_int":"0",
+      "display":"$0.00000",
+      "display_short":"$0.00",
+      "currency":"USD"
+   },
+   "new_btcs":{
+      "value":"0.07099989",
+      "value_int":"7099989",
+      "display":"0.07099989\u00a0BTC",
+      "display_short":"0.07\u00a0BTC",
+      "currency":"BTC"
+   },
+   "orders":[
+      {
+         "oid":"39b5cd7e-8452-4ace-890e-84ba236fe5cb",
+         "currency":"USD",
+         "item":"BTC",
+         "type":2,
+         "amount":"0.92907324",
+         "amount_int":"92907324",
+         "price":"1.25000",
+         "price_int":"125000",
+         "status":0,
+         "real_status":"invalid",
+         "dark":0,
+         "date":1357946434,
+         "priority":"1357946434084386"
+      }
+   ]
+}

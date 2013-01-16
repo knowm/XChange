@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2012, Enno Boland
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013, Enno Boland
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -52,7 +52,7 @@ class WebSocketTransport extends WebSocketClient implements IOTransport {
   /**
    * Creates a new Transport for the given url an {@link IOConnection}.
    * 
-   * @param url the url
+   * @param urlString the url
    * @param connection the connection
    * @return the iO transport
    */

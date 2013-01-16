@@ -86,7 +86,6 @@ public class DefaultFrameData implements FrameBuilder {
     if (unmaskedPayload == null) {
       unmaskedPayload = ByteBuffer.wrap(nextFrame.getPayloadData());
     } else {
-      // TODO might be inefficient. Consider a global buffer pool
       ByteBuffer tmp = ByteBuffer.allocate(nextFrame.getPayloadData().length + unmaskedPayload.capacity());
       tmp.put(unmaskedPayload.array());
       tmp.put(nextFrame.getPayloadData());
@@ -98,7 +97,8 @@ public class DefaultFrameData implements FrameBuilder {
   @Override
   public String toString() {
 
-    return "FrameData{ opCode:" + getOpCode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedPayload.limit() + ", payload:" + CharsetUtils.toByteArrayUtf8(new String(unmaskedPayload.array())) + "}";
+    return "FrameData{ opCode:" + getOpCode() + ", fin:" + isFin() + ", payloadlength:" + unmaskedPayload.limit() + ", payload:" + CharsetUtils.toByteArrayUtf8(new String(unmaskedPayload.array()))
+        + "}";
   }
 
 }

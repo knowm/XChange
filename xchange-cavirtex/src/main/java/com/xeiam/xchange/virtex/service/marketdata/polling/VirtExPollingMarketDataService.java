@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,21 +21,20 @@
  */
 package com.xeiam.xchange.virtex.service.marketdata.polling;
 
-import java.util.HashMap;
 import java.util.List;
 
-import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.PacingViolationException;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.virtex.VirtEx;
 import com.xeiam.xchange.virtex.VirtExAdapters;
 import com.xeiam.xchange.virtex.VirtExUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
@@ -50,26 +49,19 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VirtExPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
+public class VirtExPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+
+  private final VirtEx virtEx;
 
   /**
-   * time stamps used to pace API calls
-   */
-  private long tickerRequestTimeStamp = 0L;
-  private long orderBookRequestTimeStamp = 0L;
-  private long tradesRequestTimeStamp = 0L;
-
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final String apiBase = String.format("%s/api/", exchangeSpecification.getUri(), exchangeSpecification.getVersion());
-
-  /**
+   * Constructor
+   * 
    * @param exchangeSpecification The exchange specification
    */
   public VirtExPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchangeSpecification.getUri());
   }
 
   @Override
@@ -77,19 +69,11 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
 
     verify(tradableIdentifier, currency);
 
-    // check for pacing violation
-    if (System.currentTimeMillis() < tickerRequestTimeStamp + getRefreshRate()) {
-      tickerRequestTimeStamp = System.currentTimeMillis();
-      throw new PacingViolationException("VirtEx caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    }
-    tickerRequestTimeStamp = System.currentTimeMillis();
-
-    System.out.println(apiBase + currency + "/ticker.json");
     // Request data
-    VirtExTicker VirtExTicker = httpTemplate.getForJsonObject(apiBase + currency + "/ticker.json", VirtExTicker.class, mapper, new HashMap<String, String>());
+    VirtExTicker virtExTicker = virtEx.getTicker(currency);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(VirtExTicker);
+    return VirtExAdapters.adaptTicker(virtExTicker, currency, tradableIdentifier);
   }
 
   @Override
@@ -103,15 +87,8 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
 
     verify(tradableIdentifier, currency);
 
-    // Check for pacing violation
-    if (System.currentTimeMillis() < orderBookRequestTimeStamp + getRefreshRate()) {
-      orderBookRequestTimeStamp = System.currentTimeMillis();
-      throw new PacingViolationException("VirtEx caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    }
-    orderBookRequestTimeStamp = System.currentTimeMillis();
-
     // Request data
-    VirtExDepth VirtExDepth = httpTemplate.getForJsonObject(apiBase + currency + "/orderbook.json", VirtExDepth.class, mapper, new HashMap<String, String>());
+    VirtExDepth VirtExDepth = virtEx.getDepth(currency);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), currency, "ask", "");
@@ -124,17 +101,12 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   public Trades getTrades(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
-    // Check for pacing violation
-    if (System.currentTimeMillis() < tradesRequestTimeStamp + getRefreshRate()) {
-      tradesRequestTimeStamp = System.currentTimeMillis();
-      throw new PacingViolationException("VirtEx caches market data and refreshes every " + getRefreshRate() + " seconds.");
-    }
-    tradesRequestTimeStamp = System.currentTimeMillis();
 
     // Request data
-    VirtExTrade[] VirtExTrades = httpTemplate.getForJsonObject(apiBase + currency + "/trades.json", VirtExTrade[].class, mapper, new HashMap<String, String>());
+    VirtExTrade[] virtExTrades = virtEx.getTrades(currency);
 
-    return VirtExAdapters.adaptTrades(VirtExTrades);
+    // Adapt to XChange DTOs
+    return VirtExAdapters.adaptTrades(virtExTrades, currency, tradableIdentifier);
   }
 
   /**
@@ -149,12 +121,6 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     Assert.notNull(currency, "currency cannot be null");
     Assert.isTrue(VirtExUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
-  }
-
-  @Override
-  public int getRefreshRate() {
-
-    return VirtExUtils.REFRESH_RATE;
   }
 
   @Override

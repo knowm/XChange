@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,8 +21,9 @@
  */
 package com.xeiam.xchange.utils;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * <p>
@@ -34,13 +35,44 @@ import org.joda.time.DateTimeZone;
  */
 public class DateUtils {
 
-  public static DateTime nowUtc() {
+  /**
+   * private Constructor
+   */
+  private DateUtils() {
 
-    return new DateTime().withZone(DateTimeZone.UTC);
   }
 
-  public static DateTime fromMillisUtc(long millis) {
+  /**
+   * Creates a Date instance for this instant in the UTC timezone
+   * 
+   * @return the Date instance
+   */
+  public static Date nowUtc() {
 
-    return new DateTime(millis).withZone(DateTimeZone.UTC);
+    return new Date();
+  }
+
+  /**
+   * Creates a date from a long representing milliseconds from epoch
+   * 
+   * @param millisecondsFromEpoch
+   * @return the Date object
+   */
+  public static Date fromMillisUtc(long millisecondsFromEpoch) {
+
+    return new Date(millisecondsFromEpoch);
+  }
+
+  /**
+   * Converts a date to a UTC String representation
+   * 
+   * @param date
+   * @return the formatted date
+   */
+  public static String toUTCString(Date date) {
+
+    SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+    sd.setTimeZone(TimeZone.getTimeZone("GMT"));
+    return sd.format(date);
   }
 }

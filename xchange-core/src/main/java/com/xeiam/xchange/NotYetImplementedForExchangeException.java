@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -26,16 +26,24 @@ package com.xeiam.xchange;
  * Exception to provide the following to API:
  * </p>
  * <ul>
- * <li>Indication that the exchange does not support the requested function or data</li>
+ * <li>Indication that the exchange supports the requested function or data, but it's not yet been implemented</li>
  * </ul>
  */
 public class NotYetImplementedForExchangeException extends RuntimeException {
 
+  /**
+   * Constructor
+   * 
+   * @param message
+   */
   public NotYetImplementedForExchangeException(String message) {
 
     super(message);
   }
 
+  /**
+   * Constructor
+   */
   public NotYetImplementedForExchangeException() {
 
     this("Capability not yet implemented for exchange.");

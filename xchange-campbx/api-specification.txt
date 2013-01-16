@@ -1,0 +1,20 @@
+CampBX Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://campbx.com/api.php
+
+Ticker
+------
+http://CampBX.com/api/xticker.php
+
+Orders
+------
+http://CampBX.com/api/xdepth.php
+
+Pacing
+------
+Please do not abuse the API interface with brute-forcing bots, and ensure that there is at least 500 millisecond latency between two calls.

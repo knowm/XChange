@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -50,13 +50,13 @@ public class TickerJSONTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(4.89002));
-    assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue(), equalTo(4.89000));
-    assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue(), equalTo(4.89002));
-    assertThat("Unexpected Return Ask value", mtGoxTicker.getSell().getValue(), equalTo(4.91227));
-    assertThat("Unexpected Return High value", mtGoxTicker.getHigh().getValue(), equalTo(4.98000));
-    assertThat("Unexpected Return Low value", mtGoxTicker.getLow().getValue(), equalTo(4.84272));
-    assertThat("Unexpected Return Volume value", mtGoxTicker.getVol().getValue(), equalTo(57759.66891627));
+    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(4.89002));
+    assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue().doubleValue(), equalTo(4.89000));
+    assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(4.89002));
+    assertThat("Unexpected Return Ask value", mtGoxTicker.getSell().getValue().doubleValue(), equalTo(4.91227));
+    assertThat("Unexpected Return High value", mtGoxTicker.getHigh().getValue().doubleValue(), equalTo(4.98000));
+    assertThat("Unexpected Return Low value", mtGoxTicker.getLow().getValue().doubleValue(), equalTo(4.84272));
+    assertThat("Unexpected Return Volume value", mtGoxTicker.getVol().getValue().doubleValue(), equalTo(57759.66891627));
   }
 
   @Test
@@ -68,21 +68,21 @@ public class TickerJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
     });
-    System.out.println(userInMap.get("ticker").toString());
-    System.out.println(mapper.writeValueAsString(userInMap.get("ticker")));
+    // System.out.println(userInMap.get("ticker").toString());
+    // System.out.println(mapper.writeValueAsString(userInMap.get("ticker")));
 
     // Use Jackson to parse it
     mapper = new ObjectMapper();
     MtGoxTicker mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(5.10991));
-    assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue(), equalTo(5.10991));
-    assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue(), equalTo(5.10991));
-    assertThat("Unexpected Return Ask value", mtGoxTicker.getSell().getValue(), equalTo(5.11000));
-    assertThat("Unexpected Return High value", mtGoxTicker.getHigh().getValue(), equalTo(5.12500));
-    assertThat("Unexpected Return Low value", mtGoxTicker.getLow().getValue(), equalTo(5.07000));
-    assertThat("Unexpected Return Volume value", mtGoxTicker.getVol().getValue(), equalTo(15475.00497509));
+    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(5.10991));
+    assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue().doubleValue(), equalTo(5.10991));
+    assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(5.10991));
+    assertThat("Unexpected Return Ask value", mtGoxTicker.getSell().getValue().doubleValue(), equalTo(5.11000));
+    assertThat("Unexpected Return High value", mtGoxTicker.getHigh().getValue().doubleValue(), equalTo(5.12500));
+    assertThat("Unexpected Return Low value", mtGoxTicker.getLow().getValue().doubleValue(), equalTo(5.07000));
+    assertThat("Unexpected Return Volume value", mtGoxTicker.getVol().getValue().doubleValue(), equalTo(15475.00497509));
 
   }
 }

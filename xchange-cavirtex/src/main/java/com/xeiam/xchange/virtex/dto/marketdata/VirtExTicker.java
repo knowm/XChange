@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,22 +21,19 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing Ticker from VirtEx
- * 
- * @immutable
  */
 public final class VirtExTicker {
 
-  public final double last;
-  public final double high;
-  public final double low;
-  public final double volume;
-
-  // public double bid; //Value does not exist on VirtEx Ticker API
-  // public double ask; //Value does not exist on VirtEx Ticker API
+  private final BigDecimal last;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal volume;
 
   /**
    * Constructor
@@ -46,7 +43,7 @@ public final class VirtExTicker {
    * @param volume
    * @param last
    */
-  public VirtExTicker(@JsonProperty("high") double high, @JsonProperty("low") double low, @JsonProperty("volume") double volume, @JsonProperty("last") double last) {
+  public VirtExTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
 
     this.high = high;
     this.low = low;
@@ -54,22 +51,22 @@ public final class VirtExTicker {
     this.last = last;
   }
 
-  public double getLast() {
+  public BigDecimal getLast() {
 
     return last;
   }
 
-  public double getHigh() {
+  public BigDecimal getHigh() {
 
     return high;
   }
 
-  public double getLow() {
+  public BigDecimal getLow() {
 
     return low;
   }
 
-  public double getVolume() {
+  public BigDecimal getVolume() {
 
     return volume;
   }

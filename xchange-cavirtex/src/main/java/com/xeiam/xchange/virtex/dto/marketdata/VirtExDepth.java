@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,19 +21,18 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing depth from VirtEx
- * 
- * @immutable
  */
 public final class VirtExDepth {
 
-  private final List<float[]> asks;
-  private final List<float[]> bids;
+  private final List<BigDecimal[]> asks;
+  private final List<BigDecimal[]> bids;
 
   /**
    * Constructor
@@ -41,18 +40,18 @@ public final class VirtExDepth {
    * @param asks
    * @param bids
    */
-  public VirtExDepth(@JsonProperty("asks") List<float[]> asks, @JsonProperty("bids") List<float[]> bids) {
+  public VirtExDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
 
     this.asks = asks;
     this.bids = bids;
   }
 
-  public List<float[]> getAsks() {
+  public List<BigDecimal[]> getAsks() {
 
     return asks;
   }
 
-  public List<float[]> getBids() {
+  public List<BigDecimal[]> getBids() {
 
     return bids;
   }

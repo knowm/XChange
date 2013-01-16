@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -43,11 +43,11 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
   /**
    * Request a streaming Ticker feed
    * 
-   * @param tradableIdentifier
-   * @param currency
-   * @return a blocking queue that receives incoming Ticker objects
+   * @param tradableIdentifier The tradeable identifier (e.g. "Bitcoin")
+   * @param currency The currency symbol
+   * @return A blocking queue consisting of received Ticker objects
    */
-  BlockingQueue<Ticker> requestTicker(String tradableIdentifier, String currency);
+  BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, String currency);
 
   /**
    * Cancel the streaming Ticker feed

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -29,15 +29,13 @@ import com.xeiam.xchange.dto.Order;
 
 /**
  * Data object representing a limit order
- * 
- * @immutable
  */
-public class LimitOrder extends Order {
+public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   /**
    * The limit price
    */
-  private BigMoney limitPrice;
+  private final BigMoney limitPrice;
 
   /**
    * Constructor
@@ -80,6 +78,13 @@ public class LimitOrder extends Order {
   public String toString() {
 
     return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
+  }
+
+  @Override
+  public int compareTo(LimitOrder limitOrder) {
+
+    return this.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) * (getType() == OrderType.BID ? -1 : 1);
+
   }
 
 }

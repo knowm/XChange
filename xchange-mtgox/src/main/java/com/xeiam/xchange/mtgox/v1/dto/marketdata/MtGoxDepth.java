@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -27,13 +27,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing depth from Mt Gox
- * 
- * @immutable
  */
-public class MtGoxDepth {
+public final class MtGoxDepth {
 
-  private List<MtGoxOrder> asks;
-  private List<MtGoxOrder> bids;
+  private final List<MtGoxOrder> asks;
+  private final List<MtGoxOrder> bids;
 
   /**
    * Constructor

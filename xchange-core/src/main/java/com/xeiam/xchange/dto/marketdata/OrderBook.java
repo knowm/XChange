@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,14 +21,13 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Data object representing OrderBook
- * 
- * @immutable
  */
 public final class OrderBook {
 
@@ -49,11 +48,13 @@ public final class OrderBook {
 
   public List<LimitOrder> getAsks() {
 
+    Collections.sort(asks);
     return asks;
   }
 
   public List<LimitOrder> getBids() {
 
+    Collections.sort(bids);
     return bids;
   }
 

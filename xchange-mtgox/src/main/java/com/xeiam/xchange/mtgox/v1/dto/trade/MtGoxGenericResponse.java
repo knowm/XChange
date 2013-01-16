@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,14 +25,12 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing a response message from Mt Gox after placing and order
- * 
- * @immutable
  */
-public class MtGoxGenericResponse {
+public final class MtGoxGenericResponse {
 
-  private String result;
-  private String _return;
-  private String error;
+  private final String result;
+  private final String _return;
+  private final String error;
 
   /**
    * Constructor
@@ -61,6 +59,12 @@ public class MtGoxGenericResponse {
   public String getError() {
 
     return error;
+  }
+
+  @Override
+  public String toString() {
+
+    return "MtGoxGenericResponse [result=" + result + ", _return=" + _return + ", error=" + error + "]";
   }
 
 }

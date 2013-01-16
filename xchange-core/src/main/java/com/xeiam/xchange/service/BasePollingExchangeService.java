@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,11 +21,7 @@
  */
 package com.xeiam.xchange.service;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.HttpTemplate;
 
 /**
  * <p>
@@ -38,16 +34,6 @@ import com.xeiam.xchange.utils.HttpTemplate;
 public abstract class BasePollingExchangeService extends BaseExchangeService {
 
   /**
-   * Jackson JSON to Java object mapper
-   */
-  protected ObjectMapper mapper = new ObjectMapper();
-
-  /**
-   * HTTP template to provide data access facilities
-   */
-  protected HttpTemplate httpTemplate = new HttpTemplate();
-
-  /**
    * Initialize common properties from the exchange specification
    * 
    * @param exchangeSpecification The exchange specification with the configuration parameters
@@ -55,11 +41,6 @@ public abstract class BasePollingExchangeService extends BaseExchangeService {
   protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
-  public void setHttpTemplate(HttpTemplate httpTemplate) {
-
-    this.httpTemplate = httpTemplate;
-  }
 }

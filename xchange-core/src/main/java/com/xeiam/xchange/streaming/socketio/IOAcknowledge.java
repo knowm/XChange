@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2012, Enno Boland
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013, Enno Boland
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,8 +22,6 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-import org.json.JSONArray;
-
 /**
  * The Interface IOAcknowledge.
  */
@@ -32,7 +30,7 @@ public interface IOAcknowledge {
   /**
    * Acknowledges a socket.io message.
    * 
-   * @param args may be all types which can be serialized by {@link JSONArray#put(Object)}
+   * @param args may be all types which can be serialized by Jackson
    */
   void ack(Object... args);
 }

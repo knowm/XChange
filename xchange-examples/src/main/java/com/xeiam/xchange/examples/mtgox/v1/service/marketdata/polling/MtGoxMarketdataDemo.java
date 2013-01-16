@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,9 +20,6 @@
  * SOFTWARE.
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
@@ -45,8 +42,6 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  * </ul>
  */
 public class MtGoxMarketdataDemo {
-
-  private final Logger log = LoggerFactory.getLogger(MtGoxMarketdataDemo.class);
 
   public static void main(String[] args) {
 

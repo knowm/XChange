@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -46,7 +46,7 @@ public class AccountInfoJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
-    System.out.println(mtGoxAccountInfo.toString());
+    // System.out.println(mtGoxAccountInfo.toString());
 
     // Verify that the example data was unmarshalled correctly
     assertTrue(mtGoxAccountInfo.getLogin().equals("xchange"));

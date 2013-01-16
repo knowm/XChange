@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -38,6 +38,13 @@ import org.joda.money.CurrencyUnit;
 public class MoneyUtils {
 
   /**
+   * private Constructor
+   */
+  private MoneyUtils() {
+
+  }
+
+  /**
    * @param value A general-purpose currency and value representation (e.g. "USD 3210.12345678")
    * @return A standard fiat currency BigMoney that can handle complex calculations and display using a scale inferred from the minor part
    * @see org.joda.money.Money For a simpler approach for fiat currencies not requiring precise calculations (e.g. display only)
@@ -67,7 +74,7 @@ public class MoneyUtils {
 
   /**
    * @param value A whole number of satoshis (e.g. 1 provides the same as "BTC 0.00000001")
-   * @return A standard Bitcoin currency BigMoney that can handle complex calculations using a scale of 12 regardless of the minor part TODO Add method to include a scaling factor from a long to act as a multiplier/divisor
+   * @return A standard Bitcoin currency BigMoney that can handle complex calculations using a scale of 12 regardless of the minor part as a multiplier/divisor
    */
   public static BigMoney fromSatoshi(long value) {
 
@@ -78,6 +85,10 @@ public class MoneyUtils {
     return unscaled.withScale(12);
   }
 
+  /**
+   * @param value
+   * @return
+   */
   public static String formatBitcoin(BigMoney value) {
 
     if (!value.getCurrencyUnit().getCode().equals("BTC")) {

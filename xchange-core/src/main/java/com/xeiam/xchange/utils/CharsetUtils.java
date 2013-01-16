@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -31,9 +31,19 @@ import java.nio.charset.CodingErrorAction;
 import com.xeiam.xchange.streaming.websocket.CloseFrame;
 import com.xeiam.xchange.streaming.websocket.exceptions.InvalidDataException;
 
+/**
+ * @author timmolter
+ */
 public class CharsetUtils {
 
   public static CodingErrorAction codingErrorAction = CodingErrorAction.REPORT;
+
+  /**
+   * private Constructor
+   */
+  private CharsetUtils() {
+
+  }
 
   /**
    * @param input The string to be converted
@@ -74,7 +84,8 @@ public class CharsetUtils {
 
   /**
    * <p>
-   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the length of the subarray
+   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the
+   * length of the subarray
    * </p>
    * 
    * @param bytes The bytes to be decoded into characters
@@ -99,7 +110,8 @@ public class CharsetUtils {
 
   /**
    * <p>
-   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the length of the subarray
+   * Constructs a new String by decoding the specified subarray of bytes using the specified charset. The length of the new String is a function of the charset, and hence may not be equal to the
+   * length of the subarray
    * </p>
    * 
    * @param bytes The bytes to be decoded into characters

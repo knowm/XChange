@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,18 +22,20 @@
 package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.joda.money.BigMoney;
-import org.joda.time.DateTime;
 
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * A class encapsulating the most basic information a "Ticker" should contain. A ticker contains data representing the latest trade. This class is immutable.
- * 
- * @immutable
+ * <p>
+ * A class encapsulating the most basic information a "Ticker" should contain.
+ * </p>
+ * <p>
+ * A ticker contains data representing the latest trade.
+ * </p>
  */
-
 public final class Ticker {
 
   private final String tradableIdentifier;
@@ -43,7 +45,7 @@ public final class Ticker {
   private final BigMoney high;
   private final BigMoney low;
   private final BigDecimal volume;
-  private final DateTime timestamp;
+  private final Date timestamp;
 
   /**
    * Constructor
@@ -55,8 +57,9 @@ public final class Ticker {
    * @param high
    * @param low
    * @param volume
+   * @param errorMessage
    */
-  public Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
+  private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
 
     this.tradableIdentifier = tradableIdentifier;
     this.last = last;
@@ -103,7 +106,7 @@ public final class Ticker {
     return volume;
   }
 
-  public DateTime getTimestamp() {
+  public Date getTimestamp() {
 
     return timestamp;
   }
@@ -111,7 +114,99 @@ public final class Ticker {
   @Override
   public String toString() {
 
-    return "Ticker [tradableIdentifier=" + tradableIdentifier + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp=" + timestamp + "]";
+    return "Ticker [tradableIdentifier=" + tradableIdentifier + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp="
+        + timestamp + "]";
   }
 
+  /**
+   * <p>
+   * Builder to provide the following to {@link Ticker}:
+   * </p>
+   * <ul>
+   * <li>Provision of fluent chained construction interface</li>
+   * </ul>
+   *  
+   */
+  public static class TickerBuilder {
+
+    private String tradableIdentifier;
+    private BigMoney last;
+    private BigMoney bid;
+    private BigMoney ask;
+    private BigMoney high;
+    private BigMoney low;
+    private BigDecimal volume;
+
+    /**
+     * @return A new instance of the builder
+     */
+    public static TickerBuilder newInstance() {
+
+      return new TickerBuilder();
+    }
+
+    // Prevent repeat builds
+    private boolean isBuilt = false;
+
+    public Ticker build() {
+
+      validateState();
+
+      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume);
+
+      isBuilt = true;
+
+      return ticker;
+    }
+
+    private void validateState() {
+
+      if (isBuilt) {
+        throw new IllegalStateException("The entity has been built");
+      }
+    }
+
+    public TickerBuilder withTradableIdentifier(String tradableIdentifier) {
+
+      this.tradableIdentifier = tradableIdentifier;
+      return this;
+    }
+
+    public TickerBuilder withLast(BigMoney last) {
+
+      this.last = last;
+      return this;
+    }
+
+    public TickerBuilder withBid(BigMoney bid) {
+
+      this.bid = bid;
+      return this;
+    }
+
+    public TickerBuilder withAsk(BigMoney ask) {
+
+      this.ask = ask;
+      return this;
+    }
+
+    public TickerBuilder withHigh(BigMoney high) {
+
+      this.high = high;
+      return this;
+    }
+
+    public TickerBuilder withLow(BigMoney low) {
+
+      this.low = low;
+      return this;
+    }
+
+    public TickerBuilder withVolume(BigDecimal volume) {
+
+      this.volume = volume;
+      return this;
+    }
+
+  }
 }
