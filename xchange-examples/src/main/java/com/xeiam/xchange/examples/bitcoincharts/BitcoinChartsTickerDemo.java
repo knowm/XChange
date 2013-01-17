@@ -53,8 +53,19 @@ public class BitcoinChartsTickerDemo {
 
     System.out.println("mtgoxUSD Last: " + ticker.getLast().toString());
 
-    ticker = marketDataService.getTicker("bitstampUSD", Currencies.BTC);
-    System.out.println("bitstampUSD Last: " + ticker.getLast().toString());
+    while (true) {
+
+      ticker = marketDataService.getTicker("bitstampUSD", Currencies.BTC);
+      System.out.println("bitstampUSD Last: " + ticker.getLast().toString());
+
+      try {
+        Thread.sleep(10000L);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+    }
 
   }
 }

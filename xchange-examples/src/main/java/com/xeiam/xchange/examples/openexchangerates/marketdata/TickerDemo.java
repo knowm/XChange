@@ -46,15 +46,16 @@ public class TickerDemo {
 
     // Get the latest ticker data showing EUR/USD
     Ticker ticker = marketDataService.getTicker(Currencies.EUR, Currencies.USD);
+    System.out.println("Last: " + ticker.getLast().toString());
 
+    // Alternate way to print out ticker currency and amount
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
     System.out.println("Last: " + currency + "-" + value);
 
-    System.out.println("Last: " + ticker.getLast().toString());
-
+    // Request another ticker. it will return a cached object
     ticker = marketDataService.getTicker(Currencies.JPY, Currencies.USD);
-    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("cached Last: " + ticker.getLast().toString());
 
   }
 

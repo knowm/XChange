@@ -19,6 +19,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeException;
@@ -42,6 +45,8 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class OERPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
 
+  private final Logger logger = LoggerFactory.getLogger(OERPollingMarketDataService.class);
+
   private final OER openExchangeRates;
 
   /**
@@ -63,9 +68,9 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   }
 
   @Override
-  public int getRefreshRate() {
+  public long getRefreshRate() {
 
-    return OERUtils.REFRESH_RATE;
+    return OERUtils.REFRESH_RATE_MILLIS;
   }
 
   @Override
@@ -82,11 +87,12 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
     // check for pacing violation
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
 
-      System.out.println("requesting tickers");
+      logger.debug("requesting OER tickers");
+      tickerRequestTimeStamp = System.currentTimeMillis();
 
+      // Request data
       cachedOERTickers = openExchangeRates.getTickers(exchangeSpecification.getApiKey());
     }
-    tickerRequestTimeStamp = System.currentTimeMillis();
 
     Rates rates = cachedOERTickers.getRates();
 
