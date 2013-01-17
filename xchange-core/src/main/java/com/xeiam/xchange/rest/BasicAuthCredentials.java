@@ -22,7 +22,9 @@
  */
 package com.xeiam.xchange.rest;
 
-import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+
+import com.xeiam.xchange.utils.Base64;
 
 /**
  * @author Matija Mazi <br/>
@@ -32,7 +34,7 @@ import java.io.Serializable;
  *
  * Result getResult(@HeaderParam("Authorization") BasicAuthCredentials credentials);
  */
-public class BasicAuthCredentials implements Serializable {
+public class BasicAuthCredentials implements ParamsDigest {
   private final String username, password;
 
   public BasicAuthCredentials(String username, String password) {
@@ -41,13 +43,15 @@ public class BasicAuthCredentials implements Serializable {
     this.password = password;
   }
 
-  public String getUsername() {
+  @Override
+  public String digestParams(AllParams allParams) {
 
-    return username;
-  }
-
-  public String getPassword() {
-
-    return password;
+    // ignore allParams, just need username & password
+    try {
+      byte[] inputBytes = (username + ":" + password).getBytes("ISO-8859-1");
+      return "Basic " + Base64.encodeBytes(inputBytes);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Unsupported encoding, fix the code.", e);
+    }
   }
 }
