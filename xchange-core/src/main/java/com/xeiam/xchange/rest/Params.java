@@ -28,6 +28,8 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.utils.Base64;
+
 /**
  * This class provides support for various types of HTTP params, especially in the context of RESTful web services, but may be also used to construct urls in other contexts.
  * <p/>
@@ -149,6 +151,14 @@ public class Params implements Serializable {
     Object paramValue = data.get(key);
     if (paramValue instanceof ParamsDigest) {
       return ((ParamsDigest) paramValue).digestParams(allParams);
+    } else if (paramValue instanceof BasicAuthCredentials) {
+      BasicAuthCredentials cred = (BasicAuthCredentials) paramValue;
+      try {
+        byte[] inputBytes = (cred.getUsername() + ":" + cred.getPassword()).getBytes("ISO-8859-1");
+        return "Basic " + Base64.encodeBytes(inputBytes);
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException("Unsupported encoding, fix the code.", e);
+      }
     }
     return paramValue.toString();
   }
