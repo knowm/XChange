@@ -68,6 +68,7 @@ public class RestRequestData implements Serializable {
   private static String getUrl(String baseUrl, String method, String intfacePath, String queryString) {
 
     // TODO make more robust in terms of path separator ('/') handling
+    // (Use UriBuilder?)
     String completeUrl = baseUrl;
     completeUrl = appendIfNotNull(completeUrl, intfacePath, "/");
     completeUrl = appendIfNotNull(completeUrl, method, "/");
