@@ -49,6 +49,7 @@ Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support
 New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices
 
 ## Getting Started
+XChange is semantically versioned: http://semver.org  
 
 ### Non-Maven
 Download Jars: http://xeiam.com/xchange.jsp
