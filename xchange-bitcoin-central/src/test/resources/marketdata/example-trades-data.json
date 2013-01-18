@@ -1,0 +1,20 @@
+[
+    {
+        "category": null,
+        "created_at": "2011-07-05T00:12:07+02:00",
+        "currency": "EUR",
+        "id": 764,
+        "ppc": 11.1,
+        "traded_btc": 1.0,
+        "traded_currency": 11.1
+    },
+    {
+        "category": null,
+        "created_at": "2011-07-03T13:20:29+02:00",
+        "currency": "EUR",
+        "id": 756,
+        "ppc": 11.0,
+        "traded_btc": 5.0,
+        "traded_currency": 55.0
+    }
+]
