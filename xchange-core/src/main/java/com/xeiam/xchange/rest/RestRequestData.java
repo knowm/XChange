@@ -23,16 +23,19 @@
 package com.xeiam.xchange.rest;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 
 /**
  * @author Matija Mazi
  */
 public class RestRequestData implements Serializable {
+
+  private static final List<Class<? extends Annotation>> HTTP_METHOD_ANNS = Arrays.asList(GET.class, POST.class, PUT.class, OPTIONS.class, HEAD.class, DELETE.class);
 
   protected final Class<?> returnType;
   protected final AllParams params;
@@ -60,9 +63,26 @@ public class RestRequestData implements Serializable {
     AllParams params = AllParams.createInstance(method, args);
     Path pathAnn = method.getAnnotation(Path.class);
     String path = pathAnn == null ? null : params.getPath(pathAnn.value());
-    HttpMethod httpMethod = method.isAnnotationPresent(GET.class) ? HttpMethod.GET : method.isAnnotationPresent(POST.class) ? HttpMethod.POST : null;
+    HttpMethod httpMethod = getHttpMethod(method);
     String url1 = getUrl(baseUrl, path, intfacePath, params.getQueryString());
     return new RestRequestData(method.getReturnType(), params, httpMethod, url1);
+  }
+
+  static HttpMethod getHttpMethod(Method method) {
+
+    HttpMethod httpMethod = null;
+    for (Class<? extends Annotation> m : HTTP_METHOD_ANNS) {
+      if (method.isAnnotationPresent(m)) {
+        if (httpMethod != null) {
+          throw new IllegalArgumentException("Method is annotated with more than one HTTP-method annotation: " + method);
+        }
+        httpMethod = HttpMethod.valueOf(m.getSimpleName());
+      }
+    }
+    if (httpMethod == null) {
+      throw new IllegalArgumentException("Method must be annotated with a HTTP-method annotation: " + method);
+    }
+    return httpMethod;
   }
 
   private static String getUrl(String baseUrl, String method, String intfacePath, String queryString) {
