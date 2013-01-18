@@ -1,0 +1,24 @@
+{
+    "asks": [
+        {
+            "amount": 2.223,
+            "currency": "EUR",
+            "price": 4.975,
+            "timestamp": 1328200095
+        }
+    ],
+    "bids": [
+        {
+            "amount": 1.0,
+            "currency": "EUR",
+            "price": 4.7201,
+            "timestamp": 1328258044
+        },
+        {
+            "amount": 2.0,
+            "currency": "EUR",
+            "price": 4.72,
+            "timestamp": 1328216566
+        }
+    ]
+}

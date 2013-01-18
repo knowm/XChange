@@ -1,0 +1,9 @@
+{
+    "trade_order": {
+        "amount": 42,
+        "category": "buy",
+        "currency": "EUR",
+        "ppc": 1,
+        "type": "limit_order"
+    }
+}

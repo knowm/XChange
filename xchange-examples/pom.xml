@@ -60,6 +60,12 @@
 			<artifactId>xchange-bitstamp</artifactId>
 			<version>1.3.1-SNAPSHOT</version>
 		</dependency>
+		<!-- XChange Bitcoin central exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bitcoin-central</artifactId>
+			<version>1.3.1-SNAPSHOT</version>
+		</dependency>
 		<!-- XChange CampBX exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
