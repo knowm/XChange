@@ -25,6 +25,7 @@ package com.xeiam.xchange.rest;
 import java.math.BigDecimal;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -37,12 +38,12 @@ public interface ExampleService {
 
   @POST
   @Path("buy/")
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
 
   @POST
   @Path("bitcoin_withdrawal/{user}")
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   Object withdrawBitcoin(@PathParam("user") String user, @FormParam("password") String password, @QueryParam("amount") BigDecimal amount, @QueryParam("address") String address);
 
   @GET
