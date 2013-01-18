@@ -44,9 +44,9 @@ public class BasicAuthCredentials implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(AllParams allParams) {
+  public String digestParams(RestMethodMetadata restMethodMetadata) {
 
-    // ignore allParams, just need username & password
+    // ignore restMethodMetadata, just need username & password
     try {
       byte[] inputBytes = (username + ":" + password).getBytes("ISO-8859-1");
       return "Basic " + Base64.encodeBytes(inputBytes);

@@ -31,8 +31,8 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.xeiam.xchange.rest.AllParams;
 import com.xeiam.xchange.rest.ParamsDigest;
+import com.xeiam.xchange.rest.RestMethodMetadata;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably
@@ -73,10 +73,10 @@ public class BTCEHmacPostBodyDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(AllParams allParams) {
+  public String digestParams(RestMethodMetadata restMethodMetadata) {
 
     try {
-      String postBody = allParams.getRequestBody();
+      String postBody = restMethodMetadata.getRequestBody();
       mac.update(postBody.getBytes("UTF-8"));
       return String.format("%040x", new BigInteger(1, mac.doFinal()));
     } catch (UnsupportedEncodingException e) {

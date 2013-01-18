@@ -30,8 +30,8 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.xeiam.xchange.rest.AllParams;
 import com.xeiam.xchange.rest.ParamsDigest;
+import com.xeiam.xchange.rest.RestMethodMetadata;
 import com.xeiam.xchange.utils.Base64;
 
 /**
@@ -72,9 +72,9 @@ public class MtGoxHmacPostBodyDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(AllParams allParams) {
+  public String digestParams(RestMethodMetadata restMethodMetadata) {
 
-    mac.update(allParams.getRequestBody().getBytes());
+    mac.update(restMethodMetadata.getRequestBody().getBytes());
     return Base64.encodeBytes(mac.doFinal()).trim();
   }
 }

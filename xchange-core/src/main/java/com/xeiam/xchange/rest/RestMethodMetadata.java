@@ -41,24 +41,24 @@ import javax.ws.rs.QueryParam;
  * 
  * @author Matija Mazi
  */
-public class AllParams implements Serializable {
+public class RestMethodMetadata implements Serializable {
 
   @SuppressWarnings("unchecked")
   private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class, HeaderParam.class);
 
   private Map<Class<? extends Annotation>, Params> paramsMap;
 
-  public AllParams(Map<Class<? extends Annotation>, Params> paramsMap) {
+  public RestMethodMetadata(Map<Class<? extends Annotation>, Params> paramsMap) {
 
     this.paramsMap = new LinkedHashMap<Class<? extends Annotation>, Params>(paramsMap);
     for (Params params : paramsMap.values()) {
-      params.setAllParams(this);
+      params.setRestMethodMetadata(this);
     }
   }
 
-  static AllParams createInstance(Method method, Object[] args) {
+  static RestMethodMetadata createInstance(Method method, Object[] args) {
 
-    return new AllParams(createParamsMap(method, args));
+    return new RestMethodMetadata(createParamsMap(method, args));
   }
 
   private static Map<Class<? extends Annotation>, Params> createParamsMap(Method method, Object[] args) {
