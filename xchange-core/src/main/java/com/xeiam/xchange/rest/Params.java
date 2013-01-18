@@ -118,7 +118,7 @@ public class Params implements Serializable {
     return toQueryString(true);
   }
 
-  public String asFormEncodedPostBody() {
+  public String asFormEncodedRequestBody() {
 
     return toQueryString(false);
   }
@@ -150,6 +150,7 @@ public class Params implements Serializable {
     if (paramValue instanceof ParamsDigest) {
       return ((ParamsDigest) paramValue).digestParams(allParams);
     }
+//    return new ObjectMapper().writeValueAsString(paramValue);
     return paramValue.toString();
   }
 

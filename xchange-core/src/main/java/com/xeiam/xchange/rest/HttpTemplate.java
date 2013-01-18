@@ -79,18 +79,18 @@ public class HttpTemplate {
    * 
    * @param urlString A string representation of a URL
    * @param returnType The required return type
-   * @param postBody The contents of the request body
+   * @param requestBody The contents of the request body
    * @param httpHeaders Any custom header values (application/json is provided automatically)
    * @param method Http method (usually GET or POST)
    * @return String - the fetched JSON String
    */
-  public <T> T executeRequest(String urlString, Class<T> returnType, String postBody, Map<String, String> httpHeaders, HttpMethod method) {
+  public <T> T executeRequest(String urlString, Class<T> returnType, String requestBody, Map<String, String> httpHeaders, HttpMethod method) {
 
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
 
     httpHeaders.put("Accept", "application/json");
 
-    String response = executeRequest(urlString, postBody, httpHeaders, method);
+    String response = executeRequest(urlString, requestBody, httpHeaders, method);
 
     return JSONUtils.getJsonObject(response, returnType, objectMapper);
   }
@@ -101,11 +101,11 @@ public class HttpTemplate {
    * @param method The HTTP method (e.g. GET, POST etc)
    * @param urlString A string representation of a URL
    * @param httpHeaders The HTTP headers (will override the defaults)
-   * @param requestBody The request body (only required for POST method)
+   * @param contentLength
    * @return An HttpURLConnection based on the given parameters
    * @throws IOException If something goes wrong
    */
-  private URLConnection configureURLConnection(HttpMethod method, String urlString, Map<String, String> httpHeaders, String requestBody) throws IOException {
+  private URLConnection configureURLConnection(HttpMethod method, String urlString, Map<String, String> httpHeaders, int contentLength) throws IOException {
 
     Assert.notNull(method, "method cannot be null");
     Assert.notNull(method, "urlString cannot be null");
@@ -127,12 +127,12 @@ public class HttpTemplate {
     }
 
     // Perform additional configuration for POST
-    if (method == HttpMethod.POST) {
+    if (contentLength > 0) {
       connection.setDoOutput(true);
       connection.setDoInput(true);
 
       // Add content length to header
-      connection.setRequestProperty("Content-Length", requestBody == null ? "0" : Integer.toString(requestBody.length()));
+      connection.setRequestProperty("Content-Length", Integer.toString(contentLength));
     }
 
     return connection;
@@ -154,10 +154,10 @@ public class HttpTemplate {
    * @param method The HTTP method (e.g. GET, POST etc)
    * @param urlString A string representation of a URL
    * @param httpHeaders The HTTP headers (will override the defaults)
-   * @param postBody The postBody (only required for POST configuration)
+   * @param requestBody The request body (typically only for POST method)
    * @return The contents of the response body as String
    */
-  private String executeRequest(String urlString, String postBody, Map<String, String> httpHeaders, HttpMethod method) {
+  private String executeRequest(String urlString, String requestBody, Map<String, String> httpHeaders, HttpMethod method) {
 
     Assert.notNull(urlString, "urlString cannot be null");
     Assert.notNull(httpHeaders, "httpHeaders cannot be null");
@@ -167,11 +167,12 @@ public class HttpTemplate {
     String responseString = "";
     URLConnection connection = null;
     try {
-      connection = configureURLConnection(method, urlString, httpHeaders, postBody);
+      int contentLength = requestBody == null ? 0 : requestBody.length();
+      connection = configureURLConnection(method, urlString, httpHeaders, contentLength);
 
-      // Perform the POST by writing to the output stream
-      if (method == HttpMethod.POST) {
-        connection.getOutputStream().write(postBody.getBytes(CHARSET_UTF_8));
+      if (contentLength > 0) {
+        // Write the request body
+        connection.getOutputStream().write(requestBody.getBytes(CHARSET_UTF_8));
       }
 
       // Minimise the impact of the HttpURLConnection on the job of getting the data

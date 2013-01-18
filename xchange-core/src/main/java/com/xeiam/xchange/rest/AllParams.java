@@ -122,14 +122,14 @@ public class AllParams implements Serializable {
     return paramsMap.get(PathParam.class).applyToPath(methodPath);
   }
 
-  public String getPostBody() {
+  public String getRequestBody() {
 
-    return paramsMap.get(FormParam.class).asFormEncodedPostBody();
+    return paramsMap.get(FormParam.class).asFormEncodedRequestBody();
   }
 
   public String getPostBodyOrNull() {
 
-    String postBody = getPostBody();
+    String postBody = getRequestBody();
     return postBody.isEmpty() ? null : postBody;
   }
 

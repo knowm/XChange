@@ -77,7 +77,7 @@ public class RestInvocationHandlerTest {
     assertEquals(url, testHandler.restRequestData.url);
     assertEquals(httpMethod, testHandler.restRequestData.httpMethod);
     assertEquals(resultClass, testHandler.restRequestData.returnType);
-    assertEquals(postBody, testHandler.restRequestData.params.getPostBody());
+    assertEquals(postBody, testHandler.restRequestData.params.getRequestBody());
     if (headers != null) {
       assertEquals(headers, testHandler.restRequestData.params.getHttpHeaders());
     }

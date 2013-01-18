@@ -74,7 +74,7 @@ public class MtGoxHmacPostBodyDigest implements ParamsDigest {
   @Override
   public String digestParams(AllParams allParams) {
 
-    mac.update(allParams.getPostBody().getBytes());
+    mac.update(allParams.getRequestBody().getBytes());
     return Base64.encodeBytes(mac.doFinal()).trim();
   }
 }

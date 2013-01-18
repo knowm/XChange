@@ -76,7 +76,7 @@ public class BTCEHmacPostBodyDigest implements ParamsDigest {
   public String digestParams(AllParams allParams) {
 
     try {
-      String postBody = allParams.getPostBody();
+      String postBody = allParams.getRequestBody();
       mac.update(postBody.getBytes("UTF-8"));
       return String.format("%040x", new BigInteger(1, mac.doFinal()));
     } catch (UnsupportedEncodingException e) {
