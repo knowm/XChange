@@ -22,19 +22,25 @@
  */
 package com.xeiam.xchange.rest;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * This holds name-value mapping for various types of params used in REST (QueryParam, PathParam, FormParam, HeaderParam).
@@ -46,75 +52,73 @@ public class RestMethodMetadata implements Serializable {
   @SuppressWarnings("unchecked")
   private static final List<Class<? extends Annotation>> PARAM_ANNOTATION_CLASSES = Arrays.asList(QueryParam.class, PathParam.class, FormParam.class, HeaderParam.class);
 
-  private Map<Class<? extends Annotation>, Params> paramsMap;
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-  public RestMethodMetadata(Map<Class<? extends Annotation>, Params> paramsMap) {
+  private final String contentType;
+  private final Map<Class<? extends Annotation>, Params> paramsMap;
+  private final List<Object> unannanotatedParams = new ArrayList<Object>();
 
+  public RestMethodMetadata(Method method, Object[] args) {
+
+    Consumes consumes = AnnotationUtils.getFromMethodOrClass(method, Consumes.class);
+    this.contentType = consumes != null ? consumes.value()[0] : MediaType.APPLICATION_FORM_URLENCODED;
+
+    paramsMap = new HashMap<Class<? extends Annotation>, Params>();
+    for (Class<? extends Annotation> annotationClass : PARAM_ANNOTATION_CLASSES) {
+      Params params = Params.of();
+      params.setRestMethodMetadata(this);
+      paramsMap.put(annotationClass, params);
+    }
+
+    Annotation[][] paramAnnotations = method.getParameterAnnotations();
+    for (int i = 0; i < paramAnnotations.length; i++) {
+      Annotation[] paramAnns = paramAnnotations[i];
+      if (paramAnns.length == 0) {
+        unannanotatedParams.add(args[i]);
+      }
+      for (Annotation paramAnn : paramAnns) {
+        String paramName = getParamName(paramAnn);
+        if (paramName != null) {
+          this.paramsMap.get(paramAnn.annotationType()).add(paramName, args[i]);
+        }
+      }
+    }
+
+    // Support using method method name as a parameter.
+    for (Class<? extends Annotation> paramAnnotationClass : PARAM_ANNOTATION_CLASSES) {
+      if (method.isAnnotationPresent(paramAnnotationClass)) {
+        Annotation paramAnn = method.getAnnotation(paramAnnotationClass);
+        String paramName = getParamName(paramAnn);
+        this.paramsMap.get(paramAnnotationClass).add(paramName, method.getName());
+      }
+    }
+  }
+
+  // todo: this is needed only for testing
+  public RestMethodMetadata(Map<Class<? extends Annotation>, Params> paramsMap, String contentType) {
+
+    this.contentType = contentType;
     this.paramsMap = new LinkedHashMap<Class<? extends Annotation>, Params>(paramsMap);
-    for (Params params : paramsMap.values()) {
+    for (Params params : this.paramsMap.values()) {
       params.setRestMethodMetadata(this);
     }
   }
 
   static RestMethodMetadata createInstance(Method method, Object[] args) {
 
-    return new RestMethodMetadata(createParamsMap(method, args));
-  }
-
-  private static Map<Class<? extends Annotation>, Params> createParamsMap(Method method, Object[] args) {
-
-    Map<Class<? extends Annotation>, Params> params = createEmptyMap();
-    Annotation[][] paramAnnotations = method.getParameterAnnotations();
-    for (int i = 0; i < paramAnnotations.length; i++) {
-      Annotation[] paramAnns = paramAnnotations[i];
-      for (Annotation paramAnn : paramAnns) {
-        String paramName = getParamName(paramAnn);
-        if (paramName != null) {
-          params.get(paramAnn.annotationType()).add(paramName, args[i]);
-        }
-      }
-    }
-    for (Class<? extends Annotation> paramAnnotationClass : PARAM_ANNOTATION_CLASSES) {
-      if (method.isAnnotationPresent(paramAnnotationClass)) {
-        Annotation paramAnn = method.getAnnotation(paramAnnotationClass);
-        String paramName = getParamName(paramAnn);
-        params.get(paramAnnotationClass).add(paramName, method.getName());
-      }
-    }
-    return params;
+    return new RestMethodMetadata(method, args);
   }
 
   private static String getParamName(Annotation queryParam) {
 
     for (Class<? extends Annotation> annotationClass : PARAM_ANNOTATION_CLASSES) {
-      String paramName = getValueOrNull(annotationClass, queryParam);
+      String paramName = AnnotationUtils.getValueOrNull(annotationClass, queryParam);
       if (paramName != null) {
         return paramName;
       }
     }
     // This is not one of the annotations in PARAM_ANNOTATION_CLASSES.
     return null;
-  }
-
-  private static <T extends Annotation> String getValueOrNull(Class<T> annotationClass, Annotation ann) {
-
-    if (!annotationClass.isInstance(ann)) {
-      return null;
-    }
-    try {
-      return (String) ann.getClass().getMethod("value").invoke(ann);
-    } catch (Exception e) {
-      throw new RuntimeException("Annotation " + annotationClass + " has no element 'value'.");
-    }
-  }
-
-  private static Map<Class<? extends Annotation>, Params> createEmptyMap() {
-
-    Map<Class<? extends Annotation>, Params> map = new HashMap<Class<? extends Annotation>, Params>();
-    for (Class<? extends Annotation> annotationClass : PARAM_ANNOTATION_CLASSES) {
-      map.put(annotationClass, Params.of());
-    }
-    return map;
   }
 
   public String getPath(String methodPath) {
@@ -124,13 +128,24 @@ public class RestMethodMetadata implements Serializable {
 
   public String getRequestBody() {
 
-    return paramsMap.get(FormParam.class).asFormEncodedRequestBody();
-  }
-
-  public String getPostBodyOrNull() {
-
-    String postBody = getRequestBody();
-    return postBody.isEmpty() ? null : postBody;
+    if (MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
+      return paramsMap.get(FormParam.class).asFormEncodedRequestBody();
+    } else if (MediaType.APPLICATION_JSON.equals(contentType)) {
+      if (!paramsMap.get(FormParam.class).isEmpty()) {
+        throw new IllegalArgumentException("@FormParams are not allowed with " + MediaType.APPLICATION_JSON);
+      } else if (unannanotatedParams.size() > 1) {
+        throw new IllegalArgumentException("Can only have a single unnanotated parameter with " + MediaType.APPLICATION_JSON);
+      }
+      if (unannanotatedParams.size() == 0) {
+        return null;
+      }
+      try {
+        return objectMapper.writeValueAsString(unannanotatedParams.get(0));
+      } catch (IOException e) {
+        throw new RuntimeException("Error writing json, probably a bug.", e);
+      }
+    }
+    throw new IllegalArgumentException("Unsupported media type: " + contentType);
   }
 
   public Map<String, String> getHttpHeaders() {
@@ -141,5 +156,10 @@ public class RestMethodMetadata implements Serializable {
   public String getQueryString() {
 
     return paramsMap.get(QueryParam.class).asQueryString();
+  }
+
+  public String getContentType() {
+
+    return contentType;
   }
 }

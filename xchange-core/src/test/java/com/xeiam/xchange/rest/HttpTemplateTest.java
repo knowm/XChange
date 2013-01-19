@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.rest;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +34,8 @@ import org.junit.Test;
 
 import com.xeiam.xchange.utils.DummyAccountInfo;
 import com.xeiam.xchange.utils.DummyTicker;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for testing HttpTemplate methods
@@ -53,7 +53,7 @@ public class HttpTemplateTest {
 
     // Perform the test
 
-    DummyTicker ticker = testObject.executeRequest("http://example.com/ticker", DummyTicker.class, null, new HashMap<String, String>(), HttpMethod.GET);
+    DummyTicker ticker = testObject.executeRequest("http://example.com/ticker", DummyTicker.class, null, new HashMap<String, String>(), HttpMethod.GET, null);
 
     // Verify the results
     assertEquals(34567L, ticker.getVolume());
@@ -78,7 +78,7 @@ public class HttpTemplateTest {
     // Configure the test object (overridden methods are tested elsewhere)
     HttpTemplate testObject = new MockHttpTemplate(mockHttpURLConnection);
 
-    DummyAccountInfo accountInfo = testObject.executeRequest("http://example.org/accountinfo", DummyAccountInfo.class, "Example", new HashMap<String, String>(), HttpMethod.POST);
+    DummyAccountInfo accountInfo = testObject.executeRequest("http://example.org/accountinfo", DummyAccountInfo.class, "Example", new HashMap<String, String>(), HttpMethod.POST, null);
 
     assertEquals("test", accountInfo.getUsername());
 

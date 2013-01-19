@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,45 +20,69 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.rest;
+package com.xeiam.xchange.bitcoincentral.dto.trade;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
+import java.math.BigDecimal;
 
-import javax.ws.rs.Path;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi
+ * @author Matija Mazi <br/>
+ * @created 1/19/13 12:49 AM
  */
-public class RestInvocationHandler implements InvocationHandler {
+public class BitcoinCentralTradeOrder {
 
-  private final HttpTemplate httpTemplate;
-  private final String intfacePath;
-  private final String baseUrl;
+  private final BigDecimal amount;
+  private final Category category;
+  private final String currency;
+  private final BigDecimal ppc;
+  private final Type type;
 
-  /**
-   * Constructor
-   * 
-   * @param restInterface
-   * @param url
-   */
-  public RestInvocationHandler(Class<?> restInterface, String url) {
+  public BitcoinCentralTradeOrder(
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("category") Category category,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("ppc") BigDecimal ppc,
+      @JsonProperty("type") Type type
+  ) {
 
-    this.intfacePath = restInterface.getAnnotation(Path.class).value();
-    this.baseUrl = url;
-    this.httpTemplate = new HttpTemplate();
+    this.amount = amount;
+    this.category = category;
+    this.currency = currency;
+    this.ppc = ppc;
+    this.type = type;
   }
 
-  @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+  public BigDecimal getAmount() {
 
-    RestRequestData restRequestData = RestRequestData.create(method, args, baseUrl, intfacePath);
-    return invokeHttp(restRequestData);
+    return amount;
   }
 
-  protected Object invokeHttp(RestRequestData restRequestData) {
+  public Category getCategory() {
 
-    return httpTemplate.executeRequest(restRequestData.url, restRequestData.returnType, restRequestData.params.getRequestBody(), restRequestData.params.getHttpHeaders(), restRequestData.httpMethod, restRequestData.params.getContentType());
+    return category;
   }
 
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  public BigDecimal getPpc() {
+
+    return ppc;
+  }
+
+  public Type getType() {
+
+    return type;
+  }
+
+  public static enum Type {
+    limit_order
+  }
+
+  public static enum Category {
+    buy, sell
+  }
 }

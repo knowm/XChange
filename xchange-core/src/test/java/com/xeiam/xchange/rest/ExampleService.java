@@ -58,6 +58,11 @@ public interface ExampleService {
   @Path("auth")
   Object testBasicAuth(@HeaderParam("Authorization") BasicAuthCredentials credentials, @QueryParam("param") Integer value);
 
+  @POST
+  @Path("json")
+  @Consumes(MediaType.APPLICATION_JSON)
+  Object testJsonBody(Ticker ticker);
+
   /*
    * @GET
    * @Path("order_book/")

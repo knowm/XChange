@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -22,43 +22,24 @@
  */
 package com.xeiam.xchange.rest;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-
 import javax.ws.rs.Path;
 
+import org.junit.Test;
+
+import com.xeiam.xchange.utils.Assert;
+
 /**
- * @author Matija Mazi
+ * @author Matija Mazi <br/>
  */
-public class RestInvocationHandler implements InvocationHandler {
+public class AnnotationUtilsTest {
 
-  private final HttpTemplate httpTemplate;
-  private final String intfacePath;
-  private final String baseUrl;
+  @Test
+  public void testGetFromMethodOrClass() throws Exception {
 
-  /**
-   * Constructor
-   * 
-   * @param restInterface
-   * @param url
-   */
-  public RestInvocationHandler(Class<?> restInterface, String url) {
+    Path path = AnnotationUtils.getFromMethodOrClass(ExampleService.class.getMethod("getTicker", String.class, String.class), Path.class);
+    Assert.isTrue(path.value().equals("{ident}_{currency}/ticker"), "Wrong path.");
 
-    this.intfacePath = restInterface.getAnnotation(Path.class).value();
-    this.baseUrl = url;
-    this.httpTemplate = new HttpTemplate();
+    Path pathFromIntf = AnnotationUtils.getFromMethodOrClass(ExampleService.class.getMethod("getInfo", Long.class, Long.class), Path.class);
+    Assert.isTrue(pathFromIntf.value().equals("api/2"), "Wrong path: " + pathFromIntf.value());
   }
-
-  @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-    RestRequestData restRequestData = RestRequestData.create(method, args, baseUrl, intfacePath);
-    return invokeHttp(restRequestData);
-  }
-
-  protected Object invokeHttp(RestRequestData restRequestData) {
-
-    return httpTemplate.executeRequest(restRequestData.url, restRequestData.returnType, restRequestData.params.getRequestBody(), restRequestData.params.getHttpHeaders(), restRequestData.httpMethod, restRequestData.params.getContentType());
-  }
-
 }

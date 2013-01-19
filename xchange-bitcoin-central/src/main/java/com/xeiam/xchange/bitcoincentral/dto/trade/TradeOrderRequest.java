@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,45 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.rest;
+package com.xeiam.xchange.bitcoincentral.dto.trade;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-
-import javax.ws.rs.Path;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi
+ * @author Matija Mazi <br/>
+ * @created 1/19/13 12:53 AM
  */
-public class RestInvocationHandler implements InvocationHandler {
+public class TradeOrderRequest {
+  private final BitcoinCentralTradeOrder tradeOrder;
 
-  private final HttpTemplate httpTemplate;
-  private final String intfacePath;
-  private final String baseUrl;
+  public TradeOrderRequest(@JsonProperty("trade_order") BitcoinCentralTradeOrder tradeOrder) {
 
-  /**
-   * Constructor
-   * 
-   * @param restInterface
-   * @param url
-   */
-  public RestInvocationHandler(Class<?> restInterface, String url) {
-
-    this.intfacePath = restInterface.getAnnotation(Path.class).value();
-    this.baseUrl = url;
-    this.httpTemplate = new HttpTemplate();
+    this.tradeOrder = tradeOrder;
   }
 
-  @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+  public BitcoinCentralTradeOrder getTradeOrder() {
 
-    RestRequestData restRequestData = RestRequestData.create(method, args, baseUrl, intfacePath);
-    return invokeHttp(restRequestData);
+    return tradeOrder;
   }
-
-  protected Object invokeHttp(RestRequestData restRequestData) {
-
-    return httpTemplate.executeRequest(restRequestData.url, restRequestData.returnType, restRequestData.params.getRequestBody(), restRequestData.params.getHttpHeaders(), restRequestData.httpMethod, restRequestData.params.getContentType());
-  }
-
 }

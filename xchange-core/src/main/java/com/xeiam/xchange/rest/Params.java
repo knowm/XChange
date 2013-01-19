@@ -123,6 +123,11 @@ public class Params implements Serializable {
     return toQueryString(false);
   }
 
+  public boolean isEmpty() {
+
+    return data.isEmpty();
+  }
+
   public String applyToPath(String path) {
 
     for (String paramName : data.keySet()) {

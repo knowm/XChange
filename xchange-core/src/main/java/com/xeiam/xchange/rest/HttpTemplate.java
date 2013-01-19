@@ -82,13 +82,17 @@ public class HttpTemplate {
    * @param requestBody The contents of the request body
    * @param httpHeaders Any custom header values (application/json is provided automatically)
    * @param method Http method (usually GET or POST)
+   * @param contentType the mime type to be set as the value of the Content-Type header
    * @return String - the fetched JSON String
    */
-  public <T> T executeRequest(String urlString, Class<T> returnType, String requestBody, Map<String, String> httpHeaders, HttpMethod method) {
+  public <T> T executeRequest(String urlString, Class<T> returnType, String requestBody, Map<String, String> httpHeaders, HttpMethod method, String contentType) {
 
     Assert.notNull(httpHeaders, "httpHeaders should not be null");
 
     httpHeaders.put("Accept", "application/json");
+    if (contentType != null) {
+      httpHeaders.put("Content-type", contentType);
+    }
 
     String response = executeRequest(urlString, requestBody, httpHeaders, method);
 

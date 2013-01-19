@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -22,43 +22,43 @@
  */
 package com.xeiam.xchange.rest;
 
-import java.lang.reflect.InvocationHandler;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import javax.ws.rs.Path;
-
 /**
- * @author Matija Mazi
+ * @author Matija Mazi <br/>
+ * @created 1/19/13 7:46 AM
  */
-public class RestInvocationHandler implements InvocationHandler {
+public class AnnotationUtils {
 
-  private final HttpTemplate httpTemplate;
-  private final String intfacePath;
-  private final String baseUrl;
+  static <T extends Annotation> String getValueOrNull(Class<T> annotationClass, Annotation ann) {
 
-  /**
-   * Constructor
-   * 
-   * @param restInterface
-   * @param url
-   */
-  public RestInvocationHandler(Class<?> restInterface, String url) {
-
-    this.intfacePath = restInterface.getAnnotation(Path.class).value();
-    this.baseUrl = url;
-    this.httpTemplate = new HttpTemplate();
+    if (!annotationClass.isInstance(ann)) {
+      return null;
+    }
+    try {
+      return (String) ann.getClass().getMethod("value").invoke(ann);
+    } catch (Exception e) {
+      throw new RuntimeException("Annotation " + annotationClass + " has no element 'value'.");
+    }
   }
 
-  @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+  static <A extends Annotation> A getFromMethodOrClass(Method method, Class<A> annotationClass) {
 
-    RestRequestData restRequestData = RestRequestData.create(method, args, baseUrl, intfacePath);
-    return invokeHttp(restRequestData);
+    A methodAnn = method.getAnnotation(annotationClass);
+    if (methodAnn != null) {
+      return methodAnn;
+    }
+    for (Class<?> cls = method.getDeclaringClass(); cls != null; cls = cls.getSuperclass()) {
+      if (cls.isAnnotationPresent(annotationClass)) {
+        return cls.getAnnotation(annotationClass);
+      }
+    }
+    for (Class<?> intf : method.getDeclaringClass().getInterfaces()) {
+      if (intf.isAnnotationPresent(annotationClass)) {
+        return intf.getAnnotation(annotationClass);
+      }
+    }
+    return null;
   }
-
-  protected Object invokeHttp(RestRequestData restRequestData) {
-
-    return httpTemplate.executeRequest(restRequestData.url, restRequestData.returnType, restRequestData.params.getRequestBody(), restRequestData.params.getHttpHeaders(), restRequestData.httpMethod, restRequestData.params.getContentType());
-  }
-
 }
