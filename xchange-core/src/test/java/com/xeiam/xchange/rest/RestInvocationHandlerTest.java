@@ -41,7 +41,7 @@ public class RestInvocationHandlerTest {
   @Test
   public void testInvoke() throws Exception {
 
-    TestRestInvocationHandler testHandler = new TestRestInvocationHandler();
+    TestRestInvocationHandler testHandler = new TestRestInvocationHandler(ExampleService.class);
     ExampleService proxy = RestProxyFactory.createProxy(ExampleService.class, testHandler);
 
     proxy.buy("john", "secret", new BigDecimal("3.14"), new BigDecimal("10.00"));
@@ -63,7 +63,7 @@ public class RestInvocationHandlerTest {
   @Test
   public void testHttpBasicAuth() throws Exception {
 
-    TestRestInvocationHandler testHandler = new TestRestInvocationHandler();
+    TestRestInvocationHandler testHandler = new TestRestInvocationHandler(ExampleService.class);
     ExampleService proxy = RestProxyFactory.createProxy(ExampleService.class, testHandler);
 
     proxy.testBasicAuth(new BasicAuthCredentials("Aladdin", "open sesame"), 23);
@@ -85,7 +85,8 @@ public class RestInvocationHandlerTest {
 
   @Test
   public void testJsonBody() throws Exception {
-    TestRestInvocationHandler testHandler = new TestRestInvocationHandler();
+
+    TestRestInvocationHandler testHandler = new TestRestInvocationHandler(ExampleService.class);
     ExampleService proxy = RestProxyFactory.createProxy(ExampleService.class, testHandler);
 
     proxy.testJsonBody(Ticker.TickerBuilder.newInstance().withTradableIdentifier("BTC").withVolume(new BigDecimal("1023.23")).build());
@@ -94,13 +95,23 @@ public class RestInvocationHandlerTest {
 
   }
 
+  @Test
+  public void testRootPathService() throws Exception {
+
+    TestRestInvocationHandler testHandler = new TestRestInvocationHandler(RootPathService.class);
+    RootPathService proxy = RestProxyFactory.createProxy(RootPathService.class, testHandler);
+
+    proxy.cancel("424");
+    assertRequestData(testHandler, "https://example.com/cancel?id=424", HttpMethod.DELETE, Order.class, "", null);
+  }
+
   private static class TestRestInvocationHandler extends RestInvocationHandler {
 
     private RestRequestData restRequestData;
 
-    public TestRestInvocationHandler() {
+    public TestRestInvocationHandler(Class<?> restInterface) {
 
-      super(ExampleService.class, "https://example.com");
+      super(restInterface, "https://example.com");
     }
 
     @Override

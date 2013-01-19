@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -22,44 +22,19 @@
  */
 package com.xeiam.xchange.rest;
 
-import java.math.BigDecimal;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.Ticker;
 
 /**
  * @author Matija Mazi
  */
-@Path("api/2")
-public interface ExampleService {
+@Path("/")
+public interface RootPathService {
 
-  @POST
-  @Path("buy/")
-  @Produces(MediaType.APPLICATION_JSON)
-  Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
-
-  @POST
-  @Path("bitcoin_withdrawal/{user}")
-  @Produces(MediaType.APPLICATION_JSON)
-  Object withdrawBitcoin(@PathParam("user") String user, @FormParam("password") String password, @QueryParam("amount") BigDecimal amount, @QueryParam("address") String address);
-
-  @GET
-  @Path("{ident}_{currency}/ticker")
-  Ticker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
-
-  @POST
-  @FormParam("method")
-  Object getInfo(Long from, Long count);
-
-  @GET
-  @Path("auth")
-  Object testBasicAuth(@HeaderParam("Authorization") BasicAuthCredentials credentials, @QueryParam("param") Integer value);
-
-  @POST
-  @Path("json")
-  @Consumes(MediaType.APPLICATION_JSON)
-  Object testJsonBody(Ticker ticker);
+  @DELETE
+  @Path("cancel")
+  Order cancel(@QueryParam("id") String user);
 }
