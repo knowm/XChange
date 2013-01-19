@@ -20,37 +20,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoincentral.service.trade;
+package com.xeiam.xchange.bitcoincentral.dto.trade;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;
-import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.text.MessageFormat;
+import java.util.Date;
 
 /**
  * @author Matija Mazi <br/>
- * @created 1/19/13 12:53 AM
+ * @created 1/19/13 8:34 AM
  */
-public class TradeOrderRequestTest {
+public abstract class BitcoinCentralTradeData extends BitcoinCentralTradeBase {
 
-  @Test
-  public void testJsonCreate() throws Exception {
-    // Read in the JSON from the example resources
-    InputStream is = TradeOrderRequestTest.class.getResourceAsStream("/trade/example-order-request.json");
+  protected final String createdAt;
+  protected final int id;
+  protected final Date createdTime;
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitcoinCentralTradeRequest request = mapper.readValue(is, TradeOrderRequestWrapper.class).getTradeOrder();
-    assertThat(request.getAmount(), is(equalTo(new BigDecimal("42"))));
-    assertThat(request.getCategory(), is(equalTo(BitcoinCentralTradeRequest.Category.buy)));
+  public BitcoinCentralTradeData(
+      BigDecimal ppc,
+      Category category,
+      String currency,
+      BigDecimal amount,
+      int id,
+      String createdAt) {
 
+    super(category, currency, amount, ppc);
+    this.id = id;
+    this.createdAt = createdAt;
+    this.createdTime = null;
+    // todo: correct pattern for SimpleDateFormat
+    // this.createdTime = new SimpleDateFormat("2011-07-05T00:12:07+02:00").parse(createdAt);
   }
+
+  public String getCreatedAt() {
+
+    return createdAt;
+  }
+
+  public int getId() {
+
+    return id;
+  }
+
+  public Date getCreatedTime() {
+
+    return createdTime;
+  }
+
+  @Override
+  public String toString() {
+
+    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency=''{2}'', price={3}, createdAt=''{4}'', id={5}, createdTime={6}]",
+        amount, category, currency, getPpc(), createdAt, id, createdTime);
+  }
+
 }

@@ -20,14 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitcoincentral.account;
+package com.xeiam.xchange.examples.bitcoincentral.marketdata;
 
+import java.util.List;
+
+import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralExchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
  * <p>
@@ -41,28 +46,32 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  * Please provide your username and password as program arguments.
  * </ul>
  */
-public class BitcoinCentralAccountDemo {
+public class BitcoinCentralMarketDataDemo {
 
   public static void main(String[] args) {
 
-    ExchangeSpecification exSpec = new ExchangeSpecification(BitcoinCentralExchange.class.getCanonicalName());
+    ExchangeSpecification exSpec = new ExchangeSpecification(BitcoinCentralExchange.class);
     exSpec.setUri("https://en.bitcoin-central.net");
-    exSpec.setUserName(args[0]);
-    exSpec.setPassword(args[1]);
 
     Exchange btcCentral = ExchangeFactory.INSTANCE.createExchange(exSpec);
 
-    PollingAccountService accountService = btcCentral.getPollingAccountService();
+    PollingMarketDataService service = btcCentral.getPollingMarketDataService();
 
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo: " + accountInfo);
+    List<CurrencyPair> symbols = service.getExchangeSymbols();
+    System.out.println("symbols = " + symbols);
 
-    String depositAddress = accountService.requestBitcoinDepositAddress();
-    System.out.println("Deposit address: " + depositAddress);
+    OrderBook fullOrderBook = service.getFullOrderBook("BTC", "EUR");
+    System.out.println("fullOrderBook = " + fullOrderBook);
 
-    // Withdraw not yet implemented.
-//    String ret = accountService.withdrawFunds(new BigDecimal("0.001"), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
-//    System.out.println("ret = " + ret);
+    OrderBook partialOrderBook = service.getPartialOrderBook("BTC", "EUR");
+    System.out.println("partialOrderBook = " + partialOrderBook);
+
+    Ticker ticker = service.getTicker("BTC", "EUR");
+    System.out.println("ticker = " + ticker);
+
+    Trades trades = service.getTrades("BTC", "EUR");
+    System.out.println("trades = " + trades);
+
+
   }
 }

@@ -23,22 +23,18 @@
 package com.xeiam.xchange.bitcoincentral.dto.trade;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- * @created 1/19/13 12:49 AM
  */
-public class BitcoinCentralTradeOrder {
+public class BitcoinCentralTradeRequest extends BitcoinCentralTradeBase {
 
-  private final BigDecimal amount;
-  private final Category category;
-  private final String currency;
-  private final BigDecimal ppc;
-  private final Type type;
+  @JsonProperty("type") private final Type type;
 
-  public BitcoinCentralTradeOrder(
+  public BitcoinCentralTradeRequest(
       @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("category") Category category,
       @JsonProperty("currency") String currency,
@@ -46,31 +42,8 @@ public class BitcoinCentralTradeOrder {
       @JsonProperty("type") Type type
   ) {
 
-    this.amount = amount;
-    this.category = category;
-    this.currency = currency;
-    this.ppc = ppc;
+    super(category, currency, amount, ppc);
     this.type = type;
-  }
-
-  public BigDecimal getAmount() {
-
-    return amount;
-  }
-
-  public Category getCategory() {
-
-    return category;
-  }
-
-  public String getCurrency() {
-
-    return currency;
-  }
-
-  public BigDecimal getPpc() {
-
-    return ppc;
   }
 
   public Type getType() {
@@ -78,11 +51,14 @@ public class BitcoinCentralTradeOrder {
     return type;
   }
 
-  public static enum Type {
-    limit_order
+  @Override
+  public String toString() {
+
+    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency={2}, ppc={3}, type={4}]",
+        amount, category, currency, ppc, type);
   }
 
-  public static enum Category {
-    buy, sell
+  public static enum Type {
+    limit_order
   }
 }

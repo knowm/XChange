@@ -22,22 +22,34 @@
  */
 package com.xeiam.xchange.bitcoincentral.dto.trade;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
- * @created 1/19/13 12:53 AM
  */
-public class TradeOrderRequest {
-  private final BitcoinCentralTradeOrder tradeOrder;
+public class BitcoinCentralMyOrder extends BitcoinCentralTradeData {
 
-  public TradeOrderRequest(@JsonProperty("trade_order") BitcoinCentralTradeOrder tradeOrder) {
+  private final boolean active;
 
-    this.tradeOrder = tradeOrder;
+  public BitcoinCentralMyOrder(
+      @JsonProperty("ppc") BigDecimal ppc,
+      @JsonProperty("category") Category category,
+      @JsonProperty("currency") String currency,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("created_at") String createdAt,
+      @JsonProperty("id") int id,
+      @JsonProperty("active") boolean active)
+      throws ParseException {
+
+    super(ppc, category, currency, amount, id, createdAt);
+    this.active = active;
   }
 
-  public BitcoinCentralTradeOrder getTradeOrder() {
+  public boolean isActive() {
 
-    return tradeOrder;
+    return active;
   }
 }

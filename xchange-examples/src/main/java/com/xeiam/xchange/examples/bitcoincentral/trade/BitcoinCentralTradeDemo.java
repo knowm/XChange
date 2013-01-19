@@ -20,14 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitcoincentral.account;
+package com.xeiam.xchange.examples.bitcoincentral.trade;
+
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralExchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * <p>
@@ -35,34 +40,40 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  * </p>
  * <ul>
  * <li>Connect to Bitcoin Central exchange with authentication</li>
- * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- *
- * Please provide your username and password as program arguments.
+ * <li>Enter, review and cancel limit orders</li>
  * </ul>
  */
-public class BitcoinCentralAccountDemo {
+public class BitcoinCentralTradeDemo {
 
   public static void main(String[] args) {
 
-    ExchangeSpecification exSpec = new ExchangeSpecification(BitcoinCentralExchange.class.getCanonicalName());
+    ExchangeSpecification exSpec = new ExchangeSpecification(BitcoinCentralExchange.class);
     exSpec.setUri("https://en.bitcoin-central.net");
     exSpec.setUserName(args[0]);
     exSpec.setPassword(args[1]);
 
-    Exchange btcCentral = ExchangeFactory.INSTANCE.createExchange(exSpec);
+    Exchange central = ExchangeFactory.INSTANCE.createExchange(exSpec);
+    PollingTradeService tradeService = central.getPollingTradeService();
 
-    PollingAccountService accountService = btcCentral.getPollingAccountService();
+    printOpenOrders(tradeService);
 
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo: " + accountInfo);
+    // place a limit buy order
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "EUR", MoneyUtils.parseFiat("EUR 1.25"));
+    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    String depositAddress = accountService.requestBitcoinDepositAddress();
-    System.out.println("Deposit address: " + depositAddress);
+    printOpenOrders(tradeService);
 
-    // Withdraw not yet implemented.
-//    String ret = accountService.withdrawFunds(new BigDecimal("0.001"), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
-//    System.out.println("ret = " + ret);
+    // Cancel the added order
+    boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
+    System.out.println("Canceling returned " + cancelResult);
+
+    printOpenOrders(tradeService);
+  }
+
+  private static void printOpenOrders(PollingTradeService tradeService) {
+
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders);
   }
 }

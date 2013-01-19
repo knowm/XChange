@@ -22,23 +22,73 @@
  */
 package com.xeiam.xchange.bitcoincentral;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
+import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralMyOrder;
+import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
 import com.xeiam.xchange.rest.BasicAuthCredentials;
 
 /**
  * @author Matija Mazi See https://bitcoin-central.net/s/api for up-to-date docs.
  */
-@Path("")
+@Path("/")
+@Consumes(MediaType.APPLICATION_JSON)
 public interface BitcoinCentral {
 
   @GET
   @Path("account")
-  public BitcoinCentralAccountInfo getAccountInfo(
+  BitcoinCentralAccountInfo getAccountInfo(
       @HeaderParam("Authorization") BasicAuthCredentials credentials
   );
 
+  @GET
+  @Path("account/transfers")
+  Object getAccountTransfers(
+      @HeaderParam("Authorization") BasicAuthCredentials credentials
+  );
+
+  /**
+   * @param credentials username and password
+   * @param page the page to fetch (1-based)
+   * @param pageSize page size (between 5 and 100 inclusive)
+   * @return
+   */
+  @GET
+  @Path("account/trade_orders")
+  BitcoinCentralMyOrder[] getAccountTradeOrders(
+      @HeaderParam("Authorization") BasicAuthCredentials credentials,
+      @QueryParam("page") int page,
+      @QueryParam("per_page") int pageSize
+  );
+
+  /**
+   * @param credentials username and password
+   * @param order the order to place
+   * @return
+   */
+  @POST
+  @Path("account/trade_orders")
+  BitcoinCentralMyOrder placeLimitOrder (
+      @HeaderParam("Authorization") BasicAuthCredentials credentials,
+      TradeOrderRequestWrapper order
+  );
+
+  @DELETE
+  @Path("/account/trade_orders/{id}")
+  String cancelOrder(
+      @HeaderParam("Authorization") BasicAuthCredentials credentials,
+      @PathParam("id") String orderId
+  );
+
+  @GET
+  @Path("ticker")
+  Object getTicker(
+      @QueryParam("currency") String currency
+  );
+
+  @GET
+  @Path("order_book")
+  Object getOrderBook();
 }

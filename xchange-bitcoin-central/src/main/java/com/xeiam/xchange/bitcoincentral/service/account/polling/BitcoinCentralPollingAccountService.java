@@ -41,7 +41,7 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
 public class BitcoinCentralPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
   private BitcoinCentral bitcoincentral;
-  private BasicAuthCredentials credentials = new BasicAuthCredentials(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+  private BasicAuthCredentials credentials;
 
   /**
    * Constructor
@@ -52,6 +52,7 @@ public class BitcoinCentralPollingAccountService extends BasePollingExchangeServ
 
     super(exchangeSpecification);
     this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getUri());
+    this.credentials = new BasicAuthCredentials(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 
   @Override
@@ -60,11 +61,6 @@ public class BitcoinCentralPollingAccountService extends BasePollingExchangeServ
     BitcoinCentralAccountInfo accountInfo = getBTCCAccountInfo();
 
     return BitcoinCentralAdapters.adaptAccountInfo(accountInfo, exchangeSpecification.getUserName());
-  }
-
-  private BitcoinCentralAccountInfo getBTCCAccountInfo() {
-
-    return bitcoincentral.getAccountInfo(credentials);
   }
 
   @Override
@@ -80,6 +76,11 @@ public class BitcoinCentralPollingAccountService extends BasePollingExchangeServ
   public String requestBitcoinDepositAddress(final String... arguments) {
 
     return getBTCCAccountInfo().getAddress();
+  }
+
+  private BitcoinCentralAccountInfo getBTCCAccountInfo() {
+
+    return bitcoincentral.getAccountInfo(credentials);
   }
 
 }

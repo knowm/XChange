@@ -20,37 +20,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoincentral.service.trade;
+package com.xeiam.xchange.bitcoincentral.dto.trade;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;
-import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import java.text.MessageFormat;
 
 /**
  * @author Matija Mazi <br/>
- * @created 1/19/13 12:53 AM
  */
-public class TradeOrderRequestTest {
+public abstract class BitcoinCentralTradeBase {
 
-  @Test
-  public void testJsonCreate() throws Exception {
-    // Read in the JSON from the example resources
-    InputStream is = TradeOrderRequestTest.class.getResourceAsStream("/trade/example-order-request.json");
+  protected final BigDecimal amount;
+  protected final Category category;
+  protected final String currency;
+  protected final BigDecimal ppc;
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitcoinCentralTradeRequest request = mapper.readValue(is, TradeOrderRequestWrapper.class).getTradeOrder();
-    assertThat(request.getAmount(), is(equalTo(new BigDecimal("42"))));
-    assertThat(request.getCategory(), is(equalTo(BitcoinCentralTradeRequest.Category.buy)));
+  protected BitcoinCentralTradeBase(Category category, String currency, BigDecimal amount, BigDecimal ppc) {
 
+    this.category = category;
+    this.currency = currency;
+    this.amount = amount;
+    this.ppc = ppc;
+  }
+
+  public BigDecimal getAmount() {
+
+    return amount;
+  }
+
+  public Category getCategory() {
+
+    return category;
+  }
+
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  @Override
+  public String toString() {
+
+    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency=''{2}'']",
+        amount, category, currency);
+  }
+
+  public BigDecimal getPpc() {
+
+    return ppc;
+  }
+
+  public static enum Category {
+    buy, sell
   }
 }

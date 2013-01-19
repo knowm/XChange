@@ -20,37 +20,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoincentral.service.trade;
+package com.xeiam.xchange.bitcoincentral.dto.trade;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;
-import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>
  * @created 1/19/13 12:53 AM
  */
-public class TradeOrderRequestTest {
+public class TradeOrderRequestWrapper {
 
-  @Test
-  public void testJsonCreate() throws Exception {
-    // Read in the JSON from the example resources
-    InputStream is = TradeOrderRequestTest.class.getResourceAsStream("/trade/example-order-request.json");
+  @JsonProperty("trade_order")
+  private final BitcoinCentralTradeRequest tradeOrder;
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitcoinCentralTradeRequest request = mapper.readValue(is, TradeOrderRequestWrapper.class).getTradeOrder();
-    assertThat(request.getAmount(), is(equalTo(new BigDecimal("42"))));
-    assertThat(request.getCategory(), is(equalTo(BitcoinCentralTradeRequest.Category.buy)));
+  public TradeOrderRequestWrapper(
+      @JsonProperty("trade_order") BitcoinCentralTradeRequest tradeOrder
+  ) {
 
+    this.tradeOrder = tradeOrder;
+  }
+
+  public TradeOrderRequestWrapper(
+      BigDecimal amount, BitcoinCentralTradeBase.Category category, String currency, BigDecimal ppc, BitcoinCentralTradeRequest.Type type
+  ) {
+
+    this.tradeOrder = new BitcoinCentralTradeRequest(amount, category, currency, ppc, type);
+  }
+
+  public BitcoinCentralTradeRequest getTradeOrder() {
+
+    return tradeOrder;
   }
 }

@@ -26,6 +26,8 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoincentral.service.account.polling.BitcoinCentralPollingAccountService;
+import com.xeiam.xchange.bitcoincentral.service.marketdata.polling.BitcoinCentralPollingMarketDataService;
+import com.xeiam.xchange.bitcoincentral.service.trade.polling.BitcoinCentralPollingTradeService;
 
 /**
  * @author Matija Mazi
@@ -49,6 +51,8 @@ public class BitcoinCentralExchange extends BaseExchange implements Exchange {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
     this.pollingAccountService = new BitcoinCentralPollingAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new BitcoinCentralPollingMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new BitcoinCentralPollingTradeService(exchangeSpecification);
   }
 
 }
