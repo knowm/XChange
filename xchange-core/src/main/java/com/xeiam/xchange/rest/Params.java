@@ -131,9 +131,10 @@ public class Params implements Serializable {
   public String applyToPath(String path) {
 
     for (String paramName : data.keySet()) {
-      if (isParamSet(paramName)) {
-        path = path.replace("{" + paramName + "}", getParamValue(paramName));
+      if (!isParamSet(paramName)) {
+        throw new IllegalArgumentException("The value of '" + paramName + "' path parameter was not specified.");
       }
+      path = path.replace("{" + paramName + "}", getParamValue(paramName));
     }
     return path;
   }

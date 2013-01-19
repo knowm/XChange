@@ -90,15 +90,15 @@ public class RestRequestData implements Serializable {
     // TODO make more robust in terms of path separator ('/') handling
     // (Use UriBuilder?)
     String completeUrl = baseUrl;
-    completeUrl = appendIfNotNull(completeUrl, intfacePath, "/");
-    completeUrl = appendIfNotNull(completeUrl, method, "/");
-    completeUrl = appendIfNotNull(completeUrl, queryString, "?");
+    completeUrl = appendIfNotEmpty(completeUrl, intfacePath, "/");
+    completeUrl = appendIfNotEmpty(completeUrl, method, "/");
+    completeUrl = appendIfNotEmpty(completeUrl, queryString, "?");
     return completeUrl;
   }
 
-  private static String appendIfNotNull(String url, String next, String separator) {
+  private static String appendIfNotEmpty(String url, String next, String separator) {
 
-    if (next != null && !next.isEmpty()) {
+    if (next != null && !next.isEmpty() && !next.equals("/")) {
       url += separator + next;
     }
     return url;

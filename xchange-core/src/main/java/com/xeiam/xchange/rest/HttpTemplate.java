@@ -91,7 +91,7 @@ public class HttpTemplate {
 
     httpHeaders.put("Accept", "application/json");
     if (contentType != null) {
-      httpHeaders.put("Content-type", contentType);
+      httpHeaders.put("Content-Type", contentType);
     }
 
     String response = executeRequest(urlString, requestBody, httpHeaders, method);
@@ -167,6 +167,8 @@ public class HttpTemplate {
     Assert.notNull(httpHeaders, "httpHeaders cannot be null");
 
     log.debug("Executing {} request at {}", method, urlString);
+    log.trace("Request body = {}", requestBody);
+    log.trace("Request headers = {}", httpHeaders);
 
     String responseString = "";
     URLConnection connection = null;
@@ -187,7 +189,7 @@ public class HttpTemplate {
       responseString = readInputStreamAsEncodedString(inputStream, responseEncoding);
 
     } catch (MalformedURLException e) {
-      throw new HttpException("Problem " + method + "ing (malformed URL)", e);
+      throw new HttpException("Problem " + method + "ing -- malformed URL: " + urlString, e);
     } catch (IOException e) {
       throw new HttpException("Problem " + method + "ing (IO)", e);
     } finally {
