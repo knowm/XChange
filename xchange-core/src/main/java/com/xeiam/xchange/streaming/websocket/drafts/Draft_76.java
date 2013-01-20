@@ -123,7 +123,7 @@ public class Draft_76 extends Draft_75 {
   public HandshakeState acceptHandshakeAsServer(HandshakeData handshakeData) {
 
     if (handshakeData.getFieldValue("Upgrade").equals("WebSocket") && handshakeData.getFieldValue("Connection").contains("Upgrade") && handshakeData.getFieldValue("Sec-WebSocket-Key1").length() > 0
-        && !handshakeData.getFieldValue("Sec-WebSocket-Key2").isEmpty() && handshakeData.hasFieldValue("Origin")
+        && handshakeData.getFieldValue("Sec-WebSocket-Key2").length() > 0 && handshakeData.hasFieldValue("Origin")
     /* new String ( handshakeData.getContent () ).endsWith ( "\r\n\r\n" ) */)
       return HandshakeState.MATCHED;
     return HandshakeState.NOT_MATCHED;

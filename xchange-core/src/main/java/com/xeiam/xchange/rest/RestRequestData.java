@@ -98,7 +98,7 @@ public class RestRequestData implements Serializable {
 
   private static String appendIfNotEmpty(String url, String next, String separator) {
 
-    if (next != null && !next.isEmpty() && !next.equals("/")) {
+    if (next != null && next.length() > 0 && !next.equals("/")) {
       url += separator + next;
     }
     return url;
