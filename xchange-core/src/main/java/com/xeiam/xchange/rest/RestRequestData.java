@@ -28,7 +28,13 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
+import javax.ws.rs.OPTIONS;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 
 /**
  * @author Matija Mazi
@@ -98,7 +104,7 @@ public class RestRequestData implements Serializable {
 
   private static String appendIfNotEmpty(String url, String next, String separator) {
 
-    if (next != null && next.length() > 0 && !next.equals("/")) {
+    if (next != null && next.trim().length() > 0 && !next.equals("/")) {
       url += separator + next;
     }
     return url;

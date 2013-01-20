@@ -72,7 +72,7 @@ public abstract class Assert {
   public static void hasLength(String input, int length, String message) {
 
     notNull(input, message);
-    if (input.length() != length) {
+    if (input.trim().length() != length) {
       throw new IllegalArgumentException(message);
     }
   }

@@ -24,7 +24,7 @@ public class DefaultHandshakeData implements HandshakeBuilder {
     map = new LinkedHashMap<String, String>();
     Iterator<String> it = h.iterateHttpFields();
     while (it.hasNext()) {
-      String key = (String) it.next();
+      String key = it.next();
       map.put(key, h.getFieldValue(key));
     }
   }
@@ -33,7 +33,7 @@ public class DefaultHandshakeData implements HandshakeBuilder {
   public String getResourceDescriptor() {
 
     // validate resourcedescriptor
-    return resourcedescriptor == null || (resourcedescriptor.length() == 0) ? "" : resourcedescriptor;
+    return resourcedescriptor == null || (resourcedescriptor.trim().length() == 0) ? "" : resourcedescriptor;
   }
 
   @Override
