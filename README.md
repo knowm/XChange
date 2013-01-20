@@ -54,18 +54,18 @@ XChange is semantically versioned: http://semver.org
 ### Non-Maven
 Download XChange Jars: http://xeiam.com/xchange.jsp
 #### Compile Dependencies
-+- org.slf4j:slf4j-api:jar:1.6.6
-+- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.9
-|  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.9
-+- org.joda:joda-money:jar:0.7
-+- javax.ws.rs:jsr311-api:jar:1.1.1
++- org.slf4j:slf4j-api:jar:1.6.6  
++- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.9  
+|  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.9  
++- org.joda:joda-money:jar:0.7  
++- javax.ws.rs:jsr311-api:jar:1.1.1  
 #### Test Dependencies
-\- junit:junit:jar:4.11
-   \- org.hamcrest:hamcrest-core:jar:1.3
+\- junit:junit:jar:4.11  
+   \- org.hamcrest:hamcrest-core:jar:1.3  
 #### Other Dependencies for Some Examples
-+- ch.qos.logback:logback-classic:jar:1.0.6
-|  \- ch.qos.logback:logback-core:jar:1.0.6
-+- com.xeiam.xchart:xchart:jar:1.3.0
++- ch.qos.logback:logback-classic:jar:1.0.6  
+|  \- ch.qos.logback:logback-core:jar:1.0.6  
++- com.xeiam.xchart:xchart:jar:1.3.0  
 
 ### Maven
 The XChange release artifacts are hosted on Maven Central. 
