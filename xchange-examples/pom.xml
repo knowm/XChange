@@ -63,7 +63,7 @@
 		<!-- XChange Bitcoin central exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange-bitcoin-central</artifactId>
+			<artifactId>xchange-bitcoincentral</artifactId>
 			<version>1.4.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange CampBX exchange support -->
