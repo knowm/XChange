@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -22,6 +22,10 @@
  */
 package com.xeiam.xchange.bitcoincentral.service.trade;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.InputStream;
 import java.math.BigDecimal;
 
@@ -31,10 +35,6 @@ import org.junit.Test;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;
 import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 /**
  * @author Matija Mazi <br/>
  * @created 1/19/13 12:53 AM
@@ -43,6 +43,7 @@ public class TradeOrderRequestTest {
 
   @Test
   public void testJsonCreate() throws Exception {
+
     // Read in the JSON from the example resources
     InputStream is = TradeOrderRequestTest.class.getResourceAsStream("/trade/example-order-request.json");
 

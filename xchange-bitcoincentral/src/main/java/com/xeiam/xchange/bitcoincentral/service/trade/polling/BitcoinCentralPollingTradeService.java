@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -53,7 +53,7 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification
    */
   public BitcoinCentralPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -83,15 +83,9 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
 
-    BitcoinCentralMyOrder myOrder = bitcoincentral.placeLimitOrder(
-        credentials,
-        new TradeOrderRequestWrapper(
-            limitOrder.getTradableAmount(),
-            limitOrder.getType() == Order.OrderType.ASK ? BitcoinCentralTradeBase.Category.sell : BitcoinCentralTradeBase.Category.buy,
-            limitOrder.getTransactionCurrency(),
-            limitOrder.getLimitPrice().getAmount(),
-            BitcoinCentralTradeRequest.Type.limit_order
-        ));
+    BitcoinCentralMyOrder myOrder = bitcoincentral.placeLimitOrder(credentials, new TradeOrderRequestWrapper(limitOrder.getTradableAmount(),
+        limitOrder.getType() == Order.OrderType.ASK ? BitcoinCentralTradeBase.Category.sell : BitcoinCentralTradeBase.Category.buy, limitOrder.getTransactionCurrency(), limitOrder.getLimitPrice()
+            .getAmount(), BitcoinCentralTradeRequest.Type.limit_order));
     log.debug("myOrder = {}", myOrder);
     return Integer.toString(myOrder.getId());
   }

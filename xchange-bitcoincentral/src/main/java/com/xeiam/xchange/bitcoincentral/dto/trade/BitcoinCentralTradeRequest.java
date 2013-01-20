@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -32,15 +32,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class BitcoinCentralTradeRequest extends BitcoinCentralTradeBase {
 
-  @JsonProperty("type") private final Type type;
+  @JsonProperty("type")
+  private final Type type;
 
-  public BitcoinCentralTradeRequest(
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("category") Category category,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("ppc") BigDecimal ppc,
-      @JsonProperty("type") Type type
-  ) {
+  public BitcoinCentralTradeRequest(@JsonProperty("amount") BigDecimal amount, @JsonProperty("category") Category category, @JsonProperty("currency") String currency,
+      @JsonProperty("ppc") BigDecimal ppc, @JsonProperty("type") Type type) {
 
     super(category, currency, amount, ppc);
     this.type = type;
@@ -54,8 +50,7 @@ public class BitcoinCentralTradeRequest extends BitcoinCentralTradeBase {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency={2}, ppc={3}, type={4}]",
-        amount, category, currency, ppc, type);
+    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency={2}, ppc={3}, type={4}]", amount, category, currency, ppc, type);
   }
 
   public static enum Type {

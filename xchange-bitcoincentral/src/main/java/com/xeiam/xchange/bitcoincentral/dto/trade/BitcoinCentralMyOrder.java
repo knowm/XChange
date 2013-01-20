@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -34,15 +34,8 @@ public class BitcoinCentralMyOrder extends BitcoinCentralTradeData {
 
   private final boolean active;
 
-  public BitcoinCentralMyOrder(
-      @JsonProperty("ppc") BigDecimal ppc,
-      @JsonProperty("category") Category category,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("created_at") String createdAt,
-      @JsonProperty("id") int id,
-      @JsonProperty("active") boolean active)
-      throws ParseException {
+  public BitcoinCentralMyOrder(@JsonProperty("ppc") BigDecimal ppc, @JsonProperty("category") Category category, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("created_at") String createdAt, @JsonProperty("id") int id, @JsonProperty("active") boolean active) throws ParseException {
 
     super(ppc, category, currency, amount, id, createdAt);
     this.active = active;

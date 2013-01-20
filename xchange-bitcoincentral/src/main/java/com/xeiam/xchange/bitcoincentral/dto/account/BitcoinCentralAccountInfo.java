@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -32,27 +32,28 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class BitcoinCentralAccountInfo {
 
-  private final @JsonProperty("address") String address;
-  private final @JsonProperty("BTC") BigDecimal btc;
-  private final @JsonProperty("CAD") BigDecimal cad;
-  private final @JsonProperty("EUR") BigDecimal eur;
-  private final @JsonProperty("INR") BigDecimal inr;
-  private final @JsonProperty("LREUR") BigDecimal lreur;
-  private final @JsonProperty("LRUSD") BigDecimal lrusd;
-  private final @JsonProperty("PGAU") BigDecimal pgau;
-  private final @JsonProperty("UNCONFIRMED_BTC") BigDecimal unconfirmedBtc;
+  private final @JsonProperty("address")
+  String address;
+  private final @JsonProperty("BTC")
+  BigDecimal btc;
+  private final @JsonProperty("CAD")
+  BigDecimal cad;
+  private final @JsonProperty("EUR")
+  BigDecimal eur;
+  private final @JsonProperty("INR")
+  BigDecimal inr;
+  private final @JsonProperty("LREUR")
+  BigDecimal lreur;
+  private final @JsonProperty("LRUSD")
+  BigDecimal lrusd;
+  private final @JsonProperty("PGAU")
+  BigDecimal pgau;
+  private final @JsonProperty("UNCONFIRMED_BTC")
+  BigDecimal unconfirmedBtc;
 
-  public BitcoinCentralAccountInfo(
-      @JsonProperty("address") String address,
-      @JsonProperty("BTC") BigDecimal btc,
-      @JsonProperty("CAD") BigDecimal cad,
-      @JsonProperty("EUR") BigDecimal eur,
-      @JsonProperty("INR") BigDecimal inr,
-      @JsonProperty("LREUR") BigDecimal lreur,
-      @JsonProperty("LRUSD") BigDecimal lrusd,
-      @JsonProperty("PGAU") BigDecimal pgau,
-      @JsonProperty("UNCONFIRMED_BTC") BigDecimal unconfirmedBtc)
-  {
+  public BitcoinCentralAccountInfo(@JsonProperty("address") String address, @JsonProperty("BTC") BigDecimal btc, @JsonProperty("CAD") BigDecimal cad, @JsonProperty("EUR") BigDecimal eur,
+      @JsonProperty("INR") BigDecimal inr, @JsonProperty("LREUR") BigDecimal lreur, @JsonProperty("LRUSD") BigDecimal lrusd, @JsonProperty("PGAU") BigDecimal pgau,
+      @JsonProperty("UNCONFIRMED_BTC") BigDecimal unconfirmedBtc) {
 
     this.address = address;
     this.btc = btc;
@@ -113,7 +114,7 @@ public final class BitcoinCentralAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BitcoinCentralAccountInfo'{address={0}, btc={1}, cad={2}, eur={3}, inr={4}, lreur={5}, lrusd={6}, pgau={7}, unconfirmedBtc={8}'}",
-        address, btc, cad, eur, inr, lreur, lrusd, pgau, unconfirmedBtc);
+    return MessageFormat.format("BitcoinCentralAccountInfo'{address={0}, btc={1}, cad={2}, eur={3}, inr={4}, lreur={5}, lrusd={6}, pgau={7}, unconfirmedBtc={8}'}", address, btc, cad, eur, inr, lreur,
+        lrusd, pgau, unconfirmedBtc);
   }
 }

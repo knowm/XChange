@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -61,8 +61,7 @@ public abstract class BitcoinCentralTradeBase {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency=''{2}'']",
-        amount, category, currency);
+    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency=''{2}'']", amount, category, currency);
   }
 
   public BigDecimal getPpc() {

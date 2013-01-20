@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -35,16 +35,12 @@ public class TradeOrderRequestWrapper {
   @JsonProperty("trade_order")
   private final BitcoinCentralTradeRequest tradeOrder;
 
-  public TradeOrderRequestWrapper(
-      @JsonProperty("trade_order") BitcoinCentralTradeRequest tradeOrder
-  ) {
+  public TradeOrderRequestWrapper(@JsonProperty("trade_order") BitcoinCentralTradeRequest tradeOrder) {
 
     this.tradeOrder = tradeOrder;
   }
 
-  public TradeOrderRequestWrapper(
-      BigDecimal amount, BitcoinCentralTradeBase.Category category, String currency, BigDecimal ppc, BitcoinCentralTradeRequest.Type type
-  ) {
+  public TradeOrderRequestWrapper(BigDecimal amount, BitcoinCentralTradeBase.Category category, String currency, BigDecimal ppc, BitcoinCentralTradeRequest.Type type) {
 
     this.tradeOrder = new BitcoinCentralTradeRequest(amount, category, currency, ppc, type);
   }

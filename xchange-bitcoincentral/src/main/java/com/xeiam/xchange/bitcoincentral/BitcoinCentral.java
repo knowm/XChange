@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -22,7 +22,14 @@
  */
 package com.xeiam.xchange.bitcoincentral;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
@@ -39,15 +46,11 @@ public interface BitcoinCentral {
 
   @GET
   @Path("account")
-  BitcoinCentralAccountInfo getAccountInfo(
-      @HeaderParam("Authorization") BasicAuthCredentials credentials
-  );
+  BitcoinCentralAccountInfo getAccountInfo(@HeaderParam("Authorization") BasicAuthCredentials credentials);
 
   @GET
   @Path("account/transfers")
-  Object getAccountTransfers(
-      @HeaderParam("Authorization") BasicAuthCredentials credentials
-  );
+  Object getAccountTransfers(@HeaderParam("Authorization") BasicAuthCredentials credentials);
 
   /**
    * @param credentials username and password
@@ -57,11 +60,7 @@ public interface BitcoinCentral {
    */
   @GET
   @Path("account/trade_orders")
-  BitcoinCentralMyOrder[] getAccountTradeOrders(
-      @HeaderParam("Authorization") BasicAuthCredentials credentials,
-      @QueryParam("page") int page,
-      @QueryParam("per_page") int pageSize
-  );
+  BitcoinCentralMyOrder[] getAccountTradeOrders(@HeaderParam("Authorization") BasicAuthCredentials credentials, @QueryParam("page") int page, @QueryParam("per_page") int pageSize);
 
   /**
    * @param credentials username and password
@@ -70,23 +69,15 @@ public interface BitcoinCentral {
    */
   @POST
   @Path("account/trade_orders")
-  BitcoinCentralMyOrder placeLimitOrder (
-      @HeaderParam("Authorization") BasicAuthCredentials credentials,
-      TradeOrderRequestWrapper order
-  );
+  BitcoinCentralMyOrder placeLimitOrder(@HeaderParam("Authorization") BasicAuthCredentials credentials, TradeOrderRequestWrapper order);
 
   @DELETE
   @Path("/account/trade_orders/{id}")
-  String cancelOrder(
-      @HeaderParam("Authorization") BasicAuthCredentials credentials,
-      @PathParam("id") String orderId
-  );
+  String cancelOrder(@HeaderParam("Authorization") BasicAuthCredentials credentials, @PathParam("id") String orderId);
 
   @GET
   @Path("ticker")
-  Object getTicker(
-      @QueryParam("currency") String currency
-  );
+  Object getTicker(@QueryParam("currency") String currency);
 
   @GET
   @Path("order_book")

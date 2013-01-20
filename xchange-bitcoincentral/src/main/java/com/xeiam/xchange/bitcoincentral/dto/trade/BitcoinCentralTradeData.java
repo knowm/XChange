@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -36,13 +36,7 @@ public abstract class BitcoinCentralTradeData extends BitcoinCentralTradeBase {
   protected final int id;
   protected final Date createdTime;
 
-  public BitcoinCentralTradeData(
-      BigDecimal ppc,
-      Category category,
-      String currency,
-      BigDecimal amount,
-      int id,
-      String createdAt) {
+  public BitcoinCentralTradeData(BigDecimal ppc, Category category, String currency, BigDecimal amount, int id, String createdAt) {
 
     super(category, currency, amount, ppc);
     this.id = id;
@@ -70,8 +64,8 @@ public abstract class BitcoinCentralTradeData extends BitcoinCentralTradeBase {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency=''{2}'', price={3}, createdAt=''{4}'', id={5}, createdTime={6}]",
-        amount, category, currency, getPpc(), createdAt, id, createdTime);
+    return MessageFormat.format("BitcoinCentralTradeBase[amount={0}, category={1}, currency=''{2}'', price={3}, createdAt=''{4}'', id={5}, createdTime={6}]", amount, category, currency, getPpc(),
+        createdAt, id, createdTime);
   }
 
 }

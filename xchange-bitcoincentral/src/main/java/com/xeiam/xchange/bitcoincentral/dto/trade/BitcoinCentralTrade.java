@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -37,15 +37,9 @@ public class BitcoinCentralTrade extends BitcoinCentralTradeData {
   private final BigDecimal tradedCurrency;
   private Date createdTime;
 
-  public BitcoinCentralTrade(
-      @JsonProperty("ppc") BigDecimal ppc,
-      @JsonProperty("category") Category category,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("created_at") String createdAt,
-      @JsonProperty("id") int id,
-      @JsonProperty("traded_btc") BigDecimal tradedBtc,
-      @JsonProperty("traded_currency") BigDecimal tradedCurrency) throws ParseException {
+  public BitcoinCentralTrade(@JsonProperty("ppc") BigDecimal ppc, @JsonProperty("category") Category category, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("created_at") String createdAt, @JsonProperty("id") int id, @JsonProperty("traded_btc") BigDecimal tradedBtc, @JsonProperty("traded_currency") BigDecimal tradedCurrency)
+      throws ParseException {
 
     super(ppc, category, currency, amount, id, createdAt);
     this.tradedBtc = tradedBtc;
