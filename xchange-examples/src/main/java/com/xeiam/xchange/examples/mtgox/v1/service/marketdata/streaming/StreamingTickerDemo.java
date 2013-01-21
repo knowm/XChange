@@ -27,6 +27,7 @@ import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
@@ -44,10 +45,10 @@ public class StreamingTickerDemo {
   public void start() {
 
     // Use the default MtGox settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public streaming market data feed (no authentication)
-    StreamingMarketDataService streamingMarketDataService = mtGox.getStreamingMarketDataService();
+    StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
 
     // Get blocking queue that receives streaming ticker data
     BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.getTickerQueue(Currencies.BTC, Currencies.USD);

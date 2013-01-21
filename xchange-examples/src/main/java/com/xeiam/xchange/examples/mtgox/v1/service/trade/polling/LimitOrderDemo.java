@@ -45,7 +45,7 @@ public class LimitOrderDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    // place a limit order
+    // place a limit order for a random amount of BTC at USD 1.25
     OrderType orderType = (OrderType.BID);
     BigDecimal tradeableAmount = new BigDecimal(Math.random());
     String tradableIdentifier = "BTC";
@@ -54,8 +54,8 @@ public class LimitOrderDemo {
 
     LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
 
-    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
-    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+    String orderID = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order ID: " + orderID);
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();

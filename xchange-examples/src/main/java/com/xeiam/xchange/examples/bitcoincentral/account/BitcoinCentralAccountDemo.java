@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -36,9 +36,7 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  * <ul>
  * <li>Connect to Bitcoin Central exchange with authentication</li>
  * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- *
- * Please provide your username and password as program arguments.
+ * <li>Get the bitcoin deposit address</li> Please provide your username and password as program arguments.
  * </ul>
  */
 public class BitcoinCentralAccountDemo {
@@ -62,7 +60,7 @@ public class BitcoinCentralAccountDemo {
     System.out.println("Deposit address: " + depositAddress);
 
     // Withdraw not yet implemented.
-//    String ret = accountService.withdrawFunds(new BigDecimal("0.001"), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
-//    System.out.println("ret = " + ret);
+    // String ret = accountService.withdrawFunds(new BigDecimal("0.001"), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
+    // System.out.println("ret = " + ret);
   }
 }

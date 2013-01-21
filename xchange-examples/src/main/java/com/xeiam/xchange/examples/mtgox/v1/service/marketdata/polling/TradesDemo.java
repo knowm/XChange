@@ -25,6 +25,7 @@ import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
@@ -37,10 +38,10 @@ public class TradesDemo {
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    marketDataService = mtGox.getPollingMarketDataService();
+    marketDataService = mtGoxExchange.getPollingMarketDataService();
 
     // Get trades
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);

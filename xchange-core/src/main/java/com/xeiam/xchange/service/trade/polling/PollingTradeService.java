@@ -52,7 +52,7 @@ public interface PollingTradeService {
    * Place a limit order
    * 
    * @param marketOrder
-   * @return Place a limit order
+   * @return the order ID
    */
   public String placeMarketOrder(MarketOrder marketOrder);
 

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -41,9 +41,7 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  * <ul>
  * <li>Connect to Bitcoin Central exchange with authentication</li>
  * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- *
- * Please provide your username and password as program arguments.
+ * <li>Get the bitcoin deposit address</li> Please provide your username and password as program arguments.
  * </ul>
  */
 public class BitcoinCentralMarketDataDemo {
@@ -71,7 +69,6 @@ public class BitcoinCentralMarketDataDemo {
 
     Trades trades = service.getTrades("BTC", "EUR");
     System.out.println("trades = " + trades);
-
 
   }
 }
