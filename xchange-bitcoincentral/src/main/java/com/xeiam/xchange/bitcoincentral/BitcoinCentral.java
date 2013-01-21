@@ -33,6 +33,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralMyOrder;
 import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
 import com.xeiam.xchange.rest.BasicAuthCredentials;
@@ -77,7 +78,7 @@ public interface BitcoinCentral {
 
   @GET
   @Path("ticker")
-  Object getTicker(@QueryParam("currency") String currency);
+  BitcoinCentralTicker getTicker(@QueryParam("currency") String currency);
 
   @GET
   @Path("order_book")

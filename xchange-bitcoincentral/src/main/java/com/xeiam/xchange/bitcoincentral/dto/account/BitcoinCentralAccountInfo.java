@@ -50,6 +50,19 @@ public final class BitcoinCentralAccountInfo {
   private final @JsonProperty("UNCONFIRMED_BTC")
   BigDecimal unconfirmedBtc;
 
+  /**
+   * Constructor
+   * 
+   * @param address
+   * @param btc
+   * @param cad
+   * @param eur
+   * @param inr
+   * @param lreur
+   * @param lrusd
+   * @param pgau
+   * @param unconfirmedBtc
+   */
   public BitcoinCentralAccountInfo(@JsonProperty("address") String address, @JsonProperty("BTC") BigDecimal btc, @JsonProperty("CAD") BigDecimal cad, @JsonProperty("EUR") BigDecimal eur,
       @JsonProperty("INR") BigDecimal inr, @JsonProperty("LREUR") BigDecimal lreur, @JsonProperty("LRUSD") BigDecimal lrusd, @JsonProperty("PGAU") BigDecimal pgau,
       @JsonProperty("UNCONFIRMED_BTC") BigDecimal unconfirmedBtc) {

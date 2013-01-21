@@ -22,17 +22,24 @@
  */
 package com.xeiam.xchange.bitcoincentral;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
- * @author Matija Mazi Various adapters for converting from Bitcoin Central DTOs to XChange DTOs
+ * Various adapters for converting from Bitcoin Central DTOs to XChange DTOs
+ * 
+ * @author Matija Mazi
  */
 public final class BitcoinCentralAdapters {
 
@@ -52,8 +59,26 @@ public final class BitcoinCentralAdapters {
     Wallet usdWallet = new Wallet("CAD", BigMoney.of(CurrencyUnit.CAD, accountInfo.getCad()));
     Wallet eurWallet = new Wallet("EUR", BigMoney.of(CurrencyUnit.EUR, accountInfo.getEur()));
     Wallet inrWallet = new Wallet("INR", BigMoney.of(CurrencyUnit.getInstance("INR"), accountInfo.getInr()));
-    // todo: other currencies?
+    // TODO other currencies?
 
     return new AccountInfo(userName, Arrays.asList(btcWallet, usdWallet, eurWallet, inrWallet));
+  }
+
+  /**
+   * Adapts a BitcoinCentralTicker to a Ticker Object
+   * 
+   * @param bitcoinCentralTicker
+   * @return
+   */
+  public static Ticker adaptTicker(BitcoinCentralTicker bitcoinCentralTicker, String tradableIdentifier) {
+
+    BigMoney last = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getPrice());
+    BigMoney bid = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getBid());
+    BigMoney ask = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getAsk());
+    BigMoney high = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getHigh());
+    BigMoney low = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getLow());
+    BigDecimal volume = bitcoinCentralTicker.getVolume();
+
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
 }

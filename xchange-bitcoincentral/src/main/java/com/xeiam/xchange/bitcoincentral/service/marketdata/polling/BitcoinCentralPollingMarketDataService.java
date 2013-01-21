@@ -31,7 +31,9 @@ import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
+import com.xeiam.xchange.bitcoincentral.BitcoinCentralAdapters;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralUtils;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -66,8 +68,8 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
 
     verify(tradableIdentifier, currency);
 
-    Object result = bitcoincentral.getTicker(currency);
-    return null;
+    BitcoinCentralTicker bitcoinCentralTicker = bitcoincentral.getTicker(currency);
+    return BitcoinCentralAdapters.adaptTicker(bitcoinCentralTicker, tradableIdentifier);
   }
 
   @Override

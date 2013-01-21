@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoincentral.dto.account;
+package com.xeiam.xchange.bitcoincentral.dto.marketdata;
 
 /**
  * @author timmolter

@@ -21,9 +21,90 @@
  */
 package com.xeiam.xchange.bitcoincentral.dto.marketdata;
 
+import java.math.BigDecimal;
+
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * @author timmolter
  */
-public class BitcoinCentralTicker {
+public final class BitcoinCentralTicker {
+
+  private final BigDecimal ask;
+  private final BigDecimal at;
+  private final BigDecimal bid;
+  private final String currency;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal midpoint;
+  private final BigDecimal price;
+  private final BigDecimal variation;
+  private final BigDecimal volume;
+
+  public BitcoinCentralTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("at") BigDecimal at, @JsonProperty("bid") BigDecimal bid, @JsonProperty("currency") String currency,
+      @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("midpoint") BigDecimal midpoint, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("variation") BigDecimal variation, @JsonProperty("volume") BigDecimal volume) {
+
+    this.ask = ask;
+    this.at = at;
+    this.bid = bid;
+    this.currency = currency;
+    this.high = high;
+    this.low = low;
+    this.midpoint = midpoint;
+    this.price = price;
+    this.variation = variation;
+    this.volume = volume;
+  }
+
+  public BigDecimal getAsk() {
+
+    return this.ask;
+  }
+
+  public BigDecimal getAt() {
+
+    return this.at;
+  }
+
+  public BigDecimal getBid() {
+
+    return this.bid;
+  }
+
+  public String getCurrency() {
+
+    return this.currency;
+  }
+
+  public BigDecimal getHigh() {
+
+    return this.high;
+  }
+
+  public BigDecimal getLow() {
+
+    return this.low;
+  }
+
+  public BigDecimal getMidpoint() {
+
+    return this.midpoint;
+  }
+
+  public BigDecimal getPrice() {
+
+    return this.price;
+  }
+
+  public BigDecimal getVariation() {
+
+    return this.variation;
+  }
+
+  public BigDecimal getVolume() {
+
+    return this.volume;
+  }
 
 }

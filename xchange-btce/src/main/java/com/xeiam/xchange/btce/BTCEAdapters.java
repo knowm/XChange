@@ -142,17 +142,17 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCETicker to a Ticker Object
    * 
-   * @param BTCETicker
+   * @param bTCETicker
    * @return
    */
-  public static Ticker adaptTicker(BTCETicker BTCETicker, String tradableIdentifier, String currency) {
+  public static Ticker adaptTicker(BTCETicker bTCETicker, String tradableIdentifier, String currency) {
 
-    BigMoney last = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLast());
-    BigMoney bid = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getSell());
-    BigMoney ask = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getBuy());
-    BigMoney high = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getHigh());
-    BigMoney low = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLow());
-    BigDecimal volume = BTCETicker.getTicker().getVol();
+    BigMoney last = MoneyUtils.parseFiat(currency + " " + bTCETicker.getTicker().getLast());
+    BigMoney bid = MoneyUtils.parseFiat(currency + " " + bTCETicker.getTicker().getSell());
+    BigMoney ask = MoneyUtils.parseFiat(currency + " " + bTCETicker.getTicker().getBuy());
+    BigMoney high = MoneyUtils.parseFiat(currency + " " + bTCETicker.getTicker().getHigh());
+    BigMoney low = MoneyUtils.parseFiat(currency + " " + bTCETicker.getTicker().getLow());
+    BigDecimal volume = bTCETicker.getTicker().getVol();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }

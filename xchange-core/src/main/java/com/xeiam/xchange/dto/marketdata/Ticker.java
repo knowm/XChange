@@ -57,7 +57,6 @@ public final class Ticker {
    * @param high
    * @param low
    * @param volume
-   * @param errorMessage
    */
   private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
 
