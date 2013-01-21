@@ -21,25 +21,20 @@
  */
 package com.xeiam.xchange.mtgox.v0.service;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
-import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.mtgox.v0.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
 
 /**
  * Tests the VirtExAdapter class

@@ -21,11 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v0;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxPollingMarketDataService;
 
