@@ -1,11 +1,14 @@
 package com.xeiam.xchange.mtgox.v1;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.rest.ParamsDigest;
 
 /**
@@ -13,6 +16,10 @@ import com.xeiam.xchange.rest.ParamsDigest;
  */
 @Path("api/0")
 public interface MtGoxV0 {
+	
+  @GET
+  @Path("/data/getDepth.php?Currency={currency}")
+  MtGoxDepth getFullDepth(@PathParam("currency") String currency);
 
   @POST
   @Path("cancelOrder.php")
