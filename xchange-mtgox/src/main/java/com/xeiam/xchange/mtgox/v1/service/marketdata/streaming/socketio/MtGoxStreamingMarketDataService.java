@@ -91,7 +91,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   private void connectNow(String currency, RunnableExchangeEventListener listener) {
 
     String url = apiBase + "?Channel=ticker&Currency=" + currency;
-    log.debug(url);
+    log.debug("streaming url= " + url);
 
     connect(url, listener);
   }

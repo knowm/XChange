@@ -79,14 +79,14 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
       addToEventQueue(exchangeEvent);
       break;
     case MESSAGE:
-      log.debug("Generic message. Length=" + exchangeEvent.getRawData().length);
+      log.debug("Generic message. Length=" + exchangeEvent.getData().length());
       addToEventQueue(exchangeEvent);
       break;
     case JSON_MESSAGE:
-      log.debug("JSON message. Length=" + exchangeEvent.getRawData().length);
+      log.debug("JSON message. Length=" + exchangeEvent.getData().length());
 
       // Get raw JSON
-      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(new String(exchangeEvent.getRawData()), tickerObjectMapper);
+      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(new String(exchangeEvent.getData()), tickerObjectMapper);
 
       // Determine what has been sent
       if (rawJSON.containsKey("ticker")) {
@@ -104,7 +104,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
       }
       break;
     case ERROR:
-      log.error("Error message. Length=" + exchangeEvent.getRawData().length);
+      log.error("Error message. Length=" + exchangeEvent.getData().length());
       addToEventQueue(exchangeEvent);
       break;
     default:

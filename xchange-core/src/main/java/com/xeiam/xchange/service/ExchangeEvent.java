@@ -32,10 +32,13 @@ package com.xeiam.xchange.service;
 public interface ExchangeEvent {
 
   /**
-   * @return The raw data provided by the upstream server
+   * @return The data provided by the upstream server
    */
-  byte[] getRawData();
+  String getData();
 
+  /**
+   * @return The ExchangeEventType
+   */
   ExchangeEventType getEventType();
 
 }

@@ -28,8 +28,6 @@ package com.xeiam.xchange.service;
  * <ul>
  * <li>Classification of event type to allow clients to take appropriate action</li>
  * </ul>
- * 
- * @since 1.3.0  
  */
 public enum ExchangeEventType {
 

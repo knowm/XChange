@@ -25,8 +25,6 @@ package com.xeiam.xchange.service;
  * <p>
  * Exchange event that provides convenience constructors for JSON wrapping
  * </p>
- * 
- * @since 1.3.0  
  */
 public class JsonWrappedExchangeEvent extends DefaultExchangeEvent {
 
@@ -36,7 +34,7 @@ public class JsonWrappedExchangeEvent extends DefaultExchangeEvent {
    */
   public JsonWrappedExchangeEvent(ExchangeEventType exchangeEventType, String message) {
 
-    super(exchangeEventType, ("{\"message\":\"" + message + "\"}").getBytes());
+    super(exchangeEventType, ("{\"message\":\"" + message + "\"}"));
   }
 
 }

@@ -25,33 +25,26 @@ package com.xeiam.xchange.service;
  * <p>
  * Exchange event that provides convenience constructors for JSON wrapping
  * </p>
- * 
- * @since 1.3.0  
  */
 public class DefaultExchangeEvent implements ExchangeEvent {
 
-  protected final byte[] internalRawData;
   protected final ExchangeEventType exchangeEventType;
+  protected final String data;
 
   /**
    * @param exchangeEventType The exchange event type
-   * @param rawData The raw message content (original reference is kept)
+   * @param data The raw message content (original reference is kept)
    */
-  public DefaultExchangeEvent(ExchangeEventType exchangeEventType, byte[] rawData) {
+  public DefaultExchangeEvent(ExchangeEventType exchangeEventType, String data) {
 
     this.exchangeEventType = exchangeEventType;
-    internalRawData = new byte[rawData.length];
-    System.arraycopy(rawData, 0, internalRawData, 0, rawData.length);
+    this.data = data;
   }
 
   @Override
-  public byte[] getRawData() {
+  public String getData() {
 
-    // Avoid exposing the internal state to consumers
-    byte[] rawDataClone = new byte[internalRawData.length];
-    System.arraycopy(internalRawData, 0, rawDataClone, 0, internalRawData.length);
-
-    return rawDataClone;
+    return data;
 
   }
 

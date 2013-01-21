@@ -201,6 +201,31 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
     ta.setCaretPosition(ta.getDocument().getLength());
   }
 
+  // @Override
+  // public void onJSONMessage(JSONObject json, IOAcknowledge ack) {
+  //
+  // try {
+  // JSONObject ticker = (JSONObject) json.get("ticker");
+  // if (ticker != null) {
+  // JSONObject last = (JSONObject) ticker.get("last");
+  // if (last != null) {
+  // String display = (String) last.get("display");
+  // ta.append(display.toString() + "\n");
+  // ta.setCaretPosition(ta.getDocument().getLength());
+  // }
+  // }
+  // } catch (JSONException e) {
+  // // Ignore (probably an "op")
+  // }
+  // }
+
+  @Override
+  public void onJSONMessage(String jsonString, IOAcknowledge ack) {
+
+    // TODO Auto-generated method stub
+
+  }
+
   @Override
   public void on(String event, IOAcknowledge ack, Object... args) {
 
@@ -212,4 +237,5 @@ public class SocketIOExchangeClient extends JFrame implements IOCallback, Action
 
     System.out.println("Error: " + socketIOException.getMessage());
   }
+
 }
