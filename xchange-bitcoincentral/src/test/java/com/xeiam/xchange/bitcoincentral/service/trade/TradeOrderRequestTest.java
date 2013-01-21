@@ -36,8 +36,7 @@ import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;
 import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
 
 /**
- * @author Matija Mazi <br/>
- * @created 1/19/13 12:53 AM
+ * @author Matija Mazi
  */
 public class TradeOrderRequestTest {
 

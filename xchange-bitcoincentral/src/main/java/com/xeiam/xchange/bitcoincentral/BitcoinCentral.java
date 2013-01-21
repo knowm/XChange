@@ -38,7 +38,7 @@ import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
 import com.xeiam.xchange.rest.BasicAuthCredentials;
 
 /**
- * @author Matija Mazi See https://bitcoin-central.net/s/api for up-to-date docs.
+ * @author Matija Mazi
  */
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -81,5 +81,9 @@ public interface BitcoinCentral {
 
   @GET
   @Path("order_book")
-  Object getOrderBook();
+  Object getOrderBook(@QueryParam("currency") String currency);
+
+  @GET
+  @Path("trades")
+  Object getTrades(@QueryParam("currency") String currency, @QueryParam("per_page") int perPage);
 }

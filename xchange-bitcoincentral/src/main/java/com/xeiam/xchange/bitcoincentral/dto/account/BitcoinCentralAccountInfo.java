@@ -23,7 +23,6 @@
 package com.xeiam.xchange.bitcoincentral.dto.account;
 
 import java.math.BigDecimal;
-import java.text.MessageFormat;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -114,7 +113,8 @@ public final class BitcoinCentralAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BitcoinCentralAccountInfo'{address={0}, btc={1}, cad={2}, eur={3}, inr={4}, lreur={5}, lrusd={6}, pgau={7}, unconfirmedBtc={8}'}", address, btc, cad, eur, inr, lreur,
-        lrusd, pgau, unconfirmedBtc);
+    return "BitcoinCentralAccountInfo [address=" + address + ", btc=" + btc + ", cad=" + cad + ", eur=" + eur + ", inr=" + inr + ", lreur=" + lreur + ", lrusd=" + lrusd + ", pgau=" + pgau
+        + ", unconfirmedBtc=" + unconfirmedBtc + "]";
   }
+
 }

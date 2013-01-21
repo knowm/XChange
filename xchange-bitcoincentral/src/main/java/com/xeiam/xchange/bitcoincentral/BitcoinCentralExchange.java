@@ -38,8 +38,7 @@ public class BitcoinCentralExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://www.bitcoincentral.net");
-    exchangeSpecification.setHost("www.bitcoincentral.net");
+    exchangeSpecification.setUri("https://bitcoin-central.net");
     exchangeSpecification.setPort(80);
     return exchangeSpecification;
   }

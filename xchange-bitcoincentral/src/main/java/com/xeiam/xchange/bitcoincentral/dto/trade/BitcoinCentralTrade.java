@@ -29,7 +29,7 @@ import java.util.Date;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BitcoinCentralTrade extends BitcoinCentralTradeData {
 

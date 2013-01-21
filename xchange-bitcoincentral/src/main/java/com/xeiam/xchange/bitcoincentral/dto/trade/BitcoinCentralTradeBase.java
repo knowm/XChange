@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public abstract class BitcoinCentralTradeBase {
 

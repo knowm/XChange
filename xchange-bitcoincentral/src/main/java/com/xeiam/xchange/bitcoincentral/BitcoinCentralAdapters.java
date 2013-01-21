@@ -32,7 +32,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
- * Various adapters for converting from Bitcoin Central DTOs to XChange DTOs
+ * @author Matija Mazi Various adapters for converting from Bitcoin Central DTOs to XChange DTOs
  */
 public final class BitcoinCentralAdapters {
 

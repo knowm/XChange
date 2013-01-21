@@ -28,7 +28,7 @@ import java.text.MessageFormat;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BitcoinCentralTradeRequest extends BitcoinCentralTradeBase {
 

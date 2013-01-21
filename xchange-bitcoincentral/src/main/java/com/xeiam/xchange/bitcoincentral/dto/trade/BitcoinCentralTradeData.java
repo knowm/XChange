@@ -27,8 +27,7 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 /**
- * @author Matija Mazi <br/>
- * @created 1/19/13 8:34 AM
+ * @author Matija Mazi
  */
 public abstract class BitcoinCentralTradeData extends BitcoinCentralTradeBase {
 

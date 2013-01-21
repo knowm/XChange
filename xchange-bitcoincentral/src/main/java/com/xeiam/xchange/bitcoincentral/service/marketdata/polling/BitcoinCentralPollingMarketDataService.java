@@ -29,13 +29,16 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
+import com.xeiam.xchange.bitcoincentral.BitcoinCentralUtils;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author Matija Mazi
@@ -55,39 +58,51 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    // todo
-    return null;
+    return BitcoinCentralUtils.CURRENCY_PAIRS;
   }
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency) {
 
+    verify(tradableIdentifier, currency);
+
     Object result = bitcoincentral.getTicker(currency);
-    log.debug("result ticker = {}", result);
-    // todo: adapt to XChange dto
     return null;
   }
 
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
-    // todo
-    return null;
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-    Object orderBook = bitcoincentral.getOrderBook();
-    log.debug("orderBook = {}", orderBook);
-    // todo: adapt to XChange dto
+    verify(tradableIdentifier, currency);
+
+    Object orderBook = bitcoincentral.getOrderBook(currency);
     return null;
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
 
-    // todo
+    verify(tradableIdentifier, currency);
+    Object trades = bitcoincentral.getTrades(currency, 5);
     return null;
+  }
+
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier
+   * @param currency
+   */
+  private void verify(String tradableIdentifier, String currency) {
+
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(BitcoinCentralUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
   }
 }

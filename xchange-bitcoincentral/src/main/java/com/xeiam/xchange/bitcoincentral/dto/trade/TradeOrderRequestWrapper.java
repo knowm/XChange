@@ -27,8 +27,7 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
- * @created 1/19/13 12:53 AM
+ * @author Matija Mazi
  */
 public class TradeOrderRequestWrapper {
 

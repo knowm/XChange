@@ -36,7 +36,7 @@ import org.junit.Test;
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
 
 /**
- * Test BitcoinCentral Account Info JSON parsing
+ * @author Matija Mazi Test BitcoinCentral Account Info JSON parsing
  */
 public class AccountInfoJSONTest {
 
