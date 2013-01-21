@@ -21,38 +21,54 @@
  */
 package com.xeiam.xchange.bitcoincentral.dto.marketdata;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author timmolter
  */
-public final class BitcoinCentralDepth {
+public final class BidAsk {
 
-  private final List<BidAsk> asks;
-  private final List<BidAsk> bids;
+  private final BigDecimal amount;
+  private final String currency;
+  private final BigDecimal price;
+  private final BigDecimal timestamp;
 
   /**
    * Constructor
    * 
-   * @param asks
-   * @param bids
+   * @param amount
+   * @param currency
+   * @param price
+   * @param timestamp
    */
-  public BitcoinCentralDepth(@JsonProperty("asks") List<BidAsk> asks, @JsonProperty("bids") List<BidAsk> bids) {
+  public BidAsk(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("price") BigDecimal price, @JsonProperty("timestamp") BigDecimal timestamp) {
 
-    this.asks = asks;
-    this.bids = bids;
+    this.amount = amount;
+    this.currency = currency;
+    this.price = price;
+    this.timestamp = timestamp;
   }
 
-  public List<BidAsk> getAsks() {
+  public BigDecimal getAmount() {
 
-    return this.asks;
+    return this.amount;
   }
 
-  public List<BidAsk> getBids() {
+  public String getCurrency() {
 
-    return this.bids;
+    return this.currency;
+  }
+
+  public BigDecimal getPrice() {
+
+    return this.price;
+  }
+
+  public BigDecimal getTimestamp() {
+
+    return this.timestamp;
   }
 
 }

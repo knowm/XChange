@@ -44,7 +44,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public final class CampBXAdapters {
 
   /**
-   * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
+   * CampBXOrderBook to a OrderBook Object
    * 
    * @param orderBook
    * @param currency

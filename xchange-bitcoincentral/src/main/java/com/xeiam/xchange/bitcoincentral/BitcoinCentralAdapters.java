@@ -23,16 +23,23 @@
 package com.xeiam.xchange.bitcoincentral;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BidAsk;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -81,4 +88,29 @@ public final class BitcoinCentralAdapters {
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
+
+  /**
+   * BitcoinCentralDepth to a OrderBook Object
+   * 
+   * @param bitcoinCentralDepth
+   * @param currency
+   * @param tradableIdentifier
+   * @return
+   */
+  public static OrderBook adaptOrders(BitcoinCentralDepth bitcoinCentralDepth, String currency, String tradableIdentifier) {
+
+    List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitcoinCentralDepth.getAsks());
+    List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitcoinCentralDepth.getBids());
+    return new OrderBook(asks, bids);
+  }
+
+  private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<BidAsk> orders) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    for (BidAsk bidAsk : orders) {
+      limitOrders.add(new LimitOrder(orderType, bidAsk.getAmount(), tradableIdentifier, currency, MoneyUtils.parseFiat(currency + " " + bidAsk.getPrice())));
+    }
+    return limitOrders;
+  }
+
 }

@@ -43,7 +43,11 @@ public final class BitcoinCentralUtils {
 
   CurrencyPair.BTC_EUR
 
-  );
+  // for now, volume too low...
+  // CurrencyPair.BTC_GBP,
+  // CurrencyPair.BTC_USD
+
+      );
 
   /**
    * Checks if a given CurrencyPair is covered by this exchange

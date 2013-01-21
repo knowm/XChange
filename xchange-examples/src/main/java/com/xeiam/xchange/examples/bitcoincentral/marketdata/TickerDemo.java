@@ -43,7 +43,7 @@ public class TickerDemo {
     PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
 
