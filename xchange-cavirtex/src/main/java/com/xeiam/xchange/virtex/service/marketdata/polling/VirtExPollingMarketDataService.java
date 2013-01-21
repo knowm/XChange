@@ -88,11 +88,11 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     verify(tradableIdentifier, currency);
 
     // Request data
-    VirtExDepth VirtExDepth = virtEx.getDepth(currency);
+    VirtExDepth virtExDepth = virtEx.getFullDepth(currency);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), currency, "ask", "");
-    List<LimitOrder> bids = VirtExAdapters.adaptOrders(VirtExDepth.getBids(), currency, "bid", "");
+    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currency, "ask", "");
+    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currency, "bid", "");
 
     return new OrderBook(asks, bids);
   }

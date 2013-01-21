@@ -108,8 +108,6 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     MtGoxCancelOrder mtGoxCancelOrder = mtGoxV0.cancelOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), orderId);
 
-    System.out.println(mtGoxCancelOrder.toString());
-
     boolean orderGone = true;
     for (int i = 0; i < mtGoxCancelOrder.getOrders().size(); i++) {
       if (mtGoxCancelOrder.getOrders().get(i).getOid().equals(orderId)) {

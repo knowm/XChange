@@ -31,6 +31,7 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.dto.Order;
@@ -75,15 +76,15 @@ public final class BitstampAdapters {
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    * 
-   * @param orderBook
+   * @param bitstampOrderBook
    * @param currency
    * @param tradableIdentifier
    * @return
    */
-  public static OrderBook adaptOrders(com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook orderBook, String currency, String tradableIdentifier) {
+  public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, String currency, String tradableIdentifier) {
 
-    List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
-    List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
+    List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitstampOrderBook.getAsks());
+    List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitstampOrderBook.getBids());
     return new OrderBook(asks, bids);
   }
 
