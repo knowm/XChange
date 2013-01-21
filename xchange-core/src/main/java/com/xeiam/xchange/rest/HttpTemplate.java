@@ -243,7 +243,7 @@ public class HttpTemplate {
       responseString = sb.toString();
     }
 
-    // log.info("responseString: " + responseString);
+    // System.out.println("responseString: " + responseString);
 
     return responseString;
   }

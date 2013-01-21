@@ -72,6 +72,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   public Trades getTrades(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
+
     BitstampTransaction[] transactions = bitstamp.getTransactions();
 
     return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
@@ -86,6 +87,8 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+
+    verify(tradableIdentifier, currency);
 
     BitstampOrderBook bitstampOrderBook = bitstamp.getOrderBook();
 

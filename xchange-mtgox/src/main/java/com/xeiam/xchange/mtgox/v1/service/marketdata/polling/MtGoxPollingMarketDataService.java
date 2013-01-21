@@ -107,6 +107,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
 
+    verify(tradableIdentifier, currency);
+
     // Request data
     MtGoxTrade[] mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
 
