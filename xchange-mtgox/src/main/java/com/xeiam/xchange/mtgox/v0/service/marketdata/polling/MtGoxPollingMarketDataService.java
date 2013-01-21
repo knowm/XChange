@@ -19,22 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
+package com.xeiam.xchange.mtgox.v0.service.marketdata.polling;
 
 import java.util.List;
 
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v1.MtGoxV1;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v1.MtGoxV0;
 import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
@@ -42,7 +38,7 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Implementation of the market data service for Mt Gox V1
+ * Implementation of the market data service for Mt Gox V0
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
@@ -50,7 +46,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private final MtGoxV1 mtGoxV1;
+  private final MtGoxV0 mtGoxV0;
 
   /**
    * Constructor
@@ -60,57 +56,35 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
+    this.mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getUri());
   }
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency) {
 
-    verify(tradableIdentifier, currency);
-
-    // Request data
-    MtGoxTicker mtGoxTicker = mtGoxV1.getTicker(tradableIdentifier, currency);
-
-    // Adapt to XChange DTOs
-    return MtGoxAdapters.adaptTicker(mtGoxTicker);
+    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
   }
 
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
-    verify(tradableIdentifier, currency);
+    // TODO: implement the V0 orderBook here
+    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
 
-    // Request data
-    MtGoxDepth mtgoxDepth = mtGoxV1.getDepth(tradableIdentifier, currency);
-
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, "ask", "");
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, "bid", "");
-
-    return new OrderBook(asks, bids);
   }
 
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-    verify(tradableIdentifier, currency);
+    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
 
-    MtGoxDepth mtgoxFullDepth = mtGoxV1.getFullDepth(tradableIdentifier, currency);
-
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
-
-    return new OrderBook(asks, bids);
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
 
-    // Request data
-    MtGoxTrade[] mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
+    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
 
-    return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }
 
   /**
