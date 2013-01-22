@@ -31,11 +31,24 @@ package com.xeiam.xchange.service;
  */
 public enum ExchangeEventType {
 
+  // Connection messages
+
   /**
    * Issued when the upstream server has connected
    */
   CONNECT,
 
+  /**
+   * The upstream server has disconnected
+   */
+  DISCONNECT,
+
+  /**
+   * Represents an error condition
+   */
+  ERROR,
+
+  // Generic message types
   /**
    * A message encoding some plain text
    */
@@ -51,15 +64,12 @@ public enum ExchangeEventType {
    */
   EVENT,
 
-  /**
-   * Represents an error condition
-   */
-  ERROR,
+  // Specific message types to assist consumer processing
 
   /**
-   * The upstream server has disconnected
+   * A message with a Ticker payload
    */
-  DISCONNECT,
+  TICKER,
 
   /* End of enum */
   ;

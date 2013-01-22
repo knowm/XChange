@@ -21,19 +21,18 @@
  */
 package com.xeiam.xchange.service;
 
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.streaming.socketio.SocketIO;
+import com.xeiam.xchange.utils.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.streaming.socketio.SocketIO;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -55,7 +54,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   /**
    * The event queue for the consumer
    */
-  private final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+  protected final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
 
   protected SocketIO socketIO;
 
@@ -137,8 +136,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   }
 
   @Override
-  public BlockingQueue<ExchangeEvent> getEventQueue() {
-
+  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency) {
     return consumerEventQueue;
   }
 }

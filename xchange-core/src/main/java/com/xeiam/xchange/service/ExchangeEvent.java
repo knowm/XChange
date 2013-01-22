@@ -32,7 +32,12 @@ package com.xeiam.xchange.service;
 public interface ExchangeEvent {
 
   /**
-   * @return The data provided by the upstream server
+   * @return The processed data provided by the upstream server (can be null)
+   */
+  Object getPayload();
+
+  /**
+   * @return The raw data provided by the upstream server
    */
   String getData();
 

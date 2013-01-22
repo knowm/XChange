@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.service.marketdata.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.StreamingExchangeService;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -46,7 +46,9 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
    * @param tradableIdentifier The tradeable identifier (e.g. "Bitcoin")
    * @param currency The currency symbol
    * @return A blocking queue consisting of received Ticker objects
+   * @deprecated Use the event queue instead and listen for TICKER events
    */
+  @Deprecated
   BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, String currency);
 
   /**

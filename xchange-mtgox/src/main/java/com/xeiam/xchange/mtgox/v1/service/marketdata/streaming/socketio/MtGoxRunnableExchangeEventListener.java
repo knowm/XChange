@@ -21,20 +21,21 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.rest.JSONUtils;
+import com.xeiam.xchange.service.DefaultExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -86,7 +87,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
       log.debug("JSON message. Length=" + exchangeEvent.getData().length());
 
       // Get raw JSON
-      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(new String(exchangeEvent.getData()), tickerObjectMapper);
+      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), tickerObjectMapper);
 
       // Determine what has been sent
       if (rawJSON.containsKey("ticker")) {
@@ -97,7 +98,12 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
         // Adapt to XChange DTOs
         Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
 
+        // TODO Remove this once ticker queue is removed
         addToTickerQueue(ticker);
+
+        // Create a ticker event
+        ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
+        addToEventQueue(tickerEvent);
       } else {
         log.debug("MtGox operational message");
         addToEventQueue(exchangeEvent);

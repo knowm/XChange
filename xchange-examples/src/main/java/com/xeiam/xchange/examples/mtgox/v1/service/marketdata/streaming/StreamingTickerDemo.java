@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Test requesting streaming Ticker at MtGox
@@ -50,41 +50,30 @@ public class StreamingTickerDemo {
     // Interested in the public streaming market data feed (no authentication)
     StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
 
-    // Get blocking queue that receives streaming ticker data
-    BlockingQueue<Ticker> tickerQueue = streamingMarketDataService.getTickerQueue(Currencies.BTC, Currencies.USD);
-
-    // Get blocking queue that receives exchange event data
-    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue();
+    // Get blocking queue that receives exchange event data (this starts the event processing as well)
+    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD);
 
     try {
 
-      while (true) {
+      // Run for a limited number of events
+      for (int i = 0; i < 10; i++) {
 
-        // Exhaust exchange events first
-        while (!eventQueue.isEmpty()) {
-          ExchangeEvent exchangeEvent = eventQueue.take();
-          System.out.println("Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
+        // Monitor the exchange events
+        System.out.println("Waiting for exchange event...");
+        ExchangeEvent exchangeEvent = eventQueue.take();
+        System.out.println("Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
+        if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
+          System.out.println("+ Ticker event: " + exchangeEvent.getPayload().toString());
         }
 
-        // Check for Tickers
-        if (!tickerQueue.isEmpty()) {
-          doSomething(tickerQueue.take());
-        }
       }
+
+      // Disconnect and exit
+      streamingMarketDataService.disconnect();
 
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Do something fun with the streaming data!
-   * 
-   * @param ticker The market data ticker
-   */
-  private void doSomething(Ticker ticker) {
-
-    System.out.println(ticker.toString());
   }
 
 }

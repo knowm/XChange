@@ -22,33 +22,23 @@
  */
 package com.xeiam.xchange.streaming.socketio;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSocketFactory;
-
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * The Class IOConnection.
@@ -266,7 +256,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Set the socket factory used for SSL connections.
-   * 
+   *
    * @param socketFactory The socket factory
    */
   public static void setDefaultSSLSocketFactory(SSLSocketFactory socketFactory) {
@@ -276,9 +266,10 @@ class IOConnection implements IOCallback {
 
   /**
    * Creates a new connection or returns the corresponding one.
-   * 
+   *
    * @param origin the origin
    * @param socket the socket
+   *
    * @return a IOConnection object
    */
   static public IOConnection register(String origin, SocketIO socket) {
@@ -302,8 +293,9 @@ class IOConnection implements IOCallback {
 
   /**
    * Connects a socket to the IOConnection.
-   * 
+   *
    * @param socket the socket to be connected
+   *
    * @return true, if successfully registered on this transport, otherwise false.
    */
   public boolean register(SocketIO socket) {
@@ -321,7 +313,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Disconnect a socket from the IOConnection. Shuts down this IOConnection if no further connections are available for this IOConnection.
-   * 
+   *
    * @param socket the socket to be shut down
    */
   public void unregister(SocketIO socket) {
@@ -394,8 +386,9 @@ class IOConnection implements IOCallback {
 
   /**
    * Creates a new {@link IOAcknowledge} instance which sends its arguments back to the server.
-   * 
+   *
    * @param message the message
+   *
    * @return an {@link IOAcknowledge} instance, may be <code>null</code> if server doesn't request one.
    */
   private IOAcknowledge remoteAcknowledge(IOMessage message) {
@@ -427,9 +420,9 @@ class IOConnection implements IOCallback {
 
   /**
    * adds an {@link IOAcknowledge} to an {@link IOMessage}.
-   * 
+   *
    * @param message the {@link IOMessage}
-   * @param ack the {@link IOAcknowledge}
+   * @param ack     the {@link IOAcknowledge}
    */
   private void synthesizeAck(IOMessage message, IOAcknowledge ack) {
 
@@ -442,8 +435,8 @@ class IOConnection implements IOCallback {
 
   /**
    * Instantiates a new IOConnection.
-   * 
-   * @param url the URL
+   *
+   * @param url    the URL
    * @param socket the socket
    */
   private IOConnection(String url, SocketIO socket) {
@@ -484,7 +477,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Populates an error to the connected {@link IOCallback}s and shuts down.
-   * 
+   *
    * @param e an exception
    */
   protected void error(SocketIOException e) {
@@ -501,7 +494,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Sends a plain message to the {@link IOTransport}.
-   * 
+   *
    * @param text the Text to be send.
    */
   private void sendPlain(String text) {
@@ -546,9 +539,11 @@ class IOConnection implements IOCallback {
 
   /**
    * finds the corresponding callback object to an incoming message. Returns a dummy callback if no corresponding callback can be found
-   * 
+   *
    * @param message the message
+   *
    * @return the iO callback
+   *
    * @throws SocketIOException
    */
   private IOCallback findCallback(IOMessage message) throws SocketIOException {
@@ -615,7 +610,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Transport error.
-   * 
+   *
    * @param error the error {@link IOTransport} calls this, when an exception has occurred and the transport is not usable anymore.
    */
   public void transportError(Exception error) {
@@ -627,7 +622,7 @@ class IOConnection implements IOCallback {
 
   /**
    * {@link IOTransport} should call this function if it does not support framing. If it does, transportMessage should be used
-   * 
+   *
    * @param text the text
    */
   public void transportData(String text) {
@@ -655,7 +650,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Transport message. {@link IOTransport} calls this, when a message has been received.
-   * 
+   *
    * @param text the text
    */
   public void transportMessage(String text) {
@@ -671,117 +666,84 @@ class IOConnection implements IOCallback {
     }
     resetTimeout();
     switch (message.getType()) {
-    case IOMessage.TYPE_DISCONNECT:
-      try {
-        findCallback(message).onDisconnect();
-      } catch (Exception e) {
-        error(new SocketIOException("Exception was thrown in onDisconnect()", e));
-      }
-      break;
-    case IOMessage.TYPE_CONNECT:
-      try {
-        if (firstSocket != null && "".equals(message.getEndpoint())) {
-          if (firstSocket.getNamespace().equals("")) {
-            firstSocket.getCallback().onConnect();
-          } else {
-            IOMessage connect = new IOMessage(IOMessage.TYPE_CONNECT, firstSocket.getNamespace(), "");
-            sendPlain(connect.toString());
-          }
-        } else {
-          findCallback(message).onConnect();
+      case IOMessage.TYPE_DISCONNECT:
+        try {
+          findCallback(message).onDisconnect();
+        } catch (Exception e) {
+          error(new SocketIOException("Exception was thrown in onDisconnect()", e));
         }
-        firstSocket = null;
-      } catch (Exception e) {
-        error(new SocketIOException("Exception was thrown in onConnect()", e));
-      }
-      break;
-    case IOMessage.TYPE_HEARTBEAT:
-      sendPlain("2::");
-      break;
-    case IOMessage.TYPE_MESSAGE:
-      try {
-        findCallback(message).onMessage(message.getData(), remoteAcknowledge(message));
-      } catch (Exception e) {
-        error(new SocketIOException("Exception was thrown in onMessage(String).\n" + "Message was: " + message.toString(), e));
-      }
-      break;
-    case IOMessage.TYPE_JSON_MESSAGE:
+        break;
+      case IOMessage.TYPE_CONNECT:
+        try {
+          if (firstSocket != null && "".equals(message.getEndpoint())) {
+            if (firstSocket.getNamespace().equals("")) {
+              firstSocket.getCallback().onConnect();
+            } else {
+              IOMessage connect = new IOMessage(IOMessage.TYPE_CONNECT, firstSocket.getNamespace(), "");
+              sendPlain(connect.toString());
+            }
+          } else {
+            findCallback(message).onConnect();
+          }
+          firstSocket = null;
+        } catch (Exception e) {
+          error(new SocketIOException("Exception was thrown in onConnect()", e));
+        }
+        break;
+      case IOMessage.TYPE_HEARTBEAT:
+        sendPlain("2::");
+        break;
+      case IOMessage.TYPE_MESSAGE:
+        try {
+          findCallback(message).onMessage(message.getData(), remoteAcknowledge(message));
+        } catch (Exception e) {
+          error(new SocketIOException("Exception was thrown in onMessage(String).\n" + "Message was: " + message.toString(), e));
+        }
+        break;
+      case IOMessage.TYPE_JSON_MESSAGE:
 
-      // TODO perhaps try to catch this exception later instead of parsing the json string twice, just trust that it's really JSON.
-      try {
-        // test if JSON is valid by catching a parse Exception
-        objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
-        });
-        findCallback(message).onJSONMessage(message.getData(), remoteAcknowledge(message));
-      } catch (JsonParseException e) {
-        log.warn("Malformated JSON received: " + message.getData());
-      } catch (Exception e) {
-        error(new SocketIOException("Exception was thrown in onMessage(JSON).\n" + "Message was: " + message.toString(), e));
-      }
+        // TODO perhaps try to catch this exception later instead of parsing the json string twice, just trust that it's really JSON.
+        try {
+          // test if JSON is valid by catching a parse Exception
+          objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
+          });
+          findCallback(message).onJSONMessage(message.getData(), remoteAcknowledge(message));
+        } catch (JsonParseException e) {
+          log.warn("Malformated JSON received: " + message.getData());
+        } catch (Exception e) {
+          error(new SocketIOException("Exception was thrown in onMessage(JSON).\n" + "Message was: " + message.toString(), e));
+        }
 
-      break;
-    case IOMessage.TYPE_EVENT:
+        break;
+      case IOMessage.TYPE_EVENT:
 
-      try {
+        try {
 
-        Map<String, Object> map = objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
-        });
-
-        Object[] argsArray;
-        if (map.containsKey("args")) {
-
-          Object argsString = map.get("args");
-          List<Object> argObjects = objectMapper.readValue(argsString.toString(), new TypeReference<List<Object>>() {
+          Map<String, Object> map = objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
           });
 
-          argsArray = new Object[argObjects.size()];
-          for (int i = 0; i < argObjects.size(); i++) {
-            if (argObjects.get(i) != null) {
-              argsArray[i] = argObjects.get(i);
-            }
-          }
-        } else {
-          argsArray = new Object[0];
-        }
-        String eventName = map.get("name").toString();
-        try {
-          findCallback(message).on(eventName, remoteAcknowledge(message), argsArray);
-        } catch (Exception e) {
-          error(new SocketIOException("Exception was thrown in on(String, JSON[]).\n" + "Message was: " + message.toString(), e));
-        }
-      } catch (JsonParseException e) {
-        log.warn("Malformated JSON received: " + message.getData());
-      } catch (JsonMappingException e) {
-        log.warn("Mapping JSON received: " + message.getData());
-      } catch (IOException e) {
-        log.warn("IO Exception: " + message.getData());
-      }
-      break;
+          Object[] argsArray;
+          if (map.containsKey("args")) {
 
-    case IOMessage.TYPE_ACK:
-
-      String[] data = message.getData().split("\\+", 2);
-      if (data.length == 2) {
-        try {
-          int id = Integer.parseInt(data[0]);
-          IOAcknowledge ack = acknowledge.get(id);
-          if (ack == null) {
-            log.warn("Received unknown ack packet");
-          } else {
-
-            List<Object> argObjects = objectMapper.readValue(data[1].toString(), new TypeReference<List<Object>>() {
+            Object argsString = map.get("args");
+            List<Object> argObjects = objectMapper.readValue(argsString.toString(), new TypeReference<List<Object>>() {
             });
-            Object[] argsArray = new Object[argObjects.size()];
+
+            argsArray = new Object[argObjects.size()];
             for (int i = 0; i < argObjects.size(); i++) {
               if (argObjects.get(i) != null) {
                 argsArray[i] = argObjects.get(i);
               }
             }
-            ack.ack(argsArray);
-
+          } else {
+            argsArray = new Object[0];
           }
-        } catch (NumberFormatException e) {
-          log.warn("Received malformated Acknowledge! This is potentially filling up the acknowledges!");
+          String eventName = map.get("name").toString();
+          try {
+            findCallback(message).on(eventName, remoteAcknowledge(message), argsArray);
+          } catch (Exception e) {
+            error(new SocketIOException("Exception was thrown in on(String, JSON[]).\n" + "Message was: " + message.toString(), e));
+          }
         } catch (JsonParseException e) {
           log.warn("Malformated JSON received: " + message.getData());
         } catch (JsonMappingException e) {
@@ -789,26 +751,59 @@ class IOConnection implements IOCallback {
         } catch (IOException e) {
           log.warn("IO Exception: " + message.getData());
         }
-      } else if (data.length == 1) {
-        sendPlain("6:::" + data[0]);
-      }
-      break;
-    case IOMessage.TYPE_ERROR:
-      try {
-        findCallback(message).onError(new SocketIOException(message.getData()));
-      } catch (SocketIOException e) {
-        error(e);
-      }
-      if (message.getData().endsWith("+0")) {
-        // We are advised to disconnect
-        cleanup();
-      }
-      break;
-    case IOMessage.TYPE_NOOP:
-      break;
-    default:
-      log.warn("Unkown type received" + message.getType());
-      break;
+        break;
+
+      case IOMessage.TYPE_ACK:
+
+        String[] data = message.getData().split("\\+", 2);
+        if (data.length == 2) {
+          try {
+            int id = Integer.parseInt(data[0]);
+            IOAcknowledge ack = acknowledge.get(id);
+            if (ack == null) {
+              log.warn("Received unknown ack packet");
+            } else {
+
+              List<Object> argObjects = objectMapper.readValue(data[1].toString(), new TypeReference<List<Object>>() {
+              });
+              Object[] argsArray = new Object[argObjects.size()];
+              for (int i = 0; i < argObjects.size(); i++) {
+                if (argObjects.get(i) != null) {
+                  argsArray[i] = argObjects.get(i);
+                }
+              }
+              ack.ack(argsArray);
+
+            }
+          } catch (NumberFormatException e) {
+            log.warn("Received malformated Acknowledge! This is potentially filling up the acknowledges!");
+          } catch (JsonParseException e) {
+            log.warn("Malformated JSON received: " + message.getData());
+          } catch (JsonMappingException e) {
+            log.warn("Mapping JSON received: " + message.getData());
+          } catch (IOException e) {
+            log.warn("IO Exception: " + message.getData());
+          }
+        } else if (data.length == 1) {
+          sendPlain("6:::" + data[0]);
+        }
+        break;
+      case IOMessage.TYPE_ERROR:
+        try {
+          findCallback(message).onError(new SocketIOException(message.getData()));
+        } catch (SocketIOException e) {
+          error(e);
+        }
+        if (message.getData().endsWith("+0")) {
+          // We are advised to disconnect
+          cleanup();
+        }
+        break;
+      case IOMessage.TYPE_NOOP:
+        break;
+      default:
+        log.warn("Unkown type received" + message.getType());
+        break;
     }
   }
 
@@ -827,14 +822,19 @@ class IOConnection implements IOCallback {
           reconnectTask.cancel();
         }
         reconnectTask = new ReconnectTask();
-        backgroundTimer.schedule(reconnectTask, 1000);
+        try {
+          backgroundTimer.schedule(reconnectTask, 1000);
+        } catch (IllegalStateException e) {
+          // Probably a race condition
+          setState(STATE_INVALID);
+        }
       }
     }
   }
 
   /**
    * Returns the session id. This should be called from a {@link IOTransport}
-   * 
+   *
    * @return the session id to connect to the right Session.
    */
   public String getSessionId() {
@@ -844,10 +844,10 @@ class IOConnection implements IOCallback {
 
   /**
    * sends a String message from {@link SocketIO} to the {@link IOTransport}.
-   * 
+   *
    * @param socket the socket
-   * @param ack acknowledge package which can be called from the server
-   * @param text the text
+   * @param ack    acknowledge package which can be called from the server
+   * @param text   the text
    */
   public void send(SocketIO socket, IOAcknowledge ack, String text) {
 
@@ -858,11 +858,11 @@ class IOConnection implements IOCallback {
 
   /**
    * emits an event from {@link SocketIO} to the {@link IOTransport}.
-   * 
+   *
    * @param socket the socket
-   * @param event the event
-   * @param ack acknowledge package which can be called from the server
-   * @param args the arguments to be send
+   * @param event  the event
+   * @param ack    acknowledge package which can be called from the server
+   * @param args   the arguments to be send
    */
   public void emit(SocketIO socket, String event, IOAcknowledge ack, Object... args) {
 
@@ -886,7 +886,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Checks if IOConnection is currently connected.
-   * 
+   *
    * @return true, if is connected
    */
   public boolean isConnected() {
@@ -896,7 +896,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Gets the current state of this IOConnection.
-   * 
+   *
    * @return current state
    */
   private synchronized int getState() {
@@ -906,7 +906,7 @@ class IOConnection implements IOCallback {
 
   /**
    * Sets the current state of this IOConnection.
-   * 
+   *
    * @param state the new state
    */
   private synchronized void setState(int state) {
@@ -916,7 +916,7 @@ class IOConnection implements IOCallback {
 
   /**
    * gets the currently used transport.
-   * 
+   *
    * @return currently used transport
    */
   public IOTransport getTransport() {

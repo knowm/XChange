@@ -63,22 +63,30 @@ public interface StreamingExchangeService {
   RunnableExchangeEventProducer getRunnableExchangeEventProducer();
 
   /**
-   * @param runnableMarketDataEventProducer The runnable market data event producer
+   * @param runnableMarketDataEventProducer
+   *         The runnable market data event producer
    */
   void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
 
   /**
    * @return True if the streaming channel is connected
+   *
    * @deprecated In favour of tracking the ExchangeEventType instead
    */
   @Deprecated
   boolean isConnected();
 
   /**
-   * The consumer exchange event queue
-   * 
-   * @return A blocking queue consisting of raw exchange events (such as connect/disconnect notifications)
+   * <p></p>The consumer exchange event queue containing events as follows:
+   * <ul>
+   * <li>Connect/disconnect events</li>
+   * <li>Ticker events (with Ticker embedded)</li>
+   * </ul>
+   *
+   * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
+   * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
+   * @return A blocking queue
    */
-  BlockingQueue<ExchangeEvent> getEventQueue();
+  BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency);
 
 }

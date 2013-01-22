@@ -28,8 +28,12 @@ package com.xeiam.xchange.service;
  */
 public class DefaultExchangeEvent implements ExchangeEvent {
 
+  // Mandatory fields
   protected final ExchangeEventType exchangeEventType;
   protected final String data;
+
+  // Optional fields
+  protected Object payload=null;
 
   /**
    * @param exchangeEventType The exchange event type
@@ -39,6 +43,21 @@ public class DefaultExchangeEvent implements ExchangeEvent {
 
     this.exchangeEventType = exchangeEventType;
     this.data = data;
+  }
+
+  /**
+   * @param exchangeEventType The exchange event type
+   * @param data The raw message content (original reference is kept)
+   * @param payload The processed message content (e.g. a Ticker)
+   */
+  public DefaultExchangeEvent(ExchangeEventType exchangeEventType, String data, Object payload) {
+    this(exchangeEventType,data);
+    this.payload = payload;
+  }
+
+  @Override
+  public Object getPayload() {
+    return payload;
   }
 
   @Override
