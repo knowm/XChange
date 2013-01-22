@@ -107,4 +107,11 @@ public final class BitcoinCentralTicker {
     return this.volume;
   }
 
+  @Override
+  public String toString() {
+
+    return "BitcoinCentralTicker [ask=" + ask + ", at=" + at + ", bid=" + bid + ", currency=" + currency + ", high=" + high + ", low=" + low + ", midpoint=" + midpoint + ", price=" + price
+        + ", variation=" + variation + ", volume=" + volume + "]";
+  }
+
 }

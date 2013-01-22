@@ -34,11 +34,14 @@ import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BidAsk;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.MoneyUtils;
@@ -104,6 +107,13 @@ public final class BitcoinCentralAdapters {
     return new OrderBook(asks, bids);
   }
 
+  /**
+   * @param tradableIdentifier
+   * @param currency
+   * @param orderType
+   * @param orders
+   * @return
+   */
   private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<BidAsk> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -113,4 +123,22 @@ public final class BitcoinCentralAdapters {
     return limitOrders;
   }
 
+  /**
+   * Adapts a BitcoinCentralTrade[] to Trades DTO
+   * 
+   * @param bitcoinCentralTrades
+   * @param currency
+   * @param tradableIdentifier
+   * @return
+   */
+  // TODO implement timestamp after bitcoin central provides a better timestamp
+  public static Trades adaptTrades(BitcoinCentralTrade[] bitcoinCentralTrades, String currency, String tradableIdentifier) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    for (BitcoinCentralTrade bitcoinCentralTrade : bitcoinCentralTrades) {
+      trades.add(new Trade(null, bitcoinCentralTrade.getTradedBtc(), tradableIdentifier, bitcoinCentralTrade.getCurrency(), BigMoney.of(CurrencyUnit.of(bitcoinCentralTrade.getCurrency()),
+          bitcoinCentralTrade.getPpc()), null));
+    }
+    return new Trades(trades);
+  }
 }

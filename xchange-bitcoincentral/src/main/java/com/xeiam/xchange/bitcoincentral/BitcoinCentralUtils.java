@@ -32,6 +32,8 @@ import com.xeiam.xchange.CurrencyPair;
  */
 public final class BitcoinCentralUtils {
 
+  // private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+
   /**
    * private Constructor
    */
@@ -59,5 +61,20 @@ public final class BitcoinCentralUtils {
 
     return CURRENCY_PAIRS.contains(currencyPair);
   }
+
+  // /**
+  // * Format a date String for Bitstamp
+  // *
+  // * @param dateString
+  // * @return
+  // */
+  // public static Date parseDate(String dateString) {
+  //
+  // try {
+  // return DATE_FORMAT.parse(dateString);
+  // } catch (ParseException e) {
+  // throw new ExchangeException("Illegal date/time format", e);
+  // }
+  // }
 
 }

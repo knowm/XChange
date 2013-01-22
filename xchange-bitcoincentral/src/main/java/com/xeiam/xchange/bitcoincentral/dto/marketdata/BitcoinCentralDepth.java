@@ -55,4 +55,10 @@ public final class BitcoinCentralDepth {
     return this.bids;
   }
 
+  @Override
+  public String toString() {
+
+    return "BitcoinCentralDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+  }
+
 }

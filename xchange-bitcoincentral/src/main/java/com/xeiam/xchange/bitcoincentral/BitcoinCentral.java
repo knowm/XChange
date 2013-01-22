@@ -35,6 +35,7 @@ import javax.ws.rs.core.MediaType;
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralMyOrder;
 import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
 import com.xeiam.xchange.rest.BasicAuthCredentials;
@@ -87,5 +88,5 @@ public interface BitcoinCentral {
 
   @GET
   @Path("trades")
-  Object getTrades(@QueryParam("currency") String currency, @QueryParam("per_page") int perPage);
+  BitcoinCentralTrade[] getTrades(@QueryParam("currency") String currency, @QueryParam("per_page") int perPage);
 }

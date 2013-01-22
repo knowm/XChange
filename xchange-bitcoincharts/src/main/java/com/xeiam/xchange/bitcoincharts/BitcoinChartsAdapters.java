@@ -66,6 +66,7 @@ public final class BitcoinChartsAdapters {
 
       }
     }
+    // TODO check on this logic returning null
     return null;
 
   }

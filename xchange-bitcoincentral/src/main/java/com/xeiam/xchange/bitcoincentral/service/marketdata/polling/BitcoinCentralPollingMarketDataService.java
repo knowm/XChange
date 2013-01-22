@@ -24,9 +24,6 @@ package com.xeiam.xchange.bitcoincentral.service.marketdata.polling;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -35,6 +32,7 @@ import com.xeiam.xchange.bitcoincentral.BitcoinCentralAdapters;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralUtils;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -47,8 +45,6 @@ import com.xeiam.xchange.utils.Assert;
  * @author Matija Mazi
  */
 public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private static final Logger log = LoggerFactory.getLogger(BitcoinCentralPollingMarketDataService.class);
 
   private BitcoinCentral bitcoincentral;
 
@@ -93,8 +89,8 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
   public Trades getTrades(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
-    Object trades = bitcoincentral.getTrades(currency, 5);
-    return null;
+    BitcoinCentralTrade[] bitcoinCentralTrades = bitcoincentral.getTrades(currency, 5);
+    return BitcoinCentralAdapters.adaptTrades(bitcoinCentralTrades, currency, tradableIdentifier);
   }
 
   /**

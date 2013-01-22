@@ -28,53 +28,79 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * @author timmolter
  */
-public final class BidAsk {
+public final class BitcoinCentralTrade {
 
-  private final BigDecimal amount;
+  private final String category;
+  private final String createdAt;
   private final String currency;
-  private final BigDecimal price;
-  private final BigDecimal timestamp;
+  private final BigDecimal id;
+  private final BigDecimal ppc;
+  private final BigDecimal tradedBtc;
+  private final BigDecimal tradedCurrency;
 
   /**
    * Constructor
    * 
-   * @param amount
+   * @param category
+   * @param createdAt
    * @param currency
-   * @param price
-   * @param timestamp
+   * @param id
+   * @param ppc
+   * @param tradedBtc
+   * @param tradedCurrency
    */
-  public BidAsk(@JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("price") BigDecimal price, @JsonProperty("timestamp") BigDecimal timestamp) {
+  public BitcoinCentralTrade(@JsonProperty("category") String category, @JsonProperty("created_at") String createdAt, @JsonProperty("currency") String currency, @JsonProperty("id") BigDecimal id,
+      @JsonProperty("ppc") BigDecimal ppc, @JsonProperty("traded_btc") BigDecimal tradedBtc, @JsonProperty("traded_currency") BigDecimal tradedCurrency) {
 
-    this.amount = amount;
+    this.category = category;
+    this.createdAt = createdAt;
     this.currency = currency;
-    this.price = price;
-    this.timestamp = timestamp;
+    this.id = id;
+    this.ppc = ppc;
+    this.tradedBtc = tradedBtc;
+    this.tradedCurrency = tradedCurrency;
   }
 
-  public BigDecimal getAmount() {
+  public String getCategory() {
 
-    return this.amount;
+    return category;
+  }
+
+  public String getCreatedAt() {
+
+    return createdAt;
   }
 
   public String getCurrency() {
 
-    return this.currency;
+    return currency;
   }
 
-  public BigDecimal getPrice() {
+  public BigDecimal getId() {
 
-    return this.price;
+    return id;
   }
 
-  public BigDecimal getTimestamp() {
+  public BigDecimal getPpc() {
 
-    return this.timestamp;
+    return ppc;
+  }
+
+  public BigDecimal getTradedBtc() {
+
+    return tradedBtc;
+  }
+
+  public BigDecimal getTradedCurrency() {
+
+    return tradedCurrency;
   }
 
   @Override
   public String toString() {
 
-    return "BidAsk [amount=" + amount + ", currency=" + currency + ", price=" + price + ", timestamp=" + timestamp + "]";
+    return "BitcoinCentralTrades [category=" + category + ", createdAt=" + createdAt + ", currency=" + currency + ", id=" + id + ", ppc=" + ppc + ", tradedBtc=" + tradedBtc + ", tradedCurrency="
+        + tradedCurrency + "]";
   }
 
 }
