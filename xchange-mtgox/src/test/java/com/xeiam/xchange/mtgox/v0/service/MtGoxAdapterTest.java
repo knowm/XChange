@@ -21,20 +21,31 @@
  */
 package com.xeiam.xchange.mtgox.v0.service;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v0.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
+import com.xeiam.xchange.mtgox.v0.service.MtGoxAdapterTest;
+import com.xeiam.xchange.utils.DateUtils;
+import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Tests the VirtExAdapter class
@@ -62,6 +73,52 @@ public class MtGoxAdapterTest {
     assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
 
+  }
+  
+  @Test
+  public void testTickerAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data-v0.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
+
+    Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker, "USD", "BTC");
+    // System.out.println(ticker.toString());
+
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parseFiat("USD 16.800000000000001"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parseFiat("USD 16.79036"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parseFiat("USD 16.800000000000001"))));
+    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("60418"))));
+
+  }
+  
+  @Test
+  public void testTradeAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data-v0.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    MtGoxTrades[] mtGoxTrades = mapper.readValue(is, MtGoxTrades[].class);
+
+    Trades trades = MtGoxAdapters.adaptTrades(mtGoxTrades);
+    System.out.println(trades.getTrades().size());
+    assertTrue("Trades size should be 609", trades.getTrades().size() == 609);
+
+    // verify all fields filled
+    // System.out.println(trades.getTrades().get(0).toString());
+    assertTrue("price should be 16.75", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 16.75);
+    assertTrue("order type should be Bid", trades.getTrades().get(0).getType() == OrderType.BID);
+    assertTrue("tradableAmount should be 0.09910328", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.09910328);
+    assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("transactionCurrency should be USD", trades.getTrades().get(0).getTransactionCurrency().equals("USD"));
+    // Unix 1358803625 = Mon, 21 Jan 2013 21:27:05 GMT
+    assertThat("2013-01-21 21:27:05 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
+    
   }
 
 }

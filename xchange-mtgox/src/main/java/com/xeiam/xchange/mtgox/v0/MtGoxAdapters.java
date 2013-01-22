@@ -23,13 +23,22 @@ package com.xeiam.xchange.mtgox.v0;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
+import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
@@ -83,6 +92,55 @@ public final class MtGoxAdapters {
     }
 
     return limitOrders;
+  }
+  
+
+  /**
+   * Adapts a MtGoxTrade to a Trade Object
+   * 
+   * @param mtGoxTrade
+   * @return
+   */
+  public static Trade adaptTrade(MtGoxTrades mtGoxTrade) {
+
+    OrderType orderType = mtGoxTrade.getTrade_type().equals("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = new BigDecimal(mtGoxTrade.getAmount_int()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    String tradableIdentifier = mtGoxTrade.getItem();
+    String transactionCurrency = mtGoxTrade.getPrice_currency();
+    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPrice_int());
+
+    Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
+
+    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
+  }
+
+  /**
+   * Adapts a MtGoxTrade[] to a Trades Object
+   * 
+   * @param mtGoxTrades
+   * @return
+   */
+  public static Trades adaptTrades(MtGoxTrades[] mtGoxTrades) {
+
+    List<Trade> tradesList = new ArrayList<Trade>();
+    for (int i = 0; i < mtGoxTrades.length; i++) {
+
+      tradesList.add(adaptTrade(mtGoxTrades[i]));
+    }
+    return new Trades(tradesList);
+  }
+
+  public static Ticker adaptTicker(MtGoxTicker mtGoxTicker, String currency, String tradableIdentifier) {
+
+    BigMoney last = MoneyUtils.parseFiat(currency + " " + mtGoxTicker.getTicker().getLast());
+    BigMoney bid = MoneyUtils.parseFiat(currency + " " + mtGoxTicker.getTicker().getBuy());
+    BigMoney ask = MoneyUtils.parseFiat(currency + " " + mtGoxTicker.getTicker().getSell());
+    BigMoney high = MoneyUtils.parseFiat(currency + " " + mtGoxTicker.getTicker().getHigh());
+    BigMoney low = MoneyUtils.parseFiat(currency + " " + mtGoxTicker.getTicker().getLow());
+    BigDecimal volume = mtGoxTicker.getTicker().getVol();
+
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+
   }
 
 }

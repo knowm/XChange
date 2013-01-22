@@ -32,8 +32,10 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v0.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxV0;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
@@ -64,8 +66,14 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency) {
+	  	verify(tradableIdentifier, currency);
 
-    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
+	    // Request data
+	    MtGoxTicker mtGoxTicker = mtGoxV0.getTicker(currency);
+
+	    // Adapt to XChange DTOs
+	    return MtGoxAdapters.adaptTicker(mtGoxTicker, currency, tradableIdentifier);
+   
   }
 
   @Override
@@ -93,8 +101,12 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
 
-    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
+	    verify(tradableIdentifier, currency);
 
+	    // Request data
+	    MtGoxTrades[] mtGoxTrades = mtGoxV0.getTrades(currency);
+
+	    return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }
 
   /**
