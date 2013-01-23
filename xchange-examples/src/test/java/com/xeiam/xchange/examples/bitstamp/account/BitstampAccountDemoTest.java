@@ -37,7 +37,6 @@ import com.xeiam.xchange.OnlineTest;
  * <li>Get the bitcoin deposit address</li>
  * </ul>
  */
-
 @Category(OnlineTest.class)
 public class BitstampAccountDemoTest {
 

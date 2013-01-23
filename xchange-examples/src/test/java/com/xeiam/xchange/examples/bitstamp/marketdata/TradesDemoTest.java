@@ -30,7 +30,6 @@ import com.xeiam.xchange.OnlineTest;
 /**
  * Demonstrate requesting Order Book at Bitstamp
  */
-
 @Category(OnlineTest.class)
 public class TradesDemoTest {
 

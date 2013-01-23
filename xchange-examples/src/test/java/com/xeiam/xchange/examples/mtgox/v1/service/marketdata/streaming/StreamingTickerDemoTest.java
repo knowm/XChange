@@ -30,7 +30,6 @@ import com.xeiam.xchange.OnlineTest;
 /**
  * Test requesting streaming Ticker at MtGox
  */
-
 @Category(OnlineTest.class)
 public class StreamingTickerDemoTest {
 
