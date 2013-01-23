@@ -217,7 +217,7 @@ public class SocketIO {
    * Emits an event to the Socket.IO server. If the connection is not established, the call will be buffered and sent as soon as it is possible.
    * 
    * @param event the event name
-   * @param args arguments. can be any argument {@link org.json.JSONArray#put(Object)} can take.
+   * @param args arguments.
    */
   public void emit(final String event, final Object... args) {
 
