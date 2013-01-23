@@ -109,7 +109,7 @@ public class HttpTemplate {
    * @return An HttpURLConnection based on the given parameters
    * @throws IOException If something goes wrong
    */
-  private URLConnection configureURLConnection(HttpMethod method, String urlString, Map<String, String> httpHeaders, int contentLength) throws IOException {
+  private HttpURLConnection configureURLConnection(HttpMethod method, String urlString, Map<String, String> httpHeaders, int contentLength) throws IOException {
 
     Assert.notNull(method, "method cannot be null");
     Assert.notNull(method, "urlString cannot be null");
@@ -171,7 +171,7 @@ public class HttpTemplate {
     log.trace("Request headers = {}", httpHeaders);
 
     String responseString = "";
-    URLConnection connection = null;
+    HttpURLConnection connection = null;
     try {
       int contentLength = requestBody == null ? 0 : requestBody.length();
       connection = configureURLConnection(method, urlString, httpHeaders, contentLength);
@@ -181,9 +181,12 @@ public class HttpTemplate {
         connection.getOutputStream().write(requestBody.getBytes(CHARSET_UTF_8));
       }
 
-      // Minimise the impact of the HttpURLConnection on the job of getting the data
+      // Minimize the impact of the HttpURLConnection on the job of getting the data
       String responseEncoding = getResponseEncoding(connection);
       InputStream inputStream = connection.getInputStream();
+
+      int httpStatus = connection.getResponseCode();
+      log.debug("Request http status = {}", httpStatus);
 
       // Get the data
       responseString = readInputStreamAsEncodedString(inputStream, responseEncoding);
@@ -195,7 +198,7 @@ public class HttpTemplate {
     } finally {
       // This is a bit messy
       if (connection != null && connection instanceof HttpURLConnection) {
-        ((HttpURLConnection) connection).disconnect();
+        connection.disconnect();
       }
     }
 
