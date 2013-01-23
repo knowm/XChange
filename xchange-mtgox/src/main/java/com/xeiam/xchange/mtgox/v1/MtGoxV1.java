@@ -26,19 +26,19 @@ import com.xeiam.xchange.rest.ParamsDigest;
 public interface MtGoxV1 {
 
   @GET
-  @Path("/{ident}{currency}/public/ticker?raw")
+  @Path("{ident}{currency}/public/ticker?raw")
   MtGoxTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("/{ident}{currency}/public/depth?raw")
+  @Path("{ident}{currency}/public/depth?raw")
   MtGoxDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("/{ident}{currency}/public/fulldepth?raw")
+  @Path("{ident}{currency}/public/fulldepth?raw")
   MtGoxDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("/{ident}{currency}/public/trades?raw")
+  @Path("{ident}{currency}/public/trades?raw")
   MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @POST

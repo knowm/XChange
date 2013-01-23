@@ -20,15 +20,15 @@ import com.xeiam.xchange.rest.ParamsDigest;
 public interface MtGoxV0 {
 
   @GET
-  @Path("/data/getDepth.php?Currency={currency}")
+  @Path("data/getDepth.php?Currency={currency}")
   MtGoxDepth getFullDepth(@PathParam("currency") String currency);
 
   @GET
-  @Path("/data/ticker.php?Currency={currency}")
+  @Path("data/ticker.php?Currency={currency}")
   MtGoxTicker getTicker(@PathParam("currency") String currency);
 
   @GET
-  @Path("/data/getTrades.php?Currency={currency}")
+  @Path("data/getTrades.php?Currency={currency}")
   MtGoxTrades[] getTrades(@PathParam("currency") String currency);
 
   @POST
