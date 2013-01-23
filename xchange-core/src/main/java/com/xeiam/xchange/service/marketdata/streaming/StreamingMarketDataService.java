@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.service.marketdata.streaming;
 
+import java.util.concurrent.BlockingQueue;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.StreamingExchangeService;
-
-import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>

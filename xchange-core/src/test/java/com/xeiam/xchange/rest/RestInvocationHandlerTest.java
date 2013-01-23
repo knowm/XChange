@@ -90,8 +90,8 @@ public class RestInvocationHandlerTest {
     ExampleService proxy = RestProxyFactory.createProxy(ExampleService.class, testHandler);
 
     proxy.testJsonBody(Ticker.TickerBuilder.newInstance().withTradableIdentifier("BTC").withVolume(new BigDecimal("1023.23")).build());
-    assertEquals("{\"tradableIdentifier\":\"BTC\",\"last\":null,\"bid\":null,\"ask\":null,\"high\":null,\"low\":null,\"volume\":1023.23,\"timestamp\":",
-        testHandler.restRequestData.params.getRequestBody().substring(0, 114));
+    assertEquals("{\"tradableIdentifier\":\"BTC\",\"last\":null,\"bid\":null,\"ask\":null,\"high\":null,\"low\":null,\"volume\":1023.23,\"timestamp\":", testHandler.restRequestData.params
+        .getRequestBody().substring(0, 114));
 
   }
 

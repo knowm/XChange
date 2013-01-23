@@ -21,6 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
+import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -30,12 +37,6 @@ import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * <p>
@@ -77,6 +78,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   /**
    * Initiates a connection to Mt Gox
+   * 
    * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
    * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
    * @return The blocking queue of exchange events

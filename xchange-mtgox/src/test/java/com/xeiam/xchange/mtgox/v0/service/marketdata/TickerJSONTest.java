@@ -26,10 +26,8 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.junit.Test;
 
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;

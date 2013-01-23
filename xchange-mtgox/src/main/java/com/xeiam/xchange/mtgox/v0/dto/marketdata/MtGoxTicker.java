@@ -24,27 +24,28 @@ package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class MtGoxTicker{
-   	private Ticker ticker;
+public class MtGoxTicker {
 
-	  /**
-	   * Constructor
-	   * 
-	   * @param ticker
-	   */
-	  public MtGoxTicker(@JsonProperty("ticker") Ticker ticker) {
+  private Ticker ticker;
 
-	    this.ticker = ticker;
-	  }
+  /**
+   * Constructor
+   * 
+   * @param ticker
+   */
+  public MtGoxTicker(@JsonProperty("ticker") Ticker ticker) {
 
-	  public Ticker getTicker() {
+    this.ticker = ticker;
+  }
 
-	    return ticker;
-	  }
+  public Ticker getTicker() {
 
-	  @Override
-	  public String toString() {
+    return ticker;
+  }
 
-	    return "MtGoxTicker [ticker=" + ticker.toString() + "]";
-	  }
+  @Override
+  public String toString() {
+
+    return "MtGoxTicker [ticker=" + ticker.toString() + "]";
+  }
 }

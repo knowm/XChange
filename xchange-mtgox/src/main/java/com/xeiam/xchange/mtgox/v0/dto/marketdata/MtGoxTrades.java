@@ -27,88 +27,98 @@ import java.math.BigDecimal;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class MtGoxTrades {
-	private BigDecimal amount;
-	private long amount_int;
-	private long date;
-	private String item;
-	private BigDecimal price;
-	private String price_currency;
-	private long price_int;
-	private long tid;
-	private String trade_type;
-	
-	  /**
-	   * Constructor
-	   * 
-	   * @param amount
-	   * @param amountInt
-	   * @param date
-	   * @param item
-	   * @param price
-	   * @param priceCurrency
-	   * @param priceInt
-	   * @param tid
-	   * @param tradeType
-	   */
-	  public MtGoxTrades(@JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("date") long date, @JsonProperty("item") String item,
-	      @JsonProperty("price") BigDecimal price, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("price_int") long priceInt,
-	      @JsonProperty("tid") long tid, @JsonProperty("trade_type") String tradeType) {
 
-	    this.amount = amount;
-	    this.amount_int = amountInt;
-	    this.date = date;
-	    this.item = item;
-	    this.price = price;
-	    this.price_currency = priceCurrency;
-	    this.price_int = priceInt;
-	    this.tid = tid;
-	    this.trade_type = tradeType;
-	  }
+  private BigDecimal amount;
+  private long amount_int;
+  private long date;
+  private String item;
+  private BigDecimal price;
+  private String price_currency;
+  private long price_int;
+  private long tid;
+  private String trade_type;
 
-	public BigDecimal getAmount() {
-		return this.amount;
-	}
+  /**
+   * Constructor
+   * 
+   * @param amount
+   * @param amountInt
+   * @param date
+   * @param item
+   * @param price
+   * @param priceCurrency
+   * @param priceInt
+   * @param tid
+   * @param tradeType
+   */
+  public MtGoxTrades(@JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("date") long date, @JsonProperty("item") String item,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("price_int") long priceInt, @JsonProperty("tid") long tid,
+      @JsonProperty("trade_type") String tradeType) {
 
-	public long getAmount_int() {
-		return this.amount_int;
-	}
+    this.amount = amount;
+    this.amount_int = amountInt;
+    this.date = date;
+    this.item = item;
+    this.price = price;
+    this.price_currency = priceCurrency;
+    this.price_int = priceInt;
+    this.tid = tid;
+    this.trade_type = tradeType;
+  }
 
-	public long getDate() {
-		return this.date;
-	}
+  public BigDecimal getAmount() {
 
-	public String getItem() {
-		return this.item;
-	}
+    return this.amount;
+  }
 
-	public BigDecimal getPrice() {
-		return this.price;
-	}
+  public long getAmount_int() {
 
-	public String getPrice_currency() {
-		return this.price_currency;
-	}
+    return this.amount_int;
+  }
 
-	public long getPrice_int() {
-		return this.price_int;
-	}
+  public long getDate() {
 
-	public long getTid() {
-		return this.tid;
-	}
+    return this.date;
+  }
 
-	public String getTrade_type() {
-		return this.trade_type;
-	}
+  public String getItem() {
 
-	public void setTrade_type(String trade_type) {
-		this.trade_type = trade_type;
-	}
+    return this.item;
+  }
 
-	@Override
-	public String toString() {
+  public BigDecimal getPrice() {
 
-		return "MtGoxTrade [amount=" + amount + ", date=" + date + ", item="
-				+ item + ", price=" + price + ", tid=" + tid + "]";
-	}
+    return this.price;
+  }
+
+  public String getPrice_currency() {
+
+    return this.price_currency;
+  }
+
+  public long getPrice_int() {
+
+    return this.price_int;
+  }
+
+  public long getTid() {
+
+    return this.tid;
+  }
+
+  public String getTrade_type() {
+
+    return this.trade_type;
+  }
+
+  public void setTrade_type(String trade_type) {
+
+    this.trade_type = trade_type;
+  }
+
+  @Override
+  public String toString() {
+
+    return "MtGoxTrade [amount=" + amount + ", date=" + date + ", item=" + item + ", price=" + price + ", tid=" + tid + "]";
+  }
 }

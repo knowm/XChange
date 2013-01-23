@@ -28,13 +28,11 @@ import com.xeiam.xchange.utils.Base64;
 
 /**
  * @author Matija Mazi <br/>
- *
- * This is used as support for HTTP Basic access authentication. Should be used a parameter of a REST interface
- * method, annotated with @HeaderParam("Authorization"), eg:
- *
- * Result getResult(@HeaderParam("Authorization") BasicAuthCredentials credentials);
+ *         This is used as support for HTTP Basic access authentication. Should be used a parameter of a REST interface method, annotated with @HeaderParam("Authorization"), eg: Result
+ *         getResult(@HeaderParam("Authorization") BasicAuthCredentials credentials);
  */
 public class BasicAuthCredentials implements ParamsDigest {
+
   private final String username, password;
 
   public BasicAuthCredentials(String username, String password) {

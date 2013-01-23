@@ -26,81 +26,102 @@ import java.math.BigDecimal;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class Ticker{
-   	private BigDecimal avg;
-   	private BigDecimal buy;
-   	private BigDecimal high;
-   	private BigDecimal last;
-   	private BigDecimal last_all;
-   	private BigDecimal last_local;
-   	private BigDecimal low;
-   	private BigDecimal sell;
-   	private BigDecimal vol;
-   	private BigDecimal vwap;
-   	
-    /**
-     * Constructor
-     * 
-     * @param high
-     * @param low
-     * @param avg
-     * @param vwap
-     * @param vol
-     * @param last_local
-     * @param last
-     * @param last_all
-     * @param buy
-     * @param sell
-     */
-    public Ticker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("avg") BigDecimal avg, @JsonProperty("vwap") BigDecimal vwap,
-        @JsonProperty("vol") BigDecimal vol, @JsonProperty("last_local") BigDecimal last_local, @JsonProperty("last") BigDecimal last,
-        @JsonProperty("last_all") BigDecimal last_all, @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell) {
+public class Ticker {
 
-      this.high = high;
-      this.low = low;
-      this.avg = avg;
-      this.vwap = vwap;
-      this.vol = vol;
-      this.last_local = last_local;
-      this.last = last;
-      this.last_all = last_all;
-      this.buy = buy;
-      this.sell = sell;
-    }
+  private BigDecimal avg;
+  private BigDecimal buy;
+  private BigDecimal high;
+  private BigDecimal last;
+  private BigDecimal last_all;
+  private BigDecimal last_local;
+  private BigDecimal low;
+  private BigDecimal sell;
+  private BigDecimal vol;
+  private BigDecimal vwap;
 
- 	public BigDecimal getAvg(){
-		return this.avg;
-	}
- 	public BigDecimal getBuy(){
-		return this.buy;
-	}
- 	public BigDecimal getHigh(){
-		return this.high;
-	}
- 	public BigDecimal getLast(){
-		return this.last;
-	}
- 	public BigDecimal getLast_all(){
-		return this.last_all;
-	}
- 	public BigDecimal getLast_local(){
-		return this.last_local;
-	}
- 	public BigDecimal getLow(){
-		return this.low;
-	}
- 	public BigDecimal getSell(){
-		return this.sell;
-	}
- 	public BigDecimal getVol(){
-		return this.vol;
-	}
- 	public BigDecimal getVwap(){
-		return this.vwap;
-	}
-	@Override
-	public String toString() {
-	   return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last=" + last
-		        + ", buy=" + buy + ", sell=" + sell + "]";
-		  }
+  /**
+   * Constructor
+   * 
+   * @param high
+   * @param low
+   * @param avg
+   * @param vwap
+   * @param vol
+   * @param last_local
+   * @param last
+   * @param last_all
+   * @param buy
+   * @param sell
+   */
+  public Ticker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("avg") BigDecimal avg, @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("vol") BigDecimal vol, @JsonProperty("last_local") BigDecimal last_local, @JsonProperty("last") BigDecimal last, @JsonProperty("last_all") BigDecimal last_all,
+      @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell) {
+
+    this.high = high;
+    this.low = low;
+    this.avg = avg;
+    this.vwap = vwap;
+    this.vol = vol;
+    this.last_local = last_local;
+    this.last = last;
+    this.last_all = last_all;
+    this.buy = buy;
+    this.sell = sell;
+  }
+
+  public BigDecimal getAvg() {
+
+    return this.avg;
+  }
+
+  public BigDecimal getBuy() {
+
+    return this.buy;
+  }
+
+  public BigDecimal getHigh() {
+
+    return this.high;
+  }
+
+  public BigDecimal getLast() {
+
+    return this.last;
+  }
+
+  public BigDecimal getLast_all() {
+
+    return this.last_all;
+  }
+
+  public BigDecimal getLast_local() {
+
+    return this.last_local;
+  }
+
+  public BigDecimal getLow() {
+
+    return this.low;
+  }
+
+  public BigDecimal getSell() {
+
+    return this.sell;
+  }
+
+  public BigDecimal getVol() {
+
+    return this.vol;
+  }
+
+  public BigDecimal getVwap() {
+
+    return this.vwap;
+  }
+
+  @Override
+  public String toString() {
+
+    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last=" + last + ", buy=" + buy + ", sell=" + sell + "]";
+  }
 }

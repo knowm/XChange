@@ -32,8 +32,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class MtGoxDepth {
 
-	private final List<BigDecimal[]> asks;
-	private final List<BigDecimal[]> bids;
+  private final List<BigDecimal[]> asks;
+  private final List<BigDecimal[]> bids;
 
   /**
    * Constructor

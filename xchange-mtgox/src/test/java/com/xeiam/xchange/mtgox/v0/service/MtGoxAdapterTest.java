@@ -40,10 +40,9 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v0.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
-import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v0.service.MtGoxAdapterTest;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -74,7 +73,7 @@ public class MtGoxAdapterTest {
     assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
 
   }
-  
+
   @Test
   public void testTickerAdapter() throws IOException {
 
@@ -94,7 +93,7 @@ public class MtGoxAdapterTest {
     assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("60418"))));
 
   }
-  
+
   @Test
   public void testTradeAdapter() throws IOException {
 
@@ -118,7 +117,7 @@ public class MtGoxAdapterTest {
     assertTrue("transactionCurrency should be USD", trades.getTrades().get(0).getTransactionCurrency().equals("USD"));
     // Unix 1358803625 = Mon, 21 Jan 2013 21:27:05 GMT
     assertThat("2013-01-21 21:27:05 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
-    
+
   }
 
 }

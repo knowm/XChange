@@ -31,13 +31,13 @@ import org.joda.money.BigMoney;
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
+import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.utils.MoneyUtils;
 
@@ -93,7 +93,6 @@ public final class MtGoxAdapters {
 
     return limitOrders;
   }
-  
 
   /**
    * Adapts a MtGoxTrade to a Trade Object

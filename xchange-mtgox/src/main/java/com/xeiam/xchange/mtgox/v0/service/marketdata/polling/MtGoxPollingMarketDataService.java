@@ -32,10 +32,10 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v0.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxV0;
-import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
@@ -66,14 +66,15 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency) {
-	  	verify(tradableIdentifier, currency);
 
-	    // Request data
-	    MtGoxTicker mtGoxTicker = mtGoxV0.getTicker(currency);
+    verify(tradableIdentifier, currency);
 
-	    // Adapt to XChange DTOs
-	    return MtGoxAdapters.adaptTicker(mtGoxTicker, currency, tradableIdentifier);
-   
+    // Request data
+    MtGoxTicker mtGoxTicker = mtGoxV0.getTicker(currency);
+
+    // Adapt to XChange DTOs
+    return MtGoxAdapters.adaptTicker(mtGoxTicker, currency, tradableIdentifier);
+
   }
 
   @Override
@@ -87,26 +88,26 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-	    verify(tradableIdentifier, currency);
+    verify(tradableIdentifier, currency);
 
-	    MtGoxDepth mtgoxFullDepth = mtGoxV0.getFullDepth(currency);
+    MtGoxDepth mtgoxFullDepth = mtGoxV0.getFullDepth(currency);
 
-	    // Adapt to XChange DTOs
-	    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
-	    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
+    // Adapt to XChange DTOs
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
 
-	    return new OrderBook(asks, bids);
+    return new OrderBook(asks, bids);
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
 
-	    verify(tradableIdentifier, currency);
+    verify(tradableIdentifier, currency);
 
-	    // Request data
-	    MtGoxTrades[] mtGoxTrades = mtGoxV0.getTrades(currency);
+    // Request data
+    MtGoxTrades[] mtGoxTrades = mtGoxV0.getTrades(currency);
 
-	    return MtGoxAdapters.adaptTrades(mtGoxTrades);
+    return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }
 
   /**

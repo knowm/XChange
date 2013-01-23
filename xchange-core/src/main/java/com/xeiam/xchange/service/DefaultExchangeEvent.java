@@ -33,7 +33,7 @@ public class DefaultExchangeEvent implements ExchangeEvent {
   protected final String data;
 
   // Optional fields
-  protected Object payload=null;
+  protected Object payload = null;
 
   /**
    * @param exchangeEventType The exchange event type
@@ -51,12 +51,14 @@ public class DefaultExchangeEvent implements ExchangeEvent {
    * @param payload The processed message content (e.g. a Ticker)
    */
   public DefaultExchangeEvent(ExchangeEventType exchangeEventType, String data, Object payload) {
-    this(exchangeEventType,data);
+
+    this(exchangeEventType, data);
     this.payload = payload;
   }
 
   @Override
   public Object getPayload() {
+
     return payload;
   }
 
