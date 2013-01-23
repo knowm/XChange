@@ -21,15 +21,16 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
+import java.util.concurrent.BlockingQueue;
+
 import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Test requesting streaming Ticker at MtGox
@@ -62,8 +63,13 @@ public class StreamingTickerDemo {
         System.out.println("Waiting for exchange event...");
         ExchangeEvent exchangeEvent = eventQueue.take();
         System.out.println("Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
+
         if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
-          System.out.println("+ Ticker event: " + exchangeEvent.getPayload().toString());
+
+          Ticker ticker = (Ticker) exchangeEvent.getPayload();
+          System.out.println("+ Ticker: " + ticker.toString());
+
+          // System.out.println("+ Ticker event: " + exchangeEvent.getPayload().toString());
         }
 
       }
