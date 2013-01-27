@@ -35,6 +35,7 @@ import com.xeiam.xchange.bitcoincentral.dto.marketdata.BidAsk;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
+import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralMyOrder;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -140,5 +141,16 @@ public final class BitcoinCentralAdapters {
           bitcoinCentralTrade.getPpc()), null));
     }
     return new Trades(trades);
+  }
+
+  public static List<LimitOrder> adaptActive(BitcoinCentralMyOrder[] accountTradeOrders) {
+
+    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+    for (BitcoinCentralMyOrder order : accountTradeOrders) {
+      if (order.isPendingExecution()) {
+        orders.add(new LimitOrder(order.getCategory().type, order.getAmount(), "BTC", order.getCurrency(), Integer.toString(order.getId()), BigMoney.of(CurrencyUnit.getInstance(order.getCurrency()), order.getPpc())));
+      }
+    }
+    return orders;
   }
 }

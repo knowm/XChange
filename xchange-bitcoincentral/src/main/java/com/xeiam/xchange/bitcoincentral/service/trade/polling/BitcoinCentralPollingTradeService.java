@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
+import com.xeiam.xchange.bitcoincentral.BitcoinCentralAdapters;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralMyOrder;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeBase;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;
@@ -67,11 +68,7 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   public OpenOrders getOpenOrders() {
 
     BitcoinCentralMyOrder[] accountTradeOrders = bitcoincentral.getAccountTradeOrders(credentials, 1, 100);
-    for (BitcoinCentralMyOrder order : accountTradeOrders) {
-      log.debug("order = {}", order);
-    }
-    // todo: adapt to XChange DTOs
-    return null;
+    return new OpenOrders(BitcoinCentralAdapters.adaptActive(accountTradeOrders));
   }
 
   @Override
@@ -84,8 +81,7 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   public String placeLimitOrder(LimitOrder limitOrder) {
 
     BitcoinCentralMyOrder myOrder = bitcoincentral.placeLimitOrder(credentials, new TradeOrderRequestWrapper(limitOrder.getTradableAmount(),
-        limitOrder.getType() == Order.OrderType.ASK ? BitcoinCentralTradeBase.Category.sell : BitcoinCentralTradeBase.Category.buy, limitOrder.getTransactionCurrency(), limitOrder.getLimitPrice()
-            .getAmount(), BitcoinCentralTradeRequest.Type.limit_order));
+        getCategory(limitOrder.getType()), limitOrder.getTransactionCurrency(), limitOrder.getLimitPrice().getAmount(), BitcoinCentralTradeRequest.Type.limit_order));
     log.debug("myOrder = {}", myOrder);
     return Integer.toString(myOrder.getId());
   }
@@ -94,8 +90,13 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   public boolean cancelOrder(String orderId) {
 
     String ret = bitcoincentral.cancelOrder(credentials, orderId);
-    System.out.println("ret = " + ret);
+    log.debug("Cancelling returned: {}", ret);
     return true;
+  }
+
+  private static BitcoinCentralTradeBase.Category getCategory(Order.OrderType type) {
+
+    return type == Order.OrderType.ASK ? BitcoinCentralTradeBase.Category.sell : BitcoinCentralTradeBase.Category.buy;
   }
 
 }

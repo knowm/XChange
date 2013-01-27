@@ -25,6 +25,8 @@ package com.xeiam.xchange.bitcoincentral.dto.trade;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
+import com.xeiam.xchange.dto.Order;
+
 /**
  * @author Matija Mazi
  */
@@ -70,6 +72,10 @@ public abstract class BitcoinCentralTradeBase {
   }
 
   public static enum Category {
-    buy, sell
+    buy(Order.OrderType.BID), sell(Order.OrderType.ASK);
+
+    public Order.OrderType type;
+
+    private Category(Order.OrderType type) { this.type = type; }
   }
 }

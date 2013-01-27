@@ -32,17 +32,24 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class BitcoinCentralMyOrder extends BitcoinCentralTradeData {
 
-  private final boolean active;
+  public static final String STATE_PENDING_EXECUTION = "pending_execution";
+
+  private final String state;
 
   public BitcoinCentralMyOrder(@JsonProperty("ppc") BigDecimal ppc, @JsonProperty("category") Category category, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("created_at") String createdAt, @JsonProperty("id") int id, @JsonProperty("active") boolean active) throws ParseException {
+      @JsonProperty("created_at") String createdAt, @JsonProperty("id") int id, @JsonProperty("state") String state) throws ParseException {
 
     super(ppc, category, currency, amount, id, createdAt);
-    this.active = active;
+    this.state = state;
   }
 
-  public boolean isActive() {
+  public String getState() {
 
-    return active;
+    return state;
+  }
+
+  public boolean isPendingExecution() {
+
+    return STATE_PENDING_EXECUTION.equals(getState());
   }
 }
