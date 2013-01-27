@@ -58,7 +58,7 @@ public class BitcoinCentralTradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.01"), "BTC", "EUR", MoneyUtils.parseFiat("EUR 12.7"));
+    LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.01"), "BTC", "EUR", MoneyUtils.parseFiat("EUR 120.7"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
