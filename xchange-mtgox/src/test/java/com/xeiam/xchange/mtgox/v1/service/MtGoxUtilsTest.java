@@ -28,9 +28,9 @@ import static org.junit.Assert.assertTrue;
 import org.joda.money.BigMoney;
 import org.junit.Test;
 
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Test class for MtGoxUtils class
@@ -40,11 +40,11 @@ public class MtGoxUtilsTest {
   @Test
   public void testJPYScaling() {
 
-    BigMoney priceJPY = MoneyUtils.parseFiat("JPY 544.44");
+    BigMoney priceJPY = MoneyUtils.parse("JPY 544.44");
     String mtGoxRequestStringJPY = MtGoxUtils.getPriceString(priceJPY);
     // System.out.println(mtGoxRequestStringJPY);
 
-    BigMoney priceUSD = MoneyUtils.parseFiat("USD 5.4444");
+    BigMoney priceUSD = MoneyUtils.parse("USD 5.4444");
     String mtGoxRequestStringUSD = MtGoxUtils.getPriceString(priceUSD);
     // System.out.println(mtGoxRequestStringUSD);
 

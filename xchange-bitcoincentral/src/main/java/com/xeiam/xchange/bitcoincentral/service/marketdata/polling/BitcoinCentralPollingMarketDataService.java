@@ -24,7 +24,6 @@ package com.xeiam.xchange.bitcoincentral.service.marketdata.polling;
 
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
@@ -33,6 +32,7 @@ import com.xeiam.xchange.bitcoincentral.BitcoinCentralUtils;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;

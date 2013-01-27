@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.utils;
+package com.xeiam.xchange.currency;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -37,6 +37,11 @@ import org.joda.money.CurrencyUnit;
  */
 public class MoneyUtils {
 
+  // static {
+  // // set the CurrencyUnitDataProvider for Joda Money to XChange's own implementation
+  // System.setProperty("org.joda.money.CurrencyUnitDataProvider", "com.xeiam.xchange.currency.XChangeCurrencyUnitDataProvider");
+  // }
+
   /**
    * private Constructor
    */
@@ -49,7 +54,7 @@ public class MoneyUtils {
    * @return A standard fiat currency BigMoney that can handle complex calculations and display using a scale inferred from the minor part
    * @see org.joda.money.Money For a simpler approach for fiat currencies not requiring precise calculations (e.g. display only)
    */
-  public static BigMoney parseFiat(String value) {
+  public static BigMoney parse(String value) {
 
     try {
       return BigMoney.parse(value);
@@ -57,6 +62,16 @@ public class MoneyUtils {
       BigDecimal bigDecimal = new BigDecimal(value.substring(4));
       return BigMoney.parse(value.substring(0, 3) + " " + bigDecimal.toPlainString()); // here we attempt to parse it manually with the BigDecimal constructor
     }
+  }
+
+  public static BigMoney parseMoney(String currency, BigDecimal amount) {
+
+    return BigMoney.of(CurrencyUnit.of(currency), amount);
+  }
+
+  public static BigMoney parseMoney(String currency, double amount) {
+
+    return BigMoney.of(CurrencyUnit.of(currency), amount);
   }
 
   /**

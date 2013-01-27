@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.virtex.VirtExUtils;
 
 /**

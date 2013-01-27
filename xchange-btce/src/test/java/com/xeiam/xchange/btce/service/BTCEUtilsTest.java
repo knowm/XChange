@@ -26,8 +26,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.btce.BTCEUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Test class for BTCEUtils class

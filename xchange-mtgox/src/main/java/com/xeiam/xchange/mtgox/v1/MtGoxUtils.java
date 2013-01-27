@@ -29,8 +29,8 @@ import java.util.List;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.CurrencyPair;
-import com.xeiam.xchange.utils.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.currency.MoneyUtils;
 
 /**
  * A central place for shared Mt Gox properties
@@ -120,9 +120,9 @@ public final class MtGoxUtils {
 
     if (!currency.equals("JPY")) {
 
-      return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
+      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
     } else { // JPY
-      return MoneyUtils.parseFiat(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)));
+      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)));
     }
   }
 

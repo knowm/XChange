@@ -24,7 +24,7 @@ package com.xeiam.xchange.virtex;
 import java.util.Arrays;
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared VirtEx properties

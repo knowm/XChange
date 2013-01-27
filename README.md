@@ -73,7 +73,7 @@ The XChange release artifacts are hosted on Maven Central.
 For snapshots, add the following repository to your pom.xml file.
 
     <repository>
-      <id>xchange-snapshot</id>
+      <id>sonatype-oss-snapshot</id>
       <snapshots/>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>

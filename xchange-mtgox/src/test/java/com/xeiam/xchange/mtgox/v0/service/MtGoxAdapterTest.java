@@ -34,6 +34,7 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -44,7 +45,6 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Tests the VirtExAdapter class
@@ -87,9 +87,9 @@ public class MtGoxAdapterTest {
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker, "USD", "BTC");
     // System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parseFiat("USD 16.800000000000001"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parseFiat("USD 16.79036"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parseFiat("USD 16.800000000000001"))));
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 16.800000000000001"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 16.79036"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 16.800000000000001"))));
     assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("60418"))));
 
   }

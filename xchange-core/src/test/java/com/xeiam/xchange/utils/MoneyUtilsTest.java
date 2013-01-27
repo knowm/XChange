@@ -32,6 +32,8 @@ import java.math.RoundingMode;
 import org.joda.money.BigMoney;
 import org.junit.Test;
 
+import com.xeiam.xchange.currency.MoneyUtils;
+
 /**
  * Test class for testing MoneyUtils methods
  */
@@ -45,7 +47,7 @@ public class MoneyUtilsTest {
 
     // String
     // create a monetary value
-    BigMoney testObject1 = MoneyUtils.parseFiat("USD 23.87");
+    BigMoney testObject1 = MoneyUtils.parse("USD 23.87");
     assertEquals("USD", testObject1.getCurrencyUnit().getCurrencyCode());
     BigMoney testObject2 = MoneyUtils.parseBitcoin("BTC 1");
     assertEquals("BTC", testObject2.getCurrencyUnit().getCurrencyCode());
@@ -57,8 +59,8 @@ public class MoneyUtilsTest {
   @Test
   public void testIncompatibleCurrencies() {
 
-    BigMoney testObject1 = MoneyUtils.parseFiat("USD 10.50");
-    BigMoney testObject2 = MoneyUtils.parseFiat("GBP 10.50");
+    BigMoney testObject1 = MoneyUtils.parse("USD 10.50");
+    BigMoney testObject2 = MoneyUtils.parse("GBP 10.50");
     try {
       testObject1.plus(testObject2);
       fail("Expected exception");
@@ -73,9 +75,9 @@ public class MoneyUtilsTest {
   @Test
   public void testComparisonOperators() {
 
-    BigMoney testObject1 = MoneyUtils.parseFiat("USD 10.50");
-    BigMoney testObject2 = MoneyUtils.parseFiat("USD 10.50");
-    BigMoney testObject3 = MoneyUtils.parseFiat("USD 10.51");
+    BigMoney testObject1 = MoneyUtils.parse("USD 10.50");
+    BigMoney testObject2 = MoneyUtils.parse("USD 10.50");
+    BigMoney testObject3 = MoneyUtils.parse("USD 10.51");
     // GT
     assertFalse(testObject1.isGreaterThan(testObject2));
     assertFalse(testObject2.isGreaterThan(testObject1));
@@ -98,9 +100,9 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 0.00");
+    BigMoney testObject = MoneyUtils.parse("USD 0.00");
     for (int i = 0; i < column.length; i++) {
-      testObject = testObject.plus(MoneyUtils.parseFiat("USD " + column[i]));
+      testObject = testObject.plus(MoneyUtils.parse("USD " + column[i]));
     }
 
     assertEquals("Unexpected value", "USD 10.50", testObject.toString());
@@ -114,9 +116,9 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 0");
+    BigMoney testObject = MoneyUtils.parse("USD 0");
     for (int i = 0; i < column.length; i++) {
-      testObject = testObject.plus(MoneyUtils.parseFiat("USD " + column[i]));
+      testObject = testObject.plus(MoneyUtils.parse("USD " + column[i]));
     }
 
     assertEquals("Unexpected value", "USD 27.95", testObject.toString());
@@ -130,9 +132,9 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 0.00");
+    BigMoney testObject = MoneyUtils.parse("USD 0.00");
     for (int i = 0; i < column.length; i++) {
-      testObject = testObject.minus(MoneyUtils.parseFiat("USD " + column[i]));
+      testObject = testObject.minus(MoneyUtils.parse("USD " + column[i]));
     }
 
     assertEquals("Unexpected value", "USD -10.50", testObject.toString());
@@ -146,9 +148,9 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 0");
+    BigMoney testObject = MoneyUtils.parse("USD 0");
     for (int i = 0; i < column.length; i++) {
-      testObject = testObject.minus(MoneyUtils.parseFiat("USD " + column[i]));
+      testObject = testObject.minus(MoneyUtils.parse("USD " + column[i]));
     }
 
     assertEquals("Unexpected value", "USD -27.95", testObject.toString());
@@ -162,7 +164,7 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 10.00");
+    BigMoney testObject = MoneyUtils.parse("USD 10.00");
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.multipliedBy(new BigDecimal(column[i]));
     }
@@ -179,7 +181,7 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "1", "2", "3", "4" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 10.00");
+    BigMoney testObject = MoneyUtils.parse("USD 10.00");
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.multipliedBy(new BigDecimal(column[i]));
     }
@@ -196,7 +198,7 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 13.33");
+    BigMoney testObject = MoneyUtils.parse("USD 13.33");
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.multipliedBy(new BigDecimal(column[i]));
     }
@@ -213,7 +215,7 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "1.0", "2.0", "3.0", "4.5" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 270.00");
+    BigMoney testObject = MoneyUtils.parse("USD 270.00");
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.dividedBy(new BigDecimal(column[i]), RoundingMode.HALF_EVEN);
     }
@@ -230,7 +232,7 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "1", "2", "3", "4" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 270.00");
+    BigMoney testObject = MoneyUtils.parse("USD 270.00");
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.dividedBy(new BigDecimal(column[i]), RoundingMode.HALF_EVEN);
     }
@@ -247,7 +249,7 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "1", "2", "3", "4" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 270.00");
+    BigMoney testObject = MoneyUtils.parse("USD 270.00");
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.dividedBy(new BigDecimal(column[i]), RoundingMode.HALF_EVEN);
     }
@@ -267,7 +269,7 @@ public class MoneyUtilsTest {
 
     String[] column = new String[] { "3.33", "3.33", "3.34", "3.43", "7.99", "6.53" };
 
-    BigMoney testObject = MoneyUtils.parseFiat("USD 435700.42");
+    BigMoney testObject = MoneyUtils.parse("USD 435700.42");
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.dividedBy(new BigDecimal(column[i]), RoundingMode.HALF_EVEN);
     }
@@ -331,7 +333,7 @@ public class MoneyUtilsTest {
   public void testScientificNotation() {
 
     String amount = "USD 1.0E7";
-    MoneyUtils.parseFiat(amount);
+    MoneyUtils.parse(amount);
 
   }
 

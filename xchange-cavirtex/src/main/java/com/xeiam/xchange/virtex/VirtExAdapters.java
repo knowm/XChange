@@ -28,7 +28,8 @@ import java.util.List;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
@@ -36,7 +37,6 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.utils.MoneyUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
@@ -67,7 +67,7 @@ public final class VirtExAdapters {
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     String tradableIdentifier = Currencies.BTC;
-    BigMoney limitPrice = MoneyUtils.parseFiat(currency + " " + price);
+    BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
     return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
 
@@ -102,7 +102,7 @@ public final class VirtExAdapters {
   public static Trade adaptTrade(VirtExTrade virtExTrade, String currency, String tradableIdentifier) {
 
     BigDecimal amount = virtExTrade.getAmount();
-    BigMoney price = MoneyUtils.parseFiat(currency + " " + virtExTrade.getPrice());
+    BigMoney price = MoneyUtils.parse(currency + " " + virtExTrade.getPrice());
     Date date = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
     return new Trade(null, amount, tradableIdentifier, currency, price, date);
@@ -136,9 +136,9 @@ public final class VirtExAdapters {
    */
   public static Ticker adaptTicker(VirtExTicker virtExTicker, String currency, String tradableIdentifier) {
 
-    BigMoney last = MoneyUtils.parseFiat(currency + " " + virtExTicker.getLast());
-    BigMoney high = MoneyUtils.parseFiat(currency + " " + virtExTicker.getHigh());
-    BigMoney low = MoneyUtils.parseFiat(currency + " " + virtExTicker.getLow());
+    BigMoney last = MoneyUtils.parse(currency + " " + virtExTicker.getLast());
+    BigMoney high = MoneyUtils.parse(currency + " " + virtExTicker.getHigh());
+    BigMoney low = MoneyUtils.parse(currency + " " + virtExTicker.getLow());
     BigDecimal volume = virtExTicker.getVolume();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();

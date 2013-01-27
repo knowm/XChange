@@ -36,6 +36,7 @@ import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralMyOrder;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -45,7 +46,6 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Various adapters for converting from Bitcoin Central DTOs to XChange DTOs
@@ -83,11 +83,11 @@ public final class BitcoinCentralAdapters {
    */
   public static Ticker adaptTicker(BitcoinCentralTicker bitcoinCentralTicker, String tradableIdentifier) {
 
-    BigMoney last = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getPrice());
-    BigMoney bid = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getBid());
-    BigMoney ask = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getAsk());
-    BigMoney high = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getHigh());
-    BigMoney low = MoneyUtils.parseFiat(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getLow());
+    BigMoney last = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getPrice());
+    BigMoney bid = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getBid());
+    BigMoney ask = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getAsk());
+    BigMoney high = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getHigh());
+    BigMoney low = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getLow());
     BigDecimal volume = bitcoinCentralTicker.getVolume();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
@@ -119,7 +119,7 @@ public final class BitcoinCentralAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (BidAsk bidAsk : orders) {
-      limitOrders.add(new LimitOrder(orderType, bidAsk.getAmount(), tradableIdentifier, currency, MoneyUtils.parseFiat(currency + " " + bidAsk.getPrice())));
+      limitOrders.add(new LimitOrder(orderType, bidAsk.getAmount(), tradableIdentifier, currency, MoneyUtils.parse(currency + " " + bidAsk.getPrice())));
     }
     return limitOrders;
   }

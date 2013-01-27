@@ -28,8 +28,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bitstamp properties

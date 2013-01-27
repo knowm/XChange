@@ -28,11 +28,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralExchange;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * <p>
@@ -58,7 +58,7 @@ public class BitcoinCentralTradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.01"), "BTC", "EUR", MoneyUtils.parseFiat("EUR 120.7"));
+    LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.01"), "BTC", "EUR", MoneyUtils.parse("EUR 120.7"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 

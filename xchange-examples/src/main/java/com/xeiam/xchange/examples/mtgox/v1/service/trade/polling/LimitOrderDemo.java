@@ -26,12 +26,12 @@ import java.math.BigDecimal;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Test placing a limit order at MtGox
@@ -50,7 +50,7 @@ public class LimitOrderDemo {
     BigDecimal tradeableAmount = new BigDecimal(Math.random());
     String tradableIdentifier = "BTC";
     String transactionCurrency = "USD";
-    BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
+    BigMoney limitPrice = MoneyUtils.parse("USD 1.25");
 
     LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
 

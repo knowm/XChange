@@ -25,7 +25,7 @@ package com.xeiam.xchange.bitcoincentral;
 import java.util.Arrays;
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared BitcoinCentral properties
