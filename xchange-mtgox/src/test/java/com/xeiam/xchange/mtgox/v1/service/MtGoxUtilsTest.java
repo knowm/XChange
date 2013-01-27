@@ -30,7 +30,7 @@ import org.junit.Test;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 
 /**
  * Test class for MtGoxUtils class

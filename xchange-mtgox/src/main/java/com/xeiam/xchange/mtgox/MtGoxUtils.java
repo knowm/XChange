@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1;
+package com.xeiam.xchange.mtgox;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;

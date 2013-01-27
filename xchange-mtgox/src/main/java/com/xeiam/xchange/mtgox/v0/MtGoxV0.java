@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1;
+package com.xeiam.xchange.mtgox.v0;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
