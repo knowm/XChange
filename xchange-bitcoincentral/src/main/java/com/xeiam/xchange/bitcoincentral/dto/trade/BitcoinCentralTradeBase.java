@@ -76,6 +76,9 @@ public abstract class BitcoinCentralTradeBase {
 
     public Order.OrderType type;
 
-    private Category(Order.OrderType type) { this.type = type; }
+    private Category(Order.OrderType type) {
+
+      this.type = type;
+    }
   }
 }

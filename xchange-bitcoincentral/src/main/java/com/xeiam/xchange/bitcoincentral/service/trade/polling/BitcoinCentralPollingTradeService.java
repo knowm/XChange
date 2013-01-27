@@ -80,8 +80,8 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
 
-    BitcoinCentralMyOrder myOrder = bitcoincentral.placeLimitOrder(credentials, new TradeOrderRequestWrapper(limitOrder.getTradableAmount(),
-        getCategory(limitOrder.getType()), limitOrder.getTransactionCurrency(), limitOrder.getLimitPrice().getAmount(), BitcoinCentralTradeRequest.Type.limit_order));
+    BitcoinCentralMyOrder myOrder = bitcoincentral.placeLimitOrder(credentials, new TradeOrderRequestWrapper(limitOrder.getTradableAmount(), getCategory(limitOrder.getType()), limitOrder
+        .getTransactionCurrency(), limitOrder.getLimitPrice().getAmount(), BitcoinCentralTradeRequest.Type.limit_order));
     log.debug("myOrder = {}", myOrder);
     return Integer.toString(myOrder.getId());
   }

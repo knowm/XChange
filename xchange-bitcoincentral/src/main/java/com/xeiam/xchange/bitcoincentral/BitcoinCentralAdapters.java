@@ -148,7 +148,8 @@ public final class BitcoinCentralAdapters {
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (BitcoinCentralMyOrder order : accountTradeOrders) {
       if (order.isPendingExecution()) {
-        orders.add(new LimitOrder(order.getCategory().type, order.getAmount(), "BTC", order.getCurrency(), Integer.toString(order.getId()), BigMoney.of(CurrencyUnit.getInstance(order.getCurrency()), order.getPpc())));
+        orders.add(new LimitOrder(order.getCategory().type, order.getAmount(), "BTC", order.getCurrency(), Integer.toString(order.getId()), BigMoney.of(CurrencyUnit.getInstance(order.getCurrency()),
+            order.getPpc())));
       }
     }
     return orders;
