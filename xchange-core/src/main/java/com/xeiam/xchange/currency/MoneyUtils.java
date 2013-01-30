@@ -37,11 +37,6 @@ import org.joda.money.CurrencyUnit;
  */
 public class MoneyUtils {
 
-  // static {
-  // // set the CurrencyUnitDataProvider for Joda Money to XChange's own implementation
-  // System.setProperty("org.joda.money.CurrencyUnitDataProvider", "com.xeiam.xchange.currency.XChangeCurrencyUnitDataProvider");
-  // }
-
   /**
    * private Constructor
    */
