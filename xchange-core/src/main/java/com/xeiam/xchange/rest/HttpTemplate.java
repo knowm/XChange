@@ -71,7 +71,7 @@ public class HttpTemplate {
     // Accept text/plain by default (typically becomes application/json or application/xml)
     defaultHttpHeaders.put("Accept", "text/plain");
     // User agent provides statistics for servers, but some use it for content negotiation so fake good agents
-    defaultHttpHeaders.put("User-Agent", "XChange/1.4.0 JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
+    defaultHttpHeaders.put("User-Agent", "XChange/1.4.1-SNAPSHOT JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
   }
 
   /**

@@ -1,0 +1,10 @@
+Bitcoin Central Exchange API specification
+================================
+
+Public API
+
+## Documentation
+https://bitcoin-central.net/s/api
+
+## Trading Fee
+0.498%

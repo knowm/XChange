@@ -72,7 +72,12 @@
 			<artifactId>xchange-bitcoincharts</artifactId>
 			<version>1.4.1-SNAPSHOT</version>
 		</dependency>
-
+        <!-- XChange BitcoinCentral support -->
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-bitcoincentral</artifactId>
+            <version>1.4.1-SNAPSHOT</version>
+        </dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>

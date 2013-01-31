@@ -1,0 +1,804 @@
+{
+    "asks": [
+        {
+            "amount": 1.86,
+            "currency": "EUR",
+            "price": 12.2,
+            "timestamp": 1358531166
+        },
+        {
+            "amount": 9,
+            "currency": "EUR",
+            "price": 12.25,
+            "timestamp": 1358528883
+        },
+        {
+            "amount": 30,
+            "currency": "EUR",
+            "price": 12.278,
+            "timestamp": 1358532772
+        },
+        {
+            "amount": 40,
+            "currency": "EUR",
+            "price": 12.2799,
+            "timestamp": 1358529935
+        },
+        {
+            "amount": 80,
+            "currency": "EUR",
+            "price": 12.28,
+            "timestamp": 1358532452
+        },
+        {
+            "amount": 2.075,
+            "currency": "EUR",
+            "price": 12.29,
+            "timestamp": 1358512469
+        },
+        {
+            "amount": 1.21954,
+            "currency": "EUR",
+            "price": 12.36126,
+            "timestamp": 1358514301
+        },
+        {
+            "amount": 47.90225,
+            "currency": "EUR",
+            "price": 12.399,
+            "timestamp": 1358464789
+        },
+        {
+            "amount": 35,
+            "currency": "EUR",
+            "price": 12.47,
+            "timestamp": 1358461241
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 12.4859,
+            "timestamp": 1358440431
+        },
+        {
+            "amount": 200,
+            "currency": "EUR",
+            "price": 12.5,
+            "timestamp": 1355481451
+        },
+        {
+            "amount": 3,
+            "currency": "EUR",
+            "price": 12.5061,
+            "timestamp": 1345235273
+        },
+        {
+            "amount": 17,
+            "currency": "EUR",
+            "price": 12.7,
+            "timestamp": 1358527577
+        },
+        {
+            "amount": 5,
+            "currency": "EUR",
+            "price": 12.94,
+            "timestamp": 1358501525
+        },
+        {
+            "amount": 35.006775,
+            "currency": "EUR",
+            "price": 12.95,
+            "timestamp": 1358455003
+        },
+        {
+            "amount": 100,
+            "currency": "EUR",
+            "price": 13,
+            "timestamp": 1355383786
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 13.6,
+            "timestamp": 1358420006
+        },
+        {
+            "amount": 4,
+            "currency": "EUR",
+            "price": 14,
+            "timestamp": 1357464418
+        },
+        {
+            "amount": 200,
+            "currency": "EUR",
+            "price": 15,
+            "timestamp": 1355822943
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 25,
+            "timestamp": 1345234946
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 25.99,
+            "timestamp": 1345193535
+        },
+        {
+            "amount": 29.294409,
+            "currency": "EUR",
+            "price": 59,
+            "timestamp": 1353726320
+        },
+        {
+            "amount": 15,
+            "currency": "EUR",
+            "price": 60,
+            "timestamp": 1345193588
+        },
+        {
+            "amount": 3.2473E-4,
+            "currency": "EUR",
+            "price": 100,
+            "timestamp": 1358087628
+        }
+    ],
+    "bids": [
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 12,
+            "timestamp": 1358528235
+        },
+        {
+            "amount": 27.99,
+            "currency": "EUR",
+            "price": 11.9,
+            "timestamp": 1358519776
+        },
+        {
+            "amount": 0.36516416,
+            "currency": "EUR",
+            "price": 11.812345,
+            "timestamp": 1358492684
+        },
+        {
+            "amount": 3,
+            "currency": "EUR",
+            "price": 11.81,
+            "timestamp": 1358511233
+        },
+        {
+            "amount": 105.9,
+            "currency": "EUR",
+            "price": 11.8,
+            "timestamp": 1358511817
+        },
+        {
+            "amount": 2,
+            "currency": "EUR",
+            "price": 11.72222,
+            "timestamp": 1358492861
+        },
+        {
+            "amount": 10.9,
+            "currency": "EUR",
+            "price": 11.6,
+            "timestamp": 1358468748
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 11.57,
+            "timestamp": 1358503741
+        },
+        {
+            "amount": 2,
+            "currency": "EUR",
+            "price": 11.55555,
+            "timestamp": 1358514532
+        },
+        {
+            "amount": 75,
+            "currency": "EUR",
+            "price": 11.55,
+            "timestamp": 1358522716
+        },
+        {
+            "amount": 22,
+            "currency": "EUR",
+            "price": 11.5,
+            "timestamp": 1358508439
+        },
+        {
+            "amount": 6.9,
+            "currency": "EUR",
+            "price": 11.48,
+            "timestamp": 1358497842
+        },
+        {
+            "amount": 10.9,
+            "currency": "EUR",
+            "price": 11.471,
+            "timestamp": 1358497905
+        },
+        {
+            "amount": 1086,
+            "currency": "EUR",
+            "price": 11.47,
+            "timestamp": 1358458691
+        },
+        {
+            "amount": 4,
+            "currency": "EUR",
+            "price": 11.35,
+            "timestamp": 1358454877
+        },
+        {
+            "amount": 1.1111,
+            "currency": "EUR",
+            "price": 11.261111,
+            "timestamp": 1358456885
+        },
+        {
+            "amount": 17.76,
+            "currency": "EUR",
+            "price": 11.26,
+            "timestamp": 1358454393
+        },
+        {
+            "amount": 50,
+            "currency": "EUR",
+            "price": 11.25,
+            "timestamp": 1358453053
+        },
+        {
+            "amount": 31.078718,
+            "currency": "EUR",
+            "price": 11.15,
+            "timestamp": 1358461592
+        },
+        {
+            "amount": 2,
+            "currency": "EUR",
+            "price": 11.111111,
+            "timestamp": 1358455630
+        },
+        {
+            "amount": 1.35135,
+            "currency": "EUR",
+            "price": 11.10001,
+            "timestamp": 1358521649
+        },
+        {
+            "amount": 1.2625742,
+            "currency": "EUR",
+            "price": 11.0888,
+            "timestamp": 1358435099
+        },
+        {
+            "amount": 0.32195112,
+            "currency": "EUR",
+            "price": 11.05111,
+            "timestamp": 1358436064
+        },
+        {
+            "amount": 1.36364,
+            "currency": "EUR",
+            "price": 11.00001,
+            "timestamp": 1358403628
+        },
+        {
+            "amount": 169.23927,
+            "currency": "EUR",
+            "price": 11,
+            "timestamp": 1358528969
+        },
+        {
+            "amount": 1.37615,
+            "currency": "EUR",
+            "price": 10.90001,
+            "timestamp": 1358403567
+        },
+        {
+            "amount": 21.81193,
+            "currency": "EUR",
+            "price": 10.9,
+            "timestamp": 1358406856
+        },
+        {
+            "amount": 15,
+            "currency": "EUR",
+            "price": 10.85,
+            "timestamp": 1358356783
+        },
+        {
+            "amount": 1.38889,
+            "currency": "EUR",
+            "price": 10.80001,
+            "timestamp": 1358341570
+        },
+        {
+            "amount": 15,
+            "currency": "EUR",
+            "price": 10.8,
+            "timestamp": 1358277884
+        },
+        {
+            "amount": 28,
+            "currency": "EUR",
+            "price": 10.76,
+            "timestamp": 1358328474
+        },
+        {
+            "amount": 10.302325,
+            "currency": "EUR",
+            "price": 10.75,
+            "timestamp": 1358511394
+        },
+        {
+            "amount": 1.40187,
+            "currency": "EUR",
+            "price": 10.70001,
+            "timestamp": 1358341203
+        },
+        {
+            "amount": 20.95,
+            "currency": "EUR",
+            "price": 10.672458,
+            "timestamp": 1358225561
+        },
+        {
+            "amount": 26.94,
+            "currency": "EUR",
+            "price": 10.661726,
+            "timestamp": 1358225051
+        },
+        {
+            "amount": 0.5633274,
+            "currency": "EUR",
+            "price": 10.651,
+            "timestamp": 1358165058
+        },
+        {
+            "amount": 22.339893,
+            "currency": "EUR",
+            "price": 10.65,
+            "timestamp": 1358336947
+        },
+        {
+            "amount": 25.92,
+            "currency": "EUR",
+            "price": 10.621349,
+            "timestamp": 1358184338
+        },
+        {
+            "amount": 26.08,
+            "currency": "EUR",
+            "price": 10.61067,
+            "timestamp": 1358184298
+        },
+        {
+            "amount": 9.425,
+            "currency": "EUR",
+            "price": 10.61,
+            "timestamp": 1358272730
+        },
+        {
+            "amount": 1.41509,
+            "currency": "EUR",
+            "price": 10.60001,
+            "timestamp": 1358231271
+        },
+        {
+            "amount": 16.445486,
+            "currency": "EUR",
+            "price": 10.6,
+            "timestamp": 1358283742
+        },
+        {
+            "amount": 1.42857,
+            "currency": "EUR",
+            "price": 10.50001,
+            "timestamp": 1358173819
+        },
+        {
+            "amount": 32.88081,
+            "currency": "EUR",
+            "price": 10.5,
+            "timestamp": 1358511380
+        },
+        {
+            "amount": 29.26,
+            "currency": "EUR",
+            "price": 10.46,
+            "timestamp": 1357834993
+        },
+        {
+            "amount": 30,
+            "currency": "EUR",
+            "price": 10.45555,
+            "timestamp": 1358258253
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 10.45,
+            "timestamp": 1358181202
+        },
+        {
+            "amount": 1.44231,
+            "currency": "EUR",
+            "price": 10.40001,
+            "timestamp": 1357821031
+        },
+        {
+            "amount": 20,
+            "currency": "EUR",
+            "price": 10.4,
+            "timestamp": 1357934912
+        },
+        {
+            "amount": 5.314,
+            "currency": "EUR",
+            "price": 10.35,
+            "timestamp": 1358431345
+        },
+        {
+            "amount": 1.45631,
+            "currency": "EUR",
+            "price": 10.30001,
+            "timestamp": 1357801386
+        },
+        {
+            "amount": 22.4,
+            "currency": "EUR",
+            "price": 10.3,
+            "timestamp": 1357934923
+        },
+        {
+            "amount": 30,
+            "currency": "EUR",
+            "price": 10.25666,
+            "timestamp": 1358258292
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 10.25,
+            "timestamp": 1358511343
+        },
+        {
+            "amount": 1.47059,
+            "currency": "EUR",
+            "price": 10.20001,
+            "timestamp": 1357800647
+        },
+        {
+            "amount": 24.95059,
+            "currency": "EUR",
+            "price": 10.2,
+            "timestamp": 1357934948
+        },
+        {
+            "amount": 1.48515,
+            "currency": "EUR",
+            "price": 10.10001,
+            "timestamp": 1357646247
+        },
+        {
+            "amount": 26.058851,
+            "currency": "EUR",
+            "price": 10.1,
+            "timestamp": 1358341325
+        },
+        {
+            "amount": 4.8,
+            "currency": "EUR",
+            "price": 10.05,
+            "timestamp": 1357581946
+        },
+        {
+            "amount": 15.866536,
+            "currency": "EUR",
+            "price": 10.001,
+            "timestamp": 1358335249
+        },
+        {
+            "amount": 1.5,
+            "currency": "EUR",
+            "price": 10.00001,
+            "timestamp": 1357641444
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 10,
+            "timestamp": 1357511400
+        },
+        {
+            "amount": 58,
+            "currency": "EUR",
+            "price": 10,
+            "timestamp": 1358511321
+        },
+        {
+            "amount": 1.51515,
+            "currency": "EUR",
+            "price": 9.90001,
+            "timestamp": 1355754371
+        },
+        {
+            "amount": 20,
+            "currency": "EUR",
+            "price": 9.85,
+            "timestamp": 1356113586
+        },
+        {
+            "amount": 1.53061,
+            "currency": "EUR",
+            "price": 9.80001,
+            "timestamp": 1355748621
+        },
+        {
+            "amount": 0.25776,
+            "currency": "EUR",
+            "price": 9.8,
+            "timestamp": 1354819094
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 9.75,
+            "timestamp": 1358511298
+        },
+        {
+            "amount": 1.54639,
+            "currency": "EUR",
+            "price": 9.70001,
+            "timestamp": 1354689747
+        },
+        {
+            "amount": 2,
+            "currency": "EUR",
+            "price": 9.7,
+            "timestamp": 1356372139
+        },
+        {
+            "amount": 1.5625,
+            "currency": "EUR",
+            "price": 9.60001,
+            "timestamp": 1354635521
+        },
+        {
+            "amount": 0.069,
+            "currency": "EUR",
+            "price": 9.6,
+            "timestamp": 1358461422
+        },
+        {
+            "amount": 1.57895,
+            "currency": "EUR",
+            "price": 9.50001,
+            "timestamp": 1354634917
+        },
+        {
+            "amount": 10.5,
+            "currency": "EUR",
+            "price": 9.5,
+            "timestamp": 1357783049
+        },
+        {
+            "amount": 20,
+            "currency": "EUR",
+            "price": 9.48,
+            "timestamp": 1354199153
+        },
+        {
+            "amount": 1.59574,
+            "currency": "EUR",
+            "price": 9.40001,
+            "timestamp": 1354127707
+        },
+        {
+            "amount": 7.0223665,
+            "currency": "EUR",
+            "price": 9.305,
+            "timestamp": 1354071798
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 9.3,
+            "timestamp": 1355584413
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 9.15,
+            "timestamp": 1355781287
+        },
+        {
+            "amount": 21.35,
+            "currency": "EUR",
+            "price": 9.1,
+            "timestamp": 1355697377
+        },
+        {
+            "amount": 0.26881787,
+            "currency": "EUR",
+            "price": 9.06067,
+            "timestamp": 1357924201
+        },
+        {
+            "amount": 25.73173,
+            "currency": "EUR",
+            "price": 9,
+            "timestamp": 1358453919
+        },
+        {
+            "amount": 1.318621,
+            "currency": "EUR",
+            "price": 8.90324,
+            "timestamp": 1355261497
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 8.45,
+            "timestamp": 1357219006
+        },
+        {
+            "amount": 3,
+            "currency": "EUR",
+            "price": 8.3,
+            "timestamp": 1353092099
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 8.2,
+            "timestamp": 1355238395
+        },
+        {
+            "amount": 19.204685,
+            "currency": "EUR",
+            "price": 8.11,
+            "timestamp": 1356201272
+        },
+        {
+            "amount": 20,
+            "currency": "EUR",
+            "price": 7.9,
+            "timestamp": 1352258546
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 7.8,
+            "timestamp": 1352258607
+        },
+        {
+            "amount": 43.333332,
+            "currency": "EUR",
+            "price": 7.5,
+            "timestamp": 1353739603
+        },
+        {
+            "amount": 118.14781,
+            "currency": "EUR",
+            "price": 7,
+            "timestamp": 1352153518
+        },
+        {
+            "amount": 3,
+            "currency": "EUR",
+            "price": 6.2,
+            "timestamp": 1344597289
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 6.08308,
+            "timestamp": 1347759945
+        },
+        {
+            "amount": 5.8507667,
+            "currency": "EUR",
+            "price": 6,
+            "timestamp": 1358419873
+        },
+        {
+            "amount": 2.585,
+            "currency": "EUR",
+            "price": 5.8,
+            "timestamp": 1342111713
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 5.2,
+            "timestamp": 1340551015
+        },
+        {
+            "amount": 2,
+            "currency": "EUR",
+            "price": 5,
+            "timestamp": 1348587890
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 3.5,
+            "timestamp": 1351364150
+        },
+        {
+            "amount": 3.32556,
+            "currency": "EUR",
+            "price": 3.4,
+            "timestamp": 1329405510
+        },
+        {
+            "amount": 16.129,
+            "currency": "EUR",
+            "price": 3.100001,
+            "timestamp": 1330448348
+        },
+        {
+            "amount": 18,
+            "currency": "EUR",
+            "price": 3,
+            "timestamp": 1334256199
+        },
+        {
+            "amount": 3.5,
+            "currency": "EUR",
+            "price": 2.8,
+            "timestamp": 1324375883
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 1.5,
+            "timestamp": 1354626817
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 1.4997,
+            "timestamp": 1354002762
+        },
+        {
+            "amount": 74.83652,
+            "currency": "EUR",
+            "price": 1,
+            "timestamp": 1357825107
+        },
+        {
+            "amount": 1.1,
+            "currency": "EUR",
+            "price": 0.5,
+            "timestamp": 1356014235
+        },
+        {
+            "amount": 10,
+            "currency": "EUR",
+            "price": 0.112145,
+            "timestamp": 1357651903
+        },
+        {
+            "amount": 50,
+            "currency": "EUR",
+            "price": 0.1,
+            "timestamp": 1356092110
+        },
+        {
+            "amount": 1,
+            "currency": "EUR",
+            "price": 0.00745444,
+            "timestamp": 1357517661
+        }
+    ]
+}
