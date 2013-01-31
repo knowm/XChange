@@ -23,9 +23,9 @@ package com.xeiam.xchange.oer;
 
 import org.joda.money.BigMoney;
 
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Various adapters for converting from OER DTOs to XChange DTOs
@@ -41,7 +41,7 @@ public final class OERAdapters {
 
   public static Ticker adaptTicker(String tradableIdentifier, Double exchangeRate, Long timestamp) {
 
-    BigMoney last = MoneyUtils.parseFiat(tradableIdentifier + " " + exchangeRate);
+    BigMoney last = MoneyUtils.parse(tradableIdentifier + " " + exchangeRate);
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(null).withAsk(null).withHigh(null).withLow(null).withVolume(null).build();
   }
 

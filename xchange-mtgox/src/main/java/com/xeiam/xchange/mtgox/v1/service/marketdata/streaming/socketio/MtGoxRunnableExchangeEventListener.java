@@ -33,7 +33,9 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.rest.JSONUtils;
+import com.xeiam.xchange.service.DefaultExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 
 /**
@@ -79,14 +81,14 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
       addToEventQueue(exchangeEvent);
       break;
     case MESSAGE:
-      log.debug("Generic message. Length=" + exchangeEvent.getRawData().length);
+      log.debug("Generic message. Length=" + exchangeEvent.getData().length());
       addToEventQueue(exchangeEvent);
       break;
     case JSON_MESSAGE:
-      log.debug("JSON message. Length=" + exchangeEvent.getRawData().length);
+      log.debug("JSON message. Length=" + exchangeEvent.getData().length());
 
       // Get raw JSON
-      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(new String(exchangeEvent.getRawData()), tickerObjectMapper);
+      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), tickerObjectMapper);
 
       // Determine what has been sent
       if (rawJSON.containsKey("ticker")) {
@@ -97,14 +99,19 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
         // Adapt to XChange DTOs
         Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
 
+        // TODO Remove this once ticker queue is removed
         addToTickerQueue(ticker);
+
+        // Create a ticker event
+        ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
+        addToEventQueue(tickerEvent);
       } else {
         log.debug("MtGox operational message");
         addToEventQueue(exchangeEvent);
       }
       break;
     case ERROR:
-      log.error("Error message. Length=" + exchangeEvent.getRawData().length);
+      log.error("Error message. Length=" + exchangeEvent.getData().length());
       addToEventQueue(exchangeEvent);
       break;
     default:

@@ -57,6 +57,9 @@ public class JSONUtils {
   public static <T> T getJsonObject(String jsonString, Class<T> returnType, ObjectMapper objectMapper) {
 
     Assert.notNull(jsonString, "jsonString cannot be null");
+    if (jsonString.trim().length() == 0) {
+      return null;
+    }
     Assert.notNull(objectMapper, "objectMapper cannot be null");
     try {
       return objectMapper.readValue(jsonString, returnType);

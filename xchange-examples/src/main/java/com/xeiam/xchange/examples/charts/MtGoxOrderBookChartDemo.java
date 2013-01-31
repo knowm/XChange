@@ -19,11 +19,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.Series;
@@ -40,7 +41,7 @@ public class MtGoxOrderBookChartDemo {
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
     PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();

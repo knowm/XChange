@@ -49,9 +49,27 @@ Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support
 New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices
 
 ## Getting Started
+XChange is semantically versioned: http://semver.org  
 
 ### Non-Maven
-Download Jars: http://xeiam.com/xchange.jsp
+Download XChange Jars: http://xeiam.com/xchange.jsp
+
+#### Compile Dependencies
+    +- org.slf4j:slf4j-api:jar:1.7.2:compile
+    +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.11:compile
+    |  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.11:compile
+    +- org.joda:joda-money:jar:0.8:compile
+    +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+
+
+#### Test Dependencies
+    \- junit:junit:jar:4.11:test
+        \- org.hamcrest:hamcrest-core:jar:1.3:test 
+   
+#### Other Dependencies for Some Examples
+    +- ch.qos.logback:logback-classic:jar:1.0.9:compile
+    |  \- ch.qos.logback:logback-core:jar:1.0.9:compile
+    +- com.xeiam.xchart:xchart:jar:1.3.1:compile
 
 ### Maven
 The XChange release artifacts are hosted on Maven Central. 
@@ -59,7 +77,7 @@ The XChange release artifacts are hosted on Maven Central.
 For snapshots, add the following repository to your pom.xml file.
 
     <repository>
-      <id>xchange-snapshot</id>
+      <id>sonatype-oss-snapshot</id>
       <snapshots/>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
@@ -69,53 +87,54 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-cavirtex</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-openexchangerates</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-btce</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitstamp</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
         <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-campbx</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitcoincharts</artifactId>
-      <version>1.3.0</version>
+      <version>1.4.0</version>
     </dependency>
     
 ## Building
 mvn clean package  
-mvn javadoc:aggregate 
+mvn javadoc:aggregate  
 mvn clean integration-test -P run-integration-tests  
+mvn dependency:tree  
 
 ## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).

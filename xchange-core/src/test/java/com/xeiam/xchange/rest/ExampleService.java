@@ -24,13 +24,16 @@ package com.xeiam.xchange.rest;
 
 import java.math.BigDecimal;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -43,12 +46,12 @@ public interface ExampleService {
 
   @POST
   @Path("buy/")
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   Order buy(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price);
 
   @POST
   @Path("bitcoin_withdrawal/{user}")
-  @Produces("application/json")
+  @Produces(MediaType.APPLICATION_JSON)
   Object withdrawBitcoin(@PathParam("user") String user, @FormParam("password") String password, @QueryParam("amount") BigDecimal amount, @QueryParam("address") String address);
 
   @GET
@@ -59,28 +62,12 @@ public interface ExampleService {
   @FormParam("method")
   Object getInfo(Long from, Long count);
 
-  /*
-   * @GET
-   * @Path("order_book/")
-   * @Produces("application/json") public OrderBook getOrderBook();
-   * @GET
-   * @Path("ticker/")
-   * @Produces("application/json") public Ticker getTicker();
-   * @GET
-   * @Path("transactions/")
-   * @Produces("application/json") public Trade[] getTransactions();
-   * @POST
-   * @Path("cancel_order/")
-   * @Produces("application/json") public Object cancelOrder(@FormParam("user") String user, @FormParam("password") String password, @FormParam("id") int orderId);
-   * @POST
-   * @Path("open_orders/")
-   * @Produces("application/json") public Order[] getOpenOrders(@FormParam("user") String user, @FormParam("password") String password);
-   * @POST
-   * @Path("sell/")
-   * @Produces("application/json") public Order sell(@FormParam("user") String user, @FormParam("password") String password, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal
-   * price);
-   * @POST
-   * @Path("bitcoin_deposit_address/")
-   * @Produces("application/json") public String getBitcoinDepositAddress(@FormParam("user") String user, @FormParam("password") String password);
-   */
+  @GET
+  @Path("auth")
+  Object testBasicAuth(@HeaderParam("Authorization") BasicAuthCredentials credentials, @QueryParam("param") Integer value);
+
+  @POST
+  @Path("json")
+  @Consumes(MediaType.APPLICATION_JSON)
+  Object testJsonBody(Ticker ticker);
 }

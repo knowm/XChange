@@ -17,15 +17,18 @@ package com.xeiam.xchange.bitcoincharts.service.marketdata.polling;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.Currencies;
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -38,6 +41,8 @@ import com.xeiam.xchange.utils.Assert;
  * @author timmolter
  */
 public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
+
+  private final Logger logger = LoggerFactory.getLogger(BitcoinChartsPollingMarketDataService.class);
 
   private final BitcoinCharts bitcoinCharts;
 
@@ -60,9 +65,9 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   }
 
   @Override
-  public int getRefreshRate() {
+  public long getRefreshRate() {
 
-    return BitcoinChartsUtils.REFRESH_RATE;
+    return BitcoinChartsUtils.REFRESH_RATE_MILLIS;
   }
 
   @Override
@@ -79,12 +84,12 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     // check for pacing violation
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
 
-      System.out.println("requesting tickers");
+      logger.debug("requesting BitcoinCharts tickers");
+      tickerRequestTimeStamp = System.currentTimeMillis();
 
       // Request data
       cachedBitcoinChartsTickers = bitcoinCharts.getMarketData();
     }
-    tickerRequestTimeStamp = System.currentTimeMillis();
 
     return BitcoinChartsAdapters.adaptTicker(cachedBitcoinChartsTickers, tradableIdentifier);
   }

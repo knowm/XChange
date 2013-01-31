@@ -24,8 +24,8 @@ package com.xeiam.xchange.oer;
 import java.util.Arrays;
 import java.util.List;
 
-import com.xeiam.xchange.Currencies;
-import com.xeiam.xchange.CurrencyPair;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared OER properties
@@ -363,7 +363,7 @@ public final class OERUtils {
 
   );
 
-  public static final int REFRESH_RATE = 60 * 60; // rates refresh every 60 minutes
+  public static final long REFRESH_RATE_MILLIS = 1000L * 60L * 60L; // rates refresh every 60 minutes
 
   /**
    * Checks if a given CurrencyPair is covered by this exchange

@@ -31,8 +31,11 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -43,7 +46,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Various adapters for converting from Bitstamp DTOs to XChange DTOs
@@ -66,8 +68,8 @@ public final class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet usdWallet = new Wallet("USD", BigMoney.of(CurrencyUnit.USD, bitstampBalance.getUsdBalance()));
-    Wallet btcWallet = new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), bitstampBalance.getBtcBalance()));
+    Wallet usdWallet = new Wallet(Currencies.USD, MoneyUtils.parseMoney(Currencies.USD, bitstampBalance.getUsdBalance()));
+    Wallet btcWallet = new Wallet(Currencies.BTC, MoneyUtils.parseMoney(Currencies.BTC, bitstampBalance.getBtcBalance()));
 
     return new AccountInfo(userName, Arrays.asList(usdWallet, btcWallet));
   }
@@ -75,15 +77,15 @@ public final class BitstampAdapters {
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    * 
-   * @param orderBook
+   * @param bitstampOrderBook
    * @param currency
    * @param tradableIdentifier
    * @return
    */
-  public static OrderBook adaptOrders(com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook orderBook, String currency, String tradableIdentifier) {
+  public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, String currency, String tradableIdentifier) {
 
-    List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
-    List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
+    List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitstampOrderBook.getAsks());
+    List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitstampOrderBook.getBids());
     return new OrderBook(asks, bids);
   }
 
@@ -136,11 +138,11 @@ public final class BitstampAdapters {
    */
   public static Ticker adaptTicker(BitstampTicker bitstampTicker, String currency, String tradableIdentifier) {
 
-    BigMoney last = MoneyUtils.parseFiat(currency + " " + bitstampTicker.getLast());
-    BigMoney bid = MoneyUtils.parseFiat(currency + " " + bitstampTicker.getBid());
-    BigMoney ask = MoneyUtils.parseFiat(currency + " " + bitstampTicker.getAsk());
-    BigMoney high = MoneyUtils.parseFiat(currency + " " + bitstampTicker.getHigh());
-    BigMoney low = MoneyUtils.parseFiat(currency + " " + bitstampTicker.getLow());
+    BigMoney last = MoneyUtils.parse(currency + " " + bitstampTicker.getLast());
+    BigMoney bid = MoneyUtils.parse(currency + " " + bitstampTicker.getBid());
+    BigMoney ask = MoneyUtils.parse(currency + " " + bitstampTicker.getAsk());
+    BigMoney high = MoneyUtils.parse(currency + " " + bitstampTicker.getHigh());
+    BigMoney low = MoneyUtils.parse(currency + " " + bitstampTicker.getLow());
     BigDecimal volume = bitstampTicker.getVolume();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();

@@ -75,10 +75,18 @@ public interface StreamingExchangeService {
   boolean isConnected();
 
   /**
-   * The consumer exchange event queue
+   * <p>
+   * </p>
+   * The consumer exchange event queue containing events as follows:
+   * <ul>
+   * <li>Connect/disconnect events</li>
+   * <li>Ticker events (with Ticker embedded)</li>
+   * </ul>
    * 
-   * @return A blocking queue consisting of raw exchange events (such as connect/disconnect notifications)
+   * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
+   * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
+   * @return A blocking queue
    */
-  BlockingQueue<ExchangeEvent> getEventQueue();
+  BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency);
 
 }

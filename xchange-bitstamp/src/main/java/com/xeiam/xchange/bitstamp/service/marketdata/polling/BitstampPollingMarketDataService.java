@@ -24,7 +24,6 @@ package com.xeiam.xchange.bitstamp.service.marketdata.polling;
 
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitStamp;
@@ -33,6 +32,7 @@ import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -72,6 +72,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   public Trades getTrades(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
+
     BitstampTransaction[] transactions = bitstamp.getTransactions();
 
     return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
@@ -86,6 +87,8 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+
+    verify(tradableIdentifier, currency);
 
     BitstampOrderBook bitstampOrderBook = bitstamp.getOrderBook();
 

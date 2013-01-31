@@ -21,10 +21,11 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
@@ -35,32 +36,22 @@ public class TickerDemo {
   public static void main(String[] args) {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
-    System.out.println("Last: " + currency + "-" + value);
-
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Bid: " + ticker.getBid().toString());
-    System.out.println("Ask: " + ticker.getAsk().toString());
+    System.out.println(ticker.toString());
 
     // Get the latest ticker data showing BTC to EUR
     ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Bid: " + ticker.getBid().toString());
-    System.out.println("Ask: " + ticker.getAsk().toString());
+    System.out.println(ticker.toString());
 
     // Get the latest ticker data showing BTC to GBP
     ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Bid: " + ticker.getBid().toString());
-    System.out.println("Ask: " + ticker.getAsk().toString());
+    System.out.println(ticker.toString());
 
   }
 

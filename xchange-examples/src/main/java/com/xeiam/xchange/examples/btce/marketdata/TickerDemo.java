@@ -21,9 +21,10 @@
  */
 package com.xeiam.xchange.examples.btce.marketdata;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
@@ -35,7 +36,7 @@ public class TickerDemo {
   public static void main(String[] args) {
 
     // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.btce.BTCEExchange");
+    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();

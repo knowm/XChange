@@ -707,12 +707,12 @@ class IOConnection implements IOCallback {
       break;
     case IOMessage.TYPE_JSON_MESSAGE:
 
+      // TODO perhaps try to catch this exception later instead of parsing the json string twice, just trust that it's really JSON.
       try {
         // test if JSON is valid by catching a parse Exception
         objectMapper.readValue(message.getData(), new TypeReference<Map<String, Object>>() {
         });
-        // JSONUtils.getJsonGenericMap(message.getData(), objectMapper);
-        findCallback(message).onMessage(message.getData(), remoteAcknowledge(message));
+        findCallback(message).onJSONMessage(message.getData(), remoteAcknowledge(message));
       } catch (JsonParseException e) {
         log.warn("Malformated JSON received: " + message.getData());
       } catch (Exception e) {
@@ -827,7 +827,12 @@ class IOConnection implements IOCallback {
           reconnectTask.cancel();
         }
         reconnectTask = new ReconnectTask();
-        backgroundTimer.schedule(reconnectTask, 1000);
+        try {
+          backgroundTimer.schedule(reconnectTask, 1000);
+        } catch (IllegalStateException e) {
+          // Probably a race condition
+          setState(STATE_INVALID);
+        }
       }
     }
   }
@@ -947,6 +952,14 @@ class IOConnection implements IOCallback {
 
     for (SocketIO socket : sockets.values()) {
       socket.getCallback().onMessage(data, ack);
+    }
+  }
+
+  @Override
+  public void onJSONMessage(String jsonString, IOAcknowledge ack) {
+
+    for (SocketIO socket : sockets.values()) {
+      socket.getCallback().onJSONMessage(jsonString, ack);
     }
   }
 

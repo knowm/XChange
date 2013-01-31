@@ -25,6 +25,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.xeiam.xchange.currency.CurrencyPair;
+
 public class CurrencyPairTest {
 
   @Test

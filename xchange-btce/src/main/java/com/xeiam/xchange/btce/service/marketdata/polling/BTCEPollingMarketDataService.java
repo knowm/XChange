@@ -23,7 +23,6 @@ package com.xeiam.xchange.btce.service.marketdata.polling;
 
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.BTCE;
@@ -32,6 +31,7 @@ import com.xeiam.xchange.btce.BTCEUtils;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;

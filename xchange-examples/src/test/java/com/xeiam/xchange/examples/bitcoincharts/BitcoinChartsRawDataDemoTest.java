@@ -32,7 +32,6 @@ import com.xeiam.xchange.OnlineTest;
  * 
  * @author timmolter
  */
-
 @Category(OnlineTest.class)
 public class BitcoinChartsRawDataDemoTest {
 

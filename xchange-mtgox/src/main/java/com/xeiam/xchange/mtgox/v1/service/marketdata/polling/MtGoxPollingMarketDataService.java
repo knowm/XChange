@@ -23,14 +23,14 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
-import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
@@ -42,7 +42,7 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Implementation of the market data service for Mt Gox
+ * Implementation of the market data service for Mt Gox V1
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
@@ -106,6 +106,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency) {
+
+    verify(tradableIdentifier, currency);
 
     // Request data
     MtGoxTrade[] mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);

@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.examples.cavirtex.marketdata;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.virtex.VirtExExchange;
 
 /**
  * Demonstrate requesting Trades at VirtEx
@@ -35,7 +36,7 @@ public class TradesDemo {
   public static void main(String[] args) {
 
     // Use the factory to get the VirtEx exchange API using default settings
-    Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.virtex.VirtExExchange");
+    Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange(VirtExExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();

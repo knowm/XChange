@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,25 +20,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service;
+package com.xeiam.xchange.rest;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
+import java.io.UnsupportedEncodingException;
+
+import com.xeiam.xchange.utils.Base64;
 
 /**
- * @author Matija Mazi
+ * @author Matija Mazi <br/>
+ *         This is used as support for HTTP Basic access authentication. Should be used a parameter of a REST interface method, annotated with @HeaderParam("Authorization"), eg: Result
+ *         getResult(@HeaderParam("Authorization") BasicAuthCredentials credentials);
  */
-public class MtGoxExamplesUtils {
+public class BasicAuthCredentials implements ParamsDigest {
 
-  public static Exchange createExchange() {
+  private final String username, password;
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setUri("https://mtgox.com");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
-    return mtgox;
+  public BasicAuthCredentials(String username, String password) {
+
+    this.username = username;
+    this.password = password;
+  }
+
+  @Override
+  public String digestParams(RestMethodMetadata restMethodMetadata) {
+
+    // ignore restMethodMetadata, just need username & password
+    try {
+      byte[] inputBytes = (username + ":" + password).getBytes("ISO-8859-1");
+      return "Basic " + Base64.encodeBytes(inputBytes);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Unsupported encoding, fix the code.", e);
+    }
   }
 }

@@ -23,9 +23,9 @@ package com.xeiam.xchange.virtex.service.marketdata.polling;
 
 import java.util.List;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -88,11 +88,11 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     verify(tradableIdentifier, currency);
 
     // Request data
-    VirtExDepth VirtExDepth = virtEx.getDepth(currency);
+    VirtExDepth virtExDepth = virtEx.getFullDepth(currency);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), currency, "ask", "");
-    List<LimitOrder> bids = VirtExAdapters.adaptOrders(VirtExDepth.getBids(), currency, "bid", "");
+    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currency, "ask", "");
+    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currency, "bid", "");
 
     return new OrderBook(asks, bids);
   }

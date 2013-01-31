@@ -34,10 +34,10 @@ import org.junit.Test;
 
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Tests the BitstampAdapter class
@@ -78,9 +78,9 @@ public class CampBXAdapterTest {
 
     Ticker ticker = CampBXAdapters.adaptTicker(campBXTicker, "USD", "BTC");
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parseFiat("USD 13.30"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parseFiat("USD 13.30"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parseFiat("USD 13.52"))));
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 13.30"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 13.30"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 13.52"))));
 
   }
 }

@@ -78,7 +78,7 @@ public class RunnableWebSocketEventProducer implements RunnableExchangeEventProd
         log.debug("Received data '{}'", data);
 
         // Create an event
-        ExchangeEvent marketDataEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, data.getBytes());
+        ExchangeEvent marketDataEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, data);
 
         queue.put(marketDataEvent);
       }

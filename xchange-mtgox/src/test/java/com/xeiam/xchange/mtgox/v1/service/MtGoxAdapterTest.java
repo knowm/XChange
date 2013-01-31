@@ -34,7 +34,8 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
-import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -49,7 +50,6 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Tests the MtGoxAdapter class
@@ -69,7 +69,7 @@ public class MtGoxAdapterTest {
     AccountInfo accountInfo = MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
     assertThat(accountInfo.getUsername(), is(equalTo("xchange")));
     assertThat(accountInfo.getWallets().get(0).getCurrency(), is(equalTo("BTC")));
-    assertThat(accountInfo.getWallets().get(0).getBalance(), is(equalTo(MoneyUtils.parseFiat("BTC 0.00000000"))));
+    assertThat(accountInfo.getWallets().get(0).getBalance(), is(equalTo(MoneyUtils.parse("BTC 0.00000000"))));
   }
 
   @Test
@@ -165,8 +165,8 @@ public class MtGoxAdapterTest {
     List<Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
     System.out.println(wallets.toString());
     assertTrue("List size should be true!", wallets.size() == 2);
-    assertTrue("CAD should be null", !wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parseFiat("CAD 0.0"))));
-    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parseFiat("BTC 0.00000000"))));
+    assertTrue("CAD should be null", !wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parse("CAD 0.0"))));
+    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parse("BTC 0.00000000"))));
 
     // System.out.println(wallets.get(0).toString());
     assertTrue("wallets.get(0).getBalance().getAmount().doubleValue() should be 0.0", wallets.get(0).getBalance().getAmount().doubleValue() == 0.0);
@@ -186,9 +186,9 @@ public class MtGoxAdapterTest {
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
     // System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parseFiat("USD 4.89000"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parseFiat("USD 4.89002"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parseFiat("USD 4.91227"))));
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 4.89000"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 4.89002"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 4.91227"))));
     assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("57759.66891627"))));
 
   }

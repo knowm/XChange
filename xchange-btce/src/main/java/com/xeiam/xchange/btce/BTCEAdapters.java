@@ -34,6 +34,7 @@ import com.xeiam.xchange.btce.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -44,7 +45,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Various adapters for converting from BTCE DTOs to XChange DTOs
@@ -73,7 +73,7 @@ public final class BTCEAdapters {
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigMoney limitPrice;
-    limitPrice = MoneyUtils.parseFiat(currency + " " + price);
+    limitPrice = MoneyUtils.parse(currency + " " + price);
 
     return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
 
@@ -116,7 +116,7 @@ public final class BTCEAdapters {
     OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = BTCETrade.getAmount();
     String currency = BTCETrade.getPriceCurrency();
-    BigMoney price = MoneyUtils.parseFiat(currency + " " + BTCETrade.getPrice());
+    BigMoney price = MoneyUtils.parse(currency + " " + BTCETrade.getPrice());
     String tradableIdentifier = BTCETrade.getItem();
     Date date = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
 
@@ -142,17 +142,17 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCETicker to a Ticker Object
    * 
-   * @param BTCETicker
+   * @param bTCETicker
    * @return
    */
-  public static Ticker adaptTicker(BTCETicker BTCETicker, String tradableIdentifier, String currency) {
+  public static Ticker adaptTicker(BTCETicker bTCETicker, String tradableIdentifier, String currency) {
 
-    BigMoney last = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLast());
-    BigMoney bid = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getSell());
-    BigMoney ask = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getBuy());
-    BigMoney high = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getHigh());
-    BigMoney low = MoneyUtils.parseFiat(currency + " " + BTCETicker.getTicker().getLow());
-    BigDecimal volume = BTCETicker.getTicker().getVol();
+    BigMoney last = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getLast());
+    BigMoney bid = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getSell());
+    BigMoney ask = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getBuy());
+    BigMoney high = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getHigh());
+    BigMoney low = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getLow());
+    BigDecimal volume = bTCETicker.getTicker().getVol();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }

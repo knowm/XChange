@@ -36,13 +36,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.Currencies;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.streaming.websocket.HandshakeData;
 import com.xeiam.xchange.streaming.websocket.WebSocket;
 import com.xeiam.xchange.streaming.websocket.WebSocketServer;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * <p>
@@ -99,7 +99,7 @@ public class WebSocketExchangeServer extends WebSocketServer {
         @Override
         public void run() {
 
-          BigMoney money = MoneyUtils.parseFiat("USD " + random.nextLong());
+          BigMoney money = MoneyUtils.parse("USD " + random.nextLong());
           Ticker ticker = TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC).withLast(money).withBid(money).withAsk(money).withHigh(money).withLow(money).withVolume(
               new BigDecimal(98887726.001)).build();
           try {

@@ -24,11 +24,11 @@ package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -38,12 +38,17 @@ public class MarketOrderDemo {
 
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(MtGoxExchange.class.getName());
+    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
+    exchangeSpecification.setUri("https://mtgox.com");
+    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    // place a market order
+    // place a market order for 1 Bitcoin at market price
     OrderType orderType = (OrderType.BID);
     BigDecimal tradeableAmount = new BigDecimal(1);
     String tradableIdentifier = "BTC";
@@ -51,17 +56,8 @@ public class MarketOrderDemo {
 
     MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
 
-    String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
-    System.out.println("Market Order return value: " + marketOrderReturnValue);
-
-    // get open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-      if (openOrder.getId().equals(marketOrderReturnValue)) {
-        System.out.println("This is the order we just placed:");
-      }
-      System.out.println(openOrder.toString());
-    }
+    String orderID = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + orderID);
 
   }
 }

@@ -28,11 +28,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.service.BaseSocketIOExchangeService;
+import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
@@ -71,10 +72,30 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     super(exchangeSpecification);
 
     // Create the listener with the given queues
-    this.runnableExchangeEventListener = new MtGoxRunnableExchangeEventListener(tickerQueue, getEventQueue());
+    this.runnableExchangeEventListener = new MtGoxRunnableExchangeEventListener(tickerQueue, consumerEventQueue);
 
   }
 
+  /**
+   * Initiates a connection to Mt Gox
+   * 
+   * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
+   * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
+   * @return The blocking queue of exchange events
+   */
+  @Override
+  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency) {
+
+    log.info("Verifying...");
+
+    verify(tradableIdentifier, currency);
+
+    connectNow(currency, runnableExchangeEventListener);
+
+    return consumerEventQueue;
+  }
+
+  // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
   @Override
   public BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, final String currency) {
 
@@ -91,7 +112,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   private void connectNow(String currency, RunnableExchangeEventListener listener) {
 
     String url = apiBase + "?Channel=ticker&Currency=" + currency;
-    log.debug(url);
+    log.debug("streaming url= " + url);
 
     connect(url, listener);
   }

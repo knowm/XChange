@@ -26,12 +26,14 @@ import java.math.BigDecimal;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Test placing a limit order at MtGox
@@ -40,22 +42,27 @@ public class LimitOrderDemo {
 
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(MtGoxExchange.class.getName());
+    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
+    exchangeSpecification.setUri("https://mtgox.com");
+    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    // place a limit order
+    // place a limit order for a random amount of BTC at USD 1.25
     OrderType orderType = (OrderType.BID);
     BigDecimal tradeableAmount = new BigDecimal(Math.random());
     String tradableIdentifier = "BTC";
     String transactionCurrency = "USD";
-    BigMoney limitPrice = MoneyUtils.parseFiat("USD 1.25");
+    BigMoney limitPrice = MoneyUtils.parse("USD 1.25");
 
     LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
 
-    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
-    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+    String orderID = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order ID: " + orderID);
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();

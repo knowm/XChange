@@ -46,7 +46,7 @@ public class Draft_10 extends Draft {
   public static int readVersion(HandshakeData handshakeData) {
 
     String vers = handshakeData.getFieldValue("Sec-WebSocket-Version");
-    if (vers.length() > 0) {
+    if (vers != null && vers.trim().length() > 0) {
       int v;
       try {
         v = new Integer(vers.trim());

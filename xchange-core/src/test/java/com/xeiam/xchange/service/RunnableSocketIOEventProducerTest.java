@@ -57,6 +57,19 @@ public class RunnableSocketIOEventProducerTest {
 
   }
 
+  // @Test
+  // public void testOnJsonMessage() throws Exception {
+  //
+  // JSONObject jsonObject = new JSONObject();
+  //
+  // testObject.onMessage(jsonObject, null);
+  //
+  // ExchangeEvent event = queue.take();
+  //
+  // assertEquals(event.getEventType(), ExchangeEventType.JSON_MESSAGE);
+  //
+  // }
+
   @Test
   public void testOn() throws Exception {
 

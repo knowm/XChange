@@ -29,5 +29,5 @@ package com.xeiam.xchange.rest;
  */
 public interface ParamsDigest {
 
-  public String digestParams(AllParams allParams);
+  public String digestParams(RestMethodMetadata restMethodMetadata);
 }

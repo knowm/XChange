@@ -44,7 +44,7 @@ public interface VirtEx {
   @GET
   @Path("{currency}/orderbook.json")
   @Produces("application/json")
-  public VirtExDepth getDepth(@PathParam("currency") String currency);
+  public VirtExDepth getFullDepth(@PathParam("currency") String currency);
 
   @GET
   @Path("{currency}/trades.json")

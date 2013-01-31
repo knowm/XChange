@@ -55,7 +55,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   /**
    * The event queue for the consumer
    */
-  private final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+  protected final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
 
   protected SocketIO socketIO;
 
@@ -137,7 +137,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   }
 
   @Override
-  public BlockingQueue<ExchangeEvent> getEventQueue() {
+  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency) {
 
     return consumerEventQueue;
   }

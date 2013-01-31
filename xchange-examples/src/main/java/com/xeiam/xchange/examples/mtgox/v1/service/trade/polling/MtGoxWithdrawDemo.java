@@ -24,7 +24,9 @@ package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.examples.mtgox.v1.service.MtGoxExamplesUtils;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
@@ -40,7 +42,12 @@ public class MtGoxWithdrawDemo {
 
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+    // Use the factory to get the version 1 MtGox exchange API using default settings
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(MtGoxExchange.class.getName());
+    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
+    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
+    exchangeSpecification.setUri("https://mtgox.com");
+    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     PollingAccountService accountService = mtgox.getPollingAccountService();
     System.out.println(accountService.getAccountInfo());

@@ -45,7 +45,7 @@ import java.util.Map;
 public class Params implements Serializable {
 
   private Map<String, Object> data = new LinkedHashMap<String, Object>();
-  private AllParams allParams;
+  private RestMethodMetadata restMethodMetadata;
 
   /**
    * private Constructor to prevent instantiation
@@ -108,9 +108,9 @@ public class Params implements Serializable {
     }
   }
 
-  void setAllParams(AllParams allParams) {
+  void setRestMethodMetadata(RestMethodMetadata restMethodMetadata) {
 
-    this.allParams = allParams;
+    this.restMethodMetadata = restMethodMetadata;
   }
 
   public String asQueryString() {
@@ -118,17 +118,23 @@ public class Params implements Serializable {
     return toQueryString(true);
   }
 
-  public String asFormEncodedPostBody() {
+  public String asFormEncodedRequestBody() {
 
     return toQueryString(false);
+  }
+
+  public boolean isEmpty() {
+
+    return data.isEmpty();
   }
 
   public String applyToPath(String path) {
 
     for (String paramName : data.keySet()) {
-      if (isParamSet(paramName)) {
-        path = path.replace("{" + paramName + "}", getParamValue(paramName));
+      if (!isParamSet(paramName)) {
+        throw new IllegalArgumentException("The value of '" + paramName + "' path parameter was not specified.");
       }
+      path = path.replace("{" + paramName + "}", getParamValue(paramName));
     }
     return path;
   }
@@ -148,8 +154,9 @@ public class Params implements Serializable {
 
     Object paramValue = data.get(key);
     if (paramValue instanceof ParamsDigest) {
-      return ((ParamsDigest) paramValue).digestParams(allParams);
+      return ((ParamsDigest) paramValue).digestParams(restMethodMetadata);
     }
+    // return new ObjectMapper().writeValueAsString(paramValue);
     return paramValue.toString();
   }
 

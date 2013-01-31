@@ -23,10 +23,17 @@
 package com.xeiam.xchange.rest;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
 /**
@@ -34,8 +41,10 @@ import javax.ws.rs.Path;
  */
 public class RestRequestData implements Serializable {
 
+  private static final List<Class<? extends Annotation>> HTTP_METHOD_ANNS = Arrays.asList(GET.class, POST.class, PUT.class, OPTIONS.class, HEAD.class, DELETE.class);
+
   protected final Class<?> returnType;
-  protected final AllParams params;
+  protected final RestMethodMetadata params;
   protected final HttpMethod httpMethod;
   protected final String url;
 
@@ -47,7 +56,7 @@ public class RestRequestData implements Serializable {
    * @param httpMethod
    * @param url
    */
-  public RestRequestData(Class<?> returnType, AllParams params, HttpMethod httpMethod, String url) {
+  public RestRequestData(Class<?> returnType, RestMethodMetadata params, HttpMethod httpMethod, String url) {
 
     this.returnType = returnType;
     this.params = params;
@@ -57,27 +66,45 @@ public class RestRequestData implements Serializable {
 
   static RestRequestData create(Method method, Object[] args, String baseUrl, String intfacePath) {
 
-    AllParams params = AllParams.createInstance(method, args);
+    RestMethodMetadata params = RestMethodMetadata.createInstance(method, args);
     Path pathAnn = method.getAnnotation(Path.class);
     String path = pathAnn == null ? null : params.getPath(pathAnn.value());
-    HttpMethod httpMethod = method.isAnnotationPresent(GET.class) ? HttpMethod.GET : method.isAnnotationPresent(POST.class) ? HttpMethod.POST : null;
+    HttpMethod httpMethod = getHttpMethod(method);
     String url1 = getUrl(baseUrl, path, intfacePath, params.getQueryString());
     return new RestRequestData(method.getReturnType(), params, httpMethod, url1);
+  }
+
+  static HttpMethod getHttpMethod(Method method) {
+
+    HttpMethod httpMethod = null;
+    for (Class<? extends Annotation> m : HTTP_METHOD_ANNS) {
+      if (method.isAnnotationPresent(m)) {
+        if (httpMethod != null) {
+          throw new IllegalArgumentException("Method is annotated with more than one HTTP-method annotation: " + method);
+        }
+        httpMethod = HttpMethod.valueOf(m.getSimpleName());
+      }
+    }
+    if (httpMethod == null) {
+      throw new IllegalArgumentException("Method must be annotated with a HTTP-method annotation: " + method);
+    }
+    return httpMethod;
   }
 
   private static String getUrl(String baseUrl, String method, String intfacePath, String queryString) {
 
     // TODO make more robust in terms of path separator ('/') handling
+    // (Use UriBuilder?)
     String completeUrl = baseUrl;
-    completeUrl = appendIfNotNull(completeUrl, intfacePath, "/");
-    completeUrl = appendIfNotNull(completeUrl, method, "/");
-    completeUrl = appendIfNotNull(completeUrl, queryString, "?");
+    completeUrl = appendIfNotEmpty(completeUrl, intfacePath, "/");
+    completeUrl = appendIfNotEmpty(completeUrl, method, "/");
+    completeUrl = appendIfNotEmpty(completeUrl, queryString, "?");
     return completeUrl;
   }
 
-  private static String appendIfNotNull(String url, String next, String separator) {
+  private static String appendIfNotEmpty(String url, String next, String separator) {
 
-    if (next != null && !next.isEmpty()) {
+    if (next != null && next.trim().length() > 0 && !next.equals("/")) {
       url += separator + next;
     }
     return url;

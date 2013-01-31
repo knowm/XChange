@@ -36,6 +36,6 @@ public interface CachedDataSession {
    * 
    * @return The maximum allowable refresh rate in seconds
    */
-  public int getRefreshRate();
+  public long getRefreshRate();
 
 }

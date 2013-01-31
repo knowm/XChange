@@ -23,17 +23,17 @@ package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.CurrencyPair;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
+import com.xeiam.xchange.mtgox.v0.MtGoxV0;
 import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
-import com.xeiam.xchange.mtgox.v1.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v1.MtGoxV0;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
@@ -107,8 +107,6 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     Assert.notNull(orderId, "orderId cannot be null");
 
     MtGoxCancelOrder mtGoxCancelOrder = mtGoxV0.cancelOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), orderId);
-
-    System.out.println(mtGoxCancelOrder.toString());
 
     boolean orderGone = true;
     for (int i = 0; i < mtGoxCancelOrder.getOrders().size(); i++) {

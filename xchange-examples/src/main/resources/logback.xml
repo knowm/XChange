@@ -54,6 +54,6 @@
 
 	<!-- Define logging for organization applications only -->
 	<logger name="com.xeiam.xchange.streaming.socketio" level="WARN" />
-	<logger name="com.xeiam.xchange" level="INFO" />
+	<logger name="com.xeiam.xchange" level="DEBUG" />
 
 </configuration>

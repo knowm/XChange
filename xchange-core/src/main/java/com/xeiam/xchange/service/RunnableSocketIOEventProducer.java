@@ -74,7 +74,15 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
   @Override
   public void onMessage(final String data, IOAcknowledge ack) {
 
-    ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, data.getBytes());
+    ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, data);
+
+    addToQueue(exchangeEvent);
+  }
+
+  @Override
+  public void onJSONMessage(final String jsonString, IOAcknowledge ack) {
+
+    ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.JSON_MESSAGE, jsonString);
 
     addToQueue(exchangeEvent);
   }
@@ -120,4 +128,5 @@ public class RunnableSocketIOEventProducer implements RunnableExchangeEventProdu
       log.warn("InterruptedException occurred while adding ExchangeEvent to Queue!", e);
     }
   }
+
 }

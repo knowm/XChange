@@ -31,12 +31,12 @@ import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.MoneyUtils;
 
 /**
  * Various adapters for converting from CampBX DTOs to XChange DTOs
@@ -44,7 +44,7 @@ import com.xeiam.xchange.utils.MoneyUtils;
 public final class CampBXAdapters {
 
   /**
-   * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
+   * CampBXOrderBook to a OrderBook Object
    * 
    * @param orderBook
    * @param currency
@@ -90,9 +90,9 @@ public final class CampBXAdapters {
    */
   public static Ticker adaptTicker(CampBXTicker campbxTicker, String currency, String tradableIdentifier) {
 
-    BigMoney last = MoneyUtils.parseFiat(currency + " " + campbxTicker.getLast());
-    BigMoney bid = MoneyUtils.parseFiat(currency + " " + campbxTicker.getBid());
-    BigMoney ask = MoneyUtils.parseFiat(currency + " " + campbxTicker.getAsk());
+    BigMoney last = MoneyUtils.parse(currency + " " + campbxTicker.getLast());
+    BigMoney bid = MoneyUtils.parse(currency + " " + campbxTicker.getBid());
+    BigMoney ask = MoneyUtils.parse(currency + " " + campbxTicker.getAsk());
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).build();
 

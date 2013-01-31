@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.examples.openexchangerates.marketdata;
 
-import com.xeiam.xchange.Currencies;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.oer.OERExchange;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
@@ -36,7 +37,7 @@ public class TickerDemo {
   public static void main(String[] args) {
 
     // Use the factory to get the Open Exchange Rates exchange API
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification("com.xeiam.xchange.oer.OERExchange");
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(OERExchange.class.getName());
     exchangeSpecification.setUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("ab32c922bca749ec9345b4717914ee1f");
     Exchange openExchangeRates = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
@@ -46,15 +47,16 @@ public class TickerDemo {
 
     // Get the latest ticker data showing EUR/USD
     Ticker ticker = marketDataService.getTicker(Currencies.EUR, Currencies.USD);
+    System.out.println("Last: " + ticker.getLast().toString());
 
+    // Alternate way to print out ticker currency and amount
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
     System.out.println("Last: " + currency + "-" + value);
 
-    System.out.println("Last: " + ticker.getLast().toString());
-
+    // Request another ticker. it will return a cached object
     ticker = marketDataService.getTicker(Currencies.JPY, Currencies.USD);
-    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("cached Last: " + ticker.getLast().toString());
 
   }
 
