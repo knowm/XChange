@@ -111,7 +111,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     boolean orderExists = false;
     for (int i = 0; i < mtGoxCancelOrder.getOrders().size(); i++) {
-      System.out.println(mtGoxCancelOrder.getOrders().get(i).getOid());
+      // System.out.println(mtGoxCancelOrder.getOrders().get(i).getOid());
       if (mtGoxCancelOrder.getOrders().get(i).getOid().equals(orderId)) {
         orderExists = true;
         break;
