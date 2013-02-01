@@ -50,9 +50,9 @@ public class CancelOrdersJSONTest {
     mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxCancelOrder mtGoxOpenOrders = mapper.readValue(is, MtGoxCancelOrder.class);
 
-    // System.out.println(mtGoxOpenOrders.toString());
+    System.out.println(mtGoxOpenOrders.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(mtGoxOpenOrders.getOrders().get(0).getAmount(), equalTo(new BigDecimal("0.92907324")));
+    assertThat(mtGoxOpenOrders.getOrders().get(0).getAmount(), equalTo(new BigDecimal("26.00000000")));
   }
 }

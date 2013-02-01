@@ -28,17 +28,17 @@ import org.codehaus.jackson.annotate.JsonProperty;
 /**
  * @author timmolter
  */
-public final class Orders {
+public final class MtGoxOrders {
 
   private final BigDecimal amount;
-  private final int amountInt;
+  private final long amountInt;
   private final String currency;
   private final Number dark;
   private final long date;
   private final String item;
   private final String oid;
   private final BigDecimal price;
-  private final int priceInt;
+  private final long priceInt;
   private final String priority;
   private final String realStatus;
   private final Number status;
@@ -61,8 +61,8 @@ public final class Orders {
    * @param status
    * @param type
    */
-  public Orders(@JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_int") int amount_int, @JsonProperty("currency") String currency, @JsonProperty("dark") Number dark,
-      @JsonProperty("date") long date, @JsonProperty("item") String item, @JsonProperty("oid") String oid, @JsonProperty("price") BigDecimal price, @JsonProperty("price_int") int price_int,
+  public MtGoxOrders(@JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_int") long amount_int, @JsonProperty("currency") String currency, @JsonProperty("dark") Number dark,
+      @JsonProperty("date") long date, @JsonProperty("item") String item, @JsonProperty("oid") String oid, @JsonProperty("price") BigDecimal price, @JsonProperty("price_int") long price_int,
       @JsonProperty("priority") String priority, @JsonProperty("real_status") String real_status, @JsonProperty("status") Number status, @JsonProperty("type") Number type) {
 
     this.amount = amount;
@@ -85,7 +85,7 @@ public final class Orders {
     return amount;
   }
 
-  public int getAmountInt() {
+  public long getAmountInt() {
 
     return amountInt;
   }
@@ -120,7 +120,7 @@ public final class Orders {
     return price;
   }
 
-  public int getPriceInt() {
+  public long getPriceInt() {
 
     return priceInt;
   }
