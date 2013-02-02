@@ -3,7 +3,6 @@ API v1 Documentation
 
 This document describes the Bitcoin-Central.net v1 API.
 
-
 # General API description
 
 ## Authentication
@@ -19,6 +18,19 @@ The base URL for all calls is `https://bitcoin-central.net`. A complete URL woul
 ## Formats and required HTTP request headers
 
 The API will only answer with JSON or empty responses. It expects parameters to be passed in JSON with the correct `Content-Type: application/json` being set.
+
+## Rate-limit
+
+API calls are rate-limited by IP to 5000 calls per day. Information about the status of the limit can be found in the `X-RateLimit-Limit` and `X-RateLimit-Remaining` HTTP headers.
+
+**Example response with rate-limit headers**
+
+    HTTP/1.1 200  
+    Content-Type: application/json; charset=utf-8
+    X-Ratelimit-Limit: 5000
+    X-Ratelimit-Remaining: 4982
+    Date: Wed, 30 Jan 2013 12:08:58 GMT
+
 
 ## Pagination
 
@@ -539,24 +551,25 @@ This call will return a JSON object representing an invoice
 
 A JSON object with the following parameters is returned.
 
-| Name                | Type     | Description                                                     |
-|---------------------|----------|-----------------------------------------------------------------|
-| uuid                | UUID     | Invoice identifier                                              |
-| state               | String   | Invoice state _(see appendix)_                                  | 
-| payment\_address    | String   | Bitcoin payment address                                         |                    
-| amount              | Decimal  | Requested amount to be credited upon payment                    | 
-| btc_amount          | Decimal  | Payable amount expressed in BTC                                 |
-| currency            | String   | Currency in which the amount is expressed                       |
-| merchant\_reference | String   | Merchant reference                                              |
-| merchant\_memo      | String   | Merchant memo                                                   |
-| callback\_url       | String   | URL to which a callback should be made when the invoice is paid |
-| item\_url           | String   | Order-related URL                                               |
-| paid\_at            | Datetime | Payment timestamp                                               |
-| created\_at         | Datetime | Creation timestamp                                              |
-| updated\_at         | Datetime | Update timestamp                                                |
-| expires\_at         | Datetime | Expiration timestamp                                            |
-| settled             | Boolean  | Has this invoice already been credited ?                        |
-| callback\_fired     | Boolean  | Has the HTTP callback been successfully fired ?                 |
+| Name                  | Type     | Description                                                     |
+|-----------------------|----------|-----------------------------------------------------------------|
+| uuid                  | UUID     | Invoice identifier                                              |
+| state                 | String   | Invoice state _(see appendix)_                                  | 
+| payment\_address      | String   | Bitcoin payment address                                         | 
+| payment\_bitcoin_\uri | String   | Payment URI, should be used to generate QR codes                |
+| amount                | Decimal  | Requested amount to be credited upon payment                    | 
+| btc_amount            | Decimal  | Payable amount expressed in BTC                                 |
+| currency              | String   | Currency in which the amount is expressed                       |
+| merchant\_reference   | String   | Merchant reference                                              |
+| merchant\_memo        | String   | Merchant memo                                                   |
+| callback\_url         | String   | URL to which a callback should be made when the invoice is paid |
+| item\_url             | String   | Order-related URL                                               |
+| paid\_at              | Datetime | Payment timestamp                                               |
+| created\_at           | Datetime | Creation timestamp                                              |
+| updated\_at           | Datetime | Update timestamp                                                |
+| expires\_at           | Datetime | Expiration timestamp                                            |
+| settled               | Boolean  | Has this invoice already been credited ?                        |
+| callback\_fired       | Boolean  | Has the HTTP callback been successfully fired ?                 |
 
 
 **Example request :** `GET /api/v1/invoices/70c7936b-f8ce-443a-8338-3762de0a1e92`
@@ -577,6 +590,7 @@ A JSON object with the following parameters is returned.
       "merchant_reference": null, 
       "paid_at": null, 
       "payment_address": "1JnjJNhdKSgvMKr6xMbqVEudB3eACsGJSz", 
+      "payment_bitcoin_uri" : "bitcoin:1JnjJNhdKSgvMKr6xMbqVEudB3eACsGJSz?amount=100.0&label=&x-pay-curamt=100.0&x-pay-cur=BTC&x-pay-id=7653453d-6372-4ffa-bc56-1e3182ef7f35",       
       "settled": false, 
       "state": "pending", 
       "updated_at": "2013-01-21T10:20:07Z"
@@ -635,7 +649,8 @@ A JSON object with the following parameters is returned.
       "merchant_memo": null, 
       "merchant_reference": null, 
       "paid_at": null, 
-      "payment_address": "1JnjJNhdKSgvMKr6xMbqVEudB3eACsGJSz", 
+      "payment_address": "1JnjJNhdKSgvMKr6xMbqVEudB3eACsGJSz",
+      "payment_bitcoin_uri" : "bitcoin:1JnjJNhdKSgvMKr6xMbqVEudB3eACsGJSz?amount=100.0&label=&x-pay-curamt=100.0&x-pay-cur=BTC&x-pay-id=7653453d-6372-4ffa-bc56-1e3182ef7f35", 
       "settled": false, 
       "state": "pending", 
       "updated_at": "2013-01-21T10:20:07Z"
@@ -768,7 +783,7 @@ This call will place a trade order and queue it for execution.
 | amount   | Decimal | Amount of Bitcoins to trade                      |
 | currency | String  | Currency to trade against                        |
 | price    | Decimal | Price _(may be omitted to place a market order)_ |
-| category | String  | Must be `buy` (bid) or `sell` (ask)              |
+| type     | String  | Must be `buy` (bid) or `sell` (ask)              |
 
 **Response**
 
@@ -781,7 +796,7 @@ An trade order JSON object is returned with the following parameters
 | instructed_amount | Decimal  | Amount of Bitcoins to trade       |
 | currency          | String   | Currency to trade against         |
 | price             | Decimal  | Price _(null for a market order)_ |
-| category          | String   | Either `buy` or `sell`            |
+| type              | String   | Either `buy` or `sell`            |
 | created_at        | Datetime | Creation timestamp                |
 | updated_at        | Datetime | Update timestamp                  |
 
@@ -789,7 +804,7 @@ An trade order JSON object is returned with the following parameters
 
     {
       "amount" : 10.0, 
-      "category" : "buy",
+      "type" : "buy",
       "currency" : "EUR"
     }
 
@@ -797,7 +812,7 @@ An trade order JSON object is returned with the following parameters
     
     {
       "amount": 10.0, 
-      "category": "buy", 
+      "type": "buy", 
       "created_at": "2013-01-21T22:07:15Z", 
       "instructed_amount": 10.0, 
       "price": null, 
@@ -903,7 +918,7 @@ A JSON object with the following parameters is returned.
 | instructed_amount | Decimal  | Amount of Bitcoins to trade       |
 | currency          | String   | Currency to trade against         |
 | price             | Decimal  | Price _(null for a market order)_ |
-| category          | String   | Either `buy` or `sell`            |
+| type              | String   | Either `buy` or `sell`            |
 | created_at        | Datetime | Creation timestamp                |
 | updated_at        | Datetime | Update timestamp                  |
 
@@ -913,7 +928,7 @@ A JSON object with the following parameters is returned.
     
     {
       "amount": 10.0, 
-      "category": "buy", 
+      "type": "buy", 
       "created_at": "2013-01-22T08:19:37Z", 
       "instructed_amount": 1000.0, 
       "price": 11.0, 
@@ -941,7 +956,7 @@ N/A
     [  
       {
         "amount": 10.0, 
-        "category": "buy", 
+        "type": "buy", 
         "created_at": "2013-01-21T22:15:38Z", 
         "instructed_amount": 10.0, 
         "price": null, 
@@ -951,7 +966,7 @@ N/A
       }, 
       {
         "amount": 10.0, 
-        "category": "buy", 
+        "type": "buy", 
         "created_at": "2013-01-21T22:15:40Z", 
         "instructed_amount": 10.0, 
         "price": null, 
@@ -960,6 +975,123 @@ N/A
         "uuid": "6e3ea778-9ef7-4e4f-9910-85e735f7b42a"
       }
     ]
+
+
+## Coupons
+
+Coupons are a way to easily move money between accounts, they are debited from the issuer's account upon creation and may be redeemed at anytime against any account (including the issuer).
+
+They are materialized by a unique redemption code. This code should be kept private as anyone having knowledge of it can redeem the funds.
+
+### Create a coupon (A)
+
+This call issues a coupon
+
+**Request path :** `/api/v1/coupons`
+
+**Request method :** `POST`
+
+**Request parameters**
+
+| Name                | Type    | Description                               |
+|---------------------|---------|-------------------------------------------|
+| amount              | Decimal | Currency value for the issued coupon      |
+| currency            | String  | Currency in which the amount is expressed |
+
+**Response**
+
+A coupon code is returned
+
+**Example request :** `POST /api/v1/coupons`
+
+    {
+      "amount" : 12.0, 
+      "currency" : "EUR"
+    }
+
+**Example response :**
+    
+    {
+      "code": "BP-EUR-9660407B43799CCED320"
+    }
+
+### View a coupon
+
+This call will return a JSON object representing a coupon
+
+**Request path :** `/api/v1/coupons/{code}`
+
+**Request method :** `GET`
+
+**Request parameters**
+
+| Name | Type   | Description      |
+|------|--------|------------------|
+| code | String | Coupon code      |
+
+
+**Response**
+
+A JSON object with the following parameters is returned.
+
+| Name                  | Type     | Description                               |
+|-----------------------|----------|-------------------------------------------|
+| uuid                  | UUID     | Coupon account operation identifier       |
+| code                  | String   | Coupon code                               |
+| state                 | String   | Coupon state _(see appendix)_             | 
+| amount                | Decimal  | Coupon value                              | 
+| currency              | String   | Currency in which the amount is expressed |
+| created\_at           | Datetime | Creation timestamp                        |
+
+
+**Example request :** `GET /api/v1/coupons/BP-EUR-9660407B43799CCED320`
+
+**Example response :**
+    
+    {
+      "amount": -12.0, 
+      "code": "BP-EUR-9660407B43799CCED320", 
+      "created_at": "2013-01-30T11:52:36Z", 
+      "currency": "EUR", 
+      "state": "pending", 
+      "uuid": "c21adaf6-f5a2-4d93-a762-a63b89b52265"
+    }
+
+### Redeem a coupon (A)
+
+This call will a redeem a coupon to the client's account. It returns an `UUID`, this identifier can be used to request details about the account operation created for the client's account by the redemption of the coupon (credit of the coupon value).
+
+This call may be used to void a coupon by redeeming it against the account that issued it.
+
+**Request path :** `/api/v1/coupons/redeem`
+
+**Request method :** `POST`
+
+**Request parameters**
+
+| Name | Type   | Description      |
+|------|--------|------------------|
+| code | String | Coupon code      |
+
+**Response**
+
+A JSON object with the following parameters is returned.
+
+| Name                  | Type     | Description                               |
+|-----------------------|----------|-------------------------------------------|
+| uuid                  | UUID     | Redemption account operation identifier   |
+
+**Example request :** `POST /api/v1/coupons`
+
+    {
+      "code": "BP-EUR-9660407B43799CCED320"
+    }
+
+**Example response :**
+    
+    {
+      "uuid": "3e0004cd-158c-40d6-b8f9-f4b672e86308"
+    }
 
 # Appendix
 
@@ -995,7 +1127,6 @@ The following currencies are available :
 | wire_deposit                | Deposit by bank wire                                    |
 | trade                       | Trade                                                   |
 | reversal                    | Reversal                                                |
-
 
 ### States
 
@@ -1055,18 +1186,9 @@ The state of a transfer lets you check whether it has been sent out to the under
 ## Websockets
 
  * Document the socket.io API
-
-## Coupons
-
- * Create a coupon
- * List coupons
- * Redeem a coupon
- * View a coupon
  
 ## Misc
 
  * Get an estimate (unsaved quote)
- * Rate limit the API
  * Add a `/me` API call
  * Add a call for account balances
-
