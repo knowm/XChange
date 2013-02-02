@@ -31,66 +31,22 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class BitcoinCentralAccountInfo {
 
-  private final @JsonProperty("address")
-  String address;
-  private final @JsonProperty("BTC")
-  BigDecimal btc;
-  private final @JsonProperty("CAD")
-  BigDecimal cad;
-  private final @JsonProperty("EUR")
-  BigDecimal eur;
-  private final @JsonProperty("INR")
-  BigDecimal inr;
-  private final @JsonProperty("LREUR")
-  BigDecimal lreur;
-  private final @JsonProperty("LRUSD")
-  BigDecimal lrusd;
-  private final @JsonProperty("PGAU")
-  BigDecimal pgau;
-  private final @JsonProperty("UNCONFIRMED_BTC")
-  BigDecimal unconfirmedBtc;
+  private final BigDecimal eur;
+  private final BigDecimal btc;
+  private final BigDecimal gbp;
+  private final BigDecimal usd;
+  private final String address;
+  private final BigDecimal unconfirmedBtc;
 
-  /**
-   * Constructor
-   * 
-   * @param address
-   * @param btc
-   * @param cad
-   * @param eur
-   * @param inr
-   * @param lreur
-   * @param lrusd
-   * @param pgau
-   * @param unconfirmedBtc
-   */
-  public BitcoinCentralAccountInfo(@JsonProperty("address") String address, @JsonProperty("BTC") BigDecimal btc, @JsonProperty("CAD") BigDecimal cad, @JsonProperty("EUR") BigDecimal eur,
-      @JsonProperty("INR") BigDecimal inr, @JsonProperty("LREUR") BigDecimal lreur, @JsonProperty("LRUSD") BigDecimal lrusd, @JsonProperty("PGAU") BigDecimal pgau,
-      @JsonProperty("UNCONFIRMED_BTC") BigDecimal unconfirmedBtc) {
+  public BitcoinCentralAccountInfo(@JsonProperty("EUR") BigDecimal eur, @JsonProperty("BTC") BigDecimal btc, @JsonProperty("GBP") BigDecimal gbp, @JsonProperty("USD") BigDecimal usd,
+      @JsonProperty("address") String address, @JsonProperty("UNCONFIRMED_BTC") BigDecimal unconfirmedBtc) {
 
-    this.address = address;
-    this.btc = btc;
-    this.cad = cad;
     this.eur = eur;
-    this.inr = inr;
-    this.lreur = lreur;
-    this.lrusd = lrusd;
-    this.pgau = pgau;
+    this.btc = btc;
+    this.gbp = gbp;
+    this.usd = usd;
+    this.address = address;
     this.unconfirmedBtc = unconfirmedBtc;
-  }
-
-  public String getAddress() {
-
-    return address;
-  }
-
-  public BigDecimal getBtc() {
-
-    return btc;
-  }
-
-  public BigDecimal getCad() {
-
-    return cad;
   }
 
   public BigDecimal getEur() {
@@ -98,36 +54,29 @@ public final class BitcoinCentralAccountInfo {
     return eur;
   }
 
-  public BigDecimal getInr() {
+  public BigDecimal getBtc() {
 
-    return inr;
+    return btc;
   }
 
-  public BigDecimal getLreur() {
+  public BigDecimal getGbp() {
 
-    return lreur;
+    return gbp;
   }
 
-  public BigDecimal getLrusd() {
+  public BigDecimal getUsd() {
 
-    return lrusd;
+    return usd;
   }
 
-  public BigDecimal getPgau() {
+  public String getAddress() {
 
-    return pgau;
+    return address;
   }
 
   public BigDecimal getUnconfirmedBtc() {
 
     return unconfirmedBtc;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitcoinCentralAccountInfo [address=" + address + ", btc=" + btc + ", cad=" + cad + ", eur=" + eur + ", inr=" + inr + ", lreur=" + lreur + ", lrusd=" + lrusd + ", pgau=" + pgau
-        + ", unconfirmedBtc=" + unconfirmedBtc + "]";
   }
 
 }

@@ -51,8 +51,8 @@ public class AccountInfoJSONTest {
     BitcoinCentralAccountInfo bitcoinCentralAccountInfo = mapper.readValue(is, BitcoinCentralAccountInfo.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(bitcoinCentralAccountInfo.getBtc(), is(equalTo(new BigDecimal("1825.98235228"))));
-    assertThat(bitcoinCentralAccountInfo.getEur(), is(equalTo(new BigDecimal("1.37893"))));
-    assertThat(bitcoinCentralAccountInfo.getAddress(), is(equalTo("1JzH9fvL2oGH5keYvAyv9pT4i9n9Hc44TU")));
+    assertThat(bitcoinCentralAccountInfo.getBtc(), is(equalTo(new BigDecimal("0.0"))));
+    assertThat(bitcoinCentralAccountInfo.getEur(), is(equalTo(new BigDecimal("0.0"))));
+    assertThat(bitcoinCentralAccountInfo.getAddress(), is(equalTo("1CQvo88XrCsxauShZNsx7DvKDFxayGe5fo")));
   }
 }
