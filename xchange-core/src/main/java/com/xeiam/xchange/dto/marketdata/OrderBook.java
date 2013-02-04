@@ -21,13 +21,11 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.Order.OrderType;
 import java.util.Collections;
 import java.util.List;
 
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.DepthUpdate;
 
 /**
  * Data object representing OrderBook
@@ -39,7 +37,7 @@ public final class OrderBook {
 
   /**
    * Constructor
-   *
+   * 
    * @param asks
    * @param bids
    */
@@ -63,18 +61,22 @@ public final class OrderBook {
 
   public void Update(LimitOrder newOrder) {
 
-      if (newOrder.getType().equals(OrderType.ASK)){
-          int index = asks.indexOf(newOrder);
-          if (index > -1) asks.set(index, newOrder);
-          else asks.add(newOrder);
-          Collections.sort(asks);
-      }
-          if (newOrder.getType().equals(OrderType.BID)){
-          int index = bids.indexOf(newOrder);
-          if (index > -1) bids.set(index, newOrder);
-          else bids.add(newOrder);
-          Collections.sort(bids);
-      }
+    if (newOrder.getType().equals(OrderType.ASK)) {
+      int index = asks.indexOf(newOrder);
+      if (index > -1)
+        asks.set(index, newOrder);
+      else
+        asks.add(newOrder);
+      Collections.sort(asks);
+    }
+    if (newOrder.getType().equals(OrderType.BID)) {
+      int index = bids.indexOf(newOrder);
+      if (index > -1)
+        bids.set(index, newOrder);
+      else
+        bids.add(newOrder);
+      Collections.sort(bids);
+    }
 
   }
 

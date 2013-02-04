@@ -23,15 +23,12 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.service.BaseSocketIOExchangeService;
 import com.xeiam.xchange.service.ExchangeEvent;
@@ -62,15 +59,13 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   /**
    * The Ticker, Trade, and Market Depth queue for the consumer
    */
-//  private final BlockingQueue<Ticker> tickerQueue = new LinkedBlockingQueue<Ticker>(1024);
-//private final BlockingQueue<Trade> tradeQueue = new LinkedBlockingQueue<Trade>(1024);
-//private final BlockingQueue<Trade> depthQueue = new LinkedBlockingQueue<Trade>(1024);
-
-
+  // private final BlockingQueue<Ticker> tickerQueue = new LinkedBlockingQueue<Ticker>(1024);
+  // private final BlockingQueue<Trade> tradeQueue = new LinkedBlockingQueue<Trade>(1024);
+  // private final BlockingQueue<Trade> depthQueue = new LinkedBlockingQueue<Trade>(1024);
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
@@ -84,7 +79,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   /**
    * Initiates a connection to Mt Gox
-   *
+   * 
    * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
    * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
    * @return The blocking queue of exchange events
@@ -100,66 +95,32 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     return consumerEventQueue;
   }
 
-
   // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
-/*
-  @Override
-  public BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, final String currency) {
-
-    log.info("Verifying...");
-
-    verify(tradableIdentifier, currency);
-
-  //  connectStream(currency, runnableExchangeEventListener, channel);
-
-    return tickerQueue;
-
-  }
-
-    // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
-  @Override
-  public BlockingQueue<Trade> getTradeQueue(String tradableIdentifier, final String currency) {
-
-    log.info("Verifying...");
-
-    verify(tradableIdentifier, currency);
-
-//    connectStream(currency, runnableExchangeEventListener, channel);
-
-    return tradeQueue;
-
-  }
-  // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
-//  @Override
-  public BlockingQueue<Trade> getDepthQueue(String tradableIdentifier, final String currency) {
-
-    log.info("Verifying...");
-
-    verify(tradableIdentifier, currency);
-
-    //connectStream(currency, runnableExchangeEventListener, channel);
-
-    return tradeQueue;
-
-  }
-*/
+  /*
+   * @Override public BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, final String currency) { log.info("Verifying..."); verify(tradableIdentifier, currency); //
+   * connectStream(currency, runnableExchangeEventListener, channel); return tickerQueue; } // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
+   * @Override public BlockingQueue<Trade> getTradeQueue(String tradableIdentifier, final String currency) { log.info("Verifying..."); verify(tradableIdentifier, currency); // connectStream(currency,
+   * runnableExchangeEventListener, channel); return tradeQueue; } // TODO Remove this when deprecation is completed (causes a change to consumer functionality) // @Override public
+   * BlockingQueue<Trade> getDepthQueue(String tradableIdentifier, final String currency) { log.info("Verifying..."); verify(tradableIdentifier, currency); //connectStream(currency,
+   * runnableExchangeEventListener, channel); return tradeQueue; }
+   */
   private void connectStream(String currency, RunnableExchangeEventListener listener, ExchangeEventType event) {
 
     String url = "";
     log.debug("Connecting to channel = " + event.toString());
 
-      if (event.equals(ExchangeEventType.TICKER)){
-    url = apiBase + "?Channel=ticker&Currency=" + currency;
-    log.debug("streaming url= " + url);
-      }
-      if (event.equals(ExchangeEventType.TRADE)){
-    url = apiBase + "?Channel=trades&Currency=" + currency;
-    log.debug("streaming url= " + url);
-      }
-      if (event.equals(ExchangeEventType.DEPTH)){
-    url = apiBase + "?Channel=depth&Currency=" + currency;
-    log.debug("streaming url= " + url);
-      }
+    if (event.equals(ExchangeEventType.TICKER)) {
+      url = apiBase + "?Channel=ticker&Currency=" + currency;
+      log.debug("streaming url= " + url);
+    }
+    if (event.equals(ExchangeEventType.TRADE)) {
+      url = apiBase + "?Channel=trades&Currency=" + currency;
+      log.debug("streaming url= " + url);
+    }
+    if (event.equals(ExchangeEventType.DEPTH)) {
+      url = apiBase + "?Channel=depth&Currency=" + currency;
+      log.debug("streaming url= " + url);
+    }
 
     connect(url, listener);
   }
@@ -178,7 +139,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   /**
    * Verify that the exchange can provide a stream
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (exchange specific)
    * @param currency The currency
    */

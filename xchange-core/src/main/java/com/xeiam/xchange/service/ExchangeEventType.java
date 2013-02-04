@@ -71,12 +71,12 @@ public enum ExchangeEventType {
    */
   TICKER,
 
-    /**
+  /**
    * A message with a Trade payload
    */
   TRADE,
 
-    /**
+  /**
    * A message with a Market Depth update payload
    */
   DEPTH,

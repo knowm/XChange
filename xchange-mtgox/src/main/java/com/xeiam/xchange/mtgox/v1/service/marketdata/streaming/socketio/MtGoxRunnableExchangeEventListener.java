@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.trade.DepthUpdate;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthStream;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
@@ -57,13 +57,12 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
   private ObjectMapper streamObjectMapper = new ObjectMapper();
 
-//  private final BlockingQueue<Ticker> tickerQueue;
+  // private final BlockingQueue<Ticker> tickerQueue;
   private final BlockingQueue<ExchangeEvent> eventQueue;
-
 
   /**
    * Constructor
-   *
+   * 
    * @param tickerQueue The consumer Ticker queue
    * @param tradeQueue
    * @param depthQueue
@@ -106,42 +105,44 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
         Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
 
         // TODO Remove this once ticker queue is removed
-//        addToTickerQueue(ticker);
+        // addToTickerQueue(ticker);
 
         // Create a ticker event
         ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
         addToEventQueue(tickerEvent);
         break;
       } else {
-      if (rawJSON.containsKey("trade")) {
+        if (rawJSON.containsKey("trade")) {
 
-        // Get MtGoxTradeStream from JSON String
-        MtGoxTradeStream mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTradeStream.class, streamObjectMapper);
+          // Get MtGoxTradeStream from JSON String
+          MtGoxTradeStream mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTradeStream.class, streamObjectMapper);
 
-        // Adapt to XChange DTOs
-        Trade trade = MtGoxAdapters.adaptTradeStream(mtGoxTradeStream);
+          // Adapt to XChange DTOs
+          Trade trade = MtGoxAdapters.adaptTradeStream(mtGoxTradeStream);
 
-        // Create a trade event
-        ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);
-        addToEventQueue(tradeEvent);
-        break;
-      } else {
-      if (rawJSON.containsKey("depth")) {
+          // Create a trade event
+          ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);
+          addToEventQueue(tradeEvent);
+          break;
+        } else {
+          if (rawJSON.containsKey("depth")) {
 
-        // Get MtGoxDepthStream from JSON String
-        MtGoxDepthStream mtGoxDepthStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("depth"), streamObjectMapper), MtGoxDepthStream.class, streamObjectMapper);
+            // Get MtGoxDepthStream from JSON String
+            MtGoxDepthStream mtGoxDepthStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("depth"), streamObjectMapper), MtGoxDepthStream.class, streamObjectMapper);
 
-        // Adapt to XChange DTOs
-        DepthUpdate depthstream = MtGoxAdapters.adaptDepthStream(mtGoxDepthStream);
+            // Adapt to XChange DTOs
+            OrderBookUpdate depthstream = MtGoxAdapters.adaptDepthStream(mtGoxDepthStream);
 
-        // Create a depth event
-        ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), depthstream);
-        addToEventQueue(depthEvent);
-        break;
-      } else {
-        log.debug("MtGox operational message");
-        addToEventQueue(exchangeEvent);
-      }}}
+            // Create a depth event
+            ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), depthstream);
+            addToEventQueue(depthEvent);
+            break;
+          } else {
+            log.debug("MtGox operational message");
+            addToEventQueue(exchangeEvent);
+          }
+        }
+      }
       break;
     case ERROR:
       log.error("Error message. Length=" + exchangeEvent.getData().length());
@@ -154,33 +155,10 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
   }
 
   /*
-  private void addToTickerQueue(Ticker ticker) {
-
-    try {
-      tickerQueue.put(ticker);
-    } catch (InterruptedException e) {
-      throw new ExchangeException("InterruptedException!", e);
-    }
-  }
-
-  private void addToTradeQueue(Trade tradeStream) {
-
-    try {
-      tradeQueue.put(tradeStream);
-    } catch (InterruptedException e) {
-      throw new ExchangeException("InterruptedException!", e);
-    }
-  }
-
-    private void addToDepthQueue(Trade depthStream) {
-
-    try {
-      tradeQueue.put(depthStream);
-    } catch (InterruptedException e) {
-      throw new ExchangeException("InterruptedException!", e);
-    }
-  }
-*/
+   * private void addToTickerQueue(Ticker ticker) { try { tickerQueue.put(ticker); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void
+   * addToTradeQueue(Trade tradeStream) { try { tradeQueue.put(tradeStream); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void
+   * addToDepthQueue(Trade depthStream) { try { tradeQueue.put(depthStream); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } }
+   */
   private void addToEventQueue(ExchangeEvent event) {
 
     try {

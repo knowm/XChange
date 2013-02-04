@@ -19,32 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.dto.trade;
+package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import java.util.Date;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+
 
 /**
  * Data object representing a Market Depth update
+ * <p>
  * Can be represented as either a new LimitOrder (newVolume) or a Trade (deltaVolume)
  */
-public final class DepthUpdate {
+public final class OrderBookUpdate {
 
   private final LimitOrder limitOrder;
   private final Trade trade;
+
   /**
    * NEW: The change in volume at limitPrice
    */
 
   /**
    * Constructor
-   *
+   * 
    * @param type
    * @param newVolume
    * @param volumeChange
@@ -55,7 +57,7 @@ public final class DepthUpdate {
    * @param deltaVolume
    * @param id
    */
-  public DepthUpdate(OrderType type, BigDecimal newVolume, String tradableIdentifier, String transactionCurrency, long id, BigMoney limitPrice,  BigDecimal deltaVolume) {
+  public OrderBookUpdate(OrderType type, BigDecimal newVolume, String tradableIdentifier, String transactionCurrency, long id, BigMoney limitPrice, BigDecimal deltaVolume) {
 
     this.limitOrder = new LimitOrder(type, newVolume, tradableIdentifier, transactionCurrency, limitPrice);
     Date timestamp = new Date(id);
@@ -63,13 +65,12 @@ public final class DepthUpdate {
 
   }
 
-
   public LimitOrder asLimitOrder() {
 
     return limitOrder;
   }
 
-    public Trade asTrade() {
+  public Trade asTrade() {
 
     return trade;
   }

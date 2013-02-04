@@ -57,10 +57,9 @@ public final class Trade implements Comparable<Trade> {
 
   private final Date timestamp;
 
-
   /**
    * Constructor
-   *
+   * 
    * @param type
    * @param tradableAmount
    * @param tradableIdentifier

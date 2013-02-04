@@ -74,7 +74,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
    * <p>
    * Client code is expected to implement this in a manner specific to their own application
    * </p>
-   *
+   * 
    * @param event The exchange event containing the information
    */
   public abstract void handleEvent(ExchangeEvent event) throws ExchangeException;

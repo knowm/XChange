@@ -82,7 +82,7 @@ public interface StreamingExchangeService {
    * <li>Connect/disconnect events</li>
    * <li>Ticker events (with Ticker embedded)</li>
    * </ul>
-   *
+   * 
    * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
    * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
    * @param event Streaming data channel to connect, specified as an event type
