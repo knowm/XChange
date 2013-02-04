@@ -30,19 +30,19 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public final class MtGoxCancelOrder {
 
-  private final List<MtGoxOrders> orders;
+  private final List<Orders> orders;
 
   /**
    * Constructor
    * 
    * @param orders
    */
-  public MtGoxCancelOrder(@JsonProperty("orders") List<MtGoxOrders> orders) {
+  public MtGoxCancelOrder(@JsonProperty("orders") List<Orders> orders) {
 
     this.orders = orders;
   }
 
-  public List<MtGoxOrders> getOrders() {
+  public List<Orders> getOrders() {
 
     return this.orders;
   }

@@ -64,7 +64,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public BaseSocketIOExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
@@ -137,7 +137,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   }
 
   @Override
-  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency) {
+  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency, ExchangeEventType event) {
 
     return consumerEventQueue;
   }

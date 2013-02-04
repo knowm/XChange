@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,13 +36,16 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.DepthUpdate;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthStream;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxOrder;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTradeStream;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
@@ -53,6 +56,7 @@ import com.xeiam.xchange.utils.DateUtils;
  */
 public final class MtGoxAdapters {
 
+
   /**
    * private Constructor
    */
@@ -62,7 +66,7 @@ public final class MtGoxAdapters {
 
   /**
    * Adapts a MtGoxAccountInfo to a AccountInfo
-   * 
+   *
    * @param mtGoxAccountInfo
    * @return
    */
@@ -75,7 +79,7 @@ public final class MtGoxAdapters {
 
   /**
    * Adapts a MtGoxOrder to a LimitOrder
-   * 
+   *
    * @param price
    * @param currency
    * @param orderTypeString
@@ -98,7 +102,7 @@ public final class MtGoxAdapters {
 
   /**
    * Adapts a List of MtGoxOrders to a List of LimitOrders
-   * 
+   *
    * @param mtGoxOrders
    * @param currency
    * @param orderType
@@ -129,7 +133,7 @@ public final class MtGoxAdapters {
 
   /**
    * Adapts a MtGox Wallet to a XChange Wallet
-   * 
+   *
    * @param mtGoxWallet
    * @return
    */
@@ -147,7 +151,7 @@ public final class MtGoxAdapters {
 
   /**
    * Adapts a List of MtGox Wallets to a List of XChange Wallets
-   * 
+   *
    * @param mtGoxWallets
    * @return
    */
@@ -167,7 +171,7 @@ public final class MtGoxAdapters {
 
   /**
    * Adapts a MtGoxTrade to a Trade Object
-   * 
+   *
    * @param mtGoxTrade
    * @return
    */
@@ -184,9 +188,37 @@ public final class MtGoxAdapters {
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }
 
+    public static Trade adaptTradeStream(MtGoxTradeStream mtGoxTradeStream) {
+    OrderType orderType = mtGoxTradeStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = new BigDecimal(mtGoxTradeStream.getAmountInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    String tradableIdentifier = mtGoxTradeStream.getItem();
+    String transactionCurrency = mtGoxTradeStream.getPriceCurrency();
+    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTradeStream.getPriceInt());
+
+    Date dateTime = DateUtils.fromMillisUtc(mtGoxTradeStream.getDate() * 1000L);
+
+    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
+    }
+
+    public static DepthUpdate adaptDepthStream(MtGoxDepthStream mtGoxDepthStream) {
+    OrderType orderType = mtGoxDepthStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal newVolume = new BigDecimal(mtGoxDepthStream.getNewVolume()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    String tradableIdentifier = mtGoxDepthStream.getItem();
+    String transactionCurrency = mtGoxDepthStream.getPriceCurrency();
+    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxDepthStream.getPriceInt());
+    BigDecimal deltaVolume = new BigDecimal(mtGoxDepthStream.getVolume());
+    long date = mtGoxDepthStream.getDate();
+
+    DepthUpdate depthStream = new DepthUpdate(orderType, newVolume, tradableIdentifier, transactionCurrency, date, price, deltaVolume);
+    return depthStream;
+
+    }
+
+
+
   /**
    * Adapts a MtGoxTrade[] to a Trades Object
-   * 
+   *
    * @param mtGoxTrades
    * @return
    */

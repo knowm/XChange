@@ -102,23 +102,21 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   @Override
   public boolean cancelOrder(String orderId) {
 
-    // Get V0 API version as the V1 API has no cancel orders functionality
     MtGoxV0 mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getUri());
 
     Assert.notNull(orderId, "orderId cannot be null");
 
     MtGoxCancelOrder mtGoxCancelOrder = mtGoxV0.cancelOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), orderId);
 
-    boolean orderExists = false;
+    boolean orderGone = true;
     for (int i = 0; i < mtGoxCancelOrder.getOrders().size(); i++) {
-      // System.out.println(mtGoxCancelOrder.getOrders().get(i).getOid());
       if (mtGoxCancelOrder.getOrders().get(i).getOid().equals(orderId)) {
-        orderExists = true;
+        orderGone = false;
         break;
       }
     }
 
-    return orderExists;
+    return orderGone;
   }
 
   private void verify(Order order) {
