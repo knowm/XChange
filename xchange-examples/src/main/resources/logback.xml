@@ -28,9 +28,6 @@
 			<maxHistory>7</maxHistory>
 		</rollingPolicy>
 
-		<!-- Standard logging encoder Triggers on: logger.error("Example", e); 
-			// Simple exception reporting logger.error("Example {}", x, e); // {} will 
-			be populated with value of x -->
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} ${HOSTNAME} [%thread] %-5level %logger{36}
 				- %msg %xEx%n</pattern>
@@ -38,19 +35,11 @@
 
 	</appender>
 
-	<!-- The default logging behaviour for third-party applications (Spring, 
-		Hibernate etc) -->
 	<root level="WARN">
 		<appender-ref ref="CONSOLE_APPENDER" />
 		<appender-ref ref="DETAIL_APPENDER" />
 	</root>
 
-	<!-- Selected third-party frameworks can be enabled here for development 
-		if required -->
-
-	<!-- Wire and Context logging for the HttpClient -->
-	<logger name="org.apache.http.wire" level="DEBUG" />
-	<logger name="org.apache.http.impl.client" level="DEBUG" />
 
 	<!-- Define logging for organization applications only -->
 	<logger name="com.xeiam.xchange.streaming.socketio" level="WARN" />
