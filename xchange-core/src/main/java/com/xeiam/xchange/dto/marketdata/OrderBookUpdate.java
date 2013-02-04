@@ -29,7 +29,6 @@ import org.joda.money.BigMoney;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-
 /**
  * Data object representing a Market Depth update
  * <p>
@@ -55,14 +54,12 @@ public final class OrderBookUpdate {
    * @param transactionCurrency
    * @param limitPrice
    * @param deltaVolume
-   * @param id
+   * @param date
    */
-  public OrderBookUpdate(OrderType type, BigDecimal newVolume, String tradableIdentifier, String transactionCurrency, long id, BigMoney limitPrice, BigDecimal deltaVolume) {
+  public OrderBookUpdate(OrderType type, BigDecimal newVolume, String tradableIdentifier, String transactionCurrency, long date, BigMoney limitPrice, BigDecimal deltaVolume) {
 
     this.limitOrder = new LimitOrder(type, newVolume, tradableIdentifier, transactionCurrency, limitPrice);
-    Date timestamp = new Date(id);
-    this.trade = new Trade(type, deltaVolume, tradableIdentifier, transactionCurrency, limitPrice, timestamp);
-
+    this.trade = new Trade(type, deltaVolume, tradableIdentifier, transactionCurrency, limitPrice, new Date(date));
   }
 
   public LimitOrder asLimitOrder() {

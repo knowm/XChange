@@ -57,13 +57,6 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   private final RunnableExchangeEventListener runnableExchangeEventListener;
 
   /**
-   * The Ticker, Trade, and Market Depth queue for the consumer
-   */
-  // private final BlockingQueue<Ticker> tickerQueue = new LinkedBlockingQueue<Ticker>(1024);
-  // private final BlockingQueue<Trade> tradeQueue = new LinkedBlockingQueue<Trade>(1024);
-  // private final BlockingQueue<Trade> depthQueue = new LinkedBlockingQueue<Trade>(1024);
-
-  /**
    * Constructor
    * 
    * @param exchangeSpecification The exchange specification providing the required connection data
@@ -84,6 +77,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
    * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
    * @return The blocking queue of exchange events
    */
+  @Override
   public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency, ExchangeEventType event) {
 
     log.info("Verifying...");
@@ -95,15 +89,6 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     return consumerEventQueue;
   }
 
-  // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
-  /*
-   * @Override public BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, final String currency) { log.info("Verifying..."); verify(tradableIdentifier, currency); //
-   * connectStream(currency, runnableExchangeEventListener, channel); return tickerQueue; } // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
-   * @Override public BlockingQueue<Trade> getTradeQueue(String tradableIdentifier, final String currency) { log.info("Verifying..."); verify(tradableIdentifier, currency); // connectStream(currency,
-   * runnableExchangeEventListener, channel); return tradeQueue; } // TODO Remove this when deprecation is completed (causes a change to consumer functionality) // @Override public
-   * BlockingQueue<Trade> getDepthQueue(String tradableIdentifier, final String currency) { log.info("Verifying..."); verify(tradableIdentifier, currency); //connectStream(currency,
-   * runnableExchangeEventListener, channel); return tradeQueue; }
-   */
   private void connectStream(String currency, RunnableExchangeEventListener listener, ExchangeEventType event) {
 
     String url = "";
