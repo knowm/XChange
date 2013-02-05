@@ -26,21 +26,21 @@ import java.util.concurrent.BlockingQueue;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
- * Test requesting streaming Ticker at MtGox
+ * Test requesting streaming Trade at MtGox
  */
-public class StreamingTickerDemo {
+public class StreamingTradeDemo {
 
   public static void main(String[] args) {
 
-    StreamingTickerDemo tickerDemo = new StreamingTickerDemo();
-    tickerDemo.start();
+    StreamingTradeDemo tradeDemo = new StreamingTradeDemo();
+    tradeDemo.start();
   }
 
   public void start() {
@@ -52,7 +52,8 @@ public class StreamingTickerDemo {
     StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
 
     // Get blocking queue that receives exchange event data (this starts the event processing as well)
-    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TICKER);
+    // 
+    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TRADE);
 
     try {
 
@@ -64,12 +65,12 @@ public class StreamingTickerDemo {
         ExchangeEvent exchangeEvent = eventQueue.take();
         System.out.println("Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
 
-        if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
+        if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
 
-          Ticker ticker = (Ticker) exchangeEvent.getPayload();
-          System.out.println("+ Ticker: " + ticker.toString());
+          Trade trade = (Trade) exchangeEvent.getPayload();
+          System.out.println("+ Trade: " + trade.toString());
 
-          // System.out.println("+ Ticker event: " + exchangeEvent.getPayload().toString());
+          // System.out.println("+ Trade event: " + exchangeEvent.getPayload().toString());
         }
 
       }
