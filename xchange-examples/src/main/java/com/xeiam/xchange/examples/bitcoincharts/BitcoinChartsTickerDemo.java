@@ -42,7 +42,7 @@ public class BitcoinChartsTickerDemo {
     Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitcoinChartsExchange.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitcoinChartsExchange.getPollingMarketDataService(null);
 
     // Get the latest ticker data showing EUR/USD
     Ticker ticker = marketDataService.getTicker("mtgoxUSD", Currencies.BTC);

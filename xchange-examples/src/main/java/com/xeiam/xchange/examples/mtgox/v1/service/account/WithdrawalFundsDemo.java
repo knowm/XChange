@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
+
+import java.math.BigDecimal;
 
 /**
  * Demo requesting account info at MtGox
@@ -44,7 +44,7 @@ public class WithdrawalFundsDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = mtgox.getPollingAccountService();
+    PollingAccountService accountService = mtgox.getPollingAccountService(null);
 
     System.out.println(accountService.getAccountInfo());
 

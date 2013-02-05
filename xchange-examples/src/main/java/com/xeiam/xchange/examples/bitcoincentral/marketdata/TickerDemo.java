@@ -40,7 +40,7 @@ public class TickerDemo {
     Exchange bitcoinCentralExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinCentralExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService(null);
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);

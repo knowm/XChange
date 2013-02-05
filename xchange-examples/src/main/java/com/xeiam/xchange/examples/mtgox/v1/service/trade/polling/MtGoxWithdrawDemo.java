@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -49,7 +49,7 @@ public class MtGoxWithdrawDemo {
     exchangeSpecification.setUri("https://mtgox.com");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    PollingAccountService accountService = mtgox.getPollingAccountService();
+    PollingAccountService accountService = mtgox.getPollingAccountService(null);
     System.out.println(accountService.getAccountInfo());
 
     String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");

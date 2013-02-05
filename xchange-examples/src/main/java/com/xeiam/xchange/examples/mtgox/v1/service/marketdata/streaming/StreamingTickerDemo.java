@@ -21,16 +21,17 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.mtgox.MtGoxExchangeServiceConfiguration;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Test requesting streaming Ticker at MtGox
@@ -48,11 +49,20 @@ public class StreamingTickerDemo {
     // Use the default MtGox settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
-    // Interested in the public streaming market data feed (no authentication)
-    StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
+    // Configure a particular stream for MtGox
+    MtGoxExchangeServiceConfiguration configuration = new MtGoxExchangeServiceConfiguration(
+      Currencies.BTC,
+      Currencies.USD
+    );
 
-    // Get blocking queue that receives exchange event data (this starts the event processing as well)
-    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD);
+    // Interested in the public streaming market data feed (no authentication)
+    StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService(configuration);
+
+    // Open the connection to the exchange
+    streamingMarketDataService.connect();
+
+    // Get blocking queue that receives exchange event data
+    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue();
 
     try {
 

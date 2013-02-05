@@ -43,7 +43,7 @@ public class TickerDemo {
     Exchange openExchangeRates = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the polling market data feed
-    PollingMarketDataService marketDataService = openExchangeRates.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = openExchangeRates.getPollingMarketDataService(null);
 
     // Get the latest ticker data showing EUR/USD
     Ticker ticker = marketDataService.getTicker(Currencies.EUR, Currencies.USD);

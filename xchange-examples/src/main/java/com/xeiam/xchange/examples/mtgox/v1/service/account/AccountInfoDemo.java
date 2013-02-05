@@ -43,7 +43,7 @@ public class AccountInfoDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = mtgox.getPollingAccountService();
+    PollingAccountService accountService = mtgox.getPollingAccountService(null);
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();

@@ -41,7 +41,7 @@ public class TradesDemo {
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    marketDataService = mtGoxExchange.getPollingMarketDataService();
+    marketDataService = mtGoxExchange.getPollingMarketDataService(null);
 
     // Get trades
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);

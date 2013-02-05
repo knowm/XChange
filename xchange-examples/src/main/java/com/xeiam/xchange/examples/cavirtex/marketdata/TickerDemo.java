@@ -39,7 +39,7 @@ public class TickerDemo {
     Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange(VirtExExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService(null);
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.CAD);

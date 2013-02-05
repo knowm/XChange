@@ -50,7 +50,7 @@ public class BitcoinCentralAccountDemo {
 
     Exchange btcCentral = ExchangeFactory.INSTANCE.createExchange(exSpec);
 
-    PollingAccountService accountService = btcCentral.getPollingAccountService();
+    PollingAccountService accountService = btcCentral.getPollingAccountService(null);
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();

@@ -39,7 +39,7 @@ public class TradesDemo {
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = btce.getPollingMarketDataService(null);
 
     // Get the latest trade data for BTC/CAD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);

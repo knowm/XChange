@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.service.ExchangeServiceConfiguration;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
@@ -42,25 +43,25 @@ public abstract class BaseExchange implements Exchange {
   protected PollingAccountService pollingAccountService;
 
   @Override
-  public PollingMarketDataService getPollingMarketDataService() {
+  public PollingMarketDataService getPollingMarketDataService(ExchangeServiceConfiguration configuration) {
 
     return pollingMarketDataService;
   }
 
   @Override
-  public PollingTradeService getPollingTradeService() {
+  public PollingTradeService getPollingTradeService(ExchangeServiceConfiguration configuration) {
 
     return pollingTradeService;
   }
 
   @Override
-  public StreamingMarketDataService getStreamingMarketDataService() {
+  public StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration) {
 
     return streamingMarketDataService;
   }
 
   @Override
-  public PollingAccountService getPollingAccountService() {
+  public PollingAccountService getPollingAccountService(ExchangeServiceConfiguration configuration) {
 
     return pollingAccountService;
   }

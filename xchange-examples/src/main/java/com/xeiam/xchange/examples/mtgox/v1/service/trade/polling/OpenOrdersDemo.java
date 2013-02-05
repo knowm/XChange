@@ -43,7 +43,7 @@ public class OpenOrdersDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService();
+    PollingTradeService tradeService = mtgox.getPollingTradeService(null);
 
     // Get the open orders
     OpenOrders openOrders = tradeService.getOpenOrders();

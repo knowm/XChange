@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.service.ExchangeServiceConfiguration;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
@@ -43,7 +44,7 @@ public interface Exchange {
 
   /**
    * Applies any exchange specific parameters
-   * 
+   *
    * @param exchangeSpecification The exchange specification
    */
   void applySpecification(ExchangeSpecification exchangeSpecification);
@@ -55,10 +56,12 @@ public interface Exchange {
    * <p>
    * This is the non-streaming (blocking) version of the service
    * </p>
-   * 
+   *
+   * @param configuration The exchange-specific configuration to be applied after creation
+   *
    * @return The exchange's market data service
    */
-  PollingMarketDataService getPollingMarketDataService();
+  PollingMarketDataService getPollingMarketDataService(ExchangeServiceConfiguration configuration);
 
   /**
    * <p>
@@ -67,10 +70,11 @@ public interface Exchange {
    * <p>
    * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
    * </p>
-   * 
+   *
+   * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's polling trade service
    */
-  PollingTradeService getPollingTradeService();
+  PollingTradeService getPollingTradeService(ExchangeServiceConfiguration configuration);
 
   /**
    * <p>
@@ -80,10 +84,11 @@ public interface Exchange {
    * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
    * place.
    * </p>
-   * 
+   *
+   * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's "push" market data service
    */
-  StreamingMarketDataService getStreamingMarketDataService();
+  StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration);
 
   /**
    * <p>
@@ -92,9 +97,10 @@ public interface Exchange {
    * <p>
    * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
    * </p>
-   * 
+   *
+   * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's polling account service
    */
-  PollingAccountService getPollingAccountService();
+  PollingAccountService getPollingAccountService(ExchangeServiceConfiguration configuration);
 
 }

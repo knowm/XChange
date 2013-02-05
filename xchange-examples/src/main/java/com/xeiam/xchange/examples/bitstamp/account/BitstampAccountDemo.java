@@ -22,12 +22,12 @@
  */
 package com.xeiam.xchange.examples.bitstamp.account;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ public class BitstampAccountDemo {
 
     Exchange bitstamp = BitstampDemoUtils.getExchange();
 
-    PollingAccountService accountService = bitstamp.getPollingAccountService();
+    PollingAccountService accountService = bitstamp.getPollingAccountService(null);
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();

@@ -39,7 +39,7 @@ public class FullDepthDemo {
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService(null);
 
     // Get the current full orderbook
     OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);

@@ -21,19 +21,19 @@
  */
 package com.xeiam.xchange.service;
 
-import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.streaming.socketio.SocketIO;
 import com.xeiam.xchange.utils.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * <p>
@@ -49,7 +49,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   private final ExecutorService eventExecutorService = Executors.newFixedThreadPool(2);
 
-  /** The event queue for the producer */
+  /**
+   * The event queue for the producer
+   */
   private final BlockingQueue<ExchangeEvent> producerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
 
   /**
@@ -59,12 +61,14 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   protected SocketIO socketIO;
 
-  /** The exchange event producer */
+  /**
+   * The exchange event producer
+   */
   private RunnableExchangeEventProducer runnableExchangeEventProducer;
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public BaseSocketIOExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
@@ -72,8 +76,13 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     super(exchangeSpecification);
   }
 
-  @Override
-  public synchronized void connect(String url, RunnableExchangeEventListener runnableExchangeEventListener) {
+  /**
+   * Handles the actual connection process
+   *
+   * @param uri                           The URI of the upstream server
+   * @param runnableExchangeEventListener The event listener
+   */
+  protected synchronized void internalConnect(URI uri, RunnableExchangeEventListener runnableExchangeEventListener) {
 
     log.info("Connecting...");
 
@@ -86,9 +95,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     }
 
     try {
-      log.debug("Attempting to open a socketIO against {}:{}", url, exchangeSpecification.getPort());
+      log.debug("Attempting to open a socketIO against {}:{}", uri, exchangeSpecification.getPort());
       this.runnableExchangeEventProducer = new RunnableSocketIOEventProducer(producerEventQueue);
-      this.socketIO = new SocketIO(url, (RunnableSocketIOEventProducer) runnableExchangeEventProducer);
+      this.socketIO = new SocketIO(uri.toString(), (RunnableSocketIOEventProducer) runnableExchangeEventProducer);
     } catch (IOException e) {
       throw new ExchangeException("Failed to open socket!", e);
     }
@@ -136,9 +145,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 
-  @Override
-  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency, ExchangeEventType event) {
+  public BlockingQueue<ExchangeEvent> getEventQueue() {
 
     return consumerEventQueue;
+
   }
 }

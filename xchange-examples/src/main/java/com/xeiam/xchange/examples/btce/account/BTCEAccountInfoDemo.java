@@ -37,7 +37,7 @@ public class BTCEAccountInfoDemo {
     Exchange btce = BTCEExamplesUtils.createExchange();
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = btce.getPollingAccountService();
+    PollingAccountService accountService = btce.getPollingAccountService(null);
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
