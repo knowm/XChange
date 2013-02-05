@@ -47,5 +47,5 @@
 		</dependency>
 
 	</dependencies>
-
+    <version>1.4.1-SNAPSHOT</version>
 </project>
