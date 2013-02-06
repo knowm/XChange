@@ -46,7 +46,7 @@ public class MarketOrderDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService(null);
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
 
     // place a market order for 1 Bitcoin at market price
     OrderType orderType = (OrderType.BID);

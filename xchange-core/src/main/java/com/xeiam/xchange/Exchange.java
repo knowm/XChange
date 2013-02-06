@@ -33,6 +33,7 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * </p>
  * <ul>
  * <li>Entry point to the XChange APIs</li>
+ * <p>The consumer is given a choice of a default (no-args) or configured accessor</p>
  * </ul>
  */
 public interface Exchange {
@@ -57,11 +58,62 @@ public interface Exchange {
    * This is the non-streaming (blocking) version of the service
    * </p>
    *
+   * @return The exchange's market data service
+   */
+  PollingMarketDataService getPollingMarketDataService();
+
+  /**
+   * <p>
+   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
+   * </p>
+   * <p>
+   * This is the non-streaming (blocking) version of the service
+   * </p>
+   *
    * @param configuration The exchange-specific configuration to be applied after creation
    *
    * @return The exchange's market data service
    */
   PollingMarketDataService getPollingMarketDataService(ExchangeServiceConfiguration configuration);
+
+  /**
+   * <p>
+   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
+   * </p>
+   * <p>
+   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
+   * place.
+   * </p>
+   *
+   * @return The exchange's "push" market data service
+   */
+  StreamingMarketDataService getStreamingMarketDataService();
+
+  /**
+   * <p>
+   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
+   * </p>
+   * <p>
+   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
+   * place.
+   * </p>
+   *
+   * @param configuration The exchange-specific configuration to be applied after creation
+   * @return The exchange's "push" market data service
+   */
+  StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration);
+
+  /**
+   * <p>
+   * An trade service typically provides access to trading functionality
+   * </p>
+   * <p>
+   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
+   * </p>
+   *
+   * @return The exchange's polling trade service
+   */
+  PollingTradeService getPollingTradeService();
 
   /**
    * <p>
@@ -78,17 +130,15 @@ public interface Exchange {
 
   /**
    * <p>
-   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
+   * An account service typically provides access to the user's private exchange data
    * </p>
    * <p>
-   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
-   * place.
+   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
    * </p>
    *
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's "push" market data service
+   * @return The exchange's polling account service
    */
-  StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration);
+  PollingAccountService getPollingAccountService();
 
   /**
    * <p>

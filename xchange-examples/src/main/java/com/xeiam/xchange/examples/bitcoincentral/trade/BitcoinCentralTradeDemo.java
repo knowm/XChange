@@ -53,7 +53,7 @@ public class BitcoinCentralTradeDemo {
     exSpec.setPassword(args[1]);
 
     Exchange central = ExchangeFactory.INSTANCE.createExchange(exSpec);
-    PollingTradeService tradeService = central.getPollingTradeService(null);
+    PollingTradeService tradeService = central.getPollingTradeService();
 
     printOpenOrders(tradeService);
 

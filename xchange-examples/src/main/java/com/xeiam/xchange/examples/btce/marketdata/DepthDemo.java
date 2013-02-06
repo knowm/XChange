@@ -39,7 +39,7 @@ public class DepthDemo {
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.LTC, Currencies.RUR);

@@ -40,7 +40,7 @@ public class TickerDemo {
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);

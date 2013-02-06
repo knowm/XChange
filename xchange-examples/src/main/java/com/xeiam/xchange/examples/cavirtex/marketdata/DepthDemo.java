@@ -39,7 +39,7 @@ public class DepthDemo {
     Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange(VirtExExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.CAD);

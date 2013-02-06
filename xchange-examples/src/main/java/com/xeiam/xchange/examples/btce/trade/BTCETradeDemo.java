@@ -40,7 +40,7 @@ public class BTCETradeDemo {
   public static void main(String[] args) {
 
     Exchange btce = BTCEExamplesUtils.createExchange();
-    PollingTradeService tradeService = btce.getPollingTradeService(null);
+    PollingTradeService tradeService = btce.getPollingTradeService();
 
     printOpenOrders(tradeService);
 

@@ -40,7 +40,7 @@ public class FullDepthDemo {
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);

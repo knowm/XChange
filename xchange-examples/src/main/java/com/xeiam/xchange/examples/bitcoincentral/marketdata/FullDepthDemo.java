@@ -40,7 +40,7 @@ public class FullDepthDemo {
     Exchange bitcoinCentralExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinCentralExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.EUR);

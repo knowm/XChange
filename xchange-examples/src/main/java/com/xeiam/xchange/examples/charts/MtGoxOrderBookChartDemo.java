@@ -44,7 +44,7 @@ public class MtGoxOrderBookChartDemo {
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
 
     System.out.println("fetching data...");
 

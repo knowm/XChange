@@ -49,7 +49,7 @@ public class LimitOrderDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService(null);
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
 
     // place a limit order for a random amount of BTC at USD 1.25
     OrderType orderType = (OrderType.BID);

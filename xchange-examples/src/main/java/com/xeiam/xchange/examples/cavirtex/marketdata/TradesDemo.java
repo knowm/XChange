@@ -39,7 +39,7 @@ public class TradesDemo {
     Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange(VirtExExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/CAD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.CAD);

@@ -40,7 +40,7 @@ public class TradesDemo {
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/CAD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);

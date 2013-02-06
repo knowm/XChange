@@ -44,7 +44,7 @@ public class CancelOrderDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService(null);
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
 
     boolean orderExists = tradeService.cancelOrder("f5db6a11-5af4-4860-98cc-1e4419ccce38");
     System.out.println("orderExists= " + orderExists);

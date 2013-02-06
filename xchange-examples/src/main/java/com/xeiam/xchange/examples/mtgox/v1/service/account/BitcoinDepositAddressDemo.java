@@ -42,7 +42,7 @@ public class BitcoinDepositAddressDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = mtgox.getPollingAccountService(null);
+    PollingAccountService accountService = mtgox.getPollingAccountService();
 
     // Request a Bitcoin deposit address
     String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);

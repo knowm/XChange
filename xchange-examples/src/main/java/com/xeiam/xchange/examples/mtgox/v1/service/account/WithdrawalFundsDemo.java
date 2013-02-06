@@ -44,7 +44,7 @@ public class WithdrawalFundsDemo {
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = mtgox.getPollingAccountService(null);
+    PollingAccountService accountService = mtgox.getPollingAccountService();
 
     System.out.println(accountService.getAccountInfo());
 

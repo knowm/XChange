@@ -39,7 +39,7 @@ public class TickerDemo {
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService(null);
+    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(Currencies.LTC, Currencies.RUR);

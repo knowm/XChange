@@ -49,7 +49,7 @@ public class MtGoxWithdrawDemo {
     exchangeSpecification.setUri("https://mtgox.com");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    PollingAccountService accountService = mtgox.getPollingAccountService(null);
+    PollingAccountService accountService = mtgox.getPollingAccountService();
     System.out.println(accountService.getAccountInfo());
 
     String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");

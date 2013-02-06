@@ -45,7 +45,7 @@ public class BitstampAccountDemo {
 
     Exchange bitstamp = BitstampDemoUtils.getExchange();
 
-    PollingAccountService accountService = bitstamp.getPollingAccountService(null);
+    PollingAccountService accountService = bitstamp.getPollingAccountService();
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
