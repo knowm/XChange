@@ -23,7 +23,7 @@ package com.xeiam.xchange.btce.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * <p>

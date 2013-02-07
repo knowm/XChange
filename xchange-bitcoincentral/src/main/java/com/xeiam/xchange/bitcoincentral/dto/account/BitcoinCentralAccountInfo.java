@@ -22,9 +22,9 @@
  */
 package com.xeiam.xchange.bitcoincentral.dto.account;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi

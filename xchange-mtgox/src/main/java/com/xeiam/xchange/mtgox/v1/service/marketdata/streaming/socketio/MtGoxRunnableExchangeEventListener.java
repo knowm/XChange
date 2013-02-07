@@ -21,13 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -41,6 +35,11 @@ import com.xeiam.xchange.service.DefaultExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>

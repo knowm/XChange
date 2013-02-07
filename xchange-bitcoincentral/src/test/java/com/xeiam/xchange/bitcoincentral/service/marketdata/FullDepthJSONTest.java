@@ -27,7 +27,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;

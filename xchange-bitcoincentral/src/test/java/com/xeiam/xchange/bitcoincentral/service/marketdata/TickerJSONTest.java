@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.bitcoincentral.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test BitcoinCentralTicker JSON parsing

@@ -8,6 +8,7 @@
 	</parent>
 
 	<artifactId>xchange-mtgox</artifactId>
+  <version>develop-SNAPSHOT</version>
 
 	<name>MtGox Exchange</name>
 	<description>XChange implementations for the MtGox Exchange.</description>
@@ -31,5 +32,4 @@
 		</dependency>
 
 	</dependencies>
-    <version>develop-SNAPSHOT</version>
 </project>

@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.rest.JSONUtils;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,10 +32,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.rest.JSONUtils;
+import static org.junit.Assert.*;
 
 /**
  * Test class for testing JSONUtils methods

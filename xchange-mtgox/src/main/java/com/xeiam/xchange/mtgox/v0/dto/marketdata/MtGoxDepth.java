@@ -22,10 +22,10 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Data object representing depth from Mt Gox

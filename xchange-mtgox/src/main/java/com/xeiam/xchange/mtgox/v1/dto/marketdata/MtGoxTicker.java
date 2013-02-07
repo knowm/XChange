@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 

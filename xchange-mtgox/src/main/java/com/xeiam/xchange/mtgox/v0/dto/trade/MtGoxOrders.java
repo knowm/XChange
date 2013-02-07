@@ -23,7 +23,7 @@ package com.xeiam.xchange.mtgox.v0.dto.trade;
 
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author timmolter

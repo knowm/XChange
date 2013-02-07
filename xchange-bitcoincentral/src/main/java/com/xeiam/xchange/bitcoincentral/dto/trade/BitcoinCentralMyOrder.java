@@ -25,7 +25,7 @@ package com.xeiam.xchange.bitcoincentral.dto.trade;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi

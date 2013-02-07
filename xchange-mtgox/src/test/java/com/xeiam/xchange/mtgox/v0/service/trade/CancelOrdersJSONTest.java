@@ -21,18 +21,17 @@
  */
 package com.xeiam.xchange.mtgox.v0.service.trade;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test MtGoxCancelOrder JSON parsing
@@ -47,7 +46,7 @@ public class CancelOrdersJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxCancelOrder mtGoxOpenOrders = mapper.readValue(is, MtGoxCancelOrder.class);
 
     // System.out.println(mtGoxOpenOrders.toString());
