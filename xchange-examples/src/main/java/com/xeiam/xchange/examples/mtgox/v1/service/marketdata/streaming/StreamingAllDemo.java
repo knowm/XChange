@@ -21,101 +21,89 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.ExchangeEvent;
-import com.xeiam.xchange.service.ExchangeEventType;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Test combining streaming event queues at MtGox
  */
 public class StreamingAllDemo {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        StreamingAllDemo allDemo = new StreamingAllDemo();
-        allDemo.start();
-    }
+    StreamingAllDemo allDemo = new StreamingAllDemo();
+    allDemo.start();
+  }
 
-    public void start() {
+  public void start() {
 
-        // Use the default MtGox settings
-        Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
+    // // Use the default MtGox settings
+    // Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
+    //
+    // // Interested in the public streaming market data feed (no authentication)
+    // StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
+    //
+    // // Get blocking queue that receives exchange event data (this starts the event processing as well)
+    // BlockingQueue<ExchangeEvent> tradeQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TRADE);
+    // BlockingQueue<ExchangeEvent> depthQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.DEPTH);
+    //
+    // // Note: Recommend not combining ticker events into common queue due to the higher rate of production
+    // // BlockingQueue<ExchangeEvent> tickerQueue = MG_Market_Stream.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TICKER);
+    //
+    // BlockingQueue<ExchangeEvent> eventQueue = new LinkedBlockingQueue<ExchangeEvent>(2048);
+    //
+    // for (int i = 0; i < 10; i++) {
+    //
+    // try {
+    //
+    // // Fill exchange events first
+    // while (!tradeQueue.isEmpty()) {
+    // ExchangeEvent tradeEvent = tradeQueue.take();
+    // eventQueue.put(tradeEvent);
+    // System.out.println("Exchange event: " + tradeEvent.getEventType().name() + ", " + tradeEvent.getData());
+    //
+    // }
+    // while (!depthQueue.isEmpty()) {
+    // ExchangeEvent depthEvent = depthQueue.take();
+    // eventQueue.put(depthEvent);
+    // System.out.println("Exchange event: " + depthEvent.getEventType().name() + ", " + depthEvent.getData());
+    //
+    // }
+    // // while (!tickerQueue.isEmpty()) {
+    // // ExchangeEvent tickerEvent = tickerQueue.take();
+    // // eventQueue.put(tickerEvent);
+    // // System.out.println("Exchange event: " + tickerEvent.getEventType().name() + ", " + tickerEvent.getData());
+    // //
+    // // }
+    //
+    // // Process exchange events
+    // while (!eventQueue.isEmpty()) {
+    // ExchangeEvent event = eventQueue.take();
+    //
+    // // if (event.getEventType().equals(ExchangeEventType.TICKER)) {
+    // // ProcessTick(event.getPayload());
+    // // }
+    // if (event.getEventType().equals(ExchangeEventType.TRADE)) {
+    //
+    // ProcessTrade(event.getPayload());
+    // }
+    // if (event.getEventType().equals(ExchangeEventType.DEPTH)) {
+    // ProcessDepth(event.getPayload());
+    // }
+    // }
+    //
+    // } catch (InterruptedException e) {
+    // e.printStackTrace();
+    // }
+    // }
+  }
 
-        // Interested in the public streaming market data feed (no authentication)
-        StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
+  private static void ProcessTrade(Object payload) {
 
-        // Get blocking queue that receives exchange event data (this starts the event processing as well)
-        BlockingQueue<ExchangeEvent> tradeQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TRADE);
-        BlockingQueue<ExchangeEvent> depthQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.DEPTH);
+    System.out.println(payload.toString());
+  }
 
-        // Note: Recommend not combining ticker events into common queue due to the higher rate of production
-        //        BlockingQueue<ExchangeEvent> tickerQueue = MG_Market_Stream.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TICKER);
+  private static void ProcessDepth(Object payload) {
 
-        BlockingQueue<ExchangeEvent> eventQueue = new LinkedBlockingQueue<ExchangeEvent>(2048);
-
-      for (int i = 0; i < 10; i++) {
-
-
-            try {
-
-                // Fill exchange events first
-                while (!tradeQueue.isEmpty()) {
-                    ExchangeEvent tradeEvent = tradeQueue.take();
-                    eventQueue.put(tradeEvent);
-                    System.out.println("Exchange event: " + tradeEvent.getEventType().name() + ", " + tradeEvent.getData());
-
-                }
-                while (!depthQueue.isEmpty()) {
-                    ExchangeEvent depthEvent = depthQueue.take();
-                    eventQueue.put(depthEvent);
-                    System.out.println("Exchange event: " + depthEvent.getEventType().name() + ", " + depthEvent.getData());
-
-                }
-//                while (!tickerQueue.isEmpty()) {
-//                    ExchangeEvent tickerEvent = tickerQueue.take();
-//                    eventQueue.put(tickerEvent);
-//                    System.out.println("Exchange event: " + tickerEvent.getEventType().name() + ", " + tickerEvent.getData());
-//
-//                }
-
-                // Process exchange events
-                while (!eventQueue.isEmpty()) {
-                    ExchangeEvent event = eventQueue.take();
-
-//                    if (event.getEventType().equals(ExchangeEventType.TICKER)) {
-//                        ProcessTick(event.getPayload());
-//                    }
-                    if (event.getEventType().equals(ExchangeEventType.TRADE)) {
-
-                        ProcessTrade(event.getPayload());
-                    }
-                    if (event.getEventType().equals(ExchangeEventType.DEPTH)) {
-                        ProcessDepth(event.getPayload());
-                    }
-                }
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static void ProcessTrade(Object payload) {
-
-        System.out.println(payload.toString());
-    }
-
-    private static void ProcessDepth(Object payload) {
-
-        System.out.println(payload.toString());
-    }
+    System.out.println(payload.toString());
+  }
 
 }

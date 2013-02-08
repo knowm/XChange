@@ -65,14 +65,9 @@ public class MtGoxStreamingTickerDemo {
     btcusdStreamingMarketDataService.connect();
     btceurStreamingMarketDataService.connect();
 
-    // <<<<<<< HEAD:xchange-examples/src/main/java/com/xeiam/xchange/examples/mtgox/v1/service/marketdata/streaming/StreamingTickerDemo.java
-    // // Get blocking queue that receives exchange event data (this starts the event processing as well)
-    // BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TICKER);
-    // =======
     ExecutorService executorService = Executors.newFixedThreadPool(2);
     executorService.submit(new TickerRunnable(btcusdStreamingMarketDataService));
     executorService.submit(new TickerRunnable(btceurStreamingMarketDataService));
-
   }
 
 }
@@ -93,7 +88,6 @@ class TickerRunnable implements Runnable {
   public void run() {
 
     BlockingQueue<ExchangeEvent> eventQueue = marketDataService.getEventQueue();
-    // >>>>>>> 042e51d5ea2c20cbd4caf0f2188a58ec852725a7:xchange-examples/src/main/java/com/xeiam/xchange/examples/mtgox/v1/service/marketdata/streaming/MtGoxStreamingTickerDemo.java
 
     try {
 

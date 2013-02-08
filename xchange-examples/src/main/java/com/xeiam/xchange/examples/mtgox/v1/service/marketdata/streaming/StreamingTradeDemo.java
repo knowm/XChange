@@ -21,16 +21,6 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.ExchangeEvent;
-import com.xeiam.xchange.service.ExchangeEventType;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
  * Test requesting streaming Trade at MtGox
@@ -45,42 +35,42 @@ public class StreamingTradeDemo {
 
   public void start() {
 
-    // Use the default MtGox settings
-    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
-
-    // Interested in the public streaming market data feed (no authentication)
-    StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
-
-    // Get blocking queue that receives exchange event data (this starts the event processing as well)
-    // 
-    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TRADE);
-
-    try {
-
-      // Run for a limited number of events
-      for (int i = 0; i < 10; i++) {
-
-        // Monitor the exchange events
-        System.out.println("Waiting for exchange event...");
-        ExchangeEvent exchangeEvent = eventQueue.take();
-        System.out.println("Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
-
-        if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
-
-          Trade trade = (Trade) exchangeEvent.getPayload();
-          System.out.println("+ Trade: " + trade.toString());
-
-          // System.out.println("+ Trade event: " + exchangeEvent.getPayload().toString());
-        }
-
-      }
-
-      // Disconnect and exit
-      streamingMarketDataService.disconnect();
-
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    // // Use the default MtGox settings
+    // Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
+    //
+    // // Interested in the public streaming market data feed (no authentication)
+    // StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
+    //
+    // // Get blocking queue that receives exchange event data (this starts the event processing as well)
+    // //
+    // BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TRADE);
+    //
+    // try {
+    //
+    // // Run for a limited number of events
+    // for (int i = 0; i < 10; i++) {
+    //
+    // // Monitor the exchange events
+    // System.out.println("Waiting for exchange event...");
+    // ExchangeEvent exchangeEvent = eventQueue.take();
+    // System.out.println("Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
+    //
+    // if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
+    //
+    // Trade trade = (Trade) exchangeEvent.getPayload();
+    // System.out.println("+ Trade: " + trade.toString());
+    //
+    // // System.out.println("+ Trade event: " + exchangeEvent.getPayload().toString());
+    // }
+    //
+    // }
+    //
+    // // Disconnect and exit
+    // streamingMarketDataService.disconnect();
+    //
+    // } catch (InterruptedException e) {
+    // e.printStackTrace();
+    // }
   }
 
 }
