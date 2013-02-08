@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
-
 /**
  * Test combining streaming event queues at MtGox
  */

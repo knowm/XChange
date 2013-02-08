@@ -21,14 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 
 /**
  * Test MtGoxAccountInfo JSON parsing

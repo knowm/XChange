@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
-
 /**
  * Test requesting streaming Market Depth at MtGox
  */

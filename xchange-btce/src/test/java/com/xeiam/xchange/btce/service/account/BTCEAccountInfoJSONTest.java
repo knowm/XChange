@@ -21,17 +21,18 @@
  */
 package com.xeiam.xchange.btce.service.account;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
 
 /**
  * Test BTCEDepth JSON parsing

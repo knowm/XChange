@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.service;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URI;
@@ -34,6 +28,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>

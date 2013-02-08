@@ -21,11 +21,9 @@
  */
 package com.xeiam.xchange.btce.service.trade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
-import com.xeiam.xchange.btce.dto.trade.*;
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,9 +33,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.hamcrest.CoreMatchers;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
+import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderResult;
+import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderReturn;
+import com.xeiam.xchange.btce.dto.trade.BTCEOpenOrdersReturn;
+import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
+import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
 
 /**
  * Test BTCEDepth JSON parsing

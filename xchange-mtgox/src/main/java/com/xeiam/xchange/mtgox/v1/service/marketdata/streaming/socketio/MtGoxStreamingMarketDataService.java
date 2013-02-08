@@ -21,6 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
+import java.io.IOException;
+import java.net.URI;
+import java.util.concurrent.BlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.mtgox.MtGoxExchangeServiceConfiguration;
@@ -30,12 +37,6 @@ import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.RunnableExchangeEventListener;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.URI;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -63,7 +64,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
   public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification, MtGoxExchangeServiceConfiguration configuration) throws IOException {
@@ -73,9 +74,8 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     Assert.notNull(configuration, "configuration cannot be null");
     Assert.notNull(configuration.getTradeableIdentifier(), "tradableIdentifier cannot be null");
     Assert.notNull(configuration.getCurrencyCode(), "currencyCode cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(
-      new CurrencyPair(configuration.getTradeableIdentifier(), configuration.getCurrencyCode())),
-      "currencyPair is not valid:" + configuration.getTradeableIdentifier() + " " + configuration.getCurrencyCode());
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(configuration.getTradeableIdentifier(), configuration.getCurrencyCode())), "currencyPair is not valid:"
+        + configuration.getTradeableIdentifier() + " " + configuration.getCurrencyCode());
 
     this.configuration = configuration;
 
@@ -86,6 +86,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   @Override
   public BlockingQueue<ExchangeEvent> getEventQueue() {
+
     return consumerEventQueue;
   }
 
@@ -93,7 +94,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   public void connect() {
 
     URI uri = URI.create(apiBase + "?Channel=ticker&Currency=" + configuration.getCurrencyCode());
-    log.debug("Streaming URI='{}'",uri);
+    log.debug("Streaming URI='{}'", uri);
 
     // Use the default internal connect
     internalConnect(uri, runnableExchangeEventListener);

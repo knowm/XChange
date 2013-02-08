@@ -29,9 +29,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;
 import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
 

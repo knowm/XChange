@@ -22,7 +22,6 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MtGoxTicker {

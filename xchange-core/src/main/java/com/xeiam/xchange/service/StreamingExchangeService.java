@@ -63,28 +63,26 @@ public interface StreamingExchangeService {
   RunnableExchangeEventProducer getRunnableExchangeEventProducer();
 
   /**
-   * @param runnableMarketDataEventProducer
-   *         The runnable market data event producer
+   * @param runnableMarketDataEventProducer The runnable market data event producer
    */
   void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
 
   /**
    * @return True if the streaming channel is connected
-   *
-   * @deprecated In favour of tracking the ExchangeEventType instead
-   *             TODO Remove this in 1.4.2+
+   * @deprecated In favour of tracking the ExchangeEventType instead TODO Remove this in 1.4.2+
    */
   @Deprecated
   boolean isConnected();
 
   /**
-   * <p>The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples
-   * include:</p>
+   * <p>
+   * The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples include:
+   * </p>
    * <ul>
    * <li>Connect/disconnect events</li>
    * <li>Ticker events (with Ticker embedded)</li>
    * </ul>
-   *
+   * 
    * @return A blocking queue
    */
   BlockingQueue<ExchangeEvent> getEventQueue();

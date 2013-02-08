@@ -22,12 +22,12 @@
  */
 package com.xeiam.xchange.examples.bitstamp.account;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
-
-import java.math.BigDecimal;
 
 /**
  * <p>

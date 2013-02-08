@@ -23,7 +23,6 @@
 package com.xeiam.xchange.btce.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
 
 /**

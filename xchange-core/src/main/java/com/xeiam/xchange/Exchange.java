@@ -33,7 +33,9 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * </p>
  * <ul>
  * <li>Entry point to the XChange APIs</li>
- * <p>The consumer is given a choice of a default (no-args) or configured accessor</p>
+ * <p>
+ * The consumer is given a choice of a default (no-args) or configured accessor
+ * </p>
  * </ul>
  */
 public interface Exchange {
@@ -45,7 +47,7 @@ public interface Exchange {
 
   /**
    * Applies any exchange specific parameters
-   *
+   * 
    * @param exchangeSpecification The exchange specification
    */
   void applySpecification(ExchangeSpecification exchangeSpecification);
@@ -57,7 +59,7 @@ public interface Exchange {
    * <p>
    * This is the non-streaming (blocking) version of the service
    * </p>
-   *
+   * 
    * @return The exchange's market data service
    */
   PollingMarketDataService getPollingMarketDataService();
@@ -69,9 +71,8 @@ public interface Exchange {
    * <p>
    * This is the non-streaming (blocking) version of the service
    * </p>
-   *
+   * 
    * @param configuration The exchange-specific configuration to be applied after creation
-   *
    * @return The exchange's market data service
    */
   PollingMarketDataService getPollingMarketDataService(ExchangeServiceConfiguration configuration);
@@ -84,7 +85,7 @@ public interface Exchange {
    * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
    * place.
    * </p>
-   *
+   * 
    * @return The exchange's "push" market data service
    */
   StreamingMarketDataService getStreamingMarketDataService();
@@ -97,7 +98,7 @@ public interface Exchange {
    * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
    * place.
    * </p>
-   *
+   * 
    * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's "push" market data service
    */
@@ -110,7 +111,7 @@ public interface Exchange {
    * <p>
    * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
    * </p>
-   *
+   * 
    * @return The exchange's polling trade service
    */
   PollingTradeService getPollingTradeService();
@@ -122,7 +123,7 @@ public interface Exchange {
    * <p>
    * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
    * </p>
-   *
+   * 
    * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's polling trade service
    */
@@ -135,7 +136,7 @@ public interface Exchange {
    * <p>
    * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
    * </p>
-   *
+   * 
    * @return The exchange's polling account service
    */
   PollingAccountService getPollingAccountService();
@@ -147,7 +148,7 @@ public interface Exchange {
    * <p>
    * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
    * </p>
-   *
+   * 
    * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's polling account service
    */

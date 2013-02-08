@@ -21,17 +21,18 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 
 /**
  * Test BitStamp Full Depth JSON parsing

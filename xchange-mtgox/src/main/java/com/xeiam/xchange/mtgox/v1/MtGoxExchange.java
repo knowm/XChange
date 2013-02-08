@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -32,8 +34,6 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStr
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
 import com.xeiam.xchange.service.ExchangeServiceConfiguration;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-
-import java.io.IOException;
 
 /**
  * <p>
@@ -75,12 +75,14 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
 
   @Override
   public StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration) {
+
     if (configuration instanceof MtGoxExchangeServiceConfiguration) {
-    try {
-      return new MtGoxStreamingMarketDataService(specification, (MtGoxExchangeServiceConfiguration) configuration);
-    } catch (IOException e) {
-      throw new ExchangeException("Streaming market data service failed", e);
-    }}
+      try {
+        return new MtGoxStreamingMarketDataService(specification, (MtGoxExchangeServiceConfiguration) configuration);
+      } catch (IOException e) {
+        throw new ExchangeException("Streaming market data service failed", e);
+      }
+    }
 
     throw new IllegalArgumentException("MtGox only supports the MtGoxExchangeServiceConfiguration");
   }

@@ -29,9 +29,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
 
 /**

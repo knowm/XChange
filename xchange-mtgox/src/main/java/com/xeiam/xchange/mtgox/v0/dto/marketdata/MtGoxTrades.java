@@ -22,10 +22,9 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MtGoxTrades {
 
@@ -41,7 +40,7 @@ public class MtGoxTrades {
 
   /**
    * Constructor
-   *
+   * 
    * @param amount
    * @param amountInt
    * @param date
@@ -52,16 +51,9 @@ public class MtGoxTrades {
    * @param tid
    * @param tradeType
    */
-  public MtGoxTrades(
-    @JsonProperty("amount") BigDecimal amount,
-    @JsonProperty("amount_int") long amountInt,
-    @JsonProperty("date") long date,
-    @JsonProperty("item") String item,
-    @JsonProperty("price") BigDecimal price,
-    @JsonProperty("price_currency") String priceCurrency,
-    @JsonProperty("price_int") long priceInt,
-    @JsonProperty("tid") long tid,
-    @JsonProperty("trade_type") String tradeType) {
+  public MtGoxTrades(@JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("date") long date, @JsonProperty("item") String item,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("price_int") long priceInt, @JsonProperty("tid") long tid,
+      @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
     this.amount_int = amountInt;

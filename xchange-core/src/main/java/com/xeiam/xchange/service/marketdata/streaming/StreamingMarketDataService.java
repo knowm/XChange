@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.service.marketdata.streaming;
 
+import java.util.concurrent.BlockingQueue;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.StreamingExchangeService;
-
-import java.util.concurrent.BlockingQueue;
 
 /**
  * <p>
@@ -42,15 +42,14 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
 
   /**
    * <strong>Note: This will not automatically start the stream, use connect() when ready.</strong>
-   *
+   * 
    * @return A blocking queue consisting of received event objects
    */
   BlockingQueue<ExchangeEvent> getEventQueue();
 
   /**
-   * TODO Remove this in 1.4.2+
-   * Cancel the streaming Ticker feed
-   *
+   * TODO Remove this in 1.4.2+ Cancel the streaming Ticker feed
+   * 
    * @deprecated Use the disconnect() method instead.
    */
   @Deprecated

@@ -22,9 +22,9 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Ticker {
 
@@ -53,17 +53,9 @@ public class Ticker {
    * @param buy
    * @param sell
    */
-  public Ticker(
-    @JsonProperty("high") BigDecimal high,
-    @JsonProperty("low") BigDecimal low,
-    @JsonProperty("avg") BigDecimal avg,
-    @JsonProperty("vwap") BigDecimal vwap,
-    @JsonProperty("vol") BigDecimal vol,
-    @JsonProperty("last_local") BigDecimal last_local,
-    @JsonProperty("last") BigDecimal last,
-    @JsonProperty("last_all") BigDecimal last_all,
-    @JsonProperty("buy") BigDecimal buy,
-    @JsonProperty("sell") BigDecimal sell) {
+  public Ticker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("avg") BigDecimal avg, @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("vol") BigDecimal vol, @JsonProperty("last_local") BigDecimal last_local, @JsonProperty("last") BigDecimal last, @JsonProperty("last_all") BigDecimal last_all,
+      @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell) {
 
     this.high = high;
     this.low = low;
