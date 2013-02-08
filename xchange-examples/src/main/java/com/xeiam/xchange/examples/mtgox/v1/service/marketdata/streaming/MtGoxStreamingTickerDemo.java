@@ -22,24 +22,27 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.mtgox.MtGoxExchangeServiceConfiguration;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
- * Test requesting streaming Ticker at MtGox
+ * Test requesting streaming Ticker at MtGox using 2 separate ticker streams BTC/USD and BTC/EUR
  */
-public class StreamingTickerDemo {
+public class MtGoxStreamingTickerDemo {
 
   public static void main(String[] args) {
 
-    StreamingTickerDemo tickerDemo = new StreamingTickerDemo();
+    MtGoxStreamingTickerDemo tickerDemo = new MtGoxStreamingTickerDemo();
     tickerDemo.start();
   }
 
@@ -48,16 +51,54 @@ public class StreamingTickerDemo {
     // Use the default MtGox settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
-    // Interested in the public streaming market data feed (no authentication)
-    StreamingMarketDataService streamingMarketDataService = mtGoxExchange.getStreamingMarketDataService();
+    // Configure BTC/USD ticker stream for MtGox
+    MtGoxExchangeServiceConfiguration btcusdConfiguration = new MtGoxExchangeServiceConfiguration(Currencies.BTC, Currencies.USD);
 
-    // Get blocking queue that receives exchange event data (this starts the event processing as well)
-    BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TICKER);
+    // Configure BTC/EUR ticker stream for MtGox
+    MtGoxExchangeServiceConfiguration btceurConfiguration = new MtGoxExchangeServiceConfiguration(Currencies.BTC, Currencies.EUR);
+
+    // Interested in the public streaming market data feed (no authentication)
+    StreamingMarketDataService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingMarketDataService(btcusdConfiguration);
+    StreamingMarketDataService btceurStreamingMarketDataService = mtGoxExchange.getStreamingMarketDataService(btceurConfiguration);
+
+    // Open the connections to the exchange
+    btcusdStreamingMarketDataService.connect();
+    btceurStreamingMarketDataService.connect();
+
+    // <<<<<<< HEAD:xchange-examples/src/main/java/com/xeiam/xchange/examples/mtgox/v1/service/marketdata/streaming/StreamingTickerDemo.java
+    // // Get blocking queue that receives exchange event data (this starts the event processing as well)
+    // BlockingQueue<ExchangeEvent> eventQueue = streamingMarketDataService.getEventQueue(Currencies.BTC, Currencies.USD, ExchangeEventType.TICKER);
+    // =======
+    ExecutorService executorService = Executors.newFixedThreadPool(2);
+    executorService.submit(new TickerRunnable(btcusdStreamingMarketDataService));
+    executorService.submit(new TickerRunnable(btceurStreamingMarketDataService));
+
+  }
+
+}
+
+/**
+ * Encapsulates some ticker monitoring behaviour
+ */
+class TickerRunnable implements Runnable {
+
+  private final StreamingMarketDataService marketDataService;
+
+  TickerRunnable(StreamingMarketDataService marketDataService) {
+
+    this.marketDataService = marketDataService;
+  }
+
+  @Override
+  public void run() {
+
+    BlockingQueue<ExchangeEvent> eventQueue = marketDataService.getEventQueue();
+    // >>>>>>> 042e51d5ea2c20cbd4caf0f2188a58ec852725a7:xchange-examples/src/main/java/com/xeiam/xchange/examples/mtgox/v1/service/marketdata/streaming/MtGoxStreamingTickerDemo.java
 
     try {
 
       // Run for a limited number of events
-      for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < 5; i++) {
 
         // Monitor the exchange events
         System.out.println("Waiting for exchange event...");
@@ -69,17 +110,17 @@ public class StreamingTickerDemo {
           Ticker ticker = (Ticker) exchangeEvent.getPayload();
           System.out.println("+ Ticker: " + ticker.toString());
 
-          // System.out.println("+ Ticker event: " + exchangeEvent.getPayload().toString());
         }
 
       }
 
-      // Disconnect and exit
-      streamingMarketDataService.disconnect();
-
     } catch (InterruptedException e) {
       e.printStackTrace();
-    }
-  }
+    } finally {
+      // Disconnect and exit
+      marketDataService.disconnect();
 
+    }
+
+  }
 }

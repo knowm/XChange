@@ -166,7 +166,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<autoversionsubmodules>true</autoversionsubmodules>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
 			<!-- normally don't run the test classes annotated with @OnlineTest -->
