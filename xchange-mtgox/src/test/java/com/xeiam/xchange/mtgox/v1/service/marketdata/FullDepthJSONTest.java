@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test MtGoxFullDepth JSON parsing

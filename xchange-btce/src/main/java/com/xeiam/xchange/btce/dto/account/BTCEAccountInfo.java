@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi

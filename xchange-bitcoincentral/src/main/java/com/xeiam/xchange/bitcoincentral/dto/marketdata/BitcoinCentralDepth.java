@@ -23,7 +23,7 @@ package com.xeiam.xchange.bitcoincentral.dto.marketdata;
 
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author timmolter

@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralTradeRequest;

@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v1.dto.trade;
 import java.util.Arrays;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Wallets from Mt Gox

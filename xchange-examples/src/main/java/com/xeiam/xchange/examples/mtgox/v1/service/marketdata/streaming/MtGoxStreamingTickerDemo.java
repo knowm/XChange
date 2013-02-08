@@ -22,8 +22,10 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -40,13 +42,13 @@ import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService
  */
 public class MtGoxStreamingTickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws ExecutionException, InterruptedException {
 
     MtGoxStreamingTickerDemo tickerDemo = new MtGoxStreamingTickerDemo();
     tickerDemo.start();
   }
 
-  public void start() {
+  public void start() throws ExecutionException, InterruptedException {
 
     // Use the default MtGox settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
@@ -66,8 +68,19 @@ public class MtGoxStreamingTickerDemo {
     btceurStreamingMarketDataService.connect();
 
     ExecutorService executorService = Executors.newFixedThreadPool(2);
-    executorService.submit(new TickerRunnable(btcusdStreamingMarketDataService));
-    executorService.submit(new TickerRunnable(btceurStreamingMarketDataService));
+    Future<?> btcusd = executorService.submit(new TickerRunnable(btcusdStreamingMarketDataService));
+    Future<?> btceur = executorService.submit(new TickerRunnable(btceurStreamingMarketDataService));
+
+    btcusd.get();
+    btceur.get();
+
+    executorService.shutdown();
+
+    // TODO disconnect() currently shuts down all SocketIO traffic
+    // Disconnect and exit
+    System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
+    btcusdStreamingMarketDataService.disconnect();
+    btceurStreamingMarketDataService.disconnect();
   }
 
 }
@@ -92,17 +105,18 @@ class TickerRunnable implements Runnable {
     try {
 
       // Run for a limited number of events
-      for (int i = 0; i < 5; i++) {
+      int MAX = 5;
+      for (int i = 0; i < MAX; i++) {
 
         // Monitor the exchange events
-        System.out.println("Waiting for exchange event...");
+        System.out.println(Thread.currentThread().getName() + ": Waiting for exchange event (" + (i + 1) + " of " + MAX + ")");
         ExchangeEvent exchangeEvent = eventQueue.take();
-        System.out.println("Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
+        System.out.println(Thread.currentThread().getName() + ": Exchange event: " + exchangeEvent.getEventType().name() + ", " + exchangeEvent.getData());
 
         if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
 
           Ticker ticker = (Ticker) exchangeEvent.getPayload();
-          System.out.println("+ Ticker: " + ticker.toString());
+          System.out.println(Thread.currentThread().getName() + ": Ticker: " + ticker.toString());
 
         }
 
@@ -110,10 +124,6 @@ class TickerRunnable implements Runnable {
 
     } catch (InterruptedException e) {
       e.printStackTrace();
-    } finally {
-      // Disconnect and exit
-      marketDataService.disconnect();
-
     }
 
   }

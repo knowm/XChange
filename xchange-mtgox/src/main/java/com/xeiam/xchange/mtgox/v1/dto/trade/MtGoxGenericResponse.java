@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.trade;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing a response message from Mt Gox after placing and order

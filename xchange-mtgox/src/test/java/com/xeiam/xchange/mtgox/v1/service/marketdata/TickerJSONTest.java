@@ -21,18 +21,17 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test MtGoxTicker JSON parsing

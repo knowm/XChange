@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Test;
-
-import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test MtGoxWithdrawalResponse JSON parsing

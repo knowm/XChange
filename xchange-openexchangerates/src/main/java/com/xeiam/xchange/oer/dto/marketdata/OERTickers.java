@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.oer.dto.marketdata;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * *
