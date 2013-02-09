@@ -30,9 +30,9 @@ public class Order {
 
   public enum OrderType {
 
-    // Buying order
+    /** Buying order (you're making an offer) */
     BID,
-    // Selling order
+    /** Selling order (you're asking for offers) */
     ASK
   }
 
