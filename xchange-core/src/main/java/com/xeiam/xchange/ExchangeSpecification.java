@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,15 +38,30 @@ import java.util.Map;
  */
 public class ExchangeSpecification {
 
+  @JsonProperty
   private String userName;
+
+  @JsonProperty
   private String password;
+
+  @JsonProperty
   private String secretKey;
+
+  @JsonProperty
   private String apiKey;
+
+  @JsonProperty
   private String uri;
+
+  @JsonProperty
   private String host;
+
+  @JsonProperty
   private int port = 80;
+
   private final String exchangeClassName;
 
+  @JsonProperty
   private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
 
   /**
@@ -51,7 +69,8 @@ public class ExchangeSpecification {
    * 
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
-  public ExchangeSpecification(String exchangeClassName) {
+  @JsonCreator
+  public ExchangeSpecification(@JsonProperty("exchangeClassName") String exchangeClassName) {
 
     this.exchangeClassName = exchangeClassName;
   }
