@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Data object representing Trades
+ * <p>DTO representing a collection of trades</p>
  */
 public final class Trades {
 
@@ -34,13 +34,16 @@ public final class Trades {
   /**
    * Constructor
    * 
-   * @param trades
+   * @param trades The list of trades
    */
   public Trades(List<Trade> trades) {
 
     this.trades = trades;
   }
 
+  /**
+   * @return A list of trades ordered by timestamp
+   */
   public List<Trade> getTrades() {
 
     Collections.sort(trades);
@@ -50,7 +53,13 @@ public final class Trades {
   @Override
   public String toString() {
 
-    return "Trades [trades=" + trades.toString() + "]";
+    StringBuilder sb = new StringBuilder("Trades\n");
+    for (Trade trade: getTrades()) {
+      sb.append("[trade=");
+      sb.append(trade.toString());
+      sb.append("]\n");
+    }
+    return sb.toString();
   }
 
 }

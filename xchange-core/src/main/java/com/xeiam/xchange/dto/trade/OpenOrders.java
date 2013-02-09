@@ -24,7 +24,9 @@ package com.xeiam.xchange.dto.trade;
 import java.util.List;
 
 /**
- * Data object representing open orders
+ * <p>DTO representing open orders</p>
+ * <p>Open orders are orders that you have placed with the exchange that have not yet been matched
+ * to a counter-party.</p>
  */
 public final class OpenOrders {
 
@@ -32,8 +34,10 @@ public final class OpenOrders {
 
   /**
    * Constructor
-   * 
-   * @param openOrders
+   *
+   * TODO Consider Collection rather than List
+   *
+   * @param openOrders The list of open orders
    */
   public OpenOrders(List<LimitOrder> openOrders) {
 
@@ -48,7 +52,13 @@ public final class OpenOrders {
   @Override
   public String toString() {
 
-    return "OpenOrders [openOrders=" + openOrders + "]";
+    StringBuilder sb = new StringBuilder("Open orders\n");
+    for (LimitOrder order: getOpenOrders()) {
+      sb.append("[order=");
+      sb.append(order.toString());
+      sb.append("]\n");
+    }
+    return sb.toString();
   }
 
 }

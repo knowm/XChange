@@ -21,12 +21,11 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.xeiam.xchange.dto.Order.OrderType;
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.dto.Order.OrderType;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Data object representing a Trade
@@ -37,10 +36,12 @@ public final class Trade implements Comparable<Trade> {
    * Did this trade result from the execution of a bid or a ask?
    */
   private final OrderType type;
+
   /**
    * Amount that was traded
    */
   private final BigDecimal tradableAmount;
+
   /**
    * An identifier that uniquely identifies the tradable
    */
@@ -50,24 +51,32 @@ public final class Trade implements Comparable<Trade> {
    * The currency used to settle the market order transaction
    */
   private final String transactionCurrency;
+
   /**
    * The price
    */
   private final BigMoney price;
 
+  /**
+   * The timestamp when it was placed on the exchange
+   */
   private final Date timestamp;
 
   /**
-   * Constructor
-   * 
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
-   * @param price
-   * @param timestamp
+   * @param type                The trade type (BID side or ASK side)
+   * @param tradableAmount      The depth of this trade
+   * @param tradableIdentifier  The exchange identifier (e.g. "BTC/USD")
+   * @param transactionCurrency The currency
+   * @param price               The price (either the bid or the ask)
+   * @param timestamp           The timestamp when the order was placed. Exchange matching is usually price first then
+   *                            timestamp asc to clear older orders
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp) {
+  public Trade(OrderType type,
+               BigDecimal tradableAmount,
+               String tradableIdentifier,
+               String transactionCurrency,
+               BigMoney price,
+               Date timestamp) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -111,7 +120,7 @@ public final class Trade implements Comparable<Trade> {
   public String toString() {
 
     return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
-        + ", timestamp=" + timestamp + "]";
+      + ", timestamp=" + timestamp + "]";
   }
 
   @Override

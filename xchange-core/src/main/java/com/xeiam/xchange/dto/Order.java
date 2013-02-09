@@ -30,7 +30,10 @@ public class Order {
 
   public enum OrderType {
 
-    BID, ASK
+    // Buying order
+    BID,
+    // Selling order
+    ASK
   }
 
   /** Order type i.e. bid or ask */
@@ -57,7 +60,11 @@ public class Order {
    * @param transactionCurrency
    * @param id
    */
-  public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id) {
+  public Order(OrderType type,
+               BigDecimal tradableAmount,
+               String tradableIdentifier,
+               String transactionCurrency,
+               String id) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;

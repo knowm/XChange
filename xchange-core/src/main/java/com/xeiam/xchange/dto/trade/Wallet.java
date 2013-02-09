@@ -24,20 +24,23 @@ package com.xeiam.xchange.dto.trade;
 import org.joda.money.BigMoney;
 
 /**
- * <p>
- * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
- * </p>
+ * <p>DTO representing a Wallet</p>
+ * <p>This is simply defined by an amount of money in a given currency, contained in
+ * the cash object.</p>
+ * <p>This class is immutable.</p>
  */
 public final class Wallet {
 
+  // TODO BigMoney contains a currency representation is this required?
   private final String currency;
+
   private final BigMoney balance;
 
   /**
    * Constructor
    * 
-   * @param currency
-   * @param balance
+   * @param currency The underlying currency
+   * @param balance The balance
    */
   public Wallet(String currency, BigMoney balance) {
 

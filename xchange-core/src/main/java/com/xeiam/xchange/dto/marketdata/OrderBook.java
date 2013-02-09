@@ -21,14 +21,15 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
- * Data object representing OrderBook
+ * <p>DTO representing the exchange order book</p>
+ * <p></p>
  */
 public final class OrderBook {
 
@@ -38,8 +39,8 @@ public final class OrderBook {
   /**
    * Constructor
    * 
-   * @param asks
-   * @param bids
+   * @param asks The ASK orders
+   * @param bids The BID orders
    */
   public OrderBook(List<LimitOrder> asks, List<LimitOrder> bids) {
 
@@ -59,6 +60,7 @@ public final class OrderBook {
     return bids;
   }
 
+  // TODO Breaks naming convention
   public void Update(LimitOrder newOrder) {
 
     if (newOrder.getType().equals(OrderType.ASK)) {
