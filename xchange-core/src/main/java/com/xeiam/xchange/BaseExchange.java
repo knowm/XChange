@@ -37,10 +37,17 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  */
 public abstract class BaseExchange implements Exchange {
 
+  protected ExchangeSpecification exchangeSpecification;
+
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
   protected StreamingMarketDataService streamingMarketDataService;
   protected PollingAccountService pollingAccountService;
+
+  @Override
+  public ExchangeSpecification getExchangeSpecification() {
+    return exchangeSpecification;
+  }
 
   @Override
   public PollingMarketDataService getPollingMarketDataService() {

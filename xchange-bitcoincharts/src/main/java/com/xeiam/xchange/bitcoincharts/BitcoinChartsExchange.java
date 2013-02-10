@@ -59,6 +59,7 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
+    this.exchangeSpecification = exchangeSpecification;
     this.pollingMarketDataService = new BitcoinChartsPollingMarketDataService(exchangeSpecification);
   }
 

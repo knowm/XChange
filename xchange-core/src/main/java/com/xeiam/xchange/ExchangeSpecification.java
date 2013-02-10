@@ -45,6 +45,12 @@ public class ExchangeSpecification {
   private String exchangeDescription;
 
   @JsonProperty
+  private Double tradeFeePercent = Double.valueOf(0.0);
+
+  @JsonProperty
+  private String minTradeFee;
+
+  @JsonProperty
   private String userName;
 
   @JsonProperty
@@ -234,5 +240,33 @@ public class ExchangeSpecification {
 
   public void setExchangeDescription(String exchangeDescription) {
     this.exchangeDescription = exchangeDescription;
+  }
+
+  /**
+   * Some exchanges offer a sliding scale that is earned based on trade history so this is
+   * normally set externally
+   *
+   * @return The fee per trade expressed as a percentage (e.g. 0.6 is 0.6%)
+   */
+  public Double getTradeFeePercent() {
+    return tradeFeePercent;
+  }
+
+  public void setTradeFeePercent(Double tradeFeePercent) {
+    this.tradeFeePercent = tradeFeePercent;
+  }
+
+  /**
+   * Some exchanges offer a sliding scale that is earned based on trade history so this is
+   * normally set externally
+
+   * @return The minimum fee per trade expressed in the exchange's local currency (e.g. "USD 0.25")
+   */
+  public String getMinTradeFee() {
+    return minTradeFee;
+  }
+
+  public void setMinTradeFee(String minTradeFee) {
+    this.minTradeFee = minTradeFee;
   }
 }

@@ -42,6 +42,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
+    this.exchangeSpecification = exchangeSpecification;
     this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
   }
 

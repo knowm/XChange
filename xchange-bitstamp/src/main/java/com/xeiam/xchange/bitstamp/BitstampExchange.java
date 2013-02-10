@@ -52,6 +52,7 @@ public class BitstampExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
+    this.exchangeSpecification = exchangeSpecification;
     this.pollingMarketDataService = new BitstampPollingMarketDataService(exchangeSpecification);
     this.pollingTradeService = new BitstampPollingTradeService(exchangeSpecification);
     this.pollingAccountService = new BitstampPollingAccountService(exchangeSpecification);

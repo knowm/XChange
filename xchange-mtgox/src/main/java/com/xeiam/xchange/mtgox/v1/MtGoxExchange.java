@@ -53,6 +53,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
+    this.exchangeSpecification = exchangeSpecification;
     this.specification = exchangeSpecification;
 
     // Configure the basic services if configuration does not apply

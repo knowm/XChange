@@ -50,6 +50,7 @@ public class CampBXExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
+    this.exchangeSpecification = exchangeSpecification;
     this.pollingMarketDataService = new CampBXPollingMarketDataService(exchangeSpecification);
   }
 

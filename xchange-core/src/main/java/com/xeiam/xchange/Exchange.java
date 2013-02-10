@@ -41,6 +41,11 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 public interface Exchange {
 
   /**
+   * @return The ExchangeSpecification in use for this exchange
+   */
+  ExchangeSpecification getExchangeSpecification();
+
+  /**
    * @return A default ExchangeSpecification to use during the creation process if one is not supplied
    */
   ExchangeSpecification getDefaultExchangeSpecification();

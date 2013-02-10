@@ -51,6 +51,7 @@ public class BitcoinCentralExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification == null) {
       exchangeSpecification = getDefaultExchangeSpecification();
     }
+    this.exchangeSpecification = exchangeSpecification;
     this.pollingAccountService = new BitcoinCentralPollingAccountService(exchangeSpecification);
     this.pollingMarketDataService = new BitcoinCentralPollingMarketDataService(exchangeSpecification);
     this.pollingTradeService = new BitcoinCentralPollingTradeService(exchangeSpecification);
