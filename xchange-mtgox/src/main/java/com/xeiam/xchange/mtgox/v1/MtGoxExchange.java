@@ -69,6 +69,8 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("https://mtgox.com");
     exchangeSpecification.setHost("mtgox.com");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("MtGox");
+    exchangeSpecification.setExchangeDescription("MtGox is a Bitcoin exchange registered in Japan.");
 
     return exchangeSpecification;
   }

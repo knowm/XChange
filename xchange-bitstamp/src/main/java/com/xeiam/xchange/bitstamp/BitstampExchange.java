@@ -41,6 +41,8 @@ public class BitstampExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("https://www.bitstamp.net");
     exchangeSpecification.setHost("www.bitstamp.net");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("Bitstamp");
+    exchangeSpecification.setExchangeDescription("Bitstamp is a Bitcoin exchange registered in Slovenia.");
     return exchangeSpecification;
   }
 

@@ -69,6 +69,8 @@ public class VirtExExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("https://cavirtex.com");
     exchangeSpecification.setHost("cavirtex.com");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("VirtEx");
+    exchangeSpecification.setExchangeDescription("CAVirtex is a Bitcoin exchange registered in Canada.");
 
     return exchangeSpecification;
   }

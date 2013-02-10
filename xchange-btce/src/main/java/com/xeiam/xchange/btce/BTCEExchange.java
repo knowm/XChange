@@ -73,6 +73,8 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("https://btc-e.com");
     exchangeSpecification.setHost("btc-e.com");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("BTC-e");
+    exchangeSpecification.setExchangeDescription("BTC-e is a Bitcoin exchange registered in Russia.");
 
     return exchangeSpecification;
   }

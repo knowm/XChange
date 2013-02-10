@@ -39,6 +39,8 @@ public class CampBXExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("https://campbx.com");
     exchangeSpecification.setHost("campbx.com");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("CampBX");
+    exchangeSpecification.setExchangeDescription("CampBX is a Bitcoin exchange registered in the USA.");
     return exchangeSpecification;
   }
 

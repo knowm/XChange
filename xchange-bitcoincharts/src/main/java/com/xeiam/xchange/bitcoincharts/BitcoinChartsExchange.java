@@ -69,6 +69,8 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("http://bitcoincharts.com");
     exchangeSpecification.setHost("bitcoincharts.com");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("Bitcoin Charts");
+    exchangeSpecification.setExchangeDescription("Bitcoin charts provides financial and technical data related to the Bitcoin network.");
 
     return exchangeSpecification;
   }
