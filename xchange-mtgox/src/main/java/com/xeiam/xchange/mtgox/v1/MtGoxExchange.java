@@ -45,16 +45,9 @@ import java.io.IOException;
  */
 public class MtGoxExchange extends BaseExchange implements Exchange {
 
-  ExchangeSpecification specification;
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    if (exchangeSpecification == null) {
-      exchangeSpecification = getDefaultExchangeSpecification();
-    }
-    this.exchangeSpecification = exchangeSpecification;
-    this.specification = exchangeSpecification;
+    super.applySpecification(exchangeSpecification);
 
     // Configure the basic services if configuration does not apply
     this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
@@ -81,7 +74,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
 
     if (configuration instanceof MtGoxExchangeServiceConfiguration) {
       try {
-        return new MtGoxStreamingMarketDataService(specification, (MtGoxExchangeServiceConfiguration) configuration);
+        return new MtGoxStreamingMarketDataService(getExchangeSpecification(), (MtGoxExchangeServiceConfiguration) configuration);
       } catch (IOException e) {
         throw new ExchangeException("Streaming market data service failed", e);
       }

@@ -45,6 +45,32 @@ public abstract class BaseExchange implements Exchange {
   protected PollingAccountService pollingAccountService;
 
   @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    ExchangeSpecification defaultSpecification = getDefaultExchangeSpecification();
+
+    // Check if default is for everything
+    if (exchangeSpecification == null) {
+      this.exchangeSpecification = defaultSpecification;
+    } else {
+      // Using a configured exchange
+      if (exchangeSpecification.getExchangeName() == null) {
+        exchangeSpecification.setExchangeName(defaultSpecification.getExchangeName());
+      }
+      if (exchangeSpecification.getExchangeDescription() == null) {
+        exchangeSpecification.setExchangeDescription(defaultSpecification.getExchangeDescription());
+      }
+      if (exchangeSpecification.getUri() == null) {
+        exchangeSpecification.setUri(defaultSpecification.getUri());
+      }
+      if (exchangeSpecification.getHost() == null) {
+        exchangeSpecification.setHost(defaultSpecification.getHost());
+      }
+      this.exchangeSpecification = exchangeSpecification;
+    }
+
+  }
+
+  @Override
   public ExchangeSpecification getExchangeSpecification() {
     return exchangeSpecification;
   }

@@ -38,11 +38,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    if (exchangeSpecification == null) {
-      exchangeSpecification = getDefaultExchangeSpecification();
-    }
-    this.exchangeSpecification = exchangeSpecification;
+    super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
   }
 
