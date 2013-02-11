@@ -41,12 +41,12 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   private final BigMoney limitPrice;
 
   /**
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
-   * @param id
-   * @param limitPrice
+   * @param type                Either BID (buying) or ASK (selling)
+   * @param tradableAmount      The amount to trade
+   * @param tradableIdentifier  The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param id                  An id (usually provided by the exchange)
+   * @param limitPrice          In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type,
                     BigDecimal tradableAmount,
@@ -60,11 +60,11 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   }
 
   /**
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
-   * @param limitPrice
+   * @param type                Either BID (buying) or ASK (selling)
+   * @param tradableAmount      The amount to trade
+   * @param tradableIdentifier  The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param limitPrice          In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice) {
 
@@ -72,6 +72,9 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     this.limitPrice = limitPrice;
   }
 
+  /**
+   * @return The limit price
+   */
   public BigMoney getLimitPrice() {
 
     return limitPrice;

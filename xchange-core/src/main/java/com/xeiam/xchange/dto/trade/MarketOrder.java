@@ -35,13 +35,11 @@ import java.math.BigDecimal;
 public final class MarketOrder extends Order {
 
   /**
-   * Constructor
-   *
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
-   * @param id
+   * @param type                Either BID (buying) or ASK (selling)
+   * @param tradableAmount      The amount to trade
+   * @param tradableIdentifier  The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param id                  An id (usually provided by the exchange)
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id) {
 
@@ -49,12 +47,10 @@ public final class MarketOrder extends Order {
   }
 
   /**
-   * Constructor
-   *
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
+   * @param type                Either BID (buying) or ASK (selling)
+   * @param tradableAmount      The amount to trade
+   * @param tradableIdentifier  The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency) {
 
