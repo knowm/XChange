@@ -60,7 +60,7 @@ public class BitcoinCentralAccountDemo {
     System.out.println("Deposit address: " + depositAddress);
 
     // Withdraw not yet implemented.
-    // String ret = accountService.withdrawFunds(new BigDecimal("0.001"), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
+    // String ret = accountService.withdrawFunds(new BigDecimal("0.001"), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
     // System.out.println("ret = " + ret);
   }
 }
