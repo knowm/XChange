@@ -181,12 +181,13 @@ public class HttpTemplate {
         connection.getOutputStream().write(requestBody.getBytes(CHARSET_UTF_8));
       }
 
+      // Begin reading the response
+
+      checkHttpStatusCode(connection);
+
       // Minimize the impact of the HttpURLConnection on the job of getting the data
       String responseEncoding = getResponseEncoding(connection);
       InputStream inputStream = connection.getInputStream();
-
-      int httpStatus = connection.getResponseCode();
-      log.debug("Request http status = {}", httpStatus);
 
       // Get the data
       responseString = readInputStreamAsEncodedString(inputStream, responseEncoding);
@@ -197,13 +198,29 @@ public class HttpTemplate {
       throw new HttpException("Problem " + method + "ing (IO)", e);
     } finally {
       // This is a bit messy
-      if (connection != null && connection instanceof HttpURLConnection) {
+      if (connection != null) {
         connection.disconnect();
       }
     }
 
     log.debug("Response body: {}", responseString);
     return responseString;
+  }
+
+  protected int checkHttpStatusCode(HttpURLConnection connection) throws IOException {
+
+    int httpStatus = connection.getResponseCode();
+    log.debug("Request http status = {}", httpStatus);
+
+    if (httpStatus != 200) {
+      String error = connection.getErrorStream() == null ? null : new BufferedReader(new InputStreamReader(connection.getErrorStream())).readLine();
+      String msg = "Status code " + httpStatus;
+      if (error != null) {
+        msg += "; first body line: " + error;
+      }
+      throw new HttpException(msg);
+    }
+    return httpStatus;
   }
 
   /**
