@@ -22,6 +22,7 @@
 package com.xeiam.xchange.bitcoincharts;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.joda.money.BigMoney;
 
@@ -61,8 +62,10 @@ public final class BitcoinChartsAdapters {
         BigMoney high = bitcoinChartsTickers[i].getHigh() != null ? MoneyUtils.parse(bitcoinChartsTickers[i].getCurrency() + " " + bitcoinChartsTickers[i].getHigh()) : null;
         BigMoney low = bitcoinChartsTickers[i].getLow() != null ? MoneyUtils.parse(bitcoinChartsTickers[i].getCurrency() + " " + bitcoinChartsTickers[i].getLow()) : null;
         BigDecimal volume = bitcoinChartsTickers[i].getVolume();
+        Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
 
-        return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+        return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timeStamp)
+            .build();
 
       }
     }
@@ -70,5 +73,4 @@ public final class BitcoinChartsAdapters {
     return null;
 
   }
-
 }
