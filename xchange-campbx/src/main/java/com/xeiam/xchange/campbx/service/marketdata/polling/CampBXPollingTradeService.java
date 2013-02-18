@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
+import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.slf4j.Logger;
@@ -43,6 +45,7 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 public class CampBXPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
   private static final Logger log = LoggerFactory.getLogger(CampBXPollingTradeService.class);
+  private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
 
   private final CampBX campbx;
 
@@ -62,6 +65,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
 
     Object openOrders = campbx.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     log.debug("openOrders = {}", openOrders);
+    // todo: compose id, include type (buy/sell)
     // todo!
     return new OpenOrders(new ArrayList<LimitOrder>());
   }
@@ -72,6 +76,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
     Object result = campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market, null, null, null);
     log.debug("result = {}", result);
+    // todo: compose id, include type (buy/sell)
     // todo!
     return result.toString();
   }
@@ -82,6 +87,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
     CampBX.TradeMode mode = limitOrder.getType() == Order.OrderType.ASK ? CampBX.TradeMode.QuickSell : CampBX.TradeMode.QuickBuy;
     Object result = campbx.tradeEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     log.debug("result = {}", result);
+    // todo: compose id, include type (buy/sell)
     // todo!
     return result.toString();
   }
@@ -89,9 +95,36 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   @Override
   public boolean cancelOrder(String orderId) {
 
-    CampBX.OrderType orderType = CampBX.OrderType.Buy; // todo!
-    campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), orderType, Long.parseLong(orderId));
+    ParsedId parsedId = parseOrderId(orderId);
+    campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), parsedId.type, Long.parseLong(parsedId.id));
     // todo!
     return false;
+  }
+
+  static String composeOrderId(CampBX.OrderType type, String id) {
+
+    return ID_FORMAT.format(new Object[]{type, id});
+  }
+
+  static ParsedId parseOrderId(String compositeId) {
+
+    try {
+      Object[] parts = ID_FORMAT.parse(compositeId);
+      return new ParsedId(CampBX.OrderType.valueOf(parts[0].toString()), parts[1].toString());
+    } catch (ParseException e) {
+      throw new IllegalArgumentException("Can't parse order id: " + compositeId);
+    }
+  }
+
+  static class ParsedId {
+
+    final CampBX.OrderType type;
+    final String id;
+
+    private ParsedId(CampBX.OrderType type, String id) {
+
+      this.type = type;
+      this.id = id;
+    }
   }
 }
