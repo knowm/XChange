@@ -79,6 +79,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-bitcoincentral</module>
+		<module>xchange-bitfloor</module>
 	</modules>
 
 	<profiles>
