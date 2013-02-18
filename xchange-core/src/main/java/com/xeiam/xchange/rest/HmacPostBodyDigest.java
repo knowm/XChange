@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service;
+package com.xeiam.xchange.rest;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -30,8 +30,6 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.xeiam.xchange.rest.ParamsDigest;
-import com.xeiam.xchange.rest.RestMethodMetadata;
 import com.xeiam.xchange.utils.Base64;
 
 /**
@@ -41,7 +39,7 @@ import com.xeiam.xchange.utils.Base64;
  * This may be used for REST APIs where some parameters' values must be digests of other parameters. An example is the MtGox API v1, where the Rest-Sign header parameter must be a digest of the
  * request body (which is composed of @FormParams).
  */
-public class MtGoxHmacPostBodyDigest implements ParamsDigest {
+public class HmacPostBodyDigest implements ParamsDigest {
 
   private static final String HMAC_SHA_512 = "HmacSHA512";
   private final Mac mac;
@@ -51,7 +49,7 @@ public class MtGoxHmacPostBodyDigest implements ParamsDigest {
    * 
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private MtGoxHmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
+  private HmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
 
     try {
       SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_512);
@@ -66,9 +64,9 @@ public class MtGoxHmacPostBodyDigest implements ParamsDigest {
     }
   }
 
-  public static MtGoxHmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+  public static HmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
 
-    return secretKeyBase64 == null ? null : new MtGoxHmacPostBodyDigest(secretKeyBase64);
+    return secretKeyBase64 == null ? null : new HmacPostBodyDigest(secretKeyBase64);
   }
 
   @Override
