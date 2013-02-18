@@ -21,10 +21,6 @@
  */
 package com.xeiam.xchange.bitstamp;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -42,6 +38,10 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Tests the BitstampAdapter class
@@ -102,9 +102,9 @@ public class BitstampAdapterTest {
     assertThat(trades.getTrades().size(), is(equalTo(125)));
 
     // verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice(), is(equalTo(MoneyUtils.parse("USD 13.14"))));
+    assertThat(trades.getTrades().get(0).getPrice(), is(equalTo(MoneyUtils.parse("USD 13.06"))));
     assertThat(trades.getTrades().get(0).getType(), is(equalTo(null)));
-    assertThat(trades.getTrades().get(0).getTradableAmount(), is(equalTo(new BigDecimal("10.11643836"))));
+    assertThat(trades.getTrades().get(0).getTradableAmount(), is(equalTo(new BigDecimal("28.75328052"))));
     assertThat(trades.getTrades().get(0).getTradableIdentifier(), is(equalTo("BTC")));
     assertThat(trades.getTrades().get(0).getTransactionCurrency(), is(equalTo("USD")));
   }
