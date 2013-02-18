@@ -29,10 +29,9 @@ import java.util.Date;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitfloor.dto.trade.BitfloorOrder;
+import com.xeiam.xchange.bitfloor.dto.trade.NewOrderResult;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -48,11 +47,9 @@ public class PlaceLimitOrderJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitfloorOrder newOrder = mapper.readValue(is, BitfloorOrder.class);
+    NewOrderResult newOrder = mapper.readValue(is, NewOrderResult.class);
 
     assertThat("Unexpected new order id", newOrder.getId(), is("ddf52f1d-22c8-4806-818e-19bec74765b8"));
-    assertThat("Unexpected new order amount", newOrder.getSize(), nullValue());
-    assertThat("Unexpected new order price", newOrder.getPrice(), nullValue());
     assertThat("Unexpected new order timestamp", newOrder.getTimestamp(), is(new Date(1361137785696L)));
   }
 }

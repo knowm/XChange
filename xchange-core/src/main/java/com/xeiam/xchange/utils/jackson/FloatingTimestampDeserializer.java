@@ -20,34 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitfloor.dto.account;
+package com.xeiam.xchange.utils.jackson;
 
+import java.io.IOException;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.utils.jackson.FloatingTimestampDeserializer;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
- * @author Matija Mazi
+ * @author Matija Mazi <br/>
  */
-public final class WithdrawResult {
-
-  private final Date timestamp;
-
-  public WithdrawResult(@JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp) {
-
-    this.timestamp = timestamp;
-  }
-
-  public Date getTimestamp() {
-
-    return timestamp;
-  }
+public class FloatingTimestampDeserializer extends JsonDeserializer<Date> {
 
   @Override
-  public String toString() {
+  public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-    return String.format("OrderCancelResult{timestamp=%s}", timestamp);
+    return new Date(Math.round(jp.getValueAsDouble() * 1000));
   }
 }

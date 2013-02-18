@@ -25,6 +25,8 @@ package com.xeiam.xchange.bitfloor.dto.trade;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.utils.jackson.FloatingTimestampDeserializer;
 
 /**
  * @author Matija Mazi
@@ -34,9 +36,12 @@ public final class NewOrderResult {
   private final String id;
   private final Date timestamp;
 
-  public NewOrderResult(@JsonProperty("timestamp") long timestamp, @JsonProperty("order_id") String id) {
+  public NewOrderResult(
+      @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp,
+      @JsonProperty("order_id") String id
+  ) {
 
-    this.timestamp = new Date(Math.round(timestamp * 1000));
+    this.timestamp = timestamp;
     this.id = id;
   }
 

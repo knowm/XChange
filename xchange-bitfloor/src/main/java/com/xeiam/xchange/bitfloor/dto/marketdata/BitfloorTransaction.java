@@ -26,7 +26,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.bitfloor.dto.Product;
+import com.xeiam.xchange.utils.jackson.FloatingTimestampDeserializer;
 
 /**
  * @author Matija Mazi
@@ -43,7 +45,7 @@ public final class BitfloorTransaction {
 
   public BitfloorTransaction(
       @JsonProperty("id") String id,
-      @JsonProperty("timestamp") Double timestamp,
+      @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp,
       @JsonProperty("provider_side") int providerSide,
       @JsonProperty("seq") long seq,
       @JsonProperty("price") BigDecimal price,
@@ -52,7 +54,7 @@ public final class BitfloorTransaction {
   ) {
 
     this.id = id;
-    this.timestamp = new Date(Math.round(timestamp * 1000));
+    this.timestamp = timestamp;
     this.providerSide = providerSide;
     this.seq = seq;
     this.price = price;
