@@ -1,0 +1,21 @@
+Bitfloor Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://bitfloor.com/docs/api
+
+Ticker
+------
+https://api.bitfloor.com/ticker/1
+
+Orders
+------
+https://api.bitfloor.com/book/L2/1
+
+Trades
+------
+https://api.bitfloor.com/trades/1
+
