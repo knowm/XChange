@@ -57,8 +57,9 @@ public final class Ticker {
    * @param high
    * @param low
    * @param volume
+   * @param timestamp
    */
-  private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume) {
+  private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume, Date timestamp) {
 
     this.tradableIdentifier = tradableIdentifier;
     this.last = last;
@@ -67,7 +68,7 @@ public final class Ticker {
     this.high = high;
     this.low = low;
     this.volume = volume;
-    this.timestamp = DateUtils.nowUtc();
+    this.timestamp = timestamp;
   }
 
   public String getTradableIdentifier() {
@@ -135,6 +136,7 @@ public final class Ticker {
     private BigMoney high;
     private BigMoney low;
     private BigDecimal volume;
+    private Date timestamp;
 
     /**
      * @return A new instance of the builder
@@ -151,7 +153,7 @@ public final class Ticker {
 
       validateState();
 
-      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume);
+      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume, timestamp == null ? DateUtils.nowUtc() : timestamp);
 
       isBuilt = true;
 
@@ -204,6 +206,12 @@ public final class Ticker {
     public TickerBuilder withVolume(BigDecimal volume) {
 
       this.volume = volume;
+      return this;
+    }
+
+    public TickerBuilder withTimestamp(Date timestamp) {
+
+      this.timestamp = timestamp;
       return this;
     }
 
