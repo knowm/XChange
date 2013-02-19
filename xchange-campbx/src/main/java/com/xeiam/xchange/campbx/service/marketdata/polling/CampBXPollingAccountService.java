@@ -77,7 +77,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
     CampBXResponse result = campbx.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
     log.debug("result = {}", result);
     CambBXUtils.handleError(result);
-    return result.getInfo();
+    return result.getSuccess();
   }
 
   @Override
