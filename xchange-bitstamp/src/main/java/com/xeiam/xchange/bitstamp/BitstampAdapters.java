@@ -68,8 +68,8 @@ public final class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet usdWallet = new Wallet(Currencies.USD, MoneyUtils.parseMoney(Currencies.USD, bitstampBalance.getUsdBalance()));
-    Wallet btcWallet = new Wallet(Currencies.BTC, MoneyUtils.parseMoney(Currencies.BTC, bitstampBalance.getBtcBalance()));
+    Wallet usdWallet = Wallet.createInstance(Currencies.USD, bitstampBalance.getUsdBalance());
+    Wallet btcWallet = Wallet.createInstance(Currencies.BTC, bitstampBalance.getBtcBalance());
 
     return new AccountInfo(userName, Arrays.asList(usdWallet, btcWallet));
   }

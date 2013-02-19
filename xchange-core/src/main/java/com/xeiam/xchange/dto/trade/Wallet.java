@@ -21,7 +21,10 @@
  */
 package com.xeiam.xchange.dto.trade;
 
+import java.math.BigDecimal;
+
 import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 
 /**
  * <p>DTO representing a Wallet</p>
@@ -46,6 +49,12 @@ public final class Wallet {
 
     this.currency = currency;
     this.balance = balance;
+  }
+
+  public static Wallet createInstance(String currency, BigDecimal amount) {
+
+    return new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), amount));
+//    return new Wallet(currency, MoneyUtils.parseMoney(currency, amount));
   }
 
   public String getCurrency() {

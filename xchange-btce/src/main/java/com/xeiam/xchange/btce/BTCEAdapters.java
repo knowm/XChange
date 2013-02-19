@@ -163,7 +163,7 @@ public final class BTCEAdapters {
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
-      wallets.add(new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), funds.get(lcCurrency))));
+      wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency)));
     }
     return new AccountInfo(null, wallets);
   }

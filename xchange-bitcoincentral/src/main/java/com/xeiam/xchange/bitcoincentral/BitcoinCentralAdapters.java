@@ -67,7 +67,7 @@ public final class BitcoinCentralAdapters {
   public static AccountInfo adaptAccountInfo(BitcoinCentralAccountInfo accountInfo, String userName) {
 
     Wallet eurWallet = new Wallet("EUR", BigMoney.of(CurrencyUnit.EUR, accountInfo.getEur()));
-    Wallet btcWallet = new Wallet("BTC", BigMoney.of(CurrencyUnit.of("BTC"), accountInfo.getBtc()));
+    Wallet btcWallet = Wallet.createInstance("BTC", accountInfo.getBtc());
     Wallet usdWallet = new Wallet("GBP", BigMoney.of(CurrencyUnit.CAD, accountInfo.getGbp()));
     Wallet inrWallet = new Wallet("USD", BigMoney.of(CurrencyUnit.getInstance("INR"), accountInfo.getUsd()));
 
