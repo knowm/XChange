@@ -23,13 +23,16 @@
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.campbx.CambBXUtils;
 import com.xeiam.xchange.campbx.CampBX;
+import com.xeiam.xchange.campbx.dto.CampBXResponse;
+import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.rest.RestProxyFactory;
@@ -59,27 +62,31 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   @Override
   public AccountInfo getAccountInfo() {
 
-    Object myFunds = campbx.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    MyFunds myFunds = campbx.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     log.debug("myFunds = {}", myFunds);
-    // todo!
-    return new AccountInfo(exchangeSpecification.getUserName(), new ArrayList<Wallet>());
+    CambBXUtils.handleError(myFunds);
+    return new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(
+            Wallet.createInstance("BTC", myFunds.getTotalBTC()),
+            Wallet.createInstance("USD", myFunds.getTotalUSD())
+    ));
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    Object result = campbx.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
+    CampBXResponse result = campbx.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
     log.debug("result = {}", result);
-    // todo!
-    return null;
+    CambBXUtils.handleError(result);
+    return result.getInfo();
   }
 
   @Override
   public String requestBitcoinDepositAddress(String... arguments) {
 
-    Object result = campbx.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    CampBXResponse result = campbx.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     log.debug("result = {}", result);
-    // todo!
-    return result.toString();
+    CambBXUtils.handleError(result);
+    return result.getSuccess();
   }
+
 }

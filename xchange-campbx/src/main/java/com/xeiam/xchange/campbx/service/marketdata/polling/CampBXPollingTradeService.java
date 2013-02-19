@@ -25,12 +25,19 @@ package com.xeiam.xchange.campbx.service.marketdata.polling;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.campbx.CambBXUtils;
 import com.xeiam.xchange.campbx.CampBX;
+import com.xeiam.xchange.campbx.dto.CampBXOrder;
+import com.xeiam.xchange.campbx.dto.CampBXResponse;
+import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -63,42 +70,63 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   @Override
   public OpenOrders getOpenOrders() {
 
-    Object openOrders = campbx.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    MyOpenOrders openOrders = campbx.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     log.debug("openOrders = {}", openOrders);
-    // todo: compose id, include type (buy/sell)
-    // todo!
-    return new OpenOrders(new ArrayList<LimitOrder>());
+    CambBXUtils.handleError(openOrders);
+    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+    for (CampBXOrder cbo : openOrders.getBuy()) {
+      orders.add(new LimitOrder(
+          Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD",
+          composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()),
+          BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+    }
+    for (CampBXOrder cbo : openOrders.getSell()) {
+      orders.add(new LimitOrder(
+          Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD",
+          composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()),
+          BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+    }
+    return new OpenOrders(orders);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
-    Object result = campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market, null, null, null);
+    CampBXResponse result = campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market, null, null, null);
     log.debug("result = {}", result);
-    // todo: compose id, include type (buy/sell)
-    // todo!
-    return result.toString();
+    CambBXUtils.handleError(result);
+    return composeOrderId(result.getSuccess(), marketOrder.getType());
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
 
     CampBX.TradeMode mode = limitOrder.getType() == Order.OrderType.ASK ? CampBX.TradeMode.QuickSell : CampBX.TradeMode.QuickBuy;
-    Object result = campbx.tradeEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+    CampBXResponse result = campbx.tradeEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     log.debug("result = {}", result);
-    // todo: compose id, include type (buy/sell)
-    // todo!
-    return result.toString();
+    CambBXUtils.handleError(result);
+    return composeOrderId(result.getSuccess(), limitOrder.getType());
   }
 
   @Override
   public boolean cancelOrder(String orderId) {
 
     ParsedId parsedId = parseOrderId(orderId);
-    campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), parsedId.type, Long.parseLong(parsedId.id));
+    CampBXResponse response = campbx.tradeCancel(
+        exchangeSpecification.getUserName(),
+        exchangeSpecification.getPassword(),
+        parsedId.type,
+        Long.parseLong(parsedId.id));
+    CambBXUtils.handleError(response);
     // todo!
-    return false;
+    return true;
+  }
+
+  static String composeOrderId(String id, Order.OrderType orderType) {
+
+    CampBX.OrderType type = orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
+    return composeOrderId(type, id);
   }
 
   static String composeOrderId(CampBX.OrderType type, String id) {

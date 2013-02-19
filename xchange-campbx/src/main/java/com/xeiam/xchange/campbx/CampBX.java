@@ -31,8 +31,10 @@ import javax.ws.rs.Produces;
 
 import com.sun.istack.internal.NotNull;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
+import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
+import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 
 /**
  * @author Matija Mazi
@@ -58,7 +60,7 @@ public interface CampBX {
    */
   @POST
   @Path("myorders.php")
-  public CampBXResponse getOpenOrders(
+  public MyOpenOrders getOpenOrders(
       @FormParam("user") String user,
       @FormParam("pass") String password
   );
@@ -74,7 +76,7 @@ public interface CampBX {
    */
   @POST
   @Path("myfunds.php")
-  public CampBXResponse getMyFunds(
+  public MyFunds getMyFunds(
       @FormParam("user") String user,
       @FormParam("pass") String password
   );
