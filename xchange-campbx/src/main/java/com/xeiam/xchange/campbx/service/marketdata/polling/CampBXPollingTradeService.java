@@ -75,16 +75,24 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
     CambBXUtils.handleError(openOrders);
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (CampBXOrder cbo : openOrders.getBuy()) {
-      orders.add(new LimitOrder(
-          Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD",
-          composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()),
-          BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+      if (cbo.isError() || cbo.isInfo()) {
+        log.debug("Skipping non-order in Buy: " + cbo);
+      } else {
+        orders.add(new LimitOrder(
+            Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD",
+            composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()),
+            BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+      }
     }
     for (CampBXOrder cbo : openOrders.getSell()) {
-      orders.add(new LimitOrder(
-          Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD",
-          composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()),
-          BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+      if (cbo.isError() || cbo.isInfo()) {
+        log.debug("Skipping non-order in Sell: " + cbo);
+      } else {
+        orders.add(new LimitOrder(
+            Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD",
+            composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()),
+            BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+      }
     }
     return new OpenOrders(orders);
   }
@@ -119,8 +127,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
         parsedId.type,
         Long.parseLong(parsedId.id));
     CambBXUtils.handleError(response);
-    // todo!
-    return true;
+    return response.isSuccess();
   }
 
   static String composeOrderId(String id, Order.OrderType orderType) {

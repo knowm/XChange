@@ -26,15 +26,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 
 /**
  * @author Matija Mazi <br/>
  */
-public class CampBXOrder {
+public class CampBXOrder extends CampBXResponse {
 
-  @JsonProperty("Order Entered")
+  @JsonProperty("Order Entered") @JsonDeserialize(using = SqlTimeDeserializer.class)
   private Date orderEntered;
-  @JsonProperty("Order Expiry")
+  @JsonProperty("Order Expiry") @JsonDeserialize(using = SqlTimeDeserializer.class)
   private Date orderExpiry;
   @JsonProperty("Order Type")
   private String orderType;
