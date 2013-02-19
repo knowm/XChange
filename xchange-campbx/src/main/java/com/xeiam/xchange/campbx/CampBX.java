@@ -60,7 +60,7 @@ public interface CampBX {
   @Path("myorders.php")
   public CampBXResponse getOpenOrders(
       @FormParam("user") String user,
-      @FormParam("password") String password
+      @FormParam("pass") String password
   );
 
 
@@ -76,7 +76,7 @@ public interface CampBX {
   @Path("myfunds.php")
   public CampBXResponse getMyFunds(
       @FormParam("user") String user,
-      @FormParam("password") String password
+      @FormParam("pass") String password
   );
 
   /**
@@ -101,7 +101,7 @@ public interface CampBX {
   @Path("tradeenter.php")
   public CampBXResponse tradeEnter(
       @FormParam("user") String user,
-      @FormParam("password") String password,
+      @FormParam("pass") String password,
       @FormParam("TradeMode") TradeMode mode,
       @FormParam("Quantity") BigDecimal quantity,
       @FormParam("Price") BigDecimal price
@@ -140,7 +140,7 @@ public interface CampBX {
   @Path("tradeadv.php")
   public CampBXResponse tradeAdvancedEnter(
       @NotNull @FormParam("user") String user,
-      @NotNull @FormParam("password") String password,
+      @NotNull @FormParam("pass") String password,
       @NotNull @FormParam("TradeMode") AdvTradeMode mode,
       @NotNull @FormParam("Quantity") BigDecimal quantity,
       @NotNull @FormParam("Price") BigDecimal price,
@@ -153,7 +153,7 @@ public interface CampBX {
   @Path("tradeadv.php")
   public CampBXResponse tradeAdvancedMarketEnter(
       @NotNull @FormParam("user") String user,
-      @NotNull @FormParam("password") String password,
+      @NotNull @FormParam("pass") String password,
       @NotNull @FormParam("TradeMode") AdvTradeMode mode,
       @NotNull @FormParam("Quantity") BigDecimal quantity,
       @NotNull @FormParam("Price") MarketPrice market,
@@ -178,7 +178,7 @@ public interface CampBX {
   @Path("tradecancel.php")
   public CampBXResponse tradeCancel(
       @FormParam("user") String user,
-      @FormParam("password") String password,
+      @FormParam("pass") String password,
       @FormParam("Type") OrderType type,
       @FormParam("OrderID") Long orderId
   );
@@ -194,7 +194,7 @@ public interface CampBX {
   @Path("getbtcaddr.php")
   public CampBXResponse getDepositAddress(
       @FormParam("user") String user,
-      @FormParam("password") String password
+      @FormParam("pass") String password
   );
 
 
@@ -210,7 +210,7 @@ public interface CampBX {
   @Path("sendbtc.php")
   public CampBXResponse withdrawBtc(
       @FormParam("user") String user,
-      @FormParam("password") String password,
+      @FormParam("pass") String password,
       @FormParam("BTCTo") String btcToAddress,
       @FormParam("BTCAmt") BigDecimal amount
   );

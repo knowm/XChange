@@ -58,7 +58,7 @@ public class CampBXTradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "USD", MoneyUtils.parse("USD 1.25"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", MoneyUtils.parse("USD 110"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -66,6 +66,7 @@ public class CampBXTradeDemo {
 
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
+//    boolean cancelResult = tradeService.cancelOrder("Buy-1234");
     System.out.println("Canceling returned " + cancelResult);
 
     printOpenOrders(tradeService);
