@@ -55,6 +55,10 @@ public class MyOrdersJSONTest {
     CampBXOrder order = sell.get(0);
     assertThat(order.getPrice(), is(equalTo(new BigDecimal("110.00"))));
     assertThat(order.getOrderID(), is(equalTo("599254")));
-    // todo: test other fields
+    assertThat(order.getQuantity(), is(equalTo(new BigDecimal("0.10000000"))));
+    assertThat(order.getDarkPool(), is(false));
+    assertThat(order.getOrderType(), is("Quick Sell"));
+    assertThat(order.getOrderExpiry().toString(), containsString("2013"));
+    assertThat(order.getOrderExpiry().toString(), containsString("29"));
   }
 }

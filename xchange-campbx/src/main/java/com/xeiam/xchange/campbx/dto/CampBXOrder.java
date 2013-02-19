@@ -28,6 +28,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
+import com.xeiam.xchange.utils.jackson.YesNoBooleanDeserializerImpl;
 
 /**
  * @author Matija Mazi <br/>
@@ -46,15 +47,12 @@ public class CampBXOrder extends CampBXResponse {
   private BigDecimal quantity;
   @JsonProperty("Price")
   private BigDecimal price;
-  // todo: boolean
-  @JsonProperty("Stop-loss")
-  private String stopLoss;
-  // todo: enum
+  @JsonProperty("Stop-loss") @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
+  private Boolean stopLoss;
   @JsonProperty("Fill Type")
   private String fillType;
-  // todo: boolean
-  @JsonProperty("Dark Pool")
-  private String darkPool;
+  @JsonProperty("Dark Pool") @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
+  private Boolean darkPool;
   @JsonProperty("Order ID")
   private String orderID;
 
@@ -131,13 +129,13 @@ public class CampBXOrder extends CampBXResponse {
   }
 
   @JsonProperty("Stop-loss")
-  public String getStopLoss() {
+  public Boolean getStopLoss() {
 
     return stopLoss;
   }
 
   @JsonProperty("Stop-loss")
-  public void setStopLoss(String stopLoss) {
+  public void setStopLoss(Boolean stopLoss) {
 
     this.stopLoss = stopLoss;
   }
@@ -155,13 +153,13 @@ public class CampBXOrder extends CampBXResponse {
   }
 
   @JsonProperty("Dark Pool")
-  public String getDarkPool() {
+  public Boolean getDarkPool() {
 
     return darkPool;
   }
 
   @JsonProperty("Dark Pool")
-  public void setDarkPool(String darkPool) {
+  public void setDarkPool(Boolean darkPool) {
 
     this.darkPool = darkPool;
   }
