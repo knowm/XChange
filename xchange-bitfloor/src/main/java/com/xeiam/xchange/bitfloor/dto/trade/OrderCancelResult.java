@@ -36,10 +36,7 @@ public final class OrderCancelResult {
   private final Date timestamp;
   private final String orderId;
 
-  public OrderCancelResult(
-      @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp,
-      @JsonProperty("order_id") String orderId
-  ) {
+  public OrderCancelResult(@JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp, @JsonProperty("order_id") String orderId) {
 
     this.timestamp = timestamp;
     this.orderId = orderId;

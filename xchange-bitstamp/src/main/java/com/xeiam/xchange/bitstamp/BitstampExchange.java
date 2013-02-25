@@ -48,6 +48,7 @@ public class BitstampExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new BitstampPollingMarketDataService(exchangeSpecification);
     this.pollingTradeService = new BitstampPollingTradeService(exchangeSpecification);

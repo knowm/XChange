@@ -50,7 +50,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification
    */
   public CampBXPollingAccountService(ExchangeSpecification exchangeSpecification) {
@@ -65,10 +65,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
     MyFunds myFunds = campbx.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     log.debug("myFunds = {}", myFunds);
     CambBXUtils.handleError(myFunds);
-    return new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(
-            Wallet.createInstance("BTC", myFunds.getTotalBTC()),
-            Wallet.createInstance("USD", myFunds.getTotalUSD())
-    ));
+    return new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(Wallet.createInstance("BTC", myFunds.getTotalBTC()), Wallet.createInstance("USD", myFunds.getTotalUSD())));
   }
 
   @Override

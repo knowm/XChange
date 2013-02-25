@@ -58,7 +58,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification
    */
   public CampBXPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -78,20 +78,14 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
       if (cbo.isError() || cbo.isInfo()) {
         log.debug("Skipping non-order in Buy: " + cbo);
       } else {
-        orders.add(new LimitOrder(
-            Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD",
-            composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()),
-            BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+        orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
       }
     }
     for (CampBXOrder cbo : openOrders.getSell()) {
       if (cbo.isError() || cbo.isInfo()) {
         log.debug("Skipping non-order in Sell: " + cbo);
       } else {
-        orders.add(new LimitOrder(
-            Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD",
-            composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()),
-            BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+        orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
       }
     }
     return new OpenOrders(orders);
@@ -101,7 +95,8 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   public String placeMarketOrder(MarketOrder marketOrder) {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
-    CampBXResponse result = campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market, null, null, null);
+    CampBXResponse result = campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market,
+        null, null, null);
     log.debug("result = {}", result);
     CambBXUtils.handleError(result);
     return composeOrderId(result.getSuccess(), marketOrder.getType());
@@ -121,11 +116,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   public boolean cancelOrder(String orderId) {
 
     ParsedId parsedId = parseOrderId(orderId);
-    CampBXResponse response = campbx.tradeCancel(
-        exchangeSpecification.getUserName(),
-        exchangeSpecification.getPassword(),
-        parsedId.type,
-        Long.parseLong(parsedId.id));
+    CampBXResponse response = campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), parsedId.type, Long.parseLong(parsedId.id));
     CambBXUtils.handleError(response);
     return response.isSuccess();
   }
@@ -138,7 +129,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
 
   static String composeOrderId(CampBX.OrderType type, String id) {
 
-    return ID_FORMAT.format(new Object[]{type, id});
+    return ID_FORMAT.format(new Object[] { type, id });
   }
 
   static ParsedId parseOrderId(String compositeId) {

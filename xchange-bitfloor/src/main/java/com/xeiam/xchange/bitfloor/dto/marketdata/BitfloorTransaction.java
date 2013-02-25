@@ -43,15 +43,9 @@ public final class BitfloorTransaction {
   private final BigDecimal amount;
   private final Product product;
 
-  public BitfloorTransaction(
-      @JsonProperty("id") String id,
-      @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp,
-      @JsonProperty("provider_side") int providerSide,
-      @JsonProperty("seq") long seq,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("size") BigDecimal amount,
-      @JsonProperty("product_id") Product product
-  ) {
+  public BitfloorTransaction(@JsonProperty("id") String id, @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp,
+      @JsonProperty("provider_side") int providerSide, @JsonProperty("seq") long seq, @JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal amount,
+      @JsonProperty("product_id") Product product) {
 
     this.id = id;
     this.timestamp = timestamp;
@@ -100,7 +94,6 @@ public final class BitfloorTransaction {
   @Override
   public String toString() {
 
-    return String.format("BitfloorTransaction{id='%s', timestamp=%s, providerSide=%d, seq=%d, price=%s, size=%s, productId=%s}",
-        id, timestamp, providerSide, seq, price, amount, product);
+    return String.format("BitfloorTransaction{id='%s', timestamp=%s, providerSide=%d, seq=%d, price=%s, size=%s, productId=%s}", id, timestamp, providerSide, seq, price, amount, product);
   }
 }

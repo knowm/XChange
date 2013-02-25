@@ -21,17 +21,20 @@
  */
 package com.xeiam.xchange.dto.trade;
 
-import com.xeiam.xchange.dto.Order;
-import org.joda.money.BigMoney;
-
 import java.math.BigDecimal;
 
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.dto.Order;
+
 /**
- * <p>DTO representing a limit order</p>
- * <p>A limit order lets you set a minimum or maximum price before your trade will be treated
- * by the exchange as a {@link MarketOrder}. There is no guarantee that your conditions
- * will be met on the exchange, so your order may not be executed. However, until you become very
- * experienced, almost all orders should be limit orders to protect yourself.</p>
+ * <p>
+ * DTO representing a limit order
+ * </p>
+ * <p>
+ * A limit order lets you set a minimum or maximum price before your trade will be treated by the exchange as a {@link MarketOrder}. There is no guarantee that your conditions will be met on the
+ * exchange, so your order may not be executed. However, until you become very experienced, almost all orders should be limit orders to protect yourself.
+ * </p>
  */
 public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
@@ -41,30 +44,25 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   private final BigMoney limitPrice;
 
   /**
-   * @param type                Either BID (buying) or ASK (selling)
-   * @param tradableAmount      The amount to trade
-   * @param tradableIdentifier  The identifier (e.g. BTC in BTC/USD)
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
-   * @param id                  An id (usually provided by the exchange)
-   * @param limitPrice          In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   * @param id An id (usually provided by the exchange)
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
-  public LimitOrder(OrderType type,
-                    BigDecimal tradableAmount,
-                    String tradableIdentifier,
-                    String transactionCurrency,
-                    String id,
-                    BigMoney limitPrice) {
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, BigMoney limitPrice) {
 
     super(type, tradableAmount, tradableIdentifier, transactionCurrency, id);
     this.limitPrice = limitPrice;
   }
 
   /**
-   * @param type                Either BID (buying) or ASK (selling)
-   * @param tradableAmount      The amount to trade
-   * @param tradableIdentifier  The identifier (e.g. BTC in BTC/USD)
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
-   * @param limitPrice          In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice) {
 

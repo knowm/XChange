@@ -27,10 +27,15 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
 /**
- * <p>DTO representing a Wallet</p>
- * <p>This is simply defined by an amount of money in a given currency, contained in
- * the cash object.</p>
- * <p>This class is immutable.</p>
+ * <p>
+ * DTO representing a Wallet
+ * </p>
+ * <p>
+ * This is simply defined by an amount of money in a given currency, contained in the cash object.
+ * </p>
+ * <p>
+ * This class is immutable.
+ * </p>
  */
 public final class Wallet {
 
@@ -54,7 +59,7 @@ public final class Wallet {
   public static Wallet createInstance(String currency, BigDecimal amount) {
 
     return new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), amount));
-//    return new Wallet(currency, MoneyUtils.parseMoney(currency, amount));
+    // return new Wallet(currency, MoneyUtils.parseMoney(currency, amount));
   }
 
   public String getCurrency() {

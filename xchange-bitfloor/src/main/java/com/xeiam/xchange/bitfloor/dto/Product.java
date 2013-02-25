@@ -25,9 +25,9 @@ package com.xeiam.xchange.bitfloor.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
-* @author Matija Mazi <br/>
-* @created 2/17/13 4:43 PM
-*/
+ * @author Matija Mazi <br/>
+ * @created 2/17/13 4:43 PM
+ */
 public enum Product {
   BTCUSD(1);
 

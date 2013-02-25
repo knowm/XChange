@@ -22,6 +22,9 @@
  */
 package com.xeiam.xchange.bitfloor.service.trade.polling;
 
+import static com.xeiam.xchange.dto.Order.OrderType.ASK;
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +44,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
-import static com.xeiam.xchange.dto.Order.OrderType.ASK;
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
-
 /** @author Matija Mazi */
 public class BitfloorPollingTradeService extends BitfloorPollingService implements PollingTradeService {
 
@@ -55,20 +55,10 @@ public class BitfloorPollingTradeService extends BitfloorPollingService implemen
   @Override
   public OpenOrders getOpenOrders() {
 
-    BitfloorOrder[] openOrders = bitfloor.getOpenOrders(
-        exchangeSpecification.getApiKey(),
-        bodyDigest,
-        exchangeSpecification.getPassword(),
-        Bitfloor.Version.v1,
-        nextNonce());
+    BitfloorOrder[] openOrders = bitfloor.getOpenOrders(exchangeSpecification.getApiKey(), bodyDigest, exchangeSpecification.getPassword(), Bitfloor.Version.v1, nextNonce());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (BitfloorOrder oo : openOrders) {
-      orders.add(new LimitOrder(oo.getSide() == BitfloorOrder.Side.buy ? BID : ASK,
-          oo.getSize(),
-          "BTC",
-          "USD",
-          oo.getId(),
-          BigMoney.of(CurrencyUnit.USD, oo.getPrice())));
+      orders.add(new LimitOrder(oo.getSide() == BitfloorOrder.Side.buy ? BID : ASK, oo.getSize(), "BTC", "USD", oo.getId(), BigMoney.of(CurrencyUnit.USD, oo.getPrice())));
     }
     return new OpenOrders(orders);
   }
@@ -82,16 +72,8 @@ public class BitfloorPollingTradeService extends BitfloorPollingService implemen
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
 
-    NewOrderResult ord = bitfloor.newOrder(
-        exchangeSpecification.getApiKey(),
-        bodyDigest,
-        exchangeSpecification.getPassword(),
-        Bitfloor.Version.v1,
-        nextNonce(),
-        limitOrder.getTradableAmount(),
-        limitOrder.getLimitPrice().getAmount(),
-        limitOrder.getType() == BID ? BitfloorOrder.Side.buy : BitfloorOrder.Side.sell,
-        Product.BTCUSD);
+    NewOrderResult ord = bitfloor.newOrder(exchangeSpecification.getApiKey(), bodyDigest, exchangeSpecification.getPassword(), Bitfloor.Version.v1, nextNonce(), limitOrder.getTradableAmount(),
+        limitOrder.getLimitPrice().getAmount(), limitOrder.getType() == BID ? BitfloorOrder.Side.buy : BitfloorOrder.Side.sell, Product.BTCUSD);
 
     return ord.getId();
   }
@@ -99,13 +81,7 @@ public class BitfloorPollingTradeService extends BitfloorPollingService implemen
   @Override
   public boolean cancelOrder(String orderId) {
 
-    OrderCancelResult orderCancelResult = bitfloor.cancelOrder(
-        exchangeSpecification.getApiKey(),
-        bodyDigest,
-        exchangeSpecification.getPassword(),
-        Bitfloor.Version.v1,
-        nextNonce(),
-        orderId,
+    OrderCancelResult orderCancelResult = bitfloor.cancelOrder(exchangeSpecification.getApiKey(), bodyDigest, exchangeSpecification.getPassword(), Bitfloor.Version.v1, nextNonce(), orderId,
         Product.BTCUSD);
     return orderCancelResult.getOrderId() != null;
   }

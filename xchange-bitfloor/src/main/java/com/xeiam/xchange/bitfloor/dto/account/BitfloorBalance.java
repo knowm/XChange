@@ -36,10 +36,7 @@ public final class BitfloorBalance implements Serializable {
   private final BigDecimal hold;
   private final String currency;
 
-  public BitfloorBalance(
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("hold") BigDecimal hold,
-      @JsonProperty("currency") String currency) {
+  public BitfloorBalance(@JsonProperty("amount") BigDecimal amount, @JsonProperty("hold") BigDecimal hold, @JsonProperty("currency") String currency) {
 
     this.amount = amount;
     this.hold = hold;

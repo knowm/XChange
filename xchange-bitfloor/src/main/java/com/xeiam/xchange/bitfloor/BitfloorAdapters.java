@@ -61,7 +61,6 @@ public final class BitfloorAdapters {
   /**
    * Adapts a BitfloorBalance to a AccountInfo
    * 
-   *
    * @param bitfloorBalance@return
    */
   public static AccountInfo adaptAccountInfo(BitfloorBalance[] bitfloorBalance, String userName) {
@@ -123,14 +122,8 @@ public final class BitfloorAdapters {
    */
   public static Ticker adaptTicker(BitfloorTicker bitfloorTicker, BitfloorDayInfo dayInfo, String currency, String tradableIdentifier) {
 
-    return TickerBuilder.newInstance()
-        .withTradableIdentifier(tradableIdentifier)
-        .withLast(getMoney(currency, bitfloorTicker.getPrice()))
-        .withVolume(dayInfo.getVolume())
-        .withHigh(getMoney(currency, dayInfo.getHigh()))
-        .withLow(getMoney(currency, dayInfo.getLow()))
-        .withTimestamp(bitfloorTicker.getTimestamp())
-        .build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(getMoney(currency, bitfloorTicker.getPrice())).withVolume(dayInfo.getVolume()).withHigh(
+        getMoney(currency, dayInfo.getHigh())).withLow(getMoney(currency, dayInfo.getLow())).withTimestamp(bitfloorTicker.getTimestamp()).build();
   }
 
   private static BigMoney getMoney(String currency, BigDecimal price) {

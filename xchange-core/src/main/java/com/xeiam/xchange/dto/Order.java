@@ -66,17 +66,13 @@ public class Order {
   private final String id;
 
   /**
-   * @param type                Either BID (buying) or ASK (selling)
-   * @param tradableAmount      The amount to trade
-   * @param tradableIdentifier  The identifier (e.g. BTC in BTC/USD)
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
-   * @param id                  An id (usually provided by the exchange)
+   * @param id An id (usually provided by the exchange)
    */
-  public Order(OrderType type,
-               BigDecimal tradableAmount,
-               String tradableIdentifier,
-               String transactionCurrency,
-               String id) {
+  public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;

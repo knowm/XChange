@@ -26,7 +26,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>DTO representing a collection of trades</p>
+ * <p>
+ * DTO representing a collection of trades
+ * </p>
  */
 public final class Trades {
 
@@ -55,7 +57,7 @@ public final class Trades {
   public String toString() {
 
     StringBuilder sb = new StringBuilder("Trades\n");
-    for (Trade trade: getTrades()) {
+    for (Trade trade : getTrades()) {
       sb.append("[trade=");
       sb.append(trade.toString());
       sb.append("]\n");
