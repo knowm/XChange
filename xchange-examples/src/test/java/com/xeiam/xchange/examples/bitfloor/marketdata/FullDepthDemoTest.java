@@ -36,7 +36,7 @@ public class FullDepthDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    FullDepthDemo.main(new String[]{});
+    FullDepthDemo.main(new String[] {});
   }
 
 }

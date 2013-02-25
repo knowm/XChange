@@ -57,6 +57,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     super.applySpecification(exchangeSpecification);
 
     this.pollingMarketDataService = new BTCEPollingMarketDataService(exchangeSpecification);

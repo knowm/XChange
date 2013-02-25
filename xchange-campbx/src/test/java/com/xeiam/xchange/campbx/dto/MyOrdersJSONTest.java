@@ -22,6 +22,13 @@
  */
 package com.xeiam.xchange.campbx.dto;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,9 +38,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 /**
  * Test BitStamp Full Depth JSON parsing
  */
@@ -42,8 +46,7 @@ public class MyOrdersJSONTest {
   @Test
   public void testUnmarshal() throws IOException {
 
-    MyOpenOrders orderBook = new ObjectMapper().readValue(MyOrdersJSONTest.class.getResourceAsStream(
-        "/trade/open-orders.json"), MyOpenOrders.class);
+    MyOpenOrders orderBook = new ObjectMapper().readValue(MyOrdersJSONTest.class.getResourceAsStream("/trade/open-orders.json"), MyOpenOrders.class);
 
     // Verify that the example data was unmarshalled correctly
     List<CampBXOrder> buy = orderBook.getBuy();

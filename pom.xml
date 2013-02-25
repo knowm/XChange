@@ -293,6 +293,13 @@
 				<version>1.3.1</version>
 			</dependency>
 
+			<!-- JSR-305 annotations (@Nullable etc.) -->
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

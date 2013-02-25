@@ -54,6 +54,11 @@
 			<artifactId>jsr311-api</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+		</dependency>
+
 	</dependencies>
     <version>develop-SNAPSHOT</version>
 </project>

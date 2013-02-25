@@ -55,6 +55,7 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new BitcoinChartsPollingMarketDataService(exchangeSpecification);
   }

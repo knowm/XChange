@@ -22,13 +22,13 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
-import org.junit.Test;
-
-import com.xeiam.xchange.campbx.CampBX;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.junit.Test;
+
+import com.xeiam.xchange.campbx.CampBX;
 
 /**
  * @author Matija Mazi <br/>

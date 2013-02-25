@@ -10,9 +10,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CampBXResponse implements Serializable {
 
-  @JsonProperty("Success") private String success;
-  @JsonProperty("Info") private String info;
-  @JsonProperty("Error") private String error;
+  @JsonProperty("Success")
+  private String success;
+  @JsonProperty("Info")
+  private String info;
+  @JsonProperty("Error")
+  private String error;
 
   public String getSuccess() {
 

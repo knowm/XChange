@@ -21,16 +21,20 @@
  */
 package com.xeiam.xchange.dto.account;
 
-import com.xeiam.xchange.dto.trade.Wallet;
+import java.util.List;
+
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
-import java.util.List;
+import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
- * <p>DTO representing account information</p>
- * <p>Account information is associated with the current balances in various currencies
- * held on the exchange.</p>
+ * <p>
+ * DTO representing account information
+ * </p>
+ * <p>
+ * Account information is associated with the current balances in various currencies held on the exchange.
+ * </p>
  */
 public final class AccountInfo {
 
@@ -39,7 +43,7 @@ public final class AccountInfo {
 
   /**
    * @param username The user name
-   * @param wallets  The available wallets
+   * @param wallets The available wallets
    */
   public AccountInfo(String username, List<Wallet> wallets) {
 
@@ -65,12 +69,12 @@ public final class AccountInfo {
 
   /**
    * Utility method to locate an exchange balance in the given currency
-   *
+   * 
    * @param currencyUnit A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
-   *
    * @return The balance, or zero if not found
    */
   public BigMoney getBalance(CurrencyUnit currencyUnit) {
+
     for (Wallet wallet : wallets) {
       if (wallet.getBalance().getCurrencyUnit().equals(currencyUnit)) {
         return wallet.getBalance();

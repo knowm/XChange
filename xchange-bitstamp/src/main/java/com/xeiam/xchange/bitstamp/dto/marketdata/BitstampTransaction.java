@@ -22,9 +22,9 @@
  */
 package com.xeiam.xchange.bitstamp.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi
@@ -38,17 +38,13 @@ public final class BitstampTransaction {
 
   /**
    * Constructor
-   *
-   * @param date   Unix timestamp date and time
-   * @param tid    Transaction id
-   * @param price  BTC price
+   * 
+   * @param date Unix timestamp date and time
+   * @param tid Transaction id
+   * @param price BTC price
    * @param amount BTC amount
    */
-  public BitstampTransaction(
-    @JsonProperty("date") long date,
-    @JsonProperty("tid") int tid,
-    @JsonProperty("price") BigDecimal price,
-    @JsonProperty("amount") BigDecimal amount) {
+  public BitstampTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
     this.date = date;
     this.tid = tid;

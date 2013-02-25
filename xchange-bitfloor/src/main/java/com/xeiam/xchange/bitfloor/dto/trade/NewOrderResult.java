@@ -36,10 +36,7 @@ public final class NewOrderResult {
   private final String id;
   private final Date timestamp;
 
-  public NewOrderResult(
-      @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp,
-      @JsonProperty("order_id") String id
-  ) {
+  public NewOrderResult(@JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp, @JsonProperty("order_id") String id) {
 
     this.timestamp = timestamp;
     this.id = id;

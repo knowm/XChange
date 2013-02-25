@@ -53,10 +53,6 @@ public abstract class BooleanDeserializer extends JsonDeserializer<Boolean> {
     } else if (falseValue.equals(valueAsString)) {
       return false;
     }
-    throw new InvalidFormatException(
-        String.format("Unrecognized value; expected %s or %s: %s", trueValue, falseValue, valueAsString),
-        valueAsString,
-        Boolean.class
-    );
+    throw new InvalidFormatException(String.format("Unrecognized value; expected %s or %s: %s", trueValue, falseValue, valueAsString), valueAsString, Boolean.class);
   }
 }

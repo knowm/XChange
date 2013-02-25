@@ -122,8 +122,7 @@ public class MyFunds extends CampBXResponse {
   @Override
   public String toString() {
 
-    return String.format(
-        "MyFunds{marginAccountBTC='%s', marginAccountUSD='%s', liquidBTC='%s', liquidUSD='%s', totalBTC='%s', totalUSD='%s'}",
-        marginAccountBTC, marginAccountUSD, liquidBTC, liquidUSD, totalBTC, totalUSD);
+    return String.format("MyFunds{marginAccountBTC='%s', marginAccountUSD='%s', liquidBTC='%s', liquidUSD='%s', totalBTC='%s', totalUSD='%s'}", marginAccountBTC, marginAccountUSD, liquidBTC,
+        liquidUSD, totalBTC, totalUSD);
   }
 }

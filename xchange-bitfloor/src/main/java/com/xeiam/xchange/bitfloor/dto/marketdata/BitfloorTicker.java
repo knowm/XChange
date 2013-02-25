@@ -32,17 +32,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitfloorTicker {
 
-  //{"size":"5.15358000","price":"27.40000000","timestamp":1361036134.183366,"seq":3061020}
+  // {"size":"5.15358000","price":"27.40000000","timestamp":1361036134.183366,"seq":3061020}
   private final BigDecimal size;
   private final BigDecimal price;
   private final Long seq;
   private Date timestamp;
 
-  public BitfloorTicker(
-      @JsonProperty("size") BigDecimal size,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("timestamp") Double timestamp,
-      @JsonProperty("seq") Long seq) {
+  public BitfloorTicker(@JsonProperty("size") BigDecimal size, @JsonProperty("price") BigDecimal price, @JsonProperty("timestamp") Double timestamp, @JsonProperty("seq") Long seq) {
 
     this.size = size;
     this.price = price;

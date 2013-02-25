@@ -69,7 +69,7 @@ public class CampBXTradeDemo {
 
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
-//    boolean cancelResult = tradeService.cancelOrder("Buy-1234");
+    // boolean cancelResult = tradeService.cancelOrder("Buy-1234");
     System.out.println("Canceling returned " + cancelResult);
 
     printOpenOrders(tradeService);

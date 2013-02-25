@@ -43,21 +43,25 @@ public class MyOpenOrders extends CampBXResponse {
 
   @JsonProperty("Buy")
   public List<CampBXOrder> getBuy() {
+
     return buy;
   }
 
   @JsonProperty("Buy")
   public void setBuy(List<CampBXOrder> Buy) {
+
     this.buy = Buy;
   }
 
   @JsonProperty("Sell")
   public List<CampBXOrder> getSell() {
+
     return sell;
   }
 
   @JsonProperty("Sell")
   public void setSell(List<CampBXOrder> Sell) {
+
     this.sell = Sell;
   }
 

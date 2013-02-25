@@ -73,65 +73,35 @@ public interface Bitfloor {
   @POST
   @Path("accounts")
   @Produces("application/json")
-  public BitfloorBalance[] getBalance(
-      @HeaderParam("bitfloor-key") String key,
-      @HeaderParam("bitfloor-sign") ParamsDigest sign,
-      @HeaderParam("bitfloor-passphrase") String passphrase,
-      @HeaderParam("bitfloor-version") Version version,
-      @FormParam("nonce") long nonce
-  );
+  public BitfloorBalance[] getBalance(@HeaderParam("bitfloor-key") String key, @HeaderParam("bitfloor-sign") ParamsDigest sign, @HeaderParam("bitfloor-passphrase") String passphrase,
+      @HeaderParam("bitfloor-version") Version version, @FormParam("nonce") long nonce);
 
   // todo: converter from double to date
   @POST
   @Path("withdraw")
   @Produces("application/json")
-  public WithdrawResult withdraw(
-      @HeaderParam("bitfloor-key") String key,
-      @HeaderParam("bitfloor-sign") ParamsDigest sign,
-      @HeaderParam("bitfloor-passphrase") String passphrase,
-      @HeaderParam("bitfloor-version") Version version,
-      @FormParam("nonce") long nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("currency") String currency,
-      @FormParam("destination") String destination,
-      @FormParam("method") WithdrawalMethod method);
+  public WithdrawResult withdraw(@HeaderParam("bitfloor-key") String key, @HeaderParam("bitfloor-sign") ParamsDigest sign, @HeaderParam("bitfloor-passphrase") String passphrase,
+      @HeaderParam("bitfloor-version") Version version, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount, @FormParam("currency") String currency,
+      @FormParam("destination") String destination, @FormParam("method") WithdrawalMethod method);
 
   @POST
   @Path("order/cancel")
   @Produces("application/json")
-  public OrderCancelResult cancelOrder(
-      @HeaderParam("bitfloor-key") String key,
-      @HeaderParam("bitfloor-sign") ParamsDigest sign,
-      @HeaderParam("bitfloor-passphrase") String passphrase,
-      @HeaderParam("bitfloor-version") Version version,
-      @FormParam("nonce") long nonce,
-      @FormParam("order_id") String orderId,
-      @FormParam("product_id") Product product
-  );
+  public OrderCancelResult cancelOrder(@HeaderParam("bitfloor-key") String key, @HeaderParam("bitfloor-sign") ParamsDigest sign, @HeaderParam("bitfloor-passphrase") String passphrase,
+      @HeaderParam("bitfloor-version") Version version, @FormParam("nonce") long nonce, @FormParam("order_id") String orderId, @FormParam("product_id") Product product);
 
   @POST
   @Path("orders")
   @Produces("application/json")
-  public BitfloorOrder[] getOpenOrders(
-      @HeaderParam("bitfloor-key") String key,
-      @HeaderParam("bitfloor-sign") ParamsDigest sign,
-      @HeaderParam("bitfloor-passphrase") String passphrase,
-      @HeaderParam("bitfloor-version") Version version,
-      @FormParam("nonce") long nonce);
+  public BitfloorOrder[] getOpenOrders(@HeaderParam("bitfloor-key") String key, @HeaderParam("bitfloor-sign") ParamsDigest sign, @HeaderParam("bitfloor-passphrase") String passphrase,
+      @HeaderParam("bitfloor-version") Version version, @FormParam("nonce") long nonce);
 
   @POST
   @Path("order/new")
   @Produces("application/json")
-  public NewOrderResult newOrder(
-      @HeaderParam("bitfloor-key") String key,
-      @HeaderParam("bitfloor-sign") ParamsDigest sign,
-      @HeaderParam("bitfloor-passphrase") String passphrase,
-      @HeaderParam("bitfloor-version") Version version,
-      @FormParam("nonce") long nonce,
-      @FormParam("size") BigDecimal amount,
-      @FormParam("price") BigDecimal price,
-      @FormParam("side") BitfloorOrder.Side side,
-      @FormParam("product_id") Product product);
+  public NewOrderResult newOrder(@HeaderParam("bitfloor-key") String key, @HeaderParam("bitfloor-sign") ParamsDigest sign, @HeaderParam("bitfloor-passphrase") String passphrase,
+      @HeaderParam("bitfloor-version") Version version, @FormParam("nonce") long nonce, @FormParam("size") BigDecimal amount, @FormParam("price") BigDecimal price,
+      @FormParam("side") BitfloorOrder.Side side, @FormParam("product_id") Product product);
 
   public static enum Version {
     v1;
@@ -143,5 +113,7 @@ public interface Bitfloor {
     }
   }
 
-  public static enum WithdrawalMethod {bitcoin, ach}
+  public static enum WithdrawalMethod {
+    bitcoin, ach
+  }
 }

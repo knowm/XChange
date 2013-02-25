@@ -50,8 +50,7 @@ public class BitfloorPollingAccountService extends BitfloorPollingService implem
   @Override
   public AccountInfo getAccountInfo() {
 
-    BitfloorBalance[] bitfloorBalance = bitfloor.getBalance(exchangeSpecification.getApiKey(),
-        bodyDigest, exchangeSpecification.getPassword(), Bitfloor.Version.v1, nextNonce());
+    BitfloorBalance[] bitfloorBalance = bitfloor.getBalance(exchangeSpecification.getApiKey(), bodyDigest, exchangeSpecification.getPassword(), Bitfloor.Version.v1, nextNonce());
 
     return BitfloorAdapters.adaptAccountInfo(bitfloorBalance, exchangeSpecification.getUserName());
   }
@@ -59,15 +58,7 @@ public class BitfloorPollingAccountService extends BitfloorPollingService implem
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    WithdrawResult withdrawResult = bitfloor.withdraw(
-        exchangeSpecification.getApiKey(),
-        bodyDigest,
-        exchangeSpecification.getPassword(),
-        Bitfloor.Version.v1,
-        nextNonce(),
-        amount,
-        "BTC",
-        address,
+    WithdrawResult withdrawResult = bitfloor.withdraw(exchangeSpecification.getApiKey(), bodyDigest, exchangeSpecification.getPassword(), Bitfloor.Version.v1, nextNonce(), amount, "BTC", address,
         Bitfloor.WithdrawalMethod.bitcoin);
     return Long.toString(withdrawResult.getTimestamp().getTime());
   }

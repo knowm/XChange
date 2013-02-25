@@ -48,6 +48,7 @@ public class BitfloorExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new BitfloorPollingMarketDataService(exchangeSpecification);
     this.pollingTradeService = new BitfloorPollingTradeService(exchangeSpecification);

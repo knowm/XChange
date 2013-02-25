@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -32,8 +34,6 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStr
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
 import com.xeiam.xchange.service.ExchangeServiceConfiguration;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
-
-import java.io.IOException;
 
 /**
  * <p>
@@ -47,6 +47,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     super.applySpecification(exchangeSpecification);
 
     // Configure the basic services if configuration does not apply

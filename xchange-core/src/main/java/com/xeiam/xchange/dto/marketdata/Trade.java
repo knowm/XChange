@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.dto.Order.OrderType;
-import org.joda.money.BigMoney;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Data object representing a Trade
@@ -63,20 +64,14 @@ public final class Trade implements Comparable<Trade> {
   private final Date timestamp;
 
   /**
-   * @param type                The trade type (BID side or ASK side)
-   * @param tradableAmount      The depth of this trade
-   * @param tradableIdentifier  The exchange identifier (e.g. "BTC/USD")
+   * @param type The trade type (BID side or ASK side)
+   * @param tradableAmount The depth of this trade
+   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
    * @param transactionCurrency The currency
-   * @param price               The price (either the bid or the ask)
-   * @param timestamp           The timestamp when the order was placed. Exchange matching is usually price first then
-   *                            timestamp asc to clear older orders
+   * @param price The price (either the bid or the ask)
+   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
    */
-  public Trade(OrderType type,
-               BigDecimal tradableAmount,
-               String tradableIdentifier,
-               String transactionCurrency,
-               BigMoney price,
-               Date timestamp) {
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -120,7 +115,7 @@ public final class Trade implements Comparable<Trade> {
   public String toString() {
 
     return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
-      + ", timestamp=" + timestamp + "]";
+        + ", timestamp=" + timestamp + "]";
   }
 
   @Override

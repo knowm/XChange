@@ -21,15 +21,18 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-
 import java.util.Collections;
 import java.util.List;
 
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+
 /**
- * <p>DTO representing the exchange order book</p>
- * <p></p>
+ * <p>
+ * DTO representing the exchange order book
+ * </p>
+ * <p>
+ * </p>
  */
 public final class OrderBook {
 

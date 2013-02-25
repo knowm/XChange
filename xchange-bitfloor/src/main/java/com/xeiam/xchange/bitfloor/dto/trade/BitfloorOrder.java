@@ -43,13 +43,8 @@ public final class BitfloorOrder {
   private final Product product;
   private final Side side;
 
-  public BitfloorOrder(
-      @JsonProperty("side") Side side,
-      @JsonProperty("product_id") Product product,
-      @JsonProperty("size") BigDecimal size,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp,
-      @JsonProperty("order_id") String id) {
+  public BitfloorOrder(@JsonProperty("side") Side side, @JsonProperty("product_id") Product product, @JsonProperty("size") BigDecimal size, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("timestamp") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date timestamp, @JsonProperty("order_id") String id) {
 
     this.side = side;
     this.product = product;
@@ -92,12 +87,12 @@ public final class BitfloorOrder {
   @Override
   public String toString() {
 
-    return String.format("BitfloorOrder{id='%s', timestamp=%s, price=%s, size=%s, product=%s, side=%s}",
-        id, timestamp, price, size, product, side);
+    return String.format("BitfloorOrder{id='%s', timestamp=%s, price=%s, size=%s, product=%s, side=%s}", id, timestamp, price, size, product, side);
   }
 
   public static enum Side {
     buy(0), sell(1);
+
     private int id;
 
     Side(int id) {

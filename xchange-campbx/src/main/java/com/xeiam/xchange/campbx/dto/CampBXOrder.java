@@ -35,9 +35,11 @@ import com.xeiam.xchange.utils.jackson.YesNoBooleanDeserializerImpl;
  */
 public class CampBXOrder extends CampBXResponse {
 
-  @JsonProperty("Order Entered") @JsonDeserialize(using = SqlTimeDeserializer.class)
+  @JsonProperty("Order Entered")
+  @JsonDeserialize(using = SqlTimeDeserializer.class)
   private Date orderEntered;
-  @JsonProperty("Order Expiry") @JsonDeserialize(using = SqlTimeDeserializer.class)
+  @JsonProperty("Order Expiry")
+  @JsonDeserialize(using = SqlTimeDeserializer.class)
   private Date orderExpiry;
   @JsonProperty("Order Type")
   private String orderType;
@@ -47,11 +49,13 @@ public class CampBXOrder extends CampBXResponse {
   private BigDecimal quantity;
   @JsonProperty("Price")
   private BigDecimal price;
-  @JsonProperty("Stop-loss") @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
+  @JsonProperty("Stop-loss")
+  @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
   private Boolean stopLoss;
   @JsonProperty("Fill Type")
   private String fillType;
-  @JsonProperty("Dark Pool") @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
+  @JsonProperty("Dark Pool")
+  @JsonDeserialize(using = YesNoBooleanDeserializerImpl.class)
   private Boolean darkPool;
   @JsonProperty("Order ID")
   private String orderID;
@@ -179,8 +183,7 @@ public class CampBXOrder extends CampBXResponse {
   @Override
   public String toString() {
 
-    return String.format(
-        "CampBXOrder{orderEntered=%s, orderExpiry=%s, orderType='%s', marginPercent='%s', quantity=%s, price=%s, stopLoss='%s', fillType='%s', darkPool='%s', orderID='%s'}",
+    return String.format("CampBXOrder{orderEntered=%s, orderExpiry=%s, orderType='%s', marginPercent='%s', quantity=%s, price=%s, stopLoss='%s', fillType='%s', darkPool='%s', orderID='%s'}",
         orderEntered, orderExpiry, orderType, marginPercent, quantity, price, stopLoss, fillType, darkPool, orderID);
   }
 }

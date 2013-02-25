@@ -51,6 +51,7 @@ public class Rates {
   private double bOB;
   private double bRL;
   private double bSD;
+  private double bTC;
   private double bTN;
   private double bWP;
   private double bYR;
@@ -420,6 +421,17 @@ public class Rates {
   public void setBSD(double bSD) {
 
     this.bSD = bSD;
+  }
+
+  public double getBTC() {
+
+    return this.bTC;
+  }
+
+  @JsonProperty("BTC")
+  public void setBTC(double bTC) {
+
+    this.bTC = bTC;
   }
 
   public double getBTN() {
