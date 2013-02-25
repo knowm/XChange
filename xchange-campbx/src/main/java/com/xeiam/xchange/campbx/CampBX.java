@@ -24,12 +24,12 @@ package com.xeiam.xchange.campbx;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Nonnull;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import com.sun.istack.internal.NotNull;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
@@ -112,16 +112,28 @@ public interface CampBX {
    */
   @POST
   @Path("tradeadv.php")
-  public CampBXResponse tradeAdvancedEnter(@NotNull @FormParam("user") String user, @NotNull @FormParam("pass") String password, @NotNull @FormParam("TradeMode") AdvTradeMode mode,
-      @NotNull @FormParam("Quantity") BigDecimal quantity, @NotNull @FormParam("Price") BigDecimal price, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
+  public CampBXResponse tradeAdvancedEnter(
+      @Nonnull @FormParam("user") String user,
+      @Nonnull @FormParam("pass") String password,
+      @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
+      @Nonnull @FormParam("Quantity") BigDecimal quantity,
+      @Nonnull @FormParam("Price") BigDecimal price,
+      @FormParam("FillType") FillType fillType,
+      @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
   );
 
   @POST
   @Path("tradeadv.php")
-  public CampBXResponse tradeAdvancedMarketEnter(@NotNull @FormParam("user") String user, @NotNull @FormParam("pass") String password, @NotNull @FormParam("TradeMode") AdvTradeMode mode,
-      @NotNull @FormParam("Quantity") BigDecimal quantity, @NotNull @FormParam("Price") MarketPrice market, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
+  public CampBXResponse tradeAdvancedMarketEnter(
+      @Nonnull @FormParam("user") String user,
+      @Nonnull @FormParam("pass") String password,
+      @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
+      @Nonnull @FormParam("Quantity") BigDecimal quantity,
+      @Nonnull @FormParam("Price") MarketPrice market,
+      @FormParam("FillType") FillType fillType,
+      @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
   );
