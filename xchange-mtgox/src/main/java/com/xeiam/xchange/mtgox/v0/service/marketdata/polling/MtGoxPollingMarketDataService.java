@@ -73,7 +73,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     MtGoxTicker mtGoxTicker = mtGoxV0.getTicker(currency);
 
     // Adapt to XChange DTOs
-    return MtGoxAdapters.adaptTicker(mtGoxTicker, currency, tradableIdentifier);
+    return MtGoxAdapters.adaptTicker(mtGoxTicker, tradableIdentifier, currency);
 
   }
 

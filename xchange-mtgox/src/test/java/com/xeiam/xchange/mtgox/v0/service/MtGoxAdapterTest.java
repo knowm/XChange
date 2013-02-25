@@ -84,7 +84,7 @@ public class MtGoxAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
-    Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker, "USD", "BTC");
+    Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker, "BTC", "USD");
     // System.out.println(ticker.toString());
 
     assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 16.800000000000001"))));
