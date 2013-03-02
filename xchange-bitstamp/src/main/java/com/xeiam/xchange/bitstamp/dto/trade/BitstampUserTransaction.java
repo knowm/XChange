@@ -25,6 +25,8 @@ package com.xeiam.xchange.bitstamp.dto.trade;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.bitstamp.util.BitstampTransactionTypeDeserializer;
 
 /**
  * @author Matija Mazi
@@ -33,7 +35,7 @@ public final class BitstampUserTransaction {
 
   private final String datetime;
   private final long id;
-  private final int type;
+  private final TransactionType type;
   private final BigDecimal usd;
   private final BigDecimal btc;
   private final BigDecimal fee;
@@ -48,8 +50,14 @@ public final class BitstampUserTransaction {
    * @param btc
    * @param fee
    */
-  public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("type") int type, @JsonProperty("usd") BigDecimal usd,
-      @JsonProperty("btc") BigDecimal btc, @JsonProperty("fee") BigDecimal fee) {
+  public BitstampUserTransaction(
+      @JsonProperty("datetime") String datetime,
+      @JsonProperty("id") long id,
+      @JsonProperty("type") @JsonDeserialize(using = BitstampTransactionTypeDeserializer.class) TransactionType type,
+      @JsonProperty("usd") BigDecimal usd,
+      @JsonProperty("btc") BigDecimal btc,
+      @JsonProperty("fee") BigDecimal fee
+  ) {
 
     this.datetime = datetime;
     this.id = id;
@@ -69,25 +77,24 @@ public final class BitstampUserTransaction {
     return id;
   }
 
-  /** (0 - deposit; 1 - withdrawal; 2 - market trade) */
-  public int getType() {
+  public TransactionType getType() {
 
     return type;
   }
 
   public boolean isDeposit() {
 
-    return type == 0;
+    return type == TransactionType.deposit;
   }
 
   public boolean isWithdrawal() {
 
-    return type == 1;
+    return type == TransactionType.withdrawal;
   }
 
   public boolean isMarketTrade() {
 
-    return type == 2;
+    return type == TransactionType.trade;
   }
 
   public BigDecimal getUsd() {
@@ -108,6 +115,10 @@ public final class BitstampUserTransaction {
   @Override
   public String toString() {
 
-    return String.format("UserTransaction{datetime=%s, id=%d, type=%d, usd=%s, btc=%s, fee=%s}", datetime, id, type, usd, btc, fee);
+    return String.format("UserTransaction{datetime=%s, id=%d, type=%s, usd=%s, btc=%s, fee=%s}", datetime, id, type, usd, btc, fee);
+  }
+
+  public enum TransactionType {
+    deposit, withdrawal, trade
   }
 }
