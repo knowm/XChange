@@ -28,9 +28,9 @@ import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.Series;
+import com.xeiam.xchart.SeriesMarker;
+import com.xeiam.xchart.StyleManager.ChartType;
 import com.xeiam.xchart.SwingWrapper;
-import com.xeiam.xchart.style.SeriesMarker;
-import com.xeiam.xchart.style.StyleManager.ChartType;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
