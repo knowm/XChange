@@ -146,17 +146,17 @@ public final class Bitcoin24Adapters {
     BigMoney bid = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getSell());
     BigMoney ask = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getBuy());
     BigDecimal volume = bitcoin24Ticker.getVol();
-    
+
     // Due to low USD volume, high/low return null and causing NullPointerException in MoneyUtils
     // If null, set to 0 to prevent exception
-	BigMoney high;
-	BigMoney low;
-    if(bitcoin24Ticker.getLow() == null || bitcoin24Ticker.getHigh() == null){
-    	high = MoneyUtils.parse(currency + " " + 0);
-    	low = MoneyUtils.parse(currency + " " + 0);	
+    BigMoney high;
+    BigMoney low;
+    if (bitcoin24Ticker.getLow() == null || bitcoin24Ticker.getHigh() == null) {
+      high = MoneyUtils.parse(currency + " " + 0);
+      low = MoneyUtils.parse(currency + " " + 0);
     } else {
-    	high = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getHigh());
-    	low = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getLow());
+      high = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getHigh());
+      low = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getLow());
     }
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();

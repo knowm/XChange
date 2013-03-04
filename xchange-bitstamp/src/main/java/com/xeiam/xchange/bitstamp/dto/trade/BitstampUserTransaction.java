@@ -50,14 +50,9 @@ public final class BitstampUserTransaction {
    * @param btc
    * @param fee
    */
-  public BitstampUserTransaction(
-      @JsonProperty("datetime") String datetime,
-      @JsonProperty("id") long id,
-      @JsonProperty("type") @JsonDeserialize(using = BitstampTransactionTypeDeserializer.class) TransactionType type,
-      @JsonProperty("usd") BigDecimal usd,
-      @JsonProperty("btc") BigDecimal btc,
-      @JsonProperty("fee") BigDecimal fee
-  ) {
+  public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id,
+      @JsonProperty("type") @JsonDeserialize(using = BitstampTransactionTypeDeserializer.class) TransactionType type, @JsonProperty("usd") BigDecimal usd, @JsonProperty("btc") BigDecimal btc,
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = datetime;
     this.id = id;

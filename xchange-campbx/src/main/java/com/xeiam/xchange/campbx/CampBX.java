@@ -112,28 +112,16 @@ public interface CampBX {
    */
   @POST
   @Path("tradeadv.php")
-  public CampBXResponse tradeAdvancedEnter(
-      @Nonnull @FormParam("user") String user,
-      @Nonnull @FormParam("pass") String password,
-      @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
-      @Nonnull @FormParam("Quantity") BigDecimal quantity,
-      @Nonnull @FormParam("Price") BigDecimal price,
-      @FormParam("FillType") FillType fillType,
-      @FormParam("DarkPool") DarkPool darkPool,
+  public CampBXResponse tradeAdvancedEnter(@Nonnull @FormParam("user") String user, @Nonnull @FormParam("pass") String password, @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
+      @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") BigDecimal price, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
   );
 
   @POST
   @Path("tradeadv.php")
-  public CampBXResponse tradeAdvancedMarketEnter(
-      @Nonnull @FormParam("user") String user,
-      @Nonnull @FormParam("pass") String password,
-      @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
-      @Nonnull @FormParam("Quantity") BigDecimal quantity,
-      @Nonnull @FormParam("Price") MarketPrice market,
-      @FormParam("FillType") FillType fillType,
-      @FormParam("DarkPool") DarkPool darkPool,
+  public CampBXResponse tradeAdvancedMarketEnter(@Nonnull @FormParam("user") String user, @Nonnull @FormParam("pass") String password, @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
+      @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") MarketPrice market, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
   );

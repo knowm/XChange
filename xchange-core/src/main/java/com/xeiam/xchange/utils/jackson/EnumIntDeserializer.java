@@ -9,8 +9,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
  * @author Matija Mazi <br/>
- *
- * 0-based enum deserializer. This wil deserialize 0 as the first enum constant, 1 as the second etc.
+ *         0-based enum deserializer. This wil deserialize 0 as the first enum constant, 1 as the second etc.
  */
 public abstract class EnumIntDeserializer<E extends Enum<E>> extends JsonDeserializer<E> {
 

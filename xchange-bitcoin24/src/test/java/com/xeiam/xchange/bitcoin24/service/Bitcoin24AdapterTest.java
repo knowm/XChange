@@ -81,7 +81,7 @@ public class Bitcoin24AdapterTest {
     Bitcoin24Trade[] bitcoin24Trades = mapper.readValue(is, Bitcoin24Trade[].class);
 
     Trades trades = Bitcoin24Adapters.adaptTrades(bitcoin24Trades, Currencies.BTC, Currencies.USD);
-    //System.out.println(trades.getTrades().size());
+    // System.out.println(trades.getTrades().size());
     assertTrue("Trades size should be 2007", trades.getTrades().size() == 2007);
 
     // verify all fields filled
