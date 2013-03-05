@@ -110,9 +110,9 @@ public class BitfloorAdapterTest {
     assertThat(secondLastTrade.getType(), is(equalTo(null)));
     assertThat(secondLastTrade.getTradableIdentifier(), is(equalTo("BTC")));
     assertThat(secondLastTrade.getTransactionCurrency(), is(equalTo("USD")));
-    assertThat(secondLastTrade.getPrice(), is(equalTo(MoneyUtils.parse("USD 27.98000000"))));
-    assertThat(secondLastTrade.getTradableAmount(), is(equalTo(new BigDecimal("0.83995000"))));
-    assertThat(secondLastTrade.getTimestamp(), is(equalTo(new Date(1361059502895L))));
+    assertThat(secondLastTrade.getPrice(), is(equalTo(MoneyUtils.parse("USD 27.30000000"))));
+    assertThat(secondLastTrade.getTradableAmount(), is(equalTo(new BigDecimal("42.70000000"))));
+    assertThat(secondLastTrade.getTimestamp(), is(equalTo(new Date(1360964010711L))));
   }
 
   @Test
