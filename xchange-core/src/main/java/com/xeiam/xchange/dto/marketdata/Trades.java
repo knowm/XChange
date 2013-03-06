@@ -40,8 +40,8 @@ public final class Trades {
    * @param trades The list of trades
    */
   public Trades(List<Trade> trades) {
-	 
-	Collections.sort(trades);
+
+    Collections.sort(trades);
     this.trades = new ArrayList<Trade>(trades);
   }
 
