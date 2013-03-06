@@ -101,16 +101,4 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
 
   }
 
-  @Override
-  public void cancelTicker() {
-
-    disconnect();
-  }
-
-  @Override
-  public boolean isConnected() {
-
-    return socketIO.isConnected();
-  }
-
 }

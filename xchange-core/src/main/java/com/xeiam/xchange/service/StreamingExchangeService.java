@@ -68,13 +68,6 @@ public interface StreamingExchangeService {
   void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
 
   /**
-   * @return True if the streaming channel is connected
-   * @deprecated In favour of tracking the ExchangeEventType instead TODO Remove this in 1.4.2+
-   */
-  @Deprecated
-  boolean isConnected();
-
-  /**
    * <p>
    * The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples include:
    * </p>

@@ -45,14 +45,7 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
    * 
    * @return A blocking queue consisting of received event objects
    */
+  @Override
   BlockingQueue<ExchangeEvent> getEventQueue();
-
-  /**
-   * TODO Remove this in 1.4.2+ Cancel the streaming Ticker feed
-   * 
-   * @deprecated Use the disconnect() method instead.
-   */
-  @Deprecated
-  void cancelTicker();
 
 }
