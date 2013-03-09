@@ -95,7 +95,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
       break;
     case JSON_MESSAGE:
       log.debug("JSON message length =" + exchangeEvent.getData().length());
-      log.debug("JSON message =" + exchangeEvent.getData());
+      // log.debug("JSON message =" + exchangeEvent.getData());
 
       // Get raw JSON
       Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), streamObjectMapper);
