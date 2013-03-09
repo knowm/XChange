@@ -4,7 +4,7 @@ Bitcoin Central Exchange API specification
 Public API
 
 ## Documentation
-https://bitcoin-central.net/s/api
+https://bitcoin-central.net/s/api-v1-documentation
 
 ## Trading Fee
 0.498%

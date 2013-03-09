@@ -83,6 +83,83 @@
 		<module>xchange-bitcoin24</module>
 	</modules>
 
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Jackson JSON Mapper -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- Logging is through SLF4J -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+			<!-- SLF4J implementation for use in testing -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.0.9</version>
+				<!-- Test scope prevents this implementation bleeding out to consuming 
+					applications -->
+				<scope>test</scope>
+			</dependency>
+
+			<!-- All money handling is through Joda Money -->
+			<dependency>
+				<groupId>org.joda</groupId>
+				<artifactId>joda-money</artifactId>
+				<!-- Require 0.8+ to support Bitcoin (see #40) -->
+				<version>0.8</version>
+			</dependency>
+
+			<!-- JAX-RS -->
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>jsr311-api</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+
+			<!-- Charting -->
+			<dependency>
+				<groupId>com.xeiam.xchart</groupId>
+				<artifactId>xchart</artifactId>
+				<version>2.1.0-SNAPSHOT</version>
+			</dependency>
+
+			<!-- JSR-305 annotations (@Nullable etc.) -->
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>
@@ -236,82 +313,7 @@
 		</plugins>
 	</build>
 
-	<dependencyManagement>
-		<dependencies>
 
-			<!-- Jackson JSON Mapper -->
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-
-			<!-- Logging is through SLF4J -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.2</version>
-			</dependency>
-			<!-- SLF4J implementation for use in testing -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.0.9</version>
-				<!-- Test scope prevents this implementation bleeding out to consuming 
-					applications -->
-				<scope>test</scope>
-			</dependency>
-
-			<!-- All money handling is through Joda Money -->
-			<dependency>
-				<groupId>org.joda</groupId>
-				<artifactId>joda-money</artifactId>
-				<!-- Require 0.8+ to support Bitcoin (see #40) -->
-				<version>0.8</version>
-			</dependency>
-
-			<!-- JAX-RS -->
-			<dependency>
-				<groupId>javax.ws.rs</groupId>
-				<artifactId>jsr311-api</artifactId>
-				<version>1.1.1</version>
-			</dependency>
-
-			<!-- Charting -->
-			<dependency>
-				<groupId>com.xeiam.xchart</groupId>
-				<artifactId>xchart</artifactId>
-				<version>2.0.0-SNAPSHOT</version>
-			</dependency>
-
-			<!-- JSR-305 annotations (@Nullable etc.) -->
-			<dependency>
-				<groupId>com.google.code.findbugs</groupId>
-				<artifactId>jsr305</artifactId>
-				<version>2.0.1</version>
-			</dependency>
-
-		</dependencies>
-	</dependencyManagement>
-
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
