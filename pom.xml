@@ -108,6 +108,7 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>1.7.2</version>
 			</dependency>
+			
 			<!-- SLF4J implementation for use in testing -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
