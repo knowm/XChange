@@ -44,7 +44,7 @@ public class DepthDemo {
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.CAD);
 
-    System.out.println(orderBook.toString());
+    // System.out.println(orderBook.toString());
 
   }
 

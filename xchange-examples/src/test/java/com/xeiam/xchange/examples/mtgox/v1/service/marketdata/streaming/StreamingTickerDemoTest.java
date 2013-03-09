@@ -36,7 +36,7 @@ public class StreamingTickerDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    MtGoxStreamingTickerDemo.main(new String[] {});
+    // MtGoxStreamingTickerDemo.main(new String[] {});
   }
 
 }

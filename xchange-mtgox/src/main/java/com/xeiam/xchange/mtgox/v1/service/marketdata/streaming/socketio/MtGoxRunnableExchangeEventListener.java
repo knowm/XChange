@@ -27,6 +27,7 @@ import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
@@ -55,7 +56,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
   private static final Logger log = LoggerFactory.getLogger(MtGoxRunnableExchangeEventListener.class);
 
-  private ObjectMapper streamObjectMapper = new ObjectMapper();
+  private ObjectMapper streamObjectMapper;
 
   // private final BlockingQueue<Ticker> tickerQueue;
   private final BlockingQueue<ExchangeEvent> eventQueue;
@@ -71,6 +72,9 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
   public MtGoxRunnableExchangeEventListener(BlockingQueue<ExchangeEvent> eventQueue) {
 
     this.eventQueue = eventQueue;
+    streamObjectMapper = new ObjectMapper();
+    streamObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
   }
 
   @Override
@@ -90,7 +94,8 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
       addToEventQueue(exchangeEvent);
       break;
     case JSON_MESSAGE:
-      log.debug("JSON message. Length=" + exchangeEvent.getData().length());
+      log.debug("JSON message length =" + exchangeEvent.getData().length());
+      log.debug("JSON message =" + exchangeEvent.getData());
 
       // Get raw JSON
       Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), streamObjectMapper);
