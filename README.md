@@ -55,12 +55,13 @@ XChange is semantically versioned: http://semver.org
 Download XChange Jars: http://xeiam.com/xchange.jsp
 
 #### Compile Dependencies
-    +- org.slf4j:slf4j-api:jar:1.7.2:compile
-    +- org.codehaus.jackson:jackson-mapper-asl:jar:1.9.11:compile
-    |  \- org.codehaus.jackson:jackson-core-asl:jar:1.9.11:compile
-    +- org.joda:joda-money:jar:0.8:compile
-    +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
-
+    |  +- org.slf4j:slf4j-api:jar:1.7.2:compile
+    |  +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
+    |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
+    |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
+    |  +- org.joda:joda-money:jar:0.8:compile
+    |  +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+    |  +- com.google.code.findbugs:jsr305:jar:2.0.1:compile
 
 #### Test Dependencies
     \- junit:junit:jar:4.11:test
@@ -69,7 +70,7 @@ Download XChange Jars: http://xeiam.com/xchange.jsp
 #### Other Dependencies for Some Examples
     +- ch.qos.logback:logback-classic:jar:1.0.9:compile
     |  \- ch.qos.logback:logback-core:jar:1.0.9:compile
-    +- com.xeiam.xchart:xchart:jar:1.3.1:compile
+    +- com.xeiam.xchart:xchart:jar:2.1.0:compile
 
 ### Maven
 The XChange release artifacts are hosted on Maven Central. 
@@ -96,6 +97,21 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitcoin24</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitcoincentral</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitfloor</artifactId>
+      <version>1.5.0</version>
+    </dependency>    
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
       <version>1.5.0</version>
     </dependency>
@@ -119,7 +135,7 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
       <artifactId>xchange-bitstamp</artifactId>
       <version>1.5.0</version>
     </dependency>
-        <dependency>
+    <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-campbx</artifactId>
       <version>1.5.0</version>
