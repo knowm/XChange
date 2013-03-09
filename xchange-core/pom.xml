@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>develop-SNAPSHOT</version>
+		<version>1.5.0</version>
 	</parent>
 
 	<artifactId>xchange-core</artifactId>
@@ -60,5 +60,5 @@
 		</dependency>
 
 	</dependencies>
-    <version>develop-SNAPSHOT</version>
+    <version>1.5.0</version>
 </project>
