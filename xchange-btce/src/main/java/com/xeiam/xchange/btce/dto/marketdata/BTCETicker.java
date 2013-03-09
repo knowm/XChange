@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.btce.dto.marketdata;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Ticker from BTCE

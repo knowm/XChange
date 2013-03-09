@@ -21,9 +21,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author timmolter
@@ -38,7 +39,7 @@ public class TestOERTickers {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     OERTickers oERTickers = mapper.readValue(is, OERTickers.class);
 
     // Verify that the example data was unmarshalled correctly

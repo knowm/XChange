@@ -25,9 +25,8 @@ package com.xeiam.xchange.bitstamp.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
 
 /**

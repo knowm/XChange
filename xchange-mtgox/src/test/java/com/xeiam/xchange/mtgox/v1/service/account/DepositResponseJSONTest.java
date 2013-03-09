@@ -28,9 +28,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 
 /**

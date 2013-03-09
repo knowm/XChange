@@ -22,6 +22,7 @@
 package com.xeiam.xchange.service;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,7 +50,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   private final ExecutorService eventExecutorService = Executors.newFixedThreadPool(2);
 
-  /** The event queue for the producer */
+  /**
+   * The event queue for the producer
+   */
   private final BlockingQueue<ExchangeEvent> producerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
 
   /**
@@ -59,7 +62,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   protected SocketIO socketIO;
 
-  /** The exchange event producer */
+  /**
+   * The exchange event producer
+   */
   private RunnableExchangeEventProducer runnableExchangeEventProducer;
 
   /**
@@ -72,8 +77,13 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     super(exchangeSpecification);
   }
 
-  @Override
-  public synchronized void connect(String url, RunnableExchangeEventListener runnableExchangeEventListener) {
+  /**
+   * Handles the actual connection process
+   * 
+   * @param uri The URI of the upstream server
+   * @param runnableExchangeEventListener The event listener
+   */
+  protected synchronized void internalConnect(URI uri, RunnableExchangeEventListener runnableExchangeEventListener) {
 
     log.info("Connecting...");
 
@@ -86,9 +96,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     }
 
     try {
-      log.debug("Attempting to open a socketIO against {}:{}", url, exchangeSpecification.getPort());
+      log.debug("Attempting to open a socketIO against {}:{}", uri, exchangeSpecification.getPort());
       this.runnableExchangeEventProducer = new RunnableSocketIOEventProducer(producerEventQueue);
-      this.socketIO = new SocketIO(url, (RunnableSocketIOEventProducer) runnableExchangeEventProducer);
+      this.socketIO = new SocketIO(uri.toString(), (RunnableSocketIOEventProducer) runnableExchangeEventProducer);
     } catch (IOException e) {
       throw new ExchangeException("Failed to open socket!", e);
     }
@@ -136,9 +146,9 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 
-  @Override
-  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency) {
+  public BlockingQueue<ExchangeEvent> getEventQueue() {
 
     return consumerEventQueue;
+
   }
 }

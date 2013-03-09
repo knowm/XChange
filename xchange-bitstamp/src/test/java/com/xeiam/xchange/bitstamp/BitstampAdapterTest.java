@@ -29,9 +29,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
@@ -76,7 +76,7 @@ public class BitstampAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampOrderBook bitstampOrderBook = mapper.readValue(is, BitstampOrderBook.class);
 
-    OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, "USD", "BTC");
+    OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, "BTC", "USD");
     assertThat(orderBook.getBids().size(), is(equalTo(107)));
 
     // verify all fields filled
@@ -98,7 +98,7 @@ public class BitstampAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
 
-    Trades trades = BitstampAdapters.adaptTrades(transactions, "USD", "BTC");
+    Trades trades = BitstampAdapters.adaptTrades(transactions, "BTC", "USD");
     assertThat(trades.getTrades().size(), is(equalTo(125)));
 
     // verify all fields filled
@@ -119,7 +119,7 @@ public class BitstampAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampTicker bitstampTicker = mapper.readValue(is, BitstampTicker.class);
 
-    Ticker ticker = BitstampAdapters.adaptTicker(bitstampTicker, "USD", "BTC");
+    Ticker ticker = BitstampAdapters.adaptTicker(bitstampTicker, "BTC", "USD");
 
     assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 13.06"))));
     assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 13.06"))));

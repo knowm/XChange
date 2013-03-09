@@ -22,8 +22,7 @@
  */
 package com.xeiam.xchange.btce.dto.account;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
 
 /**

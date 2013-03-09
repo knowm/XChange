@@ -83,6 +83,8 @@ public final class OERUtils {
 
   new CurrencyPair(Currencies.BSD, Currencies.USD),
 
+  new CurrencyPair(Currencies.BTC, Currencies.USD),
+
   new CurrencyPair(Currencies.BTN, Currencies.USD),
 
   new CurrencyPair(Currencies.BWP, Currencies.USD),

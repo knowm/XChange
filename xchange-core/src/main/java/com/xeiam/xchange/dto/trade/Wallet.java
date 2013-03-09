@@ -21,28 +21,45 @@
  */
 package com.xeiam.xchange.dto.trade;
 
+import java.math.BigDecimal;
+
 import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 
 /**
  * <p>
- * Data object representing a Wallet, which is simply defined by an amount of money in a given currency, contained in the cash object, This class is immutable.
+ * DTO representing a Wallet
+ * </p>
+ * <p>
+ * This is simply defined by an amount of money in a given currency, contained in the cash object.
+ * </p>
+ * <p>
+ * This class is immutable.
  * </p>
  */
 public final class Wallet {
 
+  // TODO BigMoney contains a currency representation is this required?
   private final String currency;
+
   private final BigMoney balance;
 
   /**
    * Constructor
    * 
-   * @param currency
-   * @param balance
+   * @param currency The underlying currency
+   * @param balance The balance
    */
   public Wallet(String currency, BigMoney balance) {
 
     this.currency = currency;
     this.balance = balance;
+  }
+
+  public static Wallet createInstance(String currency, BigDecimal amount) {
+
+    return new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), amount));
+    // return new Wallet(currency, MoneyUtils.parseMoney(currency, amount));
   }
 
   public String getCurrency() {

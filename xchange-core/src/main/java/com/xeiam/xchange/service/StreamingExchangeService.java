@@ -38,10 +38,10 @@ public interface StreamingExchangeService {
 
   /**
    * <p>
-   * Start the service and provide a suitable runnable event listener to receive events. This will be configured by the service.
+   * Opens the connection to the upstream server for this instance.
    * </p>
    */
-  void connect(String url, RunnableExchangeEventListener runnableExchangeEventListener);
+  void connect();
 
   /**
    * <p>
@@ -68,25 +68,16 @@ public interface StreamingExchangeService {
   void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
 
   /**
-   * @return True if the streaming channel is connected
-   * @deprecated In favour of tracking the ExchangeEventType instead
-   */
-  @Deprecated
-  boolean isConnected();
-
-  /**
    * <p>
+   * The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples include:
    * </p>
-   * The consumer exchange event queue containing events as follows:
    * <ul>
    * <li>Connect/disconnect events</li>
    * <li>Ticker events (with Ticker embedded)</li>
    * </ul>
    * 
-   * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
-   * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
    * @return A blocking queue
    */
-  BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency);
+  BlockingQueue<ExchangeEvent> getEventQueue();
 
 }

@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Ticker {
 

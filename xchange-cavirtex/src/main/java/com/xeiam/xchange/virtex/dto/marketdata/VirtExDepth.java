@@ -24,7 +24,7 @@ package com.xeiam.xchange.virtex.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing depth from VirtEx

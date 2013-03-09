@@ -27,10 +27,13 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.mtgox.MtGoxExchangeServiceConfiguration;
 import com.xeiam.xchange.mtgox.v1.service.account.MtGoxPollingAccountService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStreamingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
+import com.xeiam.xchange.service.ExchangeServiceConfiguration;
+import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 
 /**
  * <p>
@@ -45,17 +48,13 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
-    if (exchangeSpecification == null) {
-      exchangeSpecification = getDefaultExchangeSpecification();
-    }
+    super.applySpecification(exchangeSpecification);
+
+    // Configure the basic services if configuration does not apply
     this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
     this.pollingTradeService = new MtGoxPollingTradeService(exchangeSpecification);
     this.pollingAccountService = new MtGoxPollingAccountService(exchangeSpecification);
-    try {
-      this.streamingMarketDataService = new MtGoxStreamingMarketDataService(exchangeSpecification);
-    } catch (IOException e) {
-      throw new ExchangeException("Streaming market data service failed", e);
-    }
+
   }
 
   @Override
@@ -65,8 +64,23 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("https://mtgox.com");
     exchangeSpecification.setHost("mtgox.com");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("MtGox");
+    exchangeSpecification.setExchangeDescription("MtGox is a Bitcoin exchange registered in Japan.");
 
     return exchangeSpecification;
   }
 
+  @Override
+  public StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration) {
+
+    if (configuration instanceof MtGoxExchangeServiceConfiguration) {
+      try {
+        return new MtGoxStreamingMarketDataService(getExchangeSpecification(), (MtGoxExchangeServiceConfiguration) configuration);
+      } catch (IOException e) {
+        throw new ExchangeException("Streaming market data service failed", e);
+      }
+    }
+
+    throw new IllegalArgumentException("MtGox only supports the MtGoxExchangeServiceConfiguration");
+  }
 }

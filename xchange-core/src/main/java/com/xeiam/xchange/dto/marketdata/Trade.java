@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,10 +37,12 @@ public final class Trade implements Comparable<Trade> {
    * Did this trade result from the execution of a bid or a ask?
    */
   private final OrderType type;
+
   /**
    * Amount that was traded
    */
   private final BigDecimal tradableAmount;
+
   /**
    * An identifier that uniquely identifies the tradable
    */
@@ -50,22 +52,24 @@ public final class Trade implements Comparable<Trade> {
    * The currency used to settle the market order transaction
    */
   private final String transactionCurrency;
+
   /**
    * The price
    */
   private final BigMoney price;
 
+  /**
+   * The timestamp when it was placed on the exchange
+   */
   private final Date timestamp;
 
   /**
-   * Constructor
-   * 
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
-   * @param price
-   * @param timestamp
+   * @param type The trade type (BID side or ASK side)
+   * @param tradableAmount The depth of this trade
+   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
+   * @param transactionCurrency The currency
+   * @param price The price (either the bid or the ask)
+   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
    */
   public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp) {
 

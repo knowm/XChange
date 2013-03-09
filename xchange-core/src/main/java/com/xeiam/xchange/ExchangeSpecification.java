@@ -24,6 +24,9 @@ package com.xeiam.xchange;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * <p>
  * Specification to provide the following to {@link ExchangeFactory}:
@@ -35,15 +38,42 @@ import java.util.Map;
  */
 public class ExchangeSpecification {
 
+  @JsonProperty
+  private String exchangeName;
+
+  @JsonProperty
+  private String exchangeDescription;
+
+  @JsonProperty
+  private Double tradeFeePercent = Double.valueOf(0.0);
+
+  @JsonProperty
+  private String minTradeFee;
+
+  @JsonProperty
   private String userName;
+
+  @JsonProperty
   private String password;
+
+  @JsonProperty
   private String secretKey;
+
+  @JsonProperty
   private String apiKey;
+
+  @JsonProperty
   private String uri;
+
+  @JsonProperty
   private String host;
+
+  @JsonProperty
   private int port = 80;
+
   private final String exchangeClassName;
 
+  @JsonProperty
   private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
 
   /**
@@ -51,7 +81,8 @@ public class ExchangeSpecification {
    * 
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
-  public ExchangeSpecification(String exchangeClassName) {
+  @JsonCreator
+  public ExchangeSpecification(@JsonProperty("exchangeClassName") String exchangeClassName) {
 
     this.exchangeClassName = exchangeClassName;
   }
@@ -186,5 +217,61 @@ public class ExchangeSpecification {
   public void setUserName(String userName) {
 
     this.userName = userName;
+  }
+
+  /**
+   * @return The exchange name (e.g. "Mt Gox")
+   */
+  public String getExchangeName() {
+
+    return exchangeName;
+  }
+
+  public void setExchangeName(String exchangeName) {
+
+    this.exchangeName = exchangeName;
+  }
+
+  /**
+   * @return The exchange description (e.g. "Major exchange specialising in USD, EUR, GBP")
+   */
+  public String getExchangeDescription() {
+
+    return exchangeDescription;
+  }
+
+  public void setExchangeDescription(String exchangeDescription) {
+
+    this.exchangeDescription = exchangeDescription;
+  }
+
+  /**
+   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally
+   * 
+   * @return The fee per trade expressed as a percentage (e.g. 0.6 is 0.6%)
+   */
+  public Double getTradeFeePercent() {
+
+    return tradeFeePercent;
+  }
+
+  public void setTradeFeePercent(Double tradeFeePercent) {
+
+    this.tradeFeePercent = tradeFeePercent;
+  }
+
+  /**
+   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally
+   * 
+   * @return The minimum fee per trade expressed in the exchange's local currency (e.g. "USD 0.25")
+   */
+  public String getMinTradeFee() {
+
+    return minTradeFee;
+  }
+
+  public void setMinTradeFee(String minTradeFee) {
+
+    this.minTradeFee = minTradeFee;
   }
 }

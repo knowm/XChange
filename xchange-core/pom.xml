@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>1.4.1-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-core</artifactId>
@@ -30,9 +30,17 @@
 		</dependency>
 
 		<!-- Jackson JSON Mapper -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
 		<!-- All money handling is through Joda Money -->
@@ -46,6 +54,11 @@
 			<artifactId>jsr311-api</artifactId>
 		</dependency>
 
-	</dependencies>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+		</dependency>
 
+	</dependencies>
+    <version>develop-SNAPSHOT</version>
 </project>

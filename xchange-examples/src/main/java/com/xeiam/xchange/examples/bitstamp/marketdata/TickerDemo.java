@@ -42,12 +42,10 @@ public class TickerDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to CAD
+    // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
 
-    System.out.println("Last: " + currency + "-" + value);
+    System.out.println("Currency: " + Currencies.USD);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());

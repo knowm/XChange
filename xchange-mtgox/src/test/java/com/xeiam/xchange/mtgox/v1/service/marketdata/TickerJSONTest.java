@@ -28,10 +28,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 
 /**
@@ -47,6 +48,8 @@ public class TickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
@@ -66,6 +69,8 @@ public class TickerJSONTest {
     InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-streaming-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
     });
     // System.out.println(userInMap.get("ticker").toString());
@@ -73,6 +78,7 @@ public class TickerJSONTest {
 
     // Use Jackson to parse it
     mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxTicker mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly

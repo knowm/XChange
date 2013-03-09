@@ -54,7 +54,7 @@ public class BitstampAccountDemo {
     String depositAddress = accountService.requestBitcoinDepositAddress(null, null);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "13nKTRtz9e7SaVZzqYRTbk6PgizdhvoUDN");
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 }

@@ -29,9 +29,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;

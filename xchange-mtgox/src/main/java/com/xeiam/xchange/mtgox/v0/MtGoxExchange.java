@@ -39,9 +39,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
-    if (exchangeSpecification == null) {
-      exchangeSpecification = getDefaultExchangeSpecification();
-    }
+    super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
   }
 
@@ -52,6 +50,8 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setUri("https://mtgox.com");
     exchangeSpecification.setHost("mtgox.com");
     exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("MtGox");
+    exchangeSpecification.setExchangeDescription("MtGox is a Bitcoin exchange registered in Japan.");
 
     return exchangeSpecification;
   }

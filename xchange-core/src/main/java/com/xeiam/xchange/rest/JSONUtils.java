@@ -24,11 +24,11 @@ package com.xeiam.xchange.rest;
 import java.io.IOException;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.utils.Assert;
 

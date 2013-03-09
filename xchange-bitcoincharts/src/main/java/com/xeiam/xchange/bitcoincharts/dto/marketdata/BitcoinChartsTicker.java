@@ -24,7 +24,7 @@ package com.xeiam.xchange.bitcoincharts.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi
@@ -38,7 +38,7 @@ public final class BitcoinChartsTicker {
   private final String currency;
   private final BigDecimal currencyVolume;
   private final BigDecimal high;
-  private final BigDecimal latestTrade;
+  private final long latestTrade;
   private final BigDecimal low;
   private final String symbol;
   private final BigDecimal volume;
@@ -59,8 +59,8 @@ public final class BitcoinChartsTicker {
    * @param volume
    */
   public BitcoinChartsTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("avg") BigDecimal avg, @JsonProperty("bid") BigDecimal bid, @JsonProperty("close") BigDecimal close,
-      @JsonProperty("currency") String currency, @JsonProperty("currency_volume") BigDecimal currencyVolume, @JsonProperty("high") BigDecimal high,
-      @JsonProperty("latest_trade") BigDecimal latestTrade, @JsonProperty("low") BigDecimal low, @JsonProperty("symbol") String symbol, @JsonProperty("volume") BigDecimal volume) {
+      @JsonProperty("currency") String currency, @JsonProperty("currency_volume") BigDecimal currencyVolume, @JsonProperty("high") BigDecimal high, @JsonProperty("latest_trade") long latestTrade,
+      @JsonProperty("low") BigDecimal low, @JsonProperty("symbol") String symbol, @JsonProperty("volume") BigDecimal volume) {
 
     this.ask = ask;
     this.avg = avg;
@@ -110,7 +110,7 @@ public final class BitcoinChartsTicker {
     return high;
   }
 
-  public BigDecimal getLatestTrade() {
+  public long getLatestTrade() {
 
     return latestTrade;
   }

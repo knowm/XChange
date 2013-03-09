@@ -29,6 +29,7 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.Series;
 import com.xeiam.xchart.SeriesMarker;
+import com.xeiam.xchart.StyleManager.ChartType;
 import com.xeiam.xchart.SwingWrapper;
 
 /**
@@ -55,9 +56,10 @@ public class MtGoxOrderBookChartDemo {
     Chart chart = new Chart(800, 500);
 
     // Customize Chart
-    chart.setTitle("MtGox Order Book");
+    chart.setChartTitle("MtGox Order Book");
     chart.setYAxisTitle("BTC");
     chart.setXAxisTitle("USD");
+    chart.getStyleManager().setChartType(ChartType.Area);
 
     // BIDS
     Collection<Number> xData = new ArrayList<Number>();

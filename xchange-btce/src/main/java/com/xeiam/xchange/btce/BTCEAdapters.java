@@ -29,6 +29,9 @@ import java.util.Map;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
+import org.joda.money.IllegalCurrencyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btce.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
@@ -50,6 +53,8 @@ import com.xeiam.xchange.utils.DateUtils;
  * Various adapters for converting from BTCE DTOs to XChange DTOs
  */
 public final class BTCEAdapters {
+
+  private static final Logger log = LoggerFactory.getLogger(BTCEAdapters.class);
 
   /**
    * private Constructor
@@ -161,9 +166,16 @@ public final class BTCEAdapters {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
+
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
-      wallets.add(new Wallet(currency, BigMoney.of(CurrencyUnit.of(currency), funds.get(lcCurrency))));
+      try {
+        CurrencyUnit.of(currency);
+      } catch (IllegalCurrencyException e) {
+        log.warn("Ignoring unknown currency {}", currency);
+        continue;
+      }
+      wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency)));
     }
     return new AccountInfo(null, wallets);
   }

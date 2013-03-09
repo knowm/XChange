@@ -23,26 +23,26 @@ package com.xeiam.xchange.mtgox.v0.dto.trade;
 
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author timmolter
  */
 public final class MtGoxCancelOrder {
 
-  private final List<Orders> orders;
+  private final List<MtGoxOrders> orders;
 
   /**
    * Constructor
    * 
    * @param orders
    */
-  public MtGoxCancelOrder(@JsonProperty("orders") List<Orders> orders) {
+  public MtGoxCancelOrder(@JsonProperty("orders") List<MtGoxOrders> orders) {
 
     this.orders = orders;
   }
 
-  public List<Orders> getOrders() {
+  public List<MtGoxOrders> getOrders() {
 
     return this.orders;
   }

@@ -35,9 +35,9 @@ import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
 import com.xeiam.xchange.rest.ParamsDigest;
 
 /**

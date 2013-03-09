@@ -24,7 +24,7 @@ package com.xeiam.xchange.service.marketdata.streaming;
 import java.util.concurrent.BlockingQueue;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.StreamingExchangeService;
 
 /**
@@ -41,19 +41,11 @@ import com.xeiam.xchange.service.StreamingExchangeService;
 public interface StreamingMarketDataService extends StreamingExchangeService {
 
   /**
-   * Request a streaming Ticker feed
+   * <strong>Note: This will not automatically start the stream, use connect() when ready.</strong>
    * 
-   * @param tradableIdentifier The tradeable identifier (e.g. "Bitcoin")
-   * @param currency The currency symbol
-   * @return A blocking queue consisting of received Ticker objects
-   * @deprecated Use the event queue instead and listen for TICKER events
+   * @return A blocking queue consisting of received event objects
    */
-  @Deprecated
-  BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, String currency);
-
-  /**
-   * Cancel the streaming Ticker feed
-   */
-  void cancelTicker();
+  @Override
+  BlockingQueue<ExchangeEvent> getEventQueue();
 
 }

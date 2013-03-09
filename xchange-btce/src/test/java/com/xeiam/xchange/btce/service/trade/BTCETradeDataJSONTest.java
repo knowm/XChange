@@ -33,10 +33,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderReturn;

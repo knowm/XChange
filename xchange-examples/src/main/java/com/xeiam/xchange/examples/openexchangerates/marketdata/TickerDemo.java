@@ -58,6 +58,10 @@ public class TickerDemo {
     ticker = marketDataService.getTicker(Currencies.JPY, Currencies.USD);
     System.out.println("cached Last: " + ticker.getLast().toString());
 
+    // Request BTC ticker. it will return a cached object
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    System.out.println("cached Last: " + ticker.getLast().toString());
+
   }
 
 }

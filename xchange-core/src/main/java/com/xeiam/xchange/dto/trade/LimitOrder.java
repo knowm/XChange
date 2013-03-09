@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +28,13 @@ import org.joda.money.BigMoney;
 import com.xeiam.xchange.dto.Order;
 
 /**
- * Data object representing a limit order
+ * <p>
+ * DTO representing a limit order
+ * </p>
+ * <p>
+ * A limit order lets you set a minimum or maximum price before your trade will be treated by the exchange as a {@link MarketOrder}. There is no guarantee that your conditions will be met on the
+ * exchange, so your order may not be executed. However, until you become very experienced, almost all orders should be limit orders to protect yourself.
+ * </p>
  */
 public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
@@ -38,14 +44,12 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   private final BigMoney limitPrice;
 
   /**
-   * Constructor
-   * 
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
-   * @param id
-   * @param limitPrice
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, BigMoney limitPrice) {
 
@@ -54,14 +58,11 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   }
 
   /**
-   * Constructor
-   * 
-   * @param type
-   * @param tradableAmount
-   * @param tradableIdentifier
-   * @param transactionCurrency
-   * @param id
-   * @param limitPrice
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice) {
 
@@ -69,6 +70,9 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     this.limitPrice = limitPrice;
   }
 
+  /**
+   * @return The limit price
+   */
   public BigMoney getLimitPrice() {
 
     return limitPrice;

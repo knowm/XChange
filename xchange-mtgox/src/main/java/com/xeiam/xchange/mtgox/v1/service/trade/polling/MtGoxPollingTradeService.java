@@ -37,7 +37,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v1.service.MtGoxHmacPostBodyDigest;
+import com.xeiam.xchange.rest.HmacPostBodyDigest;
 import com.xeiam.xchange.rest.ParamsDigest;
 import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.BasePollingExchangeService;
@@ -63,7 +63,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
     this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
-    postBodySignatureCreator = MtGoxHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    postBodySignatureCreator = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override

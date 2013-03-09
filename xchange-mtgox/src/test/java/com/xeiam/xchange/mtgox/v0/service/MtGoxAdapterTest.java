@@ -31,9 +31,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -46,9 +46,6 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
 import com.xeiam.xchange.utils.DateUtils;
 
-/**
- * Tests the VirtExAdapter class
- */
 public class MtGoxAdapterTest {
 
   @Test
@@ -62,15 +59,13 @@ public class MtGoxAdapterTest {
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask", "");
-    // System.out.println(openorders.size());
-    // assertTrue("ASKS size should be 1582", asks.size() == 1582);
 
-    // verify all fields filled
-    assertTrue("limit price should be 16.634", asks.get(0).getLimitPrice().getAmount().doubleValue() == 16.634);
-    assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    assertTrue("tradableAmount should be 21.989000000000001", asks.get(0).getTradableAmount().doubleValue() == 21.989000000000001);
-    assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
+    // Verify all fields filled
+    assertTrue("Limit price should be 16.634", asks.get(0).getLimitPrice().getAmount().doubleValue() == 16.634);
+    assertTrue("Order type should be ASK", asks.get(0).getType() == OrderType.ASK);
+    assertTrue("TradableAmount should be 21.989000000000001", asks.get(0).getTradableAmount().doubleValue() == 21.989000000000001);
+    assertTrue("TradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("TransactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
 
   }
 
@@ -84,7 +79,7 @@ public class MtGoxAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
-    Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker, "USD", "BTC");
+    Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker, "BTC", "USD");
     // System.out.println(ticker.toString());
 
     assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 16.800000000000001"))));
@@ -110,11 +105,11 @@ public class MtGoxAdapterTest {
 
     // verify all fields filled
     // System.out.println(trades.getTrades().get(0).toString());
-    assertTrue("price should be 16.75", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 16.75);
-    assertTrue("order type should be Bid", trades.getTrades().get(0).getType() == OrderType.BID);
-    assertTrue("tradableAmount should be 0.09910328", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.09910328);
-    assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be USD", trades.getTrades().get(0).getTransactionCurrency().equals("USD"));
+    assertTrue("Price should be 16.75", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 16.75);
+    assertTrue("Order type should be Bid", trades.getTrades().get(0).getType() == OrderType.BID);
+    assertTrue("TradableAmount should be 0.09910328", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.09910328);
+    assertTrue("TradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
+    assertTrue("TransactionCurrency should be USD", trades.getTrades().get(0).getTransactionCurrency().equals("USD"));
     // Unix 1358803625 = Mon, 21 Jan 2013 21:27:05 GMT
     assertThat("2013-01-21 21:27:05 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
 

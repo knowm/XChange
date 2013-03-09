@@ -33,11 +33,11 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -62,7 +62,7 @@ public class HttpTemplate {
   public HttpTemplate() {
 
     objectMapper = new ObjectMapper();
-    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     // Always use UTF8
     defaultHttpHeaders.put("Accept-Charset", CHARSET_UTF_8);
@@ -71,7 +71,7 @@ public class HttpTemplate {
     // Accept text/plain by default (typically becomes application/json or application/xml)
     defaultHttpHeaders.put("Accept", "text/plain");
     // User agent provides statistics for servers, but some use it for content negotiation so fake good agents
-    defaultHttpHeaders.put("User-Agent", "XChange/1.4.0 JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
+    defaultHttpHeaders.put("User-Agent", "XChange/develop-SNAPSHOT JDK/6 AppleWebKit/535.7 Chrome/16.0.912.36 Safari/535.7"); // custom User-Agent
   }
 
   /**
@@ -181,12 +181,13 @@ public class HttpTemplate {
         connection.getOutputStream().write(requestBody.getBytes(CHARSET_UTF_8));
       }
 
+      // Begin reading the response
+
+      checkHttpStatusCode(connection);
+
       // Minimize the impact of the HttpURLConnection on the job of getting the data
       String responseEncoding = getResponseEncoding(connection);
       InputStream inputStream = connection.getInputStream();
-
-      int httpStatus = connection.getResponseCode();
-      log.debug("Request http status = {}", httpStatus);
 
       // Get the data
       responseString = readInputStreamAsEncodedString(inputStream, responseEncoding);
@@ -197,13 +198,29 @@ public class HttpTemplate {
       throw new HttpException("Problem " + method + "ing (IO)", e);
     } finally {
       // This is a bit messy
-      if (connection != null && connection instanceof HttpURLConnection) {
+      if (connection != null) {
         connection.disconnect();
       }
     }
 
     log.debug("Response body: {}", responseString);
     return responseString;
+  }
+
+  protected int checkHttpStatusCode(HttpURLConnection connection) throws IOException {
+
+    int httpStatus = connection.getResponseCode();
+    log.debug("Request http status = {}", httpStatus);
+
+    if (httpStatus != 200) {
+      String error = connection.getErrorStream() == null ? null : new BufferedReader(new InputStreamReader(connection.getErrorStream())).readLine();
+      String msg = "Status code " + httpStatus;
+      if (error != null) {
+        msg += "; first body line: " + error;
+      }
+      throw new HttpException(msg);
+    }
+    return httpStatus;
   }
 
   /**

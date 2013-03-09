@@ -46,8 +46,8 @@ public class CancelOrderDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    boolean orderIdNonExistant = tradeService.cancelOrder("e20f9e00-0af9-4662-8c1b-da79a7a84756");
-    System.out.println("orderIdNonExistant= " + orderIdNonExistant);
+    boolean orderExists = tradeService.cancelOrder("f5db6a11-5af4-4860-98cc-1e4419ccce38");
+    System.out.println("orderExists= " + orderExists);
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();

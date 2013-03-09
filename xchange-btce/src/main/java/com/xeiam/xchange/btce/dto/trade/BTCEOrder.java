@@ -25,7 +25,7 @@ package com.xeiam.xchange.btce.dto.trade;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi

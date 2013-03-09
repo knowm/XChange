@@ -194,5 +194,11 @@ public class HttpTemplateTest {
 
       return mockHttpURLConnection;
     }
+
+    @Override
+    protected int checkHttpStatusCode(HttpURLConnection connection) throws IOException {
+
+      return 200;
+    }
   }
 }

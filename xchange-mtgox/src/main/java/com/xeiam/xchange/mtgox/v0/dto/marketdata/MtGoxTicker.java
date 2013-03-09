@@ -22,7 +22,7 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MtGoxTicker {
 

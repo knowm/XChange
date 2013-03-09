@@ -23,6 +23,7 @@ package com.xeiam.xchange.service;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URI;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -65,11 +66,10 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     executorService = Executors.newSingleThreadExecutor();
   }
 
-  @Override
-  public synchronized void connect(String url, RunnableExchangeEventListener runnableMarketDataListener) {
+  protected synchronized void internalConnect(URI uri, RunnableExchangeEventListener runnableExchangeEventListener) {
 
     // Validate inputs
-    Assert.notNull(runnableMarketDataListener, "runnableMarketDataListener cannot be null");
+    Assert.notNull(runnableExchangeEventListener, "runnableExchangeEventListener cannot be null");
 
     // Validate state
     if (executorService.isShutdown()) {
@@ -84,7 +84,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     }
     this.runnableExchangeEventProducer = new RunnableWebSocketEventProducer(socket, marketDataEvents);
 
-    runnableMarketDataListener.setExchangeEventQueue(marketDataEvents);
+    runnableExchangeEventListener.setExchangeEventQueue(marketDataEvents);
     executorService.submit(runnableExchangeEventProducer);
 
     log.debug("Started OK");

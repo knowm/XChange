@@ -30,9 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 
 /**

@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.oer.dto.marketdata;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The exchange rates. Purposely made not immutable due to lack of motivation to crate monster constructor
@@ -51,6 +51,7 @@ public class Rates {
   private double bOB;
   private double bRL;
   private double bSD;
+  private double bTC;
   private double bTN;
   private double bWP;
   private double bYR;
@@ -420,6 +421,17 @@ public class Rates {
   public void setBSD(double bSD) {
 
     this.bSD = bSD;
+  }
+
+  public double getBTC() {
+
+    return this.bTC;
+  }
+
+  @JsonProperty("BTC")
+  public void setBTC(double bTC) {
+
+    this.bTC = bTC;
   }
 
   public double getBTN() {

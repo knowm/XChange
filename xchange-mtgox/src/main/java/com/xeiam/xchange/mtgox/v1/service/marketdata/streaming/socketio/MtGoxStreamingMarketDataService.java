@@ -22,15 +22,15 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.mtgox.MtGoxExchangeServiceConfiguration;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.service.BaseSocketIOExchangeService;
 import com.xeiam.xchange.service.ExchangeEvent;
@@ -58,88 +58,46 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   private final RunnableExchangeEventListener runnableExchangeEventListener;
 
   /**
-   * The Ticker queue for the consumer
+   * Ensures that exchange-specific configuration is available
    */
-  private final BlockingQueue<Ticker> tickerQueue = new LinkedBlockingQueue<Ticker>(1024);
+  private final MtGoxExchangeServiceConfiguration configuration;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
-  public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification) throws IOException {
+  public MtGoxStreamingMarketDataService(ExchangeSpecification exchangeSpecification, MtGoxExchangeServiceConfiguration configuration) throws IOException {
 
     super(exchangeSpecification);
 
-    // Create the listener with the given queues
-    this.runnableExchangeEventListener = new MtGoxRunnableExchangeEventListener(tickerQueue, consumerEventQueue);
+    Assert.notNull(configuration, "configuration cannot be null");
+    Assert.notNull(configuration.getTradeableIdentifier(), "tradableIdentifier cannot be null");
+    Assert.notNull(configuration.getCurrencyCode(), "currencyCode cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(configuration.getTradeableIdentifier(), configuration.getCurrencyCode())), "currencyPair is not valid:"
+        + configuration.getTradeableIdentifier() + " " + configuration.getCurrencyCode());
+
+    this.configuration = configuration;
+
+    // Create the listener for the specified eventType
+    this.runnableExchangeEventListener = new MtGoxRunnableExchangeEventListener(consumerEventQueue);
 
   }
 
-  /**
-   * Initiates a connection to Mt Gox
-   * 
-   * @param tradableIdentifier An exchange-specific identifier (e.g. "BTC" but can be null)
-   * @param currency An exchange-specific currency identifier (e.g. "USD" but can be null)
-   * @return The blocking queue of exchange events
-   */
   @Override
-  public BlockingQueue<ExchangeEvent> getEventQueue(String tradableIdentifier, final String currency) {
-
-    log.info("Verifying...");
-
-    verify(tradableIdentifier, currency);
-
-    connectNow(currency, runnableExchangeEventListener);
+  public BlockingQueue<ExchangeEvent> getEventQueue() {
 
     return consumerEventQueue;
   }
 
-  // TODO Remove this when deprecation is completed (causes a change to consumer functionality)
   @Override
-  public BlockingQueue<Ticker> getTickerQueue(String tradableIdentifier, final String currency) {
+  public void connect() {
 
-    log.info("Verifying...");
+    URI uri = URI.create(apiBase + "?Channel=ticker&Currency=" + configuration.getCurrencyCode());
+    log.debug("Streaming URI='{}'", uri);
 
-    verify(tradableIdentifier, currency);
-
-    connectNow(currency, runnableExchangeEventListener);
-
-    return tickerQueue;
-
-  }
-
-  private void connectNow(String currency, RunnableExchangeEventListener listener) {
-
-    String url = apiBase + "?Channel=ticker&Currency=" + currency;
-    log.debug("streaming url= " + url);
-
-    connect(url, listener);
-  }
-
-  @Override
-  public void cancelTicker() {
-
-    disconnect();
-  }
-
-  @Override
-  public boolean isConnected() {
-
-    return socketIO.isConnected();
-  }
-
-  /**
-   * Verify that the exchange can provide a stream
-   * 
-   * @param tradableIdentifier The tradable identifier (exchange specific)
-   * @param currency The currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+    // Use the default internal connect
+    internalConnect(uri, runnableExchangeEventListener);
 
   }
 

@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -42,7 +42,7 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * Various adapters for converting from mtgox DTOs to XChange DTOs
+ * Various adapters for converting from MtGox DTOs to XChange DTOs
  */
 public final class MtGoxAdapters {
 
@@ -56,12 +56,12 @@ public final class MtGoxAdapters {
   /**
    * Adapts a MtGoxOrder to a LimitOrder
    * 
-   * @param amount
-   * @param price
-   * @param currency
-   * @param orderTypeString
-   * @param id
-   * @return
+   * @param amount The amount
+   * @param price The price
+   * @param currency The currency
+   * @param orderTypeString The order type (e.g. "bid")
+   * @param id The id
+   * @return A generic limit order
    */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, String orderTypeString, String id) {
 
@@ -70,22 +70,26 @@ public final class MtGoxAdapters {
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, limitPrice);
 
   }
 
   /**
    * Adapts a List of mtgoxOrders to a List of LimitOrders
    * 
-   * @param mtgoxOrders
-   * @param currency
-   * @param orderType
-   * @param id
-   * @return
+   * @param mtgoxOrders The MtGox orders
+   * @param currency The currency
+   * @param orderType The order type
+   * @param id The id
+   * @return A collection of limit orders
    */
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> mtgoxOrders, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+
+    if (mtgoxOrders == null) {
+      return limitOrders;
+    }
 
     for (BigDecimal[] mtgoxOrder : mtgoxOrders) {
       limitOrders.add(adaptOrder(mtgoxOrder[1], mtgoxOrder[0], currency, orderType, id));
@@ -97,8 +101,8 @@ public final class MtGoxAdapters {
   /**
    * Adapts a MtGoxTrade to a Trade Object
    * 
-   * @param mtGoxTrade
-   * @return
+   * @param mtGoxTrade A MtGox trade
+   * @return A generic trade
    */
   public static Trade adaptTrade(MtGoxTrades mtGoxTrade) {
 
@@ -116,20 +120,31 @@ public final class MtGoxAdapters {
   /**
    * Adapts a MtGoxTrade[] to a Trades Object
    * 
-   * @param mtGoxTrades
-   * @return
+   * @param mtGoxTrades MtGox trades
+   * @return A collection of trades
    */
   public static Trades adaptTrades(MtGoxTrades[] mtGoxTrades) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
-    for (int i = 0; i < mtGoxTrades.length; i++) {
 
-      tradesList.add(adaptTrade(mtGoxTrades[i]));
+    if (mtGoxTrades == null) {
+      return new Trades(tradesList);
+    }
+
+    for (MtGoxTrades mtGoxTrade : mtGoxTrades) {
+
+      tradesList.add(adaptTrade(mtGoxTrade));
     }
     return new Trades(tradesList);
   }
 
-  public static Ticker adaptTicker(MtGoxTicker mtGoxTicker, String currency, String tradableIdentifier) {
+  /**
+   * @param mtGoxTicker The MtGox ticker
+   * @param tradeableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency The currency (e.g. USD in BTC/USD)
+   * @return A generic Ticker
+   */
+  public static Ticker adaptTicker(MtGoxTicker mtGoxTicker, String tradeableIdentifier, String currency) {
 
     BigMoney last = MoneyUtils.parse(currency + " " + mtGoxTicker.getTicker().getLast());
     BigMoney bid = MoneyUtils.parse(currency + " " + mtGoxTicker.getTicker().getBuy());
@@ -138,7 +153,7 @@ public final class MtGoxAdapters {
     BigMoney low = MoneyUtils.parse(currency + " " + mtGoxTicker.getTicker().getLow());
     BigDecimal volume = mtGoxTicker.getTicker().getVol();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradeableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
 
   }
 

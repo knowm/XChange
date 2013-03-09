@@ -42,7 +42,7 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
-    // Get the latest trade data for BTC/CAD
+    // Get the latest trade data for BTC/USD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
 
     System.out.println(trades.toString());

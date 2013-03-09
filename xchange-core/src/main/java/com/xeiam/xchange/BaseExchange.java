@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.service.ExchangeServiceConfiguration;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
@@ -36,10 +37,45 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  */
 public abstract class BaseExchange implements Exchange {
 
+  protected ExchangeSpecification exchangeSpecification;
+
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
   protected StreamingMarketDataService streamingMarketDataService;
   protected PollingAccountService pollingAccountService;
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    ExchangeSpecification defaultSpecification = getDefaultExchangeSpecification();
+
+    // Check if default is for everything
+    if (exchangeSpecification == null) {
+      this.exchangeSpecification = defaultSpecification;
+    } else {
+      // Using a configured exchange
+      if (exchangeSpecification.getExchangeName() == null) {
+        exchangeSpecification.setExchangeName(defaultSpecification.getExchangeName());
+      }
+      if (exchangeSpecification.getExchangeDescription() == null) {
+        exchangeSpecification.setExchangeDescription(defaultSpecification.getExchangeDescription());
+      }
+      if (exchangeSpecification.getUri() == null) {
+        exchangeSpecification.setUri(defaultSpecification.getUri());
+      }
+      if (exchangeSpecification.getHost() == null) {
+        exchangeSpecification.setHost(defaultSpecification.getHost());
+      }
+      this.exchangeSpecification = exchangeSpecification;
+    }
+
+  }
+
+  @Override
+  public ExchangeSpecification getExchangeSpecification() {
+
+    return exchangeSpecification;
+  }
 
   @Override
   public PollingMarketDataService getPollingMarketDataService() {
@@ -61,6 +97,30 @@ public abstract class BaseExchange implements Exchange {
 
   @Override
   public PollingAccountService getPollingAccountService() {
+
+    return pollingAccountService;
+  }
+
+  @Override
+  public PollingMarketDataService getPollingMarketDataService(ExchangeServiceConfiguration configuration) {
+
+    return pollingMarketDataService;
+  }
+
+  @Override
+  public PollingTradeService getPollingTradeService(ExchangeServiceConfiguration configuration) {
+
+    return pollingTradeService;
+  }
+
+  @Override
+  public StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration) {
+
+    return streamingMarketDataService;
+  }
+
+  @Override
+  public PollingAccountService getPollingAccountService(ExchangeServiceConfiguration configuration) {
 
     return pollingAccountService;
   }

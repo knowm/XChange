@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -62,14 +62,15 @@ public final class BitstampAdapters {
   /**
    * Adapts a BitstampBalance to a AccountInfo
    * 
-   * @param mtGoxAccountInfo
-   * @return
+   * @param bitstampBalance The Bitstamp balance
+   * @param userName The user name
+   * @return The account info
    */
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet usdWallet = new Wallet(Currencies.USD, MoneyUtils.parseMoney(Currencies.USD, bitstampBalance.getUsdBalance()));
-    Wallet btcWallet = new Wallet(Currencies.BTC, MoneyUtils.parseMoney(Currencies.BTC, bitstampBalance.getBtcBalance()));
+    Wallet usdWallet = Wallet.createInstance(Currencies.USD, bitstampBalance.getUsdBalance());
+    Wallet btcWallet = Wallet.createInstance(Currencies.BTC, bitstampBalance.getBtcBalance());
 
     return new AccountInfo(userName, Arrays.asList(usdWallet, btcWallet));
   }
@@ -77,12 +78,12 @@ public final class BitstampAdapters {
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    * 
-   * @param bitstampOrderBook
-   * @param currency
-   * @param tradableIdentifier
-   * @return
+   * @param bitstampOrderBook The bitstamp order book
+   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency The currency (e.g. USD in BTC/USD)
+   * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, String currency, String tradableIdentifier) {
+  public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, String tradableIdentifier, String currency) {
 
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitstampOrderBook.getBids());
@@ -114,29 +115,30 @@ public final class BitstampAdapters {
   /**
    * Adapts a Transaction[] to a Trades Object
    * 
-   * @param transactions
-   * @param currency
-   * @param tradableIdentifier
-   * @return
+   * @param transactions The Bitstamp transactions
+   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency The currency (e.g. USD in BTC/USD)
+   * @return The XChange Trades
    */
-  public static Trades adaptTrades(BitstampTransaction[] transactions, String currency, String tradableIdentifier) {
+  public static Trades adaptTrades(BitstampTransaction[] transactions, String tradableIdentifier, String currency) {
 
     List<Trade> trades = new ArrayList<Trade>();
     for (BitstampTransaction tx : transactions) {
       trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L)));
     }
+
     return new Trades(trades);
   }
 
   /**
    * Adapts a BitstampTicker to a Ticker Object
    * 
-   * @param bitstampTicker
-   * @param currency
-   * @param tradableIdentifier
-   * @return
+   * @param bitstampTicker The exchange specific ticker
+   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency The currency (e.g. USD in BTC/USD)
+   * @return The ticker
    */
-  public static Ticker adaptTicker(BitstampTicker bitstampTicker, String currency, String tradableIdentifier) {
+  public static Ticker adaptTicker(BitstampTicker bitstampTicker, String tradableIdentifier, String currency) {
 
     BigMoney last = MoneyUtils.parse(currency + " " + bitstampTicker.getLast());
     BigMoney bid = MoneyUtils.parse(currency + " " + bitstampTicker.getBid());
