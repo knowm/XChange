@@ -52,7 +52,7 @@ public class TradesJSONTest {
     BitfloorTransaction[] transactions = mapper.readValue(is, BitfloorTransaction[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Date value", transactions[1].getTimestamp(), is(equalTo(new Date(Math.round(1361059502.894661 * 1000)))));
+    assertThat("Unexpected Return Date value", transactions[1].getTimestamp(), is(equalTo(new Date(1361059502000L))));
     assertThat("Unexpected Return tid value", transactions[1].getId(), is(equalTo("1c32f6171b4641999b42056f496ca5f6")));
     assertThat("Unexpected Return price value", transactions[1].getPrice(), is(equalTo(new BigDecimal("27.98000000"))));
     assertThat("Unexpected Return amount value", transactions[1].getAmount(), is(equalTo(new BigDecimal("0.83995000"))));
