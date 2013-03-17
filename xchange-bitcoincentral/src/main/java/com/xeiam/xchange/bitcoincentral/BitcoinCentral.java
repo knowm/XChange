@@ -43,7 +43,7 @@ import com.xeiam.xchange.rest.BasicAuthCredentials;
 /**
  * @author Matija Mazi
  */
-@Path("/")
+@Path("api/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BitcoinCentral {
 
@@ -83,10 +83,10 @@ public interface BitcoinCentral {
   BitcoinCentralTicker getTicker(@QueryParam("currency") String currency);
 
   @GET
-  @Path("order_book")
-  BitcoinCentralDepth getOrderBook(@QueryParam("currency") String currency);
+  @Path("depth/{currency}")
+  BitcoinCentralDepth getOrderBook(@PathParam("currency") String currency);
 
   @GET
-  @Path("trades")
-  BitcoinCentralTrade[] getTrades(@QueryParam("currency") String currency, @QueryParam("per_page") int perPage);
+  @Path("trades/{currency}")
+  BitcoinCentralTrade[] getTrades(@PathParam("currency") String currency, @QueryParam("per_page") int perPage);
 }

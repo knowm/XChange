@@ -135,9 +135,25 @@ public final class BitcoinCentralAdapters {
   public static Trades adaptTrades(BitcoinCentralTrade[] bitcoinCentralTrades, String currency, String tradableIdentifier) {
 
     List<Trade> trades = new ArrayList<Trade>();
+
     for (BitcoinCentralTrade bitcoinCentralTrade : bitcoinCentralTrades) {
-      trades.add(new Trade(null, bitcoinCentralTrade.getTradedBtc(), tradableIdentifier, bitcoinCentralTrade.getCurrency(), BigMoney.of(CurrencyUnit.of(bitcoinCentralTrade.getCurrency()),
-          bitcoinCentralTrade.getPpc()), null));
+      trades.add(
+
+      new Trade(
+
+      null,
+
+      bitcoinCentralTrade.getTradedBtc(),
+
+      tradableIdentifier,
+
+      bitcoinCentralTrade.getCurrency(),
+
+      BigMoney.of(CurrencyUnit.of(bitcoinCentralTrade.getCurrency()),
+
+      bitcoinCentralTrade.getPrice())
+
+      , null));
     }
     return new Trades(trades);
   }

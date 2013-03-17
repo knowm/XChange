@@ -52,11 +52,8 @@ public class TradesJSONTest {
     // Verify that the example data was unmarshalled correctly
     // assertThat(bitcoinCentralTrades[0].getCreatedAt(), is(equalTo("2011-07-05T00:12:07+02:00")));
     assertThat(bitcoinCentralTrades[0].getCurrency(), is(equalTo("EUR")));
-    assertThat(bitcoinCentralTrades[0].getPpc(), is(equalTo(new BigDecimal("11.1"))));
-    assertThat(bitcoinCentralTrades[0].getTradedBtc(), is(equalTo(new BigDecimal("1.0"))));
-
-    // Trades trades = BitcoinCentralAdapters.adaptTrades(bitcoinCentralTrades, "EUR", "BTC");
-    // assertThat(trades.getTrades().get(0).getTimestamp().getTime(), is(equalTo(1309817527000L)));
+    assertThat(bitcoinCentralTrades[0].getPrice(), is(equalTo(new BigDecimal("36.68"))));
+    assertThat(bitcoinCentralTrades[0].getTradedBtc(), is(equalTo(new BigDecimal("2.726"))));
 
   }
 }
