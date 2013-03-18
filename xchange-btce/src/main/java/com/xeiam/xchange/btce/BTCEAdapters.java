@@ -157,7 +157,7 @@ public final class BTCEAdapters {
     BigMoney ask = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getBuy());
     BigMoney high = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getHigh());
     BigMoney low = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getLow());
-    BigDecimal volume = bTCETicker.getTicker().getVol();
+    BigDecimal volume = bTCETicker.getTicker().getVolCur();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }

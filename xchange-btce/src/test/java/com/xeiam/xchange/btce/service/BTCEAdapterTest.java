@@ -107,7 +107,7 @@ public class BTCEAdapterTest {
     assertEquals("last should be USD 13.07", ticker.getLast().toString(), "USD 13.07");
     assertEquals("low should be USD 13", ticker.getLow().toString(), "USD 13");
     assertEquals("high should be USD 13.23", ticker.getHigh().toString(), "USD 13.23");
-    assertEquals("volume should be 40418.44988", ticker.getVolume(), new BigDecimal("40418.44988"));
+    assertEquals("volume should be 3078.62284", ticker.getVolume(), new BigDecimal("3078.62284"));
     assertEquals("Tradable Identifier should be BTC", ticker.getTradableIdentifier(), "BTC");
 
   }
