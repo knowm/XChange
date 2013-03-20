@@ -382,9 +382,7 @@ class IOConnection implements IOCallback {
       return;
     }
     setState(STATE_CONNECTING);
-    if (protocols.contains(WebSocketTransport.TRANSPORT_NAME)) {
-      transport = WebSocketTransport.create(this.url.getProtocol() + "://" + this.url.getAuthority(), this);
-    } else if (protocols.contains(XhrTransport.TRANSPORT_NAME)) {
+    if (protocols.contains(XhrTransport.TRANSPORT_NAME)) {
       transport = XhrTransport.create(this.url.getProtocol() + "://" + this.url.getAuthority(), this);
     } else {
       error(new SocketIOException("Server supports no available transports. You should reconfigure the server to support a available transport"));
