@@ -60,7 +60,6 @@
 		<connection>scm:git:git@github.com:timmolter/XChange.git</connection>
 		<developerConnection>scm:git:git@github.com:timmolter/XChange.git</developerConnection>
 		<url>git@github.com:timmolter/XChange.git</url>
-		<tag>HEAD</tag>
 	</scm>
 
 	<ciManagement>
