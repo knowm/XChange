@@ -18,10 +18,13 @@ public class MtGoxExchangeServiceConfiguration implements ExchangeServiceConfigu
 
   private final String currencyCode;
 
-  public MtGoxExchangeServiceConfiguration(String tradeableIdentifier, String currencyCode) {
+  private final String channel;
+
+  public MtGoxExchangeServiceConfiguration(String tradeableIdentifier, String currencyCode, String channel) {
 
     this.tradeableIdentifier = tradeableIdentifier;
     this.currencyCode = currencyCode;
+    this.channel = channel;
   }
 
   public String getTradeableIdentifier() {
@@ -33,4 +36,10 @@ public class MtGoxExchangeServiceConfiguration implements ExchangeServiceConfigu
 
     return currencyCode;
   }
+
+  public String getChannel() {
+
+    return channel;
+  }
+
 }

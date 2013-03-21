@@ -56,7 +56,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
   private static final Logger log = LoggerFactory.getLogger(MtGoxRunnableExchangeEventListener.class);
 
-  private ObjectMapper streamObjectMapper;
+  private final ObjectMapper streamObjectMapper;
 
   // private final BlockingQueue<Ticker> tickerQueue;
   private final BlockingQueue<ExchangeEvent> eventQueue;
@@ -79,6 +79,8 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
   @Override
   public void handleEvent(ExchangeEvent exchangeEvent) {
+
+    log.debug("exchangeEvent: " + exchangeEvent.getEventType());
 
     switch (exchangeEvent.getEventType()) {
     case CONNECT:
@@ -160,9 +162,9 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
   }
 
   /*
-   * private void addToTickerQueue(Ticker ticker) { try { tickerQueue.put(ticker); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void
-   * addToTradeQueue(Trade tradeStream) { try { tradeQueue.put(tradeStream); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void
-   * addToDepthQueue(Trade depthStream) { try { tradeQueue.put(depthStream); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } }
+   * private void addToTickerQueue(Ticker ticker) { try { tickerQueue.put(ticker); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void addToTradeQueue(Trade tradeStream) { try {
+   * tradeQueue.put(tradeStream); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void addToDepthQueue(Trade depthStream) { try { tradeQueue.put(depthStream); } catch (InterruptedException e) {
+   * throw new ExchangeException("InterruptedException!", e); } }
    */
   private void addToEventQueue(ExchangeEvent event) {
 

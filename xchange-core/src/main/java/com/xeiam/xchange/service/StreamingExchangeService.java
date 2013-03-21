@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.service;
 
-import java.util.concurrent.BlockingQueue;
-
 /**
  * <p>
  * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
@@ -74,10 +72,11 @@ public interface StreamingExchangeService {
    * <ul>
    * <li>Connect/disconnect events</li>
    * <li>Ticker events (with Ticker embedded)</li>
+   * <li>LimitOrder events (with LimitOrder embedded)</li>
    * </ul>
    * 
    * @return A blocking queue
    */
-  BlockingQueue<ExchangeEvent> getEventQueue();
+  ExchangeEvent getNextEvent() throws InterruptedException;
 
 }

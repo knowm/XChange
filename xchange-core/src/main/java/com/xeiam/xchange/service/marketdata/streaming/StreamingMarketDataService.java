@@ -21,8 +21,6 @@
  */
 package com.xeiam.xchange.service.marketdata.streaming;
 
-import java.util.concurrent.BlockingQueue;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.service.ExchangeEvent;
 import com.xeiam.xchange.service.StreamingExchangeService;
@@ -46,6 +44,6 @@ public interface StreamingMarketDataService extends StreamingExchangeService {
    * @return A blocking queue consisting of received event objects
    */
   @Override
-  BlockingQueue<ExchangeEvent> getEventQueue();
+  ExchangeEvent getNextEvent() throws InterruptedException;
 
 }

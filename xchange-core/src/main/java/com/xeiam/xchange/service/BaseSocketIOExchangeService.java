@@ -62,6 +62,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
 
   protected SocketIO socketIO;
 
+  protected ReconnectService reconnectService;
   /**
    * The exchange event producer
    */
@@ -75,6 +76,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   public BaseSocketIOExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
 
     super(exchangeSpecification);
+    reconnectService = new ReconnectService(this);
   }
 
   /**
@@ -116,6 +118,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   @Override
   public void send(String message) {
 
+    log.debug("Streaming message='{}'", message);
     this.socketIO.send(message);
   }
 
@@ -146,9 +149,16 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
     this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 
-  public BlockingQueue<ExchangeEvent> getEventQueue() {
+  @Override
+  public ExchangeEvent getNextEvent() throws InterruptedException {
 
-    return consumerEventQueue;
+    ExchangeEvent event = consumerEventQueue.take();
+
+    if (reconnectService != null) {// logic here to intercept errors and reconnect..
+      reconnectService.intercept(event);
+    }
+
+    return event;
 
   }
 }

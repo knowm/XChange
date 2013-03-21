@@ -55,8 +55,11 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
     try {
       // Run forever (or until an interruption occurs)
       while (true) {
+
+        ExchangeEvent exchangeEvent = exchangeEvents.take();
+
         // Block until an event occurs
-        handleEvent(exchangeEvents.take());
+        handleEvent(exchangeEvent);
       }
     } catch (InterruptedException e) {
       // Expected shutdown mode
