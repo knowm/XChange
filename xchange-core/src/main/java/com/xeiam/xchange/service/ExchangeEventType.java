@@ -79,9 +79,8 @@ public enum ExchangeEventType {
   /**
    * A message with a Market Depth update payload
    */
-  DEPTH,
+  DEPTH
 
-  /* End of enum */
   ;
 
 }

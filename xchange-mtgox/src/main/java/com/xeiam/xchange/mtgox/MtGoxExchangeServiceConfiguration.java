@@ -9,8 +9,6 @@ import com.xeiam.xchange.service.ExchangeServiceConfiguration;
  * <ul>
  * <li>Access to streaming data configuration specific to MtGox exchange API</li>
  * </ul>
- * 
- * @since 1.4.1  
  */
 public class MtGoxExchangeServiceConfiguration implements ExchangeServiceConfiguration {
 
@@ -18,9 +16,14 @@ public class MtGoxExchangeServiceConfiguration implements ExchangeServiceConfigu
 
   private final String currencyCode;
 
-  private final String channel;
+  public enum Channel {
 
-  public MtGoxExchangeServiceConfiguration(String tradeableIdentifier, String currencyCode, String channel) {
+    ticker, trades, depth;
+  }
+
+  private final Channel channel;
+
+  public MtGoxExchangeServiceConfiguration(String tradeableIdentifier, String currencyCode, Channel channel) {
 
     this.tradeableIdentifier = tradeableIdentifier;
     this.currencyCode = currencyCode;
@@ -37,7 +40,7 @@ public class MtGoxExchangeServiceConfiguration implements ExchangeServiceConfigu
     return currencyCode;
   }
 
-  public String getChannel() {
+  public Channel getChannel() {
 
     return channel;
   }

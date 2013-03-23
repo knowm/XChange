@@ -72,8 +72,8 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
     Assert.notNull(configuration, "configuration cannot be null");
     Assert.notNull(configuration.getTradeableIdentifier(), "tradableIdentifier cannot be null");
     Assert.notNull(configuration.getCurrencyCode(), "currencyCode cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(configuration.getTradeableIdentifier(), configuration.getCurrencyCode())), "currencyPair is not valid:" + configuration.getTradeableIdentifier() + " "
-        + configuration.getCurrencyCode());
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(configuration.getTradeableIdentifier(), configuration.getCurrencyCode())), "currencyPair is not valid:"
+        + configuration.getTradeableIdentifier() + " " + configuration.getCurrencyCode());
 
     this.configuration = configuration;
 
@@ -85,7 +85,7 @@ public class MtGoxStreamingMarketDataService extends BaseSocketIOExchangeService
   @Override
   public void connect() {
 
-    URI uri = URI.create(apiBase + "?Channel=" + configuration.getChannel() + "&Currency=" + configuration.getCurrencyCode());
+    URI uri = URI.create(apiBase + "?Channel=" + configuration.getChannel().toString() + "&Currency=" + configuration.getCurrencyCode());
 
     log.debug("Streaming URI='{}'", uri);
 

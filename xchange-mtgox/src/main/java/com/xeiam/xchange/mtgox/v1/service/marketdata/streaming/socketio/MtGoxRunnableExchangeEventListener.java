@@ -58,16 +58,12 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
   private final ObjectMapper streamObjectMapper;
 
-  // private final BlockingQueue<Ticker> tickerQueue;
   private final BlockingQueue<ExchangeEvent> eventQueue;
 
   /**
    * Constructor
    * 
-   * @param tickerQueue The consumer Ticker queue
-   * @param tradeQueue
-   * @param depthQueue
-   * @param eventQueue The consumer exchange event queue
+   * @param eventQueue
    */
   public MtGoxRunnableExchangeEventListener(BlockingQueue<ExchangeEvent> eventQueue) {
 
@@ -111,9 +107,6 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
         // Adapt to XChange DTOs
         Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
 
-        // TODO Remove this once ticker queue is removed
-        // addToTickerQueue(ticker);
-
         // Create a ticker event
         ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
         addToEventQueue(tickerEvent);
@@ -138,10 +131,10 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
             MtGoxDepthStream mtGoxDepthStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("depth"), streamObjectMapper), MtGoxDepthStream.class, streamObjectMapper);
 
             // Adapt to XChange DTOs
-            OrderBookUpdate depthstream = MtGoxAdapters.adaptDepthStream(mtGoxDepthStream);
+            OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthStream(mtGoxDepthStream);
 
             // Create a depth event
-            ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), depthstream);
+            ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), orderBookUpdate);
             addToEventQueue(depthEvent);
             break;
           } else {
@@ -161,11 +154,6 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
 
   }
 
-  /*
-   * private void addToTickerQueue(Ticker ticker) { try { tickerQueue.put(ticker); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void addToTradeQueue(Trade tradeStream) { try {
-   * tradeQueue.put(tradeStream); } catch (InterruptedException e) { throw new ExchangeException("InterruptedException!", e); } } private void addToDepthQueue(Trade depthStream) { try { tradeQueue.put(depthStream); } catch (InterruptedException e) {
-   * throw new ExchangeException("InterruptedException!", e); } }
-   */
   private void addToEventQueue(ExchangeEvent event) {
 
     try {

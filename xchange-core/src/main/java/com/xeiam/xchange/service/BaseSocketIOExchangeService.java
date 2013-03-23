@@ -63,6 +63,7 @@ public abstract class BaseSocketIOExchangeService extends BaseExchangeService im
   protected SocketIO socketIO;
 
   protected ReconnectService reconnectService;
+
   /**
    * The exchange event producer
    */
