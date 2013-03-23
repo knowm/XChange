@@ -46,8 +46,6 @@ import com.xeiam.xchange.utils.DateUtils;
  */
 public final class Bitcoin24Adapters {
 
-  private static final Logger log = LoggerFactory.getLogger(Bitcoin24Adapters.class);
-
   /**
    * private Constructor
    */
@@ -143,8 +141,8 @@ public final class Bitcoin24Adapters {
   public static Ticker adaptTicker(Bitcoin24Ticker bitcoin24Ticker, String tradableIdentifier, String currency) {
 
     BigMoney last = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getLast());
-    BigMoney bid = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getSell());
-    BigMoney ask = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getBuy());
+    BigMoney bid = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getBuy());
+    BigMoney ask = MoneyUtils.parse(currency + " " + bitcoin24Ticker.getSell());
     BigDecimal volume = bitcoin24Ticker.getVol();
 
     // Due to low USD volume, high/low return null and causing NullPointerException in MoneyUtils
