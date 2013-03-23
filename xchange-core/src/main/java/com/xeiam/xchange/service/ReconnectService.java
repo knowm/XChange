@@ -50,7 +50,7 @@ public class ReconnectService {
 
   public void intercept(ExchangeEvent exchangeEvent) {
 
-    if (exchangeEvent.getEventType() == ExchangeEventType.ERROR || exchangeEvent.getEventType() == ExchangeEventType.DISCONNECT) {
+    if (exchangeEvent.getEventType() == ExchangeEventType.ERROR) {
       reconnect();
     } else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
       numConnectionAttempts = 0;
