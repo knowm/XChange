@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,24 +21,36 @@
  */
 package com.xeiam.xchange.service;
 
-import java.util.concurrent.BlockingQueue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * <p>
- * Listener to provide the following to API:
+ * Abstract base class to provide the following to XChange clients:
  * </p>
  * <ul>
- * <li>Callback methods for exchange events</li>
+ * <li>Simple extension point for a {@link Runnable} designed for use with an ExecutorService</li>
  * </ul>
- * <p>
- * A {@link ExchangeEventListener} is normally executed in a client thread using an executor service and to facilitate this the {@link RunnableExchangeEventListener} is provided as an extension point
- * </p>
  */
-public interface ExchangeEventListener {
+public abstract class ExchangeEventListener {
+
+  private final Logger log = LoggerFactory.getLogger(ExchangeEventListener.class);
 
   /**
-   * @param exchangeEvents The blocking queue that links the XChange thread pool to the client thread pool
+   * Constructor
    */
-  void setExchangeEventQueue(BlockingQueue<ExchangeEvent> exchangeEvents);
+  public ExchangeEventListener() {
 
+  }
+
+  /**
+   * <p>
+   * Client code is expected to implement this in a manner specific to their own application
+   * </p>
+   * 
+   * @param event The exchange event containing the information
+   */
+  public abstract void handleEvent(ExchangeEvent event) throws ExchangeException;
 }

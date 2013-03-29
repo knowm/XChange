@@ -24,8 +24,6 @@ package com.xeiam.xchange.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
@@ -46,13 +44,6 @@ import com.xeiam.xchange.utils.Assert;
 public abstract class BaseWebSocketExchangeService extends BaseExchangeService implements StreamingExchangeService {
 
   private final Logger log = LoggerFactory.getLogger(BaseWebSocketExchangeService.class);
-
-  private final ExecutorService eventExecutorService = Executors.newFixedThreadPool(2);
-
-  /**
-   * The event queue for the producer
-   */
-  private final BlockingQueue<ExchangeEvent> producerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
 
   /**
    * The event queue for the consumer
@@ -77,49 +68,30 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     reconnectService = new ReconnectService(this);
   }
 
-  protected synchronized void internalConnect(URI uri, RunnableExchangeEventListener runnableExchangeEventListener) {
+  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener) {
 
-    log.info("Connecting...");
+    log.info("internalConnect");
 
     // Validate inputs
-    Assert.notNull(runnableExchangeEventListener, "runnableExchangeEventListener cannot be null");
-
-    // Validate state
-    if (eventExecutorService.isShutdown()) {
-      throw new IllegalStateException("Service has been stopped. Create a new one rather than reuse a reference.");
-    }
+    Assert.notNull(exchangeEventListener, "runnableExchangeEventListener cannot be null");
 
     try {
       log.debug("Attempting to open a websocket against {}", uri);
-      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), producerEventQueue);
+      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), exchangeEventListener);
       exchangeEventProducer.connect();
     } catch (URISyntaxException e) {
       throw new ExchangeException("Failed to open websocket!", e);
     }
-
-    // Configure the exchange event listener event queue
-    runnableExchangeEventListener.setExchangeEventQueue(producerEventQueue);
-
-    // Submit the event threads to their services
-    eventExecutorService.submit(runnableExchangeEventListener);
-
-    log.info("Socket connected OK. Check queues for events.");
 
   }
 
   @Override
   public synchronized void disconnect() {
 
-    if (!eventExecutorService.isShutdown()) {
-      // We close on the socket to get an immediate result
-      // otherwise the producer would block until the exchange
-      // sent a message which could be forever
-      if (exchangeEventProducer != null) {
-        exchangeEventProducer.close();
-      }
+    if (exchangeEventProducer != null) {
+      exchangeEventProducer.close();
     }
-    eventExecutorService.shutdownNow();
-    log.debug("Stopped");
+    log.debug("disconnect() called");
   }
 
   @Override

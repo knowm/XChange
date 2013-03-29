@@ -28,9 +28,6 @@ package com.xeiam.xchange.service;
  * <ul>
  * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
  * </ul>
- * <p>
- * Note that the asynchronous nature of this service strongly encourages a thread based implementation.
- * </p>
  */
 public interface StreamingExchangeService {
 

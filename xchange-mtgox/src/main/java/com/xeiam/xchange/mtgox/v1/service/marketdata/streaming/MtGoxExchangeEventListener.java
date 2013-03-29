@@ -40,21 +40,15 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTradeStream;
 import com.xeiam.xchange.rest.JSONUtils;
 import com.xeiam.xchange.service.DefaultExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.ExchangeEventListener;
 import com.xeiam.xchange.service.ExchangeEventType;
-import com.xeiam.xchange.service.RunnableExchangeEventListener;
 
 /**
- * <p>
- * Exchange event listener to provide the following to MtGox:
- * </p>
- * <ul>
- * <li>Provision of dedicated Ticker queue</li>
- * <li>Provision of dedicated non-Ticker event queue</li>
- * </ul>
+ * @author timmolter
  */
-public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventListener {
+public class MtGoxExchangeEventListener extends ExchangeEventListener {
 
-  private static final Logger log = LoggerFactory.getLogger(MtGoxRunnableExchangeEventListener.class);
+  private static final Logger log = LoggerFactory.getLogger(MtGoxExchangeEventListener.class);
 
   private final ObjectMapper streamObjectMapper;
 
@@ -65,7 +59,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
    * 
    * @param consumerEventQueue
    */
-  public MtGoxRunnableExchangeEventListener(BlockingQueue<ExchangeEvent> consumerEventQueue) {
+  public MtGoxExchangeEventListener(BlockingQueue<ExchangeEvent> consumerEventQueue) {
 
     this.consumerEventQueue = consumerEventQueue;
     streamObjectMapper = new ObjectMapper();
@@ -143,7 +137,7 @@ public class MtGoxRunnableExchangeEventListener extends RunnableExchangeEventLis
       }
       break;
     case ERROR:
-      log.error("Error message: " + exchangeEvent.getData());
+      log.error("*************Error message: " + exchangeEvent.getData());
       addToEventQueue(exchangeEvent);
       break;
     default:

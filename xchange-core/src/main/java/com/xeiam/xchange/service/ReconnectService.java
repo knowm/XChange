@@ -33,6 +33,7 @@ public class ReconnectService {
 
   // TODO make this configurable from the outside
   private final int maxConnectionAttempts = 10;
+  private final int recconectWaitTimeInMs = 10000;
 
   private final StreamingExchangeService streamingExchangeService;
 
@@ -51,6 +52,11 @@ public class ReconnectService {
   public void intercept(ExchangeEvent exchangeEvent) {
 
     if (exchangeEvent.getEventType() == ExchangeEventType.ERROR || exchangeEvent.getEventType() == ExchangeEventType.DISCONNECT) {
+      try {
+        Thread.sleep(recconectWaitTimeInMs);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       reconnect();
     } else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
       numConnectionAttempts = 0;

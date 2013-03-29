@@ -2,7 +2,6 @@ package com.xeiam.xchange.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.concurrent.BlockingQueue;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_10;
@@ -17,7 +16,7 @@ public class WebSocketEventProducer extends WebSocketClient {
 
   private final Logger logger = LoggerFactory.getLogger(WebSocketEventProducer.class);
 
-  private final BlockingQueue<ExchangeEvent> producerEventQueue;
+  private final ExchangeEventListener exchangeEventListener;
 
   /**
    * Constructor
@@ -26,10 +25,10 @@ public class WebSocketEventProducer extends WebSocketClient {
    * @param exchangeEventProducer
    * @throws URISyntaxException
    */
-  public WebSocketEventProducer(String url, BlockingQueue<ExchangeEvent> producerEventQueue) throws URISyntaxException {
+  public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener) throws URISyntaxException {
 
     super(new URI(url), new Draft_10());
-    this.producerEventQueue = producerEventQueue;
+    this.exchangeEventListener = exchangeEventListener;
 
   }
 
@@ -39,9 +38,9 @@ public class WebSocketEventProducer extends WebSocketClient {
     // System.out.println("opened connection");
     // if you pan to refuse connection based on ip or httpfields overload: onWebsocketHandshakeReceivedAsClient
 
-    logger.debug("connected");
+    logger.debug("onOpen");
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.CONNECT, "connected");
-    addToQueue(exchangeEvent);
+    exchangeEventListener.handleEvent(exchangeEvent);
   }
 
   @Override
@@ -50,9 +49,9 @@ public class WebSocketEventProducer extends WebSocketClient {
     // System.out.println("received: " + message);
     // send( "you said: " + message );
 
-    // logger.debug(message);
+    // logger.debug(onMessage);
     ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, message);
-    addToQueue(exchangeEvent);
+    exchangeEventListener.handleEvent(exchangeEvent);
   }
 
   @Override
@@ -62,9 +61,9 @@ public class WebSocketEventProducer extends WebSocketClient {
     // System.out.println("Connection closed by " + (remote ? "remote peer" : "us"));
     // System.out.println("reason= " + reason);
 
-    logger.debug("onDisconnect");
+    logger.debug("onClose");
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.DISCONNECT, "disconnected");
-    addToQueue(exchangeEvent);
+    exchangeEventListener.handleEvent(exchangeEvent);
   }
 
   @Override
@@ -75,16 +74,7 @@ public class WebSocketEventProducer extends WebSocketClient {
 
     logger.error("onError: {}", ex.getMessage(), ex);
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.ERROR, ex.getMessage());
-    addToQueue(exchangeEvent);
-  }
-
-  private void addToQueue(ExchangeEvent exchangeEvent) {
-
-    try {
-      producerEventQueue.put(exchangeEvent);
-    } catch (InterruptedException e) {
-      logger.warn("InterruptedException occurred while adding ExchangeEvent to Queue!", e);
-    }
+    exchangeEventListener.handleEvent(exchangeEvent);
   }
 
 }

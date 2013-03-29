@@ -40,7 +40,6 @@
 
 
 	<!-- Define logging for organization applications only -->
-	<logger name="com.xeiam.xchange.streaming.socketio" level="WARN" />
-	<logger name="com.xeiam.xchange" level="TRACE" />
+	<logger name="com.xeiam.xchange" level="WARN" />
 
 </configuration>

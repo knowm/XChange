@@ -30,9 +30,9 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.mtgox.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxRunnableExchangeEventListener;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxExchangeEventListener;
 import com.xeiam.xchange.service.BaseWebSocketExchangeService;
-import com.xeiam.xchange.service.RunnableExchangeEventListener;
+import com.xeiam.xchange.service.ExchangeEventListener;
 import com.xeiam.xchange.service.StreamingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
@@ -53,7 +53,7 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
    */
   private final String apiBase = String.format("ws://websocket.%s:%s/mtgox", exchangeSpecification.getHost(), exchangeSpecification.getPort());
 
-  private final RunnableExchangeEventListener runnableExchangeEventListener;
+  private final ExchangeEventListener exchangeEventListener;
 
   /**
    * Ensures that exchange-specific configuration is available
@@ -78,7 +78,7 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
     this.configuration = configuration;
 
     // Create the listener for the specified eventType
-    this.runnableExchangeEventListener = new MtGoxRunnableExchangeEventListener(consumerEventQueue);
+    this.exchangeEventListener = new MtGoxExchangeEventListener(consumerEventQueue);
 
   }
 
@@ -90,7 +90,7 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
     logger.debug("Streaming URI='{}'", uri);
 
     // Use the default internal connect
-    internalConnect(uri, runnableExchangeEventListener);
+    internalConnect(uri, exchangeEventListener);
   }
 
 }
