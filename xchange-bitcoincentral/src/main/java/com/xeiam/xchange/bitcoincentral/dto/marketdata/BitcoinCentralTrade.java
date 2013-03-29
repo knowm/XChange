@@ -79,10 +79,10 @@ public final class BitcoinCentralTrade {
 
     return createdAt;
   }
-  
+
   public long getCreatedAtInt() {
 
-	    return createdAtInt;
+    return createdAtInt;
   }
 
   public String getCurrency() {

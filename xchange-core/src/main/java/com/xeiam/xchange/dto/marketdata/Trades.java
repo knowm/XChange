@@ -49,7 +49,7 @@ public final class Trades {
    */
   public List<Trade> getTrades() {
 
-	Collections.sort(trades);
+    Collections.sort(trades);
     return trades;
   }
 

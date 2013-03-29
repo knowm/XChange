@@ -138,9 +138,9 @@ public final class BitcoinCentralAdapters {
     List<Trade> trades = new ArrayList<Trade>();
 
     for (BitcoinCentralTrade bitcoinCentralTrade : bitcoinCentralTrades) {
-    
+
       Date date = DateUtils.fromMillisUtc(bitcoinCentralTrade.getCreatedAtInt() * 1000L);
-    	
+
       trades.add(
 
       new Trade(

@@ -92,8 +92,8 @@ public final class Bitcoin24Ticker {
   }
 
   public BigDecimal getVol() {
-	 
-	// Volume not available, use number of trades
+
+    // Volume not available, use number of trades
     return trades_today;
   }
 

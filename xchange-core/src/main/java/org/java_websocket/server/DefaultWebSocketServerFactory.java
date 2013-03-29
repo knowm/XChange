@@ -11,16 +11,22 @@ import org.java_websocket.drafts.Draft;
 import org.java_websocket.server.WebSocketServer.WebSocketServerFactory;
 
 public class DefaultWebSocketServerFactory implements WebSocketServerFactory {
-	@Override
-	public WebSocketImpl createWebSocket( WebSocketAdapter a, Draft d, Socket s ) {
-		return new WebSocketImpl( a, d );
-	}
-	@Override
-	public WebSocketImpl createWebSocket( WebSocketAdapter a, List<Draft> d, Socket s ) {
-		return new WebSocketImpl( a, d );
-	}
-	@Override
-	public SocketChannel wrapChannel( SocketChannel channel, SelectionKey key ) {
-		return (SocketChannel) channel;
-	}
+
+  @Override
+  public WebSocketImpl createWebSocket(WebSocketAdapter a, Draft d, Socket s) {
+
+    return new WebSocketImpl(a, d);
+  }
+
+  @Override
+  public WebSocketImpl createWebSocket(WebSocketAdapter a, List<Draft> d, Socket s) {
+
+    return new WebSocketImpl(a, d);
+  }
+
+  @Override
+  public SocketChannel wrapChannel(SocketChannel channel, SelectionKey key) {
+
+    return (SocketChannel) channel;
+  }
 }

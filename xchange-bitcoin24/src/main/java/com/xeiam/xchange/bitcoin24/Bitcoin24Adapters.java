@@ -27,8 +27,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.bitcoin24.dto.marketdata.Bitcoin24Ticker;
 import com.xeiam.xchange.bitcoin24.dto.marketdata.Bitcoin24Trade;
