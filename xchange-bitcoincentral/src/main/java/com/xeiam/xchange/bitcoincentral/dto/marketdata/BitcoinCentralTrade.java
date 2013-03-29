@@ -34,6 +34,7 @@ public final class BitcoinCentralTrade {
   private final BigDecimal tradedBtc;
   private final BigDecimal tradedCurrency;
   private final String createdAt;
+  private final long createdAtInt;
   private final String currency;
   private final BigDecimal price;
 
@@ -48,12 +49,13 @@ public final class BitcoinCentralTrade {
    * @param price
    */
   public BitcoinCentralTrade(@JsonProperty("uuid") String uuid, @JsonProperty("traded_btc") BigDecimal tradedBtc, @JsonProperty("traded_currency") BigDecimal tradedCurrency,
-      @JsonProperty("created_at") String createdAt, @JsonProperty("currency") String currency, @JsonProperty("price") BigDecimal price) {
+      @JsonProperty("created_at") String createdAt, @JsonProperty("created_at_int") long createdAtInt, @JsonProperty("currency") String currency, @JsonProperty("price") BigDecimal price) {
 
     this.uuid = uuid;
     this.tradedBtc = tradedBtc;
     this.tradedCurrency = tradedCurrency;
     this.createdAt = createdAt;
+    this.createdAtInt = createdAtInt;
     this.currency = currency;
     this.price = price;
   }
@@ -76,6 +78,11 @@ public final class BitcoinCentralTrade {
   public String getCreatedAt() {
 
     return createdAt;
+  }
+  
+  public long getCreatedAtInt() {
+
+	    return createdAtInt;
   }
 
   public String getCurrency() {
