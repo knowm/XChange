@@ -70,6 +70,8 @@ public class ReconnectService {
 
     if (numConnectionAttempts > maxConnectionAttempts) {
       log.debug("Terminating reconnection attempts.");
+      streamingExchangeService.disconnect();
+      Thread.currentThread().interrupt();
       return;
     }
     streamingExchangeService.disconnect();
