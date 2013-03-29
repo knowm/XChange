@@ -40,6 +40,6 @@
 
 
 	<!-- Define logging for organization applications only -->
-	<logger name="com.xeiam.xchange" level="WARN" />
+	<logger name="com.xeiam.xchange" level="DEBUG" />
 
 </configuration>

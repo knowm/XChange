@@ -29,13 +29,19 @@ import java.util.concurrent.Future;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.service.ExchangeEvent;
+import com.xeiam.xchange.service.ExchangeEventType;
 import com.xeiam.xchange.service.StreamingExchangeService;
 
 /**
- * Test requesting streaming Ticker at MtGox
+ * Demonstrate streaming market data from the MtGox Websocket API
+ * <p>
+ * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
  */
 public class MtGoxWebSocketMarketDataDemo {
 
@@ -60,9 +66,10 @@ public class MtGoxWebSocketMarketDataDemo {
     btcusdStreamingMarketDataService.connect();
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<?> btcusd = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
 
-    btcusd.get();
+    // the thread waits here until the Runnable is done.
+    mtGoxMarketDataFuture.get();
 
     executorService.shutdown();
 
@@ -97,20 +104,20 @@ public class MtGoxWebSocketMarketDataDemo {
 
           ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
 
-          // if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
-          // Ticker ticker = (Ticker) exchangeEvent.getPayload();
-          // System.out.println(ticker.toString());
-          // }
+          if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
+            Ticker ticker = (Ticker) exchangeEvent.getPayload();
+            System.out.println(ticker.toString());
+          }
 
-          // if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
-          // Trade trade = (Trade) exchangeEvent.getPayload();
-          // System.out.println(trade.toString());
-          // }
+          else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
+            Trade trade = (Trade) exchangeEvent.getPayload();
+            System.out.println(trade.toString());
+          }
 
-          // else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
-          // OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
-          // System.out.println(orderBookUpdate.toString());
-          // }
+          else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
+            OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
+            System.out.println(orderBookUpdate.toString());
+          }
         }
 
       } catch (InterruptedException e) {
