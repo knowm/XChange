@@ -89,7 +89,7 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
   public Trades getTrades(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
-    BitcoinCentralTrade[] bitcoinCentralTrades = bitcoincentral.getTrades(currency, 5);
+    BitcoinCentralTrade[] bitcoinCentralTrades = bitcoincentral.getTrades(currency, 100);
     return BitcoinCentralAdapters.adaptTrades(bitcoinCentralTrades, currency, tradableIdentifier);
   }
 

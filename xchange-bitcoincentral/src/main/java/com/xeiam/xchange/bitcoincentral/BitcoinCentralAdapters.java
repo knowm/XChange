@@ -25,6 +25,7 @@ package com.xeiam.xchange.bitcoincentral;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
@@ -46,6 +47,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from Bitcoin Central DTOs to XChange DTOs
@@ -131,12 +133,14 @@ public final class BitcoinCentralAdapters {
    * @param tradableIdentifier
    * @return
    */
-  // TODO implement timestamp after bitcoin central provides a better timestamp
   public static Trades adaptTrades(BitcoinCentralTrade[] bitcoinCentralTrades, String currency, String tradableIdentifier) {
 
     List<Trade> trades = new ArrayList<Trade>();
 
     for (BitcoinCentralTrade bitcoinCentralTrade : bitcoinCentralTrades) {
+    
+      Date date = DateUtils.fromMillisUtc(bitcoinCentralTrade.getCreatedAtInt() * 1000L);
+    	
       trades.add(
 
       new Trade(
@@ -153,7 +157,7 @@ public final class BitcoinCentralAdapters {
 
       bitcoinCentralTrade.getPrice())
 
-      , null));
+      , date));
     }
     return new Trades(trades);
   }
