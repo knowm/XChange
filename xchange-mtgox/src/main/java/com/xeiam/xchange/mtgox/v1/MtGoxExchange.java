@@ -21,19 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.MtGoxExchangeServiceConfiguration;
+import com.xeiam.xchange.mtgox.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v1.service.account.MtGoxPollingAccountService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.socketio.MtGoxStreamingMarketDataService;
+import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.websocket.MtGoxWebsocketMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
-import com.xeiam.xchange.service.ExchangeServiceConfiguration;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+import com.xeiam.xchange.service.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.StreamingExchangeService;
 
 /**
  * <p>
@@ -54,7 +51,6 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
     this.pollingTradeService = new MtGoxPollingTradeService(exchangeSpecification);
     this.pollingAccountService = new MtGoxPollingAccountService(exchangeSpecification);
-
   }
 
   @Override
@@ -71,14 +67,10 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration) {
+  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
-    if (configuration instanceof MtGoxExchangeServiceConfiguration) {
-      try {
-        return new MtGoxStreamingMarketDataService(getExchangeSpecification(), (MtGoxExchangeServiceConfiguration) configuration);
-      } catch (IOException e) {
-        throw new ExchangeException("Streaming market data service failed", e);
-      }
+    if (configuration instanceof MtGoxStreamingConfiguration) {
+      return new MtGoxWebsocketMarketDataService(getExchangeSpecification(), (MtGoxStreamingConfiguration) configuration);
     }
 
     throw new IllegalArgumentException("MtGox only supports the MtGoxExchangeServiceConfiguration");

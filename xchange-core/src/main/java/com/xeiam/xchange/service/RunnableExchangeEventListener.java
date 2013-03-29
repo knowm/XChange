@@ -40,7 +40,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
 
   private final Logger log = LoggerFactory.getLogger(RunnableExchangeEventListener.class);
 
-  private BlockingQueue<ExchangeEvent> exchangeEvents;
+  private BlockingQueue<ExchangeEvent> producerEventQueue;
 
   /**
    * Constructor
@@ -56,7 +56,7 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
       // Run forever (or until an interruption occurs)
       while (true) {
 
-        ExchangeEvent exchangeEvent = exchangeEvents.take();
+        ExchangeEvent exchangeEvent = producerEventQueue.take();
 
         // Block until an event occurs
         handleEvent(exchangeEvent);
@@ -68,9 +68,9 @@ public abstract class RunnableExchangeEventListener implements ExchangeEventList
   }
 
   @Override
-  public void setExchangeEventQueue(BlockingQueue<ExchangeEvent> exchangeEvents) {
+  public void setExchangeEventQueue(BlockingQueue<ExchangeEvent> producerEventQueue) {
 
-    this.exchangeEvents = exchangeEvents;
+    this.producerEventQueue = producerEventQueue;
   }
 
   /**

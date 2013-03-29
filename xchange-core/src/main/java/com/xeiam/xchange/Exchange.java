@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.ExchangeServiceConfiguration;
+import com.xeiam.xchange.service.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.StreamingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -80,7 +80,7 @@ public interface Exchange {
    * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's market data service
    */
-  PollingMarketDataService getPollingMarketDataService(ExchangeServiceConfiguration configuration);
+  PollingMarketDataService getPollingMarketDataService(ExchangeStreamingConfiguration configuration);
 
   /**
    * <p>
@@ -93,7 +93,7 @@ public interface Exchange {
    * 
    * @return The exchange's "push" market data service
    */
-  StreamingMarketDataService getStreamingMarketDataService();
+  StreamingExchangeService getStreamingExchangeService();
 
   /**
    * <p>
@@ -107,7 +107,7 @@ public interface Exchange {
    * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's "push" market data service
    */
-  StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration);
+  StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration);
 
   /**
    * <p>
@@ -132,7 +132,7 @@ public interface Exchange {
    * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's polling trade service
    */
-  PollingTradeService getPollingTradeService(ExchangeServiceConfiguration configuration);
+  PollingTradeService getPollingTradeService(ExchangeStreamingConfiguration configuration);
 
   /**
    * <p>
@@ -157,6 +157,6 @@ public interface Exchange {
    * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's polling account service
    */
-  PollingAccountService getPollingAccountService(ExchangeServiceConfiguration configuration);
+  PollingAccountService getPollingAccountService(ExchangeStreamingConfiguration configuration);
 
 }

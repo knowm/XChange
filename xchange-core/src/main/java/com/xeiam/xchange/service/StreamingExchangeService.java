@@ -50,23 +50,6 @@ public interface StreamingExchangeService {
 
   /**
    * <p>
-   * sends a message to the upstream server for this instance.
-   * </p>
-   */
-  void send(String message);
-
-  /**
-   * @return The runnable market data event producer
-   */
-  RunnableExchangeEventProducer getRunnableExchangeEventProducer();
-
-  /**
-   * @param runnableMarketDataEventProducer The runnable market data event producer
-   */
-  void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer);
-
-  /**
-   * <p>
    * The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples include:
    * </p>
    * <ul>

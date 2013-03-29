@@ -55,11 +55,6 @@ public enum ExchangeEventType {
   MESSAGE,
 
   /**
-   * A message encoding a JSON object representation
-   */
-  JSON_MESSAGE,
-
-  /**
    * Represents an event (server specific info)
    */
   EVENT,

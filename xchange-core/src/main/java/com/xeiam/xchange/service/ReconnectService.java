@@ -31,7 +31,7 @@ public class ReconnectService {
 
   private final Logger log = LoggerFactory.getLogger(ReconnectService.class);
 
-  // TODO make this configurable from the oiutside
+  // TODO make this configurable from the outside
   private final int maxConnectionAttempts = 10;
 
   private final StreamingExchangeService streamingExchangeService;
@@ -50,7 +50,7 @@ public class ReconnectService {
 
   public void intercept(ExchangeEvent exchangeEvent) {
 
-    if (exchangeEvent.getEventType() == ExchangeEventType.ERROR) {
+    if (exchangeEvent.getEventType() == ExchangeEventType.ERROR || exchangeEvent.getEventType() == ExchangeEventType.DISCONNECT) {
       reconnect();
     } else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
       numConnectionAttempts = 0;
@@ -66,7 +66,7 @@ public class ReconnectService {
       log.debug("Terminating reconnection attempts.");
       return;
     }
-
+    streamingExchangeService.disconnect();
     streamingExchangeService.connect();
     numConnectionAttempts++;
 

@@ -21,13 +21,12 @@
  */
 package com.xeiam.xchange.service;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.net.URI;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.net.URISyntaxException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,86 +47,91 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
   private final Logger log = LoggerFactory.getLogger(BaseWebSocketExchangeService.class);
 
-  private final ExecutorService executorService;
-  private final BlockingQueue<ExchangeEvent> marketDataEvents = new ArrayBlockingQueue<ExchangeEvent>(1024);
+  private final ExecutorService eventExecutorService = Executors.newFixedThreadPool(2);
 
-  private Socket socket;
-  private RunnableExchangeEventProducer runnableExchangeEventProducer = null;
+  /**
+   * The event queue for the producer
+   */
+  private final BlockingQueue<ExchangeEvent> producerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+
+  /**
+   * The event queue for the consumer
+   */
+  protected final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+
+  protected ReconnectService reconnectService;
+
+  /**
+   * The exchange event producer
+   */
+  private WebSocketEventProducer exchangeEventProducer;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
-  public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification) throws IOException {
+  public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    Assert.notNull(exchangeSpecification.getHost(), "host cannot be null");
-    executorService = Executors.newSingleThreadExecutor();
+    reconnectService = new ReconnectService(this);
   }
 
   protected synchronized void internalConnect(URI uri, RunnableExchangeEventListener runnableExchangeEventListener) {
+
+    log.info("Connecting...");
 
     // Validate inputs
     Assert.notNull(runnableExchangeEventListener, "runnableExchangeEventListener cannot be null");
 
     // Validate state
-    if (executorService.isShutdown()) {
+    if (eventExecutorService.isShutdown()) {
       throw new IllegalStateException("Service has been stopped. Create a new one rather than reuse a reference.");
     }
 
     try {
-      log.debug("Attempting to open a direct socket against {}:{}", exchangeSpecification.getHost(), exchangeSpecification.getPort());
-      this.socket = new Socket(exchangeSpecification.getHost(), exchangeSpecification.getPort());
-    } catch (IOException e) {
-      throw new ExchangeException("Failed to open socket: " + e.getMessage(), e);
+      log.debug("Attempting to open a websocket against {}", uri);
+      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), producerEventQueue);
+      exchangeEventProducer.connect();
+    } catch (URISyntaxException e) {
+      throw new ExchangeException("Failed to open websocket!", e);
     }
-    this.runnableExchangeEventProducer = new RunnableWebSocketEventProducer(socket, marketDataEvents);
 
-    runnableExchangeEventListener.setExchangeEventQueue(marketDataEvents);
-    executorService.submit(runnableExchangeEventProducer);
+    // Configure the exchange event listener event queue
+    runnableExchangeEventListener.setExchangeEventQueue(producerEventQueue);
 
-    log.debug("Started OK");
+    // Submit the event threads to their services
+    eventExecutorService.submit(runnableExchangeEventListener);
 
-  }
-
-  @Override
-  public void send(String message) {
-
-    // TODO Auto-generated method stub
+    log.info("Socket connected OK. Check queues for events.");
 
   }
 
   @Override
   public synchronized void disconnect() {
 
-    try {
-      if (!executorService.isShutdown()) {
-        // We close on the socket to get an immediate result
-        // otherwise the producer would block until the exchange
-        // sent a message which could be forever
-        if (!socket.isClosed()) {
-          socket.shutdownInput();
-        }
+    if (!eventExecutorService.isShutdown()) {
+      // We close on the socket to get an immediate result
+      // otherwise the producer would block until the exchange
+      // sent a message which could be forever
+      if (exchangeEventProducer != null) {
+        exchangeEventProducer.close();
       }
-    } catch (IOException e) {
-      log.warn("Socket encountered an error: {}", e.getMessage());
-    } finally {
-      executorService.shutdownNow();
-      log.debug("Stopped");
+    }
+    eventExecutorService.shutdownNow();
+    log.debug("Stopped");
+  }
+
+  @Override
+  public ExchangeEvent getNextEvent() throws InterruptedException {
+
+    ExchangeEvent event = consumerEventQueue.take();
+
+    if (reconnectService != null) { // logic here to intercept errors and reconnect..
+      reconnectService.intercept(event);
     }
 
-  }
+    return event;
 
-  @Override
-  public RunnableExchangeEventProducer getRunnableExchangeEventProducer() {
-
-    return runnableExchangeEventProducer;
-  }
-
-  @Override
-  public void setRunnableExchangeEventProducer(RunnableExchangeEventProducer runnableMarketDataEventProducer) {
-
-    this.runnableExchangeEventProducer = runnableMarketDataEventProducer;
   }
 }
