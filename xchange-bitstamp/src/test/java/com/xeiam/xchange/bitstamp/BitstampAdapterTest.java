@@ -102,9 +102,9 @@ public class BitstampAdapterTest {
     assertThat(trades.getTrades().size(), is(equalTo(125)));
 
     // verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice(), is(equalTo(MoneyUtils.parse("USD 13.06"))));
+    assertThat(trades.getTrades().get(0).getPrice(), is(equalTo(MoneyUtils.parse("USD 13.14"))));
     assertThat(trades.getTrades().get(0).getType(), is(equalTo(null)));
-    assertThat(trades.getTrades().get(0).getTradableAmount(), is(equalTo(new BigDecimal("28.75328052"))));
+    assertThat(trades.getTrades().get(0).getTradableAmount(), is(equalTo(new BigDecimal("10.11643836"))));
     assertThat(trades.getTrades().get(0).getTradableIdentifier(), is(equalTo("BTC")));
     assertThat(trades.getTrades().get(0).getTransactionCurrency(), is(equalTo("USD")));
   }
