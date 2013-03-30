@@ -29,11 +29,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  */
-public final class MtGoxTradeStream {
+public final class MtGoxTrade {
 
   private final double amount;
   private final long amountInt;
-  private final long date;
+  private final Long date;
   private final String item;
   private final double price;
   private final String priceCurrency;
@@ -42,12 +42,10 @@ public final class MtGoxTradeStream {
   private final String properties;
   private final long tid;
   private final String tradeType;
-  private final String type;
 
   /**
    * Constructor
    * 
-   * @param type
    * @param amount
    * @param amountInt
    * @param date
@@ -60,14 +58,10 @@ public final class MtGoxTradeStream {
    * @param tid
    * @param tradeType
    */
-  public MtGoxTradeStream(@JsonProperty("type") String type, @JsonProperty("date") long date, @JsonProperty("amount") double amount, @JsonProperty("price") double price,
-      @JsonProperty("tid") long tid, @JsonProperty("amount_int") long amountInt, @JsonProperty("price_int") long priceInt, @JsonProperty("item") String item,
-      @JsonProperty("price_currency") String priceCurrency, @JsonProperty("trade_type") String tradeType, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties) {
+  public MtGoxTrade(@JsonProperty("amount") double amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item,
+      @JsonProperty("price") double price, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary,
+      @JsonProperty("properties") String properties, @JsonProperty("tid") long tid, @JsonProperty("trade_type") String tradeType) {
 
-    // SEVERE: Error unmarshalling from json:
-    // {"type":"trade","date":1359712127,"amount":5,"price":64.5,"tid":"1359712127456878","amount_int":"500000000","price_int":"6450000","item":"BTC","price_currency":"PLN","trade_type":"bid","primary":"Y","properties":"limit"}
-
-    this.type = type;
     this.amount = amount;
     this.amountInt = amountInt;
     this.date = date;
@@ -75,7 +69,7 @@ public final class MtGoxTradeStream {
     this.price = price;
     this.priceCurrency = priceCurrency;
     this.priceInt = priceInt;
-    this.primary = "Y";
+    this.primary = primary;
     this.properties = properties;
     this.tid = tid;
     this.tradeType = tradeType;

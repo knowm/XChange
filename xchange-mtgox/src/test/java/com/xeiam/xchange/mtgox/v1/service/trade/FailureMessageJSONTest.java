@@ -40,7 +40,7 @@ public class FailureMessageJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = FailureMessageJSONTest.class.getResourceAsStream("/trade/example-failure-response-data.json");
+    InputStream is = FailureMessageJSONTest.class.getResourceAsStream("/v1/trade/example-failure-response-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

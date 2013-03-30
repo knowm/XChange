@@ -40,7 +40,7 @@ public class OpenOrdersJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/trade/example-openorders-data.json");
+    InputStream is = OpenOrdersJSONTest.class.getResourceAsStream("/v1/trade/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

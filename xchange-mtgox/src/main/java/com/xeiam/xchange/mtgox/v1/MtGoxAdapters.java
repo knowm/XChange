@@ -41,12 +41,11 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthStream;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxOrder;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTradeStream;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
 import com.xeiam.xchange.utils.DateUtils;
@@ -187,7 +186,7 @@ public final class MtGoxAdapters {
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }
 
-  public static Trade adaptTradeStream(MtGoxTradeStream mtGoxTradeStream) {
+  public static Trade adaptTradeStream(MtGoxTrade mtGoxTradeStream) {
 
     OrderType orderType = mtGoxTradeStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = new BigDecimal(mtGoxTradeStream.getAmountInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
@@ -200,17 +199,17 @@ public final class MtGoxAdapters {
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }
 
-  public static OrderBookUpdate adaptDepthStream(MtGoxDepthStream mtGoxDepthStream) {
+  public static OrderBookUpdate adaptDepthUpdate(MtGoxDepthUpdate mtGoxDepthStream) {
 
     OrderType orderType = mtGoxDepthStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal newVolume = new BigDecimal(mtGoxDepthStream.getNewVolume()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    BigDecimal volume = new BigDecimal(mtGoxDepthStream.getVolumeInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     String tradableIdentifier = mtGoxDepthStream.getItem();
-    String transactionCurrency = mtGoxDepthStream.getPriceCurrency();
+    String transactionCurrency = mtGoxDepthStream.getCurrency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxDepthStream.getPriceInt());
-    BigDecimal deltaVolume = new BigDecimal(mtGoxDepthStream.getVolume());
-    Date date = new Date(mtGoxDepthStream.getDate() / 1000);
+    BigDecimal totalVolume = new BigDecimal(mtGoxDepthStream.getTotalVolumeInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    Date date = new Date(mtGoxDepthStream.getNow() / 1000);
 
-    OrderBookUpdate depthStream = new OrderBookUpdate(orderType, newVolume, tradableIdentifier, transactionCurrency, date, price, deltaVolume);
+    OrderBookUpdate depthStream = new OrderBookUpdate(orderType, volume, tradableIdentifier, transactionCurrency, price, date, totalVolume);
 
     return depthStream;
   }

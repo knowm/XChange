@@ -26,80 +26,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * <p>
  * Data object representing a Market Depth Change from Mt Gox
- * </p>
+ * <p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
+ * <p>
+ * Note: deprecated fields are not included in this value object
  */
-public final class MtGoxDepthStream {
+public final class MtGoxDepthUpdate {
 
-  private final double price;
-  private final int tradeTypeInt;
   private final String tradeType;
-  private final double deltaVolume;
   private final long priceInt;
-  private final long deltaVolumeInt;
+  private final long volumeInt;
   private final String item;
-  private final String priceCurrency;
+  private final String currency;
   private final long now;
-  private final long newVolumeInt;
+  private final long totalVolumeInt;
 
   /**
    * Constructor
    * 
-   * @param priceCurrency
-   * @param item
    * @param tradeType
-   * @param price_int
-   * @param total_volume_int
-   * @param volume
+   * @param priceInt
+   * @param volumeInt
+   * @param item
+   * @param currency
+   * @param now
+   * @param totalVolumeInt
    */
+  public MtGoxDepthUpdate(@JsonProperty("type_str") String tradeType, @JsonProperty("price_int") long priceInt, @JsonProperty("volume_int") long volumeInt, @JsonProperty("item") String item,
+      @JsonProperty("currency") String currency, @JsonProperty("now") long now, @JsonProperty("total_volume_int") long totalVolumeInt) {
 
-  public MtGoxDepthStream(@JsonProperty("price") double price, @JsonProperty("type") int tradeTypeInt, @JsonProperty("type_str") String tradeType, @JsonProperty("volume") double deltaVolume,
-      @JsonProperty("price_int") long priceInt, @JsonProperty("volume_int") long deltaVolumeInt, @JsonProperty("item") String item, @JsonProperty("currency") String priceCurrency,
-      @JsonProperty("now") long now, @JsonProperty("total_volume_int") long newVolumeInt) {
-
-    // json:
-    // {"price":"20.67345","type":2,"type_str":"bid","volume":"-28.74849577","price_int":"2067345","volume_int":"-2874849577","item":"BTC","currency":"USD","now":"1359713940483815","total_volume_int":"0"}
-    this.price = price;
-    this.tradeTypeInt = tradeTypeInt;
     this.tradeType = tradeType;
-    this.deltaVolume = deltaVolume;
     this.priceInt = priceInt;
-    this.deltaVolumeInt = deltaVolumeInt;
+    this.volumeInt = volumeInt;
     this.item = item;
-    this.priceCurrency = priceCurrency;
+    this.currency = currency;
     this.now = now;
-    this.newVolumeInt = newVolumeInt;
-
-  }
-
-  public double getVolume() {
-
-    return deltaVolume;
-  }
-
-  public long getNewVolume() {
-
-    return newVolumeInt;
-  }
-
-  public long getDate() {
-
-    return now;
-  }
-
-  public String getItem() {
-
-    return item;
-  }
-
-  public String getPriceCurrency() {
-
-    return priceCurrency;
-  }
-
-  public long getPriceInt() {
-
-    return priceInt;
+    this.totalVolumeInt = totalVolumeInt;
   }
 
   public String getTradeType() {
@@ -107,10 +69,41 @@ public final class MtGoxDepthStream {
     return tradeType;
   }
 
+  public long getPriceInt() {
+
+    return priceInt;
+  }
+
+  public long getVolumeInt() {
+
+    return volumeInt;
+  }
+
+  public String getItem() {
+
+    return item;
+  }
+
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  public long getNow() {
+
+    return now;
+  }
+
+  public long getTotalVolumeInt() {
+
+    return totalVolumeInt;
+  }
+
   @Override
   public String toString() {
 
-    return "MtGoxDepth Change [At Price=" + priceInt + ", Vol Change=" + deltaVolume + ", New Vol=" + newVolumeInt + ", date=" + now + ", item=" + item + ", tradeType=" + tradeType + "]";
+    return "MtGoxDepthUpdate [tradeType=" + tradeType + ", priceInt=" + priceInt + ", volumeInt=" + volumeInt + ", item=" + item + ", currency=" + currency + ", now=" + now + ", totalVolumeInt="
+        + totalVolumeInt + "]";
   }
 
 }

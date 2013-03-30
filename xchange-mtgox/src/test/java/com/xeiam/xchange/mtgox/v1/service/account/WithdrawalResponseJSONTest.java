@@ -42,7 +42,7 @@ public class WithdrawalResponseJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = WithdrawalResponseJSONTest.class.getResourceAsStream("/account/example-withdrawal-response.json");
+    InputStream is = WithdrawalResponseJSONTest.class.getResourceAsStream("/v1/account/example-withdrawal-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

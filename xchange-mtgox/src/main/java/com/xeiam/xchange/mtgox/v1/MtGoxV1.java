@@ -35,9 +35,9 @@ import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
 import com.xeiam.xchange.rest.ParamsDigest;
 
 /**
@@ -47,19 +47,19 @@ import com.xeiam.xchange.rest.ParamsDigest;
 public interface MtGoxV1 {
 
   @GET
-  @Path("{ident}{currency}/public/ticker?raw")
+  @Path("{ident}{currency}/ticker?raw")
   MtGoxTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("{ident}{currency}/public/depth?raw")
+  @Path("{ident}{currency}/depth/fetch?raw")
   MtGoxDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("{ident}{currency}/public/fulldepth?raw")
+  @Path("{ident}{currency}/depth/full?raw")
   MtGoxDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("{ident}{currency}/public/trades?raw")
+  @Path("{ident}{currency}/trades/fetch?raw")
   MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @POST

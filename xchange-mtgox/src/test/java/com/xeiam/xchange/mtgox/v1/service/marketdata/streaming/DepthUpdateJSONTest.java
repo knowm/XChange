@@ -19,37 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.account;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 
 /**
- * Test MtGoxAccountInfo JSON parsing
+ * Test MtGoxDepthStream JSON parsing
  */
-public class AccountInfoJSONTest {
+public class DepthUpdateJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  public void testStreamingUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/v1/account/example-accountinfo-data.json");
+    InputStream is = DepthUpdateJSONTest.class.getResourceAsStream("/v1/marketdata/streaming/example-depth-streaming-data.json");
 
-    // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
+    });
 
-    // System.out.println(mtGoxAccountInfo.toString());
+    MtGoxDepthUpdate mtGoxDepthUpdate = mapper.readValue(mapper.writeValueAsString(userInMap.get("depth")), MtGoxDepthUpdate.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxAccountInfo.getLogin().equals("xchange"));
-  }
+    assertThat(mtGoxDepthUpdate.getPriceInt(), equalTo(6250000L));
+    assertThat(mtGoxDepthUpdate.getCurrency(), equalTo("USD"));
 
+  }
 }

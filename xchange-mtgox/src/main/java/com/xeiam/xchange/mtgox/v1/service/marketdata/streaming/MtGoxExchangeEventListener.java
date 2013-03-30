@@ -34,9 +34,9 @@ import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthStream;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTradeStream;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.rest.JSONUtils;
 import com.xeiam.xchange.service.DefaultExchangeEvent;
 import com.xeiam.xchange.service.ExchangeEvent;
@@ -107,7 +107,7 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           // log.debug("exchangeEvent: " + exchangeEvent.getEventType());
 
           // Get MtGoxTradeStream from JSON String
-          MtGoxTradeStream mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTradeStream.class, streamObjectMapper);
+          MtGoxTrade mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTrade.class, streamObjectMapper);
 
           // Adapt to XChange DTOs
           Trade trade = MtGoxAdapters.adaptTradeStream(mtGoxTradeStream);
@@ -120,10 +120,10 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           if (rawJSON.containsKey("depth")) {
 
             // Get MtGoxDepthStream from JSON String
-            MtGoxDepthStream mtGoxDepthStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("depth"), streamObjectMapper), MtGoxDepthStream.class, streamObjectMapper);
+            MtGoxDepthUpdate mtGoxDepthStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("depth"), streamObjectMapper), MtGoxDepthUpdate.class, streamObjectMapper);
 
             // Adapt to XChange DTOs
-            OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthStream(mtGoxDepthStream);
+            OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthUpdate(mtGoxDepthStream);
 
             // Create a depth event
             ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), orderBookUpdate);

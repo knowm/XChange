@@ -30,7 +30,7 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 
 /**
  * Test MtGoxTrade[] JSON parsing
@@ -41,14 +41,14 @@ public class TradesJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = TradesJSONTest.class.getResourceAsStream("/v0/marketdata/example-trades-data-v0.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPriceInt(), equalTo(1560000L));
+    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPriceInt(), equalTo(1675000L));
     // System.out.println(mtGoxTrades[0].toString());
   }
 }

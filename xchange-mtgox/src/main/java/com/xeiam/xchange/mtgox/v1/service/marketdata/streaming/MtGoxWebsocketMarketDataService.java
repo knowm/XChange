@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.websocket;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
 import java.net.URI;
 
@@ -28,9 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.mtgox.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxExchangeEventListener;
 import com.xeiam.xchange.service.BaseWebSocketExchangeService;
 import com.xeiam.xchange.service.ExchangeEventListener;
 import com.xeiam.xchange.service.StreamingExchangeService;

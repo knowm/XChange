@@ -1,4 +1,4 @@
-package com.xeiam.xchange.mtgox;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
 import com.xeiam.xchange.service.ExchangeStreamingConfiguration;
 

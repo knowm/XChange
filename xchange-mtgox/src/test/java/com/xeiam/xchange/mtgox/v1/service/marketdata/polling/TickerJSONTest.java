@@ -19,18 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
@@ -44,7 +42,7 @@ public class TickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = TickerJSONTest.class.getResourceAsStream("/v1/marketdata/polling/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -62,33 +60,4 @@ public class TickerJSONTest {
     assertThat("Unexpected Return Volume value", mtGoxTicker.getVol().getValue().doubleValue(), equalTo(57759.66891627));
   }
 
-  @Test
-  public void testStreamingUnmarshal() throws IOException {
-
-    // Read in the JSON from the example resources
-    InputStream is = TickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-streaming-data.json");
-
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-    Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
-    });
-    // System.out.println(userInMap.get("ticker").toString());
-    // System.out.println(mapper.writeValueAsString(userInMap.get("ticker")));
-
-    // Use Jackson to parse it
-    mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    MtGoxTicker mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(5.10991));
-    assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue().doubleValue(), equalTo(5.10991));
-    assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(5.10991));
-    assertThat("Unexpected Return Ask value", mtGoxTicker.getSell().getValue().doubleValue(), equalTo(5.11000));
-    assertThat("Unexpected Return High value", mtGoxTicker.getHigh().getValue().doubleValue(), equalTo(5.12500));
-    assertThat("Unexpected Return Low value", mtGoxTicker.getLow().getValue().doubleValue(), equalTo(5.07000));
-    assertThat("Unexpected Return Volume value", mtGoxTicker.getVol().getValue().doubleValue(), equalTo(15475.00497509));
-
-  }
 }

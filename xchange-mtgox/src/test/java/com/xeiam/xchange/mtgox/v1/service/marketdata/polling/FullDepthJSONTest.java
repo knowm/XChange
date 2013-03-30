@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -30,25 +30,24 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 
 /**
- * Test MtGoxTrade[] JSON parsing
+ * Test MtGoxFullDepth JSON parsing
  */
-public class TradesJSONTest {
+public class FullDepthJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/v1/marketdata/polling/example-fulldepth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
+    MtGoxDepth mtGoxFullDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPriceInt(), equalTo(1560000L));
-    // System.out.println(mtGoxTrades[0].toString());
+    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmountInt(), equalTo(727610000L));
   }
 }
