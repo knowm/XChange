@@ -19,59 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.service.streaming;
+
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Exchange event that provides convenience constructors for JSON wrapping
+ * Abstract base class to provide the following to exchange services:
  * </p>
+ * <ul>
+ * <li>Provision of standard specification parsing</li>
+ * </ul>
  */
-public class DefaultExchangeEvent implements ExchangeEvent {
-
-  // Mandatory fields
-  protected final ExchangeEventType exchangeEventType;
-  protected final String data;
-
-  // Optional fields
-  protected Object payload = null;
+public abstract class BaseExchangeService {
 
   /**
-   * @param exchangeEventType The exchange event type
-   * @param data The raw message content (original reference is kept)
+   * The exchange specification containing session-specific information
    */
-  public DefaultExchangeEvent(ExchangeEventType exchangeEventType, String data) {
-
-    this.exchangeEventType = exchangeEventType;
-    this.data = data;
-  }
+  protected final ExchangeSpecification exchangeSpecification;
 
   /**
-   * @param exchangeEventType The exchange event type
-   * @param data The raw message content (original reference is kept)
-   * @param payload The processed message content (e.g. a Ticker)
+   * Constructor Initialize common properties from the exchange specification
+   * 
+   * @param exchangeSpecification The exchange specification with the configuration parameters
    */
-  public DefaultExchangeEvent(ExchangeEventType exchangeEventType, String data, Object payload) {
+  protected BaseExchangeService(ExchangeSpecification exchangeSpecification) {
 
-    this(exchangeEventType, data);
-    this.payload = payload;
-  }
+    Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
 
-  @Override
-  public Object getPayload() {
-
-    return payload;
-  }
-
-  @Override
-  public String getData() {
-
-    return data;
+    this.exchangeSpecification = exchangeSpecification;
 
   }
 
-  @Override
-  public ExchangeEventType getEventType() {
-
-    return exchangeEventType;
-  }
 }

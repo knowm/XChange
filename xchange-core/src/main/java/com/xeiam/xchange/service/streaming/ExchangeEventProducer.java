@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,37 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
-
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.Assert;
+package com.xeiam.xchange.service.streaming;
 
 /**
  * <p>
- * Abstract base class to provide the following to exchange services:
+ * Signature interface to provide the following to exchange data event producers:
  * </p>
  * <ul>
- * <li>Provision of standard specification parsing</li>
+ * <li>Allows for arbitrary exchange event production outside of a threaded approach</li>
  * </ul>
  */
-public abstract class BaseExchangeService {
-
-  /**
-   * The exchange specification containing session-specific information
-   */
-  protected final ExchangeSpecification exchangeSpecification;
-
-  /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The exchange specification with the configuration parameters
-   */
-  protected BaseExchangeService(ExchangeSpecification exchangeSpecification) {
-
-    Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
-
-    this.exchangeSpecification = exchangeSpecification;
-
-  }
-
+public interface ExchangeEventProducer {
 }

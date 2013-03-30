@@ -29,9 +29,9 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.service.BaseWebSocketExchangeService;
-import com.xeiam.xchange.service.ExchangeEventListener;
-import com.xeiam.xchange.service.StreamingExchangeService;
+import com.xeiam.xchange.service.streaming.BaseWebSocketExchangeService;
+import com.xeiam.xchange.service.streaming.ExchangeEventListener;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**

@@ -29,8 +29,8 @@ import com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketD
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxWebsocketMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.trade.polling.MtGoxPollingTradeService;
-import com.xeiam.xchange.service.ExchangeStreamingConfiguration;
-import com.xeiam.xchange.service.StreamingExchangeService;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * <p>

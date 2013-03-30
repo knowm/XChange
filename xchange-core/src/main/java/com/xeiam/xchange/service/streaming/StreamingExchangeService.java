@@ -19,22 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.service.streaming;
 
 /**
  * <p>
- * Exchange event that provides convenience constructors for JSON wrapping
+ * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
  * </p>
+ * <ul>
+ * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
+ * </ul>
  */
-public class JsonWrappedExchangeEvent extends DefaultExchangeEvent {
+public interface StreamingExchangeService {
 
   /**
-   * @param exchangeEventType The exchange event type
-   * @param message The message content without JSON wrapping (will get a {"message":"parameter value"} wrapping)
+   * <p>
+   * Opens the connection to the upstream server for this instance.
+   * </p>
    */
-  public JsonWrappedExchangeEvent(ExchangeEventType exchangeEventType, String message) {
+  void connect();
 
-    super(exchangeEventType, ("{\"message\":\"" + message + "\"}"));
-  }
+  /**
+   * <p>
+   * Closes the connection to the upstream server for this instance.
+   * </p>
+   */
+  void disconnect();
+
+  /**
+   * <p>
+   * The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples include:
+   * </p>
+   * <ul>
+   * <li>Connect/disconnect events</li>
+   * <li>Ticker events (with Ticker embedded)</li>
+   * <li>LimitOrder events (with LimitOrder embedded)</li>
+   * </ul>
+   * 
+   * @return A blocking queue
+   */
+  ExchangeEvent getNextEvent() throws InterruptedException;
 
 }

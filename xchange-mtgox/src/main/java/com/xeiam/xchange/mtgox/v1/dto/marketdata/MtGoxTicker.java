@@ -34,12 +34,10 @@ public final class MtGoxTicker {
   private final MtGoxValue avg;
   private final MtGoxValue vwap;
   private final MtGoxValue vol;
-  private final MtGoxValue lastLocal;
   private final MtGoxValue last;
-  private final MtGoxValue lastOrig;
-  private final MtGoxValue lastAll;
   private final MtGoxValue buy;
   private final MtGoxValue sell;
+  private final long now;
 
   /**
    * Constructor
@@ -49,28 +47,23 @@ public final class MtGoxTicker {
    * @param avg
    * @param vwap
    * @param vol
-   * @param lastLocal
    * @param last
-   * @param lastOrig
-   * @param lastAll
    * @param buy
    * @param sell
+   * @param now
    */
   public MtGoxTicker(@JsonProperty("high") MtGoxValue high, @JsonProperty("low") MtGoxValue low, @JsonProperty("avg") MtGoxValue avg, @JsonProperty("vwap") MtGoxValue vwap,
-      @JsonProperty("vol") MtGoxValue vol, @JsonProperty("last_local") MtGoxValue lastLocal, @JsonProperty("last") MtGoxValue last, @JsonProperty("last_orig") MtGoxValue lastOrig,
-      @JsonProperty("last_all") MtGoxValue lastAll, @JsonProperty("buy") MtGoxValue buy, @JsonProperty("sell") MtGoxValue sell) {
+      @JsonProperty("vol") MtGoxValue vol, @JsonProperty("last") MtGoxValue last, @JsonProperty("buy") MtGoxValue buy, @JsonProperty("sell") MtGoxValue sell, @JsonProperty("now") long now) {
 
     this.high = high;
     this.low = low;
     this.avg = avg;
     this.vwap = vwap;
     this.vol = vol;
-    this.lastLocal = lastLocal;
     this.last = last;
-    this.lastOrig = lastOrig;
-    this.lastAll = lastAll;
     this.buy = buy;
     this.sell = sell;
+    this.now = now;
   }
 
   public MtGoxValue getHigh() {
@@ -98,24 +91,9 @@ public final class MtGoxTicker {
     return vol;
   }
 
-  public MtGoxValue getLastLocal() {
-
-    return lastLocal;
-  }
-
   public MtGoxValue getLast() {
 
     return last;
-  }
-
-  public MtGoxValue getLastOrig() {
-
-    return lastOrig;
-  }
-
-  public MtGoxValue getLastAll() {
-
-    return lastAll;
   }
 
   public MtGoxValue getBuy() {
@@ -128,11 +106,15 @@ public final class MtGoxTicker {
     return sell;
   }
 
+  public long getNow() {
+
+    return now;
+  }
+
   @Override
   public String toString() {
 
-    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last_local=" + lastLocal + ", last=" + last + ", last_orig=" + lastOrig
-        + ", last_all=" + lastAll + ", buy=" + buy + ", sell=" + sell + "]";
+    return "MtGoxTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last=" + last + ", buy=" + buy + ", sell=" + sell + ", now=" + now + "]";
   }
 
 }

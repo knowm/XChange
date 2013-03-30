@@ -19,38 +19,63 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.ExchangeException;
+package com.xeiam.xchange.service.streaming;
 
 /**
  * <p>
- * Abstract base class to provide the following to XChange clients:
+ * Enum to provide the following to {@link RunnableExchangeEventProducer}:
  * </p>
  * <ul>
- * <li>Simple extension point for a {@link Runnable} designed for use with an ExecutorService</li>
+ * <li>Classification of event type to allow clients to take appropriate action</li>
  * </ul>
  */
-public abstract class ExchangeEventListener {
+public enum ExchangeEventType {
 
-  private final Logger log = LoggerFactory.getLogger(ExchangeEventListener.class);
-
-  /**
-   * Constructor
-   */
-  public ExchangeEventListener() {
-
-  }
+  // Connection messages
 
   /**
-   * <p>
-   * Client code is expected to implement this in a manner specific to their own application
-   * </p>
-   * 
-   * @param event The exchange event containing the information
+   * Issued when the upstream server has connected
    */
-  public abstract void handleEvent(ExchangeEvent event) throws ExchangeException;
+  CONNECT,
+
+  /**
+   * The upstream server has disconnected
+   */
+  DISCONNECT,
+
+  /**
+   * Represents an error condition
+   */
+  ERROR,
+
+  // Generic message types
+  /**
+   * A message encoding some plain text
+   */
+  MESSAGE,
+
+  /**
+   * Represents an event (server specific info)
+   */
+  EVENT,
+
+  // Specific message types to assist consumer processing
+
+  /**
+   * A message with a Ticker payload
+   */
+  TICKER,
+
+  /**
+   * A message with a Trade payload
+   */
+  TRADE,
+
+  /**
+   * A message with a Market Depth update payload
+   */
+  DEPTH
+
+  ;
+
 }

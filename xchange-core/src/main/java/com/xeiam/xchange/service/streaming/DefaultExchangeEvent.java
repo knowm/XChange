@@ -19,63 +19,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.service.streaming;
 
 /**
  * <p>
- * Enum to provide the following to {@link RunnableExchangeEventProducer}:
+ * Exchange event that provides convenience constructors for JSON wrapping
  * </p>
- * <ul>
- * <li>Classification of event type to allow clients to take appropriate action</li>
- * </ul>
  */
-public enum ExchangeEventType {
+public class DefaultExchangeEvent implements ExchangeEvent {
 
-  // Connection messages
+  // Mandatory fields
+  protected final ExchangeEventType exchangeEventType;
+  protected final String data;
 
-  /**
-   * Issued when the upstream server has connected
-   */
-  CONNECT,
-
-  /**
-   * The upstream server has disconnected
-   */
-  DISCONNECT,
+  // Optional fields
+  protected Object payload = null;
 
   /**
-   * Represents an error condition
+   * @param exchangeEventType The exchange event type
+   * @param data The raw message content (original reference is kept)
    */
-  ERROR,
+  public DefaultExchangeEvent(ExchangeEventType exchangeEventType, String data) {
 
-  // Generic message types
-  /**
-   * A message encoding some plain text
-   */
-  MESSAGE,
-
-  /**
-   * Represents an event (server specific info)
-   */
-  EVENT,
-
-  // Specific message types to assist consumer processing
+    this.exchangeEventType = exchangeEventType;
+    this.data = data;
+  }
 
   /**
-   * A message with a Ticker payload
+   * @param exchangeEventType The exchange event type
+   * @param data The raw message content (original reference is kept)
+   * @param payload The processed message content (e.g. a Ticker)
    */
-  TICKER,
+  public DefaultExchangeEvent(ExchangeEventType exchangeEventType, String data, Object payload) {
 
-  /**
-   * A message with a Trade payload
-   */
-  TRADE,
+    this(exchangeEventType, data);
+    this.payload = payload;
+  }
 
-  /**
-   * A message with a Market Depth update payload
-   */
-  DEPTH
+  @Override
+  public Object getPayload() {
 
-  ;
+    return payload;
+  }
 
+  @Override
+  public String getData() {
+
+    return data;
+
+  }
+
+  @Override
+  public ExchangeEventType getEventType() {
+
+    return exchangeEventType;
+  }
 }

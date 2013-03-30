@@ -26,8 +26,6 @@ import java.util.Date;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.utils.DateUtils;
-
 /**
  * <p>
  * A class encapsulating the most basic information a "Ticker" should contain.
@@ -153,7 +151,7 @@ public final class Ticker {
 
       validateState();
 
-      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume, timestamp == null ? DateUtils.nowUtc() : timestamp);
+      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume, timestamp);
 
       isBuilt = true;
 

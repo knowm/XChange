@@ -29,15 +29,11 @@ import java.util.concurrent.Future;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxStreamingConfiguration;
-import com.xeiam.xchange.service.ExchangeEvent;
-import com.xeiam.xchange.service.ExchangeEventType;
-import com.xeiam.xchange.service.ExchangeStreamingConfiguration;
-import com.xeiam.xchange.service.StreamingExchangeService;
+import com.xeiam.xchange.service.streaming.ExchangeEvent;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * Demonstrate streaming market data from the MtGox Websocket API
@@ -105,20 +101,20 @@ public class MtGoxWebSocketMarketDataDemo {
 
           ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
 
-          if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
-            Ticker ticker = (Ticker) exchangeEvent.getPayload();
-            System.out.println(ticker.toString());
-          }
-
-          else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
-            Trade trade = (Trade) exchangeEvent.getPayload();
-            System.out.println(trade.toString());
-          }
-
-          else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
-            OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
-            System.out.println(orderBookUpdate.toString());
-          }
+          // if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
+          // Ticker ticker = (Ticker) exchangeEvent.getPayload();
+          // System.out.println(ticker.toString());
+          // }
+          //
+          // else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
+          // Trade trade = (Trade) exchangeEvent.getPayload();
+          // System.out.println(trade.toString());
+          // }
+          //
+          // else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
+          // OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
+          // System.out.println(orderBookUpdate.toString());
+          // }
         }
 
       } catch (InterruptedException e) {

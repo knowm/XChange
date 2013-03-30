@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.service.streaming;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -67,7 +67,7 @@ public class WebSocketEventProducer extends WebSocketClient {
   @Override
   public void onMessage(String message) {
 
-    // System.out.println("received: " + message);
+    System.out.println("received: " + message);
     // send( "you said: " + message );
 
     // logger.debug(onMessage);

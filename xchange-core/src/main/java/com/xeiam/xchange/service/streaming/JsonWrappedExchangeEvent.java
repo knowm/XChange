@@ -19,28 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
-
-import com.xeiam.xchange.ExchangeSpecification;
+package com.xeiam.xchange.service.streaming;
 
 /**
  * <p>
- * Abstract base class to provide the following to exchange services:
+ * Exchange event that provides convenience constructors for JSON wrapping
  * </p>
- * <ul>
- * <li>Provision of standard specification parsing</li>
- * </ul>
  */
-public abstract class BasePollingExchangeService extends BaseExchangeService {
+public class JsonWrappedExchangeEvent extends DefaultExchangeEvent {
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The exchange specification with the configuration parameters
+   * @param exchangeEventType The exchange event type
+   * @param message The message content without JSON wrapping (will get a {"message":"parameter value"} wrapping)
    */
-  protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
+  public JsonWrappedExchangeEvent(ExchangeEventType exchangeEventType, String message) {
 
-    super(exchangeSpecification);
+    super(exchangeEventType, ("{\"message\":\"" + message + "\"}"));
   }
 
 }

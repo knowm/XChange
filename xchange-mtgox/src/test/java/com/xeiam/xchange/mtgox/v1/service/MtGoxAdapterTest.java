@@ -69,6 +69,7 @@ public class MtGoxAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
     AccountInfo accountInfo = MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
@@ -85,6 +86,7 @@ public class MtGoxAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
 
     List<LimitOrder> openorders = MtGoxAdapters.adaptOrders(mtGoxOpenOrders);
@@ -109,6 +111,7 @@ public class MtGoxAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask", "id_567");
@@ -159,6 +162,7 @@ public class MtGoxAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
     // in MtGoxAccountInfo.getWallets, no wallets are null
@@ -187,15 +191,17 @@ public class MtGoxAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
     // System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 4.89000"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 4.89002"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 4.91227"))));
-    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("57759.66891627"))));
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 91.46000"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 90.68502"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 91.45898"))));
+    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("49524.15110020"))));
+    assertThat(ticker.getTimestamp().toString(), is(equalTo("Sat Mar 30 19:46:00 CET 2013")));
 
   }
 
@@ -213,12 +219,10 @@ public class MtGoxAdapterTest {
     MtGoxDepthUpdate mtGoxDepthUpdate = mapper.readValue(mapper.writeValueAsString(userInMap.get("depth")), MtGoxDepthUpdate.class);
 
     OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthUpdate(mtGoxDepthUpdate);
-    System.out.println(orderBookUpdate.toString());
+    // System.out.println(orderBookUpdate.toString());
 
-    // assertThat(orderBookUpdate.getLast(), is(equalTo(MoneyUtils.parse("USD 4.89000"))));
-    // assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 4.89002"))));
-    // assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 4.91227"))));
-    // assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("57759.66891627"))));
+    assertThat(orderBookUpdate.getTotalVolume(), is(equalTo(new BigDecimal("324.02839775"))));
+    assertThat(orderBookUpdate.getLimitOrder().getTradableAmount(), is(equalTo(new BigDecimal("4.97732719"))));
 
   }
 }

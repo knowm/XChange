@@ -27,7 +27,7 @@ import com.xeiam.xchange.bitfloor.Bitfloor;
 import com.xeiam.xchange.rest.HmacPostBodyDigest;
 import com.xeiam.xchange.rest.ParamsDigest;
 import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi <br/>

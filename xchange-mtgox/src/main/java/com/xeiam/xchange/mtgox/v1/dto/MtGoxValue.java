@@ -31,48 +31,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class MtGoxValue {
 
   private final BigDecimal value;
-  private final long valueInt;
-  private final String display;
-  private final String displayShort;
   private final String currency;
 
   /**
    * Constructor
    * 
    * @param value
-   * @param valueInt
-   * @param display
-   * @param displayShort
    * @param currency
    */
-  public MtGoxValue(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("display") String display, @JsonProperty("display_short") String displayShort,
-      @JsonProperty("currency") String currency) {
+  public MtGoxValue(@JsonProperty("value") BigDecimal value, @JsonProperty("currency") String currency) {
 
     this.value = value;
-    this.valueInt = valueInt;
-    this.display = display;
-    this.displayShort = displayShort;
     this.currency = currency;
   }
 
   public BigDecimal getValue() {
 
     return value;
-  }
-
-  public long getValueInt() {
-
-    return valueInt;
-  }
-
-  public String getDisplay() {
-
-    return display;
-  }
-
-  public String getDisplayShort() {
-
-    return displayShort;
   }
 
   public String getCurrency() {
@@ -83,7 +58,7 @@ public final class MtGoxValue {
   @Override
   public String toString() {
 
-    return "MtGoxValue [value=" + value + ", valueInt=" + valueInt + ", display=" + display + ", displayShort=" + displayShort + ", currency=" + currency + "]";
+    return "MtGoxValue [value=" + value + ", currency=" + currency + "]";
   }
 
 }

@@ -21,11 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.junit.Test;
 
@@ -50,14 +52,11 @@ public class TickerJSONTest {
 
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
+    System.out.println(mtGoxTicker.toString());
+
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(4.89002));
-    assertThat("Unexpected Return Last value", mtGoxTicker.getLast().getValue().doubleValue(), equalTo(4.89000));
-    assertThat("Unexpected Return Bid value", mtGoxTicker.getBuy().getValue().doubleValue(), equalTo(4.89002));
-    assertThat("Unexpected Return Ask value", mtGoxTicker.getSell().getValue().doubleValue(), equalTo(4.91227));
-    assertThat("Unexpected Return High value", mtGoxTicker.getHigh().getValue().doubleValue(), equalTo(4.98000));
-    assertThat("Unexpected Return Low value", mtGoxTicker.getLow().getValue().doubleValue(), equalTo(4.84272));
-    assertThat("Unexpected Return Volume value", mtGoxTicker.getVol().getValue().doubleValue(), equalTo(57759.66891627));
+    assertThat(mtGoxTicker.getLast().getValue(), is(equalTo(new BigDecimal("91.46000"))));
+    assertThat(mtGoxTicker.getNow(), is(equalTo(1364669160478556L)));
   }
 
 }

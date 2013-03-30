@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,24 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.service.streaming;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * <p>
- * Signature interface to provide the following to exchange services:
+ * Abstract base class to provide the following to XChange clients:
  * </p>
  * <ul>
- * <li>A common entry point for the application of configuration data</li>
+ * <li>Simple extension point for a {@link Runnable} designed for use with an ExecutorService</li>
  * </ul>
- * <p>
- * Often it is necessary for additional configuration to be applied to the exchange data feeds after the initial creation with ExchangeSpecification has completed. This is the mechanism to achieve
- * this.
- * </p>
  */
-public interface ExchangeStreamingConfiguration {
+public abstract class ExchangeEventListener {
 
-  public int getMaxReconnectAttempts();
+  private final Logger log = LoggerFactory.getLogger(ExchangeEventListener.class);
 
-  public int getRecconectWaitTimeInMs();
+  /**
+   * Constructor
+   */
+  public ExchangeEventListener() {
 
+  }
+
+  /**
+   * <p>
+   * Client code is expected to implement this in a manner specific to their own application
+   * </p>
+   * 
+   * @param event The exchange event containing the information
+   */
+  public abstract void handleEvent(ExchangeEvent event) throws ExchangeException;
 }

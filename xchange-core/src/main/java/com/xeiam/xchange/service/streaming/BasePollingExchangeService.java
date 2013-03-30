@@ -19,44 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.service.streaming;
+
+import com.xeiam.xchange.ExchangeSpecification;
 
 /**
  * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
+ * Abstract base class to provide the following to exchange services:
  * </p>
  * <ul>
- * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
+ * <li>Provision of standard specification parsing</li>
  * </ul>
  */
-public interface StreamingExchangeService {
+public abstract class BasePollingExchangeService extends BaseExchangeService {
 
   /**
-   * <p>
-   * Opens the connection to the upstream server for this instance.
-   * </p>
-   */
-  void connect();
-
-  /**
-   * <p>
-   * Closes the connection to the upstream server for this instance.
-   * </p>
-   */
-  void disconnect();
-
-  /**
-   * <p>
-   * The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples include:
-   * </p>
-   * <ul>
-   * <li>Connect/disconnect events</li>
-   * <li>Ticker events (with Ticker embedded)</li>
-   * <li>LimitOrder events (with LimitOrder embedded)</li>
-   * </ul>
+   * Initialize common properties from the exchange specification
    * 
-   * @return A blocking queue
+   * @param exchangeSpecification The exchange specification with the configuration parameters
    */
-  ExchangeEvent getNextEvent() throws InterruptedException;
+  protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
+
+    super(exchangeSpecification);
+  }
 
 }

@@ -99,7 +99,6 @@ public final class MtGoxUtils {
    * @param price
    * @return
    */
-  // TODO make sure MtGox agrees with this, it could be that scaling is only used when reading values FROM MtGox
   public static String getPriceString(BigMoney price) {
 
     if (!price.getCurrencyUnit().toString().equals("JPY")) {
