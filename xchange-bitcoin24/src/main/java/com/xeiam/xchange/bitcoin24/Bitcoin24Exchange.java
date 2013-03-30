@@ -57,7 +57,6 @@ public class Bitcoin24Exchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-
     this.pollingMarketDataService = new Bitcoin24PollingMarketDataService(exchangeSpecification);
   }
 

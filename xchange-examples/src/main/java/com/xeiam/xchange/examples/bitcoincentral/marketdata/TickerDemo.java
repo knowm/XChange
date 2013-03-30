@@ -30,13 +30,13 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at Bitstamp
+ * Demonstrate requesting Ticker at BitcoinCentral
  */
 public class TickerDemo {
 
   public static void main(String[] args) {
 
-    // Use the factory to get Bitstamp exchange API using default settings
+    // Use the factory to get BitcoinCentral exchange API using default settings
     Exchange bitcoinCentralExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinCentralExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
