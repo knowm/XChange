@@ -201,7 +201,6 @@ public class MtGoxAdapterTest {
     assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 90.68502"))));
     assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 91.45898"))));
     assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("49524.15110020"))));
-    assertThat(ticker.getTimestamp().toString(), is(equalTo("Sat Mar 30 19:46:00 CET 2013")));
 
   }
 
