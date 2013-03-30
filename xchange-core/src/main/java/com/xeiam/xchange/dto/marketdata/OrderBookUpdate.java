@@ -56,10 +56,10 @@ public final class OrderBookUpdate {
    * @param deltaVolume
    * @param date
    */
-  public OrderBookUpdate(OrderType type, BigDecimal newVolume, String tradableIdentifier, String transactionCurrency, long date, BigMoney limitPrice, BigDecimal deltaVolume) {
+  public OrderBookUpdate(OrderType type, BigDecimal newVolume, String tradableIdentifier, String transactionCurrency, Date date, BigMoney limitPrice, BigDecimal deltaVolume) {
 
     this.limitOrder = new LimitOrder(type, newVolume, tradableIdentifier, transactionCurrency, limitPrice);
-    this.trade = new Trade(type, deltaVolume, tradableIdentifier, transactionCurrency, limitPrice, new Date(date));
+    this.trade = new Trade(type, deltaVolume, tradableIdentifier, transactionCurrency, limitPrice, date);
   }
 
   public LimitOrder asLimitOrder() {
@@ -75,7 +75,7 @@ public final class OrderBookUpdate {
   @Override
   public String toString() {
 
-    return "Change: " + trade.getTradableAmount().toString() + " @ " + limitOrder.toString();
+    return "OrderBookUpdate: " + trade.toString() + " @ " + limitOrder.toString();
   }
 
 }

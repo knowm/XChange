@@ -208,11 +208,11 @@ public final class MtGoxAdapters {
     String transactionCurrency = mtGoxDepthStream.getPriceCurrency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxDepthStream.getPriceInt());
     BigDecimal deltaVolume = new BigDecimal(mtGoxDepthStream.getVolume());
-    long date = mtGoxDepthStream.getDate() / 1000;
+    Date date = new Date(mtGoxDepthStream.getDate() / 1000);
 
     OrderBookUpdate depthStream = new OrderBookUpdate(orderType, newVolume, tradableIdentifier, transactionCurrency, date, price, deltaVolume);
-    return depthStream;
 
+    return depthStream;
   }
 
   /**
