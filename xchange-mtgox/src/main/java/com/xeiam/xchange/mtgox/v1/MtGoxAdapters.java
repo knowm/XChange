@@ -186,18 +186,18 @@ public final class MtGoxAdapters {
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }
 
-  public static Trade adaptTradeStream(MtGoxTrade mtGoxTradeStream) {
-
-    OrderType orderType = mtGoxTradeStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = new BigDecimal(mtGoxTradeStream.getAmountInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-    String tradableIdentifier = mtGoxTradeStream.getItem();
-    String transactionCurrency = mtGoxTradeStream.getPriceCurrency();
-    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTradeStream.getPriceInt());
-
-    Date dateTime = DateUtils.fromMillisUtc(mtGoxTradeStream.getDate() * 1000L);
-
-    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
-  }
+  // public static Trade adaptTradeUpdate(MtGoxTrade mtGoxTradeStream) {
+  //
+  // OrderType orderType = mtGoxTradeStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+  // BigDecimal amount = new BigDecimal(mtGoxTradeStream.getAmountInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+  // String tradableIdentifier = mtGoxTradeStream.getItem();
+  // String transactionCurrency = mtGoxTradeStream.getPriceCurrency();
+  // BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTradeStream.getPriceInt());
+  //
+  // Date dateTime = DateUtils.fromMillisUtc(mtGoxTradeStream.getDate() * 1000L);
+  //
+  // return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
+  // }
 
   public static OrderBookUpdate adaptDepthUpdate(MtGoxDepthUpdate mtGoxDepthStream) {
 

@@ -31,11 +31,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class MtGoxTrade {
 
-  private final double amount;
   private final long amountInt;
   private final Long date;
   private final String item;
-  private final double price;
   private final String priceCurrency;
   private final long priceInt;
   private final String primary;
@@ -58,26 +56,19 @@ public final class MtGoxTrade {
    * @param tid
    * @param tradeType
    */
-  public MtGoxTrade(@JsonProperty("amount") double amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item,
-      @JsonProperty("price") double price, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary,
-      @JsonProperty("properties") String properties, @JsonProperty("tid") long tid, @JsonProperty("trade_type") String tradeType) {
+  public MtGoxTrade(@JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency,
+      @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("tid") long tid,
+      @JsonProperty("trade_type") String tradeType) {
 
-    this.amount = amount;
     this.amountInt = amountInt;
     this.date = date;
     this.item = item;
-    this.price = price;
     this.priceCurrency = priceCurrency;
     this.priceInt = priceInt;
     this.primary = primary;
     this.properties = properties;
     this.tid = tid;
     this.tradeType = tradeType;
-  }
-
-  public double getAmount() {
-
-    return amount;
   }
 
   public long getAmountInt() {
@@ -93,11 +84,6 @@ public final class MtGoxTrade {
   public String getItem() {
 
     return item;
-  }
-
-  public double getPrice() {
-
-    return price;
   }
 
   public String getPriceCurrency() {
@@ -133,8 +119,8 @@ public final class MtGoxTrade {
   @Override
   public String toString() {
 
-    return "MtGoxTrade [amount=" + amount + ", amountInt=" + amountInt + ", date=" + date + ", item=" + item + ", price=" + price + ", priceCurrency=" + priceCurrency + ", priceInt=" + priceInt
-        + ", primary=" + primary + ", properties=" + properties + ", tid=" + tid + ", tradeType=" + tradeType + "]";
+    return "MtGoxTrade [amountInt=" + amountInt + ", date=" + date + ", item=" + item + ", priceCurrency=" + priceCurrency + ", priceInt=" + priceInt + ", primary=" + primary + ", properties="
+        + properties + ", tid=" + tid + ", tradeType=" + tradeType + "]";
   }
 
 }

@@ -65,7 +65,7 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
    */
   public MtGoxWebsocketMarketDataService(ExchangeSpecification exchangeSpecification, MtGoxStreamingConfiguration configuration) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, configuration);
 
     Assert.notNull(configuration, "configuration cannot be null");
     Assert.notNull(configuration.getTradeableIdentifier(), "tradableIdentifier cannot be null");

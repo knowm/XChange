@@ -110,7 +110,7 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           MtGoxTrade mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTrade.class, streamObjectMapper);
 
           // Adapt to XChange DTOs
-          Trade trade = MtGoxAdapters.adaptTradeStream(mtGoxTradeStream);
+          Trade trade = MtGoxAdapters.adaptTrade(mtGoxTradeStream);
 
           // Create a trade event
           ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);

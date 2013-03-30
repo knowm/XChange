@@ -34,4 +34,9 @@ package com.xeiam.xchange.service;
  * </p>
  */
 public interface ExchangeStreamingConfiguration {
+
+  public int getMaxReconnectAttempts();
+
+  public int getRecconectWaitTimeInMs();
+
 }

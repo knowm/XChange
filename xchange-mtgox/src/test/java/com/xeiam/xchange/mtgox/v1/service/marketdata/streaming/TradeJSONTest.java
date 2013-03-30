@@ -19,38 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
+package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 
 /**
- * Test MtGoxTrade[] JSON parsing
+ * Test MtGoxDepthStream JSON parsing
  */
-public class TradesJSONTest {
+public class TradeJSONTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  public void testStreamingUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TradesJSONTest.class.getResourceAsStream("/v1/marketdata/polling/example-trades-data.json");
+    InputStream is = TradeJSONTest.class.getResourceAsStream("/v1/marketdata/streaming/example-trade-streaming-data.json");
 
-    // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
+    Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
+    });
+
+    MtGoxTrade mtGoxTrade = mapper.readValue(mapper.writeValueAsString(userInMap.get("trade")), MtGoxTrade.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPriceInt(), equalTo(1560000L));
-    // System.out.println(mtGoxTrades[0].toString());
+    assertThat(mtGoxTrade.getPriceInt(), equalTo(9079995L));
+    assertThat(mtGoxTrade.getAmountInt(), equalTo(1851242L));
+
   }
 }

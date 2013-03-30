@@ -62,10 +62,10 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
    * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
-  public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification) {
+  public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 
     super(exchangeSpecification);
-    reconnectService = new ReconnectService(this);
+    reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
   }
 
   protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener) {

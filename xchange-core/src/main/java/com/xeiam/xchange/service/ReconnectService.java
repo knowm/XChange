@@ -31,9 +31,7 @@ public class ReconnectService {
 
   private final Logger log = LoggerFactory.getLogger(ReconnectService.class);
 
-  // TODO make this configurable from the outside
-  private final int maxConnectionAttempts = 10;
-  private final int recconectWaitTimeInMs = 10000;
+  private final ExchangeStreamingConfiguration exchangeStreamingConfiguration;
 
   private final StreamingExchangeService streamingExchangeService;
 
@@ -44,16 +42,17 @@ public class ReconnectService {
    * 
    * @param streamingExchangeService
    */
-  public ReconnectService(StreamingExchangeService streamingExchangeService) {
+  public ReconnectService(StreamingExchangeService streamingExchangeService, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 
     this.streamingExchangeService = streamingExchangeService;
+    this.exchangeStreamingConfiguration = exchangeStreamingConfiguration;
   }
 
   public void intercept(ExchangeEvent exchangeEvent) {
 
     if (exchangeEvent.getEventType() == ExchangeEventType.ERROR || exchangeEvent.getEventType() == ExchangeEventType.DISCONNECT) {
       try {
-        Thread.sleep(recconectWaitTimeInMs);
+        Thread.sleep(exchangeStreamingConfiguration.getRecconectWaitTimeInMs());
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
@@ -66,9 +65,9 @@ public class ReconnectService {
 
   private void reconnect() {
 
-    log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + maxConnectionAttempts);
+    log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + exchangeStreamingConfiguration.getMaxReconnectAttempts());
 
-    if (numConnectionAttempts > maxConnectionAttempts) {
+    if (numConnectionAttempts >= exchangeStreamingConfiguration.getMaxReconnectAttempts()) {
       log.debug("Terminating reconnection attempts.");
       streamingExchangeService.disconnect();
       Thread.currentThread().interrupt();

@@ -29,6 +29,7 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 
@@ -45,6 +46,7 @@ public class TradesJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
