@@ -67,7 +67,6 @@ public class WebSocketEventProducer extends WebSocketClient {
   @Override
   public void onMessage(String message) {
 
-    System.out.println("received: " + message);
     // send( "you said: " + message );
 
     // logger.debug(onMessage);
