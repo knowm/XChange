@@ -137,7 +137,7 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
       }
       break;
     case ERROR:
-      log.error("*************Error message: " + exchangeEvent.getData());
+      log.error("Error message: " + exchangeEvent.getPayload());
       addToEventQueue(exchangeEvent);
       break;
     default:
