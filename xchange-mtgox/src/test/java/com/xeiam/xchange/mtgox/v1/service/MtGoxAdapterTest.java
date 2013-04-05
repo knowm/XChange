@@ -222,6 +222,7 @@ public class MtGoxAdapterTest {
 
     assertThat(orderBookUpdate.getTotalVolume(), is(equalTo(new BigDecimal("324.02839775"))));
     assertThat(orderBookUpdate.getLimitOrder().getTradableAmount(), is(equalTo(new BigDecimal("4.97732719"))));
+    assertThat(orderBookUpdate.getLimitOrder().getTimestamp().getTime(), is(equalTo(1364643714372L)));
 
   }
 }
