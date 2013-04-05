@@ -22,6 +22,7 @@
 package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.xeiam.xchange.dto.Order;
 
@@ -44,9 +45,20 @@ public final class MarketOrder extends Order {
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param id An id (usually provided by the exchange)
    */
-  public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id) {
+  public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp) {
 
-    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id);
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id, timestamp);
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   */
+  public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, Date timestamp) {
+
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "", timestamp);
   }
 
   /**
@@ -57,7 +69,7 @@ public final class MarketOrder extends Order {
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency) {
 
-    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "");
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "", null);
   }
 
 }

@@ -22,6 +22,7 @@
 package com.xeiam.xchange.dto;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Data object representing an order
@@ -66,19 +67,25 @@ public class Order {
   private final String id;
 
   /**
+   * The timestamp on the order
+   */
+  private final Date timestamp;
+
+  /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
    * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param id An id (usually provided by the exchange)
    */
-  public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id) {
+  public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
     this.tradableIdentifier = tradableIdentifier;
     this.transactionCurrency = transactionCurrency;
     this.id = id;
+    this.timestamp = timestamp;
   }
 
   /**
@@ -121,10 +128,16 @@ public class Order {
     return id;
   }
 
+  public Date getTimestamp() {
+
+    return timestamp;
+  }
+
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", id=" + id + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", id=" + id + ", timestamp="
+        + timestamp + "]";
   }
 
 }

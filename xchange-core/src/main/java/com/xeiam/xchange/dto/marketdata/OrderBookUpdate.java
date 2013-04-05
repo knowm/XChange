@@ -36,8 +36,6 @@ public final class OrderBookUpdate {
 
   private final LimitOrder limitOrder;
 
-  private final Date timeStamp;
-
   /** this is the total volume at this price in the order book */
   private final BigDecimal totalVolume;
 
@@ -52,21 +50,15 @@ public final class OrderBookUpdate {
    * @param date
    * @param totalVolume
    */
-  public OrderBookUpdate(OrderType type, BigDecimal volume, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice, Date date, BigDecimal totalVolume) {
+  public OrderBookUpdate(OrderType type, BigDecimal volume, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice, Date timestamp, BigDecimal totalVolume) {
 
-    this.limitOrder = new LimitOrder(type, volume, tradableIdentifier, transactionCurrency, limitPrice);
-    this.timeStamp = date;
+    this.limitOrder = new LimitOrder(type, volume, tradableIdentifier, transactionCurrency, limitPrice, timestamp);
     this.totalVolume = totalVolume;
   }
 
   public LimitOrder getLimitOrder() {
 
     return limitOrder;
-  }
-
-  public Date getTimeStamp() {
-
-    return timeStamp;
   }
 
   public BigDecimal getTotalVolume() {
@@ -77,7 +69,7 @@ public final class OrderBookUpdate {
   @Override
   public String toString() {
 
-    return "OrderBookUpdate [limitOrder=" + limitOrder + ", timeStamp=" + timeStamp + ", totalVolume=" + totalVolume + "]";
+    return "OrderBookUpdate [limitOrder=" + limitOrder + ", totalVolume=" + totalVolume + "]";
   }
 
 }
