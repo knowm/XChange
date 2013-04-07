@@ -57,7 +57,7 @@ public class Bitcoin24PollingMarketDataService implements PollingMarketDataServi
    */
   public Bitcoin24PollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    bitcoin24 = RestProxyFactory.createProxy(Bitcoin24.class, exchangeSpecification.getUri());
+    bitcoin24 = RestProxyFactory.createProxy(Bitcoin24.class, exchangeSpecification.getSslUri());
   }
 
   @Override

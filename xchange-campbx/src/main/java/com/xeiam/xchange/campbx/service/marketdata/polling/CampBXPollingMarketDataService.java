@@ -55,7 +55,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   public CampBXPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.campbx = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getUri());
+    this.campbx = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
   @Override

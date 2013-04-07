@@ -56,7 +56,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   public CampBXPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.campbx = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getUri());
+    this.campbx = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
   @Override

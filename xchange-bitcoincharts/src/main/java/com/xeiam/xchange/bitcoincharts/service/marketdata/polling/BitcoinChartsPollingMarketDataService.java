@@ -61,7 +61,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   public BitcoinChartsPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchangeSpecification.getUri());
+    this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchangeSpecification.getPlainTextUri());
   }
 
   @Override

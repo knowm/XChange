@@ -37,7 +37,7 @@ public class BTCEExamplesUtils {
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
     exSpec.setSecretKey("4df0c1438aee12cd04be9d50bae23b4b4245c3ac9b37993908411c4d3023af77");
     exSpec.setApiKey("82FE1OI8-6KVWGK2L-GFR3UETO-Y3G3NZQ7-0QISCMTU");
-    exSpec.setUri("https://btc-e.com");
+    exSpec.setSslUri("https://btc-e.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }

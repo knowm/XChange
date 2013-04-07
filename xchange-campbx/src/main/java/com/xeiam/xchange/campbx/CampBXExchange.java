@@ -45,7 +45,7 @@ public class CampBXExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://campbx.com");
+    exchangeSpecification.setSslUri("https://campbx.com");
     exchangeSpecification.setHost("campbx.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("CampBX");

@@ -60,7 +60,7 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   public BitcoinCentralPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getUri());
+    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getSslUri());
     this.credentials = new BasicAuthCredentials(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 

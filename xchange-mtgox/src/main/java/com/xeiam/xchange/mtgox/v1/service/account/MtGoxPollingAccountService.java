@@ -63,8 +63,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     super(exchangeSpecification);
 
-    Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
+    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getSslUri());
     signatureCreator = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 

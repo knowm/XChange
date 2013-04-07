@@ -48,7 +48,7 @@ public class BitcoinCentralTradeDemo {
   public static void main(String[] args) {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BitcoinCentralExchange.class);
-    exSpec.setUri("https://en.bitcoin-central.net");
+    exSpec.setSslUri("https://en.bitcoin-central.net");
     exSpec.setUserName(args[0]);
     exSpec.setPassword(args[1]);
 

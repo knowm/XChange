@@ -69,7 +69,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://btc-e.com");
+    exchangeSpecification.setSslUri("https://btc-e.com");
     exchangeSpecification.setHost("btc-e.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTC-e");

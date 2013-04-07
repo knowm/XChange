@@ -57,7 +57,7 @@ public class BitfloorPollingMarketDataService extends BasePollingExchangeService
   public BitfloorPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getUri());
+    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getSslUri());
   }
 
   @Override

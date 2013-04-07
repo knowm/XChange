@@ -51,7 +51,7 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
   public BitcoinCentralPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getUri());
+    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getSslUri());
   }
 
   @Override

@@ -92,7 +92,7 @@ public class WebSocketEventProducer extends WebSocketClient {
     // ex.printStackTrace();
     // if the error is fatal then onClose will be called additionally
 
-    logger.error("onError: {}", ex.getMessage(), ex);
+    logger.error("onError: {}", ex.getMessage());
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.ERROR, ex.getMessage());
     exchangeEventListener.handleEvent(exchangeEvent);
   }

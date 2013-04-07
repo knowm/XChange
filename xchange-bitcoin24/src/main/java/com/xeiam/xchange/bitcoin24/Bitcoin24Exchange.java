@@ -64,7 +64,7 @@ public class Bitcoin24Exchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://bitcoin-24.com");
+    exchangeSpecification.setSslUri("https://bitcoin-24.com");
     exchangeSpecification.setHost("bitcoin-24.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin-24");

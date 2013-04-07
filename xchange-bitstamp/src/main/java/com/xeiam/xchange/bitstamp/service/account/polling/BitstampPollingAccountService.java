@@ -49,7 +49,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getUri());
+    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
   }
 
   @Override

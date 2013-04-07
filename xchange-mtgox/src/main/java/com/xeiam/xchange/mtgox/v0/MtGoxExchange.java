@@ -47,7 +47,8 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://data.mtgox.com");
+    exchangeSpecification.setSslUri("https://data.mtgox.com");
+    exchangeSpecification.setPlainTextUri("http://data.mtgox.com");
     exchangeSpecification.setHost("mtgox.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("MtGox");

@@ -61,8 +61,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     super(exchangeSpecification);
 
-    Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
+    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getSslUri());
     postBodySignatureCreator = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
@@ -102,7 +102,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   @Override
   public boolean cancelOrder(String orderId) {
 
-    MtGoxV0 mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getUri());
+    MtGoxV0 mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getSslUri());
 
     Assert.notNull(orderId, "orderId cannot be null");
 

@@ -47,7 +47,7 @@ public class BTCEBasePollingService {
    */
   public BTCEBasePollingService(ExchangeSpecification exchangeSpecification) {
 
-    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchangeSpecification.getUri());
+    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }

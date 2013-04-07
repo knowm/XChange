@@ -60,8 +60,8 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getExchangeDescription() == null) {
         exchangeSpecification.setExchangeDescription(defaultSpecification.getExchangeDescription());
       }
-      if (exchangeSpecification.getUri() == null) {
-        exchangeSpecification.setUri(defaultSpecification.getUri());
+      if (exchangeSpecification.getSslUri() == null) {
+        exchangeSpecification.setSslUri(defaultSpecification.getSslUri());
       }
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());

@@ -41,7 +41,7 @@ public class BitfloorPollingService extends BasePollingExchangeService {
   public BitfloorPollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getUri());
+    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getSslUri());
     this.bodyDigest = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 

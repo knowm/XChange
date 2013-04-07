@@ -57,7 +57,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
    */
   public BTCEPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getUri());
+    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
   }
 
   @Override

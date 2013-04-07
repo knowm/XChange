@@ -38,7 +38,7 @@ public class BitfloorExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://api.bitfloor.com");
+    exchangeSpecification.setSslUri("https://api.bitfloor.com");
     exchangeSpecification.setHost("api.bitfloor.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitfloor");

@@ -63,7 +63,10 @@ public class ExchangeSpecification {
   private String apiKey;
 
   @JsonProperty
-  private String uri;
+  private String sslUri;
+
+  @JsonProperty
+  private String plainTextUri;
 
   @JsonProperty
   private String host;
@@ -167,17 +170,31 @@ public class ExchangeSpecification {
   }
 
   /**
-   * The URI to reach the <b>root</b> of the exchange API<br/>
+   * The URI to reach the <b>root</b> of the exchange API for SSL queries<br/>
    * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades")
    */
-  public String getUri() {
+  public String getSslUri() {
 
-    return uri;
+    return sslUri;
   }
 
-  public void setUri(String uri) {
+  public void setSslUri(String uri) {
 
-    this.uri = uri;
+    this.sslUri = uri;
+  }
+
+  /**
+   * The URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries<br/>
+   * (e.g. use "http://example.com:8443/exchange", not "http://example.com:8443/exchange/api/v3/trades")
+   */
+  public String getPlainTextUri() {
+
+    return plainTextUri;
+  }
+
+  public void setPlainTextUri(String plainTextUri) {
+
+    this.plainTextUri = plainTextUri;
   }
 
   /**
