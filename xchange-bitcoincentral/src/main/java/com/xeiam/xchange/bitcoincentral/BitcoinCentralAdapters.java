@@ -84,11 +84,11 @@ public final class BitcoinCentralAdapters {
    */
   public static Ticker adaptTicker(BitcoinCentralTicker bitcoinCentralTicker, String tradableIdentifier) {
 
-    BigMoney last = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getPrice());
-    BigMoney bid = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getBid());
-    BigMoney ask = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getAsk());
-    BigMoney high = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getHigh());
-    BigMoney low = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getLow());
+    BigMoney last = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getPrice());
+    BigMoney bid = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getBid());
+    BigMoney ask = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getAsk());
+    BigMoney high = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getHigh());
+    BigMoney low = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getLow());
     BigDecimal volume = bitcoinCentralTicker.getVolume();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();

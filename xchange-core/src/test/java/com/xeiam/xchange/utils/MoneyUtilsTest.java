@@ -21,18 +21,16 @@
  */
 package com.xeiam.xchange.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import org.joda.money.BigMoney;
 import org.junit.Test;
 
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
+
+import static org.junit.Assert.*;
 
 /**
  * Test class for testing MoneyUtils methods
@@ -337,4 +335,13 @@ public class MoneyUtilsTest {
 
   }
 
+  @Test
+  public void testParseMoney() throws Exception {
+
+    assertEquals(null, MoneyUtils.parseMoney(Currencies.EUR, null));
+
+    BigMoney eur344 = MoneyUtils.parseMoney(Currencies.EUR, new BigDecimal("3.44"));
+    assertEquals(new BigDecimal("3.44"), eur344.getAmount());
+    assertEquals("EUR", eur344.getCurrencyUnit().getCurrencyCode());
+  }
 }

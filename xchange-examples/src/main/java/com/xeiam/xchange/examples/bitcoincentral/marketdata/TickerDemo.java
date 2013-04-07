@@ -48,10 +48,10 @@ public class TickerDemo {
     String currency = ticker.getLast().getCurrencyUnit().toString();
 
     System.out.println("Last: " + currency + "-" + value);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
+    System.out.println("Last: " + ticker.getLast());
+    System.out.println("Volume: " + ticker.getVolume());
+    System.out.println("High: " + ticker.getHigh());
+    System.out.println("Low: " + ticker.getLow());
 
   }
 
