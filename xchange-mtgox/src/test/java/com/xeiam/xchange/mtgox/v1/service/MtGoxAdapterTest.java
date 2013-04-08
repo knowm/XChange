@@ -115,14 +115,14 @@ public class MtGoxAdapterTest {
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask", "id_567");
-    // System.out.println(openorders.size());
-    assertTrue("ASKS size should be 1582", asks.size() == 1582);
+    System.out.println(asks.size());
+    assertTrue("ASKS size should be 503", asks.size() == 503);
 
     // verify all fields filled
     // System.out.println(asks.get(0).toString());
-    assertTrue("limit price should be 18.1", asks.get(0).getLimitPrice().getAmount().doubleValue() == 18.1);
+    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue(), equalTo(182.99999));
     assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    assertTrue("tradableAmount should be 20", asks.get(0).getTradableAmount().doubleValue() == 20.0);
+    assertThat("tradableAmount should be 20", asks.get(0).getTradableAmount().doubleValue(), equalTo(2.46297453));
     assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
 
