@@ -29,6 +29,7 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 
@@ -45,9 +46,11 @@ public class DepthJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxDepth.getAsks().get(0).getAmountInt(), equalTo(2000000000L));
+    assertThat("Unexpected Return Buy value", mtGoxDepth.getAsks().get(0).getAmountInt(), equalTo(246297453L));
+    assertThat(mtGoxDepth.getFilterMaxPrice().getValueInt(), equalTo(20021100L));
   }
 }
