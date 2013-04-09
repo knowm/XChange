@@ -141,17 +141,17 @@ public class MtGoxAdapterTest {
 
     Trades trades = MtGoxAdapters.adaptTrades(mtGoxTrades);
     // System.out.println(trades.getTrades().size());
-    assertTrue("Trades size should be 90", trades.getTrades().size() == 90);
+    assertThat(trades.getTrades().size(), equalTo(30));
 
     // verify all fields filled
     // System.out.println(trades.getTrades().get(0).toString());
-    assertTrue("price should be 15.6", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 15.6);
-    assertTrue("order type should be ASK", trades.getTrades().get(0).getType() == OrderType.ASK);
-    assertTrue("tradableAmount should be 0.7", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.7);
-    assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue(), equalTo(193.99989));
+    assertThat(trades.getTrades().get(0).getType(), equalTo(OrderType.BID));
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue(), equalTo(0.01985186));
+    assertThat(trades.getTrades().get(0).getTradableIdentifier(), equalTo("BTC"));
+    assertThat(trades.getTrades().get(0).getTransactionCurrency(), equalTo("USD"));
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
-    assertThat("2012-04-11 20:48:46 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
+    assertThat("2013-04-09 09:18:23 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
   }
 
   @Test
