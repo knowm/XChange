@@ -105,12 +105,18 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
-
-    // Request data
-    MtGoxTrade[] mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
+    MtGoxTrade[] mtGoxTrades = null;
+    if (args.length > 0) {
+      Long sinceTimeStamp = (Long) args[0];
+      // Request data
+      mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency, "y", sinceTimeStamp);
+    } else {
+      // Request data
+      mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
+    }
 
     return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }

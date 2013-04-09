@@ -71,7 +71,7 @@ public class BitfloorPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
 

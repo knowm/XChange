@@ -44,7 +44,8 @@ public class TradesDemo {
     marketDataService = mtGoxExchange.getPollingMarketDataService();
 
     // Get trades
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN, 1365502698000000L);
     System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
     // Verify that trades is not null

@@ -135,7 +135,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }

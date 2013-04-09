@@ -86,7 +86,7 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
     BitcoinCentralTrade[] bitcoinCentralTrades = bitcoincentral.getTrades(currency, 100);

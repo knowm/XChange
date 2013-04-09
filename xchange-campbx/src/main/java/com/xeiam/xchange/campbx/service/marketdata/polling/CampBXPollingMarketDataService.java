@@ -82,7 +82,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }

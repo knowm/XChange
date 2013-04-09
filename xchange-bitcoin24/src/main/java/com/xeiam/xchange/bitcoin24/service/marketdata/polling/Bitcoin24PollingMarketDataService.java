@@ -92,7 +92,7 @@ public class Bitcoin24PollingMarketDataService implements PollingMarketDataServi
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
 
