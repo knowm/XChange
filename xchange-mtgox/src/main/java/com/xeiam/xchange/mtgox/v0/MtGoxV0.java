@@ -28,12 +28,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import si.mazi.rescu.ParamsDigest;
+
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
-
-import si.mazi.rescu.ParamsDigest;
 
 /**
  * @author timmolter

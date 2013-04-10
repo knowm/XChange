@@ -25,6 +25,9 @@ package com.xeiam.xchange.bitcoincentral.service.trade.polling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
@@ -39,9 +42,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-
-import si.mazi.rescu.BasicAuthCredentials;
-import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Matija Mazi

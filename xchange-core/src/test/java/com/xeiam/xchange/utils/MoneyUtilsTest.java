@@ -21,6 +21,11 @@
  */
 package com.xeiam.xchange.utils;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -29,8 +34,6 @@ import org.junit.Test;
 
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
-
-import static org.junit.Assert.*;
 
 /**
  * Test class for testing MoneyUtils methods

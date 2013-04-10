@@ -22,13 +22,13 @@
  */
 package com.xeiam.xchange.bitfloor.service.account.polling;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitfloor.Bitfloor;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
-
 import si.mazi.rescu.HmacPostBodyDigest;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitfloor.Bitfloor;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi <br/>

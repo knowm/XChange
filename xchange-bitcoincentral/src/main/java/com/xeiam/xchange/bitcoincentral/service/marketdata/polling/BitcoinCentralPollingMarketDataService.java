@@ -24,6 +24,8 @@ package com.xeiam.xchange.bitcoincentral.service.marketdata.polling;
 
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
@@ -39,8 +41,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-
-import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Matija Mazi
