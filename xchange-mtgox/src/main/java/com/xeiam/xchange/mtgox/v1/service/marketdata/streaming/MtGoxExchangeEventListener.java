@@ -37,11 +37,12 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
-import com.xeiam.xchange.rest.JSONUtils;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
+
+import si.mazi.rescu.JSONUtils;
 
 /**
  * @author timmolter

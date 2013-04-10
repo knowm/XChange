@@ -30,7 +30,6 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
@@ -40,6 +39,8 @@ import com.xeiam.xchange.virtex.VirtExUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * <p>

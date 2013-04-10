@@ -32,7 +32,8 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
-import com.xeiam.xchange.rest.ParamsDigest;
+
+import si.mazi.rescu.ParamsDigest;
 
 /**
  * @author timmolter

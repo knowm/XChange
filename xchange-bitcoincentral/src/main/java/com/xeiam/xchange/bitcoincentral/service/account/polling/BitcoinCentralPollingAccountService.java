@@ -30,10 +30,11 @@ import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralAdapters;
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.rest.BasicAuthCredentials;
-import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
+
+import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Matija Mazi

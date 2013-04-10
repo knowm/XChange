@@ -35,9 +35,10 @@ import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Matija Mazi
