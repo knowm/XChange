@@ -50,8 +50,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
+			<groupId>com.github.mmazi</groupId>
+			<artifactId>rescu</artifactId>
 		</dependency>
 
 		<dependency>

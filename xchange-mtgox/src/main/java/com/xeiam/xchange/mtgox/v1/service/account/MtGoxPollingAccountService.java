@@ -31,12 +31,13 @@ import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
-import com.xeiam.xchange.rest.HmacPostBodyDigest;
-import com.xeiam.xchange.rest.ParamsDigest;
-import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+
+import si.mazi.rescu.HmacPostBodyDigest;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * <p>

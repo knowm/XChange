@@ -31,8 +31,8 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.xeiam.xchange.rest.ParamsDigest;
-import com.xeiam.xchange.rest.RestMethodMetadata;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestMethodMetadata;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably

@@ -33,9 +33,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.rest.HmacPostBodyDigest;
-import com.xeiam.xchange.rest.Params;
-import com.xeiam.xchange.rest.RestMethodMetadata;
+import si.mazi.rescu.HmacPostBodyDigest;
+import si.mazi.rescu.Params;
+import si.mazi.rescu.RestMethodMetadata;
 
 public class MtGoxHmacPostBodyDigestTest {
 

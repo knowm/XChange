@@ -41,7 +41,8 @@ import com.xeiam.xchange.bitfloor.dto.marketdata.BitfloorTransaction;
 import com.xeiam.xchange.bitfloor.dto.trade.BitfloorOrder;
 import com.xeiam.xchange.bitfloor.dto.trade.NewOrderResult;
 import com.xeiam.xchange.bitfloor.dto.trade.OrderCancelResult;
-import com.xeiam.xchange.rest.ParamsDigest;
+
+import si.mazi.rescu.ParamsDigest;
 
 /** @author Matija Mazi See https://www.bitfloor.net/api/ for up-to-date docs. */
 @Path("/")

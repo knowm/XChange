@@ -35,10 +35,11 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.rest.RestProxyFactory;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Matija Mazi
