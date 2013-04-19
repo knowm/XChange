@@ -52,7 +52,8 @@ New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New
 XChange is semantically versioned: http://semver.org  
 
 ### Non-Maven
-Download XChange Jars: http://xeiam.com/xchange.jsp
+Download XChange Release Jars: http://xeiam.com/xchange.jsp
+Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/ (develop-SNAPSHOT)
 
 #### Compile Dependencies
     |  +- org.slf4j:slf4j-api:jar:1.7.2:compile
@@ -107,32 +108,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitfloor</artifactId>
-      <version>1.5.0</version>
-    </dependency>    
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-mtgox</artifactId>
-      <version>1.5.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-cavirtex</artifactId>
-      <version>1.5.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-openexchangerates</artifactId>
-      <version>1.5.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-btce</artifactId>
+      <artifactId>xchange-bitcoincharts</artifactId>
       <version>1.5.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitstamp</artifactId>
+      <version>1.5.0</version>
+    </dependency>  
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-btce</artifactId>
       <version>1.5.0</version>
     </dependency>
     <dependency>
@@ -142,7 +128,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitcoincharts</artifactId>
+      <artifactId>xchange-cavirtex</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-mtgox</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-openexchangerates</artifactId>
       <version>1.5.0</version>
     </dependency>
     
