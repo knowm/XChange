@@ -59,13 +59,14 @@ Download XChange Release Jars: http://xeiam.com/xchange.jsp
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/ (develop-SNAPSHOT)
 
 #### Compile Dependencies
-    |  +- org.slf4j:slf4j-api:jar:1.7.2:compile
-    |  +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
-    |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
-    |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
-    |  +- org.joda:joda-money:jar:0.8:compile
-    |  +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
-    |  +- com.google.code.findbugs:jsr305:jar:2.0.1:compile
+    +- org.slf4j:slf4j-api:jar:1.7.2:compile
+    +- org.joda:joda-money:jar:0.8:compile
+    \- com.github.mmazi:rescu:jar:1.0.0:compile
+         +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
+         +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
+         +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
+         +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+         \- com.google.code.findbugs:jsr305:jar:2.0.1:compile
 
 #### Test Dependencies
     \- junit:junit:jar:4.11:test
