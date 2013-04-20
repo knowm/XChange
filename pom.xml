@@ -83,23 +83,6 @@
 	<dependencyManagement>
 		<dependencies>
 
-			<!-- Jackson JSON Mapper -->
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-
 			<!-- Logging is through SLF4J -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -139,12 +122,7 @@
 				<version>2.1.0</version>
 			</dependency>
 
-			<!-- JSR-305 annotations (@Nullable etc.) -->
-			<dependency>
-				<groupId>com.google.code.findbugs</groupId>
-				<artifactId>jsr305</artifactId>
-				<version>2.0.1</version>
-			</dependency>
+
 
 		</dependencies>
 	</dependencyManagement>
@@ -311,15 +289,12 @@
 		</plugins>
 	</build>
 
-
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Versioning -->
 		<maven-surefire-plugin.version>2.13</maven-surefire-plugin.version>
-		<jackson.version>2.1.1</jackson.version>
 
 	</properties>
 
