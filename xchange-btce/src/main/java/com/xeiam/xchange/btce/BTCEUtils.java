@@ -42,11 +42,9 @@ public final class BTCEUtils {
 
   CurrencyPair.BTC_USD,
 
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.EUR_USD,
-
   CurrencyPair.BTC_RUR,
+
+  CurrencyPair.BTC_EUR,
 
   CurrencyPair.LTC_BTC,
 
@@ -54,7 +52,15 @@ public final class BTCEUtils {
 
   CurrencyPair.NMC_BTC,
 
-  CurrencyPair.USD_RUR
+  CurrencyPair.USD_RUR,
+
+  CurrencyPair.EUR_USD,
+
+  CurrencyPair.NVC_BTC,
+
+  CurrencyPair.TRC_BTC,
+
+  CurrencyPair.PPC_BTC
 
   );
 
