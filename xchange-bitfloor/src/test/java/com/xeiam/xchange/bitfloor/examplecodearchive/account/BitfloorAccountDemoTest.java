@@ -20,14 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.account;
+package com.xeiam.xchange.bitfloor.examplecodearchive.account;
 
-import java.math.BigDecimal;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.bitfloor.BitfloorDemoUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * <p>
@@ -36,23 +34,15 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  * <ul>
  * <li>Connect to Bitfloor exchange with authentication</li>
  * <li>View account balance</li>
- * <li>Withdraw BTC to arbitrary address</li>
+ * <li>Get the bitcoin deposit address</li>
  * </ul>
  */
-public class BitfloorAccountDemo {
+@Category(OnlineTest.class)
+public class BitfloorAccountDemoTest {
 
-  public static void main(String[] args) {
+  @Test
+  public void testMain() throws Exception {
 
-    Exchange bitfloor = BitfloorDemoUtils.getExchange();
-
-    PollingAccountService accountService = bitfloor.getPollingAccountService();
-
-    // Get the account information.
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo: " + accountInfo);
-
-    // Withdraw some funds.
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal("0.01"), "143LjDFoyZgzh7CJ46Sp4bJtgshX3KPcLj");
-    System.out.println("withdrawResult = " + withdrawResult);
+    BitfloorAccountDemo.main(new String[] {});
   }
 }

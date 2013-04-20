@@ -20,19 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.marketdata;
+package com.xeiam.xchange.bitfloor.examplecodearchive.marketdata;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfloor.BitfloorExchange;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Order Book at Bitfloor
  */
-public class FullDepthDemo {
+public class BitfloorTickerDemo {
 
   public static void main(String[] args) {
 
@@ -42,14 +42,14 @@ public class FullDepthDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitfloor.getPollingMarketDataService();
 
-    // Get the latest order book data for BTC/CAD
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    // Get the latest ticker data showing BTC to CAD
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
 
-    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
-
-    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
-    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
-
+    System.out.println("Last: " + ticker.getLast());
+    System.out.println("Volume: " + ticker.getVolume());
+    System.out.println("Low: " + ticker.getLow());
+    System.out.println("High: " + ticker.getHigh());
+    System.out.println("Timestamp: " + ticker.getTimestamp());
   }
 
 }

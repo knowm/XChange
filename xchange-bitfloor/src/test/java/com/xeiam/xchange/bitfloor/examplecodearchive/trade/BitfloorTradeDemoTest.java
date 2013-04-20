@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.trade;
+package com.xeiam.xchange.bitfloor.examplecodearchive.trade;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

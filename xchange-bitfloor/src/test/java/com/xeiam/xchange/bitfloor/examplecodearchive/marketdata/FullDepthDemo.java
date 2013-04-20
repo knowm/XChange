@@ -20,23 +20,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.marketdata;
+package com.xeiam.xchange.bitfloor.examplecodearchive.marketdata;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import com.xeiam.xchange.OnlineTest;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.bitfloor.BitfloorExchange;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Order Book at Bitfloor
  */
-@Category(OnlineTest.class)
-public class FullDepthDemoTest {
+public class FullDepthDemo {
 
-  @Test
-  public void testMain() throws Exception {
+  public static void main(String[] args) {
 
-    FullDepthDemo.main(new String[] {});
+    // Use the factory to get Bitfloor exchange API using default settings
+    Exchange bitfloor = ExchangeFactory.INSTANCE.createExchange(BitfloorExchange.class.getName());
+
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = bitfloor.getPollingMarketDataService();
+
+    // Get the latest order book data for BTC/CAD
+    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+
+    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
   }
 
 }

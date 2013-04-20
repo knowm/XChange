@@ -20,33 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.marketdata;
+package com.xeiam.xchange.bitfloor.examplecodearchive.marketdata;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.bitfloor.BitfloorExchange;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrate requesting Order Book at Bitfloor
  */
-public class TradesDemo {
+@Category(OnlineTest.class)
+public class TradesDemoTest {
 
-  public static void main(String[] args) {
+  @Test
+  public void testMain() throws Exception {
 
-    // Use the factory to get Bitfloor exchange API using default settings
-    Exchange bitfloor = ExchangeFactory.INSTANCE.createExchange(BitfloorExchange.class.getName());
-
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitfloor.getPollingMarketDataService();
-
-    // Get the latest trade data for BTC/CAD
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
-
-    System.out.println(trades.toString());
-
+    TradesDemo.main(new String[] {});
   }
 
 }

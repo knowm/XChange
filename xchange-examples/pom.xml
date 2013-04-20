@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -74,24 +75,17 @@
 		</dependency>
 		<!-- XChange BitcoinCentral support -->
 		<dependency>
-				<groupId>com.xeiam.xchange</groupId>
-				<artifactId>xchange-bitcoincentral</artifactId>
-				<version>develop-SNAPSHOT</version>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bitcoincentral</artifactId>
+			<version>develop-SNAPSHOT</version>
 		</dependency>
 
-		<!-- XChange Bitfloor support -->
+		<!-- XChange Bitcoin24 support -->
 		<dependency>
-				<groupId>com.xeiam.xchange</groupId>
-				<artifactId>xchange-bitfloor</artifactId>
-				<version>develop-SNAPSHOT</version>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bitcoin24</artifactId>
+			<version>develop-SNAPSHOT</version>
 		</dependency>
-		
-		      <!-- XChange Bitcoin24 support -->
-        <dependency>
-                <groupId>com.xeiam.xchange</groupId>
-                <artifactId>xchange-bitcoin24</artifactId>
-                <version>develop-SNAPSHOT</version>
-        </dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

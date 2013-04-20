@@ -20,23 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.marketdata;
+package com.xeiam.xchange.bitfloor.examplecodearchive;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import com.xeiam.xchange.OnlineTest;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitfloor.BitfloorExchange;
 
 /**
- * Demonstrate requesting Order Book at Bitfloor
+ * @author Matija Mazi <br/>
  */
-@Category(OnlineTest.class)
-public class TradesDemoTest {
+public class BitfloorDemoUtils {
 
-  @Test
-  public void testMain() throws Exception {
+  public static Exchange getExchange() {
 
-    TradesDemo.main(new String[] {});
+    ExchangeSpecification exSpec = new BitfloorExchange().getDefaultExchangeSpecification();
+    exSpec.setUserName("matijamazi@gmail.com");
+    exSpec.setPassword("Api Key Pass Phrase");
+    exSpec.setApiKey("e62a9ee0-aabf-4448-a883-8fbc835b02f4");
+    exSpec.setSecretKey("OHxIzrtDrhmUAbkpGJiZXSLdOkDdhxaqQrwFhiUomWZXiUXgs2YFMxAJqmarJvjS3GpVUNFCBoB4iS1NSdML0Q==");
+
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
 }

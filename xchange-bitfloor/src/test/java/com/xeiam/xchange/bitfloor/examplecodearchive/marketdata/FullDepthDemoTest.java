@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.account;
+package com.xeiam.xchange.bitfloor.examplecodearchive.marketdata;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -28,21 +28,15 @@ import org.junit.experimental.categories.Category;
 import com.xeiam.xchange.OnlineTest;
 
 /**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connect to Bitfloor exchange with authentication</li>
- * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- * </ul>
+ * Demonstrate requesting Order Book at Bitfloor
  */
 @Category(OnlineTest.class)
-public class BitfloorAccountDemoTest {
+public class FullDepthDemoTest {
 
   @Test
   public void testMain() throws Exception {
 
-    BitfloorAccountDemo.main(new String[] {});
+    FullDepthDemo.main(new String[] {});
   }
+
 }

@@ -20,17 +20,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfloor.trade;
+package com.xeiam.xchange.bitfloor.examplecodearchive.account;
 
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.bitfloor.BitfloorDemoUtils;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.bitfloor.examplecodearchive.BitfloorDemoUtils;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
  * <p>
@@ -38,35 +35,24 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * </p>
  * <ul>
  * <li>Connect to Bitfloor exchange with authentication</li>
- * <li>Enter, review and cancel limit orders</li>
+ * <li>View account balance</li>
+ * <li>Withdraw BTC to arbitrary address</li>
  * </ul>
  */
-public class BitfloorTradeDemo {
+public class BitfloorAccountDemo {
 
   public static void main(String[] args) {
 
     Exchange bitfloor = BitfloorDemoUtils.getExchange();
-    PollingTradeService tradeService = bitfloor.getPollingTradeService();
 
-    printOpenOrders(tradeService);
+    PollingAccountService accountService = bitfloor.getPollingAccountService();
 
-    // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.01"), "BTC", "USD", MoneyUtils.parse("USD 1250"));
-    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
-    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+    // Get the account information.
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println("AccountInfo: " + accountInfo);
 
-    printOpenOrders(tradeService);
-
-    // Cancel the added order
-    boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
-    System.out.println("Canceling returned " + cancelResult);
-
-    printOpenOrders(tradeService);
-  }
-
-  private static void printOpenOrders(PollingTradeService tradeService) {
-
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
+    // Withdraw some funds.
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal("0.01"), "143LjDFoyZgzh7CJ46Sp4bJtgshX3KPcLj");
+    System.out.println("withdrawResult = " + withdrawResult);
   }
 }
