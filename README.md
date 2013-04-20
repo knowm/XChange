@@ -147,10 +147,10 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     </dependency>
     
 ## Building
-mvn clean package  
-mvn javadoc:aggregate  
-mvn clean integration-test -P run-integration-tests  
-mvn dependency:tree  
+install in local Maven repo: mvn clean install  
+create project javadocs: mvn javadoc:aggregate  
+run integration tests: mvn clean integration-test -P run-integration-tests  
+generate dependency tree: mvn dependency:tree  
 
 ## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).
