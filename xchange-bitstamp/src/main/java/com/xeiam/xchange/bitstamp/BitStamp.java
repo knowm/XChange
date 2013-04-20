@@ -71,7 +71,7 @@ public interface BitStamp {
   // @Produces("application/json")
   // public Transaction[] getTransactions(@QueryParam("timedelta") long timedeltaSec);
 
-  /** @return true if order has been found and canceled. */
+  /** @return true if order has been canceled. */
   @POST
   @Path("cancel_order/")
   @Produces("application/json")
