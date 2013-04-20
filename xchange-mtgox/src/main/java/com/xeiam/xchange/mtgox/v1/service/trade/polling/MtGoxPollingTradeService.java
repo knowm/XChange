@@ -35,8 +35,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v0.MtGoxV0;
-import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
@@ -83,7 +81,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
         .getTransactionCurrency(), marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(
         new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
 
-    return mtGoxSuccess.getReturn();
+    return mtGoxSuccess.getReturn().toString();
   }
 
   @Override
@@ -97,27 +95,27 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
         .getCurrencyUnit().toString(), limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask", limitOrder.getTradableAmount().multiply(
         new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), MtGoxUtils.getPriceString(limitOrder.getLimitPrice()));
 
-    return mtGoxSuccess.getReturn();
+    return mtGoxSuccess.getReturn().toString();
   }
 
   @Override
   public boolean cancelOrder(String orderId) {
 
-    MtGoxV0 mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getSslUri());
+    // MtGoxV0 mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getSslUri());
 
     Assert.notNull(orderId, "orderId cannot be null");
 
-    MtGoxCancelOrder mtGoxCancelOrder = mtGoxV0.cancelOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), orderId);
+    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV1.cancelOrder(exchangeSpecification.getApiKey(), postBodySignatureCreator, getNonce(), orderId);
 
-    boolean orderGone = true;
-    for (int i = 0; i < mtGoxCancelOrder.getOrders().size(); i++) {
-      if (mtGoxCancelOrder.getOrders().get(i).getOid().equals(orderId)) {
-        orderGone = false;
-        break;
-      }
-    }
+    // boolean orderCancelled = true;
+    // for (int i = 0; i < mtGoxCancelOrder.getOrders().size(); i++) {
+    // if (mtGoxCancelOrder.getOrders().get(i).getOid().equals(orderId)) {
+    // orderCancelled = false;
+    // break;
+    // }
+    // }
 
-    return orderGone;
+    return mtGoxGenericResponse.getResult().equals("success");
   }
 
   private void verify(Order order) {
