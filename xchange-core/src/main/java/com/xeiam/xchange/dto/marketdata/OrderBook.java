@@ -23,6 +23,7 @@ package com.xeiam.xchange.dto.marketdata;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -91,4 +92,20 @@ public final class OrderBook {
     return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+
+		OrderBook rhs = (OrderBook) obj;
+		return Objects.equals(getBids(), rhs.getBids()) && Objects.equals(getAsks(), rhs.getAsks());
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(getBids(),getAsks());
+	}
 }

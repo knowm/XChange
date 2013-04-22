@@ -23,121 +23,152 @@ package com.xeiam.xchange.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Data object representing an order
  */
+
 public class Order {
 
-  public enum OrderType {
+	public enum OrderType {
 
-    /**
-     * Buying order (you're making an offer)
-     */
-    BID,
-    /**
-     * Selling order (you're asking for offers)
-     */
-    ASK
-  }
+		/**
+		 * Buying order (you're making an offer)
+		 */
+		BID,
+		/**
+		 * Selling order (you're asking for offers)
+		 */
+		ASK
+	}
 
-  /**
-   * Order type i.e. bid or ask
-   */
-  private final OrderType type;
+	/**
+	 * Order type i.e. bid or ask
+	 */
+	private final OrderType type;
 
-  /**
-   * Amount to be ordered / amount that was ordered
-   */
-  private final BigDecimal tradableAmount;
+	/**
+	 * Amount to be ordered / amount that was ordered
+	 */
+	private final BigDecimal tradableAmount;
 
-  /**
-   * An identifier that uniquely identifies the tradeable
-   */
-  private final String tradableIdentifier;
+	/**
+	 * An identifier that uniquely identifies the tradeable
+	 */
+	private final String tradableIdentifier;
 
-  /**
-   * The currency used to settle the market order transaction
-   */
-  private final String transactionCurrency;
+	/**
+	 * The currency used to settle the market order transaction
+	 */
+	private final String transactionCurrency;
 
-  /**
-   * An identifier that uniquely identifies the order
-   */
-  private final String id;
+	/**
+	 * An identifier that uniquely identifies the order
+	 */
+	private final String id;
 
-  /**
-   * The timestamp on the order
-   */
-  private final Date timestamp;
+	/**
+	 * The timestamp on the order
+	 */
+	private final Date timestamp;
 
-  /**
-   * @param type Either BID (buying) or ASK (selling)
-   * @param tradableAmount The amount to trade
-   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
-   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
-   * @param id An id (usually provided by the exchange)
-   */
-  public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp) {
+	/**
+	 * @param type
+	 *            Either BID (buying) or ASK (selling)
+	 * @param tradableAmount
+	 *            The amount to trade
+	 * @param tradableIdentifier
+	 *            The identifier (e.g. BTC in BTC/USD)
+	 * @param transactionCurrency
+	 *            The transaction currency (e.g. USD in BTC/USD)
+	 * @param id
+	 *            An id (usually provided by the exchange)
+	 */
+	public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp) {
 
-    this.type = type;
-    this.tradableAmount = tradableAmount;
-    this.tradableIdentifier = tradableIdentifier;
-    this.transactionCurrency = transactionCurrency;
-    this.id = id;
-    this.timestamp = timestamp;
-  }
+		this.type = type;
+		this.tradableAmount = tradableAmount;
+		this.tradableIdentifier = tradableIdentifier;
+		this.transactionCurrency = transactionCurrency;
+		this.id = id;
+		this.timestamp = timestamp;
+	}
 
-  /**
-   * @return The type (BID or ASK)
-   */
-  public OrderType getType() {
+	/**
+	 * @return The type (BID or ASK)
+	 */
+	public OrderType getType() {
 
-    return type;
-  }
+		return type;
+	}
 
-  /**
-   * @return The amount to trade
-   */
-  public BigDecimal getTradableAmount() {
+	/**
+	 * @return The amount to trade
+	 */
+	public BigDecimal getTradableAmount() {
 
-    return tradableAmount;
-  }
+		return tradableAmount;
+	}
 
-  /**
-   * @return The tradeable identifier (e.g. BTC in BTC/USD)
-   */
-  public String getTradableIdentifier() {
+	/**
+	 * @return The tradeable identifier (e.g. BTC in BTC/USD)
+	 */
+	public String getTradableIdentifier() {
 
-    return tradableIdentifier;
-  }
+		return tradableIdentifier;
+	}
 
-  /**
-   * @return The transaction currency (e.g. USD in BTC/USD)
-   */
-  public String getTransactionCurrency() {
+	/**
+	 * @return The transaction currency (e.g. USD in BTC/USD)
+	 */
+	public String getTransactionCurrency() {
 
-    return transactionCurrency;
-  }
+		return transactionCurrency;
+	}
 
-  /**
-   * @return A unique identifier (normally provided by the exchange)
-   */
-  public String getId() {
+	/**
+	 * @return A unique identifier (normally provided by the exchange)
+	 */
+	public String getId() {
 
-    return id;
-  }
+		return id;
+	}
 
-  public Date getTimestamp() {
+	public Date getTimestamp() {
 
-    return timestamp;
-  }
+		return timestamp;
+	}
 
-  @Override
-  public String toString() {
+	@Override
+	public String toString() {
 
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", id=" + id + ", timestamp="
-        + timestamp + "]";
-  }
+		return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency="
+				+ transactionCurrency + ", id=" + id + ", timestamp=" + timestamp + "]";
+	}
 
+	
+	/*
+	 * @return Equality. Intentionally does not compare timestamp.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+
+		Order rhs = (Order) obj;
+		return Objects.equals(getType(), rhs.getType()) && Objects.equals(getTradableAmount(), rhs.getTradableAmount())
+				&& Objects.equals(getTransactionCurrency(), rhs.getTransactionCurrency()) && Objects.equals(getId(), rhs.getId());
+	}
+
+	/*
+	 * @return Hashcode. Intentionally does not compare timestamp;
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(getType(), getTradableAmount(), getTransactionCurrency(), getId());
+	}
 }
