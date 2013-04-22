@@ -48,6 +48,8 @@ public final class BTCEUtils {
 
   CurrencyPair.LTC_BTC,
 
+  CurrencyPair.LTC_USD,
+
   CurrencyPair.LTC_RUR,
 
   CurrencyPair.NMC_BTC,
