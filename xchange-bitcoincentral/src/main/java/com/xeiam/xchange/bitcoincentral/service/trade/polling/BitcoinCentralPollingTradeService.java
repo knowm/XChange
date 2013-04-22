@@ -91,7 +91,7 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   public boolean cancelOrder(String orderId) {
 
     String ret = bitcoincentral.cancelOrder(credentials, orderId);
-    log.debug("Cancelling returned: {}", ret);
+    log.debug("Cancel order returned: {}", ret);
     return true;
   }
 

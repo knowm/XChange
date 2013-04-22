@@ -13,7 +13,7 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 public class MtGoxStreamingConfiguration implements ExchangeStreamingConfiguration {
 
   private final int maxReconnectAttempts;
-  private final int recconectWaitTimeInMs;
+  private final int reconnectWaitTimeInMs;
   private final String tradeableIdentifier;
   private final String currencyCode;
 
@@ -21,14 +21,14 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
    * Constructor
    * 
    * @param maxReconnectAttempts
-   * @param recconectWaitTimeInMs
+   * @param reconnectWaitTimeInMs
    * @param tradeableIdentifier
    * @param currencyCode
    */
-  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int recconectWaitTimeInMs, String tradeableIdentifier, String currencyCode) {
+  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, String tradeableIdentifier, String currencyCode) {
 
     this.maxReconnectAttempts = maxReconnectAttempts;
-    this.recconectWaitTimeInMs = recconectWaitTimeInMs;
+    this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;
     this.tradeableIdentifier = tradeableIdentifier;
     this.currencyCode = currencyCode;
   }
@@ -52,7 +52,7 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   @Override
   public int getRecconectWaitTimeInMs() {
 
-    return recconectWaitTimeInMs;
+    return reconnectWaitTimeInMs;
   }
 
 }
