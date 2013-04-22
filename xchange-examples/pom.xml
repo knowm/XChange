@@ -80,13 +80,6 @@
 			<version>develop-SNAPSHOT</version>
 		</dependency>
 
-		<!-- XChange Bitcoin24 support -->
-		<dependency>
-			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange-bitcoin24</artifactId>
-			<version>develop-SNAPSHOT</version>
-		</dependency>
-
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>

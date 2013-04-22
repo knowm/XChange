@@ -77,7 +77,6 @@
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-bitcoincentral</module>
-		<module>xchange-bitcoin24</module>
 	</modules>
 
 	<dependencyManagement>
