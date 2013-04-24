@@ -22,6 +22,8 @@
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,8 +51,8 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final String apiBase = String.format("ws://websocket.%s:%s/mtgox", exchangeSpecification.getHost(), exchangeSpecification.getPort());
 
+  private final String apiBase = String.format("ws://websocket.%s:%s/mtgox", exchangeSpecification.getHost(), exchangeSpecification.getPort());
   private final ExchangeEventListener exchangeEventListener;
 
   /**
@@ -84,11 +86,13 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
   public void connect() {
 
     URI uri = URI.create(apiBase + "?Currency=" + configuration.getCurrencyCode());
+    Map<String, String> headers = new HashMap<String, String>(1);
+    headers.put("Origin", String.format("%s:%s", exchangeSpecification.getHost(), exchangeSpecification.getPort()));
 
     logger.debug("Streaming URI='{}'", uri);
 
     // Use the default internal connect
-    internalConnect(uri, exchangeEventListener);
+    internalConnect(uri, exchangeEventListener, headers);
   }
 
 }
