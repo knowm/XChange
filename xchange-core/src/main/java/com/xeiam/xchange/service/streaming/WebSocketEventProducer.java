@@ -21,14 +21,15 @@
  */
 package com.xeiam.xchange.service.streaming;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_10;
+import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
 
 /**
  * @author timmolter
@@ -46,9 +47,10 @@ public class WebSocketEventProducer extends WebSocketClient {
    * @param exchangeEventProducer
    * @throws URISyntaxException
    */
-  public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener) throws URISyntaxException {
+  public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener, Map<String, String> headers)
+          throws URISyntaxException {
 
-    super(new URI(url), new Draft_10());
+    super(new URI(url), new Draft_17(), headers, 0);
     this.exchangeEventListener = exchangeEventListener;
 
   }
