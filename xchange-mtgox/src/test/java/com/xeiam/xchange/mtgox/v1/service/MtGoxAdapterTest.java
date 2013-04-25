@@ -29,8 +29,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.junit.Test;
 
@@ -94,13 +96,18 @@ public class MtGoxAdapterTest {
     assertTrue("ASKS size should be 38", openorders.size() == 38);
 
     // verify all fields filled
-    // System.out.println(openorders.get(0).toString());
+    System.out.println(openorders.get(0).toString());
     assertTrue("limit price should be 1.25", openorders.get(0).getLimitPrice().getAmount().doubleValue() == 1.25);
     assertTrue("order type should be BID", openorders.get(0).getType() == OrderType.BID);
     assertTrue("tradableAmount should be 0.23385868", openorders.get(0).getTradableAmount().doubleValue() == 0.23385868);
     assertTrue("tradableIdentifier should be BTC", openorders.get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be USD", openorders.get(0).getTransactionCurrency().equals("USD"));
 
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(openorders.get(0).getTimestamp());
+    // System.out.println(dateString);
+    assertTrue("transactionCurrency should be USD", dateString.equals("2012-Apr-08 14:59:11"));
   }
 
   @Test
