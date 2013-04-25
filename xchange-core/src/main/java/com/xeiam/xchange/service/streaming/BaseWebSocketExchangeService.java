@@ -108,4 +108,9 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
   }
 
+  @Override
+  public void send(String msg) {
+    exchangeEventProducer.send(msg);
+  }
+
 }
