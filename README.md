@@ -150,9 +150,5 @@ If you'd like to submit a new implementation for another exchange, please take a
 
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
 
-## Acknowledgements
-XChange integrates the code from the [Java-Websocket](https://github.com/TooTallNate/Java-WebSocket) project licensed under the MIT license. The code is copy-pasta-ed directly into XChange for now. 
-
-
 ## Donations
 15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w
