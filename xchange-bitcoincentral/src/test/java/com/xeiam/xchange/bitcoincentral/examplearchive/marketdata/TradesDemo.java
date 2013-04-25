@@ -20,19 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitcoincentral.marketdata;
+package com.xeiam.xchange.bitcoincentral.examplearchive.marketdata;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralExchange;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at BitcoinCentral
+ * Demonstrate requesting Trades at BitcoinCentral
  */
-public class FullDepthDemo {
+public class TradesDemo {
 
   public static void main(String[] args) {
 
@@ -42,13 +42,10 @@ public class FullDepthDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService();
 
-    // Get the latest order book data for BTC/CAD
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.EUR);
+    // Get the latest trade data for BTC/CAD
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
 
-    System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
-
-    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
-    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+    System.out.println(trades.toString());
 
   }
 

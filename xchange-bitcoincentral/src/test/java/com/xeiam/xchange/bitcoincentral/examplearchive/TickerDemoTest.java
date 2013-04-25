@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitcoincentral.marketdata;
+package com.xeiam.xchange.bitcoincentral.examplearchive;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -31,12 +31,12 @@ import com.xeiam.xchange.OnlineTest;
  * Demonstrate requesting Order Book at BitcoinCentral
  */
 @Category(OnlineTest.class)
-public class TradesDemoTest {
+public class TickerDemoTest {
 
   @Test
   public void testMain() throws Exception {
 
-    com.xeiam.xchange.examples.bitcoincentral.marketdata.TradesDemo.main(new String[] {});
+    com.xeiam.xchange.bitcoincentral.examplearchive.marketdata.TickerDemo.main(new String[] {});
   }
 
 }

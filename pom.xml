@@ -76,7 +76,6 @@
 		<module>xchange-bitstamp</module>
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
-		<module>xchange-bitcoincentral</module>
 	</modules>
 
 	<dependencyManagement>
