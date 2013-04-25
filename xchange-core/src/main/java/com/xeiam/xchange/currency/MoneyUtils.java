@@ -59,9 +59,13 @@ public class MoneyUtils {
     }
   }
 
+  /**
+   * @return null if amount == null; otherwise appropriate BigMoney.
+   * @throws org.joda.money.IllegalCurrencyException if the currency is unknown
+   */
   public static BigMoney parseMoney(String currency, BigDecimal amount) {
 
-    return BigMoney.of(CurrencyUnit.of(currency), amount);
+    return amount == null ? null : BigMoney.of(CurrencyUnit.of(currency), amount);
   }
 
   public static BigMoney parseMoney(String currency, double amount) {

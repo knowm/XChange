@@ -31,6 +31,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import si.mazi.rescu.ParamsDigest;
+
 import com.xeiam.xchange.bitfloor.dto.Product;
 import com.xeiam.xchange.bitfloor.dto.account.BitfloorBalance;
 import com.xeiam.xchange.bitfloor.dto.account.WithdrawResult;
@@ -41,7 +43,6 @@ import com.xeiam.xchange.bitfloor.dto.marketdata.BitfloorTransaction;
 import com.xeiam.xchange.bitfloor.dto.trade.BitfloorOrder;
 import com.xeiam.xchange.bitfloor.dto.trade.NewOrderResult;
 import com.xeiam.xchange.bitfloor.dto.trade.OrderCancelResult;
-import com.xeiam.xchange.rest.ParamsDigest;
 
 /** @author Matija Mazi See https://www.bitfloor.net/api/ for up-to-date docs. */
 @Path("/")

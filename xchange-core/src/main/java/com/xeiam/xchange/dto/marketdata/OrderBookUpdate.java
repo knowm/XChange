@@ -31,51 +31,45 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Data object representing a Market Depth update
- * <p>
- * Can be represented as either a new LimitOrder (newVolume) or a Trade (deltaVolume)
  */
 public final class OrderBookUpdate {
 
   private final LimitOrder limitOrder;
-  private final Trade trade;
 
-  /**
-   * NEW: The change in volume at limitPrice
-   */
+  /** this is the total volume at this price in the order book */
+  private final BigDecimal totalVolume;
 
   /**
    * Constructor
    * 
    * @param type
-   * @param newVolume
-   * @param volumeChange
+   * @param volume
    * @param tradableIdentifier
-   * @param totalVolume
    * @param transactionCurrency
    * @param limitPrice
-   * @param deltaVolume
    * @param date
+   * @param totalVolume
    */
-  public OrderBookUpdate(OrderType type, BigDecimal newVolume, String tradableIdentifier, String transactionCurrency, long date, BigMoney limitPrice, BigDecimal deltaVolume) {
+  public OrderBookUpdate(OrderType type, BigDecimal volume, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice, Date timestamp, BigDecimal totalVolume) {
 
-    this.limitOrder = new LimitOrder(type, newVolume, tradableIdentifier, transactionCurrency, limitPrice);
-    this.trade = new Trade(type, deltaVolume, tradableIdentifier, transactionCurrency, limitPrice, new Date(date));
+    this.limitOrder = new LimitOrder(type, volume, tradableIdentifier, transactionCurrency, limitPrice, timestamp);
+    this.totalVolume = totalVolume;
   }
 
-  public LimitOrder asLimitOrder() {
+  public LimitOrder getLimitOrder() {
 
     return limitOrder;
   }
 
-  public Trade asTrade() {
+  public BigDecimal getTotalVolume() {
 
-    return trade;
+    return totalVolume;
   }
 
   @Override
   public String toString() {
 
-    return "Change: " + trade.getTradableAmount().toString() + " @ " + limitOrder.toString();
+    return "OrderBookUpdate [limitOrder=" + limitOrder + ", totalVolume=" + totalVolume + "]";
   }
 
 }

@@ -22,6 +22,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -35,9 +37,8 @@ import com.xeiam.xchange.oer.OERAdapters;
 import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 import com.xeiam.xchange.oer.dto.marketdata.Rates;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -64,7 +65,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   public OERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.openExchangeRates = RestProxyFactory.createProxy(OER.class, exchangeSpecification.getUri());
+    this.openExchangeRates = RestProxyFactory.createProxy(OER.class, exchangeSpecification.getPlainTextUri());
   }
 
   @Override
@@ -135,7 +136,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }

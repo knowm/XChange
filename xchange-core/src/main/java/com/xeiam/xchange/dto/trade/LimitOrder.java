@@ -22,6 +22,7 @@
 package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.joda.money.BigMoney;
 
@@ -50,10 +51,39 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   * @param timestamp a Date object representing the order's timestamp
+   */
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp, BigMoney limitPrice) {
+
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id, timestamp);
+    this.limitPrice = limitPrice;
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, BigMoney limitPrice) {
 
-    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id);
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id, null);
+    this.limitPrice = limitPrice;
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
+   * @param timestamp a Date object representing the order's timestamp
+   */
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice, Date timestamp) {
+
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "", timestamp);
     this.limitPrice = limitPrice;
   }
 
@@ -66,7 +96,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice) {
 
-    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "");
+    super(type, tradableAmount, tradableIdentifier, transactionCurrency, "", null);
     this.limitPrice = limitPrice;
   }
 

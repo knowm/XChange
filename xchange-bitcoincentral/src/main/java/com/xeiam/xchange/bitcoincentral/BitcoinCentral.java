@@ -32,18 +32,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import si.mazi.rescu.BasicAuthCredentials;
+
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralDepth;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTicker;
 import com.xeiam.xchange.bitcoincentral.dto.marketdata.BitcoinCentralTrade;
 import com.xeiam.xchange.bitcoincentral.dto.trade.BitcoinCentralMyOrder;
 import com.xeiam.xchange.bitcoincentral.dto.trade.TradeOrderRequestWrapper;
-import com.xeiam.xchange.rest.BasicAuthCredentials;
 
 /**
  * @author Matija Mazi
  */
-@Path("/")
+@Path("api/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BitcoinCentral {
 
@@ -83,10 +84,10 @@ public interface BitcoinCentral {
   BitcoinCentralTicker getTicker(@QueryParam("currency") String currency);
 
   @GET
-  @Path("order_book")
-  BitcoinCentralDepth getOrderBook(@QueryParam("currency") String currency);
+  @Path("depth/{currency}")
+  BitcoinCentralDepth getOrderBook(@PathParam("currency") String currency);
 
   @GET
-  @Path("trades")
-  BitcoinCentralTrade[] getTrades(@QueryParam("currency") String currency, @QueryParam("per_page") int perPage);
+  @Path("trades/{currency}")
+  BitcoinCentralTrade[] getTrades(@PathParam("currency") String currency, @QueryParam("per_page") int perPage);
 }

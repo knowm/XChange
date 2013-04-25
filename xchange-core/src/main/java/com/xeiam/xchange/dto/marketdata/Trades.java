@@ -41,7 +41,6 @@ public final class Trades {
    */
   public Trades(List<Trade> trades) {
 
-    Collections.sort(trades);
     this.trades = new ArrayList<Trade>(trades);
   }
 
@@ -50,6 +49,7 @@ public final class Trades {
    */
   public List<Trade> getTrades() {
 
+    Collections.sort(trades);
     return trades;
   }
 

@@ -38,7 +38,7 @@ public class BitcoinCentralExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://bitcoin-central.net");
+    exchangeSpecification.setSslUri("https://bitcoin-central.net");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin-Central");
     exchangeSpecification.setExchangeDescription("Bitcoin-Central is a service operated by the French company Paymium.");

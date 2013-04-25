@@ -64,7 +64,7 @@ public class VirtExExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://cavirtex.com");
+    exchangeSpecification.setSslUri("https://cavirtex.com");
     exchangeSpecification.setHost("cavirtex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("VirtEx");

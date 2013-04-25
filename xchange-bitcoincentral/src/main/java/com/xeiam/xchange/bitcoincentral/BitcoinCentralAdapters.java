@@ -25,6 +25,7 @@ package com.xeiam.xchange.bitcoincentral;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
@@ -46,6 +47,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from Bitcoin Central DTOs to XChange DTOs
@@ -82,11 +84,11 @@ public final class BitcoinCentralAdapters {
    */
   public static Ticker adaptTicker(BitcoinCentralTicker bitcoinCentralTicker, String tradableIdentifier) {
 
-    BigMoney last = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getPrice());
-    BigMoney bid = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getBid());
-    BigMoney ask = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getAsk());
-    BigMoney high = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getHigh());
-    BigMoney low = MoneyUtils.parse(bitcoinCentralTicker.getCurrency().toUpperCase() + " " + bitcoinCentralTicker.getLow());
+    BigMoney last = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getPrice());
+    BigMoney bid = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getBid());
+    BigMoney ask = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getAsk());
+    BigMoney high = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getHigh());
+    BigMoney low = MoneyUtils.parseMoney(bitcoinCentralTicker.getCurrency().toUpperCase(), bitcoinCentralTicker.getLow());
     BigDecimal volume = bitcoinCentralTicker.getVolume();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
@@ -131,13 +133,31 @@ public final class BitcoinCentralAdapters {
    * @param tradableIdentifier
    * @return
    */
-  // TODO implement timestamp after bitcoin central provides a better timestamp
   public static Trades adaptTrades(BitcoinCentralTrade[] bitcoinCentralTrades, String currency, String tradableIdentifier) {
 
     List<Trade> trades = new ArrayList<Trade>();
+
     for (BitcoinCentralTrade bitcoinCentralTrade : bitcoinCentralTrades) {
-      trades.add(new Trade(null, bitcoinCentralTrade.getTradedBtc(), tradableIdentifier, bitcoinCentralTrade.getCurrency(), BigMoney.of(CurrencyUnit.of(bitcoinCentralTrade.getCurrency()),
-          bitcoinCentralTrade.getPpc()), null));
+
+      Date date = DateUtils.fromMillisUtc(bitcoinCentralTrade.getCreatedAtInt() * 1000L);
+
+      trades.add(
+
+      new Trade(
+
+      null,
+
+      bitcoinCentralTrade.getTradedBtc(),
+
+      tradableIdentifier,
+
+      bitcoinCentralTrade.getCurrency(),
+
+      BigMoney.of(CurrencyUnit.of(bitcoinCentralTrade.getCurrency()),
+
+      bitcoinCentralTrade.getPrice())
+
+      , date));
     }
     return new Trades(trades);
   }

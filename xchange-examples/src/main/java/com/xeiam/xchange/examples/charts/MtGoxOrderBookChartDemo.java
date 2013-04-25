@@ -52,6 +52,10 @@ public class MtGoxOrderBookChartDemo {
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
 
+    System.out.println("received data.");
+
+    System.out.println("plotting...");
+
     // Create Chart
     Chart chart = new Chart(800, 500);
 

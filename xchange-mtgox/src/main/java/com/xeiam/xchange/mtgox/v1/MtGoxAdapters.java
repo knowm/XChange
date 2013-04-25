@@ -41,12 +41,11 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthStream;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxOrder;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTradeStream;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
 import com.xeiam.xchange.utils.DateUtils;
@@ -84,16 +83,15 @@ public final class MtGoxAdapters {
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(long amount_int, BigDecimal price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, String orderTypeString, String id, Date timestamp) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal tradeableAmount = (new BigDecimal(amount_int).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)));
     String tradableIdentifier = Currencies.BTC;
     String transactionCurrency = currency;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, id, limitPrice);
+    LimitOrder limitOrder = new LimitOrder(orderType, amount, tradableIdentifier, transactionCurrency, id, timestamp, limitPrice);
 
     return limitOrder;
 
@@ -112,7 +110,7 @@ public final class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (MtGoxOrder mtGoxOrder : mtGoxOrders) {
-      limitOrders.add(adaptOrder(mtGoxOrder.getAmountInt(), mtGoxOrder.getPrice(), currency, orderType, id));
+      limitOrders.add(adaptOrder(mtGoxOrder.getAmount(), mtGoxOrder.getPrice(), currency, orderType, id, new Date(mtGoxOrder.getStamp())));
     }
 
     return limitOrders;
@@ -123,8 +121,8 @@ public final class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (int i = 0; i < mtGoxOpenOrders.length; i++) {
-      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValueInt(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(),
-          mtGoxOpenOrders[i].getOid()));
+      limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(),
+          mtGoxOpenOrders[i].getOid(), new Date(mtGoxOpenOrders[i].getDate())));
     }
 
     return limitOrders;
@@ -141,7 +139,6 @@ public final class MtGoxAdapters {
     if (mtGoxWallet == null) { // use the presence of a currency String to indicate existing wallet at MtGox
       return null; // an account maybe doesn't contain a MtGoxWallet
     } else {
-      // TODO what about JPY? could be no problem here.
       BigMoney cash = MoneyUtils.parse(mtGoxWallet.getBalance().getCurrency() + " " + mtGoxWallet.getBalance().getValue());
       return new Wallet(mtGoxWallet.getBalance().getCurrency(), cash);
     }
@@ -187,32 +184,19 @@ public final class MtGoxAdapters {
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
   }
 
-  public static Trade adaptTradeStream(MtGoxTradeStream mtGoxTradeStream) {
+  public static OrderBookUpdate adaptDepthUpdate(MtGoxDepthUpdate mtGoxDepthUpdate) {
 
-    OrderType orderType = mtGoxTradeStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = new BigDecimal(mtGoxTradeStream.getAmountInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-    String tradableIdentifier = mtGoxTradeStream.getItem();
-    String transactionCurrency = mtGoxTradeStream.getPriceCurrency();
-    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTradeStream.getPriceInt());
+    OrderType orderType = mtGoxDepthUpdate.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal volume = new BigDecimal(mtGoxDepthUpdate.getVolumeInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    String tradableIdentifier = mtGoxDepthUpdate.getItem();
+    String transactionCurrency = mtGoxDepthUpdate.getCurrency();
+    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxDepthUpdate.getPriceInt());
+    BigDecimal totalVolume = new BigDecimal(mtGoxDepthUpdate.getTotalVolumeInt()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    Date date = new Date(mtGoxDepthUpdate.getNow() / 1000);
 
-    Date dateTime = DateUtils.fromMillisUtc(mtGoxTradeStream.getDate() * 1000L);
+    OrderBookUpdate orderBookUpdate = new OrderBookUpdate(orderType, volume, tradableIdentifier, transactionCurrency, price, date, totalVolume);
 
-    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
-  }
-
-  public static OrderBookUpdate adaptDepthStream(MtGoxDepthStream mtGoxDepthStream) {
-
-    OrderType orderType = mtGoxDepthStream.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal newVolume = new BigDecimal(mtGoxDepthStream.getNewVolume()).divide(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-    String tradableIdentifier = mtGoxDepthStream.getItem();
-    String transactionCurrency = mtGoxDepthStream.getPriceCurrency();
-    BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxDepthStream.getPriceInt());
-    BigDecimal deltaVolume = new BigDecimal(mtGoxDepthStream.getVolume());
-    long date = mtGoxDepthStream.getDate();
-
-    OrderBookUpdate depthStream = new OrderBookUpdate(orderType, newVolume, tradableIdentifier, transactionCurrency, date, price, deltaVolume);
-    return depthStream;
-
+    return orderBookUpdate;
   }
 
   /**
@@ -240,21 +224,8 @@ public final class MtGoxAdapters {
     BigMoney low = MoneyUtils.parse(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
     BigDecimal volume = mtGoxTicker.getVol().getValue();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(mtGoxTicker.getVol().getCurrency()).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(mtGoxTicker.getVol().getCurrency()).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume)
+        .withTimestamp(new Date(mtGoxTicker.getNow() / 1000)).build();
 
   }
-
-  public static Ticker adaptTickerWithError(MtGoxTicker mtGoxTicker) {
-
-    BigMoney last = MoneyUtils.parse(mtGoxTicker.getLast().getCurrency() + " " + mtGoxTicker.getLast().getValue());
-    BigMoney bid = MoneyUtils.parse(mtGoxTicker.getBuy().getCurrency() + " " + mtGoxTicker.getBuy().getValue());
-    BigMoney ask = MoneyUtils.parse(mtGoxTicker.getSell().getCurrency() + " " + mtGoxTicker.getSell().getValue());
-    BigMoney high = MoneyUtils.parse(mtGoxTicker.getHigh().getCurrency() + " " + mtGoxTicker.getHigh().getValue());
-    BigMoney low = MoneyUtils.parse(mtGoxTicker.getLow().getCurrency() + " " + mtGoxTicker.getLow().getValue());
-    BigDecimal volume = mtGoxTicker.getVol().getValue();
-
-    return TickerBuilder.newInstance().withTradableIdentifier(mtGoxTicker.getVol().getCurrency()).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
-
-  }
-
 }

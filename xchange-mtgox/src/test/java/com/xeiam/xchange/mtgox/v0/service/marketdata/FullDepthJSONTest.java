@@ -43,7 +43,7 @@ public class FullDepthJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data-v0.json");
+    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/v0/marketdata/example-depth-data-v0.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

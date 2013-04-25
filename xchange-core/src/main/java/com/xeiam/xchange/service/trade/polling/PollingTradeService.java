@@ -68,7 +68,7 @@ public interface PollingTradeService {
    * cancels order with matching orderId
    * 
    * @param orderId
-   * @return true if the given orderId is not found in existing orders, false otherwise.
+   * @return true if order was successfully cancelled, false otherwise.
    */
   public boolean cancelOrder(String orderId);
 

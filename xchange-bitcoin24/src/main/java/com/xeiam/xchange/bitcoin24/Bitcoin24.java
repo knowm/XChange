@@ -33,7 +33,7 @@ import com.xeiam.xchange.bitcoin24.dto.marketdata.Bitcoin24Trade;
 /**
  * @author Michael Lagacé
  */
-@Path("api/")
+@Path("api")
 public interface Bitcoin24 {
 
   @GET

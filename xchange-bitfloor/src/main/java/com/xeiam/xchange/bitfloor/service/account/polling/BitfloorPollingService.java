@@ -22,12 +22,13 @@
  */
 package com.xeiam.xchange.bitfloor.service.account.polling;
 
+import si.mazi.rescu.HmacPostBodyDigest;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfloor.Bitfloor;
-import com.xeiam.xchange.rest.HmacPostBodyDigest;
-import com.xeiam.xchange.rest.ParamsDigest;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi <br/>
@@ -41,7 +42,7 @@ public class BitfloorPollingService extends BasePollingExchangeService {
   public BitfloorPollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getUri());
+    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getSslUri());
     this.bodyDigest = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 

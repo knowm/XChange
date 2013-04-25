@@ -24,6 +24,8 @@ package com.xeiam.xchange.bitcoincentral.service.marketdata.polling;
 
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
@@ -36,9 +38,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -51,7 +52,7 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
   public BitcoinCentralPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getUri());
+    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -86,10 +87,10 @@ public class BitcoinCentralPollingMarketDataService extends BasePollingExchangeS
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
-    BitcoinCentralTrade[] bitcoinCentralTrades = bitcoincentral.getTrades(currency, 5);
+    BitcoinCentralTrade[] bitcoinCentralTrades = bitcoincentral.getTrades(currency, 100);
     return BitcoinCentralAdapters.adaptTrades(bitcoinCentralTrades, currency, tradableIdentifier);
   }
 

@@ -110,6 +110,8 @@ public class Bitcoin24AdapterTest {
     assertEquals("last should be USD 30.50001", ticker.getLast().toString(), "USD 30.50001");
     assertEquals("low should be USD 30.00043", ticker.getLow().toString(), "USD 30.00043");
     assertEquals("high should be USD 34.39799", ticker.getHigh().toString(), "USD 34.39799");
+    assertEquals("ask should be USD 34.39798", ticker.getAsk().toString(), "USD 34.39798");
+    assertEquals("buy should be USD 30.98600", ticker.getBid().toString(), "USD 30.98600");
     assertEquals("volume should be 12", ticker.getVolume(), new BigDecimal("12"));
     assertEquals("Tradable Identifier should be BTC", ticker.getTradableIdentifier(), "BTC");
 

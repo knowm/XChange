@@ -37,10 +37,11 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Matija Mazi
@@ -57,7 +58,7 @@ public class BitfloorPollingMarketDataService extends BasePollingExchangeService
   public BitfloorPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getUri());
+    this.bitfloor = RestProxyFactory.createProxy(Bitfloor.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -67,11 +68,11 @@ public class BitfloorPollingMarketDataService extends BasePollingExchangeService
     BitfloorTicker bitfloorTicker = bitfloor.getTicker();
     BitfloorDayInfo dayInfo = bitfloor.getDayInfo();
 
-    return BitfloorAdapters.adaptTicker(bitfloorTicker, dayInfo, tradableIdentifier, currency);
+    return BitfloorAdapters.adaptTicker(bitfloorTicker, dayInfo, currency, tradableIdentifier);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
 

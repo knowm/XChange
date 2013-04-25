@@ -23,6 +23,8 @@ package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -34,10 +36,9 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -60,7 +61,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getPlainTextUri());
   }
 
   @Override
@@ -105,12 +106,18 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
-
-    // Request data
-    MtGoxTrade[] mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
+    MtGoxTrade[] mtGoxTrades = null;
+    if (args.length > 0) {
+      Long sinceTimeStamp = (Long) args[0];
+      // Request data
+      mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency, "y", sinceTimeStamp);
+    } else {
+      // Request data
+      mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
+    }
 
     return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }

@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.ExchangeServiceConfiguration;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.marketdata.streaming.StreamingMarketDataService;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -41,8 +41,8 @@ public abstract class BaseExchange implements Exchange {
 
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
-  protected StreamingMarketDataService streamingMarketDataService;
   protected PollingAccountService pollingAccountService;
+  protected StreamingExchangeService streamingExchangeService;
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -60,8 +60,8 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getExchangeDescription() == null) {
         exchangeSpecification.setExchangeDescription(defaultSpecification.getExchangeDescription());
       }
-      if (exchangeSpecification.getUri() == null) {
-        exchangeSpecification.setUri(defaultSpecification.getUri());
+      if (exchangeSpecification.getSslUri() == null) {
+        exchangeSpecification.setSslUri(defaultSpecification.getSslUri());
       }
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());
@@ -90,9 +90,9 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public StreamingMarketDataService getStreamingMarketDataService() {
+  public StreamingExchangeService getStreamingExchangeService() {
 
-    return streamingMarketDataService;
+    return streamingExchangeService;
   }
 
   @Override
@@ -102,25 +102,25 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public PollingMarketDataService getPollingMarketDataService(ExchangeServiceConfiguration configuration) {
+  public PollingMarketDataService getPollingMarketDataService(ExchangeStreamingConfiguration configuration) {
 
     return pollingMarketDataService;
   }
 
   @Override
-  public PollingTradeService getPollingTradeService(ExchangeServiceConfiguration configuration) {
+  public PollingTradeService getPollingTradeService(ExchangeStreamingConfiguration configuration) {
 
     return pollingTradeService;
   }
 
   @Override
-  public StreamingMarketDataService getStreamingMarketDataService(ExchangeServiceConfiguration configuration) {
+  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
-    return streamingMarketDataService;
+    return streamingExchangeService;
   }
 
   @Override
-  public PollingAccountService getPollingAccountService(ExchangeServiceConfiguration configuration) {
+  public PollingAccountService getPollingAccountService(ExchangeStreamingConfiguration configuration) {
 
     return pollingAccountService;
   }
@@ -135,9 +135,9 @@ public abstract class BaseExchange implements Exchange {
     this.pollingTradeService = tradeService;
   }
 
-  /* package */void setStreamingMarketDataService(StreamingMarketDataService streamingMarketDataService) {
+  /* package */void setStreamingMarketDataService(StreamingExchangeService streamingExchangeService) {
 
-    this.streamingMarketDataService = streamingMarketDataService;
+    this.streamingExchangeService = streamingExchangeService;
   }
 
   /* package */void setPollingAccountService(PollingAccountService pollingAccountService) {

@@ -52,7 +52,7 @@ public class MtGoxAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data-v0.json");
+    InputStream is = FullDepthJSONTest.class.getResourceAsStream("/v0/marketdata/example-depth-data-v0.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -73,7 +73,7 @@ public class MtGoxAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data-v0.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v0/marketdata/example-ticker-data-v0.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -93,7 +93,7 @@ public class MtGoxAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data-v0.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v0/marketdata/example-trades-data-v0.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

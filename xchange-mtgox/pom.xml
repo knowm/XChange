@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>develop-SNAPSHOT</version>
+		<version>1.6.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-mtgox</artifactId>
-  <version>develop-SNAPSHOT</version>
+  <version>1.6.1-SNAPSHOT</version>
 
 	<name>MtGox Exchange</name>
 	<description>XChange implementations for the MtGox Exchange.</description>
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>

@@ -22,6 +22,7 @@
 package com.xeiam.xchange.mtgox.v1.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRawValue;
 
 /**
  * Data object representing a response message from Mt Gox after placing and order
@@ -29,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class MtGoxGenericResponse {
 
   private final String result;
-  private final String _return;
+  private final Object _return;
   private final String error;
 
   /**
@@ -39,7 +40,7 @@ public final class MtGoxGenericResponse {
    * @param _return
    * @param error
    */
-  public MtGoxGenericResponse(@JsonProperty("result") String result, @JsonProperty("return") String _return, @JsonProperty("error") String error) {
+  public MtGoxGenericResponse(@JsonProperty("result") String result, @JsonProperty("return") Object _return, @JsonProperty("error") String error) {
 
     this.result = result;
     this._return = _return;
@@ -51,7 +52,8 @@ public final class MtGoxGenericResponse {
     return result;
   }
 
-  public String getReturn() {
+  @JsonRawValue
+  public Object getReturn() {
 
     return _return;
   }

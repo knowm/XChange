@@ -30,60 +30,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitcoinCentralTrade {
 
-  private final String category;
-  private final String createdAt;
-  private final String currency;
-  private final BigDecimal id;
-  private final BigDecimal ppc;
+  private final String uuid;
   private final BigDecimal tradedBtc;
   private final BigDecimal tradedCurrency;
+  private final String createdAt;
+  private final long createdAtInt;
+  private final String currency;
+  private final BigDecimal price;
 
   /**
    * Constructor
    * 
-   * @param category
-   * @param createdAt
-   * @param currency
-   * @param id
-   * @param ppc
+   * @param uuid
    * @param tradedBtc
    * @param tradedCurrency
+   * @param createdAt
+   * @param currency
+   * @param price
    */
-  public BitcoinCentralTrade(@JsonProperty("category") String category, @JsonProperty("created_at") String createdAt, @JsonProperty("currency") String currency, @JsonProperty("id") BigDecimal id,
-      @JsonProperty("ppc") BigDecimal ppc, @JsonProperty("traded_btc") BigDecimal tradedBtc, @JsonProperty("traded_currency") BigDecimal tradedCurrency) {
+  public BitcoinCentralTrade(@JsonProperty("uuid") String uuid, @JsonProperty("traded_btc") BigDecimal tradedBtc, @JsonProperty("traded_currency") BigDecimal tradedCurrency,
+      @JsonProperty("created_at") String createdAt, @JsonProperty("created_at_int") long createdAtInt, @JsonProperty("currency") String currency, @JsonProperty("price") BigDecimal price) {
 
-    this.category = category;
-    this.createdAt = createdAt;
-    this.currency = currency;
-    this.id = id;
-    this.ppc = ppc;
+    this.uuid = uuid;
     this.tradedBtc = tradedBtc;
     this.tradedCurrency = tradedCurrency;
+    this.createdAt = createdAt;
+    this.createdAtInt = createdAtInt;
+    this.currency = currency;
+    this.price = price;
   }
 
-  public String getCategory() {
+  public String getUuid() {
 
-    return category;
-  }
-
-  public String getCreatedAt() {
-
-    return createdAt;
-  }
-
-  public String getCurrency() {
-
-    return currency;
-  }
-
-  public BigDecimal getId() {
-
-    return id;
-  }
-
-  public BigDecimal getPpc() {
-
-    return ppc;
+    return uuid;
   }
 
   public BigDecimal getTradedBtc() {
@@ -96,11 +75,24 @@ public final class BitcoinCentralTrade {
     return tradedCurrency;
   }
 
-  @Override
-  public String toString() {
+  public String getCreatedAt() {
 
-    return "BitcoinCentralTrades [category=" + category + ", createdAt=" + createdAt + ", currency=" + currency + ", id=" + id + ", ppc=" + ppc + ", tradedBtc=" + tradedBtc + ", tradedCurrency="
-        + tradedCurrency + "]";
+    return createdAt;
+  }
+
+  public long getCreatedAtInt() {
+
+    return createdAtInt;
+  }
+
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  public BigDecimal getPrice() {
+
+    return price;
   }
 
 }

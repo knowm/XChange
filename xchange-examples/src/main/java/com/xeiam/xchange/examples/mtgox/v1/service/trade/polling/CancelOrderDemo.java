@@ -40,14 +40,14 @@ public class CancelOrderDemo {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(MtGoxExchange.class.getName());
     exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
     exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setUri("https://mtgox.com");
+    exchangeSpecification.setSslUri("https://mtgox.com");
     Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    boolean orderExists = tradeService.cancelOrder("f5db6a11-5af4-4860-98cc-1e4419ccce38");
-    System.out.println("orderExists= " + orderExists);
+    boolean success = tradeService.cancelOrder("fa432315-a929-4202-a681-9a8fbd0e2549");
+    System.out.println("success= " + success);
 
     // get open orders
     OpenOrders openOrders = tradeService.getOpenOrders();

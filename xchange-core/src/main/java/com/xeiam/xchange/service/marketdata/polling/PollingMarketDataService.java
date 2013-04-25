@@ -93,6 +93,6 @@ public interface PollingMarketDataService {
    * @param currency The currency of interest, null if irrelevant
    * @return The Trades @ If the exchange does not support this request
    */
-  Trades getTrades(String tradableIdentifier, String currency);
+  Trades getTrades(String tradableIdentifier, String currency, Object... args);
 
 }

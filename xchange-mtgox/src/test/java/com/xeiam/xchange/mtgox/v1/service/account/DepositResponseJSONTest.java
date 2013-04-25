@@ -42,7 +42,7 @@ public class DepositResponseJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = DepositResponseJSONTest.class.getResourceAsStream("/account/example-deposit-response.json");
+    InputStream is = DepositResponseJSONTest.class.getResourceAsStream("/v1/account/example-deposit-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

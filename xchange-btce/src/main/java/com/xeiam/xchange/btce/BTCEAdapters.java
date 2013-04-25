@@ -157,7 +157,7 @@ public final class BTCEAdapters {
     BigMoney ask = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getBuy());
     BigMoney high = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getHigh());
     BigMoney low = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getLow());
-    BigDecimal volume = bTCETicker.getTicker().getVol();
+    BigDecimal volume = bTCETicker.getTicker().getVolCur();
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
@@ -188,7 +188,7 @@ public final class BTCEAdapters {
       OrderType orderType = o.getType() == BTCEOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String[] pair = o.getPair().split("_");
       String currency = pair[1].toUpperCase();
-      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), o.getAmount());
+      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), o.getRate());
       os.add(new LimitOrder(orderType, o.getAmount(), pair[0].toUpperCase(), currency, Long.toString(id), price));
     }
     return new OpenOrders(os);

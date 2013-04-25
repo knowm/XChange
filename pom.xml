@@ -4,7 +4,7 @@
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>1.6.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
@@ -60,8 +60,8 @@
 		<connection>scm:git:git@github.com:timmolter/XChange.git</connection>
 		<developerConnection>scm:git:git@github.com:timmolter/XChange.git</developerConnection>
 		<url>git@github.com:timmolter/XChange.git</url>
-		<tag>HEAD</tag>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 
 	<ciManagement>
 		<url>http://ci.xeiam.com/</url>
@@ -77,30 +77,10 @@
 		<module>xchange-bitstamp</module>
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
-		<module>xchange-bitcoincentral</module>
-		<module>xchange-bitfloor</module>
-		<module>xchange-bitcoin24</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
-
-			<!-- Jackson JSON Mapper -->
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
 
 			<!-- Logging is through SLF4J -->
 			<dependency>
@@ -108,7 +88,7 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>1.7.2</version>
 			</dependency>
-			
+
 			<!-- SLF4J implementation for use in testing -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
@@ -127,11 +107,11 @@
 				<version>0.8</version>
 			</dependency>
 
-			<!-- JAX-RS -->
+			<!-- Rest client utility -->
 			<dependency>
-				<groupId>javax.ws.rs</groupId>
-				<artifactId>jsr311-api</artifactId>
-				<version>1.1.1</version>
+				<groupId>com.github.mmazi</groupId>
+				<artifactId>rescu</artifactId>
+				<version>1.0.0</version>
 			</dependency>
 
 			<!-- Charting -->
@@ -141,11 +121,11 @@
 				<version>2.1.0</version>
 			</dependency>
 
-			<!-- JSR-305 annotations (@Nullable etc.) -->
+			<!-- Websocket library -->
 			<dependency>
-				<groupId>com.google.code.findbugs</groupId>
-				<artifactId>jsr305</artifactId>
-				<version>2.0.1</version>
+				<groupId>org.java-websocket</groupId>
+				<artifactId>Java-WebSocket</artifactId>
+				<version>1.3.0</version>
 			</dependency>
 
 		</dependencies>
@@ -199,6 +179,7 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>2.9</version>
 						<configuration>
+							<excludedGroups>none</excludedGroups>
 							<skip>false</skip>
 							<!-- <skipTests>false</skipTests> -->
 							<useFile>false</useFile>
@@ -206,6 +187,11 @@
 							<excludes>
 								<exclude>none</exclude>
 							</excludes>
+							<includes>
+								<include>**/*Test*.java</include>
+								<include>**/*Test.java</include>
+<!-- 								<include>**/*TestCase.java</include> -->
+							</includes>
 						</configuration>
 						<executions>
 							<execution>
@@ -313,15 +299,12 @@
 		</plugins>
 	</build>
 
-
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Versioning -->
 		<maven-surefire-plugin.version>2.13</maven-surefire-plugin.version>
-		<jackson.version>2.1.1</jackson.version>
 
 	</properties>
 

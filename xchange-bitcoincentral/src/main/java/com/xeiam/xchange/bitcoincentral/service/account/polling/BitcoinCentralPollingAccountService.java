@@ -24,16 +24,17 @@ package com.xeiam.xchange.bitcoincentral.service.account.polling;
 
 import java.math.BigDecimal;
 
+import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentralAdapters;
 import com.xeiam.xchange.bitcoincentral.dto.account.BitcoinCentralAccountInfo;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.rest.BasicAuthCredentials;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi
@@ -51,7 +52,7 @@ public class BitcoinCentralPollingAccountService extends BasePollingExchangeServ
   public BitcoinCentralPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getUri());
+    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getSslUri());
     this.credentials = new BasicAuthCredentials(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 

@@ -30,14 +30,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -45,9 +49,10 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -60,10 +65,11 @@ public class MtGoxAdapterTest {
   public void testAccountInfoAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
     AccountInfo accountInfo = MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
@@ -76,10 +82,11 @@ public class MtGoxAdapterTest {
   public void testOrderAdapterWithOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/trade/example-openorders-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/trade/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
 
     List<LimitOrder> openorders = MtGoxAdapters.adaptOrders(mtGoxOpenOrders);
@@ -100,21 +107,22 @@ public class MtGoxAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/marketdata/polling/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask", "id_567");
-    // System.out.println(openorders.size());
-    assertTrue("ASKS size should be 1582", asks.size() == 1582);
+    System.out.println(asks.size());
+    assertTrue("ASKS size should be 503", asks.size() == 503);
 
     // verify all fields filled
     // System.out.println(asks.get(0).toString());
-    assertTrue("limit price should be 18.1", asks.get(0).getLimitPrice().getAmount().doubleValue() == 18.1);
+    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue(), equalTo(182.99999));
     assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    assertTrue("tradableAmount should be 20", asks.get(0).getTradableAmount().doubleValue() == 20.0);
+    assertThat("tradableAmount should be 20", asks.get(0).getTradableAmount().doubleValue(), equalTo(2.46297453));
     assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
 
@@ -124,35 +132,37 @@ public class MtGoxAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/marketdata/polling/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     Trades trades = MtGoxAdapters.adaptTrades(mtGoxTrades);
     // System.out.println(trades.getTrades().size());
-    assertTrue("Trades size should be 90", trades.getTrades().size() == 90);
+    assertThat(trades.getTrades().size(), equalTo(30));
 
     // verify all fields filled
     // System.out.println(trades.getTrades().get(0).toString());
-    assertTrue("price should be 15.6", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 15.6);
-    assertTrue("order type should be ASK", trades.getTrades().get(0).getType() == OrderType.ASK);
-    assertTrue("tradableAmount should be 0.7", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.7);
-    assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue(), equalTo(193.99989));
+    assertThat(trades.getTrades().get(0).getType(), equalTo(OrderType.BID));
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue(), equalTo(0.01985186));
+    assertThat(trades.getTrades().get(0).getTradableIdentifier(), equalTo("BTC"));
+    assertThat(trades.getTrades().get(0).getTransactionCurrency(), equalTo("USD"));
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
-    assertThat("2012-04-11 20:48:46 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
+    assertThat("2013-04-09 09:18:23 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
   }
 
   @Test
   public void testWalletAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
     // in MtGoxAccountInfo.getWallets, no wallets are null
@@ -163,7 +173,7 @@ public class MtGoxAdapterTest {
 
     // in Wallet(s), only wallets from MtGoxAccountInfo.getWallets that contained data are NOT null.
     List<Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
-    System.out.println(wallets.toString());
+    // System.out.println(wallets.toString());
     assertTrue("List size should be true!", wallets.size() == 2);
     assertTrue("CAD should be null", !wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parse("CAD 0.0"))));
     assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parse("BTC 0.00000000"))));
@@ -177,19 +187,42 @@ public class MtGoxAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/marketdata/polling/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
     // System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 4.89000"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 4.89002"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 4.91227"))));
-    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("57759.66891627"))));
+    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 91.46000"))));
+    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 90.68502"))));
+    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 91.45898"))));
+    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("49524.15110020"))));
+
+  }
+
+  @Test
+  public void testOrderBookUpdateAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/marketdata/streaming/example-depth-streaming-data.json");
+
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    Map<String, Object> userInMap = mapper.readValue(is, new TypeReference<Map<String, Object>>() {
+    });
+
+    MtGoxDepthUpdate mtGoxDepthUpdate = mapper.readValue(mapper.writeValueAsString(userInMap.get("depth")), MtGoxDepthUpdate.class);
+
+    OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthUpdate(mtGoxDepthUpdate);
+    // System.out.println(orderBookUpdate.toString());
+
+    assertThat(orderBookUpdate.getTotalVolume(), is(equalTo(new BigDecimal("324.02839775"))));
+    assertThat(orderBookUpdate.getLimitOrder().getTradableAmount(), is(equalTo(new BigDecimal("4.97732719"))));
+    assertThat(orderBookUpdate.getLimitOrder().getTimestamp().getTime(), is(equalTo(1364643714372L)));
 
   }
 }

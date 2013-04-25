@@ -25,6 +25,9 @@ package com.xeiam.xchange.bitcoincentral.service.trade.polling;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitcoincentral.BitcoinCentral;
@@ -37,9 +40,7 @@ import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.rest.BasicAuthCredentials;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.BasePollingExchangeService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -60,7 +61,7 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   public BitcoinCentralPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getUri());
+    this.bitcoincentral = RestProxyFactory.createProxy(BitcoinCentral.class, exchangeSpecification.getSslUri());
     this.credentials = new BasicAuthCredentials(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 
@@ -90,7 +91,7 @@ public class BitcoinCentralPollingTradeService extends BasePollingExchangeServic
   public boolean cancelOrder(String orderId) {
 
     String ret = bitcoincentral.cancelOrder(credentials, orderId);
-    log.debug("Cancelling returned: {}", ret);
+    log.debug("Cancel order returned: {}", ret);
     return true;
   }
 

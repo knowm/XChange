@@ -35,9 +35,9 @@ public class BTCEExamplesUtils {
   public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
-    exSpec.setSecretKey("4df0c1438aee12cd04be9d50bae23b4b4245c3ac9b37993908411c4d3023af77");
-    exSpec.setApiKey("82FE1OI8-6KVWGK2L-GFR3UETO-Y3G3NZQ7-0QISCMTU");
-    exSpec.setUri("https://btc-e.com");
+    exSpec.setSecretKey("804ace4f64b9cac6b6584f70af3ab66c8415538c8c006c8728c937d680cafece");
+    exSpec.setApiKey("7A2REWZK-PVJK1CRF-374Z6J13-SO2R3EIX-EMF3OCBR");
+    exSpec.setSslUri("https://btc-e.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }
