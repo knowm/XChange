@@ -28,7 +28,7 @@ import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
- * Demo requesting account info at MtGox
+ * Demo requesting account info at BTC-E
  */
 public class BTCEAccountInfoDemo {
 
@@ -41,6 +41,6 @@ public class BTCEAccountInfoDemo {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    System.out.println("BTCE AccountInfo as String: " + accountInfo.toString());
   }
 }

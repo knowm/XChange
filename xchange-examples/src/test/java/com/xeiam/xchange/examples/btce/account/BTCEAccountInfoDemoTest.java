@@ -28,7 +28,7 @@ import org.junit.experimental.categories.Category;
 import com.xeiam.xchange.OnlineTest;
 
 /**
- * Demo requesting account info at MtGox
+ * Demo requesting account info at BTC-E
  */
 
 @Category(OnlineTest.class)
