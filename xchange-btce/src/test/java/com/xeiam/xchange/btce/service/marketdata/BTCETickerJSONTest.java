@@ -23,15 +23,20 @@ package com.xeiam.xchange.btce.service.marketdata;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Test BTCETicker JSON parsing
@@ -53,6 +58,11 @@ public class BTCETickerJSONTest {
     assertThat("Unexpected Return High value", BTCETicker.getTicker().getHigh(), equalTo(new BigDecimal("13.23")));
     assertThat("Unexpected Return Low value", BTCETicker.getTicker().getLow(), equalTo(new BigDecimal("13")));
     assertThat("Unexpected Return Volume value", BTCETicker.getTicker().getVol(), equalTo(new BigDecimal("40418.44988")));
+
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(DateUtils.fromMillisUtc(BTCETicker.getTicker().getServerTime() * 1000L));
+    assertTrue("timestamp should convert to a UTC String", dateString.equals("2012-Dec-22 19:12:09"));
   }
 
 }
