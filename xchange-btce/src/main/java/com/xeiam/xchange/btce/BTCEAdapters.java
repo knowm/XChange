@@ -118,7 +118,7 @@ public final class BTCEAdapters {
    */
   public static Trade adaptTrade(BTCETrade BTCETrade) {
 
-    OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = BTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = BTCETrade.getAmount();
     String currency = BTCETrade.getPriceCurrency();
     BigMoney price = MoneyUtils.parse(currency + " " + BTCETrade.getPrice());
