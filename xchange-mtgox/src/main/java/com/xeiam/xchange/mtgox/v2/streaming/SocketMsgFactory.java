@@ -17,6 +17,11 @@ public class SocketMsgFactory {
     private final String apiSecret;
 
     public SocketMsgFactory(String apiKey, String apiSecret) {
+        if ( apiKey == null || apiSecret == null ||
+                apiKey.length() == 0 || apiSecret.length() == 0 ) {
+            throw new IllegalArgumentException("mtgox api key and/or secret is missing");
+        }
+
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
     }

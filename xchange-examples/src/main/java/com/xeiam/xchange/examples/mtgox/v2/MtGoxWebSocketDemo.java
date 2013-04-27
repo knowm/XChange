@@ -33,6 +33,7 @@ import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -101,7 +102,7 @@ public class MtGoxWebSocketDemo {
         @Override
         public void run() {
             // Put ("api_key", "secret")
-            SocketMsgFactory socketMsgFactory = new SocketMsgFactory("","");
+            SocketMsgFactory socketMsgFactory = new SocketMsgFactory("", "");
 
             try {
                 while (true) {
@@ -114,17 +115,28 @@ public class MtGoxWebSocketDemo {
 
                         case MESSAGE:
                             Map<String, Object> rawJSON = (Map<String, Object>) exchangeEvent.getPayload();
-                            if ( rawJSON.get("id").equals("idkey") ) {
-                                String msgToSend = socketMsgFactory.subscribeToChannel(rawJSON.get("result").toString());
-                                streamingExchangeService.send(msgToSend);
+                            if (rawJSON == null) {
+                                System.out.println("msg not parsed :(");
+                            } else if (rawJSON.containsKey("id")) {
+                                if (rawJSON.get("id").equals("idkey")) {
+                                    String msgToSend = socketMsgFactory.subscribeToChannel(rawJSON.get("result").toString());
+                                    streamingExchangeService.send(msgToSend);
+                                }
+                            } else if (rawJSON.containsKey("op")) {
+                                if (rawJSON.get("op").equals("private")) {
+                                    String priv = (String) rawJSON.get("private");
+                                    if (priv.equals("user_order")) {
+                                        System.out.println("Got order: " + rawJSON.get("user_order").toString());
+                                    }
+                                }
                             }
-
                     }
 
                 }
 
             } catch (InterruptedException e) {
                 System.out.println("ERROR in Runnable!!!");
+                return;
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {

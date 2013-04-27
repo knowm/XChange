@@ -87,9 +87,20 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
       // Get raw JSON
       Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), streamObjectMapper);
 
+      if ( rawJSON.containsKey("op") ) {
+          if ( rawJSON.get("op").equals("private") ) {
+              String priv = (String) rawJSON.get("private");
+              if ( priv.equals("user_order") ) {
+                  ExchangeEvent userOrderEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, null, rawJSON);
+                  addToEventQueue(userOrderEvent);
+                  break;
+              }
+          }
+      }
+
       if (rawJSON.containsKey("id")) {
-        ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, null, rawJSON);
-        addToEventQueue(tickerEvent);
+        ExchangeEvent idEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, null, rawJSON);
+        addToEventQueue(idEvent);
         break;
       }
 
