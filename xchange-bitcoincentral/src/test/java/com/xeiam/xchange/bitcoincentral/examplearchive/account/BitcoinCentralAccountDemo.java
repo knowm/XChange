@@ -1,6 +1,6 @@
 /**
- * Copyright (C) 2012 - 2013 Matija Mazi
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,27 +20,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.account;
+package com.xeiam.xchange.bitcoincentral.examplearchive.account;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitcoincentral.BitcoinCentralExchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
- * Demo requesting account info at BTC-E
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connect to Bitcoin Central exchange with authentication</li>
+ * <li>View account balance</li>
+ * <li>Get the bitcoin deposit address</li> Please provide your username and password as program arguments.
+ * </ul>
  */
-public class BTCEAccountInfoDemo {
+public class BitcoinCentralAccountDemo {
 
   public static void main(String[] args) {
 
-    Exchange btce = BTCEExamplesUtils.createExchange();
+    ExchangeSpecification exSpec = new ExchangeSpecification(BitcoinCentralExchange.class.getCanonicalName());
+    exSpec.setSslUri("https://en.bitcoin-central.net");
+    exSpec.setUserName(args[0]);
+    exSpec.setPassword(args[1]);
 
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = btce.getPollingAccountService();
+    Exchange btcCentral = ExchangeFactory.INSTANCE.createExchange(exSpec);
+
+    PollingAccountService accountService = btcCentral.getPollingAccountService();
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("BTCE AccountInfo as String: " + accountInfo.toString());
+    System.out.println("AccountInfo: " + accountInfo);
+
+    String depositAddress = accountService.requestBitcoinDepositAddress();
+    System.out.println("Deposit address: " + depositAddress);
+
+    // Withdraw not yet implemented.
+    // String ret = accountService.withdrawFunds(new BigDecimal("0.001"), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
+    // System.out.println("ret = " + ret);
   }
 }

@@ -122,7 +122,7 @@ public final class MtGoxAdapters {
 
     for (int i = 0; i < mtGoxOpenOrders.length; i++) {
       limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(),
-          mtGoxOpenOrders[i].getOid(), new Date(mtGoxOpenOrders[i].getDate())));
+          mtGoxOpenOrders[i].getOid(), new Date(mtGoxOpenOrders[i].getDate() * 1000)));
     }
 
     return limitOrders;

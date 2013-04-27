@@ -48,7 +48,7 @@ public class OpenOrdersJSONTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
 
-    // System.out.println(mtGoxOpenOrders[0].getOid());
+    // System.out.println(new Date(mtGoxOpenOrders[0].getDate()));
 
     // Verify that the example data was unmarshalled correctly
     assertTrue(mtGoxOpenOrders[0].getOid().equals("055e81e4-fe38-4b3c-bbca-69e61724f64a"));

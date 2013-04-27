@@ -20,24 +20,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce;
+package com.xeiam.xchange.bitcoincentral.examplearchive.marketdata;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.bitcoincentral.BitcoinCentralExchange;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * @author Matija Mazi
+ * Demonstrate requesting Order Book at BitcoinCentral
  */
-public class BTCEExamplesUtils {
+public class FullDepthDemo {
 
-  public static Exchange createExchange() {
+  public static void main(String[] args) {
 
-    ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
-    exSpec.setSecretKey("804ace4f64b9cac6b6584f70af3ab66c8415538c8c006c8728c937d680cafece");
-    exSpec.setApiKey("7A2REWZK-PVJK1CRF-374Z6J13-SO2R3EIX-EMF3OCBR");
-    exSpec.setSslUri("https://btc-e.com");
-    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+    // Use the factory to get BitcoinCentral exchange API using default settings
+    Exchange bitcoinCentralExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinCentralExchange.class.getName());
+
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService();
+
+    // Get the latest order book data for BTC/CAD
+    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.EUR);
+
+    System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
   }
+
 }

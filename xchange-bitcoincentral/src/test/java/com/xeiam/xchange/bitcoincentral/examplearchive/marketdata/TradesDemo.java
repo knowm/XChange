@@ -20,23 +20,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.account;
+package com.xeiam.xchange.bitcoincentral.examplearchive.marketdata;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import com.xeiam.xchange.OnlineTest;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.bitcoincentral.BitcoinCentralExchange;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Demo requesting account info at BTC-E
+ * Demonstrate requesting Trades at BitcoinCentral
  */
+public class TradesDemo {
 
-@Category(OnlineTest.class)
-public class BTCEAccountInfoDemoTest {
+  public static void main(String[] args) {
 
-  @Test
-  public void testMain() throws Exception {
+    // Use the factory to get BitcoinCentral exchange API using default settings
+    Exchange bitcoinCentralExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinCentralExchange.class.getName());
 
-    BTCEAccountInfoDemo.main(new String[] {});
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = bitcoinCentralExchange.getPollingMarketDataService();
+
+    // Get the latest trade data for BTC/CAD
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
+
+    System.out.println(trades.toString());
+
   }
+
 }

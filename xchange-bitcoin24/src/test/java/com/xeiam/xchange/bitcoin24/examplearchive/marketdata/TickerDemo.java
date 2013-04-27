@@ -1,5 +1,6 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,30 +20,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.marketdata;
+package com.xeiam.xchange.bitcoin24.examplearchive.marketdata;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.bitcoin24.Bitcoin24Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at BTC-E
+ * Demonstrate requesting Ticker at Bitcoin24
  */
 public class TickerDemo {
 
   public static void main(String[] args) {
 
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    // Use the factory to get Bitcoin24 exchange API using default settings
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(Bitcoin24Exchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.LTC, Currencies.USD);
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
 
@@ -51,9 +52,6 @@ public class TickerDemo {
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
     System.out.println("Low: " + ticker.getLow().toString());
-    System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
-
-    System.out.println(ticker.toString());
 
   }
 

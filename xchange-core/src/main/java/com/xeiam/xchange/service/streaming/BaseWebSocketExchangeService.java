@@ -23,6 +23,7 @@ package com.xeiam.xchange.service.streaming;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -68,7 +69,8 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
   }
 
-  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener) {
+  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener,
+                                              Map<String, String> headers) {
 
     log.info("internalConnect");
 
@@ -77,7 +79,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
     try {
       log.debug("Attempting to open a websocket against {}", uri);
-      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), exchangeEventListener);
+      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), exchangeEventListener, headers);
       exchangeEventProducer.connect();
     } catch (URISyntaxException e) {
       throw new ExchangeException("Failed to open websocket!", e);
@@ -106,4 +108,5 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     return event;
 
   }
+
 }

@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>develop-SNAPSHOT</version>
+		<version>1.6.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -29,62 +28,49 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange MtGox exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-mtgox</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange VirtEx exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-cavirtex</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Open Exchange Rates exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-openexchangerates</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BTC-E exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-btce</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Bitstamp exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitstamp</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange CampBX exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-campbx</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BitcoinCharts support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitcoincharts</artifactId>
-			<version>develop-SNAPSHOT</version>
-		</dependency>
-		<!-- XChange BitcoinCentral support -->
-		<dependency>
-			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange-bitcoincentral</artifactId>
-			<version>develop-SNAPSHOT</version>
-		</dependency>
-
-		<!-- XChange Bitcoin24 support -->
-		<dependency>
-			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange-bitcoin24</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.6.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

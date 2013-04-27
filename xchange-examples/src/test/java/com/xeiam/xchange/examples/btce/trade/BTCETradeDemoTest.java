@@ -30,7 +30,6 @@ import com.xeiam.xchange.OnlineTest;
 /**
  * @author Matija Mazi
  */
-
 @Category(OnlineTest.class)
 public class BTCETradeDemoTest {
 

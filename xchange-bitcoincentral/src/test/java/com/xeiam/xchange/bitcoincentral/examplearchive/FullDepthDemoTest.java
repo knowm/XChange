@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.account;
+package com.xeiam.xchange.bitcoincentral.examplearchive;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -28,15 +28,15 @@ import org.junit.experimental.categories.Category;
 import com.xeiam.xchange.OnlineTest;
 
 /**
- * Demo requesting account info at BTC-E
+ * Demonstrate requesting Order Book at BitcoinCentral
  */
-
 @Category(OnlineTest.class)
-public class BTCEAccountInfoDemoTest {
+public class FullDepthDemoTest {
 
   @Test
   public void testMain() throws Exception {
 
-    BTCEAccountInfoDemo.main(new String[] {});
+    com.xeiam.xchange.bitcoincentral.examplearchive.marketdata.FullDepthDemo.main(new String[] {});
   }
+
 }

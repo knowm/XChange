@@ -93,57 +93,47 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>1.5.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitcoin24</artifactId>
-      <version>1.5.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitcoincentral</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitcoincharts</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitstamp</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>  
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-btce</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-campbx</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-cavirtex</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-openexchangerates</artifactId>
-      <version>1.5.0</version>
+      <version>1.6.0</version>
     </dependency>
     
 ## Building
@@ -159,10 +149,6 @@ Please report any bugs or submit feature requests to [XChange's Github issue tra
 If you'd like to submit a new implementation for another exchange, please take a look at [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices) first, as there are lots of time-saving tips! 
 
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
-
-## Acknowledgements
-XChange integrates the code from the [Java-Websocket](https://github.com/TooTallNate/Java-WebSocket) project licensed under the MIT license. The code is copy-pasta-ed directly into XChange for now. 
-
 
 ## Donations
 15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w
