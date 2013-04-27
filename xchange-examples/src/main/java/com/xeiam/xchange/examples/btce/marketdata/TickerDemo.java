@@ -53,6 +53,8 @@ public class TickerDemo {
     System.out.println("Low: " + ticker.getLow().toString());
     System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
 
+    System.out.println(ticker.toString());
+
   }
 
 }
