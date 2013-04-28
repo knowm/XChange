@@ -35,10 +35,17 @@ public class OrderEqualityTest {
 		LimitOrder b = new LimitOrder(OrderType.ASK, BigDecimal.valueOf(123), "BTC/USD", "USD", null, t1, BigMoney.of(CurrencyUnit.USD, 234));
 		LimitOrder c = new LimitOrder(OrderType.ASK, BigDecimal.valueOf(123), "BTC/USD", "USD", null, t2, BigMoney.of(CurrencyUnit.USD, 234));
 		LimitOrder d = new LimitOrder(OrderType.BID, BigDecimal.valueOf(123), "BTC/USD", "USD", null, t1, BigMoney.of(CurrencyUnit.USD, 234));
+		LimitOrder e = new LimitOrder(OrderType.ASK, BigDecimal.valueOf(123), "BTC/EUR", "USD", null, t1, BigMoney.of(CurrencyUnit.USD, 234));
+		LimitOrder f = new LimitOrder(OrderType.ASK, BigDecimal.valueOf(123), "BTC/USD", "BTC", null, t1, BigMoney.of(CurrencyUnit.USD, 234));
+		LimitOrder g = new LimitOrder(OrderType.ASK, BigDecimal.valueOf(123), "BTC/USD", "USD", "123", t1, BigMoney.of(CurrencyUnit.USD, 234));
 
+		
 		assertThat(a, is(equalTo(b))); // identical
 		assertThat(a, is(equalTo(c))); // identical except time, considered equal
 		assertThat(a, is(not(equalTo(d)))); // type is different
+		assertThat(a, is(not(equalTo(e)))); // tradeableIdentifier is different
+		assertThat(a, is(not(equalTo(f)))); // transactionCurrency is different
+		assertThat(a, is(not(equalTo(g)))); // id is different		
 	}
 
 	@Test
