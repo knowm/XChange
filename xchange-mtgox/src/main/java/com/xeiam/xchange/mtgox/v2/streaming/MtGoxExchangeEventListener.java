@@ -31,6 +31,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
@@ -69,8 +70,6 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
   @Override
   public void handleEvent(ExchangeEvent exchangeEvent) {
 
-    // log.debug("exchangeEvent: " + exchangeEvent.getEventType());
-
     switch (exchangeEvent.getEventType()) {
     case CONNECT:
       log.debug("MtGox connected");
@@ -81,28 +80,31 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
       addToEventQueue(exchangeEvent);
       break;
     case MESSAGE:
-      // log.debug("Generic message. Length=" + exchangeEvent.getData().length());
-      // log.debug("JSON message =" + exchangeEvent.getData());
 
-      // Get raw JSON
-      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), streamObjectMapper);
+        // Get raw JSON
+        Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), streamObjectMapper);
+        String operation = (String) rawJSON.get("op");
+        if ( "private".equals(operation) ) {
+            String priv = (String) rawJSON.get("private");
+            if ( priv.equals("user_order") ) {
+                MtGoxOpenOrder order = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("user_order"), streamObjectMapper), MtGoxOpenOrder.class, streamObjectMapper);
+                ExchangeEvent userOrderEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER, exchangeEvent.getData(), order);
+                addToEventQueue(userOrderEvent);
+                break;
+            }
 
-      if ( rawJSON.containsKey("op") ) {
-          if ( rawJSON.get("op").equals("private") ) {
-              String priv = (String) rawJSON.get("private");
-              if ( priv.equals("user_order") ) {
-                  ExchangeEvent userOrderEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, null, rawJSON);
-                  addToEventQueue(userOrderEvent);
-                  break;
-              }
-          }
-      }
+        } else if ( "result".equals(operation) ) {
+            String id = (String) rawJSON.get("id");
 
-      if (rawJSON.containsKey("id")) {
-        ExchangeEvent idEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, null, rawJSON);
-        addToEventQueue(idEvent);
-        break;
-      }
+            if ( "idkey".equals(id)) {
+                ExchangeEvent idEvent = new DefaultExchangeEvent(ExchangeEventType.PRIVATE_ID_KEY, null, rawJSON.get("result"));
+                addToEventQueue(idEvent);
+                break;
+            }
+        }  else if ( "remark".equals(operation) ) {
+            System.out.println("Msg from server: " + rawJSON.toString());
+            break;
+        }
 
 
       // Determine what has been sent

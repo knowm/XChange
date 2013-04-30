@@ -26,14 +26,32 @@ public class SocketMsgFactory {
         this.apiSecret = apiSecret;
     }
 
-    public String subscribeToChannel(String channel) throws JsonProcessingException {
+    public String unsubscribeToChannel(String channel) throws JsonProcessingException {
         HashMap<String, String> map = new HashMap<String, String>(2);
-        map.put("op", "mtgox.subscribe");
-        map.put("key", channel);
+        map.put("op", "unsubscribe");
+        map.put("channel", channel);
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(map);
 
+    }
+
+    public String subscribeToChannelWithType(String type) throws JsonProcessingException {
+        HashMap<String, String> map = new HashMap<String, String>(2);
+        map.put("op", "mtgox.subscribe");
+        map.put("type", type);
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(map);
+    }
+
+    public String subscribeToChannelWithKey(String key) throws JsonProcessingException {
+        HashMap<String, String> map = new HashMap<String, String>(2);
+        map.put("op", "mtgox.subscribe");
+        map.put("key", key);
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(map);
     }
 
     public String idKey() throws JsonProcessingException, UnsupportedEncodingException {

@@ -29,6 +29,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
 import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -110,27 +111,44 @@ public class MtGoxWebSocketDemo {
                     ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
                     switch (exchangeEvent.getEventType()) {
                         case CONNECT:
+                            // unsubscribe to "default" channels
+                            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("dbf1dee9-4f2e-4a08-8cb7-748919a71b21"));
+                            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
+                            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
+                            streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
+
                             streamingExchangeService.send(socketMsgFactory.idKey());
                             break;
 
+                        case PRIVATE_ID_KEY:
+                            String keyId = (String) exchangeEvent.getPayload();
+                            String msgToSend = socketMsgFactory.subscribeToChannelWithKey(keyId);
+                            streamingExchangeService.send(msgToSend);
+                            break;
+
+
+                        case TRADE:
+                            System.out.println("TRADE! " + exchangeEvent.getData().toString());
+                            break;
+
+                        case TICKER:
+                            System.out.println("TICKER! " + exchangeEvent.getData().toString());
+                            break;
+
+                        case DEPTH:
+                            System.out.println("DEPTH! " + exchangeEvent.getData().toString());
+                            break;
+
+                        case USER_ORDER:
+                            MtGoxOpenOrder order = (MtGoxOpenOrder) exchangeEvent.getPayload();
+                            System.out.println("USER ORDER: " + order + "\nfrom: " + exchangeEvent.getData());
+                            break;
+
                         case MESSAGE:
-                            Map<String, Object> rawJSON = (Map<String, Object>) exchangeEvent.getPayload();
-                            if (rawJSON == null) {
-                                System.out.println("msg not parsed :(");
-                            } else if (rawJSON.containsKey("id")) {
-                                if (rawJSON.get("id").equals("idkey")) {
-                                    String msgToSend = socketMsgFactory.subscribeToChannel(rawJSON.get("result").toString());
-                                    streamingExchangeService.send(msgToSend);
-                                }
-                            } else if (rawJSON.containsKey("op")) {
-                                if (rawJSON.get("op").equals("private")) {
-                                    String priv = (String) rawJSON.get("private");
-                                    if (priv.equals("user_order")) {
-                                        System.out.println("Got order: " + rawJSON.get("user_order").toString());
-                                    }
-                                }
-                            }
+                            System.out.println("MSG not parsed :(");
+                            break;
                     }
+
 
                 }
 

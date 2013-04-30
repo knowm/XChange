@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,71 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.mtgox.v2.streaming.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
- * <p>
- * Enum to provide the following to {@link RunnableExchangeEventProducer}:
- * </p>
- * <ul>
- * <li>Classification of event type to allow clients to take appropriate action</li>
- * </ul>
+ * Data object representing a Value from Mt Gox
  */
-public enum ExchangeEventType {
+public final class MtGoxValue {
 
-  // Connection messages
-
-  /**
-   * Issued when the upstream server has connected
-   */
-  CONNECT,
+  private final BigDecimal value;
+  private final String currency;
 
   /**
-   * The upstream server has disconnected
+   * Constructor
+   * 
+   * @param value
+   * @param currency
    */
-  DISCONNECT,
+  public MtGoxValue(@JsonProperty("value") BigDecimal value, @JsonProperty("currency") String currency) {
 
-  /**
-   * Represents an error condition
-   */
-  ERROR,
+    this.value = value;
+    this.currency = currency;
+  }
 
-  // Generic message types
-  /**
-   * A message encoding some plain text
-   */
-  MESSAGE,
+  public BigDecimal getValue() {
 
-  /**
-   * Represents an event (server specific info)
-   */
-  EVENT,
+    return value;
+  }
 
-  // Specific message types to assist consumer processing
+  public String getCurrency() {
 
-  /**
-   * A message with a Ticker payload
-   */
-  TICKER,
+    return currency;
+  }
 
-  /**
-   * A message with a Trade payload
-   */
-  TRADE,
+  @Override
+  public String toString() {
 
-  /**
-   * A message with a Market Depth update payload
-   */
-  DEPTH,
-
-   /**
-   * A message containing the private id key
-   */
-   PRIVATE_ID_KEY,
-
-  /**
-   * A message with a user order
-   */
-  USER_ORDER
+    return "MtGoxValue [value=" + value + ", currency=" + currency + "]";
+  }
 
 }
