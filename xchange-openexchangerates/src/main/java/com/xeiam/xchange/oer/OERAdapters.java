@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.oer;
 
+import java.util.Date;
+
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.currency.MoneyUtils;
@@ -42,7 +44,8 @@ public final class OERAdapters {
   public static Ticker adaptTicker(String tradableIdentifier, Double exchangeRate, Long timestamp) {
 
     BigMoney last = MoneyUtils.parse(tradableIdentifier + " " + exchangeRate);
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(null).withAsk(null).withHigh(null).withLow(null).withVolume(null).build();
+    Date timestampDate = new Date(timestamp);
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withTimestamp(timestampDate).build();
   }
 
 }
