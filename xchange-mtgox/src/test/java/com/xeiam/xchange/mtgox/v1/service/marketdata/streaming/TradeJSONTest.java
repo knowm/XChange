@@ -56,6 +56,7 @@ public class TradeJSONTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(mtGoxTrade.getPriceInt(), equalTo(9079995L));
     assertThat(mtGoxTrade.getAmountInt(), equalTo(1851242L));
+    assertThat(mtGoxTrade.getTid(), equalTo(1364652424875559L));
 
   }
 }

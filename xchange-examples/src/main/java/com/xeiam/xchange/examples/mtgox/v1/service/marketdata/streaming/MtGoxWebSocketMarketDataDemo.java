@@ -29,8 +29,6 @@ import java.util.concurrent.Future;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
-import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxStreamingConfiguration;
@@ -106,8 +104,8 @@ public class MtGoxWebSocketMarketDataDemo {
           ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
 
           if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
-            Ticker ticker = (Ticker) exchangeEvent.getPayload();
-            System.out.println(ticker.toString());
+            // Ticker ticker = (Ticker) exchangeEvent.getPayload();
+            // System.out.println(ticker.toString());
           }
 
           else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
@@ -116,8 +114,8 @@ public class MtGoxWebSocketMarketDataDemo {
           }
 
           else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
-            OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
-            System.out.println(orderBookUpdate.toString());
+            // OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
+            // System.out.println(orderBookUpdate.toString());
           }
         }
 

@@ -113,19 +113,19 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCETrade to a Trade Object
    * 
-   * @param BTCETrade A BTCE trade
+   * @param bTCETrade A BTCE trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(BTCETrade BTCETrade) {
+  public static Trade adaptTrade(BTCETrade bTCETrade) {
 
-    OrderType orderType = BTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = BTCETrade.getAmount();
-    String currency = BTCETrade.getPriceCurrency();
-    BigMoney price = MoneyUtils.parse(currency + " " + BTCETrade.getPrice());
-    String tradableIdentifier = BTCETrade.getItem();
-    Date date = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
+    OrderType orderType = bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = bTCETrade.getAmount();
+    String currency = bTCETrade.getPriceCurrency();
+    BigMoney price = MoneyUtils.parse(currency + " " + bTCETrade.getPrice());
+    String tradableIdentifier = bTCETrade.getItem();
+    Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, bTCETrade.getTid());
   }
 
   /**
@@ -160,8 +160,8 @@ public final class BTCEAdapters {
     BigDecimal volume = bTCETicker.getTicker().getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getTicker().getServerTime() * 1000L);
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume)
-        .withTimestamp(timestamp).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
+        .build();
   }
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {

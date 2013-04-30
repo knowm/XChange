@@ -153,10 +153,12 @@ public class MtGoxAdapterTest {
     // verify all fields filled
     // System.out.println(trades.getTrades().get(0).toString());
     assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue(), equalTo(193.99989));
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().floatValue(), equalTo(193.99989f));
     assertThat(trades.getTrades().get(0).getType(), equalTo(OrderType.BID));
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue(), equalTo(0.01985186));
     assertThat(trades.getTrades().get(0).getTradableIdentifier(), equalTo("BTC"));
     assertThat(trades.getTrades().get(0).getTransactionCurrency(), equalTo("USD"));
+    assertThat(trades.getTrades().get(0).getId(), equalTo(1365499103363494L));
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
     assertThat("2013-04-09 09:18:23 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
   }

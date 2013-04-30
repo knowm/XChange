@@ -105,7 +105,7 @@ public final class VirtExAdapters {
     BigMoney price = MoneyUtils.parse(currency + " " + virtExTrade.getPrice());
     Date date = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
-    return new Trade(null, amount, tradableIdentifier, currency, price, date);
+    return new Trade(null, amount, tradableIdentifier, currency, price, date, virtExTrade.getTid());
   }
 
   /**
