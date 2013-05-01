@@ -32,6 +32,7 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
@@ -86,10 +87,15 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
         String operation = (String) rawJSON.get("op");
         if ( "private".equals(operation) ) {
             String priv = (String) rawJSON.get("private");
-            if ( priv.equals("user_order") ) {
+            if ( "user_order".equals(priv) ) {
                 MtGoxOpenOrder order = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("user_order"), streamObjectMapper), MtGoxOpenOrder.class, streamObjectMapper);
                 ExchangeEvent userOrderEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER, exchangeEvent.getData(), order);
                 addToEventQueue(userOrderEvent);
+                break;
+            } else if ( "lag".equals(priv) ) {
+                MtGoxTradeLag lag = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("lag"), streamObjectMapper), MtGoxTradeLag.class, streamObjectMapper);
+                ExchangeEvent lagEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE_LAG, exchangeEvent.getData(), lag);
+                addToEventQueue(lagEvent);
                 break;
             }
 
@@ -100,7 +106,19 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
                 ExchangeEvent idEvent = new DefaultExchangeEvent(ExchangeEventType.PRIVATE_ID_KEY, null, rawJSON.get("result"));
                 addToEventQueue(idEvent);
                 break;
+            } else if ( "orders".equals(id) ) {
+                MtGoxOpenOrder[] orders = null;
+
+                if ( rawJSON.get("result") != null ) {
+                    orders = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOpenOrder[].class, streamObjectMapper);
+                }
+
+                ExchangeEvent ordersEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDERS_LIST, exchangeEvent.getData(), orders);
+                addToEventQueue(ordersEvent);
+                break;
+
             }
+
         }  else if ( "remark".equals(operation) ) {
             System.out.println("Msg from server: " + rawJSON.toString());
             break;

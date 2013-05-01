@@ -30,6 +30,7 @@ import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
 import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -115,9 +116,22 @@ public class MtGoxWebSocketDemo {
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("dbf1dee9-4f2e-4a08-8cb7-748919a71b21"));
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
-                            streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
 
+                            streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
                             streamingExchangeService.send(socketMsgFactory.idKey());
+                            streamingExchangeService.send(socketMsgFactory.privateOrders());
+                            break;
+
+                        case USER_ORDERS_LIST:
+                            MtGoxOpenOrder[] orders = (MtGoxOpenOrder[]) exchangeEvent.getPayload();
+                            if ( orders == null ) {
+                                System.out.println("No orders for this user");
+                            } else {
+                                final int len = orders.length;
+                                for ( int i = 0; i < len ; i++ ) {
+                                    System.out.println("USER ORDERS LIST (" + i + "): " + orders[i]);
+                                }
+                            }
                             break;
 
                         case PRIVATE_ID_KEY:
@@ -126,6 +140,10 @@ public class MtGoxWebSocketDemo {
                             streamingExchangeService.send(msgToSend);
                             break;
 
+                        case TRADE_LAG:
+                            MtGoxTradeLag lag = (MtGoxTradeLag) exchangeEvent.getPayload();
+                            System.out.println("TRADE LAG: " + lag + "\nfrom: " + exchangeEvent.getData());
+                            break;
 
                         case TRADE:
                             System.out.println("TRADE! " + exchangeEvent.getData().toString());

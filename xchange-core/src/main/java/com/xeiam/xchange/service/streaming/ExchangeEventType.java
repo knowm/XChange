@@ -84,6 +84,15 @@ public enum ExchangeEventType {
   /**
    * A message with a user order
    */
-  USER_ORDER
+  USER_ORDER,
 
+  /**
+   * A message with the trade lag
+   */
+  TRADE_LAG,
+
+  /**
+   * A message with user orders
+   */
+  USER_ORDERS_LIST
 }

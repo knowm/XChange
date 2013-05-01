@@ -56,7 +56,10 @@ public class SocketMsgFactory {
 
     public String idKey() throws JsonProcessingException, UnsupportedEncodingException {
         return signedCall("private/idkey", new HashMap<String, String>(), "idkey");
+    }
 
+    public String privateOrders() throws UnsupportedEncodingException, JsonProcessingException {
+        return signedCall("private/orders", new HashMap<String, String>(), "orders");
     }
 
     private String signedCall(String endPoint, Map<String, String> params, String reqId)
@@ -117,4 +120,5 @@ public class SocketMsgFactory {
 
         return bas.toByteArray();
     }
+
 }
