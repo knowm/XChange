@@ -31,6 +31,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
@@ -117,6 +118,11 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
                 addToEventQueue(ordersEvent);
                 break;
 
+            } else if ( "info".equals(id) ) {
+                MtGoxAccountInfo accountInfo = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxAccountInfo.class, streamObjectMapper);
+                ExchangeEvent accountInfoEvent = new DefaultExchangeEvent(ExchangeEventType.ACCOUNT_INFO, exchangeEvent.getData(), accountInfo);
+                addToEventQueue(accountInfoEvent);
+                break;
             }
 
         }  else if ( "remark".equals(operation) ) {

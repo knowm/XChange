@@ -94,5 +94,10 @@ public enum ExchangeEventType {
   /**
    * A message with user orders
    */
-  USER_ORDERS_LIST
+  USER_ORDERS_LIST,
+
+  /**
+   * A message with user orders
+   */
+  ACCOUNT_INFO
 }

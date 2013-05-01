@@ -29,6 +29,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
 import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
@@ -117,9 +118,17 @@ public class MtGoxWebSocketDemo {
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
 
-                            streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
-                            streamingExchangeService.send(socketMsgFactory.idKey());
-                            streamingExchangeService.send(socketMsgFactory.privateOrders());
+                            //streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
+                            //streamingExchangeService.send(socketMsgFactory.idKey());
+                            //streamingExchangeService.send(socketMsgFactory.privateOrders());
+
+                            streamingExchangeService.send(socketMsgFactory.privateInfo());
+
+                            break;
+
+                        case ACCOUNT_INFO:
+                            MtGoxAccountInfo accountInfo = (MtGoxAccountInfo) exchangeEvent.getPayload();
+                            System.out.println("ACCOUNT INFO: " + accountInfo + " from: " + exchangeEvent.getData().toString());
                             break;
 
                         case USER_ORDERS_LIST:
