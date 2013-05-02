@@ -25,6 +25,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
@@ -38,6 +40,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -119,9 +122,8 @@ public class MtGoxWebSocketDemo {
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
 
                             //streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
-                            //streamingExchangeService.send(socketMsgFactory.idKey());
+                            streamingExchangeService.send(socketMsgFactory.idKey());
                             //streamingExchangeService.send(socketMsgFactory.privateOrders());
-
                             streamingExchangeService.send(socketMsgFactory.privateInfo());
 
                             break;
@@ -147,6 +149,19 @@ public class MtGoxWebSocketDemo {
                             String keyId = (String) exchangeEvent.getPayload();
                             String msgToSend = socketMsgFactory.subscribeToChannelWithKey(keyId);
                             streamingExchangeService.send(msgToSend);
+
+                            //LimitOrder: "I want to sell 0.01 BTC at $600"
+                            streamingExchangeService.send(
+                                    socketMsgFactory.addOrder(Order.OrderType.ASK,
+                                            MoneyUtils.parseMoney("USD", 600f),
+                                            new BigDecimal(0.01)));
+
+
+                            //LimitOrder: "I want to buy 10 BTC at $5"
+                            streamingExchangeService.send(
+                                    socketMsgFactory.addOrder(Order.OrderType.BID,
+                                            MoneyUtils.parseMoney("USD", 5f), new BigDecimal(10)));
+
                             break;
 
                         case TRADE_LAG:

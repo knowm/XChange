@@ -2,12 +2,16 @@ package com.xeiam.xchange.mtgox.v2.streaming;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.utils.Base64;
+import org.joda.money.BigMoney;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +56,26 @@ public class SocketMsgFactory {
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(map);
+    }
+
+    public String addOrder(Order.OrderType orderType, BigMoney price, BigDecimal amount)
+            throws UnsupportedEncodingException, JsonProcessingException {
+
+        String typeStr = Order.OrderType.ASK == orderType ? "ask" : "bid";
+        String priceStr = MtGoxUtils.getPriceString(price);
+        String amountStr = MtGoxUtils.getAmountString(amount);
+
+        HashMap<String, String> params = new HashMap<String, String>(3);
+        params.put("type", typeStr);
+        params.put("amount_int", amountStr);
+
+        // if price < 0, it's a market order
+        if ( price.isGreaterThan(BigMoney.zero(price.getCurrencyUnit())) ) {
+            params.put("price_int", priceStr);
+        }
+
+        String reqId = String.format("order_add:%s:%s:%s", typeStr, priceStr, amountStr);
+        return signedCall("order/add", params, reqId);
     }
 
     public String idKey() throws JsonProcessingException, UnsupportedEncodingException {
