@@ -107,6 +107,11 @@ public enum ExchangeEventType {
   USER_ORDER_ADDED,
 
   /**
+   * A message sent when a user order is cancelled
+   */
+  USER_ORDER_CANCELED,
+
+  /**
    * A message with the wallet update
    */
   USER_WALLET_UPDATE

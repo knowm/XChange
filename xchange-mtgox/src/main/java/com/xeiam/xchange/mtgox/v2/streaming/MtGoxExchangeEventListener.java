@@ -132,6 +132,11 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
                 addToEventQueue(userOrderAddedEvent);
                 break;
 
+            } else if ( id.startsWith("order_cancel") ) {
+                MtGoxOrderCanceled orderCanceled = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOrderCanceled.class, streamObjectMapper);
+                ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_CANCELED, exchangeEvent.getData(), orderCanceled);
+                addToEventQueue(userOrderCanceledEvent);
+                break;
             }
 
         }  else if ( "remark".equals(operation) ) {

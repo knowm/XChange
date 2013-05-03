@@ -25,19 +25,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
 import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxWalletUpdate;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.*;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -104,7 +104,10 @@ public class MtGoxWebSocketDemo {
         @Override
         public void run() {
             // Put ("api_key", "secret")
-            SocketMsgFactory socketMsgFactory = new SocketMsgFactory("", "");
+            SocketMsgFactory socketMsgFactory = new SocketMsgFactory("a4c0576a-5617-4099-b841-bbb04496d114",
+                    "TpsIdpdwypNxWUrxS8A7N4mRC6y6TtJGgqD6GTORfcammGGqIUAx6Hr2v7938WCSPv5D96sekFRSLZKP2cWQog==");
+
+            String oid = "";
 
             try {
                 while (true) {
@@ -147,10 +150,10 @@ public class MtGoxWebSocketDemo {
                             streamingExchangeService.send(msgToSend);
 
                             //LimitOrder: "I want to sell 0.01 BTC at $600"
-                            //streamingExchangeService.send(
-                            //        socketMsgFactory.addOrder(Order.OrderType.ASK,
-                            //                MoneyUtils.parseMoney("USD", 600f),
-                            //                new BigDecimal(0.01)));
+                            streamingExchangeService.send(
+                                    socketMsgFactory.addOrder(Order.OrderType.ASK,
+                                            MoneyUtils.parseMoney("USD", 600f),
+                                            new BigDecimal(0.01)));
 
 
                             //LimitOrder: "I want to buy 10 BTC at $5"
@@ -180,6 +183,12 @@ public class MtGoxWebSocketDemo {
                         case USER_ORDER_ADDED:
                             String orderAdded = (String) exchangeEvent.getPayload();
                             System.out.println("ADDED USER ORDER: " + orderAdded);
+                            oid = orderAdded;
+                            break;
+
+                        case USER_ORDER_CANCELED:
+                            MtGoxOrderCanceled orderCanceled = (MtGoxOrderCanceled) exchangeEvent.getPayload();
+                            System.out.println("CANCELED USER ORDER: " + orderCanceled + "\nfrom: " + exchangeEvent.getData());
                             break;
 
                         case USER_WALLET_UPDATE:
@@ -190,6 +199,15 @@ public class MtGoxWebSocketDemo {
                         case USER_ORDER:
                             MtGoxOpenOrder order = (MtGoxOpenOrder) exchangeEvent.getPayload();
                             System.out.println("USER ORDER: " + order + "\nfrom: " + exchangeEvent.getData());
+
+                            if ( order.getOid().equals(oid) ) {
+                                if ( order.getStatus().equals("open") ) {
+                                    streamingExchangeService.send(socketMsgFactory.cancelOrder(oid));
+                                    oid = "";
+                                }
+
+                            }
+
                             break;
 
                         case MESSAGE:

@@ -58,6 +58,14 @@ public class SocketMsgFactory {
         return mapper.writeValueAsString(map);
     }
 
+    public String cancelOrder(String oid) throws UnsupportedEncodingException, JsonProcessingException {
+        HashMap<String, String> params = new HashMap<String, String>(1);
+        params.put("oid", oid);
+
+        String reqId = String.format("order_cancel:%s", oid);
+        return signedCall("order/cancel", params, reqId);
+    }
+
     public String addOrder(Order.OrderType orderType, BigMoney price, BigDecimal amount)
             throws UnsupportedEncodingException, JsonProcessingException {
 
@@ -148,4 +156,5 @@ public class SocketMsgFactory {
 
         return bas.toByteArray();
     }
+
 }
