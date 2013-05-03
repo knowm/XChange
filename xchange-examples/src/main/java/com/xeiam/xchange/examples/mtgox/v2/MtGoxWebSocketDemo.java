@@ -25,8 +25,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
@@ -34,14 +32,12 @@ import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxWalletUpdate;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -123,7 +119,7 @@ public class MtGoxWebSocketDemo {
 
                             //streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
                             streamingExchangeService.send(socketMsgFactory.idKey());
-                            //streamingExchangeService.send(socketMsgFactory.privateOrders());
+                            streamingExchangeService.send(socketMsgFactory.privateOrders());
                             streamingExchangeService.send(socketMsgFactory.privateInfo());
 
                             break;
@@ -151,16 +147,16 @@ public class MtGoxWebSocketDemo {
                             streamingExchangeService.send(msgToSend);
 
                             //LimitOrder: "I want to sell 0.01 BTC at $600"
-                            streamingExchangeService.send(
-                                    socketMsgFactory.addOrder(Order.OrderType.ASK,
-                                            MoneyUtils.parseMoney("USD", 600f),
-                                            new BigDecimal(0.01)));
+                            //streamingExchangeService.send(
+                            //        socketMsgFactory.addOrder(Order.OrderType.ASK,
+                            //                MoneyUtils.parseMoney("USD", 600f),
+                            //                new BigDecimal(0.01)));
 
 
                             //LimitOrder: "I want to buy 10 BTC at $5"
-                            streamingExchangeService.send(
-                                    socketMsgFactory.addOrder(Order.OrderType.BID,
-                                            MoneyUtils.parseMoney("USD", 5f), new BigDecimal(10)));
+                            //streamingExchangeService.send(
+                              //      socketMsgFactory.addOrder(Order.OrderType.BID,
+                                //            MoneyUtils.parseMoney("USD", 5f), new BigDecimal(10)));
 
                             break;
 
@@ -179,6 +175,16 @@ public class MtGoxWebSocketDemo {
 
                         case DEPTH:
                             System.out.println("DEPTH! " + exchangeEvent.getData().toString());
+                            break;
+
+                        case USER_ORDER_ADDED:
+                            String orderAdded = (String) exchangeEvent.getPayload();
+                            System.out.println("ADDED USER ORDER: " + orderAdded);
+                            break;
+
+                        case USER_WALLET_UPDATE:
+                            MtGoxWalletUpdate walletUpdate = (MtGoxWalletUpdate) exchangeEvent.getPayload();
+                            System.out.println("USER WALLET UPDATE: " + walletUpdate + "\nfrom: " + exchangeEvent.getData());
                             break;
 
                         case USER_ORDER:

@@ -31,9 +31,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.*;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
@@ -98,6 +96,11 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
                 ExchangeEvent lagEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE_LAG, exchangeEvent.getData(), lag);
                 addToEventQueue(lagEvent);
                 break;
+            } else if ( "wallet".equals(priv) ) {
+                MtGoxWalletUpdate walletUpdate = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("wallet"), streamObjectMapper), MtGoxWalletUpdate.class, streamObjectMapper);
+                ExchangeEvent walletUpdateEvent = new DefaultExchangeEvent(ExchangeEventType.USER_WALLET_UPDATE, exchangeEvent.getData(), walletUpdate );
+                addToEventQueue(walletUpdateEvent);
+                break;
             }
 
         } else if ( "result".equals(operation) ) {
@@ -123,6 +126,12 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
                 ExchangeEvent accountInfoEvent = new DefaultExchangeEvent(ExchangeEventType.ACCOUNT_INFO, exchangeEvent.getData(), accountInfo);
                 addToEventQueue(accountInfoEvent);
                 break;
+
+            } else if ( id.startsWith("order_add") ) {
+                ExchangeEvent userOrderAddedEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_ADDED, exchangeEvent.getData(), rawJSON.get("result"));
+                addToEventQueue(userOrderAddedEvent);
+                break;
+
             }
 
         }  else if ( "remark".equals(operation) ) {

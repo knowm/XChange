@@ -99,5 +99,16 @@ public enum ExchangeEventType {
   /**
    * A message with user orders
    */
-  ACCOUNT_INFO
+  ACCOUNT_INFO,
+
+  /**
+   * A message sent when a user order is added
+   */
+  USER_ORDER_ADDED,
+
+  /**
+   * A message with the wallet update
+   */
+  USER_WALLET_UPDATE
+
 }
