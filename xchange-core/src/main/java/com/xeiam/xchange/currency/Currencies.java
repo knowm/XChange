@@ -83,6 +83,7 @@ public class Currencies {
   public static final String EUR = "EUR"; // "Euro",
   public static final String FJD = "FJD"; // "Fijian Dollar",
   public static final String FKP = "FKP"; // "Falkland Islands Pound",
+  public static final String FTC = "FTC"; // "Feathercoin",
   public static final String GBP = "GBP"; // "British Pound Sterling",
   public static final String GEL = "GEL"; // "Georgian Lari",
   public static final String GHS = "GHS"; // "Ghanaian Cedi",
