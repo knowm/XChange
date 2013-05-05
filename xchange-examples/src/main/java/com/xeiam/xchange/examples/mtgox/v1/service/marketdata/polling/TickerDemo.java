@@ -53,6 +53,14 @@ public class TickerDemo {
     ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
     System.out.println(ticker.toString());
 
+    // Get the latest ticker data showing BTC to JPY
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.JPY);
+    System.out.println(ticker.toString());
+
+    // Get the latest ticker data showing BTC to SEK
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.SEK);
+    System.out.println(ticker.toString());
+
   }
 
 }

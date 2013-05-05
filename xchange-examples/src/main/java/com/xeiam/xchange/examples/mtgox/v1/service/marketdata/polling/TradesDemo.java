@@ -45,8 +45,10 @@ public class TradesDemo {
 
     // Get trades
     // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN, 1365502698000000L);
-    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
+    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK);
+    System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
+    System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
 
     // Verify that trades is not null
     System.out.println("Trades NOT null ? " + trades != null);
