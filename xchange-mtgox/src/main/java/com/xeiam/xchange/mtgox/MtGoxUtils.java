@@ -117,7 +117,7 @@ public final class MtGoxUtils {
    */
   public static BigMoney getPrice(String currency, long price) {
 
-    if (!currency.equals("JPY")) {
+    if (!(currency.equals("JPY") || currency.equals("SEK")) {
 
       return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
     } else { // JPY
