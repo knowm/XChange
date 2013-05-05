@@ -42,8 +42,8 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
-    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.SEK);
+    System.out.println("Current Order Book size for BTC / SEK: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
