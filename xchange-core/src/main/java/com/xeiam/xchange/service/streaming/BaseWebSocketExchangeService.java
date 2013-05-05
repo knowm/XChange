@@ -69,10 +69,9 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
   }
 
-  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener,
-                                              Map<String, String> headers) {
+  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener, Map<String, String> headers) {
 
-    log.info("internalConnect");
+    log.debug("internalConnect");
 
     // Validate inputs
     Assert.notNull(exchangeEventListener, "runnableExchangeEventListener cannot be null");

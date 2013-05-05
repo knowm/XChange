@@ -118,7 +118,6 @@ public final class MtGoxUtils {
   public static BigMoney getPrice(String currency, long price) {
 
     if (!currency.equals("JPY")) {
-
       return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
     } else { // JPY
       return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)));
