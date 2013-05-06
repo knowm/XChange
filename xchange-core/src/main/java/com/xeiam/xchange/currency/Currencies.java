@@ -67,6 +67,7 @@ public class Currencies {
   public static final String CHF = "CHF"; // "Swiss Franc",
   public static final String CLF = "CLF"; // "Chilean Unit of Account (UF)",
   public static final String CLP = "CLP"; // "Chilean Peso",
+  public static final String CNC = "CNC"; // "Chinacoin",
   public static final String CNY = "CNY"; // "Chinese Yuan",
   public static final String COP = "COP"; // "Colombian Peso",
   public static final String CRC = "CRC"; // "Costa Rican Colón",
