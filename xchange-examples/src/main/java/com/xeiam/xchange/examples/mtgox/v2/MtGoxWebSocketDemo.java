@@ -104,8 +104,7 @@ public class MtGoxWebSocketDemo {
         @Override
         public void run() {
             // Put ("api_key", "secret")
-            SocketMsgFactory socketMsgFactory = new SocketMsgFactory("a4c0576a-5617-4099-b841-bbb04496d114",
-                    "TpsIdpdwypNxWUrxS8A7N4mRC6y6TtJGgqD6GTORfcammGGqIUAx6Hr2v7938WCSPv5D96sekFRSLZKP2cWQog==");
+            SocketMsgFactory socketMsgFactory = new SocketMsgFactory("", "");
 
             String oid = "";
 
@@ -117,10 +116,11 @@ public class MtGoxWebSocketDemo {
                         case CONNECT:
                             // unsubscribe to "default" channels
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("dbf1dee9-4f2e-4a08-8cb7-748919a71b21"));
+
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
                             streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
 
-                            //streamingExchangeService.send(socketMsgFactory.subscribeToChannelWithType("lag"));
+                            //streamingExchangeService.send(socketMsgFactory.subscribeWithType("lag"));
                             streamingExchangeService.send(socketMsgFactory.idKey());
                             streamingExchangeService.send(socketMsgFactory.privateOrders());
                             streamingExchangeService.send(socketMsgFactory.privateInfo());
@@ -146,14 +146,14 @@ public class MtGoxWebSocketDemo {
 
                         case PRIVATE_ID_KEY:
                             String keyId = (String) exchangeEvent.getPayload();
-                            String msgToSend = socketMsgFactory.subscribeToChannelWithKey(keyId);
+                            String msgToSend = socketMsgFactory.subscribeWithKey(keyId);
                             streamingExchangeService.send(msgToSend);
 
                             //LimitOrder: "I want to sell 0.01 BTC at $600"
-                            streamingExchangeService.send(
-                                    socketMsgFactory.addOrder(Order.OrderType.ASK,
-                                            MoneyUtils.parseMoney("USD", 600f),
-                                            new BigDecimal(0.01)));
+                            //streamingExchangeService.send(
+                              //      socketMsgFactory.addOrder(Order.OrderType.ASK,
+                                //            MoneyUtils.parseMoney("USD", 600f),
+                                  //          new BigDecimal(0.01)));
 
 
                             //LimitOrder: "I want to buy 10 BTC at $5"

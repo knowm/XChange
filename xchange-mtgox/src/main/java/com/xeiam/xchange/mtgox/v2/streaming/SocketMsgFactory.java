@@ -40,7 +40,16 @@ public class SocketMsgFactory {
 
     }
 
-    public String subscribeToChannelWithType(String type) throws JsonProcessingException {
+    public String subscribeWithChannel(String channel) throws JsonProcessingException {
+        HashMap<String, String> map = new HashMap<String, String>(2);
+        map.put("op", "mtgox.subscribe");
+        map.put("channel", channel);
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(map);
+    }
+
+    public String subscribeWithType(String type) throws JsonProcessingException {
         HashMap<String, String> map = new HashMap<String, String>(2);
         map.put("op", "mtgox.subscribe");
         map.put("type", type);
@@ -49,7 +58,7 @@ public class SocketMsgFactory {
         return mapper.writeValueAsString(map);
     }
 
-    public String subscribeToChannelWithKey(String key) throws JsonProcessingException {
+    public String subscribeWithKey(String key) throws JsonProcessingException {
         HashMap<String, String> map = new HashMap<String, String>(2);
         map.put("op", "mtgox.subscribe");
         map.put("key", key);
@@ -77,7 +86,7 @@ public class SocketMsgFactory {
         params.put("type", typeStr);
         params.put("amount_int", amountStr);
 
-        // if price < 0, it's a market order
+        // if price <= 0, it's a market order
         if ( price.isGreaterThan(BigMoney.zero(price.getCurrencyUnit())) ) {
             params.put("price_int", priceStr);
         }
