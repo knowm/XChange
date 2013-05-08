@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v2;
+package com.xeiam.xchange.examples.mtgox.v2.service.trade.streaming;
 
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
@@ -29,23 +29,22 @@ import java.util.concurrent.Future;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
-import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
-import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOrderCanceled;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxWalletUpdate;
+import com.xeiam.xchange.examples.mtgox.MtGoxExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxOrderCanceled;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxTradeLag;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxWalletUpdate;
+import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxStreamingConfiguration;
+import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxWebsocketMarketDataService;
+import com.xeiam.xchange.mtgox.v2.service.trade.streaming.SocketMsgFactory;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
- * Demonstrate streaming market data from the MtGox Websocket API
+ * Demonstrate streaming account and trade data from the MtGox Websocket API
  * <p/>
  * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
  */
@@ -60,7 +59,7 @@ public class MtGoxWebSocketDemo {
   public void start() throws ExecutionException, InterruptedException {
 
     // Use the default MtGox settings
-    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
+    Exchange mtGoxExchange = MtGoxExamplesUtils.createExchange();
 
     // Configure BTC/USD ticker stream for MtGox
     ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);
@@ -72,7 +71,7 @@ public class MtGoxWebSocketDemo {
     btcusdStreamingMarketDataService.connect();
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new TradeDataRunnable(btcusdStreamingMarketDataService, mtGoxExchange));
 
     // the thread waits here until the Runnable is done.
     mtGoxMarketDataFuture.get();
@@ -87,25 +86,28 @@ public class MtGoxWebSocketDemo {
   /**
    * Encapsulates some market data monitoring behavior
    */
-  class MarketDataRunnable implements Runnable {
+  class TradeDataRunnable implements Runnable {
 
     private final StreamingExchangeService streamingExchangeService;
+    private final Exchange exchange;
 
     /**
-     * Constructor
+     * S Constructor
      * 
      * @param streamingExchangeService
+     * @param exchange
      */
-    public MarketDataRunnable(StreamingExchangeService streamingExchangeService) {
+    public TradeDataRunnable(StreamingExchangeService streamingExchangeService, Exchange exchange) {
 
       this.streamingExchangeService = streamingExchangeService;
+      this.exchange = exchange;
     }
 
     @Override
     public void run() {
 
       // Put ("api_key", "secret")
-      SocketMsgFactory socketMsgFactory = new SocketMsgFactory("", "");
+      SocketMsgFactory socketMsgFactory = new SocketMsgFactory(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey());
 
       String oid = "";
 

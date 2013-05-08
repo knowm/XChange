@@ -23,7 +23,7 @@ package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.mtgox.v1.MtGoxExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.MtGoxExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**

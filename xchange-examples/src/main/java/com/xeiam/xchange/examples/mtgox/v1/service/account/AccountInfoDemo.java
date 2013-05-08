@@ -23,7 +23,7 @@ package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.examples.mtgox.v1.MtGoxExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.MtGoxExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**

@@ -1,4 +1,4 @@
-package com.xeiam.xchange.mtgox.v2.streaming.dto;
+package com.xeiam.xchange.mtgox.v2.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

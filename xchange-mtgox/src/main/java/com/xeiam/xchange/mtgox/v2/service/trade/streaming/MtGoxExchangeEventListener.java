@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.streaming;
+package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
 
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -39,11 +39,11 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOrderCanceled;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxWalletUpdate;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxOrderCanceled;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxTradeLag;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxWalletUpdate;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
