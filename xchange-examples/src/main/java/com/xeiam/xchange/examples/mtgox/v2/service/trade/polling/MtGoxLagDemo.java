@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,46 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto;
+package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
-import java.math.BigDecimal;
+import si.mazi.rescu.RestProxyFactory;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
+import com.xeiam.xchange.mtgox.v2.MtGoxV2;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
 
 /**
- * Data object representing a Value from Mt Gox
+ * @author timmolter
  */
-public final class MtGoxValue {
+public class MtGoxLagDemo {
 
-  private final BigDecimal value;
-  private final String currency;
+  public static void main(String[] args) {
 
-  /**
-   * Constructor
-   * 
-   * @param value
-   * @param currency
-   */
-  public MtGoxValue(@JsonProperty("value") BigDecimal value, @JsonProperty("currency") String currency) {
-
-    this.value = value;
-    this.currency = currency;
-  }
-
-  public BigDecimal getValue() {
-
-    return value;
-  }
-
-  public String getCurrency() {
-
-    return currency;
-  }
-
-  @Override
-  public String toString() {
-
-    return "MtGoxValue [value=" + value + ", currency=" + currency + "]";
+    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
+    MtGoxV2 mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, mtGoxExchange.getExchangeSpecification().getPlainTextUri());
+    MtGoxLag mtGoxLag = mtGoxV2.getLag();
+    System.out.println(mtGoxLag.toString());
   }
 
 }
