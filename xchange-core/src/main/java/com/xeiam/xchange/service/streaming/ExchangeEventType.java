@@ -76,10 +76,10 @@ public enum ExchangeEventType {
    */
   DEPTH,
 
-   /**
+  /**
    * A message containing the private id key
    */
-   PRIVATE_ID_KEY,
+  PRIVATE_ID_KEY,
 
   /**
    * A message with a user order

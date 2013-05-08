@@ -21,27 +21,28 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
-import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
-import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
-import com.xeiam.xchange.mtgox.v2.streaming.dto.*;
-import com.xeiam.xchange.service.streaming.ExchangeEvent;
-import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
-import com.xeiam.xchange.service.streaming.StreamingExchangeService;
-
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
+import com.xeiam.xchange.mtgox.v2.streaming.MtGoxStreamingConfiguration;
+import com.xeiam.xchange.mtgox.v2.streaming.MtGoxWebsocketMarketDataService;
+import com.xeiam.xchange.mtgox.v2.streaming.SocketMsgFactory;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxOrderCanceled;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxTradeLag;
+import com.xeiam.xchange.mtgox.v2.streaming.dto.MtGoxWalletUpdate;
+import com.xeiam.xchange.service.streaming.ExchangeEvent;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * Demonstrate streaming market data from the MtGox Websocket API
@@ -50,183 +51,181 @@ import java.util.concurrent.Future;
  */
 public class MtGoxWebSocketDemo {
 
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
+  public static void main(String[] args) throws ExecutionException, InterruptedException {
 
-        MtGoxWebSocketDemo streamingTickerDemo = new MtGoxWebSocketDemo();
-        streamingTickerDemo.start();
-    }
+    MtGoxWebSocketDemo streamingTickerDemo = new MtGoxWebSocketDemo();
+    streamingTickerDemo.start();
+  }
 
-    public void start() throws ExecutionException, InterruptedException {
+  public void start() throws ExecutionException, InterruptedException {
 
-        // Use the default MtGox settings
-        Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
+    // Use the default MtGox settings
+    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
-        // Configure BTC/USD ticker stream for MtGox
-        ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);
+    // Configure BTC/USD ticker stream for MtGox
+    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);
 
-        // Interested in the public streaming market data feed (no authentication)
-        StreamingExchangeService btcusdStreamingMarketDataService =
-                new MtGoxWebsocketMarketDataService(mtGoxExchange.getExchangeSpecification(), (MtGoxStreamingConfiguration) btcusdConfiguration);
+    // Interested in the public streaming market data feed (no authentication)
+    StreamingExchangeService btcusdStreamingMarketDataService = new MtGoxWebsocketMarketDataService(mtGoxExchange.getExchangeSpecification(), (MtGoxStreamingConfiguration) btcusdConfiguration);
 
-        // Open the connections to the exchange
-        btcusdStreamingMarketDataService.connect();
+    // Open the connections to the exchange
+    btcusdStreamingMarketDataService.connect();
 
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
 
-        // the thread waits here until the Runnable is done.
-        mtGoxMarketDataFuture.get();
+    // the thread waits here until the Runnable is done.
+    mtGoxMarketDataFuture.get();
 
-        executorService.shutdown();
+    executorService.shutdown();
 
-        // Disconnect and exit
-        System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
-        btcusdStreamingMarketDataService.disconnect();
-    }
+    // Disconnect and exit
+    System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
+    btcusdStreamingMarketDataService.disconnect();
+  }
+
+  /**
+   * Encapsulates some market data monitoring behavior
+   */
+  class MarketDataRunnable implements Runnable {
+
+    private final StreamingExchangeService streamingExchangeService;
 
     /**
-     * Encapsulates some market data monitoring behavior
+     * Constructor
+     * 
+     * @param streamingExchangeService
      */
-    class MarketDataRunnable implements Runnable {
+    public MarketDataRunnable(StreamingExchangeService streamingExchangeService) {
 
-        private final StreamingExchangeService streamingExchangeService;
+      this.streamingExchangeService = streamingExchangeService;
+    }
 
-        /**
-         * Constructor
-         *
-         * @param streamingExchangeService
-         */
-        public MarketDataRunnable(StreamingExchangeService streamingExchangeService) {
+    @Override
+    public void run() {
 
-            this.streamingExchangeService = streamingExchangeService;
-        }
+      // Put ("api_key", "secret")
+      SocketMsgFactory socketMsgFactory = new SocketMsgFactory("", "");
 
-        @Override
-        public void run() {
-            // Put ("api_key", "secret")
-            SocketMsgFactory socketMsgFactory = new SocketMsgFactory("", "");
+      String oid = "";
 
-            String oid = "";
+      try {
+        while (true) {
 
-            try {
-                while (true) {
+          ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
+          switch (exchangeEvent.getEventType()) {
+          case CONNECT:
+            // unsubscribe to "default" channels
+            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("dbf1dee9-4f2e-4a08-8cb7-748919a71b21"));
 
-                    ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
-                    switch (exchangeEvent.getEventType()) {
-                        case CONNECT:
-                            // unsubscribe to "default" channels
-                            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("dbf1dee9-4f2e-4a08-8cb7-748919a71b21"));
+            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
+            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
 
-                            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
-                            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
+            // streamingExchangeService.send(socketMsgFactory.subscribeWithType("lag"));
+            streamingExchangeService.send(socketMsgFactory.idKey());
+            streamingExchangeService.send(socketMsgFactory.privateOrders());
+            streamingExchangeService.send(socketMsgFactory.privateInfo());
 
-                            //streamingExchangeService.send(socketMsgFactory.subscribeWithType("lag"));
-                            streamingExchangeService.send(socketMsgFactory.idKey());
-                            streamingExchangeService.send(socketMsgFactory.privateOrders());
-                            streamingExchangeService.send(socketMsgFactory.privateInfo());
+            break;
 
-                            break;
+          case ACCOUNT_INFO:
+            MtGoxAccountInfo accountInfo = (MtGoxAccountInfo) exchangeEvent.getPayload();
+            System.out.println("ACCOUNT INFO: " + accountInfo + " from: " + exchangeEvent.getData().toString());
+            break;
 
-                        case ACCOUNT_INFO:
-                            MtGoxAccountInfo accountInfo = (MtGoxAccountInfo) exchangeEvent.getPayload();
-                            System.out.println("ACCOUNT INFO: " + accountInfo + " from: " + exchangeEvent.getData().toString());
-                            break;
+          case USER_ORDERS_LIST:
+            MtGoxOpenOrder[] orders = (MtGoxOpenOrder[]) exchangeEvent.getPayload();
+            if (orders == null) {
+              System.out.println("No orders for this user");
+            } else {
+              final int len = orders.length;
+              for (int i = 0; i < len; i++) {
+                System.out.println("USER ORDERS LIST (" + i + "): " + orders[i]);
+              }
+            }
+            break;
 
-                        case USER_ORDERS_LIST:
-                            MtGoxOpenOrder[] orders = (MtGoxOpenOrder[]) exchangeEvent.getPayload();
-                            if ( orders == null ) {
-                                System.out.println("No orders for this user");
-                            } else {
-                                final int len = orders.length;
-                                for ( int i = 0; i < len ; i++ ) {
-                                    System.out.println("USER ORDERS LIST (" + i + "): " + orders[i]);
-                                }
-                            }
-                            break;
+          case PRIVATE_ID_KEY:
+            String keyId = (String) exchangeEvent.getPayload();
+            String msgToSend = socketMsgFactory.subscribeWithKey(keyId);
+            streamingExchangeService.send(msgToSend);
 
-                        case PRIVATE_ID_KEY:
-                            String keyId = (String) exchangeEvent.getPayload();
-                            String msgToSend = socketMsgFactory.subscribeWithKey(keyId);
-                            streamingExchangeService.send(msgToSend);
+            // LimitOrder: "I want to sell 0.01 BTC at $600"
+            // streamingExchangeService.send(
+            // socketMsgFactory.addOrder(Order.OrderType.ASK,
+            // MoneyUtils.parseMoney("USD", 600f),
+            // new BigDecimal(0.01)));
 
-                            //LimitOrder: "I want to sell 0.01 BTC at $600"
-                            //streamingExchangeService.send(
-                              //      socketMsgFactory.addOrder(Order.OrderType.ASK,
-                                //            MoneyUtils.parseMoney("USD", 600f),
-                                  //          new BigDecimal(0.01)));
+            // LimitOrder: "I want to buy 10 BTC at $5"
+            // streamingExchangeService.send(
+            // socketMsgFactory.addOrder(Order.OrderType.BID,
+            // MoneyUtils.parseMoney("USD", 5f), new BigDecimal(10)));
 
+            break;
 
-                            //LimitOrder: "I want to buy 10 BTC at $5"
-                            //streamingExchangeService.send(
-                              //      socketMsgFactory.addOrder(Order.OrderType.BID,
-                                //            MoneyUtils.parseMoney("USD", 5f), new BigDecimal(10)));
+          case TRADE_LAG:
+            MtGoxTradeLag lag = (MtGoxTradeLag) exchangeEvent.getPayload();
+            System.out.println("TRADE LAG: " + lag + "\nfrom: " + exchangeEvent.getData());
+            break;
 
-                            break;
+          case TRADE:
+            System.out.println("TRADE! " + exchangeEvent.getData().toString());
+            break;
 
-                        case TRADE_LAG:
-                            MtGoxTradeLag lag = (MtGoxTradeLag) exchangeEvent.getPayload();
-                            System.out.println("TRADE LAG: " + lag + "\nfrom: " + exchangeEvent.getData());
-                            break;
+          case TICKER:
+            System.out.println("TICKER! " + exchangeEvent.getData().toString());
+            break;
 
-                        case TRADE:
-                            System.out.println("TRADE! " + exchangeEvent.getData().toString());
-                            break;
+          case DEPTH:
+            System.out.println("DEPTH! " + exchangeEvent.getData().toString());
+            break;
 
-                        case TICKER:
-                            System.out.println("TICKER! " + exchangeEvent.getData().toString());
-                            break;
+          case USER_ORDER_ADDED:
+            String orderAdded = (String) exchangeEvent.getPayload();
+            System.out.println("ADDED USER ORDER: " + orderAdded);
+            oid = orderAdded;
+            break;
 
-                        case DEPTH:
-                            System.out.println("DEPTH! " + exchangeEvent.getData().toString());
-                            break;
+          case USER_ORDER_CANCELED:
+            MtGoxOrderCanceled orderCanceled = (MtGoxOrderCanceled) exchangeEvent.getPayload();
+            System.out.println("CANCELED USER ORDER: " + orderCanceled + "\nfrom: " + exchangeEvent.getData());
+            break;
 
-                        case USER_ORDER_ADDED:
-                            String orderAdded = (String) exchangeEvent.getPayload();
-                            System.out.println("ADDED USER ORDER: " + orderAdded);
-                            oid = orderAdded;
-                            break;
+          case USER_WALLET_UPDATE:
+            MtGoxWalletUpdate walletUpdate = (MtGoxWalletUpdate) exchangeEvent.getPayload();
+            System.out.println("USER WALLET UPDATE: " + walletUpdate + "\nfrom: " + exchangeEvent.getData());
+            break;
 
-                        case USER_ORDER_CANCELED:
-                            MtGoxOrderCanceled orderCanceled = (MtGoxOrderCanceled) exchangeEvent.getPayload();
-                            System.out.println("CANCELED USER ORDER: " + orderCanceled + "\nfrom: " + exchangeEvent.getData());
-                            break;
+          case USER_ORDER:
+            MtGoxOpenOrder order = (MtGoxOpenOrder) exchangeEvent.getPayload();
+            System.out.println("USER ORDER: " + order + "\nfrom: " + exchangeEvent.getData());
 
-                        case USER_WALLET_UPDATE:
-                            MtGoxWalletUpdate walletUpdate = (MtGoxWalletUpdate) exchangeEvent.getPayload();
-                            System.out.println("USER WALLET UPDATE: " + walletUpdate + "\nfrom: " + exchangeEvent.getData());
-                            break;
+            if (order.getOid().equals(oid)) {
+              if (order.getStatus().equals("open")) {
+                streamingExchangeService.send(socketMsgFactory.cancelOrder(oid));
+                oid = "";
+              }
 
-                        case USER_ORDER:
-                            MtGoxOpenOrder order = (MtGoxOpenOrder) exchangeEvent.getPayload();
-                            System.out.println("USER ORDER: " + order + "\nfrom: " + exchangeEvent.getData());
-
-                            if ( order.getOid().equals(oid) ) {
-                                if ( order.getStatus().equals("open") ) {
-                                    streamingExchangeService.send(socketMsgFactory.cancelOrder(oid));
-                                    oid = "";
-                                }
-
-                            }
-
-                            break;
-
-                        case MESSAGE:
-                            System.out.println("MSG not parsed :(");
-                            break;
-                    }
-
-
-                }
-
-            } catch (InterruptedException e) {
-                System.out.println("ERROR in Runnable!!!");
-                return;
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
             }
 
+            break;
+
+          case MESSAGE:
+            System.out.println("MSG not parsed :(");
+            break;
+          }
+
         }
+
+      } catch (InterruptedException e) {
+        System.out.println("ERROR in Runnable!!!");
+        return;
+      } catch (JsonProcessingException e) {
+        e.printStackTrace();
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }
+
     }
+  }
 }

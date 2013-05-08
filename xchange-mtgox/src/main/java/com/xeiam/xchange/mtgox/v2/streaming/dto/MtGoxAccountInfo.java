@@ -21,9 +21,10 @@
  */
 package com.xeiam.xchange.mtgox.v2.streaming.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Account Info from Mt Gox
@@ -56,8 +57,8 @@ public final class MtGoxAccountInfo {
    * @param tradeFee
    */
   public MtGoxAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights,
-                          @JsonProperty("Language") String language, @JsonProperty("Created") String created, @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Wallets wallets,
-                          @JsonProperty("Monthly_Volume") MtGoxValue monthlyVolume, @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
+      @JsonProperty("Language") String language, @JsonProperty("Created") String created, @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Wallets wallets,
+      @JsonProperty("Monthly_Volume") MtGoxValue monthlyVolume, @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
 
     this.login = login;
     this.index = index;

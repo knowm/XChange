@@ -44,7 +44,7 @@ public final class MtGoxWallet {
    * @param operations
    */
   public MtGoxWallet(@JsonProperty("Balance") MtGoxValue balance, @JsonProperty("Daily_Withdraw_Limit") MtGoxValue dailyWithdrawLimit, @JsonProperty("Max_Withdraw") MtGoxValue maxWithdraw,
-                     @JsonProperty("Monthly_Withdraw_Limit") MtGoxValue monthlyWithdrawLimit, @JsonProperty("Operations") int operations) {
+      @JsonProperty("Monthly_Withdraw_Limit") MtGoxValue monthlyWithdrawLimit, @JsonProperty("Operations") int operations) {
 
     this.balance = balance;
     this.dailyWithdrawLimit = dailyWithdrawLimit;

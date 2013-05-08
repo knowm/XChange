@@ -95,13 +95,14 @@ public final class MtGoxUtils {
 
   /**
    * Converts an amount to a properly scaled int-String for Mt Gox
-   *
+   * 
    * @param amount
    * @return
    */
-    public static String getAmountString(BigDecimal amount) {
-      return amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
-    }
+  public static String getAmountString(BigDecimal amount) {
+
+    return amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
+  }
 
   /**
    * Converts a price in decimal form to a properly scaled int-String for Mt Gox

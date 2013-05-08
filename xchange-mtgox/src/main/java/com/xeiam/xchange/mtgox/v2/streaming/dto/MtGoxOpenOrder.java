@@ -55,8 +55,8 @@ public final class MtGoxOpenOrder {
    * @param priority
    */
   public MtGoxOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type,
-                        @JsonProperty("amount") MtGoxValue amount, @JsonProperty("invalid_amount") MtGoxValue invalidAmount, @JsonProperty("price") MtGoxValue price, @JsonProperty("status") String status,
-                        @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
+      @JsonProperty("amount") MtGoxValue amount, @JsonProperty("invalid_amount") MtGoxValue invalidAmount, @JsonProperty("price") MtGoxValue price, @JsonProperty("status") String status,
+      @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
 
     this.oid = oid;
     this.currency = currency;

@@ -66,5 +66,4 @@ public interface StreamingExchangeService {
    */
   void send(String msg);
 
-
 }

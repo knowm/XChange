@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v2.streaming.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing a Value from Mt Gox
