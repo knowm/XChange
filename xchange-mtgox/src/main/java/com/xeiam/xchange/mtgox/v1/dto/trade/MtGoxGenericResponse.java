@@ -58,6 +58,11 @@ public final class MtGoxGenericResponse {
     return _return;
   }
 
+  public String getReturnString() {
+
+    return _return == null ? null : _return.toString();
+  }
+
   public String getError() {
 
     return error;
