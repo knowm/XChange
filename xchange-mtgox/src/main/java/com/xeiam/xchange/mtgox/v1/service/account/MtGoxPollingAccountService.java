@@ -72,14 +72,14 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public AccountInfo getAccountInfo() {
 
-    MtGoxAccountInfo mtGoxAccountInfo = mtGoxV1.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
+    MtGoxAccountInfo mtGoxAccountInfo = mtGoxV1.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
     return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    MtGoxWithdrawalResponse result = mtGoxV1.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), address, amount.multiply(
+    MtGoxWithdrawalResponse result = mtGoxV1.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(
         new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
     return result.getTransactionId();
   }
@@ -89,13 +89,9 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     String description = arguments[0];
     String notificationUrl = arguments[1];
-    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), description, notificationUrl);
+    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description, notificationUrl);
 
     return mtGoxBitcoinDepositAddress.getAddres();
   }
 
-  private long getNonce() {
-
-    return System.currentTimeMillis();
-  }
 }

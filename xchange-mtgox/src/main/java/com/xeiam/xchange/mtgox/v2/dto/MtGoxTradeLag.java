@@ -50,4 +50,9 @@ public class MtGoxTradeLag {
 
     return "MtGoxTradeLag{" + "qid='" + qid + '\'' + ", stamp='" + stamp + '\'' + ", age=" + age + '}';
   }
+
+  public String toStringShort() {
+
+    return "MtGoxTradeLag= " + (double) age / 1000000 + " s";
+  }
 }

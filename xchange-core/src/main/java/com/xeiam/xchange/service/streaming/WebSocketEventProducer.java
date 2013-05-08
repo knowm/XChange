@@ -79,8 +79,8 @@ public class WebSocketEventProducer extends WebSocketClient {
   public void onClose(int code, String reason, boolean remote) {
 
     // The codecodes are documented in class org.java_websocket.framing.CloseFrame
-    // System.out.println("Connection closed by " + (remote ? "remote peer" : "us"));
-    // System.out.println("reason= " + reason);
+    System.out.println("Connection closed by " + (remote ? "remote peer" : "us"));
+    System.out.println("reason= " + reason);
 
     logger.debug("onClose");
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.DISCONNECT, "disconnected");

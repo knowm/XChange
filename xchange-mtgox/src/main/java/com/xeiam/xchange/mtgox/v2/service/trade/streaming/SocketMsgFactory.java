@@ -148,7 +148,7 @@ public class SocketMsgFactory {
 
   private String signedCall(String endPoint, Map<String, String> params, String reqId) throws JsonProcessingException, UnsupportedEncodingException {
 
-    String nonce = String.valueOf(System.currentTimeMillis()) + "000";
+    long nonce = MtGoxUtils.getNonce();
 
     HashMap<String, Object> call = new HashMap<String, Object>(6);
     call.put("id", reqId);

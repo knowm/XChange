@@ -37,7 +37,7 @@ import com.xeiam.xchange.mtgox.v2.dto.MtGoxOrderCanceled;
 import com.xeiam.xchange.mtgox.v2.dto.MtGoxTradeLag;
 import com.xeiam.xchange.mtgox.v2.dto.MtGoxWalletUpdate;
 import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxStreamingConfiguration;
-import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxWebsocketMarketDataService;
+import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxWebsocketTradeService;
 import com.xeiam.xchange.mtgox.v2.service.trade.streaming.SocketMsgFactory;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
@@ -65,7 +65,7 @@ public class MtGoxWebSocketDemo {
     ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);
 
     // Interested in the public streaming market data feed (no authentication)
-    StreamingExchangeService btcusdStreamingMarketDataService = new MtGoxWebsocketMarketDataService(mtGoxExchange.getExchangeSpecification(), (MtGoxStreamingConfiguration) btcusdConfiguration);
+    StreamingExchangeService btcusdStreamingMarketDataService = new MtGoxWebsocketTradeService(mtGoxExchange.getExchangeSpecification(), (MtGoxStreamingConfiguration) btcusdConfiguration);
 
     // Open the connections to the exchange
     btcusdStreamingMarketDataService.connect();
@@ -152,6 +152,8 @@ public class MtGoxWebSocketDemo {
             String msgToSend = socketMsgFactory.subscribeWithKey(keyId);
             streamingExchangeService.send(msgToSend);
 
+            System.out.println("ID KEY: " + keyId);
+
             // LimitOrder: "I want to sell 0.01 BTC at $600"
             // streamingExchangeService.send(
             // socketMsgFactory.addOrder(Order.OrderType.ASK,
@@ -167,7 +169,8 @@ public class MtGoxWebSocketDemo {
 
           case TRADE_LAG:
             MtGoxTradeLag lag = (MtGoxTradeLag) exchangeEvent.getPayload();
-            System.out.println("TRADE LAG: " + lag + "\nfrom: " + exchangeEvent.getData());
+            // System.out.println("TRADE LAG: " + lag + "\nfrom: " + exchangeEvent.getData());
+            System.out.println("TRADE LAG: " + lag.toStringShort());
             break;
 
           case TRADE:
@@ -182,12 +185,14 @@ public class MtGoxWebSocketDemo {
             System.out.println("DEPTH! " + exchangeEvent.getData().toString());
             break;
 
+          // only occurs when order placed via streaming API
           case USER_ORDER_ADDED:
             String orderAdded = (String) exchangeEvent.getPayload();
             System.out.println("ADDED USER ORDER: " + orderAdded);
             oid = orderAdded;
             break;
 
+          // only occurs when order placed via streaming API
           case USER_ORDER_CANCELED:
             MtGoxOrderCanceled orderCanceled = (MtGoxOrderCanceled) exchangeEvent.getPayload();
             System.out.println("CANCELED USER ORDER: " + orderCanceled + "\nfrom: " + exchangeEvent.getData());

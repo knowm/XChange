@@ -76,6 +76,9 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
   @Override
   public void handleEvent(ExchangeEvent exchangeEvent) {
 
+    // System.out.println("Msg from server: " + exchangeEvent.getEventType());
+    // System.out.println("Msg from server: " + exchangeEvent.getData());
+
     switch (exchangeEvent.getEventType()) {
     case CONNECT:
       log.debug("MtGox connected");

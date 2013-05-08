@@ -38,15 +38,15 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Streaming market data service for the MtGox exchange
+ * Streaming trade service for the MtGox exchange
  * </p>
  * <p>
  * MtGox provides a Websocket implementation
  * </p>
  */
-public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeService implements StreamingExchangeService {
+public class MtGoxWebsocketTradeService extends BaseWebSocketExchangeService implements StreamingExchangeService {
 
-  private final Logger logger = LoggerFactory.getLogger(MtGoxWebsocketMarketDataService.class);
+  private final Logger logger = LoggerFactory.getLogger(MtGoxWebsocketTradeService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -65,7 +65,7 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
    * 
    * @param exchangeSpecification The exchange specification providing the required connection data
    */
-  public MtGoxWebsocketMarketDataService(ExchangeSpecification exchangeSpecification, MtGoxStreamingConfiguration configuration) {
+  public MtGoxWebsocketTradeService(ExchangeSpecification exchangeSpecification, MtGoxStreamingConfiguration configuration) {
 
     super(exchangeSpecification, configuration);
 

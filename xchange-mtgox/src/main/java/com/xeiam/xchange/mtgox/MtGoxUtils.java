@@ -154,4 +154,9 @@ public final class MtGoxUtils {
       throw new RuntimeException("Problem encoding, probably bug in code.", e);
     }
   }
+
+  public static long getNonce() {
+
+    return System.currentTimeMillis();
+  }
 }
