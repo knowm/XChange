@@ -94,6 +94,16 @@ public final class MtGoxUtils {
   public static final int JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR = 1000;
 
   /**
+   * Converts an amount to a properly scaled int-String for Mt Gox
+   *
+   * @param amount
+   * @return
+   */
+    public static String getAmountString(BigDecimal amount) {
+      return amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
+    }
+
+  /**
    * Converts a price in decimal form to a properly scaled int-String for Mt Gox
    * 
    * @param price

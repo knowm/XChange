@@ -74,8 +74,46 @@ public enum ExchangeEventType {
   /**
    * A message with a Market Depth update payload
    */
-  DEPTH
+  DEPTH,
 
-  ;
+   /**
+   * A message containing the private id key
+   */
+   PRIVATE_ID_KEY,
+
+  /**
+   * A message with a user order
+   */
+  USER_ORDER,
+
+  /**
+   * A message with the trade lag
+   */
+  TRADE_LAG,
+
+  /**
+   * A message with user orders
+   */
+  USER_ORDERS_LIST,
+
+  /**
+   * A message with user orders
+   */
+  ACCOUNT_INFO,
+
+  /**
+   * A message sent when a user order is added
+   */
+  USER_ORDER_ADDED,
+
+  /**
+   * A message sent when a user order is cancelled
+   */
+  USER_ORDER_CANCELED,
+
+  /**
+   * A message with the wallet update
+   */
+  USER_WALLET_UPDATE
 
 }
