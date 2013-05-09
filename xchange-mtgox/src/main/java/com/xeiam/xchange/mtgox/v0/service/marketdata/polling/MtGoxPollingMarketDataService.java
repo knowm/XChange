@@ -62,7 +62,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getPlainTextUri());
+    this.mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getSslUri());
   }
 
   @Override
