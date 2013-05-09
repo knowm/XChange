@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Mark van Cuijk mark@van-cuijk.nl
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,46 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto.account.streaming;
-
-import java.math.BigDecimal;
+package com.xeiam.xchange.mtgox.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing a Value from Mt Gox
+ * Data object representing the content of a response message from MtGox after requesting a bitcoin withdrawal
  */
-public final class MtGoxValue {
+public final class MtGoxWithdrawalResponse {
 
-  private final BigDecimal value;
-  private final String currency;
+  /**
+   * Bitcion transaction id (in the block chain)
+   */
+  private final String transactionId;
 
   /**
    * Constructor
    * 
-   * @param value
-   * @param currency
+   * @param transactionId
    */
-  public MtGoxValue(@JsonProperty("value") BigDecimal value, @JsonProperty("currency") String currency) {
+  public MtGoxWithdrawalResponse(@JsonProperty("trx") String transactionId) {
 
-    this.value = value;
-    this.currency = currency;
+    this.transactionId = transactionId;
   }
 
-  public BigDecimal getValue() {
+  public String getTransactionId() {
 
-    return value;
-  }
-
-  public String getCurrency() {
-
-    return currency;
+    return transactionId;
   }
 
   @Override
   public String toString() {
 
-    return "MtGoxValue [value=" + value + ", currency=" + currency + "]";
+    return "MtGoxWithdrawalResponse [transactionId=" + transactionId + "]";
   }
 
 }

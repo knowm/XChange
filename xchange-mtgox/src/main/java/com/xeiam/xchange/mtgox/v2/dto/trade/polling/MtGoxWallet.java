@@ -19,10 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto.account.streaming;
+package com.xeiam.xchange.mtgox.v2.dto.trade.polling;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.mtgox.v2.dto.MtGoxValue;
+import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
  * Data object representing a Wallet from Mt Gox
