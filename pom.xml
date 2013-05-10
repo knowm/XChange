@@ -44,12 +44,12 @@
 
 	<distributionManagement>
 		<snapshotRepository>
-			<id>xeiam_oss.sonatype-nexus-snapshots</id>
+			<id>sonatype-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
 			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
-			<id>xeiam_oss.sonatype-nexus-staging</id>
+			<id>sonatype-nexus-staging</id>
 			<name>Nexus Release Repository</name>
 			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
