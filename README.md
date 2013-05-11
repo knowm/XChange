@@ -41,8 +41,6 @@ Project Site: http://xeiam.com/xchange.jsp
 Example Code: http://xeiam.com/xchange_examplecode.jsp  
 Change Log: http://xeiam.com/xchange_changelog.jsp  
 Java Docs: http://xeiam.com/xchange/javadoc/index.html  
-Sonar Code Quality: http://sonar.xeiam.com/  
-Jenkins CI: http://ci.xeiam.com/  
 
 ## Wiki
 Home: https://github.com/timmolter/XChange/wiki  
@@ -50,6 +48,10 @@ Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes
 Milestones: https://github.com/timmolter/XChange/wiki/Milestones  
 Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support  
 New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices
+
+## Continuous Integration Status
+[![Build Status](https://travis-ci.org/timmolter/XChange.png?branch=develop)](https://travis-ci.org/timmolter/XChange.png)  
+[Build History](https://travis-ci.org/timmolter/XChange/builds)  
 
 ## Getting Started
 XChange is semantically versioned: http://semver.org  
