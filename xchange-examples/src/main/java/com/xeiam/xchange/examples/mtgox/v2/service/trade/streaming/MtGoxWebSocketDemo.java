@@ -30,7 +30,7 @@ import java.util.concurrent.Future;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.examples.mtgox.MtGoxExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
 import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxWalletUpdate;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOpenOrder;
@@ -59,7 +59,7 @@ public class MtGoxWebSocketDemo {
   public void start() throws ExecutionException, InterruptedException {
 
     // Use the default MtGox settings
-    Exchange mtGoxExchange = MtGoxExamplesUtils.createExchange();
+    Exchange mtGoxExchange = MtGoxV1ExamplesUtils.createExchange();
 
     // Configure BTC/USD ticker stream for MtGox
     ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);

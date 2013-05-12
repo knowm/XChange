@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.account;
+package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
 import java.math.BigDecimal;
 

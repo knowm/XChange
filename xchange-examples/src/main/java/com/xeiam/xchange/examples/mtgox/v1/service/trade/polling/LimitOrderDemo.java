@@ -30,7 +30,7 @@ import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.mtgox.MtGoxExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -40,7 +40,7 @@ public class LimitOrderDemo {
 
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();

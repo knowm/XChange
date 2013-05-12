@@ -19,33 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.account;
-
-import java.math.BigDecimal;
+package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
+import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
- * Demo requesting account info at MtGox
+ * Test requesting depth at MtGox
  */
-public class WithdrawalFundsDemo {
+public class DepthDemo {
 
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
+    // Use the factory to get the version 2 MtGox exchange API using default settings
+    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = mtgox.getPollingAccountService();
+    // Interested in the public market data feed (no authentication)
+    PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
 
-    System.out.println(accountService.getAccountInfo());
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.SEK);
+    System.out.println("Current Order Book size for BTC / SEK: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-    // Withdrawal transactions may be slow to appear for amounts less than 0.01, even though the API returns success.
-    // Change the amount to 0.01 or more to see the transaction appear in the block chain quickly.
-    // May be a general Bitcoin thing.
-    String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
-    System.out.println("transactionID= " + transactionID);
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
   }
 
 }

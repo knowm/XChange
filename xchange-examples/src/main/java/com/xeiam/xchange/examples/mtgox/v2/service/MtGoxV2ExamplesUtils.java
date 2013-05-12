@@ -1,16 +1,16 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- *
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,33 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.account;
-
-import java.math.BigDecimal;
+package com.xeiam.xchange.examples.mtgox.v2.service;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 
 /**
- * Demo requesting account info at MtGox
+ * @author timmolter
  */
-public class WithdrawalFundsDemo {
+public class MtGoxV2ExamplesUtils {
 
-  public static void main(String[] args) {
+  public static Exchange createExchange() {
 
-    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
-
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = mtgox.getPollingAccountService();
-
-    System.out.println(accountService.getAccountInfo());
-
-    // Withdrawal transactions may be slow to appear for amounts less than 0.01, even though the API returns success.
-    // Change the amount to 0.01 or more to see the transaction appear in the block chain quickly.
-    // May be a general Bitcoin thing.
-    String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
-    System.out.println("transactionID= " + transactionID);
+    ExchangeSpecification exSpec = new ExchangeSpecification(MtGoxExchange.class);
+    exSpec.setSecretKey("th+xqOEBV9bGvWDHDGakvZXqihrAWhOba6WzFWYrn8+ODKgn4zL0T/5QCpco7jJ0yeKZ7ienZXD49+1EJe+JkA==");
+    exSpec.setApiKey("4119dea0-ccb6-4c4c-972b-29defc080ce4");
+    exSpec.setSslUri("https://mtgox.com");
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
 }

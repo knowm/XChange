@@ -133,7 +133,7 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
             addToEventQueue(depthEvent);
             break;
           } else {
-            log.debug("MtGox operational message");
+            // log.debug("MtGox operational message: " + exchangeEvent.getData());
             addToEventQueue(exchangeEvent);
           }
         }

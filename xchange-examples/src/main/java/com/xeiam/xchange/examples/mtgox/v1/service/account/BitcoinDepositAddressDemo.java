@@ -22,7 +22,7 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.examples.mtgox.MtGoxExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
@@ -32,7 +32,7 @@ public class BitcoinDepositAddressDemo {
 
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();

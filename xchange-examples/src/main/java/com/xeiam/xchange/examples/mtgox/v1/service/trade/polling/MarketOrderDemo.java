@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.examples.mtgox.MtGoxExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -36,7 +36,7 @@ public class MarketOrderDemo {
 
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
