@@ -39,7 +39,7 @@ import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.utils.Base64;
 
 /**
- * @author timmolter
+ * @author macarse
  */
 public class SocketMsgFactory {
 

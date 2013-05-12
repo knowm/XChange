@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,7 +25,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
+import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
@@ -37,16 +37,19 @@ public class TradesDemo {
 
   public static void main(String[] args) {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
+    // Use the factory to get the version 2 MtGox exchange API using default settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
     marketDataService = mtGoxExchange.getPollingMarketDataService();
 
-    // Get trades
-    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK);
+    // Get trades with "since" parameter
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
+    System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
+    System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
+
+    // Get "most recent" trades
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK);
     System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
     System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
 

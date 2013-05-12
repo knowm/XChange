@@ -23,6 +23,9 @@ package com.xeiam.xchange.mtgox.v2.dto.trade.streaming;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author timmolter
+ */
 public class MtGoxOrderCanceled {
 
   private final String oid;

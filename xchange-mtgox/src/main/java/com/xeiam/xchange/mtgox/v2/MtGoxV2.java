@@ -1,5 +1,5 @@
 /**
- * Copyright (C)  2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -44,7 +44,7 @@ import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
 
 /**
- * @author Matija Mazi
+ * @author timmolter
  */
 @Path("api/2")
 public interface MtGoxV2 {
@@ -70,24 +70,24 @@ public interface MtGoxV2 {
   MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("{ident}{currency}/money/trades/fetch")
+  @Path("{ident}{currency}/money/trades/fetch?raw")
   MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("raw") String raw, @QueryParam("since") long since);
 
   @POST
-  @Path("generic/private/info?raw")
+  @Path("money/info?raw")
   MtGoxAccountInfo getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   @POST
-  @Path("generic/bitcoin/address?raw")
+  @Path("money/bitcoin/address?raw")
   MtGoxBitcoinDepositAddress requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("description") String description, @FormParam("ipn") String notificationUrl);
 
   @POST
-  @Path("generic/private/orders?raw")
+  @Path("money/orders?raw")
   MtGoxOpenOrder[] getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   @POST
-  @Path("generic/bitcoin/send_simple?raw")
+  @Path("money/bitcoin/send_simple?raw")
   MtGoxWithdrawalResponse withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green);
 

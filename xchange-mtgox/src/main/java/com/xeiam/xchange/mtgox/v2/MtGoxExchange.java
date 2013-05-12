@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -27,6 +27,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v2.service.account.polling.MtGoxPollingAccountService;
 import com.xeiam.xchange.mtgox.v2.service.marketdata.polling.MtGoxPollingMarketDataService;
 import com.xeiam.xchange.mtgox.v2.service.trade.polling.MtGoxPollingTradeService;
+import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxStreamingConfiguration;
+import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxWebsocketTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
@@ -68,10 +70,10 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
-    // if (configuration instanceof MtGoxStreamingConfiguration) {
-    // return new MtGoxWebsocketTradeService(getExchangeSpecification(), (MtGoxStreamingConfiguration) configuration);
-    // }
+    if (configuration instanceof MtGoxStreamingConfiguration) {
+      return new MtGoxWebsocketTradeService(getExchangeSpecification(), (MtGoxStreamingConfiguration) configuration);
+    }
 
-    throw new IllegalArgumentException("MtGox only supports the MtGoxExchangeServiceConfiguration");
+    throw new IllegalArgumentException("MtGox only supports the MtGoxV2StreamingConfiguration");
   }
 }

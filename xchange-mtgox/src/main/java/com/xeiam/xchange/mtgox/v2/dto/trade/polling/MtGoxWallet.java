@@ -22,7 +22,7 @@
 package com.xeiam.xchange.mtgox.v2.dto.trade.polling;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxValue;
 
 /**
  * Data object representing a Wallet from Mt Gox
