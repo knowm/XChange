@@ -155,6 +155,7 @@ public class SocketMsgFactory {
     call.put("call", endPoint);
     call.put("nonce", nonce);
     call.put("params", params);
+    // TODO make this work for other currencies
     call.put("currency", "USD");
     call.put("item", "BTC");
 

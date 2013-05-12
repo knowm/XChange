@@ -79,6 +79,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
+    // TODO this will probably cause issues with SEK and JPY. Use MtGox Utils.java instead!!!
     MtGoxWithdrawalResponse result = mtGoxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(
         new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
     return result.getTransactionId();
