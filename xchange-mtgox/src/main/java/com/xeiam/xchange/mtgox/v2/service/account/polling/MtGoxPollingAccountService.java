@@ -23,10 +23,6 @@ package com.xeiam.xchange.mtgox.v2.service.account.polling;
 
 import java.math.BigDecimal;
 
-import si.mazi.rescu.HmacPostBodyDigest;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
@@ -38,6 +34,9 @@ import com.xeiam.xchange.mtgox.v2.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * <p>
@@ -66,7 +65,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
     this.mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, exchangeSpecification.getSslUri());
-    signatureCreator = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    signatureCreator = MtGoxV2Digest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override
