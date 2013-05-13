@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.HmacPostBodyDigest;
 import si.mazi.rescu.Params;
-import si.mazi.rescu.RestMethodMetadata;
+import si.mazi.rescu.RestInvocationParams;
 
 public class MtGoxHmacPostBodyDigestTest {
 
@@ -49,7 +49,7 @@ public class MtGoxHmacPostBodyDigestTest {
     Map<Class<? extends Annotation>, Params> paramsMap = new HashMap<Class<? extends Annotation>, Params>();
     paramsMap.put(FormParam.class, Params.of("nonce", 1328626350245256L));
 
-    String restSign = HmacPostBodyDigest.createInstance(secretKey).digestParams(new RestMethodMetadata(paramsMap, "application/x-www-form-urlencoded"));
+    String restSign = HmacPostBodyDigest.createInstance(secretKey).digestParams(new RestInvocationParams(paramsMap, "application/x-www-form-urlencoded"));
     log.debug("Rest-Sign    : " + restSign);
     String expectedResult = "eNjLVoVh6LVQfzgv7qFMCL48b5d2Qd1gvratXGA76W6+g46Jl9TNkiTCHks5sLXjfAQ1rGnvWxRHu6pYjC5FSQ==";
     log.debug("Expected-Sign: " + expectedResult);
