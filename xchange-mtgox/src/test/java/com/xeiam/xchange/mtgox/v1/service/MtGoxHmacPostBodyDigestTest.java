@@ -37,6 +37,7 @@ import si.mazi.rescu.HmacPostBodyDigest;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocationParams;
 
+// todo: this test belongs to rescu; it's already there so it should be deleted here.
 public class MtGoxHmacPostBodyDigestTest {
 
   private static final Logger log = LoggerFactory.getLogger(MtGoxHmacPostBodyDigestTest.class);
