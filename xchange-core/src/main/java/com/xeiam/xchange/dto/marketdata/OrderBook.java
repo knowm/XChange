@@ -94,7 +94,6 @@ public final class OrderBook {
 	  
 	  //First, we need to remove orders with the same limit price
 	  //Iterators works in a thread safe way
-	  System.out.println("ASKS COUNT->"+this.asks.size()+" BIDS COUNT->"+this.bids.size());
 	  Iterator<LimitOrder> it; 
 	  if(newUpdate.getLimitOrder().getType() == OrderType.ASK) it = this.asks.iterator();
 	  else it = this.bids.iterator();
