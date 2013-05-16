@@ -102,7 +102,6 @@ public final class OrderBook {
 	      LimitOrder order = it.next();
 	      if(order.getLimitPrice().isEqual(newUpdate.getLimitOrder().getLimitPrice())) {
 	      	it.remove();
-	      	System.out.println("Removed "+order.toString());
 	      }
 	  }
 
@@ -118,7 +117,6 @@ public final class OrderBook {
 		  BigMoney limit = newUpdate.getLimitOrder().getLimitPrice();
 		  LimitOrder updatedOrder = new LimitOrder(type, tradeableAmount, tradeableIdentifier, transitionCurrency, id, date, limit);
 		  this.Update(updatedOrder);
-		  System.out.println("Added "+updatedOrder.toString());
 	  }
   }
   
