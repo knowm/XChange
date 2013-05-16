@@ -98,7 +98,7 @@ public final class OrderBook {
 	  else it = this.bids.iterator();
 	  while (it.hasNext()) {
 	      LimitOrder order = it.next();
-	      if(order.getLimitPrice().isEqual(newUpdate.getLimitOrder().getLimitPrice())) {
+	      if(order.getLimitPrice().compareTo(newUpdate.getLimitOrder().getLimitPrice()) == 0) {
 	      	it.remove();
 	      }
 	  }
