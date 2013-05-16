@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,10 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.service;
+package com.xeiam.xchange.mtgox.v2.service.account.polling;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -33,15 +31,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocationParams;
+import si.mazi.rescu.utils.Base64;
 
 /**
- * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably
- * cause an infinite loop.
- * <p/>
- * This may be used for REST APIs where some parameters' values must be digests of other parameters. An example is the MtGox API v1, where the Rest-Sign header parameter must be a digest of the
- * request body (which is composed of @FormParams).
+ * @author Matija Mazi <br/>
+ * @created 5/12/13 9:33 PM TODO! this doesn't work yet.
  */
-public class BTCEHmacPostBodyDigest implements ParamsDigest {
+public class MtGoxV2Digest implements ParamsDigest {
 
   private static final String HMAC_SHA_512 = "HmacSHA512";
   private final Mac mac;
@@ -52,14 +48,14 @@ public class BTCEHmacPostBodyDigest implements ParamsDigest {
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private BTCEHmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
+  private MtGoxV2Digest(String secretKeyBase64) throws IllegalArgumentException {
 
     try {
-      SecretKey secretKey = new SecretKeySpec(secretKeyBase64.getBytes("UTF-8"), HMAC_SHA_512);
+      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_512);
       mac = Mac.getInstance(HMAC_SHA_512);
       mac.init(secretKey);
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Illegal encoding, check the code.", e);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Could not decode Base 64 string", e);
     } catch (InvalidKeyException e) {
       throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
     } catch (NoSuchAlgorithmException e) {
@@ -67,20 +63,38 @@ public class BTCEHmacPostBodyDigest implements ParamsDigest {
     }
   }
 
-  public static BTCEHmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+  public static MtGoxV2Digest createInstance(String secretKeyBase64) throws IllegalArgumentException {
 
-    return secretKeyBase64 == null ? null : new BTCEHmacPostBodyDigest(secretKeyBase64);
+    return secretKeyBase64 == null ? null : new MtGoxV2Digest(secretKeyBase64);
   }
 
   @Override
   public String digestParams(RestInvocationParams restInvocationParams) {
-    try {
-      String postBody = restInvocationParams.getRequestBody();
-      mac.update(postBody.getBytes("UTF-8"));
-      return String.format("%0128x", new BigInteger(1, mac.doFinal()));
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Illegal encoding, check the code.", e);
-    }
-    // return Base64.encodeBytes(mac.doFinal()).trim();
+
+    // // String first = restInvocationParams.getMethodPath();
+    // String first = "money/info";
+    // String second = "\0";
+    // String third = restInvocationParams.getRequestBody();
+    //
+    // System.out.println("first= " + first);
+    // System.out.println("second= " + second);
+    // System.out.println("third= " + third);
+    //
+    // String all = first + second + third;
+    // System.out.println("all= " + all);
+
+    System.out.println("restInvocationParams.getQueryString()= " + restInvocationParams.getQueryString());
+
+    // mac.update(all.getBytes());
+
+    // Explanation: having the "?raw" attached on the path causes it to not work. If you run AccountInfoDemo.java this temporary hack will allow it to authenticate.
+
+    // mac.update(restInvocationParams.getMethodPath().getBytes());
+    mac.update("money/info".getBytes());
+    mac.update(new byte[] { 0 });
+    // mac.update("\0".getBytes());
+    mac.update(restInvocationParams.getRequestBody().getBytes());
+
+    return Base64.encodeBytes(mac.doFinal()).trim();
   }
 }

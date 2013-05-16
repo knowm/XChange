@@ -30,7 +30,7 @@ import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.mtgox.v2.service.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**

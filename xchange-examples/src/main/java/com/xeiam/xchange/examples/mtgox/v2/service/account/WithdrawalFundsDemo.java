@@ -24,7 +24,7 @@ package com.xeiam.xchange.examples.mtgox.v2.service.account;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.examples.mtgox.v2.service.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**

@@ -36,7 +36,7 @@ public class MtGoxV1ExamplesUtils {
     ExchangeSpecification exSpec = new ExchangeSpecification(MtGoxExchange.class);
     exSpec.setSecretKey("th+xqOEBV9bGvWDHDGakvZXqihrAWhOba6WzFWYrn8+ODKgn4zL0T/5QCpco7jJ0yeKZ7ienZXD49+1EJe+JkA==");
     exSpec.setApiKey("4119dea0-ccb6-4c4c-972b-29defc080ce4");
-    exSpec.setSslUri("https://mtgox.com");
+    exSpec.setSslUri("https://data.mtgox.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
