@@ -36,7 +36,7 @@ public interface PollingAccountService {
   /**
    * Get account info
    * 
-   * @return the account info
+   * @return the AccountInfo object, null if some sort of error occurred. Implementors should log the error.
    */
   public AccountInfo getAccountInfo();
 
@@ -53,7 +53,7 @@ public interface PollingAccountService {
    * Request a bitcoin address to fund this account
    * 
    * @param arguments
-   * @return the bitcoin address
+   * @return the bitcoin address, null if some sort of error occurred. Implementors should log the error.
    */
   public String requestBitcoinDepositAddress(final String... arguments);
 

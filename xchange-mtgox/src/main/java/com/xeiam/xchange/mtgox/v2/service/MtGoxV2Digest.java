@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.service.account.polling;
+package com.xeiam.xchange.mtgox.v2.service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -34,8 +34,7 @@ import si.mazi.rescu.RestInvocationParams;
 import si.mazi.rescu.utils.Base64;
 
 /**
- * @author Matija Mazi <br/>
- * @created 5/12/13 9:33 PM TODO! this doesn't work yet.
+ * @author Matija Mazi
  */
 public class MtGoxV2Digest implements ParamsDigest {
 
@@ -71,28 +70,8 @@ public class MtGoxV2Digest implements ParamsDigest {
   @Override
   public String digestParams(RestInvocationParams restInvocationParams) {
 
-    // // String first = restInvocationParams.getMethodPath();
-    // String first = "money/info";
-    // String second = "\0";
-    // String third = restInvocationParams.getRequestBody();
-    //
-    // System.out.println("first= " + first);
-    // System.out.println("second= " + second);
-    // System.out.println("third= " + third);
-    //
-    // String all = first + second + third;
-    // System.out.println("all= " + all);
-
-    System.out.println("restInvocationParams.getQueryString()= " + restInvocationParams.getQueryString());
-
-    // mac.update(all.getBytes());
-
-    // Explanation: having the "?raw" attached on the path causes it to not work. If you run AccountInfoDemo.java this temporary hack will allow it to authenticate.
-
-    // mac.update(restInvocationParams.getMethodPath().getBytes());
-    mac.update("money/info".getBytes());
+    mac.update(restInvocationParams.getMethodPath().getBytes());
     mac.update(new byte[] { 0 });
-    // mac.update("\0".getBytes());
     mac.update(restInvocationParams.getRequestBody().getBytes());
 
     return Base64.encodeBytes(mac.doFinal()).trim();

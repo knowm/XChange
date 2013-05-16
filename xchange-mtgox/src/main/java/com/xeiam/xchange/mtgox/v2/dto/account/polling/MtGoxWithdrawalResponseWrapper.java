@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Mark van Cuijk mark@van-cuijk.nl
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,39 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto.account;
+package com.xeiam.xchange.mtgox.v2.dto.account.polling;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing the content of a response message from MtGox after requesting a bitcoin withdrawal
+ * @author timmolter
  */
-public final class MtGoxWithdrawalResponse {
+public class MtGoxWithdrawalResponseWrapper {
 
-  /**
-   * Bitcion transaction id (in the block chain)
-   */
-  private final String transactionId;
+  private final String result;
+  private final MtGoxWithdrawalResponse mtGoxWithdrawalResponse;
+  private final String error;
 
   /**
    * Constructor
    * 
-   * @param transactionId
+   * @param result
+   * @param mtGoxWithdrawalResponse
+   * @param error
    */
-  public MtGoxWithdrawalResponse(@JsonProperty("trx") String transactionId) {
+  public MtGoxWithdrawalResponseWrapper(@JsonProperty("result") String result, @JsonProperty("data") MtGoxWithdrawalResponse mtGoxWithdrawalResponse, @JsonProperty("error") String error) {
 
-    this.transactionId = transactionId;
+    this.result = result;
+    this.mtGoxWithdrawalResponse = mtGoxWithdrawalResponse;
+    this.error = error;
   }
 
-  public String getTransactionId() {
+  public String getResult() {
 
-    return transactionId;
+    return result;
   }
 
-  @Override
-  public String toString() {
+  public MtGoxWithdrawalResponse getMtGoxWithdrawalResponse() {
 
-    return "MtGoxWithdrawalResponse [transactionId=" + transactionId + "]";
+    return mtGoxWithdrawalResponse;
+  }
+
+  public String getError() {
+
+    return error;
   }
 
 }

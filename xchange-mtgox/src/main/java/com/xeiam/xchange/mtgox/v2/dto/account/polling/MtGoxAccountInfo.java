@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto.account;
+package com.xeiam.xchange.mtgox.v2.dto.account.polling;
 
 import java.math.BigDecimal;
 import java.util.List;

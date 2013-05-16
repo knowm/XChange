@@ -23,19 +23,25 @@ package com.xeiam.xchange.mtgox.v2;
 
 import java.math.BigDecimal;
 
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
-import com.xeiam.xchange.mtgox.v2.dto.account.MtGoxAccountInfo;
-import com.xeiam.xchange.mtgox.v2.dto.account.MtGoxBitcoinDepositAddress;
-import com.xeiam.xchange.mtgox.v2.dto.account.MtGoxWithdrawalResponse;
+import si.mazi.rescu.ParamsDigest;
+
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfoWrapper;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddressWrapper;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponseWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
-
-import si.mazi.rescu.ParamsDigest;
 
 /**
  * @author timmolter
@@ -69,11 +75,11 @@ public interface MtGoxV2 {
 
   @POST
   @Path("money/info")
-  MtGoxAccountInfo getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @QueryParam("raw") boolean raw);
+  MtGoxAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   @POST
-  @Path("money/bitcoin/address?raw")
-  MtGoxBitcoinDepositAddress requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+  @Path("money/bitcoin/address")
+  MtGoxBitcoinDepositAddressWrapper requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("description") String description, @FormParam("ipn") String notificationUrl);
 
   @POST
@@ -81,8 +87,8 @@ public interface MtGoxV2 {
   MtGoxOpenOrder[] getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   @POST
-  @Path("money/bitcoin/send_simple?raw")
-  MtGoxWithdrawalResponse withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+  @Path("money/bitcoin/send_simple")
+  MtGoxWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green);
 
   /**

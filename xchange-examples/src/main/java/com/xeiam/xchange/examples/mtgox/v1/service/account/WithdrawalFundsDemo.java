@@ -39,7 +39,7 @@ public class WithdrawalFundsDemo {
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();
 
-    System.out.println(accountService.getAccountInfo());
+    System.out.println("AccountInfo" + accountService.getAccountInfo());
 
     // Withdrawal transactions may be slow to appear for amounts less than 0.01, even though the API returns success.
     // Change the amount to 0.01 or more to see the transaction appear in the block chain quickly.

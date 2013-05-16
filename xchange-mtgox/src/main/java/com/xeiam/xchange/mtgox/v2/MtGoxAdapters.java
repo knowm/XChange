@@ -40,7 +40,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v2.dto.account.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxOrder;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;

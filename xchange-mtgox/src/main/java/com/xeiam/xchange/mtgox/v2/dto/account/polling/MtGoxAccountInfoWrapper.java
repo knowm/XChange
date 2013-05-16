@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Mark van Cuijk mark@van-cuijk.nl
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,36 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto.account;
+package com.xeiam.xchange.mtgox.v2.dto.account.polling;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing the content of a response message from MtGox after requesting a bitcoin deposit address
+ * @author timmolter
  */
-public final class MtGoxBitcoinDepositAddress {
+public class MtGoxAccountInfoWrapper {
 
-  private final String address;
+  private final String result;
+  private final MtGoxAccountInfo mtGoxAccountInfo;
+  private final String error;
 
   /**
    * Constructor
    * 
-   * @param address
+   * @param result
+   * @param mtGoxAccountInfo
+   * @param error
    */
-  public MtGoxBitcoinDepositAddress(@JsonProperty("addr") String address) {
+  public MtGoxAccountInfoWrapper(@JsonProperty("result") String result, @JsonProperty("data") MtGoxAccountInfo mtGoxAccountInfo, @JsonProperty("error") String error) {
 
-    this.address = address;
+    this.result = result;
+    this.mtGoxAccountInfo = mtGoxAccountInfo;
+    this.error = error;
   }
 
-  public String getAddres() {
+  public String getResult() {
 
-    return address;
+    return result;
   }
 
-  @Override
-  public String toString() {
+  public MtGoxAccountInfo getMtGoxAccountInfo() {
 
-    return "MtGoxBitcoinDepositAddress [address=" + address + "]";
+    return mtGoxAccountInfo;
+  }
+
+  public String getError() {
+
+    return error;
   }
 
 }
