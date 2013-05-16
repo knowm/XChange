@@ -21,8 +21,13 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+
+import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -85,6 +90,38 @@ public final class OrderBook {
 
   }
 
+  public void Update(OrderBookUpdate newUpdate) {
+	  
+	  //First, we need to remove orders with the same limit price
+	  //Iterators works in a thread safe way
+	  System.out.println("ASKS COUNT->"+this.asks.size()+" BIDS COUNT->"+this.bids.size());
+	  Iterator<LimitOrder> it; 
+	  if(newUpdate.getLimitOrder().getType() == OrderType.ASK) it = this.asks.iterator();
+	  else it = this.bids.iterator();
+	  while (it.hasNext()) {
+	      LimitOrder order = it.next();
+	      if(order.getLimitPrice().isEqual(newUpdate.getLimitOrder().getLimitPrice())) {
+	      	it.remove();
+	      	System.out.println("Removed "+order.toString());
+	      }
+	  }
+
+	  //If volume is not zero we need to add a new limit order with the updated amount
+	  if (newUpdate.getTotalVolume().doubleValue() != 0)
+	  {	
+		  OrderType type = newUpdate.getLimitOrder().getType();
+		  BigDecimal tradeableAmount = newUpdate.getTotalVolume();
+		  String tradeableIdentifier = newUpdate.getLimitOrder().getTradableIdentifier();
+		  String transitionCurrency = newUpdate.getLimitOrder().getTransactionCurrency();
+		  String id = newUpdate.getLimitOrder().getId();
+		  Date date = newUpdate.getLimitOrder().getTimestamp();
+		  BigMoney limit = newUpdate.getLimitOrder().getLimitPrice();
+		  LimitOrder updatedOrder = new LimitOrder(type, tradeableAmount, tradeableIdentifier, transitionCurrency, id, date, limit);
+		  this.Update(updatedOrder);
+		  System.out.println("Added "+updatedOrder.toString());
+	  }
+  }
+  
   @Override
   public String toString() {
 
