@@ -35,9 +35,7 @@ import si.mazi.rescu.utils.Base64;
 
 /**
  * @author Matija Mazi <br/>
- * @created 5/12/13 9:33 PM
- *
- * TODO! this doesn't work yet.
+ * @created 5/12/13 9:33 PM TODO! this doesn't work yet.
  */
 public class MtGoxV2Digest implements ParamsDigest {
 
@@ -46,7 +44,7 @@ public class MtGoxV2Digest implements ParamsDigest {
 
   /**
    * Constructor
-   *
+   * 
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
@@ -70,11 +68,33 @@ public class MtGoxV2Digest implements ParamsDigest {
     return secretKeyBase64 == null ? null : new MtGoxV2Digest(secretKeyBase64);
   }
 
+  @Override
   public String digestParams(RestInvocationParams restInvocationParams) {
 
-    mac.update(restInvocationParams.getMethodPath().getBytes());
-    mac.update(new byte[]{0});
+    // // String first = restInvocationParams.getMethodPath();
+    // String first = "money/info";
+    // String second = "\0";
+    // String third = restInvocationParams.getRequestBody();
+    //
+    // System.out.println("first= " + first);
+    // System.out.println("second= " + second);
+    // System.out.println("third= " + third);
+    //
+    // String all = first + second + third;
+    // System.out.println("all= " + all);
+
+    System.out.println("restInvocationParams.getQueryString()= " + restInvocationParams.getQueryString());
+
+    // mac.update(all.getBytes());
+
+    // Explanation: having the "?raw" attached on the path causes it to not work. If you run AccountInfoDemo.java this temporary hack will allow it to authenticate.
+
+    // mac.update(restInvocationParams.getMethodPath().getBytes());
+    mac.update("money/info".getBytes());
+    mac.update(new byte[] { 0 });
+    // mac.update("\0".getBytes());
     mac.update(restInvocationParams.getRequestBody().getBytes());
+
     return Base64.encodeBytes(mac.doFinal()).trim();
   }
 }

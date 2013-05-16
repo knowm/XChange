@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v2.service;
+package com.xeiam.xchange.examples.mtgox.v2;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -36,7 +36,7 @@ public class MtGoxV2ExamplesUtils {
     ExchangeSpecification exSpec = new ExchangeSpecification(MtGoxExchange.class);
     exSpec.setSecretKey("th+xqOEBV9bGvWDHDGakvZXqihrAWhOba6WzFWYrn8+ODKgn4zL0T/5QCpco7jJ0yeKZ7ienZXD49+1EJe+JkA==");
     exSpec.setApiKey("4119dea0-ccb6-4c4c-972b-29defc080ce4");
-    exSpec.setSslUri("https://mtgox.com");
+    exSpec.setSslUri("https://data.mtgox.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
