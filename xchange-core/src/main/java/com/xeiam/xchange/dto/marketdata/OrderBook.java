@@ -68,8 +68,7 @@ public final class OrderBook {
     return bids;
   }
 
-  // TODO Breaks naming convention
-  public void Update(LimitOrder newOrder) {
+  public void update(LimitOrder newOrder) {
 
     if (newOrder.getType().equals(OrderType.ASK)) {
       int index = asks.indexOf(newOrder);
@@ -90,7 +89,7 @@ public final class OrderBook {
 
   }
 
-  public void Update(OrderBookUpdate newUpdate) {
+  public void update(OrderBookUpdate newUpdate) {
 	  
 	  //First, we need to remove orders with the same limit price
 	  //Iterators works in a thread safe way
@@ -115,7 +114,7 @@ public final class OrderBook {
 		  Date date = newUpdate.getLimitOrder().getTimestamp();
 		  BigMoney limit = newUpdate.getLimitOrder().getLimitPrice();
 		  LimitOrder updatedOrder = new LimitOrder(type, tradeableAmount, tradeableIdentifier, transitionCurrency, id, date, limit);
-		  this.Update(updatedOrder);
+		  this.update(updatedOrder);
 	  }
   }
   
