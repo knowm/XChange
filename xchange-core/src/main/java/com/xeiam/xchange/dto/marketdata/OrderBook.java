@@ -104,7 +104,7 @@ public final class OrderBook {
 	  }
 
 	  //If volume is not zero we need to add a new limit order with the updated amount
-	  if (newUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) == 0)
+	  if (newUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0)
 	  {	
 		  OrderType type = newUpdate.getLimitOrder().getType();
 		  BigDecimal tradeableAmount = newUpdate.getTotalVolume();

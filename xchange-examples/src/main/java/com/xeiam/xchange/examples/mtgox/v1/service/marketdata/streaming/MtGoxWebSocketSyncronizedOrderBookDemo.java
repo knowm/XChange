@@ -130,13 +130,13 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
             OrderBookUpdate update = (OrderBookUpdate) exchangeEvent.getPayload();
         	if(update.getLimitOrder().getTransactionCurrency().equals("USD") && MarketDataRunnable.lastTicker!=null) {
         		  MarketDataRunnable.book.update(update);
-        		  if(!MarketDataRunnable.book.getAsks().get(0).getLimitPrice().isEqual(MarketDataRunnable.lastTicker.getAsk()))
+        		  if(MarketDataRunnable.book.getAsks().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getAsk()) != 0)
         		  {
         			  System.out.println("ERROR IN ORDERBOOK (ASKS) -> BOOK PRICE:"+MarketDataRunnable.book.getAsks().get(0).getLimitPrice().getAmount().doubleValue()+" TICKER PRICE:"+MarketDataRunnable.lastTicker.getAsk().getAmount().doubleValue());
         		  }
         		  else System.out.println("ASKS BOOK OK!! "+MarketDataRunnable.lastTicker.getAsk().getAmount().doubleValue());
         		  
-        		  if(!MarketDataRunnable.book.getBids().get(0).getLimitPrice().isEqual(MarketDataRunnable.lastTicker.getBid()))
+        		  if(MarketDataRunnable.book.getBids().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getBid()) != 0)
         		  {
         			  System.out.println("ERROR IN ORDERBOOK (BIDS) -> -> BOOK_PRICE:"+MarketDataRunnable.book.getBids().get(0).getLimitPrice().getAmount().doubleValue()+" TICKER_PRICE:"+MarketDataRunnable.lastTicker.getBid().getAmount().doubleValue());
         		  }
