@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -82,6 +83,7 @@ public class MtGoxAdapterTest {
 
   @Test
   public void testOrderAdapterWithOpenOrders() throws IOException {
+    final String correctTimestampString = "2012-Apr-08 14:59:11";
 
     // Read in the JSON from the example resources
     InputStream is = MtGoxAdapterTest.class.getResourceAsStream("/v1/trade/example-openorders-data.json");
@@ -103,11 +105,12 @@ public class MtGoxAdapterTest {
     assertTrue("tradableIdentifier should be BTC", openorders.get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be USD", openorders.get(0).getTransactionCurrency().equals("USD"));
 
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss", Locale.US );
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(openorders.get(0).getTimestamp());
-    // System.out.println(dateString);
-    assertTrue("transactionCurrency should be USD", dateString.equals("2012-Apr-08 14:59:11"));
+    System.out.println(dateString);
+    assertTrue( "dateString should be '" + correctTimestampString + "', but was '" + dateString + "'",
+                dateString.equals( correctTimestampString ) );
   }
 
   @Test
