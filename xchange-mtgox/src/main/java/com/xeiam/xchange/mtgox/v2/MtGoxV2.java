@@ -23,15 +23,7 @@ package com.xeiam.xchange.mtgox.v2;
 
 import java.math.BigDecimal;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-
-import si.mazi.rescu.ParamsDigest;
+import javax.ws.rs.*;
 
 import com.xeiam.xchange.mtgox.v2.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.account.MtGoxBitcoinDepositAddress;
@@ -42,6 +34,8 @@ import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
+
+import si.mazi.rescu.ParamsDigest;
 
 /**
  * @author timmolter
@@ -74,8 +68,8 @@ public interface MtGoxV2 {
   MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("raw") String raw, @QueryParam("since") long since);
 
   @POST
-  @Path("money/info?raw")
-  MtGoxAccountInfo getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
+  @Path("money/info")
+  MtGoxAccountInfo getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @QueryParam("raw") boolean raw);
 
   @POST
   @Path("money/bitcoin/address?raw")

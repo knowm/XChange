@@ -71,7 +71,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public AccountInfo getAccountInfo() {
 
-    MtGoxAccountInfo mtGoxAccountInfo = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
+    MtGoxAccountInfo mtGoxAccountInfo = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), true);
     return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
   }
 
