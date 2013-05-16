@@ -107,7 +107,7 @@ public class MtGoxAdapterTest {
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(openorders.get(0).getTimestamp());
     // System.out.println(dateString);
-    assertTrue("transactionCurrency should be USD", dateString.equals("2012-04-08 14:59:11"));
+    assertThat(dateString, equalTo("2012-04-08 14:59:11"));
   }
 
   @Test
