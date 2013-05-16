@@ -58,10 +58,10 @@ public class BTCETickerJSONTest {
     assertThat("Unexpected Return Low value", BTCETicker.getTicker().getLow(), equalTo(new BigDecimal("13")));
     assertThat("Unexpected Return Volume value", BTCETicker.getTicker().getVol(), equalTo(new BigDecimal("40418.44988")));
 
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(DateUtils.fromMillisUtc(BTCETicker.getTicker().getServerTime() * 1000L));
-    assertTrue("timestamp should convert to a UTC String", dateString.equals("2012-Dec-22 19:12:09"));
+    assertTrue("timestamp should convert to a UTC String", dateString.equals("2012-12-22 19:12:09"));
   }
 
 }

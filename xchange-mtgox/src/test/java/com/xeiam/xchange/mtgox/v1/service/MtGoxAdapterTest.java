@@ -103,11 +103,11 @@ public class MtGoxAdapterTest {
     assertTrue("tradableIdentifier should be BTC", openorders.get(0).getTradableIdentifier().equals("BTC"));
     assertTrue("transactionCurrency should be USD", openorders.get(0).getTransactionCurrency().equals("USD"));
 
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(openorders.get(0).getTimestamp());
     // System.out.println(dateString);
-    assertTrue("transactionCurrency should be USD", dateString.equals("2012-Apr-08 14:59:11"));
+    assertTrue("transactionCurrency should be USD", dateString.equals("2012-04-08 14:59:11"));
   }
 
   @Test
