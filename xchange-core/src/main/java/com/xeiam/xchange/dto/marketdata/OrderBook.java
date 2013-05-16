@@ -21,8 +21,13 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+
+import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -63,8 +68,7 @@ public final class OrderBook {
     return bids;
   }
 
-  // TODO Breaks naming convention
-  public void Update(LimitOrder newOrder) {
+  public void update(LimitOrder newOrder) {
 
     if (newOrder.getType().equals(OrderType.ASK)) {
       int index = asks.indexOf(newOrder);
@@ -85,6 +89,35 @@ public final class OrderBook {
 
   }
 
+  public void update(OrderBookUpdate newUpdate) {
+	  
+	  //First, we need to remove orders with the same limit price
+	  //Iterators works in a thread safe way
+	  Iterator<LimitOrder> it; 
+	  if(newUpdate.getLimitOrder().getType() == OrderType.ASK) it = this.asks.iterator();
+	  else it = this.bids.iterator();
+	  while (it.hasNext()) {
+	      LimitOrder order = it.next();
+	      if(order.getLimitPrice().compareTo(newUpdate.getLimitOrder().getLimitPrice()) == 0) {
+	      	it.remove();
+	      }
+	  }
+
+	  //If volume is not zero we need to add a new limit order with the updated amount
+	  if (newUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0)
+	  {	
+		  OrderType type = newUpdate.getLimitOrder().getType();
+		  BigDecimal tradeableAmount = newUpdate.getTotalVolume();
+		  String tradeableIdentifier = newUpdate.getLimitOrder().getTradableIdentifier();
+		  String transitionCurrency = newUpdate.getLimitOrder().getTransactionCurrency();
+		  String id = newUpdate.getLimitOrder().getId();
+		  Date date = newUpdate.getLimitOrder().getTimestamp();
+		  BigMoney limit = newUpdate.getLimitOrder().getLimitPrice();
+		  LimitOrder updatedOrder = new LimitOrder(type, tradeableAmount, tradeableIdentifier, transitionCurrency, id, date, limit);
+		  this.update(updatedOrder);
+	  }
+  }
+  
   @Override
   public String toString() {
 
