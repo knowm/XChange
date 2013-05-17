@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
+package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -28,16 +28,15 @@ import org.junit.experimental.categories.Category;
 import com.xeiam.xchange.OnlineTest;
 
 /**
- * Test placing a market order at MtGox
+ * Demo requesting account info at MtGox
  */
 
 @Category(OnlineTest.class)
-public class MarketOrderDemoTest {
+public class BitcoinDepositAddressDemoTest {
 
   @Test
   public void testMain() throws Exception {
 
-    MarketOrderDemo.main(new String[] {});
+    BitcoinDepositAddressDemo.main(new String[] {});
   }
-
 }
