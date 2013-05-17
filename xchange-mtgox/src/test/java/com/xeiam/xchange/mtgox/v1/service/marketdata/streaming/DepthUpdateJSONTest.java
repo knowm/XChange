@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,7 +38,12 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 
 /**
  * Test MtGoxDepthStream JSON parsing
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
+@Ignore
 public class DepthUpdateJSONTest {
 
   @Test

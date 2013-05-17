@@ -26,6 +26,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.joda.money.BigMoney;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -34,7 +35,12 @@ import com.xeiam.xchange.mtgox.MtGoxUtils;
 
 /**
  * Test class for MtGoxUtils class
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
+@Ignore
 public class MtGoxUtilsTest {
 
   @Test
@@ -49,7 +55,6 @@ public class MtGoxUtilsTest {
     // System.out.println(mtGoxRequestStringUSD);
 
     assertEquals("Unexpected value", mtGoxRequestStringJPY, mtGoxRequestStringUSD);
-
   }
 
   @Test

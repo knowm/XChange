@@ -41,7 +41,11 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  * Demonstrate streaming market data from the MtGox Websocket API
  * <p>
  * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxWebSocketMarketDataDemo {
 
   public static void main(String[] args) throws ExecutionException, InterruptedException {

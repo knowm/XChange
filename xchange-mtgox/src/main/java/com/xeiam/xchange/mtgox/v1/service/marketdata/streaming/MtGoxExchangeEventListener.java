@@ -46,7 +46,10 @@ import com.xeiam.xchange.service.streaming.ExchangeEventType;
 
 /**
  * @author timmolter
+ *         <p>
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxExchangeEventListener extends ExchangeEventListener {
 
   private static final Logger log = LoggerFactory.getLogger(MtGoxExchangeEventListener.class);

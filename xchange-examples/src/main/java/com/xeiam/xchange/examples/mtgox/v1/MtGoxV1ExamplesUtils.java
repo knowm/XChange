@@ -28,7 +28,10 @@ import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 
 /**
  * @author timmolter
+ *         <p>
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxV1ExamplesUtils {
 
   public static Exchange createExchange() {

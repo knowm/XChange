@@ -46,7 +46,11 @@ import com.xeiam.xchange.utils.Assert;
  * <ul>
  * <li>MtGox specific methods to handle account-related operations</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
   /**

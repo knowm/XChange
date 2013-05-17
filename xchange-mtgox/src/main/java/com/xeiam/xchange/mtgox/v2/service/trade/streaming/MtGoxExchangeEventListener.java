@@ -36,7 +36,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
-import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxWalletUpdate;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthUpdate;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;

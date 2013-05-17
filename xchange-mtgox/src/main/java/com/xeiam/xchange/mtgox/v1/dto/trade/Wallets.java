@@ -28,7 +28,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Wallets from Mt Gox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public final class Wallets {
 
   private final MtGoxWallet bTC;

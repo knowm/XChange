@@ -35,7 +35,11 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * Test placing a limit order at MtGox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class LimitOrderDemo {
 
   public static void main(String[] args) {

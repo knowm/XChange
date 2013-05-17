@@ -41,7 +41,11 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  * <li>Retrieving the current full order book</li>
  * <li>Retrieving trades</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxMarketdataDemo {
 
   public static void main(String[] args) {

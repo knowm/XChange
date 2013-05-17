@@ -42,7 +42,7 @@ public class MtGoxLagJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = MtGoxLagJSONTest.class.getResourceAsStream("/v2/trade/lag.json");
+    InputStream is = MtGoxLagJSONTest.class.getResourceAsStream("/v2/trade/polling/lag.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

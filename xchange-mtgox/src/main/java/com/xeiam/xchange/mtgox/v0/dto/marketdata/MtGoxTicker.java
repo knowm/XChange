@@ -24,6 +24,12 @@ package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * <p>
+ * 
+ * @deprecated Use V2!
+ */
+@Deprecated
 public class MtGoxTicker {
 
   private Ticker ticker;

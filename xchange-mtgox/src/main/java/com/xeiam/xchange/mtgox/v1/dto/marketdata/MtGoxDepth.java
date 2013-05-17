@@ -28,7 +28,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing depth from Mt Gox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public final class MtGoxDepth {
 
   private final List<MtGoxOrder> asks;

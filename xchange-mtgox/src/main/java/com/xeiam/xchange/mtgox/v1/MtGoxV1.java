@@ -45,7 +45,10 @@ import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
 
 /**
  * @author Matija Mazi
+ *         <p>
+ * @deprecated Use V2!
  */
+@Deprecated
 @Path("api/1")
 public interface MtGoxV1 {
 

@@ -27,7 +27,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing a buy or sell order from Mt Gox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public final class MtGoxOrder {
 
   private final BigDecimal price;

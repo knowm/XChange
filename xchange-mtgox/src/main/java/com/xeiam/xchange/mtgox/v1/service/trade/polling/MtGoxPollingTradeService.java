@@ -45,7 +45,10 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author timmolter
+ *         <p>
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
   private final ParamsDigest paramsDigest;

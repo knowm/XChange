@@ -29,7 +29,11 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
  * Demo requesting account info at MtGox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class WithdrawalFundsDemo {
 
   public static void main(String[] args) {

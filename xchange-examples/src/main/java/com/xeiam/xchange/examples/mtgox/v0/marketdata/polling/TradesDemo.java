@@ -30,7 +30,11 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
  * Test requesting trades at MtGox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class TradesDemo {
 
   private static PollingMarketDataService marketDataService;

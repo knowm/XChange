@@ -44,7 +44,11 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * <li>Connecting to Mt Gox BTC exchange with authentication</li>
  * <li>Retrieving account info data</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxTradeDemo {
 
   public static void main(String[] args) {

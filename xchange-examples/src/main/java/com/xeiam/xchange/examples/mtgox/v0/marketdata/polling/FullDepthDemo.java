@@ -30,7 +30,11 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 
 /**
  * Test requesting depth at MtGox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class FullDepthDemo {
 
   public static void main(String[] args) {

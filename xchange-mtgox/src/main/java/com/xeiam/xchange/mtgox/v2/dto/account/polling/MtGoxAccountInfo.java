@@ -26,7 +26,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.mtgox.v2.dto.MtGoxValue;
-import com.xeiam.xchange.mtgox.v2.dto.trade.polling.Wallets;
 
 /**
  * Data object representing Account Info from Mt Gox

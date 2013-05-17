@@ -26,6 +26,12 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * <p>
+ * 
+ * @deprecated Use V2!
+ */
+@Deprecated
 public class Ticker {
 
   private BigDecimal avg;

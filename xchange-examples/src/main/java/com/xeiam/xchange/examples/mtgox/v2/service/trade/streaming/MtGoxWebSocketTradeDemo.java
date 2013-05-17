@@ -31,7 +31,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
-import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxWalletUpdate;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOrderCanceled;

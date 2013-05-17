@@ -31,7 +31,11 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * Test placing a market order at MtGox
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MarketOrderDemo {
 
   public static void main(String[] args) {

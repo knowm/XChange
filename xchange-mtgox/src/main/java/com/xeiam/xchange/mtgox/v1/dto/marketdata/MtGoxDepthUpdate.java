@@ -30,7 +30,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * <p>
  * Note: deprecated fields are not included in this value object
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public final class MtGoxDepthUpdate {
 
   private final String tradeType;

@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +34,12 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 
 /**
  * Test MtGoxGenericResponse JSON parsing
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
+@Ignore
 public class SuccessMessageJSONTest {
 
   @Test

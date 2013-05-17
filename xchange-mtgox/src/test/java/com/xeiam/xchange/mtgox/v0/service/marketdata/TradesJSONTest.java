@@ -27,6 +27,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -35,7 +36,12 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 
 /**
  * Test MtGoxTrade[] JSON parsing
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
+@Ignore
 public class TradesJSONTest {
 
   @Test

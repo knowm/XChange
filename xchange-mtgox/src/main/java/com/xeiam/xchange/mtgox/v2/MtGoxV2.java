@@ -73,6 +73,8 @@ public interface MtGoxV2 {
   @Path("{ident}{currency}/money/trades/fetch?raw")
   MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("raw") String raw, @QueryParam("since") long since);
 
+  // Account Inof API
+
   @POST
   @Path("money/info")
   MtGoxAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
@@ -83,13 +85,15 @@ public interface MtGoxV2 {
       @FormParam("description") String description, @FormParam("ipn") String notificationUrl);
 
   @POST
-  @Path("money/orders?raw")
-  MtGoxOpenOrder[] getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
-
-  @POST
   @Path("money/bitcoin/send_simple")
   MtGoxWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green);
+
+  // Trade API
+
+  @POST
+  @Path("money/orders?raw")
+  MtGoxOpenOrder[] getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   /**
    * @param postBodySignatureCreator

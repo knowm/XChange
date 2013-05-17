@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +47,13 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
 import com.xeiam.xchange.utils.DateUtils;
 
+/**
+ * <p>
+ * 
+ * @deprecated Use V2!
+ */
+@Deprecated
+@Ignore
 public class MtGoxAdapterTest {
 
   @Test

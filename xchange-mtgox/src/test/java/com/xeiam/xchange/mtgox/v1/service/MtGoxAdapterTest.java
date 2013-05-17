@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -60,7 +61,12 @@ import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Tests the MtGoxAdapter class
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
+@Ignore
 public class MtGoxAdapterTest {
 
   @Test

@@ -48,7 +48,11 @@ import com.xeiam.xchange.utils.Assert;
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
   private final MtGoxV1 mtGoxV1;

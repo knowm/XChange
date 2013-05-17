@@ -37,7 +37,10 @@ import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
 
 /**
  * @author timmolter
+ *         <p>
+ * @deprecated Use V2!
  */
+@Deprecated
 @Path("api/0")
 public interface MtGoxV0 {
 

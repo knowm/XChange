@@ -28,7 +28,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Data object representing a Trade from Mt Gox
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public final class MtGoxTrade {
 
   private final long amountInt;

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto.trade.polling;
+package com.xeiam.xchange.mtgox.v2.dto.account.polling;
 
 import java.util.Arrays;
 import java.util.List;

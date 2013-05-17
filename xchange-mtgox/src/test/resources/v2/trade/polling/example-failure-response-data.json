@@ -1,0 +1,4 @@
+{
+  "result":"error",
+  "error":"Invalid parameter \"type\" (should be ask or bid)"
+}

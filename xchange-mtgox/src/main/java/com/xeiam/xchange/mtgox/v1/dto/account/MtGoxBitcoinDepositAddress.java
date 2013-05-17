@@ -25,7 +25,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing the content of a response message from MtGox after requesting a bitcoin deposit address
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public final class MtGoxBitcoinDepositAddress {
 
   private final String address;

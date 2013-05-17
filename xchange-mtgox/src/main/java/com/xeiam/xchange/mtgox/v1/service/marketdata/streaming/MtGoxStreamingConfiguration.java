@@ -9,7 +9,11 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
  * <ul>
  * <li>Access to streaming data configuration specific to MtGox exchange streaming API</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public class MtGoxStreamingConfiguration implements ExchangeStreamingConfiguration {
 
   private final int maxReconnectAttempts;

@@ -52,7 +52,11 @@ import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
 public final class MtGoxAdapters {
 
   /**

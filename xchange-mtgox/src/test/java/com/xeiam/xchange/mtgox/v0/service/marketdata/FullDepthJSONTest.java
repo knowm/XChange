@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +37,12 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 
 /**
  * Test MtGoxFullDepth JSON parsing
+ * <p>
+ * 
+ * @deprecated Use V2!
  */
+@Deprecated
+@Ignore
 public class FullDepthJSONTest {
 
   @Test
