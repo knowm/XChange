@@ -82,10 +82,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
       return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
     } else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
       logger.warn("Error calling getAccountInfo(): {}", mtGoxAccountInfoWrapper.getError());
-      return null;
-    } else {
-      return null;
     }
+    return null;
   }
 
   @Override
@@ -98,10 +96,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
       return mtGoxWithdrawalResponseWrapper.getMtGoxWithdrawalResponse().getTransactionId();
     } else if (mtGoxWithdrawalResponseWrapper.getResult().equals("error")) {
       logger.warn("Error calling withdrawFunds(): {}", mtGoxWithdrawalResponseWrapper.getError());
-      return null;
-    } else {
-      return null;
     }
+    return null;
   }
 
   @Override
@@ -115,10 +111,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
       return mtGoxBitcoinDepositAddressWrapper.getMtGoxBitcoinDepositAddress().getAddres();
     } else if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("error")) {
       logger.warn("Error requestBitcoinDepositAddress getAccountInfo(): {}", mtGoxBitcoinDepositAddressWrapper.getError());
-      return null;
-    } else {
-      return null;
     }
+    return null;
   }
 
 }
