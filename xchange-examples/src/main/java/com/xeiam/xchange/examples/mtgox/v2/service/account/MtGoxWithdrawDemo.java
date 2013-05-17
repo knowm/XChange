@@ -19,34 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
+package com.xeiam.xchange.examples.mtgox.v2.service.account;
+
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
- * Test placing a limit order at MtGox. Note that this is using the old V0 API, since at this time the V1 API has no cancel order functionality
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connecting to Mt Gox BTC exchange with authentication</li>
+ * <li>Retrieving account info data</li>
+ * </ul>
  */
-public class CancelOrderDemo {
+public class MtGoxWithdrawDemo {
 
   public static void main(String[] args) {
 
     Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-    // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService();
+    PollingAccountService accountService = mtgox.getPollingAccountService();
+    System.out.println(accountService.getAccountInfo());
 
-    boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
-    System.out.println("success= " + success);
-
-    // get open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-      System.out.println(openOrder.toString());
-    }
-
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+    System.out.println("withdrawResult = " + withdrawResult);
   }
 }

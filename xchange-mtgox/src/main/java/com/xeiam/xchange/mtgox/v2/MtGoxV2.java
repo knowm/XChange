@@ -41,7 +41,7 @@ import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
-import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrderWrapper;
 
 /**
  * @author timmolter
@@ -73,7 +73,7 @@ public interface MtGoxV2 {
   @Path("{ident}{currency}/money/trades/fetch?raw")
   MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("raw") String raw, @QueryParam("since") long since);
 
-  // Account Inof API
+  // Account Info API
 
   @POST
   @Path("money/info")
@@ -92,15 +92,15 @@ public interface MtGoxV2 {
   // Trade API
 
   @POST
-  @Path("money/orders?raw")
-  MtGoxOpenOrder[] getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
+  @Path("money/orders")
+  MtGoxOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
 
   /**
    * @param postBodySignatureCreator
    * @param amount can be omitted to place market order
    */
   @POST
-  @Path("{tradeIdent}{currency}/private/order/add")
+  @Path("{tradeIdent}{currency}/money/order/add")
   MtGoxGenericResponse placeOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount_int") BigDecimal amount,
       @FormParam("price_int") String price);
@@ -116,7 +116,7 @@ public interface MtGoxV2 {
    * @return
    */
   @POST
-  @Path("BTCEUR/private/order/cancel")
+  @Path("BTCEUR/money/order/cancel")
   MtGoxGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("oid") String orderId);
 

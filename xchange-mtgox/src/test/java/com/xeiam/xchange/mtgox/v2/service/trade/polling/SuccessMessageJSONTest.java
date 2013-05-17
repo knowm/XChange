@@ -28,6 +28,7 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 
@@ -44,6 +45,8 @@ public class SuccessMessageJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     MtGoxGenericResponse mtGoxGenericResponse = mapper.readValue(is, MtGoxGenericResponse.class);
 
     // System.out.println(mtGoxGenericResponse.getResult());

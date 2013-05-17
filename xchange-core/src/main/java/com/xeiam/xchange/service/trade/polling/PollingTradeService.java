@@ -44,7 +44,7 @@ public interface PollingTradeService {
   /**
    * Gets the open orders
    * 
-   * @return the open orders
+   * @return the open orders, null if some sort of error occurred. Implementors should log the error.
    */
   public OpenOrders getOpenOrders();
 

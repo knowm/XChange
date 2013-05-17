@@ -47,6 +47,7 @@ public class MtGoxLagJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     MtGoxLag MtGoxLag = mapper.readValue(is, MtGoxLag.class);
 
     // System.out.println(new Date(mtGoxOpenOrders[0].getDate()));

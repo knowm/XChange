@@ -23,7 +23,9 @@ package com.xeiam.xchange.mtgox.v2.service.trade.polling;
 
 import java.math.BigDecimal;
 
-import si.mazi.rescu.HmacPostBodyDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -38,7 +40,8 @@ import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
-import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrderWrapper;
+import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
@@ -48,8 +51,10 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private final ParamsDigest paramsDigest;
+  private final Logger logger = LoggerFactory.getLogger(MtGoxPollingTradeService.class);
+
   private final MtGoxV2 mtGoxV2;
+  private ParamsDigest signatureCreator;
 
   /**
    * Constructor
@@ -62,14 +67,20 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
     this.mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, exchangeSpecification.getSslUri());
-    paramsDigest = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    signatureCreator = MtGoxV2Digest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override
   public OpenOrders getOpenOrders() {
 
-    MtGoxOpenOrder[] mtGoxOpenOrders = mtGoxV2.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()), paramsDigest, getNonce());
-    return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrders));
+    MtGoxOpenOrderWrapper mtGoxOpenOrderWrapper = mtGoxV2.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, MtGoxUtils.getNonce());
+
+    if (mtGoxOpenOrderWrapper.getResult().equals("success")) {
+      return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrderWrapper.getMtGoxOpenOrders()));
+    } else if (mtGoxOpenOrderWrapper.getResult().equals("error")) {
+      logger.warn("Error calling getOpenOrders(): {}", mtGoxOpenOrderWrapper.getError());
+    }
+    return null;
   }
 
   @Override
@@ -77,10 +88,16 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     verify(marketOrder);
 
-    MtGoxGenericResponse mtGoxSuccess = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), paramsDigest, getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(),
-        marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
+    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), marketOrder.getTradableIdentifier(), marketOrder
+        .getTransactionCurrency(), marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(
+        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
 
-    return mtGoxSuccess.getReturnString();
+    if (mtGoxGenericResponse.getResult().equals("success")) {
+      return mtGoxGenericResponse.getDataString();
+    } else if (mtGoxGenericResponse.getResult().equals("error")) {
+      logger.warn("Error calling placeMarketOrder(): {}", mtGoxGenericResponse.getError());
+    }
+    return null;
   }
 
   @Override
@@ -98,9 +115,14 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     // need to convert to MtGox "Price"
     String price = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
 
-    MtGoxGenericResponse mtGoxSuccess = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), paramsDigest, getNonce(), tradableIdentifier, currency, type, amount, price);
+    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), tradableIdentifier, currency, type, amount, price);
 
-    return mtGoxSuccess.getReturnString();
+    if (mtGoxGenericResponse.getResult().equals("success")) {
+      return mtGoxGenericResponse.getDataString();
+    } else if (mtGoxGenericResponse.getResult().equals("error")) {
+      logger.warn("Error calling placeLimitOrder(): {}", mtGoxGenericResponse.getError());
+    }
+    return null;
   }
 
   @Override
@@ -108,9 +130,15 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     Assert.notNull(orderId, "orderId cannot be null");
 
-    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.cancelOrder(exchangeSpecification.getApiKey(), paramsDigest, getNonce(), orderId);
+    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), orderId);
 
-    return mtGoxGenericResponse.getResult().equals("success");
+    logger.info(mtGoxGenericResponse.toString());
+    if (mtGoxGenericResponse.getResult().equals("success")) {
+      return true;
+    } else if (mtGoxGenericResponse.getResult().equals("error")) {
+      logger.warn("Error calling cancelOrder(): {}", mtGoxGenericResponse.getError());
+    }
+    return false;
   }
 
   private void verify(Order order) {
@@ -120,11 +148,6 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     Assert.notNull(order.getTradableAmount(), "getAmount_int() cannot be null");
     Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(order.getTradableIdentifier(), order.getTransactionCurrency())), "currencyPair is not valid");
 
-  }
-
-  private long getNonce() {
-
-    return System.currentTimeMillis();
   }
 
 }

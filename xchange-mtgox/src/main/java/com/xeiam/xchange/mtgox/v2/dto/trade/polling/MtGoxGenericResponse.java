@@ -22,7 +22,6 @@
 package com.xeiam.xchange.mtgox.v2.dto.trade.polling;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
 
 /**
  * Data object representing a response message from Mt Gox after placing and order
@@ -30,20 +29,20 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 public final class MtGoxGenericResponse {
 
   private final String result;
-  private final Object _return;
+  private final Object data;
   private final String error;
 
   /**
    * Constructor
    * 
    * @param result
-   * @param _return
+   * @param data
    * @param error
    */
-  public MtGoxGenericResponse(@JsonProperty("result") String result, @JsonProperty("return") Object _return, @JsonProperty("error") String error) {
+  public MtGoxGenericResponse(@JsonProperty("result") String result, @JsonProperty("data") Object data, @JsonProperty("error") String error) {
 
     this.result = result;
-    this._return = _return;
+    this.data = data;
     this.error = error;
   }
 
@@ -52,15 +51,9 @@ public final class MtGoxGenericResponse {
     return result;
   }
 
-  @JsonRawValue
-  public Object getReturn() {
+  public Object getData() {
 
-    return _return;
-  }
-
-  public String getReturnString() {
-
-    return _return == null ? null : _return.toString();
+    return data;
   }
 
   public String getError() {
@@ -68,10 +61,15 @@ public final class MtGoxGenericResponse {
     return error;
   }
 
+  public String getDataString() {
+
+    return data == null ? null : data.toString();
+  }
+
   @Override
   public String toString() {
 
-    return "MtGoxGenericResponse [result=" + result + ", _return=" + _return + ", error=" + error + "]";
+    return "MtGoxGenericResponse [result=" + result + ", data=" + data + ", error=" + error + "]";
   }
 
 }

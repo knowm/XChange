@@ -40,8 +40,7 @@ public class OpenOrdersDemo {
 
     // Get the open orders
     OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
-
+    System.out.println(openOrders.toString());
   }
 
 }

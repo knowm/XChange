@@ -36,7 +36,7 @@ public final class OpenOrders {
   private final List<LimitOrder> openOrders;
 
   /**
-   * Constructor TODO Consider Collection rather than List
+   * Constructor
    * 
    * @param openOrders The list of open orders
    */
@@ -53,11 +53,16 @@ public final class OpenOrders {
   @Override
   public String toString() {
 
-    StringBuilder sb = new StringBuilder("Open orders\n");
-    for (LimitOrder order : getOpenOrders()) {
-      sb.append("[order=");
-      sb.append(order.toString());
-      sb.append("]\n");
+    StringBuilder sb = new StringBuilder();
+    if (getOpenOrders().size() < 1) {
+      sb.append("No open orders!");
+    } else {
+      sb.append("Open orders: \n");
+      for (LimitOrder order : getOpenOrders()) {
+        sb.append("[order=");
+        sb.append(order.toString());
+        sb.append("]\n");
+      }
     }
     return sb.toString();
   }

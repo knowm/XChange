@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.mtgox.v2.dto.MtGoxValue;
 
 /**
- * Data object representing Open Orders from Mt Gox
+ * Data object representing Open Orders from MtGox
  */
 public final class MtGoxOpenOrder {
 
