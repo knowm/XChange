@@ -34,6 +34,7 @@ public final class CampBXTicker {
   private final BigDecimal last;
   private final BigDecimal bid;
   private final BigDecimal ask;
+  private final String error;
 
   /**
    * Constructor
@@ -41,12 +42,14 @@ public final class CampBXTicker {
    * @param last
    * @param bid
    * @param ask
+   * @param error
    */
-  public CampBXTicker(@JsonProperty("Last Trade") BigDecimal last, @JsonProperty("Best Bid") BigDecimal bid, @JsonProperty("Best Ask") BigDecimal ask) {
+  public CampBXTicker(@JsonProperty("Last Trade") BigDecimal last, @JsonProperty("Best Bid") BigDecimal bid, @JsonProperty("Best Ask") BigDecimal ask, @JsonProperty("Error") String error) {
 
     this.last = last;
     this.bid = bid;
     this.ask = ask;
+    this.error = error;
   }
 
   public BigDecimal getLast() {
@@ -64,10 +67,15 @@ public final class CampBXTicker {
     return ask;
   }
 
+  public String getError() {
+
+    return error;
+  }
+
   @Override
   public String toString() {
 
-    return "Ticker [last=" + last + ", bid=" + bid + ", ask=" + ask + "]";
+    return "CampBXTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", error=" + error + "]";
   }
 
 }

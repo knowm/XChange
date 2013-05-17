@@ -24,6 +24,9 @@ package com.xeiam.xchange.campbx.service.marketdata.polling;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -46,6 +49,8 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class CampBXPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
+  private final Logger logger = LoggerFactory.getLogger(CampBXPollingMarketDataService.class);
+
   private final CampBX campbx;
 
   /**
@@ -63,9 +68,15 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   public Ticker getTicker(String tradableIdentifier, String currency) {
 
     verify(tradableIdentifier, currency);
+
     CampBXTicker campbxTicker = campbx.getTicker();
 
-    return CampBXAdapters.adaptTicker(campbxTicker, currency, tradableIdentifier);
+    if (campbxTicker.getError() == null) {
+      return CampBXAdapters.adaptTicker(campbxTicker, currency, tradableIdentifier);
+    } else if (campbxTicker.getError() != null) {
+      logger.warn("Error calling getTicker(): {}", campbxTicker.getError());
+    }
+    return null;
   }
 
   @Override
