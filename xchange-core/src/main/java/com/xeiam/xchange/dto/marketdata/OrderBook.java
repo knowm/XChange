@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.joda.money.BigMoney;
 
@@ -124,4 +125,20 @@ public final class OrderBook {
     return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+
+		OrderBook rhs = (OrderBook) obj;
+		return Objects.equals(getBids(), rhs.getBids()) && Objects.equals(getAsks(), rhs.getAsks());
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(getBids(),getAsks());
+	}
 }

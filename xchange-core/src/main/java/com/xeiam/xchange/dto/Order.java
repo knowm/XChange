@@ -23,6 +23,7 @@ package com.xeiam.xchange.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Data object representing an order
@@ -140,4 +141,28 @@ public class Order {
         + timestamp + "]";
   }
 
+	/* Tests equality for this order.
+	 * Note that timestamp is intentionally not compared.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+
+		Order rhs = (Order) obj;
+		return Objects.equals(getType(), rhs.getType()) && Objects.equals(getTradableAmount(), rhs.getTradableAmount())
+				&& Objects.equals(getTransactionCurrency(), rhs.getTransactionCurrency()) && Objects.equals(getId(), rhs.getId())
+				&& Objects.equals(getTradableIdentifier(), rhs.getTradableIdentifier());
+	}
+
+	/* A hash code for this order.
+	 * Note that timestamp is intentionally not hashed.
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(getType(), getTradableAmount(), getTransactionCurrency(), getId(), getTradableIdentifier());
+	}
 }

@@ -23,6 +23,7 @@ package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import org.joda.money.BigMoney;
 
@@ -120,5 +121,28 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     return this.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) * (getType() == OrderType.BID ? -1 : 1);
 
   }
+
+	/* Tests equality
+	 * @see com.xeiam.xchange.dto.Order#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this)
+			return true;
+
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+
+		LimitOrder rhs = (LimitOrder) obj;
+		return super.equals(obj) && Objects.equals(getLimitPrice(), rhs.getLimitPrice());
+	}
+
+	/* A hash code for this LimitOrder
+	 * @see com.xeiam.xchange.dto.Order#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), getLimitPrice());
+	}
 
 }
