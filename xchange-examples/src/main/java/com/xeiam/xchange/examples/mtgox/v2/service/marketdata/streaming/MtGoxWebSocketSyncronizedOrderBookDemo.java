@@ -42,7 +42,7 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
- * Demonstrate streaming market data from the MtGox Websocket API
+ * Demonstrate streaming market data from the MtGox Websocket API and dynamically updating the OrderBook
  * <p>
  * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
  */
@@ -67,7 +67,7 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
     // Requesting initial order book using the polling service
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
-    MarketDataRunnable.book = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
+    MarketDataRunnable.orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
 
     // Open the connections to the exchange
     btcusdStreamingMarketDataService.connect();
@@ -91,7 +91,7 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
   public static class MarketDataRunnable implements Runnable {
 
     private final StreamingExchangeService streamingExchangeService;
-    public static OrderBook book;
+    public static OrderBook orderBook;
     public static Ticker lastTicker;
 
     /**
@@ -115,7 +115,6 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
           if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
             MarketDataRunnable.lastTicker = (Ticker) exchangeEvent.getPayload();
-
           }
 
           else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
@@ -126,16 +125,16 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
           else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
             OrderBookUpdate update = (OrderBookUpdate) exchangeEvent.getPayload();
             if (update.getLimitOrder().getTransactionCurrency().equals("USD") && MarketDataRunnable.lastTicker != null) {
-              MarketDataRunnable.book.update(update);
-              if (MarketDataRunnable.book.getAsks().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getAsk()) != 0) {
-                System.out.println("ERROR IN ORDERBOOK (ASKS) -> BOOK PRICE:" + MarketDataRunnable.book.getAsks().get(0).getLimitPrice().getAmount().doubleValue() + " TICKER PRICE:"
+              MarketDataRunnable.orderBook.update(update);
+              if (MarketDataRunnable.orderBook.getAsks().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getAsk()) != 0) {
+                System.out.println("ERROR IN ORDERBOOK (ASKS) -> BOOK PRICE:" + MarketDataRunnable.orderBook.getAsks().get(0).getLimitPrice().getAmount().doubleValue() + " TICKER PRICE:"
                     + MarketDataRunnable.lastTicker.getAsk().getAmount().doubleValue());
               } else {
                 System.out.println("ASKS BOOK OK!! " + MarketDataRunnable.lastTicker.getAsk().getAmount().doubleValue());
               }
 
-              if (MarketDataRunnable.book.getBids().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getBid()) != 0) {
-                System.out.println("ERROR IN ORDERBOOK (BIDS) -> -> BOOK_PRICE:" + MarketDataRunnable.book.getBids().get(0).getLimitPrice().getAmount().doubleValue() + " TICKER_PRICE:"
+              if (MarketDataRunnable.orderBook.getBids().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getBid()) != 0) {
+                System.out.println("ERROR IN ORDERBOOK (BIDS) -> -> BOOK_PRICE:" + MarketDataRunnable.orderBook.getBids().get(0).getLimitPrice().getAmount().doubleValue() + " TICKER_PRICE:"
                     + MarketDataRunnable.lastTicker.getBid().getAmount().doubleValue());
               } else {
                 System.out.println("BIDS BOOK OK!! " + MarketDataRunnable.lastTicker.getBid().getAmount().doubleValue());
