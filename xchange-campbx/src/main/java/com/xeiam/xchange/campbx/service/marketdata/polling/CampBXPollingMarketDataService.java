@@ -96,7 +96,6 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
       logger.warn("Error calling getFullOrderBook(): {}", campBXOrderBook.getError());
       return null;
     }
-
   }
 
   @Override
