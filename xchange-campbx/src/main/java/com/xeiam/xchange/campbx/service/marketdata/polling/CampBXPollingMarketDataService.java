@@ -88,9 +88,15 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-    CampBXOrderBook orderBook = campbx.getOrderBook();
+    CampBXOrderBook campBXOrderBook = campbx.getOrderBook();
 
-    return CampBXAdapters.adaptOrders(orderBook, currency, tradableIdentifier);
+    if (campBXOrderBook.getError() == null) {
+      return CampBXAdapters.adaptOrders(campBXOrderBook, currency, tradableIdentifier);
+    } else {
+      logger.warn("Error calling getFullOrderBook(): {}", campBXOrderBook.getError());
+      return null;
+    }
+
   }
 
   @Override

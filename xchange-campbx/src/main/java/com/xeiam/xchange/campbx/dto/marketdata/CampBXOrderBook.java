@@ -34,34 +34,41 @@ public final class CampBXOrderBook {
 
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
+  private final String error;
 
   /**
    * Constructor
    * 
    * @param bids
    * @param asks
+   * @param error
    */
-  public CampBXOrderBook(@JsonProperty("Bids") List<List<BigDecimal>> bids, @JsonProperty("Asks") List<List<BigDecimal>> asks) {
+  public CampBXOrderBook(@JsonProperty("Bids") List<List<BigDecimal>> bids, @JsonProperty("Asks") List<List<BigDecimal>> asks, @JsonProperty("Error") String error) {
 
     this.bids = bids;
     this.asks = asks;
+    this.error = error;
   }
 
-  /** (price, amount) */
   public List<List<BigDecimal>> getBids() {
 
     return bids;
   }
 
-  /** (price, amount) */
   public List<List<BigDecimal>> getAsks() {
 
     return asks;
   }
 
+  public String getError() {
+
+    return error;
+  }
+
   @Override
   public String toString() {
 
-    return String.format("OrderBook{bids=%s, asks=%s}", bids, asks);
+    return "CampBXOrderBook [bids=" + bids + ", asks=" + asks + ", error=" + error + "]";
   }
+
 }
