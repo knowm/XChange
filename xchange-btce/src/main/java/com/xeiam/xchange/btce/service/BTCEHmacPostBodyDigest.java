@@ -74,6 +74,7 @@ public class BTCEHmacPostBodyDigest implements ParamsDigest {
 
   @Override
   public String digestParams(RestInvocationParams restInvocationParams) {
+
     try {
       String postBody = restInvocationParams.getRequestBody();
       mac.update(postBody.getBytes("UTF-8"));
