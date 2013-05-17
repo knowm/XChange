@@ -73,10 +73,10 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
     if (campbxTicker.getError() == null) {
       return CampBXAdapters.adaptTicker(campbxTicker, currency, tradableIdentifier);
-    } else if (campbxTicker.getError() != null) {
+    } else {
       logger.warn("Error calling getTicker(): {}", campbxTicker.getError());
+      return null;
     }
-    return null;
   }
 
   @Override
