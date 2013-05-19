@@ -11,7 +11,7 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
  * </ul>
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class MtGoxStreamingConfiguration implements ExchangeStreamingConfiguration {

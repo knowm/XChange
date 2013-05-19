@@ -26,9 +26,8 @@ import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
  * Data object representing Ticker from Mt Gox
- * <p>
- * 
- * @deprecated Use V2!
+ *
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public final class MtGoxTicker {

@@ -43,11 +43,9 @@ import java.util.concurrent.Future;
 
 /**
  * Demonstrate streaming market data from the MtGox Websocket API
- * <p>
  * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
- * <p>
- * 
- * @deprecated Use V2!
+ *
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class MtGoxWebSocketSyncronizedOrderBookDemo {

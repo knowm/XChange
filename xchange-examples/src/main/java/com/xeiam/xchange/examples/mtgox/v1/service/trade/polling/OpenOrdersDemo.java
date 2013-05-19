@@ -30,7 +30,7 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * Test requesting all open orders at MtGox
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class OpenOrdersDemo {

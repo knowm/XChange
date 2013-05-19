@@ -44,7 +44,7 @@ import java.util.List;
  * Various adapters for converting from MtGox DTOs to XChange DTOs
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public final class MtGoxAdapters {

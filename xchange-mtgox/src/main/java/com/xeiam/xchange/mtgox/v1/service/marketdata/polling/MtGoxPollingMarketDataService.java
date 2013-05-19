@@ -49,7 +49,7 @@ import java.util.List;
  * </ul>
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {

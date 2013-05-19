@@ -44,8 +44,7 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * @author timmolter
- *         <p>
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class MtGoxExchangeEventListener extends ExchangeEventListener {

@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public final class MtGoxTrade {

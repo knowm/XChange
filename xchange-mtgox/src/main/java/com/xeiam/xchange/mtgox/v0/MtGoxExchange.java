@@ -35,7 +35,7 @@ import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxPollingMarketD
  * </ul>
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class MtGoxExchange extends BaseExchange implements Exchange {

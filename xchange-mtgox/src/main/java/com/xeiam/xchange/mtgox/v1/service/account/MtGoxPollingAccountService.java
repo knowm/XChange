@@ -47,7 +47,7 @@ import java.math.BigDecimal;
  * </ul>
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class MtGoxPollingAccountService extends BasePollingExchangeService implements PollingAccountService {

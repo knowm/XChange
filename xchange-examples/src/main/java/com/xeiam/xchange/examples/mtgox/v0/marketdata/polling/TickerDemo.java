@@ -32,7 +32,7 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  * Test requesting polling Ticker at MtGox
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class TickerDemo {

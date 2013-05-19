@@ -27,9 +27,8 @@ import java.math.BigDecimal;
 
 /**
  * Data object representing a Value from Mt Gox
- * <p>
- * 
- * @deprecated Use V2!
+ *
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public final class MtGoxValue {

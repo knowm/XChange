@@ -44,7 +44,7 @@ import java.util.Map;
  * </p>
  * <p>
  * 
- * @deprecated Use V2!
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
 public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeService implements StreamingExchangeService {
