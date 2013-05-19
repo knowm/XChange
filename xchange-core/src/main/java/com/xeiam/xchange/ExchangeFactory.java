@@ -21,10 +21,9 @@
  */
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.utils.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>

@@ -21,18 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1;
 
-import java.math.BigDecimal;
-
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
@@ -42,6 +30,10 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
+import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi

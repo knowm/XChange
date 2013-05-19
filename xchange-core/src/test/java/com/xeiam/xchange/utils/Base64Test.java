@@ -21,20 +21,20 @@
  */
 package com.xeiam.xchange.utils;
 
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
-import junit.framework.TestCase;
-
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Based on <a href="http://iharder.sourceforge.net/current/java/base64/Base64Test.java">iHarder</a>
  */
-public class Base64Test extends TestCase {
+public class Base64Test {
 
   private static final long SEED = 12345678;
   private static Random s_random = new Random(SEED);
@@ -69,7 +69,7 @@ public class Base64Test extends TestCase {
     out.close();
     byte[] encoded = out_bytes.toByteArray();
     byte[] decoded = Base64.decode(encoded, 0, encoded.length, 0);
-    assertTrue(Arrays.equals(data, decoded));
+    assertThat(Arrays.equals(data, decoded)).isTrue();
 
     Base64.InputStream in = new Base64.InputStream(new ByteArrayInputStream(encoded));
     out_bytes = new ByteArrayOutputStream();
@@ -80,7 +80,7 @@ public class Base64Test extends TestCase {
     out_bytes.close();
     in.close();
     decoded = out_bytes.toByteArray();
-    assertTrue(Arrays.equals(data, decoded));
+    assertThat(Arrays.equals(data, decoded)).isTrue();
   }
 
 }

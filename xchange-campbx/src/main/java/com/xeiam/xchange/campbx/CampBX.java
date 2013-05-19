@@ -22,19 +22,18 @@
  */
 package com.xeiam.xchange.campbx;
 
-import java.math.BigDecimal;
+import com.xeiam.xchange.campbx.dto.CampBXResponse;
+import com.xeiam.xchange.campbx.dto.account.MyFunds;
+import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
+import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
+import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 
 import javax.annotation.Nonnull;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-
-import com.xeiam.xchange.campbx.dto.CampBXResponse;
-import com.xeiam.xchange.campbx.dto.account.MyFunds;
-import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
-import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
-import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
+import java.math.BigDecimal;
 
 /** @author Matija Mazi */
 @Path("api")

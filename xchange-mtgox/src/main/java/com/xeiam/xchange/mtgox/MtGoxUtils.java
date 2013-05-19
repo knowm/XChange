@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.mtgox;
 
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.currency.MoneyUtils;
+import org.joda.money.BigMoney;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
-
-import org.joda.money.BigMoney;
-
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.currency.MoneyUtils;
 
 /**
  * A central place for shared Mt Gox properties

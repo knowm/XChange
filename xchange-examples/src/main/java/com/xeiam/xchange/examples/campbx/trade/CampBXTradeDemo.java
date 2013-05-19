@@ -22,8 +22,6 @@
  */
 package com.xeiam.xchange.examples.campbx.trade;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -33,6 +31,8 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+
+import java.math.BigDecimal;
 
 /**
  * <p>

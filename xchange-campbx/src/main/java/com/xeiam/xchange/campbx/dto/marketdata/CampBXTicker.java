@@ -22,9 +22,9 @@
  */
 package com.xeiam.xchange.campbx.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi

@@ -22,13 +22,13 @@
  */
 package com.xeiam.xchange.campbx.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 import com.xeiam.xchange.utils.jackson.YesNoBooleanDeserializerImpl;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author Matija Mazi <br/>

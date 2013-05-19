@@ -21,20 +21,18 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxDepthStream JSON parsing
@@ -60,9 +58,9 @@ public class TradeJSONTest {
     MtGoxTrade mtGoxTrade = mapper.readValue(mapper.writeValueAsString(userInMap.get("trade")), MtGoxTrade.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(mtGoxTrade.getPriceInt(), equalTo(9079995L));
-    assertThat(mtGoxTrade.getAmountInt(), equalTo(1851242L));
-    assertThat(mtGoxTrade.getTid(), equalTo(1364652424875559L));
+    assertThat(mtGoxTrade.getPriceInt()).isEqualTo(9079995L);
+    assertThat(mtGoxTrade.getAmountInt()).isEqualTo(1851242L);
+    assertThat(mtGoxTrade.getTid()).isEqualTo(1364652424875559L);
 
   }
 }

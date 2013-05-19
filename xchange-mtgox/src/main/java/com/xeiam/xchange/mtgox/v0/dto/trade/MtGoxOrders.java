@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * @author timmolter

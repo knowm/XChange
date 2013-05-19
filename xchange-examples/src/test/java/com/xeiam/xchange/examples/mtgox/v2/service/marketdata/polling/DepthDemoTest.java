@@ -22,10 +22,9 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
+import com.xeiam.xchange.OnlineTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
-import com.xeiam.xchange.OnlineTest;
 
 /**
  * Test requesting depth at MtGox

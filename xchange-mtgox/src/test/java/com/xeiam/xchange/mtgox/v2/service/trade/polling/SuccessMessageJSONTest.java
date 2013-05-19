@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.trade.polling;
 
-import static org.junit.Assert.assertTrue;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxGenericResponse JSON parsing
@@ -52,6 +51,6 @@ public class SuccessMessageJSONTest {
     // System.out.println(mtGoxGenericResponse.getResult());
 
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxGenericResponse.getResult().equals("success"));
+    assertThat(mtGoxGenericResponse.getResult()).isEqualTo("success");
   }
 }

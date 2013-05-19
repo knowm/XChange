@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.streaming;
 
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
@@ -41,6 +35,12 @@ import com.xeiam.xchange.mtgox.v2.service.trade.streaming.SocketMsgFactory;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+
+import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Demonstrate streaming account and trade data from the MtGox Websocket API

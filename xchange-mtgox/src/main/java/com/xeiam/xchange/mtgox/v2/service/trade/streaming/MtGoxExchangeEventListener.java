@@ -21,14 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import si.mazi.rescu.JSONUtils;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
@@ -48,6 +40,12 @@ import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import si.mazi.rescu.JSONUtils;
+
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * @author timmolter

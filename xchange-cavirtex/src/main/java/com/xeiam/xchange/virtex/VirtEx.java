@@ -21,14 +21,14 @@
  */
 package com.xeiam.xchange.virtex;
 
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
 /**
  * @author timmolter

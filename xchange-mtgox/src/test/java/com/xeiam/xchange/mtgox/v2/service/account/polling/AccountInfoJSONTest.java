@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.account.polling;
 
-import static org.junit.Assert.assertTrue;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxAccountInfo JSON parsing
@@ -48,10 +47,8 @@ public class AccountInfoJSONTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
-    // System.out.println(mtGoxAccountInfo.toString());
-
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxAccountInfo.getLogin().equals("xchange"));
+    assertThat(mtGoxAccountInfo.getLogin()).isEqualTo("xchange");
   }
 
 }

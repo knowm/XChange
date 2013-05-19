@@ -21,18 +21,15 @@
  */
 package com.xeiam.xchange.btce.service.account;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test BTCEDepth JSON parsing
@@ -50,7 +47,7 @@ public class BTCEAccountInfoJSONTest {
     BTCEAccountInfoReturn ai = mapper.readValue(is, BTCEAccountInfoReturn.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(ai.getReturnValue().getRights().isInfo(), is(equalTo(true)));
-    assertThat(ai.getReturnValue().getFunds().get("btc"), is(equalTo(new BigDecimal("0.1"))));
+    assertThat(ai.getReturnValue().getRights().isInfo()).isTrue();
+    assertThat(ai.getReturnValue().getFunds().get("btc")).isEqualTo(new BigDecimal("0.1"));
   }
 }

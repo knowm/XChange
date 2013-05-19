@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.mtgox.v2.dto.account.polling;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Arrays;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Wallets from Mt Gox

@@ -22,11 +22,10 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import com.xeiam.xchange.OnlineTest;
 import com.xeiam.xchange.examples.mtgox.v2.service.account.MtGoxWithdrawDemo;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * <p>

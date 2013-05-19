@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.virtex.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * Data object representing Ticker from VirtEx

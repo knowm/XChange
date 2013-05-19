@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.currency;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * <p>

@@ -21,13 +21,12 @@
  */
 package com.xeiam.xchange.oer;
 
-import java.util.Date;
-
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import org.joda.money.BigMoney;
+
+import java.util.Date;
 
 /**
  * Various adapters for converting from OER DTOs to XChange DTOs

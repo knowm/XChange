@@ -21,17 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.trade.polling;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGox lag JSON parsing
@@ -50,9 +48,7 @@ public class MtGoxLagJSONTest {
 
     MtGoxLag MtGoxLag = mapper.readValue(is, MtGoxLag.class);
 
-    // System.out.println(new Date(mtGoxOpenOrders[0].getDate()));
-
     // Verify that the example data was unmarshalled correctly
-    assertThat(MtGoxLag.getLag(), equalTo(940304L));
+    assertThat(MtGoxLag.getLag()).isEqualTo(940304L);
   }
 }

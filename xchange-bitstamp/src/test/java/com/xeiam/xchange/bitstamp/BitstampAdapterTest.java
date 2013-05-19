@@ -21,16 +21,6 @@
  */
 package com.xeiam.xchange.bitstamp;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
@@ -42,6 +32,13 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Tests the BitstampAdapter class
@@ -59,11 +56,11 @@ public class BitstampAdapterTest {
     BitstampBalance bitstampBalance = mapper.readValue(is, BitstampBalance.class);
 
     AccountInfo accountInfo = BitstampAdapters.adaptAccountInfo(bitstampBalance, "Joe Mama");
-    assertThat(accountInfo.getUsername(), is(equalTo("Joe Mama")));
-    assertThat(accountInfo.getWallets().get(0).getCurrency(), is(equalTo("USD")));
-    assertThat(accountInfo.getWallets().get(0).getBalance(), is(equalTo(MoneyUtils.parse("USD 172.87"))));
-    assertThat(accountInfo.getWallets().get(1).getCurrency(), is(equalTo("BTC")));
-    assertThat(accountInfo.getWallets().get(1).getBalance(), is(equalTo(MoneyUtils.parse("BTC 6.99990000"))));
+    assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
+    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("USD");
+    assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(MoneyUtils.parse("USD 172.87"));
+    assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getWallets().get(1).getBalance()).isEqualTo(MoneyUtils.parse("BTC 6.99990000"));
   }
 
   @Test
@@ -77,14 +74,14 @@ public class BitstampAdapterTest {
     BitstampOrderBook bitstampOrderBook = mapper.readValue(is, BitstampOrderBook.class);
 
     OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, "BTC", "USD");
-    assertThat(orderBook.getBids().size(), is(equalTo(107)));
+    assertThat(orderBook.getBids().size()).isEqualTo(107);
 
     // verify all fields filled
-    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount(), is(equalTo(new BigDecimal("13.07"))));
-    assertThat(orderBook.getBids().get(0).getType(), is(equalTo(OrderType.BID)));
-    assertThat(orderBook.getBids().get(0).getTradableAmount(), is(equalTo(new BigDecimal("7.43517000"))));
-    assertThat(orderBook.getBids().get(0).getTradableIdentifier(), is(equalTo("BTC")));
-    assertThat(orderBook.getBids().get(0).getTransactionCurrency(), is(equalTo("USD")));
+    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount()).isEqualTo(new BigDecimal("13.07"));
+    assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("7.43517000"));
+    assertThat(orderBook.getBids().get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(orderBook.getBids().get(0).getTransactionCurrency()).isEqualTo("USD");
 
   }
 
@@ -99,14 +96,14 @@ public class BitstampAdapterTest {
     BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
 
     Trades trades = BitstampAdapters.adaptTrades(transactions, "BTC", "USD");
-    assertThat(trades.getTrades().size(), is(equalTo(125)));
+    assertThat(trades.getTrades().size()).isEqualTo(125);
 
     // verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice(), is(equalTo(MoneyUtils.parse("USD 13.14"))));
-    assertThat(trades.getTrades().get(0).getType(), is(equalTo(null)));
-    assertThat(trades.getTrades().get(0).getTradableAmount(), is(equalTo(new BigDecimal("10.11643836"))));
-    assertThat(trades.getTrades().get(0).getTradableIdentifier(), is(equalTo("BTC")));
-    assertThat(trades.getTrades().get(0).getTransactionCurrency(), is(equalTo("USD")));
+    assertThat(trades.getTrades().get(0).getPrice()).isEqualTo(MoneyUtils.parse("USD 13.14"));
+    assertThat(trades.getTrades().get(0).getType()).isNull();
+    assertThat(trades.getTrades().get(0).getTradableAmount()).isEqualTo(new BigDecimal("10.11643836"));
+    assertThat(trades.getTrades().get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(trades.getTrades().get(0).getTransactionCurrency()).isEqualTo("USD");
   }
 
   @Test
@@ -121,10 +118,10 @@ public class BitstampAdapterTest {
 
     Ticker ticker = BitstampAdapters.adaptTicker(bitstampTicker, "BTC", "USD");
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 13.06"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 13.06"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 13.14"))));
-    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("1127.55649327"))));
+    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 13.06"));
+    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 13.06"));
+    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 13.14"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1127.55649327"));
 
   }
 }

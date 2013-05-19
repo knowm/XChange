@@ -21,19 +21,17 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.marketdata.streaming;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthUpdate;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthUpdate;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxDepthStream JSON parsing
@@ -54,8 +52,8 @@ public class DepthUpdateJSONTest {
     MtGoxDepthUpdate mtGoxDepthUpdate = mapper.readValue(mapper.writeValueAsString(userInMap.get("depth")), MtGoxDepthUpdate.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(mtGoxDepthUpdate.getPriceInt(), equalTo(6250000L));
-    assertThat(mtGoxDepthUpdate.getCurrency(), equalTo("USD"));
+    assertThat(mtGoxDepthUpdate.getPriceInt()).isEqualTo(6250000L);
+    assertThat(mtGoxDepthUpdate.getCurrency()).isEqualTo("USD");
 
   }
 }

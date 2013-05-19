@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import org.joda.money.BigMoney;
+
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import org.joda.money.BigMoney;
-
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * DTO representing the exchange order book

@@ -22,21 +22,15 @@
  */
 package com.xeiam.xchange.campbx.dto;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test BitStamp Full Depth JSON parsing
@@ -50,18 +44,18 @@ public class MyOrdersJSONTest {
 
     // Verify that the example data was unmarshalled correctly
     List<CampBXOrder> buy = orderBook.getBuy();
-    assertThat(buy.size(), is(equalTo(1)));
-    assertThat(buy.get(0).getInfo(), notNullValue());
-    assertThat(buy.get(0).getPrice(), nullValue());
+    assertThat(buy.size()).isEqualTo(1);
+    assertThat(buy.get(0).getInfo()).isNotNull();
+    assertThat(buy.get(0).getPrice()).isNull();
 
     List<CampBXOrder> sell = orderBook.getSell();
     CampBXOrder order = sell.get(0);
-    assertThat(order.getPrice(), is(equalTo(new BigDecimal("110.00"))));
-    assertThat(order.getOrderID(), is(equalTo("599254")));
-    assertThat(order.getQuantity(), is(equalTo(new BigDecimal("0.10000000"))));
-    assertThat(order.getDarkPool(), is(false));
-    assertThat(order.getOrderType(), is("Quick Sell"));
-    assertThat(order.getOrderExpiry().toString(), containsString("2013"));
-    assertThat(order.getOrderExpiry().toString(), containsString("29"));
+    assertThat(order.getPrice()).isEqualTo(new BigDecimal("110.00"));
+    assertThat(order.getOrderID()).isEqualTo("599254");
+    assertThat(order.getQuantity()).isEqualTo(new BigDecimal("0.10000000"));
+    assertThat(order.getDarkPool()).isFalse();
+    assertThat(order.getOrderType()).isEqualTo("Quick Sell");
+    assertThat(order.getOrderExpiry().toString()).contains("2013");
+    assertThat(order.getOrderExpiry().toString()).contains("29");
   }
 }

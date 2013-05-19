@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v2.service;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestInvocationParams;
+import si.mazi.rescu.utils.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocationParams;
-import si.mazi.rescu.utils.Base64;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Matija Mazi

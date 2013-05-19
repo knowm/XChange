@@ -21,18 +21,15 @@
  */
 package com.xeiam.xchange.campbx.dto;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test BitStamp Full Depth JSON parsing
@@ -49,9 +46,9 @@ public class FullDepthJSONTest {
     CampBXOrderBook orderBook = mapper.readValue(is, CampBXOrderBook.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(orderBook.getBids().get(0).get(0), is(equalTo(new BigDecimal("13.3"))));
-    assertThat(orderBook.getBids().get(0).get(1), is(equalTo(new BigDecimal("0.00021609"))));
-    assertThat(orderBook.getAsks().get(0).get(0), is(equalTo(new BigDecimal("99.99"))));
-    assertThat(orderBook.getAsks().get(0).get(1), is(equalTo(new BigDecimal("0.10000000"))));
+    assertThat(orderBook.getBids().get(0).get(0)).isEqualTo(new BigDecimal("13.3"));
+    assertThat(orderBook.getBids().get(0).get(1)).isEqualTo(new BigDecimal("0.00021609"));
+    assertThat(orderBook.getAsks().get(0).get(0)).isEqualTo(new BigDecimal("99.99"));
+    assertThat(orderBook.getAsks().get(0).get(1)).isEqualTo(new BigDecimal("0.10000000"));
   }
 }

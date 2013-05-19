@@ -21,59 +21,58 @@
  */
 package com.xeiam.xchange;
 
-import static org.junit.Assert.assertEquals;
-
+import com.xeiam.xchange.currency.CurrencyPair;
 import org.junit.Test;
 
-import com.xeiam.xchange.currency.CurrencyPair;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class CurrencyPairTest {
 
   @Test
   public void testMajors() {
 
-    assertEquals("EUR", CurrencyPair.EUR_USD.baseCurrency);
-    assertEquals("USD", CurrencyPair.EUR_USD.counterCurrency);
+    assertThat(CurrencyPair.EUR_USD.baseCurrency).isEqualTo("EUR");
+    assertThat(CurrencyPair.EUR_USD.counterCurrency).isEqualTo("USD");
 
-    assertEquals("GBP", CurrencyPair.GBP_USD.baseCurrency);
-    assertEquals("USD", CurrencyPair.GBP_USD.counterCurrency);
+    assertThat(CurrencyPair.GBP_USD.baseCurrency).isEqualTo("GBP");
+    assertThat(CurrencyPair.GBP_USD.counterCurrency).isEqualTo("USD");
 
-    assertEquals("USD", CurrencyPair.USD_JPY.baseCurrency);
-    assertEquals("JPY", CurrencyPair.USD_JPY.counterCurrency);
+    assertThat(CurrencyPair.USD_JPY.baseCurrency).isEqualTo("USD");
+    assertThat(CurrencyPair.USD_JPY.counterCurrency).isEqualTo("JPY");
 
-    assertEquals("USD", CurrencyPair.USD_CHF.baseCurrency);
-    assertEquals("CHF", CurrencyPair.USD_CHF.counterCurrency);
+    assertThat(CurrencyPair.USD_CHF.baseCurrency).isEqualTo("USD");
+    assertThat(CurrencyPair.USD_CHF.counterCurrency).isEqualTo("CHF");
 
-    assertEquals("USD", CurrencyPair.USD_AUD.baseCurrency);
-    assertEquals("AUD", CurrencyPair.USD_AUD.counterCurrency);
+    assertThat(CurrencyPair.USD_AUD.baseCurrency).isEqualTo("USD");
+    assertThat(CurrencyPair.USD_AUD.counterCurrency).isEqualTo("AUD");
 
-    assertEquals("USD", CurrencyPair.USD_CAD.baseCurrency);
-    assertEquals("CAD", CurrencyPair.USD_CAD.counterCurrency);
+    assertThat(CurrencyPair.USD_CAD.baseCurrency).isEqualTo("USD");
+    assertThat(CurrencyPair.USD_CAD.counterCurrency).isEqualTo("CAD");
   }
 
   @Test
   public void testBitcoinCourtesy() {
 
-    assertEquals("BTC", CurrencyPair.BTC_USD.baseCurrency);
-    assertEquals("USD", CurrencyPair.BTC_USD.counterCurrency);
+    assertThat(CurrencyPair.BTC_USD.baseCurrency).isEqualTo("BTC");
+    assertThat(CurrencyPair.BTC_USD.counterCurrency).isEqualTo("USD");
 
-    assertEquals("BTC", CurrencyPair.BTC_GBP.baseCurrency);
-    assertEquals("USD", CurrencyPair.BTC_USD.counterCurrency);
+    assertThat(CurrencyPair.BTC_GBP.baseCurrency).isEqualTo("BTC");
+    assertThat(CurrencyPair.BTC_USD.counterCurrency).isEqualTo("USD");
 
-    assertEquals("BTC", CurrencyPair.BTC_EUR.baseCurrency);
-    assertEquals("EUR", CurrencyPair.BTC_EUR.counterCurrency);
+    assertThat(CurrencyPair.BTC_EUR.baseCurrency).isEqualTo("BTC");
+    assertThat(CurrencyPair.BTC_EUR.counterCurrency).isEqualTo("EUR");
 
-    assertEquals("BTC", CurrencyPair.BTC_JPY.baseCurrency);
-    assertEquals("JPY", CurrencyPair.BTC_JPY.counterCurrency);
+    assertThat(CurrencyPair.BTC_JPY.baseCurrency).isEqualTo("BTC");
+    assertThat(CurrencyPair.BTC_JPY.counterCurrency).isEqualTo("JPY");
 
-    assertEquals("BTC", CurrencyPair.BTC_CHF.baseCurrency);
-    assertEquals("CHF", CurrencyPair.BTC_CHF.counterCurrency);
+    assertThat(CurrencyPair.BTC_CHF.baseCurrency).isEqualTo("BTC");
+    assertThat(CurrencyPair.BTC_CHF.counterCurrency).isEqualTo("CHF");
 
-    assertEquals("BTC", CurrencyPair.BTC_AUD.baseCurrency);
-    assertEquals("AUD", CurrencyPair.BTC_AUD.counterCurrency);
+    assertThat(CurrencyPair.BTC_AUD.baseCurrency).isEqualTo("BTC");
+    assertThat(CurrencyPair.BTC_AUD.counterCurrency).isEqualTo("AUD");
 
-    assertEquals("BTC", CurrencyPair.BTC_CAD.baseCurrency);
-    assertEquals("CAD", CurrencyPair.BTC_CAD.counterCurrency);
+    assertThat(CurrencyPair.BTC_CAD.baseCurrency).isEqualTo("BTC");
+    assertThat(CurrencyPair.BTC_CAD.counterCurrency).isEqualTo("CAD");
 
   }
 

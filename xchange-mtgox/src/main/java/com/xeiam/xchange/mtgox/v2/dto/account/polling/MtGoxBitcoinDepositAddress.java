@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v2.dto.account.polling;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -33,13 +34,15 @@ public final class MtGoxBitcoinDepositAddress {
   /**
    * Constructor
    * 
-   * @param address
+   * @param address The Bitcoin deposit address
    */
+  @JsonCreator
   public MtGoxBitcoinDepositAddress(@JsonProperty("addr") String address) {
 
     this.address = address;
   }
 
+  // TODO Fix spelling error!
   public String getAddres() {
 
     return address;

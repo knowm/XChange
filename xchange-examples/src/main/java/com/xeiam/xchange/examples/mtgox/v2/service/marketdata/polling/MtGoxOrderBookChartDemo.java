@@ -15,10 +15,6 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -31,6 +27,10 @@ import com.xeiam.xchart.Series;
 import com.xeiam.xchart.SeriesMarker;
 import com.xeiam.xchart.StyleManager.ChartType;
 import com.xeiam.xchart.SwingWrapper;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Demonstrates plotting an OrderBook with XChart

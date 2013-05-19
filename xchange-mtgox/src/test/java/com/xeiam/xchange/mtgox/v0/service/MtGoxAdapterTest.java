@@ -21,19 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v0.service;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -46,6 +33,15 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.FullDepthJSONTest;
 import com.xeiam.xchange.utils.DateUtils;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * <p>
@@ -69,11 +65,11 @@ public class MtGoxAdapterTest {
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask", "");
 
     // Verify all fields filled
-    assertTrue("Limit price should be 16.634", asks.get(0).getLimitPrice().getAmount().doubleValue() == 16.634);
-    assertTrue("Order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    assertTrue("TradableAmount should be 21.989000000000001", asks.get(0).getTradableAmount().doubleValue() == 21.989000000000001);
-    assertTrue("TradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("TransactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
+    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(16.634);
+    assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(21.989000000000001);
+    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo(("USD"));
 
   }
 
@@ -88,12 +84,11 @@ public class MtGoxAdapterTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker, "BTC", "USD");
-    // System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 16.800000000000001"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 16.79036"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 16.800000000000001"))));
-    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("60418"))));
+    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 16.800000000000001"));
+    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 16.79036"));
+    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 16.800000000000001"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("60418"));
 
   }
 
@@ -109,17 +104,16 @@ public class MtGoxAdapterTest {
 
     Trades trades = MtGoxAdapters.adaptTrades(mtGoxTrades);
     System.out.println(trades.getTrades().size());
-    assertTrue("Trades size should be 609", trades.getTrades().size() == 609);
+    assertThat(trades.getTrades().size() == 609);
 
     // verify all fields filled
-    // System.out.println(trades.getTrades().get(0).toString());
-    assertTrue("Price should be 16.75", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 16.75);
-    assertTrue("Order type should be Bid", trades.getTrades().get(0).getType() == OrderType.BID);
-    assertTrue("TradableAmount should be 0.09910328", trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.09910328);
-    assertTrue("TradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("TransactionCurrency should be USD", trades.getTrades().get(0).getTransactionCurrency().equals("USD"));
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue()).isEqualTo(16.75);
+    assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue()).isEqualTo(0.09910328);
+    assertThat(trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
+    assertThat(trades.getTrades().get(0).getTransactionCurrency().equals("USD"));
     // Unix 1358803625 = Mon, 21 Jan 2013 21:27:05 GMT
-    assertThat("2013-01-21 21:27:05 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-01-21 21:27:05 GMT");
 
   }
 

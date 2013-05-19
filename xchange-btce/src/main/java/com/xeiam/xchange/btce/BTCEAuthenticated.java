@@ -22,20 +22,18 @@
  */
 package com.xeiam.xchange.btce;
 
-import java.math.BigDecimal;
-
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCEOpenOrdersReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
+import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi

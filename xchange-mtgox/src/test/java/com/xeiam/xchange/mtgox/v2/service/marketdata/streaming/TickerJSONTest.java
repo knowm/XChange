@@ -21,20 +21,18 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.marketdata.streaming;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxTicker JSON parsing
@@ -59,8 +57,8 @@ public class TickerJSONTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(mapper.writeValueAsString(userInMap.get("ticker")), MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getBuy().getValue(), equalTo(new BigDecimal("90.78469")));
-    assertThat(mtGoxTicker.getNow(), equalTo(1364667533416136L));
+    assertThat(mtGoxTicker.getBuy().getValue()).isEqualTo(new BigDecimal("90.78469"));
+    assertThat(mtGoxTicker.getNow()).isEqualTo(1364667533416136L);
 
   }
 }

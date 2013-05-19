@@ -27,6 +27,9 @@
 			<name>Gary Rowe</name>
 			<email>g.rowe@froot.co.uk</email>
 		</developer>
+    <developer>
+      <name>Matija Mazi</name>
+    </developer>
 	</developers>
 
 	<licenses>
@@ -146,12 +149,25 @@
 	</dependencyManagement>
 
 	<dependencies>
+
+    <!-- All children will have these dependencies -->
+
+    <!-- JUnit for testing -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+
+    <!-- FEST for fluent test assertions -->
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert-core</artifactId>
+      <version>2.0M10</version>
+      <scope>test</scope>
+    </dependency>
+
 	</dependencies>
 
 	<profiles>

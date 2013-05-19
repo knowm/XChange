@@ -22,13 +22,10 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
+import com.xeiam.xchange.campbx.CampBX;
 import org.junit.Test;
 
-import com.xeiam.xchange.campbx.CampBX;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author Matija Mazi <br/>
@@ -47,9 +44,9 @@ public class CampBXPollingTradeServiceTest {
 
   private void testOrderId(CampBX.OrderType type, String id, String compositeId) {
 
-    assertThat(CampBXPollingTradeService.composeOrderId(type, id), is(equalTo(compositeId)));
+    assertThat(CampBXPollingTradeService.composeOrderId(type, id)).isEqualTo(compositeId);
     CampBXPollingTradeService.ParsedId parsedId = CampBXPollingTradeService.parseOrderId(compositeId);
-    assertThat(parsedId.id, is(equalTo(id)));
-    assertThat(parsedId.type, is(equalTo(type)));
+    assertThat(parsedId.id).isEqualTo(id);
+    assertThat(parsedId.type).isEqualTo(type);
   }
 }

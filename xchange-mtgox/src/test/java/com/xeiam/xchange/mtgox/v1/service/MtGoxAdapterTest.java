@@ -21,22 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1.service;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,6 +42,18 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxWallet;
 import com.xeiam.xchange.utils.DateUtils;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Tests the MtGoxAdapter class
@@ -81,9 +77,9 @@ public class MtGoxAdapterTest {
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
     AccountInfo accountInfo = MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
-    assertThat(accountInfo.getUsername(), is(equalTo("xchange")));
-    assertThat(accountInfo.getWallets().get(0).getCurrency(), is(equalTo("BTC")));
-    assertThat(accountInfo.getWallets().get(0).getBalance(), is(equalTo(MoneyUtils.parse("BTC 0.00000000"))));
+    assertThat(accountInfo.getUsername()).isEqualTo("xchange");
+    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(MoneyUtils.parse("BTC 0.00000000"));
   }
 
   @Test
@@ -98,22 +94,20 @@ public class MtGoxAdapterTest {
     MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
 
     List<LimitOrder> openorders = MtGoxAdapters.adaptOrders(mtGoxOpenOrders);
-    // System.out.println(openorders.size());
-    assertTrue("ASKS size should be 38", openorders.size() == 38);
+    assertThat(openorders.size()).isEqualTo(38);
 
     // verify all fields filled
     System.out.println(openorders.get(0).toString());
-    assertTrue("limit price should be 1.25", openorders.get(0).getLimitPrice().getAmount().doubleValue() == 1.25);
-    assertTrue("order type should be BID", openorders.get(0).getType() == OrderType.BID);
-    assertTrue("tradableAmount should be 0.23385868", openorders.get(0).getTradableAmount().doubleValue() == 0.23385868);
-    assertTrue("tradableIdentifier should be BTC", openorders.get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be USD", openorders.get(0).getTransactionCurrency().equals("USD"));
+    assertThat(openorders.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(1.25);
+    assertThat(openorders.get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(openorders.get(0).getTradableAmount().doubleValue()).isEqualTo(0.23385868);
+    assertThat(openorders.get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(openorders.get(0).getTransactionCurrency()).isEqualTo("USD");
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(openorders.get(0).getTimestamp());
-    // System.out.println(dateString);
-    assertThat(dateString, equalTo("2012-04-08 14:59:11"));
+    assertThat(dateString).isEqualTo("2012-04-08 14:59:11");
   }
 
   @Test
@@ -129,15 +123,14 @@ public class MtGoxAdapterTest {
 
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepth.getAsks(), "USD", "ask", "id_567");
     System.out.println(asks.size());
-    assertTrue("ASKS size should be 503", asks.size() == 503);
+    assertThat(asks.size()).isEqualTo(503);
 
-    // verify all fields filled
-    // System.out.println(asks.get(0).toString());
-    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue(), equalTo(182.99999));
-    assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    assertThat("tradableAmount should be 20", asks.get(0).getTradableAmount().doubleValue(), equalTo(2.46297453));
-    assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
+    // Verify all fields filled
+    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(182.99999);
+    assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(2.46297453);
+    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("USD");
 
   }
 
@@ -153,20 +146,18 @@ public class MtGoxAdapterTest {
     MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     Trades trades = MtGoxAdapters.adaptTrades(mtGoxTrades);
-    // System.out.println(trades.getTrades().size());
-    assertThat(trades.getTrades().size(), equalTo(30));
+    assertThat(trades.getTrades().size()).isEqualTo(30);
 
-    // verify all fields filled
-    // System.out.println(trades.getTrades().get(0).toString());
-    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue(), equalTo(193.99989));
-    assertThat(trades.getTrades().get(0).getPrice().getAmount().floatValue(), equalTo(193.99989f));
-    assertThat(trades.getTrades().get(0).getType(), equalTo(OrderType.BID));
-    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue(), equalTo(0.01985186));
-    assertThat(trades.getTrades().get(0).getTradableIdentifier(), equalTo("BTC"));
-    assertThat(trades.getTrades().get(0).getTransactionCurrency(), equalTo("USD"));
-    assertThat(trades.getTrades().get(0).getId(), equalTo(1365499103363494L));
+    // Verify all fields filled
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue()).isEqualTo(193.99989);
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().floatValue()).isEqualTo(193.99989f);
+    assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue()).isEqualTo(0.01985186);
+    assertThat(trades.getTrades().get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(trades.getTrades().get(0).getTransactionCurrency()).isEqualTo("USD");
+    assertThat(trades.getTrades().get(0).getId()).isEqualTo(1365499103363494L);
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
-    assertThat("2013-04-09 09:18:23 GMT", is(equalTo(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()))));
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-04-09 09:18:23 GMT");
   }
 
   @Test
@@ -181,21 +172,20 @@ public class MtGoxAdapterTest {
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
     // in MtGoxAccountInfo.getWallets, no wallets are null
-    MtGoxWallet CADWallet = mtGoxAccountInfo.getWallets().getCAD();
-    assertTrue("CAD should be null", CADWallet == null);
-    MtGoxWallet USDWallet = mtGoxAccountInfo.getWallets().getUSD();
-    assertTrue("USD should NOT be null", USDWallet != null);
+    MtGoxWallet cadWallet = mtGoxAccountInfo.getWallets().getCAD();
+    assertThat(cadWallet).isNull();
+    MtGoxWallet usdWallet = mtGoxAccountInfo.getWallets().getUSD();
+    assertThat(usdWallet).isNotNull();
 
     // in Wallet(s), only wallets from MtGoxAccountInfo.getWallets that contained data are NOT null.
     List<Wallet> wallets = MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets());
-    // System.out.println(wallets.toString());
-    assertTrue("List size should be true!", wallets.size() == 2);
-    assertTrue("CAD should be null", !wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parse("CAD 0.0"))));
-    assertTrue("BTC should NOT be null", wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parse("BTC 0.00000000"))));
+    assertThat(wallets.size()).isEqualTo(2);
 
-    // System.out.println(wallets.get(0).toString());
-    assertTrue("wallets.get(0).getBalance().getAmount().doubleValue() should be 0.0", wallets.get(0).getBalance().getAmount().doubleValue() == 0.0);
-    assertTrue("wallets.get(0).getBalance().getCurrencyUnit().toString() should be BTC", wallets.get(0).getBalance().getCurrencyUnit().toString().equals("BTC"));
+    assertThat(wallets.contains(new Wallet(Currencies.CAD, MoneyUtils.parse("CAD 0.0")))).isFalse();
+    assertThat(wallets.contains(new Wallet(Currencies.BTC, MoneyUtils.parse("BTC 0.00000000")))).isTrue();
+
+    assertThat(wallets.get(0).getBalance().getAmount().doubleValue()).isEqualTo(0.0);
+    assertThat(wallets.get(0).getBalance().getCurrencyUnit().toString()).isEqualTo("BTC");
   }
 
   @Test
@@ -210,12 +200,10 @@ public class MtGoxAdapterTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
-    // System.out.println(ticker.toString());
-
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 91.46000"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 90.68502"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 91.45898"))));
-    assertThat(ticker.getVolume(), is(equalTo(new BigDecimal("49524.15110020"))));
+    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 91.46000"));
+    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 90.68502"));
+    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 91.45898"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("49524.15110020"));
 
   }
 
@@ -233,11 +221,10 @@ public class MtGoxAdapterTest {
     MtGoxDepthUpdate mtGoxDepthUpdate = mapper.readValue(mapper.writeValueAsString(userInMap.get("depth")), MtGoxDepthUpdate.class);
 
     OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthUpdate(mtGoxDepthUpdate);
-    // System.out.println(orderBookUpdate.toString());
 
-    assertThat(orderBookUpdate.getTotalVolume(), is(equalTo(new BigDecimal("324.02839775"))));
-    assertThat(orderBookUpdate.getLimitOrder().getTradableAmount(), is(equalTo(new BigDecimal("4.97732719"))));
-    assertThat(orderBookUpdate.getLimitOrder().getTimestamp().getTime(), is(equalTo(1364643714372L)));
+    assertThat(orderBookUpdate.getTotalVolume()).isEqualTo(new BigDecimal("324.02839775"));
+    assertThat(orderBookUpdate.getLimitOrder().getTradableAmount()).isEqualTo(new BigDecimal("4.97732719"));
+    assertThat(orderBookUpdate.getLimitOrder().getTimestamp().getTime()).isEqualTo(1364643714372L);
 
   }
 }

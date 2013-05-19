@@ -22,10 +22,9 @@
  */
 package com.xeiam.xchange.examples.bitstamp.account;
 
+import com.xeiam.xchange.OnlineTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
-import com.xeiam.xchange.OnlineTest;
 
 /**
  * <p>

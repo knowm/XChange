@@ -22,17 +22,14 @@
  */
 package com.xeiam.xchange.campbx.dto;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.campbx.dto.account.MyFunds;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.campbx.dto.account.MyFunds;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test BitStamp Full Depth JSON parsing
@@ -45,7 +42,7 @@ public class MyFundsJSONTest {
     MyFunds myFunds = new ObjectMapper().readValue(MyFundsJSONTest.class.getResourceAsStream("/account/myfunds.json"), MyFunds.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(myFunds.getLiquidUSD(), is(equalTo(new BigDecimal("0.00"))));
-    assertThat(myFunds.getTotalBTC(), is(equalTo(new BigDecimal("0.10000000"))));
+    assertThat(myFunds.getLiquidUSD()).isEqualTo(new BigDecimal("0.00"));
+    assertThat(myFunds.getTotalBTC()).isEqualTo(new BigDecimal("0.10000000"));
   }
 }

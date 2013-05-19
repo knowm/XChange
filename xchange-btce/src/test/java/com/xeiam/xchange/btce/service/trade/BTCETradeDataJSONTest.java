@@ -21,29 +21,18 @@
  */
 package com.xeiam.xchange.btce.service.trade;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
+import com.xeiam.xchange.btce.dto.trade.*;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
-import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderResult;
-import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderReturn;
-import com.xeiam.xchange.btce.dto.trade.BTCEOpenOrdersReturn;
-import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
-import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderResult;
-import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test BTCEDepth JSON parsing
@@ -56,8 +45,8 @@ public class BTCETradeDataJSONTest {
     BTCEOpenOrdersReturn result = getResult("/trade/example-open-orders-data.json", BTCEOpenOrdersReturn.class);
     // Verify that the example data was unmarshalled correctly
     Map<Long, BTCEOrder> rv = result.getReturnValue();
-    assertThat(rv.keySet(), is(CoreMatchers.<Set> equalTo(new HashSet<Long>(Arrays.asList(343152L)))));
-    assertThat(rv.get(343152L).getTimestampCreated(), is(equalTo(1342448420L)));
+    assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
+    assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
   }
 
   @Test
@@ -67,9 +56,9 @@ public class BTCETradeDataJSONTest {
     // Verify that the example data was unmarshalled correctly
     BTCECancelOrderResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();
-    assertThat(funds.keySet().containsAll(Arrays.asList("btc", "nmc", "usd")), is(equalTo(true)));
-    assertThat(funds.get("usd"), is(equalTo(new BigDecimal(325))));
-    assertThat(rv.getOrderId(), is(343154L));
+    assertThat(funds.keySet().containsAll(Arrays.asList("btc", "nmc", "usd"))).isTrue();
+    assertThat(funds.get("usd")).isEqualTo(new BigDecimal(325));
+    assertThat(rv.getOrderId()).isEqualTo(343154L);
   }
 
   @Test
@@ -79,9 +68,9 @@ public class BTCETradeDataJSONTest {
     // Verify that the example data was unmarshalled correctly
     BTCEPlaceOrderResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();
-    assertThat(funds.keySet().containsAll(Arrays.asList("btc", "nmc", "usd")), is(equalTo(true)));
-    assertThat(funds.get("btc"), is(equalTo(new BigDecimal("2.498"))));
-    assertThat(rv.getOrderId(), is(0L));
+    assertThat(funds.keySet().containsAll(Arrays.asList("btc", "nmc", "usd"))).isTrue();
+    assertThat(funds.get("btc")).isEqualTo(new BigDecimal("2.498"));
+    assertThat(rv.getOrderId()).isEqualTo(0L);
   }
 
   private <RC extends BTCEReturn> RC getResult(String file, Class<RC> resultClass) throws IOException {

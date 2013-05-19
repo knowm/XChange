@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.service.streaming;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
 
 /**
  * @author timmolter

@@ -22,18 +22,15 @@
  */
 package com.xeiam.xchange.bitstamp.service.trade;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test Transaction[] JSON parsing
@@ -50,12 +47,12 @@ public class OpenOrdersJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampOrder[] orders = mapper.readValue(is, BitstampOrder[].class);
 
-    assertThat("Unexpected order list size", orders.length, is(4));
+    assertThat(orders.length).isEqualTo(4);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return tid value", orders[1].getId(), is(equalTo(1262468)));
-    assertThat("Unexpected Return price value", orders[1].getPrice(), is(equalTo(new BigDecimal("12.15"))));
-    assertThat("Unexpected Return amount value", orders[1].getAmount(), is(equalTo(new BigDecimal("3.00000000"))));
+    assertThat(orders[1].getId()).isEqualTo(1262468);
+    assertThat(orders[1].getPrice()).isEqualTo(new BigDecimal("12.15"));
+    assertThat(orders[1].getAmount()).isEqualTo(new BigDecimal("3.00000000"));
 
   }
 }

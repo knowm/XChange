@@ -22,9 +22,9 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * <p>

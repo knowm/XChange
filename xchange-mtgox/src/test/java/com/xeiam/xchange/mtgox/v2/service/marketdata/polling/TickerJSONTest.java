@@ -21,19 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.marketdata.polling;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxTicker JSON parsing
@@ -55,8 +52,8 @@ public class TickerJSONTest {
     System.out.println(mtGoxTicker.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(mtGoxTicker.getLast().getValue(), is(equalTo(new BigDecimal("91.46000"))));
-    assertThat(mtGoxTicker.getNow(), is(equalTo(1364669160478556L)));
+    assertThat(mtGoxTicker.getLast().getValue()).isEqualTo(new BigDecimal("91.46000"));
+    assertThat(mtGoxTicker.getNow()).isEqualTo(1364669160478556L);
   }
 
 }

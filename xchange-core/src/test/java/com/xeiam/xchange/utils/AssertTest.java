@@ -21,12 +21,13 @@
  */
 package com.xeiam.xchange.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+
+import org.junit.Test;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Fail.fail;
 
 /**
  * Test class for testing various Assert methods
@@ -42,7 +43,7 @@ public class AssertTest {
       Assert.notNull(null, "null");
       fail("Expected exception");
     } catch (IllegalArgumentException e) {
-      assertEquals("null", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("null");
     }
 
   }
@@ -56,14 +57,14 @@ public class AssertTest {
       Assert.hasLength(null, 4, "null");
       fail("Expected exception");
     } catch (IllegalArgumentException e) {
-      assertEquals("null", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("null");
     }
 
     try {
       Assert.hasLength("", 4, "short");
       fail("Expected exception");
     } catch (IllegalArgumentException e) {
-      assertEquals("short", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("short");
     }
 
   }
@@ -77,14 +78,14 @@ public class AssertTest {
       Assert.hasSize(null, 4, "null");
       fail("Expected exception");
     } catch (IllegalArgumentException e) {
-      assertEquals("null", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("null");
     }
 
     try {
       Assert.hasSize(Arrays.asList("1", "2", "3"), 4, "short");
       fail("Expected exception");
     } catch (IllegalArgumentException e) {
-      assertEquals("short", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("short");
     }
 
   }

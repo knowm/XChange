@@ -21,17 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.marketdata.polling;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepth;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepth;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxDepth JSON parsing
@@ -50,7 +48,7 @@ public class DepthJSONTest {
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxDepth.getAsks().get(0).getAmountInt(), equalTo(246297453L));
-    assertThat(mtGoxDepth.getFilterMaxPrice().getValueInt(), equalTo(20021100L));
+    assertThat(mtGoxDepth.getAsks().get(0).getAmountInt()).isEqualTo(246297453L);
+    assertThat(mtGoxDepth.getFilterMaxPrice().getValueInt()).isEqualTo(20021100L);
   }
 }

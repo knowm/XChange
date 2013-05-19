@@ -21,16 +21,6 @@
  */
 package com.xeiam.xchange.btce.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
@@ -44,6 +34,14 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Tests the BTCEAdapter class
@@ -63,9 +61,9 @@ public class BTCEAdapterTest {
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(BTCEDepth.getAsks(), "BTC", "USD", "ask", "");
 
     // verify all fields filled
-    assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be USD", asks.get(0).getTransactionCurrency().equals("USD"));
+    assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("USD");
 
   }
 
@@ -81,15 +79,15 @@ public class BTCEAdapterTest {
 
     Trades trades = BTCEAdapters.adaptTrades(BTCETrades);
     // System.out.println(trades.getTrades().size());
-    assertTrue("Trades size should be 150", trades.getTrades().size() == 150);
+    assertThat(trades.getTrades().size() == 150);
 
     // verify all fields filled
-    assertTrue("price should be 13.07", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 13.07);
-    assertTrue("order type should be ASK", trades.getTrades().get(0).getType() == OrderType.ASK);
-    assertTrue("tradableAmount should be 1.0", trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.0);
-    assertTrue("tradableIdentifier should be BTC", trades.getTrades().get(0).getTradableIdentifier().equals("BTC"));
-    // assertTrue("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
-    assertEquals("timestamp incorrect", "2012-12-22 08:06:14 GMT", DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()));
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue()).isEqualTo(13.07);
+    assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue()).isEqualTo(1.0);
+    assertThat(trades.getTrades().get(0).getTradableIdentifier()).isEqualTo("BTC");
+    // assertThat("transactionCurrency should be PLN", trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2012-12-22 08:06:14 GMT");
   }
 
   @Test
@@ -104,11 +102,11 @@ public class BTCEAdapterTest {
 
     Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "BTC", "USD");
 
-    assertEquals("last should be USD 13.07", ticker.getLast().toString(), "USD 13.07");
-    assertEquals("low should be USD 13", ticker.getLow().toString(), "USD 13");
-    assertEquals("high should be USD 13.23", ticker.getHigh().toString(), "USD 13.23");
-    assertEquals("volume should be 3078.62284", ticker.getVolume(), new BigDecimal("3078.62284"));
-    assertEquals("Tradable Identifier should be BTC", ticker.getTradableIdentifier(), "BTC");
+    assertThat(ticker.getLast().toString()).isEqualTo("USD 13.07");
+    assertThat(ticker.getLow().toString()).isEqualTo("USD 13");
+    assertThat(ticker.getHigh().toString()).isEqualTo("USD 13.23");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("3078.62284"));
+    assertThat(ticker.getTradableIdentifier()).isEqualTo("BTC");
 
   }
 }

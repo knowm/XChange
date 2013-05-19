@@ -21,17 +21,15 @@
  */
 package com.xeiam.xchange.btce.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test BTCETrade[] JSON parsing
@@ -49,7 +47,6 @@ public class BTCETradesJSONTest {
     BTCETrade[] BTCETrades = mapper.readValue(is, BTCETrade[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", BTCETrades[0].getPrice(), equalTo(new BigDecimal("13.07")));
-    // System.out.println(BTCETrades[0].toString());
+    assertThat(BTCETrades[0].getPrice()).isEqualTo(new BigDecimal("13.07"));
   }
 }

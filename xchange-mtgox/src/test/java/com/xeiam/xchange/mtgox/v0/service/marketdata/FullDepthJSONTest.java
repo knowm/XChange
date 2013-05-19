@@ -21,19 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v0.service.marketdata;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxFullDepth JSON parsing
@@ -56,6 +53,6 @@ public class FullDepthJSONTest {
     MtGoxDepth mtGoxDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(mtGoxDepth.getAsks().get(0)[0], is(equalTo(new BigDecimal("16.634"))));
+    assertThat(mtGoxDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("16.634"));
   }
 }

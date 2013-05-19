@@ -21,12 +21,11 @@
  */
 package com.xeiam.xchange.dto.account;
 
-import java.util.List;
-
+import com.xeiam.xchange.dto.trade.Wallet;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
-import com.xeiam.xchange.dto.trade.Wallet;
+import java.util.List;
 
 /**
  * <p>

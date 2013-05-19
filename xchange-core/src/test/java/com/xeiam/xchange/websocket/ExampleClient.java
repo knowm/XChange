@@ -1,13 +1,13 @@
 package com.xeiam.xchange.websocket;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_10;
 import org.java_websocket.handshake.ServerHandshake;
 import org.junit.Ignore;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /** This example demonstrates how to create a websocket connection to a server. Only the most important callbacks are overloaded. */
 @Ignore

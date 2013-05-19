@@ -21,13 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -49,6 +42,12 @@ import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
 import com.xeiam.xchange.utils.DateUtils;
+import org.joda.money.BigMoney;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs

@@ -26,10 +26,10 @@ package com.xeiam.xchange.campbx.dto.account;
  * @author Matija Mazi <br/>
  */
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
+
+import java.math.BigDecimal;
 
 public class MyFunds extends CampBXResponse {
 

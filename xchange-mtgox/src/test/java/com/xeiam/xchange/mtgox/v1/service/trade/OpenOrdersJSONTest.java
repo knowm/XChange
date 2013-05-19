@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
-import static org.junit.Assert.assertTrue;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MtGoxOpenOrders JSON parsing
@@ -54,9 +53,7 @@ public class OpenOrdersJSONTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxOpenOrder[] mtGoxOpenOrders = mapper.readValue(is, MtGoxOpenOrder[].class);
 
-    // System.out.println(new Date(mtGoxOpenOrders[0].getDate()));
-
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxOpenOrders[0].getOid().equals("055e81e4-fe38-4b3c-bbca-69e61724f64a"));
+    assertThat(mtGoxOpenOrders[0].getOid()).isEqualTo("055e81e4-fe38-4b3c-bbca-69e61724f64a");
   }
 }

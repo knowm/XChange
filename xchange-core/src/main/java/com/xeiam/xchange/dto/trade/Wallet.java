@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.dto.trade;
 
-import java.math.BigDecimal;
-
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
