@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
-import java.math.BigDecimal;
-
-import si.mazi.rescu.HmacPostBodyDigest;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -42,6 +36,11 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
+import si.mazi.rescu.HmacPostBodyDigest;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.math.BigDecimal;
 
 /**
  * @author timmolter
@@ -56,8 +55,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The exchange specification with the configuration parameters
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingTradeService(ExchangeSpecification exchangeSpecification) {
 

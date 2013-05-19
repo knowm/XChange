@@ -21,14 +21,6 @@
  */
 package com.xeiam.xchange.campbx;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.currency.MoneyUtils;
@@ -37,6 +29,13 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Various adapters for converting from CampBX DTOs to XChange DTOs
@@ -48,7 +47,7 @@ public final class CampBXAdapters {
    * 
    * @param orderBook
    * @param currency
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @return
    */
   public static OrderBook adaptOrders(CampBXOrderBook orderBook, String currency, String tradableIdentifier) {
@@ -85,7 +84,7 @@ public final class CampBXAdapters {
    * 
    * @param campbxTicker
    * @param currency
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @return
    */
   public static Ticker adaptTicker(CampBXTicker campbxTicker, String currency, String tradableIdentifier) {

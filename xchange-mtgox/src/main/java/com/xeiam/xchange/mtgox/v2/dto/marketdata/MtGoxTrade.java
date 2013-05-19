@@ -44,21 +44,27 @@ public final class MtGoxTrade {
   /**
    * Constructor
    * 
-   * @param amount
-   * @param amountInt
-   * @param date
-   * @param item
-   * @param price
-   * @param priceCurrency
-   * @param priceInt
-   * @param primary
-   * @param properties
-   * @param tid
-   * @param tradeType
+   * @param amountInt The amount as an integer
+   * @param date The date (Unix time)
+   * @param item The tradeable identifier (e.g. "BTC")
+   * @param priceCurrency The currency for the price (e.g. "USD")
+   * @param priceInt The price as an integer
+   * @param primary "Y" means the buyer's currency (duplicate trades may include the seller and be marked with "N")
+   * @param properties Trade characteristics (e.g. "limit")
+   * @param tid Trade identifier
+   * @param tradeType The trade type (bid/ask)
    */
-  public MtGoxTrade(@JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency,
-      @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("tid") long tid,
-      @JsonProperty("trade_type") String tradeType) {
+  public MtGoxTrade(
+    @JsonProperty("amount_int") long amountInt,
+    @JsonProperty("date") Long date,
+    @JsonProperty("item") String item,
+    @JsonProperty("price_currency") String priceCurrency,
+    @JsonProperty("price_int") long priceInt,
+    @JsonProperty("primary") String primary,
+    @JsonProperty("properties") String properties,
+    @JsonProperty("tid") long tid,
+    @JsonProperty("trade_type") String tradeType
+  ) {
 
     this.amountInt = amountInt;
     this.date = date;

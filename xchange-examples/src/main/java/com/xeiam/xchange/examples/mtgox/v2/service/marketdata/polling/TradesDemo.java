@@ -33,15 +33,13 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  */
 public class TradesDemo {
 
-  private static PollingMarketDataService marketDataService;
-
   public static void main(String[] args) {
 
     // Use the factory to get the version 2 MtGox exchange API using default settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    marketDataService = mtGoxExchange.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
 
     // Get trades with "since" parameter
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
@@ -53,8 +51,6 @@ public class TradesDemo {
     System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
     System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
 
-    // Verify that trades is not null
-    System.out.println("Trades NOT null ? " + trades != null);
   }
 
 }

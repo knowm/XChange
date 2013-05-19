@@ -22,18 +22,6 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.CambBXUtils;
 import com.xeiam.xchange.campbx.CampBX;
@@ -46,6 +34,16 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Matija Mazi
@@ -59,8 +57,8 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CampBXPollingTradeService(ExchangeSpecification exchangeSpecification) {
 

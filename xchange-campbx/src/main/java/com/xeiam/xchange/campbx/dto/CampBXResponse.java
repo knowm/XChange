@@ -1,12 +1,11 @@
 package com.xeiam.xchange.campbx.dto;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 
 /**
  * @author Matija Mazi <br/>
- * @created 2/16/13 4:11 PM
  */
 public class CampBXResponse implements Serializable {
 

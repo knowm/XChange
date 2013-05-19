@@ -15,13 +15,6 @@
  */
 package com.xeiam.xchange.bitcoincharts.service.marketdata.polling;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -37,6 +30,11 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.util.List;
 
 /**
  * @author timmolter
@@ -56,8 +54,8 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The exchange specification
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitcoinChartsPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
@@ -115,9 +113,9 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
 
   /**
    * Verify
-   * 
-   * @param tradableIdentifier
-   * @param currency
+   *
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
    */
   private void verify(String tradableIdentifier, String currency) {
 

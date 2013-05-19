@@ -38,7 +38,7 @@ public abstract class Assert {
    * Asserts that a condition is true
    * </p>
    * 
-   * @param boolean The condition under test
+   * @param condition The condition under test
    * @param message The message for any exception
    */
   public static void isTrue(boolean condition, String message) {

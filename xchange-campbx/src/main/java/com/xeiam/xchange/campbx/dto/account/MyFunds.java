@@ -24,7 +24,6 @@ package com.xeiam.xchange.campbx.dto.account;
 
 /**
  * @author Matija Mazi <br/>
- * @created 2/19/13 7:51 PM
  */
 
 import java.math.BigDecimal;

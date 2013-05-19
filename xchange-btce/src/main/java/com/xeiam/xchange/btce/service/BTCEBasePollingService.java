@@ -44,7 +44,7 @@ public class BTCEBasePollingService {
   /**
    * Constructor
    * 
-   * @param exchangeSpecification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEBasePollingService(ExchangeSpecification exchangeSpecification) {
 

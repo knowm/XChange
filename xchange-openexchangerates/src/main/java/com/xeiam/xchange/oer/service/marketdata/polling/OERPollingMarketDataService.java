@@ -15,15 +15,6 @@
  */
 package com.xeiam.xchange.oer.service.marketdata.polling;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -40,6 +31,13 @@ import com.xeiam.xchange.oer.dto.marketdata.Rates;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author timmolter
@@ -51,7 +49,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   private final OER openExchangeRates;
 
   /**
-   * time stamps used to pace API calls
+   * Time stamps used to pace API calls
    */
   private long tickerRequestTimeStamp = 0L;
 
@@ -59,8 +57,8 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The exchange specification
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public OERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
@@ -117,7 +115,6 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
     } catch (InvocationTargetException e) {
       throw new ExchangeException("Problem getting exchange rate!", e);
     }
-    // System.out.println(exchangeRate);
 
     // Adapt to XChange DTOs
     return OERAdapters.adaptTicker(tradableIdentifier, exchangeRate, cachedOERTickers.getTimestamp() * 1000L);
@@ -143,9 +140,9 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
   /**
    * Verify
-   * 
-   * @param tradableIdentifier
-   * @param currency
+   *
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
    */
   private void verify(String tradableIdentifier, String currency) {
 

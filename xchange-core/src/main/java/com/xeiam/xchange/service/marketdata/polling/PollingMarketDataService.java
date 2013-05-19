@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.service.marketdata.polling;
 
-import java.util.List;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+
+import java.util.List;
 
 /**
  * <p>
@@ -47,7 +47,7 @@ public interface PollingMarketDataService {
    * Ask the exchange what symbol pairs it supports
    * </p>
    * 
-   * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementors should log the error.
+   * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementers should log the error.
    */
   List<CurrencyPair> getExchangeSymbols();
 
@@ -58,7 +58,7 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The Ticker, null if some sort of error occurred. Implementors should log the error.
+   * @return The Ticker, null if some sort of error occurred. Implementers should log the error.
    */
   Ticker getTicker(String tradableIdentifier, String currency);
 
@@ -69,7 +69,7 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The OrderBook, null if some sort of error occurred. Implementors should log the error.
+   * @return The OrderBook, null if some sort of error occurred. Implementers should log the error.
    */
   OrderBook getPartialOrderBook(String tradableIdentifier, String currency);
 
@@ -80,7 +80,7 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The OrderBook, null if some sort of error occurred. Implementors should log the error.
+   * @return The OrderBook, null if some sort of error occurred. Implementers should log the error.
    */
   OrderBook getFullOrderBook(String tradableIdentifier, String currency);
 
@@ -91,7 +91,7 @@ public interface PollingMarketDataService {
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @return The Trades, null if some sort of error occurred. Implementors should log the error.
+   * @return The Trades, null if some sort of error occurred. Implementers should log the error.
    */
   Trades getTrades(String tradableIdentifier, String currency, Object... args);
 

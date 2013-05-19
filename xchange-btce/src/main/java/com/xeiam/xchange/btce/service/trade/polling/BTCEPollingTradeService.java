@@ -46,8 +46,8 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEPollingTradeService(ExchangeSpecification exchangeSpecification) {
 

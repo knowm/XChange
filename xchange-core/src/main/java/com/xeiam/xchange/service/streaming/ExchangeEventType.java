@@ -23,7 +23,7 @@ package com.xeiam.xchange.service.streaming;
 
 /**
  * <p>
- * Enum to provide the following to {@link RunnableExchangeEventProducer}:
+ * Enum to provide the following to exchange events:
  * </p>
  * <ul>
  * <li>Classification of event type to allow clients to take appropriate action</li>

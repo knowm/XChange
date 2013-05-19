@@ -22,11 +22,11 @@
  */
 package com.xeiam.xchange.btce.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi
@@ -42,14 +42,19 @@ public class BTCEAccountInfo {
   /**
    * Constructor
    * 
-   * @param transactionCount
-   * @param openOrders
-   * @param serverTime
-   * @param rights
-   * @param funds
+   * @param transactionCount The number of transactions
+   * @param openOrders The open orders
+   * @param serverTime The server time (Unix time)
+   * @param rights The rights
+   * @param funds The funds
    */
-  public BTCEAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders, @JsonProperty("server_time") long serverTime,
-      @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+  public BTCEAccountInfo(
+    @JsonProperty("transaction_count") int transactionCount,
+    @JsonProperty("open_orders") int openOrders,
+    @JsonProperty("server_time") long serverTime,
+    @JsonProperty("rights") Rights rights,
+    @JsonProperty("funds") Map<String, BigDecimal> funds
+  ) {
 
     this.transactionCount = transactionCount;
     this.openOrders = openOrders;

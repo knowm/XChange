@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import org.joda.money.BigMoney;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
-import org.joda.money.BigMoney;
 
 /**
  * <p>
@@ -47,8 +47,8 @@ public final class Ticker {
 
   /**
    * Constructor
-   * 
-   * @param tradableIdentifier
+   *
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param last
    * @param bid
    * @param ask

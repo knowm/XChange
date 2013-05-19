@@ -21,13 +21,12 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import org.joda.money.BigMoney;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Data object representing a Market Depth update
@@ -44,10 +43,9 @@ public final class OrderBookUpdate {
    * 
    * @param type
    * @param volume
-   * @param tradableIdentifier
-   * @param transactionCurrency
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param limitPrice
-   * @param date
    * @param totalVolume
    */
   public OrderBookUpdate(OrderType type, BigDecimal volume, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice, Date timestamp, BigDecimal totalVolume) {

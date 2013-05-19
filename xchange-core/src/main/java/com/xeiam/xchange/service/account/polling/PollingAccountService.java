@@ -15,10 +15,10 @@
  */
 package com.xeiam.xchange.service.account.polling;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -36,24 +36,24 @@ public interface PollingAccountService {
   /**
    * Get account info
    * 
-   * @return the AccountInfo object, null if some sort of error occurred. Implementors should log the error.
+   * @return the AccountInfo object, null if some sort of error occurred. Implementers should log the error.
    */
   public AccountInfo getAccountInfo();
 
   /**
    * Withdraw funds
    * 
-   * @param amount
-   * @param address
-   * @return
+   * @param amount The amount
+   * @param address The Bitcoin address
+   * @return The result of the withdrawal (usually a transaction ID)
    */
   public String withdrawFunds(BigDecimal amount, String address);
 
   /**
    * Request a bitcoin address to fund this account
    * 
-   * @param arguments
-   * @return the bitcoin address, null if some sort of error occurred. Implementors should log the error.
+   * @param arguments A Bitcoin deposit address
+   * @return the bitcoin address, null if some sort of error occurred. Implementers should log the error.
    */
   public String requestBitcoinDepositAddress(final String... arguments);
 

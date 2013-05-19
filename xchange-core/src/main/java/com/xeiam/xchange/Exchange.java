@@ -52,8 +52,8 @@ public interface Exchange {
 
   /**
    * Applies any exchange specific parameters
-   * 
-   * @param exchangeSpecification The exchange specification
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   void applySpecification(ExchangeSpecification exchangeSpecification);
 

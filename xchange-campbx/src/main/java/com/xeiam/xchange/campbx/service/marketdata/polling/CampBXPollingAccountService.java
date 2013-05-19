@@ -51,8 +51,8 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CampBXPollingAccountService(ExchangeSpecification exchangeSpecification) {
 

@@ -27,7 +27,6 @@ import com.xeiam.xchange.campbx.dto.CampBXResponse;
 
 /**
  * @author Matija Mazi <br/>
- * @created 2/19/13 7:49 PM
  */
 public class CambBXUtils {
 

@@ -22,16 +22,15 @@
  */
 package com.xeiam.xchange.campbx.dto.trade;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Matija Mazi <br/>
- * @created 2/19/13 8:08 PM
  */
 
 public class MyOpenOrders extends CampBXResponse {

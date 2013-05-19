@@ -21,12 +21,11 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.xeiam.xchange.dto.Order.OrderType;
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.dto.Order.OrderType;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Data object representing a Trade
@@ -72,7 +71,7 @@ public final class Trade implements Comparable<Trade> {
    * @param type The trade type (BID side or ASK side)
    * @param tradableAmount The depth of this trade
    * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency The currency
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
    * @param id The id of the trade

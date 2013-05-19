@@ -22,10 +22,6 @@
  */
 package com.xeiam.xchange.bitstamp.service.account.polling;
 
-import java.math.BigDecimal;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitStamp;
@@ -34,6 +30,9 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi
@@ -44,8 +43,8 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
