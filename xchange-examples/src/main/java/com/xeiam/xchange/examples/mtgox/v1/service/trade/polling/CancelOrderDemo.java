@@ -29,7 +29,7 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * Test placing a limit order at MtGox. Note that this is using the old V0 API, since at this time the V1 API has no cancel order functionality
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

@@ -21,6 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.account;
 
+import java.math.BigDecimal;
+
+import si.mazi.rescu.HmacPostBodyDigest;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
@@ -32,11 +38,6 @@ import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.HmacPostBodyDigest;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.math.BigDecimal;
 
 /**
  * <p>
@@ -60,7 +61,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingAccountService(ExchangeSpecification exchangeSpecification) {
@@ -82,8 +83,9 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    MtGoxWithdrawalResponse result = mtGoxV1.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(
-        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
+    MtGoxWithdrawalResponse result =
+        mtGoxV1.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR))
+            .intValue(), 1, false, false);
     return result.getTransactionId();
   }
 

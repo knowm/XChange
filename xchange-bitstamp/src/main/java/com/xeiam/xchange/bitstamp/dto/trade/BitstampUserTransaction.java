@@ -22,11 +22,11 @@
  */
 package com.xeiam.xchange.bitstamp.dto.trade;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.bitstamp.util.BitstampTransactionTypeDeserializer;
-
-import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi

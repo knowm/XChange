@@ -22,6 +22,13 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.campbx.CampBX;
@@ -36,11 +43,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.util.List;
 
 /**
  * @author Matija Mazi
@@ -53,7 +55,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CampBXPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -71,7 +73,8 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
     if (campbxTicker.getError() == null) {
       return CampBXAdapters.adaptTicker(campbxTicker, currency, tradableIdentifier);
-    } else {
+    }
+    else {
       logger.warn("Error calling getTicker(): {}", campbxTicker.getError());
       return null;
     }
@@ -90,7 +93,8 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
     if (campBXOrderBook.getError() == null) {
       return CampBXAdapters.adaptOrders(campBXOrderBook, currency, tradableIdentifier);
-    } else {
+    }
+    else {
       logger.warn("Error calling getFullOrderBook(): {}", campBXOrderBook.getError());
       return null;
     }
@@ -104,7 +108,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
   /**
    * Verify
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */

@@ -22,10 +22,10 @@
  */
 package com.xeiam.xchange.btce.dto.trade;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
-
-import java.util.Map;
 
 /**
  * @author Matija Mazi

@@ -21,9 +21,10 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.utils.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -70,7 +71,8 @@ public enum ExchangeFactory {
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
         exchange.applySpecification(exchange.getDefaultExchangeSpecification());
         return exchange;
-      } else {
+      }
+      else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
       }
     } catch (ClassNotFoundException e) {
@@ -105,7 +107,8 @@ public enum ExchangeFactory {
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
         exchange.applySpecification(exchangeSpecification);
         return exchange;
-      } else {
+      }
+      else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
       }
     } catch (ClassNotFoundException e) {

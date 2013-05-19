@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing a buy or sell order from Mt Gox
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

@@ -15,6 +15,15 @@
  */
 package com.xeiam.xchange.oer.service.marketdata.polling;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -31,13 +40,6 @@ import com.xeiam.xchange.oer.dto.marketdata.Rates;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * @author timmolter
@@ -57,7 +59,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public OERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -140,7 +142,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
   /**
    * Verify
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency The transaction currency (e.g. USD in BTC/USD)
    */

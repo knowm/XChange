@@ -21,6 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade.polling;
 
+import java.math.BigDecimal;
+
+import si.mazi.rescu.HmacPostBodyDigest;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -36,11 +42,6 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.HmacPostBodyDigest;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.math.BigDecimal;
 
 /**
  * @author timmolter
@@ -54,7 +55,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -78,8 +79,9 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     verify(marketOrder);
 
-    MtGoxGenericResponse mtGoxSuccess = mtGoxV1.placeOrder(exchangeSpecification.getApiKey(), paramsDigest, getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(),
-        marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
+    MtGoxGenericResponse mtGoxSuccess =
+        mtGoxV1.placeOrder(exchangeSpecification.getApiKey(), paramsDigest, getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(), marketOrder.getType().equals(
+            OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
 
     return mtGoxSuccess.getReturnString();
   }

@@ -21,15 +21,16 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import org.joda.money.BigMoney;
-
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * DTO representing the exchange order book
@@ -83,7 +84,8 @@ public final class OrderBook {
       asks.add(limitOrder); // just add it
       Collections.sort(asks); // finally sort
 
-    } else {
+    }
+    else {
 
       Iterator<LimitOrder> it = bids.iterator();
       while (it.hasNext()) {
@@ -109,7 +111,8 @@ public final class OrderBook {
     Iterator<LimitOrder> it;
     if (orderBookUpdate.getLimitOrder().getType() == OrderType.ASK) {
       it = this.asks.iterator();
-    } else {
+    }
+    else {
       it = this.bids.iterator();
     }
     while (it.hasNext()) {
@@ -135,7 +138,8 @@ public final class OrderBook {
       if (orderBookUpdate.getLimitOrder().getType() == OrderType.ASK) {
         asks.add(updatedOrder);
         Collections.sort(asks);
-      } else {
+      }
+      else {
         bids.add(updatedOrder);
         Collections.sort(bids);
       }

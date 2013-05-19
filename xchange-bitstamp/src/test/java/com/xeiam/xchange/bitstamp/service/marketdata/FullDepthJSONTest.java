@@ -21,15 +21,16 @@
  */
 package com.xeiam.xchange.bitstamp.service.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 
 /**
  * Test BitStamp Full Depth JSON parsing

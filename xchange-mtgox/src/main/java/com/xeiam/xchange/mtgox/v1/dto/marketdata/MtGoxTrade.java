@@ -47,7 +47,7 @@ public final class MtGoxTrade {
 
   /**
    * Constructor
-   *
+   * 
    * @param amountInt The amount as an integer
    * @param date The date (Unix time)
    * @param item The tradeable identifier (e.g. "BTC")
@@ -58,16 +58,9 @@ public final class MtGoxTrade {
    * @param tid Trade identifier
    * @param tradeType The trade type (bid/ask)
    */
-  public MtGoxTrade(
-    @JsonProperty("amount_int") long amountInt,
-    @JsonProperty("date") Long date,
-    @JsonProperty("item") String item,
-    @JsonProperty("price_currency") String priceCurrency,
-    @JsonProperty("price_int") long priceInt,
-    @JsonProperty("primary") String primary,
-    @JsonProperty("properties") String properties,
-    @JsonProperty("tid") long tid,
-    @JsonProperty("trade_type") String tradeType) {
+  public MtGoxTrade(@JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency,
+      @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("tid") long tid,
+      @JsonProperty("trade_type") String tradeType) {
 
     this.amountInt = amountInt;
     this.date = date;

@@ -22,12 +22,12 @@
  */
 package com.xeiam.xchange.campbx.dto.trade;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Matija Mazi <br/>

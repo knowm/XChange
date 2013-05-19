@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.utils;
 
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,7 +29,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
 
 /**
  * Based on <a href="http://iharder.sourceforge.net/current/java/base64/Base64Test.java">iHarder</a>

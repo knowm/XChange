@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v0.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author timmolter

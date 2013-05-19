@@ -21,10 +21,11 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.currency.CurrencyPair;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Test;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 public class CurrencyPairTest {
 

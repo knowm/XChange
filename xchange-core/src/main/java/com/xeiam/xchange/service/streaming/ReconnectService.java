@@ -57,7 +57,8 @@ public class ReconnectService {
         e.printStackTrace();
       }
       reconnect();
-    } else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
+    }
+    else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
       numConnectionAttempts = 0;
     }
 

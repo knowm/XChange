@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.btce.service.account.polling;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
@@ -30,8 +32,6 @@ import com.xeiam.xchange.btce.service.BTCEBasePollingService;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
-import java.math.BigDecimal;
-
 /**
  * @author Matija Mazi
  */
@@ -39,7 +39,7 @@ public class BTCEPollingAccountService extends BTCEBasePollingService implements
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEPollingAccountService(ExchangeSpecification exchangeSpecification) {

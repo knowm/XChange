@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * <p>
@@ -35,8 +35,11 @@ import java.util.Map;
  * <li>Provision of required exchangeSpecificParameters for creating an {@link Exchange}</li>
  * <li>Provision of optional exchangeSpecificParameters for additional configuration</li>
  * </ul>
- * <p>Due to the JSON annotations, you can externalise your exchange configuration as follows:</p>
+ * <p>
+ * Due to the JSON annotations, you can externalise your exchange configuration as follows:
+ * </p>
  * <code>config.yaml:</code>
+ * 
  * <pre>
  * # Mt Gox configuration
  * mtgox:
@@ -44,51 +47,65 @@ import java.util.Map;
  *   apiKey: exampleApiKey
  *   secretKey: exampleSecretKey
  *   exchangeClassName: com.xeiam.xchange.mtgox.v1.MtGoxExchange
- *
+ * 
  * # BTC-E configuration
  * btce:
  *   tradeFeePercent: 0.2
  *   apiKey: exampleApiKey
  *   secretKey: exampleSecretKey
  *   exchangeClassName: com.xeiam.xchange.btce.BTCEExchange
- *
+ * 
  * # Bitstamp configuration
  * bitstamp:
  *   tradeFeePercent: 0.5
  *   userName: exampleUser
  *   password: examplePassword
  *   exchangeClassName: com.xeiam.xchange.bitstamp.BitstampExchange
- *
+ * 
  * </pre>
- * <p>Which is used to populate a <code>Configuration</code> object:</p>
+ * <p>
+ * Which is used to populate a <code>Configuration</code> object:
+ * </p>
+ * 
  * <pre>
+ * 
  * public class Configuration {
- *
- * private ExchangeSpecification mtgox;
- * private ExchangeSpecification btce;
- * private ExchangeSpecification bitstamp;
- *
- * public ExchangeSpecification getMtgox() {
- *   return mtgox;
- * }
- *
- * public ExchangeSpecification getBtce() {
- *   return btce;
- * }
- *
- * public ExchangeSpecification getBitstamp() {
- *   return bitstamp;
- * }
- *
+ * 
+ *   private ExchangeSpecification mtgox;
+ *   private ExchangeSpecification btce;
+ *   private ExchangeSpecification bitstamp;
+ * 
+ *   public ExchangeSpecification getMtgox() {
+ * 
+ *     return mtgox;
+ *   }
+ * 
+ *   public ExchangeSpecification getBtce() {
+ * 
+ *     return btce;
+ *   }
+ * 
+ *   public ExchangeSpecification getBitstamp() {
+ * 
+ *     return bitstamp;
+ *   }
+ * 
  * }
  * </pre>
- * <p>And read it in at application startup:</p>
+ * <p>
+ * And read it in at application startup:
+ * </p>
+ * 
  * <pre>
+ * 
  * ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
- * InputStream fis = new FileInputStream("config.yaml");
+ * InputStream fis = new FileInputStream(&quot;config.yaml&quot;);
  * Configuration configuration = mapper.readValue(fis, Configuration.class);
  * </pre>
- * <p>The <code>YAMLFactory</code> requires an additional Maven dependency in your application:</p>
+ * <p>
+ * The <code>YAMLFactory</code> requires an additional Maven dependency in your application:
+ * </p>
+ * 
  * <pre>
  * {@code
  * <dependency>
@@ -144,7 +161,7 @@ public class ExchangeSpecification {
 
   /**
    * Dynamic binding
-   *
+   * 
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
   @JsonCreator
@@ -155,7 +172,7 @@ public class ExchangeSpecification {
 
   /**
    * Static binding
-   *
+   * 
    * @param exchangeClass The exchange class
    */
   public ExchangeSpecification(Class exchangeClass) {
@@ -173,7 +190,6 @@ public class ExchangeSpecification {
 
   /**
    * @param key The key into the parameter map (recommend using the provided standard static entries)
-   *
    * @return Any additional exchangeSpecificParameters that the {@link Exchange} may consume to configure services
    */
   public Object getParameter(String key) {
@@ -328,7 +344,7 @@ public class ExchangeSpecification {
 
   /**
    * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally
-   *
+   * 
    * @return The fee per trade expressed as a percentage (e.g. 0.6 is 0.6%)
    */
   public Double getTradeFeePercent() {
@@ -343,7 +359,7 @@ public class ExchangeSpecification {
 
   /**
    * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally
-   *
+   * 
    * @return The minimum fee per trade expressed in the exchange's local currency (e.g. "USD 0.25")
    */
   public String getMinTradeFee() {

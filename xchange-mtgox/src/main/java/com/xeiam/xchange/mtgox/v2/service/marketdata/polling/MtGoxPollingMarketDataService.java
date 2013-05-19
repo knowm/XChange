@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.marketdata.polling;
 
+import java.util.List;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -36,9 +40,6 @@ import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.util.List;
 
 /**
  * <p>
@@ -54,7 +55,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -113,7 +114,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
       Long sinceTimeStamp = (Long) args[0];
       // Request data
       mtGoxTrades = mtGoxV2.getTrades(tradableIdentifier, currency, "y", sinceTimeStamp);
-    } else {
+    }
+    else {
       // Request data
       mtGoxTrades = mtGoxV2.getTrades(tradableIdentifier, currency);
     }
@@ -123,7 +125,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   /**
    * Verify
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency The transaction currency (e.g. USD in BTC/USD)
    */

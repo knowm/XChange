@@ -21,6 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.JSONUtils;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
@@ -35,12 +43,6 @@ import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.JSONUtils;
-
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * @author timmolter
@@ -102,7 +104,8 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
         ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
         addToEventQueue(tickerEvent);
         break;
-      } else {
+      }
+      else {
         if (rawJSON.containsKey("trade")) {
 
           // log.debug("exchangeEvent: " + exchangeEvent.getEventType());
@@ -119,7 +122,8 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);
           addToEventQueue(tradeEvent);
           break;
-        } else {
+        }
+        else {
           if (rawJSON.containsKey("depth")) {
 
             // Get MtGoxDepthStream from JSON String
@@ -132,7 +136,8 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
             ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), orderBookUpdate);
             addToEventQueue(depthEvent);
             break;
-          } else {
+          }
+          else {
             // log.debug("MtGox operational message: " + exchangeEvent.getData());
             addToEventQueue(exchangeEvent);
           }

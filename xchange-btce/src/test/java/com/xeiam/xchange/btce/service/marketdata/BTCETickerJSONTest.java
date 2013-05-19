@@ -21,10 +21,7 @@
  */
 package com.xeiam.xchange.btce.service.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
-import com.xeiam.xchange.utils.DateUtils;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +29,11 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Test BTCETicker JSON parsing

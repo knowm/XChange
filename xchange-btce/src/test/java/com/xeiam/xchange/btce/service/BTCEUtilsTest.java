@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.btce.service;
 
-import com.xeiam.xchange.btce.BTCEUtils;
-import com.xeiam.xchange.currency.CurrencyPair;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Test;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.xeiam.xchange.btce.BTCEUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Test class for BTCEUtils class

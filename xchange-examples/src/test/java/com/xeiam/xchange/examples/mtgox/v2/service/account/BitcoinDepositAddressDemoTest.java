@@ -22,9 +22,10 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
-import com.xeiam.xchange.OnlineTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demo requesting account info at MtGox

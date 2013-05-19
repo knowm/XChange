@@ -22,6 +22,17 @@
  */
 package com.xeiam.xchange.bitstamp.service.trade.polling;
 
+import static com.xeiam.xchange.dto.Order.OrderType.ASK;
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitStamp;
@@ -31,15 +42,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.xeiam.xchange.dto.Order.OrderType.ASK;
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author Matija Mazi
@@ -50,7 +52,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -82,7 +84,8 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
     BitstampOrder ord;
     if (limitOrder.getType() == BID) {
       ord = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
-    } else {
+    }
+    else {
       ord = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     return Integer.toString(ord.getId());

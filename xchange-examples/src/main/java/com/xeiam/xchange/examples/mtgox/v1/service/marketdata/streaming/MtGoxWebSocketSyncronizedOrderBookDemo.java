@@ -21,6 +21,11 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.streaming;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -36,15 +41,10 @@ import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 /**
  * Demonstrate streaming market data from the MtGox Websocket API
  * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated
@@ -132,14 +132,16 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
               if (MarketDataRunnable.book.getAsks().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getAsk()) != 0) {
                 System.out.println("ERROR IN ORDERBOOK (ASKS) -> BOOK PRICE:" + MarketDataRunnable.book.getAsks().get(0).getLimitPrice().getAmount().doubleValue() + " TICKER PRICE:"
                     + MarketDataRunnable.lastTicker.getAsk().getAmount().doubleValue());
-              } else {
+              }
+              else {
                 System.out.println("ASKS BOOK OK!! " + MarketDataRunnable.lastTicker.getAsk().getAmount().doubleValue());
               }
 
               if (MarketDataRunnable.book.getBids().get(0).getLimitPrice().compareTo(MarketDataRunnable.lastTicker.getBid()) != 0) {
                 System.out.println("ERROR IN ORDERBOOK (BIDS) -> -> BOOK_PRICE:" + MarketDataRunnable.book.getBids().get(0).getLimitPrice().getAmount().doubleValue() + " TICKER_PRICE:"
                     + MarketDataRunnable.lastTicker.getBid().getAmount().doubleValue());
-              } else {
+              }
+              else {
                 System.out.println("BIDS BOOK OK!! " + MarketDataRunnable.lastTicker.getBid().getAmount().doubleValue());
               }
             }

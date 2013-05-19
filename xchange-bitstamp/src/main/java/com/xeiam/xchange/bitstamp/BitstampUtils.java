@@ -22,14 +22,14 @@
  */
 package com.xeiam.xchange.bitstamp;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bitstamp properties

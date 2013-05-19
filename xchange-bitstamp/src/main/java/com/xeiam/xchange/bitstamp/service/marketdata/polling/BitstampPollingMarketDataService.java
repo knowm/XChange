@@ -22,6 +22,10 @@
  */
 package com.xeiam.xchange.bitstamp.service.marketdata.polling;
 
+import java.util.List;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitStamp;
@@ -37,9 +41,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.util.List;
 
 /**
  * @author Matija Mazi
@@ -50,7 +51,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitstampPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -98,7 +99,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
   /**
    * Verify
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency The transaction currency (e.g. USD in BTC/USD)
    */

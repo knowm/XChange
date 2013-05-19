@@ -21,12 +21,13 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import org.joda.money.BigMoney;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Data object representing a Market Depth update

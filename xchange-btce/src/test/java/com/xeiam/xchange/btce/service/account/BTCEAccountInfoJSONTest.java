@@ -21,15 +21,16 @@
  */
 package com.xeiam.xchange.btce.service.account;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
 
 /**
  * Test BTCEDepth JSON parsing

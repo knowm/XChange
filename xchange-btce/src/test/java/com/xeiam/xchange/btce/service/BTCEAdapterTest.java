@@ -21,6 +21,15 @@
  */
 package com.xeiam.xchange.btce.service;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
@@ -34,14 +43,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Tests the BTCEAdapter class

@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.examples.bitstamp.trade;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -29,8 +31,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-
-import java.math.BigDecimal;
 
 /**
  * <p>

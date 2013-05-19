@@ -21,6 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
 
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.JSONUtils;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
@@ -40,12 +48,6 @@ import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.JSONUtils;
-
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * @author timmolter
@@ -98,26 +100,30 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           ExchangeEvent userOrderEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER, exchangeEvent.getData(), order);
           addToEventQueue(userOrderEvent);
           break;
-        } else if ("lag".equals(priv)) {
+        }
+        else if ("lag".equals(priv)) {
           MtGoxTradeLag lag = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("lag"), streamObjectMapper), MtGoxTradeLag.class, streamObjectMapper);
           ExchangeEvent lagEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE_LAG, exchangeEvent.getData(), lag);
           addToEventQueue(lagEvent);
           break;
-        } else if ("wallet".equals(priv)) {
+        }
+        else if ("wallet".equals(priv)) {
           MtGoxWalletUpdate walletUpdate = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("wallet"), streamObjectMapper), MtGoxWalletUpdate.class, streamObjectMapper);
           ExchangeEvent walletUpdateEvent = new DefaultExchangeEvent(ExchangeEventType.USER_WALLET_UPDATE, exchangeEvent.getData(), walletUpdate);
           addToEventQueue(walletUpdateEvent);
           break;
         }
 
-      } else if ("result".equals(operation)) {
+      }
+      else if ("result".equals(operation)) {
         String id = (String) rawJSON.get("id");
 
         if ("idkey".equals(id)) {
           ExchangeEvent idEvent = new DefaultExchangeEvent(ExchangeEventType.PRIVATE_ID_KEY, null, rawJSON.get("result"));
           addToEventQueue(idEvent);
           break;
-        } else if ("orders".equals(id)) {
+        }
+        else if ("orders".equals(id)) {
           MtGoxOpenOrder[] orders = null;
 
           if (rawJSON.get("result") != null) {
@@ -128,25 +134,29 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           addToEventQueue(ordersEvent);
           break;
 
-        } else if ("info".equals(id)) {
+        }
+        else if ("info".equals(id)) {
           MtGoxAccountInfo accountInfo = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxAccountInfo.class, streamObjectMapper);
           ExchangeEvent accountInfoEvent = new DefaultExchangeEvent(ExchangeEventType.ACCOUNT_INFO, exchangeEvent.getData(), accountInfo);
           addToEventQueue(accountInfoEvent);
           break;
 
-        } else if (id.startsWith("order_add")) {
+        }
+        else if (id.startsWith("order_add")) {
           ExchangeEvent userOrderAddedEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_ADDED, exchangeEvent.getData(), rawJSON.get("result"));
           addToEventQueue(userOrderAddedEvent);
           break;
 
-        } else if (id.startsWith("order_cancel")) {
+        }
+        else if (id.startsWith("order_cancel")) {
           MtGoxOrderCanceled orderCanceled = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOrderCanceled.class, streamObjectMapper);
           ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_CANCELED, exchangeEvent.getData(), orderCanceled);
           addToEventQueue(userOrderCanceledEvent);
           break;
         }
 
-      } else if ("remark".equals(operation)) {
+      }
+      else if ("remark".equals(operation)) {
         System.out.println("Msg from server: " + rawJSON.toString());
         break;
       }
@@ -164,7 +174,8 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
         ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
         addToEventQueue(tickerEvent);
         break;
-      } else {
+      }
+      else {
         if (rawJSON.containsKey("trade")) {
 
           // log.debug("exchangeEvent: " + exchangeEvent.getEventType());
@@ -179,7 +190,8 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);
           addToEventQueue(tradeEvent);
           break;
-        } else {
+        }
+        else {
           if (rawJSON.containsKey("depth")) {
 
             // Get MtGoxDepthStream from JSON String
@@ -192,7 +204,8 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
             ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), orderBookUpdate);
             addToEventQueue(depthEvent);
             break;
-          } else {
+          }
+          else {
 
             log.debug("MtGox operational message");
             System.out.println("msg: " + rawJSON.toString());

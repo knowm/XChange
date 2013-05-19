@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.oer;
 
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.CurrencyPair;
-
 import java.util.Arrays;
 import java.util.List;
+
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared OER properties

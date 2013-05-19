@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.campbx;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-
 import java.util.Arrays;
 import java.util.List;
+
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared CampBX properties

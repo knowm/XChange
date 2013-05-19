@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.mtgox.v2.dto.account.polling;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.mtgox.v2.dto.MtGoxValue;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxValue;
 
 /**
  * Data object representing Account Info from Mt Gox

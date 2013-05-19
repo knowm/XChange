@@ -21,16 +21,17 @@
  */
 package com.xeiam.xchange.utils;
 
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
-import org.joda.money.BigMoney;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Fail.fail;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Fail.fail;
+import org.joda.money.BigMoney;
+import org.junit.Test;
+
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
 
 /**
  * Test class for testing MoneyUtils methods

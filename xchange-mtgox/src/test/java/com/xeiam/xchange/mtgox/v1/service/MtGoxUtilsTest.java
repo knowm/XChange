@@ -21,18 +21,19 @@
  */
 package com.xeiam.xchange.mtgox.v1.service;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.mtgox.MtGoxUtils;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.joda.money.BigMoney;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 
 /**
  * Test class for MtGoxUtils class
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

@@ -21,9 +21,10 @@
  */
 package com.xeiam.xchange.service.streaming;
 
-import com.xeiam.xchange.ExchangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.xeiam.xchange.ExchangeException;
 
 /**
  * <p>

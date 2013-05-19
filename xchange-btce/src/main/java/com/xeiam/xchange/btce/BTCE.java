@@ -22,13 +22,13 @@
  */
 package com.xeiam.xchange.btce;
 
-import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
-import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+
+import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
+import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
 
 /**
  * @author Matija Mazi

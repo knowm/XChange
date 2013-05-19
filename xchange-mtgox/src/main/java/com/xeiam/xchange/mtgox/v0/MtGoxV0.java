@@ -21,13 +21,19 @@
  */
 package com.xeiam.xchange.mtgox.v0;
 
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+
+import si.mazi.rescu.ParamsDigest;
+
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
-import si.mazi.rescu.ParamsDigest;
-
-import javax.ws.rs.*;
 
 /**
  * @author timmolter
@@ -52,6 +58,7 @@ public interface MtGoxV0 {
 
   @POST
   @Path("cancelOrder.php")
-  MtGoxCancelOrder cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @FormParam("oid") String orderId);
+  MtGoxCancelOrder
+      cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @FormParam("oid") String orderId);
 
 }

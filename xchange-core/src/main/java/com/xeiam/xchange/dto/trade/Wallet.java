@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.dto.trade;
 
+import java.math.BigDecimal;
+
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
-
-import java.math.BigDecimal;
 
 /**
  * <p>
@@ -105,14 +105,16 @@ public final class Wallet {
       if (other.balance != null) {
         return false;
       }
-    } else if (!balance.equals(other.balance)) {
+    }
+    else if (!balance.equals(other.balance)) {
       return false;
     }
     if (currency == null) {
       if (other.currency != null) {
         return false;
       }
-    } else if (!currency.equals(other.currency)) {
+    }
+    else if (!currency.equals(other.currency)) {
       return false;
     }
     return true;

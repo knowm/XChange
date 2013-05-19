@@ -1,8 +1,8 @@
 package com.xeiam.xchange.campbx.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi <br/>

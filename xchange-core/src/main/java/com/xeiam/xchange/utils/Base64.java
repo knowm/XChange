@@ -211,7 +211,7 @@ public class Base64 {
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, // Decimal 218 - 230
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, // Decimal 231 - 243
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9 // Decimal 244 - 255
-  };
+      };
 
   /* ******** U R L S A F E B A S E 6 4 A L P H A B E T ******** */
 
@@ -263,7 +263,7 @@ public class Base64 {
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, // Decimal 218 - 230
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, // Decimal 231 - 243
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9 // Decimal 244 - 255
-  };
+      };
 
   /* ******** O R D E R E D B A S E 6 4 A L P H A B E T ******** */
 
@@ -314,7 +314,7 @@ public class Base64 {
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, // Decimal 218 - 230
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, // Decimal 231 - 243
       -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9, -9 // Decimal 244 - 255
-  };
+      };
 
   /* ******** D E T E R M I N E W H I C H A L H A B E T ******** */
 
@@ -326,9 +326,11 @@ public class Base64 {
 
     if ((options & URL_SAFE) == URL_SAFE) {
       return _URL_SAFE_ALPHABET;
-    } else if ((options & ORDERED) == ORDERED) {
+    }
+    else if ((options & ORDERED) == ORDERED) {
       return _ORDERED_ALPHABET;
-    } else {
+    }
+    else {
       return _STANDARD_ALPHABET;
     }
   } // end getAlphabet
@@ -341,9 +343,11 @@ public class Base64 {
 
     if ((options & URL_SAFE) == URL_SAFE) {
       return _URL_SAFE_DECODABET;
-    } else if ((options & ORDERED) == ORDERED) {
+    }
+    else if ((options & ORDERED) == ORDERED) {
       return _ORDERED_DECODABET;
-    } else {
+    }
+    else {
       return _STANDARD_DECODABET;
     }
   } // end getAlphabet
@@ -406,8 +410,8 @@ public class Base64 {
     // significant bytes passed in the array.
     // We have to shift left 24 in order to flush out the 1's that appear
     // when Java treats a value as negative that is cast from a byte to an int.
-    int inBuff = (numSigBytes > 0 ? ((source[srcOffset] << 24) >>> 8) : 0) | (numSigBytes > 1 ? ((source[srcOffset + 1] << 24) >>> 16) : 0)
-        | (numSigBytes > 2 ? ((source[srcOffset + 2] << 24) >>> 24) : 0);
+    int inBuff =
+        (numSigBytes > 0 ? ((source[srcOffset] << 24) >>> 8) : 0) | (numSigBytes > 1 ? ((source[srcOffset + 1] << 24) >>> 16) : 0) | (numSigBytes > 2 ? ((source[srcOffset + 2] << 24) >>> 24) : 0);
 
     switch (numSigBytes) {
     case 3:
@@ -546,7 +550,8 @@ public class Base64 {
         // Gzip
         gzos = new java.util.zip.GZIPOutputStream(b64os);
         oos = new java.io.ObjectOutputStream(gzos);
-      } else {
+      }
+      else {
         // Not gzipped
         oos = new java.io.ObjectOutputStream(b64os);
       }
@@ -856,7 +861,8 @@ public class Base64 {
         System.arraycopy(outBuff, 0, finalOut, 0, e);
         // System.err.println("Having to resize array from " + outBuff.length + " to " + e );
         return finalOut;
-      } else {
+      }
+      else {
         // System.err.println("No need to resize array.");
         return outBuff;
       }
@@ -934,8 +940,9 @@ public class Base64 {
       // | ( ( DECODABET[ source[ srcOffset + 1 ] ] << 24 ) >>> 12 )
       // | ( ( DECODABET[ source[ srcOffset + 2 ] ] << 24 ) >>> 18 )
       // | ( ( DECODABET[ source[ srcOffset + 3 ] ] << 24 ) >>> 24 );
-      int outBuff = ((DECODABET[source[srcOffset]] & 0xFF) << 18) | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12) | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6)
-          | ((DECODABET[source[srcOffset + 3]] & 0xFF));
+      int outBuff =
+          ((DECODABET[source[srcOffset]] & 0xFF) << 18) | ((DECODABET[source[srcOffset + 1]] & 0xFF) << 12) | ((DECODABET[source[srcOffset + 2]] & 0xFF) << 6)
+              | ((DECODABET[source[srcOffset + 3]] & 0xFF));
 
       destination[destOffset] = (byte) (outBuff >> 16);
       destination[destOffset + 1] = (byte) (outBuff >> 8);
@@ -990,7 +997,8 @@ public class Base64 {
 
     if (len == 0) {
       return new byte[0];
-    } else if (len < 4) {
+    }
+    else if (len < 4) {
       throw new IllegalArgumentException("Base64-encoded string must have at least four characters, but length specified was " + len);
     } // end if
 
@@ -1185,7 +1193,8 @@ public class Base64 {
             Class c = Class.forName(streamClass.getName(), false, loader);
             if (c == null) {
               return super.resolveClass(streamClass);
-            } else {
+            }
+            else {
               return c; // Class loader knows of this class.
             } // end else: not null
           } // end resolveClass
@@ -1523,7 +1532,8 @@ public class Base64 {
             if (b >= 0) {
               b3[i] = (byte) b;
               numBinaryBytes++;
-            } else {
+            }
+            else {
               break; // out of for loop
             } // end else: end of stream
 
@@ -1624,9 +1634,11 @@ public class Base64 {
 
         if (b >= 0) {
           dest[off + i] = (byte) b;
-        } else if (i == 0) {
+        }
+        else if (i == 0) {
           return -1;
-        } else {
+        }
+        else {
           break; // Out of 'for' loop
         } // Out of 'for' loop
       } // end for: each byte read

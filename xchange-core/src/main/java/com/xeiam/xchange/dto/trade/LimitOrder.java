@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.dto.trade;
 
-import com.xeiam.xchange.dto.Order;
-import org.joda.money.BigMoney;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.dto.Order;
 
 /**
  * <p>

@@ -21,14 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.account.polling;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponse;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponse;
 
 /**
  * Test MtGoxWithdrawalResponse JSON parsing

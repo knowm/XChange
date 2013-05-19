@@ -21,6 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.trade.polling;
 
+import java.math.BigDecimal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -37,12 +45,6 @@ import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.math.BigDecimal;
 
 /**
  * @author timmolter
@@ -56,7 +58,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -75,7 +77,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     if (mtGoxOpenOrderWrapper.getResult().equals("success")) {
       return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrderWrapper.getMtGoxOpenOrders()));
-    } else if (mtGoxOpenOrderWrapper.getResult().equals("error")) {
+    }
+    else if (mtGoxOpenOrderWrapper.getResult().equals("error")) {
       logger.warn("Error calling getOpenOrders(): {}", mtGoxOpenOrderWrapper.getError());
     }
     return null;
@@ -86,13 +89,14 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     verify(marketOrder);
 
-    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), marketOrder.getTradableIdentifier(), marketOrder
-        .getTransactionCurrency(), marketOrder.getType().equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(
-        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
+    MtGoxGenericResponse mtGoxGenericResponse =
+        mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(), marketOrder.getType()
+            .equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
 
     if (mtGoxGenericResponse.getResult().equals("success")) {
       return mtGoxGenericResponse.getDataString();
-    } else if (mtGoxGenericResponse.getResult().equals("error")) {
+    }
+    else if (mtGoxGenericResponse.getResult().equals("error")) {
       logger.warn("Error calling placeMarketOrder(): {}", mtGoxGenericResponse.getError());
     }
     return null;
@@ -117,7 +121,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     if (mtGoxGenericResponse.getResult().equals("success")) {
       return mtGoxGenericResponse.getDataString();
-    } else if (mtGoxGenericResponse.getResult().equals("error")) {
+    }
+    else if (mtGoxGenericResponse.getResult().equals("error")) {
       logger.warn("Error calling placeLimitOrder(): {}", mtGoxGenericResponse.getError());
     }
     return null;
@@ -133,7 +138,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     logger.info(mtGoxGenericResponse.toString());
     if (mtGoxGenericResponse.getResult().equals("success")) {
       return true;
-    } else if (mtGoxGenericResponse.getResult().equals("error")) {
+    }
+    else if (mtGoxGenericResponse.getResult().equals("error")) {
       logger.warn("Error calling cancelOrder(): {}", mtGoxGenericResponse.getError());
     }
     return false;

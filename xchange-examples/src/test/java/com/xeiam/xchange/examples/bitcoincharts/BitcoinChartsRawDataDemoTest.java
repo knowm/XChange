@@ -22,9 +22,10 @@
  */
 package com.xeiam.xchange.examples.bitcoincharts;
 
-import com.xeiam.xchange.OnlineTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
 
 /**
  * Demonstrates using the REST proxy to get the raw deserialized JSON object from BitcoinCharts

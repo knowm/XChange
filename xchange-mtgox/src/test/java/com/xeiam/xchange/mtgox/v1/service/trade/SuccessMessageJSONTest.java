@@ -21,19 +21,20 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.trade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 
 /**
  * Test MtGoxGenericResponse JSON parsing
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

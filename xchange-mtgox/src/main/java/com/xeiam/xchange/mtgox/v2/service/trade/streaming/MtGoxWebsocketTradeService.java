@@ -21,6 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
@@ -28,12 +35,6 @@ import com.xeiam.xchange.service.streaming.BaseWebSocketExchangeService;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>
@@ -61,7 +62,7 @@ public class MtGoxWebsocketTradeService extends BaseWebSocketExchangeService imp
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxWebsocketTradeService(ExchangeSpecification exchangeSpecification, MtGoxStreamingConfiguration configuration) {

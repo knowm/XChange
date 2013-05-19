@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
+import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -28,13 +32,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import org.joda.money.BigMoney;
-
-import java.math.BigDecimal;
 
 /**
  * Test placing a limit order at MtGox
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

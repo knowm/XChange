@@ -41,7 +41,7 @@ public abstract class BaseExchangeService {
 
   /**
    * Constructor Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   protected BaseExchangeService(ExchangeSpecification exchangeSpecification) {

@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.virtex.service.marketdata.polling;
 
+import java.util.List;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -37,9 +41,6 @@ import com.xeiam.xchange.virtex.VirtExUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.util.List;
 
 /**
  * <p>
@@ -55,7 +56,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public VirtExPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -111,7 +112,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
 
   /**
    * Verify
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */

@@ -21,13 +21,12 @@
  */
 package com.xeiam.xchange.utils;
 
-
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Fail.fail;
 
 import java.util.Arrays;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Fail.fail;
+import org.junit.Test;
 
 /**
  * Test class for testing various Assert methods

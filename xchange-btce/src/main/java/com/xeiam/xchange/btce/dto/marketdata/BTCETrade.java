@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.btce.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * <p>

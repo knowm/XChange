@@ -22,12 +22,13 @@
  */
 package com.xeiam.xchange.btce.service;
 
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Matija Mazi
@@ -67,9 +68,11 @@ public class BTCEBasePollingService {
 
     if (!info.isSuccess()) {
       throw new ExchangeException("BTCE returned an error: " + info.getError());
-    } else if (info.getReturnValue() == null) {
+    }
+    else if (info.getReturnValue() == null) {
       throw new ExchangeException("Didn't recieve any return value. Message: " + info.getError());
-    } else if (info.getError() != null) {
+    }
+    else if (info.getError() != null) {
       throw new ExchangeException("Got error message: " + info.getError());
     }
   }

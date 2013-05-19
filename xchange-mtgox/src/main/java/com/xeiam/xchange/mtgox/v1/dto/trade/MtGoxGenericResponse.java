@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 
 /**
  * Data object representing a response message from Mt Gox after placing and order
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

@@ -22,16 +22,17 @@
  */
 package com.xeiam.xchange.btce.service;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocationParams;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestInvocationParams;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably

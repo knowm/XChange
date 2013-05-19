@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
-import java.math.BigDecimal;
-
 /**
  * Demo requesting account info at MtGox
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

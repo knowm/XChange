@@ -22,6 +22,18 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.CambBXUtils;
 import com.xeiam.xchange.campbx.CampBX;
@@ -34,16 +46,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Matija Mazi
@@ -57,7 +59,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CampBXPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -76,14 +78,16 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
     for (CampBXOrder cbo : openOrders.getBuy()) {
       if (cbo.isError() || cbo.isInfo()) {
         log.debug("Skipping non-order in Buy: " + cbo);
-      } else {
+      }
+      else {
         orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
       }
     }
     for (CampBXOrder cbo : openOrders.getSell()) {
       if (cbo.isError() || cbo.isInfo()) {
         log.debug("Skipping non-order in Sell: " + cbo);
-      } else {
+      }
+      else {
         orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
       }
     }
@@ -94,8 +98,8 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   public String placeMarketOrder(MarketOrder marketOrder) {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
-    CampBXResponse result = campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market,
-        null, null, null);
+    CampBXResponse result =
+        campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market, null, null, null);
     log.debug("result = {}", result);
     CambBXUtils.handleError(result);
     return composeOrderId(result.getSuccess(), marketOrder.getType());

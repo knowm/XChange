@@ -21,6 +21,15 @@
  */
 package com.xeiam.xchange.virtex.service;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -34,14 +43,6 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExDepthJSONTest;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExTickerJSONTest;
 import com.xeiam.xchange.virtex.service.marketdata.VirtExTradesJSONTest;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Tests the VirtExAdapter class

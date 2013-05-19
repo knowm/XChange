@@ -21,20 +21,22 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.utils.Base64;
-import org.joda.money.BigMoney;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.joda.money.BigMoney;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
+import com.xeiam.xchange.utils.Base64;
 
 /**
  * @author macarse

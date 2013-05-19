@@ -52,7 +52,8 @@ public abstract class BaseExchange implements Exchange {
     // Check if default is for everything
     if (exchangeSpecification == null) {
       this.exchangeSpecification = defaultSpecification;
-    } else {
+    }
+    else {
       // Using a configured exchange
       if (exchangeSpecification.getExchangeName() == null) {
         exchangeSpecification.setExchangeName(defaultSpecification.getExchangeName());

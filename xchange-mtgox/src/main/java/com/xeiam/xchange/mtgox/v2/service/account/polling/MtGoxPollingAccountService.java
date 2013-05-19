@@ -21,6 +21,14 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.account.polling;
 
+import java.math.BigDecimal;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
@@ -33,12 +41,6 @@ import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
 import com.xeiam.xchange.service.account.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.math.BigDecimal;
 
 /**
  * <p>
@@ -60,7 +62,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingAccountService(ExchangeSpecification exchangeSpecification) {
@@ -78,7 +80,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
     MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
     if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
       return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
-    } else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
+    }
+    else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
       logger.warn("Error calling getAccountInfo(): {}", mtGoxAccountInfoWrapper.getError());
     }
     return null;
@@ -87,12 +90,14 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    MtGoxWithdrawalResponseWrapper mtGoxWithdrawalResponseWrapper = mtGoxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(
-        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
+    MtGoxWithdrawalResponseWrapper mtGoxWithdrawalResponseWrapper =
+        mtGoxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR))
+            .intValue(), 1, false, false);
 
     if (mtGoxWithdrawalResponseWrapper.getResult().equals("success")) {
       return mtGoxWithdrawalResponseWrapper.getMtGoxWithdrawalResponse().getTransactionId();
-    } else if (mtGoxWithdrawalResponseWrapper.getResult().equals("error")) {
+    }
+    else if (mtGoxWithdrawalResponseWrapper.getResult().equals("error")) {
       logger.warn("Error calling withdrawFunds(): {}", mtGoxWithdrawalResponseWrapper.getError());
     }
     return null;
@@ -103,11 +108,12 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     String description = arguments[0];
     String notificationUrl = arguments[1];
-    MtGoxBitcoinDepositAddressWrapper mtGoxBitcoinDepositAddressWrapper = mtGoxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description,
-        notificationUrl);
+    MtGoxBitcoinDepositAddressWrapper mtGoxBitcoinDepositAddressWrapper =
+        mtGoxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description, notificationUrl);
     if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("success")) {
       return mtGoxBitcoinDepositAddressWrapper.getMtGoxBitcoinDepositAddress().getAddres();
-    } else if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("error")) {
+    }
+    else if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("error")) {
       logger.warn("Error requestBitcoinDepositAddress getAccountInfo(): {}", mtGoxBitcoinDepositAddressWrapper.getError());
     }
     return null;

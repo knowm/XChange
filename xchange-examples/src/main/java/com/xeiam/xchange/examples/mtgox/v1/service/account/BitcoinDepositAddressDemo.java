@@ -27,7 +27,7 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
 
 /**
  * Demo requesting account info at MtGox
- *
+ * 
  * @deprecated Use V2! This will be removed in 1.8.0+
  */
 @Deprecated

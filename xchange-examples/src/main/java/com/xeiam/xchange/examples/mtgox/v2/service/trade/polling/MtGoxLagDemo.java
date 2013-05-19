@@ -21,12 +21,13 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
-import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author timmolter

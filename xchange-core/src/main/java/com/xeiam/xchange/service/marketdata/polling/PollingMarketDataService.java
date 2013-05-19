@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.service.marketdata.polling;
 
+import java.util.List;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-
-import java.util.List;
 
 /**
  * <p>

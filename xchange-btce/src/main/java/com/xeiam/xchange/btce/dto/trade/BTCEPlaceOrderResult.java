@@ -22,11 +22,11 @@
  */
 package com.xeiam.xchange.btce.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi

@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.btce.service.trade.polling;
 
+import java.util.ArrayList;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
@@ -39,14 +41,12 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
-import java.util.ArrayList;
-
 /** @author Matija Mazi */
 public class BTCEPollingTradeService extends BTCEBasePollingService implements PollingTradeService {
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEPollingTradeService(ExchangeSpecification exchangeSpecification) {

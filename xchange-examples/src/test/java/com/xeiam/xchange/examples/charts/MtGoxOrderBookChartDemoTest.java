@@ -22,10 +22,11 @@
  */
 package com.xeiam.xchange.examples.charts;
 
-import com.xeiam.xchange.OnlineTest;
-import com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling.MtGoxOrderBookChartDemo;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import com.xeiam.xchange.OnlineTest;
+import com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling.MtGoxOrderBookChartDemo;
 
 /**
  * Demonstrates plotting an OrderBook with XChart

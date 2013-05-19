@@ -22,10 +22,11 @@
  */
 package com.xeiam.xchange.campbx.service.marketdata.polling;
 
-import com.xeiam.xchange.campbx.CampBX;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Test;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.xeiam.xchange.campbx.CampBX;
 
 /**
  * @author Matija Mazi <br/>

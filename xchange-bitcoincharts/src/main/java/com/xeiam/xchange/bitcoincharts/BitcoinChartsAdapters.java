@@ -21,14 +21,15 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.joda.money.BigMoney;
+
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
-import org.joda.money.BigMoney;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Various adapters for converting from BitcoinCharts DTOs to XChange DTOs

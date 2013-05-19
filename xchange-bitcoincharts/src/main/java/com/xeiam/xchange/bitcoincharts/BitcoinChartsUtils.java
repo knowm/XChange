@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.CurrencyPair;
-
 import java.util.Arrays;
 import java.util.List;
+
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared BitcoinCharts properties

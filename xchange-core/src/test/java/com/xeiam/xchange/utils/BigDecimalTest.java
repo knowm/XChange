@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.utils;
 
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
 
 /**
  * Tests various BigMoney and BigDecimal behavior

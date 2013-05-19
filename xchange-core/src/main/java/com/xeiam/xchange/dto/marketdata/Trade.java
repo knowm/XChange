@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
-import com.xeiam.xchange.dto.Order.OrderType;
-import org.joda.money.BigMoney;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Data object representing a Trade
@@ -134,9 +135,11 @@ public final class Trade implements Comparable<Trade> {
 
     if (this.getTimestamp().before(trade.getTimestamp())) {
       return -1;
-    } else if (this.getTimestamp().after(trade.getTimestamp())) {
+    }
+    else if (this.getTimestamp().after(trade.getTimestamp())) {
       return 1;
-    } else {
+    }
+    else {
       return 0;
     }
   }

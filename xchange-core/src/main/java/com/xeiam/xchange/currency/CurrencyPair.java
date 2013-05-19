@@ -136,14 +136,16 @@ public class CurrencyPair {
       if (other.baseCurrency != null) {
         return false;
       }
-    } else if (!baseCurrency.equals(other.baseCurrency)) {
+    }
+    else if (!baseCurrency.equals(other.baseCurrency)) {
       return false;
     }
     if (counterCurrency == null) {
       if (other.counterCurrency != null) {
         return false;
       }
-    } else if (!counterCurrency.equals(other.counterCurrency)) {
+    }
+    else if (!counterCurrency.equals(other.counterCurrency)) {
       return false;
     }
     return true;

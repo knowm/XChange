@@ -35,7 +35,7 @@ public abstract class BasePollingExchangeService extends BaseExchangeService {
 
   /**
    * Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {

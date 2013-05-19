@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.btce.service.marketdata.polling;
 
+import java.util.List;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.BTCE;
@@ -36,9 +40,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.util.List;
 
 /**
  * <p>
@@ -103,7 +104,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
   /**
    * Verify
-   *
+   * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */

@@ -21,15 +21,16 @@
  */
 package com.xeiam.xchange.mtgox;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.currency.MoneyUtils;
-import org.joda.money.BigMoney;
-
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
+
+import org.joda.money.BigMoney;
+
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.currency.MoneyUtils;
 
 /**
  * A central place for shared Mt Gox properties
@@ -113,7 +114,8 @@ public final class MtGoxUtils {
 
     if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
       return price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    } else { // JPY, SEK
+    }
+    else { // JPY, SEK
       return price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
     }
   }
@@ -129,7 +131,8 @@ public final class MtGoxUtils {
 
     if (!(currency.equals("JPY") || currency.equals("SEK"))) {
       return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
-    } else { // JPY
+    }
+    else { // JPY
       return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)));
     }
   }

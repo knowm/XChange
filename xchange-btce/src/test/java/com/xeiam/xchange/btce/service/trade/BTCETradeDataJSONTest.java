@@ -21,10 +21,7 @@
  */
 package com.xeiam.xchange.btce.service.trade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
-import com.xeiam.xchange.btce.dto.trade.*;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +29,16 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
+import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderResult;
+import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderReturn;
+import com.xeiam.xchange.btce.dto.trade.BTCEOpenOrdersReturn;
+import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
+import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
 
 /**
  * Test BTCEDepth JSON parsing
