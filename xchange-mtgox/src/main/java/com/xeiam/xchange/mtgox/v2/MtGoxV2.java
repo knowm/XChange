@@ -38,7 +38,7 @@ import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddress
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponseWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrderWrapper;
@@ -66,12 +66,12 @@ public interface MtGoxV2 {
   MtGoxDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("{ident}{currency}/money/trades/fetch?raw")
-  MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  @Path("{ident}{currency}/money/trades/fetch")
+  MtGoxTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
   @GET
-  @Path("{ident}{currency}/money/trades/fetch?raw")
-  MtGoxTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("raw") String raw, @QueryParam("since") long since);
+  @Path("{ident}{currency}/money/trades/fetch")
+  MtGoxTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long since);
 
   // Account Info API
 

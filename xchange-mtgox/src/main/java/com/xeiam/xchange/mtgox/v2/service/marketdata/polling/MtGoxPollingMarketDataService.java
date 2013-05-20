@@ -36,7 +36,7 @@ import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
@@ -109,18 +109,18 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
-    MtGoxTrade[] mtGoxTrades = null;
+    MtGoxTradesWrapper mtGoxTrades = null;
     if (args.length > 0) {
       Long sinceTimeStamp = (Long) args[0];
       // Request data
-      mtGoxTrades = mtGoxV2.getTrades(tradableIdentifier, currency, "y", sinceTimeStamp);
+      mtGoxTrades = mtGoxV2.getTrades(tradableIdentifier, currency, sinceTimeStamp);
     }
     else {
       // Request data
       mtGoxTrades = mtGoxV2.getTrades(tradableIdentifier, currency);
     }
 
-    return MtGoxAdapters.adaptTrades(mtGoxTrades);
+    return MtGoxAdapters.adaptTrades(mtGoxTrades.getMtGoxTrades());
   }
 
   /**
