@@ -105,8 +105,8 @@ public class MtGoxWebSocketTradeDemo {
     @Override
     public void run() {
 
-      // Put ("api_key", "secret")
-      SocketMsgFactory socketMsgFactory = new SocketMsgFactory(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey());
+      SocketMsgFactory socketMsgFactory = new SocketMsgFactory(exchange.getExchangeSpecification().getApiKey(),
+        exchange.getExchangeSpecification().getSecretKey(), Currencies.USD);
 
       try {
         while (true) {

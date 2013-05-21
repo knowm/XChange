@@ -45,21 +45,31 @@ public class SocketMsgFactory {
 
   private final String apiKey;
   private final String apiSecret;
+  private String currency;
 
   /**
    * Constructor
    * 
    * @param apiKey
    * @param apiSecret
+   * @param currency
    */
-  public SocketMsgFactory(String apiKey, String apiSecret) {
+  public SocketMsgFactory(String apiKey, String apiSecret, String currency) {
 
     if (apiKey == null || apiSecret == null || apiKey.length() == 0 || apiSecret.length() == 0) {
       throw new IllegalArgumentException("mtgox api key and/or secret is missing");
     }
 
+    if ( apiKey == null || apiSecret == null || currency == null ||
+      apiKey.length() == 0 || apiSecret.length() == 0  ||
+      currency.length() == 0) {
+        throw new IllegalArgumentException("mtgox api key, secret and or currency is missing");
+    }
+
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
+    this.currency = currency;
+
   }
 
   public String unsubscribeToChannel(String channel) throws JsonProcessingException {
@@ -155,8 +165,7 @@ public class SocketMsgFactory {
     call.put("call", endPoint);
     call.put("nonce", nonce);
     call.put("params", params);
-    // TODO make this work for other currencies
-    call.put("currency", "USD");
+    call.put("currency", currency);
     call.put("item", "BTC");
 
     ObjectMapper mapper = new ObjectMapper();
@@ -204,6 +213,10 @@ public class SocketMsgFactory {
     }
 
     return bas.toByteArray();
+  }
+
+  public void setCurrency(String currency) {
+    this.currency = currency;
   }
 
 }
