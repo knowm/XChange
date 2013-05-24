@@ -19,27 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
+package com.xeiam.xchange.mtgox.v2.dto.trade.polling;
 
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
-import com.xeiam.xchange.mtgox.v2.MtGoxV2;
-import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLagWrapper;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author timmolter
  */
-public class MtGoxLagDemo {
+public class MtGoxLagWrapper {
 
-  public static void main(String[] args) {
+  private final String result;
+  private final MtGoxLag mtGoxLag;
+  private final String error;
 
-    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
-    MtGoxV2 mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, mtGoxExchange.getExchangeSpecification().getPlainTextUri());
-    MtGoxLagWrapper mtGoxLagWrapper = mtGoxV2.getLag();
-    System.out.println(mtGoxLagWrapper.getMtGoxLag().toString());
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param mtGoxOpenOrders
+   * @param error
+   */
+  public MtGoxLagWrapper(@JsonProperty("result") String result, @JsonProperty("data") MtGoxLag mtGoxLag, @JsonProperty("error") String error) {
+
+    this.result = result;
+    this.mtGoxLag = mtGoxLag;
+    this.error = error;
+  }
+
+  public String getResult() {
+
+    return result;
+  }
+
+  public MtGoxLag getMtGoxLag() {
+
+    return mtGoxLag;
+  }
+
+  public String getError() {
+
+    return error;
   }
 
 }
