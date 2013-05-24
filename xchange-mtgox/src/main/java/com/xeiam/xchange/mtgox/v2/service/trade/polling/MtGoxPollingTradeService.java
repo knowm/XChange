@@ -39,6 +39,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrderWrapper;
 import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
@@ -73,13 +74,17 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   @Override
   public OpenOrders getOpenOrders() {
 
-    MtGoxOpenOrderWrapper mtGoxOpenOrderWrapper = mtGoxV2.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, MtGoxUtils.getNonce());
+    try {
+      MtGoxOpenOrderWrapper mtGoxOpenOrderWrapper = mtGoxV2.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, MtGoxUtils.getNonce());
 
-    if (mtGoxOpenOrderWrapper.getResult().equals("success")) {
-      return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrderWrapper.getMtGoxOpenOrders()));
-    }
-    else if (mtGoxOpenOrderWrapper.getResult().equals("error")) {
-      logger.warn("Error calling getOpenOrders(): {}", mtGoxOpenOrderWrapper.getError());
+      if (mtGoxOpenOrderWrapper.getResult().equals("success")) {
+        return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrderWrapper.getMtGoxOpenOrders()));
+      }
+      else if (mtGoxOpenOrderWrapper.getResult().equals("error")) {
+        logger.warn("Error calling getOpenOrders(): {}", mtGoxOpenOrderWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling getOpenOrders(): {}", e.getError());
     }
     return null;
   }
@@ -89,15 +94,19 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     verify(marketOrder);
 
-    MtGoxGenericResponse mtGoxGenericResponse =
-        mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(), marketOrder.getType()
-            .equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
+    try {
+      MtGoxGenericResponse mtGoxGenericResponse =
+          mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(), marketOrder
+              .getType().equals(OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
 
-    if (mtGoxGenericResponse.getResult().equals("success")) {
-      return mtGoxGenericResponse.getDataString();
-    }
-    else if (mtGoxGenericResponse.getResult().equals("error")) {
-      logger.warn("Error calling placeMarketOrder(): {}", mtGoxGenericResponse.getError());
+      if (mtGoxGenericResponse.getResult().equals("success")) {
+        return mtGoxGenericResponse.getDataString();
+      }
+      else if (mtGoxGenericResponse.getResult().equals("error")) {
+        logger.warn("Error calling placeMarketOrder(): {}", mtGoxGenericResponse.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling placeMarketOrder(): {}", e.getError());
     }
     return null;
   }
@@ -117,13 +126,17 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     // need to convert to MtGox "Price"
     String price = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
 
-    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), tradableIdentifier, currency, type, amount, price);
+    try {
+      MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), tradableIdentifier, currency, type, amount, price);
 
-    if (mtGoxGenericResponse.getResult().equals("success")) {
-      return mtGoxGenericResponse.getDataString();
-    }
-    else if (mtGoxGenericResponse.getResult().equals("error")) {
-      logger.warn("Error calling placeLimitOrder(): {}", mtGoxGenericResponse.getError());
+      if (mtGoxGenericResponse.getResult().equals("success")) {
+        return mtGoxGenericResponse.getDataString();
+      }
+      else if (mtGoxGenericResponse.getResult().equals("error")) {
+        logger.warn("Error calling placeLimitOrder(): {}", mtGoxGenericResponse.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling placeLimitOrder(): {}", e.getError());
     }
     return null;
   }
@@ -133,14 +146,18 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
     Assert.notNull(orderId, "orderId cannot be null");
 
-    MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), orderId);
+    try {
+      MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), orderId);
 
-    logger.info(mtGoxGenericResponse.toString());
-    if (mtGoxGenericResponse.getResult().equals("success")) {
-      return true;
-    }
-    else if (mtGoxGenericResponse.getResult().equals("error")) {
-      logger.warn("Error calling cancelOrder(): {}", mtGoxGenericResponse.getError());
+      logger.info(mtGoxGenericResponse.toString());
+      if (mtGoxGenericResponse.getResult().equals("success")) {
+        return true;
+      }
+      else if (mtGoxGenericResponse.getResult().equals("error")) {
+        logger.warn("Error calling cancelOrder(): {}", mtGoxGenericResponse.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling cancelOrder(): {}", e.getError());
     }
     return false;
   }

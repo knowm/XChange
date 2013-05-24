@@ -38,6 +38,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTickerWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
@@ -75,15 +76,19 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
     verify(tradableIdentifier, currency);
 
-    // Request data
-    MtGoxTickerWrapper mtGoxTickerWrapper = mtGoxV2.getTicker(tradableIdentifier, currency);
+    try {
+      // Request data
+      MtGoxTickerWrapper mtGoxTickerWrapper = mtGoxV2.getTicker(tradableIdentifier, currency);
 
-    if (mtGoxTickerWrapper.getResult().equals("success")) {
-      // Adapt to XChange DTOs
-      return MtGoxAdapters.adaptTicker(mtGoxTickerWrapper.getMtGoxTicker());
-    }
-    else if (mtGoxTickerWrapper.getResult().equals("error")) {
-      logger.warn("Error calling getTicker(): {}", mtGoxTickerWrapper.getError());
+      if (mtGoxTickerWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        return MtGoxAdapters.adaptTicker(mtGoxTickerWrapper.getMtGoxTicker());
+      }
+      else if (mtGoxTickerWrapper.getResult().equals("error")) {
+        logger.warn("Error calling getTicker(): {}", mtGoxTickerWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling getTicker(): {}", e.getError());
     }
     return null;
   }
@@ -93,16 +98,20 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
     verify(tradableIdentifier, currency);
 
-    // Request data
-    MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
-    if (mtGoxDepthWrapper.getResult().equals("success")) {
-      // Adapt to XChange DTOs
-      List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-      List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-      return new OrderBook(asks, bids);
-    }
-    else if (mtGoxDepthWrapper.getResult().equals("error")) {
-      logger.warn("Error calling getPartialOrderBook(): {}", mtGoxDepthWrapper.getError());
+    try {
+      // Request data
+      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
+      if (mtGoxDepthWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
+        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
+        return new OrderBook(asks, bids);
+      }
+      else if (mtGoxDepthWrapper.getResult().equals("error")) {
+        logger.warn("Error calling getPartialOrderBook(): {}", mtGoxDepthWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling getPartialOrderBook(): {}", e.getError());
     }
     return null;
   }
@@ -112,15 +121,19 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
     verify(tradableIdentifier, currency);
 
-    MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
-    if (mtGoxDepthWrapper.getResult().equals("success")) {
-      // Adapt to XChange DTOs
-      List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-      List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-      return new OrderBook(asks, bids);
-    }
-    else if (mtGoxDepthWrapper.getResult().equals("error")) {
-      logger.warn("Error calling getFullOrderBook(): {}", mtGoxDepthWrapper.getError());
+    try {
+      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
+      if (mtGoxDepthWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
+        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
+        return new OrderBook(asks, bids);
+      }
+      else if (mtGoxDepthWrapper.getResult().equals("error")) {
+        logger.warn("Error calling getFullOrderBook(): {}", mtGoxDepthWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling getFullOrderBook(): {}", e.getError());
     }
     return null;
   }
@@ -130,23 +143,27 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
     verify(tradableIdentifier, currency);
 
-    MtGoxTradesWrapper mtGoxTradeWrapper = null;
+    try {
+      MtGoxTradesWrapper mtGoxTradeWrapper = null;
 
-    if (args.length > 0) {
-      Long sinceTimeStamp = (Long) args[0];
-      // Request data
-      mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency, sinceTimeStamp);
-    }
-    else {
-      // Request data
-      mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency);
-    }
+      if (args.length > 0) {
+        Long sinceTimeStamp = (Long) args[0];
+        // Request data
+        mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency, sinceTimeStamp);
+      }
+      else {
+        // Request data
+        mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency);
+      }
 
-    if (mtGoxTradeWrapper.getResult().equals("success")) {
-      return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
-    }
-    else if (mtGoxTradeWrapper.getResult().equals("error")) {
-      logger.warn("Error calling getTrades(): {}", mtGoxTradeWrapper.getError());
+      if (mtGoxTradeWrapper.getResult().equals("success")) {
+        return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
+      }
+      else if (mtGoxTradeWrapper.getResult().equals("error")) {
+        logger.warn("Error calling getTrades(): {}", mtGoxTradeWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling getTrades(): {}", e.getError());
     }
     return null;
   }

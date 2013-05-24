@@ -34,6 +34,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfoWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddressWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponseWrapper;
@@ -77,12 +78,16 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public AccountInfo getAccountInfo() {
 
-    MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
-    if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
-      return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
-    }
-    else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
-      logger.warn("Error calling getAccountInfo(): {}", mtGoxAccountInfoWrapper.getError());
+    try {
+      MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
+      if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
+        return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
+      }
+      else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
+        logger.warn("Error calling getAccountInfo(): {}", mtGoxAccountInfoWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling getAccountInfo(): {}", e.getError());
     }
     return null;
   }
@@ -90,15 +95,19 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    MtGoxWithdrawalResponseWrapper mtGoxWithdrawalResponseWrapper =
-        mtGoxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR))
-            .intValue(), 1, false, false);
+    try {
+      MtGoxWithdrawalResponseWrapper mtGoxWithdrawalResponseWrapper =
+          mtGoxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(
+              new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
 
-    if (mtGoxWithdrawalResponseWrapper.getResult().equals("success")) {
-      return mtGoxWithdrawalResponseWrapper.getMtGoxWithdrawalResponse().getTransactionId();
-    }
-    else if (mtGoxWithdrawalResponseWrapper.getResult().equals("error")) {
-      logger.warn("Error calling withdrawFunds(): {}", mtGoxWithdrawalResponseWrapper.getError());
+      if (mtGoxWithdrawalResponseWrapper.getResult().equals("success")) {
+        return mtGoxWithdrawalResponseWrapper.getMtGoxWithdrawalResponse().getTransactionId();
+      }
+      else if (mtGoxWithdrawalResponseWrapper.getResult().equals("error")) {
+        logger.warn("Error calling withdrawFunds(): {}", mtGoxWithdrawalResponseWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling withdrawFunds(): {}", e.getError());
     }
     return null;
   }
@@ -108,13 +117,17 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     String description = arguments[0];
     String notificationUrl = arguments[1];
-    MtGoxBitcoinDepositAddressWrapper mtGoxBitcoinDepositAddressWrapper =
-        mtGoxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description, notificationUrl);
-    if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("success")) {
-      return mtGoxBitcoinDepositAddressWrapper.getMtGoxBitcoinDepositAddress().getAddres();
-    }
-    else if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("error")) {
-      logger.warn("Error requestBitcoinDepositAddress getAccountInfo(): {}", mtGoxBitcoinDepositAddressWrapper.getError());
+    try {
+      MtGoxBitcoinDepositAddressWrapper mtGoxBitcoinDepositAddressWrapper =
+          mtGoxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description, notificationUrl);
+      if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("success")) {
+        return mtGoxBitcoinDepositAddressWrapper.getMtGoxBitcoinDepositAddress().getAddres();
+      }
+      else if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("error")) {
+        logger.warn("Error requestBitcoinDepositAddress getAccountInfo(): {}", mtGoxBitcoinDepositAddressWrapper.getError());
+      }
+    } catch (MtGoxException e) {
+      logger.warn("Error calling requestBitcoinDepositAddress(): {}", e.getError());
     }
     return null;
   }

@@ -33,6 +33,7 @@ import javax.ws.rs.QueryParam;
 
 import si.mazi.rescu.ParamsDigest;
 
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfoWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddressWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponseWrapper;
@@ -51,49 +52,50 @@ public interface MtGoxV2 {
 
   @GET
   @Path("money/order/lag")
-  MtGoxLagWrapper getLag();
+  MtGoxLagWrapper getLag() throws MtGoxException;
 
   @GET
   @Path("{ident}{currency}/money/ticker")
-  MtGoxTickerWrapper getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  MtGoxTickerWrapper getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws MtGoxException;
 
   @GET
   @Path("{ident}{currency}/money/depth/fetch")
-  MtGoxDepthWrapper getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  MtGoxDepthWrapper getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws MtGoxException;
 
   @GET
   @Path("{ident}{currency}/money/depth/full")
-  MtGoxDepthWrapper getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  MtGoxDepthWrapper getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws MtGoxException;
 
   @GET
   @Path("{ident}{currency}/money/trades/fetch")
-  MtGoxTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  MtGoxTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws MtGoxException;
 
   @GET
   @Path("{ident}{currency}/money/trades/fetch")
-  MtGoxTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long since);
+  MtGoxTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long since) throws MtGoxException;
 
   // Account Info API
 
   @POST
   @Path("money/info")
-  MtGoxAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
+  MtGoxAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws MtGoxException;
 
   @POST
   @Path("money/bitcoin/address")
   MtGoxBitcoinDepositAddressWrapper requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-      @FormParam("description") String description, @FormParam("ipn") String notificationUrl);
+      @FormParam("description") String description, @FormParam("ipn") String notificationUrl) throws MtGoxException;
 
   @POST
   @Path("money/bitcoin/send_simple")
   MtGoxWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-      @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green);
+      @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green)
+      throws MtGoxException;
 
   // Trade API
 
   @POST
   @Path("money/orders")
-  MtGoxOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce);
+  MtGoxOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws MtGoxException;
 
   /**
    * @param postBodySignatureCreator
@@ -103,7 +105,7 @@ public interface MtGoxV2 {
   @Path("{tradeIdent}{currency}/money/order/add")
   MtGoxGenericResponse placeOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount_int") BigDecimal amount,
-      @FormParam("price_int") String price);
+      @FormParam("price_int") String price) throws MtGoxException;
 
   /**
    * Note: I know it's weird to have BTCEUR hardcoded in the URL, but it really doesn't seems to matter. BTCUSD works too.
@@ -118,6 +120,6 @@ public interface MtGoxV2 {
   @POST
   @Path("BTCEUR/money/order/cancel")
   MtGoxGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-      @FormParam("oid") String orderId);
+      @FormParam("oid") String orderId) throws MtGoxException;
 
 }
