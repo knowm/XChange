@@ -25,6 +25,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
@@ -39,7 +40,12 @@ public class CancelOrderDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
+    boolean success = false;
+    try {
+      success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
+    } catch (MtGoxException e) {
+      System.err.println("Error occured: " + e);
+    }
     System.out.println("success= " + success);
 
     // get open orders
