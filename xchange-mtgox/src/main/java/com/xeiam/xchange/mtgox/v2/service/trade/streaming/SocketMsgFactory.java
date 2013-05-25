@@ -60,10 +60,8 @@ public class SocketMsgFactory {
       throw new IllegalArgumentException("mtgox api key and/or secret is missing");
     }
 
-    if ( apiKey == null || apiSecret == null || currency == null ||
-      apiKey.length() == 0 || apiSecret.length() == 0  ||
-      currency.length() == 0) {
-        throw new IllegalArgumentException("mtgox api key, secret and or currency is missing");
+    if (apiKey == null || apiSecret == null || currency == null || apiKey.length() == 0 || apiSecret.length() == 0 || currency.length() == 0) {
+      throw new IllegalArgumentException("mtgox api key, secret and or currency is missing");
     }
 
     this.apiKey = apiKey;
@@ -216,6 +214,7 @@ public class SocketMsgFactory {
   }
 
   public void setCurrency(String currency) {
+
     this.currency = currency;
   }
 

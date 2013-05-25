@@ -69,6 +69,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * <pre>
  * 
+ * 
  * public class Configuration {
  * 
  *   private ExchangeSpecification mtgox;
@@ -97,6 +98,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  * 
  * <pre>
+ * 
  * 
  * ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
  * InputStream fis = new FileInputStream(&quot;config.yaml&quot;);
