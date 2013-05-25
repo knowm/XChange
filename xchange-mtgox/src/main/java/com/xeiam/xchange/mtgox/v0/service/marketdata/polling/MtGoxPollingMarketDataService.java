@@ -85,8 +85,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
-    // TODO: implement the V0 orderBook here
-    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
+    throw new NotYetImplementedForExchangeException();
 
   }
 

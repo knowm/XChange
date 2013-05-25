@@ -23,12 +23,10 @@ package com.xeiam.xchange.mtgox.v2.service.trade.polling;
 
 import java.math.BigDecimal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -51,8 +49,6 @@ import com.xeiam.xchange.utils.Assert;
  * @author timmolter
  */
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
-
-  private final Logger logger = LoggerFactory.getLogger(MtGoxPollingTradeService.class);
 
   private final MtGoxV2 mtGoxV2;
   private ParamsDigest signatureCreator;
@@ -81,12 +77,14 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
         return new OpenOrders(MtGoxAdapters.adaptOrders(mtGoxOpenOrderWrapper.getMtGoxOpenOrders()));
       }
       else if (mtGoxOpenOrderWrapper.getResult().equals("error")) {
-        logger.warn("Error calling getOpenOrders(): {}", mtGoxOpenOrderWrapper.getError());
+        throw new ExchangeException("Error calling getOpenOrders(): " + mtGoxOpenOrderWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getOpenOrders(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling getOpenOrders(): {}", e.getError());
+      throw new ExchangeException("Error calling getOpenOrders(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -103,12 +101,14 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
         return mtGoxGenericResponse.getDataString();
       }
       else if (mtGoxGenericResponse.getResult().equals("error")) {
-        logger.warn("Error calling placeMarketOrder(): {}", mtGoxGenericResponse.getError());
+        throw new ExchangeException("Error calling placeMarketOrder(): " + mtGoxGenericResponse.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling placeMarketOrder(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling placeMarketOrder(): {}", e.getError());
+      throw new ExchangeException("Error calling placeMarketOrder(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -133,12 +133,14 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
         return mtGoxGenericResponse.getDataString();
       }
       else if (mtGoxGenericResponse.getResult().equals("error")) {
-        logger.warn("Error calling placeLimitOrder(): {}", mtGoxGenericResponse.getError());
+        throw new ExchangeException("Error calling placeLimitOrder(): " + mtGoxGenericResponse.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling placeLimitOrder(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling placeLimitOrder(): {}", e.getError());
+      throw new ExchangeException("Error calling placeLimitOrder(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -147,19 +149,21 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
     Assert.notNull(orderId, "orderId cannot be null");
 
     try {
+
       MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), orderId);
 
-      logger.info(mtGoxGenericResponse.toString());
       if (mtGoxGenericResponse.getResult().equals("success")) {
         return true;
       }
       else if (mtGoxGenericResponse.getResult().equals("error")) {
-        logger.warn("Error calling cancelOrder(): {}", mtGoxGenericResponse.getError());
+        throw new ExchangeException("Error calling cancelOrder(): " + mtGoxGenericResponse.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling placeLimitOrder(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling cancelOrder(): {}", e.getError());
+      throw new ExchangeException("Error calling cancelOrder(): " + e.getError());
     }
-    return false;
   }
 
   private void verify(Order order) {

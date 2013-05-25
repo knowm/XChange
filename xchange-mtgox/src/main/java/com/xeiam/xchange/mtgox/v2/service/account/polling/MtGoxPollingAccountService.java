@@ -23,12 +23,10 @@ package com.xeiam.xchange.mtgox.v2.service.account.polling;
 
 import java.math.BigDecimal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
@@ -52,8 +50,6 @@ import com.xeiam.xchange.utils.Assert;
  * </ul>
  */
 public class MtGoxPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
-
-  private final Logger logger = LoggerFactory.getLogger(MtGoxPollingAccountService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -84,12 +80,14 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
         return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
       }
       else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
-        logger.warn("Error calling getAccountInfo(): {}", mtGoxAccountInfoWrapper.getError());
+        throw new ExchangeException("Error calling getAccountInfo(): " + mtGoxAccountInfoWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getAccountInfo(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling getAccountInfo(): {}", e.getError());
+      throw new ExchangeException("Error calling getAccountInfo(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -104,12 +102,14 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
         return mtGoxWithdrawalResponseWrapper.getMtGoxWithdrawalResponse().getTransactionId();
       }
       else if (mtGoxWithdrawalResponseWrapper.getResult().equals("error")) {
-        logger.warn("Error calling withdrawFunds(): {}", mtGoxWithdrawalResponseWrapper.getError());
+        throw new ExchangeException("Error calling withdrawFunds(): " + mtGoxWithdrawalResponseWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling withdrawFunds(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling withdrawFunds(): {}", e.getError());
+      throw new ExchangeException("Error calling withdrawFunds(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -124,12 +124,13 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
         return mtGoxBitcoinDepositAddressWrapper.getMtGoxBitcoinDepositAddress().getAddres();
       }
       else if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("error")) {
-        logger.warn("Error requestBitcoinDepositAddress getAccountInfo(): {}", mtGoxBitcoinDepositAddressWrapper.getError());
+        throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + mtGoxBitcoinDepositAddressWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling requestBitcoinDepositAddress(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling requestBitcoinDepositAddress(): {}", e.getError());
+      throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + e.getError());
     }
-    return null;
   }
-
 }

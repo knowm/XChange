@@ -26,33 +26,26 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.campbx.dto.CampBXResponse;
 
 /**
  * @author Matija Mazi
  */
-public final class CampBXOrderBook {
+public final class CampBXOrderBook extends CampBXResponse {
 
-  private final List<List<BigDecimal>> bids;
-  private final List<List<BigDecimal>> asks;
-  private final String error;
-
-  /**
-   * Constructor
-   * 
-   * @param bids
-   * @param asks
-   * @param error
-   */
-  public CampBXOrderBook(@JsonProperty("Bids") List<List<BigDecimal>> bids, @JsonProperty("Asks") List<List<BigDecimal>> asks, @JsonProperty("Error") String error) {
-
-    this.bids = bids;
-    this.asks = asks;
-    this.error = error;
-  }
+  @JsonProperty("Bids")
+  private List<List<BigDecimal>> bids;
+  @JsonProperty("Asks")
+  private List<List<BigDecimal>> asks;
 
   public List<List<BigDecimal>> getBids() {
 
     return bids;
+  }
+
+  public void setBids(List<List<BigDecimal>> bids) {
+
+    this.bids = bids;
   }
 
   public List<List<BigDecimal>> getAsks() {
@@ -60,15 +53,15 @@ public final class CampBXOrderBook {
     return asks;
   }
 
-  public String getError() {
+  public void setAsks(List<List<BigDecimal>> asks) {
 
-    return error;
+    this.asks = asks;
   }
 
   @Override
   public String toString() {
 
-    return "CampBXOrderBook [bids=" + bids + ", asks=" + asks + ", error=" + error + "]";
+    return "CampBXOrderBook [bids=" + bids + ", asks=" + asks + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()=" + getError() + "]";
   }
 
 }

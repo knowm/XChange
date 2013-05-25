@@ -24,11 +24,9 @@ package com.xeiam.xchange.mtgox.v2.service.marketdata.polling;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -55,8 +53,6 @@ import com.xeiam.xchange.utils.Assert;
  * </ul>
  */
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private final Logger logger = LoggerFactory.getLogger(MtGoxPollingMarketDataService.class);
 
   private final MtGoxV2 mtGoxV2;
 
@@ -85,12 +81,14 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         return MtGoxAdapters.adaptTicker(mtGoxTickerWrapper.getMtGoxTicker());
       }
       else if (mtGoxTickerWrapper.getResult().equals("error")) {
-        logger.warn("Error calling getTicker(): {}", mtGoxTickerWrapper.getError());
+        throw new ExchangeException("Error calling getTicker(): " + mtGoxTickerWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getTicker(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling getTicker(): {}", e.getError());
+      throw new ExchangeException("Error calling getTicker(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -108,12 +106,14 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         return new OrderBook(asks, bids);
       }
       else if (mtGoxDepthWrapper.getResult().equals("error")) {
-        logger.warn("Error calling getPartialOrderBook(): {}", mtGoxDepthWrapper.getError());
+        throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getPartialOrderBook(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling getPartialOrderBook(): {}", e.getError());
+      throw new ExchangeException("Error calling getPartialOrderBook(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -130,12 +130,14 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         return new OrderBook(asks, bids);
       }
       else if (mtGoxDepthWrapper.getResult().equals("error")) {
-        logger.warn("Error calling getFullOrderBook(): {}", mtGoxDepthWrapper.getError());
+        throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getFullOrderBook(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling getFullOrderBook(): {}", e.getError());
+      throw new ExchangeException("Error calling getFullOrderBook(): " + e.getError());
     }
-    return null;
   }
 
   @Override
@@ -160,18 +162,20 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
       }
       else if (mtGoxTradeWrapper.getResult().equals("error")) {
-        logger.warn("Error calling getTrades(): {}", mtGoxTradeWrapper.getError());
+        throw new ExchangeException("Error calling getTrades(): " + mtGoxTradeWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getTrades(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      logger.warn("Error calling getTrades(): {}", e.getError());
+      throw new ExchangeException("Error calling getTrades(): " + e.getError());
     }
-    return null;
   }
 
   /**
    * Verify
    * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
    * @param currency The transaction currency (e.g. USD in BTC/USD)
    */
   private void verify(String tradableIdentifier, String currency) {

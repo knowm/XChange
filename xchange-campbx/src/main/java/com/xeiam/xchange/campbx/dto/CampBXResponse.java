@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class CampBXResponse implements Serializable {
 

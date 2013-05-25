@@ -36,7 +36,9 @@ import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 @Path("api")
 @Produces("application/json")
 public interface CampBX {

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.campbx.service.marketdata.polling;
+package com.xeiam.xchange.campbx.service.account.polling;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -30,8 +30,8 @@ import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.CambBXUtils;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
@@ -45,9 +45,9 @@ import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
  */
 public class CampBXPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
-  private static final Logger log = LoggerFactory.getLogger(CampBXPollingAccountService.class);
+  private final Logger logger = LoggerFactory.getLogger(CampBXPollingAccountService.class);
 
-  private final CampBX campbx;
+  private final CampBX campBX;
 
   /**
    * Constructor
@@ -57,34 +57,49 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   public CampBXPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.campbx = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
+    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
   @Override
   public AccountInfo getAccountInfo() {
 
-    MyFunds myFunds = campbx.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    log.debug("myFunds = {}", myFunds);
-    CambBXUtils.handleError(myFunds);
-    return new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(Wallet.createInstance("BTC", myFunds.getTotalBTC()), Wallet.createInstance("USD", myFunds.getTotalUSD())));
+    MyFunds myFunds = campBX.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    logger.debug("myFunds = {}", myFunds);
+
+    if (!myFunds.isError()) {
+      return new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(Wallet.createInstance("BTC", myFunds.getTotalBTC()), Wallet.createInstance("USD", myFunds.getTotalUSD())));
+    }
+    else {
+      throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
+    }
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    CampBXResponse result = campbx.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
-    log.debug("result = {}", result);
-    CambBXUtils.handleError(result);
-    return result.getSuccess();
+    CampBXResponse campBXResponse = campBX.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
+    logger.debug("campBXResponse = {}", campBXResponse);
+
+    if (!campBXResponse.isError()) {
+      return campBXResponse.getSuccess();
+    }
+    else {
+      throw new ExchangeException("Error calling withdrawFunds(): " + campBXResponse.getError());
+    }
   }
 
   @Override
   public String requestBitcoinDepositAddress(String... arguments) {
 
-    CampBXResponse result = campbx.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    log.debug("result = {}", result);
-    CambBXUtils.handleError(result);
-    return result.getSuccess();
+    CampBXResponse campBXResponse = campBX.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    logger.debug("campBXResponse = {}", campBXResponse);
+
+    if (!campBXResponse.isError()) {
+      return campBXResponse.getSuccess();
+    }
+    else {
+      throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + campBXResponse.getError());
+    }
   }
 
 }

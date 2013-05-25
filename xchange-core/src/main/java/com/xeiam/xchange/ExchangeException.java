@@ -23,7 +23,7 @@ package com.xeiam.xchange;
 
 /**
  * <p>
- * Exception to provide the following to :
+ * Exception to provide the following to:
  * </p>
  * <ul>
  * <li>Indication of generic Exchange exception</li>
@@ -34,21 +34,21 @@ public class ExchangeException extends RuntimeException {
   /**
    * Constructor
    * 
-   * @param s
+   * @param message the message
    */
-  public ExchangeException(String s) {
+  public ExchangeException(String message) {
 
-    super(s);
+    super(message);
   }
 
   /**
    * Constructor
    * 
-   * @param s
+   * @param message
    * @param throwable
    */
-  public ExchangeException(String s, Throwable throwable) {
+  public ExchangeException(String message, Throwable throwable) {
 
-    super(s, throwable);
+    super(message, throwable);
   }
 }

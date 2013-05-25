@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.campbx.CampBX;
@@ -51,7 +52,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
   private final Logger logger = LoggerFactory.getLogger(CampBXPollingMarketDataService.class);
 
-  private final CampBX campbx;
+  private final CampBX campBX;
 
   /**
    * Constructor
@@ -61,7 +62,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   public CampBXPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.campbx = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
+    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -69,14 +70,14 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
     verify(tradableIdentifier, currency);
 
-    CampBXTicker campbxTicker = campbx.getTicker();
+    CampBXTicker campbxTicker = campBX.getTicker();
+    logger.debug("campbxTicker = {}", campbxTicker);
 
-    if (campbxTicker.getError() == null) {
+    if (!campbxTicker.isError()) {
       return CampBXAdapters.adaptTicker(campbxTicker, currency, tradableIdentifier);
     }
     else {
-      logger.warn("Error calling getTicker(): {}", campbxTicker.getError());
-      return null;
+      throw new ExchangeException("Error calling getTicker(): " + campbxTicker.getError());
     }
   }
 
@@ -89,14 +90,14 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-    CampBXOrderBook campBXOrderBook = campbx.getOrderBook();
+    CampBXOrderBook campBXOrderBook = campBX.getOrderBook();
+    logger.debug("campBXOrderBook = {}", campBXOrderBook);
 
-    if (campBXOrderBook.getError() == null) {
+    if (!campBXOrderBook.isError()) {
       return CampBXAdapters.adaptOrders(campBXOrderBook, currency, tradableIdentifier);
     }
     else {
-      logger.warn("Error calling getFullOrderBook(): {}", campBXOrderBook.getError());
-      return null;
+      throw new ExchangeException("Error calling getFullOrderBook(): " + campBXOrderBook.getError());
     }
   }
 

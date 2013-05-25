@@ -75,7 +75,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
 
-    throw new NotAvailableFromExchangeException("Placing market orders not supported by Bitstamp API.");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

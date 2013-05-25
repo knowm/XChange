@@ -33,7 +33,7 @@
 
 	</appender>
 
-	<root level="WARN">
+	<root level="TRACE">
 		<appender-ref ref="CONSOLE_APPENDER" />
 		<appender-ref ref="DETAIL_APPENDER" />
 	</root>

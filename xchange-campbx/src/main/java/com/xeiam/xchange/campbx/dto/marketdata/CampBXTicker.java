@@ -25,36 +25,28 @@ package com.xeiam.xchange.campbx.dto.marketdata;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.campbx.dto.CampBXResponse;
 
 /**
  * @author Matija Mazi
  */
-public final class CampBXTicker {
+public final class CampBXTicker extends CampBXResponse {
 
-  private final BigDecimal last;
-  private final BigDecimal bid;
-  private final BigDecimal ask;
-  private final String error;
-
-  /**
-   * Constructor
-   * 
-   * @param last
-   * @param bid
-   * @param ask
-   * @param error
-   */
-  public CampBXTicker(@JsonProperty("Last Trade") BigDecimal last, @JsonProperty("Best Bid") BigDecimal bid, @JsonProperty("Best Ask") BigDecimal ask, @JsonProperty("Error") String error) {
-
-    this.last = last;
-    this.bid = bid;
-    this.ask = ask;
-    this.error = error;
-  }
+  @JsonProperty("Last Trade")
+  private BigDecimal last;
+  @JsonProperty("Best Bid")
+  private BigDecimal bid;
+  @JsonProperty("Best Ask")
+  private BigDecimal ask;
 
   public BigDecimal getLast() {
 
     return last;
+  }
+
+  public void setLast(BigDecimal last) {
+
+    this.last = last;
   }
 
   public BigDecimal getBid() {
@@ -62,20 +54,25 @@ public final class CampBXTicker {
     return bid;
   }
 
+  public void setBid(BigDecimal bid) {
+
+    this.bid = bid;
+  }
+
   public BigDecimal getAsk() {
 
     return ask;
   }
 
-  public String getError() {
+  public void setAsk(BigDecimal ask) {
 
-    return error;
+    this.ask = ask;
   }
 
   @Override
   public String toString() {
 
-    return "CampBXTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", error=" + error + "]";
+    return "CampBXTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()=" + getError() + "]";
   }
 
 }

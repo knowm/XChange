@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.campbx.service.marketdata.polling;
+package com.xeiam.xchange.campbx.service.trade.polling;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -34,8 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.CambBXUtils;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
@@ -52,7 +52,8 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  */
 public class CampBXPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private static final Logger log = LoggerFactory.getLogger(CampBXPollingTradeService.class);
+  private final Logger logger = LoggerFactory.getLogger(CampBXPollingTradeService.class);
+
   private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
 
   private final CampBX campbx;
@@ -71,57 +72,80 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   @Override
   public OpenOrders getOpenOrders() {
 
-    MyOpenOrders openOrders = campbx.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    log.debug("openOrders = {}", openOrders);
-    CambBXUtils.handleError(openOrders);
-    List<LimitOrder> orders = new ArrayList<LimitOrder>();
-    for (CampBXOrder cbo : openOrders.getBuy()) {
-      if (cbo.isError() || cbo.isInfo()) {
-        log.debug("Skipping non-order in Buy: " + cbo);
+    MyOpenOrders myOpenOrders = campbx.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    logger.debug("myOpenOrders = {}", myOpenOrders);
+
+    if (!myOpenOrders.isError()) {
+
+      List<LimitOrder> orders = new ArrayList<LimitOrder>();
+      for (CampBXOrder cbo : myOpenOrders.getBuy()) {
+        if (cbo.isError() || cbo.isInfo()) {
+          logger.debug("Skipping non-order in Buy: " + cbo);
+        }
+        else {
+          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+        }
       }
-      else {
-        orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+      for (CampBXOrder cbo : myOpenOrders.getSell()) {
+        if (cbo.isError() || cbo.isInfo()) {
+          logger.debug("Skipping non-order in Sell: " + cbo);
+        }
+        else {
+          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+        }
       }
+      return new OpenOrders(orders);
     }
-    for (CampBXOrder cbo : openOrders.getSell()) {
-      if (cbo.isError() || cbo.isInfo()) {
-        log.debug("Skipping non-order in Sell: " + cbo);
-      }
-      else {
-        orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
-      }
+    else {
+      throw new ExchangeException("Error calling getOpenOrders(): " + myOpenOrders.getError());
     }
-    return new OpenOrders(orders);
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
-    CampBXResponse result =
+    CampBXResponse campBXResponse =
         campbx.tradeAdvancedMarketEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, marketOrder.getTradableAmount(), CampBX.MarketPrice.Market, null, null, null);
-    log.debug("result = {}", result);
-    CambBXUtils.handleError(result);
-    return composeOrderId(result.getSuccess(), marketOrder.getType());
+    logger.debug("campBXResponse = {}", campBXResponse);
+
+    if (!campBXResponse.isError()) {
+      return composeOrderId(campBXResponse.getSuccess(), marketOrder.getType());
+    }
+    else {
+      throw new ExchangeException("Error calling placeMarketOrder(): " + campBXResponse.getError());
+    }
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
 
     CampBX.TradeMode mode = limitOrder.getType() == Order.OrderType.ASK ? CampBX.TradeMode.QuickSell : CampBX.TradeMode.QuickBuy;
-    CampBXResponse result = campbx.tradeEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
-    log.debug("result = {}", result);
-    CambBXUtils.handleError(result);
-    return composeOrderId(result.getSuccess(), limitOrder.getType());
+    CampBXResponse campBXResponse =
+        campbx.tradeEnter(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), mode, limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+    logger.debug("campBXResponse = {}", campBXResponse);
+
+    if (!campBXResponse.isError()) {
+      return composeOrderId(campBXResponse.getSuccess(), limitOrder.getType());
+    }
+    else {
+      throw new ExchangeException("Error calling placeLimitOrder(): " + campBXResponse.getError());
+    }
   }
 
   @Override
   public boolean cancelOrder(String orderId) {
 
     ParsedId parsedId = parseOrderId(orderId);
-    CampBXResponse response = campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), parsedId.type, Long.parseLong(parsedId.id));
-    CambBXUtils.handleError(response);
-    return response.isSuccess();
+    CampBXResponse campBXResponse = campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), parsedId.type, Long.parseLong(parsedId.id));
+    logger.debug("campBXResponse = {}", campBXResponse);
+
+    if (!campBXResponse.isError()) {
+      return campBXResponse.isSuccess();
+    }
+    else {
+      throw new ExchangeException("Error calling cancelOrder(): " + campBXResponse.getError());
+    }
   }
 
   static String composeOrderId(String id, Order.OrderType orderType) {
