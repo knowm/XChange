@@ -54,9 +54,15 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   }
 
   @Override
-  public int getRecconectWaitTimeInMs() {
+  public int getReconnectWaitTimeInMs() {
 
     return reconnectWaitTimeInMs;
+  }
+
+  @Override
+  public int getTimeoutInMs() {
+
+    return 0;
   }
 
 }

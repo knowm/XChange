@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
+package com.xeiam.xchange.mtgox.v2.service.streaming;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -34,18 +34,21 @@ import org.joda.money.BigMoney;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
+import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.Base64;
 
 /**
  * @author macarse
  */
-public class SocketMsgFactory {
+public class SocketMessageFactory {
 
   private final String apiKey;
   private final String apiSecret;
-  private String currency;
+  private final String tradableIdentifier;
+  private final String currency;
 
   /**
    * Constructor
@@ -54,7 +57,7 @@ public class SocketMsgFactory {
    * @param apiSecret
    * @param currency
    */
-  public SocketMsgFactory(String apiKey, String apiSecret, String currency) {
+  public SocketMessageFactory(String apiKey, String apiSecret, String tradableIdentifier, String currency) {
 
     if (apiKey == null || apiSecret == null || apiKey.length() == 0 || apiSecret.length() == 0) {
       throw new IllegalArgumentException("mtgox api key and/or secret is missing");
@@ -64,10 +67,14 @@ public class SocketMsgFactory {
       throw new IllegalArgumentException("mtgox api key, secret and or currency is missing");
     }
 
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
+    this.tradableIdentifier = tradableIdentifier;
     this.currency = currency;
-
   }
 
   public String unsubscribeToChannel(String channel) throws JsonProcessingException {
@@ -164,7 +171,7 @@ public class SocketMsgFactory {
     call.put("nonce", nonce);
     call.put("params", params);
     call.put("currency", currency);
-    call.put("item", "BTC");
+    call.put("item", tradableIdentifier);
 
     ObjectMapper mapper = new ObjectMapper();
     String callString = mapper.writeValueAsString(call);
@@ -211,11 +218,6 @@ public class SocketMsgFactory {
     }
 
     return bas.toByteArray();
-  }
-
-  public void setCurrency(String currency) {
-
-    this.currency = currency;
   }
 
 }

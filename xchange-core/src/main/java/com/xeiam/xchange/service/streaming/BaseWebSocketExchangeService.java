@@ -103,9 +103,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
       reconnectService.intercept(event);
     }
-
     return event;
-
   }
 
   @Override

@@ -26,9 +26,9 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mtgox.v2.service.account.polling.MtGoxPollingAccountService;
 import com.xeiam.xchange.mtgox.v2.service.marketdata.polling.MtGoxPollingMarketDataService;
+import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
+import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxWebsocketService;
 import com.xeiam.xchange.mtgox.v2.service.trade.polling.MtGoxPollingTradeService;
-import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxStreamingConfiguration;
-import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxWebsocketTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
@@ -71,7 +71,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
     if (configuration instanceof MtGoxStreamingConfiguration) {
-      return new MtGoxWebsocketTradeService(getExchangeSpecification(), (MtGoxStreamingConfiguration) configuration);
+      return new MtGoxWebsocketService(getExchangeSpecification(), (MtGoxStreamingConfiguration) configuration);
     }
 
     throw new IllegalArgumentException("MtGox only supports the MtGoxV2StreamingConfiguration");

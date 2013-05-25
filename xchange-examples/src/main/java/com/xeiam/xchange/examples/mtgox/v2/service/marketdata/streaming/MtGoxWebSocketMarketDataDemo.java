@@ -29,9 +29,11 @@ import java.util.concurrent.Future;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
-import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxStreamingConfiguration;
+import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
@@ -56,7 +58,7 @@ public class MtGoxWebSocketMarketDataDemo {
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Configure BTC/USD ticker stream for MtGox
-    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.EUR);
+    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, Currencies.BTC, Currencies.EUR);
 
     // Interested in the public streaming market data feed (no authentication)
     StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
@@ -104,8 +106,8 @@ public class MtGoxWebSocketMarketDataDemo {
           ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
 
           if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
-            // Ticker ticker = (Ticker) exchangeEvent.getPayload();
-            // System.out.println(ticker.toString());
+            Ticker ticker = (Ticker) exchangeEvent.getPayload();
+            System.out.println(ticker.toString());
           }
 
           else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
@@ -114,8 +116,8 @@ public class MtGoxWebSocketMarketDataDemo {
           }
 
           else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
-            // OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
-            // System.out.println(orderBookUpdate.toString());
+            OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
+            System.out.println(orderBookUpdate.toString());
           }
         }
 

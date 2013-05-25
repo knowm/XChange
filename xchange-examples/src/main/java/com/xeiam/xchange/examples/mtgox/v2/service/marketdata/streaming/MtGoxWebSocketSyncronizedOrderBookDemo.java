@@ -34,7 +34,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
-import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxStreamingConfiguration;
+import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
@@ -60,7 +60,7 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Configure BTC/USD ticker stream for MtGox
-    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);
+    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, Currencies.BTC, Currencies.USD);
 
     // Interested in the public streaming market data feed (no authentication)
     StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);

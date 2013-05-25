@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
+package com.xeiam.xchange.mtgox.v2.service.streaming;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -44,9 +44,9 @@ import com.xeiam.xchange.utils.Assert;
  * MtGox provides a Websocket implementation
  * </p>
  */
-public class MtGoxWebsocketTradeService extends BaseWebSocketExchangeService implements StreamingExchangeService {
+public class MtGoxWebsocketService extends BaseWebSocketExchangeService implements StreamingExchangeService {
 
-  private final Logger logger = LoggerFactory.getLogger(MtGoxWebsocketTradeService.class);
+  private final Logger logger = LoggerFactory.getLogger(MtGoxWebsocketService.class);
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -65,7 +65,7 @@ public class MtGoxWebsocketTradeService extends BaseWebSocketExchangeService imp
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public MtGoxWebsocketTradeService(ExchangeSpecification exchangeSpecification, MtGoxStreamingConfiguration configuration) {
+  public MtGoxWebsocketService(ExchangeSpecification exchangeSpecification, MtGoxStreamingConfiguration configuration) {
 
     super(exchangeSpecification, configuration);
 

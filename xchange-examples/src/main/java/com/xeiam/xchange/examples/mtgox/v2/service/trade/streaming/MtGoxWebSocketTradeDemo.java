@@ -36,8 +36,8 @@ import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxWalletUpdate;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOrderCanceled;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxTradeLag;
-import com.xeiam.xchange.mtgox.v2.service.trade.streaming.MtGoxStreamingConfiguration;
-import com.xeiam.xchange.mtgox.v2.service.trade.streaming.SocketMsgFactory;
+import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
+import com.xeiam.xchange.mtgox.v2.service.streaming.SocketMessageFactory;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -61,7 +61,7 @@ public class MtGoxWebSocketTradeDemo {
     Exchange mtGoxExchange = MtGoxV2ExamplesUtils.createExchange();
 
     // Configure BTC/USD ticker stream for MtGox
-    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);
+    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, Currencies.BTC, Currencies.USD);
 
     // Interested in the public streaming market data feed (no authentication)
     StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
@@ -105,7 +105,8 @@ public class MtGoxWebSocketTradeDemo {
     @Override
     public void run() {
 
-      SocketMsgFactory socketMsgFactory = new SocketMsgFactory(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), Currencies.USD);
+      SocketMessageFactory socketMsgFactory =
+          new SocketMessageFactory(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), Currencies.BTC, Currencies.USD);
 
       try {
         while (true) {

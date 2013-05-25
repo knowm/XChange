@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.service.trade.streaming;
+package com.xeiam.xchange.mtgox.v2.service.streaming;
 
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 
@@ -35,6 +35,7 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
 
   private final int maxReconnectAttempts;
   private final int reconnectWaitTimeInMs;
+  private final int timeoutInMs;
   private final String tradeableIdentifier;
   private final String currencyCode;
 
@@ -43,13 +44,15 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
    * 
    * @param maxReconnectAttempts
    * @param reconnectWaitTimeInMs
+   * @param timeoutInMs
    * @param tradeableIdentifier
    * @param currencyCode
    */
-  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, String tradeableIdentifier, String currencyCode) {
+  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, String tradeableIdentifier, String currencyCode) {
 
     this.maxReconnectAttempts = maxReconnectAttempts;
     this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;
+    this.timeoutInMs = timeoutInMs;
     this.tradeableIdentifier = tradeableIdentifier;
     this.currencyCode = currencyCode;
   }
@@ -71,9 +74,15 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   }
 
   @Override
-  public int getRecconectWaitTimeInMs() {
+  public int getReconnectWaitTimeInMs() {
 
     return reconnectWaitTimeInMs;
+  }
+
+  @Override
+  public int getTimeoutInMs() {
+
+    return timeoutInMs;
   }
 
 }
