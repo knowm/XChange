@@ -35,7 +35,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxStreamingConfiguration;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;

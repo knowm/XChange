@@ -24,7 +24,7 @@ package com.xeiam.xchange.oer;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.oer.service.marketdata.polling.OERPollingMarketDataService;
+import com.xeiam.xchange.oer.service.polling.OERPollingMarketDataService;
 
 /**
  * <p>

@@ -25,7 +25,7 @@ package com.xeiam.xchange.examples.btce.account;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * Demo requesting account info at BTC-E

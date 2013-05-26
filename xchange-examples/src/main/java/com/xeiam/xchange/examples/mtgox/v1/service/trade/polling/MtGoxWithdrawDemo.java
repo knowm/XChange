@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * <p>

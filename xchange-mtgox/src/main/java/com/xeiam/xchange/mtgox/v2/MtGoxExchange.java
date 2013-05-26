@@ -24,11 +24,11 @@ package com.xeiam.xchange.mtgox.v2;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v2.service.account.polling.MtGoxPollingAccountService;
-import com.xeiam.xchange.mtgox.v2.service.marketdata.polling.MtGoxPollingMarketDataService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingAccountService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingMarketDataService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingTradeService;
 import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxWebsocketService;
-import com.xeiam.xchange.mtgox.v2.service.trade.polling.MtGoxPollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 

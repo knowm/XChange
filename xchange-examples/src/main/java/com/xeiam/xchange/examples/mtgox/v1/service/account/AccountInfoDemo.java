@@ -24,7 +24,7 @@ package com.xeiam.xchange.examples.mtgox.v1.service.account;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * Demo requesting account info at MtGox

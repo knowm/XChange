@@ -30,7 +30,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * <p>

@@ -25,9 +25,9 @@ package com.xeiam.xchange.campbx;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.service.account.polling.CampBXPollingAccountService;
-import com.xeiam.xchange.campbx.service.marketdata.polling.CampBXPollingMarketDataService;
-import com.xeiam.xchange.campbx.service.trade.polling.CampBXPollingTradeService;
+import com.xeiam.xchange.campbx.service.polling.CampBXPollingAccountService;
+import com.xeiam.xchange.campbx.service.polling.CampBXPollingMarketDataService;
+import com.xeiam.xchange.campbx.service.polling.CampBXPollingTradeService;
 
 /**
  * @author Matija Mazi <br/>

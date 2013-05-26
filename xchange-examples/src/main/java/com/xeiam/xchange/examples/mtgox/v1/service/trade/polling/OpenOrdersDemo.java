@@ -24,7 +24,7 @@ package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * Test requesting all open orders at MtGox

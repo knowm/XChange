@@ -27,7 +27,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Order Book at Bitstamp

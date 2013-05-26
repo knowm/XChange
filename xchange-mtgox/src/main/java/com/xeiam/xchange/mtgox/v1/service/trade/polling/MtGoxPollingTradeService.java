@@ -39,8 +39,8 @@ import com.xeiam.xchange.mtgox.v1.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**

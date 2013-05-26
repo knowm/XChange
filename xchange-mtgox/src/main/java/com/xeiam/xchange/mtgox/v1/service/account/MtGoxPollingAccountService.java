@@ -35,7 +35,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 

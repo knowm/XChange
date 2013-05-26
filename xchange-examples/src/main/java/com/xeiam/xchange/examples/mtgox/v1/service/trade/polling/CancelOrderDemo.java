@@ -25,7 +25,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * Test placing a limit order at MtGox. Note that this is using the old V0 API, since at this time the V1 API has no cancel order functionality

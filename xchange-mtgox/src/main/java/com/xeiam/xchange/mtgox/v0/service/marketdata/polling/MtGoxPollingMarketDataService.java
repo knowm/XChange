@@ -38,7 +38,7 @@ import com.xeiam.xchange.mtgox.v0.MtGoxV0;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 

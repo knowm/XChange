@@ -31,7 +31,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * Test placing a limit order at MtGox
