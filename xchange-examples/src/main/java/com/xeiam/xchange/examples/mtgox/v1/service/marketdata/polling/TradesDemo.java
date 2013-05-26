@@ -26,11 +26,14 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * Test requesting trades at MtGox
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class TradesDemo {
 
   private static PollingMarketDataService marketDataService;
@@ -45,8 +48,10 @@ public class TradesDemo {
 
     // Get trades
     // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN, 1365502698000000L);
-    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
+    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK);
+    System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
+    System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
 
     // Verify that trades is not null
     System.out.println("Trades NOT null ? " + trades != null);

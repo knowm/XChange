@@ -48,7 +48,7 @@ public final class Ticker {
   /**
    * Constructor
    * 
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param last
    * @param bid
    * @param ask

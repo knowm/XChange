@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.utils;
 
-import static org.junit.Assert.assertTrue;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
@@ -41,11 +41,11 @@ public class BigDecimalTest {
 
     // FYI DO NOT divide like this
     BigDecimal testAmount = new BigDecimal((double) amount_int / BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR);
-    assertTrue("testAmount should be 0.2338586800000000132104815975253586657345294952392578125", testAmount.toPlainString().equals("0.2338586800000000132104815975253586657345294952392578125"));
+    assertThat(testAmount.toPlainString()).isEqualTo("0.2338586800000000132104815975253586657345294952392578125");
 
     // FYI DO divide like this
     BigDecimal testAmount2 = new BigDecimal(amount_int).divide(new BigDecimal(BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-    assertTrue("testAmount2 should be 0.23385868", testAmount2.toPlainString().equals("0.23385868"));
+    assertThat(testAmount2.toPlainString()).isEqualTo("0.23385868");
 
   }
 }

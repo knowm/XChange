@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
@@ -30,36 +30,30 @@ import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 
 /**
- * @author Matija Mazi <br/>
- * @created 2/19/13 8:08 PM
+ * @author Matija Mazi
  */
-
-public class MyOpenOrders extends CampBXResponse {
+public final class MyOpenOrders extends CampBXResponse {
 
   @JsonProperty("Buy")
   private List<CampBXOrder> buy = new ArrayList<CampBXOrder>();
   @JsonProperty("Sell")
   private List<CampBXOrder> sell = new ArrayList<CampBXOrder>();
 
-  @JsonProperty("Buy")
   public List<CampBXOrder> getBuy() {
 
     return buy;
   }
 
-  @JsonProperty("Buy")
   public void setBuy(List<CampBXOrder> Buy) {
 
     this.buy = Buy;
   }
 
-  @JsonProperty("Sell")
   public List<CampBXOrder> getSell() {
 
     return sell;
   }
 
-  @JsonProperty("Sell")
   public void setSell(List<CampBXOrder> Sell) {
 
     this.sell = Sell;
@@ -68,6 +62,7 @@ public class MyOpenOrders extends CampBXResponse {
   @Override
   public String toString() {
 
-    return String.format("MyOpenOrders{Buy=%s, Sell=%s}", buy, sell);
+    return "MyOpenOrders [buy=" + buy + ", sell=" + sell + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()=" + getError() + "]";
   }
+
 }

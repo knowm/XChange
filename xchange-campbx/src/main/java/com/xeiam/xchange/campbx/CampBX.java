@@ -36,7 +36,9 @@ import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 @Path("api")
 @Produces("application/json")
 public interface CampBX {
@@ -116,7 +118,7 @@ public interface CampBX {
       @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") BigDecimal price, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
-  );
+      );
 
   @POST
   @Path("tradeadv.php")
@@ -124,7 +126,7 @@ public interface CampBX {
       @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") MarketPrice market, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
-  );
+      );
 
   /**
    * An API call to cancel an open order can be made in following format:

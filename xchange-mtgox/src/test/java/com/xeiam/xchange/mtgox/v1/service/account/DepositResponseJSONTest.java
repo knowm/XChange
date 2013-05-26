@@ -21,13 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +34,11 @@ import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 
 /**
  * Test MtGoxDepositResponse JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class DepositResponseJSONTest {
 
   @Test
@@ -51,6 +54,6 @@ public class DepositResponseJSONTest {
     System.out.println(mtGoxBitcoinDepositAddress.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("15xmfK1f1BnUWVaoZpjPWJmUHaexp8FHVs", is(equalTo(mtGoxBitcoinDepositAddress.getAddres())));
+    assertThat(mtGoxBitcoinDepositAddress.getAddres()).isEqualTo("15xmfK1f1BnUWVaoZpjPWJmUHaexp8FHVs");
   }
 }

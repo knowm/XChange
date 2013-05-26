@@ -79,7 +79,7 @@ public final class BitstampAdapters {
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    * 
    * @param bitstampOrderBook The bitstamp order book
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency The currency (e.g. USD in BTC/USD)
    * @return The XChange OrderBook
    */
@@ -124,7 +124,7 @@ public final class BitstampAdapters {
 
     List<Trade> trades = new ArrayList<Trade>();
     for (BitstampTransaction tx : transactions) {
-      trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L)));
+      trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tx.getTid()));
     }
 
     return new Trades(trades);

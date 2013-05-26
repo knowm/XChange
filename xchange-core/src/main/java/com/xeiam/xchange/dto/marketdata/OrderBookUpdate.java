@@ -44,10 +44,9 @@ public final class OrderBookUpdate {
    * 
    * @param type
    * @param volume
-   * @param tradableIdentifier
-   * @param transactionCurrency
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param limitPrice
-   * @param date
    * @param totalVolume
    */
   public OrderBookUpdate(OrderType type, BigDecimal volume, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice, Date timestamp, BigDecimal totalVolume) {

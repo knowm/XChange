@@ -24,9 +24,9 @@ package com.xeiam.xchange.btce;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.service.account.polling.BTCEPollingAccountService;
-import com.xeiam.xchange.btce.service.marketdata.polling.BTCEPollingMarketDataService;
-import com.xeiam.xchange.btce.service.trade.polling.BTCEPollingTradeService;
+import com.xeiam.xchange.btce.service.polling.BTCEPollingAccountService;
+import com.xeiam.xchange.btce.service.polling.BTCEPollingMarketDataService;
+import com.xeiam.xchange.btce.service.polling.BTCEPollingTradeService;
 
 /**
  * <p>

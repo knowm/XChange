@@ -59,4 +59,11 @@ public interface StreamingExchangeService {
    */
   ExchangeEvent getNextEvent() throws InterruptedException;
 
+  /**
+   * <p>
+   * Sends a msg over the socket.
+   * </p>
+   */
+  void send(String msg);
+
 }

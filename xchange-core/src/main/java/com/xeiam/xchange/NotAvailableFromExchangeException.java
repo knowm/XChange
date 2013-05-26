@@ -36,7 +36,7 @@ public class NotAvailableFromExchangeException extends RuntimeException {
    * 
    * @param message
    */
-  public NotAvailableFromExchangeException(String message) {
+  private NotAvailableFromExchangeException(String message) {
 
     super(message);
   }

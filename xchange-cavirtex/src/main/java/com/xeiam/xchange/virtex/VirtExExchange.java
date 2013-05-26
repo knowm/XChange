@@ -24,7 +24,7 @@ package com.xeiam.xchange.virtex;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.virtex.service.marketdata.polling.VirtExPollingMarketDataService;
+import com.xeiam.xchange.virtex.service.polling.VirtExPollingMarketDataService;
 
 /**
  * <p>

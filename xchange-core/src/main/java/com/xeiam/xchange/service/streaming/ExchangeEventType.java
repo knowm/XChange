@@ -23,7 +23,7 @@ package com.xeiam.xchange.service.streaming;
 
 /**
  * <p>
- * Enum to provide the following to {@link RunnableExchangeEventProducer}:
+ * Enum to provide the following to exchange events:
  * </p>
  * <ul>
  * <li>Classification of event type to allow clients to take appropriate action</li>
@@ -74,8 +74,51 @@ public enum ExchangeEventType {
   /**
    * A message with a Market Depth update payload
    */
-  DEPTH
+  DEPTH,
 
-  ;
+  /**
+   * A message containing the private id key
+   */
+  PRIVATE_ID_KEY,
+
+  /**
+   * A message with a user order
+   */
+  USER_ORDER,
+
+  /**
+   * A message with the trade lag
+   */
+  TRADE_LAG,
+
+  /**
+   * A message with user orders
+   */
+  USER_ORDERS_LIST,
+
+  /**
+   * A message with user orders
+   */
+  ACCOUNT_INFO,
+
+  /**
+   * A message sent when a user order is added
+   */
+  USER_ORDER_ADDED,
+
+  /**
+   * A message sent when a user order is cancelled
+   */
+  USER_ORDER_CANCELED,
+
+  /**
+   * A message sent when a user order is not found
+   */
+  USER_ORDER_NOT_FOUND,
+
+  /**
+   * A message with the wallet update
+   */
+  USER_WALLET_UPDATE
 
 }

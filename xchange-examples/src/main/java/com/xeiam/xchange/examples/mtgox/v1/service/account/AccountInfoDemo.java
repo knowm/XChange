@@ -22,25 +22,21 @@
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * Demo requesting account info at MtGox
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class AccountInfoDemo {
 
   public static void main(String[] args) {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(MtGoxExchange.class.getName());
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setSslUri("https://mtgox.com");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();

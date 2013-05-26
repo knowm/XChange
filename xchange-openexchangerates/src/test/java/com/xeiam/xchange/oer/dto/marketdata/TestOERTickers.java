@@ -15,8 +15,7 @@
  */
 package com.xeiam.xchange.oer.dto.marketdata;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,9 +43,9 @@ public class TestOERTickers {
 
     // Verify that the example data was unmarshalled correctly
     System.out.println(oERTickers.getTimestamp().toString());
-    assertThat("Unexpected Return Timestamp value", oERTickers.getTimestamp(), equalTo(1354687208L));
+    assertThat(oERTickers.getTimestamp()).isEqualTo(1354687208L);
 
     System.out.println(oERTickers.getRates().getAED());
-    assertThat("Unexpected Return AED value", oERTickers.getRates().getAED(), equalTo(3.672989));
+    assertThat(oERTickers.getRates().getAED()).isEqualTo(3.672989);
   }
 }

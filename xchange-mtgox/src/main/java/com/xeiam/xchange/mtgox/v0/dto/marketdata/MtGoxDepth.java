@@ -29,7 +29,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing depth from Mt Gox
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxDepth {
 
   private final List<BigDecimal[]> asks;

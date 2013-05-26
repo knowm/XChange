@@ -26,7 +26,10 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 
 /**
  * Data object representing a response message from Mt Gox after placing and order
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxGenericResponse {
 
   private final String result;
@@ -56,6 +59,11 @@ public final class MtGoxGenericResponse {
   public Object getReturn() {
 
     return _return;
+  }
+
+  public String getReturnString() {
+
+    return _return == null ? null : _return.toString();
   }
 
   public String getError() {

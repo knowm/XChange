@@ -37,7 +37,10 @@ import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
 
 /**
  * @author timmolter
+ *         <p>
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 @Path("api/0")
 public interface MtGoxV0 {
 
@@ -55,6 +58,7 @@ public interface MtGoxV0 {
 
   @POST
   @Path("cancelOrder.php")
-  MtGoxCancelOrder cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @FormParam("oid") String orderId);
+  MtGoxCancelOrder
+      cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @FormParam("oid") String orderId);
 
 }

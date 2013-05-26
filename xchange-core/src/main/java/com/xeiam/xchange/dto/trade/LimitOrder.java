@@ -118,7 +118,6 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   public int compareTo(LimitOrder limitOrder) {
 
     return this.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) * (getType() == OrderType.BID ? -1 : 1);
-
   }
 
 }

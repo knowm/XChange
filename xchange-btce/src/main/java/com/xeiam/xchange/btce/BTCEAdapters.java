@@ -102,7 +102,8 @@ public final class BTCEAdapters {
       // appending
       if (orderType.equalsIgnoreCase("bid")) {
         limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
-      } else {
+      }
+      else {
         limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
       }
     }
@@ -113,19 +114,19 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCETrade to a Trade Object
    * 
-   * @param BTCETrade A BTCE trade
+   * @param bTCETrade A BTCE trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(BTCETrade BTCETrade) {
+  public static Trade adaptTrade(BTCETrade bTCETrade) {
 
-    OrderType orderType = BTCETrade.equals("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = BTCETrade.getAmount();
-    String currency = BTCETrade.getPriceCurrency();
-    BigMoney price = MoneyUtils.parse(currency + " " + BTCETrade.getPrice());
-    String tradableIdentifier = BTCETrade.getItem();
-    Date date = DateUtils.fromMillisUtc(BTCETrade.getDate() * 1000L);
+    OrderType orderType = bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = bTCETrade.getAmount();
+    String currency = bTCETrade.getPriceCurrency();
+    BigMoney price = MoneyUtils.parse(currency + " " + bTCETrade.getPrice());
+    String tradableIdentifier = bTCETrade.getItem();
+    Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, bTCETrade.getTid());
   }
 
   /**
@@ -158,8 +159,10 @@ public final class BTCEAdapters {
     BigMoney high = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getHigh());
     BigMoney low = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getLow());
     BigDecimal volume = bTCETicker.getTicker().getVolCur();
+    Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getTicker().getServerTime() * 1000L);
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
+        .build();
   }
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {

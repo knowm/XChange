@@ -24,7 +24,6 @@ package com.xeiam.xchange.utils.jackson;
 
 /**
  * @author Matija Mazi <br/>
- * @created 2/19/13 9:27 PM
  */
 public class YesNoBooleanDeserializerImpl extends BooleanDeserializer {
 

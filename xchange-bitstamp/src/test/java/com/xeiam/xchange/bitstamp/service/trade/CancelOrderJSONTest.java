@@ -22,8 +22,7 @@
  */
 package com.xeiam.xchange.bitstamp.service.trade;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +46,6 @@ public class CancelOrderJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     Boolean result = mapper.readValue(is, Boolean.class);
 
-    assertThat("Unexpected cancel order result", result, is(true));
+    assertThat(result).isTrue();
   }
 }

@@ -59,19 +59,25 @@ public final class Trade implements Comparable<Trade> {
   private final BigMoney price;
 
   /**
-   * The timestamp when it was placed on the exchange
+   * The timestamp of the trade
    */
   private final Date timestamp;
+
+  /**
+   * The trade id
+   */
+  private final long id;
 
   /**
    * @param type The trade type (BID side or ASK side)
    * @param tradableAmount The depth of this trade
    * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency The currency
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
+   * @param id The id of the trade
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp) {
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, long id) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -79,6 +85,7 @@ public final class Trade implements Comparable<Trade> {
     this.transactionCurrency = transactionCurrency;
     this.price = price;
     this.timestamp = timestamp;
+    this.id = id;
   }
 
   public OrderType getType() {
@@ -111,11 +118,16 @@ public final class Trade implements Comparable<Trade> {
     return timestamp;
   }
 
+  public long getId() {
+
+    return id;
+  }
+
   @Override
   public String toString() {
 
     return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
-        + ", timestamp=" + timestamp + "]";
+        + ", timestamp=" + timestamp + ", id=" + id + "]";
   }
 
   @Override
@@ -123,9 +135,11 @@ public final class Trade implements Comparable<Trade> {
 
     if (this.getTimestamp().before(trade.getTimestamp())) {
       return -1;
-    } else if (this.getTimestamp().after(trade.getTimestamp())) {
+    }
+    else if (this.getTimestamp().after(trade.getTimestamp())) {
       return 1;
-    } else {
+    }
+    else {
       return 0;
     }
   }

@@ -21,9 +21,7 @@
  */
 package com.xeiam.xchange.campbx.dto;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,9 +47,9 @@ public class TickerJSONTest {
     CampBXTicker campBXTicker = mapper.readValue(is, CampBXTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(campBXTicker.getLast(), is(equalTo(new BigDecimal("13.30"))));
-    assertThat(campBXTicker.getBid(), is(equalTo(new BigDecimal("13.30"))));
-    assertThat(campBXTicker.getAsk(), is(equalTo(new BigDecimal("13.52"))));
+    assertThat(campBXTicker.getLast()).isEqualTo(new BigDecimal("13.30"));
+    assertThat(campBXTicker.getBid()).isEqualTo(new BigDecimal("13.30"));
+    assertThat(campBXTicker.getAsk()).isEqualTo(new BigDecimal("13.52"));
   }
 
 }

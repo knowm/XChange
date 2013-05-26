@@ -26,7 +26,10 @@ import com.xeiam.xchange.mtgox.v1.dto.MtGoxValue;
 
 /**
  * Data object representing a Wallet from Mt Gox
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxWallet {
 
   private final MtGoxValue balance;

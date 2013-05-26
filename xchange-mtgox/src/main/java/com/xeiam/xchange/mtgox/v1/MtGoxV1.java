@@ -41,12 +41,19 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v1.dto.trade.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLag;
 
 /**
  * @author Matija Mazi
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 @Path("api/1")
 public interface MtGoxV1 {
+
+  @GET
+  @Path("generic/order/lag?raw")
+  MtGoxLag getLag();
 
   @GET
   @Path("{ident}{currency}/ticker?raw")

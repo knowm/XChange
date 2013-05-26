@@ -21,9 +21,7 @@
  */
 package com.xeiam.xchange.bitstamp.service.marketdata;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,12 +47,12 @@ public class TickerJSONTest {
     BitstampTicker bitstampTicker = mapper.readValue(is, BitstampTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Last value", bitstampTicker.getLast(), is(equalTo(new BigDecimal("13.06"))));
-    assertThat("Unexpected Return High value", bitstampTicker.getHigh(), is(equalTo(new BigDecimal("13.15"))));
-    assertThat("Unexpected Return Low value", bitstampTicker.getLow(), is(equalTo(new BigDecimal("13.03"))));
-    assertThat("Unexpected Return Volume value", bitstampTicker.getVolume(), is(equalTo(new BigDecimal("1127.55649327"))));
-    assertThat("Unexpected Return Bid value", bitstampTicker.getBid(), is(equalTo(new BigDecimal("13.06"))));
-    assertThat("Unexpected Return Ask value", bitstampTicker.getAsk(), is(equalTo(new BigDecimal("13.14"))));
+    assertThat(bitstampTicker.getLast()).isEqualTo(new BigDecimal("13.06"));
+    assertThat(bitstampTicker.getHigh()).isEqualTo(new BigDecimal("13.15"));
+    assertThat(bitstampTicker.getLow()).isEqualTo(new BigDecimal("13.03"));
+    assertThat(bitstampTicker.getVolume()).isEqualTo(new BigDecimal("1127.55649327"));
+    assertThat(bitstampTicker.getBid()).isEqualTo(new BigDecimal("13.06"));
+    assertThat(bitstampTicker.getAsk()).isEqualTo(new BigDecimal("13.14"));
   }
 
 }

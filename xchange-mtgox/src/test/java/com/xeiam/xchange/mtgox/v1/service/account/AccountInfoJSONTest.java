@@ -21,11 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import static org.junit.Assert.assertTrue;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -34,7 +35,11 @@ import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 
 /**
  * Test MtGoxAccountInfo JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class AccountInfoJSONTest {
 
   @Test
@@ -48,10 +53,8 @@ public class AccountInfoJSONTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     MtGoxAccountInfo mtGoxAccountInfo = mapper.readValue(is, MtGoxAccountInfo.class);
 
-    // System.out.println(mtGoxAccountInfo.toString());
-
     // Verify that the example data was unmarshalled correctly
-    assertTrue(mtGoxAccountInfo.getLogin().equals("xchange"));
+    assertThat(mtGoxAccountInfo.getLogin()).isEqualTo("xchange");
   }
 
 }

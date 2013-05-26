@@ -48,7 +48,7 @@ public final class CampBXAdapters {
    * 
    * @param orderBook
    * @param currency
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @return
    */
   public static OrderBook adaptOrders(CampBXOrderBook orderBook, String currency, String tradableIdentifier) {
@@ -85,7 +85,7 @@ public final class CampBXAdapters {
    * 
    * @param campbxTicker
    * @param currency
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @return
    */
   public static Ticker adaptTicker(CampBXTicker campbxTicker, String currency, String tradableIdentifier) {

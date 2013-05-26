@@ -22,8 +22,7 @@
  */
 package com.xeiam.xchange.bitstamp.service.trade;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,9 +48,9 @@ public class PlaceLimitOrderJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampOrder newOrder = mapper.readValue(is, BitstampOrder.class);
 
-    assertThat("Unexpected new order id", newOrder.getId(), is(1273070));
-    assertThat("Unexpected new order amount", newOrder.getAmount(), is(BigDecimal.ONE));
-    assertThat("Unexpected new order price", newOrder.getPrice(), is(new BigDecimal("1.25")));
-    assertThat("Unexpected new order type", newOrder.getType(), is(0));
+    assertThat(newOrder.getId()).isEqualTo(1273070);
+    assertThat(newOrder.getAmount()).isEqualTo(BigDecimal.ONE);
+    assertThat(newOrder.getPrice()).isEqualTo(new BigDecimal("1.25"));
+    assertThat(newOrder.getType()).isEqualTo(0);
   }
 }

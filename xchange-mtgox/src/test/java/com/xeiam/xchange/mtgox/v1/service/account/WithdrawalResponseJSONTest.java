@@ -21,13 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.account;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +34,11 @@ import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
 
 /**
  * Test MtGoxWithdrawalResponse JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class WithdrawalResponseJSONTest {
 
   @Test
@@ -51,6 +54,6 @@ public class WithdrawalResponseJSONTest {
     System.out.println(mtGoxWithdrawalResponse.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("9921d2c5abecfd3604e921888b32e48256c914156cc76c4c8eca1ad2709b48e6", is(equalTo(mtGoxWithdrawalResponse.getTransactionId())));
+    assertThat(mtGoxWithdrawalResponse.getTransactionId()).isEqualTo("9921d2c5abecfd3604e921888b32e48256c914156cc76c4c8eca1ad2709b48e6");
   }
 }

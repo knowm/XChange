@@ -43,7 +43,11 @@ import com.xeiam.xchange.utils.Assert;
  * <p>
  * MtGox provides a Websocket implementation
  * </p>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeService implements StreamingExchangeService {
 
   private final Logger logger = LoggerFactory.getLogger(MtGoxWebsocketMarketDataService.class);
@@ -63,7 +67,7 @@ public class MtGoxWebsocketMarketDataService extends BaseWebSocketExchangeServic
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The exchange specification providing the required connection data
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxWebsocketMarketDataService(ExchangeSpecification exchangeSpecification, MtGoxStreamingConfiguration configuration) {
 

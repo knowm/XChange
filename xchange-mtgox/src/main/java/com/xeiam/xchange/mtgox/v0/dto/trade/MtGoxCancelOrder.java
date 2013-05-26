@@ -27,7 +27,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author timmolter
+ *         <p>
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxCancelOrder {
 
   private final List<MtGoxOrders> orders;

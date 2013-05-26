@@ -21,8 +21,7 @@
  */
 package com.xeiam.xchange.virtex.service;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -37,8 +36,8 @@ public class VirtExUtilsTest {
   @Test
   public void testIsValidCurrencyPair() {
 
-    assertTrue(VirtExUtils.isValidCurrencyPair(CurrencyPair.BTC_CAD));
-    assertTrue(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "CAD")));
-    assertFalse(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD")));
+    assertThat(VirtExUtils.isValidCurrencyPair(CurrencyPair.BTC_CAD)).isTrue();
+    assertThat(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "CAD"))).isTrue();
+    assertThat(VirtExUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD"))).isFalse();
   }
 }

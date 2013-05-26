@@ -4,7 +4,7 @@
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>1.6.1-SNAPSHOT</version>
+	<version>1.8.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
@@ -26,6 +26,9 @@
 			<name>Gary Rowe</name>
 			<email>g.rowe@froot.co.uk</email>
 		</developer>
+		<developer>
+			<name>Matija Mazi</name>
+		</developer>
 	</developers>
 
 	<licenses>
@@ -44,12 +47,12 @@
 
 	<distributionManagement>
 		<snapshotRepository>
-			<id>xeiam_oss.sonatype-nexus-snapshots</id>
+			<id>sonatype-nexus-snapshots</id>
 			<name>Sonatype Nexus Snapshots</name>
 			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
-			<id>xeiam_oss.sonatype-nexus-staging</id>
+			<id>sonatype-nexus-staging</id>
 			<name>Nexus Release Repository</name>
 			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
@@ -60,8 +63,8 @@
 		<connection>scm:git:git@github.com:timmolter/XChange.git</connection>
 		<developerConnection>scm:git:git@github.com:timmolter/XChange.git</developerConnection>
 		<url>git@github.com:timmolter/XChange.git</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<ciManagement>
 		<url>http://ci.xeiam.com/</url>
@@ -78,6 +81,19 @@
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
 	</modules>
+
+	<repositories>
+		<repository>
+			<id>sonatype-oss-public</id>
+			<url>https://oss.sonatype.org/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
@@ -107,18 +123,11 @@
 				<version>0.8</version>
 			</dependency>
 
-			<!-- Rest client utility -->
-			<dependency>
-				<groupId>com.github.mmazi</groupId>
-				<artifactId>rescu</artifactId>
-				<version>1.0.0</version>
-			</dependency>
-
 			<!-- Charting -->
 			<dependency>
 				<groupId>com.xeiam.xchart</groupId>
 				<artifactId>xchart</artifactId>
-				<version>2.1.0</version>
+				<version>2.2.0</version>
 			</dependency>
 
 			<!-- Websocket library -->
@@ -128,16 +137,35 @@
 				<version>1.3.0</version>
 			</dependency>
 
+			<!-- Rest client -->
+			<dependency>
+				<groupId>com.github.mmazi</groupId>
+				<artifactId>rescu</artifactId>
+				<version>1.1.0</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- All children will have these dependencies -->
 	<dependencies>
+
+		<!-- JUnit for testing -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- FEST for fluent test assertions -->
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>2.0M10</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<profiles>
@@ -190,7 +218,7 @@
 							<includes>
 								<include>**/*Test*.java</include>
 								<include>**/*Test.java</include>
-<!-- 								<include>**/*TestCase.java</include> -->
+								<!-- <include>**/*TestCase.java</include> -->
 							</includes>
 						</configuration>
 						<executions>
@@ -214,7 +242,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.1</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>

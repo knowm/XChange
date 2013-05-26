@@ -35,8 +35,25 @@ package com.xeiam.xchange.service.streaming;
  */
 public interface ExchangeStreamingConfiguration {
 
+  /**
+   * What are the maximum number of reconnect attempts?
+   * 
+   * @return
+   */
   public int getMaxReconnectAttempts();
 
-  public int getRecconectWaitTimeInMs();
+  /**
+   * Before attempting reconnect, how much of a delay?
+   * 
+   * @return
+   */
+  public int getReconnectWaitTimeInMs();
+
+  /**
+   * How much time should elapse before the connection is considered dead and a reconnect attempt should be made?
+   * 
+   * @return
+   */
+  public int getTimeoutInMs();
 
 }

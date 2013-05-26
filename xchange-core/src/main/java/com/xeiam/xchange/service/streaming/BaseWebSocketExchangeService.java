@@ -61,7 +61,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The exchange specification providing the required connection data
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 
@@ -69,10 +69,9 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
   }
 
-  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener,
-                                              Map<String, String> headers) {
+  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener, Map<String, String> headers) {
 
-    log.info("internalConnect");
+    log.debug("internalConnect");
 
     // Validate inputs
     Assert.notNull(exchangeEventListener, "runnableExchangeEventListener cannot be null");
@@ -104,9 +103,13 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
       reconnectService.intercept(event);
     }
-
     return event;
+  }
 
+  @Override
+  public void send(String msg) {
+
+    exchangeEventProducer.send(msg);
   }
 
 }

@@ -21,9 +21,7 @@
  */
 package com.xeiam.xchange.btce.service.account;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +48,7 @@ public class BTCEAccountInfoJSONTest {
     BTCEAccountInfoReturn ai = mapper.readValue(is, BTCEAccountInfoReturn.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(ai.getReturnValue().getRights().isInfo(), is(equalTo(true)));
-    assertThat(ai.getReturnValue().getFunds().get("btc"), is(equalTo(new BigDecimal("0.1"))));
+    assertThat(ai.getReturnValue().getRights().isInfo()).isTrue();
+    assertThat(ai.getReturnValue().getFunds().get("btc")).isEqualTo(new BigDecimal("0.1"));
   }
 }

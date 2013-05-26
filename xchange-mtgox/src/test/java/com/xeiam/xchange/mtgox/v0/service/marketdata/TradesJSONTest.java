@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v0.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -35,7 +35,11 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
 
 /**
  * Test MtGoxTrade[] JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class TradesJSONTest {
 
   @Test
@@ -50,7 +54,6 @@ public class TradesJSONTest {
     MtGoxTrade[] mtGoxTrades = mapper.readValue(is, MtGoxTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTrades[0].getPriceInt(), equalTo(1675000L));
-    // System.out.println(mtGoxTrades[0].toString());
+    assertThat(mtGoxTrades[0].getPriceInt()).isEqualTo(1675000L);
   }
 }

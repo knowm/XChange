@@ -26,11 +26,14 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * Test requesting polling Ticker at MtGox
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class TickerDemo {
 
   public static void main(String[] args) {
@@ -51,6 +54,14 @@ public class TickerDemo {
 
     // Get the latest ticker data showing BTC to GBP
     ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
+    System.out.println(ticker.toString());
+
+    // Get the latest ticker data showing BTC to JPY
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.JPY);
+    System.out.println(ticker.toString());
+
+    // Get the latest ticker data showing BTC to SEK
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.SEK);
     System.out.println(ticker.toString());
 
   }

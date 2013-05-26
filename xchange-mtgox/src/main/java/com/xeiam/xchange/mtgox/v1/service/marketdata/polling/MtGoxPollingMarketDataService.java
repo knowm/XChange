@@ -37,7 +37,7 @@ import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
@@ -48,7 +48,11 @@ import com.xeiam.xchange.utils.Assert;
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
   private final MtGoxV1 mtGoxV1;
@@ -56,12 +60,12 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The exchange specification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getPlainTextUri());
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -114,7 +118,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
       Long sinceTimeStamp = (Long) args[0];
       // Request data
       mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency, "y", sinceTimeStamp);
-    } else {
+    }
+    else {
       // Request data
       mtGoxTrades = mtGoxV1.getTrades(tradableIdentifier, currency);
     }
@@ -125,8 +130,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   /**
    * Verify
    * 
-   * @param tradableIdentifier
-   * @param currency
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
    */
   private void verify(String tradableIdentifier, String currency) {
 

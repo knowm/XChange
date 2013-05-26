@@ -35,6 +35,88 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * <li>Provision of required exchangeSpecificParameters for creating an {@link Exchange}</li>
  * <li>Provision of optional exchangeSpecificParameters for additional configuration</li>
  * </ul>
+ * <p>
+ * Due to the JSON annotations, you can externalise your exchange configuration as follows:
+ * </p>
+ * <code>config.yaml:</code>
+ * 
+ * <pre>
+ * # Mt Gox configuration
+ * mtgox:
+ *   tradeFeePercent: 0.6
+ *   apiKey: exampleApiKey
+ *   secretKey: exampleSecretKey
+ *   exchangeClassName: com.xeiam.xchange.mtgox.v1.MtGoxExchange
+ * 
+ * # BTC-E configuration
+ * btce:
+ *   tradeFeePercent: 0.2
+ *   apiKey: exampleApiKey
+ *   secretKey: exampleSecretKey
+ *   exchangeClassName: com.xeiam.xchange.btce.BTCEExchange
+ * 
+ * # Bitstamp configuration
+ * bitstamp:
+ *   tradeFeePercent: 0.5
+ *   userName: exampleUser
+ *   password: examplePassword
+ *   exchangeClassName: com.xeiam.xchange.bitstamp.BitstampExchange
+ * 
+ * </pre>
+ * <p>
+ * Which is used to populate a <code>Configuration</code> object:
+ * </p>
+ * 
+ * <pre>
+ * 
+ * 
+ * public class Configuration {
+ * 
+ *   private ExchangeSpecification mtgox;
+ *   private ExchangeSpecification btce;
+ *   private ExchangeSpecification bitstamp;
+ * 
+ *   public ExchangeSpecification getMtgox() {
+ * 
+ *     return mtgox;
+ *   }
+ * 
+ *   public ExchangeSpecification getBtce() {
+ * 
+ *     return btce;
+ *   }
+ * 
+ *   public ExchangeSpecification getBitstamp() {
+ * 
+ *     return bitstamp;
+ *   }
+ * 
+ * }
+ * </pre>
+ * <p>
+ * And read it in at application startup:
+ * </p>
+ * 
+ * <pre>
+ * 
+ * 
+ * ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+ * InputStream fis = new FileInputStream(&quot;config.yaml&quot;);
+ * Configuration configuration = mapper.readValue(fis, Configuration.class);
+ * </pre>
+ * <p>
+ * The <code>YAMLFactory</code> requires an additional Maven dependency in your application:
+ * </p>
+ * 
+ * <pre>
+ * {@code
+ * <dependency>
+ *   <groupId>com.fasterxml.jackson.dataformat</groupId>
+ *   <artifactId>jackson-dataformat-yaml</artifactId>
+ *   <version>${jackson.version}</version>
+ * </dependency>
+ * }
+ * </pre>
  */
 public class ExchangeSpecification {
 
@@ -118,7 +200,7 @@ public class ExchangeSpecification {
   }
 
   /**
-   * The host name of the server providing data (e.g. "intersango.com")
+   * The host name of the server providing data (e.g. "mtgox.com")
    */
   public String getHost() {
 
@@ -185,7 +267,7 @@ public class ExchangeSpecification {
 
   /**
    * The URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries<br/>
-   * (e.g. use "http://example.com:8443/exchange", not "http://example.com:8443/exchange/api/v3/trades")
+   * (e.g. use "http://example.com:8080/exchange", not "http://example.com:8080/exchange/api/v3/trades")
    */
   public String getPlainTextUri() {
 

@@ -30,4 +30,5 @@ package com.xeiam.xchange.service.streaming;
  * </ul>
  */
 public interface ExchangeEventProducer {
+
 }

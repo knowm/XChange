@@ -32,7 +32,6 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * @author Matija Mazi <br/>
- * @created 2/19/13 9:06 PM
  */
 public abstract class BooleanDeserializer extends JsonDeserializer<Boolean> {
 
@@ -50,7 +49,8 @@ public abstract class BooleanDeserializer extends JsonDeserializer<Boolean> {
     String valueAsString = jp.getValueAsString();
     if (trueValue.equals(valueAsString)) {
       return true;
-    } else if (falseValue.equals(valueAsString)) {
+    }
+    else if (falseValue.equals(valueAsString)) {
       return false;
     }
     throw new InvalidFormatException(String.format("Unrecognized value; expected %s or %s: %s", trueValue, falseValue, valueAsString), valueAsString, Boolean.class);

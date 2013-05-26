@@ -29,8 +29,6 @@ import java.util.concurrent.Future;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
-import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxStreamingConfiguration;
@@ -41,9 +39,11 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * Demonstrate streaming market data from the MtGox Websocket API
- * <p>
  * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxWebSocketMarketDataDemo {
 
   public static void main(String[] args) throws ExecutionException, InterruptedException {
@@ -58,7 +58,7 @@ public class MtGoxWebSocketMarketDataDemo {
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Configure BTC/USD ticker stream for MtGox
-    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.USD);
+    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, Currencies.BTC, Currencies.EUR);
 
     // Interested in the public streaming market data feed (no authentication)
     StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
@@ -106,8 +106,8 @@ public class MtGoxWebSocketMarketDataDemo {
           ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
 
           if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
-            Ticker ticker = (Ticker) exchangeEvent.getPayload();
-            System.out.println(ticker.toString());
+            // Ticker ticker = (Ticker) exchangeEvent.getPayload();
+            // System.out.println(ticker.toString());
           }
 
           else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
@@ -116,8 +116,8 @@ public class MtGoxWebSocketMarketDataDemo {
           }
 
           else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
-            OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
-            System.out.println(orderBookUpdate.toString());
+            // OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
+            // System.out.println(orderBookUpdate.toString());
           }
         }
 

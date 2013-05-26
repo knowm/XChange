@@ -21,17 +21,19 @@
  */
 package com.xeiam.xchange.btce.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Test BTCETicker JSON parsing
@@ -49,10 +51,15 @@ public class BTCETickerJSONTest {
     BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Last value", BTCETicker.getTicker().getLast(), equalTo(new BigDecimal("13.07")));
-    assertThat("Unexpected Return High value", BTCETicker.getTicker().getHigh(), equalTo(new BigDecimal("13.23")));
-    assertThat("Unexpected Return Low value", BTCETicker.getTicker().getLow(), equalTo(new BigDecimal("13")));
-    assertThat("Unexpected Return Volume value", BTCETicker.getTicker().getVol(), equalTo(new BigDecimal("40418.44988")));
+    assertThat(BTCETicker.getTicker().getLast()).isEqualTo(new BigDecimal("13.07"));
+    assertThat(BTCETicker.getTicker().getHigh()).isEqualTo(new BigDecimal("13.23"));
+    assertThat(BTCETicker.getTicker().getLow()).isEqualTo(new BigDecimal("13"));
+    assertThat(BTCETicker.getTicker().getVol()).isEqualTo(new BigDecimal("40418.44988"));
+
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(DateUtils.fromMillisUtc(BTCETicker.getTicker().getServerTime() * 1000L));
+    assertThat(dateString).isEqualTo("2012-12-22 19:12:09");
   }
 
 }

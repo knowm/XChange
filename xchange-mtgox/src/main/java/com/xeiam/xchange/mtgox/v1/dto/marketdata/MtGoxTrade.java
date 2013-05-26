@@ -28,7 +28,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Data object representing a Trade from Mt Gox
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxTrade {
 
   private final long amountInt;
@@ -44,17 +48,15 @@ public final class MtGoxTrade {
   /**
    * Constructor
    * 
-   * @param amount
-   * @param amountInt
-   * @param date
-   * @param item
-   * @param price
-   * @param priceCurrency
-   * @param priceInt
-   * @param primary
-   * @param properties
-   * @param tid
-   * @param tradeType
+   * @param amountInt The amount as an integer
+   * @param date The date (Unix time)
+   * @param item The tradeable identifier (e.g. "BTC")
+   * @param priceCurrency The currency for the price (e.g. "USD")
+   * @param priceInt The price as an integer
+   * @param primary "Y" means the buyer's currency (duplicate trades may include the seller and be marked with "N")
+   * @param properties Trade characteristics (e.g. "limit")
+   * @param tid Trade identifier
+   * @param tradeType The trade type (bid/ask)
    */
   public MtGoxTrade(@JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency,
       @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("tid") long tid,

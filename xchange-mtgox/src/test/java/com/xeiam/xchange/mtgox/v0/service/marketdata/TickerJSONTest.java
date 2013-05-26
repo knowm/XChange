@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v0.service.marketdata;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,11 @@ import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 
 /**
  * Test MtGoxTicker JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class TickerJSONTest {
 
   @Test
@@ -48,12 +52,12 @@ public class TickerJSONTest {
     MtGoxTicker mtGoxTicker = mapper.readValue(is, MtGoxTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxTicker.getTicker().getBuy().doubleValue(), equalTo(16.79036));
-    assertThat("Unexpected Return Last value", mtGoxTicker.getTicker().getLast().doubleValue(), equalTo(16.800000000000001));
-    assertThat("Unexpected Return Ask value", mtGoxTicker.getTicker().getSell().doubleValue(), equalTo(16.800000000000001));
-    assertThat("Unexpected Return High value", mtGoxTicker.getTicker().getHigh().doubleValue(), equalTo(16.98));
-    assertThat("Unexpected Return Low value", mtGoxTicker.getTicker().getLow().doubleValue(), equalTo(15.634119999999999));
-    assertThat("Unexpected Return Volume value", mtGoxTicker.getTicker().getVol().longValue(), equalTo(60418L));
+    assertThat(mtGoxTicker.getTicker().getBuy().doubleValue()).isEqualTo(16.79036);
+    assertThat(mtGoxTicker.getTicker().getLast().doubleValue()).isEqualTo(16.800000000000001);
+    assertThat(mtGoxTicker.getTicker().getSell().doubleValue()).isEqualTo(16.800000000000001);
+    assertThat(mtGoxTicker.getTicker().getHigh().doubleValue()).isEqualTo(16.98);
+    assertThat(mtGoxTicker.getTicker().getLow().doubleValue()).isEqualTo(15.634119999999999);
+    assertThat(mtGoxTicker.getTicker().getVol().longValue()).isEqualTo(60418L);
 
   }
 }

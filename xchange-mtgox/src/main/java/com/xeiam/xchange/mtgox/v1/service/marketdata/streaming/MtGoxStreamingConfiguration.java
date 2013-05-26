@@ -9,7 +9,11 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
  * <ul>
  * <li>Access to streaming data configuration specific to MtGox exchange streaming API</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxStreamingConfiguration implements ExchangeStreamingConfiguration {
 
   private final int maxReconnectAttempts;
@@ -50,9 +54,15 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   }
 
   @Override
-  public int getRecconectWaitTimeInMs() {
+  public int getReconnectWaitTimeInMs() {
 
     return reconnectWaitTimeInMs;
+  }
+
+  @Override
+  public int getTimeoutInMs() {
+
+    return 0;
   }
 
 }

@@ -21,9 +21,7 @@
  */
 package com.xeiam.xchange.bitstamp.service.account;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,12 +48,12 @@ public class AccountInfoJSONTest {
     BitstampBalance bitstampBalance = mapper.readValue(is, BitstampBalance.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(bitstampBalance.getBtcAvailable(), is(equalTo(new BigDecimal("6.99990000"))));
-    assertThat(bitstampBalance.getBtcReserved(), is(equalTo(new BigDecimal("0"))));
-    assertThat(bitstampBalance.getBtcBalance(), is(equalTo(new BigDecimal("6.99990000"))));
-    assertThat(bitstampBalance.getUsdAvailable(), is(equalTo(new BigDecimal("0.00"))));
-    assertThat(bitstampBalance.getUsdBalance(), is(equalTo(new BigDecimal("172.87"))));
-    assertThat(bitstampBalance.getUsdReserved(), is(equalTo(new BigDecimal("172.87"))));
-    assertThat(bitstampBalance.getFee(), is(equalTo(new BigDecimal("0.5000"))));
+    assertThat(bitstampBalance.getBtcAvailable()).isEqualTo(new BigDecimal("6.99990000"));
+    assertThat(bitstampBalance.getBtcReserved()).isEqualTo(new BigDecimal("0"));
+    assertThat(bitstampBalance.getBtcBalance()).isEqualTo(new BigDecimal("6.99990000"));
+    assertThat(bitstampBalance.getUsdAvailable()).isEqualTo(new BigDecimal("0.00"));
+    assertThat(bitstampBalance.getUsdBalance()).isEqualTo(new BigDecimal("172.87"));
+    assertThat(bitstampBalance.getUsdReserved()).isEqualTo(new BigDecimal("172.87"));
+    assertThat(bitstampBalance.getFee()).isEqualTo(new BigDecimal("0.5000"));
   }
 }

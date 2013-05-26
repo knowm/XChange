@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v0.service.trade;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -36,7 +36,11 @@ import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
 
 /**
  * Test MtGoxCancelOrder JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class CancelOrdersJSONTest {
 
   @Test
@@ -53,6 +57,6 @@ public class CancelOrdersJSONTest {
     // System.out.println(mtGoxOpenOrders.toString());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(mtGoxOpenOrders.getOrders().get(0).getAmount(), equalTo(new BigDecimal("0.92907324")));
+    assertThat(mtGoxOpenOrders.getOrders().get(0).getAmount()).isEqualTo(new BigDecimal("0.92907324"));
   }
 }

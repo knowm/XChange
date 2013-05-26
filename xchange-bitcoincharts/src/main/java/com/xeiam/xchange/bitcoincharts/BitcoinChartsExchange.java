@@ -24,7 +24,7 @@ package com.xeiam.xchange.bitcoincharts;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcoincharts.service.marketdata.polling.BitcoinChartsPollingMarketDataService;
+import com.xeiam.xchange.bitcoincharts.service.polling.BitcoinChartsPollingMarketDataService;
 
 /**
  * <p>

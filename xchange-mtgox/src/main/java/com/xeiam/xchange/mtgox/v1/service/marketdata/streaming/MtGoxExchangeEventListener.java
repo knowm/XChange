@@ -46,7 +46,9 @@ import com.xeiam.xchange.service.streaming.ExchangeEventType;
 
 /**
  * @author timmolter
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxExchangeEventListener extends ExchangeEventListener {
 
   private static final Logger log = LoggerFactory.getLogger(MtGoxExchangeEventListener.class);
@@ -102,13 +104,16 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
         ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
         addToEventQueue(tickerEvent);
         break;
-      } else {
+      }
+      else {
         if (rawJSON.containsKey("trade")) {
 
           // log.debug("exchangeEvent: " + exchangeEvent.getEventType());
 
           // Get MtGoxTradeStream from JSON String
           MtGoxTrade mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTrade.class, streamObjectMapper);
+
+          // log.debug("mtGoxTradeStream: " + mtGoxTradeStream.toString());
 
           // Adapt to XChange DTOs
           Trade trade = MtGoxAdapters.adaptTrade(mtGoxTradeStream);
@@ -117,7 +122,8 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
           ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);
           addToEventQueue(tradeEvent);
           break;
-        } else {
+        }
+        else {
           if (rawJSON.containsKey("depth")) {
 
             // Get MtGoxDepthStream from JSON String
@@ -130,8 +136,9 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
             ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), orderBookUpdate);
             addToEventQueue(depthEvent);
             break;
-          } else {
-            log.debug("MtGox operational message");
+          }
+          else {
+            // log.debug("MtGox operational message: " + exchangeEvent.getData());
             addToEventQueue(exchangeEvent);
           }
         }

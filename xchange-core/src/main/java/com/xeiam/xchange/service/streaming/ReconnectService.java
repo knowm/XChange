@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.service.streaming;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +40,9 @@ public class ReconnectService {
 
   private int numConnectionAttempts = 0;
 
+  Timer timer = new Timer();
+  TimerTask reconnectTask = new ReconnectTask();
+
   /**
    * Constructor
    * 
@@ -50,14 +56,19 @@ public class ReconnectService {
 
   public void intercept(ExchangeEvent exchangeEvent) {
 
+    reconnectTask.cancel();
+    reconnectTask = new ReconnectTask();
+    timer.schedule(reconnectTask, exchangeStreamingConfiguration.getTimeoutInMs());
+
     if (exchangeEvent.getEventType() == ExchangeEventType.ERROR || exchangeEvent.getEventType() == ExchangeEventType.DISCONNECT) {
       try {
-        Thread.sleep(exchangeStreamingConfiguration.getRecconectWaitTimeInMs());
+        Thread.sleep(exchangeStreamingConfiguration.getReconnectWaitTimeInMs());
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
       reconnect();
-    } else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
+    }
+    else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
       numConnectionAttempts = 0;
     }
 
@@ -77,6 +88,17 @@ public class ReconnectService {
     streamingExchangeService.connect();
     numConnectionAttempts++;
 
+  }
+
+  class ReconnectTask extends TimerTask {
+
+    @Override
+    public void run() {
+
+      log.debug("Time out!");
+      timer.purge();
+      reconnect();
+    }
   }
 
 }

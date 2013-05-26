@@ -26,17 +26,15 @@ import java.math.BigDecimal;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
+import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * <p>
@@ -46,17 +44,16 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * <li>Connecting to Mt Gox BTC exchange with authentication</li>
  * <li>Retrieving account info data</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxTradeDemo {
 
   public static void main(String[] args) {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(MtGoxExchange.class.getName());
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setSslUri("https://mtgox.com");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();

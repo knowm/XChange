@@ -47,7 +47,6 @@ public final class BitcoinChartsAdapters {
    * Adapts a BitcoinChartsTicker[] to a Ticker Object
    * 
    * @param bitcoinChartsTickers
-   * @param currency
    * @param tradableIdentifier
    * @return
    */
