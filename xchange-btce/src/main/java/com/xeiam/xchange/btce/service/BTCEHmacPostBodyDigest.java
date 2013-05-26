@@ -32,7 +32,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocationParams;
+import si.mazi.rescu.RestInvocation;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably
@@ -73,10 +73,10 @@ public class BTCEHmacPostBodyDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocationParams restInvocationParams) {
+  public String digestParams(RestInvocation RestInvocation) {
 
     try {
-      String postBody = restInvocationParams.getRequestBody();
+      String postBody = RestInvocation.getRequestBody();
       mac.update(postBody.getBytes("UTF-8"));
       return String.format("%0128x", new BigInteger(1, mac.doFinal()));
     } catch (UnsupportedEncodingException e) {

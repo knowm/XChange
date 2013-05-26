@@ -30,7 +30,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocationParams;
+import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
 
 /**
@@ -68,11 +68,11 @@ public class MtGoxV2Digest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocationParams restInvocationParams) {
+  public String digestParams(RestInvocation RestInvocation) {
 
-    mac.update(restInvocationParams.getMethodPath().getBytes());
+    mac.update(RestInvocation.getMethodPath().getBytes());
     mac.update(new byte[] { 0 });
-    mac.update(restInvocationParams.getRequestBody().getBytes());
+    mac.update(RestInvocation.getRequestBody().getBytes());
 
     return Base64.encodeBytes(mac.doFinal()).trim();
   }
