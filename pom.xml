@@ -148,14 +148,19 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- All children will have these dependencies -->
 	<dependencies>
-
-		<!-- All children will have these dependencies -->
 
 		<!-- JUnit for testing -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+				</exclusion>
+			</exclusions>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
