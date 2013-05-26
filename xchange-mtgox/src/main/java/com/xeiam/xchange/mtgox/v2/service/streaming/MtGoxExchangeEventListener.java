@@ -116,6 +116,7 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
 
       }
       else if ("result".equals(operation)) {
+
         String id = (String) rawJSON.get("id");
 
         if ("idkey".equals(id)) {
@@ -149,9 +150,20 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
 
         }
         else if (id.startsWith("order_cancel")) {
+
+          // TODO implement the case when the following message comes in from MtGox
+          // {id=order_cancel:c8fa912b-d929-4cc5-98e6-3ea23667cfa5, message=Order not found, op=remark, success=false}
+
+          // if (((String) rawJSON.get("message")).equals("Order not found")) {
+          // ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_NOT_FOUND, exchangeEvent.getData(), rawJSON.get("message"));
+          // addToEventQueue(userOrderCanceledEvent);
+          // }
+          // else {
           MtGoxOrderCanceled orderCanceled = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOrderCanceled.class, streamObjectMapper);
           ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_CANCELED, exchangeEvent.getData(), orderCanceled);
           addToEventQueue(userOrderCanceledEvent);
+          // }
+
           break;
         }
 

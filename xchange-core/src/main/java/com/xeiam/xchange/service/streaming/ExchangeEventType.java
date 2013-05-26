@@ -112,6 +112,11 @@ public enum ExchangeEventType {
   USER_ORDER_CANCELED,
 
   /**
+   * A message sent when a user order is not found
+   */
+  USER_ORDER_NOT_FOUND,
+
+  /**
    * A message with the wallet update
    */
   USER_WALLET_UPDATE
