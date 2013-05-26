@@ -17,7 +17,8 @@ package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -66,14 +67,16 @@ public class MtGoxOrderBookChartDemo {
     chart.getStyleManager().setChartType(ChartType.Area);
 
     // BIDS
-    Collection<Number> xData = new ArrayList<Number>();
-    Collection<Number> yData = new ArrayList<Number>();
+    List<Number> xData = new ArrayList<Number>();
+    List<Number> yData = new ArrayList<Number>();
     BigDecimal accumulatedBidUnits = new BigDecimal("0");
     for (LimitOrder limitOrder : orderBook.getBids()) {
       xData.add(limitOrder.getLimitPrice().getAmount());
       accumulatedBidUnits = accumulatedBidUnits.add(limitOrder.getTradableAmount());
       yData.add(accumulatedBidUnits);
     }
+    Collections.reverse(xData);
+    Collections.reverse(yData);
 
     // Bids Series
     Series series = chart.addSeries("bids", xData, yData);
