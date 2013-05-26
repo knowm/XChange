@@ -68,11 +68,11 @@ public class MtGoxV2Digest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation RestInvocation) {
+  public String digestParams(RestInvocation restInvocation) {
 
-    mac.update(RestInvocation.getMethodPath().getBytes());
+    mac.update(restInvocation.getMethodPath().getBytes());
     mac.update(new byte[] { 0 });
-    mac.update(RestInvocation.getRequestBody().getBytes());
+    mac.update(restInvocation.getRequestBody().getBytes());
 
     return Base64.encodeBytes(mac.doFinal()).trim();
   }
