@@ -61,27 +61,77 @@ Download XChange Release Jars: http://xeiam.com/xchange.jsp
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/ (develop-SNAPSHOT)
 
 #### Compile Dependencies
++- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
     +- org.slf4j:slf4j-api:jar:1.7.2:compile
     +- org.joda:joda-money:jar:0.8:compile
-    \- com.github.mmazi:rescu:jar:1.0.0:compile
-         +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
-         +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
-         +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
-         +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
-         \- com.google.code.findbugs:jsr305:jar:2.0.1:compile
+    \- com.github.mmazi:rescu:jar:1.1.0:compile
+        +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
+        +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
+        +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
+        +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+        \- com.google.code.findbugs:jsr305:jar:2.0.1:compile
 
 #### Test Dependencies
-    \- junit:junit:jar:4.11:test
-        \- org.hamcrest:hamcrest-core:jar:1.3:test 
+    +- junit:junit:jar:4.11:test
+    \- org.easytesting:fest-assert-core:jar:2.0M10:test
+        \- org.easytesting:fest-util:jar:1.2.5:test
    
 #### Other Dependencies for Some Examples
-    +- ch.qos.logback:logback-classic:jar:1.0.9:compile
-    |  \- ch.qos.logback:logback-core:jar:1.0.9:compile
-    +- com.xeiam.xchart:xchart:jar:2.1.0:compile
+    +- ch.qos.logback:logback-classic:jar:1.0.9:runtime
+        \- ch.qos.logback:logback-core:jar:1.0.9:runtime
+    +- com.xeiam.xchart:xchart:jar:2.2.0:compile
 
 ### Maven
 The XChange release artifacts are hosted on Maven Central. 
+  
+Add the following dependencies in your pom.xml file. You will need at least xchange-core. Add the additional dependencies for the exchange implementations you are interested in. There is example code for all the implementations in xchange-examples.
 
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-core</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-examples</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitcoincharts</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitstamp</artifactId>
+      <version>1.7.0</version>
+    </dependency>  
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-btce</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-campbx</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-cavirtex</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-mtgox</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-openexchangerates</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+    
 For snapshots, add the following repository to your pom.xml file.
 
     <repository>
@@ -89,54 +139,10 @@ For snapshots, add the following repository to your pom.xml file.
       <snapshots/>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
-  
-Add the following dependencies in your pom.xml file. You will need at least xchange-core. Add the additional dependencies for the exchange implementations you are interested in. There is example code for all the implementations in xchange-examples.
+    
+The current snapshot version is: 
 
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-core</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-examples</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitcoincharts</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitstamp</artifactId>
-      <version>1.6.0</version>
-    </dependency>  
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-btce</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-campbx</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-cavirtex</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-mtgox</artifactId>
-      <version>1.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-openexchangerates</artifactId>
-      <version>1.6.0</version>
-    </dependency>
+    1.8.0-SNAPSHOT
     
 ## Building
 install in local Maven repo: mvn clean install  
