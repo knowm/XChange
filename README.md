@@ -73,12 +73,13 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
 
 #### Test Dependencies
     +- junit:junit:jar:4.11:test
+    |    \- org.hamcrest:hamcrest-core:jar:1.3:test
     \- org.easytesting:fest-assert-core:jar:2.0M10:test
         \- org.easytesting:fest-util:jar:1.2.5:test
    
 #### Other Dependencies for Some Examples
     +- ch.qos.logback:logback-classic:jar:1.0.9:runtime
-        \- ch.qos.logback:logback-core:jar:1.0.9:runtime
+    |    \- ch.qos.logback:logback-core:jar:1.0.9:runtime
     +- com.xeiam.xchart:xchart:jar:2.2.0:compile
 
 ### Maven
