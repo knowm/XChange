@@ -47,6 +47,8 @@ public final class Wallets {
   private final MtGoxWallet rUB;
   private final MtGoxWallet sEK;
   private final MtGoxWallet tHB;
+  private final MtGoxWallet nOK;
+  private final MtGoxWallet sGD;
 
   /**
    * Constructor
@@ -67,11 +69,13 @@ public final class Wallets {
    * @param rUB
    * @param sEK
    * @param tHB
+   * @param nOK
+   * @param sGD
    */
   public Wallets(@JsonProperty("BTC") MtGoxWallet bTC, @JsonProperty("USD") MtGoxWallet uSD, @JsonProperty("EUR") MtGoxWallet eUR, @JsonProperty("GBP") MtGoxWallet gBP,
       @JsonProperty("AUD") MtGoxWallet aUD, @JsonProperty("CAD") MtGoxWallet cAD, @JsonProperty("CHF") MtGoxWallet cHF, @JsonProperty("JPY") MtGoxWallet jPY, @JsonProperty("CNY") MtGoxWallet cNY,
       @JsonProperty("DKK") MtGoxWallet dKK, @JsonProperty("HKD") MtGoxWallet hKD, @JsonProperty("NZD") MtGoxWallet nZD, @JsonProperty("PLN") MtGoxWallet pLN, @JsonProperty("RUB") MtGoxWallet rUB,
-      @JsonProperty("SEK") MtGoxWallet sEK, @JsonProperty("THB") MtGoxWallet tHB) {
+      @JsonProperty("SEK") MtGoxWallet sEK, @JsonProperty("THB") MtGoxWallet tHB, @JsonProperty("NOK") MtGoxWallet nOK, @JsonProperty("SGD") MtGoxWallet sGD) {
 
     this.bTC = bTC;
     this.uSD = uSD;
@@ -89,6 +93,8 @@ public final class Wallets {
     this.rUB = rUB;
     this.sEK = sEK;
     this.tHB = tHB;
+    this.nOK = nOK;
+    this.sGD = sGD;
   }
 
   public MtGoxWallet getBTC() {
@@ -171,16 +177,26 @@ public final class Wallets {
     return tHB;
   }
 
+  public MtGoxWallet getNOK() {
+
+    return nOK;
+  }
+
+  public MtGoxWallet getSGD() {
+
+    return sGD;
+  }
+
   public List<MtGoxWallet> getMtGoxWallets() {
 
-    return Arrays.asList(bTC, uSD, eUR, gBP, aUD, cAD, cHF, jPY, cNY, dKK, hKD, nZD, pLN, rUB, sEK, tHB);
+    return Arrays.asList(bTC, uSD, eUR, gBP, aUD, cAD, cHF, jPY, cNY, dKK, hKD, nZD, pLN, rUB, sEK, tHB, nOK, sGD);
   }
 
   @Override
   public String toString() {
 
     return "Wallets [BTC=" + bTC + ", USD=" + uSD + ", EUR=" + eUR + ", GBP=" + gBP + ", AUD=" + aUD + ", CAD=" + cAD + ", CHF=" + cHF + ", JPY=" + jPY + ", CNY=" + cNY + ", DKK=" + dKK + ", HKD="
-        + hKD + ", NZD=" + nZD + ", PLN=" + pLN + ", RUB=" + rUB + ", SEK=" + sEK + ", THB=" + tHB + "]";
+        + hKD + ", NZD=" + nZD + ", PLN=" + pLN + ", RUB=" + rUB + ", SEK=" + sEK + ", THB=" + tHB + ", NOK=" + nOK + ", SGD=" + sGD + "]";
   }
 
 }
