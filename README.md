@@ -61,7 +61,7 @@ Download XChange Release Jars: http://xeiam.com/xchange.jsp
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
 
 #### Compile Dependencies
-+- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
+    +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
     +- org.slf4j:slf4j-api:jar:1.7.2:compile
     +- org.joda:joda-money:jar:0.8:compile
     \- com.github.mmazi:rescu:jar:1.1.0:compile
