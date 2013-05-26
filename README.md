@@ -58,7 +58,7 @@ XChange is semantically versioned: http://semver.org
 
 ### Non-Maven
 Download XChange Release Jars: http://xeiam.com/xchange.jsp
-Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/ (develop-SNAPSHOT)
+Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
 
 #### Compile Dependencies
 +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
