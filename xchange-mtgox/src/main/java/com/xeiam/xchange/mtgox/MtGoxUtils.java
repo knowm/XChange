@@ -76,7 +76,9 @@ public final class MtGoxUtils {
 
   CurrencyPair.BTC_SGD,
 
-  CurrencyPair.BTC_THB
+  CurrencyPair.BTC_THB,
+
+  CurrencyPair.BTC_NOK
 
   );
 
