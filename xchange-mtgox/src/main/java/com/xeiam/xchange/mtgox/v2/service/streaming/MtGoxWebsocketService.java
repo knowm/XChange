@@ -85,7 +85,7 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
   @Override
   public void connect() {
 
-    URI uri = URI.create(apiBase + "?Currency=" + configuration.getCurrencyCode());
+    URI uri = URI.create(apiBase + "?Channel=ticker." + configuration.getTradeableIdentifier() + configuration.getCurrencyCode());
     Map<String, String> headers = new HashMap<String, String>(1);
     headers.put("Origin", String.format("%s:%s", exchangeSpecification.getHost(), exchangeSpecification.getPort()));
 
