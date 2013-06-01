@@ -115,14 +115,6 @@ public class MtGoxWebSocketTradeDemo {
           switch (exchangeEvent.getEventType()) {
           case CONNECT:
 
-            // unsubscribe to "default" channels
-            // trades
-            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("dbf1dee9-4f2e-4a08-8cb7-748919a71b21"));
-            // ticker.BTCUSD
-            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
-            // depth.BTCUSD
-            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
-
             // subscribe to "lag" channel "85174711-be64-4de1-b783-0628995d7914"
             // streamingExchangeService.send(socketMsgFactory.subscribeWithType("lag"));
 
