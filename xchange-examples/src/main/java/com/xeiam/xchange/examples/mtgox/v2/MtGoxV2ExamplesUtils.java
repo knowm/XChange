@@ -34,8 +34,8 @@ public class MtGoxV2ExamplesUtils {
   public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(MtGoxExchange.class);
-    exSpec.setSecretKey("th+xqOEBV9bGvWDHDGakvZXqihrAWhOba6WzFWYrn8+ODKgn4zL0T/5QCpco7jJ0yeKZ7ienZXD49+1EJe+JkA==");
-    exSpec.setApiKey("4119dea0-ccb6-4c4c-972b-29defc080ce4");
+    exSpec.setSecretKey("Wsivh0rXK6nbdeSqpgWMyUeM4s8Rf4lOmd1LhIXP2RWaepWQ9RTr5DZ22UuteKwmo4v3dzhyjZ3uI399NU6BrQ==");
+    exSpec.setApiKey("43f95036-c44c-424d-a834-8c5bc1976bb9");
     exSpec.setSslUri("https://data.mtgox.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }

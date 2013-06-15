@@ -56,4 +56,10 @@ public interface ExchangeStreamingConfiguration {
    */
   public int getTimeoutInMs();
 
+  /**
+   * should it use an encrypted channel or not? (ws vs. wss protocol)
+   * 
+   * @return
+   */
+  public boolean isEncryptedChannel();
 }

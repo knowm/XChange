@@ -48,11 +48,6 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
 
   private final Logger logger = LoggerFactory.getLogger(MtGoxWebsocketService.class);
 
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-
-  private final String apiBase = String.format("ws://websocket.%s:%s/mtgox", exchangeSpecification.getHost(), exchangeSpecification.getPort());
   private final ExchangeEventListener exchangeEventListener;
 
   /**
@@ -85,7 +80,17 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
   @Override
   public void connect() {
 
-    URI uri = URI.create(apiBase + "?Channel=ticker." + configuration.getTradeableIdentifier() + configuration.getCurrencyCode());
+    String apiBase = null;
+    if (configuration.isEncryptedChannel()) {
+      apiBase = String.format("%s:%s/mtgox", exchangeSpecification.getSslUriStreaming(), exchangeSpecification.getPort());
+    }
+    else {
+      apiBase = String.format("%s:%s/mtgox", exchangeSpecification.getPlainTextUriStreaming(), exchangeSpecification.getPort());
+    }
+    // URI uri = URI.create(apiBase + "?Channel=dbf1dee9-4f2e-4a08-8cb7-748919a71b21");
+    // URI uri = URI.create(apiBase + "?Channel=ticker." + configuration.getTradeableIdentifier() + configuration.getCurrencyCode());
+    URI uri = URI.create(apiBase + "?Currency=" + configuration.getCurrencyCode());
+    // URI uri = URI.create(apiBase);
     Map<String, String> headers = new HashMap<String, String>(1);
     headers.put("Origin", String.format("%s:%s", exchangeSpecification.getHost(), exchangeSpecification.getPort()));
 
@@ -94,5 +99,4 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
     // Use the default internal connect
     internalConnect(uri, exchangeEventListener, headers);
   }
-
 }

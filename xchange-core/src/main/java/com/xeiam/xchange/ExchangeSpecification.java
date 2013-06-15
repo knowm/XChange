@@ -70,6 +70,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * <pre>
  * 
  * 
+ * 
  * public class Configuration {
  * 
  *   private ExchangeSpecification mtgox;
@@ -98,6 +99,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  * 
  * <pre>
+ * 
  * 
  * 
  * ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -149,6 +151,12 @@ public class ExchangeSpecification {
 
   @JsonProperty
   private String plainTextUri;
+
+  @JsonProperty
+  private String sslUriStreaming;
+
+  @JsonProperty
+  private String plainTextUriStreaming;
 
   @JsonProperty
   private String host;
@@ -277,6 +285,26 @@ public class ExchangeSpecification {
   public void setPlainTextUri(String plainTextUri) {
 
     this.plainTextUri = plainTextUri;
+  }
+
+  public void setPlainTextUriStreaming(String plainTextUriStreaming) {
+
+    this.plainTextUriStreaming = plainTextUriStreaming;
+  }
+
+  public String getPlainTextUriStreaming() {
+
+    return plainTextUriStreaming;
+  }
+
+  public void setSslUriStreaming(String sslUriStreaming) {
+
+    this.sslUriStreaming = sslUriStreaming;
+  }
+
+  public String getSslUriStreaming() {
+
+    return sslUriStreaming;
   }
 
   /**

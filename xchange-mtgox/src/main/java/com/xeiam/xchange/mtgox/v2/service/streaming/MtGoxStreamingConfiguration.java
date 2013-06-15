@@ -38,6 +38,7 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   private final int timeoutInMs;
   private final String tradeableIdentifier;
   private final String currencyCode;
+  private final boolean encryptedChannel;
 
   /**
    * Constructor
@@ -47,14 +48,16 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
    * @param timeoutInMs
    * @param tradeableIdentifier
    * @param currencyCode
+   * @param encryptedChannel - should it use an encrypted channel or not? (ws vs. wss protocol)
    */
-  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, String tradeableIdentifier, String currencyCode) {
+  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, String tradeableIdentifier, String currencyCode, boolean encryptedChannel) {
 
     this.maxReconnectAttempts = maxReconnectAttempts;
     this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;
     this.timeoutInMs = timeoutInMs;
     this.tradeableIdentifier = tradeableIdentifier;
     this.currencyCode = currencyCode;
+    this.encryptedChannel = encryptedChannel;
   }
 
   public String getTradeableIdentifier() {
@@ -83,6 +86,12 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   public int getTimeoutInMs() {
 
     return timeoutInMs;
+  }
+
+  @Override
+  public boolean isEncryptedChannel() {
+
+    return encryptedChannel;
   }
 
 }
