@@ -20,6 +20,7 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   private final int reconnectWaitTimeInMs;
   private final String tradeableIdentifier;
   private final String currencyCode;
+  private final boolean encryptedChannel;
 
   /**
    * Constructor
@@ -29,12 +30,13 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
    * @param tradeableIdentifier
    * @param currencyCode
    */
-  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, String tradeableIdentifier, String currencyCode) {
+  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, String tradeableIdentifier, String currencyCode, boolean encryptedChannel) {
 
     this.maxReconnectAttempts = maxReconnectAttempts;
     this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;
     this.tradeableIdentifier = tradeableIdentifier;
     this.currencyCode = currencyCode;
+    this.encryptedChannel = encryptedChannel;
   }
 
   public String getTradeableIdentifier() {
@@ -63,6 +65,12 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   public int getTimeoutInMs() {
 
     return 0;
+  }
+
+  @Override
+  public boolean isEncryptedChannel() {
+
+    return encryptedChannel;
   }
 
 }
