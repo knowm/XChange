@@ -43,8 +43,6 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * Demonstrate streaming market data from the MtGox Websocket API and dynamically updating the OrderBook
- * <p>
- * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
  */
 public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
@@ -60,7 +58,7 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
     // Configure BTC/USD ticker stream for MtGox
-    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, Currencies.BTC, Currencies.USD, false);
+    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, false, "depth.BTCUSD");
 
     // Interested in the public streaming market data feed (no authentication)
     StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);

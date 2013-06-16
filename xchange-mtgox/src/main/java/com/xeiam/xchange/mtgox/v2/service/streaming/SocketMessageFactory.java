@@ -34,10 +34,8 @@ import org.joda.money.BigMoney;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.utils.Base64;
 
 /**
@@ -47,8 +45,6 @@ public class SocketMessageFactory {
 
   private final String apiKey;
   private final String apiSecret;
-  private final String tradableIdentifier;
-  private final String currency;
 
   /**
    * Constructor
@@ -57,24 +53,18 @@ public class SocketMessageFactory {
    * @param apiSecret
    * @param currency
    */
-  public SocketMessageFactory(String apiKey, String apiSecret, String tradableIdentifier, String currency) {
+  public SocketMessageFactory(String apiKey, String apiSecret) {
 
     if (apiKey == null || apiSecret == null || apiKey.length() == 0 || apiSecret.length() == 0) {
       throw new IllegalArgumentException("mtgox api key and/or secret is missing");
     }
 
-    if (apiKey == null || apiSecret == null || currency == null || apiKey.length() == 0 || apiSecret.length() == 0 || currency.length() == 0) {
-      throw new IllegalArgumentException("mtgox api key, secret and or currency is missing");
+    if (apiKey == null || apiSecret == null || apiKey.length() == 0 || apiSecret.length() == 0) {
+      throw new IllegalArgumentException("mtgox api key and or secret is missing");
     }
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
-    this.tradableIdentifier = tradableIdentifier;
-    this.currency = currency;
   }
 
   public String unsubscribeToChannel(String channel) throws JsonProcessingException {
@@ -170,8 +160,6 @@ public class SocketMessageFactory {
     call.put("call", endPoint);
     call.put("nonce", nonce);
     call.put("params", params);
-    call.put("currency", currency);
-    call.put("item", tradableIdentifier);
 
     ObjectMapper mapper = new ObjectMapper();
     String callString = mapper.writeValueAsString(call);

@@ -62,4 +62,5 @@ public interface ExchangeStreamingConfiguration {
    * @return
    */
   public boolean isEncryptedChannel();
+
 }
