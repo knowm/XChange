@@ -38,7 +38,7 @@ public class MtGoxV2ExamplesUtils {
     exSpec.setApiKey("43f95036-c44c-424d-a834-8c5bc1976bb9");
     exSpec.setSslUri("https://data.mtgox.com");
     exSpec.setPlainTextUriStreaming("ws://websocket.mtgox.com");
-    exSpec.setSslUriStreaming("ws://websocket.mtgox.com");
+    exSpec.setSslUriStreaming("wss://websocket.mtgox.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
