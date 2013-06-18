@@ -32,7 +32,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxWalletUpdate;
-import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOrderCanceled;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxTradeLag;
 import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
