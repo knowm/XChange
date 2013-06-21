@@ -33,6 +33,7 @@ import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
 import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfoWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddressWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponseWrapper;
@@ -78,6 +79,23 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
       MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
       if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
         return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
+      }
+      else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getAccountInfo(): " + mtGoxAccountInfoWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getAccountInfo(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getAccountInfo(): " + e.getError());
+    }
+  }
+
+  public MtGoxAccountInfo getMtGoxAccountInfo(){
+    try {
+      MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
+      if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
+        return mtGoxAccountInfoWrapper.getMtGoxAccountInfo();
       }
       else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
         throw new ExchangeException("Error calling getAccountInfo(): " + mtGoxAccountInfoWrapper.getError());

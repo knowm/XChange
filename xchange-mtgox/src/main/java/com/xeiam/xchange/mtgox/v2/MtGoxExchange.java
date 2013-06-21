@@ -54,6 +54,21 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   }
 
   @Override
+  public MtGoxPollingMarketDataService getPollingMarketDataService() {
+    return (MtGoxPollingMarketDataService) pollingMarketDataService;
+  }
+
+  @Override
+  public MtGoxPollingTradeService getPollingTradeService() {
+    return (MtGoxPollingTradeService) pollingTradeService;
+  }
+
+  @Override
+  public MtGoxPollingAccountService getPollingAccountService() {
+    return (MtGoxPollingAccountService) pollingAccountService;
+  }
+
+  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
