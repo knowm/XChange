@@ -89,6 +89,23 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
       throw new ExchangeException("Error calling getAccountInfo(): " + e.getError());
     }
   }
+  
+  public MtGoxAccountInfo getMtGoxAccountInfo(){
+    try {
+      MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
+      if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
+        return mtGoxAccountInfoWrapper.getMtGoxAccountInfo();
+      }
+      else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getAccountInfo(): " + mtGoxAccountInfoWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getAccountInfo(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getAccountInfo(): " + e.getError());
+    }
+  }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
