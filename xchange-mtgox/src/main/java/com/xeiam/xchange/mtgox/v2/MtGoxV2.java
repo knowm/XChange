@@ -140,12 +140,13 @@ public interface MtGoxV2 {
    * @param postBodySignatureCreator
    * @param nonce
    * @param currency
+   * @param page to fetch (can be null for first page)
    * @return
    * @throws MtGoxException
    */
   @POST
   @Path("money/wallet/history")
   MtGoxWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-          @FormParam("currency") String currency)
+          @FormParam("currency") String currency, @FormParam("page") Integer page)
           throws MtGoxException;
 }

@@ -26,6 +26,9 @@ public final class MtGoxWalletHistoryEntry {
   private final String type;
   private final MtGoxValue value;
   private final MtGoxValue balance;
+  private final String info;
+  private final String[] link;
+  private final MtGoxWalletHistoryEntryTrade trade;
 
   /**
    * Constructor
@@ -35,16 +38,24 @@ public final class MtGoxWalletHistoryEntry {
    * @param type
    * @param value
    * @param balance
+   * @param link
+   * @param info
+   * @param trade
    *
    */
   public MtGoxWalletHistoryEntry(@JsonProperty("Index") int index, @JsonProperty("Date") String date, @JsonProperty("Type") String type,
-          @JsonProperty("Value") MtGoxValue value, @JsonProperty("Balance") MtGoxValue balance) {
+          @JsonProperty("Info") String info, @JsonProperty("Link") String[] link,
+          @JsonProperty("Value") MtGoxValue value, @JsonProperty("Balance") MtGoxValue balance,
+          @JsonProperty("Trade") MtGoxWalletHistoryEntryTrade trade) {
 
     this.index = index;
     this.date = date;
     this.type = type;
+    this.info = info;
+    this.link = link;
     this.value = value;
     this.balance = balance;
+    this.trade = trade;
   }
 
   public int getIndex() {
@@ -67,8 +78,64 @@ public final class MtGoxWalletHistoryEntry {
     return balance;
   }
 
+  public String getInfo() {
+    return info;
+  }
+
+  public String[] getLink() {
+    return link;
+  }
+
+  public MtGoxWalletHistoryEntryTrade getTrade() {
+    return trade;
+  }
+
   @Override
   public String toString() {
-    return "MtGoxWalletHistory{" + "index=" + index + ", date=" + date + ", type=" + type + ", value=" + value + ", balance=" + balance + '}';
+    return "MtGoxWalletHistoryEntry{" + "index=" + index + ", date=" + date + ", type=" + type + ", value=" + value + ", balance=" + balance + ", info=" + info + ", link=" + link + ", trade=" + trade + '}';
+  }
+
+  public static class MtGoxWalletHistoryEntryTrade {
+
+    private final String oid;
+    private final String tid;
+    private final String app;
+    private final String properties;
+    private final MtGoxValue amount;
+
+    public MtGoxWalletHistoryEntryTrade(@JsonProperty("oid") String oid, @JsonProperty("tid") String tid, @JsonProperty("app") String app,
+            @JsonProperty("Properties") String properties, @JsonProperty("Amount") MtGoxValue amount) {
+      this.oid = oid;
+      this.tid = tid;
+      this.app = app;
+      this.properties = properties;
+      this.amount = amount;
+    }
+
+    public MtGoxValue getAmount() {
+      return amount;
+    }
+
+    public String getProperties() {
+      return properties;
+    }
+
+    public String getApp() {
+      return app;
+    }
+
+    public String getOid() {
+      return oid;
+    }
+
+    public String getTid() {
+      return tid;
+    }
+
+    @Override
+    public String toString() {
+      return "MtGoxWalletHistoryEntryTrade{" + "oid=" + oid + ", tid=" + tid + ", app=" + app + ", properties=" + properties + ", amount=" + amount + '}';
+    }
+    
   }
 }
