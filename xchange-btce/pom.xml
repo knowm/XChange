@@ -10,7 +10,7 @@
 
 	<artifactId>xchange-btce</artifactId>
 
-	<name>BTCE Exchange</name>
+	<name>XChange BTCE Exchange</name>
 	<description>XChange implementation for the BTC-E Exchange</description>
 
 	<url>http://xeiam.com</url>
