@@ -9,7 +9,7 @@
 
 	<artifactId>xchange-openexchangerates</artifactId>
 
-	<name>Open Exchange Rates</name>
+	<name>XChange Open Exchange Rates</name>
 	<description>XChange implementation for Open Exchange Rates</description>
 
 	<url>http://xeiam.com</url>
