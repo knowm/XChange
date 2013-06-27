@@ -105,7 +105,6 @@ public final class MtGoxOrderResultTrade {
 
   @Override
   public String toString() {
-
 	return "MtGoxOrderResultTrade [amount=" + amount + ", currency=" + currency + ", date=" + date + ", item=" + item + ", price=" + price + ", primary=" + primary + ", price=" + price + ", properties="
         + properties + ", tradeId=" + tradeId + ", type=" + type + "]";
   }
