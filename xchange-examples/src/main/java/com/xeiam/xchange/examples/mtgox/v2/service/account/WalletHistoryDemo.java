@@ -14,10 +14,8 @@
 package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
-import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWalletHistoryEntry;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWalletHistoryWrapper;
@@ -36,7 +34,8 @@ public class WalletHistoryDemo {
     MtGoxV2 mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, mtGoxExchange.getExchangeSpecification().getSslUri());
     ParamsDigest signatureCreator = MtGoxV2Digest.createInstance(mtGoxExchange.getExchangeSpecification().getSecretKey());
 
-    MtGoxWalletHistoryWrapper wallethistory = mtGoxV2.getWalletHistory(mtGoxExchange.getExchangeSpecification().getApiKey(), signatureCreator, MtGoxUtils.getNonce(), "BTC");
+    MtGoxWalletHistoryWrapper wallethistory = mtGoxV2.getWalletHistory(mtGoxExchange.getExchangeSpecification().getApiKey(), signatureCreator, MtGoxUtils.getNonce(), 
+            "BTC", null);
     
     System.out.println("WalletHistory: "+wallethistory.getMtGoxWalletHistory().toString());
     for(MtGoxWalletHistoryEntry entry : wallethistory.getMtGoxWalletHistory().getMtGoxWalletHistoryEntries()){
