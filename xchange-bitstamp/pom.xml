@@ -10,7 +10,7 @@
 
 	<artifactId>xchange-bitstamp</artifactId>
 
-	<name>Bitstamp Exchange</name>
+	<name>XChange Bitstamp Exchange</name>
 	<description>XChange implementation for the Bitstamp Exchange</description>
 
 	<url>http://xeiam.com</url>

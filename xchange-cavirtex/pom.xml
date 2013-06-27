@@ -10,7 +10,7 @@
 
 	<artifactId>xchange-cavirtex</artifactId>
 
-	<name>VirtEx Exchange</name>
+	<name>XChange VirtEx Exchange</name>
 	<description>XChange implementation for the Canadian VirtEx Exchange</description>
 
 	<url>http://xeiam.com</url>
