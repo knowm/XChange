@@ -10,7 +10,7 @@
 
 	<artifactId>xchange-bitcoincharts</artifactId>
 
-	<name>XChange Bitcoin Charts Data Provider</name>
+	<name>XChange Bitcoin Charts</name>
 	<description>XChange implementation for bitcoincharts</description>
 
 	<url>http://xeiam.com</url>

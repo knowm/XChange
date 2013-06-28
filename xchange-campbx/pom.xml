@@ -10,7 +10,7 @@
 
 	<artifactId>xchange-campbx</artifactId>
 
-	<name>XChange Campbx Exchange</name>
+	<name>XChange CampBX</name>
 	<description>XChange implementations for the CampBX Exchange.</description>
 
 	<url>http://xeiam.com</url>
