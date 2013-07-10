@@ -53,18 +53,18 @@ public class MtGoxWebSocketMarketDataDemo {
     // Use the default MtGox settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
-    // Configure BTC/USD ticker stream for MtGox
+    // Configure BTC/EUR ticker stream for MtGox
     // see https://mtgox.com/api/2/stream/list_public, for a list of channels to choose from
     ExchangeStreamingConfiguration mtGoxStreamingConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, true, "ticker.BTCEUR");
 
     // Interested in the public streaming market data feed (no authentication)
-    StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(mtGoxStreamingConfiguration);
+    StreamingExchangeService streamingMarketDataService = mtGoxExchange.getStreamingExchangeService(mtGoxStreamingConfiguration);
 
     // Open the connections to the exchange
-    btcusdStreamingMarketDataService.connect();
+    streamingMarketDataService.connect();
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(streamingMarketDataService));
 
     // the thread waits here until the Runnable is done.
     mtGoxMarketDataFuture.get();
@@ -73,7 +73,7 @@ public class MtGoxWebSocketMarketDataDemo {
 
     // Disconnect and exit
     System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
-    btcusdStreamingMarketDataService.disconnect();
+    streamingMarketDataService.disconnect();
   }
 
   /**

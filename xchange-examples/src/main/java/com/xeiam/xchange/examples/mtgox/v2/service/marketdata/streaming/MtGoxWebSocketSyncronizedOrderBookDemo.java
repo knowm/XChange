@@ -61,17 +61,17 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
     ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, false, "depth.BTCUSD");
 
     // Interested in the public streaming market data feed (no authentication)
-    StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
+    StreamingExchangeService streamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
 
     // Requesting initial order book using the polling service
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
     MarketDataRunnable.orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
 
     // Open the connections to the exchange
-    btcusdStreamingMarketDataService.connect();
+    streamingMarketDataService.connect();
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(streamingMarketDataService));
 
     // the thread waits here until the Runnable is done.
     mtGoxMarketDataFuture.get();
@@ -80,7 +80,7 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
     // Disconnect and exit
     System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
-    btcusdStreamingMarketDataService.disconnect();
+    streamingMarketDataService.disconnect();
   }
 
   /**
