@@ -29,11 +29,10 @@ import java.util.concurrent.Future;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v2.dto.account.streaming.MtGoxWalletUpdate;
-import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxOrderCanceled;
 import com.xeiam.xchange.mtgox.v2.dto.trade.streaming.MtGoxTradeLag;
 import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
@@ -44,8 +43,6 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * Demonstrate streaming account and trade data from the MtGox Websocket API
- * <p/>
- * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
  */
 public class MtGoxWebSocketTradeDemo {
 
@@ -60,17 +57,16 @@ public class MtGoxWebSocketTradeDemo {
     // Use the default MtGox settings
     Exchange mtGoxExchange = MtGoxV2ExamplesUtils.createExchange();
 
-    // Configure BTC/USD ticker stream for MtGox
-    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, Currencies.BTC, Currencies.USD);
+    ExchangeStreamingConfiguration exchangeStreamingConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, false, null);
 
     // Interested in the public streaming market data feed (no authentication)
-    StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
+    StreamingExchangeService streamingExchangeService = mtGoxExchange.getStreamingExchangeService(exchangeStreamingConfiguration);
 
     // Open the connections to the exchange
-    btcusdStreamingMarketDataService.connect();
+    streamingExchangeService.connect();
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<?> mtGoxMarketDataFuture = executorService.submit(new TradeDataRunnable(btcusdStreamingMarketDataService, mtGoxExchange));
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new TradeDataRunnable(streamingExchangeService, mtGoxExchange));
 
     // the thread waits here until the Runnable is done.
     mtGoxMarketDataFuture.get();
@@ -79,7 +75,7 @@ public class MtGoxWebSocketTradeDemo {
 
     // Disconnect and exit
     System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
-    btcusdStreamingMarketDataService.disconnect();
+    streamingExchangeService.disconnect();
   }
 
   /**
@@ -105,8 +101,7 @@ public class MtGoxWebSocketTradeDemo {
     @Override
     public void run() {
 
-      SocketMessageFactory socketMsgFactory =
-          new SocketMessageFactory(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), Currencies.BTC, Currencies.USD);
+      SocketMessageFactory socketMsgFactory = new SocketMessageFactory(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey());
 
       try {
         while (true) {
@@ -114,14 +109,6 @@ public class MtGoxWebSocketTradeDemo {
           ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
           switch (exchangeEvent.getEventType()) {
           case CONNECT:
-
-            // unsubscribe to "default" channels
-            // trades
-            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("dbf1dee9-4f2e-4a08-8cb7-748919a71b21"));
-            // ticker.BTCUSD
-            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("d5f06780-30a8-4a48-a2f8-7ed181b4a13f"));
-            // depth.BTCUSD
-            streamingExchangeService.send(socketMsgFactory.unsubscribeToChannel("24e67e0d-1cad-4cc0-9e7a-f8523ef460fe"));
 
             // subscribe to "lag" channel "85174711-be64-4de1-b783-0628995d7914"
             // streamingExchangeService.send(socketMsgFactory.subscribeWithType("lag"));

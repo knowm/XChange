@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>1.8.0-SNAPSHOT</version>
+		<version>1.8.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-btce</artifactId>
 
-	<name>BTCE Exchange</name>
+	<name>XChange BTCE</name>
 	<description>XChange implementation for the BTC-E Exchange</description>
 
 	<url>http://xeiam.com</url>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>1.8.0-SNAPSHOT</version>
+			<version>1.8.1-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>

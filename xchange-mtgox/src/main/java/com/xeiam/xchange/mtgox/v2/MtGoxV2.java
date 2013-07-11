@@ -36,6 +36,7 @@ import si.mazi.rescu.ParamsDigest;
 import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfoWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddressWrapper;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWalletHistoryWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponseWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTickerWrapper;
@@ -43,6 +44,7 @@ import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLagWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrderWrapper;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOrderResultWrapper;
 
 /**
  * @author timmolter
@@ -98,6 +100,15 @@ public interface MtGoxV2 {
   MtGoxOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws MtGoxException;
 
   /**
+   * @param type "ask" or "bid"
+   * @param orderId (Returned from placeOrder)
+   */
+  @POST
+  @Path("money/order/result")
+  MtGoxOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @FormParam("type") String type, @FormParam("order") String orderId) throws MtGoxException;
+
+  /**
    * @param postBodySignatureCreator
    * @param amount can be omitted to place market order
    */
@@ -122,4 +133,19 @@ public interface MtGoxV2 {
   MtGoxGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("oid") String orderId) throws MtGoxException;
 
+  /**
+   * Returns the History of the selected wallet
+   * 
+   * @param apiKey
+   * @param postBodySignatureCreator
+   * @param nonce
+   * @param currency
+   * @param page to fetch (can be null for first page)
+   * @return
+   * @throws MtGoxException
+   */
+  @POST
+  @Path("money/wallet/history")
+  MtGoxWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @FormParam("currency") String currency, @FormParam("page") Integer page) throws MtGoxException;
 }

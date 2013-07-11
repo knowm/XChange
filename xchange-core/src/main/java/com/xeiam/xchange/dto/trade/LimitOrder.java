@@ -120,4 +120,27 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     return this.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) * (getType() == OrderType.BID ? -1 : 1);
   }
 
+  @Override
+  public int hashCode() {
+
+    int hash = 7;
+    hash = 59 * hash + (this.limitPrice != null ? this.limitPrice.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final LimitOrder other = (LimitOrder) obj;
+    if (this.limitPrice != other.limitPrice && (this.limitPrice == null || !this.limitPrice.equals(other.limitPrice))) {
+      return false;
+    }
+    return super.equals(obj);
+  }
 }

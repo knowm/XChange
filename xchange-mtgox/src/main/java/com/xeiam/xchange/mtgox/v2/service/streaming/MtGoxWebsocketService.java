@@ -29,12 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.service.streaming.BaseWebSocketExchangeService;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -48,11 +45,6 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
 
   private final Logger logger = LoggerFactory.getLogger(MtGoxWebsocketService.class);
 
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-
-  private final String apiBase = String.format("ws://websocket.%s:%s/mtgox", exchangeSpecification.getHost(), exchangeSpecification.getPort());
   private final ExchangeEventListener exchangeEventListener;
 
   /**
@@ -69,12 +61,6 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
 
     super(exchangeSpecification, configuration);
 
-    Assert.notNull(configuration, "configuration cannot be null");
-    Assert.notNull(configuration.getTradeableIdentifier(), "tradableIdentifier cannot be null");
-    Assert.notNull(configuration.getCurrencyCode(), "currencyCode cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(configuration.getTradeableIdentifier(), configuration.getCurrencyCode())), "currencyPair is not valid:"
-        + configuration.getTradeableIdentifier() + " " + configuration.getCurrencyCode());
-
     this.configuration = configuration;
 
     // Create the listener for the specified eventType
@@ -85,7 +71,24 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
   @Override
   public void connect() {
 
-    URI uri = URI.create(apiBase + "?Currency=" + configuration.getCurrencyCode());
+    String apiBase = null;
+    if (configuration.isEncryptedChannel()) {
+      apiBase = String.format("%s:%s/mtgox/", exchangeSpecification.getSslUriStreaming(), exchangeSpecification.getPort());
+    }
+    else {
+      apiBase = String.format("%s:%s/mtgox/", exchangeSpecification.getPlainTextUriStreaming(), exchangeSpecification.getPort());
+    }
+
+    String channel = configuration.getChannel();
+
+    URI uri = null;
+    if (channel == null) {
+      uri = URI.create(apiBase);
+    }
+    else {
+      uri = URI.create(apiBase + "?Channel=" + channel);
+    }
+
     Map<String, String> headers = new HashMap<String, String>(1);
     headers.put("Origin", String.format("%s:%s", exchangeSpecification.getHost(), exchangeSpecification.getPort()));
 
@@ -94,5 +97,4 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
     // Use the default internal connect
     internalConnect(uri, exchangeEventListener, headers);
   }
-
 }

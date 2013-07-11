@@ -1,17 +1,16 @@
 /**
- * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,34 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.campbx.service.polling;
+package com.xeiam.xchange.mtgox.v2.dto.trade.polling;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import org.junit.Test;
-
-import com.xeiam.xchange.campbx.CampBX;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Matija Mazi <br/>
+ * @author timmolter
  */
-public class CampBXPollingTradeServiceTest {
+public class MtGoxOrderResultWrapper {
 
-  @Test
-  public void testOrderIdParsing() throws Exception {
+  private final String result;
+  private final MtGoxOrderResult mtGoxOrderResult;
+  private final String error;
 
-    testOrderId(CampBX.OrderType.Buy, "3", "Buy-3");
-    testOrderId(CampBX.OrderType.Buy, "asdf", "Buy-asdf");
-    testOrderId(CampBX.OrderType.Sell, "3-42-fa-asdf", "Sell-3-42-fa-asdf");
-    testOrderId(CampBX.OrderType.Sell, "3:42-fa#asdf", "Sell-3:42-fa#asdf");
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param mtGoxOpenOrders
+   * @param error
+   */
+  public MtGoxOrderResultWrapper(@JsonProperty("result") String result, @JsonProperty("data") MtGoxOrderResult mtGoxOrderResult, @JsonProperty("error") String error) {
 
+    this.result = result;
+    this.mtGoxOrderResult = mtGoxOrderResult;
+    this.error = error;
   }
 
-  private void testOrderId(CampBX.OrderType type, String id, String compositeId) {
+  public String getResult() {
 
-    assertThat(CampBXPollingTradeService.composeOrderId(type, id)).isEqualTo(compositeId);
-    CampBXPollingTradeService.ParsedId parsedId = CampBXPollingTradeService.parseOrderId(compositeId);
-    assertThat(parsedId.id).isEqualTo(id);
-    assertThat(parsedId.type).isEqualTo(type);
+    return result;
   }
+
+  public MtGoxOrderResult getMtGoxOrderResult() {
+
+    return mtGoxOrderResult;
+  }
+
+  public String getError() {
+
+    return error;
+  }
+
 }

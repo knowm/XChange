@@ -28,21 +28,17 @@ import java.util.concurrent.Future;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
-import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * Demonstrate streaming market data from the MtGox Websocket API
- * <p>
- * Note: requesting certain "channels" or specific currencies does not work. I believe this is the fault of MtGox and not XChange
  */
 public class MtGoxWebSocketMarketDataDemo {
 
@@ -57,17 +53,18 @@ public class MtGoxWebSocketMarketDataDemo {
     // Use the default MtGox settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
-    // Configure BTC/USD ticker stream for MtGox
-    ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, Currencies.BTC, Currencies.EUR);
+    // Configure BTC/EUR ticker stream for MtGox
+    // see https://mtgox.com/api/2/stream/list_public, for a list of channels to choose from
+    ExchangeStreamingConfiguration mtGoxStreamingConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, true, "ticker.BTCEUR");
 
     // Interested in the public streaming market data feed (no authentication)
-    StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
+    StreamingExchangeService streamingMarketDataService = mtGoxExchange.getStreamingExchangeService(mtGoxStreamingConfiguration);
 
     // Open the connections to the exchange
-    btcusdStreamingMarketDataService.connect();
+    streamingMarketDataService.connect();
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(streamingMarketDataService));
 
     // the thread waits here until the Runnable is done.
     mtGoxMarketDataFuture.get();
@@ -76,7 +73,7 @@ public class MtGoxWebSocketMarketDataDemo {
 
     // Disconnect and exit
     System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
-    btcusdStreamingMarketDataService.disconnect();
+    streamingMarketDataService.disconnect();
   }
 
   /**
@@ -105,22 +102,32 @@ public class MtGoxWebSocketMarketDataDemo {
 
           ExchangeEvent exchangeEvent = streamingExchangeService.getNextEvent();
 
-          if (exchangeEvent.getEventType() == ExchangeEventType.TICKER) {
+          switch (exchangeEvent.getEventType()) {
+
+          case CONNECT:
+            System.out.println("Connected!");
+            break;
+
+          case TICKER:
             Ticker ticker = (Ticker) exchangeEvent.getPayload();
             System.out.println(ticker.toString());
-          }
+            break;
 
-          else if (exchangeEvent.getEventType() == ExchangeEventType.TRADE) {
+          case TRADE:
             Trade trade = (Trade) exchangeEvent.getPayload();
             System.out.println(trade.toString());
-          }
+            break;
 
-          else if (exchangeEvent.getEventType() == ExchangeEventType.DEPTH) {
+          case DEPTH:
             OrderBookUpdate orderBookUpdate = (OrderBookUpdate) exchangeEvent.getPayload();
             System.out.println(orderBookUpdate.toString());
-          }
-        }
+            break;
 
+          default:
+            break;
+          }
+
+        }
       } catch (InterruptedException e) {
         System.out.println("ERROR in Runnable!!!");
       }

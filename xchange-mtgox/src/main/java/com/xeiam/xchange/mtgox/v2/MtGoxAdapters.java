@@ -110,7 +110,7 @@ public final class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (MtGoxOrder mtGoxOrder : mtGoxOrders) {
-      limitOrders.add(adaptOrder(mtGoxOrder.getAmount(), mtGoxOrder.getPrice(), currency, orderType, id, new Date(mtGoxOrder.getStamp())));
+      limitOrders.add(adaptOrder(mtGoxOrder.getAmount(), mtGoxOrder.getPrice(), currency, orderType, id, new Date(mtGoxOrder.getStamp() / 1000)));
     }
 
     return limitOrders;

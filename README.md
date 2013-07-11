@@ -13,8 +13,8 @@ Usage is very simple: Create an Exchange instance, get the appropriate service, 
 
 ## Example
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v1.MtGoxExchange");
+    // Use the factory to get the version 2 MtGox exchange API using default settings
+    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v2.MtGoxExchange");
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
@@ -64,7 +64,7 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
     +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
     +- org.slf4j:slf4j-api:jar:1.7.2:compile
     +- org.joda:joda-money:jar:0.8:compile
-    \- com.github.mmazi:rescu:jar:1.1.0:compile
+    \- com.github.mmazi:rescu:jar:1.2.0-SNAPSHOT:compile
         +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
         +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
         +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
@@ -90,47 +90,47 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitcoincharts</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitstamp</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>  
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-btce</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-campbx</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-cavirtex</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-openexchangerates</artifactId>
-      <version>1.7.0</version>
+      <version>1.8.0</version>
     </dependency>
     
 For snapshots, add the following repository to your pom.xml file.
@@ -143,13 +143,14 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    1.8.0-SNAPSHOT
+    1.8.1-SNAPSHOT
     
 ## Building
 install in local Maven repo: mvn clean install  
 create project javadocs: mvn javadoc:aggregate  
 run integration tests: mvn clean integration-test -P run-integration-tests  
 generate dependency tree: mvn dependency:tree  
+create jar files with dependencies (-with-dependencies.jar): mvn install 
 
 ## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).

@@ -140,4 +140,47 @@ public class Order {
         + timestamp + "]";
   }
 
+  @Override
+  public int hashCode() {
+
+    int hash = 7;
+    hash = 83 * hash + (this.type != null ? this.type.hashCode() : 0);
+    hash = 83 * hash + (this.tradableAmount != null ? this.tradableAmount.hashCode() : 0);
+    hash = 83 * hash + (this.tradableIdentifier != null ? this.tradableIdentifier.hashCode() : 0);
+    hash = 83 * hash + (this.transactionCurrency != null ? this.transactionCurrency.hashCode() : 0);
+    hash = 83 * hash + (this.id != null ? this.id.hashCode() : 0);
+    hash = 83 * hash + (this.timestamp != null ? this.timestamp.hashCode() : 0);
+    return hash;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final Order other = (Order) obj;
+    if (this.type != other.type) {
+      return false;
+    }
+    if (this.tradableAmount != other.tradableAmount && (this.tradableAmount == null || !this.tradableAmount.equals(other.tradableAmount))) {
+      return false;
+    }
+    if ((this.tradableIdentifier == null) ? (other.tradableIdentifier != null) : !this.tradableIdentifier.equals(other.tradableIdentifier)) {
+      return false;
+    }
+    if ((this.transactionCurrency == null) ? (other.transactionCurrency != null) : !this.transactionCurrency.equals(other.transactionCurrency)) {
+      return false;
+    }
+    if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
+      return false;
+    }
+    if (this.timestamp != other.timestamp && (this.timestamp == null || !this.timestamp.equals(other.timestamp))) {
+      return false;
+    }
+    return true;
+  }
 }

@@ -1,17 +1,16 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
- *
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,34 +19,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.campbx.service.polling;
+package com.xeiam.xchange.mtgox.v2.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import org.joda.money.BigMoney;
 import org.junit.Test;
 
-import com.xeiam.xchange.campbx.CampBX;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 
 /**
- * @author Matija Mazi <br/>
+ * Test class for MtGoxUtils class
  */
-public class CampBXPollingTradeServiceTest {
+public class MtGoxUtilsTest {
 
   @Test
-  public void testOrderIdParsing() throws Exception {
+  public void testJPYScaling() {
 
-    testOrderId(CampBX.OrderType.Buy, "3", "Buy-3");
-    testOrderId(CampBX.OrderType.Buy, "asdf", "Buy-asdf");
-    testOrderId(CampBX.OrderType.Sell, "3-42-fa-asdf", "Sell-3-42-fa-asdf");
-    testOrderId(CampBX.OrderType.Sell, "3:42-fa#asdf", "Sell-3:42-fa#asdf");
+    BigMoney priceJPY = MoneyUtils.parse("JPY 544.44");
+    String mtGoxRequestStringJPY = MtGoxUtils.getPriceString(priceJPY);
+    // System.out.println(mtGoxRequestStringJPY);
 
+    BigMoney priceUSD = MoneyUtils.parse("USD 5.4444");
+    String mtGoxRequestStringUSD = MtGoxUtils.getPriceString(priceUSD);
+    // System.out.println(mtGoxRequestStringUSD);
+
+    assertThat(mtGoxRequestStringJPY).isEqualTo(mtGoxRequestStringUSD);
   }
 
-  private void testOrderId(CampBX.OrderType type, String id, String compositeId) {
+  @Test
+  public void testIsValidCurrencyPair() {
 
-    assertThat(CampBXPollingTradeService.composeOrderId(type, id)).isEqualTo(compositeId);
-    CampBXPollingTradeService.ParsedId parsedId = CampBXPollingTradeService.parseOrderId(compositeId);
-    assertThat(parsedId.id).isEqualTo(id);
-    assertThat(parsedId.type).isEqualTo(type);
+    assertThat(MtGoxUtils.isValidCurrencyPair(CurrencyPair.BTC_USD));
+    assertThat(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "USD")));
+    assertThat(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD"))).isFalse();
+
   }
 }
