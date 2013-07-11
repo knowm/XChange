@@ -26,7 +26,7 @@ public class MtGoxWalletHistoryWrapper {
 
   /**
    * Constructor
-   *
+   * 
    * @param result
    * @param mtGoxWalletHistory
    * @param error
@@ -39,14 +39,17 @@ public class MtGoxWalletHistoryWrapper {
   }
 
   public String getResult() {
+
     return result;
   }
 
   public MtGoxWalletHistory getMtGoxWalletHistory() {
+
     return mtGoxWalletHistory;
   }
 
   public String getError() {
+
     return error;
   }
 }

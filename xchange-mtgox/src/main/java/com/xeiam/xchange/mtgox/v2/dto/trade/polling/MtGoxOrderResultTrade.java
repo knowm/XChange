@@ -31,14 +31,14 @@ public final class MtGoxOrderResultTrade {
 
   private final MtGoxValue amount;
   private final String currency;
-  private final String date; 
+  private final String date;
   private final String item;
   private final MtGoxValue price;
   private final String primary;
   private final String properties;
   private final String tradeId;
   private final String type;
-    
+
   /**
    * Constructor
    * 
@@ -52,9 +52,9 @@ public final class MtGoxOrderResultTrade {
    * @param trade_id
    * @param type
    */
-  public MtGoxOrderResultTrade(@JsonProperty("amount") MtGoxValue amount, @JsonProperty("currency") String currency, @JsonProperty("date") String date,
-		  @JsonProperty("item") String item, @JsonProperty("price") MtGoxValue price, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, 
-		  @JsonProperty("trade_id") String tradeId, @JsonProperty("type") String type) {
+  public MtGoxOrderResultTrade(@JsonProperty("amount") MtGoxValue amount, @JsonProperty("currency") String currency, @JsonProperty("date") String date, @JsonProperty("item") String item,
+      @JsonProperty("price") MtGoxValue price, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("trade_id") String tradeId,
+      @JsonProperty("type") String type) {
 
     this.amount = amount;
     this.currency = currency;
@@ -68,45 +68,55 @@ public final class MtGoxOrderResultTrade {
   }
 
   public MtGoxValue getAmount() {
-	return amount;
+
+    return amount;
   }
 
   public String getCurrency() {
-	return currency;
+
+    return currency;
   }
 
   public String getDate() {
-	return date;
+
+    return date;
   }
 
   public String getItem() {
-	return item;
+
+    return item;
   }
 
   public MtGoxValue getPrice() {
-	return price;
+
+    return price;
   }
 
   public String getPrimary() {
-	return primary;
+
+    return primary;
   }
 
   public String getProperties() {
-	return properties;
+
+    return properties;
   }
 
   public String getTradeId() {
-	return tradeId;
+
+    return tradeId;
   }
 
   public String getType() {
-	return type;
+
+    return type;
   }
 
   @Override
   public String toString() {
-	return "MtGoxOrderResultTrade [amount=" + amount + ", currency=" + currency + ", date=" + date + ", item=" + item + ", price=" + price + ", primary=" + primary + ", price=" + price + ", properties="
-        + properties + ", tradeId=" + tradeId + ", type=" + type + "]";
+
+    return "MtGoxOrderResultTrade [amount=" + amount + ", currency=" + currency + ", date=" + date + ", item=" + item + ", price=" + price + ", primary=" + primary + ", price=" + price
+        + ", properties=" + properties + ", tradeId=" + tradeId + ", type=" + type + "]";
   }
 
 }

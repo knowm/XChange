@@ -44,8 +44,8 @@ public final class MtGoxOrderResult {
    * @param totalSpent
    * @param trades
    */
-  public MtGoxOrderResult(@JsonProperty("avg_cost") MtGoxValue avgCost, @JsonProperty("order_id") String orderId, 
-      @JsonProperty("total_amount") MtGoxValue totalAmount, @JsonProperty("total_spent") MtGoxValue totalSpent, @JsonProperty("trades") MtGoxOrderResultTrade[] trades) {
+  public MtGoxOrderResult(@JsonProperty("avg_cost") MtGoxValue avgCost, @JsonProperty("order_id") String orderId, @JsonProperty("total_amount") MtGoxValue totalAmount,
+      @JsonProperty("total_spent") MtGoxValue totalSpent, @JsonProperty("trades") MtGoxOrderResultTrade[] trades) {
 
     this.avgCost = avgCost;
     this.orderId = orderId;
@@ -55,30 +55,37 @@ public final class MtGoxOrderResult {
   }
 
   public MtGoxValue getAvgCost() {
-	return avgCost;
+
+    return avgCost;
   }
 
   public String getOrderId() {
-	return orderId;
+
+    return orderId;
   }
 
   public MtGoxValue getTotalAmount() {
-	return totalAmount;
+
+    return totalAmount;
   }
 
   public MtGoxValue getTotalSpent() {
-	return totalSpent;
+
+    return totalSpent;
   }
 
   public MtGoxOrderResultTrade[] getTrades() {
-	return trades;
+
+    return trades;
   }
 
-@Override
+  @Override
   public String toString() {
-	String tradesString = "[";
-	for (int i=0; i<trades.length; i++) tradesString += ((i>0)?", ":"") + trades[i].toString(); 
-	tradesString += "]";
+
+    String tradesString = "[";
+    for (int i = 0; i < trades.length; i++)
+      tradesString += ((i > 0) ? ", " : "") + trades[i].toString();
+    tradesString += "]";
     return "MtGoxOpenOrder [avgCost=" + avgCost + ", orderId=" + orderId + ", totalAmount=" + totalAmount + ", totalSpent=" + totalSpent + ", trades=" + tradesString + "]";
   }
 

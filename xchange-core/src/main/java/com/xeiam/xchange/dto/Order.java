@@ -142,6 +142,7 @@ public class Order {
 
   @Override
   public int hashCode() {
+
     int hash = 7;
     hash = 83 * hash + (this.type != null ? this.type.hashCode() : 0);
     hash = 83 * hash + (this.tradableAmount != null ? this.tradableAmount.hashCode() : 0);
@@ -154,13 +155,14 @@ public class Order {
 
   @Override
   public boolean equals(Object obj) {
+
     if (obj == null) {
       return false;
     }
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final Order other = (Order)obj;
+    final Order other = (Order) obj;
     if (this.type != other.type) {
       return false;
     }

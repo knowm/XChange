@@ -27,7 +27,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import org.junit.Test;
 
 import com.xeiam.xchange.campbx.CampBX;
-import com.xeiam.xchange.campbx.service.polling.CampBXPollingTradeService;
 
 /**
  * @author Matija Mazi <br/>

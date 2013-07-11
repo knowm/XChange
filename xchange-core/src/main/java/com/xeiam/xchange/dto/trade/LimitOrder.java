@@ -122,6 +122,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   @Override
   public int hashCode() {
+
     int hash = 7;
     hash = 59 * hash + (this.limitPrice != null ? this.limitPrice.hashCode() : 0);
     return hash;
@@ -129,13 +130,14 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   @Override
   public boolean equals(Object obj) {
+
     if (obj == null) {
       return false;
     }
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final LimitOrder other = (LimitOrder)obj;
+    final LimitOrder other = (LimitOrder) obj;
     if (this.limitPrice != other.limitPrice && (this.limitPrice == null || !this.limitPrice.equals(other.limitPrice))) {
       return false;
     }

@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.account.polling;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
@@ -29,6 +28,7 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWalletHistoryWrapper;
 
@@ -46,7 +46,7 @@ public class WalletHistoryJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    
+
     MtGoxWalletHistoryWrapper mtGoxWalletHistoryWrapper = mapper.readValue(is, MtGoxWalletHistoryWrapper.class);
 
     System.out.println(mtGoxWalletHistoryWrapper.toString());

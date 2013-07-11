@@ -47,14 +47,17 @@ public class MtGoxOrderResultWrapper {
   }
 
   public String getResult() {
+
     return result;
   }
 
   public MtGoxOrderResult getMtGoxOrderResult() {
+
     return mtGoxOrderResult;
   }
 
   public String getError() {
+
     return error;
   }
 

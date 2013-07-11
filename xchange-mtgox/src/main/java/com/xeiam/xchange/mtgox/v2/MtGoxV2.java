@@ -106,8 +106,8 @@ public interface MtGoxV2 {
   @POST
   @Path("money/order/result")
   MtGoxOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-	      @FormParam("type") String type, @FormParam("order") String orderId) throws MtGoxException;
-  
+      @FormParam("type") String type, @FormParam("order") String orderId) throws MtGoxException;
+
   /**
    * @param postBodySignatureCreator
    * @param amount can be omitted to place market order
@@ -135,7 +135,7 @@ public interface MtGoxV2 {
 
   /**
    * Returns the History of the selected wallet
-   *
+   * 
    * @param apiKey
    * @param postBodySignatureCreator
    * @param nonce
@@ -147,6 +147,5 @@ public interface MtGoxV2 {
   @POST
   @Path("money/wallet/history")
   MtGoxWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-          @FormParam("currency") String currency, @FormParam("page") Integer page)
-          throws MtGoxException;
+      @FormParam("currency") String currency, @FormParam("page") Integer page) throws MtGoxException;
 }

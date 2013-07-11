@@ -28,16 +28,13 @@ public final class MtGoxWalletHistory {
 
   /**
    * Constructor
-   *
-   *
+   * 
    * @param records
    * @param mtGoxWalletHistoryEntries
-   *
    */
-  public MtGoxWalletHistory(@JsonProperty("records") int records, @JsonProperty("result") MtGoxWalletHistoryEntry[] mtGoxWalletHistoryEntries,
-          @JsonProperty("current_page") int currentPage,
-          @JsonProperty("max_page") int maxPage,
-          @JsonProperty("max_results") int maxResults) {
+  public MtGoxWalletHistory(@JsonProperty("records") int records, @JsonProperty("result") MtGoxWalletHistoryEntry[] mtGoxWalletHistoryEntries, @JsonProperty("current_page") int currentPage,
+      @JsonProperty("max_page") int maxPage, @JsonProperty("max_results") int maxResults) {
+
     this.records = records;
     this.mtGoxWalletHistoryEntries = mtGoxWalletHistoryEntries;
     this.currentPage = currentPage;
@@ -46,22 +43,27 @@ public final class MtGoxWalletHistory {
   }
 
   public int getRecords() {
+
     return records;
   }
 
   public MtGoxWalletHistoryEntry[] getMtGoxWalletHistoryEntries() {
+
     return mtGoxWalletHistoryEntries;
   }
 
   public int getCurrentPage() {
+
     return currentPage;
   }
 
   public int getMaxPage() {
+
     return maxPage;
   }
 
   public int getMaxResults() {
+
     return maxResults;
   }
 }
