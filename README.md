@@ -143,7 +143,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    1.9.0-SNAPSHOT
+    1.8.1-SNAPSHOT
     
 ## Building
 install in local Maven repo: mvn clean install  
