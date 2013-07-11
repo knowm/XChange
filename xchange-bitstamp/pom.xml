@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>1.9.1-SNAPSHOT</version>
+		<version>1.9.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-bitstamp</artifactId>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>1.9.1-SNAPSHOT</version>
+			<version>1.9.0-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
