@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>1.8.0-SNAPSHOT</version>
+		<version>1.8.0</version>
 	</parent>
 
 	<artifactId>xchange-mtgox</artifactId>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>1.8.0-SNAPSHOT</version>
+			<version>1.8.0</version>
 		</dependency>
 
 	</dependencies>
