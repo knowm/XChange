@@ -64,7 +64,7 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
     +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
     +- org.slf4j:slf4j-api:jar:1.7.2:compile
     +- org.joda:joda-money:jar:0.8:compile
-    \- com.github.mmazi:rescu:jar:1.2.0-SNAPSHOT:compile
+    \- com.github.mmazi:rescu:jar:1.2.0:compile
         +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
         +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
         +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
