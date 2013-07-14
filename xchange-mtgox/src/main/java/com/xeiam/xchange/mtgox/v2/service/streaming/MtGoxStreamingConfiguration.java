@@ -36,7 +36,7 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   private final int maxReconnectAttempts;
   private final int reconnectWaitTimeInMs;
   private final int timeoutInMs;
-  private final boolean encryptedChannel;
+  private final boolean isEncryptedChannel;
   private final String channel;
 
   /**
@@ -45,15 +45,15 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
    * @param maxReconnectAttempts
    * @param reconnectWaitTimeInMs
    * @param timeoutInMs
-   * @param encryptedChannel - should it use an encrypted channel or not? (ws vs. wss protocol)
+   * @param isEncryptedChannel - should it use an encrypted channel or not? (ws vs. wss protocol)
    * @param channel - the specific data channel you want to tap into (https://mtgox.com/api/2/stream/list_public), null if none
    */
-  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean encryptedChannel, String channel) {
+  public MtGoxStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean isEncryptedChannel, String channel) {
 
     this.maxReconnectAttempts = maxReconnectAttempts;
     this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;
     this.timeoutInMs = timeoutInMs;
-    this.encryptedChannel = encryptedChannel;
+    this.isEncryptedChannel = isEncryptedChannel;
     this.channel = channel;
   }
 
@@ -78,7 +78,7 @@ public class MtGoxStreamingConfiguration implements ExchangeStreamingConfigurati
   @Override
   public boolean isEncryptedChannel() {
 
-    return encryptedChannel;
+    return isEncryptedChannel;
   }
 
   public String getChannel() {

@@ -44,7 +44,8 @@ public class WebSocketEventProducer extends WebSocketClient {
    * Constructor
    * 
    * @param url
-   * @param exchangeEventProducer
+   * @param exchangeEventListener
+   * @param headers
    * @throws URISyntaxException
    */
   public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener, Map<String, String> headers) throws URISyntaxException {
