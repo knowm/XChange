@@ -1,0 +1,16 @@
+BTC China API specification
+================================
+
+Public API
+
+Ticker
+------
+https://btcchina.com/bc/ticker
+
+Orders
+------
+https://btcchina.com/bc/orderbook
+
+Trades
+------
+https://btcchina.com/bc/trades

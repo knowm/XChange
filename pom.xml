@@ -80,6 +80,7 @@
 		<module>xchange-bitstamp</module>
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
+		<module>xchange-btcchina</module>
 	</modules>
 
 	<repositories>
