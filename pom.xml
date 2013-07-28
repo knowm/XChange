@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -294,7 +295,8 @@
 			<!-- <shadedArtifactAttached>true</shadedArtifactAttached> -->
 			<!-- <shadedClassifierName>with-dependencies</shadedClassifierName> -->
 			<!-- <transformers> -->
-			<!-- <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" /> -->
+			<!-- <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" 
+				/> -->
 			<!-- </transformers> -->
 			<!-- </configuration> -->
 			<!-- </execution> -->
@@ -345,6 +347,75 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<!-- Use the Enforcer to verify build integrity -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>enforce</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<digestRule implementation="uk.co.froot.maven.enforcer.DigestRule">
+
+									<!-- Create a snapshot to build the list of URNs below -->
+									<buildSnapshot>true</buildSnapshot>
+
+									<!-- List of required hashes -->
+									<!-- Format is URN of groupId:artifactId:version:type:classifier:scope:hash -->
+									<!-- classifier is "null" if not present -->
+									<urns>
+
+										<urn>com.fasterxml.jackson.core:jackson-annotations:2.1.1:jar:null:compile:0b01cc83e745fc4425a3968fafbf8e5b8254a6dd</urn>
+										<urn>com.fasterxml.jackson.core:jackson-core:2.1.1:jar:null:compile:82ad1c5f92f6dcc6291f5c46ebacb975eaa844de</urn>
+										<urn>com.fasterxml.jackson.core:jackson-databind:2.1.1:jar:null:compile:38d2b3c0c89af5b937fd98c3e558bf6b58c14aa2</urn>
+										<urn>com.github.mmazi:rescu:1.2.0:jar:null:compile:6e47e5ec971e6f5cb57295e13a368fc13b72f7c8</urn>
+										<urn>com.google.code.findbugs:jsr305:2.0.1:jar:null:compile:516c03b21d50a644d538de0f0369c620989cd8f0</urn>
+										<urn>javax.ws.rs:jsr311-api:1.1.1:jar:null:compile:59033da2a1afd56af1ac576750a8d0b1830d59e6</urn>
+										<urn>junit:junit:4.11:jar:null:test:4e031bb61df09069aeb2bffb4019e7a5034a4ee0</urn>
+										<urn>org.apache.maven.plugins:maven-clean-plugin:2.4.1:maven-plugin:null:runtime:c3ad1d9e5ee3daeac15f8e18e987a214bbaa343a</urn>
+										<urn>org.apache.maven.plugins:maven-compiler-plugin:3.1:maven-plugin:null:runtime:9977a8d04e75609cf01badc4eb6a9c7198c4c5ea</urn>
+										<urn>org.apache.maven.plugins:maven-deploy-plugin:2.5:maven-plugin:null:runtime:5965038c8d7bf2585e63fa2d82eab121f38d67c3</urn>
+										<urn>org.apache.maven.plugins:maven-enforcer-plugin:1.2:maven-plugin:null:runtime:6b755a9a0d618f8f57c0b5c4a0737a012e710a46</urn>
+										<urn>org.apache.maven.plugins:maven-failsafe-plugin:2.15:maven-plugin:null:runtime:e03485e31ddc8e4b35668ef0430716198b5554ed</urn>
+										<urn>org.apache.maven.plugins:maven-install-plugin:2.3.1:maven-plugin:null:runtime:fe692c15450a75d330510bffe9491264918f58e0</urn>
+										<urn>org.apache.maven.plugins:maven-jar-plugin:2.3.1:maven-plugin:null:runtime:d68ebba6196c6382a496660e3bb477474516f915</urn>
+										<urn>org.apache.maven.plugins:maven-javadoc-plugin:2.9.1:maven-plugin:null:runtime:95ea7abf00e37e08bd927bf7e448c1e7fe4c6cb9</urn>
+										<urn>org.apache.maven.plugins:maven-release-plugin:2.4.1:maven-plugin:null:runtime:983dba8fec0ea4df0788a2828f35eb6d5a870b7d</urn>
+										<urn>org.apache.maven.plugins:maven-resources-plugin:2.4.3:maven-plugin:null:runtime:ac5c1dd6efa6a32b5c2b2628b9afaa473dcff8ad</urn>
+										<urn>org.apache.maven.plugins:maven-site-plugin:2.0.1:maven-plugin:null:runtime:fb2e82e6983c19c8ce8aeeadcd529acee57bd6c1</urn>
+										<urn>org.apache.maven.plugins:maven-source-plugin:2.2.1:maven-plugin:null:runtime:7b6e93e5e6403323cd70a18829a33f6cb4c0388d</urn>
+										<urn>org.apache.maven.plugins:maven-surefire-plugin:2.15:maven-plugin:null:runtime:6c69fc766b25fea8b70d4bf0cc05e4e569e92f21</urn>
+										<urn>org.easytesting:fest-assert-core:2.0M10:jar:null:test:cb7c91cf614901928ae405f19d9bcdedf82781db</urn>
+										<urn>org.easytesting:fest-util:1.2.5:jar:null:test:c4a8d7305b23b8d043be12c979813b096df11f44</urn>
+										<urn>org.hamcrest:hamcrest-core:1.3:jar:null:test:42a25dc3219429f0e5d060061f71acb49bf010a0</urn>
+										<urn>org.java-websocket:Java-WebSocket:1.3.0:jar:null:compile:db2658f013fb163de4a99274c2eb9e17efe535d2</urn>
+										<urn>org.joda:joda-money:0.8:jar:null:compile:29e5cdf8cb4af8fffb0b013b1dc63d493cb02115</urn>
+										<urn>org.slf4j:slf4j-api:1.7.2:jar:null:compile:0081d61b7f33ebeab314e07de0cc596f8e858d97</urn>
+
+									</urns>
+
+								</digestRule>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+
+				<!-- Ensure we download the enforcer rules -->
+				<dependencies>
+					<dependency>
+						<groupId>uk.co.froot.maven.enforcer</groupId>
+						<artifactId>digest-enforcer-rules</artifactId>
+						<version>0.0.1</version>
+					</dependency>
+				</dependencies>
+
 			</plugin>
 		</plugins>
 	</build>
