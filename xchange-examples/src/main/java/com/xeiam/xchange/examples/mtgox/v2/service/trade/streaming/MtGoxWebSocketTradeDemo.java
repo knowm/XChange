@@ -87,7 +87,7 @@ public class MtGoxWebSocketTradeDemo {
     private final Exchange exchange;
 
     /**
-     * S Constructor
+     * Constructor
      * 
      * @param streamingExchangeService
      * @param exchange
