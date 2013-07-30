@@ -28,6 +28,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
+import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -51,8 +52,10 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
    * time stamps used to pace API calls
    */
   private long tickerRequestTimeStamp = 0L;
+  private long chartDataRequestTimeStamp = 0L;
 
   private BitcoinChartsTicker[] cachedBitcoinChartsTickers;
+  private ChartData[] cachedChartData;
 
   /**
    * Constructor
@@ -125,6 +128,20 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     Assert.isTrue(currency.equals(Currencies.BTC), "Base curreny must be " + Currencies.BTC + " for this exchange");
     Assert.isTrue(BitcoinChartsUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
+  }
+
+  public ChartData[] getChartData(String exchange, int daysInPast) {
+    // check for pacing violation
+    if (chartDataRequestTimeStamp == 0L || System.currentTimeMillis() - chartDataRequestTimeStamp >= getRefreshRate()) {
+
+      logger.debug("requesting BitcoinCharts chartdata");
+      chartDataRequestTimeStamp = System.currentTimeMillis();
+
+      // Request data
+      cachedChartData = BitcoinChartsAdapters.adaptChartData(bitcoinCharts.getChartData(exchange, daysInPast));
+    }
+
+    return cachedChartData;
   }
 
 }

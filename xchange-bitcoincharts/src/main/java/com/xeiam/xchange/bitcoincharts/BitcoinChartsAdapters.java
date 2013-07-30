@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
+import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -30,6 +31,7 @@ import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import java.util.ArrayList;
 
 /**
  * Various adapters for converting from BitcoinCharts DTOs to XChange DTOs
@@ -71,5 +73,15 @@ public final class BitcoinChartsAdapters {
     // TODO check on this logic returning null
     return null;
 
+  }
+
+  public static ChartData[] adaptChartData(ArrayList<ArrayList> pRawData) {
+    ChartData[] ret = new ChartData[pRawData.size()];
+    for (int i = 0; i < pRawData.size(); i++) {
+      ArrayList cd = pRawData.get(i);
+      ChartData chartData = new ChartData((ArrayList)cd);
+      ret[i] = chartData;
+    }
+    return ret;
   }
 }
