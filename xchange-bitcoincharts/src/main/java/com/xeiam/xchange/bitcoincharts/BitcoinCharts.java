@@ -26,15 +26,20 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
+import java.util.ArrayList;
+import javax.ws.rs.QueryParam;
 
 /**
  * @author Matija Mazi
  */
-@Path("t")
+@Path("/")
 public interface BitcoinCharts {
 
   @GET
-  @Path("markets.json")
+  @Path("t/markets.json")
   public BitcoinChartsTicker[] getMarketData();
 
+  @GET
+  @Path("charts/chart.json")
+  public ArrayList<ArrayList> getChartData(@QueryParam("m") String exchange, @QueryParam("r") int dayInPast);
 }
