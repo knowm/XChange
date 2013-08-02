@@ -22,12 +22,13 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
-import java.util.ArrayList;
-import javax.ws.rs.QueryParam;
 
 /**
  * @author Matija Mazi

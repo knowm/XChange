@@ -15,6 +15,7 @@ public class ChartData {
   private final BigDecimal weightedPrice;
 
   public ChartData(ArrayList rawData) {
+
     this.date = String.valueOf(rawData.get(0));
     this.open = new BigDecimal(String.valueOf(rawData.get(1)));
     this.high = new BigDecimal(String.valueOf(rawData.get(2)));
@@ -26,39 +27,49 @@ public class ChartData {
   }
 
   public String getDate() {
+
     return date;
   }
 
   public BigDecimal getOpen() {
+
     return open;
   }
 
   public BigDecimal getHigh() {
+
     return high;
   }
 
   public BigDecimal getLow() {
+
     return low;
   }
 
   public BigDecimal getClose() {
+
     return close;
   }
 
   public BigDecimal getVolume() {
+
     return volume;
   }
 
   public BigDecimal getVolumeCurrency() {
+
     return volumeCurrency;
   }
 
   public BigDecimal getWeightedPrice() {
+
     return weightedPrice;
   }
 
   @Override
   public String toString() {
-    return "ChartData{" + "date=" + date + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume + ", volumeCurrency=" + volumeCurrency + ", weightedPrice=" + weightedPrice + '}';
+
+    return "ChartData{" + "date=" + date + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume + ", volumeCurrency=" + volumeCurrency + ", weightedPrice="
+        + weightedPrice + '}';
   }
 }

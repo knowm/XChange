@@ -131,6 +131,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   }
 
   public ChartData[] getChartData(String exchange, int daysInPast) {
+
     // check for pacing violation
     if (chartDataRequestTimeStamp == 0L || System.currentTimeMillis() - chartDataRequestTimeStamp >= getRefreshRate()) {
 

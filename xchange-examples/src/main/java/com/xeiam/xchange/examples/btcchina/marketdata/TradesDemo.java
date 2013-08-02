@@ -23,10 +23,10 @@ package com.xeiam.xchange.examples.btcchina.marketdata;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.btcchina.BTCChinaExchange;
 
 /**
  * Demonstrate requesting Trades at BTC China
