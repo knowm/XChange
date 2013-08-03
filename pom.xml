@@ -82,6 +82,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-btcchina</module>
+		<module>xchange-bitcurex</module>
 	</modules>
 
 	<repositories>
