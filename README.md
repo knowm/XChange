@@ -145,12 +145,14 @@ The current snapshot version is:
 
     1.8.1-SNAPSHOT
     
-## Building
-install in local Maven repo: mvn clean install  
-create project javadocs: mvn javadoc:aggregate  
-run integration tests: mvn clean integration-test -P run-integration-tests  
-generate dependency tree: mvn dependency:tree  
-create jar files with dependencies (-with-dependencies.jar): mvn install 
+## Building with Maven
+
+install in local Maven repo: `mvn clean install`  
+create project javadocs: `mvn javadoc:aggregate`  
+run integration tests: `mvn clean integration-test -P run-integration-tests`  
+generate dependency tree: `mvn dependency:tree`  
+create jar files with dependencies (-with-dependencies.jar): `mvn install`  
+check/update all header files: `mvn license:check` and `mvn license:format`
 
 ## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).
