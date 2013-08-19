@@ -68,7 +68,7 @@
 	</scm>
 
 	<ciManagement>
-		<url>http://ci.xeiam.com/</url>
+		<url>https://travis-ci.org/timmolter/XChange</url>
 	</ciManagement>
 
 	<modules>
