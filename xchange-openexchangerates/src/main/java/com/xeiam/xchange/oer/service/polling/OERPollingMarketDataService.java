@@ -99,6 +99,9 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
       // Request data
       cachedOERTickers = openExchangeRates.getTickers(exchangeSpecification.getApiKey());
+      if (cachedOERTickers == null) {
+        throw new ExchangeException("Null response returned from Open Exchange Rates!");
+      }
     }
 
     Rates rates = cachedOERTickers.getRates();
