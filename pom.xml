@@ -83,6 +83,7 @@
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-btcchina</module>
 		<module>xchange-bitcurex</module>
+		<module>xchange-blockchain</module>
 	</modules>
 
 	<repositories>

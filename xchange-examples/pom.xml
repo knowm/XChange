@@ -78,7 +78,12 @@
 			<artifactId>xchange-btcchina</artifactId>
 			<version>1.8.1-SNAPSHOT</version>
 		</dependency>
-
+        <!-- XChange Blockchain support -->
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-blockchain</artifactId>
+            <version>1.8.1-SNAPSHOT</version>
+        </dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
