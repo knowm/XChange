@@ -95,13 +95,15 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
 
       logger.debug("requesting OER tickers");
-      tickerRequestTimeStamp = System.currentTimeMillis();
 
       // Request data
       cachedOERTickers = openExchangeRates.getTickers(exchangeSpecification.getApiKey());
       if (cachedOERTickers == null) {
         throw new ExchangeException("Null response returned from Open Exchange Rates!");
       }
+
+      // if we make it here, set the timestamp so we know a cached request has been successful
+      tickerRequestTimeStamp = System.currentTimeMillis();
     }
 
     Rates rates = cachedOERTickers.getRates();
