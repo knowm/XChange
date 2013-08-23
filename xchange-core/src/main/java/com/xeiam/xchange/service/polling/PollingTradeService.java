@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.service.polling;
 
+import si.mazi.rescu.RestJsonException;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
@@ -48,9 +50,10 @@ public interface PollingTradeService {
    * Gets the open orders
    * 
    * @return the open orders, null if some sort of error occurred. Implementers should log the error.
-   * @throws ExchangeException - if some error occurs causing a failure in fetching the data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
    */
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
@@ -59,9 +62,10 @@ public interface PollingTradeService {
    * 
    * @param marketOrder
    * @return the order ID
-   * @throws ExchangeException - if some error occurs causing a failure in fetching the data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
    */
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
@@ -70,9 +74,10 @@ public interface PollingTradeService {
    * 
    * @param limitOrder
    * @return the order ID
-   * @throws ExchangeException - if some error occurs causing a failure in fetching the data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
    */
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
@@ -81,9 +86,10 @@ public interface PollingTradeService {
    * 
    * @param orderId
    * @return true if order was successfully cancelled, false otherwise.
-   * @throws ExchangeException - if some error occurs causing a failure in fetching the data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
    */
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
