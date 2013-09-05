@@ -34,9 +34,11 @@ public final class BitstampUserTransaction {
 
   private final String datetime;
   private final long id;
+  private final long order_id;
   private final TransactionType type;
   private final BigDecimal usd;
   private final BigDecimal btc;
+  private final BigDecimal btc_usd;
   private final BigDecimal fee;
 
   /**
@@ -44,20 +46,24 @@ public final class BitstampUserTransaction {
    * 
    * @param datetime
    * @param id
+   * @param order_id
    * @param type
    * @param usd
    * @param btc
+   * @param btc_usd
    * @param fee
    */
-  public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id,
-      @JsonProperty("type") @JsonDeserialize(using = BitstampTransactionTypeDeserializer.class) TransactionType type, @JsonProperty("usd") BigDecimal usd, @JsonProperty("btc") BigDecimal btc,
-      @JsonProperty("fee") BigDecimal fee) {
+  public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("order_id") long order_id,
+      @JsonProperty("type") @JsonDeserialize(using = BitstampTransactionTypeDeserializer.class) TransactionType type, @JsonProperty("usd") BigDecimal usd, 
+      @JsonProperty("btc") BigDecimal btc, @JsonProperty("btc_usd") BigDecimal btc_usd, @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = datetime;
     this.id = id;
+    this.order_id = order_id;
     this.type = type;
     this.usd = usd;
     this.btc = btc;
+    this.btc_usd = btc_usd;
     this.fee = fee;
   }
 
@@ -69,6 +75,11 @@ public final class BitstampUserTransaction {
   public long getId() {
 
     return id;
+  }
+
+  public long getOrderId() {
+
+    return order_id;
   }
 
   public TransactionType getType() {
@@ -99,6 +110,11 @@ public final class BitstampUserTransaction {
   public BigDecimal getBtc() {
 
     return btc;
+  }
+
+  public BigDecimal getPrice() {
+
+    return btc_usd;
   }
 
   public BigDecimal getFee() {
