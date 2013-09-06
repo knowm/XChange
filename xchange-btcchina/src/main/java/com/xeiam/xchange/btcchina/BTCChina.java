@@ -21,31 +21,100 @@
  */
 package com.xeiam.xchange.btcchina;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import si.mazi.rescu.ParamsDigest;
+
+import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
+import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetAccountInfoResponse;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 
-@Path("bc")
+@Path("/")
 public interface BTCChina {
 
   @GET
-  @Path("ticker")
+  @Path("bc/ticker")
   @Produces("application/json")
   public BTCChinaTicker getTicker(@PathParam("currency") String currency);
 
   @GET
-  @Path("orderbook")
+  @Path("bc/orderbook")
   @Produces("application/json")
   public BTCChinaDepth getFullDepth(@PathParam("currency") String currency);
 
   @GET
-  @Path("trades")
+  @Path("bc/trades")
   @Produces("application/json")
   public BTCChinaTrade[] getTrades(@PathParam("currency") String currency);
 
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public BTCChinaGetAccountInfoResponse getAccountInfo(
+      @HeaderParam("Authorization") ParamsDigest authorization, 
+      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaGetAccountInfoRequest getAccountInfoRequest);
+
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public BTCChinaRequestWithdrawalResponse requestWithdrawal(
+      @HeaderParam("Authorization") ParamsDigest authorization, 
+      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaRequestWithdrawalRequest requestWithdrawalRequest);
+
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public BTCChinaGetOrdersResponse getOrders(
+      @HeaderParam("Authorization") ParamsDigest authorization, 
+      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaGetOrdersRequest getOrdersRequest);
+  
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public BTCChinaBooleanResponse cancelOrder(
+      @HeaderParam("Authorization") ParamsDigest authorization, 
+      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaCancelOrderRequest cancelOrderRequest);
+  
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public BTCChinaBooleanResponse buyOrder(
+      @HeaderParam("Authorization") ParamsDigest authorization, 
+      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaBuyOrderRequest buyOrderRequest);
+  
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public BTCChinaBooleanResponse sellOrder(
+      @HeaderParam("Authorization") ParamsDigest authorization, 
+      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaSellOrderRequest sellOrderRequest);
+  
 }
