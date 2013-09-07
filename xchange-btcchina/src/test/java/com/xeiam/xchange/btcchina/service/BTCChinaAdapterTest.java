@@ -31,11 +31,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
@@ -43,6 +38,11 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaDepthJSONTest;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaTickerJSONTest;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaTradesJSONTest;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Tests the BTCChinaAdapter class

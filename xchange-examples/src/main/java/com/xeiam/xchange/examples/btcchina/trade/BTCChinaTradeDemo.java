@@ -55,24 +55,19 @@ public class BTCChinaTradeDemo {
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    
     Thread.sleep(1500);
     OpenOrders openOrders = printOpenOrders(tradeService);
 
     long result = -1;
-    for(LimitOrder order : openOrders.getOpenOrders()){
+    for (LimitOrder order : openOrders.getOpenOrders()) {
       long orderId = Long.parseLong(order.getId());
-      if(order.getType() == limitOrder.getType() &&
-        order.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) == 0 &&
-        order.getTradableIdentifier() == order.getTradableIdentifier() &&
-        order.getTransactionCurrency() == order.getTransactionCurrency() &&
-        orderId > result
-        ){
+      if (order.getType() == limitOrder.getType() && order.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) == 0
+          && order.getTradableIdentifier() == order.getTradableIdentifier() && order.getTransactionCurrency() == order.getTransactionCurrency() && orderId > result) {
         result = orderId;
       }
-      
+
     }
-   
+
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(Long.toString(result));
     System.out.println("Canceling returned " + cancelResult);

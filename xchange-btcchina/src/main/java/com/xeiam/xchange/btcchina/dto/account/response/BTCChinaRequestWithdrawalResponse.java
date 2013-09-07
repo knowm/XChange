@@ -29,15 +29,16 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 /**
  * @author David Yam
  */
-public class BTCChinaRequestWithdrawalResponse extends BTCChinaResponse<BTCChinaID>{
-  
+public class BTCChinaRequestWithdrawalResponse extends BTCChinaResponse<BTCChinaID> {
+
   /**
    * Constructor
+   * 
    * @param id
    * @param result
    */
-  public BTCChinaRequestWithdrawalResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaID result){
-    
+  public BTCChinaRequestWithdrawalResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaID result) {
+
     super(id, result);
   }
 

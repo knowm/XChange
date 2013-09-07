@@ -27,33 +27,34 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 /**
  * @author David Yam
  */
-public final class BTCChinaGetOrdersRequest extends BTCChinaRequest{
+public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "getOrders";
-  
+
   /**
-   * Constructor (Optional parameter, default openOnly = false) 
+   * Constructor (Optional parameter, default openOnly = false)
    */
-  public BTCChinaGetOrdersRequest(){
-    
+  public BTCChinaGetOrdersRequest() {
+
     method = METHOD_NAME;
     params = "[]";
   }
-  
+
   /**
    * Constructor
+   * 
    * @param openOnly
    */
-  public BTCChinaGetOrdersRequest(Boolean openOnly){
-    
+  public BTCChinaGetOrdersRequest(Boolean openOnly) {
+
     method = METHOD_NAME;
-    params = "[" + ((openOnly)?1:0) + "]";
+    params = "[" + ((openOnly) ? 1 : 0) + "]";
   }
-  
+
   @Override
-  public String toString(){
-    
+  public String toString() {
+
     return String.format("BTCChinaGetOrdersRequest{id=%d, method=%s, params=%s}", id, method, params);
   }
-  
+
 }

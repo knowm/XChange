@@ -30,47 +30,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Data object representing a Trade from BTCChina
  * </p>
  */
-public final class BTCChinaTrade{
-   	private final BigDecimal amount;
-   	private final long date;
-   	private final BigDecimal price;
-   	private final long tid;
+public final class BTCChinaTrade {
 
-    /**
-     * Constructor
-     * 
-     * @param amount
-     * @param date
-     * @param price
-     * @param tid
-     */
-    public BTCChinaTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid) {
+  private final BigDecimal amount;
+  private final long date;
+  private final BigDecimal price;
+  private final long tid;
 
-      this.amount = amount;
-      this.date = date;
-      this.price = price;
-      this.tid = tid;
-    }
-    
- 	public BigDecimal getAmount(){
-		return this.amount;
-	}
+  /**
+   * Constructor
+   * 
+   * @param amount
+   * @param date
+   * @param price
+   * @param tid
+   */
+  public BTCChinaTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid) {
 
- 	public long getDate(){
-		return this.date;
-	}
+    this.amount = amount;
+    this.date = date;
+    this.price = price;
+    this.tid = tid;
+  }
 
- 	public BigDecimal getPrice(){
-		return this.price;
-	}
+  public BigDecimal getAmount() {
 
- 	public long getTid(){
-		return this.tid;
-	}
- 
- 	@Override
- 	public String toString() {
- 	    return "BTCChinaTrades [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + "]";
- 	}
+    return this.amount;
+  }
+
+  public long getDate() {
+
+    return this.date;
+  }
+
+  public BigDecimal getPrice() {
+
+    return this.price;
+  }
+
+  public long getTid() {
+
+    return this.tid;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCChinaTrades [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + "]";
+  }
 
 }

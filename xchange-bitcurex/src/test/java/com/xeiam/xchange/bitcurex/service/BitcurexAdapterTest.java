@@ -31,11 +31,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
@@ -43,6 +38,11 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexDepthJSONTest;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexTickerJSONTest;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexTradesJSONTest;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Tests the BitcurexAdapter class

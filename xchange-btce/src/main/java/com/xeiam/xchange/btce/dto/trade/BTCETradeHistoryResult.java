@@ -36,7 +36,7 @@ public class BTCETradeHistoryResult {
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final Long orderId;
-  private final int isYourOrder; //Not sure what this is...
+  private final int isYourOrder; // Not sure what this is...
   private final Long timestamp;
 
   /**
@@ -50,8 +50,8 @@ public class BTCETradeHistoryResult {
    * @param type
    * @param pair
    */
-  public BTCETradeHistoryResult(@JsonProperty("timestamp") Long timestamp, @JsonProperty("is_your_order") int isYourOrder, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
-          @JsonProperty("order_id") Long orderId, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public BTCETradeHistoryResult(@JsonProperty("timestamp") Long timestamp, @JsonProperty("is_your_order") int isYourOrder, @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("order_id") Long orderId, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 
     this.timestamp = timestamp;
     this.isYourOrder = isYourOrder;
@@ -91,16 +91,17 @@ public class BTCETradeHistoryResult {
 
     return orderId;
   }
-  
+
   public boolean isYourOrder() {
-      
-      return isYourOrder == 1;
+
+    return isYourOrder == 1;
   }
 
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair, type, amount, rate, timestamp, orderId, isYourOrder);
+    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair, type, amount, rate, timestamp, orderId,
+        isYourOrder);
   }
 
   public static enum Type {

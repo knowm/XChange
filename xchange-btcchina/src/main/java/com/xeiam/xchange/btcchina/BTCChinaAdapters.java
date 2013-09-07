@@ -155,18 +155,19 @@ public final class BTCChinaAdapters {
 
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
   }
-  
+
   /**
    * Adapts a BTCChinaAccountInfoResponse to AccountInfo Object
    * 
    * @param response
    * @return
    */
-  public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response){
+  public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
+
     BTCChinaAccountInfo result = response.getResult();
     return new AccountInfo(result.getProfile().getUsername(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
   }
-  
+
   /**
    * Adapts Map<String, BTCChinaValue> balances, Map<String,BTCChinaValue> frozens to List<Wallet>
    * 
@@ -174,24 +175,24 @@ public final class BTCChinaAdapters {
    * @param frozens
    * @return
    */
-  public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String,BTCChinaValue> frozens){
-    
+  public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens) {
+
     List<Wallet> wallets = new ArrayList<Wallet>();
-    
-    for(Map.Entry<String, BTCChinaValue> entry : balances.entrySet()){
+
+    for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       Wallet wallet;
       BTCChinaValue frozen = frozens.get(entry.getKey());
-      if(frozen != null){
+      if (frozen != null) {
         wallet = adaptWallet(entry.getValue(), frozen);
-        if(wallet !=null){
+        if (wallet != null) {
           wallets.add(wallet);
         }
       }
     }
     return wallets;
-    
+
   }
-  
+
   /**
    * Adapts BTCChinaValue balance, BTCChinaValue frozen to wallet
    * 
@@ -199,55 +200,58 @@ public final class BTCChinaAdapters {
    * @param frozen
    * @return
    */
-  public static Wallet adaptWallet(BTCChinaValue balance, BTCChinaValue frozen){
-    if(balance != null && frozen != null){
+  public static Wallet adaptWallet(BTCChinaValue balance, BTCChinaValue frozen) {
+
+    if (balance != null && frozen != null) {
       BigDecimal balanceAmount = BTCChinaUtils.valueToBigDecimal(balance);
       BigDecimal frozenAmount = BTCChinaUtils.valueToBigDecimal(frozen);
       BigMoney cash = BigMoney.of(CurrencyUnit.of(balance.getCurrency()), balanceAmount.add(frozenAmount));
       return new Wallet(balance.getCurrency(), cash);
-    } else {
+    }
+    else {
       return null;
     }
   }
-  
+
   /**
    * Adapts List<BTCChinaOrder> to OpenOrders
    * 
    * @param orders
    * @return
    */
-  public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders){
+  public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    if(orders != null){
-      for(BTCChinaOrder order : orders){
+    if (orders != null) {
+      for (BTCChinaOrder order : orders) {
         System.out.println(order);
-        if(order.getStatus().equals("open")){
+        if (order.getStatus().equals("open")) {
           LimitOrder limitOrder = adaptLimitOrder(order);
-          if(limitOrder != null){
+          if (limitOrder != null) {
             limitOrders.add(limitOrder);
           }
         }
       }
     }
-   
+
     return new OpenOrders(limitOrders);
   }
-  
+
   /**
    * Adapts BTCChinaOrder to LimitOrder
    * 
    * @param order
    * @return
    */
-  public static LimitOrder adaptLimitOrder(BTCChinaOrder order){
+  public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
+
     Order.OrderType orderType = order.getType().equals("bid") ? Order.OrderType.BID : Order.OrderType.ASK;
     BigDecimal amount = order.getAmount();
     String id = Long.toString(order.getId());
     Date date = new Date(order.getDate() * 1000);
     BigMoney price = BigMoney.of(CurrencyUnit.of(order.getCurrency()), order.getPrice());
-    
+
     return new LimitOrder(orderType, amount, "BTC", "CNY", id, date, price);
   }
- 
-  
+
 }

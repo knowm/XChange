@@ -58,39 +58,41 @@ public class BTCChinaPollingAccountService extends BasePollingExchangeService im
    */
   private final BTCChina btcchina;
   private ParamsDigest signatureCreator;
-  
+
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCChinaPollingAccountService(ExchangeSpecification exchangeSpecification) {
-    
-		super(exchangeSpecification);
-		
-		Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-		this.btcchina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
-		signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(),exchangeSpecification.getSecretKey());
-	}
+
+    super(exchangeSpecification);
+
+    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+    this.btcchina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
+    signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+  }
 
   @Override
-  public AccountInfo getAccountInfo(){
+  public AccountInfo getAccountInfo() {
+
     BTCChinaResponse<BTCChinaAccountInfo> response = btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
     return BTCChinaAdapters.adaptAccountInfo(response);
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
+
     BTCChinaResponse<BTCChinaID> response = btcchina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(CurrencyUnit.of("BTC"), amount));
     return response.getResult().getId();
   }
 
   @Override
   public String requestBitcoinDepositAddress(String... arguments) {
+
     BTCChinaResponse<BTCChinaAccountInfo> response = btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
-    
+
     return response.getResult().getProfile().getBtcDepositAddress();
   }
-
 
 }

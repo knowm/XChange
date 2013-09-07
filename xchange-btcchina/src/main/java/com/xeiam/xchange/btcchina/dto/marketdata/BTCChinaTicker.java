@@ -23,30 +23,31 @@ package com.xeiam.xchange.btcchina.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 /**
  * Data object representing Ticker from BTCE
  */
-public class BTCChinaTicker{
-   	private BTCChinaTickerObject ticker;
+public class BTCChinaTicker {
 
-    /**
-     * Constructor
-     * 
-     * @param ticker
-     */
-    public BTCChinaTicker(@JsonProperty("ticker") BTCChinaTickerObject ticker) {
-      this.ticker = ticker;
-    }
+  private BTCChinaTickerObject ticker;
 
-	public BTCChinaTickerObject getTicker(){
-		return ticker;
-	}
-	
-	@Override
-	public String toString() {
-	  return "BTCChinaTicker [ticker=" + ticker.toString() + "]";
-	}
+  /**
+   * Constructor
+   * 
+   * @param ticker
+   */
+  public BTCChinaTicker(@JsonProperty("ticker") BTCChinaTickerObject ticker) {
+
+    this.ticker = ticker;
+  }
+
+  public BTCChinaTickerObject getTicker() {
+
+    return ticker;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCChinaTicker [ticker=" + ticker.toString() + "]";
+  }
 }
-

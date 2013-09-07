@@ -31,23 +31,24 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 /**
  * @author David Yam
  */
-public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest{
-  
+public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
+
   /**
    * Constructor
+   * 
    * @param currencyUnit
    * @param amount
    */
-  public BTCChinaRequestWithdrawalRequest(CurrencyUnit currencyUnit, BigDecimal amount){
-    
+  public BTCChinaRequestWithdrawalRequest(CurrencyUnit currencyUnit, BigDecimal amount) {
+
     method = "requestWithdrawal";
     params = "[\"" + currencyUnit.getCode() + "\"," + amount.doubleValue() + "]";
   }
-  
+
   @Override
-  public String toString(){
-    
+  public String toString() {
+
     return String.format("BTCChinaRequestWithdrawalRequest{id=%d, method=%s, params=%s}", id, method, params.toString());
   }
-  
+
 }

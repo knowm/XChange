@@ -34,18 +34,18 @@ public class BTCChinaOrders {
   private final List<BTCChinaOrder> orders;
 
   /**
-   * 
    * @param orders
    */
-  public BTCChinaOrders(@JsonProperty("order") List<BTCChinaOrder> orders){ 
-   
+  public BTCChinaOrders(@JsonProperty("order") List<BTCChinaOrder> orders) {
+
     this.orders = orders;
-  }  
+  }
 
   public List<BTCChinaOrder> getOrders() {
+
     return orders;
   }
-  
+
   @Override
   public String toString() {
 

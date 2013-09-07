@@ -35,7 +35,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 public final class BTCChinaUtils {
 
   private static long generatedId = 1;
-  
+
   /**
    * private Constructor
    */
@@ -64,21 +64,24 @@ public final class BTCChinaUtils {
 
     return System.currentTimeMillis() * 1000;
   }
-  
-  public static long getGeneratedId(){
+
+  public static long getGeneratedId() {
+
     return generatedId++;
   }
-  
-  public static String bytesToHex(byte[] bytes){
+
+  public static String bytesToHex(byte[] bytes) {
+
     StringBuilder sb = new StringBuilder();
     for (byte b : bytes) {
-        sb.append(String.format("%02x", b));
+      sb.append(String.format("%02x", b));
     }
     return sb.toString();
   }
-  
-  public static BigDecimal valueToBigDecimal(BTCChinaValue value){
+
+  public static BigDecimal valueToBigDecimal(BTCChinaValue value) {
+
     return new BigDecimal(new BigInteger(value.getAmountInteger()), value.getAmountDecimal().intValue());
   }
-  
+
 }

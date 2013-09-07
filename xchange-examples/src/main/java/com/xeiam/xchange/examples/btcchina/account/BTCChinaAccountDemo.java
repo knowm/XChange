@@ -48,19 +48,24 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class BTCChinaAccountDemo {
 
-  public static void main(String[] args) throws Exception{
-    
- // Create a trust manager that does not validate certificate chains
-    TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
-        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-          return null;
-        }
-        public void checkClientTrusted(X509Certificate[] certs, String authType) {
-        }
-        public void checkServerTrusted(X509Certificate[] certs, String authType) {
-        }
+  public static void main(String[] args) throws Exception {
+
+    // Create a trust manager that does not validate certificate chains
+    TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+
+      public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+
+        return null;
       }
-    };
+
+      public void checkClientTrusted(X509Certificate[] certs, String authType) {
+
+      }
+
+      public void checkServerTrusted(X509Certificate[] certs, String authType) {
+
+      }
+    } };
 
     // Install the all-trusting trust manager
     SSLContext sc = SSLContext.getInstance("SSL");
@@ -69,14 +74,15 @@ public class BTCChinaAccountDemo {
 
     // Create all-trusting host name verifier
     HostnameVerifier allHostsValid = new HostnameVerifier() {
+
       public boolean verify(String hostname, SSLSession session) {
+
         return true;
       }
     };
 
     // Install the all-trusting host verifier
     HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-
 
     Exchange btcchina = BTCChinaExamplesUtils.getExchange();
 
@@ -89,7 +95,7 @@ public class BTCChinaAccountDemo {
     String depositAddress = accountService.requestBitcoinDepositAddress(null, null);
     System.out.println("Deposit address: " + depositAddress);
 
-    //String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
-    //System.out.println("withdrawResult = " + withdrawResult);
+    // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
+    // System.out.println("withdrawResult = " + withdrawResult);
   }
 }

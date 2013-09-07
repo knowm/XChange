@@ -27,22 +27,23 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 /**
  * @author David Yam
  */
-public final class BTCChinaCancelOrderRequest extends BTCChinaRequest{
+public final class BTCChinaCancelOrderRequest extends BTCChinaRequest {
 
   /**
    * Constructor
+   * 
    * @param openOnly
    */
-  public BTCChinaCancelOrderRequest(long orderId){
-    
+  public BTCChinaCancelOrderRequest(long orderId) {
+
     method = "cancelOrder";
     params = "[" + orderId + "]";
   }
-  
+
   @Override
-  public String toString(){
-    
+  public String toString() {
+
     return String.format("BTCChinaCancelOrderRequest{id=%d, method=%s, params=%s}", id, method, params);
   }
-  
+
 }

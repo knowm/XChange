@@ -29,16 +29,17 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 /**
  * @author David Yam
  */
-public class BTCChinaGetOrdersResponse extends BTCChinaResponse<BTCChinaOrders>{
+public class BTCChinaGetOrdersResponse extends BTCChinaResponse<BTCChinaOrders> {
 
   /**
    * Constructor
+   * 
    * @param id
    * @param result
    */
-  public BTCChinaGetOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaOrders result){
-    
+  public BTCChinaGetOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaOrders result) {
+
     super(id, result);
   }
-    
+
 }

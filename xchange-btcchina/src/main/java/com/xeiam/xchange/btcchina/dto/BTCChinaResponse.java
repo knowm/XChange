@@ -27,29 +27,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author David Yam
  */
-public class BTCChinaResponse<V>{
-  
+public class BTCChinaResponse<V> {
+
   protected final String id;
   protected final V result;
 
   /**
    * Constructor
+   * 
    * @param id
    * @param result
    */
-  public BTCChinaResponse(@JsonProperty("id") String id, @JsonProperty("result") V result){
+  public BTCChinaResponse(@JsonProperty("id") String id, @JsonProperty("result") V result) {
+
     this.id = id;
     this.result = result;
   }
 
   public V getResult() {
+
     return result;
   }
 
   public String getId() {
+
     return id;
   }
-  
+
   @Override
   public String toString() {
 

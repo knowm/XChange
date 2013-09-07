@@ -73,9 +73,10 @@ public class BTCChinaDigest implements ParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
+
     String tonce = restInvocation.getHttpHeaders().get("Json-Rpc-Tonce");
     String requestJson = restInvocation.getRequestBody();
-   
+
     String id = "", method = "", params = "";
     try {
       Pattern regex = Pattern.compile("\\{\"id\":([0-9]*),\"method\":\"([^\"]*)\",\"params\":\\[([^\\]]*)\\]\\}", Pattern.DOTALL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
@@ -84,17 +85,17 @@ public class BTCChinaDigest implements ParamsDigest {
         id = regexMatcher.group(1);
         method = regexMatcher.group(2);
         params = regexMatcher.group(3);
-      } 
+      }
     } catch (PatternSyntaxException ex) {
       // Syntax error in the regular expression
     }
 
     String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%s&method=%s&params=%s", tonce, exchangeAccessKey, "post", id, method, params);
     byte[] hash = mac.doFinal(signature.getBytes());
-    
+
     BasicAuthCredentials auth = new BasicAuthCredentials(exchangeAccessKey, BTCChinaUtils.bytesToHex(hash));
-    
+
     return auth.digestParams(restInvocation);
-  }  
-  
+  }
+
 }

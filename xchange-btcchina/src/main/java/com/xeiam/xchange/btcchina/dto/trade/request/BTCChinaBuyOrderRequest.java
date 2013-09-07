@@ -29,22 +29,23 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 /**
  * @author David Yam
  */
-public final class BTCChinaBuyOrderRequest extends BTCChinaRequest{
+public final class BTCChinaBuyOrderRequest extends BTCChinaRequest {
 
   /**
    * Constructor
+   * 
    * @param openOnly
    */
-  public BTCChinaBuyOrderRequest(BigDecimal price, BigDecimal amount){
-    
+  public BTCChinaBuyOrderRequest(BigDecimal price, BigDecimal amount) {
+
     method = "buyOrder";
     params = "[" + price.toPlainString() + "," + amount.toPlainString() + "]";
   }
-  
+
   @Override
-  public String toString(){
-    
+  public String toString() {
+
     return String.format("BTCChinaBuyOrderRequest{id=%d, method=%s, params=%s}", id, method, params);
   }
-  
+
 }

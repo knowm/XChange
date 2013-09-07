@@ -37,11 +37,11 @@ import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCEOpenOrdersReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
+import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.btce.dto.trade.BTCETradeHistoryResult.Type;
 import com.xeiam.xchange.btce.dto.trade.BTCETradeHistoryReturn;
-import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderResult;
-import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
 
 /**
  * Test BTCETradeData JSON parsing
@@ -57,7 +57,7 @@ public class BTCETradeDataJSONTest {
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
     assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
   }
-  
+
   @Test
   public void testOwnTransactions() throws IOException {
 
@@ -65,7 +65,7 @@ public class BTCETradeDataJSONTest {
     // Verify that the example data was unmarshalled correctly
     Map<Long, BTCETradeHistoryResult> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Arrays.asList(7258275L, 7160193L));
-    
+
     BTCETradeHistoryResult trade = rv.get(7258275L);
     assertThat(trade.getPair()).isEqualTo("btc_usd");
     assertThat(trade.getType()).isEqualTo(Type.sell);

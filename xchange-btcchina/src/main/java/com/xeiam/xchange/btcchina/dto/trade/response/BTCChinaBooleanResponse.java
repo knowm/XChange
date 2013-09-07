@@ -28,16 +28,17 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 /**
  * @author David Yam
  */
-public class BTCChinaBooleanResponse extends BTCChinaResponse<Boolean>{
+public class BTCChinaBooleanResponse extends BTCChinaResponse<Boolean> {
 
   /**
    * Constructor
+   * 
    * @param id
    * @param result
    */
-  public BTCChinaBooleanResponse(@JsonProperty("id") String id, @JsonProperty("result") Boolean result){
-    
+  public BTCChinaBooleanResponse(@JsonProperty("id") String id, @JsonProperty("result") Boolean result) {
+
     super(id, result);
   }
-    
+
 }
