@@ -19,21 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.util;
+package com.xeiam.xchange.btce.dto.trade;
 
-import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import com.xeiam.xchange.utils.jackson.EnumIntDeserializer;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
 
 /**
- * @author Matija Mazi
+ * @author Raphael Voellmy
  */
-public class BitstampTransactionTypeDeserializer extends EnumIntDeserializer<BitstampUserTransaction.TransactionType> {
+public class BTCETradeHistoryReturn extends BTCEReturn<Map<Long, BTCETradeHistoryResult>> {
 
   /**
    * Constructor
+   * 
+   * @param success
+   * @param value
+   * @param error
    */
-  public BitstampTransactionTypeDeserializer() {
+  public BTCETradeHistoryReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, BTCETradeHistoryResult> value, @JsonProperty("error") String error) {
 
-    super(BitstampUserTransaction.TransactionType.class);
+    super(success, value, error);
   }
 }

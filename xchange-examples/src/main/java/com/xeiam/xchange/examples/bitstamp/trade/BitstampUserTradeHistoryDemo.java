@@ -19,27 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.dto.trade;
+package com.xeiam.xchange.examples.bitstamp.trade;
 
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.btce.dto.marketdata.BTCEReturn;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
- * @author Raphael Voellmy
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connect to Bitstamp exchange with authentication</li>
+ * <li>get user trade history</li>
+ * </ul>
  */
-public class BTCEOwnTradeHistoryReturn extends BTCEReturn<Map<Long, BTCEOwnTrade>> {
+public class BitstampUserTradeHistoryDemo {
 
-  /**
-   * Constructor
-   * 
-   * @param success
-   * @param value
-   * @param error
-   */
-  public BTCEOwnTradeHistoryReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, BTCEOwnTrade> value, @JsonProperty("error") String error) {
+  public static void main(String[] args) {
 
-    super(success, value, error);
+    Exchange bitstamp = BitstampDemoUtils.getExchange();
+    PollingTradeService tradeService = bitstamp.getPollingTradeService();
+    Trades trades = tradeService.getTradeHistory();
+    System.out.println(trades.toString());
+
   }
+
 }

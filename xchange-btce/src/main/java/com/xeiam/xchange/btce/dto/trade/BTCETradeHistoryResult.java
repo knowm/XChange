@@ -29,33 +29,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Raphael Voellmy
  */
-public class BTCEOwnTrade {
+public class BTCETradeHistoryResult {
 
   private final String pair;
   private final Type type;
   private final BigDecimal amount;
   private final BigDecimal rate;
-  private final Long order_id;
-  private final int is_your_order; //Not sure what this is...
+  private final Long orderId;
+  private final int isYourOrder; //Not sure what this is...
   private final Long timestamp;
 
   /**
    * Constructor
    * 
    * @param timestamp
-   * @param is_your_order
-   * @param order_id
+   * @param isYourOrder
+   * @param orderId
    * @param rate
    * @param amount
    * @param type
    * @param pair
    */
-  public BTCEOwnTrade(@JsonProperty("timestamp") Long timestamp, @JsonProperty("is_your_order") int is_your_order, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
-          @JsonProperty("order_id") Long order_id, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public BTCETradeHistoryResult(@JsonProperty("timestamp") Long timestamp, @JsonProperty("is_your_order") int isYourOrder, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
+          @JsonProperty("order_id") Long orderId, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 
     this.timestamp = timestamp;
-    this.is_your_order = is_your_order;
-    this.order_id = order_id;
+    this.isYourOrder = isYourOrder;
+    this.orderId = orderId;
     this.rate = rate;
     this.amount = amount;
     this.type = type;
@@ -89,18 +89,18 @@ public class BTCEOwnTrade {
 
   public Long getOrderId() {
 
-    return order_id;
+    return orderId;
   }
   
   public boolean isYourOrder() {
       
-      return is_your_order == 1;
+      return isYourOrder == 1;
   }
 
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair, type, amount, rate, timestamp, order_id, is_your_order);
+    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair, type, amount, rate, timestamp, orderId, isYourOrder);
   }
 
   public static enum Type {

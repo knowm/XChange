@@ -32,10 +32,15 @@ import org.joda.money.CurrencyUnit;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitstamp.BitStamp;
+import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -65,8 +70,9 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     BitstampOrder[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
-    for (BitstampOrder oo : openOrders) {
-      orders.add(new LimitOrder(oo.getType() == 0 ? BID : ASK, oo.getAmount(), "BTC", "USD", Integer.toString(oo.getId()), BigMoney.of(CurrencyUnit.USD, oo.getPrice())));
+    for (BitstampOrder bitstampOrder : openOrders) {
+      orders.add(new LimitOrder(bitstampOrder.getType() == 0 ? BID : ASK, bitstampOrder.getAmount(), "BTC", "USD", Integer.toString(bitstampOrder.getId()), BigMoney.of(CurrencyUnit.USD, bitstampOrder
+          .getPrice())));
     }
     return new OpenOrders(orders);
   }
@@ -80,20 +86,28 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
 
-    BitstampOrder ord;
+    BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
-      ord = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     else {
-      ord = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
-    return Integer.toString(ord.getId());
+    return Integer.toString(bitstampOrder.getId());
   }
 
   @Override
   public boolean cancelOrder(String orderId) {
 
     return bitstamp.cancelOrder(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), Integer.parseInt(orderId)).equals(true);
+  }
+
+  @Override
+  public Trades getTradeHistory() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+
+    BitstampUserTransaction[] bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
+
   }
 
 }

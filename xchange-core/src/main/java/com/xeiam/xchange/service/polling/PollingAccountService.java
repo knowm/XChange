@@ -80,5 +80,5 @@ public interface PollingAccountService {
    */
   public String requestBitcoinDepositAddress(final String... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
-  // TODO: Transaction history, trade history
+  // TODO: Transaction history (deposits, withrawals, etc.)
 }

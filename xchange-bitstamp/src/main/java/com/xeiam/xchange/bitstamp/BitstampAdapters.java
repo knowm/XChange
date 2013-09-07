@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
@@ -34,9 +35,11 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -151,4 +154,34 @@ public final class BitstampAdapters {
 
   }
 
+  /**
+   * Adapt the user's trades
+   * 
+   * @param bitstampUserTransactions
+   * @return
+   */
+  public static Trades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    for (int i = 0; i < bitstampUserTransactions.length; i++) {
+
+      BitstampUserTransaction bitstampUserTransaction = bitstampUserTransactions[i];
+
+      if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
+
+        OrderType orderType = bitstampUserTransaction.getUsd().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
+        BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
+        String tradableIdentifier = "BTC";
+        String transactionCurrency = "USD";
+        BigMoney price = MoneyUtils.parse(transactionCurrency + " " + bitstampUserTransaction.getPrice());
+        Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
+        long id = bitstampUserTransaction.getId();
+
+        Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, id);
+        trades.add(trade);
+      }
+    }
+
+    return new Trades(trades);
+  }
 }
