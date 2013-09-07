@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.TimeZone;
 
 import org.junit.Test;
 
@@ -146,9 +145,8 @@ public class BitstampAdapterTest {
     assertThat(userTradeHistory.getTrades().get(0).getPrice()).isEqualTo(MoneyUtils.parse("USD 131.50"));
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());
-    assertThat(dateString).isEqualTo("2013-09-02 11:17:49"); // utc time so this unit test works on any server
+    assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
 
   }
 }
