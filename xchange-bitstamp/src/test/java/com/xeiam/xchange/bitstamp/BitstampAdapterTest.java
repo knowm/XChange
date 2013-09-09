@@ -26,6 +26,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 
@@ -34,6 +35,7 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -123,6 +125,28 @@ public class BitstampAdapterTest {
     assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 13.06"));
     assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 13.14"));
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1127.55649327"));
+
+  }
+
+  @Test
+  public void testUserTradeHistoryAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/trade/example-user-transactions.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampUserTransaction[] bitstampUserTransactions = mapper.readValue(is, BitstampUserTransaction[].class);
+
+    Trades userTradeHistory = BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
+
+    assertThat(userTradeHistory.getTrades().get(0).getId()).isEqualTo(1296712);
+    assertThat(userTradeHistory.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(userTradeHistory.getTrades().get(0).getPrice()).isEqualTo(MoneyUtils.parse("USD 131.50"));
+
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());
+    assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
 
   }
 }

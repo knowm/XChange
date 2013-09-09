@@ -27,6 +27,12 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.bitcurex.Bitcurex;
+import com.xeiam.xchange.bitcurex.BitcurexAdapters;
+import com.xeiam.xchange.bitcurex.BitcurexUtils;
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -35,12 +41,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.bitcurex.Bitcurex;
-import com.xeiam.xchange.bitcurex.BitcurexAdapters;
-import com.xeiam.xchange.bitcurex.BitcurexUtils;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 
 /**
  * <p>

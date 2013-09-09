@@ -41,7 +41,7 @@ public final class BitcurexUtils {
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   CurrencyPair.BTC_EUR,
-  
+
   CurrencyPair.BTC_PLN
 
   );

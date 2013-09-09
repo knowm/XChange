@@ -28,9 +28,12 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -175,4 +178,10 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
 
   }
 
+  @Override
+  public Trades getTradeHistory() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+
+    throw new NotYetImplementedForExchangeException();
+
+  }
 }

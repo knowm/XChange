@@ -28,6 +28,8 @@ import java.util.List;
 
 import org.joda.money.BigMoney;
 
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -37,8 +39,6 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 
 /**
  * Various adapters for converting from Bitcurex DTOs to XChange DTOs

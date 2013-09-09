@@ -26,6 +26,7 @@ import si.mazi.rescu.RestJsonException;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -92,5 +93,15 @@ public interface PollingTradeService {
    * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
    */
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+
+  /**
+   * gets trade history for user's account
+   * 
+   * @return
+   * @throws ExchangeException
+   * @throws NotAvailableFromExchangeException
+   * @throws NotYetImplementedForExchangeException
+   */
+  public Trades getTradeHistory() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
 }
