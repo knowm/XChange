@@ -179,9 +179,8 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public Trades getTradeHistory() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-
-    throw new NotYetImplementedForExchangeException();
-
+  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException,
+          NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+      throw new NotYetImplementedForExchangeException();
   }
 }

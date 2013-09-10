@@ -171,8 +171,8 @@ public final class BitstampAdapters {
 
         OrderType orderType = bitstampUserTransaction.getUsd().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
         BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "USD";
+        String tradableIdentifier = Currencies.BTC;
+        String transactionCurrency = Currencies.USD;
         BigMoney price = MoneyUtils.parse(transactionCurrency + " " + bitstampUserTransaction.getPrice());
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
         long id = bitstampUserTransaction.getId();

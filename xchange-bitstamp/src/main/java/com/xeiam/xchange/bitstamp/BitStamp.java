@@ -28,7 +28,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
@@ -79,12 +78,7 @@ public interface BitStamp {
   @POST
   @Path("user_transactions/")
   @Produces("application/json")
-  public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @QueryParam("timedelta") long timedeltaSec);
-
-  @POST
-  @Path("user_transactions/")
-  @Produces("application/json")
-  public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password);
+  public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @FormParam("limit") Long numberOfTransactions);
 
   @POST
   @Path("open_orders/")

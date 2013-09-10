@@ -147,6 +147,5 @@ public class BitstampAdapterTest {
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());
     assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
-
   }
 }

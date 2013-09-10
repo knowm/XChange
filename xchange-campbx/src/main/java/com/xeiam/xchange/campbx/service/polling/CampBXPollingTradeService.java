@@ -183,10 +183,11 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
     }
   }
 
-  @Override
-  public Trades getTradeHistory() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-
+@Override
+public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException,
+        NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     throw new NotYetImplementedForExchangeException();
+}
 
-  }
+
 }
