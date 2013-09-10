@@ -48,9 +48,10 @@ public class FullDepthJSONTest {
     BitstampOrderBook orderBook = mapper.readValue(is, BitstampOrderBook.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(orderBook.getBids().get(0).get(0)).isEqualTo(new BigDecimal("13.07"));
-    assertThat(orderBook.getBids().get(0).get(1)).isEqualTo(new BigDecimal("7.43517000"));
-    assertThat(orderBook.getAsks().get(0).get(0)).isEqualTo(new BigDecimal("13.15"));
-    assertThat(orderBook.getAsks().get(0).get(1)).isEqualTo(new BigDecimal("843.29085332"));
+    assertThat(orderBook.getBids().get(0).get(0)).isEqualTo(new BigDecimal("123.09"));
+    assertThat(orderBook.getBids().get(0).get(1)).isEqualTo(new BigDecimal("0.16248274"));
+    assertThat(orderBook.getAsks().get(0).get(0)).isEqualTo(new BigDecimal("123.39"));
+    assertThat(orderBook.getAsks().get(0).get(1)).isEqualTo(new BigDecimal("0.60466812"));
+    assertThat(orderBook.getTimestamp()).isEqualTo(1378816304);
   }
 }

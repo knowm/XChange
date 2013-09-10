@@ -31,87 +31,91 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class MtGoxDepth {
 
-  private final List<MtGoxOrder> asks;
-  private final List<MtGoxOrder> bids;
-  private final FilterPrice filterMinPrice;
-  private final FilterPrice filterMaxPrice;
-
-  /**
-   * Constructor
-   * 
-   * @param asks
-   * @param bids
-   */
-  public MtGoxDepth(@JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids, @JsonProperty("filter_min_price") FilterPrice filterMinPrice,
-      @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
-
-    this.asks = asks;
-    this.bids = bids;
-    this.filterMinPrice = filterMinPrice;
-    this.filterMaxPrice = filterMaxPrice;
-  }
-
-  public List<MtGoxOrder> getAsks() {
-
-    return asks;
-  }
-
-  public List<MtGoxOrder> getBids() {
-
-    return bids;
-  }
-
-  public FilterPrice getFilterMinPrice() {
-
-    return filterMinPrice;
-  }
-
-  public FilterPrice getFilterMaxPrice() {
-
-    return filterMaxPrice;
-  }
-
-  @Override
-  public String toString() {
-
-    return "MtGoxDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
-  }
-
-  public static class FilterPrice {
-
-    private final BigDecimal value;
-    private final long valueInt;
-    private final String currency;
+    private final List<MtGoxOrder> asks;
+    private final List<MtGoxOrder> bids;
+    private final FilterPrice filterMinPrice;
+    private final FilterPrice filterMaxPrice;
+    private final Long nanoTime;
 
     /**
      * Constructor
      * 
-     * @param value
-     * @param valueInt
-     * @param currency
+     * @param asks
+     * @param bids
      */
-    public FilterPrice(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("currency") String currency) {
+    public MtGoxDepth(@JsonProperty("now") Long nanoTime, @JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids,
+            @JsonProperty("filter_min_price") FilterPrice filterMinPrice, @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
 
-      this.value = value;
-      this.valueInt = valueInt;
-      this.currency = currency;
+        this.asks = asks;
+        this.bids = bids;
+        this.filterMinPrice = filterMinPrice;
+        this.filterMaxPrice = filterMaxPrice;
+        this.nanoTime=nanoTime;
     }
 
-    public BigDecimal getValue() {
+    public List<MtGoxOrder> getAsks() {
 
-      return value;
+        return asks;
     }
 
-    public long getValueInt() {
+    public List<MtGoxOrder> getBids() {
 
-      return valueInt;
+        return bids;
     }
 
-    public String getCurrency() {
+    public FilterPrice getFilterMinPrice() {
 
-      return currency;
+        return filterMinPrice;
     }
 
-  }
+    public FilterPrice getFilterMaxPrice() {
+
+        return filterMaxPrice;
+    }
+    public Long getTimeInNano(){
+        return nanoTime;
+    }
+    @Override
+    public String toString() {
+
+        return "MtGoxDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    }
+   
+    public static class FilterPrice {
+
+        private final BigDecimal value;
+        private final long valueInt;
+        private final String currency;
+
+        /**
+         * Constructor
+         * 
+         * @param value
+         * @param valueInt
+         * @param currency
+         */
+        public FilterPrice(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("currency") String currency) {
+
+            this.value = value;
+            this.valueInt = valueInt;
+            this.currency = currency;
+        }
+
+        public BigDecimal getValue() {
+
+            return value;
+        }
+
+        public long getValueInt() {
+
+            return valueInt;
+        }
+
+        public String getCurrency() {
+
+            return currency;
+        }
+
+    }
 
 }

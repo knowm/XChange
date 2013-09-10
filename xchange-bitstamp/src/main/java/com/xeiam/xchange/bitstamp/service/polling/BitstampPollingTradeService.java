@@ -24,6 +24,7 @@ package com.xeiam.xchange.bitstamp.service.polling;
 import static com.xeiam.xchange.dto.Order.OrderType.ASK;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,7 @@ import com.xeiam.xchange.bitstamp.BitStamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -52,62 +54,72 @@ import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
  */
 public class BitstampPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private BitStamp bitstamp;
+    private BitStamp bitstamp;
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
+    /**
+     * Constructor
+     * 
+     * @param exchangeSpecification
+     *            The {@link ExchangeSpecification}
+     */
+    public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
-  }
-
-  @Override
-  public OpenOrders getOpenOrders() {
-
-    BitstampOrder[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    List<LimitOrder> orders = new ArrayList<LimitOrder>();
-    for (BitstampOrder bitstampOrder : openOrders) {
-      orders.add(new LimitOrder(bitstampOrder.getType() == 0 ? BID : ASK, bitstampOrder.getAmount(), "BTC", "USD", Integer.toString(bitstampOrder.getId()), BigMoney.of(CurrencyUnit.USD, bitstampOrder
-          .getPrice())));
+        super(exchangeSpecification);
+        this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
     }
-    return new OpenOrders(orders);
-  }
 
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+    @Override
+    public OpenOrders getOpenOrders() {
 
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
-
-    BitstampOrder bitstampOrder;
-    if (limitOrder.getType() == BID) {
-      bitstampOrder = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+        BitstampOrder[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+        List<LimitOrder> orders = new ArrayList<LimitOrder>();
+        for (BitstampOrder bitstampOrder : openOrders) {
+            orders.add(new LimitOrder(bitstampOrder.getType() == 0 ? BID : ASK, bitstampOrder.getAmount(), "BTC", "USD",
+                    Integer.toString(bitstampOrder.getId()), BigMoney.of(CurrencyUnit.USD, bitstampOrder.getPrice())));
+        }
+        return new OpenOrders(orders);
     }
-    else {
-      bitstampOrder = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+
+    @Override
+    public String placeMarketOrder(MarketOrder marketOrder) {
+
+        throw new NotAvailableFromExchangeException();
     }
-    return Integer.toString(bitstampOrder.getId());
-  }
 
-  @Override
-  public boolean cancelOrder(String orderId) {
+    @Override
+    public String placeLimitOrder(LimitOrder limitOrder) {
 
-    return bitstamp.cancelOrder(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), Integer.parseInt(orderId)).equals(true);
-  }
+        BitstampOrder bitstampOrder;
+        if (limitOrder.getType() == BID) {
+            bitstampOrder = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder
+                    .getLimitPrice().getAmount());
+        } else {
+            bitstampOrder = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder
+                    .getLimitPrice().getAmount());
+        }
+        return Integer.toString(bitstampOrder.getId());
+    }
 
-  @Override
-  public Trades getTradeHistory() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+    @Override
+    public boolean cancelOrder(String orderId) {
 
-    BitstampUserTransaction[] bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
+        return bitstamp.cancelOrder(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), Integer.parseInt(orderId)).equals(true);
+    }
 
-  }
+    @Override
+    public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException,
+            NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+        Long limits = numberOfTransactions==null?Long.MAX_VALUE:numberOfTransactions;
+        BitstampUserTransaction[] bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(),
+                exchangeSpecification.getPassword(),limits);
+        if(tradableIdentifier!=null&&tradableIdentifier!=Currencies.BTC){
+            throw new InvalidParameterException("TradableIdentifier needs to be " + Currencies.BTC + " and not " +tradableIdentifier);
+        }
+        if(transactionCurrency!=null&&transactionCurrency!=Currencies.USD){
+            throw new InvalidParameterException("TransactionCurrency needs to be " + Currencies.USD + " and not " +transactionCurrency);
+        }
+        return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
+
+    }
 
 }
