@@ -44,7 +44,7 @@ public class BitstampTradeDemo {
 
   public static void main(String[] args) {
 
-    Exchange bitstamp = BitstampDemoUtils.getExchange();
+    Exchange bitstamp = BitstampDemoUtils.createExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
 
     printOpenOrders(tradeService);

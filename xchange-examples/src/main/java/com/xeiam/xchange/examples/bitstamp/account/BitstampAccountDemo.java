@@ -42,7 +42,7 @@ public class BitstampAccountDemo {
 
   public static void main(String[] args) {
 
-    Exchange bitstamp = BitstampDemoUtils.getExchange();
+    Exchange bitstamp = BitstampDemoUtils.createExchange();
 
     PollingAccountService accountService = bitstamp.getPollingAccountService();
 

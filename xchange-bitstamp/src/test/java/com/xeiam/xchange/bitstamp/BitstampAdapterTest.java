@@ -77,14 +77,15 @@ public class BitstampAdapterTest {
     BitstampOrderBook bitstampOrderBook = mapper.readValue(is, BitstampOrderBook.class);
 
     OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, "BTC", "USD");
-    assertThat(orderBook.getBids().size()).isEqualTo(107);
+    assertThat(orderBook.getBids().size()).isEqualTo(1281);
 
     // verify all fields filled
-    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount()).isEqualTo(new BigDecimal("13.07"));
+    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount()).isEqualTo(new BigDecimal("123.09"));
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("7.43517000"));
+    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.16248274"));
     assertThat(orderBook.getBids().get(0).getTradableIdentifier()).isEqualTo("BTC");
     assertThat(orderBook.getBids().get(0).getTransactionCurrency()).isEqualTo("USD");
+    assertThat(orderBook.getDate().getTime()).isEqualTo(1378816304);
 
   }
 

@@ -31,7 +31,7 @@ import com.xeiam.xchange.bitstamp.BitstampExchange;
  */
 public class BitstampDemoUtils {
 
-  public static Exchange getExchange() {
+  public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
     exSpec.setUserName("34387");
