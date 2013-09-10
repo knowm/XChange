@@ -90,7 +90,8 @@ public final class BitstampAdapters {
 
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitstampOrderBook.getBids());
-    return new OrderBook(asks, bids);
+    Date date = new Date(bitstampOrderBook.getTimestamp());
+    return new OrderBook(asks, bids,date);
   }
 
   private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
@@ -171,8 +172,8 @@ public final class BitstampAdapters {
 
         OrderType orderType = bitstampUserTransaction.getUsd().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
         BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "USD";
+        String tradableIdentifier = Currencies.BTC;
+        String transactionCurrency = Currencies.USD;
         BigMoney price = MoneyUtils.parse(transactionCurrency + " " + bitstampUserTransaction.getPrice());
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
         long id = bitstampUserTransaction.getId();

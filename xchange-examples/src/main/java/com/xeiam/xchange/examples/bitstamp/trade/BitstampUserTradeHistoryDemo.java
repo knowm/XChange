@@ -22,6 +22,7 @@
 package com.xeiam.xchange.examples.bitstamp.trade;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -39,9 +40,9 @@ public class BitstampUserTradeHistoryDemo {
 
   public static void main(String[] args) {
 
-    Exchange bitstamp = BitstampDemoUtils.getExchange();
+    Exchange bitstamp = BitstampDemoUtils.createExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
-    Trades trades = tradeService.getTradeHistory();
+    Trades trades = tradeService.getTradeHistory(17L, Currencies.BTC, Currencies.USD);
     System.out.println(trades.toString());
 
   }
