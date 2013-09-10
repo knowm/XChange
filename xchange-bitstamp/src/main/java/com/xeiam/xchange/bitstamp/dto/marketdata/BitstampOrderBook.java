@@ -34,17 +34,18 @@ public final class BitstampOrderBook {
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
   private final Long timestamp;
+
   /**
    * Constructor
    * 
    * @param bids
    * @param asks
    */
-  public BitstampOrderBook(@JsonProperty("timestamp") Long timestamp,@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
+  public BitstampOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
 
     this.bids = bids;
     this.asks = asks;
-    this.timestamp=timestamp;
+    this.timestamp = timestamp;
   }
 
   /** (price, amount) */
@@ -58,13 +59,15 @@ public final class BitstampOrderBook {
 
     return asks;
   }
+
   /**
-   * 
-   * @return Timestamp in Unix milliseconds 
+   * @return Timestamp in Unix milliseconds
    */
-  public Long getTimestamp(){
-      return timestamp;
+  public Long getTimestamp() {
+
+    return timestamp;
   }
+
   @Override
   public String toString() {
 

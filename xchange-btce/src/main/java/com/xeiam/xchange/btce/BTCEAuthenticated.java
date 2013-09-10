@@ -95,9 +95,10 @@ public interface BTCEAuthenticated {
   @POST
   @FormParam("method")
   BTCECancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("order_id") Long orderId);
- 
+
   /**
    * All parameters are nullable
+   * 
    * @param from The number of the transactions to start displaying with; default 0
    * @param count The number of transactions for displaying; default 1,000
    * @param fromId The ID of the transaction to start displaying with; default 0
@@ -110,9 +111,10 @@ public interface BTCEAuthenticated {
    */
   @POST
   @FormParam("method")
-  BTCETradeHistoryReturn TradeHistory (@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,  @FormParam("from") Long from,
-          @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-          @FormParam("end") Long end, @FormParam("pair") String pair);
+  BTCETradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
+      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+      @FormParam("end") Long end, @FormParam("pair") String pair);
+
   enum SortOrder {
     ASC, DESC
   }

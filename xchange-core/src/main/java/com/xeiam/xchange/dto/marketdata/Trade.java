@@ -33,115 +33,115 @@ import com.xeiam.xchange.dto.Order.OrderType;
  */
 public final class Trade implements Comparable<Trade> {
 
-    /**
-     * Did this trade result from the execution of a bid or a ask?
-     */
-    private final OrderType type;
+  /**
+   * Did this trade result from the execution of a bid or a ask?
+   */
+  private final OrderType type;
 
-    /**
-     * Amount that was traded
-     */
-    private final BigDecimal tradableAmount;
+  /**
+   * Amount that was traded
+   */
+  private final BigDecimal tradableAmount;
 
-    /**
-     * An identifier that uniquely identifies the tradable
-     */
-    private final String tradableIdentifier;
+  /**
+   * An identifier that uniquely identifies the tradable
+   */
+  private final String tradableIdentifier;
 
-    /**
-     * The currency used to settle the market order transaction
-     */
-    private final String transactionCurrency;
+  /**
+   * The currency used to settle the market order transaction
+   */
+  private final String transactionCurrency;
 
-    /**
-     * The price
-     */
-    private final BigMoney price;
+  /**
+   * The price
+   */
+  private final BigMoney price;
 
-    /**
-     * The timestamp of the trade
-     */
-    private final Date timestamp;
+  /**
+   * The timestamp of the trade
+   */
+  private final Date timestamp;
 
-    /**
-     * The trade id
-     */
-    private final long id;
+  /**
+   * The trade id
+   */
+  private final long id;
 
-    /**
-     * @param type
-     *            The trade type (BID side or ASK side)
-     * @param tradableAmount
-     *            The depth of this trade
-     * @param tradableIdentifier
-     *            The exchange identifier (e.g. "BTC/USD")
-     * @param transactionCurrency
-     *            The transaction currency (e.g. USD in BTC/USD)
-     * @param price
-     *            The price (either the bid or the ask)
-     * @param timestamp
-     *            The timestamp when the order was placed. Exchange matching is
-     *            usually price first then timestamp asc to clear older orders
-     * @param id
-     *            The id of the trade
-     */
-    public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, long id) {
+  /**
+   * @param type
+   *          The trade type (BID side or ASK side)
+   * @param tradableAmount
+   *          The depth of this trade
+   * @param tradableIdentifier
+   *          The exchange identifier (e.g. "BTC/USD")
+   * @param transactionCurrency
+   *          The transaction currency (e.g. USD in BTC/USD)
+   * @param price
+   *          The price (either the bid or the ask)
+   * @param timestamp
+   *          The timestamp when the order was placed. Exchange matching is
+   *          usually price first then timestamp asc to clear older orders
+   * @param id
+   *          The id of the trade
+   */
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, long id) {
 
-        this.type = type;
-        this.tradableAmount = tradableAmount;
-        this.tradableIdentifier = tradableIdentifier;
-        this.transactionCurrency = transactionCurrency;
-        this.price = price;
-        this.timestamp = timestamp;
-        this.id = id;
-    }
+    this.type = type;
+    this.tradableAmount = tradableAmount;
+    this.tradableIdentifier = tradableIdentifier;
+    this.transactionCurrency = transactionCurrency;
+    this.price = price;
+    this.timestamp = timestamp;
+    this.id = id;
+  }
 
-    public OrderType getType() {
+  public OrderType getType() {
 
-        return type;
-    }
+    return type;
+  }
 
-    public BigDecimal getTradableAmount() {
+  public BigDecimal getTradableAmount() {
 
-        return tradableAmount;
-    }
+    return tradableAmount;
+  }
 
-    public String getTradableIdentifier() {
+  public String getTradableIdentifier() {
 
-        return tradableIdentifier;
-    }
+    return tradableIdentifier;
+  }
 
-    public String getTransactionCurrency() {
+  public String getTransactionCurrency() {
 
-        return transactionCurrency;
-    }
+    return transactionCurrency;
+  }
 
-    public BigMoney getPrice() {
+  public BigMoney getPrice() {
 
-        return price;
-    }
+    return price;
+  }
 
-    public Date getTimestamp() {
+  public Date getTimestamp() {
 
-        return timestamp;
-    }
+    return timestamp;
+  }
 
-    public long getId() {
+  public long getId() {
 
-        return id;
-    }
+    return id;
+  }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
 
-        return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency="
-                + transactionCurrency + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id + "]";
-    }
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
+        + ", timestamp=" + timestamp + ", id=" + id + "]";
+  }
 
-    @Override
-    public int compareTo(Trade trade) {
+  @Override
+  public int compareTo(Trade trade) {
 
-        return getTimestamp().compareTo(trade.getTimestamp());
-    }
+    return getTimestamp().compareTo(trade.getTimestamp());
+  }
 
 }

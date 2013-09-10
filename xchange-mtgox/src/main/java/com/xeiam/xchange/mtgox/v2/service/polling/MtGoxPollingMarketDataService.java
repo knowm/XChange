@@ -55,137 +55,145 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-    private final MtGoxV2 mtGoxV2;
+  private final MtGoxV2 mtGoxV2;
 
-    /**
-     * Constructor
-     * 
-     * @param exchangeSpecification
-     *            The {@link ExchangeSpecification}
-     */
-    public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   *          The {@link ExchangeSpecification}
+   */
+  public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-        super(exchangeSpecification);
-        this.mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, exchangeSpecification.getSslUri());
+    super(exchangeSpecification);
+    this.mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, exchangeSpecification.getSslUri());
+  }
+
+  @Override
+  public Ticker getTicker(String tradableIdentifier, String currency) {
+
+    verify(tradableIdentifier, currency);
+
+    try {
+      // Request data
+      MtGoxTickerWrapper mtGoxTickerWrapper = mtGoxV2.getTicker(tradableIdentifier, currency);
+
+      if (mtGoxTickerWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        return MtGoxAdapters.adaptTicker(mtGoxTickerWrapper.getMtGoxTicker());
+      }
+      else if (mtGoxTickerWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getTicker(): " + mtGoxTickerWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getTicker(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getTicker(): " + e.getError());
     }
+  }
 
-    @Override
-    public Ticker getTicker(String tradableIdentifier, String currency) {
+  @Override
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
-        verify(tradableIdentifier, currency);
+    verify(tradableIdentifier, currency);
 
-        try {
-            // Request data
-            MtGoxTickerWrapper mtGoxTickerWrapper = mtGoxV2.getTicker(tradableIdentifier, currency);
-
-            if (mtGoxTickerWrapper.getResult().equals("success")) {
-                // Adapt to XChange DTOs
-                return MtGoxAdapters.adaptTicker(mtGoxTickerWrapper.getMtGoxTicker());
-            } else if (mtGoxTickerWrapper.getResult().equals("error")) {
-                throw new ExchangeException("Error calling getTicker(): " + mtGoxTickerWrapper.getError());
-            } else {
-                throw new ExchangeException("Error calling getTicker(): Unexpected result!");
-            }
-        } catch (MtGoxException e) {
-            throw new ExchangeException("Error calling getTicker(): " + e.getError());
-        }
+    try {
+      // Request data
+      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
+      if (mtGoxDepthWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
+        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
+        return new OrderBook(asks, bids);
+      }
+      else if (mtGoxDepthWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getPartialOrderBook(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getPartialOrderBook(): " + e.getError());
     }
+  }
 
-    @Override
-    public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+  @Override
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-        verify(tradableIdentifier, currency);
+    verify(tradableIdentifier, currency);
 
-        try {
-            // Request data
-            MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
-            if (mtGoxDepthWrapper.getResult().equals("success")) {
-                // Adapt to XChange DTOs
-                List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-                List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-                return new OrderBook(asks, bids);
-            } else if (mtGoxDepthWrapper.getResult().equals("error")) {
-                throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
-            } else {
-                throw new ExchangeException("Error calling getPartialOrderBook(): Unexpected result!");
-            }
-        } catch (MtGoxException e) {
-            throw new ExchangeException("Error calling getPartialOrderBook(): " + e.getError());
-        }
+    try {
+      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
+      if (mtGoxDepthWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
+        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
+        Date date = MtGoxAdapters.adaptDate(mtGoxDepthWrapper.getMtGoxDepth().getTimeInNano());
+        return new OrderBook(asks, bids, date);
+      }
+      else if (mtGoxDepthWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getFullOrderBook(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getFullOrderBook(): " + e.getError());
     }
+  }
 
-    @Override
-    public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
-        verify(tradableIdentifier, currency);
+    verify(tradableIdentifier, currency);
 
-        try {
-            MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
-            if (mtGoxDepthWrapper.getResult().equals("success")) {
-                // Adapt to XChange DTOs
-                List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-                List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-                Date date = MtGoxAdapters.adaptDate(mtGoxDepthWrapper.getMtGoxDepth().getTimeInNano());
-                return new OrderBook(asks, bids, date);
-            } else if (mtGoxDepthWrapper.getResult().equals("error")) {
-                throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
-            } else {
-                throw new ExchangeException("Error calling getFullOrderBook(): Unexpected result!");
-            }
-        } catch (MtGoxException e) {
-            throw new ExchangeException("Error calling getFullOrderBook(): " + e.getError());
-        }
+    try {
+      MtGoxTradesWrapper mtGoxTradeWrapper = null;
+
+      if (args.length > 0) {
+        Long sinceTimeStamp = (Long) args[0];
+        // Request data
+        mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency, sinceTimeStamp);
+      }
+      else {
+        // Request data
+        mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency);
+      }
+
+      if (mtGoxTradeWrapper.getResult().equals("success")) {
+        return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
+      }
+      else if (mtGoxTradeWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getTrades(): " + mtGoxTradeWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getTrades(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getTrades(): " + e.getError());
     }
+  }
 
-    @Override
-    public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier
+   *          The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency
+   *          The transaction currency (e.g. USD in BTC/USD)
+   */
+  private void verify(String tradableIdentifier, String currency) {
 
-        verify(tradableIdentifier, currency);
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
-        try {
-            MtGoxTradesWrapper mtGoxTradeWrapper = null;
+  }
 
-            if (args.length > 0) {
-                Long sinceTimeStamp = (Long) args[0];
-                // Request data
-                mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency, sinceTimeStamp);
-            } else {
-                // Request data
-                mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency);
-            }
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
 
-            if (mtGoxTradeWrapper.getResult().equals("success")) {
-                return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
-            } else if (mtGoxTradeWrapper.getResult().equals("error")) {
-                throw new ExchangeException("Error calling getTrades(): " + mtGoxTradeWrapper.getError());
-            } else {
-                throw new ExchangeException("Error calling getTrades(): Unexpected result!");
-            }
-        } catch (MtGoxException e) {
-            throw new ExchangeException("Error calling getTrades(): " + e.getError());
-        }
-    }
-
-    /**
-     * Verify
-     * 
-     * @param tradableIdentifier
-     *            The tradeable identifier (e.g. BTC in BTC/USD)
-     * @param currency
-     *            The transaction currency (e.g. USD in BTC/USD)
-     */
-    private void verify(String tradableIdentifier, String currency) {
-
-        Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-        Assert.notNull(currency, "currency cannot be null");
-        Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " "
-                + currency);
-
-    }
-
-    @Override
-    public List<CurrencyPair> getExchangeSymbols() {
-
-        return MtGoxUtils.CURRENCY_PAIRS;
-    }
+    return MtGoxUtils.CURRENCY_PAIRS;
+  }
 }

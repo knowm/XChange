@@ -116,9 +116,12 @@ public final class MtGoxAdapters {
 
     return limitOrders;
   }
-  public static Date adaptDate(Long nanos){
-      return new Date(TimeUnit.NANOSECONDS.toMillis(nanos));
+
+  public static Date adaptDate(Long nanos) {
+
+    return new Date(TimeUnit.NANOSECONDS.toMillis(nanos));
   }
+
   public static List<LimitOrder> adaptOrders(MtGoxOpenOrder[] mtGoxOpenOrders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -130,7 +133,7 @@ public final class MtGoxAdapters {
 
     return limitOrders;
   }
-  
+
   /**
    * Adapts a MtGox Wallet to a XChange Wallet
    * 

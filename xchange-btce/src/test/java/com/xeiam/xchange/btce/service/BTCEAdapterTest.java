@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Stack;
 
 import org.junit.Test;
 
@@ -54,85 +53,85 @@ import com.xeiam.xchange.utils.DateUtils;
  */
 public class BTCEAdapterTest {
 
-    @Test
-    public void testOrderAdapterWithDepth() throws IOException {
+  @Test
+  public void testOrderAdapterWithDepth() throws IOException {
 
-        // Read in the JSON from the example resources
-        InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    // Read in the JSON from the example resources
+    InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
-        // Use Jackson to parse it
-        ObjectMapper mapper = new ObjectMapper();
-        BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
 
-        List<LimitOrder> asks = BTCEAdapters.adaptOrders(BTCEDepth.getAsks(), "BTC", "USD", "ask", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(BTCEDepth.getAsks(), "BTC", "USD", "ask", "");
 
-        // verify all fields filled
-        assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
-        assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
-        assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("USD");
+    // verify all fields filled
+    assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("USD");
 
-    }
+  }
 
-    @Test
-    public void testTradeAdapter() throws IOException {
+  @Test
+  public void testTradeAdapter() throws IOException {
 
-        // Read in the JSON from the example resources
-        InputStream is = BTCETradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    // Read in the JSON from the example resources
+    InputStream is = BTCETradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
-        // Use Jackson to parse it
-        ObjectMapper mapper = new ObjectMapper();
-        BTCETrade[] BTCETrades = mapper.readValue(is, BTCETrade[].class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTCETrade[] BTCETrades = mapper.readValue(is, BTCETrade[].class);
 
-        Trades trades = BTCEAdapters.adaptTrades(BTCETrades);
-        // System.out.println(trades.getTrades().size());
-        assertThat(trades.getTrades().size() == 150);
+    Trades trades = BTCEAdapters.adaptTrades(BTCETrades);
+    // System.out.println(trades.getTrades().size());
+    assertThat(trades.getTrades().size() == 150);
 
-        // verify all fields filled
-        assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue()).isEqualTo(13.07);
-        assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
-        assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue()).isEqualTo(1.0);
-        assertThat(trades.getTrades().get(0).getTradableIdentifier()).isEqualTo("BTC");
-        // assertThat("transactionCurrency should be PLN",
-        // trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
-        assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2012-12-22 08:06:14 GMT");
-    }
+    // verify all fields filled
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue()).isEqualTo(13.07);
+    assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue()).isEqualTo(1.0);
+    assertThat(trades.getTrades().get(0).getTradableIdentifier()).isEqualTo("BTC");
+    // assertThat("transactionCurrency should be PLN",
+    // trades.getTrades().get(0).getTransactionCurrency().equals("PLN"));
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2012-12-22 08:06:14 GMT");
+  }
 
-    @Test
-    public void testTickerAdapter() throws IOException {
+  @Test
+  public void testTickerAdapter() throws IOException {
 
-        // Read in the JSON from the example resources
-        InputStream is = BTCETickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    // Read in the JSON from the example resources
+    InputStream is = BTCETickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
-        // Use Jackson to parse it
-        ObjectMapper mapper = new ObjectMapper();
-        BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
 
-        Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "BTC", "USD");
+    Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "BTC", "USD");
 
-        assertThat(ticker.getLast().toString()).isEqualTo("USD 13.07");
-        assertThat(ticker.getLow().toString()).isEqualTo("USD 13");
-        assertThat(ticker.getHigh().toString()).isEqualTo("USD 13.23");
-        assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("3078.62284"));
-        assertThat(ticker.getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(ticker.getLast().toString()).isEqualTo("USD 13.07");
+    assertThat(ticker.getLow().toString()).isEqualTo("USD 13");
+    assertThat(ticker.getHigh().toString()).isEqualTo("USD 13.23");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("3078.62284"));
+    assertThat(ticker.getTradableIdentifier()).isEqualTo("BTC");
 
-    }
+  }
 
-    @Test
-    public void testUserTradeHistoryAdapter() throws IOException {
+  @Test
+  public void testUserTradeHistoryAdapter() throws IOException {
 
-        // Read in the JSON from the example resources
-        InputStream is = BTCETradeHistoryJSONTest.class.getResourceAsStream("/trade/example-trade-history-data.json");
+    // Read in the JSON from the example resources
+    InputStream is = BTCETradeHistoryJSONTest.class.getResourceAsStream("/trade/example-trade-history-data.json");
 
-        // Use Jackson to parse it
-        ObjectMapper mapper = new ObjectMapper();
-        BTCETradeHistoryReturn btceTradeHistory = mapper.readValue(is, BTCETradeHistoryReturn.class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTCETradeHistoryReturn btceTradeHistory = mapper.readValue(is, BTCETradeHistoryReturn.class);
 
-        Trades trades = BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
-        List<Trade >tradeList = trades.getTrades();
-        Trade lastTrade =tradeList.get(tradeList.size()-1);
-        assertThat(lastTrade.getId()).isEqualTo(7258275L);
-        assertThat(lastTrade.getType()).isEqualTo(OrderType.ASK);
-        assertThat(lastTrade.getPrice()).isEqualTo(MoneyUtils.parse("USD 125.75"));
-        assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(1378194574L);
-    }
+    Trades trades = BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
+    List<Trade> tradeList = trades.getTrades();
+    Trade lastTrade = tradeList.get(tradeList.size() - 1);
+    assertThat(lastTrade.getId()).isEqualTo(7258275L);
+    assertThat(lastTrade.getType()).isEqualTo(OrderType.ASK);
+    assertThat(lastTrade.getPrice()).isEqualTo(MoneyUtils.parse("USD 125.75"));
+    assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(1378194574L);
+  }
 }

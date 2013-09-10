@@ -96,6 +96,7 @@ public interface PollingTradeService {
 
   /**
    * gets trade history for user's account
+   * 
    * @param numberOfTransactions The last numberOfTransactions will be queried. Number of trades may be less. If numberOfTrades = null than all trades will be returned.
    * @param tradableIdentifier The code of the currency to be traded e.g. BTC, can be null
    * @param transactionCurrency The code of the transaction currency, can be null
@@ -104,6 +105,7 @@ public interface PollingTradeService {
    * @throws NotAvailableFromExchangeException
    * @throws NotYetImplementedForExchangeException
    */
-  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency ) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException;
 
 }

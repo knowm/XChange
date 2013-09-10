@@ -31,91 +31,94 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class MtGoxDepth {
 
-    private final List<MtGoxOrder> asks;
-    private final List<MtGoxOrder> bids;
-    private final FilterPrice filterMinPrice;
-    private final FilterPrice filterMaxPrice;
-    private final Long nanoTime;
+  private final List<MtGoxOrder> asks;
+  private final List<MtGoxOrder> bids;
+  private final FilterPrice filterMinPrice;
+  private final FilterPrice filterMaxPrice;
+  private final Long nanoTime;
+
+  /**
+   * Constructor
+   * 
+   * @param asks
+   * @param bids
+   */
+  public MtGoxDepth(@JsonProperty("now") Long nanoTime, @JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids,
+      @JsonProperty("filter_min_price") FilterPrice filterMinPrice, @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
+
+    this.asks = asks;
+    this.bids = bids;
+    this.filterMinPrice = filterMinPrice;
+    this.filterMaxPrice = filterMaxPrice;
+    this.nanoTime = nanoTime;
+  }
+
+  public List<MtGoxOrder> getAsks() {
+
+    return asks;
+  }
+
+  public List<MtGoxOrder> getBids() {
+
+    return bids;
+  }
+
+  public FilterPrice getFilterMinPrice() {
+
+    return filterMinPrice;
+  }
+
+  public FilterPrice getFilterMaxPrice() {
+
+    return filterMaxPrice;
+  }
+
+  public Long getTimeInNano() {
+
+    return nanoTime;
+  }
+
+  @Override
+  public String toString() {
+
+    return "MtGoxDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+  }
+
+  public static class FilterPrice {
+
+    private final BigDecimal value;
+    private final long valueInt;
+    private final String currency;
 
     /**
      * Constructor
      * 
-     * @param asks
-     * @param bids
+     * @param value
+     * @param valueInt
+     * @param currency
      */
-    public MtGoxDepth(@JsonProperty("now") Long nanoTime, @JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids,
-            @JsonProperty("filter_min_price") FilterPrice filterMinPrice, @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
+    public FilterPrice(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("currency") String currency) {
 
-        this.asks = asks;
-        this.bids = bids;
-        this.filterMinPrice = filterMinPrice;
-        this.filterMaxPrice = filterMaxPrice;
-        this.nanoTime=nanoTime;
+      this.value = value;
+      this.valueInt = valueInt;
+      this.currency = currency;
     }
 
-    public List<MtGoxOrder> getAsks() {
+    public BigDecimal getValue() {
 
-        return asks;
+      return value;
     }
 
-    public List<MtGoxOrder> getBids() {
+    public long getValueInt() {
 
-        return bids;
+      return valueInt;
     }
 
-    public FilterPrice getFilterMinPrice() {
+    public String getCurrency() {
 
-        return filterMinPrice;
+      return currency;
     }
 
-    public FilterPrice getFilterMaxPrice() {
-
-        return filterMaxPrice;
-    }
-    public Long getTimeInNano(){
-        return nanoTime;
-    }
-    @Override
-    public String toString() {
-
-        return "MtGoxDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
-    }
-   
-    public static class FilterPrice {
-
-        private final BigDecimal value;
-        private final long valueInt;
-        private final String currency;
-
-        /**
-         * Constructor
-         * 
-         * @param value
-         * @param valueInt
-         * @param currency
-         */
-        public FilterPrice(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("currency") String currency) {
-
-            this.value = value;
-            this.valueInt = valueInt;
-            this.currency = currency;
-        }
-
-        public BigDecimal getValue() {
-
-            return value;
-        }
-
-        public long getValueInt() {
-
-            return valueInt;
-        }
-
-        public String getCurrency() {
-
-            return currency;
-        }
-
-    }
+  }
 
 }
