@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import org.junit.Test;
 
@@ -85,8 +86,10 @@ public class BitstampAdapterTest {
     assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.16248274"));
     assertThat(orderBook.getBids().get(0).getTradableIdentifier()).isEqualTo("BTC");
     assertThat(orderBook.getBids().get(0).getTransactionCurrency()).isEqualTo("USD");
-    assertThat(orderBook.getDate().getTime()).isEqualTo(1378816304);
-
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(orderBook.getDate());
+    assertThat(dateString).isEqualTo("2013-09-10 12:31:44");
   }
 
   @Test
