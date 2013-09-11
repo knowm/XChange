@@ -35,7 +35,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
@@ -184,8 +183,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException {
+  public Trades getTradeHistory(final Object... arguments) {
 
     throw new NotYetImplementedForExchangeException();
   }

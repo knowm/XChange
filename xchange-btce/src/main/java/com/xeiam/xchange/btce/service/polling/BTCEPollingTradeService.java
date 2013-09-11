@@ -24,10 +24,7 @@ package com.xeiam.xchange.btce.service.polling;
 
 import java.util.ArrayList;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
 import com.xeiam.xchange.btce.BTCEUtils;
@@ -98,12 +95,21 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
   }
 
   @Override
-  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException {
+  public Trades getTradeHistory(final Object... arguments) {
 
-    Long count = numberOfTransactions == null ? Long.MAX_VALUE : numberOfTransactions;
+    Long numberOfTransactions = Long.MAX_VALUE;
+    String tradableIdentifier = "";
+    String transactionCurrency = "";
+    try {
+      numberOfTransactions = (Long) arguments[0];
+      tradableIdentifier = (String) arguments[1];
+      transactionCurrency = (String) arguments[2];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      // ignore, can happen if no arg given.
+    }
+
     String pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
-    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, count, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
+    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, numberOfTransactions, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
     checkResult(btceTradeHistory);
     return BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
   }

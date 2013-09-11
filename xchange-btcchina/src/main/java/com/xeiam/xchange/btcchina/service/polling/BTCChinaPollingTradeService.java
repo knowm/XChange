@@ -24,7 +24,6 @@ package com.xeiam.xchange.btcchina.service.polling;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
@@ -114,8 +113,7 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
   }
 
   @Override
-  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException {
+  public Trades getTradeHistory(final Object... arguments) {
 
     throw new NotYetImplementedForExchangeException();
   }

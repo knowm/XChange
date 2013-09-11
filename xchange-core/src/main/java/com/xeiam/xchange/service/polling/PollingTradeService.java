@@ -105,7 +105,6 @@ public interface PollingTradeService {
    * @throws NotAvailableFromExchangeException
    * @throws NotYetImplementedForExchangeException
    */
-  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException;
+  public Trades getTradeHistory(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
 }

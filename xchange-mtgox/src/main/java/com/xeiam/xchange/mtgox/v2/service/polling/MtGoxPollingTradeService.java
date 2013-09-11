@@ -28,7 +28,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -179,8 +178,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException {
+  public Trades getTradeHistory(final Object... arguments) {
 
     throw new NotYetImplementedForExchangeException();
   }

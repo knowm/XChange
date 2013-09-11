@@ -24,7 +24,6 @@ package com.xeiam.xchange.bitstamp.service.polling;
 import static com.xeiam.xchange.dto.Order.OrderType.ASK;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +32,12 @@ import org.joda.money.CurrencyUnit;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitstamp.BitStamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -106,19 +102,23 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   }
 
   @Override
-  public Trades getTradeHistory(Long numberOfTransactions, String tradableIdentifier, String transactionCurrency) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException {
+  public Trades getTradeHistory(final Object... arguments) {
 
-    Long limits = numberOfTransactions == null ? Long.MAX_VALUE : numberOfTransactions;
-    BitstampUserTransaction[] bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limits);
-    if (tradableIdentifier != null && tradableIdentifier != Currencies.BTC) {
-      throw new InvalidParameterException("TradableIdentifier needs to be " + Currencies.BTC + " and not " + tradableIdentifier);
+    Long numberOfTransactions = null;
+    try {
+      numberOfTransactions = (Long) arguments[0];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      // ignore, can happen if no arg given.
     }
-    if (transactionCurrency != null && transactionCurrency != Currencies.USD) {
-      throw new InvalidParameterException("TransactionCurrency needs to be " + Currencies.USD + " and not " + transactionCurrency);
+
+    BitstampUserTransaction[] bitstampUserTransactions;
+    if (numberOfTransactions == null) {
+      bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    }
+    else {
+      bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), numberOfTransactions);
     }
     return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
-
   }
 
 }
