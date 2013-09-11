@@ -104,20 +104,15 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public Trades getTradeHistory(final Object... arguments) {
 
-    Long numberOfTransactions = null;
+    Long numberOfTransactions = Long.MAX_VALUE;
     try {
       numberOfTransactions = (Long) arguments[0];
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no arg given.
     }
 
-    BitstampUserTransaction[] bitstampUserTransactions;
-    if (numberOfTransactions == null) {
-      bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    }
-    else {
-      bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), numberOfTransactions);
-    }
+    BitstampUserTransaction[] bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), numberOfTransactions);
+
     return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
   }
 

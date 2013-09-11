@@ -81,11 +81,6 @@ public interface BitStamp {
   public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @FormParam("limit") long numberOfTransactions);
 
   @POST
-  @Path("user_transactions/")
-  @Produces("application/json")
-  public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password);
-
-  @POST
   @Path("open_orders/")
   @Produces("application/json")
   public BitstampOrder[] getOpenOrders(@FormParam("user") String user, @FormParam("password") String password);
