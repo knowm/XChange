@@ -95,7 +95,7 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currency, "ask", "");
     List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBids(), currency, "bid", "");
 
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override

@@ -55,7 +55,7 @@ public final class CampBXAdapters {
 
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {

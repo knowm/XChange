@@ -95,7 +95,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currency, "ask", "");
     List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currency, "bid", "");
 
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override

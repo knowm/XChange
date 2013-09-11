@@ -90,8 +90,8 @@ public final class BitstampAdapters {
 
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitstampOrderBook.getBids());
-    Date date = new Date(bitstampOrderBook.getTimestamp());
-    return new OrderBook(asks, bids, date);
+    Date date = new Date(bitstampOrderBook.getTimestamp() * 1000);
+    return new OrderBook(date, asks, bids);
   }
 
   private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {

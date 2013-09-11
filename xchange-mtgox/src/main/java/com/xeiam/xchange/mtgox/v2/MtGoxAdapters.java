@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.joda.money.BigMoney;
 
@@ -115,11 +114,6 @@ public final class MtGoxAdapters {
     }
 
     return limitOrders;
-  }
-
-  public static Date adaptDate(Long nanos) {
-
-    return new Date(TimeUnit.NANOSECONDS.toMillis(nanos));
   }
 
   public static List<LimitOrder> adaptOrders(MtGoxOpenOrder[] mtGoxOpenOrders) {

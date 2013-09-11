@@ -105,7 +105,9 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         // Adapt to XChange DTOs
         List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
         List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-        return new OrderBook(asks, bids);
+        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
+
+        return new OrderBook(date, asks, bids);
       }
       else if (mtGoxDepthWrapper.getResult().equals("error")) {
         throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
@@ -129,8 +131,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         // Adapt to XChange DTOs
         List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
         List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-        Date date = MtGoxAdapters.adaptDate(mtGoxDepthWrapper.getMtGoxDepth().getTimeInNano());
-        return new OrderBook(asks, bids, date);
+        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
+        return new OrderBook(date, asks, bids);
       }
       else if (mtGoxDepthWrapper.getResult().equals("error")) {
         throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());

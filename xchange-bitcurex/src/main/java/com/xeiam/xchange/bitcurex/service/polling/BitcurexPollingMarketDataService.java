@@ -94,7 +94,7 @@ public class BitcurexPollingMarketDataService extends BasePollingExchangeService
     List<LimitOrder> asks = BitcurexAdapters.adaptOrders(bitcurexDepth.getAsks(), currency, "ask", "");
     List<LimitOrder> bids = BitcurexAdapters.adaptOrders(bitcurexDepth.getBids(), currency, "bid", "");
 
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override

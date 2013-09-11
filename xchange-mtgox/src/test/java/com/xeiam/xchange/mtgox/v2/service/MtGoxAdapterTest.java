@@ -227,4 +227,5 @@ public class MtGoxAdapterTest {
     assertThat(orderBookUpdate.getLimitOrder().getTimestamp().getTime()).isEqualTo(1364643714372L);
 
   }
+
 }

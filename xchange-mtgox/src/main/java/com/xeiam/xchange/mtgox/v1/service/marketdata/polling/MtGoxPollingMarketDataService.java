@@ -92,7 +92,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, "ask", "");
     List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, "bid", "");
 
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override
@@ -106,7 +106,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
     List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
 
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override

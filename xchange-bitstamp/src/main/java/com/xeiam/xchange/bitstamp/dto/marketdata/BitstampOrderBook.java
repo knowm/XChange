@@ -31,13 +31,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitstampOrderBook {
 
+  private final Long timestamp;
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
-  private final Long timestamp;
 
   /**
    * Constructor
    * 
+   * @param timestamp
    * @param bids
    * @param asks
    */
@@ -46,6 +47,14 @@ public final class BitstampOrderBook {
     this.bids = bids;
     this.asks = asks;
     this.timestamp = timestamp;
+  }
+
+  /**
+   * @return Timestamp in Unix milliseconds
+   */
+  public Long getTimestamp() {
+
+    return timestamp;
   }
 
   /** (price, amount) */
@@ -60,17 +69,10 @@ public final class BitstampOrderBook {
     return asks;
   }
 
-  /**
-   * @return Timestamp in Unix milliseconds
-   */
-  public Long getTimestamp() {
-
-    return timestamp;
-  }
-
   @Override
   public String toString() {
 
-    return String.format("OrderBook{bids=%s, asks=%s}", bids, asks);
+    return "BitstampOrderBook [timestamp=" + timestamp + ", bids=" + bids + ", asks=" + asks + "]";
   }
+
 }

@@ -44,30 +44,22 @@ public final class OrderBook {
   /**
    * Constructor
    * 
-   * @param asks
-   *          The ASK orders
-   * @param bids
-   *          The BID orders
-   */
-  public OrderBook(List<LimitOrder> asks, List<LimitOrder> bids) {
-
-    this(asks, bids, null);
-  }
-
-  /**
-   * Constructor
-   * 
-   * @param asks
-   *          The ASK orders
-   * @param bids
-   *          The BID orders
    * @param date The timeStamp of the OrderBook
+   * @param asks
+   *          The ASK orders
+   * @param bids
+   *          The BID orders
    */
-  public OrderBook(List<LimitOrder> asks, List<LimitOrder> bids, Date date) {
+  public OrderBook(Date date, List<LimitOrder> asks, List<LimitOrder> bids) {
 
+    this.date = date;
     this.asks = asks;
     this.bids = bids;
-    this.date = date;
+  }
+
+  public Date getDate() {
+
+    return date;
   }
 
   public List<LimitOrder> getAsks() {
@@ -80,11 +72,6 @@ public final class OrderBook {
 
     Collections.sort(bids);
     return bids;
-  }
-
-  public Date getDate() {
-
-    return date;
   }
 
   /**
@@ -150,11 +137,7 @@ public final class OrderBook {
     }
     while (it.hasNext()) {
       LimitOrder order = it.next();
-      if (order.getLimitPrice().compareTo(orderBookUpdate.getLimitOrder().getLimitPrice()) == 0) { // they
-                                                                                                   // are
-                                                                                                   // equal.
-                                                                                                   // found
-                                                                                                   // it!
+      if (order.getLimitPrice().compareTo(orderBookUpdate.getLimitOrder().getLimitPrice()) == 0) { // they are equal. found it!
         it.remove();
         break;
       }
@@ -187,7 +170,7 @@ public final class OrderBook {
   @Override
   public String toString() {
 
-    return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    return "Depth [timestamp: " + date + ", asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
 }
