@@ -48,7 +48,7 @@ public class KrakenDepth {
     for(Object[] order : asks) {
       this.asks.add(new KrakenOrder(order));
     }
-    for(Object[] order : asks) {
+    for(Object[] order : bids) {
       this.bids.add(new KrakenOrder(order));
     }
   }
