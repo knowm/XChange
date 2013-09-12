@@ -21,6 +21,7 @@
  */
 package org.xchange.kraken.dto.marketdata;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class KrakenDepth {
 
-  private final List<Object[]> asks;
-  private final List<Object[]> bids;
+  private final List<KrakenOrder> asks;
+  private final List<KrakenOrder> bids;
 
   /**
    * Constructor
@@ -40,17 +41,24 @@ public class KrakenDepth {
    * @param bids
    */
   public KrakenDepth(@JsonProperty("asks") List<Object[]> asks, @JsonProperty("bids") List<Object[]> bids) {
-
-    this.asks = asks;
-    this.bids = bids;
+    
+    this.asks = new ArrayList<KrakenOrder>();
+    this.bids = new ArrayList<KrakenOrder>();
+    
+    for(Object[] order : asks) {
+      this.asks.add(new KrakenOrder(order));
+    }
+    for(Object[] order : asks) {
+      this.bids.add(new KrakenOrder(order));
+    }
   }
 
-  public List<Object[]> getAsks() {
+  public List<KrakenOrder> getAsks() {
 
     return asks;
   }
 
-  public List<Object[]> getBids() {
+  public List<KrakenOrder> getBids() {
 
     return bids;
   }
