@@ -2,6 +2,10 @@ package org.xchange.kraken.service.polling;
 
 import java.util.List;
 
+import org.xchange.kraken.Kraken;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -14,15 +18,16 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class KrakenPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+    private final Kraken kraken;
 
     protected KrakenPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
         super(exchangeSpecification);
-        // TODO Auto-generated constructor stub
+        kraken = RestProxyFactory.createProxy(Kraken.class, exchangeSpecification.getSslUri());
     }
 
     @Override
     public List<CurrencyPair> getExchangeSymbols() {
-       throw new NotYetImplementedForExchangeException();
+        throw new NotYetImplementedForExchangeException();
     }
 
     @Override

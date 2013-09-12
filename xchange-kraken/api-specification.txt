@@ -1,0 +1,19 @@
+Kraken Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.kraken.com/help/api
+
+
+Account 
+
+user: xchange
+
+password: xeiam.com
+
+API Key: hklrCQOFOVnXFYwrkwqjpQ7VFLk7SBcunrpQ40lT1j4b3k9yOSsG53l4
+
+API Secret: 0iELUjTasQrBjWiXUTAuw3dbD31jc60QQGs816AZn0F1t+6Q6fZ4r/2Sx2FZaCdgzZei5V4uPEGAaxKKie3uiA==
