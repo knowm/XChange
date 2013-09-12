@@ -117,9 +117,7 @@ public final class OrderBook {
       bids.add(limitOrder); // just add it
       Collections.sort(bids); // finally sort
     }
-    if(limitOrder.getTimestamp()!=null&&(timeStamp==null||limitOrder.getTimestamp().after(timeStamp))){
-        this.timeStamp=limitOrder.getTimestamp();
-    }
+    updateDate(limitOrder.getTimestamp());
   }
 
   /**
@@ -168,10 +166,14 @@ public final class OrderBook {
         Collections.sort(bids);
       }
     }
-    if(orderBookUpdate.getLimitOrder().getTimestamp()!=null&&(timeStamp==null||orderBookUpdate.getLimitOrder().getTimestamp().after(timeStamp))){
-        this.timeStamp=orderBookUpdate.getLimitOrder().getTimestamp();
-    }
+    updateDate(orderBookUpdate.getLimitOrder().getTimestamp());
   }
+
+private void updateDate(Date updateDate) {
+    if(updateDate!=null&&(timeStamp==null||updateDate.after(timeStamp))){
+        this.timeStamp=updateDate;
+    }
+}
 
   @Override
   public String toString() {
