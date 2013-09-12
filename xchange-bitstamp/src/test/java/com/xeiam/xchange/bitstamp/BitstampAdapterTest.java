@@ -88,7 +88,7 @@ public class BitstampAdapterTest {
     assertThat(orderBook.getBids().get(0).getTransactionCurrency()).isEqualTo("USD");
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(orderBook.getDate());
+    String dateString = f.format(orderBook.getTimeStamp());
     assertThat(dateString).isEqualTo("2013-09-10 12:31:44");
   }
 

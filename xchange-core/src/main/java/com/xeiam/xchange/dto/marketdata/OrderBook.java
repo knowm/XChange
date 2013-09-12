@@ -116,8 +116,8 @@ public final class OrderBook {
       }
       bids.add(limitOrder); // just add it
       Collections.sort(bids); // finally sort
-      if(limitOrder.getTimestamp()!=null&&(timeStamp==null||limitOrder.getTimestamp().after(timeStamp))){
-          this.timeStamp=limitOrder.getTimestamp();
+      if (limitOrder.getTimestamp() != null && (timeStamp == null || limitOrder.getTimestamp().after(timeStamp))) {
+        this.timeStamp = limitOrder.getTimestamp();
       }
     }
   }
