@@ -116,15 +116,15 @@ public final class OrderBook {
       }
       bids.add(limitOrder); // just add it
       Collections.sort(bids); // finally sort
-      if(limitOrder.getTimestamp()!=null&&(timeStamp==null||limitOrder.getTimestamp().after(timeStamp))){
-          this.timeStamp=limitOrder.getTimestamp();
-      }
+    }
+    if(limitOrder.getTimestamp()!=null&&(timeStamp==null||limitOrder.getTimestamp().after(timeStamp))){
+        this.timeStamp=limitOrder.getTimestamp();
     }
   }
 
   /**
    * Given an OrderBookUpdate, it will replace and old matching limit order in
-   * the orderbook or simply get added. Finally, it is sorted.
+   * the orderbook or simply get added. Finally, it is sorted.The timeStamp may be updated as well.
    * 
    * @param limitOrder
    */
@@ -167,6 +167,9 @@ public final class OrderBook {
         bids.add(updatedOrder);
         Collections.sort(bids);
       }
+    }
+    if(orderBookUpdate.getLimitOrder().getTimestamp()!=null&&(timeStamp==null||orderBookUpdate.getLimitOrder().getTimestamp().after(timeStamp))){
+        this.timeStamp=orderBookUpdate.getLimitOrder().getTimestamp();
     }
   }
 
