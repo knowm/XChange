@@ -23,14 +23,17 @@ package com.xeiam.xchange.kraken.service.marketdata;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 import org.junit.Test;
 import org.xchange.kraken.dto.marketdata.KrakenDepthReturn;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
 /**
- * Test BTCEDepth JSON parsing
+ * Test KrakenDepth JSON parsing
  */
 public class KrakenDepthJSONTest {
 
@@ -45,7 +48,9 @@ public class KrakenDepthJSONTest {
     KrakenDepthReturn krakenDepth = mapper.readValue(is, KrakenDepthReturn.class);
 
     // Verify that the example data was unmarshalled correctly
-    //assertThat(BTCEDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("13.07"));
-    System.err.println(krakenDepth);
+    assertThat(krakenDepth.getResult().getBtcLtc()).isEqualTo(null);
+    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0).getPrice()).isEqualTo(new BigDecimal("96.99999"));
+    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0).getVolume()).isEqualTo(new BigDecimal("1"));
+    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0).getTimestamp()).isEqualTo(1378962690L);
   }
 }
