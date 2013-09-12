@@ -43,8 +43,8 @@ import com.xeiam.xchange.oer.OERAdapters;
 import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 import com.xeiam.xchange.oer.dto.marketdata.Rates;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**

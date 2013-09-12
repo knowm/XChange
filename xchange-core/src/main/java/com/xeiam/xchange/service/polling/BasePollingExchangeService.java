@@ -19,9 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.service.polling;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.service.streaming.BaseExchangeService;
 
 /**
  * <p>

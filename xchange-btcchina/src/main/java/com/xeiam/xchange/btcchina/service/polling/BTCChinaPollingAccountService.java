@@ -39,8 +39,8 @@ import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequ
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
