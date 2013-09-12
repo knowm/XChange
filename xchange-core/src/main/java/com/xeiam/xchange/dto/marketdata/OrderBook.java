@@ -37,29 +37,29 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
  */
 public final class OrderBook {
 
-  private final Date date;
+  private Date timeStamp;
   private final List<LimitOrder> asks;
   private final List<LimitOrder> bids;
 
   /**
    * Constructor
    * 
-   * @param date The timeStamp of the OrderBook
+   * @param timeStamp The timeStamp of the OrderBook or of the latest Update
    * @param asks
    *          The ASK orders
    * @param bids
    *          The BID orders
    */
-  public OrderBook(Date date, List<LimitOrder> asks, List<LimitOrder> bids) {
+  public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
 
-    this.date = date;
+    this.timeStamp = timeStamp;
     this.asks = asks;
     this.bids = bids;
   }
 
-  public Date getDate() {
+  public Date getTimeStamp() {
 
-    return date;
+    return timeStamp;
   }
 
   public List<LimitOrder> getAsks() {
@@ -76,7 +76,7 @@ public final class OrderBook {
 
   /**
    * Given a new LimitOrder, it will replace and old matching limit order in
-   * the orderbook or simply get added. Finally, it is sorted.
+   * the orderbook or simply get added. Finally, it is sorted. The timeStamp may be updated as well.
    * 
    * @param limitOrder
    */
@@ -116,6 +116,9 @@ public final class OrderBook {
       }
       bids.add(limitOrder); // just add it
       Collections.sort(bids); // finally sort
+      if(limitOrder.getTimestamp()!=null&&(timeStamp==null||limitOrder.getTimestamp().after(timeStamp))){
+          this.timeStamp=limitOrder.getTimestamp();
+      }
     }
   }
 
@@ -170,7 +173,7 @@ public final class OrderBook {
   @Override
   public String toString() {
 
-    return "Depth [timestamp: " + date + ", asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    return "Depth [timestamp: " + timeStamp + ", asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
 }
