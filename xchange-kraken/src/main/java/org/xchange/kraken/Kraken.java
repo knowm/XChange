@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 
 import org.xchange.kraken.dto.marketdata.KrakenDepthReturn;
 import org.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.xchange.kraken.dto.marketdata.KrakenTickerReturn;
 
 /**
  * @author Benedikt Bünz
@@ -19,7 +20,7 @@ public interface Kraken {
     @GET
     @Path("Ticker")
     @Produces("application/json")
-    KrakenTicker getTicker(@FormParam("pair") String currencyPair);
+    KrakenTickerReturn getTicker(@FormParam("pair") String currencyPair);
 
     @GET
     @Path("Depth")

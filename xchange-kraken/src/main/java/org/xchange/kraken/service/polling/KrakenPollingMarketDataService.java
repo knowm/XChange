@@ -9,6 +9,7 @@ import org.xchange.kraken.Kraken;
 import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.KrakenUtils;
 import org.xchange.kraken.dto.marketdata.KrakenDepth;
+import org.xchange.kraken.dto.marketdata.KrakenTicker;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -43,8 +44,9 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     @Override
     public Ticker getTicker(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException,
             NotYetImplementedForExchangeException {
-        throw new NotYetImplementedForExchangeException();
-
+        String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+        KrakenTicker krakenTicker =kraken.getTicker(krakenCurrencyPair).getResult().get(krakenCurrencyPair);
+    return KrakenAdapters.adaptTicker(krakenTicker,currency,tradableIdentifier);
     }
 
     @Override
