@@ -6,9 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.xchange.kraken.dto.marketdata.KrakenDepthReturn;
-import org.xchange.kraken.dto.marketdata.KrakenTicker;
-import org.xchange.kraken.dto.marketdata.KrakenTickerReturn;
+import org.xchange.kraken.dto.marketdata.KrakenDepthResult;
+import org.xchange.kraken.dto.marketdata.KrakenTickerResult;
 
 /**
  * @author Benedikt Bünz
@@ -20,16 +19,16 @@ public interface Kraken {
     @GET
     @Path("Ticker")
     @Produces("application/json")
-    KrakenTickerReturn getTicker(@FormParam("pair") String currencyPair);
+    KrakenTickerResult getTicker(@FormParam("pair") String currencyPair);
 
     @GET
     @Path("Depth")
     @Produces("application/json")
-    KrakenDepthReturn getFullDepth(@FormParam("pair") String currencyPair);
+    KrakenDepthResult getFullDepth(@FormParam("pair") String currencyPair);
     @GET
     @Path("Depth")
     @Produces("application/json")
-    KrakenDepthReturn getPartialDepth(@FormParam("pair") String currencyPair,long count);
+    KrakenDepthResult getPartialDepth(@FormParam("pair") String currencyPair,long count);
 
     @GET
     @Path("{ident}_{currency}/trades")

@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.xchange.kraken.dto.marketdata.KrakenDepthReturn;
+import org.xchange.kraken.dto.marketdata.KrakenDepthResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,7 +45,7 @@ public class KrakenDepthJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenDepthReturn krakenDepth = mapper.readValue(is, KrakenDepthReturn.class);
+    KrakenDepthResult krakenDepth = mapper.readValue(is, KrakenDepthResult.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenDepth.getResult().get("XBTCXLTC")).isEqualTo(null);

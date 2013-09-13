@@ -26,9 +26,9 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Matija Mazi
+ * @author Raphael Voellmy
  */
-public class KrakenDepthReturn extends KrakenResult<Map<String, KrakenDepth>> {
+public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
 
   /**
    * Constructor
@@ -37,7 +37,7 @@ public class KrakenDepthReturn extends KrakenResult<Map<String, KrakenDepth>> {
    * @param value The BTC-e account info
    * @param error Any error
    */
-  public KrakenDepthReturn(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {
+  public KrakenDepthResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {
 
     super(result, error);
   }
