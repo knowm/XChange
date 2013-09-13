@@ -19,28 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package org.xchange.kraken.dto.marketdata;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>
- * Abstract base class to provide the following to exchange services:
- * </p>
- * <ul>
- * <li>Provision of standard specification parsing</li>
- * </ul>
+ * @author Raphael Voellmy
  */
-public abstract class BasePollingExchangeService extends BaseExchangeService {
+public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
 
   /**
-   * Initialize common properties from the exchange specification
+   * Constructor
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param success True if successful
+   * @param value The BTC-e account info
+   * @param error Any error
    */
-  protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
+  public KrakenDepthResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {
 
-    super(exchangeSpecification);
+    super(result, error);
   }
-
 }
