@@ -24,10 +24,14 @@ public interface Kraken {
     @GET
     @Path("Depth")
     @Produces("application/json")
-    KrakenDepth getFullDepth(@FormParam("pair") String currencyPair, @PathParam("count") long count);
+    KrakenDepth getFullDepth(@FormParam("pair") String currencyPair);
+    @GET
+    @Path("Depth")
+    @Produces("application/json")
+    KrakenDepth getPartialDepth(@FormParam("pair") String currencyPair,long count);
 
     @GET
     @Path("{ident}_{currency}/trades")
-    K[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+    KrakenTrades[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
 }

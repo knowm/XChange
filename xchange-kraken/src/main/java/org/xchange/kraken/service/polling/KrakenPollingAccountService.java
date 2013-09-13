@@ -14,11 +14,13 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
     private Kraken kraken;
-    protected KrakenPollingAccountService(ExchangeSpecification exchangeSpecification) {
+    public KrakenPollingAccountService(ExchangeSpecification exchangeSpecification) {
         super(exchangeSpecification);
+        Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
         kraken = RestProxyFactory.createProxy(Kraken.class, exchangeSpecification.getSslUri());
     }
 

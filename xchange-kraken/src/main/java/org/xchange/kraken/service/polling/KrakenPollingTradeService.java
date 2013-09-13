@@ -14,11 +14,13 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
     private Kraken kraken;
-    protected KrakenPollingTradeService(ExchangeSpecification exchangeSpecification) {
+    public KrakenPollingTradeService(ExchangeSpecification exchangeSpecification) {
         super(exchangeSpecification);
+        Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
         kraken = RestProxyFactory.createProxy(Kraken.class, exchangeSpecification.getSslUri());
     }
 

@@ -1,8 +1,13 @@
 package org.xchange.kraken.service.polling;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.xchange.kraken.Kraken;
+import org.xchange.kraken.KrakenAdapters;
+import org.xchange.kraken.dto.marketdata.KrakenDepth;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -14,14 +19,17 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
     private final Kraken kraken;
 
-    protected KrakenPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+    public KrakenPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
         super(exchangeSpecification);
+        Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
         kraken = RestProxyFactory.createProxy(Kraken.class, exchangeSpecification.getSslUri());
     }
 
@@ -40,13 +48,38 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     @Override
     public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException,
             NotYetImplementedForExchangeException {
-        throw new NotYetImplementedForExchangeException();
+        KrakenDepth krakenDepth = kraken.getPartialDepth(tradableIdentifier + currency,300);
+        List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
+        List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
+        Comparator<LimitOrder> dateComparator = new Comparator<LimitOrder>() {
+
+            @Override
+            public int compare(LimitOrder o1, LimitOrder o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }
+        };
+        bids.addAll(asks);
+        Date timeStamp = Collections.max(bids, dateComparator).getTimestamp();
+        return new OrderBook(timeStamp, asks, bids);
+
     }
 
     @Override
     public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException,
             NotYetImplementedForExchangeException {
-        throw new NotYetImplementedForExchangeException();
+        KrakenDepth krakenDepth = kraken.getFullDepth(tradableIdentifier + currency);
+        List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
+        List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
+        Comparator<LimitOrder> dateComparator = new Comparator<LimitOrder>() {
+
+            @Override
+            public int compare(LimitOrder o1, LimitOrder o2) {
+                return o1.getTimestamp().compareTo(o2.getTimestamp());
+            }
+        };
+        bids.addAll(asks);
+        Date timeStamp = Collections.max(bids, dateComparator).getTimestamp();
+        return new OrderBook(timeStamp, asks, bids);
     }
 
     @Override

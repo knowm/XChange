@@ -41,14 +41,14 @@ public class KrakenDepth {
    * @param bids
    */
   public KrakenDepth(@JsonProperty("asks") List<Object[]> asks, @JsonProperty("bids") List<Object[]> bids) {
-    
+
     this.asks = new ArrayList<KrakenOrder>();
     this.bids = new ArrayList<KrakenOrder>();
-    
-    for(Object[] order : asks) {
+
+    for (Object[] order : asks) {
       this.asks.add(new KrakenOrder(order));
     }
-    for(Object[] order : bids) {
+    for (Object[] order : bids) {
       this.bids.add(new KrakenOrder(order));
     }
   }
@@ -65,7 +65,6 @@ public class KrakenDepth {
 
   @Override
   public String toString() {
-
     return "KrakenDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 

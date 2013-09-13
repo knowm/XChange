@@ -1,5 +1,9 @@
 package org.xchange.kraken;
 
+import org.xchange.kraken.service.polling.KrakenPollingAccountService;
+import org.xchange.kraken.service.polling.KrakenPollingMarketDataService;
+import org.xchange.kraken.service.polling.KrakenPollingTradeService;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,7 +13,15 @@ import com.xeiam.xchange.ExchangeSpecification;
  *
  */
 public class KrakenExchange extends BaseExchange implements Exchange {
-
+    @Override
+    public void applySpecification (ExchangeSpecification exchangeSpecification){
+         
+        super.applySpecification(exchangeSpecification);
+        // Configure the basic services if configuration does not apply
+        this.pollingMarketDataService = new KrakenPollingMarketDataService(exchangeSpecification);
+        this.pollingTradeService = new KrakenPollingTradeService(exchangeSpecification);
+        this.pollingAccountService = new KrakenPollingAccountService(exchangeSpecification);
+    }
     @Override
     public ExchangeSpecification getDefaultExchangeSpecification() {
 
