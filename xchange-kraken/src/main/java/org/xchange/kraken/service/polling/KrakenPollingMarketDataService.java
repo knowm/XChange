@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.xchange.kraken.Kraken;
 import org.xchange.kraken.KrakenAdapters;
+import org.xchange.kraken.KrakenUtils;
 import org.xchange.kraken.dto.marketdata.KrakenDepth;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -25,6 +26,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+    private static final int PARTIAL_ORDERBOOK_SIZE = 1000;
     private final Kraken kraken;
 
     public KrakenPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -48,7 +50,8 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     @Override
     public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException,
             NotYetImplementedForExchangeException {
-        KrakenDepth krakenDepth = kraken.getPartialDepth(tradableIdentifier + currency,300);
+        String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+        KrakenDepth krakenDepth = kraken.getPartialDepth(krakenCurrencyPair,PARTIAL_ORDERBOOK_SIZE).getResult().get(krakenCurrencyPair);
         List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
         List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
         Comparator<LimitOrder> dateComparator = new Comparator<LimitOrder>() {
@@ -67,8 +70,8 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     @Override
     public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException,
             NotYetImplementedForExchangeException {
-        KrakenDepth krakenDepth = kraken.getFullDepth(tradableIdentifier + currency);
-        List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
+      String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+      KrakenDepth krakenDepth = kraken.getFullDepth(krakenCurrencyPair).getResult().get(krakenCurrencyPair);        List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
         List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
         Comparator<LimitOrder> dateComparator = new Comparator<LimitOrder>() {
 
