@@ -21,12 +21,14 @@
  */
 package org.xchange.kraken.dto.marketdata;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi
  */
-public class KrakenDepthReturn extends KrakenResult<KrakenCurrencyPairs<KrakenDepth>> {
+public class KrakenDepthReturn extends KrakenResult<Map<String, KrakenDepth>> {
 
   /**
    * Constructor
@@ -35,7 +37,7 @@ public class KrakenDepthReturn extends KrakenResult<KrakenCurrencyPairs<KrakenDe
    * @param value The BTC-e account info
    * @param error Any error
    */
-  public KrakenDepthReturn(@JsonProperty("error") String[] error, @JsonProperty("result") KrakenCurrencyPairs<KrakenDepth> result) {
+  public KrakenDepthReturn(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {
 
     super(result, error);
   }

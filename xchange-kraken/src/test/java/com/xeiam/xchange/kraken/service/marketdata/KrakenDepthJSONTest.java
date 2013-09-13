@@ -48,9 +48,9 @@ public class KrakenDepthJSONTest {
     KrakenDepthReturn krakenDepth = mapper.readValue(is, KrakenDepthReturn.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(krakenDepth.getResult().getBtcLtc()).isEqualTo(null);
-    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0)[0]).isEqualTo(new BigDecimal("96.99999"));
-    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0)[1]).isEqualTo(new BigDecimal("1"));
-    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0)[2]).isEqualTo(new BigDecimal(1378962690L));
+    assertThat(krakenDepth.getResult().get("XBTCXLTC")).isEqualTo(null);
+    assertThat(krakenDepth.getResult().get("XBTCZEUR").getAsks().get(0)[0]).isEqualTo(new BigDecimal("96.99999"));
+    assertThat(krakenDepth.getResult().get("XBTCZEUR").getAsks().get(0)[1]).isEqualTo(new BigDecimal("1"));
+    assertThat(krakenDepth.getResult().get("XBTCZEUR").getAsks().get(0)[2]).isEqualTo(new BigDecimal(1378962690L));
   }
 }
