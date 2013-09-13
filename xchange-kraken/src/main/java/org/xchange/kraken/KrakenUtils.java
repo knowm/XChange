@@ -32,6 +32,6 @@ public final class KrakenUtils {
     return currency1+currency2;
   }
   public static long getNonce(){
-    return 1000L;
+    return 100000000000L;
   }
 }
