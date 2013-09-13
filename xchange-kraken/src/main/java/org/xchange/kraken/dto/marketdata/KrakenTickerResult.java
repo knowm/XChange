@@ -21,49 +21,23 @@
  */
 package org.xchange.kraken.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Raphael Voellmy
  */
-public class KrakenResult<V> {
-
-  private final V result;
-  private final String[] error;
+public class KrakenTickerResult extends KrakenResult<Map<String, KrakenTicker>> {
 
   /**
    * Constructor
    * 
-   * @param result
-   * @param error
-   * @author Raphael Voellmy
+   * @param result The ticker data
+   * @param error List of errors
    */
-  @JsonCreator
-  public KrakenResult(@JsonProperty("return") V result, @JsonProperty("error") String[] error) {
+  public KrakenTickerResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenTicker> result) {
 
-    this.result = result;
-    this.error = error;
-  }
-
-  public boolean isSuccess() {
-
-    return error.length == 0;
-  }
-
-  public V getResult() {
-
-    return result;
-  }
-
-  public String[] getError() {
-
-    return error;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("KrakenResult[%s: %s]", isSuccess() ? "OK" : "error", isSuccess() ? result.toString() : error);
+    super(result, error);
   }
 }
