@@ -39,6 +39,7 @@ public class KrakenResult<V> {
    * 
    * @param result
    * @param error
+   * @author Raphael Voellmy
    */
   @JsonCreator
   public KrakenResult(@JsonProperty("return") V result, @JsonProperty("error") String[] error) {

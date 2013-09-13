@@ -26,18 +26,17 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Matija Mazi
+ * @author Raphael Voellmy
  */
-public class KrakenTickerReturn extends KrakenResult<Map<String, KrakenTicker>> {
+public class KrakenTickerResult extends KrakenResult<Map<String, KrakenTicker>> {
 
   /**
    * Constructor
    * 
-   * @param success True if successful
-   * @param value The BTC-e account info
-   * @param error Any error
+   * @param result The ticker data
+   * @param error List of errors
    */
-  public KrakenTickerReturn(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenTicker> result) {
+  public KrakenTickerResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenTicker> result) {
 
     super(result, error);
   }
