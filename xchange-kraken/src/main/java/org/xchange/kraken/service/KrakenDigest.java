@@ -29,6 +29,8 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.xchange.kraken.KrakenUtils;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
@@ -38,8 +40,11 @@ import si.mazi.rescu.utils.Base64;
  */
 public class KrakenDigest implements ParamsDigest {
 
+  private static final String HMAC_SHA_256 = "HmacSHA256";
   private static final String HMAC_SHA_512 = "HmacSHA512";
-  private final Mac mac;
+
+  private final Mac mac512;
+  private final Mac mac256;
 
   /**
    * Constructor
@@ -51,8 +56,10 @@ public class KrakenDigest implements ParamsDigest {
 
     try {
       SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_512);
-      mac = Mac.getInstance(HMAC_SHA_512);
-      mac.init(secretKey);
+      mac512 = Mac.getInstance(HMAC_SHA_512);
+      mac512.init(secretKey);
+      mac256 = Mac.getInstance(HMAC_SHA_256);
+      mac256.init(secretKey);
     } catch (IOException e) {
       throw new IllegalArgumentException("Could not decode Base 64 string", e);
     } catch (InvalidKeyException e) {
@@ -69,11 +76,15 @@ public class KrakenDigest implements ParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
+    mac256.update(String.valueOf(KrakenUtils.getNonce()).getBytes());
+    mac256.update(new byte[] { 0 });
+    mac256.update(restInvocation.getRequestBody().getBytes());
 
-    mac.update(restInvocation.getMethodPath().getBytes());
-    mac.update(new byte[] { 0 });
-    mac.update(restInvocation.getRequestBody().getBytes());
+  
+    mac512.update(restInvocation.getMethodPath().getBytes());
+    mac512.update(new byte[] { 0 });
+    mac512.update((mac256.doFinal()));
 
-    return Base64.encodeBytes(mac.doFinal()).trim();
+    return Base64.encodeBytes(mac512.doFinal()).trim();
   }
 }
