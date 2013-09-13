@@ -6,9 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.xchange.kraken.dto.KrakenTicker;
-import org.xchange.kraken.dto.marketdata.KrakenCurrencyPairs;
 import org.xchange.kraken.dto.marketdata.KrakenDepthReturn;
+import org.xchange.kraken.dto.marketdata.KrakenTicker;
 
 /**
  * @author Benedikt Bünz
@@ -39,5 +38,5 @@ public interface Kraken {
     @GET
     @Path("AssetPairs")
     @Produces("application/json")
-    KrakenCurrencyPairs<Object> getAssetPairs();
+    Object getAssetPairs();
 }
