@@ -55,7 +55,7 @@ public class KrakenTicker {
    * @param low
    * @param high
    * @param open
-   * 
+   * @author Raphael Voellmy
    */
 
   public KrakenTicker(@JsonProperty("a") BigDecimal[] ask, @JsonProperty("b") BigDecimal[] bid, @JsonProperty("c") BigDecimal[] close, @JsonProperty("v") BigDecimal[] volume,

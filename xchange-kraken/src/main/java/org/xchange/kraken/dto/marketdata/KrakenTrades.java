@@ -21,49 +21,53 @@
  */
 package org.xchange.kraken.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Raphael Voellmy
  */
-public class KrakenResult<V> {
+public class KrakenTrades {
 
-  private final V result;
-  private final String[] error;
+  private final String[][] xbtczeur;
+  private final String[][] zeurxltc;
+  private final String[][] xbtcxltx;
+
+  private final long last;
 
   /**
    * Constructor
    * 
-   * @param result
-   * @param error
-   * @author Raphael Voellmy
+   * @param xbtczeur
+   * @param zeurxltc
+   * @param xbtcxltx
+   * @param last
    */
-  @JsonCreator
-  public KrakenResult(@JsonProperty("return") V result, @JsonProperty("error") String[] error) {
+  public KrakenTrades(@JsonProperty("XBTCZEUR") String[][] xbtczeur, @JsonProperty("ZEURXLTC") String[][] zeurxltc, @JsonProperty("XBTCXLTC") String[][] xbtcxltx, @JsonProperty("last") long last) {
 
-    this.result = result;
-    this.error = error;
+    this.xbtczeur = xbtczeur;
+    this.zeurxltc = zeurxltc;
+    this.xbtcxltx = xbtcxltx;
+    this.last = last;
+
   }
 
-  public boolean isSuccess() {
+  public String[][] getBtcEur() {
 
-    return error.length == 0;
+    return xbtczeur;
   }
 
-  public V getResult() {
+  public String[][] getEurLtc() {
 
-    return result;
+    return zeurxltc;
   }
 
-  public String[] getError() {
+  public String[][] getBtcLtc() {
 
-    return error;
+    return xbtcxltx;
   }
 
-  @Override
-  public String toString() {
+  public long getLast() {
 
-    return String.format("KrakenResult[%s: %s]", isSuccess() ? "OK" : "error", isSuccess() ? result.toString() : error);
+    return last;
   }
 }

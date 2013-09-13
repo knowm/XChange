@@ -28,12 +28,13 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.xchange.kraken.dto.marketdata.KrakenTickerReturn;
+import org.xchange.kraken.dto.marketdata.KrakenTickerResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Test KrakenDepth JSON parsing
+ * Test KrakenTicker JSON parsing
+ * @author Raphael Voellmy
  */
 public class KrakenTickerJSONTest {
 
@@ -45,7 +46,7 @@ public class KrakenTickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenTickerReturn krakenTicker = mapper.readValue(is, KrakenTickerReturn.class);
+    KrakenTickerResult krakenTicker = mapper.readValue(is, KrakenTickerResult.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenTicker.getResult().get("ZEURXLTC")).isEqualTo(null);
