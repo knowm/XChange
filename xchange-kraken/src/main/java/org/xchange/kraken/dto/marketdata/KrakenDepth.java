@@ -21,7 +21,9 @@
  */
 package org.xchange.kraken.dto.marketdata;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,8 +33,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class KrakenDepth {
 
-  private final List<KrakenOrder> asks;
-  private final List<KrakenOrder> bids;
+  private final List<BigDecimal[]> asks;
+  private final List<BigDecimal[]> bids;
 
   /**
    * Constructor
@@ -40,32 +42,34 @@ public class KrakenDepth {
    * @param asks
    * @param bids
    */
-  public KrakenDepth(@JsonProperty("asks") List<Object[]> asks, @JsonProperty("bids") List<Object[]> bids) {
 
-    this.asks = new ArrayList<KrakenOrder>();
-    this.bids = new ArrayList<KrakenOrder>();
+  public KrakenDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
 
-    for (Object[] order : asks) {
-      this.asks.add(new KrakenOrder(order));
-    }
-    for (Object[] order : bids) {
-      this.bids.add(new KrakenOrder(order));
-    }
+    this.asks = asks;
+    this.bids = bids;
+
   }
 
-  public List<KrakenOrder> getAsks() {
+  public List<BigDecimal[]> getAsks() {
 
     return asks;
   }
 
-  public List<KrakenOrder> getBids() {
+  public List<BigDecimal[]> getBids() {
 
     return bids;
   }
 
   @Override
   public String toString() {
-    return "KrakenDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    List<String> asksStrings = new ArrayList<String>(asks.size());
+    List<String> bidsStrings = new ArrayList<String>(bids.size());
+    for(BigDecimal[] order : asks) {
+      asksStrings.add(Arrays.toString(order));
+    }
+    for(BigDecimal[] order : bids) {
+      bidsStrings.add(Arrays.toString(order));
+    }
+    return "KrakenDepth [asks=" + asksStrings  + ", bids=" + bidsStrings + "]";
   }
-
 }

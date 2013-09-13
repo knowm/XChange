@@ -49,8 +49,8 @@ public class KrakenDepthJSONTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenDepth.getResult().getBtcLtc()).isEqualTo(null);
-    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0).getPrice()).isEqualTo(new BigDecimal("96.99999"));
-    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0).getVolume()).isEqualTo(new BigDecimal("1"));
-    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0).getTimestamp()).isEqualTo(1378962690L);
+    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0)[0]).isEqualTo(new BigDecimal("96.99999"));
+    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0)[1]).isEqualTo(new BigDecimal("1"));
+    assertThat(krakenDepth.getResult().getBtcEur().getAsks().get(0)[2]).isEqualTo(new BigDecimal(1378962690L));
   }
 }
