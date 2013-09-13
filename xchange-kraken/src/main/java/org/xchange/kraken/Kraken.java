@@ -6,8 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.xchange.kraken.dto.KrakenTicker;
 import org.xchange.kraken.dto.marketdata.KrakenDepth;
+import org.xchange.kraken.dto.marketdata.KrakenTicker;
 
 /**
  * @author Benedikt Bünz
