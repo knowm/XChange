@@ -21,6 +21,9 @@
  */
 package org.xchange.kraken.dto.marketdata;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -28,43 +31,34 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class KrakenTrades {
 
-  private final String[][] xbtczeur;
-  private final String[][] zeurxltc;
-  private final String[][] xbtcxltx;
 
+  private final Map<String,String[][]> tradesPerCurrencyPair=new HashMap<String, String[][]>();
   private final long last;
 
   /**
    * Constructor
    * 
-   * @param xbtczeur
-   * @param zeurxltc
-   * @param xbtcxltx
+   * @param xxbtzeur
+   * @param xltczeur
+   * @param xxbtxltc
    * @param last
    */
-  public KrakenTrades(@JsonProperty("XBTCZEUR") String[][] xbtczeur, @JsonProperty("ZEURXLTC") String[][] zeurxltc, @JsonProperty("XBTCXLTC") String[][] xbtcxltx, @JsonProperty("last") long last) {
-
-    this.xbtczeur = xbtczeur;
-    this.zeurxltc = zeurxltc;
-    this.xbtcxltx = xbtcxltx;
+  public KrakenTrades(@JsonProperty("XXBTZEUR") String[][] xxbtzeur, @JsonProperty("XLTCZEUR") String[][] xltczeur, @JsonProperty("XXBTXLTC") String[][] xxbtxltc, @JsonProperty("last") long last) {
+    tradesPerCurrencyPair.put("XXBTZEUR", xxbtzeur);
+    tradesPerCurrencyPair.put("XLTCZEUR", xltczeur);
+    tradesPerCurrencyPair.put("XXBTXLTC", xxbtxltc);  
     this.last = last;
 
   }
-
-  public String[][] getBtcEur() {
-
-    return xbtczeur;
+/**
+ * 
+ * @param krakenCurrencyPair the concatenated currencies in their Kraken symbols e.g. XBTCZEUR
+ * @return
+ */
+  public String[][] getTradesPerCurrencyPair(String krakenCurrencyPair) {
+    return tradesPerCurrencyPair.get(krakenCurrencyPair);
   }
 
-  public String[][] getEurLtc() {
-
-    return zeurxltc;
-  }
-
-  public String[][] getBtcLtc() {
-
-    return xbtcxltx;
-  }
 
   public long getLast() {
 
