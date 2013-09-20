@@ -56,7 +56,7 @@ public final class BTCEUtils {
 
   CurrencyPair.NMC_BTC,
   
-  CurrencyPair.NMC_BTC,
+  CurrencyPair.NMC_USD,
 
   CurrencyPair.USD_RUR,
 
