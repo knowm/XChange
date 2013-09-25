@@ -22,7 +22,6 @@
 package org.xchange.kraken.service;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,8 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.xchange.kraken.KrakenUtils;
+import javax.ws.rs.FormParam;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
@@ -77,12 +75,10 @@ public class KrakenDigest implements ParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
     
-    sha256.update(String.valueOf(KrakenUtils.getNonce()).getBytes());
-    sha256.update(new byte[] { 0 });
+    sha256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
     sha256.update(restInvocation.getRequestBody().getBytes());
   
-    mac512.update(restInvocation.getMethodPath().getBytes());
-    mac512.update(new byte[] { 0 });
+    mac512.update(("/" + restInvocation.getPath()).getBytes());
     mac512.update(sha256.digest());
 
     return Base64.encodeBytes(mac512.doFinal()).trim();

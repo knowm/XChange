@@ -13,12 +13,14 @@ public final class KrakenUtils {
 
   private static Map<String, String> krakenCurrencies = new HashMap<String, String>();
   static {
-    krakenCurrencies.put(Currencies.BTC, "XBTC");
+    krakenCurrencies.put(Currencies.BTC, "XXBT");
     krakenCurrencies.put(Currencies.LTC, "XLTC");
     krakenCurrencies.put(Currencies.EUR, "ZEUR");
     krakenCurrencies.put(Currencies.USD, "ZUSD");
   }
-
+  public static String getKrakenCurrencyCode(String currencyCode){
+    return krakenCurrencies.get(currencyCode);
+  }
   public static String createKrakenCurrencyPair(String tradableIdentifier, String currency) {
 
     String currency1 = krakenCurrencies.get(tradableIdentifier);
@@ -32,6 +34,6 @@ public final class KrakenUtils {
     return currency1+currency2;
   }
   public static long getNonce(){
-    return 100000000000L;
+    return System.currentTimeMillis();
   }
 }
