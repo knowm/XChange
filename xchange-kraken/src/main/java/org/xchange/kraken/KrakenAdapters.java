@@ -3,15 +3,19 @@ package org.xchange.kraken;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.xchange.kraken.dto.marketdata.KrakenTrades;
 
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
 public class KrakenAdapters {
@@ -46,5 +50,26 @@ public class KrakenAdapters {
     builder.withVolume(krakenTicker.getVolume()[1]);
     builder.withTradableIdentifier(tradableIdentifier);
     return builder.build();
+  }
+  /**
+   * 
+   * @param krakenTrades
+   * @param currency
+   * @param tradableIdentifier
+   * @param since the id of the request provided in the return json
+   * @return
+   */
+  public static Trades adaptTrades(String[][] krakenTrades, String currency, String tradableIdentifier, long since) {
+    List<Trade> trades = new LinkedList<Trade>();
+    for (String[] krakenTradeInformation : krakenTrades) {
+      OrderType type = krakenTradeInformation[3].equalsIgnoreCase("s") ? OrderType.ASK : OrderType.BID;
+      BigDecimal tradableAmount = new BigDecimal(krakenTradeInformation[1]);
+      BigMoney price =BigMoney.of(CurrencyUnit.of(currency), new BigDecimal(krakenTradeInformation[0]));
+      Date timestamp =new Date((long)(Double.valueOf(krakenTradeInformation[2])*1000L));
+      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, since));
+
+    }
+    return new Trades(trades);
+    
   }
 }

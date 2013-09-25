@@ -43,8 +43,8 @@ public class KrakenAccountDemo {
     
     Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
     ExchangeSpecification specification = kraken.getDefaultExchangeSpecification();
-    specification.setApiKey("hklrCQOFOVnXFYwrkwqjpQ7VFLk7SBcunrpQ40lT1j4b3k9yOSsG53l4");
-    specification.setSecretKey("0iELUjTasQrBjWiXUTAuw3dbD31jc60QQGs816AZn0F1t+6Q6fZ4r/2Sx2FZaCdgzZei5V4uPEGAaxKKie3uiA==");
+    specification.setApiKey("rOkckzK+auTaBmwjbN1NPkLr6W0RcCo0ckpdylNavNyR+ZRv/RyDil4K");
+    specification.setSecretKey("GTU3yVFB22zeWsN/sAUfmN3PgKU2lyces2IVuc7Ay0o1Qb9imFycboXYMwhzsq7YICJO5O9UkyZyUBkye4g5sA==");
     kraken.applySpecification(specification);
     kraken.getPollingAccountService().getAccountInfo();
   }

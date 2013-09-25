@@ -10,6 +10,7 @@ import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.KrakenUtils;
 import org.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -95,8 +96,10 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-
-    throw new NotYetImplementedForExchangeException();
+    String currencyPair =KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+    KrakenTradesResult krakenTrades = kraken.getTrades(currencyPair);
+    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair(currencyPair), currency, tradableIdentifier, krakenTrades.getResult().getLast());
+    return trades;
   }
 
 }
