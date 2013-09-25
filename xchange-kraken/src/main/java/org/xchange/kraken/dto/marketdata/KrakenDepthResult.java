@@ -23,6 +23,8 @@ package org.xchange.kraken.dto.marketdata;
 
 import java.util.Map;
 
+import org.xchange.kraken.dto.KrakenResult;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
