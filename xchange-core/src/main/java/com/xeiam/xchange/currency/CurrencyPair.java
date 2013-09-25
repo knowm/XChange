@@ -73,7 +73,9 @@ public class CurrencyPair {
   public static final CurrencyPair TRC_BTC = new CurrencyPair("TRC", "BTC");
   public static final CurrencyPair PPC_BTC = new CurrencyPair("PPC", "BTC");
   public static final CurrencyPair FTC_BTC = new CurrencyPair("FTC", "BTC");
-  public static final CurrencyPair CNC_BTC = new CurrencyPair("CNC", "BTC");
+  public static final CurrencyPair LTC_EUR = new CurrencyPair("LTC", "EUR");
+  public static final CurrencyPair NVC_USD = new CurrencyPair("NVC", "USD");
+  public static final CurrencyPair NMC_USD = new CurrencyPair("NMC", "USD");
 
   public final String baseCurrency;
   public final String counterCurrency;
