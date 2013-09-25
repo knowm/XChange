@@ -12,14 +12,23 @@ public final class KrakenUtils {
   }
 
   private static Map<String, String> krakenCurrencies = new HashMap<String, String>();
+  private static Map<String,String> currencies=new HashMap<String,String>();
   static {
     krakenCurrencies.put(Currencies.BTC, "XXBT");
     krakenCurrencies.put(Currencies.LTC, "XLTC");
     krakenCurrencies.put(Currencies.EUR, "ZEUR");
     krakenCurrencies.put(Currencies.USD, "ZUSD");
+    currencies.put("XXBT", Currencies.BTC);
+    currencies.put("XLTC", Currencies.LTC);
+    currencies.put("ZEUR", Currencies.EUR);
+    currencies.put("ZUSD", Currencies.USD);
+
   }
   public static String getKrakenCurrencyCode(String currencyCode){
     return krakenCurrencies.get(currencyCode);
+  }
+  public static String getCurrency(String krakenCurrencyCode){
+    return currencies.get(krakenCurrencyCode);
   }
   public static String createKrakenCurrencyPair(String tradableIdentifier, String currency) {
 

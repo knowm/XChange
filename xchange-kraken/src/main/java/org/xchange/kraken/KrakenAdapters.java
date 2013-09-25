@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
+import org.xchange.kraken.dto.account.KrakenBalanceResult;
 import org.xchange.kraken.dto.marketdata.KrakenTicker;
-import org.xchange.kraken.dto.marketdata.KrakenTrades;
 
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 
 public class KrakenAdapters {
 
@@ -71,5 +74,15 @@ public class KrakenAdapters {
     }
     return new Trades(trades);
     
+  }
+
+  public static AccountInfo adaptBalance(KrakenBalanceResult krakenBalance, String username) {
+    List<Wallet> wallets = new LinkedList<Wallet>();
+    for(Entry<String,BigDecimal> balancePair : krakenBalance.getResult().entrySet()){
+      String currency = KrakenUtils.getCurrency(balancePair.getKey());
+      Wallet wallet = Wallet.createInstance(currency, balancePair.getValue());
+      wallets.add(wallet);
+    }
+    return new AccountInfo(username, wallets);
   }
 }
