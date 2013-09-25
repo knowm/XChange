@@ -3,11 +3,11 @@ package org.xchange.kraken;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.xchange.kraken.dto.marketdata.KrakenDepthResult;
 import org.xchange.kraken.dto.marketdata.KrakenTickerResult;
+import org.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 /**
  * @author Benedikt Bünz
@@ -28,8 +28,8 @@ public interface Kraken {
     KrakenDepthResult getPartialDepth(@FormParam("pair") String currencyPair,long count);
 
     @GET
-    @Path("{ident}_{currency}/trades")
-    KrakenTrades[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+    @Path("Trades")
+    KrakenTradesResult getTrades(@FormParam("pair") String currencyPair);
 
     @GET
     @Path("AssetPairs")

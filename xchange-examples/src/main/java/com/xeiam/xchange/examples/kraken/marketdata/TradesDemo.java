@@ -19,49 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.examples.kraken.marketdata;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.xchange.kraken.KrakenExchange;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * @author Raphael Voellmy
+ * Demonstrate requesting Order Book at Bitstamp
  */
-public class KrakenTrades {
+public class TradesDemo {
 
+  public static void main(String[] args) {
 
-  private final Map<String,String[][]> tradesPerCurrencyPair=new HashMap<String, String[][]>();
-  private final long last;
+    // Use the factory to get Kraken exchange API using default settings
+    Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
-  /**
-   * Constructor
-   * 
-   * @param xxbtzeu
-   * @param xltczeur
-   * @param xxbtxltc
-   * @param last
-   */
-  public KrakenTrades(@JsonProperty("XXBTZEUR") String[][] xxbtzeur, @JsonProperty("XLTCZEUR") String[][] xltczeur, @JsonProperty("XXBTXLTC") String[][] xxbtxltc, @JsonProperty("last") long last) {
-    tradesPerCurrencyPair.put("XXBTZEUR", xxbtzeur);
-    tradesPerCurrencyPair.put("XLTCZEUR", xltczeur);
-    tradesPerCurrencyPair.put("XXBTXLTC", xxbtxltc);  
-    this.last = last;
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = kraken.getPollingMarketDataService();
+
+    // Get the latest trade data for BTC/EUR
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
+
+    System.out.println(trades.toString());
 
   }
-/**
- * 
- * @param krakenCurrencyPair the concatenated currencies in their Kraken symbols e.g. XBTCZEUR
- * @return
- */
-  public String[][] getTradesPerCurrencyPair(String krakenCurrencyPair) {
-    return tradesPerCurrencyPair.get(krakenCurrencyPair);
-  }
 
-
-  public long getLast() {
-
-    return last;
-  }
 }
