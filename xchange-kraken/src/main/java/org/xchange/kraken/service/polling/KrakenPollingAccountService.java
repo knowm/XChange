@@ -2,8 +2,10 @@ package org.xchange.kraken.service.polling;
 
 import java.math.BigDecimal;
 
+import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.KrakenAuthenticated;
 import org.xchange.kraken.KrakenUtils;
+import org.xchange.kraken.dto.account.KrakenBalanceResult;
 import org.xchange.kraken.service.KrakenDigest;
 
 import si.mazi.rescu.ParamsDigest;
@@ -32,9 +34,9 @@ public class KrakenPollingAccountService extends BasePollingExchangeService impl
     @Override
     public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, RestJsonException {
       
-     String result = krakenAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator,KrakenUtils.getNonce());
-     System.out.println(result);
-     return null;
+     KrakenBalanceResult result = krakenAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator,KrakenUtils.getNonce());
+     
+     return KrakenAdapters.adaptBalance(result, exchangeSpecification.getUserName());
     }
 
     @Override

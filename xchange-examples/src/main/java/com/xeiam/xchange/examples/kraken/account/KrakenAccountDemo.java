@@ -26,6 +26,7 @@ import org.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.dto.account.AccountInfo;
 
 /**
  * <p>
@@ -45,7 +46,10 @@ public class KrakenAccountDemo {
     ExchangeSpecification specification = kraken.getDefaultExchangeSpecification();
     specification.setApiKey("rOkckzK+auTaBmwjbN1NPkLr6W0RcCo0ckpdylNavNyR+ZRv/RyDil4K");
     specification.setSecretKey("GTU3yVFB22zeWsN/sAUfmN3PgKU2lyces2IVuc7Ay0o1Qb9imFycboXYMwhzsq7YICJO5O9UkyZyUBkye4g5sA==");
+    specification.setUserName("XChange");
     kraken.applySpecification(specification);
-    kraken.getPollingAccountService().getAccountInfo();
+    AccountInfo accountInfo =kraken.getPollingAccountService().getAccountInfo();
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
+
   }
 }

@@ -1,5 +1,7 @@
 package org.xchange.kraken.dto.marketdata;
 
+import org.xchange.kraken.dto.KrakenResult;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
