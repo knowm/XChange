@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
@@ -14,12 +15,18 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.dto.account.KrakenBalanceResult;
+import org.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
+import org.xchange.kraken.dto.marketdata.KrakenTickerResult;
 import org.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.kraken.service.marketdata.KrakenAssetPairsJSONTest;
+import com.xeiam.xchange.kraken.service.marketdata.KrakenTickerJSONTest;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenTradesJSONTest;
 
 public class KrakenAdaptersTest {
@@ -31,9 +38,35 @@ public class KrakenAdaptersTest {
   }
 
   @Test
-  public void testAdaptTicker() {
+  public void testAdaptTicker() throws IOException {
 
-    fail("Not yet implemented");
+    // Read in the JSON from the example resources
+    InputStream is = KrakenTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenTickerResult krakenTicker = mapper.readValue(is, KrakenTickerResult.class);
+    Ticker ticker = KrakenAdapters.adaptTicker(krakenTicker.getResult().get("XBTCZEUR"), Currencies.EUR, Currencies.BTC);
+    // Verify that the example data was unmarshalled correctly
+    assertThat(ticker.getAsk()).isEqualTo(BigMoney.of(CurrencyUnit.EUR,new BigDecimal("96.99000")));
+    assertThat(ticker.getBid().getAmount()).isEqualByComparingTo("96.0");
+    assertThat(ticker.getLast().getAmount()).isEqualByComparingTo("96.75");
+    assertThat(ticker.getVolume()).isZero();
+  }
+
+  @Test
+  public void testAdaptCurrencyPairs() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = KrakenAssetPairsJSONTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
+
+    List<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
+    assertThat(pairs).hasSize(5);
+    assertThat(pairs).contains(CurrencyPair.BTC_EUR, CurrencyPair.LTC_EUR, CurrencyPair.BTC_USD);
   }
 
   @Test

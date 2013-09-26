@@ -2,6 +2,7 @@ package org.xchange.kraken;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.joda.money.CurrencyUnit;
 import org.xchange.kraken.dto.account.KrakenBalanceResult;
 import org.xchange.kraken.dto.marketdata.KrakenTicker;
 
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -54,8 +56,8 @@ public class KrakenAdapters {
     builder.withTradableIdentifier(tradableIdentifier);
     return builder.build();
   }
+
   /**
-   * 
    * @param krakenTrades
    * @param currency
    * @param tradableIdentifier
@@ -63,26 +65,39 @@ public class KrakenAdapters {
    * @return
    */
   public static Trades adaptTrades(String[][] krakenTrades, String currency, String tradableIdentifier, long since) {
+
     List<Trade> trades = new LinkedList<Trade>();
     for (String[] krakenTradeInformation : krakenTrades) {
       OrderType type = krakenTradeInformation[3].equalsIgnoreCase("s") ? OrderType.ASK : OrderType.BID;
       BigDecimal tradableAmount = new BigDecimal(krakenTradeInformation[1]);
-      BigMoney price =BigMoney.of(CurrencyUnit.of(currency), new BigDecimal(krakenTradeInformation[0]));
-      Date timestamp =new Date((long)(Double.valueOf(krakenTradeInformation[2])*1000L));
+      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), new BigDecimal(krakenTradeInformation[0]));
+      Date timestamp = new Date((long) (Double.valueOf(krakenTradeInformation[2]) * 1000L));
       trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, since));
 
     }
     return new Trades(trades);
-    
+
   }
 
   public static AccountInfo adaptBalance(KrakenBalanceResult krakenBalance, String username) {
+
     List<Wallet> wallets = new LinkedList<Wallet>();
-    for(Entry<String,BigDecimal> balancePair : krakenBalance.getResult().entrySet()){
+    for (Entry<String, BigDecimal> balancePair : krakenBalance.getResult().entrySet()) {
       String currency = KrakenUtils.getCurrency(balancePair.getKey());
       Wallet wallet = Wallet.createInstance(currency, balancePair.getValue());
       wallets.add(wallet);
     }
     return new AccountInfo(username, wallets);
+  }
+
+  public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {
+
+    List<CurrencyPair> currencyPairs = new LinkedList<CurrencyPair>();
+    for (String krakenCurrencyPair : krakenCurrencyPairs) {
+      String firstCurrency = krakenCurrencyPair.substring(0, 4);
+      String secondCurrency = krakenCurrencyPair.substring(4);
+      currencyPairs.add(new CurrencyPair(KrakenUtils.getCurrency(firstCurrency), KrakenUtils.getCurrency(secondCurrency)));
+    }
+    return currencyPairs;
   }
 }
