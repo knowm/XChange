@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.Order.OrderType;
 
 public final class KrakenUtils {
 
@@ -24,12 +25,15 @@ public final class KrakenUtils {
     currencies.put("ZUSD", Currencies.USD);
 
   }
+  
   public static String getKrakenCurrencyCode(String currencyCode){
     return krakenCurrencies.get(currencyCode);
   }
+  
   public static String getCurrency(String krakenCurrencyCode){
     return currencies.get(krakenCurrencyCode);
   }
+  
   public static String createKrakenCurrencyPair(String tradableIdentifier, String currency) {
 
     String currency1 = krakenCurrencies.get(tradableIdentifier);
@@ -42,6 +46,11 @@ public final class KrakenUtils {
     }
     return currency1+currency2;
   }
+  
+  public static String getKrakenOrderType(OrderType type) {
+    return type == OrderType.ASK ? "sell" : "buy";
+  }
+  
   public static long getNonce(){
     return System.currentTimeMillis();
   }
