@@ -32,7 +32,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Order Book at Kraken
  */
-public class FullDepthDemo {
+public class PartialDepthDemo {
 
   public static void main(String[] args) {
 
@@ -44,7 +44,7 @@ public class FullDepthDemo {
     PollingMarketDataService marketDataService = kraken.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/EUR
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.EUR);
+    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.EUR);
 
     System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
