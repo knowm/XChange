@@ -8,8 +8,11 @@ import java.util.List;
 import org.xchange.kraken.Kraken;
 import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.KrakenUtils;
+import org.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
 import org.xchange.kraken.dto.marketdata.KrakenDepth;
+import org.xchange.kraken.dto.marketdata.KrakenDepthResult;
 import org.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.xchange.kraken.dto.marketdata.KrakenTickerResult;
 import org.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -29,7 +32,7 @@ import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private static final int PARTIAL_ORDERBOOK_SIZE = 1000;
+  private static final long PARTIAL_ORDERBOOK_SIZE = 200;
   private final Kraken kraken;
 
   public KrakenPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -42,6 +45,11 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
+    KrakenAssetPairsResult krakenAssetPairs = kraken.getAssetPairs();
+    if (krakenAssetPairs.getError().length > 0) {
+      throw new ExchangeException(krakenAssetPairs.getError().toString());
+    }
+    KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -49,36 +57,37 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   public Ticker getTicker(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenTicker krakenTicker = kraken.getTicker(krakenCurrencyPair).getResult().get(krakenCurrencyPair);
+    KrakenTickerResult krakenTickerResult = kraken.getTicker(krakenCurrencyPair);
+    if (krakenTickerResult.getError().length > 0) {
+      throw new ExchangeException(krakenTickerResult.getError().toString());
+    }
+    KrakenTicker krakenTicker = krakenTickerResult.getResult().get(krakenCurrencyPair);
+
     return KrakenAdapters.adaptTicker(krakenTicker, currency, tradableIdentifier);
   }
 
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenDepth krakenDepth = kraken.getPartialDepth(krakenCurrencyPair, PARTIAL_ORDERBOOK_SIZE).getResult().get(krakenCurrencyPair);
-    List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
-    List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
-    Comparator<LimitOrder> dateComparator = new Comparator<LimitOrder>() {
-
-      @Override
-      public int compare(LimitOrder o1, LimitOrder o2) {
-
-        return o1.getTimestamp().compareTo(o2.getTimestamp());
-      }
-    };
-    bids.addAll(asks);
-    Date timeStamp = Collections.max(bids, dateComparator).getTimestamp();
-    return new OrderBook(timeStamp, asks, bids);
+    return getOrderBook(tradableIdentifier, currency, PARTIAL_ORDERBOOK_SIZE);
 
   }
 
   @Override
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
+    return getOrderBook(tradableIdentifier, currency, null);
+
+  }
+
+  private OrderBook getOrderBook(String tradableIdentifier, String currency, Long count) {
+
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenDepth krakenDepth = kraken.getFullDepth(krakenCurrencyPair).getResult().get(krakenCurrencyPair);
+    KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, count);
+    if (krakenDepthReturn.getError().length > 0) {
+      throw new ExchangeException(krakenDepthReturn.getError().toString());
+    }
+    KrakenDepth krakenDepth = krakenDepthReturn.getResult().get(krakenCurrencyPair);
     List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
     List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
     Comparator<LimitOrder> dateComparator = new Comparator<LimitOrder>() {
@@ -92,11 +101,13 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     bids.addAll(asks);
     Date timeStamp = Collections.max(bids, dateComparator).getTimestamp();
     return new OrderBook(timeStamp, asks, bids);
+
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-    String currencyPair =KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+
+    String currencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTradesResult krakenTrades = kraken.getTrades(currencyPair);
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair(currencyPair), currency, tradableIdentifier, krakenTrades.getResult().getLast());
     return trades;
