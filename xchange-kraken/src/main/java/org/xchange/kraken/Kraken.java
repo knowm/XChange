@@ -19,25 +19,24 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 @Produces("application/json")
 public interface Kraken {
 
-    @GET
-    @Path("Ticker")
-    KrakenTickerResult getTicker(@FormParam("pair") String currencyPair);
+  @GET
+  @Path("Ticker")
+  KrakenTickerResult getTicker(@FormParam("pair") String currencyPair);
 
-    /**
-     * 
-     * @param currencyPair kraken currency pair
-     * @param count can be null = full {@link OrderBook}
-     * @return
-     */
-    @GET
-    @Path("Depth")
-    KrakenDepthResult getDepth(@FormParam("pair") String currencyPair,Long count);
+  /**
+   * @param currencyPair kraken currency pair
+   * @param count can be null = full {@link OrderBook}
+   * @return
+   */
+  @GET
+  @Path("Depth")
+  KrakenDepthResult getDepth(@FormParam("pair") String currencyPair, @FormParam("count") Long count);
 
-    @GET
-    @Path("Trades")
-    KrakenTradesResult getTrades(@FormParam("pair") String currencyPair);
+  @GET
+  @Path("Trades")
+  KrakenTradesResult getTrades(@FormParam("pair") String currencyPair);
 
-    @GET
-    @Path("AssetPairs")
-    KrakenAssetPairsResult getAssetPairs();
+  @GET
+  @Path("AssetPairs")
+  KrakenAssetPairsResult getAssetPairs();
 }

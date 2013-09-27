@@ -32,7 +32,7 @@ import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private static final long PARTIAL_ORDERBOOK_SIZE = 200;
+  private static final long PARTIAL_ORDERBOOK_SIZE = 200L;
   private final Kraken kraken;
 
   public KrakenPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
