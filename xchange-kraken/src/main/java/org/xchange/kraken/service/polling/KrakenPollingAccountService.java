@@ -17,13 +17,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
@@ -41,22 +36,24 @@ public class KrakenPollingAccountService extends BasePollingExchangeService impl
 
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, RestJsonException {
-    
-    KrakenBalanceResult result = krakenAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
 
+    KrakenBalanceResult result = krakenAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+    if (result.getError().length > 0) {
+      throw new ExchangeException(result.getError().toString());
+    }
     return KrakenAdapters.adaptBalance(result, exchangeSpecification.getUserName());
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String requestBitcoinDepositAddress(String... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
 }

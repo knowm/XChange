@@ -27,6 +27,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 
 /**
  * <p>
@@ -42,11 +43,7 @@ public class KrakenAccountDemo {
   
   public static void main(String[] args) {
     
-    Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
-    ExchangeSpecification specification = kraken.getDefaultExchangeSpecification();
-    specification.setSecretKey("72jljpmHoGv9973tzBeSBamNgGkew1LxJRPPVjiC0nzt40Vj0gt/uc47O+TxPzH2cPaY7MbQeZ8pcV3nm2ClCg==");
-    specification.setUserName("XChange");
-    kraken.applySpecification(specification);
+    Exchange kraken = KrakenExampleUtils.createTestExchange();
     AccountInfo accountInfo =kraken.getPollingAccountService().getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 

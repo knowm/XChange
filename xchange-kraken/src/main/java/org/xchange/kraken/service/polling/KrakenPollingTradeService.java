@@ -2,6 +2,7 @@ package org.xchange.kraken.service.polling;
 
 import org.xchange.kraken.KrakenAuthenticated;
 import org.xchange.kraken.KrakenUtils;
+import org.xchange.kraken.dto.account.KrakenBalanceResult;
 import org.xchange.kraken.service.KrakenDigest;
 
 import si.mazi.rescu.ParamsDigest;
@@ -38,9 +39,12 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
 
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-      krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
+    KrakenBalanceResult  result= krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
           .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(marketOrder.getType()), "market", null, marketOrder.getTradableAmount().toString());
-      return null;
+    if (result.getError().length > 0) {
+      throw new ExchangeException(result.getError().toString());
+    }
+    return null;
     }
 
     @Override

@@ -109,6 +109,9 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
 
     String currencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTradesResult krakenTrades = kraken.getTrades(currencyPair);
+    if (krakenTrades.getError().length > 0) {
+      throw new ExchangeException(krakenTrades.getError().toString());
+    }
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair(currencyPair), currency, tradableIdentifier, krakenTrades.getResult().getLast());
     return trades;
   }
