@@ -1,7 +1,11 @@
 package org.xchange.kraken.service.polling;
 
-import org.xchange.kraken.Kraken;
+import org.xchange.kraken.KrakenAuthenticated;
+import org.xchange.kraken.KrakenUtils;
+import org.xchange.kraken.dto.account.KrakenBalanceResult;
+import org.xchange.kraken.service.KrakenDigest;
 
+import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -17,11 +21,15 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
-    private Kraken kraken;
+  
+    private KrakenAuthenticated krakenAuthenticated;
+    private ParamsDigest signatureCreator;
+    
     public KrakenPollingTradeService(ExchangeSpecification exchangeSpecification) {
         super(exchangeSpecification);
         Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-        kraken = RestProxyFactory.createProxy(Kraken.class, exchangeSpecification.getSslUri());
+        krakenAuthenticated = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchangeSpecification.getSslUri());
+        signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
     }
 
     @Override
@@ -31,7 +39,12 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
 
     @Override
     public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-        throw new NotYetImplementedForExchangeException();
+    KrakenBalanceResult  result= krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
+          .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(marketOrder.getType()), "market", null, marketOrder.getTradableAmount().toString());
+    if (result.getError().length > 0) {
+      throw new ExchangeException(result.getError().toString());
+    }
+    return null;
     }
 
     @Override

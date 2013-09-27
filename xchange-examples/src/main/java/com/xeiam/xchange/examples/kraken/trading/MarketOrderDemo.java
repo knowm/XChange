@@ -19,33 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.kraken.account;
+package com.xeiam.xchange.examples.kraken.trading;
 
-import org.xchange.kraken.KrakenExchange;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connect to Kraken exchange with authentication</li>
- * <li>View account balance</li>
- * <li>Get the bitcoin deposit address</li>
- * </ul>
+ * Test placing a limit order at Kraken
  */
-public class KrakenAccountDemo {
-  
+public class MarketOrderDemo {
+
   public static void main(String[] args) {
-    
+
     Exchange kraken = KrakenExampleUtils.createTestExchange();
-    AccountInfo accountInfo =kraken.getPollingAccountService().getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+
+    // Interested in the private trading functionality (authentication)
+    PollingTradeService tradeService = kraken.getPollingTradeService();
+
+    // place a marketOrder with volume 0.01
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal("0.01");
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "EUR";
+
+    MarketOrder limitOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+
+    String orderID = tradeService.placeMarketOrder(limitOrder);
+    System.out.println("Limit Order ID: " + orderID);
 
   }
 }
