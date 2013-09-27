@@ -1,6 +1,7 @@
 package org.xchange.kraken.service.polling;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.KrakenAuthenticated;
@@ -39,7 +40,7 @@ public class KrakenPollingAccountService extends BasePollingExchangeService impl
 
     KrakenBalanceResult result = krakenAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
     if (result.getError().length > 0) {
-      throw new ExchangeException(result.getError().toString());
+      throw new ExchangeException(Arrays.toString(result.getError()));
     }
     return KrakenAdapters.adaptBalance(result, exchangeSpecification.getUserName());
   }

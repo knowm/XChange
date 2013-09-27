@@ -1,5 +1,6 @@
 package org.xchange.kraken.service.polling;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -59,7 +60,7 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTickerResult krakenTickerResult = kraken.getTicker(krakenCurrencyPair);
     if (krakenTickerResult.getError().length > 0) {
-      throw new ExchangeException(krakenTickerResult.getError().toString());
+      throw new ExchangeException(Arrays.toString(krakenTickerResult.getError()));
     }
     KrakenTicker krakenTicker = krakenTickerResult.getResult().get(krakenCurrencyPair);
 
@@ -70,7 +71,6 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
     return getOrderBook(tradableIdentifier, currency, PARTIAL_ORDERBOOK_SIZE);
-
   }
 
   @Override
@@ -85,7 +85,7 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, count);
     if (krakenDepthReturn.getError().length > 0) {
-      throw new ExchangeException(krakenDepthReturn.getError().toString());
+      throw new ExchangeException(Arrays.toString(krakenDepthReturn.getError()));
     }
     KrakenDepth krakenDepth = krakenDepthReturn.getResult().get(krakenCurrencyPair);
     List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
@@ -101,7 +101,6 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     bids.addAll(asks);
     Date timeStamp = Collections.max(bids, dateComparator).getTimestamp();
     return new OrderBook(timeStamp, asks, bids);
-
   }
 
   @Override
