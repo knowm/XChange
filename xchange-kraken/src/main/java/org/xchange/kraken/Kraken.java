@@ -1,9 +1,9 @@
 package org.xchange.kraken;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
 import org.xchange.kraken.dto.marketdata.KrakenDepthResult;
@@ -21,7 +21,7 @@ public interface Kraken {
 
   @GET
   @Path("Ticker")
-  KrakenTickerResult getTicker(@FormParam("pair") String currencyPair);
+  KrakenTickerResult getTicker(@QueryParam("pair") String currencyPair);
 
   /**
    * @param currencyPair kraken currency pair
@@ -30,11 +30,11 @@ public interface Kraken {
    */
   @GET
   @Path("Depth")
-  KrakenDepthResult getDepth(@FormParam("pair") String currencyPair, @FormParam("count") Long count);
+  KrakenDepthResult getDepth(@QueryParam("pair") String currencyPair, @QueryParam("count") Long count);
 
   @GET
   @Path("Trades")
-  KrakenTradesResult getTrades(@FormParam("pair") String currencyPair);
+  KrakenTradesResult getTrades(@QueryParam("pair") String currencyPair);
 
   @GET
   @Path("AssetPairs")

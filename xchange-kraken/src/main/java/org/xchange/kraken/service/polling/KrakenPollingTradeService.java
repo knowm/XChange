@@ -1,5 +1,7 @@
 package org.xchange.kraken.service.polling;
 
+import java.util.Arrays;
+
 import org.xchange.kraken.KrakenAuthenticated;
 import org.xchange.kraken.KrakenUtils;
 import org.xchange.kraken.dto.account.KrakenBalanceResult;
@@ -21,46 +23,53 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
-  
-    private KrakenAuthenticated krakenAuthenticated;
-    private ParamsDigest signatureCreator;
-    
-    public KrakenPollingTradeService(ExchangeSpecification exchangeSpecification) {
-        super(exchangeSpecification);
-        Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-        krakenAuthenticated = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchangeSpecification.getSslUri());
-        signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
-    }
 
-    @Override
-    public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-       throw new NotYetImplementedForExchangeException();
-    }
+  private KrakenAuthenticated krakenAuthenticated;
+  private ParamsDigest signatureCreator;
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-    KrakenBalanceResult  result= krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
-          .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(marketOrder.getType()), "market", null, marketOrder.getTradableAmount().toString());
+  public KrakenPollingTradeService(ExchangeSpecification exchangeSpecification) {
+
+    super(exchangeSpecification);
+    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+    krakenAuthenticated = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchangeSpecification.getSslUri());
+    signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+
+    KrakenBalanceResult result =
+        krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
+            .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(marketOrder.getType()), "market", null, marketOrder.getTradableAmount().toString());
     if (result.getError().length > 0) {
-      throw new ExchangeException(result.getError().toString());
+      throw new ExchangeException(Arrays.toString(result.getError()));
     }
     return null;
-    }
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-        throw new NotYetImplementedForExchangeException();
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    }
+    throw new NotYetImplementedForExchangeException();
 
-    @Override
-    public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  }
 
-    @Override
-    public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }
