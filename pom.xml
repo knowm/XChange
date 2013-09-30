@@ -84,7 +84,8 @@
 		<module>xchange-btcchina</module>
 		<module>xchange-bitcurex</module>
 		<module>xchange-blockchain</module>
-    <module>xchange-kraken</module>
+		<module>xchange-bitcoinium</module>
+		<module>xchange-kraken</module>
   </modules>
 
 	<repositories>
