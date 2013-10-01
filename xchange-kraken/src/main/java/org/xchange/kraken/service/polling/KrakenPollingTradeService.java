@@ -2,9 +2,11 @@ package org.xchange.kraken.service.polling;
 
 import java.util.Arrays;
 
+import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.KrakenAuthenticated;
 import org.xchange.kraken.KrakenUtils;
 import org.xchange.kraken.dto.account.KrakenBalanceResult;
+import org.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
 import org.xchange.kraken.service.KrakenDigest;
 
 import si.mazi.rescu.ParamsDigest;
@@ -37,8 +39,11 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-
-    throw new NotYetImplementedForExchangeException();
+    KrakenOpenOrdersResult result = krakenAuthenticated.listOrders(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), null,null);
+    if (result.getError().length > 0) {
+      throw new ExchangeException(Arrays.toString(result.getError()));
+    }
+    return KrakenAdapters.adaptOpenOrders(result.getResult().getOrders());
   }
 
   @Override
@@ -63,7 +68,8 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
   @Override
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    throw new NotYetImplementedForExchangeException();
+    krakenAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), orderId);
+    return false;
   }
 
   @Override

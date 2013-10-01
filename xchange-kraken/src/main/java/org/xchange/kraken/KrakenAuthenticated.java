@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.xchange.kraken.dto.account.KrakenBalanceResult;
+import org.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -36,5 +37,11 @@ public interface KrakenAuthenticated {
   @Path("AddOrder")
   public KrakenBalanceResult addOrder(@HeaderParam("API-Key") String apiKey,@HeaderParam("API-Sign") ParamsDigest signer,@FormParam("nonce") long nonce, @FormParam("pair") String pair, @FormParam("type") String type, @FormParam("ordertype") String ordertype, @FormParam("price") String price, @FormParam("volume") String volume);
   
-  
+  @POST
+  @Path("CancelOrder")
+  public KrakenBalanceResult cancelOrder(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("txid") String transactionId);
+
+  @POST
+  @Path("OpenOrders")
+  public KrakenOpenOrdersResult listOrders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("trades") Boolean trades, @FormParam("userref") String userref);
 }
