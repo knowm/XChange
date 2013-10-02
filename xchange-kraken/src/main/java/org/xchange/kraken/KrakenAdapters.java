@@ -6,12 +6,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.xchange.kraken.dto.account.KrakenBalanceResult;
 import org.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.xchange.kraken.dto.trade.KrakenOpenOrder;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -21,6 +23,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public class KrakenAdapters {
@@ -99,5 +102,24 @@ public class KrakenAdapters {
       currencyPairs.add(new CurrencyPair(KrakenUtils.getCurrency(firstCurrency), KrakenUtils.getCurrency(secondCurrency)));
     }
     return currencyPairs;
+  }
+
+  public static OpenOrders adaptOpenOrders(Map<String, KrakenOpenOrder> krakenOrders) {
+
+    List<LimitOrder> limitOrders = new LinkedList<LimitOrder>();
+    for (Entry<String, KrakenOpenOrder> krakenOrder : krakenOrders.entrySet()) {
+      String[] descriptionWords = krakenOrder.getValue().getDescription().getOrderDescription().split(" ");
+      OrderType type = descriptionWords[0].equals("buy") ? OrderType.BID : OrderType.ASK;
+      BigDecimal tradableAmount = krakenOrder.getValue().getVolume().subtract(krakenOrder.getValue().getVolumeExecuted());
+      String tradableIdentifier = KrakenUtils.getCurrency("X" + descriptionWords[2].substring(0, 3));
+      String transactionCurrency = KrakenUtils.getCurrency("Z" + descriptionWords[2].substring(3));
+      String id = krakenOrder.getKey();
+      Date timestamp = new Date((long) (krakenOrder.getValue().getOpentm() * 1000L));
+      BigMoney limitPrice = BigMoney.of(CurrencyUnit.of(transactionCurrency), new BigDecimal(descriptionWords[5]));
+      LimitOrder order = new LimitOrder(type, tradableAmount, tradableIdentifier, transactionCurrency, id, timestamp, limitPrice);
+      limitOrders.add(order);
+    }
+    return new OpenOrders(limitOrders);
+
   }
 }

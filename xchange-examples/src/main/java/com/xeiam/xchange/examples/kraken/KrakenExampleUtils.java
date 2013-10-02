@@ -14,8 +14,8 @@ public class KrakenExampleUtils {
 
     Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
     ExchangeSpecification specification = kraken.getDefaultExchangeSpecification();
-    specification.setApiKey("rOkckzK+auTaBmwjbN1NPkLr6W0RcCo0ckpdylNavNyR+ZRv/RyDil4K");
-    specification.setSecretKey("GTU3yVFB22zeWsN/sAUfmN3PgKU2lyces2IVuc7Ay0o1Qb9imFycboXYMwhzsq7YICJO5O9UkyZyUBkye4g5sA==");
+    specification.setApiKey("cUQtvjUTeflRAyjXeQVhWTInsZh/VMLcCrugPX4nSpgqs0hadPJQATUc");
+    specification.setSecretKey("BMTodAUWigFa+wCEEdjvFM03jAa0oovRoLKbFjjvkiQOcJmvrQoNs6mMTvS/vQMQzHfQI5EhGgfWftSES1CfkQ==");
     specification.setUserName("XChange");
     kraken.applySpecification(specification);
     return kraken;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+* Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,33 +24,43 @@ package com.xeiam.xchange.examples.kraken.trading;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
- * Test placing a limit order at Kraken
+ * Test placing a limit order at MtGox.
  */
-public class MarketOrderDemo {
-
+public class CancelOrderDemo {
   public static void main(String[] args) {
 
     Exchange kraken = KrakenExampleUtils.createTestExchange();
-
-    // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = kraken.getPollingTradeService();
 
-    // place a marketOrder with volume 0.01
-    OrderType orderType = (OrderType.BID);
-    BigDecimal tradeableAmount = new BigDecimal("0.01");
-    String tradableIdentifier = "BTC";
-    String transactionCurrency = "EUR";
+    printOpenOrders(tradeService);
 
-    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    // place a limit buy order
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "EUR", MoneyUtils.parse("EUR 1.25"));
+    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    String orderID = tradeService.placeMarketOrder(marketOrder);
-    System.out.println("Market Order ID: " + orderID);
+    printOpenOrders(tradeService);
 
+    // Cancel the added order
+    boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
+    System.out.println("Canceling returned " + cancelResult);
+    // Cancel the added order
+    cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
+    System.out.println("Canceling second time  returned " + cancelResult);
+    printOpenOrders(tradeService);
+  }
+
+  private static void printOpenOrders(PollingTradeService tradeService) {
+
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
   }
 }

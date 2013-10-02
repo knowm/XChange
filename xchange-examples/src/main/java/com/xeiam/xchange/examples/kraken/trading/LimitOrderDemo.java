@@ -23,16 +23,19 @@ package com.xeiam.xchange.examples.kraken.trading;
 
 import java.math.BigDecimal;
 
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * Test placing a limit order at Kraken
  */
-public class MarketOrderDemo {
+public class LimitOrderDemo {
 
   public static void main(String[] args) {
 
@@ -44,13 +47,14 @@ public class MarketOrderDemo {
     // place a marketOrder with volume 0.01
     OrderType orderType = (OrderType.BID);
     BigDecimal tradeableAmount = new BigDecimal("0.01");
+  BigMoney price=  BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1"));
     String tradableIdentifier = "BTC";
     String transactionCurrency = "EUR";
 
-    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, price);
 
-    String orderID = tradeService.placeMarketOrder(marketOrder);
-    System.out.println("Market Order ID: " + orderID);
+    String orderID = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order ID: " + orderID);
 
   }
 }
