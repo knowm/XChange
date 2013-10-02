@@ -2,9 +2,12 @@ package org.xchange.kraken.service.polling;
 
 import java.util.Arrays;
 
+import org.xchange.kraken.KrakenAdapters;
 import org.xchange.kraken.KrakenAuthenticated;
 import org.xchange.kraken.KrakenUtils;
-import org.xchange.kraken.dto.account.KrakenBalanceResult;
+import org.xchange.kraken.dto.trade.KrakenCancelOrderResult;
+import org.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
+import org.xchange.kraken.dto.trade.KrakenOrderResult;
 import org.xchange.kraken.service.KrakenDigest;
 
 import si.mazi.rescu.ParamsDigest;
@@ -38,32 +41,47 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    throw new NotYetImplementedForExchangeException();
+    KrakenOpenOrdersResult result = krakenAuthenticated.listOrders(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), null, null);
+    if (!result.isSuccess()) {
+      throw new ExchangeException(Arrays.toString(result.getError()));
+    }
+    return KrakenAdapters.adaptOpenOrders(result.getResult().getOrders());
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    KrakenBalanceResult result =
+    KrakenOrderResult result =
         krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
             .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(marketOrder.getType()), "market", null, marketOrder.getTradableAmount().toString());
-    if (result.getError().length > 0) {
+    if (!result.isSuccess()) {
       throw new ExchangeException(Arrays.toString(result.getError()));
     }
-    return null;
+    return result.getResult().getTxid();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    throw new NotYetImplementedForExchangeException();
-
+    KrakenOrderResult result =
+        krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(limitOrder.getTradableIdentifier(), limitOrder
+            .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(limitOrder.getType()), "limit", limitOrder.getLimitPrice().getAmount().toString(), limitOrder.getTradableAmount().toString());
+    if (!result.isSuccess()) {
+      throw new ExchangeException(Arrays.toString(result.getError()));
+    }
+    return result.getResult().getTxid();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
-    throw new NotYetImplementedForExchangeException();
+    KrakenCancelOrderResult result = krakenAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), orderId);
+    if (!result.isSuccess()) {
+      return false;
+    }
+    else {
+      return result.getResult().getCount() > 0;
+    }
   }
 
   @Override

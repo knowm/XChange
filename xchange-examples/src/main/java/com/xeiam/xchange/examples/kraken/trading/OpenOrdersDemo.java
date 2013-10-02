@@ -21,18 +21,15 @@
  */
 package com.xeiam.xchange.examples.kraken.trading;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
- * Test placing a limit order at Kraken
+ * Test requesting all open orders at MtGox
  */
-public class MarketOrderDemo {
+public class OpenOrdersDemo {
 
   public static void main(String[] args) {
 
@@ -41,16 +38,9 @@ public class MarketOrderDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = kraken.getPollingTradeService();
 
-    // place a marketOrder with volume 0.01
-    OrderType orderType = (OrderType.BID);
-    BigDecimal tradeableAmount = new BigDecimal("0.01");
-    String tradableIdentifier = "BTC";
-    String transactionCurrency = "EUR";
-
-    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
-
-    String orderID = tradeService.placeMarketOrder(marketOrder);
-    System.out.println("Market Order ID: " + orderID);
-
+    // Get the open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println(openOrders.toString());
   }
+
 }
