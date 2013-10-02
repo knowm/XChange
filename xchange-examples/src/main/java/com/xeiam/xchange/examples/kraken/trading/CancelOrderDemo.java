@@ -21,32 +21,46 @@
  */
 package com.xeiam.xchange.examples.kraken.trading;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * Test placing a limit order at MtGox.
  */
 public class CancelOrderDemo {
-
   public static void main(String[] args) {
 
-    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+    Exchange kraken = KrakenExampleUtils.createTestExchange();
+    PollingTradeService tradeService = kraken.getPollingTradeService();
 
-    // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService();
+    printOpenOrders(tradeService);
 
-    boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
-    System.out.println("success= " + success);
+    // place a limit buy order
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "EUR", MoneyUtils.parse("EUR 1.25"));
+    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    // get open orders
+    printOpenOrders(tradeService);
+
+    // Cancel the added order
+    boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
+    System.out.println("Canceling returned " + cancelResult);
+    // Cancel the added order
+    cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
+    System.out.println("Canceling second time  returned " + cancelResult);
+    printOpenOrders(tradeService);
+  }
+
+  private static void printOpenOrders(PollingTradeService tradeService) {
+
     OpenOrders openOrders = tradeService.getOpenOrders();
-    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-      System.out.println(openOrder.toString());
-    }
-
+    System.out.println("Open Orders: " + openOrders.toString());
   }
 }

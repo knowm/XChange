@@ -8,7 +8,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.xchange.kraken.dto.account.KrakenBalanceResult;
+import org.xchange.kraken.dto.trade.KrakenCancelOrderResult;
 import org.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
+import org.xchange.kraken.dto.trade.KrakenOrderResult;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -35,11 +37,11 @@ public interface KrakenAuthenticated {
    */
   @POST
   @Path("AddOrder")
-  public KrakenBalanceResult addOrder(@HeaderParam("API-Key") String apiKey,@HeaderParam("API-Sign") ParamsDigest signer,@FormParam("nonce") long nonce, @FormParam("pair") String pair, @FormParam("type") String type, @FormParam("ordertype") String ordertype, @FormParam("price") String price, @FormParam("volume") String volume);
+  public KrakenOrderResult addOrder(@HeaderParam("API-Key") String apiKey,@HeaderParam("API-Sign") ParamsDigest signer,@FormParam("nonce") long nonce, @FormParam("pair") String pair, @FormParam("type") String type, @FormParam("ordertype") String ordertype, @FormParam("price") String price, @FormParam("volume") String volume);
   
   @POST
   @Path("CancelOrder")
-  public KrakenBalanceResult cancelOrder(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("txid") String transactionId);
+  public KrakenCancelOrderResult cancelOrder(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("txid") String transactionId);
 
   @POST
   @Path("OpenOrders")
