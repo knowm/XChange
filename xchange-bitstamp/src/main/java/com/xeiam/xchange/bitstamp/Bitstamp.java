@@ -41,7 +41,7 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
  */
 @Path("api")
 @Produces("application/json")
-public interface BitStamp {
+public interface Bitstamp {
 
   /**
    * Returns "bids" and "asks". Each is a list of open orders and each order is represented as a list of price and amount.
@@ -79,12 +79,11 @@ public interface BitStamp {
   @Path("user_transactions/")
   @Produces("application/json")
   public BitstampUserTransaction[] getUserTransactions(@FormParam("user") String user, @FormParam("password") String password, @FormParam("limit") long numberOfTransactions);
-
+  @Deprecated
   @POST
   @Path("open_orders/")
   @Produces("application/json")
   public BitstampOrder[] getOpenOrders(@FormParam("user") String user, @FormParam("password") String password);
-
   /** buy limit order */
   @POST
   @Path("buy/")
