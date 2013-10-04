@@ -8,9 +8,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+
+import si.mazi.rescu.ParamsDigest;
 
 /**
  * @author Benedikt Bünz See https://www.bitstamp.net/api/ for up-to-date docs.
@@ -22,7 +22,7 @@ public interface BitstampAuthenticated {
   @POST
   @Path("open_orders/")
   @Produces("application/json")
-  public BitstampOrder[] getOpenOrders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce);
+  public BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce);
 
   @POST
   @Path("buy/")
