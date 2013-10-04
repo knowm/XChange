@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.bitstamp.service;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -32,7 +31,6 @@ import javax.ws.rs.FormParam;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 /**
  * @author Benedikt Bünz
@@ -59,9 +57,7 @@ public class BitstampDigest implements ParamsDigest {
     this.apiKey = apiKey;
     try {
       mac256 = Mac.getInstance(HMAC_SHA_256);
-      mac256.init(new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_256));
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Could not decode Base 64 string", e);
+      mac256.init(new SecretKeySpec(secretKeyBase64.getBytes(), HMAC_SHA_256));
     } catch (InvalidKeyException e) {
       throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
     } catch (NoSuchAlgorithmException e) {
