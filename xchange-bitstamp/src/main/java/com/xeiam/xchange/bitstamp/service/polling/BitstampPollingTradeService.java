@@ -30,14 +30,18 @@ import java.util.List;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
+import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitstamp.BitStamp;
+import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
+import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
+import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -50,8 +54,9 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class BitstampPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private BitStamp bitstamp;
-
+  private Bitstamp bitstamp;
+  private BitstampAuthenticated bitstampAuthenticated;
+  private ParamsDigest signatureCreator;
   /**
    * Constructor
    * 
@@ -61,13 +66,15 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
+    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchangeSpecification.getSslUri());
+    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchangeSpecification.getSslUri());
+    this.signatureCreator= BitstampDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override
   public OpenOrders getOpenOrders() {
 
-    BitstampOrder[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    BitstampOrder[] openOrders = bitstampAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (BitstampOrder bitstampOrder : openOrders) {
       orders.add(new LimitOrder(bitstampOrder.getType() == 0 ? BID : ASK, bitstampOrder.getAmount(), "BTC", "USD", Integer.toString(bitstampOrder.getId()), BigMoney.of(CurrencyUnit.USD, bitstampOrder

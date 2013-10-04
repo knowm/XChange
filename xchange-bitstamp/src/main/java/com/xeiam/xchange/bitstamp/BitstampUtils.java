@@ -76,4 +76,9 @@ public final class BitstampUtils {
     }
   }
 
+  public static long getNonce() {
+
+    return System.currentTimeMillis();
+  }
+
 }

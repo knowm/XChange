@@ -36,7 +36,6 @@ public class BitstampDemoUtils {
     ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
     exSpec.setUserName("34387");
     exSpec.setPassword("H?kRyaslJp44");
-
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }
