@@ -81,7 +81,7 @@ public class BitstampDigest implements ParamsDigest {
     mac256.update(clientId.getBytes());
     mac256.update(apiKey.getBytes());
 
-    return String.format("%040x", new BigInteger(1, mac256.doFinal())).toUpperCase();
+    return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
 //    return Base64.encodeBytes(mac256.doFinal()).trim();
   }
 }
