@@ -146,6 +146,7 @@ public class Currencies {
   public static final String NMC = "NMC"; // "Namecoin",
   public static final String NOK = "NOK"; // "Norwegian Krone",
   public static final String NPR = "NPR"; // "Nepalese Rupee",
+  public static final String NVC = "NVC"; // "Novacoin",
   public static final String NZD = "NZD"; // "New Zealand Dollar",
   public static final String OMR = "OMR"; // "Omani Rial",
   public static final String PAB = "PAB"; // "Panamanian Balboa",
