@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.bitstamp.service;
 
-import java.io.IOException;
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.ws.rs.FormParam;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 /**
  * @author Benedikt Bünz
@@ -41,21 +40,24 @@ public class BitstampDigest implements ParamsDigest {
   private static final String HMAC_SHA_256 = "HmacSHA256";
 
   private final Mac mac256;
+  private final String clientId;
+  private final String apiKey;
 
   /**
    * Constructor
    * 
+   *
    * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param clientId
+   *@param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private BitstampDigest(String secretKeyBase64) throws IllegalArgumentException {
+  private BitstampDigest(String secretKeyBase64, String clientId, String apiKey) throws IllegalArgumentException {
 
+    this.clientId = clientId;
+    this.apiKey = apiKey;
     try {
-      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_256);
       mac256 = Mac.getInstance(HMAC_SHA_256);
-      mac256.init(secretKey);
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Could not decode Base 64 string", e);
+      mac256.init(new SecretKeySpec(secretKeyBase64.getBytes(), HMAC_SHA_256));
     } catch (InvalidKeyException e) {
       throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
     } catch (NoSuchAlgorithmException e) {
@@ -63,19 +65,19 @@ public class BitstampDigest implements ParamsDigest {
     }
   }
 
-  public static BitstampDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+  public static BitstampDigest createInstance(String secretKeyBase64, String clientId, String apiKey) throws IllegalArgumentException {
 
-    return secretKeyBase64 == null ? null : new BitstampDigest(secretKeyBase64);
+    return secretKeyBase64 == null ? null : new BitstampDigest(secretKeyBase64, clientId, apiKey);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-    
-  
 
-    mac256.update(restInvocation.getRequestBody().getBytes());
+    mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
+    mac256.update(clientId.getBytes());
+    mac256.update(apiKey.getBytes());
 
-
-    return Base64.encodeBytes(mac256.doFinal()).trim();
+    return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
+//    return Base64.encodeBytes(mac256.doFinal()).trim();
   }
 }

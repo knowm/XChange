@@ -21,17 +21,11 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
-import static com.xeiam.xchange.dto.Order.OrderType.ASK;
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -48,6 +42,12 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
+import static com.xeiam.xchange.dto.Order.OrderType.ASK;
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author Matija Mazi
@@ -68,7 +68,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
     super(exchangeSpecification);
     this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchangeSpecification.getSslUri());
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchangeSpecification.getSslUri());
-    this.signatureCreator= BitstampDigest.createInstance(exchangeSpecification.getSecretKey());
+    this.signatureCreator= BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
   }
 
   @Override
