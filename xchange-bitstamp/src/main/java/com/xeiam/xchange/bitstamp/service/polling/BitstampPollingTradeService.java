@@ -21,15 +21,20 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
+import static com.xeiam.xchange.dto.Order.OrderType.ASK;
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
@@ -43,18 +48,11 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import static com.xeiam.xchange.dto.Order.OrderType.ASK;
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
-
 /**
  * @author Matija Mazi
  */
 public class BitstampPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private Bitstamp bitstamp;
   private BitstampAuthenticated bitstampAuthenticated;
   private ParamsDigest signatureCreator;
   /**
@@ -66,7 +64,6 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchangeSpecification.getSslUri());
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchangeSpecification.getSslUri());
     this.signatureCreator= BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
   }
@@ -94,10 +91,10 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
-      bitstampOrder = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstampAuthenticated.buy(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     else {
-      bitstampOrder = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstampAuthenticated.sell(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     return Integer.toString(bitstampOrder.getId());
   }
@@ -105,7 +102,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public boolean cancelOrder(String orderId) {
 
-    return bitstamp.cancelOrder(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), Integer.parseInt(orderId)).equals(true);
+    return bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), Integer.parseInt(orderId)).equals(true);
   }
 
   @Override
@@ -118,7 +115,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
       // ignore, can happen if no arg given.
     }
 
-    BitstampUserTransaction[] bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), numberOfTransactions);
+    BitstampUserTransaction[] bitstampUserTransactions = bitstampAuthenticated.getUserTransactions(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), numberOfTransactions);
 
     return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
   }
