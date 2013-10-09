@@ -41,6 +41,9 @@ public class BTCEBasePollingService {
   protected final BTCEAuthenticated btce;
   protected final ParamsDigest signatureCreator;
 
+  // counter for the nonce
+  private int lastNonce = -1;
+
   /**
    * Constructor
    * 
@@ -53,15 +56,17 @@ public class BTCEBasePollingService {
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  protected int nextNonce() {
-
-    // NOTE: this nonce creation formula is not bullet-proof:
-    // - It allows for only one request per .25 seconds,
-    // - It will cycle over MAX_INTEGER and start producing illegal negative nonces on January 5, 2030
-
-    // If you run into problems with nonces (eg. you've once submitted a large nonce and can't use normal nonces any more),
-    // you can request new api credentials (key, secret) with BTCE.
-    return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
+  protected synchronized int nextNonce() {
+    // nonce logic is now more robust.
+    // on the first call, it initializes to a number based upon the quarter second. From then on, it increments it.
+    //
+    // As long as you do not create a new BTCEBasedPollingService more than once every quarter second and make sure
+    // that you throw away the old one before you make a new one, this should work out fine.
+    if(lastNonce < 0) {
+        lastNonce = (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
+    }
+    int nonce = lastNonce++;
+    return nonce;
   }
 
   protected void checkResult(BTCEReturn<?> info) {
