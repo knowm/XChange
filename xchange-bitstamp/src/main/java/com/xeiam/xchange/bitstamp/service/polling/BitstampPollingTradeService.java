@@ -30,14 +30,17 @@ import java.util.List;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
+import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitstamp.BitStamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
+import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
+import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -50,8 +53,8 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class BitstampPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private BitStamp bitstamp;
-
+  private BitstampAuthenticated bitstampAuthenticated;
+  private ParamsDigest signatureCreator;
   /**
    * Constructor
    * 
@@ -61,13 +64,14 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   public BitstampPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
+    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchangeSpecification.getSslUri());
+    this.signatureCreator= BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
   }
 
   @Override
   public OpenOrders getOpenOrders() {
 
-    BitstampOrder[] openOrders = bitstamp.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    BitstampOrder[] openOrders = bitstampAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (BitstampOrder bitstampOrder : openOrders) {
       orders.add(new LimitOrder(bitstampOrder.getType() == 0 ? BID : ASK, bitstampOrder.getAmount(), "BTC", "USD", Integer.toString(bitstampOrder.getId()), BigMoney.of(CurrencyUnit.USD, bitstampOrder
@@ -87,10 +91,10 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
-      bitstampOrder = bitstamp.buy(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstampAuthenticated.buy(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     else {
-      bitstampOrder = bitstamp.sell(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstampAuthenticated.sell(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     return Integer.toString(bitstampOrder.getId());
   }
@@ -98,7 +102,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public boolean cancelOrder(String orderId) {
 
-    return bitstamp.cancelOrder(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), Integer.parseInt(orderId)).equals(true);
+    return bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), Integer.parseInt(orderId)).equals(true);
   }
 
   @Override
@@ -111,7 +115,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
       // ignore, can happen if no arg given.
     }
 
-    BitstampUserTransaction[] bitstampUserTransactions = bitstamp.getUserTransactions(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), numberOfTransactions);
+    BitstampUserTransaction[] bitstampUserTransactions = bitstampAuthenticated.getUserTransactions(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), numberOfTransactions);
 
     return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
   }

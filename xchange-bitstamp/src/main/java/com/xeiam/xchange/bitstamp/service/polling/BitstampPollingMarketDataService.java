@@ -27,7 +27,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitstamp.BitStamp;
+import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
@@ -46,7 +46,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class BitstampPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private final BitStamp bitstamp;
+  private final Bitstamp bitstamp;
 
   /**
    * Constructor
@@ -56,7 +56,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   public BitstampPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
+    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchangeSpecification.getSslUri());
   }
 
   @Override
