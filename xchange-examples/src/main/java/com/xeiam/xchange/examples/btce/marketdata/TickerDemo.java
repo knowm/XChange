@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.btce.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btce.BTCEExchange;
@@ -33,7 +35,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get BTC-E exchange API using default settings
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());

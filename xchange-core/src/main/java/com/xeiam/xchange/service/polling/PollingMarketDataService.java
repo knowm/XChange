@@ -21,9 +21,8 @@
  */
 package com.xeiam.xchange.service.polling;
 
+import java.io.IOException;
 import java.util.List;
-
-import si.mazi.rescu.RestJsonException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -67,9 +66,9 @@ public interface PollingMarketDataService {
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Ticker getTicker(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  Ticker getTicker(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
@@ -82,9 +81,9 @@ public interface PollingMarketDataService {
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
@@ -97,9 +96,9 @@ public interface PollingMarketDataService {
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
@@ -112,8 +111,8 @@ public interface PollingMarketDataService {
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Trades getTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  Trades getTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
 }

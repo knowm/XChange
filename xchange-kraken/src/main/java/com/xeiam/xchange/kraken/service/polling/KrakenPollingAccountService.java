@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.kraken.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestJsonException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -56,7 +56,7 @@ public class KrakenPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, RestJsonException {
+  public AccountInfo getAccountInfo() throws IOException {
 
     KrakenBalanceResult result = krakenAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
     if (result.getError().length > 0) {

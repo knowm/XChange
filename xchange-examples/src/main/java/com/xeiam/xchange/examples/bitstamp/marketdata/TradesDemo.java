@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.bitstamp.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
@@ -33,7 +35,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TradesDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get Bitstamp exchange API using default settings
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());

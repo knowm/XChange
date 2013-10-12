@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.joda.money.BigMoney;
@@ -51,7 +52,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 @Deprecated
 public class MtGoxTradeDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 

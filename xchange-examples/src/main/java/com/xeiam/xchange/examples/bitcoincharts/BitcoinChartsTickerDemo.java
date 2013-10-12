@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.bitcoincharts;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsExchange;
@@ -35,7 +37,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class BitcoinChartsTickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get BitcoinCharts exchange API using default settings
     Exchange bitcoinChartsExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());

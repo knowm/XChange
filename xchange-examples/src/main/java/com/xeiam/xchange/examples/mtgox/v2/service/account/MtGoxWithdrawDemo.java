@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -38,7 +39,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class MtGoxWithdrawDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 

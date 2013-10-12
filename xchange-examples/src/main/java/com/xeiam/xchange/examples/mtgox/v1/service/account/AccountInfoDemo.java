@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
@@ -34,7 +36,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 @Deprecated
 public class AccountInfoDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 

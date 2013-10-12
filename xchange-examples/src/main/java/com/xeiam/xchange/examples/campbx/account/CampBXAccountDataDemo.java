@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.campbx.account;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -34,7 +35,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class CampBXAccountDataDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get Campbx exchange API using default settings
     Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());

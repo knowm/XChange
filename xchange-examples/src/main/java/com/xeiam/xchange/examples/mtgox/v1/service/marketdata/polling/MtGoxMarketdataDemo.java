@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -48,7 +50,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 @Deprecated
 public class MtGoxMarketdataDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Demonstrate the public market data service
     // Use the factory to get the version 1 MtGox exchange API using default settings

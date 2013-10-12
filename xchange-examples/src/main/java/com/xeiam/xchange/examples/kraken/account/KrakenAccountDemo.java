@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.kraken.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
@@ -37,7 +39,7 @@ import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
  */
 public class KrakenAccountDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange kraken = KrakenExampleUtils.createTestExchange();
     AccountInfo accountInfo = kraken.getPollingAccountService().getAccountInfo();

@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.bitstamp.trade;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
@@ -37,7 +39,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class BitstampUserTradeHistoryDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();

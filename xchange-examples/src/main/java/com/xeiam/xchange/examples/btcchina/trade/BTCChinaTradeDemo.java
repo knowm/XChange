@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.btcchina.trade;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -42,7 +43,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class BTCChinaTradeDemo {
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws IOException, InterruptedException {
 
     Exchange btcchina = BTCChinaExamplesUtils.getExchange();
     PollingTradeService tradeService = btcchina.getPollingTradeService();
@@ -74,7 +75,7 @@ public class BTCChinaTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static OpenOrders printOpenOrders(PollingTradeService tradeService) {
+  private static OpenOrders printOpenOrders(PollingTradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders.toString());

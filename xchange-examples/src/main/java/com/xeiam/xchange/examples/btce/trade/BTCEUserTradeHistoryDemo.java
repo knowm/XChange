@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.btce.trade;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -29,7 +31,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class BTCEUserTradeHistoryDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // TODO: The APIKey does not have the correct permissions
     Exchange bitstamp = BTCEExamplesUtils.createExchange();

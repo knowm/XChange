@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.kraken.trading;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.joda.money.BigMoney;
@@ -37,7 +38,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class LimitOrderDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange kraken = KrakenExampleUtils.createTestExchange();
 

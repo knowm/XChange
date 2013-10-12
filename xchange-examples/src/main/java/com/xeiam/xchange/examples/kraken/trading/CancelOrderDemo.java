@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.kraken.trading;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -36,7 +37,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class CancelOrderDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange kraken = KrakenExampleUtils.createTestExchange();
     PollingTradeService tradeService = kraken.getPollingTradeService();
@@ -59,7 +60,7 @@ public class CancelOrderDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) {
+  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

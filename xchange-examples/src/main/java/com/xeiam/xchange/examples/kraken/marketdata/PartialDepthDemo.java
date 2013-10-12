@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.kraken.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -33,7 +35,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class PartialDepthDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get Kraken exchange API using default settings
 

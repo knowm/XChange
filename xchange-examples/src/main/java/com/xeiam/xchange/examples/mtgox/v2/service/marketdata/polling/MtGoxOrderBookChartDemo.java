@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +47,7 @@ import com.xeiam.xchart.SwingWrapper;
  */
 public class MtGoxOrderBookChartDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGox = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());

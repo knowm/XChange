@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.campbx.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.campbx.CampBXExchange;
@@ -34,7 +36,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class MarketDataDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get Campbx exchange API using default settings
     Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());

@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.btce.trade;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -36,7 +37,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class BTCETradeDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange btce = BTCEExamplesUtils.createExchange();
     PollingTradeService tradeService = btce.getPollingTradeService();
@@ -57,7 +58,7 @@ public class BTCETradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) {
+  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

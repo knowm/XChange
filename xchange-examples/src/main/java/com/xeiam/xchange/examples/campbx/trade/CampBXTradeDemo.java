@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.campbx.trade;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -44,7 +45,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class CampBXTradeDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
 
@@ -74,7 +75,7 @@ public class CampBXTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) {
+  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

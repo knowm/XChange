@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.btcchina.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
@@ -33,7 +35,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get the BTC China exchange API using default settings
     Exchange btcchina = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());

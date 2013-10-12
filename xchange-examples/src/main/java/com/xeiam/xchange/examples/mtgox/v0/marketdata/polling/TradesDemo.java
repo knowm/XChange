@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.mtgox.v0.marketdata.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -39,7 +41,7 @@ public class TradesDemo {
 
   private static PollingMarketDataService marketDataService;
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get the version 1 MtGox exchange API using default settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());

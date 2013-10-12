@@ -21,9 +21,8 @@
  */
 package com.xeiam.xchange.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
-
-import si.mazi.rescu.RestJsonException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -51,9 +50,9 @@ public interface PollingAccountService {
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, RestJsonException;
+  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Withdraw funds
@@ -64,9 +63,9 @@ public interface PollingAccountService {
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Request a bitcoin address to fund this account
@@ -76,9 +75,9 @@ public interface PollingAccountService {
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws RestJsonException - Indication that a networking error occurred while fetching JSON data
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String requestBitcoinDepositAddress(final String... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  public String requestBitcoinDepositAddress(final String... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   // TODO: Transaction history (deposits, withrawals, etc.)
 }

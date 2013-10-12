@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.kraken.trading;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
@@ -31,7 +33,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class OpenOrdersDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange kraken = KrakenExampleUtils.createTestExchange();
 

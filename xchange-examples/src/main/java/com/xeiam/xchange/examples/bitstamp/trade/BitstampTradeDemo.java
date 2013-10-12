@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.bitstamp.trade;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -42,7 +43,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class BitstampTradeDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
@@ -63,7 +64,7 @@ public class BitstampTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) {
+  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.bitstamp.account;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -40,7 +41,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class BitstampAccountDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
 
