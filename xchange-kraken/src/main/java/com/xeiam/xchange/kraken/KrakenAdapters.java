@@ -61,7 +61,7 @@ public class KrakenAdapters {
   private static LimitOrder adaptOrder(BigDecimal[] order, String orderType, String currency, String tradableIdentifier) {
 
     OrderType type = orderType.equalsIgnoreCase("asks") ? OrderType.ASK : OrderType.BID;
-    Date timeStamp = new Date(order[2].longValue());
+    Date timeStamp = new Date(order[2].longValue() * 1000);
     BigMoney price = BigMoney.of(CurrencyUnit.of(currency), order[0]);
     BigDecimal volume = order[1];
 
