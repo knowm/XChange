@@ -169,11 +169,12 @@ public final class OrderBook {
     updateDate(orderBookUpdate.getLimitOrder().getTimestamp());
   }
 
-private void updateDate(Date updateDate) {
-    if(updateDate!=null&&(timeStamp==null||updateDate.after(timeStamp))){
-        this.timeStamp=updateDate;
+  private void updateDate(Date updateDate) {
+
+    if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
+      this.timeStamp = updateDate;
     }
-}
+  }
 
   @Override
   public String toString() {

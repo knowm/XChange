@@ -21,18 +21,13 @@
  */
 package com.xeiam.xchange.bitstamp;
 
-import java.math.BigDecimal;
-
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
-import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
 /**
  * @author Matija Mazi See https://www.bitstamp.net/api/ for up-to-date docs.
@@ -61,8 +56,6 @@ public interface Bitstamp {
   @Path("transactions/")
   @Produces("application/json")
   public BitstampTransaction[] getTransactions();
-
-
 
   // TODO: bitstamp code handling, send to user
 }

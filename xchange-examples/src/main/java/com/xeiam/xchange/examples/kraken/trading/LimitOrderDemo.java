@@ -47,7 +47,7 @@ public class LimitOrderDemo {
     // place a marketOrder with volume 0.01
     OrderType orderType = (OrderType.BID);
     BigDecimal tradeableAmount = new BigDecimal("0.01");
-  BigMoney price=  BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1"));
+    BigMoney price = BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1"));
     String tradableIdentifier = "BTC";
     String transactionCurrency = "EUR";
 

@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import org.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 /**
  * Test KrakenDepth JSON parsing

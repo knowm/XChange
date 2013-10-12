@@ -21,11 +21,7 @@
  */
 package com.xeiam.xchange.examples.kraken.account;
 
-import org.xchange.kraken.KrakenExchange;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 
@@ -40,11 +36,11 @@ import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
  * </ul>
  */
 public class KrakenAccountDemo {
-  
+
   public static void main(String[] args) {
-    
+
     Exchange kraken = KrakenExampleUtils.createTestExchange();
-    AccountInfo accountInfo =kraken.getPollingAccountService().getAccountInfo();
+    AccountInfo accountInfo = kraken.getPollingAccountService().getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
   }

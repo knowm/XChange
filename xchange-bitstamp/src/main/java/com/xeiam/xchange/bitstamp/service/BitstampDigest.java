@@ -46,10 +46,9 @@ public class BitstampDigest implements ParamsDigest {
   /**
    * Constructor
    * 
-   *
    * @param secretKeyBase64
    * @param clientId
-   *@param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BitstampDigest(String secretKeyBase64, String clientId, String apiKey) throws IllegalArgumentException {
 
@@ -78,6 +77,6 @@ public class BitstampDigest implements ParamsDigest {
     mac256.update(apiKey.getBytes());
 
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
-//    return Base64.encodeBytes(mac256.doFinal()).trim();
+    // return Base64.encodeBytes(mac256.doFinal()).trim();
   }
 }

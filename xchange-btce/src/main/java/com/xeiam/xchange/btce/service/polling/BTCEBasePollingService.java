@@ -57,13 +57,14 @@ public class BTCEBasePollingService {
   }
 
   protected synchronized int nextNonce() {
+
     // nonce logic is now more robust.
     // on the first call, it initializes to a number based upon the quarter second. From then on, it increments it.
     //
     // As long as you do not create a new BTCEBasedPollingService more than once every quarter second and make sure
     // that you throw away the old one before you make a new one, this should work out fine.
-    if(lastNonce < 0) {
-        lastNonce = (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
+    if (lastNonce < 0) {
+      lastNonce = (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
     }
     int nonce = lastNonce++;
     return nonce;

@@ -54,13 +54,13 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
 
     super(exchangeSpecification);
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchangeSpecification.getSslUri());
-    signatureCreator=BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
+    signatureCreator = BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
   }
 
   @Override
   public AccountInfo getAccountInfo() {
 
-    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator,BitstampUtils.getNonce());
+    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
     if (bitstampBalance.getError() != null) {
       throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
     }
@@ -71,7 +71,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    return bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(), signatureCreator,BitstampUtils.getNonce(), amount, address).toString();
+    return bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, address).toString();
   }
 
   /**
@@ -80,7 +80,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) {
 
-    return bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator,BitstampUtils.getNonce());
+    return bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
   }
 
 }

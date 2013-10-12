@@ -55,6 +55,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
   private BitstampAuthenticated bitstampAuthenticated;
   private ParamsDigest signatureCreator;
+
   /**
    * Constructor
    * 
@@ -65,13 +66,13 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     super(exchangeSpecification);
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchangeSpecification.getSslUri());
-    this.signatureCreator= BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
+    this.signatureCreator = BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
   }
 
   @Override
   public OpenOrders getOpenOrders() {
 
-    BitstampOrder[] openOrders = bitstampAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce());
+    BitstampOrder[] openOrders = bitstampAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
     List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (BitstampOrder bitstampOrder : openOrders) {
       orders.add(new LimitOrder(bitstampOrder.getType() == 0 ? BID : ASK, bitstampOrder.getAmount(), "BTC", "USD", Integer.toString(bitstampOrder.getId()), BigMoney.of(CurrencyUnit.USD, bitstampOrder
@@ -91,10 +92,10 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
-      bitstampOrder = bitstampAuthenticated.buy(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstampAuthenticated.buy(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     else {
-      bitstampOrder = bitstampAuthenticated.sell(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = bitstampAuthenticated.sell(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
     return Integer.toString(bitstampOrder.getId());
   }
@@ -102,7 +103,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   @Override
   public boolean cancelOrder(String orderId) {
 
-    return bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), Integer.parseInt(orderId)).equals(true);
+    return bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), Integer.parseInt(orderId)).equals(true);
   }
 
   @Override
@@ -115,7 +116,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
       // ignore, can happen if no arg given.
     }
 
-    BitstampUserTransaction[] bitstampUserTransactions = bitstampAuthenticated.getUserTransactions(exchangeSpecification.getApiKey(),signatureCreator,BitstampUtils.getNonce(), numberOfTransactions);
+    BitstampUserTransaction[] bitstampUserTransactions = bitstampAuthenticated.getUserTransactions(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), numberOfTransactions);
 
     return BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
   }

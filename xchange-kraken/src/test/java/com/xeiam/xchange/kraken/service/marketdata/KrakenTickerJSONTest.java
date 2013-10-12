@@ -28,12 +28,13 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.xchange.kraken.dto.marketdata.KrakenTickerResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTickerResult;
 
 /**
  * Test KrakenTicker JSON parsing
+ * 
  * @author Raphael Voellmy
  */
 public class KrakenTickerJSONTest {

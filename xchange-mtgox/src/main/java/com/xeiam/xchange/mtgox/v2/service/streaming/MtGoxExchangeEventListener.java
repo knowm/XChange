@@ -21,15 +21,17 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.streaming;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.JSONUtils;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
@@ -90,140 +92,161 @@ public class MtGoxExchangeEventListener extends ExchangeEventListener {
       break;
     case MESSAGE:
 
-      // Get raw JSON
-      Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), streamObjectMapper);
-      String operation = (String) rawJSON.get("op");
-      if ("private".equals(operation)) {
-        String priv = (String) rawJSON.get("private");
-        if ("user_order".equals(priv)) {
-          MtGoxOpenOrder order = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("user_order"), streamObjectMapper), MtGoxOpenOrder.class, streamObjectMapper);
-          ExchangeEvent userOrderEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER, exchangeEvent.getData(), order);
-          addToEventQueue(userOrderEvent);
-          break;
-        }
-        else if ("lag".equals(priv)) {
-          MtGoxTradeLag lag = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("lag"), streamObjectMapper), MtGoxTradeLag.class, streamObjectMapper);
-          ExchangeEvent lagEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE_LAG, exchangeEvent.getData(), lag);
-          addToEventQueue(lagEvent);
-          break;
-        }
-        else if ("wallet".equals(priv)) {
-          MtGoxWalletUpdate walletUpdate = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("wallet"), streamObjectMapper), MtGoxWalletUpdate.class, streamObjectMapper);
-          ExchangeEvent walletUpdateEvent = new DefaultExchangeEvent(ExchangeEventType.USER_WALLET_UPDATE, exchangeEvent.getData(), walletUpdate);
-          addToEventQueue(walletUpdateEvent);
-          break;
-        }
+      try {
+        // Get raw JSON
+        // Map<String, Object> rawJSON = JSONUtils.getJsonGenericMap(exchangeEvent.getData(), streamObjectMapper);
+        Map<String, Object> rawJSON;
+        rawJSON = streamObjectMapper.readValue(exchangeEvent.getData(), new TypeReference<Map<String, Object>>() {
+        });
 
-      }
-      else if ("result".equals(operation)) {
-
-        String id = (String) rawJSON.get("id");
-
-        if ("idkey".equals(id)) {
-          ExchangeEvent idEvent = new DefaultExchangeEvent(ExchangeEventType.PRIVATE_ID_KEY, null, rawJSON.get("result"));
-          addToEventQueue(idEvent);
-          break;
-        }
-        else if ("orders".equals(id)) {
-          MtGoxOpenOrder[] orders = null;
-
-          if (rawJSON.get("result") != null) {
-            orders = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOpenOrder[].class, streamObjectMapper);
+        String operation = (String) rawJSON.get("op");
+        if ("private".equals(operation)) {
+          String priv = (String) rawJSON.get("private");
+          if ("user_order".equals(priv)) {
+            // MtGoxOpenOrder order = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("user_order"), streamObjectMapper), MtGoxOpenOrder.class, streamObjectMapper);
+            MtGoxOpenOrder order = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("user_order")), MtGoxOpenOrder.class);
+            ExchangeEvent userOrderEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER, exchangeEvent.getData(), order);
+            addToEventQueue(userOrderEvent);
+            break;
+          }
+          else if ("lag".equals(priv)) {
+            // MtGoxTradeLag lag = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("lag"), streamObjectMapper), MtGoxTradeLag.class, streamObjectMapper);
+            MtGoxTradeLag lag = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("lag")), MtGoxTradeLag.class);
+            ExchangeEvent lagEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE_LAG, exchangeEvent.getData(), lag);
+            addToEventQueue(lagEvent);
+            break;
+          }
+          else if ("wallet".equals(priv)) {
+            // MtGoxWalletUpdate walletUpdate = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("wallet"), streamObjectMapper), MtGoxWalletUpdate.class, streamObjectMapper);
+            MtGoxWalletUpdate walletUpdate = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("wallet")), MtGoxWalletUpdate.class);
+            ExchangeEvent walletUpdateEvent = new DefaultExchangeEvent(ExchangeEventType.USER_WALLET_UPDATE, exchangeEvent.getData(), walletUpdate);
+            addToEventQueue(walletUpdateEvent);
+            break;
           }
 
-          ExchangeEvent ordersEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDERS_LIST, exchangeEvent.getData(), orders);
-          addToEventQueue(ordersEvent);
-          break;
+        }
+        else if ("result".equals(operation)) {
+
+          String id = (String) rawJSON.get("id");
+
+          if ("idkey".equals(id)) {
+            ExchangeEvent idEvent = new DefaultExchangeEvent(ExchangeEventType.PRIVATE_ID_KEY, null, rawJSON.get("result"));
+            addToEventQueue(idEvent);
+            break;
+          }
+          else if ("orders".equals(id)) {
+            MtGoxOpenOrder[] orders = null;
+
+            if (rawJSON.get("result") != null) {
+              // orders = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOpenOrder[].class, streamObjectMapper);
+              orders = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("result")), MtGoxOpenOrder[].class);
+            }
+
+            ExchangeEvent ordersEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDERS_LIST, exchangeEvent.getData(), orders);
+            addToEventQueue(ordersEvent);
+            break;
+
+          }
+          else if ("info".equals(id)) {
+            // MtGoxAccountInfo accountInfo = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxAccountInfo.class, streamObjectMapper);
+            MtGoxAccountInfo accountInfo = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("result")), MtGoxAccountInfo.class);
+            ExchangeEvent accountInfoEvent = new DefaultExchangeEvent(ExchangeEventType.ACCOUNT_INFO, exchangeEvent.getData(), accountInfo);
+            addToEventQueue(accountInfoEvent);
+            break;
+
+          }
+          else if (id.startsWith("order_add")) {
+            ExchangeEvent userOrderAddedEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_ADDED, exchangeEvent.getData(), rawJSON.get("result"));
+            addToEventQueue(userOrderAddedEvent);
+            break;
+
+          }
+          else if (id.startsWith("order_cancel")) {
+
+            // TODO implement the case when the following message comes in from MtGox
+            // {id=order_cancel:c8fa912b-d929-4cc5-98e6-3ea23667cfa5, message=Order not found, op=remark, success=false}
+
+            // if (((String) rawJSON.get("message")).equals("Order not found")) {
+            // ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_NOT_FOUND, exchangeEvent.getData(), rawJSON.get("message"));
+            // addToEventQueue(userOrderCanceledEvent);
+            // }
+            // else {
+            // MtGoxOrderCanceled orderCanceled = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOrderCanceled.class, streamObjectMapper);
+            MtGoxOrderCanceled orderCanceled = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("result")), MtGoxOrderCanceled.class);
+            ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_CANCELED, exchangeEvent.getData(), orderCanceled);
+            addToEventQueue(userOrderCanceledEvent);
+            // }
+
+            break;
+          }
 
         }
-        else if ("info".equals(id)) {
-          MtGoxAccountInfo accountInfo = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxAccountInfo.class, streamObjectMapper);
-          ExchangeEvent accountInfoEvent = new DefaultExchangeEvent(ExchangeEventType.ACCOUNT_INFO, exchangeEvent.getData(), accountInfo);
-          addToEventQueue(accountInfoEvent);
-          break;
-
-        }
-        else if (id.startsWith("order_add")) {
-          ExchangeEvent userOrderAddedEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_ADDED, exchangeEvent.getData(), rawJSON.get("result"));
-          addToEventQueue(userOrderAddedEvent);
-          break;
-
-        }
-        else if (id.startsWith("order_cancel")) {
-
-          // TODO implement the case when the following message comes in from MtGox
-          // {id=order_cancel:c8fa912b-d929-4cc5-98e6-3ea23667cfa5, message=Order not found, op=remark, success=false}
-
-          // if (((String) rawJSON.get("message")).equals("Order not found")) {
-          // ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_NOT_FOUND, exchangeEvent.getData(), rawJSON.get("message"));
-          // addToEventQueue(userOrderCanceledEvent);
-          // }
-          // else {
-          MtGoxOrderCanceled orderCanceled = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("result"), streamObjectMapper), MtGoxOrderCanceled.class, streamObjectMapper);
-          ExchangeEvent userOrderCanceledEvent = new DefaultExchangeEvent(ExchangeEventType.USER_ORDER_CANCELED, exchangeEvent.getData(), orderCanceled);
-          addToEventQueue(userOrderCanceledEvent);
-          // }
-
+        else if ("remark".equals(operation)) {
+          System.out.println("Msg from server: " + rawJSON.toString());
           break;
         }
 
-      }
-      else if ("remark".equals(operation)) {
-        System.out.println("Msg from server: " + rawJSON.toString());
-        break;
-      }
+        // Determine what has been sent
+        if (rawJSON.containsKey("ticker")) {
 
-      // Determine what has been sent
-      if (rawJSON.containsKey("ticker")) {
-
-        // Get MtGoxTicker from JSON String
-        MtGoxTicker mtGoxTicker = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("ticker"), streamObjectMapper), MtGoxTicker.class, streamObjectMapper);
-
-        // Adapt to XChange DTOs
-        Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
-
-        // Create a ticker event
-        ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
-        addToEventQueue(tickerEvent);
-        break;
-      }
-      else {
-        if (rawJSON.containsKey("trade")) {
-
-          // log.debug("exchangeEvent: " + exchangeEvent.getEventType());
-
-          // Get MtGoxTradeStream from JSON String
-          MtGoxTrade mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTrade.class, streamObjectMapper);
+          // Get MtGoxTicker from JSON String
+          // MtGoxTicker mtGoxTicker = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("ticker"), streamObjectMapper), MtGoxTicker.class, streamObjectMapper);
+          MtGoxTicker mtGoxTicker = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("ticker")), MtGoxTicker.class);
 
           // Adapt to XChange DTOs
-          Trade trade = MtGoxAdapters.adaptTrade(mtGoxTradeStream);
+          Ticker ticker = MtGoxAdapters.adaptTicker(mtGoxTicker);
 
-          // Create a trade event
-          ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);
-          addToEventQueue(tradeEvent);
+          // Create a ticker event
+          ExchangeEvent tickerEvent = new DefaultExchangeEvent(ExchangeEventType.TICKER, exchangeEvent.getData(), ticker);
+          addToEventQueue(tickerEvent);
           break;
         }
         else {
-          if (rawJSON.containsKey("depth")) {
+          if (rawJSON.containsKey("trade")) {
 
-            // Get MtGoxDepthStream from JSON String
-            MtGoxDepthUpdate mtGoxDepthStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("depth"), streamObjectMapper), MtGoxDepthUpdate.class, streamObjectMapper);
+            // log.debug("exchangeEvent: " + exchangeEvent.getEventType());
+
+            // Get MtGoxTradeStream from JSON String
+            // MtGoxTrade mtGoxTradeStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("trade"), streamObjectMapper), MtGoxTrade.class, streamObjectMapper);
+            MtGoxTrade mtGoxTradeStream = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("trade")), MtGoxTrade.class);
 
             // Adapt to XChange DTOs
-            OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthUpdate(mtGoxDepthStream);
+            Trade trade = MtGoxAdapters.adaptTrade(mtGoxTradeStream);
 
-            // Create a depth event
-            ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), orderBookUpdate);
-            addToEventQueue(depthEvent);
+            // Create a trade event
+            ExchangeEvent tradeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, exchangeEvent.getData(), trade);
+            addToEventQueue(tradeEvent);
             break;
           }
           else {
+            if (rawJSON.containsKey("depth")) {
 
-            log.debug("MtGox operational message");
-            System.out.println("msg: " + rawJSON.toString());
-            addToEventQueue(exchangeEvent);
+              // Get MtGoxDepthStream from JSON String
+              // MtGoxDepthUpdate mtGoxDepthStream = JSONUtils.getJsonObject(JSONUtils.getJSONString(rawJSON.get("depth"), streamObjectMapper), MtGoxDepthUpdate.class, streamObjectMapper);
+              MtGoxDepthUpdate mtGoxDepthStream = streamObjectMapper.readValue(streamObjectMapper.writeValueAsString(rawJSON.get("depth")), MtGoxDepthUpdate.class);
+
+              // Adapt to XChange DTOs
+              OrderBookUpdate orderBookUpdate = MtGoxAdapters.adaptDepthUpdate(mtGoxDepthStream);
+
+              // Create a depth event
+              ExchangeEvent depthEvent = new DefaultExchangeEvent(ExchangeEventType.DEPTH, exchangeEvent.getData(), orderBookUpdate);
+              addToEventQueue(depthEvent);
+              break;
+            }
+            else {
+
+              log.debug("MtGox operational message");
+              System.out.println("msg: " + rawJSON.toString());
+              addToEventQueue(exchangeEvent);
+            }
           }
         }
+      } catch (JsonParseException e) {
+        log.error("Error parsing returned JSON", e);
+      } catch (JsonMappingException e) {
+        log.error("Error parsing returned JSON", e);
+      } catch (IOException e) {
+        log.error("Error parsing returned JSON", e);
       }
       break;
     case ERROR:

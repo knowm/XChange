@@ -21,12 +21,11 @@
  */
 package com.xeiam.xchange.examples.kraken.marketdata;
 
-import org.xchange.kraken.KrakenExchange;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -37,7 +36,7 @@ public class PartialDepthDemo {
   public static void main(String[] args) {
 
     // Use the factory to get Kraken exchange API using default settings
-      
+
     Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)

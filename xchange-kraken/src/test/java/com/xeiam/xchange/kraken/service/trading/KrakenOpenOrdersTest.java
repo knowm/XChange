@@ -27,10 +27,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-import org.xchange.kraken.dto.trade.KrakenOpenOrder;
-import org.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
 
 /**
  * Test KrakenDepth JSON parsing
