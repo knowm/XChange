@@ -104,9 +104,24 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitcurex</artifactId>
+      <version>1.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitstamp</artifactId>
       <version>1.9.0</version>
     </dependency>  
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-blockchain</artifactId>
+      <version>1.9.0</version>
+    </dependency>  
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-btcchina</artifactId>
+      <version>1.9.0</version>
+    </dependency> 
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-btce</artifactId>
@@ -120,6 +135,11 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-cavirtex</artifactId>
+      <version>1.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-kraken</artifactId>
       <version>1.9.0</version>
     </dependency>
     <dependency>
