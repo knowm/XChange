@@ -179,7 +179,7 @@ public final class MtGoxAdapters {
     String tradableIdentifier = mtGoxTrade.getItem();
     String transactionCurrency = mtGoxTrade.getPriceCurrency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPriceInt());
-    Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
+    Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getTid() / 1000L); // Note: the getDate is not millisecond precise therefore we use getTid()!
 
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, mtGoxTrade.getTid());
   }
