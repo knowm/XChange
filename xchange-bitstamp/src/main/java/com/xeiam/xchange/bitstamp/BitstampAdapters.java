@@ -150,8 +150,10 @@ public final class BitstampAdapters {
     BigMoney high = MoneyUtils.parse(currency + " " + bitstampTicker.getHigh());
     BigMoney low = MoneyUtils.parse(currency + " " + bitstampTicker.getLow());
     BigDecimal volume = bitstampTicker.getVolume();
+    Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
+        .build();
 
   }
 

@@ -36,6 +36,7 @@ public final class BitstampTicker {
   private final BigDecimal volume;
   private final BigDecimal bid;
   private final BigDecimal ask;
+  private final long timestamp;
 
   /**
    * Constructor
@@ -48,7 +49,7 @@ public final class BitstampTicker {
    * @param ask
    */
   public BitstampTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask) {
+      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
     this.high = high;
@@ -56,6 +57,8 @@ public final class BitstampTicker {
     this.volume = volume;
     this.bid = bid;
     this.ask = ask;
+    this.timestamp = timestamp;
+
   }
 
   public BigDecimal getLast() {
@@ -88,10 +91,15 @@ public final class BitstampTicker {
     return ask;
   }
 
+  public long getTimestamp() {
+
+    return timestamp;
+  }
+
   @Override
   public String toString() {
 
-    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + "]";
+    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + "]";
   }
 
 }

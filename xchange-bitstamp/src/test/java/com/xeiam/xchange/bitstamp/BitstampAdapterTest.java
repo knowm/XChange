@@ -125,11 +125,14 @@ public class BitstampAdapterTest {
 
     Ticker ticker = BitstampAdapters.adaptTicker(bitstampTicker, "BTC", "USD");
 
-    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 13.06"));
-    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 13.06"));
-    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 13.14"));
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1127.55649327"));
-
+    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 134.89"));
+    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 134.89"));
+    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 134.92"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("21982.44926674"));
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(ticker.getTimestamp());
+    assertThat(dateString).isEqualTo("2013-10-14 21:45:33");
   }
 
   @Test
