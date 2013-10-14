@@ -19,3 +19,6 @@ Trades
 ------
 https://www.bitstamp.net/api/transactions/
 
+REQUEST LIMITS
+------
+Do not make more than 600 request per 10 minutes or we will ban your IP address.
