@@ -24,6 +24,7 @@ package com.xeiam.xchange.bitstamp;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
@@ -56,6 +57,22 @@ public interface Bitstamp {
   @Path("transactions/")
   @Produces("application/json")
   public BitstampTransaction[] getTransactions();
+
+  /**
+   * Returns descending list of transactions.
+   */
+  @GET
+  @Path("transactions/")
+  @Produces("application/json")
+  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset);
+
+  /**
+   * Returns descending list of transactions.
+   */
+  @GET
+  @Path("transactions/")
+  @Produces("application/json")
+  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
 
   // TODO: bitstamp code handling, send to user
 }

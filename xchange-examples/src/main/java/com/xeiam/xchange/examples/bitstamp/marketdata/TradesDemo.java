@@ -45,9 +45,13 @@ public class TradesDemo {
 
     // Get the latest trade data for BTC/USD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    System.out.println("Trades, default. Size= " + trades.getTrades().size());
+    // System.out.println(trades.toString());
 
-    System.out.println(trades.toString());
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, 268);
+    System.out.println("Trades, offset = 268. Size= " + trades.getTrades().size());
 
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, 268, 10);
+    System.out.println("Trades, offset = 268, limit = 100. Size= " + trades.getTrades().size());
   }
-
 }

@@ -25,6 +25,7 @@ import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.Bitstamp;
@@ -69,17 +70,6 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
-
-    verify(tradableIdentifier, currency);
-
-    BitstampTransaction[] transactions = bitstamp.getTransactions();
-
-    return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
-
-  }
-
-  @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
     throw new NotAvailableFromExchangeException();
@@ -93,7 +83,31 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
     BitstampOrderBook bitstampOrderBook = bitstamp.getOrderBook();
 
     return BitstampAdapters.adaptOrders(bitstampOrderBook, tradableIdentifier, currency);
+  }
 
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+
+    verify(tradableIdentifier, currency);
+
+    BitstampTransaction[] transactions = null;
+
+    if (args.length == 0) {
+      transactions = bitstamp.getTransactions(); // default values: offset=0, limit=100
+    }
+    else if (args.length == 1) {
+      Integer offset = (Integer) args[0];
+      transactions = bitstamp.getTransactions(offset); // default values: limit=100
+    }
+    else if (args.length == 2) {
+      Integer offset = (Integer) args[0];
+      Integer limit = (Integer) args[1];
+      transactions = bitstamp.getTransactions(offset, limit);
+    }
+    else {
+      throw new ExchangeException("Invalid argument length. Must be 0, 1, or 2.");
+    }
+    return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
   }
 
   /**

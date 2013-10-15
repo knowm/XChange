@@ -1,7 +1,7 @@
 Bitcurex API specification
 ================================
 
-https://eur.bitcurex.com/reading-room/API
+https://bitcurex.com/en-pages,eurapi.html
 
 Public API
 
