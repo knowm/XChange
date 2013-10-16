@@ -70,7 +70,9 @@ public final class BTCEUtils {
 
   CurrencyPair.PPC_BTC,
 
-  CurrencyPair.FTC_BTC
+  CurrencyPair.FTC_BTC,
+
+  CurrencyPair.XMP_BTC
 
   );
 
