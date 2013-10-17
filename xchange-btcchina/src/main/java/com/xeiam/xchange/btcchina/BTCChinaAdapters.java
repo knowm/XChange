@@ -168,9 +168,15 @@ public final class BTCChinaAdapters {
     return new AccountInfo(result.getProfile().getUsername(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
   }
 
+//  /**
+//   * Adapts Map<String, BTCChinaValue> balances, Map<String,BTCChinaValue> frozens to List<Wallet>
+//   *
+//   * @param balances
+//   * @param frozens
+//   * @return
+//   */
+  // todo: can't have <> in javadoc
   /**
-   * Adapts Map<String, BTCChinaValue> balances, Map<String,BTCChinaValue> frozens to List<Wallet>
-   * 
    * @param balances
    * @param frozens
    * @return
@@ -213,9 +219,14 @@ public final class BTCChinaAdapters {
     }
   }
 
+//  /**
+//   * Adapts List<BTCChinaOrder> to OpenOrders
+//   *
+//   * @param orders
+//   * @return
+//   */
+  // todo: can't have <> in javadoc
   /**
-   * Adapts List<BTCChinaOrder> to OpenOrders
-   * 
    * @param orders
    * @return
    */

@@ -33,7 +33,8 @@ public final class BTCChinaSellOrderRequest extends BTCChinaRequest {
   /**
    * Constructor
    * 
-   * @param openOnly
+   * @param price   unit price to sell at
+   * @param amount  number of units to sell
    */
   public BTCChinaSellOrderRequest(BigDecimal price, BigDecimal amount) {
 
