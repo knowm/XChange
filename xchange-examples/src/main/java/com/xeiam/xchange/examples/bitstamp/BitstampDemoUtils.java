@@ -27,7 +27,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BitstampDemoUtils {
 
