@@ -78,7 +78,7 @@ public final class OrderBook {
    * Given a new LimitOrder, it will replace and old matching limit order in
    * the orderbook or simply get added. Finally, it is sorted. The timeStamp may be updated as well.
    * 
-   * @param limitOrder
+   * @param limitOrder  the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
 
@@ -124,7 +124,7 @@ public final class OrderBook {
    * Given an OrderBookUpdate, it will replace and old matching limit order in
    * the orderbook or simply get added. Finally, it is sorted.The timeStamp may be updated as well.
    * 
-   * @param limitOrder
+   * @param orderBookUpdate  the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
 
