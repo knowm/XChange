@@ -37,12 +37,12 @@ public class BTCChinaTickerObject {
   /**
    * Constructor
    * 
-   * @param high
-   * @param low
-   * @param volume
-   * @param last
    * @param buy
    * @param sell
+   * @param high
+   * @param low
+   * @param vol
+   * @param last
    */
   public BTCChinaTickerObject(@JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
       @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last) {

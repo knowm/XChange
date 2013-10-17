@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public abstract class BooleanDeserializer extends JsonDeserializer<Boolean> {
 

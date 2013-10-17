@@ -30,7 +30,7 @@ import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 import com.xeiam.xchange.utils.jackson.YesNoBooleanDeserializerImpl;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class CampBXOrder extends CampBXResponse {
 

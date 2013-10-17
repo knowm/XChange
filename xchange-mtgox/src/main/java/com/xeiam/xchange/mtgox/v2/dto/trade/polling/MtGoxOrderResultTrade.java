@@ -49,7 +49,7 @@ public final class MtGoxOrderResultTrade {
    * @param price
    * @param primary
    * @param properties
-   * @param trade_id
+   * @param tradeId
    * @param type
    */
   public MtGoxOrderResultTrade(@JsonProperty("amount") MtGoxValue amount, @JsonProperty("currency") String currency, @JsonProperty("date") String date, @JsonProperty("item") String item,

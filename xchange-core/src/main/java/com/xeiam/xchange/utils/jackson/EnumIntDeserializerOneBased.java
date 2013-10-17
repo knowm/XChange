@@ -22,8 +22,12 @@
 package com.xeiam.xchange.utils.jackson;
 
 /**
- * @author Matija Mazi <br/>
- *         1-based enum deserializer. This wil deserialize 1 as the first enum constant, 2 as the second etc.
+ * 1-based enum deserializer.
+ * <p>
+ * This will deserialize 1 as the first enum constant, 2 as the second etc.
+ * </p>
+ *
+ * @author Matija Mazi
  */
 public class EnumIntDeserializerOneBased<E extends Enum<E>> extends EnumIntDeserializer<E> {
 

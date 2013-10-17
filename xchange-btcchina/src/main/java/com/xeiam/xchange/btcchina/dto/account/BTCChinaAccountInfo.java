@@ -38,10 +38,11 @@ public class BTCChinaAccountInfo {
   /**
    * Constructor
    * 
-   * @param profile
-   * @param balance
-   * @param frozen
+   * @param profile   account profile
+   * @param balances  balances for the various currencies
+   * @param frozens   balances for the various frozen currencies
    */
+  // todo: document frozens
   public BTCChinaAccountInfo(@JsonProperty("profile") BTCChinaProfile profile, @JsonProperty("balance") Map<String, BTCChinaValue> balances, @JsonProperty("frozen") Map<String, BTCChinaValue> frozens) {
 
     this.profile = profile;
@@ -49,16 +50,32 @@ public class BTCChinaAccountInfo {
     this.frozens = frozens;
   }
 
+  /**
+   * Get the associated profile.
+   *
+   * @return  the profile
+   */
   public BTCChinaProfile getProfile() {
 
     return profile;
   }
 
+  /**
+   * Get the balances.
+   *
+   * @return  the balances
+   */
   public Map<String, BTCChinaValue> getBalances() {
 
     return balances;
   }
 
+  /**
+   * Get the frozen balances.
+   *
+   * @return  the frozen balances
+   */
+  // todo: as above - document 'frozen'
   public Map<String, BTCChinaValue> getFrozens() {
 
     return frozens;

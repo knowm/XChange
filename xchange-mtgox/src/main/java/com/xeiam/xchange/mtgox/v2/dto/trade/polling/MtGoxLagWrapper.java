@@ -36,7 +36,7 @@ public class MtGoxLagWrapper {
    * Constructor
    * 
    * @param result
-   * @param mtGoxOpenOrders
+   * @param mtGoxLag
    * @param error
    */
   public MtGoxLagWrapper(@JsonProperty("result") String result, @JsonProperty("data") MtGoxLag mtGoxLag, @JsonProperty("error") String error) {
