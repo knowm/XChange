@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class FloatingTimestampDeserializer extends JsonDeserializer<Date> {
 

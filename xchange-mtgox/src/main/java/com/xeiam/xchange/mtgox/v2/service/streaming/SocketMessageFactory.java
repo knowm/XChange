@@ -51,7 +51,6 @@ public class SocketMessageFactory {
    * 
    * @param apiKey
    * @param apiSecret
-   * @param currency
    */
   public SocketMessageFactory(String apiKey, String apiSecret) {
 

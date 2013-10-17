@@ -36,7 +36,7 @@ public class MtGoxOrderResultWrapper {
    * Constructor
    * 
    * @param result
-   * @param mtGoxOpenOrders
+   * @param mtGoxOrderResult
    * @param error
    */
   public MtGoxOrderResultWrapper(@JsonProperty("result") String result, @JsonProperty("data") MtGoxOrderResult mtGoxOrderResult, @JsonProperty("error") String error) {

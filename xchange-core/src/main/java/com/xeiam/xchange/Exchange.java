@@ -33,10 +33,10 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  * </p>
  * <ul>
  * <li>Entry point to the XChange APIs</li>
+ * </ul>
  * <p>
  * The consumer is given a choice of a default (no-args) or configured accessor
  * </p>
- * </ul>
  */
 public interface Exchange {
 

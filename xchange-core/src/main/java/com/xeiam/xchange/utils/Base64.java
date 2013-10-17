@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.utils;
 
+// todo: <br/> tags and also <br></br> pairs are rejected with an error by the new javadoc - may need to reformat code example line 35
 /**
  * <p>
  * Encodes and decodes to and from Base64 notation.
@@ -31,7 +32,7 @@ package com.xeiam.xchange.utils;
  * <p>
  * Example:
  * </p>
- * <code>String encoded = Base64.encode( myByteArray );</code> <br />
+ * <code>String encoded = Base64.encode( myByteArray );</code>
  * <code>byte[] myByteArray = Base64.decode( encoded );</code>
  * <p>
  * The <tt>options</tt> parameter, which appears in a few places, is used to pass several pieces of information to the encoder. In the "higher level" methods such as encodeBytes( bytes, options ) the
@@ -1507,7 +1508,7 @@ public class Base64 {
      * <pre>
      *   ENCODE or DECODE: Encode or Decode as data is read.
      *   DO_BREAK_LINES: break lines at 76 characters
-     *     (only meaningful when encoding)</i>
+     *     <i>(only meaningful when encoding)</i>
      * </pre>
      * <p>
      * Example: <code>new Base64.InputStream( in, Base64.DECODE )</code>
@@ -1708,7 +1709,7 @@ public class Base64 {
      * <pre>
      *   ENCODE or DECODE: Encode or Decode as data is read.
      *   DO_BREAK_LINES: don't break lines at 76 characters
-     *     (only meaningful when encoding)</i>
+     *     <i>(only meaningful when encoding)</i>
      * </pre>
      * <p>
      * Example: <code>new Base64.OutputStream( out, Base64.ENCODE )</code>
