@@ -34,9 +34,8 @@ public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
   /**
    * Constructor
    * 
-   * @param success True if successful
-   * @param value The BTC-e account info
-   * @param error Any error
+   * @param error array of string error messages
+   * @param result the returned depths
    */
   public KrakenDepthResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {
 

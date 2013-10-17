@@ -37,7 +37,7 @@ public class KrakenTrades {
   /**
    * Constructor
    * 
-   * @param xxbtzeu
+   * @param xxbtzeur
    * @param xltczeur
    * @param xxbtxltc
    * @param last
