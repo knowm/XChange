@@ -66,6 +66,32 @@ public final class BTCEAdapters {
   }
 
   /**
+   * Adapts a List of BTCEOrders to a List of LimitOrders
+   * 
+   * @param bTCEOrders
+   * @param currency
+   * @param orderType
+   * @param id
+   * @return
+   */
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, String tradableIdentifier, String currency, String orderType, String id) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+
+    for (BigDecimal[] btceOrder : bTCEOrders) {
+      // Bid orderbook is reversed order. Insert at index 0 instead of appending
+      if (orderType.equalsIgnoreCase("bid")) {
+        limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
+      }
+      else {
+        limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
+      }
+    }
+
+    return limitOrders;
+  }
+
+  /**
    * Adapts a BTCEOrder to a LimitOrder
    * 
    * @param amount
@@ -82,35 +108,8 @@ public final class BTCEAdapters {
     BigMoney limitPrice;
     limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
 
-  }
-
-  /**
-   * Adapts a List of BTCEOrders to a List of LimitOrders
-   * 
-   * @param BTCEOrders
-   * @param currency
-   * @param orderType
-   * @param id
-   * @return
-   */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> BTCEOrders, String tradableIdentifier, String currency, String orderType, String id) {
-
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
-    for (BigDecimal[] btceOrder : BTCEOrders) {
-      // Bid orderbook is reversed order. Insert at index 0 instead of
-      // appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
-      }
-      else {
-        limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
-      }
-    }
-
-    return limitOrders;
   }
 
   /**
@@ -189,16 +188,17 @@ public final class BTCEAdapters {
 
   public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {
 
-    List<LimitOrder> os = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (Long id : btceOrderMap.keySet()) {
-      BTCEOrder o = btceOrderMap.get(id);
-      OrderType orderType = o.getType() == BTCEOrder.Type.buy ? OrderType.BID : OrderType.ASK;
-      String[] pair = o.getPair().split("_");
+      BTCEOrder bTCEOrder = btceOrderMap.get(id);
+      OrderType orderType = bTCEOrder.getType() == BTCEOrder.Type.buy ? OrderType.BID : OrderType.ASK;
+      String[] pair = bTCEOrder.getPair().split("_");
       String currency = pair[1].toUpperCase();
-      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), o.getRate());
-      os.add(new LimitOrder(orderType, o.getAmount(), pair[0].toUpperCase(), currency, Long.toString(id), price));
+      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), bTCEOrder.getRate());
+      Date timestamp = new Date(bTCEOrder.getTimestampCreated() * 1000);
+      limitOrders.add(new LimitOrder(orderType, bTCEOrder.getAmount(), pair[0].toUpperCase(), currency, Long.toString(id), timestamp, price));
     }
-    return new OpenOrders(os);
+    return new OpenOrders(limitOrders);
   }
 
   public static Trades adaptTradeHistory(Map<Long, BTCETradeHistoryResult> tradeHistory) {

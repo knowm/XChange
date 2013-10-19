@@ -53,7 +53,7 @@ public class LimitOrderDemo {
     String transactionCurrency = "JPY";
     BigMoney limitPrice = MoneyUtils.parse("JPY 11000.0");
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, limitPrice);
 
     String orderID = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order ID: " + orderID);

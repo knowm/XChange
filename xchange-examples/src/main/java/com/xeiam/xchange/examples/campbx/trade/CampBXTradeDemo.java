@@ -57,11 +57,11 @@ public class CampBXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder lo = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", MoneyUtils.parse("USD 28.99"));
+    LimitOrder lo = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", "", null, MoneyUtils.parse("USD 28.99"));
     String rv = tradeService.placeLimitOrder(lo);
     System.out.println("Limit Order return value: " + rv);
     // place a limit sell order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", MoneyUtils.parse("USD 110"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", "", null, MoneyUtils.parse("USD 110"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 

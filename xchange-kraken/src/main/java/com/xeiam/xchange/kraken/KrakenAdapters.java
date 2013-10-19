@@ -65,7 +65,7 @@ public class KrakenAdapters {
     BigMoney price = BigMoney.of(CurrencyUnit.of(currency), order[0]);
     BigDecimal volume = order[1];
 
-    return new LimitOrder(type, volume, tradableIdentifier, currency, price, timeStamp);
+    return new LimitOrder(type, volume, tradableIdentifier, currency, "", timeStamp, price);
   }
 
   public static Ticker adaptTicker(KrakenTicker krakenTicker, String currency, String tradableIdentifier) {

@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
-import static com.xeiam.xchange.dto.Order.OrderType.ASK;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -73,12 +73,15 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   public OpenOrders getOpenOrders() {
 
     BitstampOrder[] openOrders = bitstampAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
-    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (BitstampOrder bitstampOrder : openOrders) {
-      orders.add(new LimitOrder(bitstampOrder.getType() == 0 ? BID : ASK, bitstampOrder.getAmount(), "BTC", "USD", Integer.toString(bitstampOrder.getId()), BigMoney.of(CurrencyUnit.USD, bitstampOrder
-          .getPrice())));
+      OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = Integer.toString(bitstampOrder.getId());
+      BigMoney price = BigMoney.of(CurrencyUnit.USD, bitstampOrder.getPrice());
+      limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), "BTC", "USD", id, bitstampOrder.getTime(), price));
     }
-    return new OpenOrders(orders);
+    return new OpenOrders(limitOrders);
   }
 
   @Override

@@ -63,6 +63,26 @@ public final class BTCChinaAdapters {
   }
 
   /**
+   * Adapts a List of btcchinaOrders to a List of LimitOrders
+   * 
+   * @param btcchinaOrders
+   * @param currency
+   * @param orderType
+   * @param id
+   * @return
+   */
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, String currency, OrderType orderType) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+
+    for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
+      limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currency, orderType));
+    }
+
+    return limitOrders;
+  }
+
+  /**
    * Adapts a BTCChinaOrder to a LimitOrder
    * 
    * @param amount
@@ -72,35 +92,14 @@ public final class BTCChinaAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, OrderType orderType) {
 
     // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
 
-  }
-
-  /**
-   * Adapts a List of btcchinaOrders to a List of LimitOrders
-   * 
-   * @param btcchinaOrders
-   * @param currency
-   * @param orderType
-   * @param id
-   * @return
-   */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, String currency, String orderType, String id) {
-
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
-    for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
-      limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currency, orderType, id));
-    }
-
-    return limitOrders;
   }
 
   /**
@@ -113,7 +112,7 @@ public final class BTCChinaAdapters {
 
     BigDecimal amount = btcChinaTrade.getAmount();
     BigMoney price = MoneyUtils.parse(currency + " " + btcChinaTrade.getPrice());
-    Date date = DateUtils.fromMillisUtc((long) btcChinaTrade.getDate() * 1000L);
+    Date date = DateUtils.fromMillisUtc(btcChinaTrade.getDate() * 1000L);
 
     return new Trade(null, amount, tradableIdentifier, currency, price, date, btcChinaTrade.getTid());
   }
@@ -168,13 +167,13 @@ public final class BTCChinaAdapters {
     return new AccountInfo(result.getProfile().getUsername(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
   }
 
-//  /**
-//   * Adapts Map<String, BTCChinaValue> balances, Map<String,BTCChinaValue> frozens to List<Wallet>
-//   *
-//   * @param balances
-//   * @param frozens
-//   * @return
-//   */
+  // /**
+  // * Adapts Map<String, BTCChinaValue> balances, Map<String,BTCChinaValue> frozens to List<Wallet>
+  // *
+  // * @param balances
+  // * @param frozens
+  // * @return
+  // */
   // todo: can't have <> in javadoc
   /**
    * @param balances
@@ -219,12 +218,12 @@ public final class BTCChinaAdapters {
     }
   }
 
-//  /**
-//   * Adapts List<BTCChinaOrder> to OpenOrders
-//   *
-//   * @param orders
-//   * @return
-//   */
+  // /**
+  // * Adapts List<BTCChinaOrder> to OpenOrders
+  // *
+  // * @param orders
+  // * @return
+  // */
   // todo: can't have <> in javadoc
   /**
    * @param orders

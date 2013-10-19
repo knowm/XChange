@@ -53,6 +53,26 @@ public final class BitcurexAdapters {
   }
 
   /**
+   * Adapts a List of bitcurexOrders to a List of LimitOrders
+   * 
+   * @param bitcurexOrders
+   * @param currency
+   * @param orderType
+   * @param id
+   * @return
+   */
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bitcurexOrders, String currency, OrderType orderType, String id) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+
+    for (BigDecimal[] bitcurexOrder : bitcurexOrders) {
+      limitOrders.add(adaptOrder(bitcurexOrder[1], bitcurexOrder[0], currency, orderType, id));
+    }
+
+    return limitOrders;
+  }
+
+  /**
    * Adapts a BitcurexOrder to a LimitOrder
    * 
    * @param amount
@@ -62,35 +82,13 @@ public final class BitcurexAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, OrderType orderType, String id) {
 
     // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
-
-  }
-
-  /**
-   * Adapts a List of bitcurexOrders to a List of LimitOrders
-   * 
-   * @param bitcurexOrders
-   * @param currency
-   * @param orderType
-   * @param id
-   * @return
-   */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bitcurexOrders, String currency, String orderType, String id) {
-
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
-    for (BigDecimal[] bitcurexOrder : bitcurexOrders) {
-      limitOrders.add(adaptOrder(bitcurexOrder[1], bitcurexOrder[0], currency, orderType, id));
-    }
-
-    return limitOrders;
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
   }
 
   /**
@@ -103,7 +101,7 @@ public final class BitcurexAdapters {
 
     BigDecimal amount = bitcurexTrade.getAmount();
     BigMoney price = MoneyUtils.parse(currency + " " + bitcurexTrade.getPrice());
-    Date date = DateUtils.fromMillisUtc((long) bitcurexTrade.getDate() * 1000L);
+    Date date = DateUtils.fromMillisUtc(bitcurexTrade.getDate() * 1000L);
 
     return new Trade(null, amount, tradableIdentifier, currency, price, date, bitcurexTrade.getTid());
   }

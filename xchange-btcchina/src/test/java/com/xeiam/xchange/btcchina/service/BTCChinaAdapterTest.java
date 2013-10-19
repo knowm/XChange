@@ -59,7 +59,7 @@ public class BTCChinaAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCChinaDepth BTCChinaDepth = mapper.readValue(is, BTCChinaDepth.class);
 
-    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(BTCChinaDepth.getAsks(), "CNY", "ask", "");
+    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(BTCChinaDepth.getAsks(), "CNY", OrderType.ASK);
 
     // Verify all fields filled
     assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(1.0e+14);

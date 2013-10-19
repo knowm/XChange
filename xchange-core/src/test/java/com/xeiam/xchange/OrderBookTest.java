@@ -47,8 +47,8 @@ public class OrderBookTest {
   @Before
   public void setUp() throws Exception {
 
-    LimitOrder askOrder = new LimitOrder(OrderType.ASK, BigDecimal.ONE, Currencies.BTC, Currencies.USD, BigMoney.of(CurrencyUnit.USD, BigDecimal.TEN.add(BigDecimal.ONE)));
-    LimitOrder bidOrder = new LimitOrder(OrderType.BID, BigDecimal.ONE, Currencies.BTC, Currencies.USD, BigMoney.of(CurrencyUnit.USD, BigDecimal.TEN));
+    LimitOrder askOrder = new LimitOrder(OrderType.ASK, BigDecimal.ONE, Currencies.BTC, Currencies.USD, "", null, BigMoney.of(CurrencyUnit.USD, BigDecimal.TEN.add(BigDecimal.ONE)));
+    LimitOrder bidOrder = new LimitOrder(OrderType.BID, BigDecimal.ONE, Currencies.BTC, Currencies.USD, "", null, BigMoney.of(CurrencyUnit.USD, BigDecimal.TEN));
 
     List<LimitOrder> asks = new ArrayList<LimitOrder>(Arrays.asList(askOrder));
     List<LimitOrder> bids = new ArrayList<LimitOrder>(Arrays.asList(bidOrder));

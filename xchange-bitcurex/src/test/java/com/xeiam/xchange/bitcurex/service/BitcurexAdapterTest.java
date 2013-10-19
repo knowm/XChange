@@ -59,7 +59,7 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexDepth BitcurexDepth = mapper.readValue(is, BitcurexDepth.class);
 
-    List<LimitOrder> asks = BitcurexAdapters.adaptOrders(BitcurexDepth.getAsks(), "EUR", "ask", "");
+    List<LimitOrder> asks = BitcurexAdapters.adaptOrders(BitcurexDepth.getAsks(), "EUR", OrderType.ASK, "");
 
     // Verify all fields filled
     assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(70.00000000);
