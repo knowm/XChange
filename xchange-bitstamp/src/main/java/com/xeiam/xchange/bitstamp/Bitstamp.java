@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.bitstamp;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -56,7 +58,7 @@ public interface Bitstamp {
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public BitstampTransaction[] getTransactions();
+  public BitstampTransaction[] getTransactions() throws IOException;
 
   /**
    * Returns descending list of transactions.

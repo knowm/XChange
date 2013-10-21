@@ -47,6 +47,10 @@ public class DepthDemo {
     OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.CNY);
 
     // System.out.println(orderBook.toString());
+    System.out.println("lowestAsk: " + orderBook.getAsks().get(0));
+    System.out.println("asks Size: " + orderBook.getAsks().size());
+    System.out.println("highestBid: " + orderBook.getBids().get(0));
+    System.out.println("bids Size: " + orderBook.getBids().size());
 
   }
 
