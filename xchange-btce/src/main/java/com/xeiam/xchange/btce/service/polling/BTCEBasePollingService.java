@@ -42,7 +42,7 @@ public class BTCEBasePollingService {
   protected final ParamsDigest signatureCreator;
 
   // counter for the nonce
-  private int lastNonce = -1;
+  private static int lastNonce = -1;
 
   /**
    * Constructor
