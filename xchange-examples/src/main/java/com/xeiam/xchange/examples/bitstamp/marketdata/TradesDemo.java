@@ -53,5 +53,6 @@ public class TradesDemo {
     trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, 268, 10);
     System.out.println("Trades, offset = 268, limit = 100. Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
+
   }
 }
