@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.btce.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -47,7 +48,7 @@ public class BTCEPollingAccountService extends BTCEBasePollingService implements
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
     BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
     checkResult(info);
@@ -55,13 +56,13 @@ public class BTCEPollingAccountService extends BTCEBasePollingService implements
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) {
+  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
     throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
   }

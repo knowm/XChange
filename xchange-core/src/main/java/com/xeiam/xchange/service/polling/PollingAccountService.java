@@ -55,10 +55,10 @@ public interface PollingAccountService {
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
-   * Withdraw funds
+   * Withdraw funds from this account. Allows to withdraw Bitcoins from the exchange account to an external bitcoin address
    * 
-   * @param amount The amount
-   * @param address The Bitcoin address
+   * @param amount The amount to withdraw
+   * @param address The external Bitcoin address
    * @return The result of the withdrawal (usually a transaction ID)
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
@@ -68,10 +68,10 @@ public interface PollingAccountService {
   public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
-   * Request a bitcoin address to fund this account
+   * Request a bitcoin address to fund this account. Allows to fund the exchange account with Bitcoins from an external bitcoin address
    * 
-   * @param arguments A Bitcoin deposit address
-   * @return the bitcoin address, null if some sort of error occurred. Implementers should log the error.
+   * @param arguments
+   * @return the internal bitcoin address to send funds to
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented

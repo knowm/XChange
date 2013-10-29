@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.btce;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -37,14 +39,14 @@ public interface BTCE {
 
   @GET
   @Path("{ident}_{currency}/ticker")
-  BTCETicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  BTCETicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{ident}_{currency}/depth?raw")
-  BTCEDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  BTCEDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{ident}_{currency}/trades")
-  BTCETrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  BTCETrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
 }

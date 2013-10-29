@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.btce;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.ws.rs.FormParam;
@@ -58,7 +59,7 @@ public interface BTCEAuthenticated {
   @FormParam("method")
   BTCEAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
       @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end);
+      @FormParam("end") Long end) throws IOException;
 
   /**
    * None of the parameters are obligatory (ie. all are nullable).
@@ -75,9 +76,9 @@ public interface BTCEAuthenticated {
    */
   @POST
   @FormParam("method")
-  BTCEOpenOrdersReturn OrderList(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
+  BTCEOpenOrdersReturn getOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
       @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("pair") String pair, @FormParam("active") int active);
+      @FormParam("end") Long end, @FormParam("pair") String pair, @FormParam("active") int active) throws IOException;
 
   /**
    * All parameters are obligatory (ie. none may be null).
@@ -89,12 +90,12 @@ public interface BTCEAuthenticated {
    */
   @POST
   @FormParam("method")
-  BTCEPlaceOrderReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
-      @FormParam("type") BTCEOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
+  BTCEPlaceOrderReturn placeLimitOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
+      @FormParam("type") BTCEOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount) throws IOException;
 
   @POST
   @FormParam("method")
-  BTCECancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("order_id") Long orderId);
+  BTCECancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("order_id") Long orderId) throws IOException;
 
   /**
    * All parameters are nullable
@@ -111,9 +112,9 @@ public interface BTCEAuthenticated {
    */
   @POST
   @FormParam("method")
-  BTCETradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
+  BTCETradeHistoryReturn getTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
       @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("pair") String pair);
+      @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
   enum SortOrder {
     ASC, DESC
