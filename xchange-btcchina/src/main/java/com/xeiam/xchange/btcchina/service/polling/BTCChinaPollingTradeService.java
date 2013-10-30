@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.btcchina.service.polling;
 
+import java.io.IOException;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -54,6 +56,11 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
   private final BTCChina btcchina;
   private ParamsDigest signatureCreator;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public BTCChinaPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -64,20 +71,20 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
+  public OpenOrders getOpenOrders() throws IOException {
 
     BTCChinaResponse<BTCChinaOrders> response = btcchina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest());
     return BTCChinaAdapters.adaptOpenOrders(response.getResult().getOrders());
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String orderId = null;
     if (limitOrder.getTradableIdentifier() == "BTC" && limitOrder.getTransactionCurrency() == "CNY") {
@@ -106,14 +113,14 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
   }
 
   @Override
-  public boolean cancelOrder(String orderId) {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     BTCChinaResponse<Boolean> response = btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
     return response.getResult();
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) {
+  public Trades getTradeHistory(final Object... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

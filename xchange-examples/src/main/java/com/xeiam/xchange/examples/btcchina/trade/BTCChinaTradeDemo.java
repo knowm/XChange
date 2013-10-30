@@ -65,7 +65,6 @@ public class BTCChinaTradeDemo {
           && order.getTradableIdentifier() == order.getTradableIdentifier() && order.getTransactionCurrency() == order.getTransactionCurrency() && orderId > result) {
         result = orderId;
       }
-
     }
 
     // Cancel the added order
