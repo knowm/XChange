@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import si.mazi.rescu.ParamsDigest;
@@ -70,7 +71,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
+  public OpenOrders getOpenOrders() throws IOException {
 
     try {
       MtGoxOpenOrderWrapper mtGoxOpenOrderWrapper = mtGoxV2.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, MtGoxUtils.getNonce());
@@ -90,7 +91,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     verify(marketOrder);
 
@@ -114,7 +115,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     verify(limitOrder);
     Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
@@ -146,7 +147,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public boolean cancelOrder(String orderId) {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     Assert.notNull(orderId, "orderId cannot be null");
 
@@ -178,7 +179,7 @@ public class MtGoxPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) {
+  public Trades getTradeHistory(final Object... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

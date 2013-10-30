@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -94,7 +95,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -121,7 +122,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -146,7 +147,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 

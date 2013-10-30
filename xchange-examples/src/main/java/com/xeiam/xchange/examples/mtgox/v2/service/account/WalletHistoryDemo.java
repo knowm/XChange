@@ -13,6 +13,8 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
+import java.io.IOException;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -20,6 +22,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWalletHistoryEntry;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWalletHistoryWrapper;
 import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
@@ -29,7 +32,7 @@ import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
  */
 public class WalletHistoryDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws MtGoxException, IOException {
 
     Exchange mtGoxExchange = MtGoxV2ExamplesUtils.createExchange();
     MtGoxV2 mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, mtGoxExchange.getExchangeSpecification().getSslUri());
