@@ -74,12 +74,23 @@ public interface BTCEAuthenticated {
    * @param pair the pair to display the orders eg. btc_usd (default: all pairs)
    * @param active is it displaying of active orders only? 1 or 0 (default: 1)
    */
+  @Deprecated
   @POST
   @FormParam("method")
   BTCEOpenOrdersReturn OrderList(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
       @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair, @FormParam("active") int active) throws IOException;
 
+  /**
+   * None of the parameters are obligatory (ie. all are nullable). Use this method instead of OrderList, which is deprecated.
+   * 
+   * @param pair the pair to display the orders eg. btc_usd (default: all pairs)
+   */
+  @POST
+  @FormParam("method")
+  BTCEOpenOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, 
+		  @FormParam("pair") String pair) throws IOException;
+  
   /**
    * All parameters are obligatory (ie. none may be null).
    * 
