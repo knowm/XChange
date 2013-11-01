@@ -60,7 +60,7 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BTCEOpenOrdersReturn orders = btce.OrderList(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, null, 1);
+    BTCEOpenOrdersReturn orders = btce.ActiveOrders(apiKey, signatureCreator, nextNonce(), null);
     if ("no orders".equals(orders.getError())) {
       return new OpenOrders(new ArrayList<LimitOrder>());
     }
