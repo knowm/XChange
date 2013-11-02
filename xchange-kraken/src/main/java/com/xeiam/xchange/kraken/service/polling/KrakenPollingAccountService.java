@@ -31,7 +31,6 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.KrakenAuthenticated;
@@ -66,13 +65,13 @@ public class KrakenPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

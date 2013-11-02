@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.kraken;
 
+import java.io.IOException;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -41,7 +43,7 @@ public interface KrakenAuthenticated {
 
   @POST
   @Path("Balance")
-  public KrakenBalanceResult getBalance(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce);
+  public KrakenBalanceResult getBalance(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
   /**
    * @param apiKey
@@ -57,15 +59,15 @@ public interface KrakenAuthenticated {
   @POST
   @Path("AddOrder")
   public KrakenOrderResult addOrder(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("pair") String pair,
-      @FormParam("type") String type, @FormParam("ordertype") String ordertype, @FormParam("price") String price, @FormParam("volume") String volume);
+      @FormParam("type") String type, @FormParam("ordertype") String ordertype, @FormParam("price") String price, @FormParam("volume") String volume) throws IOException;
 
   @POST
   @Path("CancelOrder")
   public KrakenCancelOrderResult cancelOrder(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce,
-      @FormParam("txid") String transactionId);
+      @FormParam("txid") String transactionId) throws IOException;
 
   @POST
   @Path("OpenOrders")
   public KrakenOpenOrdersResult listOrders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("trades") Boolean trades,
-      @FormParam("userref") String userref);
+      @FormParam("userref") String userref) throws IOException;
 }

@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
+import java.io.IOException;
 import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -61,7 +62,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
     BitstampTicker bitstampTicker = bitstamp.getTicker();
@@ -70,13 +71,13 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -86,7 +87,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 

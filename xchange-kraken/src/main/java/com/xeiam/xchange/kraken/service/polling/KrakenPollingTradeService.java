@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.kraken.service.polling;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import si.mazi.rescu.ParamsDigest;
@@ -28,7 +29,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -59,7 +59,7 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public OpenOrders getOpenOrders() throws IOException {
 
     KrakenOpenOrdersResult result = krakenAuthenticated.listOrders(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), null, null);
     if (!result.isSuccess()) {
@@ -69,7 +69,7 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     KrakenOrderResult result =
         krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
@@ -81,7 +81,7 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     KrakenOrderResult result =
         krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(limitOrder.getTradableIdentifier(), limitOrder
@@ -93,7 +93,7 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     KrakenCancelOrderResult result = krakenAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), orderId);
     if (!result.isSuccess()) {
@@ -105,7 +105,7 @@ public class KrakenPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public Trades getTradeHistory(Object... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

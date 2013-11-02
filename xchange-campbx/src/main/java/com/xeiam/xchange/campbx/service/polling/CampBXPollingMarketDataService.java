@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.campbx.service.polling;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -65,7 +66,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -81,13 +82,13 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     CampBXOrderBook campBXOrderBook = campBX.getOrderBook();
     logger.debug("campBXOrderBook = {}", campBXOrderBook);
@@ -101,7 +102,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

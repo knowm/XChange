@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.bitcoincharts;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsFactory;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
@@ -32,7 +34,7 @@ import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
  */
 public class BitcoinChartsRawDataDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     BitcoinCharts bitcoinCharts = BitcoinChartsFactory.createInstance();
     BitcoinChartsTicker[] marketData = bitcoinCharts.getMarketData();

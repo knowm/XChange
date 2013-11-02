@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.campbx.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -60,7 +61,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
     MyFunds myFunds = campBX.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     logger.debug("myFunds = {}", myFunds);
@@ -74,7 +75,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     CampBXResponse campBXResponse = campBX.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
     logger.debug("campBXResponse = {}", campBXResponse);
@@ -88,7 +89,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) {
+  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
     CampBXResponse campBXResponse = campBX.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     logger.debug("campBXResponse = {}", campBXResponse);

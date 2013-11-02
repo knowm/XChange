@@ -23,6 +23,7 @@ package com.xeiam.xchange.bitstamp.service.polling;
 
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
+  public OpenOrders getOpenOrders() throws IOException {
 
     BitstampOrder[] openOrders = bitstampAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
 
@@ -85,13 +86,13 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
@@ -104,13 +105,13 @@ public class BitstampPollingTradeService extends BasePollingExchangeService impl
   }
 
   @Override
-  public boolean cancelOrder(String orderId) {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     return bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), Integer.parseInt(orderId)).equals(true);
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) {
+  public Trades getTradeHistory(final Object... arguments) throws IOException {
 
     Long numberOfTransactions = Long.MAX_VALUE;
     try {

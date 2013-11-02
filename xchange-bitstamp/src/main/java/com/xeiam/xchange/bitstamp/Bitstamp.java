@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.bitstamp;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -43,12 +45,12 @@ public interface Bitstamp {
   @GET
   @Path("order_book/")
   @Produces("application/json")
-  public BitstampOrderBook getOrderBook();
+  public BitstampOrderBook getOrderBook() throws IOException;
 
   @GET
   @Path("ticker/")
   @Produces("application/json")
-  public BitstampTicker getTicker();
+  public BitstampTicker getTicker() throws IOException;
 
   /**
    * Returns descending list of transactions.
@@ -56,7 +58,7 @@ public interface Bitstamp {
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public BitstampTransaction[] getTransactions();
+  public BitstampTransaction[] getTransactions() throws IOException;
 
   /**
    * Returns descending list of transactions.
@@ -64,7 +66,7 @@ public interface Bitstamp {
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset);
+  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset) throws IOException;
 
   /**
    * Returns descending list of transactions.
@@ -72,7 +74,7 @@ public interface Bitstamp {
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit);
+  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) throws IOException;
 
   // TODO: bitstamp code handling, send to user
 }

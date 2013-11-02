@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.kraken.service.polling;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,8 +32,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -66,16 +65,20 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    KrakenAssetPairsResult krakenAssetPairs = kraken.getAssetPairs();
+    KrakenAssetPairsResult krakenAssetPairs = null;
+    try {
+      krakenAssetPairs = kraken.getAssetPairs();
+    } catch (IOException e) {
+      throw new ExchangeException("Network error fetching exchange symbols!!!");
+    }
     if (krakenAssetPairs.getError().length > 0) {
       throw new ExchangeException(krakenAssetPairs.getError().toString());
     }
-    KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
-    throw new NotYetImplementedForExchangeException();
+    return KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTickerResult krakenTickerResult = kraken.getTicker(krakenCurrencyPair);
@@ -88,19 +91,19 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     return getOrderBook(tradableIdentifier, currency, PARTIAL_ORDERBOOK_SIZE);
   }
 
   @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     return getOrderBook(tradableIdentifier, currency, null);
 
   }
 
-  private OrderBook getOrderBook(String tradableIdentifier, String currency, Long count) {
+  private OrderBook getOrderBook(String tradableIdentifier, String currency, Long count) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, count);
@@ -124,7 +127,7 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     String currencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTradesResult krakenTrades = kraken.getTrades(currencyPair);

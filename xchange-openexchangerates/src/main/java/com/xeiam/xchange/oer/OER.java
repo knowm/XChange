@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.oer;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -37,6 +39,6 @@ public interface OER {
   @GET
   @Path("latest.json?app_id={app_id}")
   @Produces("application/json")
-  public OERTickers getTickers(@PathParam("app_id") String appId);
+  public OERTickers getTickers(@PathParam("app_id") String appId) throws IOException;
 
 }

@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import si.mazi.rescu.ParamsDigest;
@@ -58,7 +59,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
     BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
     if (bitstampBalance.getError() != null) {
@@ -69,7 +70,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     return bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, address).toString();
   }
@@ -78,7 +79,7 @@ public class BitstampPollingAccountService extends BasePollingExchangeService im
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
    */
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) {
+  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
     return bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
   }

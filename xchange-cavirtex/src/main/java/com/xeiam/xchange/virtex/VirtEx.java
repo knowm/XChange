@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.virtex;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -39,16 +41,16 @@ public interface VirtEx {
   @GET
   @Path("{currency}/ticker.json")
   @Produces("application/json")
-  public VirtExTicker getTicker(@PathParam("currency") String currency);
+  public VirtExTicker getTicker(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{currency}/orderbook.json")
   @Produces("application/json")
-  public VirtExDepth getFullDepth(@PathParam("currency") String currency);
+  public VirtExDepth getFullDepth(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{currency}/trades.json")
   @Produces("application/json")
-  public VirtExTrade[] getTrades(@PathParam("currency") String currency);
+  public VirtExTrade[] getTrades(@PathParam("currency") String currency) throws IOException;
 
 }

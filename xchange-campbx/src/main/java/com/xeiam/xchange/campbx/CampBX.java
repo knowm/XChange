@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.campbx;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.annotation.Nonnull;
@@ -45,12 +46,12 @@ public interface CampBX {
   @POST
   @Path("xdepth.php")
   @Produces("application/json")
-  public CampBXOrderBook getOrderBook();
+  public CampBXOrderBook getOrderBook() throws IOException;
 
   @POST
   @Path("xticker.php")
   @Produces("application/json")
-  public CampBXTicker getTicker();
+  public CampBXTicker getTicker() throws IOException;
 
   /**
    * An API call to obtain list pending orders for an account can be made in following format: https://CampBX.com/api/myorders.php POST: user=USERNAME pass=PASSWORD Result is a JSON object with two
@@ -58,7 +59,7 @@ public interface CampBX {
    */
   @POST
   @Path("myorders.php")
-  public MyOpenOrders getOpenOrders(@FormParam("user") String user, @FormParam("pass") String password);
+  public MyOpenOrders getOpenOrders(@FormParam("user") String user, @FormParam("pass") String password) throws IOException;
 
   /**
    * An API call to obtain latest account balances can be made in following format: https://CampBX.com/api/myfunds.php POST: user=USERNAME pass=PASSWORD Result is a JSON object with six members. First
@@ -68,7 +69,7 @@ public interface CampBX {
    */
   @POST
   @Path("myfunds.php")
-  public MyFunds getMyFunds(@FormParam("user") String user, @FormParam("pass") String password);
+  public MyFunds getMyFunds(@FormParam("user") String user, @FormParam("pass") String password) throws IOException;
 
   /**
    * An API call to placing an order can be made in following format:
@@ -94,7 +95,7 @@ public interface CampBX {
   @POST
   @Path("tradeenter.php")
   public CampBXResponse tradeEnter(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("TradeMode") TradeMode mode, @FormParam("Quantity") BigDecimal quantity,
-      @FormParam("Price") BigDecimal price);
+      @FormParam("Price") BigDecimal price) throws IOException;
 
   /**
    * An API call to place an advanced order can be made in following format:
@@ -129,7 +130,7 @@ public interface CampBX {
       @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") BigDecimal price, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
-      );
+      ) throws IOException;
 
   @POST
   @Path("tradeadv.php")
@@ -137,7 +138,7 @@ public interface CampBX {
       @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") MarketPrice market, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
   // todo: Date
-      );
+      ) throws IOException;
 
   /**
    * An API call to cancel an open order can be made in following format:
@@ -153,7 +154,7 @@ public interface CampBX {
    */
   @POST
   @Path("tradecancel.php")
-  public CampBXResponse tradeCancel(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("Type") OrderType type, @FormParam("OrderID") Long orderId);
+  public CampBXResponse tradeCancel(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("Type") OrderType type, @FormParam("OrderID") Long orderId) throws IOException;
 
   /**
    * An API call to get Bitcoin deposit address for your account can be made in following format:
@@ -167,7 +168,7 @@ public interface CampBX {
    */
   @POST
   @Path("getbtcaddr.php")
-  public CampBXResponse getDepositAddress(@FormParam("user") String user, @FormParam("pass") String password);
+  public CampBXResponse getDepositAddress(@FormParam("user") String user, @FormParam("pass") String password) throws IOException;
 
   /**
    * An API call to send Bitcoins to an address can be made in following format:
@@ -181,7 +182,8 @@ public interface CampBX {
    */
   @POST
   @Path("sendbtc.php")
-  public CampBXResponse withdrawBtc(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("BTCTo") String btcToAddress, @FormParam("BTCAmt") BigDecimal amount);
+  public CampBXResponse withdrawBtc(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("BTCTo") String btcToAddress, @FormParam("BTCAmt") BigDecimal amount)
+      throws IOException;
 
   public static enum TradeMode {
     QuickBuy, QuickSell

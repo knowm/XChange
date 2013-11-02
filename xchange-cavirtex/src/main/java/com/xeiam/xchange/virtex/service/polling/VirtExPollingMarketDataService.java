@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.virtex.service.polling;
 
+import java.io.IOException;
 import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -66,7 +67,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -84,7 +85,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -99,7 +100,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -116,7 +117,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */
-  private void verify(String tradableIdentifier, String currency) {
+  private void verify(String tradableIdentifier, String currency) throws IOException {
 
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.notNull(currency, "currency cannot be null");

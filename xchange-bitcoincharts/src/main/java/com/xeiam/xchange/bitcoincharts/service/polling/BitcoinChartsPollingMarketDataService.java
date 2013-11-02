@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bitcoincharts.service.polling;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -87,7 +88,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -136,7 +137,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
 
   }
 
-  public ChartData[] getChartData(String exchange, int daysInPast) {
+  public ChartData[] getChartData(String exchange, int daysInPast) throws IOException {
 
     // check for pacing violation
     if (chartDataRequestTimeStamp == 0L || System.currentTimeMillis() - chartDataRequestTimeStamp >= getRefreshRate()) {

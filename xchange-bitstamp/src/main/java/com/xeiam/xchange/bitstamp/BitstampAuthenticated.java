@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bitstamp;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.ws.rs.FormParam;
@@ -44,52 +45,52 @@ public interface BitstampAuthenticated {
   @POST
   @Path("open_orders/")
   @Produces("application/json")
-  public BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce);
+  public BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
   @POST
   @Path("buy/")
   @Produces("application/json")
   public BitstampOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("price") BigDecimal price);
+      @FormParam("price") BigDecimal price) throws IOException;
 
   @POST
   @Path("sell/")
   @Produces("application/json")
   public BitstampOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("price") BigDecimal price);
+      @FormParam("price") BigDecimal price) throws IOException;
 
   /** @return true if order has been canceled. */
   @POST
   @Path("cancel_order/")
   @Produces("application/json")
-  public Object cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId);
+  public Object cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId) throws IOException;
 
   @POST
   @Path("balance/")
   @Produces("application/json")
-  public BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce);
+  public BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
   @POST
   @Path("user_transactions/")
   @Produces("application/json")
   public BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce,
-      @FormParam("limit") long numberOfTransactions);
+      @FormParam("limit") long numberOfTransactions) throws IOException;
 
   @POST
   @Path("bitcoin_deposit_address/")
   @Produces("application/json")
-  public String getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce);
+  public String getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
   @POST
   @Path("bitcoin_withdrawal/")
   @Produces("application/json")
   public Object withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address);
+      @FormParam("address") String address) throws IOException;
 
   @POST
   @Path("user_transactions/")
   @Produces("application/json")
   public BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce,
-      @FormParam("amount") BigDecimal amount, @FormParam("limit") long numberOfTransactions);
+      @FormParam("amount") BigDecimal amount, @FormParam("limit") long numberOfTransactions) throws IOException;
 
 }

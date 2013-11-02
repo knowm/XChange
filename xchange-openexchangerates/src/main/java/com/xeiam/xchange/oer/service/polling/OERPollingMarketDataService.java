@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.oer.service.polling;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -87,7 +88,7 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 

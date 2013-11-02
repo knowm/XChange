@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.ws.rs.GET;
@@ -37,9 +38,9 @@ public interface BitcoinCharts {
 
   @GET
   @Path("t/markets.json")
-  public BitcoinChartsTicker[] getMarketData();
+  public BitcoinChartsTicker[] getMarketData() throws IOException;
 
   @GET
   @Path("charts/chart.json")
-  public ArrayList<ArrayList> getChartData(@QueryParam("m") String exchange, @QueryParam("r") int dayInPast);
+  public ArrayList<ArrayList> getChartData(@QueryParam("m") String exchange, @QueryParam("r") int dayInPast) throws IOException;
 }

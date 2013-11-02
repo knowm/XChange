@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.blockchain;
 
+import java.io.IOException;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
@@ -35,7 +37,7 @@ import com.xeiam.xchange.blockchain.dto.BitcoinAddresses;
  */
 public class BlochchainAddressDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange blockchainExchangexchange = ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
     Blockchain blockchain = RestProxyFactory.createProxy(Blockchain.class, blockchainExchangexchange.getExchangeSpecification().getPlainTextUri());

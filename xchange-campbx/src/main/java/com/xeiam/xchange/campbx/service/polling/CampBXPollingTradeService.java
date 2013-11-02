@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.campbx.service.polling;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
+  public OpenOrders getOpenOrders() throws IOException {
 
     MyOpenOrders myOpenOrders = campbx.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     logger.debug("myOpenOrders = {}", myOpenOrders);
@@ -108,7 +109,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
     CampBXResponse campBXResponse =
@@ -124,7 +125,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     CampBX.TradeMode mode = limitOrder.getType() == Order.OrderType.ASK ? CampBX.TradeMode.QuickSell : CampBX.TradeMode.QuickBuy;
     CampBXResponse campBXResponse =
@@ -140,7 +141,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public boolean cancelOrder(String orderId) {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     ParsedId parsedId = parseOrderId(orderId);
     CampBXResponse campBXResponse = campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), parsedId.type, Long.parseLong(parsedId.id));
