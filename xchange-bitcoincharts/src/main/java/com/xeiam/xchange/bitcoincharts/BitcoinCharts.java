@@ -41,6 +41,6 @@ public interface BitcoinCharts {
   public BitcoinChartsTicker[] getMarketData() throws IOException;
 
   @GET
-  @Path("charts/chart.json")
+  @Path("v1/charts/chart.json")
   public ArrayList<ArrayList> getChartData(@QueryParam("m") String exchange, @QueryParam("r") int dayInPast) throws IOException;
 }

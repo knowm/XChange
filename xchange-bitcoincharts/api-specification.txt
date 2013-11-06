@@ -9,7 +9,7 @@ http://bitcoincharts.com/about/markets-api/
 
 Tickers
 ------
-http://bitcoincharts.com/t/markets.json
+http://api.bitcoincharts.com/v1/markets.json
 
 Weighted Prices
 ------
