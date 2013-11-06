@@ -37,7 +37,7 @@ import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 public interface BitcoinCharts {
 
   @GET
-  @Path("t/markets.json")
+  @Path("v1/markets.json")
   public BitcoinChartsTicker[] getMarketData() throws IOException;
 
   @GET
