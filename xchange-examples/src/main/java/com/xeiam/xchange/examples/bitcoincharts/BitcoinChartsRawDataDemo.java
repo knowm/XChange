@@ -24,7 +24,9 @@ package com.xeiam.xchange.examples.bitcoincharts;
 import java.io.IOException;
 
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
+import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsFactory;
+import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 
 /**
@@ -40,6 +42,11 @@ public class BitcoinChartsRawDataDemo {
     BitcoinChartsTicker[] marketData = bitcoinCharts.getMarketData();
     for (BitcoinChartsTicker data : marketData) {
       System.out.println(data.getSymbol() + ": " + data);
+    }
+
+    ChartData[] chartData = BitcoinChartsAdapters.adaptChartData(bitcoinCharts.getChartData("mtgox", 7));
+    for (ChartData cd : chartData) {
+      System.out.println(cd.toString());
     }
   }
 }
