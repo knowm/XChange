@@ -24,23 +24,24 @@ package com.xeiam.xchange.examples.bitcoincharts;
 import java.io.IOException;
 
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
+import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsFactory;
-import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
+import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 
 /**
  * Demonstrates using the REST proxy to get the raw deserialized JSON object from BitcoinCharts
  * 
  * @author timmolter
  */
-public class BitcoinChartsRawDataDemo {
+public class BitcoinChartsChartDataDemo {
 
   public static void main(String[] args) throws IOException {
 
     BitcoinCharts bitcoinCharts = BitcoinChartsFactory.createInstance();
-    BitcoinChartsTicker[] marketData = bitcoinCharts.getMarketData();
-    for (BitcoinChartsTicker data : marketData) {
-      System.out.println(data.getSymbol() + ": " + data);
-    }
 
+    ChartData[] chartData = BitcoinChartsAdapters.adaptChartData(bitcoinCharts.getChartData("mtgoxUSD", 7));
+    for (ChartData cd : chartData) {
+      System.out.println(cd.toString());
+    }
   }
 }
