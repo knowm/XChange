@@ -97,14 +97,10 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
       transactions = bitstamp.getTransactions(); // default values: offset=0, limit=100
     }
     else if (args.length == 1) {
-      Integer offset = (Integer) args[0];
-      transactions = bitstamp.getTransactions(offset); // default values: limit=100
+      BitstampTime bitstampTime = (BitstampTime) args[0];
+      transactions = bitstamp.getTransactions(bitstampTime.toString().toLowerCase()); // default values: limit=100
     }
-    else if (args.length == 2) {
-      Integer offset = (Integer) args[0];
-      Integer limit = (Integer) args[1];
-      transactions = bitstamp.getTransactions(offset, limit);
-    }
+
     else {
       throw new ExchangeException("Invalid argument length. Must be 0, 1, or 2.");
     }
@@ -128,6 +124,10 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   public List<CurrencyPair> getExchangeSymbols() {
 
     return BitstampUtils.CURRENCY_PAIRS;
+  }
+
+  public enum BitstampTime {
+    HOUR, MINUTE;
   }
 
 }

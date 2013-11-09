@@ -66,15 +66,7 @@ public interface Bitstamp {
   @GET
   @Path("transactions/")
   @Produces("application/json")
-  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset) throws IOException;
-
-  /**
-   * Returns descending list of transactions.
-   */
-  @GET
-  @Path("transactions/")
-  @Produces("application/json")
-  public BitstampTransaction[] getTransactions(@QueryParam("offset") Integer offset, @QueryParam("limit") Integer limit) throws IOException;
+  public BitstampTransaction[] getTransactions(@QueryParam("time") String time) throws IOException;
 
   // TODO: bitstamp code handling, send to user
 }

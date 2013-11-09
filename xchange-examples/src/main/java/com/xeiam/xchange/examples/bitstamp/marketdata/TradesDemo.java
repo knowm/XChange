@@ -26,6 +26,7 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingMarketDataService.BitstampTime;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -47,11 +48,11 @@ public class TradesDemo {
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
     System.out.println("Trades, default. Size= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, 268);
-    System.out.println("Trades, offset = 268. Size= " + trades.getTrades().size());
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, BitstampTime.HOUR);
+    System.out.println("Trades, hour= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, 268, 10);
-    System.out.println("Trades, offset = 268, limit = 100. Size= " + trades.getTrades().size());
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, BitstampTime.MINUTE);
+    System.out.println("Trades, minute= " + trades.getTrades().size());
     System.out.println(trades.toString());
 
   }
