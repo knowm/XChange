@@ -36,7 +36,8 @@ public class BTCETradeHistoryResult {
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final Long orderId;
-  private final int isYourOrder; // Not sure what this is...
+  /** reflects who created original order. True means that you opened the order and then someone completely bought/sold it. False means you bought/sold from someone else's order. */
+  private final int isYourOrder;
   private final Long timestamp;
 
   /**
