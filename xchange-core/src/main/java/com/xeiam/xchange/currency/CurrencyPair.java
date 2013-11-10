@@ -66,17 +66,18 @@ public class CurrencyPair {
   public static final CurrencyPair LTC_BTC = new CurrencyPair("LTC", "BTC");
   public static final CurrencyPair LTC_USD = new CurrencyPair("LTC", "USD");
   public static final CurrencyPair LTC_RUR = new CurrencyPair("LTC", "RUR");
+  public static final CurrencyPair LTC_EUR = new CurrencyPair("LTC", "EUR");
   public static final CurrencyPair NMC_BTC = new CurrencyPair("NMC", "BTC");
+  public static final CurrencyPair NMC_USD = new CurrencyPair("NMC", "USD");
   public static final CurrencyPair USD_RUR = new CurrencyPair("USD", "RUR");
 
   public static final CurrencyPair NVC_BTC = new CurrencyPair("NVC", "BTC");
+  public static final CurrencyPair NVC_USD = new CurrencyPair("NVC", "USD");
   public static final CurrencyPair TRC_BTC = new CurrencyPair("TRC", "BTC");
   public static final CurrencyPair PPC_BTC = new CurrencyPair("PPC", "BTC");
   public static final CurrencyPair FTC_BTC = new CurrencyPair("FTC", "BTC");
-  public static final CurrencyPair LTC_EUR = new CurrencyPair("LTC", "EUR");
-  public static final CurrencyPair NVC_USD = new CurrencyPair("NVC", "USD");
-  public static final CurrencyPair NMC_USD = new CurrencyPair("NMC", "USD");
   public static final CurrencyPair XMP_BTC = new CurrencyPair("XMP", "BTC");
+  public static final CurrencyPair XPM_BTC = new CurrencyPair("XPM", "BTC");
 
   public final String baseCurrency;
   public final String counterCurrency;
