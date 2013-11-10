@@ -32,8 +32,7 @@ package com.xeiam.xchange.utils;
  * <p>
  * Example:
  * </p>
- * <code>String encoded = Base64.encode( myByteArray );</code>
- * <code>byte[] myByteArray = Base64.decode( encoded );</code>
+ * <code>String encoded = Base64.encode( myByteArray );</code> <code>byte[] myByteArray = Base64.decode( encoded );</code>
  * <p>
  * The <tt>options</tt> parameter, which appears in a few places, is used to pass several pieces of information to the encoder. In the "higher level" methods such as encodeBytes( bytes, options ) the
  * options parameter can be used to indicate such things as first gzipping the bytes before encoding them, not inserting linefeeds, and encoding using the URL-safe and Ordered dialects.

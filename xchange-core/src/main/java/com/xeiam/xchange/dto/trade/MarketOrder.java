@@ -42,7 +42,7 @@ public final class MarketOrder extends Order {
    * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp  the absolute time for this order
+   * @param timestamp the absolute time for this order
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp) {
 
@@ -54,7 +54,7 @@ public final class MarketOrder extends Order {
    * @param tradableAmount The amount to trade
    * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
-   * @param timestamp  the absolute time for this order
+   * @param timestamp the absolute time for this order
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, Date timestamp) {
 

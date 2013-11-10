@@ -88,9 +88,8 @@ public interface BTCEAuthenticated {
    */
   @POST
   @FormParam("method")
-  BTCEOpenOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, 
-		  @FormParam("pair") String pair) throws IOException;
-  
+  BTCEOpenOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair) throws IOException;
+
   /**
    * All parameters are obligatory (ie. none may be null).
    * 

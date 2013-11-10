@@ -34,7 +34,7 @@ package com.xeiam.xchange;
  * Use this to mark tests that require an Internet connection. These tests will not be run with mvn test but only in Maven's integration-test phase (eg. when running mvn install). Usage: annotate the
  * test class with Category(OnlineTest.class) This class is in xchange-core because it must be visible in all test sources, as well as in core (it is
  * referenced in the core pom).
- *
+ * 
  * @author Matija Mazi
  */
 public interface OnlineTest {

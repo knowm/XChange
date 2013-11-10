@@ -32,8 +32,8 @@ public final class BTCChinaBuyOrderRequest extends BTCChinaRequest {
 
   /**
    * Constructor
-   *
-   * @param price 
+   * 
+   * @param price
    * @param amount
    */
   public BTCChinaBuyOrderRequest(BigDecimal price, BigDecimal amount) {

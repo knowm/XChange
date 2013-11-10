@@ -49,14 +49,12 @@ public enum ExchangeFactory {
 
   /**
    * Create an Exchange object.
-   *
    * <p>
-   *     The factory is parameterised with the name of the exchange implementation class. This must be a class extending
-   *     {@link com.xeiam.xchange.Exchange}.
+   * The factory is parameterised with the name of the exchange implementation class. This must be a class extending {@link com.xeiam.xchange.Exchange}.
    * </p>
    * 
-   * @param exchangeClassName  the fully-qualified class name of the exchange
-   * @return    a new exchange instance configured with the default {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchangeClassName the fully-qualified class name of the exchange
+   * @return a new exchange instance configured with the default {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public Exchange createExchange(String exchangeClassName) {
 
