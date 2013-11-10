@@ -68,8 +68,8 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://btcchina.com");
-    exchangeSpecification.setHost("btcchina.com");
+    exchangeSpecification.setSslUri("https://vip.btcchina.com");
+    exchangeSpecification.setHost("vip.btcchina.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCChina");
     exchangeSpecification.setExchangeDescription("BTCChina is a Bitcoin exchange located in China.");
