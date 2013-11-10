@@ -108,14 +108,14 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.2</version>
+				<version>1.7.5</version>
 			</dependency>
 
 			<!-- SLF4J implementation for use in testing -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.0.9</version>
+				<version>1.0.13</version>
 				<!-- Test scope prevents this implementation bleeding out to consuming 
 					applications -->
 				<scope>test</scope>
@@ -126,7 +126,7 @@
 				<groupId>org.joda</groupId>
 				<artifactId>joda-money</artifactId>
 				<!-- Require 0.8+ to support Bitcoin (see #40) -->
-				<version>0.8</version>
+				<version>0.9</version>
 			</dependency>
 
 			<!-- Charting -->

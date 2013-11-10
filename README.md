@@ -62,8 +62,8 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
 
 #### Compile Dependencies
     +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
-    +- org.slf4j:slf4j-api:jar:1.7.2:compile
-    +- org.joda:joda-money:jar:0.8:compile
+    +- org.slf4j:slf4j-api:jar:1.7.5:compile
+    +- org.joda:joda-money:jar:0.9:compile
     \- com.github.mmazi:rescu:jar:1.5.0:compile
         +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
         +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
@@ -78,8 +78,8 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
         \- org.easytesting:fest-util:jar:1.2.5:test
    
 #### Other Dependencies for Some Examples
-    +- ch.qos.logback:logback-classic:jar:1.0.9:runtime
-    |    \- ch.qos.logback:logback-core:jar:1.0.9:runtime
+    +- ch.qos.logback:logback-classic:jar:1.0.13:runtime
+    |    \- ch.qos.logback:logback-core:jar:1.0.13:runtime
     +- com.xeiam.xchart:xchart:jar:2.2.1:compile
 
 ### Maven
