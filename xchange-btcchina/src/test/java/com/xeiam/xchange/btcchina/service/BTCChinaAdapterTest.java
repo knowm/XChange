@@ -87,6 +87,8 @@ public class BTCChinaAdapterTest {
     assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 545);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.37);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-07-25 18:22:55 GMT");
+    System.out.println(trades.getTrades().get(0).toString());
+
   }
 
   @Test
