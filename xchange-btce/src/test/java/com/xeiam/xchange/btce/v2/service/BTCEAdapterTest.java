@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2;
+package com.xeiam.xchange.btce.v2.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,10 +36,10 @@ import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
-import com.xeiam.xchange.btce.v2.marketdata.BTCEDepthJSONTest;
-import com.xeiam.xchange.btce.v2.marketdata.BTCETickerJSONTest;
-import com.xeiam.xchange.btce.v2.marketdata.BTCETradesJSONTest;
-import com.xeiam.xchange.btce.v2.trade.BTCETradeHistoryJSONTest;
+import com.xeiam.xchange.btce.v2.service.marketdata.BTCEDepthJSONTest;
+import com.xeiam.xchange.btce.v2.service.marketdata.BTCETickerJSONTest;
+import com.xeiam.xchange.btce.v2.service.marketdata.BTCETradesJSONTest;
+import com.xeiam.xchange.btce.v2.service.trade.BTCETradeHistoryJSONTest;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;

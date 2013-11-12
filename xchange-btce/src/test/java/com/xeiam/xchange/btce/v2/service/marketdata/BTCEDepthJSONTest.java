@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.marketdata;
+package com.xeiam.xchange.btce.v2.service.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -30,24 +30,24 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
 
 /**
- * Test BTCETrade[] JSON parsing
+ * Test BTCEDepth JSON parsing
  */
-public class BTCETradesJSONTest {
+public class BTCEDepthJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCETradesJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
+    InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/v2/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCETrade[] BTCETrades = mapper.readValue(is, BTCETrade[].class);
+    BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BTCETrades[0].getPrice()).isEqualTo(new BigDecimal("13.07"));
+    assertThat(BTCEDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("13.07"));
   }
 }

@@ -19,10 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2;
+package com.xeiam.xchange.btce.v2.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import com.xeiam.xchange.btce.v2.BTCEUtils;
+import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -35,7 +37,7 @@ public class BTCEUtilsTest {
   @Test
   public void testIsValidCurrencyPair() {
 
-    assertThat(BTCEUtils.isValidCurrencyPair(CurrencyPair.BTC_USD)).isTrue();
+    Assertions.assertThat(BTCEUtils.isValidCurrencyPair(CurrencyPair.BTC_USD)).isTrue();
     assertThat(BTCEUtils.isValidCurrencyPair(new CurrencyPair("BTC", "USD"))).isTrue();
     assertThat(BTCEUtils.isValidCurrencyPair(new CurrencyPair("BTC", "CAD"))).isFalse();
   }
