@@ -24,7 +24,6 @@ package com.xeiam.xchange.btce.v2.service;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import com.xeiam.xchange.btce.v2.BTCEUtils;
-import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -37,7 +36,7 @@ public class BTCEUtilsTest {
   @Test
   public void testIsValidCurrencyPair() {
 
-    Assertions.assertThat(BTCEUtils.isValidCurrencyPair(CurrencyPair.BTC_USD)).isTrue();
+    assertThat(BTCEUtils.isValidCurrencyPair(CurrencyPair.BTC_USD)).isTrue();
     assertThat(BTCEUtils.isValidCurrencyPair(new CurrencyPair("BTC", "USD"))).isTrue();
     assertThat(BTCEUtils.isValidCurrencyPair(new CurrencyPair("BTC", "CAD"))).isFalse();
   }
