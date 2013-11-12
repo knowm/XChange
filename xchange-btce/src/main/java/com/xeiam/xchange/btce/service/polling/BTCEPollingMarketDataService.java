@@ -84,7 +84,9 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+//    BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
+    BTCEDepth btceDepth = btce.getDepthV3(pair, 2, 1).getResultV2(pair);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
