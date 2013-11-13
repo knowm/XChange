@@ -43,8 +43,13 @@ public class DepthDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
-    // Get the latest order book data for BTC/CAD
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.LTC, Currencies.RUR);
+    // Get the latest short order book (150 entries) data for LTC/RUR
+    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.LTC, Currencies.RUR);
+
+    System.out.println(orderBook.toString());
+
+    // Get the latest extended order book (2000 entries) data for BTC/USD
+    orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
 
     System.out.println(orderBook.toString());
 

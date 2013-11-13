@@ -23,7 +23,7 @@ package com.xeiam.xchange.btce.dto.marketdata;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  * Author: brox
@@ -31,28 +31,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * Data object representing multi-currency market data from BTCE API v.3
  */
-public class BTCEResultV3 <V> {
+public class BTCETickerV3 {
 
-    private final Map<String, V> resultV3;
+    private final Map<String, BTCETicker> resultV3;
 
     /**
      * Constructor
      *
      * @param resultV3
      */
-    public BTCEResultV3(@JsonProperty Map<String, V> resultV3) {
+    @JsonCreator
+    public BTCETickerV3(Map<String, BTCETicker> resultV3) {
 
         this.resultV3 = resultV3;
     }
 
-    public Map<String, V> getResultV3() {
+    public Map<String, BTCETicker> getResultV3() {
 
         return resultV3;
     }
 
-    public V getResultV2(String pair) {
+    public BTCETicker getResultV2(String pair) {
 
-        V result = null;
+        BTCETicker result = null;
         if (resultV3.containsKey(pair)) {
             result = resultV3.get(pair);
         }
@@ -62,7 +63,7 @@ public class BTCEResultV3 <V> {
     @Override
     public String toString() {
 
-        return "BTCEResultV3 [resultV3=" + resultV3.toString() + "]";
+        return "BTCETickerV3 [resultV3=" + resultV3.toString() + "]";
     }
 
 }
