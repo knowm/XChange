@@ -23,6 +23,7 @@ package com.xeiam.xchange.btce.service.polling;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -86,8 +87,8 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
 //    BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
     String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
-    BTCEDepth btceDepth = btce.getDepthV3(pair, 2, 1).getResultV2(pair);
-
+    Map<String, BTCEDepth> map = btce.getDepthV3(pair, 2, 1);
+      BTCEDepth btceDepth = (BTCEDepth)map.get(pair);
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
