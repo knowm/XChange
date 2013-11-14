@@ -21,19 +21,20 @@
  */
 package com.xeiam.xchange.examples.btce.marketdata;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btce.BTCEExchange;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
+import java.io.IOException;
+
 /**
- * Demonstrate requesting Order Book at BTC-E
+ * Author: brox
+ *
+ * Demonstrate requesting BTC-E exchange public info (API v.3)
  */
-public class DepthDemo {
+public class InfoV3Demo {
 
   public static void main(String[] args) throws IOException {
 
@@ -43,16 +44,10 @@ public class DepthDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
-    // Get the latest short order book (150 entries) data for LTC/RUR
-    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.LTC, Currencies.RUR);
+    // Get the latest info about traded currencies, fees etc.
+    ExchangeInfo info = marketDataService.getExchangeInfo();
 
-    System.out.println(orderBook.toString());
-
-    // Get the latest extended order book (2000 entries) data for BTC/USD
-    orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
-
-    System.out.println(orderBook.toString());
-
+    System.out.println(info.toString());
   }
 
 }

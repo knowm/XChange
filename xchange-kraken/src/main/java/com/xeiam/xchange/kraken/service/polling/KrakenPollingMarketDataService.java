@@ -28,6 +28,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -136,6 +138,12 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     }
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair(currencyPair), currency, tradableIdentifier, krakenTrades.getResult().getLast());
     return trades;
+  }
+
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
 }

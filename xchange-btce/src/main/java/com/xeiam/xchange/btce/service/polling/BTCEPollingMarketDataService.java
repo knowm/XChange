@@ -24,10 +24,11 @@ package com.xeiam.xchange.btce.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.btce.dto.marketdata.*;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.BTCE;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEUtils;
@@ -76,7 +77,14 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    verify(tradableIdentifier, currency);
+
+    BTCEDepth btceDepth = btce.getPartialDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    // Adapt to XChange DTOs
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+
+    return new OrderBook(null, asks, bids);
   }
 
   @Override
@@ -84,8 +92,8 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
-
+    String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
+    BTCEDepth btceDepth = btce.getDepthV3(pair, 2000, 1).getResultV2(pair);
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
@@ -120,6 +128,12 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   public List<CurrencyPair> getExchangeSymbols() {
 
     return BTCEUtils.CURRENCY_PAIRS;
+  }
+
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    BTCEInfoV3 infoV3 = btce.getInfoV3();
+    return BTCEAdapters.adaptExchangeInfo(infoV3);
   }
 
 }
