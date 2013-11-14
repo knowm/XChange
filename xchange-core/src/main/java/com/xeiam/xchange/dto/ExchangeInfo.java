@@ -10,7 +10,7 @@ import java.util.List;
  * Returns public info about exchange, such as allowed currency pairs, fees etc.
  */
 // TODO: implement me
-public class ExchangeInfo {
+public final class ExchangeInfo {
 
   private final List<CurrencyPair> pairs;
 
@@ -18,6 +18,10 @@ public class ExchangeInfo {
   public ExchangeInfo(List<CurrencyPair> pairs) {
 
     this.pairs = pairs;
+  }
+
+  public List<CurrencyPair> getPairs() {
+    return pairs;
   }
 
   @Override
