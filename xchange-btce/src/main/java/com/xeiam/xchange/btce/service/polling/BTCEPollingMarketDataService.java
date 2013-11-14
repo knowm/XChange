@@ -24,11 +24,11 @@ package com.xeiam.xchange.btce.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.btce.dto.marketdata.BTCEDepthV3;
+import com.xeiam.xchange.btce.dto.marketdata.*;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.BTCE;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEUtils;
@@ -129,6 +129,12 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   public List<CurrencyPair> getExchangeSymbols() {
 
     return BTCEUtils.CURRENCY_PAIRS;
+  }
+
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    BTCEInfoV3 infoV3 = btce.getInfoV3();
+    return BTCEAdapters.adaptExchangeInfo(infoV3);
   }
 
 }

@@ -26,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.xeiam.xchange.dto.ExchangeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,7 +153,12 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+    return null;
+  }
+
+    /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)

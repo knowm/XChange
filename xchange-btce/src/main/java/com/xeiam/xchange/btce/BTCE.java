@@ -53,10 +53,10 @@ public interface BTCE {
 
   @GET
   @Path("3/depth/{pairs}")
-  BTCEDepthV3 getDepthV3(@PathParam("pairs") String pairs, @DefaultValue("") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
+  BTCEDepthV3 getDepthV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
   @GET
   @Path("3/trades/{pairs}")
-  BTCETradesV3 getTradesV3(@PathParam("pairs") String pairs, @DefaultValue("") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
+  BTCETradesV3 getTradesV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
 }

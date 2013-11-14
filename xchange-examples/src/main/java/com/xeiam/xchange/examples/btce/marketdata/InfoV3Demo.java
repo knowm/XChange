@@ -19,42 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.dto.marketdata;
+package com.xeiam.xchange.examples.btce.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.dto.ExchangeInfo;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * Author: brox
  *
- * Takes public BTC-E exchange info, such as valid currency pairs, fees, etc
+ * Demonstrate requesting BTC-E exchange public info (API v.3)
  */
-public class BTCEInfoV3 {
+public class InfoV3Demo {
 
-  private final long serverTime;
-  private final Map<String, BTCEPairInfo> pairs;
+  public static void main(String[] args) throws IOException {
 
-  public BTCEInfoV3(@JsonProperty("server_time") long serverTime, @JsonProperty("pairs") Map<String, BTCEPairInfo> pairs) {
+    // Use the factory to get BTC-E exchange API using default settings
+    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
 
-    this.serverTime = serverTime;
-    this.pairs = pairs;
-  }
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
-  public long getServerTime() {
+    // Get the latest info about traded currencies, fees etc.
+    ExchangeInfo info = marketDataService.getExchangeInfo();
 
-    return serverTime;
-  }
-
-  public Map<String, BTCEPairInfo> getPairs() {
-
-    return pairs;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BTCEInfoV3 [serverTime=" + serverTime + "pairs=" + pairs.toString() + "]";
+    System.out.println(info.toString());
   }
 
 }

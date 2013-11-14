@@ -22,12 +22,12 @@
 package com.xeiam.xchange.btce;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
+import com.xeiam.xchange.btce.dto.marketdata.BTCEInfoV3;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.IllegalCurrencyException;
@@ -216,7 +216,17 @@ public final class BTCEAdapters {
       trades.add(new Trade(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timeStamp, entry.getKey()));
     }
     return new Trades(trades);
+  }
 
+  public static ExchangeInfo adaptExchangeInfo(BTCEInfoV3 infoV3) {
+
+    Set<String> btcePairs = infoV3.getPairs().keySet();
+    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
+    for (String s : btcePairs) {
+      String[] p = s.split("_");
+      pairs.add(new CurrencyPair(p[0].toUpperCase(), p[1].toUpperCase()));
+    }
+    return new ExchangeInfo(pairs);
   }
 
 }

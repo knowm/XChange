@@ -21,8 +21,10 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -127,7 +129,13 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }
 
-  /**
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    return null;
+  }
+
+    /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
