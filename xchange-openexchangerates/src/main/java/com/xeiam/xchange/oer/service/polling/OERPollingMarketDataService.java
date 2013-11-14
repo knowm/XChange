@@ -155,7 +155,8 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
-    return null;
+
+    throw new NotAvailableFromExchangeException();
   }
 
     /**

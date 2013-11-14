@@ -124,6 +124,6 @@ public interface PollingMarketDataService {
    * @return ExchangeInfo object
    * @throws IOException
    */
-  public ExchangeInfo getExchangeInfo() throws IOException;
+  public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
 }

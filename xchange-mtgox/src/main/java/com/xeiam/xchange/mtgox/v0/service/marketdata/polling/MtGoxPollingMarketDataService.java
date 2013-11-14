@@ -24,6 +24,7 @@ package com.xeiam.xchange.mtgox.v0.service.marketdata.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -119,7 +120,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    return null;
+    throw new NotAvailableFromExchangeException();
   }
 
     /**

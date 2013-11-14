@@ -111,7 +111,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    return null;
+    throw new NotAvailableFromExchangeException();
   }
 
     /**

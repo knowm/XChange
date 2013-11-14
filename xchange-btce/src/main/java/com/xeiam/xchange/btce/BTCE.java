@@ -37,7 +37,7 @@ public interface BTCE {
 
   @GET
   @Path("2/{ident}_{currency}/depth")
-  BTCEDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+  BTCEDepth getPartialDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("2/{ident}_{currency}/trades")

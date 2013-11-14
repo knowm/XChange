@@ -127,7 +127,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    return null;
+    throw new NotAvailableFromExchangeException();
   }
 
     /**

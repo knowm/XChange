@@ -115,7 +115,7 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    return null;
+    throw new NotAvailableFromExchangeException();
   }
 
     /**
