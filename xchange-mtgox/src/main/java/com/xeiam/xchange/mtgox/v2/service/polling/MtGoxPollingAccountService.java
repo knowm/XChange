@@ -54,8 +54,8 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   /**
    * Configured from the super class reading of the exchange specification
    */
-  private final MtGoxV2 mtGoxV2;
-  private ParamsDigest signatureCreator;
+  protected final MtGoxV2 mtGoxV2;
+  protected ParamsDigest signatureCreator;
 
   /**
    * Constructor
