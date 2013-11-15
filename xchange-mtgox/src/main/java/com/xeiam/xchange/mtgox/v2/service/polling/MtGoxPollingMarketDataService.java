@@ -54,7 +54,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private final MtGoxV2 mtGoxV2;
+  protected final MtGoxV2 mtGoxV2;
 
   /**
    * Constructor
