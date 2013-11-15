@@ -50,8 +50,8 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  private final MtGoxV2 mtGoxV2;
-  private ParamsDigest signatureCreator;
+  protected final MtGoxV2 mtGoxV2;
+  protected ParamsDigest signatureCreator;
 
   /**
    * Constructor
