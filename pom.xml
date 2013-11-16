@@ -86,6 +86,7 @@
 		<module>xchange-kraken</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-mtgox</module>
+		<module>xchange-bitcoinaverage</module>
 	</modules>
 
 	<repositories>
