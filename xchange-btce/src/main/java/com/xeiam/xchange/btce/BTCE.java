@@ -22,31 +22,41 @@
 package com.xeiam.xchange.btce;
 
 import java.io.IOException;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-
-import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
-import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
+import javax.ws.rs.*;
+import com.xeiam.xchange.btce.dto.marketdata.*;
 
 /**
  * @author Matija Mazi
  */
-@Path("api/2")
+@Path("api")
 public interface BTCE {
 
   @GET
-  @Path("{ident}_{currency}/ticker")
+  @Path("2/{ident}_{currency}/ticker")
   BTCETicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
-  @Path("{ident}_{currency}/depth?raw")
-  BTCEDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+  @Path("2/{ident}_{currency}/depth")
+  BTCEDepth getPartialDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
-  @Path("{ident}_{currency}/trades")
+  @Path("2/{ident}_{currency}/trades")
   BTCETrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+
+  @GET
+  @Path("3/info")
+  BTCEInfoV3 getInfoV3() throws IOException;
+
+  @GET
+  @Path("3/ticker/{pairs}")
+  BTCETickerV3 getTickerV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
+
+  @GET
+  @Path("3/depth/{pairs}")
+  BTCEDepthV3 getDepthV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
+
+  @GET
+  @Path("3/trades/{pairs}")
+  BTCETradesV3 getTradesV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
 }

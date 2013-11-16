@@ -24,6 +24,7 @@ package com.xeiam.xchange.bitcoincharts.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.dto.ExchangeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,7 +124,13 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+    /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)

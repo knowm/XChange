@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -56,7 +58,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private final MtGoxV2 mtGoxV2;
+  protected final MtGoxV2 mtGoxV2;
 
   /**
    * Constructor
@@ -178,7 +180,13 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     }
   }
 
-  /**
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+    /**
    * Verify
    * 
    * @param tradableIdentifier
