@@ -33,6 +33,7 @@ import com.xeiam.xchange.bitcoinaverage.BitcoinAverageAdapters;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageUtils;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -92,6 +93,13 @@ public class BitcoinAveragePollingMarketDataService extends BasePollingExchangeS
 
 	throw new NotAvailableFromExchangeException();
   }
+  
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+ 
+     throw new NotAvailableFromExchangeException();
+  }
+
 
   /**
    * Verify
