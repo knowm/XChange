@@ -132,6 +132,6 @@ public class BTCEAdapterTest {
     assertThat(lastTrade.getId()).isEqualTo(7258275L);
     assertThat(lastTrade.getType()).isEqualTo(OrderType.ASK);
     assertThat(lastTrade.getPrice()).isEqualTo(MoneyUtils.parse("USD 125.75"));
-    assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(1378194574L);
+    assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(1378194574000L);
   }
 }
