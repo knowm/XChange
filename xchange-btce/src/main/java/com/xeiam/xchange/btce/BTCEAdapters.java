@@ -195,7 +195,7 @@ public final class BTCEAdapters {
       String[] pair = bTCEOrder.getPair().split("_");
       String currency = pair[1].toUpperCase();
       BigMoney price = BigMoney.of(CurrencyUnit.of(currency), bTCEOrder.getRate());
-      Date timestamp = new Date(bTCEOrder.getTimestampCreated() * 1000);
+      Date timestamp = DateUtils.fromMillisUtc(bTCEOrder.getTimestampCreated() * 1000L);
       limitOrders.add(new LimitOrder(orderType, bTCEOrder.getAmount(), pair[0].toUpperCase(), currency, Long.toString(id), timestamp, price));
     }
     return new OpenOrders(limitOrders);
@@ -212,7 +212,7 @@ public final class BTCEAdapters {
       String transactionCurrency = pair[1].toUpperCase();
       BigMoney price = BigMoney.of(CurrencyUnit.of(transactionCurrency), result.getRate());
       BigDecimal tradableAmount = result.getAmount();
-      Date timeStamp = new Date(result.getTimestamp());
+      Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       trades.add(new Trade(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timeStamp, entry.getKey()));
     }
     return new Trades(trades);
