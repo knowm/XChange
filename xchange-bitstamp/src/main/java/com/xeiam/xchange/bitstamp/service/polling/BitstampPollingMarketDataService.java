@@ -24,6 +24,7 @@ package com.xeiam.xchange.bitstamp.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -106,6 +107,12 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
       throw new ExchangeException("Invalid argument length. Must be 0, 1, or 2.");
     }
     return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
+  }
+
+  @Override
+  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

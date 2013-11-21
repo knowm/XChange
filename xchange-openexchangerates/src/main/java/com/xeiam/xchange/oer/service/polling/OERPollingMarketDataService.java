@@ -26,16 +26,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.xeiam.xchange.*;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -149,6 +146,12 @@ public class OERPollingMarketDataService extends BasePollingExchangeService impl
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }

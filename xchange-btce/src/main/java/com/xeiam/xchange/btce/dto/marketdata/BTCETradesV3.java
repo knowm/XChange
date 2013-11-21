@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  */
 public class BTCETradesV3 {
 
-    private final Map<String, BTCETrade[]> resultV3;
+    private final Map<String, BTCETradeV3[]> resultV3;
 
     /**
      * Constructor
@@ -41,19 +41,19 @@ public class BTCETradesV3 {
      * @param resultV3
      */
     @JsonCreator
-    public BTCETradesV3(Map<String, BTCETrade[]> resultV3) {
+    public BTCETradesV3(Map<String, BTCETradeV3[]> resultV3) {
 
         this.resultV3 = resultV3;
     }
 
-    public Map<String, BTCETrade[]> getResultV3() {
+    public Map<String, BTCETradeV3[]> getResultV3() {
 
         return resultV3;
     }
 
-    public BTCETrade[] getResultV2(String pair) {
+    public BTCETradeV3[] getSingleResult(String pair) {
 
-        BTCETrade[] result = null;
+        BTCETradeV3[] result = null;
         if (resultV3.containsKey(pair)) {
             result = resultV3.get(pair);
         }

@@ -111,7 +111,18 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
     return BTCEAdapters.adaptTrades(BTCETrades);
   }
 
-  /**
+  @Override
+  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+
+    verify(tradableIdentifier, currency);
+
+    String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
+    BTCETradeV3[] BTCETrades = btce.getTradesV3(pair, 2000, 1).getSingleResult(pair);
+
+    return BTCEAdapters.adaptTradesV3(BTCETrades, tradableIdentifier, currency);
+  }
+
+    /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)

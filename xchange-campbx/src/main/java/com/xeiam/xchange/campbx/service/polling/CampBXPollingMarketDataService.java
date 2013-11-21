@@ -24,6 +24,7 @@ package com.xeiam.xchange.campbx.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,6 +105,12 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService i
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -24,6 +24,8 @@ package com.xeiam.xchange.virtex.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -110,6 +112,12 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
 
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTrades(virtExTrades, currency, tradableIdentifier);
+  }
+
+  @Override
+  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

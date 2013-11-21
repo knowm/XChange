@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -178,6 +179,12 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling getTrades(): " + e.getError());
     }
+  }
+
+  @Override
+  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

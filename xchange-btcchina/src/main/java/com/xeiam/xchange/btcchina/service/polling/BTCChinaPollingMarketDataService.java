@@ -24,6 +24,8 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -111,6 +113,12 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTrades(btcChinaTrades, currency, tradableIdentifier);
+  }
+
+  @Override
+  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
