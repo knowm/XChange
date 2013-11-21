@@ -53,7 +53,7 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
-  private final BTCE btce;
+  protected final BTCE btce;
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
