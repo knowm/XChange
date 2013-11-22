@@ -24,7 +24,6 @@ package com.xeiam.xchange.bitcoincharts.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.dto.ExchangeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +39,7 @@ import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -130,7 +130,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     throw new NotAvailableFromExchangeException();
   }
 
-    /**
+  /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
@@ -141,7 +141,6 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.isTrue(currency.equals(Currencies.BTC), "Base curreny must be " + Currencies.BTC + " for this exchange");
     Assert.isTrue(BitcoinChartsUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
   }
 
   public ChartData[] getChartData(String exchange, int daysInPast) throws IOException {

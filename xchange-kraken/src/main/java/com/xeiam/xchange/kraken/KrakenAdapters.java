@@ -107,7 +107,7 @@ public class KrakenAdapters {
 
     List<Wallet> wallets = new LinkedList<Wallet>();
     for (Entry<String, BigDecimal> balancePair : krakenBalance.getResult().entrySet()) {
-      String currency = KrakenUtils.getCurrency(balancePair.getKey());
+      String currency = KrakenUtils.getStandardCurrencyCode(balancePair.getKey());
       Wallet wallet = Wallet.createInstance(currency, balancePair.getValue());
       wallets.add(wallet);
     }
@@ -120,7 +120,7 @@ public class KrakenAdapters {
     for (String krakenCurrencyPair : krakenCurrencyPairs) {
       String firstCurrency = krakenCurrencyPair.substring(0, 4);
       String secondCurrency = krakenCurrencyPair.substring(4);
-      currencyPairs.add(new CurrencyPair(KrakenUtils.getCurrency(firstCurrency), KrakenUtils.getCurrency(secondCurrency)));
+      currencyPairs.add(new CurrencyPair(KrakenUtils.getStandardCurrencyCode(firstCurrency), KrakenUtils.getStandardCurrencyCode(secondCurrency)));
     }
     return currencyPairs;
   }
@@ -132,8 +132,8 @@ public class KrakenAdapters {
       String[] descriptionWords = krakenOrder.getValue().getDescription().getOrderDescription().split(" ");
       OrderType type = descriptionWords[0].equals("buy") ? OrderType.BID : OrderType.ASK;
       BigDecimal tradableAmount = krakenOrder.getValue().getVolume().subtract(krakenOrder.getValue().getVolumeExecuted());
-      String tradableIdentifier = KrakenUtils.getCurrency("X" + descriptionWords[2].substring(0, 3));
-      String transactionCurrency = KrakenUtils.getCurrency("Z" + descriptionWords[2].substring(3));
+      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(descriptionWords[2].substring(0, 3));
+      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(descriptionWords[2].substring(3));
       String id = krakenOrder.getKey();
       Date timestamp = new Date((long) (krakenOrder.getValue().getOpentm() * 1000L));
       BigMoney limitPrice = BigMoney.of(CurrencyUnit.of(transactionCurrency), new BigDecimal(descriptionWords[5]));

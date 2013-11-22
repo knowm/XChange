@@ -26,7 +26,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +47,7 @@ public class KrakenAssetPairsJSONTest {
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
     // Verify that the example data was unmarshalled correctly
-    Assert.assertEquals(5, krakenAssetPairs.getResult().size());
+    assertThat(krakenAssetPairs.getResult()).hasSize(17);
     assertThat(krakenAssetPairs.getResult().get("XXBTZEUR")).isNotNull();
     assertThat(krakenAssetPairs.getResult().get("XBTCEUR")).isNull();
   }

@@ -33,7 +33,7 @@ import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
- * Test placing a limit order at MtGox.
+ * Test placing a limit order at Kraken.
  */
 public class CancelOrderDemo {
 

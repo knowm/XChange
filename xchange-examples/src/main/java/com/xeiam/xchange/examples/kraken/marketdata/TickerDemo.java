@@ -37,7 +37,7 @@ public class TickerDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get Bitstamp exchange API using default settings
+    // Use the factory to get Kraken exchange API using default settings
     Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)

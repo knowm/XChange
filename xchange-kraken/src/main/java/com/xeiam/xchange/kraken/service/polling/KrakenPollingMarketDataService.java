@@ -28,13 +28,13 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -82,6 +82,8 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
+    verify(tradableIdentifier, currency);
+
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTickerResult krakenTickerResult = kraken.getTicker(krakenCurrencyPair);
     if (krakenTickerResult.getError().length > 0) {
@@ -102,10 +104,11 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     return getOrderBook(tradableIdentifier, currency, null);
-
   }
 
   private OrderBook getOrderBook(String tradableIdentifier, String currency, Long count) throws IOException {
+
+    verify(tradableIdentifier, currency);
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, count);
@@ -131,6 +134,8 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
+    verify(tradableIdentifier, currency);
+
     String currencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTradesResult krakenTrades = kraken.getTrades(currencyPair);
     if (krakenTrades.getError().length > 0) {
@@ -146,4 +151,16 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     throw new NotAvailableFromExchangeException();
   }
 
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
+   */
+  private void verify(String tradableIdentifier, String currency) {
+
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(KrakenUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+  }
 }

@@ -21,10 +21,13 @@
  */
 package com.xeiam.xchange.kraken;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 
 public final class KrakenUtils {
@@ -33,41 +36,104 @@ public final class KrakenUtils {
 
   }
 
-  private static Map<String, String> krakenCurrencies = new HashMap<String, String>();
-  private static Map<String, String> currencies = new HashMap<String, String>();
-  static {
-    krakenCurrencies.put(Currencies.BTC, "XXBT");
-    krakenCurrencies.put(Currencies.LTC, "XLTC");
-    krakenCurrencies.put(Currencies.EUR, "ZEUR");
-    krakenCurrencies.put(Currencies.USD, "ZUSD");
-    currencies.put("XXBT", Currencies.BTC);
-    currencies.put("XLTC", Currencies.LTC);
-    currencies.put("ZEUR", Currencies.EUR);
-    currencies.put("ZUSD", Currencies.USD);
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
+  new CurrencyPair("LTC", "XRP"),
+
+  new CurrencyPair("LTC", "EUR"),
+
+  new CurrencyPair("LTC", "USD"),
+
+  new CurrencyPair("NMC", "XRP"),
+
+  new CurrencyPair("NMC", "EUR"),
+
+  new CurrencyPair("NMC", "USD"),
+
+  new CurrencyPair("BTC", "LTC"),
+
+  new CurrencyPair("BTC", "NMC"),
+
+  new CurrencyPair("BTC", "XRP"),
+
+  new CurrencyPair("BTC", "XVN"),
+
+  new CurrencyPair("BTC", "EUR"),
+
+  new CurrencyPair("BTC", "USD"),
+
+  new CurrencyPair("XVN", "XRP"),
+
+  new CurrencyPair("EUR", "XRP"),
+
+  new CurrencyPair("EUR", "XVN"),
+
+  new CurrencyPair("USD", "XRP"),
+
+  new CurrencyPair("USD", "XVN")
+
+  );
+
+  private static Map<String, String> KRAKEN_CURRENCIES_FORWARD = new HashMap<String, String>();
+  private static Map<String, String> KRAKEN_CURRENCIES_REVERSE = new HashMap<String, String>();
+
+  static {
+
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.LTC, "XLTC");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.NMC, "XNMC");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.BTC, "XXBT");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.XBT, "XXBT");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.VEN, "XXVN");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.EUR, "ZEUR");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.USD, "ZUSD");
+
+    KRAKEN_CURRENCIES_REVERSE.put("XLTC", Currencies.LTC);
+    KRAKEN_CURRENCIES_REVERSE.put("XNMC", Currencies.NMC);
+    KRAKEN_CURRENCIES_REVERSE.put("XXBT", Currencies.BTC);
+    KRAKEN_CURRENCIES_REVERSE.put("XXVN", Currencies.VEN);
+    KRAKEN_CURRENCIES_REVERSE.put("ZEUR", Currencies.EUR);
+    KRAKEN_CURRENCIES_REVERSE.put("ZUSD", Currencies.USD);
+
+    KRAKEN_CURRENCIES_REVERSE.put("LTC", Currencies.LTC);
+    KRAKEN_CURRENCIES_REVERSE.put("NMC", Currencies.NMC);
+    KRAKEN_CURRENCIES_REVERSE.put("XBT", Currencies.BTC);
+    KRAKEN_CURRENCIES_REVERSE.put("XVN", Currencies.VEN);
+    KRAKEN_CURRENCIES_REVERSE.put("EUR", Currencies.EUR);
+    KRAKEN_CURRENCIES_REVERSE.put("USD", Currencies.USD);
   }
 
   public static String getKrakenCurrencyCode(String currencyCode) {
 
-    return krakenCurrencies.get(currencyCode);
+    return KRAKEN_CURRENCIES_FORWARD.get(currencyCode);
   }
 
-  public static String getCurrency(String krakenCurrencyCode) {
+  public static String getStandardCurrencyCode(String krakenCurrencyCode) {
 
-    return currencies.get(krakenCurrencyCode);
+    return KRAKEN_CURRENCIES_REVERSE.get(krakenCurrencyCode);
   }
 
   public static String createKrakenCurrencyPair(String tradableIdentifier, String currency) {
 
-    String currency1 = krakenCurrencies.get(tradableIdentifier);
+    String currency1 = KRAKEN_CURRENCIES_FORWARD.get(tradableIdentifier);
     if (currency1 == null) {
       currency1 = tradableIdentifier;
     }
-    String currency2 = krakenCurrencies.get(currency);
+    String currency2 = KRAKEN_CURRENCIES_FORWARD.get(currency);
     if (currency2 == null) {
       currency2 = currency;
     }
     return currency1 + currency2;
+  }
+
+  /**
+   * Checks if a given CurrencyPair is covered by this exchange
+   * 
+   * @param currencyPair
+   * @return
+   */
+  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+
+    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   public static String getKrakenOrderType(OrderType type) {

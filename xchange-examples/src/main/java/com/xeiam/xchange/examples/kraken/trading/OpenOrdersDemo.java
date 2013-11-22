@@ -29,7 +29,7 @@ import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
- * Test requesting all open orders at MtGox
+ * Test requesting all open orders at Kraken
  */
 public class OpenOrdersDemo {
 
