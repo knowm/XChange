@@ -141,7 +141,7 @@ public final class Trade implements Comparable<Trade> {
   @Override
   public int compareTo(Trade trade) {
 
-    return getTimestamp().compareTo(trade.getTimestamp());
+    return ((Long)getId()).compareTo(trade.getId());
   }
 
 }
