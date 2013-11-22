@@ -101,18 +101,43 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
     return new OrderBook(null, asks, bids);
   }
 
+  /**
+   * Get recent trades from exchange
+   *
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
+   * @param currency The currency of interest, null if irrelevant
+   * @param args Optional arguments. This implementation assumes
+   *             args[0] is integer value limiting number of trade items to get.
+   *             -1 or missing -> use default output of 200 items from API v.2
+   *             int from 1 to 2000 -> use API v.3 to get corresponding number of trades
+   * @return Trades object
+   * @throws IOException
+   */
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
-    BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    int numberOfItems = -1;
+    try {
+      numberOfItems = (Integer) args[0];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      // ignore, can happen if no arg given.
+    }
+    if (numberOfItems == -1) {
+      BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    return BTCEAdapters.adaptTrades(BTCETrades);
+      return BTCEAdapters.adaptTrades(BTCETrades);
+    } else {
+      String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
+      BTCETradeV3[] BTCETrades = btce.getTradesV3(pair, numberOfItems, 1).getSingleResult(pair);
+
+      return BTCEAdapters.adaptTradesV3(BTCETrades, tradableIdentifier, currency);
+    }
   }
 
   /**
-   * Verify
+   * Verify that both currencies can make valid pair
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency

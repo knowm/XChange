@@ -24,6 +24,8 @@ package com.xeiam.xchange.bitcurex.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -118,7 +120,7 @@ public class BitcurexPollingMarketDataService extends BasePollingExchangeService
     throw new NotAvailableFromExchangeException();
   }
 
-    /**
+  /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)

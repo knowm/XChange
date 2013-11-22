@@ -24,15 +24,13 @@ package com.xeiam.xchange.bitcoincharts.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.*;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
@@ -130,7 +128,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     throw new NotAvailableFromExchangeException();
   }
 
-    /**
+  /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)

@@ -24,6 +24,7 @@ package com.xeiam.xchange.bitstamp.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -114,7 +115,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
     throw new NotAvailableFromExchangeException();
   }
 
-    /**
+  /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)

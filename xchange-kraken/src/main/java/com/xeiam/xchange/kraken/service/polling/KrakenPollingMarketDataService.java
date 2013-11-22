@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import si.mazi.rescu.RestProxyFactory;
 
