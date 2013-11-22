@@ -170,8 +170,9 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCETradeV3[] to a Trades Object
    *
-   * @param BTCETrades
-   *          The BTCE trade data returned by API v.3
+   * @param BTCETrades The BTCE trade data returned by API v.3
+   * @param tradableIdentifier First currency of the pair
+   * @param currency Second currency of the pair
    * @return The trades
    */
   public static Trades adaptTradesV3(BTCETradeV3[] BTCETrades, String tradableIdentifier, String currency) {

@@ -142,12 +142,6 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();

@@ -118,21 +118,6 @@ public interface PollingMarketDataService {
 
   /**
    * <p>
-   * Get the trades recently performed by the exchange (maximum items available)
-   * </p>
-   *
-   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
-   * @param currency The currency of interest, null if irrelevant
-   * @return The Trades, null if some sort of error occurred. Implementers should log the error.
-   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
-   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   */
-  Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
-
-    /**
-   * <p>
    * Get public exchange info, such as allowed currency pairs, fees etc.
    * </p>
    *

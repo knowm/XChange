@@ -115,18 +115,12 @@ public class VirtExPollingMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public Trades getFullTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
-    /**
+  /**
    * Verify
    * 
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
