@@ -19,34 +19,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.marketdata;
+package com.xeiam.xchange.btce.v2.dto.marketdata;
 
-import java.io.IOException;
+import java.util.Map;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.v2.BTCEExchange;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Demonstrate requesting Order Book at BTC-E
+ * Author: brox
+ * Since: 11/12/13 11:00 PM
+ * Data object representing multi-currency market data from BTCE API v.3
  */
-public class TradesDemo {
+public class BTCETickerV3 {
 
-  public static void main(String[] args) throws IOException {
+  private final Map<String, BTCETicker> resultV3;
 
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+  /**
+   * Constructor
+   * 
+   * @param resultV3
+   */
+  @JsonCreator
+  public BTCETickerV3(Map<String, BTCETicker> resultV3) {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
-
-    // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
-
-    System.out.println(trades.toString());
-
+    this.resultV3 = resultV3;
   }
+
+  public Map<String, BTCETicker> getResultV3() {
+
+    return resultV3;
+  }
+
+  public BTCETicker getResultV2(String pair) {
+
+    BTCETicker result = null;
+    if (resultV3.containsKey(pair)) {
+      result = resultV3.get(pair);
+    }
+    return result;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCETickerV3 [resultV3=" + resultV3.toString() + "]";
+  }
+
 }

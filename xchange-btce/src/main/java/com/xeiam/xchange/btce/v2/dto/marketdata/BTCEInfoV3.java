@@ -19,34 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.marketdata;
+package com.xeiam.xchange.btce.v2.dto.marketdata;
 
-import java.io.IOException;
+import java.util.Map;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.v2.BTCEExchange;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Demonstrate requesting Order Book at BTC-E
+ * Author: brox
+ * Takes public BTC-E exchange info, such as valid currency pairs, fees, etc
  */
-public class TradesDemo {
+public class BTCEInfoV3 {
 
-  public static void main(String[] args) throws IOException {
+  private final long serverTime;
+  private final Map<String, BTCEPairInfo> pairs;
 
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+  public BTCEInfoV3(@JsonProperty("server_time") long serverTime, @JsonProperty("pairs") Map<String, BTCEPairInfo> pairs) {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
-
-    // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
-
-    System.out.println(trades.toString());
-
+    this.serverTime = serverTime;
+    this.pairs = pairs;
   }
+
+  public long getServerTime() {
+
+    return serverTime;
+  }
+
+  public Map<String, BTCEPairInfo> getPairs() {
+
+    return pairs;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCEInfoV3 [serverTime=" + serverTime + "pairs=" + pairs.toString() + "]";
+  }
+
 }

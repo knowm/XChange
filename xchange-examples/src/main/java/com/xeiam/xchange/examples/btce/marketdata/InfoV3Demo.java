@@ -21,17 +21,16 @@
  */
 package com.xeiam.xchange.examples.btce.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.btce.v2.BTCEExchange;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-import java.io.IOException;
-
 /**
  * Author: brox
- *
  * Demonstrate requesting BTC-E exchange public info (API v.3)
  */
 public class InfoV3Demo {
