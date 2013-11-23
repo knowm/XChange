@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,6 +52,8 @@ import com.xeiam.xchange.utils.DateUtils;
 /**
  * Tests the BTCEAdapter class
  */
+@Deprecated
+@Ignore
 public class BTCEAdapterTest {
 
   @Test

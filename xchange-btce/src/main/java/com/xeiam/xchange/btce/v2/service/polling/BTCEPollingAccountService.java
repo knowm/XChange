@@ -35,6 +35,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author Matija Mazi
  */
+@Deprecated
 public class BTCEPollingAccountService extends BTCEBasePollingService implements PollingAccountService {
 
   /**

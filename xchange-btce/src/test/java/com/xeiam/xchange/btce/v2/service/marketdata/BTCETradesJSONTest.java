@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +36,8 @@ import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
 /**
  * Test BTCETrade[] JSON parsing
  */
+@Deprecated
+@Ignore
 public class BTCETradesJSONTest {
 
   @Test

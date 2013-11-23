@@ -41,6 +41,7 @@ import si.mazi.rescu.RestInvocation;
  * request body (which is composed of @FormParams).
  * </p>
  */
+@Deprecated
 public class BTCEHmacPostBodyDigest implements ParamsDigest {
 
   private static final String HMAC_SHA_512 = "HmacSHA512";

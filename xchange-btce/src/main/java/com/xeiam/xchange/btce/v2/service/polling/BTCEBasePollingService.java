@@ -33,6 +33,7 @@ import com.xeiam.xchange.btce.v2.service.BTCEHmacPostBodyDigest;
 /**
  * @author Matija Mazi
  */
+@Deprecated
 public class BTCEBasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch

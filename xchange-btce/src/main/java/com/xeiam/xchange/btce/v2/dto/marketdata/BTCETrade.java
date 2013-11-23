@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Data object representing a Trade from BTCE
  * </p>
  */
+@Deprecated
 public class BTCETrade {
 
   private final BigDecimal amount;

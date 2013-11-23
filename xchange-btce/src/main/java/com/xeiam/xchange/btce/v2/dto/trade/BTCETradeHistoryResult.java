@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Raphael Voellmy
  */
+@Deprecated
 public class BTCETradeHistoryResult {
 
   private final String pair;

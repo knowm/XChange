@@ -29,6 +29,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 /**
  * A central place for shared BTC-E properties
  */
+@Deprecated
 public final class BTCEUtils {
 
   /**

@@ -54,6 +54,7 @@ import com.xeiam.xchange.utils.DateUtils;
 /**
  * Various adapters for converting from BTCE DTOs to XChange DTOs
  */
+@Deprecated
 public final class BTCEAdapters {
 
   private static final Logger log = LoggerFactory.getLogger(BTCEAdapters.class);

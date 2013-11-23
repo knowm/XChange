@@ -27,6 +27,7 @@ import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEReturn;
 /**
  * @author Matija Mazi
  */
+@Deprecated
 public class BTCEAccountInfoReturn extends BTCEReturn<BTCEAccountInfo> {
 
   /**

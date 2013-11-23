@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +36,8 @@ import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfoReturn;
 /**
  * Test BTCEDepth JSON parsing
  */
+@Deprecated
+@Ignore
 public class BTCEAccountInfoJSONTest {
 
   @Test

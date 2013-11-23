@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Matija Mazi
  */
+@Deprecated
 public class BTCEAccountInfo {
 
   private final int transactionCount;

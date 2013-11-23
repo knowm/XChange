@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Matija Mazi
  */
+@Deprecated
 public class BTCEOrder {
 
   private final String pair;

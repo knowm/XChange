@@ -35,6 +35,7 @@ import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
  * @author Matija Mazi
  */
 @Path("api")
+@Deprecated
 public interface BTCE {
 
   @GET

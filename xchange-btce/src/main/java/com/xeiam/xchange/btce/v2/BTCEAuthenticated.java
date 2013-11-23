@@ -43,6 +43,7 @@ import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
  * @author Matija Mazi
  */
 @Path("tapi")
+@Deprecated
 public interface BTCEAuthenticated {
 
   /**

@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Data object representing depth from BTCE
  */
+@Deprecated
 public class BTCEDepth {
 
   private final List<BigDecimal[]> asks;

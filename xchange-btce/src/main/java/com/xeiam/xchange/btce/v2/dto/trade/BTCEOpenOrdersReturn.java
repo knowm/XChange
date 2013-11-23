@@ -29,6 +29,7 @@ import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEReturn;
 /**
  * @author Matija Mazi
  */
+@Deprecated
 public class BTCEOpenOrdersReturn extends BTCEReturn<Map<Long, BTCEOrder>> {
 
   /**

@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Data object representing Ticker from BTCE
  */
+@Deprecated
 public final class BTCETicker {
 
   private final BigDecimal last;

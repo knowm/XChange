@@ -51,6 +51,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
+@Deprecated
 public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
   protected final BTCE btce;

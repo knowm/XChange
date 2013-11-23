@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +40,8 @@ import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
  * @author Benedikt Bünz
  *         Test BTCETradeHistoryReturn JSON parsing
  */
+@Deprecated
+@Ignore
 public class BTCETradeHistoryJSONTest {
 
   @Test

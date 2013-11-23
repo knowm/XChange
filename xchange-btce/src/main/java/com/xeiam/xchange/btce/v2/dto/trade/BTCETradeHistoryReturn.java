@@ -29,6 +29,7 @@ import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEReturn;
 /**
  * @author Raphael Voellmy
  */
+@Deprecated
 public class BTCETradeHistoryReturn extends BTCEReturn<Map<Long, BTCETradeHistoryResult>> {
 
   /**

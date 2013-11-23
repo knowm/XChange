@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +39,8 @@ import com.xeiam.xchange.utils.DateUtils;
 /**
  * Test BTCETicker JSON parsing
  */
+@Deprecated
+@Ignore
 public class BTCETickerJSONTest {
 
   @Test

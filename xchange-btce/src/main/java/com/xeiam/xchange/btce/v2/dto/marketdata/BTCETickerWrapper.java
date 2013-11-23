@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Data object representing Ticker Wrapper from BTC-E
  */
+@Deprecated
 public class BTCETickerWrapper {
 
   private BTCETicker ticker;

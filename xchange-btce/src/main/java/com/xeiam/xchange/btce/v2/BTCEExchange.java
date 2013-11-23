@@ -36,6 +36,7 @@ import com.xeiam.xchange.btce.v2.service.polling.BTCEPollingTradeService;
  * <li>A wrapper for the BTCE exchange API</li>
  * </ul>
  */
+@Deprecated
 public class BTCEExchange extends BaseExchange implements Exchange {
 
   /**
