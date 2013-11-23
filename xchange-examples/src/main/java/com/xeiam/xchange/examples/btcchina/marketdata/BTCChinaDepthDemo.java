@@ -33,7 +33,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Order Book at BTC China
  */
-public class DepthDemo {
+public class BTCChinaDepthDemo {
 
   public static void main(String[] args) throws IOException {
 

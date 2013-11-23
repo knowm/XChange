@@ -28,8 +28,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -51,19 +51,26 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 public interface BTCChina {
 
   @GET
-  @Path("bc/ticker")
+  @Path("data/ticker")
   @Produces("application/json")
-  public BTCChinaTicker getTicker(@PathParam("currency") String currency) throws IOException;
+  public BTCChinaTicker getTicker() throws IOException;
 
   @GET
-  @Path("bc/orderbook")
+  @Path("data/orderbook")
   @Produces("application/json")
-  public BTCChinaDepth getFullDepth(@PathParam("currency") String currency) throws IOException;
+  public BTCChinaDepth getFullDepth() throws IOException;
 
+  // (return last 100 trade records.)
   @GET
-  @Path("bc/trades")
+  @Path("data/historydata")
   @Produces("application/json")
-  public BTCChinaTrade[] getTrades(@PathParam("currency") String currency) throws IOException;
+  public BTCChinaTrade[] getTrades() throws IOException;
+
+  // return 100 trade records starting from id $since.
+  @GET
+  @Path("data/historydata")
+  @Produces("application/json")
+  public BTCChinaTrade[] getTrades(@QueryParam("since") int time) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

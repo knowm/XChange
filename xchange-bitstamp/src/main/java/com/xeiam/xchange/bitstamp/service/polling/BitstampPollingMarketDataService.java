@@ -103,7 +103,7 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
     }
 
     else {
-      throw new ExchangeException("Invalid argument length. Must be 0, 1, or 2.");
+      throw new ExchangeException("Invalid argument length. Must be 0, or 1.");
     }
     return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
   }

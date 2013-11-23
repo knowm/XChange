@@ -36,7 +36,7 @@ public class DepthDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    DepthDemo.main(new String[] {});
+    BTCChinaDepthDemo.main(new String[] {});
   }
 
 }

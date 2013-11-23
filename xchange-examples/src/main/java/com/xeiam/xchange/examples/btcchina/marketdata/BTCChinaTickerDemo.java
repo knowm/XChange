@@ -33,7 +33,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Ticker at BTC China
  */
-public class TickerDemo {
+public class BTCChinaTickerDemo {
 
   public static void main(String[] args) throws IOException {
 

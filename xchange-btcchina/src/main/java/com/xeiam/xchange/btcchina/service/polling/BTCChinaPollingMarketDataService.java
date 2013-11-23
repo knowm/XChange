@@ -26,6 +26,7 @@ import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btcchina.BTCChina;
@@ -74,7 +75,7 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
     verify(tradableIdentifier, currency);
 
     // Request data
-    BTCChinaTicker btcChinaTicker = btcChina.getTicker(currency);
+    BTCChinaTicker btcChinaTicker = btcChina.getTicker();
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTicker(btcChinaTicker, currency, tradableIdentifier);
@@ -92,7 +93,7 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
     verify(tradableIdentifier, currency);
 
     // Request data
-    BTCChinaDepth btcChinaDepth = btcChina.getFullDepth(currency);
+    BTCChinaDepth btcChinaDepth = btcChina.getFullDepth();
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currency, OrderType.ASK);
@@ -106,9 +107,19 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
 
     verify(tradableIdentifier, currency);
 
-    // Request data
-    BTCChinaTrade[] btcChinaTrades = btcChina.getTrades(currency);
+    BTCChinaTrade[] btcChinaTrades = null;
 
+    if (args.length == 0) {
+      btcChinaTrades = btcChina.getTrades();// default values: offset=0, limit=100
+    }
+    else if (args.length == 1) {
+      Integer sinceTransactionID = (Integer) args[0];
+      btcChinaTrades = btcChina.getTrades(sinceTransactionID); // default values: limit=100
+    }
+
+    else {
+      throw new ExchangeException("Invalid argument length. Must be 0, or 1");
+    }
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTrades(btcChinaTrades, currency, tradableIdentifier);
   }

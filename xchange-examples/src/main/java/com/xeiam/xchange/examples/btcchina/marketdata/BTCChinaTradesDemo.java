@@ -33,7 +33,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Trades at BTC China
  */
-public class TradesDemo {
+public class BTCChinaTradesDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -47,6 +47,13 @@ public class TradesDemo {
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.CNY);
 
     System.out.println(trades.toString());
+    System.out.println("NumTrades=" + trades.getTrades().size());
+
+    // Get the offset trade data for BTC/CNY
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.CNY, 1540753);
+
+    System.out.println(trades.toString());
+    System.out.println("NumTrades=" + trades.getTrades().size());
 
   }
 

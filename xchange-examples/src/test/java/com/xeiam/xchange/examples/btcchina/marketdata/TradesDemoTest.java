@@ -36,7 +36,7 @@ public class TradesDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    TradesDemo.main(new String[] {});
+    BTCChinaTradesDemo.main(new String[] {});
   }
 
 }
