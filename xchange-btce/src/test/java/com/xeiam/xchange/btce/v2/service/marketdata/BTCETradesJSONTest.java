@@ -41,7 +41,7 @@ public class BTCETradesJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCETradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = BTCETradesJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

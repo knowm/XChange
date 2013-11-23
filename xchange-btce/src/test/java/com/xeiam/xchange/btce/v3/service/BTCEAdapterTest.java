@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service;
+package com.xeiam.xchange.btce.v3.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -31,15 +31,15 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.BTCEAdapters;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
-import com.xeiam.xchange.btce.v2.service.marketdata.BTCEDepthJSONTest;
-import com.xeiam.xchange.btce.v2.service.marketdata.BTCETickerJSONTest;
-import com.xeiam.xchange.btce.v2.service.marketdata.BTCETradesJSONTest;
-import com.xeiam.xchange.btce.v2.service.trade.BTCETradeHistoryJSONTest;
+import com.xeiam.xchange.btce.v3.BTCEAdapters;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
+import com.xeiam.xchange.btce.v3.service.marketdata.BTCEDepthJSONTest;
+import com.xeiam.xchange.btce.v3.service.marketdata.BTCETickerJSONTest;
+import com.xeiam.xchange.btce.v3.service.marketdata.BTCETradesJSONTest;
+import com.xeiam.xchange.btce.v3.service.trade.BTCETradeHistoryJSONTest;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -57,7 +57,7 @@ public class BTCEAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/v2/marketdata/example-depth-data.json");
+    InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/v3/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -76,7 +76,7 @@ public class BTCEAdapterTest {
   public void testTradeAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCETradesJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
+    InputStream is = BTCETradesJSONTest.class.getResourceAsStream("/v3/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -100,7 +100,7 @@ public class BTCEAdapterTest {
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCETickerJSONTest.class.getResourceAsStream("/v2/marketdata/example-ticker-data.json");
+    InputStream is = BTCETickerJSONTest.class.getResourceAsStream("/v3/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -120,7 +120,7 @@ public class BTCEAdapterTest {
   public void testUserTradeHistoryAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCETradeHistoryJSONTest.class.getResourceAsStream("/v2/trade/example-trade-history-data.json");
+    InputStream is = BTCETradeHistoryJSONTest.class.getResourceAsStream("/v3/trade/example-trade-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

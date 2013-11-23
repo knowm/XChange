@@ -19,35 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service.marketdata;
+package com.xeiam.xchange.btce.v3.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
+import com.xeiam.xchange.btce.v3.BTCEUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * Test BTCEDepth JSON parsing
+ * Test class for BTCEUtils class
  */
-public class BTCEDepthJSONTest {
+public class BTCEUtilsTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  public void testIsValidCurrencyPair() {
 
-    // Read in the JSON from the example resources
-    InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/v2/marketdata/example-depth-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat(BTCEDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("13.07"));
+    assertThat(BTCEUtils.isValidCurrencyPair(CurrencyPair.BTC_USD)).isTrue();
+    assertThat(BTCEUtils.isValidCurrencyPair(new CurrencyPair("BTC", "USD"))).isTrue();
+    assertThat(BTCEUtils.isValidCurrencyPair(new CurrencyPair("BTC", "CAD"))).isFalse();
   }
 }

@@ -19,35 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service.marketdata;
+package com.xeiam.xchange.btce.v3.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Test BTCEDepth JSON parsing
+ * Data object representing Ticker from BTCE
  */
-public class BTCEDepthJSONTest {
+public class BTCETicker {
 
-  @Test
-  public void testUnmarshal() throws IOException {
+  private BTCETickerObject ticker;
 
-    // Read in the JSON from the example resources
-    InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/v2/marketdata/example-depth-data.json");
+  /**
+   * Constructor
+   * 
+   * @param ticker
+   */
+  public BTCETicker(@JsonProperty("ticker") BTCETickerObject ticker) {
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat(BTCEDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("13.07"));
+    this.ticker = ticker;
   }
+
+  public BTCETickerObject getTicker() {
+
+    return ticker;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCETicker [ticker=" + ticker.toString() + "]";
+  }
+
 }

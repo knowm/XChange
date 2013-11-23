@@ -24,7 +24,7 @@ package com.xeiam.xchange.examples.btce;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v2.BTCEExchange;
+import com.xeiam.xchange.btce.v3.BTCEExchange;
 
 /**
  * @author Matija Mazi

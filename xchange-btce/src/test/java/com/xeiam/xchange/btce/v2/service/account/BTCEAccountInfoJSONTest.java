@@ -41,7 +41,7 @@ public class BTCEAccountInfoJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCEAccountInfoJSONTest.class.getResourceAsStream("/account/example-account-info-data.json");
+    InputStream is = BTCEAccountInfoJSONTest.class.getResourceAsStream("/v2/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

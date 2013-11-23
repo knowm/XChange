@@ -1,4 +1,5 @@
 /**
+ * Copyright (C) 2012 - 2013 Matija Mazi
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,34 +20,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.marketdata;
+package com.xeiam.xchange.btce.v3.dto.trade;
 
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.Map;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.v3.BTCEExchange;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Demonstrate requesting Order Book at BTC-E
+ * @author Matija Mazi
  */
-public class TradesDemo {
+public class BTCECancelOrderResult {
 
-  public static void main(String[] args) throws IOException {
+  private final long orderId;
+  private final Map<String, BigDecimal> funds;
 
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+  /**
+   * Constructor
+   * 
+   * @param orderId
+   * @param funds
+   */
+  public BTCECancelOrderResult(@JsonProperty("order_id") long orderId, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
-
-    // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
-
-    System.out.println(trades.toString());
-
+    this.orderId = orderId;
+    this.funds = funds;
   }
+
+  public long getOrderId() {
+
+    return orderId;
+  }
+
+  public Map<String, BigDecimal> getFunds() {
+
+    return funds;
+  }
+
+  @Override
+  public String toString() {
+
+    return MessageFormat.format("BTCECancelOrderResult[orderId={0}, funds={1}]", orderId, funds);
+  }
+
 }

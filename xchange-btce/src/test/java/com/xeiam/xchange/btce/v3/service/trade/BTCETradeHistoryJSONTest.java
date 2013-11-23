@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service.trade;
+package com.xeiam.xchange.btce.v3.service.trade;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -32,8 +32,8 @@ import java.util.Map.Entry;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryResult;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 
 /**
  * @author Benedikt Bünz
@@ -45,7 +45,7 @@ public class BTCETradeHistoryJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCETradeHistoryJSONTest.class.getResourceAsStream("/v2/trade/example-trade-history-data.json");
+    InputStream is = BTCETradeHistoryJSONTest.class.getResourceAsStream("/v3/trade/example-trade-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

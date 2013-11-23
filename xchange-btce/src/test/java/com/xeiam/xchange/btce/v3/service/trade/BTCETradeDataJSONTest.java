@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service.trade;
+package com.xeiam.xchange.btce.v3.service.trade;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -32,16 +32,16 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEReturn;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCECancelOrderResult;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCECancelOrderReturn;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCEOpenOrdersReturn;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCEOrder;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCEPlaceOrderResult;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCEPlaceOrderReturn;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryResult;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryResult.Type;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult.Type;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 
 /**
  * Test BTCETradeData JSON parsing
@@ -51,7 +51,7 @@ public class BTCETradeDataJSONTest {
   @Test
   public void testOpenOrders() throws IOException {
 
-    BTCEOpenOrdersReturn result = getResult("/v2/trade/example-open-orders-data.json", BTCEOpenOrdersReturn.class);
+    BTCEOpenOrdersReturn result = getResult("/v3/trade/example-open-orders-data.json", BTCEOpenOrdersReturn.class);
     // Verify that the example data was unmarshalled correctly
     Map<Long, BTCEOrder> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
@@ -61,7 +61,7 @@ public class BTCETradeDataJSONTest {
   @Test
   public void testOwnTransactions() throws IOException {
 
-    BTCETradeHistoryReturn result = getResult("/v2/trade/example-trade-history-data.json", BTCETradeHistoryReturn.class);
+    BTCETradeHistoryReturn result = getResult("/v3/trade/example-trade-history-data.json", BTCETradeHistoryReturn.class);
     // Verify that the example data was unmarshalled correctly
     Map<Long, BTCETradeHistoryResult> rv = result.getReturnValue();
     assertThat(rv.keySet()).containsAll(Arrays.asList(7258275L, 7160193L));
@@ -78,7 +78,7 @@ public class BTCETradeDataJSONTest {
   @Test
   public void testCancelOrder() throws IOException {
 
-    BTCECancelOrderReturn result = getResult("/v2/trade/example-cancel-order-data.json", BTCECancelOrderReturn.class);
+    BTCECancelOrderReturn result = getResult("/v3/trade/example-cancel-order-data.json", BTCECancelOrderReturn.class);
     // Verify that the example data was unmarshalled correctly
     BTCECancelOrderResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();
@@ -90,7 +90,7 @@ public class BTCETradeDataJSONTest {
   @Test
   public void testPlaceOrder() throws IOException {
 
-    BTCEPlaceOrderReturn result = getResult("/v2/trade/example-place-order-data.json", BTCEPlaceOrderReturn.class);
+    BTCEPlaceOrderReturn result = getResult("/v3/trade/example-place-order-data.json", BTCEPlaceOrderReturn.class);
     // Verify that the example data was unmarshalled correctly
     BTCEPlaceOrderResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();

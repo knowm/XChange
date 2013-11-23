@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service.marketdata;
+package com.xeiam.xchange.btce.v3.service.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -32,7 +32,7 @@ import java.util.TimeZone;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -44,7 +44,7 @@ public class BTCETickerJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCETickerJSONTest.class.getResourceAsStream("/v2/marketdata/example-ticker-data.json");
+    InputStream is = BTCETickerJSONTest.class.getResourceAsStream("/v3/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

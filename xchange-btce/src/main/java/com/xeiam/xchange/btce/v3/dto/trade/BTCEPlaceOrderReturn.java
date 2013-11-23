@@ -19,34 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.btce.marketdata;
+package com.xeiam.xchange.btce.v3.dto.trade;
 
-import java.io.IOException;
-
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.v3.BTCEExchange;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEReturn;
 
 /**
- * Demonstrate requesting Order Book at BTC-E
+ * @author Matija Mazi
  */
-public class TradesDemo {
+public class BTCEPlaceOrderReturn extends BTCEReturn<BTCEPlaceOrderResult> {
 
-  public static void main(String[] args) throws IOException {
+  /**
+   * Constructor
+   * 
+   * @param success
+   * @param value
+   * @param error
+   */
+  public BTCEPlaceOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEPlaceOrderResult value, @JsonProperty("error") String error) {
 
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
-
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
-
-    // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
-
-    System.out.println(trades.toString());
-
+    super(success, value, error);
   }
 }

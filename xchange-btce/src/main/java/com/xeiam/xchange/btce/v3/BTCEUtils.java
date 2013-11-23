@@ -19,35 +19,72 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service.marketdata;
+package com.xeiam.xchange.btce.v3;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import java.util.Arrays;
+import java.util.List;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * Test BTCEDepth JSON parsing
+ * A central place for shared BTC-E properties
  */
-public class BTCEDepthJSONTest {
+public final class BTCEUtils {
 
-  @Test
-  public void testUnmarshal() throws IOException {
+  /**
+   * private Constructor
+   */
+  private BTCEUtils() {
 
-    // Read in the JSON from the example resources
-    InputStream is = BTCEDepthJSONTest.class.getResourceAsStream("/v2/marketdata/example-depth-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
-
-    // Verify that the example data was unmarshalled correctly
-    assertThat(BTCEDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("13.07"));
   }
+
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+
+  CurrencyPair.BTC_USD,
+
+  CurrencyPair.BTC_RUR,
+
+  CurrencyPair.BTC_EUR,
+
+  CurrencyPair.LTC_BTC,
+
+  CurrencyPair.LTC_USD,
+
+  CurrencyPair.LTC_RUR,
+
+  CurrencyPair.LTC_EUR,
+
+  CurrencyPair.NMC_BTC,
+
+  CurrencyPair.NMC_USD,
+
+  CurrencyPair.USD_RUR,
+
+  CurrencyPair.EUR_USD,
+
+  CurrencyPair.NVC_BTC,
+
+  CurrencyPair.NVC_USD,
+
+  CurrencyPair.TRC_BTC,
+
+  CurrencyPair.PPC_BTC,
+
+  CurrencyPair.FTC_BTC,
+
+  CurrencyPair.XPM_BTC
+
+  );
+
+  /**
+   * Checks if a given CurrencyPair is covered by this exchange
+   * 
+   * @param currencyPair
+   * @return
+   */
+  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+
+    return CURRENCY_PAIRS.contains(currencyPair);
+  }
+
 }
