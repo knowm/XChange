@@ -120,7 +120,7 @@ public interface PollingMarketDataService {
    * <p>
    * Get public exchange info, such as allowed currency pairs, fees etc.
    * </p>
-   *
+   * 
    * @return ExchangeInfo object
    * @throws IOException
    */

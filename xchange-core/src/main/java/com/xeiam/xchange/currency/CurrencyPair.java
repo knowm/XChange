@@ -77,12 +77,11 @@ public class CurrencyPair {
   public static final CurrencyPair PPC_BTC = new CurrencyPair("PPC", "BTC");
   public static final CurrencyPair FTC_BTC = new CurrencyPair("FTC", "BTC");
   public static final CurrencyPair XPM_BTC = new CurrencyPair("XPM", "BTC");
-  
+
   public static final CurrencyPair BTC_ZAR = new CurrencyPair("BTC", "ZAR");
   public static final CurrencyPair BTC_BRL = new CurrencyPair("BTC", "BRL");
   public static final CurrencyPair BTC_CZK = new CurrencyPair("BTC", "CZK");
   public static final CurrencyPair BTC_ILS = new CurrencyPair("BTC", "ILS");
-
 
   public final String baseCurrency;
   public final String counterCurrency;

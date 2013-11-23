@@ -78,6 +78,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * 
  * 
+ * 
  * public class Configuration {
  * 
  *   private ExchangeSpecification mtgox;
@@ -106,6 +107,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  * 
  * <pre>
+ * 
  * 
  * 
  * 
