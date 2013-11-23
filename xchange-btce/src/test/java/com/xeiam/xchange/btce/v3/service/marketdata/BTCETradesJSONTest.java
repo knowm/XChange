@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
 
 /**
  * Test BTCETrade[] JSON parsing
@@ -45,9 +45,10 @@ public class BTCETradesJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCETrade[] BTCETrades = mapper.readValue(is, BTCETrade[].class);
+    BTCETradesWrapper bTCETradesWrapper = mapper.readValue(is, BTCETradesWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BTCETrades[0].getPrice()).isEqualTo(new BigDecimal("13.07"));
+    assertThat(bTCETradesWrapper.getTrades("BTC", "USD")[0].getPrice()).isEqualTo(new BigDecimal("758.5"));
+    assertThat(bTCETradesWrapper.getTrades("BTC", "USD")).hasSize(100);
   }
 }

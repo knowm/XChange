@@ -48,18 +48,19 @@ public class BTCETickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCETickerWrapper BTCETickerWrapper = mapper.readValue(is, BTCETickerWrapper.class);
+    BTCETickerWrapper bTCETickerWrapper = mapper.readValue(is, BTCETickerWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getLast()).isEqualTo(new BigDecimal("13.07"));
-    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getHigh()).isEqualTo(new BigDecimal("13.23"));
-    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getLow()).isEqualTo(new BigDecimal("13"));
-    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getVol()).isEqualTo(new BigDecimal("40418.44988"));
+    assertThat(bTCETickerWrapper.getTicker("BTC", "USD").getLast()).isEqualTo(new BigDecimal("757"));
+    assertThat(bTCETickerWrapper.getTicker("BTC", "USD").getHigh()).isEqualTo(new BigDecimal("770"));
+    assertThat(bTCETickerWrapper.getTicker("BTC", "USD").getLow()).isEqualTo(new BigDecimal("655"));
+    assertThat(bTCETickerWrapper.getTicker("BTC", "USD").getVol()).isEqualTo(new BigDecimal("17512163.25736"));
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(DateUtils.fromMillisUtc(BTCETickerWrapper.getTicker("BTC", "USD").getUpdated() * 1000L));
-    assertThat(dateString).isEqualTo("2012-12-22 19:12:09");
+    String dateString = f.format(DateUtils.fromMillisUtc(bTCETickerWrapper.getTicker("BTC", "USD").getUpdated() * 1000L));
+    System.out.println(dateString);
+    assertThat(dateString).isEqualTo("2013-11-23 11:13:39");
   }
 
 }

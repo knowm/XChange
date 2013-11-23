@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 
 /**
  * Test BTCEDepth JSON parsing
@@ -45,9 +45,10 @@ public class BTCEDepthJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCEDepth BTCEDepth = mapper.readValue(is, BTCEDepth.class);
+    BTCEDepthWrapper bTCEDepthWrapper = mapper.readValue(is, BTCEDepthWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BTCEDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("13.07"));
+    assertThat(bTCEDepthWrapper.getDepth("BTC", "USD").getAsks().get(0)[0]).isEqualTo(new BigDecimal("760.98"));
+    assertThat(bTCEDepthWrapper.getDepth("BTC", "USD").getAsks()).hasSize(30);
   }
 }
