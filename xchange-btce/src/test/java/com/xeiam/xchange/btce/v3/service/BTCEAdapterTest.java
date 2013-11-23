@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 import com.xeiam.xchange.btce.v3.service.marketdata.BTCEDepthJSONTest;
 import com.xeiam.xchange.btce.v3.service.marketdata.BTCETickerJSONTest;
@@ -80,9 +80,9 @@ public class BTCEAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCETrade[] BTCETrades = mapper.readValue(is, BTCETrade[].class);
+    BTCETradesWrapper BTCETradesWrapper = mapper.readValue(is, BTCETradesWrapper.class);
 
-    Trades trades = BTCEAdapters.adaptTrades(BTCETrades);
+    Trades trades = BTCEAdapters.adaptTrades(BTCETradesWrapper.getTrades("BTC", "USD"), "BTC", "USD");
     // System.out.println(trades.getTrades().size());
     assertThat(trades.getTrades().size() == 150);
 

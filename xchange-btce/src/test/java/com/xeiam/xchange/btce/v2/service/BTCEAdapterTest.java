@@ -33,7 +33,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
 import com.xeiam.xchange.btce.v2.service.marketdata.BTCEDepthJSONTest;
@@ -104,7 +104,7 @@ public class BTCEAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
+    BTCETickerWrapper BTCETicker = mapper.readValue(is, BTCETickerWrapper.class);
 
     Ticker ticker = BTCEAdapters.adaptTicker(BTCETicker, "BTC", "USD");
 

@@ -19,50 +19,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v3.dto.marketdata;
-
-import java.util.Map;
+package com.xeiam.xchange.btce.v3.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox
- * Since: 11/12/13 11:00 PM
- * Data object representing multi-currency market data from BTCE API v.3
+ * @author Matija Mazi
  */
-public class BTCETickerV3 {
+public class BTCEReturn<V> {
 
-  private final Map<String, BTCETicker> resultV3;
+  private final boolean success;
+  private final V returnValue;
+  private final String error;
 
   /**
    * Constructor
    * 
-   * @param resultV3
+   * @param success
+   * @param returnValue
+   * @param error
    */
   @JsonCreator
-  public BTCETickerV3(Map<String, BTCETicker> resultV3) {
+  public BTCEReturn(@JsonProperty("success") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("error") String error) {
 
-    this.resultV3 = resultV3;
+    this.success = success;
+    this.returnValue = returnValue;
+    this.error = error;
   }
 
-  public Map<String, BTCETicker> getResultV3() {
+  public boolean isSuccess() {
 
-    return resultV3;
+    return success;
   }
 
-  public BTCETicker getResultV2(String pair) {
+  public V getReturnValue() {
 
-    BTCETicker result = null;
-    if (resultV3.containsKey(pair)) {
-      result = resultV3.get(pair);
-    }
-    return result;
+    return returnValue;
+  }
+
+  public String getError() {
+
+    return error;
   }
 
   @Override
   public String toString() {
 
-    return "BTCETickerV3 [resultV3=" + resultV3.toString() + "]";
+    return String.format("BTCEReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
   }
-
 }

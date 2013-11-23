@@ -32,7 +32,7 @@ import java.util.TimeZone;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -48,7 +48,7 @@ public class BTCETickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
+    BTCETickerWrapper BTCETicker = mapper.readValue(is, BTCETickerWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(BTCETicker.getTicker().getLast()).isEqualTo(new BigDecimal("13.07"));

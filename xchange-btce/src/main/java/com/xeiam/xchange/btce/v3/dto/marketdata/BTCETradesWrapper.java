@@ -21,76 +21,48 @@
  */
 package com.xeiam.xchange.btce.v3.dto.marketdata;
 
-import java.math.BigDecimal;
+import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * Author: okhomenko
- * Since:  11/21/13
- */
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * <p>
- * Data object representing single Trade from BTCE API v.3
- * </p>
+ * Author: brox
+ * Data object representing multi-currency trades from BTCE API v.3
  */
-public class BTCETradeV3 {
+public class BTCETradesWrapper {
 
-  private final BigDecimal amount;
-  private final long date;
-  private final BigDecimal price;
-  private final long tid;
-  private String tradeType;
+  private final Map<String, BTCETrade[]> tradesMap;
 
   /**
    * Constructor
    * 
-   * @param tradeType
-   * @param price
-   * @param amount
-   * @param tid
-   * @param date
+   * @param tradesMap
    */
-  public BTCETradeV3(@JsonProperty("type") String tradeType, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("tid") long tid,
-      @JsonProperty("timestamp") long date) {
+  @JsonCreator
+  public BTCETradesWrapper(Map<String, BTCETrade[]> tradesMap) {
 
-    this.tradeType = tradeType;
-    this.price = price;
-    this.amount = amount;
-    this.tid = tid;
-    this.date = date;
+    this.tradesMap = tradesMap;
   }
 
-  public BigDecimal getAmount() {
+  public Map<String, BTCETrade[]> getTradesMap() {
 
-    return amount;
+    return tradesMap;
   }
 
-  public long getDate() {
+  public BTCETrade[] getTrades(String tradableIdentifier, String currency) {
 
-    return date;
-  }
-
-  public BigDecimal getPrice() {
-
-    return price;
-  }
-
-  public long getTid() {
-
-    return tid;
-  }
-
-  public String getTradeType() {
-
-    return tradeType;
+    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
+    BTCETrade[] result = null;
+    if (tradesMap.containsKey(pair)) {
+      result = tradesMap.get(pair);
+    }
+    return result;
   }
 
   @Override
   public String toString() {
 
-    return "BTCETradeV3 [amount=" + amount + ", timestamp=" + date + ", price=" + price + ", tid=" + tid + ", type=" + tradeType + "]";
+    return "BTCETradesV3 [map=" + tradesMap.toString() + "]";
   }
 
 }

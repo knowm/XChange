@@ -21,51 +21,39 @@
  */
 package com.xeiam.xchange.btce.v3.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Matija Mazi
+ * Author: brox
+ * Takes public BTC-E exchange info, such as valid currency pairs, fees, etc
  */
-public class BTCEReturn<V> {
+public class BTCEExchangeInfo {
 
-  private final boolean success;
-  private final V returnValue;
-  private final String error;
+  private final long serverTime;
+  private final Map<String, BTCEPairInfo> pairs;
 
-  /**
-   * Constructor
-   * 
-   * @param success
-   * @param returnValue
-   * @param error
-   */
-  @JsonCreator
-  public BTCEReturn(@JsonProperty("success") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("error") String error) {
+  public BTCEExchangeInfo(@JsonProperty("server_time") long serverTime, @JsonProperty("pairs") Map<String, BTCEPairInfo> pairs) {
 
-    this.success = success;
-    this.returnValue = returnValue;
-    this.error = error;
+    this.serverTime = serverTime;
+    this.pairs = pairs;
   }
 
-  public boolean isSuccess() {
+  public long getServerTime() {
 
-    return success;
+    return serverTime;
   }
 
-  public V getReturnValue() {
+  public Map<String, BTCEPairInfo> getPairs() {
 
-    return returnValue;
-  }
-
-  public String getError() {
-
-    return error;
+    return pairs;
   }
 
   @Override
   public String toString() {
 
-    return String.format("BTCEReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+    return "BTCEInfoV3 [serverTime=" + serverTime + "pairs=" + pairs.toString() + "]";
   }
+
 }

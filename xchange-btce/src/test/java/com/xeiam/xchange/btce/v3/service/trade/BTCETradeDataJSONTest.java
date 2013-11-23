@@ -32,7 +32,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEReturn;
+import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;

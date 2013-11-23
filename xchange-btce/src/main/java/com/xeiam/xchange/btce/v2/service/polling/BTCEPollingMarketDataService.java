@@ -32,7 +32,7 @@ import com.xeiam.xchange.btce.v2.BTCE;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.BTCEUtils;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
@@ -68,7 +68,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    BTCETicker btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCETickerWrapper btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     // Adapt to XChange DTOs
     return BTCEAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);

@@ -30,9 +30,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  * Since: 11/12/13 11:00 PM
  * Data object representing multi-currency market data from BTCE API v.3
  */
-public class BTCEDepthV3 {
+public class BTCETickerWrapper {
 
-  private final Map<String, BTCEDepth> resultV3;
+  private final Map<String, BTCETicker> tickerMap;
 
   /**
    * Constructor
@@ -40,21 +40,22 @@ public class BTCEDepthV3 {
    * @param resultV3
    */
   @JsonCreator
-  public BTCEDepthV3(Map<String, BTCEDepth> resultV3) {
+  public BTCETickerWrapper(Map<String, BTCETicker> resultV3) {
 
-    this.resultV3 = resultV3;
+    this.tickerMap = resultV3;
   }
 
-  public Map<String, BTCEDepth> getResultV3() {
+  public Map<String, BTCETicker> getTickerMap() {
 
-    return resultV3;
+    return tickerMap;
   }
 
-  public BTCEDepth getResultV2(String pair) {
+  public BTCETicker getTicker(String tradableIdentifier, String currency) {
 
-    BTCEDepth result = null;
-    if (resultV3.containsKey(pair)) {
-      result = resultV3.get(pair);
+    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
+    BTCETicker result = null;
+    if (tickerMap.containsKey(pair)) {
+      result = tickerMap.get(pair);
     }
     return result;
   }
@@ -62,7 +63,7 @@ public class BTCEDepthV3 {
   @Override
   public String toString() {
 
-    return "BTCEDepthV3 [resultV3=" + resultV3.toString() + "]";
+    return "BTCETickerV3 [map=" + tickerMap.toString() + "]";
   }
 
 }

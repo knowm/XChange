@@ -28,7 +28,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
 
 /**
@@ -39,7 +39,7 @@ public interface BTCE {
 
   @GET
   @Path("2/{ident}_{currency}/ticker")
-  BTCETicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+  BTCETickerWrapper getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("2/{ident}_{currency}/depth")

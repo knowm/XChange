@@ -19,77 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v3;
+package com.xeiam.xchange.btce.v2.dto.marketdata;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * A central place for shared BTC-E properties
+ * Data object representing Ticker Wrapper from BTC-E
  */
-public final class BTCEUtils {
+public class BTCETickerWrapper {
+
+  private BTCETicker ticker;
 
   /**
-   * private Constructor
-   */
-  private BTCEUtils() {
-
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.BTC_RUR,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.LTC_BTC,
-
-  CurrencyPair.LTC_USD,
-
-  CurrencyPair.LTC_RUR,
-
-  CurrencyPair.LTC_EUR,
-
-  CurrencyPair.NMC_BTC,
-
-  CurrencyPair.NMC_USD,
-
-  CurrencyPair.USD_RUR,
-
-  CurrencyPair.EUR_USD,
-
-  CurrencyPair.NVC_BTC,
-
-  CurrencyPair.NVC_USD,
-
-  CurrencyPair.TRC_BTC,
-
-  CurrencyPair.PPC_BTC,
-
-  CurrencyPair.FTC_BTC,
-
-  CurrencyPair.XPM_BTC
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
+   * Constructor
    * 
-   * @param currencyPair
-   * @return
+   * @param ticker
    */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+  public BTCETickerWrapper(@JsonProperty("ticker") BTCETicker ticker) {
 
-    return CURRENCY_PAIRS.contains(currencyPair);
+    this.ticker = ticker;
   }
 
-  public static String getPair(String tradableIdentifier, String currency) {
+  public BTCETicker getTicker() {
 
-    return tradableIdentifier.toLowerCase() + "_" + currency.toLowerCase();
+    return ticker;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCETicker [ticker=" + ticker.toString() + "]";
   }
 
 }

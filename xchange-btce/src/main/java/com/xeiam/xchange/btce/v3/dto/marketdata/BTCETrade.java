@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,9 +26,9 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * Author: okhomenko
  * <p>
- * Data object representing a Trade from BTCE
- * </p>
+ * Data object representing single Trade from BTCE API v.3
  */
 public class BTCETrade {
 
@@ -36,31 +36,25 @@ public class BTCETrade {
   private final long date;
   private final BigDecimal price;
   private final long tid;
-  private String item;
-  private String priceCurrency;
   private String tradeType;
 
   /**
    * Constructor
    * 
-   * @param amount
-   * @param date
-   * @param price
-   * @param tid
-   * @param item
-   * @param priceCurrency
    * @param tradeType
+   * @param price
+   * @param amount
+   * @param tid
+   * @param date
    */
-  public BTCETrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid,
-      @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("trade_type") String tradeType) {
+  public BTCETrade(@JsonProperty("type") String tradeType, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("tid") long tid,
+      @JsonProperty("timestamp") long date) {
 
-    this.amount = amount;
-    this.date = date;
-    this.price = price;
-    this.tid = tid;
-    this.item = item;
-    this.priceCurrency = priceCurrency;
     this.tradeType = tradeType;
+    this.price = price;
+    this.amount = amount;
+    this.tid = tid;
+    this.date = date;
   }
 
   public BigDecimal getAmount() {
@@ -73,19 +67,9 @@ public class BTCETrade {
     return date;
   }
 
-  public String getItem() {
-
-    return item;
-  }
-
   public BigDecimal getPrice() {
 
     return price;
-  }
-
-  public String getPriceCurrency() {
-
-    return priceCurrency;
   }
 
   public long getTid() {
@@ -101,7 +85,7 @@ public class BTCETrade {
   @Override
   public String toString() {
 
-    return "BTCETrade [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + ", item=" + item + ", priceCurrency=" + priceCurrency + ", tradeType=" + tradeType + "]";
+    return "BTCETrade [amount=" + amount + ", timestamp=" + date + ", price=" + price + ", tid=" + tid + ", type=" + tradeType + "]";
   }
 
 }

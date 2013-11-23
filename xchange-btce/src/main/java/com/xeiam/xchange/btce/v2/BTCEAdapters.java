@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfo;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryResult;
@@ -123,9 +123,9 @@ public final class BTCEAdapters {
 
     OrderType orderType = bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = bTCETrade.getAmount();
-    String currency = bTCETrade.getPriceCurrency();
+    String currency = bTCETrade.getCurrency();
     BigMoney price = MoneyUtils.parse(currency + " " + bTCETrade.getPrice());
-    String tradableIdentifier = bTCETrade.getItem();
+    String tradableIdentifier = bTCETrade.getTradeableIdentifier();
     Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
 
     return new Trade(orderType, amount, tradableIdentifier, currency, price, date, bTCETrade.getTid());
@@ -154,7 +154,7 @@ public final class BTCEAdapters {
    * @param bTCETicker
    * @return
    */
-  public static Ticker adaptTicker(BTCETicker bTCETicker, String tradableIdentifier, String currency) {
+  public static Ticker adaptTicker(BTCETickerWrapper bTCETicker, String tradableIdentifier, String currency) {
 
     BigMoney last = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getLast());
     BigMoney bid = MoneyUtils.parse(currency + " " + bTCETicker.getTicker().getSell());

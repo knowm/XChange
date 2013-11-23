@@ -23,37 +23,47 @@ package com.xeiam.xchange.btce.v3.dto.marketdata;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  * Author: brox
- * Takes public BTC-E exchange info, such as valid currency pairs, fees, etc
+ * Since: 11/12/13 11:00 PM
+ * Data object representing multi-currency market data from BTCE API v.3
  */
-public class BTCEInfoV3 {
+public class BTCEDepthWrapper {
 
-  private final long serverTime;
-  private final Map<String, BTCEPairInfo> pairs;
+  private final Map<String, BTCEDepth> depthMap;
 
-  public BTCEInfoV3(@JsonProperty("server_time") long serverTime, @JsonProperty("pairs") Map<String, BTCEPairInfo> pairs) {
+  /**
+   * Constructor
+   * 
+   * @param resultV3
+   */
+  @JsonCreator
+  public BTCEDepthWrapper(Map<String, BTCEDepth> resultV3) {
 
-    this.serverTime = serverTime;
-    this.pairs = pairs;
+    this.depthMap = resultV3;
   }
 
-  public long getServerTime() {
+  public Map<String, BTCEDepth> getDepthMap() {
 
-    return serverTime;
+    return depthMap;
   }
 
-  public Map<String, BTCEPairInfo> getPairs() {
+  public BTCEDepth getDepth(String tradableIdentifier, String currency) {
 
-    return pairs;
+    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
+    BTCEDepth result = null;
+    if (depthMap.containsKey(pair)) {
+      result = depthMap.get(pair);
+    }
+    return result;
   }
 
   @Override
   public String toString() {
 
-    return "BTCEInfoV3 [serverTime=" + serverTime + "pairs=" + pairs.toString() + "]";
+    return "BTCEDepthV3 [map=" + depthMap.toString() + "]";
   }
 
 }

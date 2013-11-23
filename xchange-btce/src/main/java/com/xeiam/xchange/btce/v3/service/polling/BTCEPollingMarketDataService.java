@@ -30,11 +30,10 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCE;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEUtils;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEInfoV3;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradeV3;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -69,21 +68,22 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    BTCETicker btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCETickerWrapper btceTickerWrapper = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 1);
 
     // Adapt to XChange DTOs
-    return BTCEAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);
+    return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(tradableIdentifier, currency), tradableIdentifier, currency);
   }
 
+  // TODO possibly allow for passing in custom depth size amounts
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
-    BTCEDepth btceDepth = btce.getPartialDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCEDepthWrapper btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 250, 1);
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getAsks(), tradableIdentifier, currency, "ask", "");
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getBids(), tradableIdentifier, currency, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -93,11 +93,10 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
-    BTCEDepth btceDepth = btce.getDepthV3(pair, 2000, 1).getResultV2(pair);
+    BTCEDepthWrapper btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 2000, 1);
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getAsks(), tradableIdentifier, currency, "ask", "");
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getBids(), tradableIdentifier, currency, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -109,7 +108,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
    * @param currency The currency of interest, null if irrelevant
    * @param args Optional arguments. This implementation assumes
    *          args[0] is integer value limiting number of trade items to get.
-   *          -1 or missing -> use default output of 150 items from API v.2
+   *          -1 or missing -> use default 2000 max fetch value
    *          int from 1 to 2000 -> use API v.3 to get corresponding number of trades
    * @return Trades object
    * @throws IOException
@@ -125,23 +124,22 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no arg given.
     }
-    if (numberOfItems == -1) {
-      BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCETrade[] bTCETrades = null;
 
-      return BTCEAdapters.adaptTrades(BTCETrades);
+    if (numberOfItems == -1) {
+      bTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 2000, 1).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
     }
     else {
-      String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
-      BTCETradeV3[] BTCETrades = btce.getTradesV3(pair, numberOfItems, 1).getSingleResult(pair);
-
-      return BTCEAdapters.adaptTradesV3(BTCETrades, tradableIdentifier, currency);
+      bTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase(), numberOfItems, 1).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
     }
+    return BTCEAdapters.adaptTrades(bTCETrades, tradableIdentifier, currency);
+
   }
 
   /**
    * Verify that both currencies can make valid pair
    * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */
   private void verify(String tradableIdentifier, String currency) throws IOException {
@@ -160,8 +158,8 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    BTCEInfoV3 infoV3 = btce.getInfoV3();
-    return BTCEAdapters.adaptExchangeInfo(infoV3);
+    BTCEExchangeInfo bTCEExchangeInfo = btce.getInfo();
+    return BTCEAdapters.adaptExchangeInfo(bTCEExchangeInfo);
   }
 
 }

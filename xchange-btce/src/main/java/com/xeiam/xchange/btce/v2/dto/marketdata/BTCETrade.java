@@ -36,8 +36,8 @@ public class BTCETrade {
   private final long date;
   private final BigDecimal price;
   private final long tid;
-  private String item;
-  private String priceCurrency;
+  private String tradeableIdentifier;
+  private String currency;
   private String tradeType;
 
   /**
@@ -47,19 +47,19 @@ public class BTCETrade {
    * @param date
    * @param price
    * @param tid
-   * @param item
-   * @param priceCurrency
+   * @param tradeableIdentifier
+   * @param currency
    * @param tradeType
    */
   public BTCETrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid,
-      @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency, @JsonProperty("trade_type") String tradeType) {
+      @JsonProperty("item") String tradeableIdentifier, @JsonProperty("price_currency") String currency, @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
     this.date = date;
     this.price = price;
     this.tid = tid;
-    this.item = item;
-    this.priceCurrency = priceCurrency;
+    this.tradeableIdentifier = tradeableIdentifier;
+    this.currency = currency;
     this.tradeType = tradeType;
   }
 
@@ -73,9 +73,9 @@ public class BTCETrade {
     return date;
   }
 
-  public String getItem() {
+  public String getTradeableIdentifier() {
 
-    return item;
+    return tradeableIdentifier;
   }
 
   public BigDecimal getPrice() {
@@ -83,9 +83,9 @@ public class BTCETrade {
     return price;
   }
 
-  public String getPriceCurrency() {
+  public String getCurrency() {
 
-    return priceCurrency;
+    return currency;
   }
 
   public long getTid() {
@@ -101,7 +101,8 @@ public class BTCETrade {
   @Override
   public String toString() {
 
-    return "BTCETrade [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + ", item=" + item + ", priceCurrency=" + priceCurrency + ", tradeType=" + tradeType + "]";
+    return "BTCETrade [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + ", tradeableIdentifier=" + tradeableIdentifier + ", currency=" + currency + ", tradeType="
+        + tradeType + "]";
   }
 
 }

@@ -32,7 +32,7 @@ import java.util.TimeZone;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -48,17 +48,17 @@ public class BTCETickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCETicker BTCETicker = mapper.readValue(is, BTCETicker.class);
+    BTCETickerWrapper BTCETickerWrapper = mapper.readValue(is, BTCETickerWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BTCETicker.getTicker().getLast()).isEqualTo(new BigDecimal("13.07"));
-    assertThat(BTCETicker.getTicker().getHigh()).isEqualTo(new BigDecimal("13.23"));
-    assertThat(BTCETicker.getTicker().getLow()).isEqualTo(new BigDecimal("13"));
-    assertThat(BTCETicker.getTicker().getVol()).isEqualTo(new BigDecimal("40418.44988"));
+    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getLast()).isEqualTo(new BigDecimal("13.07"));
+    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getHigh()).isEqualTo(new BigDecimal("13.23"));
+    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getLow()).isEqualTo(new BigDecimal("13"));
+    assertThat(BTCETickerWrapper.getTicker("BTC", "USD").getVol()).isEqualTo(new BigDecimal("40418.44988"));
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(DateUtils.fromMillisUtc(BTCETicker.getTicker().getServerTime() * 1000L));
+    String dateString = f.format(DateUtils.fromMillisUtc(BTCETickerWrapper.getTicker("BTC", "USD").getUpdated() * 1000L));
     assertThat(dateString).isEqualTo("2012-12-22 19:12:09");
   }
 
