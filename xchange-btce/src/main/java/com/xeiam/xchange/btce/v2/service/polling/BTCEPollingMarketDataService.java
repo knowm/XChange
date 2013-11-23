@@ -27,14 +27,13 @@ import java.util.List;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v2.BTCE;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.BTCEUtils;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEInfoV3;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETradeV3;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -78,14 +77,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
-    verify(tradableIdentifier, currency);
-
-    BTCEDepth btceDepth = btce.getPartialDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
-
-    return new OrderBook(null, asks, bids);
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -93,8 +85,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
-    BTCEDepth btceDepth = btce.getDepthV3(pair, 2000, 1).getResultV2(pair);
+    BTCEDepth btceDepth = btce.getDepth(tradableIdentifier, currency);
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
@@ -119,23 +110,10 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    int numberOfItems = -1;
-    try {
-      numberOfItems = (Integer) args[0];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      // ignore, can happen if no arg given.
-    }
-    if (numberOfItems == -1) {
-      BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-      return BTCEAdapters.adaptTrades(BTCETrades);
-    }
-    else {
-      String pair = tradableIdentifier.toLowerCase().concat("_").concat(currency.toLowerCase());
-      BTCETradeV3[] BTCETrades = btce.getTradesV3(pair, numberOfItems, 1).getSingleResult(pair);
+    return BTCEAdapters.adaptTrades(BTCETrades);
 
-      return BTCEAdapters.adaptTradesV3(BTCETrades, tradableIdentifier, currency);
-    }
   }
 
   /**
@@ -160,8 +138,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    BTCEInfoV3 infoV3 = btce.getInfoV3();
-    return BTCEAdapters.adaptExchangeInfo(infoV3);
+    throw new NotAvailableFromExchangeException();
   }
 
 }

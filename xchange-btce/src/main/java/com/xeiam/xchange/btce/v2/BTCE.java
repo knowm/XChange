@@ -23,19 +23,13 @@ package com.xeiam.xchange.btce.v2;
 
 import java.io.IOException;
 
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepthV3;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEInfoV3;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETickerV3;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETradesV3;
 
 /**
  * @author Matija Mazi
@@ -49,26 +43,10 @@ public interface BTCE {
 
   @GET
   @Path("2/{ident}_{currency}/depth")
-  BTCEDepth getPartialDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
+  BTCEDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("2/{ident}_{currency}/trades")
   BTCETrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
-
-  @GET
-  @Path("3/info")
-  BTCEInfoV3 getInfoV3() throws IOException;
-
-  @GET
-  @Path("3/ticker/{pairs}")
-  BTCETickerV3 getTickerV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
-
-  @GET
-  @Path("3/depth/{pairs}")
-  BTCEDepthV3 getDepthV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
-
-  @GET
-  @Path("3/trades/{pairs}")
-  BTCETradesV3 getTradesV3(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
 }

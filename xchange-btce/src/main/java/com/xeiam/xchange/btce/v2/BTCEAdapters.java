@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
@@ -36,15 +35,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfo;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEInfoV3;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETradeV3;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryResult;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -137,24 +132,6 @@ public final class BTCEAdapters {
   }
 
   /**
-   * Adapts a BTCETradeV3 to a Trade Object
-   * 
-   * @param bTCETrade BTCE trade object v.3
-   * @param tradableIdentifier First currency in the pair
-   * @param currency Second currency in the pair
-   * @return The XChange Trade
-   */
-  public static Trade adaptTradeV3(BTCETradeV3 bTCETrade, String tradableIdentifier, String currency) {
-
-    OrderType orderType = bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal amount = bTCETrade.getAmount();
-    BigMoney price = MoneyUtils.parse(currency + " " + bTCETrade.getPrice());
-    Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
-
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, bTCETrade.getTid());
-  }
-
-  /**
    * Adapts a BTCETrade[] to a Trades Object
    * 
    * @param BTCETrades
@@ -167,24 +144,6 @@ public final class BTCEAdapters {
     for (BTCETrade BTCETrade : BTCETrades) {
       // Date is reversed order. Insert at index 0 instead of appending
       tradesList.add(0, adaptTrade(BTCETrade));
-    }
-    return new Trades(tradesList);
-  }
-
-  /**
-   * Adapts a BTCETradeV3[] to a Trades Object
-   * 
-   * @param BTCETrades The BTCE trade data returned by API v.3
-   * @param tradableIdentifier First currency of the pair
-   * @param currency Second currency of the pair
-   * @return The trades
-   */
-  public static Trades adaptTradesV3(BTCETradeV3[] BTCETrades, String tradableIdentifier, String currency) {
-
-    List<Trade> tradesList = new ArrayList<Trade>();
-    for (BTCETradeV3 BTCETrade : BTCETrades) {
-      // Date is reversed order. Insert at index 0 instead of appending
-      tradesList.add(0, adaptTradeV3(BTCETrade, tradableIdentifier, currency));
     }
     return new Trades(tradesList);
   }
@@ -257,17 +216,6 @@ public final class BTCEAdapters {
       trades.add(new Trade(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timeStamp, entry.getKey()));
     }
     return new Trades(trades);
-  }
-
-  public static ExchangeInfo adaptExchangeInfo(BTCEInfoV3 infoV3) {
-
-    Set<String> btcePairs = infoV3.getPairs().keySet();
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
-    for (String s : btcePairs) {
-      String[] p = s.split("_");
-      pairs.add(new CurrencyPair(p[0].toUpperCase(), p[1].toUpperCase()));
-    }
-    return new ExchangeInfo(pairs);
   }
 
 }
