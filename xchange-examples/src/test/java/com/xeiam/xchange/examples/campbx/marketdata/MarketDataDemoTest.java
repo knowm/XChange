@@ -36,7 +36,7 @@ public class MarketDataDemoTest {
   @Test
   public void testMain() throws Exception {
 
-    MarketDataDemo.main(new String[] {});
+    CampBXMarketDataDemo.main(new String[] {});
   }
 
 }
