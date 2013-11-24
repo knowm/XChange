@@ -55,7 +55,10 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
    * Configured from the super class reading of the exchange specification
    */
   private final MtGoxV2 mtGoxV2;
-  private ParamsDigest signatureCreator;
+  private final ParamsDigest signatureCreator;
+  
+  private static AccountInfo accountInfo;
+  private static long lastCache = 0;
 
   /**
    * Constructor
@@ -74,10 +77,15 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   @Override
   public AccountInfo getAccountInfo() {
 
+	  if(lastCache + 10000 > System.currentTimeMillis()){
+		  return accountInfo;
+	  }
+	  
     try {
       MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
       if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
-        return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
+    	  lastCache = System.currentTimeMillis();
+    	  return accountInfo = MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfoWrapper.getMtGoxAccountInfo());
       }
       else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
         throw new ExchangeException("Error calling getAccountInfo(): " + mtGoxAccountInfoWrapper.getError());

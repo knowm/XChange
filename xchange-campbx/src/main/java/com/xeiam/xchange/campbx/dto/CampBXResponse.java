@@ -9,56 +9,60 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CampBXResponse implements Serializable {
 
-  @JsonProperty("Success")
-  private String success;
-  @JsonProperty("Info")
-  private String info;
-  @JsonProperty("Error")
-  private String error;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5749270949404186745L;
+	@JsonProperty("Success")
+	private String success;
+	@JsonProperty("Info")
+	private String info;
+	@JsonProperty("Error")
+	private String error;
 
-  public String getSuccess() {
+	public String getSuccess() {
 
-    return success;
-  }
+		return success;
+	}
 
-  public String getInfo() {
+	public String getInfo() {
 
-    return info;
-  }
+		return info;
+	}
 
-  public String getError() {
+	public String getError() {
 
-    return error;
-  }
+		return error;
+	}
 
-  public boolean isError() {
+	public boolean isError() {
 
-    return error != null;
-  }
+		return error != null;
+	}
 
-  public boolean isInfo() {
+	public boolean isInfo() {
 
-    return info != null;
-  }
+		return info != null;
+	}
 
-  public boolean isSuccess() {
+	public boolean isSuccess() {
 
-    return success != null;
-  }
+		return success != null;
+	}
 
-  private String getUnwrappedResult() {
+	private String getUnwrappedResult() {
 
-    return isError() ? error : isInfo() ? info : isSuccess() ? success : null;
-  }
+		return isError() ? error : isInfo() ? info : isSuccess() ? success : null;
+	}
 
-  private String getType() {
+	private String getType() {
 
-    return isError() ? "Error" : isInfo() ? "Info" : isSuccess() ? "Success" : "<Unknown>";
-  }
+		return isError() ? "Error" : isInfo() ? "Info" : isSuccess() ? "Success" : "<Unknown>";
+	}
 
-  @Override
-  public String toString() {
+	@Override
+	public String toString() {
 
-    return String.format("CampBXResponse[%s: %s]", getType(), getUnwrappedResult());
-  }
+		return String.format("CampBXResponse[%s: %s]", getType(), getUnwrappedResult());
+	}
 }

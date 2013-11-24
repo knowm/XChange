@@ -24,9 +24,9 @@ package com.xeiam.xchange.bitstamp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -36,45 +36,45 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public final class BitstampUtils {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-  /**
-   * private Constructor
-   */
-  private BitstampUtils() {
+	/**
+	 * private Constructor
+	 */
+	private BitstampUtils() {
 
-  }
+	}
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+	public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
 
-  CurrencyPair.BTC_USD
+	static {
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
+	}
 
-  );
+	/**
+	 * Checks if a given CurrencyPair is covered by this exchange
+	 * 
+	 * @param currencyPair
+	 * @return
+	 */
+	public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+		return CURRENCY_PAIRS.contains(currencyPair);
+	}
 
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
+	/**
+	 * Format a date String for Bitstamp
+	 * 
+	 * @param dateString
+	 * @return
+	 */
+	public static Date parseDate(String dateString) {
 
-  /**
-   * Format a date String for Bitstamp
-   * 
-   * @param dateString
-   * @return
-   */
-  public static Date parseDate(String dateString) {
-
-    try {
-      return DATE_FORMAT.parse(dateString);
-    } catch (ParseException e) {
-      throw new ExchangeException("Illegal date/time format", e);
-    }
-  }
+		try {
+			return DATE_FORMAT.parse(dateString);
+		} catch (ParseException e) {
+			throw new ExchangeException("Illegal date/time format", e);
+		}
+	}
 
 }

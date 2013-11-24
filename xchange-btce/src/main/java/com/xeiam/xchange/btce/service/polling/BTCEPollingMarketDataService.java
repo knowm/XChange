@@ -21,7 +21,9 @@
  */
 package com.xeiam.xchange.btce.service.polling;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -39,6 +41,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -49,77 +52,77 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BTCEPollingMarketDataService implements PollingMarketDataService {
+public class BTCEPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private final BTCE btce;
+	private final BTCE btce;
 
-  /**
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public BTCEPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+	/**
+	 * @param exchangeSpecification
+	 *          The {@link ExchangeSpecification}
+	 */
+	public BTCEPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+		super(exchangeSpecification);
+		btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
+	}
 
-    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
-  }
+	@Override
+	public Ticker getTicker(String tradableIdentifier, String currency) {
 
-  @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+		verify(tradableIdentifier, currency);
 
-    verify(tradableIdentifier, currency);
+		BTCETicker btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    BTCETicker btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+		// Adapt to XChange DTOs
+		return BTCEAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);
+	}
 
-    // Adapt to XChange DTOs
-    return BTCEAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);
-  }
+	@Override
+	public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
-  @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+		throw new NotAvailableFromExchangeException();
+	}
 
-    throw new NotAvailableFromExchangeException();
-  }
+	@Override
+	public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+		verify(tradableIdentifier, currency);
+		BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    verify(tradableIdentifier, currency);
+		// Adapt to XChange DTOs
+		List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
+		List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
 
-    BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+		return new OrderBook(asks, bids);
+	}
 
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+	@Override
+	public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
-    return new OrderBook(asks, bids);
-  }
+		verify(tradableIdentifier, currency);
 
-  @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+		BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    verify(tradableIdentifier, currency);
+		return BTCEAdapters.adaptTrades(BTCETrades);
+	}
 
-    BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+	/**
+	 * Verify
+	 * 
+	 * @param tradableIdentifier
+	 *          The tradable identifier (e.g. BTC in BTC/USD)
+	 * @param currency
+	 */
+	private void verify(String tradableIdentifier, String currency) {
 
-    return BTCEAdapters.adaptTrades(BTCETrades);
-  }
+		Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+		Assert.notNull(currency, "currency cannot be null");
+		Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
+	}
 
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+	@Override
+	public Set<CurrencyPair> getExchangeSymbols() {
 
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BTCEUtils.CURRENCY_PAIRS;
-  }
-
+		return new HashSet<CurrencyPair>(BTCEUtils.CURRENCY_PAIRS);
+	}
 }

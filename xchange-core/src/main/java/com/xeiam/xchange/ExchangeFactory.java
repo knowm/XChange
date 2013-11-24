@@ -31,96 +31,96 @@ import com.xeiam.xchange.utils.Assert;
  * Factory to provide the following to {@link Exchange}:
  * </p>
  * <ul>
- * <li>Manages the creation of specific Exchange implementations using runtime dependencies</li>
+ * <li>Manages the creation of specific Exchange implementations using runtime
+ * dependencies</li>
  * </ul>
  */
 public enum ExchangeFactory {
 
-  INSTANCE;
+	INSTANCE;
 
-  private final Logger log = LoggerFactory.getLogger(ExchangeFactory.class);
+	private final Logger log = LoggerFactory.getLogger(ExchangeFactory.class);
 
-  /**
-   * Constructor
-   */
-  private ExchangeFactory() {
+	/**
+	 * Constructor
+	 */
+	private ExchangeFactory() {
 
-  }
+	}
 
-  /**
-   * Create an Exchange object
-   * 
-   * @param exchangeClassName
-   * @return
-   */
-  public Exchange createExchange(String exchangeClassName) {
+	/**
+	 * Create an Exchange object
+	 * 
+	 * @param exchangeClassName
+	 * @return
+	 */
+	public Exchange createExchange(String exchangeClassName) {
 
-    Assert.notNull(exchangeClassName, "exchangeClassName cannot be null");
+		Assert.notNull(exchangeClassName, "exchangeClassName cannot be null");
 
-    log.debug("Creating default exchange from class name");
+		log.debug("Creating default exchange from class name");
 
-    // Attempt to create an instance of the exchange provider
-    try {
+		// Attempt to create an instance of the exchange provider
+		try {
 
-      // Attempt to locate the exchange provider on the classpath
-      Class exchangeProviderClass = Class.forName(exchangeClassName);
+			// Attempt to locate the exchange provider on the classpath
+			Class<?> exchangeProviderClass = Class.forName(exchangeClassName);
 
-      // Test that the class implements Exchange
-      if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
-        // Instantiate through the default constructor and use the default exchange specification
-        Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
-        exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-        return exchange;
-      }
-      else {
-        throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
-      }
-    } catch (ClassNotFoundException e) {
-      throw new ExchangeException("Problem creating Exchange (class not found)", e);
-    } catch (InstantiationException e) {
-      throw new ExchangeException("Problem creating Exchange (instantiation)", e);
-    } catch (IllegalAccessException e) {
-      throw new ExchangeException("Problem creating Exchange (illegal access)", e);
-    }
+			// Test that the class implements Exchange
+			if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
+				// Instantiate through the default constructor and use the default
+				// exchange specification
+				Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
+				exchange.applySpecification(exchange.getDefaultExchangeSpecification());
+				return exchange;
+			} else {
+				throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
+			}
+		} catch (ClassNotFoundException e) {
+			throw new ExchangeException("Problem creating Exchange (class not found)", e);
+		} catch (InstantiationException e) {
+			throw new ExchangeException("Problem creating Exchange (instantiation)", e);
+		} catch (IllegalAccessException e) {
+			throw new ExchangeException("Problem creating Exchange (illegal access)", e);
+		}
 
-    // Cannot be here due to exceptions
+		// Cannot be here due to exceptions
 
-  }
+	}
 
-  public Exchange createExchange(ExchangeSpecification exchangeSpecification) {
+	public Exchange createExchange(ExchangeSpecification exchangeSpecification) {
 
-    Assert.notNull(exchangeSpecification, "exchangeSpecfication cannot be null");
+		Assert.notNull(exchangeSpecification, "exchangeSpecfication cannot be null");
 
-    log.debug("Creating exchange from specification");
+		// log.debug("Creating exchange from specification");
 
-    String exchangeClassName = exchangeSpecification.getExchangeClassName();
+		String exchangeClassName = exchangeSpecification.getExchangeClassName();
 
-    // Attempt to create an instance of the exchange provider
-    try {
+		// Attempt to create an instance of the exchange provider
+		try {
 
-      // Attempt to locate the exchange provider on the classpath
-      Class exchangeProviderClass = Class.forName(exchangeClassName);
+			// Attempt to locate the exchange provider on the classpath
+			Class<?> exchangeProviderClass = Class.forName(exchangeClassName);
 
-      // Test that the class implements Exchange
-      if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
-        // Instantiate through the default constructor
-        Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
-        exchange.applySpecification(exchangeSpecification);
-        return exchange;
-      }
-      else {
-        throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
-      }
-    } catch (ClassNotFoundException e) {
-      throw new ExchangeException("Problem starting exchange provider (class not found)", e);
-    } catch (InstantiationException e) {
-      throw new ExchangeException("Problem starting exchange provider (instantiation)", e);
-    } catch (IllegalAccessException e) {
-      throw new ExchangeException("Problem starting exchange provider (illegal access)", e);
-    }
+			// Test that the class implements Exchange
+			if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
+				// Instantiate through the default constructor
+				Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
+				exchange.applySpecification(exchangeSpecification);
+				return exchange;
+			} else {
+				throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
+			}
+		} catch (ClassNotFoundException e) {
+			throw new ExchangeException("Problem starting exchange provider (class not found)", e);
+		} catch (InstantiationException e) {
+			throw new ExchangeException("Problem starting exchange provider (instantiation)", e);
+		} catch (IllegalAccessException e) {
+			throw new ExchangeException("Problem starting exchange provider (illegal access)", e);
+		}
 
-    // Cannot be here due to exceptions
+		// Cannot be here due to exceptions
 
-  }
+	}
 
 }

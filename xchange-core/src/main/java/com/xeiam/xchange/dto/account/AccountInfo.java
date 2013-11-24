@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.dto.account;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.money.BigMoney;
@@ -33,62 +34,77 @@ import com.xeiam.xchange.dto.trade.Wallet;
  * DTO representing account information
  * </p>
  * <p>
- * Account information is associated with the current balances in various currencies held on the exchange.
+ * Account information is associated with the current balances in various
+ * currencies held on the exchange.
  * </p>
  */
 public final class AccountInfo {
 
-  private final String username;
-  private final List<Wallet> wallets;
+	private String username;
+	private List<Wallet> wallets;
+	private List<Wallet> unavailableWallets = new ArrayList<Wallet>();
 
-  /**
-   * @param username The user name
-   * @param wallets The available wallets
-   */
-  public AccountInfo(String username, List<Wallet> wallets) {
+	public List<Wallet> getUnavailableWallets() {
+		return unavailableWallets;
+	}
 
-    this.username = username;
-    this.wallets = wallets;
-  }
+	/**
+	 * @param username
+	 *          The user name
+	 * @param wallets
+	 *          The available wallets
+	 */
+	public AccountInfo(String username, List<Wallet> wallets) {
 
-  /**
-   * @return The user name
-   */
-  public String getUsername() {
+		this.username = username;
+		this.wallets = wallets;
+	}
 
-    return username;
-  }
+	public AccountInfo(String username, List<Wallet> wallets, List<Wallet> unavailableWallets) {
+		this(username, wallets);
+		this.unavailableWallets = unavailableWallets;
+	}
 
-  /**
-   * @return The available wallets (balance and currency)
-   */
-  public List<Wallet> getWallets() {
+	/**
+	 * @return The user name
+	 */
+	public String getUsername() {
 
-    return wallets;
-  }
+		return username;
+	}
 
-  /**
-   * Utility method to locate an exchange balance in the given currency
-   * 
-   * @param currencyUnit A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
-   * @return The balance, or zero if not found
-   */
-  public BigMoney getBalance(CurrencyUnit currencyUnit) {
+	/**
+	 * @return The available wallets (balance and currency)
+	 */
+	public List<Wallet> getWallets() {
 
-    for (Wallet wallet : wallets) {
-      if (wallet.getBalance().getCurrencyUnit().equals(currencyUnit)) {
-        return wallet.getBalance();
-      }
-    }
+		return wallets;
+	}
 
-    // Not found so treat as zero
-    return BigMoney.zero(currencyUnit);
-  }
+	/**
+	 * Utility method to locate an exchange balance in the given currency
+	 * 
+	 * @param currencyUnit
+	 *          A valid currency unit (e.g. CurrencyUnit.USD or
+	 *          CurrencyUnit.of("BTC"))
+	 * @return The balance, or zero if not found
+	 */
+	public BigMoney getBalance(CurrencyUnit currencyUnit) {
 
-  @Override
-  public String toString() {
+		for (Wallet wallet : wallets) {
+			if (wallet.getBalance().getCurrencyUnit().equals(currencyUnit)) {
+				return wallet.getBalance();
+			}
+		}
 
-    return "AccountInfo [username=" + username + ", wallets=" + wallets + "]";
-  }
+		// Not found so treat as zero
+		return BigMoney.zero(currencyUnit);
+	}
+
+	@Override
+	public String toString() {
+
+		return "AccountInfo [username=" + username + ", wallets=" + wallets + "]";
+	}
 
 }

@@ -8,9 +8,7 @@
 	</parent>
 
 	<artifactId>xchange-mtgox</artifactId>
-  <version>1.8.0-SNAPSHOT</version>
-
-	<name>MtGox Exchange</name>
+  <name>MtGox Exchange</name>
 	<description>XChange implementations for the MtGox Exchange.</description>
 
 	<url>http://xeiam.com</url>

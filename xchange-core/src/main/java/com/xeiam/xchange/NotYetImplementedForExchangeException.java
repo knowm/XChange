@@ -26,27 +26,30 @@ package com.xeiam.xchange;
  * Exception to provide the following to API:
  * </p>
  * <ul>
- * <li>Indication that the exchange supports the requested function or data, but it's not yet been implemented</li>
+ * <li>Indication that the exchange supports the requested function or data, but
+ * it's not yet been implemented</li>
  * </ul>
  */
 public class NotYetImplementedForExchangeException extends RuntimeException {
 
-  /**
-   * Constructor
-   * 
-   * @param message
-   */
-  private NotYetImplementedForExchangeException(String message) {
+	private static final long serialVersionUID = -4755173607999274342L;
 
-    super(message);
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 */
+	private NotYetImplementedForExchangeException(String message) {
 
-  /**
-   * Constructor
-   */
-  public NotYetImplementedForExchangeException() {
+		super(message);
+	}
 
-    this("Capability not yet implemented for exchange.");
-  }
+	/**
+	 * Constructor
+	 */
+	public NotYetImplementedForExchangeException() {
+
+		this("Capability not yet implemented for exchange.");
+	}
 
 }

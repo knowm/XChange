@@ -80,6 +80,7 @@
 		<module>xchange-bitstamp</module>
 		<module>xchange-campbx</module>
 		<module>xchange-bitcoincharts</module>
+		<module>xchange-cryptsy</module>
 	</modules>
 
 	<repositories>
@@ -120,7 +121,7 @@
 				<groupId>org.joda</groupId>
 				<artifactId>joda-money</artifactId>
 				<!-- Require 0.8+ to support Bitcoin (see #40) -->
-				<version>0.8</version>
+				<version>0.9.2-SNAPSHOT</version>
 			</dependency>
 
 			<!-- Charting -->
@@ -141,7 +142,7 @@
 			<dependency>
 				<groupId>com.github.mmazi</groupId>
 				<artifactId>rescu</artifactId>
-				<version>1.2.0-SNAPSHOT</version>
+				<version>1.5.0</version>
 			</dependency>
 
 		</dependencies>
@@ -244,8 +245,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 				</configuration>

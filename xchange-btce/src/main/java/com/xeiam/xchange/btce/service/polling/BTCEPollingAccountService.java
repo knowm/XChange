@@ -36,33 +36,42 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class BTCEPollingAccountService extends BTCEBasePollingService implements PollingAccountService {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public BTCEPollingAccountService(ExchangeSpecification exchangeSpecification) {
+	public static long lastCache = 0;
+	public static AccountInfo accountInfo;
 
-    super(exchangeSpecification);
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param exchangeSpecification
+	 *            The {@link ExchangeSpecification}
+	 */
+	public BTCEPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
-  @Override
-  public AccountInfo getAccountInfo() {
+		super(exchangeSpecification);
+	}
 
-    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
-    checkResult(info);
-    return BTCEAdapters.adaptAccountInfo(info.getReturnValue());
-  }
+	@Override
+	public AccountInfo getAccountInfo() {
+		if (lastCache + 10000 > System.currentTimeMillis()) {
+			return accountInfo;
+		}
 
-  @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+		BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
+		checkResult(info);
+		lastCache = System.currentTimeMillis();
 
-    throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
-  }
+		return accountInfo = BTCEAdapters.adaptAccountInfo(info.getReturnValue());
+	}
 
-  @Override
-  public String requestBitcoinDepositAddress(final String... arguments) {
+	@Override
+	public String withdrawFunds(BigDecimal amount, String address) {
 
-    throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
-  }
+		throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
+	}
+
+	@Override
+	public String requestBitcoinDepositAddress(final String... arguments) {
+
+		throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
+	}
 }

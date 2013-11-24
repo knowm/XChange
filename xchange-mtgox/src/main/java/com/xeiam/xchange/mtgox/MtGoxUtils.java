@@ -24,8 +24,8 @@ package com.xeiam.xchange.mtgox;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.joda.money.BigMoney;
 
@@ -37,130 +37,129 @@ import com.xeiam.xchange.currency.MoneyUtils;
  */
 public final class MtGoxUtils {
 
-  /**
-   * private Constructor
-   */
-  private MtGoxUtils() {
+	/**
+	 * private Constructor
+	 */
+	private MtGoxUtils() {
 
-  }
+	}
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+	public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
+	static {
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
 
-  CurrencyPair.BTC_USD,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
 
-  CurrencyPair.BTC_EUR,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_GBP);
 
-  CurrencyPair.BTC_GBP,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_AUD);
 
-  CurrencyPair.BTC_AUD,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_CAD);
 
-  CurrencyPair.BTC_CAD,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_CHF);
 
-  CurrencyPair.BTC_CHF,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_JPY);
 
-  CurrencyPair.BTC_JPY,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_CNY);
 
-  CurrencyPair.BTC_CNY,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_DKK);
 
-  CurrencyPair.BTC_DKK,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_HKD);
 
-  CurrencyPair.BTC_HKD,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_NZD);
 
-  CurrencyPair.BTC_NZD,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_PLN);
 
-  CurrencyPair.BTC_PLN,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_RUB);
 
-  CurrencyPair.BTC_RUB,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_SEK);
 
-  CurrencyPair.BTC_SEK,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_SGD);
 
-  CurrencyPair.BTC_SGD,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_THB);
 
-  CurrencyPair.BTC_THB,
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_NOK);
 
-  CurrencyPair.BTC_NOK
+	}
 
-  );
+	/**
+	 * <p>
+	 * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data
+	 * is cached for 10 seconds.
+	 * </p>
+	 */
+	public static final int REFRESH_RATE = 10; // [seconds]
 
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/MtGox/API), data is cached for 10 seconds.
-   * </p>
-   */
-  public static final int REFRESH_RATE = 10; // [seconds]
+	public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
 
-  public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
+	public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
 
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
+	public static final int JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR = 1000;
 
-  public static final int JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+	/**
+	 * Converts an amount to a properly scaled int-String for Mt Gox
+	 * 
+	 * @param amount
+	 * @return
+	 */
+	public static String getAmountString(BigDecimal amount) {
 
-  /**
-   * Converts an amount to a properly scaled int-String for Mt Gox
-   * 
-   * @param amount
-   * @return
-   */
-  public static String getAmountString(BigDecimal amount) {
+		return amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
+	}
 
-    return amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
-  }
+	/**
+	 * Converts a price in decimal form to a properly scaled int-String for Mt Gox
+	 * 
+	 * @param price
+	 * @return
+	 */
+	public static String getPriceString(BigMoney price) {
 
-  /**
-   * Converts a price in decimal form to a properly scaled int-String for Mt Gox
-   * 
-   * @param price
-   * @return
-   */
-  public static String getPriceString(BigMoney price) {
+		if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
+			return price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
+		} else { // JPY, SEK
+			return price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
+		}
+	}
 
-    if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
-      return price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    }
-    else { // JPY, SEK
-      return price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    }
-  }
+	/**
+	 * Converts a currency and long price into a BigMoney Object
+	 * 
+	 * @param currency
+	 * @param price
+	 * @return
+	 */
+	public static BigMoney getPrice(String currency, long price) {
 
-  /**
-   * Converts a currency and long price into a BigMoney Object
-   * 
-   * @param currency
-   * @param price
-   * @return
-   */
-  public static BigMoney getPrice(String currency, long price) {
+		if (!(currency.equals("JPY") || currency.equals("SEK"))) {
+			return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
+		} else { // JPY
+			return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)));
+		}
+	}
 
-    if (!(currency.equals("JPY") || currency.equals("SEK"))) {
-      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
-    }
-    else { // JPY
-      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)));
-    }
-  }
+	/**
+	 * Checks if a given CurrencyPair is covered by this exchange
+	 * 
+	 * @param currencyPair
+	 * @return
+	 */
+	public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+		return CURRENCY_PAIRS.contains(currencyPair);
+	}
 
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
+	public static String urlEncode(String str) {
 
-  public static String urlEncode(String str) {
+		try {
+			return URLEncoder.encode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Problem encoding, probably bug in code.", e);
+		}
+	}
 
-    try {
-      return URLEncoder.encode(str, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Problem encoding, probably bug in code.", e);
-    }
-  }
+	public static long getNonce() {
 
-  public static long getNonce() {
-
-    return System.currentTimeMillis();
-  }
+		return System.currentTimeMillis();
+	}
 }

@@ -24,6 +24,8 @@ package com.xeiam.xchange.mtgox.v0;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxPollingMarketDataService;
 
 /**
@@ -40,25 +42,30 @@ import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxPollingMarketD
 @Deprecated
 public class MtGoxExchange extends BaseExchange implements Exchange {
 
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+	@Override
+	public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
-    super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
-  }
+		super.applySpecification(exchangeSpecification);
+		this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
+	}
 
-  @Override
-  public ExchangeSpecification getDefaultExchangeSpecification() {
+	@Override
+	public ExchangeSpecification getDefaultExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://data.mtgox.com");
-    exchangeSpecification.setPlainTextUri("http://data.mtgox.com");
-    exchangeSpecification.setHost("mtgox.com");
-    exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("MtGox");
-    exchangeSpecification.setExchangeDescription("MtGox is a Bitcoin exchange registered in Japan.");
+		ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+		exchangeSpecification.setSslUri("https://data.mtgox.com");
+		exchangeSpecification.setPlainTextUri("http://data.mtgox.com");
+		exchangeSpecification.setHost("mtgox.com");
+		exchangeSpecification.setPort(80);
+		exchangeSpecification.setExchangeName("MtGox");
+		exchangeSpecification.setExchangeDescription("MtGox is a Bitcoin exchange registered in Japan.");
 
-    return exchangeSpecification;
-  }
+		return exchangeSpecification;
+	}
+
+	@Override
+	public boolean isSupportedCurrencyPair(CurrencyPair aPair) {
+		return MtGoxUtils.isValidCurrencyPair(aPair);
+	}
 
 }

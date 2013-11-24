@@ -21,135 +21,173 @@
  */
 package com.xeiam.xchange.currency;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * Value object to provide the following to API:
  * </p>
  * <ul>
  * <li>Provision of major currency symbol pairs (EUR/USD, GBP/USD etc)</li>
- * <li>Provision of arbitrary symbol pairs for exchange index trading, notional currencies etc</li>
+ * <li>Provision of arbitrary symbol pairs for exchange index trading, notional
+ * currencies etc</li>
  * </ul>
  * <p>
- * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
+ * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be
+ * purchased with 1.25 USD
  * </p>
  */
-public class CurrencyPair {
+public class CurrencyPair implements Serializable, Comparable<CurrencyPair> {
 
-  // Provide some standard major symbols
-  public static final CurrencyPair EUR_USD = new CurrencyPair("EUR");
-  public static final CurrencyPair GBP_USD = new CurrencyPair("GBP");
-  public static final CurrencyPair USD_JPY = new CurrencyPair("USD", "JPY");
-  public static final CurrencyPair USD_CHF = new CurrencyPair("USD", "CHF");
-  public static final CurrencyPair USD_AUD = new CurrencyPair("USD", "AUD");
-  public static final CurrencyPair USD_CAD = new CurrencyPair("USD", "CAD");
+	private static final long serialVersionUID = -4731749917820512844L;
+	// Provide some standard major symbols
+	public static final CurrencyPair EUR_USD = new CurrencyPair("EUR");
+	public static final CurrencyPair GBP_USD = new CurrencyPair("GBP");
+	public static final CurrencyPair USD_JPY = new CurrencyPair("USD", "JPY");
+	public static final CurrencyPair USD_CHF = new CurrencyPair("USD", "CHF");
+	public static final CurrencyPair USD_AUD = new CurrencyPair("USD", "AUD");
+	public static final CurrencyPair USD_CAD = new CurrencyPair("USD", "CAD");
 
-  // Provide some courtesy BTC major symbols
-  public static final CurrencyPair BTC_USD = new CurrencyPair("BTC");
-  public static final CurrencyPair BTC_GBP = new CurrencyPair("BTC", "GBP");
-  public static final CurrencyPair BTC_EUR = new CurrencyPair("BTC", "EUR");
-  public static final CurrencyPair BTC_JPY = new CurrencyPair("BTC", "JPY");
-  public static final CurrencyPair BTC_CHF = new CurrencyPair("BTC", "CHF");
-  public static final CurrencyPair BTC_AUD = new CurrencyPair("BTC", "AUD");
-  public static final CurrencyPair BTC_CAD = new CurrencyPair("BTC", "CAD");
-  public static final CurrencyPair BTC_CNY = new CurrencyPair("BTC", "CNY");
-  public static final CurrencyPair BTC_DKK = new CurrencyPair("BTC", "DKK");
-  public static final CurrencyPair BTC_HKD = new CurrencyPair("BTC", "HKD");
-  public static final CurrencyPair BTC_NZD = new CurrencyPair("BTC", "NZD");
-  public static final CurrencyPair BTC_PLN = new CurrencyPair("BTC", "PLN");
-  public static final CurrencyPair BTC_RUB = new CurrencyPair("BTC", "RUB");
-  public static final CurrencyPair BTC_SEK = new CurrencyPair("BTC", "SEK");
-  public static final CurrencyPair BTC_SGD = new CurrencyPair("BTC", "SGD");
-  public static final CurrencyPair BTC_NOK = new CurrencyPair("BTC", "NOK");
-  public static final CurrencyPair BTC_THB = new CurrencyPair("BTC", "THB");
+	// Provide some courtesy BTC major symbols
+	public static final CurrencyPair BTC_USD = new CurrencyPair("BTC");
+	public static final CurrencyPair BTC_GBP = new CurrencyPair("BTC", "GBP");
+	public static final CurrencyPair BTC_EUR = new CurrencyPair("BTC", "EUR");
+	public static final CurrencyPair BTC_JPY = new CurrencyPair("BTC", "JPY");
+	public static final CurrencyPair BTC_CHF = new CurrencyPair("BTC", "CHF");
+	public static final CurrencyPair BTC_AUD = new CurrencyPair("BTC", "AUD");
+	public static final CurrencyPair BTC_CAD = new CurrencyPair("BTC", "CAD");
+	public static final CurrencyPair BTC_CNY = new CurrencyPair("BTC", "CNY");
+	public static final CurrencyPair BTC_DKK = new CurrencyPair("BTC", "DKK");
+	public static final CurrencyPair BTC_HKD = new CurrencyPair("BTC", "HKD");
+	public static final CurrencyPair BTC_NZD = new CurrencyPair("BTC", "NZD");
+	public static final CurrencyPair BTC_PLN = new CurrencyPair("BTC", "PLN");
+	public static final CurrencyPair BTC_RUB = new CurrencyPair("BTC", "RUB");
+	public static final CurrencyPair BTC_SEK = new CurrencyPair("BTC", "SEK");
+	public static final CurrencyPair BTC_SGD = new CurrencyPair("BTC", "SGD");
+	public static final CurrencyPair BTC_NOK = new CurrencyPair("BTC", "NOK");
+	public static final CurrencyPair BTC_THB = new CurrencyPair("BTC", "THB");
 
-  public static final CurrencyPair BTC_RUR = new CurrencyPair("BTC", "RUR");
-  public static final CurrencyPair LTC_BTC = new CurrencyPair("LTC", "BTC");
-  public static final CurrencyPair LTC_USD = new CurrencyPair("LTC", "USD");
-  public static final CurrencyPair LTC_RUR = new CurrencyPair("LTC", "RUR");
-  public static final CurrencyPair NMC_BTC = new CurrencyPair("NMC", "BTC");
-  public static final CurrencyPair USD_RUR = new CurrencyPair("USD", "RUR");
+	public static final CurrencyPair BTC_RUR = new CurrencyPair("BTC", "RUR");
+	public static final CurrencyPair LTC_BTC = new CurrencyPair("LTC", "BTC");
+	public static final CurrencyPair LTC_USD = new CurrencyPair("LTC", "USD");
+	public static final CurrencyPair LTC_RUR = new CurrencyPair("LTC", "RUR");
+	public static final CurrencyPair NMC_BTC = new CurrencyPair("NMC", "BTC");
+	public static final CurrencyPair USD_RUR = new CurrencyPair("USD", "RUR");
 
-  public static final CurrencyPair NVC_BTC = new CurrencyPair("NVC", "BTC");
-  public static final CurrencyPair TRC_BTC = new CurrencyPair("TRC", "BTC");
-  public static final CurrencyPair PPC_BTC = new CurrencyPair("PPC", "BTC");
-  public static final CurrencyPair FTC_BTC = new CurrencyPair("FTC", "BTC");
-  public static final CurrencyPair CNC_BTC = new CurrencyPair("CNC", "BTC");
+	public static final CurrencyPair NVC_BTC = new CurrencyPair("NVC", "BTC");
+	public static final CurrencyPair TRC_BTC = new CurrencyPair("TRC", "BTC");
+	public static final CurrencyPair PPC_BTC = new CurrencyPair("PPC", "BTC");
+	public static final CurrencyPair FTC_BTC = new CurrencyPair("FTC", "BTC");
+	public static final CurrencyPair CNC_BTC = new CurrencyPair("CNC", "BTC");
 
-  public final String baseCurrency;
-  public final String counterCurrency;
+	public String baseCurrency;
+	public String counterCurrency;
 
-  /**
-   * <p>
-   * Reduced constructor using the global reserve currency symbol (USD) as the default counter
-   * </p>
-   * 
-   * @param baseCurrency The base symbol (single unit)
-   */
-  public CurrencyPair(String baseCurrency) {
+	/**
+	 * <p>
+	 * Reduced constructor using the global reserve currency symbol (USD) as the
+	 * default counter
+	 * </p>
+	 * 
+	 * @param baseCurrency
+	 *          The base symbol (single unit)
+	 */
+	public CurrencyPair(String aBaseCurrency) {
 
-    this(baseCurrency, "USD");
-  }
+		if (aBaseCurrency.contains("/")) {
+			String[] s = aBaseCurrency.split("/");
+			baseCurrency = s[0];
+			counterCurrency = s[1];
+		} else {
+			baseCurrency = aBaseCurrency;
+			counterCurrency = "USD";
+		}
+	}
 
-  /**
-   * <p>
-   * Full constructor
-   * </p>
-   * 
-   * @param baseCurrency The base symbol (single unit)
-   * @param counterCurrency The counter symbol (multiple units)
-   */
-  public CurrencyPair(String baseCurrency, String counterCurrency) {
+	public CurrencyPair() {
+	}
 
-    this.baseCurrency = baseCurrency;
-    this.counterCurrency = counterCurrency;
-  }
+	/**
+	 * <p>
+	 * Full constructor
+	 * </p>
+	 * 
+	 * @param baseCurrency
+	 *          The base symbol (single unit)
+	 * @param counterCurrency
+	 *          The counter symbol (multiple units)
+	 */
+	public CurrencyPair(String baseCurrency, String counterCurrency) {
 
-  @Override
-  public String toString() {
+		this.baseCurrency = baseCurrency;
+		this.counterCurrency = counterCurrency;
+	}
 
-    return baseCurrency + "/" + counterCurrency;
-  }
+	@Override
+	public String toString() {
 
-  @Override
-  public int hashCode() {
+		return baseCurrency + "/" + counterCurrency;
+	}
 
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((baseCurrency == null) ? 0 : baseCurrency.hashCode());
-    result = prime * result + ((counterCurrency == null) ? 0 : counterCurrency.hashCode());
-    return result;
-  }
+	@Override
+	public int hashCode() {
 
-  @Override
-  public boolean equals(Object obj) {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((baseCurrency == null) ? 0 : baseCurrency.hashCode());
+		result = prime * result + ((counterCurrency == null) ? 0 : counterCurrency.hashCode());
+		return result;
+	}
 
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    CurrencyPair other = (CurrencyPair) obj;
-    if (baseCurrency == null) {
-      if (other.baseCurrency != null) {
-        return false;
-      }
-    }
-    else if (!baseCurrency.equals(other.baseCurrency)) {
-      return false;
-    }
-    if (counterCurrency == null) {
-      if (other.counterCurrency != null) {
-        return false;
-      }
-    }
-    else if (!counterCurrency.equals(other.counterCurrency)) {
-      return false;
-    }
-    return true;
-  }
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		CurrencyPair other = (CurrencyPair) obj;
+		if (baseCurrency == null) {
+			if (other.baseCurrency != null) {
+				return false;
+			}
+		} else if (!baseCurrency.equals(other.baseCurrency)) {
+			return false;
+		}
+		if (counterCurrency == null) {
+			if (other.counterCurrency != null) {
+				return false;
+			}
+		} else if (!counterCurrency.equals(other.counterCurrency)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int compareTo(CurrencyPair o) {
+		return new String(baseCurrency + "/" + counterCurrency).compareTo(new String(o.baseCurrency + "/" + o.counterCurrency));
+	}
+
+	public String getBaseCurrency() {
+		return baseCurrency;
+	}
+
+	public String getCounterCurrency() {
+		return counterCurrency;
+	}
+
+	public void setBaseCurrency(String baseCurrency) {
+		this.baseCurrency = baseCurrency;
+	}
+
+	public void setCounterCurrency(String counterCurrency) {
+		this.counterCurrency = counterCurrency;
+	}
 
 }

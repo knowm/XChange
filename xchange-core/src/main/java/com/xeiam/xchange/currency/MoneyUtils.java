@@ -54,8 +54,17 @@ public class MoneyUtils {
     try {
       return BigMoney.parse(value);
     } catch (IllegalArgumentException e) { // for example, BigMoney cannot handle scientific notation in its constructor
-      BigDecimal bigDecimal = new BigDecimal(value.substring(4));
-      return BigMoney.parse(value.substring(0, 3) + " " + bigDecimal.toPlainString()); // here we attempt to parse it manually with the BigDecimal constructor
+    	String currStr;
+    	String amountStr;
+    	if (value.charAt(3) == ' ') {
+			currStr = value.substring(0, 3);
+			amountStr = value.substring(4);
+		} else {
+			currStr = value.substring(0, 4);
+			amountStr = value.substring(5);
+		}
+    	BigDecimal bigDecimal = new BigDecimal(amountStr);
+      return BigMoney.parse(currStr + " " + bigDecimal.toPlainString()); // here we attempt to parse it manually with the BigDecimal constructor
     }
   }
 

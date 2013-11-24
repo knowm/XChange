@@ -24,6 +24,8 @@ package com.xeiam.xchange.mtgox.v1;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v1.service.account.MtGoxPollingAccountService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService;
 import com.xeiam.xchange.mtgox.v1.service.marketdata.streaming.MtGoxStreamingConfiguration;
@@ -80,4 +82,9 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
 
     throw new IllegalArgumentException("MtGox only supports the MtGoxExchangeServiceConfiguration");
   }
+  
+	@Override
+	public boolean isSupportedCurrencyPair(CurrencyPair aPair) {
+		return MtGoxUtils.isValidCurrencyPair(aPair);
+	}
 }

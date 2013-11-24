@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.btce.service.polling;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -78,7 +79,7 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
 
     String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, new DecimalFormat("#.########").format(limitOrder.getLimitPrice().getAmount().floatValue()), new DecimalFormat("#.########").format(limitOrder.getTradableAmount()));
     checkResult(ret);
     return Long.toString(ret.getReturnValue().getOrderId());
   }

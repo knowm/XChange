@@ -28,37 +28,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class MtGoxException extends RuntimeException {
 
-  @JsonProperty("error")
-  private String error;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1233371632820094364L;
 
-  @JsonProperty("result")
-  private String result;
+	@JsonProperty("error")
+	private String error;
 
-  @JsonProperty("token")
-  private String token;
+	@JsonProperty("result")
+	private String result;
 
-  public MtGoxException() {
+	@JsonProperty("token")
+	private String token;
 
-  }
+	public MtGoxException() {
 
-  public String getError() {
+	}
 
-    return error;
-  }
+	public String getError() {
 
-  public String getResult() {
+		return error;
+	}
 
-    return result;
-  }
+	public String getResult() {
 
-  public String getToken() {
+		return result;
+	}
 
-    return token;
-  }
+	public String getToken() {
 
-  @Override
-  public String toString() {
+		return token;
+	}
 
-    return String.format("MtGoxException[token='%s', result='%s', error='%s']", token, result, error);
-  }
+	@Override
+	public String toString() {
+
+		return String.format("MtGoxException[token='%s', result='%s', error='%s']", token, result, error);
+	}
 }

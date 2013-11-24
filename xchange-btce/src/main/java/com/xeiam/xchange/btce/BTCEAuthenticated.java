@@ -22,8 +22,6 @@
  */
 package com.xeiam.xchange.btce;
 
-import java.math.BigDecimal;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -89,7 +87,7 @@ public interface BTCEAuthenticated {
   @POST
   @FormParam("method")
   BTCEPlaceOrderReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
-      @FormParam("type") BTCEOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
+      @FormParam("type") BTCEOrder.Type type, @FormParam("rate") String rate, @FormParam("amount") String amount);
 
   @POST
   @FormParam("method")

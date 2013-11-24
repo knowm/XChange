@@ -45,61 +45,64 @@ import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
  */
 public class CampBXPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
-  private final Logger logger = LoggerFactory.getLogger(CampBXPollingAccountService.class);
+	private final Logger logger = LoggerFactory.getLogger(CampBXPollingAccountService.class);
 
-  private final CampBX campBX;
+	private static AccountInfo accountInfo;
+	private static long lastCache;
+	private final CampBX campBX;
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public CampBXPollingAccountService(ExchangeSpecification exchangeSpecification) {
+	/**
+	 * Constructor
+	 * 
+	 * @param exchangeSpecification
+	 *            The {@link ExchangeSpecification}
+	 */
+	public CampBXPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
-  }
+		super(exchangeSpecification);
+		this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
+	}
 
-  @Override
-  public AccountInfo getAccountInfo() {
+	@Override
+	public AccountInfo getAccountInfo() {
+		if (lastCache + 10000 > System.currentTimeMillis()) {
+			return accountInfo;
+		}
+		MyFunds myFunds = campBX.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+		//logger.debug("myFunds = {}", myFunds);
 
-    MyFunds myFunds = campBX.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    logger.debug("myFunds = {}", myFunds);
+		if (!myFunds.isError()) {
+			lastCache = System.currentTimeMillis();
+			return accountInfo = new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(Wallet.createInstance("BTC", myFunds.getTotalBTC()), Wallet.createInstance("USD", myFunds.getTotalUSD())));
+		} else {
+			throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
+		}
+	}
 
-    if (!myFunds.isError()) {
-      return new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(Wallet.createInstance("BTC", myFunds.getTotalBTC()), Wallet.createInstance("USD", myFunds.getTotalUSD())));
-    }
-    else {
-      throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
-    }
-  }
+	@Override
+	public String withdrawFunds(BigDecimal amount, String address) {
 
-  @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+		CampBXResponse campBXResponse = campBX.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
+		logger.debug("campBXResponse = {}", campBXResponse);
 
-    CampBXResponse campBXResponse = campBX.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
-    logger.debug("campBXResponse = {}", campBXResponse);
+		if (!campBXResponse.isError()) {
+			return campBXResponse.getSuccess();
+		} else {
+			throw new ExchangeException("Error calling withdrawFunds(): " + campBXResponse.getError());
+		}
+	}
 
-    if (!campBXResponse.isError()) {
-      return campBXResponse.getSuccess();
-    }
-    else {
-      throw new ExchangeException("Error calling withdrawFunds(): " + campBXResponse.getError());
-    }
-  }
+	@Override
+	public String requestBitcoinDepositAddress(String... arguments) {
 
-  @Override
-  public String requestBitcoinDepositAddress(String... arguments) {
+		CampBXResponse campBXResponse = campBX.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+		logger.debug("campBXResponse = {}", campBXResponse);
 
-    CampBXResponse campBXResponse = campBX.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    logger.debug("campBXResponse = {}", campBXResponse);
-
-    if (!campBXResponse.isError()) {
-      return campBXResponse.getSuccess();
-    }
-    else {
-      throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + campBXResponse.getError());
-    }
-  }
+		if (!campBXResponse.isError()) {
+			return campBXResponse.getSuccess();
+		} else {
+			throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + campBXResponse.getError());
+		}
+	}
 
 }

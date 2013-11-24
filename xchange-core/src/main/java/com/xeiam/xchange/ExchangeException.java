@@ -31,24 +31,27 @@ package com.xeiam.xchange;
  */
 public class ExchangeException extends RuntimeException {
 
-  /**
-   * Constructor
-   * 
-   * @param message the message
-   */
-  public ExchangeException(String message) {
+	private static final long serialVersionUID = -456719913430652461L;
 
-    super(message);
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 *          the message
+	 */
+	public ExchangeException(String message) {
 
-  /**
-   * Constructor
-   * 
-   * @param message
-   * @param throwable
-   */
-  public ExchangeException(String message, Throwable throwable) {
+		super(message);
+	}
 
-    super(message, throwable);
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 * @param throwable
+	 */
+	public ExchangeException(String message, Throwable throwable) {
+
+		super(message, throwable);
+	}
 }

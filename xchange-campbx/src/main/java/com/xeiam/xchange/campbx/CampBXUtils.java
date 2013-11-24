@@ -21,8 +21,8 @@
  */
 package com.xeiam.xchange.campbx;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
@@ -31,28 +31,29 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public final class CampBXUtils {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+	public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
 
-  CurrencyPair.BTC_USD
+	static {
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
+	}
 
-  );
+	/**
+	 * <p>
+	 * According to CampBX API docs (https://campbx.com/api.php), do not make API
+	 * calls faster than 500ms.
+	 * </p>
+	 */
+	public static final int REFRESH_RATE = 1; // [seconds]
 
-  /**
-   * <p>
-   * According to CampBX API docs (https://campbx.com/api.php), do not make API calls faster than 500ms.
-   * </p>
-   */
-  public static final int REFRESH_RATE = 1; // [seconds]
+	/**
+	 * Checks if a given CurrencyPair is covered by this exchange
+	 * 
+	 * @param currencyPair
+	 * @return
+	 */
+	public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
+		return CURRENCY_PAIRS.contains(currencyPair);
+	}
 
 }

@@ -28,6 +28,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingAccountService;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingMarketDataService;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingTradeService;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author Matija Mazi
@@ -54,5 +55,10 @@ public class BitstampExchange extends BaseExchange implements Exchange {
     this.pollingTradeService = new BitstampPollingTradeService(exchangeSpecification);
     this.pollingAccountService = new BitstampPollingAccountService(exchangeSpecification);
   }
+  
+	@Override
+	public boolean isSupportedCurrencyPair(CurrencyPair aPair) {
+		return BitstampUtils.isValidCurrencyPair(aPair);
+	}
 
 }

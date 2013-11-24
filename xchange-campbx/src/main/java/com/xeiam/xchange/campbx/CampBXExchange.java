@@ -28,6 +28,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.service.polling.CampBXPollingAccountService;
 import com.xeiam.xchange.campbx.service.polling.CampBXPollingMarketDataService;
 import com.xeiam.xchange.campbx.service.polling.CampBXPollingTradeService;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author Matija Mazi <br/>
@@ -61,5 +62,8 @@ public class CampBXExchange extends BaseExchange implements Exchange {
     this.pollingTradeService = new CampBXPollingTradeService(exchangeSpecification);
     this.pollingAccountService = new CampBXPollingAccountService(exchangeSpecification);
   }
-
+	@Override
+	public boolean isSupportedCurrencyPair(CurrencyPair aPair) {
+		return CampBXUtils.isValidCurrencyPair(aPair);
+	}
 }

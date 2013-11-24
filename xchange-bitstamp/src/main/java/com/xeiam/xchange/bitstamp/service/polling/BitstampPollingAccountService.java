@@ -40,43 +40,52 @@ import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
  */
 public class BitstampPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
-  private BitStamp bitstamp;
+	private final BitStamp bitstamp;
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification) {
+	private static AccountInfo accountInfo;
+	private static long lastCache = 0;
 
-    super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param exchangeSpecification
+	 *            The {@link ExchangeSpecification}
+	 */
+	public BitstampPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
-  @Override
-  public AccountInfo getAccountInfo() {
+		super(exchangeSpecification);
+		this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
+	}
 
-    BitstampBalance bitstampBalance = bitstamp.getBalance(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-    if (bitstampBalance.getError() != null) {
-      throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
-    }
+	@Override
+	public AccountInfo getAccountInfo() {
+		if (lastCache + 10000 > System.currentTimeMillis()) {
+			return accountInfo;
+		}
+		BitstampBalance bitstampBalance = bitstamp.getBalance(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+		if (bitstampBalance.getError() != null) {
+			throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
+		}
 
-    return BitstampAdapters.adaptAccountInfo(bitstampBalance, exchangeSpecification.getUserName());
-  }
+		lastCache = System.currentTimeMillis();
 
-  @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+		return accountInfo = BitstampAdapters.adaptAccountInfo(bitstampBalance, exchangeSpecification.getUserName());
+	}
 
-    return bitstamp.withdrawBitcoin(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), amount, address).toString();
-  }
+	@Override
+	public String withdrawFunds(BigDecimal amount, String address) {
 
-  /**
-   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
-   */
-  @Override
-  public String requestBitcoinDepositAddress(final String... arguments) {
+		return bitstamp.withdrawBitcoin(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), amount, address).toString();
+	}
 
-    return bitstamp.getBitcoinDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
-  }
+	/**
+	 * This returns the currently set deposit address. It will not generate a
+	 * new address (ie. repeated calls will return the same address).
+	 */
+	@Override
+	public String requestBitcoinDepositAddress(final String... arguments) {
+
+		return bitstamp.getBitcoinDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+	}
 
 }

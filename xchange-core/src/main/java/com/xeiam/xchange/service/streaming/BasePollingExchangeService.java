@@ -21,7 +21,12 @@
  */
 package com.xeiam.xchange.service.streaming;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.utils.MovingAverage;
 
 /**
  * <p>
@@ -33,14 +38,26 @@ import com.xeiam.xchange.ExchangeSpecification;
  */
 public abstract class BasePollingExchangeService extends BaseExchangeService {
 
-  /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
+	/**
+	 * Initialize common properties from the exchange specification
+	 * 
+	 * @param exchangeSpecification
+	 *          The {@link ExchangeSpecification}
+	 */
+	protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-  }
+		super(exchangeSpecification);
+	}
+
+	public Map<CurrencyPair, MovingAverage> getBidAverages() {
+		return bidAverage;
+	}
+
+	public Map<CurrencyPair, MovingAverage> getAskAverages() {
+		return askAverage;
+	}
+
+	private final Map<CurrencyPair, MovingAverage> askAverage = new HashMap<CurrencyPair, MovingAverage>();
+	private final Map<CurrencyPair, MovingAverage> bidAverage = new HashMap<CurrencyPair, MovingAverage>();
 
 }

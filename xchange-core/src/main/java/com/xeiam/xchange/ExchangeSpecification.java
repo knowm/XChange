@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,11 +33,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Specification to provide the following to {@link ExchangeFactory}:
  * </p>
  * <ul>
- * <li>Provision of required exchangeSpecificParameters for creating an {@link Exchange}</li>
- * <li>Provision of optional exchangeSpecificParameters for additional configuration</li>
+ * <li>Provision of required exchangeSpecificParameters for creating an
+ * {@link Exchange}</li>
+ * <li>Provision of optional exchangeSpecificParameters for additional
+ * configuration</li>
  * </ul>
  * <p>
- * Due to the JSON annotations, you can externalise your exchange configuration as follows:
+ * Due to the JSON annotations, you can externalise your exchange configuration
+ * as follows:
  * </p>
  * <code>config.yaml:</code>
  * 
@@ -73,24 +77,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * public class Configuration {
  * 
- *   private ExchangeSpecification mtgox;
- *   private ExchangeSpecification btce;
- *   private ExchangeSpecification bitstamp;
+ * 	private ExchangeSpecification mtgox;
+ * 	private ExchangeSpecification btce;
+ * 	private ExchangeSpecification bitstamp;
  * 
- *   public ExchangeSpecification getMtgox() {
+ * 	public ExchangeSpecification getMtgox() {
  * 
- *     return mtgox;
- *   }
+ * 		return mtgox;
+ * 	}
  * 
- *   public ExchangeSpecification getBtce() {
+ * 	public ExchangeSpecification getBtce() {
  * 
- *     return btce;
- *   }
+ * 		return btce;
+ * 	}
  * 
- *   public ExchangeSpecification getBitstamp() {
+ * 	public ExchangeSpecification getBitstamp() {
  * 
- *     return bitstamp;
- *   }
+ * 		return bitstamp;
+ * 	}
  * 
  * }
  * </pre>
@@ -107,7 +111,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Configuration configuration = mapper.readValue(fis, Configuration.class);
  * </pre>
  * <p>
- * The <code>YAMLFactory</code> requires an additional Maven dependency in your application:
+ * The <code>YAMLFactory</code> requires an additional Maven dependency in your
+ * application:
  * </p>
  * 
  * <pre>
@@ -120,285 +125,302 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * }
  * </pre>
  */
-public class ExchangeSpecification {
+public class ExchangeSpecification implements Serializable {
 
-  @JsonProperty
-  private String exchangeName;
+	private static final long serialVersionUID = -1683245174250564599L;
 
-  @JsonProperty
-  private String exchangeDescription;
+	@JsonProperty
+	private String exchangeName;
 
-  @JsonProperty
-  private Double tradeFeePercent = Double.valueOf(0.0);
+	@JsonProperty
+	private String exchangeDescription;
 
-  @JsonProperty
-  private String minTradeFee;
+	@JsonProperty
+	private Double tradeFeePercent = Double.valueOf(0.0);
 
-  @JsonProperty
-  private String userName;
+	@JsonProperty
+	private String minTradeFee;
 
-  @JsonProperty
-  private String password;
+	@JsonProperty
+	private String userName;
 
-  @JsonProperty
-  private String secretKey;
+	@JsonProperty
+	private String password;
 
-  @JsonProperty
-  private String apiKey;
+	@JsonProperty
+	private String secretKey;
 
-  @JsonProperty
-  private String sslUri;
+	@JsonProperty
+	private String apiKey;
 
-  @JsonProperty
-  private String plainTextUri;
+	@JsonProperty
+	private String sslUri;
 
-  @JsonProperty
-  private String sslUriStreaming;
+	@JsonProperty
+	private String plainTextUri;
 
-  @JsonProperty
-  private String plainTextUriStreaming;
+	@JsonProperty
+	private String sslUriStreaming;
 
-  @JsonProperty
-  private String host;
+	@JsonProperty
+	private String plainTextUriStreaming;
 
-  @JsonProperty
-  private int port = 80;
+	@JsonProperty
+	private String host;
 
-  private final String exchangeClassName;
+	@JsonProperty
+	private int port = 80;
 
-  @JsonProperty
-  private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
+	private final String exchangeClassName;
 
-  /**
-   * Dynamic binding
-   * 
-   * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
-   */
-  @JsonCreator
-  public ExchangeSpecification(@JsonProperty("exchangeClassName") String exchangeClassName) {
+	@JsonProperty
+	private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
 
-    this.exchangeClassName = exchangeClassName;
-  }
+	/**
+	 * Dynamic binding
+	 * 
+	 * @param exchangeClassName
+	 *          The exchange class name (e.g.
+	 *          "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
+	 */
+	@JsonCreator
+	public ExchangeSpecification(@JsonProperty("exchangeClassName") String exchangeClassName) {
 
-  /**
-   * Static binding
-   * 
-   * @param exchangeClass The exchange class
-   */
-  public ExchangeSpecification(Class exchangeClass) {
+		this.exchangeClassName = exchangeClassName;
+	}
 
-    this.exchangeClassName = exchangeClass.getCanonicalName();
-  }
+	/**
+	 * Static binding
+	 * 
+	 * @param exchangeClass
+	 *          The exchange class
+	 */
+	public ExchangeSpecification(Class<?> exchangeClass) {
 
-  /**
-   * @return The exchange class name for loading at runtime
-   */
-  public String getExchangeClassName() {
+		this.exchangeClassName = exchangeClass.getCanonicalName();
+	}
 
-    return exchangeClassName;
-  }
+	/**
+	 * @return The exchange class name for loading at runtime
+	 */
+	public String getExchangeClassName() {
 
-  /**
-   * @param key The key into the parameter map (recommend using the provided standard static entries)
-   * @return Any additional exchangeSpecificParameters that the {@link Exchange} may consume to configure services
-   */
-  public Object getParameter(String key) {
+		return exchangeClassName;
+	}
 
-    return exchangeSpecificParameters.get(key);
-  }
+	/**
+	 * @param key
+	 *          The key into the parameter map (recommend using the provided
+	 *          standard static entries)
+	 * @return Any additional exchangeSpecificParameters that the {@link Exchange}
+	 *         may consume to configure services
+	 */
+	public Object getParameter(String key) {
 
-  /**
-   * The host name of the server providing data (e.g. "mtgox.com")
-   */
-  public String getHost() {
+		return exchangeSpecificParameters.get(key);
+	}
 
-    return host;
-  }
+	/**
+	 * The host name of the server providing data (e.g. "mtgox.com")
+	 */
+	public String getHost() {
 
-  public void setHost(String host) {
+		return host;
+	}
 
-    this.host = host;
-  }
+	public void setHost(String host) {
 
-  /**
-   * The API key. For MtGox this would be the "Rest-Key" field
-   */
-  public String getApiKey() {
+		this.host = host;
+	}
 
-    return apiKey;
-  }
+	/**
+	 * The API key. For MtGox this would be the "Rest-Key" field
+	 */
+	public String getApiKey() {
 
-  public void setApiKey(String apiKey) {
+		return apiKey;
+	}
 
-    this.apiKey = apiKey;
-  }
+	public void setApiKey(String apiKey) {
 
-  /**
-   * The port number of the server providing direct socket data (e.g. "1337")
-   */
-  public int getPort() {
+		this.apiKey = apiKey;
+	}
 
-    return port;
-  }
+	/**
+	 * The port number of the server providing direct socket data (e.g. "1337")
+	 */
+	public int getPort() {
 
-  public void setPort(int port) {
+		return port;
+	}
 
-    this.port = port;
-  }
+	public void setPort(int port) {
 
-  /**
-   * The API secret key typically used in HMAC signing of requests. For MtGox this would be the "Rest-Sign" field
-   */
-  public String getSecretKey() {
+		this.port = port;
+	}
 
-    return secretKey;
-  }
+	/**
+	 * The API secret key typically used in HMAC signing of requests. For MtGox
+	 * this would be the "Rest-Sign" field
+	 */
+	public String getSecretKey() {
 
-  public void setSecretKey(String secretKey) {
+		return secretKey;
+	}
 
-    this.secretKey = secretKey;
-  }
+	public void setSecretKey(String secretKey) {
 
-  /**
-   * The URI to reach the <b>root</b> of the exchange API for SSL queries<br/>
-   * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades")
-   */
-  public String getSslUri() {
+		this.secretKey = secretKey;
+	}
 
-    return sslUri;
-  }
+	/**
+	 * The URI to reach the <b>root</b> of the exchange API for SSL queries<br/>
+	 * (e.g. use "https://example.com:8443/exchange", not
+	 * "https://example.com:8443/exchange/api/v3/trades")
+	 */
+	public String getSslUri() {
 
-  public void setSslUri(String uri) {
+		return sslUri;
+	}
 
-    this.sslUri = uri;
-  }
+	public void setSslUri(String uri) {
 
-  /**
-   * The URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries<br/>
-   * (e.g. use "http://example.com:8080/exchange", not "http://example.com:8080/exchange/api/v3/trades")
-   */
-  public String getPlainTextUri() {
+		this.sslUri = uri;
+	}
 
-    return plainTextUri;
-  }
+	/**
+	 * The URI to reach the <b>root</b> of the exchange API for plaintext
+	 * (non-SSL) queries<br/>
+	 * (e.g. use "http://example.com:8080/exchange", not
+	 * "http://example.com:8080/exchange/api/v3/trades")
+	 */
+	public String getPlainTextUri() {
 
-  public void setPlainTextUri(String plainTextUri) {
+		return plainTextUri;
+	}
 
-    this.plainTextUri = plainTextUri;
-  }
+	public void setPlainTextUri(String plainTextUri) {
 
-  public void setPlainTextUriStreaming(String plainTextUriStreaming) {
+		this.plainTextUri = plainTextUri;
+	}
 
-    this.plainTextUriStreaming = plainTextUriStreaming;
-  }
+	public void setPlainTextUriStreaming(String plainTextUriStreaming) {
 
-  public String getPlainTextUriStreaming() {
+		this.plainTextUriStreaming = plainTextUriStreaming;
+	}
 
-    return plainTextUriStreaming;
-  }
+	public String getPlainTextUriStreaming() {
 
-  public void setSslUriStreaming(String sslUriStreaming) {
+		return plainTextUriStreaming;
+	}
 
-    this.sslUriStreaming = sslUriStreaming;
-  }
+	public void setSslUriStreaming(String sslUriStreaming) {
 
-  public String getSslUriStreaming() {
+		this.sslUriStreaming = sslUriStreaming;
+	}
 
-    return sslUriStreaming;
-  }
+	public String getSslUriStreaming() {
 
-  /**
-   * Allows arbitrary exchange-specific parameters to be passed to the exchange implementation
-   */
-  public Map<String, Object> getExchangeSpecificParameters() {
+		return sslUriStreaming;
+	}
 
-    return exchangeSpecificParameters;
-  }
+	/**
+	 * Allows arbitrary exchange-specific parameters to be passed to the exchange
+	 * implementation
+	 */
+	public Map<String, Object> getExchangeSpecificParameters() {
 
-  public void setExchangeSpecificParameters(Map<String, Object> exchangeSpecificParameters) {
+		return exchangeSpecificParameters;
+	}
 
-    this.exchangeSpecificParameters = exchangeSpecificParameters;
-  }
+	public void setExchangeSpecificParameters(Map<String, Object> exchangeSpecificParameters) {
 
-  /**
-   * The password for authentication
-   */
-  public String getPassword() {
+		this.exchangeSpecificParameters = exchangeSpecificParameters;
+	}
 
-    return password;
-  }
+	/**
+	 * The password for authentication
+	 */
+	public String getPassword() {
 
-  public void setPassword(String password) {
+		return password;
+	}
 
-    this.password = password;
-  }
+	public void setPassword(String password) {
 
-  /**
-   * The username for authentication
-   */
-  public String getUserName() {
+		this.password = password;
+	}
 
-    return userName;
-  }
+	/**
+	 * The username for authentication
+	 */
+	public String getUserName() {
 
-  public void setUserName(String userName) {
+		return userName;
+	}
 
-    this.userName = userName;
-  }
+	public void setUserName(String userName) {
 
-  /**
-   * @return The exchange name (e.g. "Mt Gox")
-   */
-  public String getExchangeName() {
+		this.userName = userName;
+	}
 
-    return exchangeName;
-  }
+	/**
+	 * @return The exchange name (e.g. "Mt Gox")
+	 */
+	public String getExchangeName() {
 
-  public void setExchangeName(String exchangeName) {
+		return exchangeName;
+	}
 
-    this.exchangeName = exchangeName;
-  }
+	public void setExchangeName(String exchangeName) {
 
-  /**
-   * @return The exchange description (e.g. "Major exchange specialising in USD, EUR, GBP")
-   */
-  public String getExchangeDescription() {
+		this.exchangeName = exchangeName;
+	}
 
-    return exchangeDescription;
-  }
+	/**
+	 * @return The exchange description (e.g.
+	 *         "Major exchange specialising in USD, EUR, GBP")
+	 */
+	public String getExchangeDescription() {
 
-  public void setExchangeDescription(String exchangeDescription) {
+		return exchangeDescription;
+	}
 
-    this.exchangeDescription = exchangeDescription;
-  }
+	public void setExchangeDescription(String exchangeDescription) {
 
-  /**
-   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally
-   * 
-   * @return The fee per trade expressed as a percentage (e.g. 0.6 is 0.6%)
-   */
-  public Double getTradeFeePercent() {
+		this.exchangeDescription = exchangeDescription;
+	}
 
-    return tradeFeePercent;
-  }
+	/**
+	 * Some exchanges offer a sliding scale that is earned based on trade history
+	 * so this is normally set externally
+	 * 
+	 * @return The fee per trade expressed as a percentage (e.g. 0.6 is 0.6%)
+	 */
+	public Double getTradeFeePercent() {
 
-  public void setTradeFeePercent(Double tradeFeePercent) {
+		return tradeFeePercent;
+	}
 
-    this.tradeFeePercent = tradeFeePercent;
-  }
+	public void setTradeFeePercent(Double tradeFeePercent) {
 
-  /**
-   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally
-   * 
-   * @return The minimum fee per trade expressed in the exchange's local currency (e.g. "USD 0.25")
-   */
-  public String getMinTradeFee() {
+		this.tradeFeePercent = tradeFeePercent;
+	}
 
-    return minTradeFee;
-  }
+	/**
+	 * Some exchanges offer a sliding scale that is earned based on trade history
+	 * so this is normally set externally
+	 * 
+	 * @return The minimum fee per trade expressed in the exchange's local
+	 *         currency (e.g. "USD 0.25")
+	 */
+	public String getMinTradeFee() {
 
-  public void setMinTradeFee(String minTradeFee) {
+		return minTradeFee;
+	}
 
-    this.minTradeFee = minTradeFee;
-  }
+	public void setMinTradeFee(String minTradeFee) {
+
+		this.minTradeFee = minTradeFee;
+	}
 }
