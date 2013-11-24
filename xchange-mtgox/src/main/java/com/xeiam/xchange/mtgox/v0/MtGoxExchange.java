@@ -33,7 +33,11 @@ import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxPollingMarketD
  * <ul>
  * <li>A wrapper for the MtGox exchange API</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxExchange extends BaseExchange implements Exchange {
 
   @Override
@@ -47,7 +51,8 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://data.mtgox.com");
+    exchangeSpecification.setSslUri("https://data.mtgox.com");
+    exchangeSpecification.setPlainTextUri("http://data.mtgox.com");
     exchangeSpecification.setHost("mtgox.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("MtGox");

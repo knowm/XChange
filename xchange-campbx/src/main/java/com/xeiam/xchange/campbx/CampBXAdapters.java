@@ -48,14 +48,14 @@ public final class CampBXAdapters {
    * 
    * @param orderBook
    * @param currency
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @return
    */
   public static OrderBook adaptOrders(CampBXOrderBook orderBook, String currency, String tradableIdentifier) {
 
     List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, orderBook.getAsks());
     List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, orderBook.getBids());
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
@@ -70,7 +70,7 @@ public final class CampBXAdapters {
 
   private static LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
+    return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, "", null, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
   }
 
   private static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
@@ -85,7 +85,7 @@ public final class CampBXAdapters {
    * 
    * @param campbxTicker
    * @param currency
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @return
    */
   public static Ticker adaptTicker(CampBXTicker campbxTicker, String currency, String tradableIdentifier) {

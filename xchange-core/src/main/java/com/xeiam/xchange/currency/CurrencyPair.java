@@ -59,13 +59,29 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_RUB = new CurrencyPair("BTC", "RUB");
   public static final CurrencyPair BTC_SEK = new CurrencyPair("BTC", "SEK");
   public static final CurrencyPair BTC_SGD = new CurrencyPair("BTC", "SGD");
+  public static final CurrencyPair BTC_NOK = new CurrencyPair("BTC", "NOK");
   public static final CurrencyPair BTC_THB = new CurrencyPair("BTC", "THB");
 
   public static final CurrencyPair BTC_RUR = new CurrencyPair("BTC", "RUR");
   public static final CurrencyPair LTC_BTC = new CurrencyPair("LTC", "BTC");
+  public static final CurrencyPair LTC_USD = new CurrencyPair("LTC", "USD");
   public static final CurrencyPair LTC_RUR = new CurrencyPair("LTC", "RUR");
+  public static final CurrencyPair LTC_EUR = new CurrencyPair("LTC", "EUR");
   public static final CurrencyPair NMC_BTC = new CurrencyPair("NMC", "BTC");
+  public static final CurrencyPair NMC_USD = new CurrencyPair("NMC", "USD");
   public static final CurrencyPair USD_RUR = new CurrencyPair("USD", "RUR");
+
+  public static final CurrencyPair NVC_BTC = new CurrencyPair("NVC", "BTC");
+  public static final CurrencyPair NVC_USD = new CurrencyPair("NVC", "USD");
+  public static final CurrencyPair TRC_BTC = new CurrencyPair("TRC", "BTC");
+  public static final CurrencyPair PPC_BTC = new CurrencyPair("PPC", "BTC");
+  public static final CurrencyPair FTC_BTC = new CurrencyPair("FTC", "BTC");
+  public static final CurrencyPair XPM_BTC = new CurrencyPair("XPM", "BTC");
+
+  public static final CurrencyPair BTC_ZAR = new CurrencyPair("BTC", "ZAR");
+  public static final CurrencyPair BTC_BRL = new CurrencyPair("BTC", "BRL");
+  public static final CurrencyPair BTC_CZK = new CurrencyPair("BTC", "CZK");
+  public static final CurrencyPair BTC_ILS = new CurrencyPair("BTC", "ILS");
 
   public final String baseCurrency;
   public final String counterCurrency;
@@ -129,14 +145,16 @@ public class CurrencyPair {
       if (other.baseCurrency != null) {
         return false;
       }
-    } else if (!baseCurrency.equals(other.baseCurrency)) {
+    }
+    else if (!baseCurrency.equals(other.baseCurrency)) {
       return false;
     }
     if (counterCurrency == null) {
       if (other.counterCurrency != null) {
         return false;
       }
-    } else if (!counterCurrency.equals(other.counterCurrency)) {
+    }
+    else if (!counterCurrency.equals(other.counterCurrency)) {
       return false;
     }
     return true;

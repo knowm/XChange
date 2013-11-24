@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,19 +21,22 @@
  */
 package com.xeiam.xchange.examples.bitstamp.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingMarketDataService.BitstampTime;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Order Book at Bitstamp
  */
 public class TradesDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get Bitstamp exchange API using default settings
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
@@ -44,9 +46,14 @@ public class TradesDemo {
 
     // Get the latest trade data for BTC/USD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    System.out.println("Trades, default. Size= " + trades.getTrades().size());
 
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, BitstampTime.HOUR);
+    System.out.println("Trades, hour= " + trades.getTrades().size());
+
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, BitstampTime.MINUTE);
+    System.out.println("Trades, minute= " + trades.getTrades().size());
     System.out.println(trades.toString());
 
   }
-
 }

@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,9 +24,9 @@ package com.xeiam.xchange.bitstamp;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitstamp.service.account.polling.BitstampPollingAccountService;
-import com.xeiam.xchange.bitstamp.service.marketdata.polling.BitstampPollingMarketDataService;
-import com.xeiam.xchange.bitstamp.service.trade.polling.BitstampPollingTradeService;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingAccountService;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingMarketDataService;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingTradeService;
 
 /**
  * @author Matija Mazi
@@ -38,7 +37,7 @@ public class BitstampExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://www.bitstamp.net");
+    exchangeSpecification.setSslUri("https://www.bitstamp.net");
     exchangeSpecification.setHost("www.bitstamp.net");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitstamp");

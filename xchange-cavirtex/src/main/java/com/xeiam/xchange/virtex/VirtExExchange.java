@@ -24,7 +24,7 @@ package com.xeiam.xchange.virtex;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.virtex.service.marketdata.polling.VirtExPollingMarketDataService;
+import com.xeiam.xchange.virtex.service.polling.VirtExPollingMarketDataService;
 
 /**
  * <p>
@@ -64,7 +64,7 @@ public class VirtExExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("https://cavirtex.com");
+    exchangeSpecification.setSslUri("https://cavirtex.com");
     exchangeSpecification.setHost("cavirtex.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("VirtEx");

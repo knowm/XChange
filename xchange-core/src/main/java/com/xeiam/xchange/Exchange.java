@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * <p>
@@ -33,10 +33,10 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * </p>
  * <ul>
  * <li>Entry point to the XChange APIs</li>
+ * </ul>
  * <p>
  * The consumer is given a choice of a default (no-args) or configured accessor
  * </p>
- * </ul>
  */
 public interface Exchange {
 
@@ -53,7 +53,7 @@ public interface Exchange {
   /**
    * Applies any exchange specific parameters
    * 
-   * @param exchangeSpecification The exchange specification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   void applySpecification(ExchangeSpecification exchangeSpecification);
 

@@ -23,6 +23,7 @@ package com.xeiam.xchange.service.streaming;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -60,7 +61,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The exchange specification providing the required connection data
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 
@@ -68,16 +69,16 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
   }
 
-  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener) {
+  protected synchronized void internalConnect(URI uri, ExchangeEventListener exchangeEventListener, Map<String, String> headers) {
 
-    log.info("internalConnect");
+    log.debug("internalConnect");
 
     // Validate inputs
     Assert.notNull(exchangeEventListener, "runnableExchangeEventListener cannot be null");
 
     try {
       log.debug("Attempting to open a websocket against {}", uri);
-      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), exchangeEventListener);
+      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), exchangeEventListener, headers);
       exchangeEventProducer.connect();
     } catch (URISyntaxException e) {
       throw new ExchangeException("Failed to open websocket!", e);
@@ -102,8 +103,13 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
       reconnectService.intercept(event);
     }
-
     return event;
-
   }
+
+  @Override
+  public void send(String msg) {
+
+    exchangeEventProducer.send(msg);
+  }
+
 }

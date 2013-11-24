@@ -1,6 +1,5 @@
-/*
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.campbx.trade;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
@@ -32,7 +32,7 @@ import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * <p>
@@ -45,7 +45,7 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  */
 public class CampBXTradeDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
 
@@ -57,11 +57,11 @@ public class CampBXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder lo = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", MoneyUtils.parse("USD 28.99"));
+    LimitOrder lo = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", "", null, MoneyUtils.parse("USD 28.99"));
     String rv = tradeService.placeLimitOrder(lo);
     System.out.println("Limit Order return value: " + rv);
     // place a limit sell order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", MoneyUtils.parse("USD 110"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", "", null, MoneyUtils.parse("USD 110"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -75,7 +75,7 @@ public class CampBXTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) {
+  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

@@ -21,11 +21,16 @@
  */
 package com.xeiam.xchange.mtgox.v0.service.marketdata.polling;
 
+import java.io.IOException;
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -36,9 +41,8 @@ import com.xeiam.xchange.mtgox.v0.MtGoxV0;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -48,7 +52,11 @@ import com.xeiam.xchange.utils.Assert;
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
   private final MtGoxV0 mtGoxV0;
@@ -56,12 +64,12 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The exchange specification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getUri());
+    this.mtGoxV0 = RestProxyFactory.createProxy(MtGoxV0.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -80,8 +88,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   @Override
   public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
 
-    // TODO: implement the V0 orderBook here
-    throw new NotYetImplementedForExchangeException("Try V1: com.xeiam.xchange.mtgox.v1.service.marketdata.polling.MtGoxPollingMarketDataService");
+    throw new NotYetImplementedForExchangeException();
 
   }
 
@@ -96,11 +103,11 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
     List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
 
-    return new OrderBook(asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
 
@@ -110,11 +117,17 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     return MtGoxAdapters.adaptTrades(mtGoxTrades);
   }
 
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
   /**
    * Verify
    * 
-   * @param tradableIdentifier
-   * @param currency
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
    */
   private void verify(String tradableIdentifier, String currency) {
 

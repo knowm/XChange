@@ -52,7 +52,10 @@ import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from mtgox DTOs to XChange DTOs
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxAdapters {
 
   /**
@@ -122,7 +125,7 @@ public final class MtGoxAdapters {
 
     for (int i = 0; i < mtGoxOpenOrders.length; i++) {
       limitOrders.add(adaptOrder(mtGoxOpenOrders[i].getAmount().getValue(), mtGoxOpenOrders[i].getPrice().getValue(), mtGoxOpenOrders[i].getCurrency(), mtGoxOpenOrders[i].getType(),
-          mtGoxOpenOrders[i].getOid(), new Date(mtGoxOpenOrders[i].getDate())));
+          mtGoxOpenOrders[i].getOid(), new Date(mtGoxOpenOrders[i].getDate() * 1000)));
     }
 
     return limitOrders;
@@ -138,7 +141,8 @@ public final class MtGoxAdapters {
 
     if (mtGoxWallet == null) { // use the presence of a currency String to indicate existing wallet at MtGox
       return null; // an account maybe doesn't contain a MtGoxWallet
-    } else {
+    }
+    else {
       BigMoney cash = MoneyUtils.parse(mtGoxWallet.getBalance().getCurrency() + " " + mtGoxWallet.getBalance().getValue());
       return new Wallet(mtGoxWallet.getBalance().getCurrency(), cash);
     }
@@ -178,10 +182,9 @@ public final class MtGoxAdapters {
     String tradableIdentifier = mtGoxTrade.getItem();
     String transactionCurrency = mtGoxTrade.getPriceCurrency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPriceInt());
-
     Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
+    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, mtGoxTrade.getTid());
   }
 
   public static OrderBookUpdate adaptDepthUpdate(MtGoxDepthUpdate mtGoxDepthUpdate) {

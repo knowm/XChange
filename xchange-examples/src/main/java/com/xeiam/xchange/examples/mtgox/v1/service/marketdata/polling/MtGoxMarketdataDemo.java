@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.marketdata.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -28,7 +30,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * <p>
@@ -41,10 +43,14 @@ import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
  * <li>Retrieving the current full order book</li>
  * <li>Retrieving trades</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxMarketdataDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Demonstrate the public market data service
     // Use the factory to get the version 1 MtGox exchange API using default settings

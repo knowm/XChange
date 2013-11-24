@@ -22,17 +22,19 @@
  */
 package com.xeiam.xchange.examples.btce.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
- * Demo requesting account info at MtGox
+ * Demo requesting account info at BTC-E
  */
 public class BTCEAccountInfoDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange btce = BTCEExamplesUtils.createExchange();
 
@@ -41,6 +43,6 @@ public class BTCEAccountInfoDemo {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    System.out.println("BTCE AccountInfo as String: " + accountInfo.toString());
   }
 }

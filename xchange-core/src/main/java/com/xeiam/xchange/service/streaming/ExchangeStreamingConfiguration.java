@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -35,8 +35,32 @@ package com.xeiam.xchange.service.streaming;
  */
 public interface ExchangeStreamingConfiguration {
 
+  /**
+   * What are the maximum number of reconnect attempts?
+   * 
+   * @return
+   */
   public int getMaxReconnectAttempts();
 
-  public int getRecconectWaitTimeInMs();
+  /**
+   * Before attempting reconnect, how much of a delay?
+   * 
+   * @return
+   */
+  public int getReconnectWaitTimeInMs();
+
+  /**
+   * How much time should elapse before the connection is considered dead and a reconnect attempt should be made?
+   * 
+   * @return
+   */
+  public int getTimeoutInMs();
+
+  /**
+   * should it use an encrypted channel or not? (ws vs. wss protocol)
+   * 
+   * @return
+   */
+  public boolean isEncryptedChannel();
 
 }

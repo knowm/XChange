@@ -21,10 +21,8 @@
  */
 package com.xeiam.xchange.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Fail.fail;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -32,6 +30,7 @@ import java.math.RoundingMode;
 import org.joda.money.BigMoney;
 import org.junit.Test;
 
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 
 /**
@@ -48,9 +47,9 @@ public class MoneyUtilsTest {
     // String
     // create a monetary value
     BigMoney testObject1 = MoneyUtils.parse("USD 23.87");
-    assertEquals("USD", testObject1.getCurrencyUnit().getCurrencyCode());
+    assertThat(testObject1.getCurrencyUnit().getCurrencyCode()).isEqualTo("USD");
     BigMoney testObject2 = MoneyUtils.parseBitcoin("BTC 1");
-    assertEquals("BTC", testObject2.getCurrencyUnit().getCurrencyCode());
+    assertThat(testObject2.getCurrencyUnit().getCurrencyCode()).isEqualTo("BTC");
   }
 
   /**
@@ -79,17 +78,17 @@ public class MoneyUtilsTest {
     BigMoney testObject2 = MoneyUtils.parse("USD 10.50");
     BigMoney testObject3 = MoneyUtils.parse("USD 10.51");
     // GT
-    assertFalse(testObject1.isGreaterThan(testObject2));
-    assertFalse(testObject2.isGreaterThan(testObject1));
-    assertTrue(testObject3.isGreaterThan(testObject1));
+    assertThat(testObject1.isGreaterThan(testObject2)).isFalse();
+    assertThat(testObject2.isGreaterThan(testObject1)).isFalse();
+    assertThat(testObject3.isGreaterThan(testObject1)).isTrue();
     // LT
-    assertFalse(testObject1.isLessThan(testObject2));
-    assertFalse(testObject2.isLessThan(testObject1));
-    assertTrue(testObject1.isLessThan(testObject3));
+    assertThat(testObject1.isLessThan(testObject2)).isFalse();
+    assertThat(testObject2.isLessThan(testObject1)).isFalse();
+    assertThat(testObject1.isLessThan(testObject3));
     // Compare to
-    assertEquals(-1, testObject1.compareTo(testObject3));
-    assertEquals(0, testObject1.compareTo(testObject2));
-    assertEquals(1, testObject3.compareTo(testObject1));
+    assertThat(testObject1.compareTo(testObject3)).isEqualTo(-1);
+    assertThat(testObject1.compareTo(testObject2)).isEqualTo(0);
+    assertThat(testObject3.compareTo(testObject1)).isEqualTo(1);
   }
 
   /**
@@ -105,7 +104,7 @@ public class MoneyUtilsTest {
       testObject = testObject.plus(MoneyUtils.parse("USD " + column[i]));
     }
 
-    assertEquals("Unexpected value", "USD 10.50", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 10.50");
   }
 
   /**
@@ -121,7 +120,7 @@ public class MoneyUtilsTest {
       testObject = testObject.plus(MoneyUtils.parse("USD " + column[i]));
     }
 
-    assertEquals("Unexpected value", "USD 27.95", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 27.95");
   }
 
   /**
@@ -137,7 +136,7 @@ public class MoneyUtilsTest {
       testObject = testObject.minus(MoneyUtils.parse("USD " + column[i]));
     }
 
-    assertEquals("Unexpected value", "USD -10.50", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD -10.50");
   }
 
   /**
@@ -153,7 +152,7 @@ public class MoneyUtilsTest {
       testObject = testObject.minus(MoneyUtils.parse("USD " + column[i]));
     }
 
-    assertEquals("Unexpected value", "USD -27.95", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD -27.95");
   }
 
   /**
@@ -170,7 +169,7 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer is 270.0
-    assertEquals("Unexpected value", "USD 270.00000", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 270.00000");
   }
 
   /**
@@ -187,7 +186,7 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer is 240
-    assertEquals("Unexpected value", "USD 240.00", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 240.00");
   }
 
   /**
@@ -204,7 +203,7 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer (as calculated) is 88352.56533784463118
-    assertEquals("Unexpected value", "USD 88352.56533784463118", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 88352.56533784463118");
   }
 
   /**
@@ -221,7 +220,7 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer (as calculated) is 10
-    assertEquals("Unexpected value", "USD 10.00", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 10.00");
   }
 
   /**
@@ -238,7 +237,7 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer (as calculated) is 11.25
-    assertEquals("Unexpected value", "USD 11.25", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 11.25");
   }
 
   /**
@@ -258,7 +257,7 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer (as calculated) is 1) 11.25 2) 270
-    assertEquals("Unexpected value", "USD 270.00", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 270.00");
   }
 
   /**
@@ -276,7 +275,7 @@ public class MoneyUtilsTest {
 
     // Exact answer (as calculated) is 65.735347653932
     // Locale representation is 2dp
-    assertEquals("Unexpected value", "USD 65.74", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("USD 65.74");
   }
 
   /**
@@ -293,14 +292,14 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer (as calculated) is 3168.32892452274544
-    assertEquals("Unexpected value", "BTC 3168.328924522745", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("BTC 3168.328924522745");
 
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.multipliedBy(new BigDecimal(column[i]));
     }
 
     // Exact answer (as calculated) is 20999999.12345678
-    assertEquals("Unexpected value", "BTC 20999999.12345678", MoneyUtils.formatBitcoin(testObject));
+    assertThat(MoneyUtils.formatBitcoin(testObject)).isEqualTo("BTC 20999999.12345678");
 
   }
 
@@ -318,14 +317,14 @@ public class MoneyUtilsTest {
     }
 
     // Exact answer (as calculated) is 3168.32892452274544
-    assertEquals("Unexpected value", "BTC 3168.328924522745", testObject.toString());
+    assertThat(testObject.toString()).isEqualTo("BTC 3168.328924522745");
 
     for (int i = 0; i < column.length; i++) {
       testObject = testObject.multipliedBy(new BigDecimal(column[i]));
     }
 
     // Exact answer (as calculated) is 20999999.12345678
-    assertEquals("Unexpected value", "BTC 20999999.12345678", MoneyUtils.formatBitcoin(testObject));
+    assertThat(MoneyUtils.formatBitcoin(testObject)).isEqualTo("BTC 20999999.12345678");
 
   }
 
@@ -337,4 +336,13 @@ public class MoneyUtilsTest {
 
   }
 
+  @Test
+  public void testParseMoney() throws Exception {
+
+    assertThat(MoneyUtils.parseMoney(Currencies.EUR, null)).isNull();
+
+    BigMoney eur344 = MoneyUtils.parseMoney(Currencies.EUR, new BigDecimal("3.44"));
+    assertThat(eur344.getAmount()).isEqualTo(new BigDecimal("3.44"));
+    assertThat(eur344.getCurrencyUnit().getCurrencyCode()).isEqualTo("EUR");
+  }
 }

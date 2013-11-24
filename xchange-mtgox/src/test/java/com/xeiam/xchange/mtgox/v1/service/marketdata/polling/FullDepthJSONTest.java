@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.polling;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,11 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepth;
 
 /**
  * Test MtGoxFullDepth JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class FullDepthJSONTest {
 
   @Test
@@ -48,6 +52,6 @@ public class FullDepthJSONTest {
     MtGoxDepth mtGoxFullDepth = mapper.readValue(is, MtGoxDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat("Unexpected Return Buy value", mtGoxFullDepth.getAsks().get(0).getAmountInt(), equalTo(727610000L));
+    assertThat(mtGoxFullDepth.getAsks().get(0).getAmountInt()).isEqualTo(727610000L);
   }
 }

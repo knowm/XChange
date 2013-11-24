@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -26,42 +25,42 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.campbx.dto.CampBXResponse;
 
 /**
  * @author Matija Mazi
  */
-public final class CampBXOrderBook {
+public final class CampBXOrderBook extends CampBXResponse {
 
-  private final List<List<BigDecimal>> bids;
-  private final List<List<BigDecimal>> asks;
+  @JsonProperty("Bids")
+  private List<List<BigDecimal>> bids;
+  @JsonProperty("Asks")
+  private List<List<BigDecimal>> asks;
 
-  /**
-   * Constructor
-   * 
-   * @param bids
-   * @param asks
-   */
-  public CampBXOrderBook(@JsonProperty("Bids") List<List<BigDecimal>> bids, @JsonProperty("Asks") List<List<BigDecimal>> asks) {
-
-    this.bids = bids;
-    this.asks = asks;
-  }
-
-  /** (price, amount) */
   public List<List<BigDecimal>> getBids() {
 
     return bids;
   }
 
-  /** (price, amount) */
+  public void setBids(List<List<BigDecimal>> bids) {
+
+    this.bids = bids;
+  }
+
   public List<List<BigDecimal>> getAsks() {
 
     return asks;
   }
 
+  public void setAsks(List<List<BigDecimal>> asks) {
+
+    this.asks = asks;
+  }
+
   @Override
   public String toString() {
 
-    return String.format("OrderBook{bids=%s, asks=%s}", bids, asks);
+    return "CampBXOrderBook [bids=" + bids + ", asks=" + asks + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()=" + getError() + "]";
   }
+
 }

@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -32,19 +31,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitstampOrderBook {
 
+  private final Long timestamp;
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
 
   /**
    * Constructor
    * 
+   * @param timestamp
    * @param bids
    * @param asks
    */
-  public BitstampOrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
+  public BitstampOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
 
     this.bids = bids;
     this.asks = asks;
+    this.timestamp = timestamp;
+  }
+
+  /**
+   * @return Timestamp in Unix milliseconds
+   */
+  public Long getTimestamp() {
+
+    return timestamp;
   }
 
   /** (price, amount) */
@@ -62,6 +72,7 @@ public final class BitstampOrderBook {
   @Override
   public String toString() {
 
-    return String.format("OrderBook{bids=%s, asks=%s}", bids, asks);
+    return "BitstampOrderBook [timestamp=" + timestamp + ", bids=" + bids + ", asks=" + asks + "]";
   }
+
 }

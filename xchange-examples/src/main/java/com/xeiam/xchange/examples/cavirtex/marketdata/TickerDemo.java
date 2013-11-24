@@ -21,11 +21,13 @@
  */
 package com.xeiam.xchange.examples.cavirtex.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.virtex.VirtExExchange;
 
 /**
@@ -33,7 +35,7 @@ import com.xeiam.xchange.virtex.VirtExExchange;
  */
 public class TickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get the VirtEx exchange API using default settings
     Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange(VirtExExchange.class.getName());

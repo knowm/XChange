@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>develop-SNAPSHOT</version>
+		<version>1.11.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-core</artifactId>
@@ -25,22 +25,13 @@
 
 		<!-- Third party dependencies -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
+  			<groupId>org.java-websocket</groupId>
+  			<artifactId>Java-WebSocket</artifactId>
 		</dependency>
 
-		<!-- Jackson JSON Mapper -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-    </dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- All money handling is through Joda Money -->
@@ -50,15 +41,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
+			<groupId>com.github.mmazi</groupId>
+			<artifactId>rescu</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-		</dependency>
-
+		
 	</dependencies>
-    <version>develop-SNAPSHOT</version>
 </project>

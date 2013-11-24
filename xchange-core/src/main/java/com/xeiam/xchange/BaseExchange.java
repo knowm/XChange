@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * <p>
@@ -52,7 +52,8 @@ public abstract class BaseExchange implements Exchange {
     // Check if default is for everything
     if (exchangeSpecification == null) {
       this.exchangeSpecification = defaultSpecification;
-    } else {
+    }
+    else {
       // Using a configured exchange
       if (exchangeSpecification.getExchangeName() == null) {
         exchangeSpecification.setExchangeName(defaultSpecification.getExchangeName());
@@ -60,8 +61,8 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getExchangeDescription() == null) {
         exchangeSpecification.setExchangeDescription(defaultSpecification.getExchangeDescription());
       }
-      if (exchangeSpecification.getUri() == null) {
-        exchangeSpecification.setUri(defaultSpecification.getUri());
+      if (exchangeSpecification.getSslUri() == null) {
+        exchangeSpecification.setSslUri(defaultSpecification.getSslUri());
       }
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());

@@ -1,16 +1,16 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http; ////xeiam.com
- * 
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions; //
- * 
+ * so, subject to the following conditions:
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -67,6 +67,7 @@ public class Currencies {
   public static final String CHF = "CHF"; // "Swiss Franc",
   public static final String CLF = "CLF"; // "Chilean Unit of Account (UF)",
   public static final String CLP = "CLP"; // "Chilean Peso",
+  public static final String CNC = "CNC"; // "Chinacoin",
   public static final String CNY = "CNY"; // "Chinese Yuan",
   public static final String COP = "COP"; // "Colombian Peso",
   public static final String CRC = "CRC"; // "Costa Rican Colón",
@@ -83,6 +84,7 @@ public class Currencies {
   public static final String EUR = "EUR"; // "Euro",
   public static final String FJD = "FJD"; // "Fijian Dollar",
   public static final String FKP = "FKP"; // "Falkland Islands Pound",
+  public static final String FTC = "FTC"; // "Feathercoin",
   public static final String GBP = "GBP"; // "British Pound Sterling",
   public static final String GEL = "GEL"; // "Georgian Lari",
   public static final String GHS = "GHS"; // "Ghanaian Cedi",
@@ -141,9 +143,10 @@ public class Currencies {
   public static final String NAD = "NAD"; // "Namibian Dollar",
   public static final String NGN = "NGN"; // "Nigerian Naira",
   public static final String NIO = "NIO"; // "Nicaraguan Córdoba",
-  public static final String NMC = "NMC"; // "Namecoin",
+  public static final String NMC = "NMC"; // Namecoin,
   public static final String NOK = "NOK"; // "Norwegian Krone",
   public static final String NPR = "NPR"; // "Nepalese Rupee",
+  public static final String NVC = "NVC"; // "Novacoin",
   public static final String NZD = "NZD"; // "New Zealand Dollar",
   public static final String OMR = "OMR"; // "Omani Rial",
   public static final String PAB = "PAB"; // "Panamanian Balboa",
@@ -188,10 +191,12 @@ public class Currencies {
   public static final String UYU = "UYU"; // "Uruguayan Peso",
   public static final String UZS = "UZS"; // "Uzbekistan Som",
   public static final String VEF = "VEF"; // "Venezuelan Bolívar",
+  public static final String VEN = "VEN"; // Hub Culture's Ven,
   public static final String VND = "VND"; // "Vietnamese Dong",
   public static final String VUV = "VUV"; // "Vanuatu Vatu",
   public static final String WST = "WST"; // "Samoan Tala",
   public static final String XAF = "XAF"; // "CFA Franc BEAC",
+  public static final String XBT = "XBT"; // Bitcoin,
   public static final String XCD = "XCD"; // "East Caribbean Dollar",
   public static final String XDR = "XDR"; // "Special Drawing Rights",
   public static final String XOF = "XOF"; // "CFA Franc BCEAO",

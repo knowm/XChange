@@ -48,13 +48,13 @@ public final class Ticker {
   /**
    * Constructor
    * 
-   * @param tradableIdentifier
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param last
    * @param bid
    * @param ask
    * @param high
    * @param low
-   * @param volume
+   * @param volume 24h volume
    * @param timestamp
    */
   private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume, Date timestamp) {

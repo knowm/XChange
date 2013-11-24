@@ -24,7 +24,7 @@ package com.xeiam.xchange.oer;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.oer.service.marketdata.polling.OERPollingMarketDataService;
+import com.xeiam.xchange.oer.service.polling.OERPollingMarketDataService;
 
 /**
  * <p>
@@ -64,7 +64,7 @@ public class OERExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setUri("http://openexchangerates.org");
+    exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setHost("openexchangerates.org");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Open Exchange Rates");

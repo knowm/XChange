@@ -69,7 +69,7 @@ public final class VirtExAdapters {
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
 
   }
 
@@ -105,7 +105,7 @@ public final class VirtExAdapters {
     BigMoney price = MoneyUtils.parse(currency + " " + virtExTrade.getPrice());
     Date date = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
 
-    return new Trade(null, amount, tradableIdentifier, currency, price, date);
+    return new Trade(null, amount, tradableIdentifier, currency, price, date, virtExTrade.getTid());
   }
 
   /**

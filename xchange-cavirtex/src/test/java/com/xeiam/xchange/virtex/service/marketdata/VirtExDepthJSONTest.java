@@ -21,9 +21,7 @@
  */
 package com.xeiam.xchange.virtex.service.marketdata;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +48,6 @@ public class VirtExDepthJSONTest {
     VirtExDepth virtExDepth = mapper.readValue(is, VirtExDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(virtExDepth.getAsks().get(0)[0], is(equalTo(new BigDecimal("16.905360000"))));
+    assertThat(virtExDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("16.905360000"));
   }
 }

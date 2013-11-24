@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,7 +27,7 @@ import org.junit.experimental.categories.Category;
 import com.xeiam.xchange.OnlineTest;
 
 /**
- * Demo requesting account info at MtGox
+ * Demo requesting account info at BTC-E
  */
 
 @Category(OnlineTest.class)

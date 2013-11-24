@@ -23,6 +23,10 @@ package com.xeiam.xchange.mtgox.v1.service.account;
 
 import java.math.BigDecimal;
 
+import si.mazi.rescu.HmacPostBodyDigest;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
@@ -31,11 +35,8 @@ import com.xeiam.xchange.mtgox.v1.MtGoxV1;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxAccountInfo;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxBitcoinDepositAddress;
 import com.xeiam.xchange.mtgox.v1.dto.account.MtGoxWithdrawalResponse;
-import com.xeiam.xchange.rest.HmacPostBodyDigest;
-import com.xeiam.xchange.rest.ParamsDigest;
-import com.xeiam.xchange.rest.RestProxyFactory;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -45,7 +46,11 @@ import com.xeiam.xchange.utils.Assert;
  * <ul>
  * <li>MtGox specific methods to handle account-related operations</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
   /**
@@ -57,29 +62,30 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   /**
    * Constructor
    * 
-   * @param exchangeSpecification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public MtGoxPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
 
-    Assert.notNull(exchangeSpecification.getUri(), "Exchange specification URI cannot be null");
-    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getUri());
+    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+    this.mtGoxV1 = RestProxyFactory.createProxy(MtGoxV1.class, exchangeSpecification.getSslUri());
     signatureCreator = HmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override
   public AccountInfo getAccountInfo() {
 
-    MtGoxAccountInfo mtGoxAccountInfo = mtGoxV1.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
+    MtGoxAccountInfo mtGoxAccountInfo = mtGoxV1.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
     return MtGoxAdapters.adaptAccountInfo(mtGoxAccountInfo);
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) {
 
-    MtGoxWithdrawalResponse result = mtGoxV1.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), address, amount.multiply(
-        new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
+    MtGoxWithdrawalResponse result =
+        mtGoxV1.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR))
+            .intValue(), 1, false, false);
     return result.getTransactionId();
   }
 
@@ -88,13 +94,9 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
 
     String description = arguments[0];
     String notificationUrl = arguments[1];
-    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), description, notificationUrl);
+    MtGoxBitcoinDepositAddress mtGoxBitcoinDepositAddress = mtGoxV1.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description, notificationUrl);
 
     return mtGoxBitcoinDepositAddress.getAddres();
   }
 
-  private long getNonce() {
-
-    return System.currentTimeMillis();
-  }
 }

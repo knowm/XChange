@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.mtgox.v1.service.marketdata.streaming;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,7 +37,11 @@ import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxDepthUpdate;
 
 /**
  * Test MtGoxDepthStream JSON parsing
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class DepthUpdateJSONTest {
 
   @Test
@@ -54,8 +58,8 @@ public class DepthUpdateJSONTest {
     MtGoxDepthUpdate mtGoxDepthUpdate = mapper.readValue(mapper.writeValueAsString(userInMap.get("depth")), MtGoxDepthUpdate.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(mtGoxDepthUpdate.getPriceInt(), equalTo(6250000L));
-    assertThat(mtGoxDepthUpdate.getCurrency(), equalTo("USD"));
+    assertThat(mtGoxDepthUpdate.getPriceInt()).isEqualTo(6250000L);
+    assertThat(mtGoxDepthUpdate.getCurrency()).isEqualTo("USD");
 
   }
 }

@@ -76,7 +76,9 @@ public final class MtGoxUtils {
 
   CurrencyPair.BTC_SGD,
 
-  CurrencyPair.BTC_THB
+  CurrencyPair.BTC_THB,
+
+  CurrencyPair.BTC_NOK
 
   );
 
@@ -91,7 +93,18 @@ public final class MtGoxUtils {
 
   public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
 
-  public static final int JPY_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+  public static final int JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+
+  /**
+   * Converts an amount to a properly scaled int-String for Mt Gox
+   * 
+   * @param amount
+   * @return
+   */
+  public static String getAmountString(BigDecimal amount) {
+
+    return amount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
+  }
 
   /**
    * Converts a price in decimal form to a properly scaled int-String for Mt Gox
@@ -101,10 +114,11 @@ public final class MtGoxUtils {
    */
   public static String getPriceString(BigMoney price) {
 
-    if (!price.getCurrencyUnit().toString().equals("JPY")) {
+    if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
       return price.getAmount().multiply(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-    } else { // JPY
-      return price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
+    }
+    else { // JPY, SEK
+      return price.getAmount().multiply(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
     }
   }
 
@@ -117,11 +131,11 @@ public final class MtGoxUtils {
    */
   public static BigMoney getPrice(String currency, long price) {
 
-    if (!currency.equals("JPY")) {
-
+    if (!(currency.equals("JPY") || currency.equals("SEK"))) {
       return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.PRICE_INT_2_DECIMAL_FACTOR)));
-    } else { // JPY
-      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_PRICE_INT_2_DECIMAL_FACTOR)));
+    }
+    else { // JPY
+      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)));
     }
   }
 
@@ -143,5 +157,10 @@ public final class MtGoxUtils {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Problem encoding, probably bug in code.", e);
     }
+  }
+
+  public static long getNonce() {
+
+    return System.currentTimeMillis();
   }
 }

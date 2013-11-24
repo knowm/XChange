@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>develop-SNAPSHOT</version>
+		<version>1.11.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -28,70 +28,68 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange MtGox exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-mtgox</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange VirtEx exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-cavirtex</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Open Exchange Rates exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-openexchangerates</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BTC-E exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-btce</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange Bitstamp exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bitcurex</artifactId>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Bitstamp exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitstamp</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange CampBX exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-campbx</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BitcoinCharts support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitcoincharts</artifactId>
-			<version>develop-SNAPSHOT</version>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
-		<!-- XChange BitcoinCentral support -->
+		<!-- XChange BTC China support -->
 		<dependency>
-				<groupId>com.xeiam.xchange</groupId>
-				<artifactId>xchange-bitcoincentral</artifactId>
-				<version>develop-SNAPSHOT</version>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-btcchina</artifactId>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
-
-		<!-- XChange Bitfloor support -->
+		<!-- XChange Blockchain support -->
 		<dependency>
-				<groupId>com.xeiam.xchange</groupId>
-				<artifactId>xchange-bitfloor</artifactId>
-				<version>develop-SNAPSHOT</version>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-blockchain</artifactId>
+			<version>1.11.0-SNAPSHOT</version>
 		</dependency>
-		
-		      <!-- XChange Bitcoin24 support -->
-        <dependency>
-                <groupId>com.xeiam.xchange</groupId>
-                <artifactId>xchange-bitcoin24</artifactId>
-                <version>develop-SNAPSHOT</version>
-        </dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -104,6 +102,11 @@
 			<artifactId>xchart</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-kraken</artifactId>
+			<version>1.11.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>

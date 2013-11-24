@@ -21,17 +21,23 @@
  */
 package com.xeiam.xchange.mtgox.v1.dto.marketdata;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing depth from Mt Gox
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxDepth {
 
   private final List<MtGoxOrder> asks;
   private final List<MtGoxOrder> bids;
+  private final FilterPrice filterMinPrice;
+  private final FilterPrice filterMaxPrice;
 
   /**
    * Constructor
@@ -39,10 +45,13 @@ public final class MtGoxDepth {
    * @param asks
    * @param bids
    */
-  public MtGoxDepth(@JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids) {
+  public MtGoxDepth(@JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids, @JsonProperty("filter_min_price") FilterPrice filterMinPrice,
+      @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
 
     this.asks = asks;
     this.bids = bids;
+    this.filterMinPrice = filterMinPrice;
+    this.filterMaxPrice = filterMaxPrice;
   }
 
   public List<MtGoxOrder> getAsks() {
@@ -55,10 +64,57 @@ public final class MtGoxDepth {
     return bids;
   }
 
+  public FilterPrice getFilterMinPrice() {
+
+    return filterMinPrice;
+  }
+
+  public FilterPrice getFilterMaxPrice() {
+
+    return filterMaxPrice;
+  }
+
   @Override
   public String toString() {
 
     return "MtGoxDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+  }
+
+  public static class FilterPrice {
+
+    private final BigDecimal value;
+    private final long valueInt;
+    private final String currency;
+
+    /**
+     * Constructor
+     * 
+     * @param value
+     * @param valueInt
+     * @param currency
+     */
+    public FilterPrice(@JsonProperty("value") BigDecimal value, @JsonProperty("value_int") long valueInt, @JsonProperty("currency") String currency) {
+
+      this.value = value;
+      this.valueInt = valueInt;
+      this.currency = currency;
+    }
+
+    public BigDecimal getValue() {
+
+      return value;
+    }
+
+    public long getValueInt() {
+
+      return valueInt;
+    }
+
+    public String getCurrency() {
+
+      return currency;
+    }
+
   }
 
 }

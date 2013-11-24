@@ -21,13 +21,12 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.trade.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v1.MtGoxExchange;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * <p>
@@ -37,17 +36,16 @@ import com.xeiam.xchange.service.account.polling.PollingAccountService;
  * <li>Connecting to Mt Gox BTC exchange with authentication</li>
  * <li>Retrieving account info data</li>
  * </ul>
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public class MtGoxWithdrawDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(MtGoxExchange.class.getName());
-    exchangeSpecification.setApiKey("150c6db9-e5ab-47ac-83d6-4440d1b9ce49");
-    exchangeSpecification.setSecretKey("olHM/yl3CAuKMXFS2+xlP/MC0Hs1M9snHpaHwg0UZW52Ni0Tf4FhGFELO9cHcDNGKvFrj8CgyQUA4VsMTZ6dXg==");
-    exchangeSpecification.setUri("https://mtgox.com");
-    Exchange mtgox = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 
     PollingAccountService accountService = mtgox.getPollingAccountService();
     System.out.println(accountService.getAccountInfo());

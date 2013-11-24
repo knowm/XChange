@@ -21,19 +21,21 @@
  */
 package com.xeiam.xchange.examples.btce.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.btce.v3.BTCEExchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Order Book at BTC-E
  */
 public class TradesDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get BTC-E exchange API using default settings
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
@@ -41,7 +43,7 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
-    // Get the latest trade data for BTC/CAD
+    // Get the latest trade data for BTC/EUR
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
 
     System.out.println(trades.toString());

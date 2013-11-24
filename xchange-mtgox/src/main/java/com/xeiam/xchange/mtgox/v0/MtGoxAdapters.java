@@ -43,7 +43,11 @@ import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from MtGox DTOs to XChange DTOs
+ * <p>
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxAdapters {
 
   /**
@@ -70,7 +74,7 @@ public final class MtGoxAdapters {
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
 
   }
 
@@ -111,10 +115,9 @@ public final class MtGoxAdapters {
     String tradableIdentifier = mtGoxTrade.getItem();
     String transactionCurrency = mtGoxTrade.getPrice_currency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPrice_int());
-
     Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime);
+    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, mtGoxTrade.getTid());
   }
 
   /**

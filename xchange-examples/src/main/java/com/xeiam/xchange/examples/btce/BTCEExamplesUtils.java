@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,7 +24,7 @@ package com.xeiam.xchange.examples.btce;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.btce.v3.BTCEExchange;
 
 /**
  * @author Matija Mazi
@@ -35,9 +34,9 @@ public class BTCEExamplesUtils {
   public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
-    exSpec.setSecretKey("4df0c1438aee12cd04be9d50bae23b4b4245c3ac9b37993908411c4d3023af77");
-    exSpec.setApiKey("82FE1OI8-6KVWGK2L-GFR3UETO-Y3G3NZQ7-0QISCMTU");
-    exSpec.setUri("https://btc-e.com");
+    exSpec.setSecretKey("804ace4f64b9cac6b6584f70af3ab66c8415538c8c006c8728c937d680cafece");
+    exSpec.setApiKey("7A2REWZK-PVJK1CRF-374Z6J13-SO2R3EIX-EMF3OCBR");
+    exSpec.setSslUri("https://btc-e.com");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }

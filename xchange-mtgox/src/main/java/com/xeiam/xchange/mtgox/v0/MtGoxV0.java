@@ -1,5 +1,5 @@
 /**
- * Copyright (C)  2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,15 +28,19 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import si.mazi.rescu.ParamsDigest;
+
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
 import com.xeiam.xchange.mtgox.v0.dto.trade.MtGoxCancelOrder;
-import com.xeiam.xchange.rest.ParamsDigest;
 
 /**
  * @author timmolter
+ *         <p>
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 @Path("api/0")
 public interface MtGoxV0 {
 
@@ -54,6 +58,7 @@ public interface MtGoxV0 {
 
   @POST
   @Path("cancelOrder.php")
-  MtGoxCancelOrder cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @FormParam("oid") String orderId);
+  MtGoxCancelOrder
+      cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @FormParam("oid") String orderId);
 
 }

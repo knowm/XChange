@@ -1,6 +1,5 @@
 /**
  * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * Copyright (C) 2012 - 2013 Michael Lagace
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -26,6 +25,10 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @deprecated Use V2! This will be removed in 1.8.0+
+ */
+@Deprecated
 public class MtGoxTrades {
 
   private BigDecimal amount;

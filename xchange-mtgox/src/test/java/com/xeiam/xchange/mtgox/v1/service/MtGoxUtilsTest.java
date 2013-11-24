@@ -21,11 +21,10 @@
  */
 package com.xeiam.xchange.mtgox.v1.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.joda.money.BigMoney;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -34,7 +33,11 @@ import com.xeiam.xchange.mtgox.MtGoxUtils;
 
 /**
  * Test class for MtGoxUtils class
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
+@Ignore
 public class MtGoxUtilsTest {
 
   @Test
@@ -48,16 +51,15 @@ public class MtGoxUtilsTest {
     String mtGoxRequestStringUSD = MtGoxUtils.getPriceString(priceUSD);
     // System.out.println(mtGoxRequestStringUSD);
 
-    assertEquals("Unexpected value", mtGoxRequestStringJPY, mtGoxRequestStringUSD);
-
+    assertThat(mtGoxRequestStringJPY).isEqualTo(mtGoxRequestStringUSD);
   }
 
   @Test
   public void testIsValidCurrencyPair() {
 
-    assertTrue(MtGoxUtils.isValidCurrencyPair(CurrencyPair.BTC_USD));
-    assertTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "USD")));
-    assertFalse(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD")));
+    assertThat(MtGoxUtils.isValidCurrencyPair(CurrencyPair.BTC_USD));
+    assertThat(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "USD")));
+    assertThat(MtGoxUtils.isValidCurrencyPair(new CurrencyPair("BTC", "FFD"))).isFalse();
 
   }
 }

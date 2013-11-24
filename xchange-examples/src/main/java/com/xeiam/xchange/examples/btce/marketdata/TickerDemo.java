@@ -21,19 +21,21 @@
  */
 package com.xeiam.xchange.examples.btce.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.btce.v3.BTCEExchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Order Book at BTC-E
  */
 public class TickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get BTC-E exchange API using default settings
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
@@ -42,7 +44,7 @@ public class TickerDemo {
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.LTC, Currencies.RUR);
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
 
@@ -53,6 +55,7 @@ public class TickerDemo {
     System.out.println("Low: " + ticker.getLow().toString());
     System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
 
-  }
+    System.out.println(ticker.toString());
 
+  }
 }

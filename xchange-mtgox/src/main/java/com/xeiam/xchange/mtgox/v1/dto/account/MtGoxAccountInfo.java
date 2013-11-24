@@ -30,7 +30,10 @@ import com.xeiam.xchange.mtgox.v1.dto.trade.Wallets;
 
 /**
  * Data object representing Account Info from Mt Gox
+ * 
+ * @deprecated Use V2! This will be removed in 1.8.0+
  */
+@Deprecated
 public final class MtGoxAccountInfo {
 
   private final String login;

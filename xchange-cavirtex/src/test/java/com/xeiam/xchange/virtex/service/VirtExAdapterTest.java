@@ -21,8 +21,7 @@
  */
 package com.xeiam.xchange.virtex.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,15 +60,13 @@ public class VirtExAdapterTest {
     VirtExDepth VirtExDepth = mapper.readValue(is, VirtExDepth.class);
 
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), "CAD", "ask", "");
-    // System.out.println(openorders.size());
-    // assertTrue("ASKS size should be 1582", asks.size() == 1582);
 
-    // verify all fields filled
-    assertTrue("limit price should be 16.90536", asks.get(0).getLimitPrice().getAmount().doubleValue() == 16.90536);
-    assertTrue("order type should be ASK", asks.get(0).getType() == OrderType.ASK);
-    assertTrue("tradableAmount should be 6.51", asks.get(0).getTradableAmount().doubleValue() == 6.51);
-    assertTrue("tradableIdentifier should be BTC", asks.get(0).getTradableIdentifier().equals("BTC"));
-    assertTrue("transactionCurrency should be CAD", asks.get(0).getTransactionCurrency().equals("CAD"));
+    // Verify all fields filled
+    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(16.90536);
+    assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(6.51);
+    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("CAD");
 
   }
 
@@ -84,12 +81,12 @@ public class VirtExAdapterTest {
     VirtExTrade[] VirtExTrades = mapper.readValue(is, VirtExTrade[].class);
 
     Trades trades = VirtExAdapters.adaptTrades(VirtExTrades, "CAD", "BTC");
-    assertTrue("Trades size should be 558", trades.getTrades().size() == 558);
+    assertThat(trades.getTrades().size()).isEqualTo(558);
 
-    // verify all fields filled
-    assertTrue("price should be 11.500000000", trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 11.500000000);
-    assertTrue("tradableAmount should be 13.000000000", trades.getTrades().get(0).getTradableAmount().doubleValue() == 13.000000000);
-    assertEquals("timestamp incorrect", "2012-09-26 15:23:19 GMT", DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp()));
+    // Verify all fields filled
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 11.500000000);
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 13.000000000);
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2012-09-26 15:23:19 GMT");
   }
 
   @Test
@@ -105,10 +102,10 @@ public class VirtExAdapterTest {
     Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker, "CAD", "BTC");
     System.out.println(ticker.toString());
 
-    assertEquals("last should be CAD 12.32900", ticker.getLast().toString(), "CAD 12.32900");
-    assertEquals("bid should be CAD 11.64001", ticker.getLow().toString(), "CAD 11.64001");
-    assertEquals("ask should be CAD 12.37989", ticker.getHigh().toString(), "CAD 12.37989");
-    assertEquals("volume should be 1866.56", ticker.getVolume(), new BigDecimal("1866.56"));
+    assertThat(ticker.getLast().toString()).isEqualTo("CAD 12.32900");
+    assertThat(ticker.getLow().toString()).isEqualTo("CAD 11.64001");
+    assertThat(ticker.getHigh().toString()).isEqualTo("CAD 12.37989");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1866.56"));
 
   }
 }
