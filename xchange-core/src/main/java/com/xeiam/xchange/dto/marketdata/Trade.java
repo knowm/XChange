@@ -144,4 +144,18 @@ public final class Trade implements Comparable<Trade> {
     return ((Long) getId()).compareTo(trade.getId());
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    return (id == ((Trade) o).id);
+  }
+
+  @Override
+  public int hashCode() {
+
+    return (int) (id ^ (id >>> 32));
+  }
+
 }
