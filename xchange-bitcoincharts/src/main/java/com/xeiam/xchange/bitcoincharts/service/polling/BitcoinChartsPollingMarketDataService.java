@@ -21,21 +21,12 @@
  */
 package com.xeiam.xchange.bitcoincharts.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
-import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -46,6 +37,11 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
+import java.io.IOException;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author timmolter
@@ -60,14 +56,12 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
    * time stamps used to pace API calls
    */
   private long tickerRequestTimeStamp = 0L;
-  private long chartDataRequestTimeStamp = 0L;
 
   private BitcoinChartsTicker[] cachedBitcoinChartsTickers;
-  private ChartData[] cachedChartData;
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitcoinChartsPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -132,7 +126,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
 
   /**
    * Verify
-   * 
+   *
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency The transaction currency (e.g. USD in BTC/USD)
    */
@@ -141,21 +135,6 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.isTrue(currency.equals(Currencies.BTC), "Base curreny must be " + Currencies.BTC + " for this exchange");
     Assert.isTrue(BitcoinChartsUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-  }
-
-  public ChartData[] getChartData(String exchange, int daysInPast) throws IOException {
-
-    // check for pacing violation
-    if (chartDataRequestTimeStamp == 0L || System.currentTimeMillis() - chartDataRequestTimeStamp >= getRefreshRate()) {
-
-      logger.debug("requesting BitcoinCharts chartdata");
-      chartDataRequestTimeStamp = System.currentTimeMillis();
-
-      // Request data
-      cachedChartData = BitcoinChartsAdapters.adaptChartData(bitcoinCharts.getChartData(exchange, daysInPast));
-    }
-
-    return cachedChartData;
   }
 
 }
