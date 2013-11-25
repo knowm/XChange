@@ -64,8 +64,8 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setPlainTextUri("http://bitcoincharts.com");
-    exchangeSpecification.setHost("bitcoincharts.com");
+    exchangeSpecification.setPlainTextUri("http://api.bitcoincharts.com");
+    exchangeSpecification.setHost("api.bitcoincharts.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin Charts");
     exchangeSpecification.setExchangeDescription("Bitcoin charts provides financial and technical data related to the Bitcoin network.");
