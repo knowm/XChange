@@ -21,67 +21,74 @@
  */
 package com.xeiam.xchange.btcchina.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-import java.util.List;
+public class BTCChinaTickerObject {
 
-public class BTCChinaTickerObject{
-   	private BigDecimal buy;
-   	private BigDecimal high;
-   	private BigDecimal last;
-   	private BigDecimal low;
-   	private BigDecimal sell;
-   	private BigDecimal vol;
+  private BigDecimal buy;
+  private BigDecimal high;
+  private BigDecimal last;
+  private BigDecimal low;
+  private BigDecimal sell;
+  private BigDecimal vol;
 
-   	/**
-     * Constructor
-     * 
-     * @param high
-     * @param low
-     * @param volume
-     * @param last
-     * @param buy
-     * @param sell
-     */
-    public BTCChinaTickerObject(@JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last) {
+  /**
+   * Constructor
+   * 
+   * @param buy
+   * @param sell
+   * @param high
+   * @param low
+   * @param vol
+   * @param last
+   */
+  public BTCChinaTickerObject(@JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
+      @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last) {
 
-      this.high = high;
-      this.low = low;
-      this.vol = vol;
-      this.last = last;
-      this.buy = buy;
-      this.sell = sell;
-    }
+    this.high = high;
+    this.low = low;
+    this.vol = vol;
+    this.last = last;
+    this.buy = buy;
+    this.sell = sell;
+  }
 
- 	public BigDecimal getBuy(){
-		return this.buy;
-	}
+  public BigDecimal getBuy() {
 
- 	public BigDecimal getHigh(){
-		return this.high;
-	}
+    return this.buy;
+  }
 
- 	public BigDecimal getLast(){
-		return this.last;
-	}
+  public BigDecimal getHigh() {
 
- 	public BigDecimal getLow(){
-		return this.low;
-	}
+    return this.high;
+  }
 
- 	public BigDecimal getSell(){
-		return this.sell;
-	}
- 	
- 	public BigDecimal getVol(){
-		return this.vol;
-	}
+  public BigDecimal getLast() {
 
-    @Override
-    public String toString() {
+    return this.last;
+  }
 
-    	return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + "]";
+  public BigDecimal getLow() {
 
-    }
+    return this.low;
+  }
+
+  public BigDecimal getSell() {
+
+    return this.sell;
+  }
+
+  public BigDecimal getVol() {
+
+    return this.vol;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + "]";
+
+  }
 }

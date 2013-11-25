@@ -1,16 +1,16 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
- * 
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,12 +21,15 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
+import java.io.IOException;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.MtGoxV2;
+import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLagWrapper;
 
 /**
@@ -34,7 +37,7 @@ import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLagWrapper;
  */
 public class MtGoxLagDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws MtGoxException, IOException {
 
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
     MtGoxV2 mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, mtGoxExchange.getExchangeSpecification().getPlainTextUri());

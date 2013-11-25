@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.streaming;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,13 +47,13 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  */
 public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
-  public static void main(String[] args) throws ExecutionException, InterruptedException {
+  public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
     MtGoxWebSocketSyncronizedOrderBookDemo streamingTickerDemo = new MtGoxWebSocketSyncronizedOrderBookDemo();
     streamingTickerDemo.start();
   }
 
-  public void start() throws ExecutionException, InterruptedException {
+  public void start() throws IOException, ExecutionException, InterruptedException {
 
     // Use the default MtGox settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());

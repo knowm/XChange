@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Mark van Cuijk mark@van-cuijk.nl
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.mtgox.v1.service.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v1.MtGoxV1ExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -33,7 +35,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 @Deprecated
 public class BitcoinDepositAddressDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange mtgox = MtGoxV1ExamplesUtils.createExchange();
 

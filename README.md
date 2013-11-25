@@ -62,9 +62,9 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
 
 #### Compile Dependencies
     +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
-    +- org.slf4j:slf4j-api:jar:1.7.2:compile
-    +- org.joda:joda-money:jar:0.8:compile
-    \- com.github.mmazi:rescu:jar:1.2.0:compile
+    +- org.slf4j:slf4j-api:jar:1.7.5:compile
+    +- org.joda:joda-money:jar:0.9:compile
+    \- com.github.mmazi:rescu:jar:1.5.0:compile
         +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
         +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
         +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
@@ -78,9 +78,9 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
         \- org.easytesting:fest-util:jar:1.2.5:test
    
 #### Other Dependencies for Some Examples
-    +- ch.qos.logback:logback-classic:jar:1.0.9:runtime
-    |    \- ch.qos.logback:logback-core:jar:1.0.9:runtime
-    +- com.xeiam.xchart:xchart:jar:2.2.0:compile
+    +- ch.qos.logback:logback-classic:jar:1.0.13:runtime
+    |    \- ch.qos.logback:logback-core:jar:1.0.13:runtime
+    +- com.xeiam.xchart:xchart:jar:2.2.1:compile
 
 ### Maven
 The XChange release artifacts are hosted on Maven Central. 
@@ -90,47 +90,67 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitcoincharts</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-bitcurex</artifactId>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-bitstamp</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
     </dependency>  
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-blockchain</artifactId>
+      <version>1.10.0</version>
+    </dependency>  
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-btcchina</artifactId>
+      <version>1.10.0</version>
+    </dependency> 
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-btce</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-campbx</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-cavirtex</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xeiam.xchange</groupId>
+      <artifactId>xchange-kraken</artifactId>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-mtgox</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-openexchangerates</artifactId>
-      <version>1.8.0</version>
+      <version>1.10.0</version>
     </dependency>
     
 For snapshots, add the following repository to your pom.xml file.
@@ -143,14 +163,16 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    1.8.1-SNAPSHOT
+    1.11.0-SNAPSHOT
     
-## Building
-install in local Maven repo: mvn clean install  
-create project javadocs: mvn javadoc:aggregate  
-run integration tests: mvn clean integration-test -P run-integration-tests  
-generate dependency tree: mvn dependency:tree  
-create jar files with dependencies (-with-dependencies.jar): mvn install 
+## Building with Maven
+
+install in local Maven repo: `mvn clean install`  
+create project javadocs: `mvn javadoc:aggregate`  
+run integration tests: `mvn clean integration-test -P run-integration-tests`  
+generate dependency tree: `mvn dependency:tree`  
+create jar files with dependencies (-with-dependencies.jar): `mvn install`  
+check/update all header files: `mvn license:check` and `mvn license:format`
 
 ## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).

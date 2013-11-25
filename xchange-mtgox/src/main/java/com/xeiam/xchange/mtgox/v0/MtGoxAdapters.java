@@ -74,7 +74,7 @@ public final class MtGoxAdapters {
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
 
   }
 

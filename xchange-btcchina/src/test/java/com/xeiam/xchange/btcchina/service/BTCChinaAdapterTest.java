@@ -31,11 +31,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
@@ -43,6 +38,11 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaDepthJSONTest;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaTickerJSONTest;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaTradesJSONTest;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Tests the BTCChinaAdapter class
@@ -59,7 +59,7 @@ public class BTCChinaAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCChinaDepth BTCChinaDepth = mapper.readValue(is, BTCChinaDepth.class);
 
-    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(BTCChinaDepth.getAsks(), "CNY", "ask", "");
+    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(BTCChinaDepth.getAsks(), "CNY", OrderType.ASK);
 
     // Verify all fields filled
     assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(1.0e+14);
@@ -87,6 +87,8 @@ public class BTCChinaAdapterTest {
     assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 545);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.37);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-07-25 18:22:55 GMT");
+    System.out.println(trades.getTrades().get(0).toString());
+
   }
 
   @Test

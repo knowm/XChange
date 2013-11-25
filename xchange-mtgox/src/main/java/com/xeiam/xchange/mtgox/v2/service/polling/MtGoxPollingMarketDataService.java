@@ -22,13 +22,17 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -40,8 +44,8 @@ import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTickerWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -59,7 +63,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchangeSpecification
+   *          The {@link ExchangeSpecification}
    */
   public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
@@ -68,7 +73,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -92,7 +97,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -103,7 +108,9 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         // Adapt to XChange DTOs
         List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
         List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-        return new OrderBook(asks, bids);
+        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
+
+        return new OrderBook(date, asks, bids);
       }
       else if (mtGoxDepthWrapper.getResult().equals("error")) {
         throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
@@ -117,7 +124,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -127,7 +134,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         // Adapt to XChange DTOs
         List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
         List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-        return new OrderBook(asks, bids);
+        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
+        return new OrderBook(date, asks, bids);
       }
       else if (mtGoxDepthWrapper.getResult().equals("error")) {
         throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
@@ -141,7 +149,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -172,11 +180,19 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     }
   }
 
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
   /**
    * Verify
    * 
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency The transaction currency (e.g. USD in BTC/USD)
+   * @param tradableIdentifier
+   *          The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency
+   *          The transaction currency (e.g. USD in BTC/USD)
    */
   private void verify(String tradableIdentifier, String currency) {
 

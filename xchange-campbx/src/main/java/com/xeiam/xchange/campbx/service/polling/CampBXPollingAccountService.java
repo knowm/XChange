@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,6 +21,7 @@
  */
 package com.xeiam.xchange.campbx.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -37,8 +37,8 @@ import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi
@@ -61,7 +61,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
     MyFunds myFunds = campBX.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     logger.debug("myFunds = {}", myFunds);
@@ -75,7 +75,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     CampBXResponse campBXResponse = campBX.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
     logger.debug("campBXResponse = {}", campBXResponse);
@@ -89,7 +89,7 @@ public class CampBXPollingAccountService extends BasePollingExchangeService impl
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) {
+  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
     CampBXResponse campBXResponse = campBX.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     logger.debug("campBXResponse = {}", campBXResponse);

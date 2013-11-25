@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import si.mazi.rescu.ParamsDigest;
@@ -37,8 +38,8 @@ import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfoWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddressWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponseWrapper;
 import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -72,7 +73,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
     try {
       MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
@@ -91,7 +92,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     try {
       MtGoxWithdrawalResponseWrapper mtGoxWithdrawalResponseWrapper =
@@ -113,7 +114,7 @@ public class MtGoxPollingAccountService extends BasePollingExchangeService imple
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) {
+  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
     String description = arguments[0];
     String notificationUrl = arguments[1];

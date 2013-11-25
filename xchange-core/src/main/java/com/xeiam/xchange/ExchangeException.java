@@ -32,9 +32,9 @@ package com.xeiam.xchange;
 public class ExchangeException extends RuntimeException {
 
   /**
-   * Constructor
+   * Constructs an <code>ExchangeException</code> with the specified detail message.
    * 
-   * @param message the message
+   * @param message the detail message.
    */
   public ExchangeException(String message) {
 
@@ -42,13 +42,13 @@ public class ExchangeException extends RuntimeException {
   }
 
   /**
-   * Constructor
+   * Constructs an <code>ExchangeException</code> with the specified detail message and cause.
    * 
-   * @param message
-   * @param throwable
+   * @param message the detail message.
+   * @param cause the underlying cause.
    */
-  public ExchangeException(String message, Throwable throwable) {
+  public ExchangeException(String message, Throwable cause) {
 
-    super(message, throwable);
+    super(message, cause);
   }
 }

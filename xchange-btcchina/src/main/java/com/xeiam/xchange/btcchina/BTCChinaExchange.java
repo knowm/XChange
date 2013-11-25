@@ -24,7 +24,9 @@ package com.xeiam.xchange.btcchina;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.btcchina.service.polling.BTCChinaPollingAccountService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaPollingMarketDataService;
+import com.xeiam.xchange.btcchina.service.polling.BTCChinaPollingTradeService;
 
 /**
  * <p>
@@ -58,14 +60,16 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new BTCChinaPollingMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new BTCChinaPollingTradeService(exchangeSpecification);
+    this.pollingAccountService = new BTCChinaPollingAccountService(exchangeSpecification);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://btcchina.com");
-    exchangeSpecification.setHost("btcchina.com");
+    exchangeSpecification.setSslUri("https://data.btcchina.com");
+    exchangeSpecification.setHost("data.btcchina.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCChina");
     exchangeSpecification.setExchangeDescription("BTCChina is a Bitcoin exchange located in China.");

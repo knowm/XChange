@@ -35,6 +35,7 @@ public final class MtGoxDepth {
   private final List<MtGoxOrder> bids;
   private final FilterPrice filterMinPrice;
   private final FilterPrice filterMaxPrice;
+  private final Long microTime;
 
   /**
    * Constructor
@@ -42,13 +43,14 @@ public final class MtGoxDepth {
    * @param asks
    * @param bids
    */
-  public MtGoxDepth(@JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids, @JsonProperty("filter_min_price") FilterPrice filterMinPrice,
-      @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
+  public MtGoxDepth(@JsonProperty("now") Long microTime, @JsonProperty("asks") List<MtGoxOrder> asks, @JsonProperty("bids") List<MtGoxOrder> bids,
+      @JsonProperty("filter_min_price") FilterPrice filterMinPrice, @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
 
     this.asks = asks;
     this.bids = bids;
     this.filterMinPrice = filterMinPrice;
     this.filterMaxPrice = filterMaxPrice;
+    this.microTime = microTime;
   }
 
   public List<MtGoxOrder> getAsks() {
@@ -69,6 +71,11 @@ public final class MtGoxDepth {
   public FilterPrice getFilterMaxPrice() {
 
     return filterMaxPrice;
+  }
+
+  public Long getMicroTime() {
+
+    return microTime;
   }
 
   @Override
@@ -111,7 +118,6 @@ public final class MtGoxDepth {
 
       return currency;
     }
-
   }
 
 }

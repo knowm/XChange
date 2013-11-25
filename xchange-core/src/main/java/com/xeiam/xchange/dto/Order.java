@@ -77,6 +77,7 @@ public class Order {
    * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param id An id (usually provided by the exchange)
+   * @param timestamp the absolute time for this order
    */
   public Order(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp) {
 

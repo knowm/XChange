@@ -158,6 +158,7 @@ public class MtGoxAdapterTest {
     assertThat(trades.getTrades().get(0).getId()).isEqualTo(1365499103363494L);
     // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-04-09 09:18:23 GMT");
+    assertThat(trades.getTrades().get(0).getTimestamp().getTime()).isEqualTo(1365499103363L);
   }
 
   @Test
@@ -227,4 +228,5 @@ public class MtGoxAdapterTest {
     assertThat(orderBookUpdate.getLimitOrder().getTimestamp().getTime()).isEqualTo(1364643714372L);
 
   }
+
 }

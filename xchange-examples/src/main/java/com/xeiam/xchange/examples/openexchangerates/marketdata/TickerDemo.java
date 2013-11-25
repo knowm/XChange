@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.openexchangerates.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -34,7 +36,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get the Open Exchange Rates exchange API
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(OERExchange.class.getName());

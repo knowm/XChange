@@ -26,6 +26,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import org.junit.Test;
 
@@ -34,6 +36,7 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -75,15 +78,18 @@ public class BitstampAdapterTest {
     BitstampOrderBook bitstampOrderBook = mapper.readValue(is, BitstampOrderBook.class);
 
     OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, "BTC", "USD");
-    assertThat(orderBook.getBids().size()).isEqualTo(107);
+    assertThat(orderBook.getBids().size()).isEqualTo(1281);
 
     // verify all fields filled
-    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount()).isEqualTo(new BigDecimal("13.07"));
+    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount()).isEqualTo(new BigDecimal("123.09"));
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("7.43517000"));
+    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.16248274"));
     assertThat(orderBook.getBids().get(0).getTradableIdentifier()).isEqualTo("BTC");
     assertThat(orderBook.getBids().get(0).getTransactionCurrency()).isEqualTo("USD");
-
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(orderBook.getTimeStamp());
+    assertThat(dateString).isEqualTo("2013-09-10 12:31:44");
   }
 
   @Test
@@ -119,10 +125,34 @@ public class BitstampAdapterTest {
 
     Ticker ticker = BitstampAdapters.adaptTicker(bitstampTicker, "BTC", "USD");
 
-    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 13.06"));
-    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 13.06"));
-    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 13.14"));
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1127.55649327"));
+    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 134.89"));
+    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 134.89"));
+    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 134.92"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("21982.44926674"));
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    String dateString = f.format(ticker.getTimestamp());
+    assertThat(dateString).isEqualTo("2013-10-14 21:45:33");
+  }
 
+  @Test
+  public void testUserTradeHistoryAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/trade/example-user-transactions.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampUserTransaction[] bitstampUserTransactions = mapper.readValue(is, BitstampUserTransaction[].class);
+
+    Trades userTradeHistory = BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
+
+    assertThat(userTradeHistory.getTrades().get(0).getId()).isEqualTo(1296712);
+    assertThat(userTradeHistory.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(userTradeHistory.getTrades().get(0).getPrice()).isEqualTo(MoneyUtils.parse("USD 131.50"));
+
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());
+    assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
   }
 }

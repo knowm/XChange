@@ -22,6 +22,8 @@
  */
 package com.xeiam.xchange.examples.btce.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
@@ -32,7 +34,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class BTCEAccountInfoDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange btce = BTCEExamplesUtils.createExchange();
 

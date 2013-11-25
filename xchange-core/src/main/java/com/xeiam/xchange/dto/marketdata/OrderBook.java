@@ -37,19 +37,29 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
  */
 public final class OrderBook {
 
+  private Date timeStamp;
   private final List<LimitOrder> asks;
   private final List<LimitOrder> bids;
 
   /**
    * Constructor
    * 
-   * @param asks The ASK orders
-   * @param bids The BID orders
+   * @param timeStamp The timeStamp of the OrderBook or of the latest Update
+   * @param asks
+   *          The ASK orders
+   * @param bids
+   *          The BID orders
    */
-  public OrderBook(List<LimitOrder> asks, List<LimitOrder> bids) {
+  public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
 
+    this.timeStamp = timeStamp;
     this.asks = asks;
     this.bids = bids;
+  }
+
+  public Date getTimeStamp() {
+
+    return timeStamp;
   }
 
   public List<LimitOrder> getAsks() {
@@ -65,9 +75,10 @@ public final class OrderBook {
   }
 
   /**
-   * Given a new LimitOrder, it will replace and old matching limit order in the orderbook or simply get added. Finally, it is sorted.
+   * Given a new LimitOrder, it will replace and old matching limit order in
+   * the orderbook or simply get added. Finally, it is sorted. The timeStamp may be updated as well.
    * 
-   * @param limitOrder
+   * @param limitOrder the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
 
@@ -76,7 +87,11 @@ public final class OrderBook {
       Iterator<LimitOrder> it = asks.iterator();
       while (it.hasNext()) {
         LimitOrder order = it.next();
-        if (order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0) { // they are equal. found it!
+        if (order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0) { // they
+                                                                                // are
+                                                                                // equal.
+                                                                                // found
+                                                                                // it!
           it.remove();
           break;
         }
@@ -90,7 +105,11 @@ public final class OrderBook {
       Iterator<LimitOrder> it = bids.iterator();
       while (it.hasNext()) {
         LimitOrder order = it.next();
-        if (order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0) { // they are equal. found it!
+        if (order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0) { // they
+                                                                                // are
+                                                                                // equal.
+                                                                                // found
+                                                                                // it!
           it.remove();
           break;
         }
@@ -98,12 +117,14 @@ public final class OrderBook {
       bids.add(limitOrder); // just add it
       Collections.sort(bids); // finally sort
     }
+    updateDate(limitOrder.getTimestamp());
   }
 
   /**
-   * Given an OrderBookUpdate, it will replace and old matching limit order in the orderbook or simply get added. Finally, it is sorted.
+   * Given an OrderBookUpdate, it will replace and old matching limit order in
+   * the orderbook or simply get added. Finally, it is sorted.The timeStamp may be updated as well.
    * 
-   * @param limitOrder
+   * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
 
@@ -123,7 +144,8 @@ public final class OrderBook {
       }
     }
 
-    // If volume is not zero we need to add a new limit order with the updated amount
+    // If volume is not zero we need to add a new limit order with the
+    // updated amount
     if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
 
       OrderType type = orderBookUpdate.getLimitOrder().getType();
@@ -144,12 +166,20 @@ public final class OrderBook {
         Collections.sort(bids);
       }
     }
+    updateDate(orderBookUpdate.getLimitOrder().getTimestamp());
+  }
+
+  private void updateDate(Date updateDate) {
+
+    if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
+      this.timeStamp = updateDate;
+    }
   }
 
   @Override
   public String toString() {
 
-    return "Depth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    return "Depth [timestamp: " + timeStamp + ", asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
 }

@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,19 +24,27 @@ package com.xeiam.xchange.campbx;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.campbx.service.polling.CampBXGenericPollingMarketDataService;
 import com.xeiam.xchange.campbx.service.polling.CampBXPollingAccountService;
-import com.xeiam.xchange.campbx.service.polling.CampBXPollingMarketDataService;
 import com.xeiam.xchange.campbx.service.polling.CampBXPollingTradeService;
 
 /**
- * @author Matija Mazi <br/>
- *         WARNING: Please heed the CampbBX's note:
- *         <p/>
- *         Important: Please note that using API and Website interfaces concurrently may cause login interference issues. Please use different external IP addresses, or pause the bot when you need to
- *         use the Web UI.
- *         <p/>
- *         Please do not abuse the API interface with brute-forcing bots, and ensure that there is at least 500 millisecond latency between two calls. We may revoke the API access without notice for
- *         accounts violating this requirement.
+ * Exchange for CampBX.
+ * <p>
+ * WARNING: Please heed the CampbBX's note:
+ * </p>
+ * <blockquote>
+ * <p>
+ * Important: Please note that using API and Website interfaces concurrently may cause login interference issues. Please use different external IP addresses, or pause the bot when you need to use the
+ * Web UI.
+ * </p>
+ * <p>
+ * Please do not abuse the API interface with brute-forcing bots, and ensure that there is at least 500 millisecond latency between two calls. We may revoke the API access without notice for accounts
+ * violating this requirement.
+ * </p>
+ * </blockquote>
+ * 
+ * @author Matija Mazi
  */
 public class CampBXExchange extends BaseExchange implements Exchange {
 
@@ -57,7 +64,7 @@ public class CampBXExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new CampBXPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new CampBXGenericPollingMarketDataService(exchangeSpecification);
     this.pollingTradeService = new CampBXPollingTradeService(exchangeSpecification);
     this.pollingAccountService = new CampBXPollingAccountService(exchangeSpecification);
   }

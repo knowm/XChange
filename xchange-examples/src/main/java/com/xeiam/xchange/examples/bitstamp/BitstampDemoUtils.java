@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -28,16 +27,17 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
 
 /**
- * @author Matija Mazi <br/>
+ * @author Matija Mazi
  */
 public class BitstampDemoUtils {
 
-  public static Exchange getExchange() {
+  public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
     exSpec.setUserName("34387");
     exSpec.setPassword("H?kRyaslJp44");
-
+    exSpec.setApiKey("a4SDmpl9s6xWJS5fkKRT6yn41vXuY0AM");
+    exSpec.setSecretKey("sisJixU6Xd0d1yr6w02EHCb9UwYzTNuj");
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }

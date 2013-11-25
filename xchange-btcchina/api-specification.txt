@@ -1,7 +1,9 @@
 BTC China API specification
 ================================
 
-Public API
+
+## Public API
+http://btcchina.org/api-market-data-documentation-zh
 
 Ticker
 ------
