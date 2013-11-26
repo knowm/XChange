@@ -45,7 +45,7 @@ public class FullDepthDemo {
     PollingMarketDataService marketDataService = kraken.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/EUR
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.EUR);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.EUR, PollingMarketDataService.OrderBookType.FULL);
 
     System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

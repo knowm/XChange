@@ -83,31 +83,41 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     return MtGoxAdapters.adaptTicker(mtGoxTicker);
   }
 
+  /**
+   * Get market depth from exchange
+   *
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
+   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
+   * @param args Optional arguments. Exchange-specific. This implementation assumes:
+   *             absent or OrderBookType.PARTIAL -> get partial OrderBook
+   *             OrderBookType.FULL -> get full OrderBook
+   * @return The OrderBook
+   * @throws IOException
+   */
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
     // Request data
-    MtGoxDepth mtgoxDepth = mtGoxV1.getDepth(tradableIdentifier, currency);
+    MtGoxDepth mtgoxDepth = null;
+    if (args.length > 0) {
+      if (args[0] instanceof OrderBookType) {
+        if (args[0] == OrderBookType.FULL) {
+          mtgoxDepth = mtGoxV1.getFullDepth(tradableIdentifier, currency);
+        } else {
+          mtgoxDepth = mtGoxV1.getDepth(tradableIdentifier, currency);
+        }
+      } else {
+        throw new IllegalArgumentException();
+      }
+    } else {
+      mtgoxDepth = mtGoxV1.getDepth(tradableIdentifier, currency);
+    }
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxDepth.getAsks(), currency, "ask", "");
     List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxDepth.getBids(), currency, "bid", "");
-
-    return new OrderBook(null, asks, bids);
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
-
-    verify(tradableIdentifier, currency);
-
-    MtGoxDepth mtgoxFullDepth = mtGoxV1.getFullDepth(tradableIdentifier, currency);
-
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
-    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }

@@ -73,33 +73,19 @@ public interface PollingMarketDataService {
 
   /**
    * <p>
-   * Get an order book representing the current offered exchange rates
+   * Get an order book representing the current offered exchange rates (market depth)
    * </p>
    * 
-   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
-   * @param currency The currency of interest, null if irrelevant
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
+   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
+   * @param args Optional arguments. Exchange-specific
    * @return The OrderBook, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
-
-  /**
-   * <p>
-   * Get a full order book representing the current offered exchange rates
-   * </p>
-   * 
-   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
-   * @param currency The currency of interest, null if irrelevant
-   * @return The OrderBook, null if some sort of error occurred. Implementers should log the error.
-   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
-   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   */
-  OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
@@ -125,5 +111,9 @@ public interface PollingMarketDataService {
    * @throws IOException
    */
   public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+
+  public static enum OrderBookType {
+    PARTIAL, FULL
+  }
 
 }

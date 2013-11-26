@@ -55,6 +55,9 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
   protected final BTCE btce;
 
+  private static final int PARTIAL_SIZE = 150;
+  private static final int FULL_SIZE = 2000;
+
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
@@ -74,26 +77,37 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
     return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(tradableIdentifier, currency), tradableIdentifier, currency);
   }
 
-  // TODO possibly allow for passing in custom depth size amounts
+  /**
+   * Get market depth from exchange
+   *
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
+   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
+   * @param args Optional arguments. Exchange-specific. This implementation assumes:
+   *             absent or OrderBookType.PARTIAL -> get partial OrderBook
+   *             OrderBookType.FULL -> get full OrderBook
+   *             Integer value from 1 to 2000 -> get corresponding number of items
+   * @return The OrderBook
+   * @throws IOException
+   */
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
-    BTCEDepthWrapper btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 250, 1);
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getBids(), tradableIdentifier, currency, "bid", "");
+    int numberOfItems = PARTIAL_SIZE;
+    if (args.length > 0) {
+      if (args[0] instanceof OrderBookType) {
+        if (args[0] == OrderBookType.FULL) {
+          numberOfItems = FULL_SIZE;
+        }
+      } else if (args[0] instanceof Integer) {
+        numberOfItems = (Integer) args[0];
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
 
-    return new OrderBook(null, asks, bids);
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
-
-    verify(tradableIdentifier, currency);
-
-    BTCEDepthWrapper btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 2000, 1);
+    BTCEDepthWrapper btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), numberOfItems, 1);
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getBids(), tradableIdentifier, currency, "bid", "");

@@ -101,13 +101,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }

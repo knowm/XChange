@@ -66,7 +66,7 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
     // Requesting initial order book using the polling service
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
-    MarketDataRunnable.orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
+    MarketDataRunnable.orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
 
     // Open the connections to the exchange
     streamingMarketDataService.connect();

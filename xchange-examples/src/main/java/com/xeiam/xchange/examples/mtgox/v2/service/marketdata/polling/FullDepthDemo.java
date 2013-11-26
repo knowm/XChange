@@ -44,7 +44,7 @@ public class FullDepthDemo {
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
 
     // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook fullOrderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, PollingMarketDataService.OrderBookType.FULL);
     System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
   }

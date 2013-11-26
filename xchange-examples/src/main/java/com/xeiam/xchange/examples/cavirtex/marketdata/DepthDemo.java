@@ -44,7 +44,7 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/CAD
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.CAD);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.CAD);
 
     // System.out.println(orderBook.toString());
 

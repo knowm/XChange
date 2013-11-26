@@ -86,14 +86,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
-
-    throw new NotYetImplementedForExchangeException();
-
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
 
