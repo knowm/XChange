@@ -34,8 +34,8 @@ public class BTCEUserTradeHistoryDemo {
   public static void main(String[] args) throws IOException {
 
     // TODO: The APIKey does not have the correct permissions
-    Exchange bitstamp = BTCEExamplesUtils.createExchange();
-    PollingTradeService tradeService = bitstamp.getPollingTradeService();
+    Exchange btce = BTCEExamplesUtils.createExchange();
+    PollingTradeService tradeService = btce.getPollingTradeService();
     Trades trades = tradeService.getTradeHistory(null, Currencies.BTC, Currencies.USD);
     System.out.println(trades.toString());
 
