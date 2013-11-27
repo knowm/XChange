@@ -98,12 +98,12 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 
   /**
    * Get market depth from exchange
-   *
+   * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
    * @param currency The currency of interest, null if irrelevant. Second currency of the pair
    * @param args Optional arguments. Exchange-specific. This implementation assumes:
-   *             absent or OrderBookType.PARTIAL -> get partial OrderBook
-   *             OrderBookType.FULL -> get full OrderBook
+   *          absent or OrderBookType.PARTIAL -> get partial OrderBook
+   *          OrderBookType.FULL -> get full OrderBook
    * @return The OrderBook
    * @throws IOException
    */
@@ -119,14 +119,17 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
         if (args[0] instanceof OrderBookType) {
           if (args[0] == OrderBookType.FULL) {
             mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
-          } else {
-            mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
           }
-        } else {
+          else {
+            mtGoxDepthWrapper = mtGoxV2.getPartialDepth(tradableIdentifier, currency);
+          }
+        }
+        else {
           throw new ExchangeException("Orderbook size argument must be OrderBookType enum!");
         }
-      } else {
-        mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
+      }
+      else { // default to full orderbook
+        mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
       }
       if (mtGoxDepthWrapper.getResult().equals("success")) {
         // Adapt to XChange DTOs

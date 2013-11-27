@@ -63,7 +63,7 @@ public interface MtGoxV2 {
 
   @GET
   @Path("{ident}{currency}/money/depth/fetch")
-  MtGoxDepthWrapper getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws MtGoxException, IOException;
+  MtGoxDepthWrapper getPartialDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws MtGoxException, IOException;
 
   @GET
   @Path("{ident}{currency}/money/depth/full")
