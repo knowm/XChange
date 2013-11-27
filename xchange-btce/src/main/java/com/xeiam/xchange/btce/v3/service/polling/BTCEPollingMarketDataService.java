@@ -24,6 +24,7 @@ package com.xeiam.xchange.btce.v3.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -96,14 +97,15 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     int numberOfItems = PARTIAL_SIZE;
     if (args.length > 0) {
-      if (args[0] instanceof OrderBookType) {
-        if (args[0] == OrderBookType.FULL) {
+      Object arg = args[0];
+      if (arg instanceof OrderBookType) {
+        if (arg == OrderBookType.FULL) {
           numberOfItems = FULL_SIZE;
         }
-      } else if (args[0] instanceof Integer) {
-        numberOfItems = (Integer) args[0];
+      } else if (!(arg instanceof Integer) || ((Integer) arg < 1) || ((Integer) arg > 2000)) {
+        throw new ExchangeException("Orderbook size argument must be either enum OrderBookType, or Integer in the 1..2000 range!");
       } else {
-        throw new IllegalArgumentException();
+        numberOfItems = (Integer) arg;
       }
     }
 

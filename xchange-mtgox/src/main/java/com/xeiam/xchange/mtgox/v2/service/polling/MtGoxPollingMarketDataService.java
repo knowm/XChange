@@ -123,7 +123,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
             mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
           }
         } else {
-          throw new IllegalArgumentException();
+          throw new ExchangeException("Orderbook size argument must be OrderBookType enum!");
         }
       } else {
         mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);

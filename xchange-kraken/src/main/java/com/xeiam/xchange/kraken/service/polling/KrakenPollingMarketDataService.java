@@ -113,14 +113,15 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
 
     Long numberOfItems = PARTIAL_ORDERBOOK_SIZE;
     if (args.length > 0) {
-      if (args[0] instanceof OrderBookType) {
-        if (args[0] == OrderBookType.FULL) {
+      Object arg = args[0];
+      if (arg instanceof OrderBookType) {
+        if (arg == OrderBookType.FULL) {
           numberOfItems = null;
         }
-      } else if (args[0] instanceof Long) {
-        numberOfItems = (Long) args[0];
+      } else if (arg instanceof Long) {
+        numberOfItems = (Long) arg;
       } else {
-        throw new IllegalArgumentException();
+        throw new ExchangeException("Orderbook size argument must be either enum OrderBookType, or Long positive value!");
       }
     }
 

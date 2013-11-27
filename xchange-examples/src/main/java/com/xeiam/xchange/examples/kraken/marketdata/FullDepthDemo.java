@@ -55,6 +55,17 @@ public class FullDepthDemo {
 
     System.out.println(orderBook.toString());
 
+    // Get the latest custom size order book data for BTC/EUR
+    orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.EUR, 3L);
+
+    System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
+    System.out.println(orderBook.toString());
+
   }
 
 }

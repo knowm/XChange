@@ -53,6 +53,11 @@ public class DepthDemo {
 
     System.out.println(orderBook.toString());
 
+    // Get the latest custom size order book (3 entries) data for BTC/USD
+    orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, 3);
+
+    System.out.println(orderBook.toString());
+
   }
 
 }
