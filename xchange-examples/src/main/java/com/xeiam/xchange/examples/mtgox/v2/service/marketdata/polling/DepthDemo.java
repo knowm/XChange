@@ -44,7 +44,7 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.SEK);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.SEK);
 
     System.out.println("Current Order Book size for BTC / SEK: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

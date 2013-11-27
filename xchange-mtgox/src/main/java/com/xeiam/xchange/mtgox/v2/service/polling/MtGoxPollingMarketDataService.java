@@ -96,40 +96,38 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
     }
   }
 
+  /**
+   * Get market depth from exchange
+   *
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
+   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
+   * @param args Optional arguments. Exchange-specific. This implementation assumes:
+   *             absent or OrderBookType.PARTIAL -> get partial OrderBook
+   *             OrderBookType.FULL -> get full OrderBook
+   * @return The OrderBook
+   * @throws IOException
+   */
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
     try {
       // Request data
-      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
-      if (mtGoxDepthWrapper.getResult().equals("success")) {
-        // Adapt to XChange DTOs
-        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
-
-        return new OrderBook(date, asks, bids);
+      MtGoxDepthWrapper mtGoxDepthWrapper = null;
+      if (args.length > 0) {
+        if (args[0] instanceof OrderBookType) {
+          if (args[0] == OrderBookType.FULL) {
+            mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
+          } else {
+            mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
+          }
+        } else {
+          throw new ExchangeException("Orderbook size argument must be OrderBookType enum!");
+        }
+      } else {
+        mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
       }
-      else if (mtGoxDepthWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling getPartialOrderBook(): Unexpected result!");
-      }
-    } catch (MtGoxException e) {
-      throw new ExchangeException("Error calling getPartialOrderBook(): " + e.getError());
-    }
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
-
-    verify(tradableIdentifier, currency);
-
-    try {
-      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
       if (mtGoxDepthWrapper.getResult().equals("success")) {
         // Adapt to XChange DTOs
         List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");

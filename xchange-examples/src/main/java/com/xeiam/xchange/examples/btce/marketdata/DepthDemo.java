@@ -44,12 +44,17 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
     // Get the latest short order book (150 entries) data for LTC/RUR
-    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.LTC, Currencies.RUR);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.LTC, Currencies.RUR);
 
     System.out.println(orderBook.toString());
 
     // Get the latest extended order book (2000 entries) data for BTC/USD
-    orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, PollingMarketDataService.OrderBookType.FULL);
+
+    System.out.println(orderBook.toString());
+
+    // Get the latest custom size order book (3 entries) data for BTC/USD
+    orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, 3);
 
     System.out.println(orderBook.toString());
 

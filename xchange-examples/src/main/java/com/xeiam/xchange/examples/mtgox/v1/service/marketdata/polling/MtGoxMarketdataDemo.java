@@ -65,11 +65,11 @@ public class MtGoxMarketdataDemo {
     System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
     System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
     // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook fullOrderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, PollingMarketDataService.OrderBookType.FULL);
     System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
     // Get trades

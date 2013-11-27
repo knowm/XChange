@@ -76,13 +76,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   }
 
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 

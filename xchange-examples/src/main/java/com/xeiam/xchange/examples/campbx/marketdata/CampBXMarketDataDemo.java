@@ -60,7 +60,7 @@ public class CampBXMarketDataDemo {
     System.out.println("Ask: " + ticker.getAsk());
 
     // Get the latest order book data for BTC/USD
-    OrderBook orderBook = campBXGenericMarketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook orderBook = campBXGenericMarketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
 
     System.out.println("Order book: " + orderBook);
   }

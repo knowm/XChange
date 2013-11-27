@@ -94,24 +94,39 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     return KrakenAdapters.adaptTicker(krakenTicker, currency, tradableIdentifier);
   }
 
+  /**
+   * Get market depth from exchange
+   *
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
+   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
+   * @param args Optional arguments. Exchange-specific. This implementation assumes:
+   *             absent or OrderBookType.PARTIAL -> get partial OrderBook
+   *             OrderBookType.FULL -> get full OrderBook
+   *             Long positive value -> get corresponding number of items
+   * @return
+   * @throws IOException
+   */
   @Override
-  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
-
-    return getOrderBook(tradableIdentifier, currency, PARTIAL_ORDERBOOK_SIZE);
-  }
-
-  @Override
-  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
-
-    return getOrderBook(tradableIdentifier, currency, null);
-  }
-
-  private OrderBook getOrderBook(String tradableIdentifier, String currency, Long count) throws IOException {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
+    Long numberOfItems = PARTIAL_ORDERBOOK_SIZE;
+    if (args.length > 0) {
+      Object arg = args[0];
+      if (arg instanceof OrderBookType) {
+        if (arg == OrderBookType.FULL) {
+          numberOfItems = null;
+        }
+      } else if (arg instanceof Long) {
+        numberOfItems = (Long) arg;
+      } else {
+        throw new ExchangeException("Orderbook size argument must be either enum OrderBookType, or Long positive value!");
+      }
+    }
+
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, count);
+    KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, numberOfItems);
     if (krakenDepthReturn.getError().length > 0) {
       throw new ExchangeException(Arrays.toString(krakenDepthReturn.getError()));
     }
@@ -128,6 +143,7 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
     };
     bids.addAll(asks);
     Date timeStamp = Collections.max(bids, dateComparator).getTimestamp();
+
     return new OrderBook(timeStamp, asks, bids);
   }
 

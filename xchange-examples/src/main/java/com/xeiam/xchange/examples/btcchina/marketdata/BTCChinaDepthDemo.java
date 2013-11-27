@@ -44,7 +44,7 @@ public class BTCChinaDepthDemo {
     PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/CNY
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.CNY);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.CNY);
 
     // System.out.println(orderBook.toString());
     System.out.println("lowestAsk: " + orderBook.getAsks().get(0));

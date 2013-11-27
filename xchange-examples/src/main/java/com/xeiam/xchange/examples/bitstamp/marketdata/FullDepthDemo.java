@@ -44,7 +44,7 @@ public class FullDepthDemo {
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
     // Get the latest order book data for BTC/CAD
-    OrderBook orderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
