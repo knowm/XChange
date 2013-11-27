@@ -33,6 +33,7 @@ import java.util.List;
 public final class Trades {
 
   private final List<Trade> trades;
+  private final long id;
 
   /**
    * Constructor
@@ -42,6 +43,18 @@ public final class Trades {
   public Trades(List<Trade> trades) {
 
     this.trades = new ArrayList<Trade>(trades);
+    this.id = 0L;
+  }
+
+  /**
+   * Constructor
+   * 
+   * @param trades The list of trades
+   */
+  public Trades(List<Trade> trades, long id) {
+
+    this.trades = new ArrayList<Trade>(trades);
+    this.id = id;
   }
 
   /**
@@ -51,6 +64,14 @@ public final class Trades {
 
     Collections.sort(trades);
     return trades;
+  }
+
+  /**
+   * @return a Unique ID for the fetched trades
+   */
+  public long getId() {
+
+    return id;
   }
 
   @Override

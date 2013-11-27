@@ -48,10 +48,10 @@ public class KrakenTradesJSONTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenDepth.getResult().getTradesPerCurrencyPair("XBTCZEUR")).isNull();
-    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair("XXBTZEUR")[0][0]).isEqualTo("92.50000");
-    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair("XXBTZEUR")[0][4]).isEqualTo("l");
-    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair("XXBTZEUR")[1][2]).isEqualTo("1380018049.8094");
+    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair("XXBTZUSD")[0][0]).isEqualTo("1023.82219");
+    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair("XXBTZUSD")[0][4]).isEqualTo("l");
+    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair("XXBTZUSD")[1][2]).isEqualTo("1385579841.7876");
     Long date = krakenDepth.getResult().getLast();
-    assertThat(date).isEqualTo(1380018049809381679L);
+    assertThat(date).isEqualTo(1385579841881785998L);
   }
 }

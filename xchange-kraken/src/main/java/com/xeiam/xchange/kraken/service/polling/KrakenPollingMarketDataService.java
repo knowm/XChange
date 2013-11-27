@@ -54,6 +54,8 @@ import com.xeiam.xchange.utils.Assert;
 
 public class KrakenPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
+  // private final Logger logger = LoggerFactory.getLogger(KrakenPollingMarketDataService.class);
+
   private static final long PARTIAL_ORDERBOOK_SIZE = 200L;
   private final Kraken kraken;
 
@@ -96,13 +98,13 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
 
   /**
    * Get market depth from exchange
-   *
+   * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
    * @param currency The currency of interest, null if irrelevant. Second currency of the pair
    * @param args Optional arguments. Exchange-specific. This implementation assumes:
-   *             absent or OrderBookType.PARTIAL -> get partial OrderBook
-   *             OrderBookType.FULL -> get full OrderBook
-   *             Long positive value -> get corresponding number of items
+   *          absent or OrderBookType.PARTIAL -> get partial OrderBook
+   *          OrderBookType.FULL -> get full OrderBook
+   *          Long positive value -> get corresponding number of items
    * @return
    * @throws IOException
    */
@@ -118,9 +120,11 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
         if (arg == OrderBookType.FULL) {
           numberOfItems = null;
         }
-      } else if (arg instanceof Long) {
+      }
+      else if (arg instanceof Long) {
         numberOfItems = (Long) arg;
-      } else {
+      }
+      else {
         throw new ExchangeException("Orderbook size argument must be either enum OrderBookType, or Long positive value!");
       }
     }
@@ -151,9 +155,25 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
-
     String currencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenTradesResult krakenTrades = kraken.getTrades(currencyPair);
+    // logger.debug(currencyPair);
+    KrakenTradesResult krakenTrades = null;
+    if (args.length > 0) {
+
+      Object arg0 = args[0];
+
+      if (arg0 instanceof Long) {
+        Long since = (Long) arg0;
+        krakenTrades = kraken.getTrades(currencyPair, since);
+      }
+      else {
+        throw new ExchangeException("args[0] must be of type Long!");
+      }
+    }
+    else {
+      krakenTrades = kraken.getTrades(currencyPair);
+    }
+
     if (krakenTrades.getError().length > 0) {
       throw new ExchangeException(krakenTrades.getError().toString());
     }

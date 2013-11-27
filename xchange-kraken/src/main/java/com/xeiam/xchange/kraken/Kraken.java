@@ -59,6 +59,10 @@ public interface Kraken {
   KrakenTradesResult getTrades(@QueryParam("pair") String currencyPair) throws IOException;
 
   @GET
+  @Path("Trades")
+  KrakenTradesResult getTrades(@QueryParam("pair") String currencyPair, @QueryParam("since") long since) throws IOException;
+
+  @GET
   @Path("AssetPairs")
   KrakenAssetPairsResult getAssetPairs() throws IOException;
 }

@@ -85,10 +85,10 @@ public class KrakenAdapters {
    * @param krakenTrades
    * @param currency
    * @param tradableIdentifier
-   * @param since the id of the request provided in the return json
+   * @param last the id of the request provided in the return json
    * @return
    */
-  public static Trades adaptTrades(String[][] krakenTrades, String currency, String tradableIdentifier, long since) {
+  public static Trades adaptTrades(String[][] krakenTrades, String currency, String tradableIdentifier, long last) {
 
     List<Trade> trades = new LinkedList<Trade>();
     for (String[] krakenTradeInformation : krakenTrades) {
@@ -96,11 +96,11 @@ public class KrakenAdapters {
       BigDecimal tradableAmount = new BigDecimal(krakenTradeInformation[1]);
       BigMoney price = BigMoney.of(CurrencyUnit.of(currency), new BigDecimal(krakenTradeInformation[0]));
       Date timestamp = new Date((long) (Double.valueOf(krakenTradeInformation[2]) * 1000L));
-      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, since));
+      long tradeID = (long) (Double.valueOf(krakenTradeInformation[2]) * 10000L);
+      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, tradeID));
 
     }
-    return new Trades(trades);
-
+    return new Trades(trades, last);
   }
 
   public static AccountInfo adaptBalance(KrakenBalanceResult krakenBalance, String username) {

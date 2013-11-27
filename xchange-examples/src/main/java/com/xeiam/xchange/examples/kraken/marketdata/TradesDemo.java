@@ -44,9 +44,14 @@ public class TradesDemo {
     PollingMarketDataService marketDataService = kraken.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
-
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
     System.out.println(trades.toString());
+    System.out.println("Trades size: " + trades.getTrades().size());
+
+    // Get the latest trade data for BTC/EUR
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, 1385579655033171108L);
+    System.out.println(trades.toString());
+    System.out.println("Trades size: " + trades.getTrades().size());
 
   }
 

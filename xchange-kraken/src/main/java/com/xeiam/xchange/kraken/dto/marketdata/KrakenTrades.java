@@ -37,13 +37,17 @@ public class KrakenTrades {
   /**
    * Constructor
    * 
+   * @param xxbtzusd
    * @param xxbtzeur
    * @param xltczeur
    * @param xxbtxltc
    * @param last
    */
-  public KrakenTrades(@JsonProperty("XXBTZEUR") String[][] xxbtzeur, @JsonProperty("XLTCZEUR") String[][] xltczeur, @JsonProperty("XXBTXLTC") String[][] xxbtxltc, @JsonProperty("last") long last) {
+  public KrakenTrades(@JsonProperty("XXBTZUSD") String[][] xxbtzusd, @JsonProperty("XXBTZEUR") String[][] xxbtzeur, @JsonProperty("XLTCZEUR") String[][] xltczeur,
+      @JsonProperty("XXBTXLTC") String[][] xxbtxltc, @JsonProperty("last") long last) {
 
+    // TODO add all the rest of the currencies here
+    tradesPerCurrencyPair.put("XXBTZUSD", xxbtzusd);
     tradesPerCurrencyPair.put("XXBTZEUR", xxbtzeur);
     tradesPerCurrencyPair.put("XLTCZEUR", xltczeur);
     tradesPerCurrencyPair.put("XXBTXLTC", xxbtxltc);
