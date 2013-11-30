@@ -69,6 +69,16 @@ public final class KrakenUtils {
   new CurrencyPair("EUR", "XVN"),
 
   new CurrencyPair("USD", "XRP"),
+  
+  new CurrencyPair("USD", "XRP"),
+  
+  new CurrencyPair("LTC", "KRW"),
+  
+  new CurrencyPair("NMC", "KRW"),
+  
+  new CurrencyPair("BTC", "KRW"),
+  
+  new CurrencyPair("KRW", "XRP"),
 
   new CurrencyPair("USD", "XVN")
 
@@ -86,6 +96,9 @@ public final class KrakenUtils {
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.VEN, "XXVN");
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.EUR, "ZEUR");
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.USD, "ZUSD");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.XRP, "XXRP");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.KRW, "ZKRW");
+    KRAKEN_CURRENCIES_FORWARD.put(Currencies.XVN, "XXVN");
 
     KRAKEN_CURRENCIES_REVERSE.put("XLTC", Currencies.LTC);
     KRAKEN_CURRENCIES_REVERSE.put("XNMC", Currencies.NMC);
@@ -93,6 +106,9 @@ public final class KrakenUtils {
     KRAKEN_CURRENCIES_REVERSE.put("XXVN", Currencies.VEN);
     KRAKEN_CURRENCIES_REVERSE.put("ZEUR", Currencies.EUR);
     KRAKEN_CURRENCIES_REVERSE.put("ZUSD", Currencies.USD);
+    KRAKEN_CURRENCIES_REVERSE.put("XXRP", Currencies.XRP);
+    KRAKEN_CURRENCIES_REVERSE.put("ZKRW", Currencies.KRW);
+    KRAKEN_CURRENCIES_REVERSE.put("XXVN", Currencies.XVN);
 
     KRAKEN_CURRENCIES_REVERSE.put("LTC", Currencies.LTC);
     KRAKEN_CURRENCIES_REVERSE.put("NMC", Currencies.NMC);
@@ -100,6 +116,9 @@ public final class KrakenUtils {
     KRAKEN_CURRENCIES_REVERSE.put("XVN", Currencies.VEN);
     KRAKEN_CURRENCIES_REVERSE.put("EUR", Currencies.EUR);
     KRAKEN_CURRENCIES_REVERSE.put("USD", Currencies.USD);
+    KRAKEN_CURRENCIES_REVERSE.put("XRP", Currencies.XRP);
+    KRAKEN_CURRENCIES_REVERSE.put("KRW", Currencies.KRW);
+    KRAKEN_CURRENCIES_REVERSE.put("XVN", Currencies.XVN);
   }
 
   public static String getKrakenCurrencyCode(String currencyCode) {

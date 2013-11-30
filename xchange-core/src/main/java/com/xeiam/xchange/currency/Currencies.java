@@ -201,6 +201,8 @@ public class Currencies {
   public static final String XDR = "XDR"; // "Special Drawing Rights",
   public static final String XOF = "XOF"; // "CFA Franc BCEAO",
   public static final String XPF = "XPF"; // "CFP Franc",
+  public static final String XRP = "XRP"; // Ripple
+  public static final String XVN = "XVN"; // Hub Culture's Ven,
   public static final String YER = "YER"; // "Yemeni Rial",
   public static final String ZAR = "ZAR"; // "South African Rand",
   public static final String ZMK = "ZMK"; // "Zambian Kwacha",
