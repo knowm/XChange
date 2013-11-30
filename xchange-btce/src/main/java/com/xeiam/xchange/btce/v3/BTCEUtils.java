@@ -69,6 +69,8 @@ public final class BTCEUtils {
   CurrencyPair.TRC_BTC,
 
   CurrencyPair.PPC_BTC,
+  
+  CurrencyPair.PPC_USD,
 
   CurrencyPair.FTC_BTC,
 
