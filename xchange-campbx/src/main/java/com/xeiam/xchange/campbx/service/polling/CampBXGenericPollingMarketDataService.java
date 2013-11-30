@@ -62,7 +62,7 @@ public class CampBXGenericPollingMarketDataService extends CampBXPollingMarketDa
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    CampBXOrderBook campBXOrderBook = getCampBXFullOrderBook(tradableIdentifier, currency);
+    CampBXOrderBook campBXOrderBook = getCampBXOrderBook(tradableIdentifier, currency);
 
     return CampBXAdapters.adaptOrders(campBXOrderBook, currency, tradableIdentifier);
   }

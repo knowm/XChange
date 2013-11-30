@@ -104,11 +104,18 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
     BTCChinaTrade[] btcChinaTrades = null;
 
     if (args.length == 0) {
-      btcChinaTrades = btcChina.getTrades();// default values: offset=0, limit=100
+      btcChinaTrades = btcChina.getTrades(); // default values: offset=0, limit=100
     }
     else if (args.length == 1) {
-      Integer sinceTransactionID = (Integer) args[0];
-      btcChinaTrades = btcChina.getTrades(sinceTransactionID); // default values: limit=100
+      Object arg0 = args[0];
+
+      if (arg0 instanceof Integer) {
+        Integer sinceTransactionID = (Integer) args[0];
+        btcChinaTrades = btcChina.getTrades(sinceTransactionID); // default values: since=100
+      }
+      else {
+        throw new ExchangeException("args[0] must be of type Integer!");
+      }
     }
 
     else {

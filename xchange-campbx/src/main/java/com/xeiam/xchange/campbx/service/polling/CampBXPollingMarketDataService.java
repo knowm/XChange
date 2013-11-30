@@ -38,7 +38,6 @@ import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
@@ -77,12 +76,7 @@ public class CampBXPollingMarketDataService extends BasePollingExchangeService {
     }
   }
 
-  public OrderBook getCampBXPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  public CampBXOrderBook getCampBXFullOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public CampBXOrderBook getCampBXOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
