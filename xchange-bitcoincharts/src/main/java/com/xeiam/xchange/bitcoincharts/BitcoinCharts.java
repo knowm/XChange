@@ -21,10 +21,12 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
-import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 
 /**
  * @author Matija Mazi
