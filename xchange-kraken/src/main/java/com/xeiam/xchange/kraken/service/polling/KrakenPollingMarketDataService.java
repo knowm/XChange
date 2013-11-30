@@ -23,9 +23,6 @@ package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -56,7 +53,7 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
 
   // private final Logger logger = LoggerFactory.getLogger(KrakenPollingMarketDataService.class);
 
-  private static final long PARTIAL_ORDERBOOK_SIZE = 200L;
+  // private static final long PARTIAL_ORDERBOOK_SIZE = 200L;
   private final Kraken kraken;
 
   public KrakenPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -102,10 +99,8 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
    * @param currency The currency of interest, null if irrelevant. Second currency of the pair
    * @param args Optional arguments. Exchange-specific. This implementation assumes:
-   *          absent or OrderBookType.PARTIAL -> get partial OrderBook
-   *          OrderBookType.FULL -> get full OrderBook
-   *          Long positive value -> get corresponding number of items
-   * @return
+   *          Integer value from 1 to 2000 -> get corresponding number of items
+   * @return The OrderBook
    * @throws IOException
    */
   @Override
@@ -113,42 +108,30 @@ public class KrakenPollingMarketDataService extends BasePollingExchangeService i
 
     verify(tradableIdentifier, currency);
 
-    Long numberOfItems = PARTIAL_ORDERBOOK_SIZE;
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+    KrakenDepthResult krakenDepthReturn = null;
+
     if (args.length > 0) {
       Object arg = args[0];
-      if (arg instanceof OrderBookType) {
-        if (arg == OrderBookType.FULL) {
-          numberOfItems = null;
-        }
-      }
-      else if (arg instanceof Long) {
-        numberOfItems = (Long) arg;
+      if (!(arg instanceof Long) || ((Long) arg < 1)) {
+        throw new ExchangeException("Orderbook size argument must be an Long with a value greater than 1!");
       }
       else {
-        throw new ExchangeException("Orderbook size argument must be either enum OrderBookType, or Long positive value!");
+        krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, (Long) arg);
       }
     }
+    else { // default to full orderbook
+      krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, null);
+    }
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, numberOfItems);
     if (krakenDepthReturn.getError().length > 0) {
       throw new ExchangeException(Arrays.toString(krakenDepthReturn.getError()));
     }
     KrakenDepth krakenDepth = krakenDepthReturn.getResult().get(krakenCurrencyPair);
     List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
     List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
-    Comparator<LimitOrder> dateComparator = new Comparator<LimitOrder>() {
 
-      @Override
-      public int compare(LimitOrder o1, LimitOrder o2) {
-
-        return o1.getTimestamp().compareTo(o2.getTimestamp());
-      }
-    };
-    bids.addAll(asks);
-    Date timeStamp = Collections.max(bids, dateComparator).getTimestamp();
-
-    return new OrderBook(timeStamp, asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override

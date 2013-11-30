@@ -33,7 +33,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Order Book at Kraken
  */
-public class FullDepthDemo {
+public class DepthDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -42,29 +42,17 @@ public class FullDepthDemo {
     Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = kraken.getPollingMarketDataService();
+    PollingMarketDataService krakenMarketDataService = kraken.getPollingMarketDataService();
 
-    // Get the latest order book data for BTC/EUR
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.EUR, PollingMarketDataService.OrderBookType.FULL);
-
-    System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
-
-    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
-
-    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
-
+    // Get the latest full order book data for BTC/EUR
+    OrderBook orderBook = krakenMarketDataService.getOrderBook(Currencies.BTC, Currencies.EUR);
     System.out.println(orderBook.toString());
+    System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-    // Get the latest custom size order book data for BTC/EUR
-    orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.EUR, 3L);
-
-    System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
-
-    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
-
-    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
-
+    // Get the latest partial size order book data for BTC/EUR
+    orderBook = krakenMarketDataService.getOrderBook(Currencies.BTC, Currencies.EUR, 3L);
     System.out.println(orderBook.toString());
+    System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
   }
 
