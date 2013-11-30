@@ -41,16 +41,54 @@ public class KrakenTrades {
    * @param xxbtzeur
    * @param xltczeur
    * @param xxbtxltc
+   * @param xltczusd
    * @param last
    */
-  public KrakenTrades(@JsonProperty("XXBTZUSD") String[][] xxbtzusd, @JsonProperty("XXBTZEUR") String[][] xxbtzeur, @JsonProperty("XLTCZEUR") String[][] xltczeur,
-      @JsonProperty("XXBTXLTC") String[][] xxbtxltc, @JsonProperty("last") long last) {
+  public KrakenTrades(@JsonProperty("XXBTZUSD") String[][] xxbtzusd, 
+		  @JsonProperty("XXBTZEUR") String[][] xxbtzeur, 
+		  @JsonProperty("XLTCZEUR") String[][] xltczeur,
+		  @JsonProperty("XXBTXLTC") String[][] xxbtxltc, 
+		  @JsonProperty("XLTCZUSD") String[][] xltczusd, 
+		  @JsonProperty("XLTCXXRP") String[][] xltcxxrp, 
+		  @JsonProperty("XLTCZKRW") String[][] xltczkrw, 
+		  @JsonProperty("XNMCXXRP") String[][] xnmcxxrp, 
+		  @JsonProperty("XNMCZEUR") String[][] xnmczeur, 
+		  @JsonProperty("XNMCZKRW") String[][] xnmczkrw, 
+		  @JsonProperty("XNMCZUSD") String[][] xnmczusd, 
+		  @JsonProperty("XXBTXNMC") String[][] xxbtxnmc, 
+		  @JsonProperty("XXBTXXRP") String[][] xxbtxxrp, 
+		  @JsonProperty("XXBTXXVN") String[][] xxbtxxvn, 
+		  @JsonProperty("XXBTZKRW") String[][] xxbtzkrw, 
+		  @JsonProperty("XXVNXXRP") String[][] xxvnxxrp, 
+		  @JsonProperty("ZEURXXRP") String[][] zeurxxrp, 
+		  @JsonProperty("ZEURXXVN") String[][] zeurxxvn, 
+		  @JsonProperty("ZKRWXXRP") String[][] zkrwxxrp, 
+		  @JsonProperty("ZUSDXXRP") String[][] zusdxxrp, 
+		  @JsonProperty("ZUSDXXVN") String[][] zusdxxvn, 
+		  @JsonProperty("last") long last) {
 
-    // TODO add all the rest of the currencies here
     tradesPerCurrencyPair.put("XXBTZUSD", xxbtzusd);
     tradesPerCurrencyPair.put("XXBTZEUR", xxbtzeur);
     tradesPerCurrencyPair.put("XLTCZEUR", xltczeur);
     tradesPerCurrencyPair.put("XXBTXLTC", xxbtxltc);
+    tradesPerCurrencyPair.put("XLTCZUSD", xltczusd);
+    tradesPerCurrencyPair.put("XLTCXXRP", xltcxxrp);
+    tradesPerCurrencyPair.put("XLTCZKRW", xltczkrw);
+    tradesPerCurrencyPair.put("XNMCXXRP", xnmcxxrp);
+    tradesPerCurrencyPair.put("XNMCZEUR", xnmczeur);
+    tradesPerCurrencyPair.put("XNMCZKRW", xnmczkrw);
+    tradesPerCurrencyPair.put("XNMCZUSD", xnmczusd);
+    tradesPerCurrencyPair.put("XXBTXNMC", xxbtxnmc);
+    tradesPerCurrencyPair.put("XXBTXXRP", xxbtxxrp);
+    tradesPerCurrencyPair.put("XXBTXXVN", xxbtxxvn);
+    tradesPerCurrencyPair.put("XXBTZKRW", xxbtzkrw);
+    tradesPerCurrencyPair.put("XXVNXXRP", xxvnxxrp);
+    tradesPerCurrencyPair.put("ZEURXXRP", zeurxxrp);
+    tradesPerCurrencyPair.put("ZEURXXVN", zeurxxvn);
+    tradesPerCurrencyPair.put("ZKRWXXRP", zkrwxxrp);
+    tradesPerCurrencyPair.put("ZUSDXXRP", zusdxxrp);
+    tradesPerCurrencyPair.put("ZUSDXXVN", zusdxxvn);
+ 
     this.last = last;
 
   }
