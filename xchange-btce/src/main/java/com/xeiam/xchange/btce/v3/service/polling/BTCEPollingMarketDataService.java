@@ -24,9 +24,9 @@ package com.xeiam.xchange.btce.v3.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCE;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
@@ -56,7 +56,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
   protected final BTCE btce;
 
-  private static final int PARTIAL_SIZE = 150;
+  // private static final int PARTIAL_SIZE = 150;
   private static final int FULL_SIZE = 2000;
 
   /**
@@ -80,13 +80,11 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
   /**
    * Get market depth from exchange
-   *
+   * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
    * @param currency The currency of interest, null if irrelevant. Second currency of the pair
    * @param args Optional arguments. Exchange-specific. This implementation assumes:
-   *             absent or OrderBookType.PARTIAL -> get partial OrderBook
-   *             OrderBookType.FULL -> get full OrderBook
-   *             Integer value from 1 to 2000 -> get corresponding number of items
+   *          Integer value from 1 to 2000 -> get corresponding number of items
    * @return The OrderBook
    * @throws IOException
    */
@@ -94,22 +92,21 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
+    BTCEDepthWrapper btceDepthWrapper = null;
 
-    int numberOfItems = PARTIAL_SIZE;
     if (args.length > 0) {
       Object arg = args[0];
-      if (arg instanceof OrderBookType) {
-        if (arg == OrderBookType.FULL) {
-          numberOfItems = FULL_SIZE;
-        }
-      } else if (!(arg instanceof Integer) || ((Integer) arg < 1) || ((Integer) arg > 2000)) {
-        throw new ExchangeException("Orderbook size argument must be either enum OrderBookType, or Integer in the 1..2000 range!");
-      } else {
-        numberOfItems = (Integer) arg;
+      if (!(arg instanceof Integer) || ((Integer) arg < 1) || ((Integer) arg > FULL_SIZE)) {
+        throw new ExchangeException("Orderbook size argument must be an Integer in the range: (1, 2000)!");
+      }
+      else {
+        btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), (Integer) arg, 1);
       }
     }
+    else { // default to full orderbook
+      btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), FULL_SIZE, 1);
+    }
 
-    BTCEDepthWrapper btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), numberOfItems, 1);
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getBids(), tradableIdentifier, currency, "bid", "");

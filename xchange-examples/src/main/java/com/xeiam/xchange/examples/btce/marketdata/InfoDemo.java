@@ -33,7 +33,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * Author: brox
  * Demonstrate requesting BTC-E exchange public info (API v.3)
  */
-public class InfoV3Demo {
+public class InfoDemo {
 
   public static void main(String[] args) throws IOException {
 

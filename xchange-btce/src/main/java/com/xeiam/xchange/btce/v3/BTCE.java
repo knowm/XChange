@@ -51,7 +51,7 @@ public interface BTCE {
 
   @GET
   @Path("3/depth/{ident}_{currency}")
-  BTCEDepthWrapper getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @QueryParam("limit") int limit,
+  BTCEDepthWrapper getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("150") @QueryParam("limit") int limit,
       @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
   @GET
