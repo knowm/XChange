@@ -21,19 +21,6 @@
  */
 package com.xeiam.xchange.kraken.service;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -51,6 +38,18 @@ import com.xeiam.xchange.kraken.service.marketdata.KrakenAssetPairsJSONTest;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenTickerJSONTest;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenTradesJSONTest;
 import com.xeiam.xchange.kraken.service.trading.KrakenOpenOrdersTest;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class KrakenAdaptersTest {
 
@@ -138,4 +137,25 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getTransactionCurrency()).isEqualTo(Currencies.EUR);
 
   }
+
+  @Test
+  public void testAdaptOpenOrdersInTransactionCurrency() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = KrakenOpenOrdersTest.class.getResourceAsStream("/trading/example-openorders-in-transaction-currency-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenOpenOrdersResult krakenResult = mapper.readValue(is, KrakenOpenOrdersResult.class);
+    OpenOrders orders = KrakenAdapters.adaptOpenOrders(krakenResult.getResult().getOrders());
+    // Verify that the example data was unmarshalled correctly
+    assertThat(orders.getOpenOrders()).hasSize(1);
+    assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
+    assertThat(orders.getOpenOrders().get(0).getLimitPrice().getAmount()).isEqualTo("1.00000");
+    assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
+    assertThat(orders.getOpenOrders().get(0).getTradableIdentifier()).isEqualTo(Currencies.BTC);
+    assertThat(orders.getOpenOrders().get(0).getTransactionCurrency()).isEqualTo(Currencies.EUR);
+
+  }
+
 }
