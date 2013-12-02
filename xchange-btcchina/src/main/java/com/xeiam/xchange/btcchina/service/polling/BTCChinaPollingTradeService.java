@@ -38,7 +38,9 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -86,43 +88,50 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String orderId = null;
-    if (limitOrder.getTradableIdentifier() == "BTC" && limitOrder.getTransactionCurrency() == "CNY") {
-      long nonce = BTCChinaUtils.getNonce();
+    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
 
-      BTCChinaResponse<Boolean> response = null;
+    long nonce = BTCChinaUtils.getNonce();
 
-      if (limitOrder.getType() == OrderType.BID) {
+    BTCChinaGetOrdersResponse response = null;
 
-        response = btcchina.buyOrder(signatureCreator, nonce, new BTCChinaBuyOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
+    if (limitOrder.getType() == OrderType.BID) {
 
-      }
-      else if (limitOrder.getType() == OrderType.ASK) {
-
-        response = btcchina.sellOrder(signatureCreator, nonce, new BTCChinaSellOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
-
-      }
-
-      if (response.getResult()) {
-        // No order Id returned
-        orderId = "";
-      }
+      response = btcchina.buyOrder(signatureCreator, nonce, new BTCChinaBuyOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
 
     }
-    return orderId;
+    else if (limitOrder.getType() == OrderType.ASK) {
+
+      response = btcchina.sellOrder(signatureCreator, nonce, new BTCChinaSellOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
+
+    }
+
+    return "" + response.getResult().getOrders().get(0).getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCChinaResponse<Boolean> response = btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
-    return response.getResult();
+    BTCChinaGetOrdersResponse response = btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
+    return false;
   }
 
   @Override
   public Trades getTradeHistory(final Object... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
+  }
+
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
+   */
+  private void verify(String tradableIdentifier, String currency) {
+
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(BTCChinaUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
   }
 
 }

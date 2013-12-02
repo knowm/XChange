@@ -44,7 +44,6 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
-import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 
 @Path("/")
@@ -97,21 +96,21 @@ public interface BTCChina {
   @Path("api_trade_v1.php")
   @Consumes("application/json")
   @Produces("application/json")
-  public BTCChinaBooleanResponse cancelOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaCancelOrderRequest cancelOrderRequest)
+  public BTCChinaGetOrdersResponse
+      cancelOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaCancelOrderRequest cancelOrderRequest) throws IOException;
+
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public BTCChinaGetOrdersResponse buyOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaBuyOrderRequest buyOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes("application/json")
   @Produces("application/json")
-  public BTCChinaBooleanResponse buyOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaBuyOrderRequest buyOrderRequest)
-      throws IOException;
-
-  @POST
-  @Path("api_trade_v1.php")
-  @Consumes("application/json")
-  @Produces("application/json")
-  public BTCChinaBooleanResponse sellOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
+  public BTCChinaGetOrdersResponse sellOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
       throws IOException;
 
 }
