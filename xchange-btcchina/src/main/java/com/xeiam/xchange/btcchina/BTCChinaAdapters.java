@@ -21,15 +21,6 @@
  */
 package com.xeiam.xchange.btcchina;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
@@ -49,6 +40,13 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 
 /**
  * Various adapters for converting from BTCChina DTOs to XChange DTOs
@@ -64,7 +62,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a List of btcchinaOrders to a List of LimitOrders
-   * 
+   *
    * @param btcchinaOrders
    * @param currency
    * @param orderType
@@ -84,7 +82,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaOrder to a LimitOrder
-   * 
+   *
    * @param amount
    * @param price
    * @param currency
@@ -104,7 +102,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaTrade to a Trade Object
-   * 
+   *
    * @param btcChinaTrade A BTCChina trade
    * @return The XChange Trade
    */
@@ -119,7 +117,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaTrade[] to a Trades Object
-   * 
+   *
    * @param btcchinaTrades The BTCChina trade data
    * @return The trades
    */
@@ -139,7 +137,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaTicker to a Ticker Object
-   * 
+   *
    * @param btcChinaTicker
    * @return
    */
@@ -157,14 +155,14 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaAccountInfoResponse to AccountInfo Object
-   * 
+   *
    * @param response
    * @return
    */
   public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
     BTCChinaAccountInfo result = response.getResult();
-    return new AccountInfo(result.getProfile().getUsername(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
+    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
   }
 
   // /**
@@ -200,7 +198,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts BTCChinaValue balance, BTCChinaValue frozen to wallet
-   * 
+   *
    * @param balance
    * @param frozen
    * @return
@@ -249,7 +247,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts BTCChinaOrder to LimitOrder
-   * 
+   *
    * @param order
    * @return
    */

@@ -21,12 +21,11 @@
  */
 package com.xeiam.xchange.dto.account;
 
+import com.xeiam.xchange.dto.trade.Wallet;
+import java.math.BigDecimal;
 import java.util.List;
-
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
-
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * <p>
@@ -39,6 +38,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 public final class AccountInfo {
 
   private final String username;
+  private final BigDecimal tradingFee;
   private final List<Wallet> wallets;
 
   /**
@@ -46,8 +46,17 @@ public final class AccountInfo {
    * @param wallets The available wallets
    */
   public AccountInfo(String username, List<Wallet> wallets) {
+    this(username, null, wallets);
+  }
 
+  /**
+   * @param username The user name
+   * @param tradingFee the trading fee
+   * @param wallets The available wallets
+   */
+  public AccountInfo(String username, BigDecimal tradingFee, List<Wallet> wallets) {
     this.username = username;
+    this.tradingFee = tradingFee;
     this.wallets = wallets;
   }
 
@@ -68,8 +77,19 @@ public final class AccountInfo {
   }
 
   /**
+   * Returns the current trading fee
+   *
+   * @return The trading fee
+   */
+  public BigDecimal getTradingFee() {
+
+    return tradingFee;
+  }
+
+
+  /**
    * Utility method to locate an exchange balance in the given currency
-   * 
+   *
    * @param currencyUnit A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
    * @return The balance, or zero if not found
    */
