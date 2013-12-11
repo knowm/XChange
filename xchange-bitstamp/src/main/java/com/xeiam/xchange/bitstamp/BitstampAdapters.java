@@ -21,16 +21,6 @@
  */
 package com.xeiam.xchange.bitstamp;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
@@ -49,6 +39,14 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 
 /**
  * Various adapters for converting from Bitstamp DTOs to XChange DTOs
@@ -64,7 +62,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapts a BitstampBalance to a AccountInfo
-   * 
+   *
    * @param bitstampBalance The Bitstamp balance
    * @param userName The user name
    * @return The account info
@@ -75,12 +73,12 @@ public final class BitstampAdapters {
     Wallet usdWallet = Wallet.createInstance(Currencies.USD, bitstampBalance.getUsdBalance());
     Wallet btcWallet = Wallet.createInstance(Currencies.BTC, bitstampBalance.getBtcBalance());
 
-    return new AccountInfo(userName, Arrays.asList(usdWallet, btcWallet));
+    return new AccountInfo(userName, bitstampBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
   }
 
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
-   * 
+   *
    * @param bitstampOrderBook The bitstamp order book
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency The currency (e.g. USD in BTC/USD)
@@ -118,7 +116,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapts a Transaction[] to a Trades Object
-   * 
+   *
    * @param transactions The Bitstamp transactions
    * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
    * @param currency The currency (e.g. USD in BTC/USD)
@@ -136,7 +134,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapts a BitstampTicker to a Ticker Object
-   * 
+   *
    * @param bitstampTicker The exchange specific ticker
    * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
    * @param currency The currency (e.g. USD in BTC/USD)
@@ -159,7 +157,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapt the user's trades
-   * 
+   *
    * @param bitstampUserTransactions
    * @return
    */
