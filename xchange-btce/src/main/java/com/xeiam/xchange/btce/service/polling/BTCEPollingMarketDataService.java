@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.btce.service.polling;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,13 +31,18 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.BTCE;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEUtils;
 import com.xeiam.xchange.btce.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -52,17 +59,21 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BTCEPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+public class BTCEPollingMarketDataService extends BasePollingExchangeService
+		implements PollingMarketDataService {
 
-	private final BTCE btce;
+	private final com.xeiam.xchange.btce.v3.BTCE btce;
 
 	/**
 	 * @param exchangeSpecification
-	 *          The {@link ExchangeSpecification}
+	 *            The {@link ExchangeSpecification}
 	 */
-	public BTCEPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+	public BTCEPollingMarketDataService(
+			ExchangeSpecification exchangeSpecification) {
 		super(exchangeSpecification);
-		btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
+		btce = RestProxyFactory.createProxy(
+				com.xeiam.xchange.btce.v3.BTCE.class,
+				exchangeSpecification.getSslUri());
 	}
 
 	@Override
@@ -70,14 +81,18 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
 
 		verify(tradableIdentifier, currency);
 
-		BTCETicker btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+		BTCETickerWrapper btceTicker = btce.getTicker(
+				tradableIdentifier.toLowerCase(), currency.toLowerCase(), 1);
 
 		// Adapt to XChange DTOs
-		return BTCEAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);
+		return com.xeiam.xchange.btce.v3.BTCEAdapters.adaptTicker(
+				btceTicker.getTicker(tradableIdentifier, currency),
+				tradableIdentifier, currency);
 	}
 
 	@Override
-	public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+	public OrderBook getPartialOrderBook(String tradableIdentifier,
+			String currency) {
 
 		throw new NotAvailableFromExchangeException();
 	}
@@ -86,37 +101,43 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
 	public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
 
 		verify(tradableIdentifier, currency);
-		BTCEDepth btceDepth = btce.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+		BTCEDepthWrapper btceDepth = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 1, 1);
 
 		// Adapt to XChange DTOs
-		List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-		List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+		List<LimitOrder> asks = com.xeiam.xchange.btce.v3.BTCEAdapters.adaptOrders(btceDepth.getDepth(tradableIdentifier, currency).getAsks(), tradableIdentifier, currency, "ask", "");
+		List<LimitOrder> bids = com.xeiam.xchange.btce.v3.BTCEAdapters.adaptOrders(btceDepth.getDepth(tradableIdentifier, currency).getBids(), tradableIdentifier, currency, "bid", "");
 
-		return new OrderBook(asks, bids);
+		return new OrderBook(new Date(), asks, bids);
 	}
 
 	@Override
-	public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+	public Trades getTrades(String tradableIdentifier, String currency,
+			Object... args) {
 
 		verify(tradableIdentifier, currency);
 
-		BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+		BTCETradesWrapper BTCETrades = btce.getTrades(
+				tradableIdentifier.toLowerCase(), currency.toLowerCase(), 1, 1);
 
-		return BTCEAdapters.adaptTrades(BTCETrades);
+		return com.xeiam.xchange.btce.v3.BTCEAdapters.adaptTrades(
+				BTCETrades.getTrades(tradableIdentifier, currency),
+				tradableIdentifier, currency);
 	}
 
 	/**
 	 * Verify
 	 * 
 	 * @param tradableIdentifier
-	 *          The tradable identifier (e.g. BTC in BTC/USD)
+	 *            The tradable identifier (e.g. BTC in BTC/USD)
 	 * @param currency
 	 */
 	private void verify(String tradableIdentifier, String currency) {
 
 		Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
 		Assert.notNull(currency, "currency cannot be null");
-		Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+		Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(
+				tradableIdentifier, currency)), "currencyPair is not valid:"
+				+ tradableIdentifier + " " + currency);
 
 	}
 
@@ -124,5 +145,13 @@ public class BTCEPollingMarketDataService extends BasePollingExchangeService imp
 	public Set<CurrencyPair> getExchangeSymbols() {
 
 		return new HashSet<CurrencyPair>(BTCEUtils.CURRENCY_PAIRS);
+	}
+
+	@Override
+	public ExchangeInfo getExchangeInfo() throws IOException,
+			NotAvailableFromExchangeException,
+			NotYetImplementedForExchangeException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

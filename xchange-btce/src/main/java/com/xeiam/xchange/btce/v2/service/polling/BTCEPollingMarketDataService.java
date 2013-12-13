@@ -23,6 +23,8 @@ package com.xeiam.xchange.btce.v2.service.polling;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -42,6 +44,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.MovingAverage;
 
 /**
  * <p>
@@ -131,7 +134,7 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public Set<CurrencyPair> getExchangeSymbols() {
 
     return BTCEUtils.CURRENCY_PAIRS;
   }
@@ -141,5 +144,17 @@ public class BTCEPollingMarketDataService implements PollingMarketDataService {
 
     throw new NotAvailableFromExchangeException();
   }
+
+@Override
+public Map<CurrencyPair, MovingAverage> getAskAverages() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Map<CurrencyPair, MovingAverage> getBidAverages() {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 }

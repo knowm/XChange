@@ -50,7 +50,7 @@ public interface BTCEAuthenticated {
    * @param count The number of transactions for displaying default 1,000
    * @param fromId The ID of the transaction to start displaying with default 0
    * @param endId The ID of the transaction to finish displaying with default âˆž
-   * @param order sorting ASC or DESC default DESC
+   * @param desc sorting ASC or DESC default DESC
    * @param since When to start displaying? UNIX time default 0
    * @param end When to finish displaying? UNIX time default âˆž
    * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}}
@@ -58,7 +58,7 @@ public interface BTCEAuthenticated {
   @POST
   @FormParam("method")
   BTCEAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
-      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") com.xeiam.xchange.btce.BTCEAuthenticated.SortOrder desc, @FormParam("since") Long since,
       @FormParam("end") Long end) throws IOException;
 
   /**
@@ -68,7 +68,7 @@ public interface BTCEAuthenticated {
    * @param count The number of orders for displaying (default: 1000)
    * @param fromId id of the order to start displaying with (default: 0)
    * @param endId id of the order to finish displaying (default: âˆž)
-   * @param order sorting (default: DESC)
+   * @param desc sorting (default: DESC)
    * @param since when to start displaying UNIX time (default: 0)
    * @param end when to finish displaying UNIX time (default: âˆž)
    * @param pair the pair to display the orders eg. btc_usd (default: all pairs)
@@ -78,7 +78,7 @@ public interface BTCEAuthenticated {
   @POST
   @FormParam("method")
   BTCEOpenOrdersReturn OrderList(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
-      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") com.xeiam.xchange.btce.BTCEAuthenticated.SortOrder desc, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair, @FormParam("active") int active) throws IOException;
 
   /**

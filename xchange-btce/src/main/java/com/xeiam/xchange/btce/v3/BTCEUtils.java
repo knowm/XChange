@@ -22,7 +22,9 @@
 package com.xeiam.xchange.btce.v3;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
@@ -31,65 +33,66 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public final class BTCEUtils {
 
-  /**
-   * private Constructor
-   */
-  private BTCEUtils() {
+	/**
+	 * private Constructor
+	 */
+	private BTCEUtils() {
 
-  }
+	}
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+	public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(
+			Arrays.asList(
 
-  CurrencyPair.BTC_USD,
+			CurrencyPair.BTC_USD,
 
-  CurrencyPair.BTC_RUR,
+			CurrencyPair.BTC_RUR,
 
-  CurrencyPair.BTC_EUR,
+			CurrencyPair.BTC_EUR,
 
-  CurrencyPair.LTC_BTC,
+			CurrencyPair.LTC_BTC,
 
-  CurrencyPair.LTC_USD,
+			CurrencyPair.LTC_USD,
 
-  CurrencyPair.LTC_RUR,
+			CurrencyPair.LTC_RUR,
 
-  CurrencyPair.LTC_EUR,
+			CurrencyPair.LTC_EUR,
 
-  CurrencyPair.NMC_BTC,
+			CurrencyPair.NMC_BTC,
 
-  CurrencyPair.NMC_USD,
+			CurrencyPair.NMC_USD,
 
-  CurrencyPair.USD_RUR,
+			CurrencyPair.USD_RUR,
 
-  CurrencyPair.EUR_USD,
+			CurrencyPair.EUR_USD,
 
-  CurrencyPair.NVC_BTC,
+			CurrencyPair.NVC_BTC,
 
-  CurrencyPair.NVC_USD,
+			CurrencyPair.NVC_USD,
 
-  CurrencyPair.TRC_BTC,
+			CurrencyPair.TRC_BTC,
 
-  CurrencyPair.PPC_BTC,
+			CurrencyPair.PPC_BTC,
 
-  CurrencyPair.FTC_BTC,
+			CurrencyPair.FTC_BTC,
 
-  CurrencyPair.XPM_BTC
+			CurrencyPair.XPM_BTC
 
-  );
+			));
 
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+	/**
+	 * Checks if a given CurrencyPair is covered by this exchange
+	 * 
+	 * @param currencyPair
+	 * @return
+	 */
+	public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
+		return CURRENCY_PAIRS.contains(currencyPair);
+	}
 
-  public static String getPair(String tradableIdentifier, String currency) {
+	public static String getPair(String tradableIdentifier, String currency) {
 
-    return tradableIdentifier.toLowerCase() + "_" + currency.toLowerCase();
-  }
+		return tradableIdentifier.toLowerCase() + "_" + currency.toLowerCase();
+	}
 
 }

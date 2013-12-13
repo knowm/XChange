@@ -27,6 +27,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEPollingAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEPollingMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEPollingTradeService;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * <p>
@@ -77,4 +78,10 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+
+@Override
+public boolean isSupportedCurrencyPair(CurrencyPair aPair) {
+	// TODO Auto-generated method stub
+	return false;
+}
 }

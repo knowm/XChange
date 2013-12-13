@@ -22,10 +22,14 @@
  */
 package com.xeiam.xchange.btce.service.polling;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
 import com.xeiam.xchange.btce.BTCEUtils;
@@ -33,8 +37,10 @@ import com.xeiam.xchange.btce.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCEOpenOrdersReturn;
 import com.xeiam.xchange.btce.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.dto.trade.BTCEPlaceOrderReturn;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEBasePollingService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -57,12 +63,12 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
   @Override
   public OpenOrders getOpenOrders() {
 
-    BTCEOpenOrdersReturn orders = btce.OrderList(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, null, 1);
+    com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn orders = btce.OrderList(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, null, 1);
     if ("no orders".equals(orders.getError())) {
       return new OpenOrders(new ArrayList<LimitOrder>());
     }
     checkResult(orders);
-    return BTCEAdapters.adaptOrders(orders.getReturnValue());
+    return com.xeiam.xchange.btce.v3.BTCEAdapters.adaptOrders(orders.getReturnValue());
   }
 
   @Override
@@ -91,4 +97,12 @@ public class BTCEPollingTradeService extends BTCEBasePollingService implements P
     checkResult(ret);
     return ret.isSuccess();
   }
+
+@Override
+public Trades getTradeHistory(Object... arguments) throws ExchangeException,
+		NotAvailableFromExchangeException,
+		NotYetImplementedForExchangeException, IOException {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

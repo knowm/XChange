@@ -22,12 +22,12 @@
  */
 package com.xeiam.xchange.btce.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.BTCEAdapters;
 import com.xeiam.xchange.btce.BTCEAuthenticated;
-import com.xeiam.xchange.btce.dto.account.BTCEAccountInfoReturn;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEBasePollingService;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
@@ -51,16 +51,16 @@ public class BTCEPollingAccountService extends BTCEBasePollingService implements
 	}
 
 	@Override
-	public AccountInfo getAccountInfo() {
+	public AccountInfo getAccountInfo() throws IOException {
 		if (lastCache + 10000 > System.currentTimeMillis()) {
 			return accountInfo;
 		}
 
-		BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
+		com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
 		checkResult(info);
 		lastCache = System.currentTimeMillis();
 
-		return accountInfo = BTCEAdapters.adaptAccountInfo(info.getReturnValue());
+		return accountInfo = com.xeiam.xchange.btce.v3.BTCEAdapters.adaptAccountInfo(info.getReturnValue());
 	}
 
 	@Override
