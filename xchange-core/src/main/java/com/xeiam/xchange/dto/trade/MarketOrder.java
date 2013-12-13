@@ -27,9 +27,7 @@ import java.util.Date;
 import com.xeiam.xchange.dto.Order;
 
 /**
- * <p>
  * DTO representing a market order
- * </p>
  * <p>
  * A market order is a buy or sell order to be executed immediately at current
  * market prices. As long as there are willing sellers and buyers, market orders
@@ -45,49 +43,58 @@ public final class MarketOrder extends Order {
 
 	/**
 	 * @param type
-	 *          Either BID (buying) or ASK (selling)
+	 *            Either BID (buying) or ASK (selling)
 	 * @param tradableAmount
-	 *          The amount to trade
+	 *            The amount to trade
 	 * @param tradableIdentifier
-	 *          The identifier (e.g. BTC in BTC/USD)
+	 *            The identifier (e.g. BTC in BTC/USD)
 	 * @param transactionCurrency
-	 *          The transaction currency (e.g. USD in BTC/USD)
+	 *            The transaction currency (e.g. USD in BTC/USD)
 	 * @param id
-	 *          An id (usually provided by the exchange)
+	 *            An id (usually provided by the exchange)
+	 * @param timestamp
+	 *            the absolute time for this order
 	 */
-	public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp) {
-
-		super(type, tradableAmount, tradableIdentifier, transactionCurrency, id, timestamp);
+	public MarketOrder(OrderType type, BigDecimal tradableAmount,
+			String tradableIdentifier, String transactionCurrency, String id,
+			Date timestamp) {
+		super(type, tradableAmount, tradableIdentifier, transactionCurrency,
+				id, timestamp);
 	}
 
 	/**
 	 * @param type
-	 *          Either BID (buying) or ASK (selling)
+	 *            Either BID (buying) or ASK (selling)
 	 * @param tradableAmount
-	 *          The amount to trade
+	 *            The amount to trade
 	 * @param tradableIdentifier
-	 *          The identifier (e.g. BTC in BTC/USD)
+	 *            The identifier (e.g. BTC in BTC/USD)
 	 * @param transactionCurrency
-	 *          The transaction currency (e.g. USD in BTC/USD)
+	 *            The transaction currency (e.g. USD in BTC/USD)
 	 */
-	public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, Date timestamp) {
+	public MarketOrder(OrderType type, BigDecimal tradableAmount,
+			String tradableIdentifier, String transactionCurrency,
+			Date timestamp) {
 
-		super(type, tradableAmount, tradableIdentifier, transactionCurrency, "", timestamp);
+		super(type, tradableAmount, tradableIdentifier, transactionCurrency,
+				"", timestamp);
 	}
 
 	/**
 	 * @param type
-	 *          Either BID (buying) or ASK (selling)
+	 *            Either BID (buying) or ASK (selling)
 	 * @param tradableAmount
-	 *          The amount to trade
+	 *            The amount to trade
 	 * @param tradableIdentifier
-	 *          The identifier (e.g. BTC in BTC/USD)
+	 *            The identifier (e.g. BTC in BTC/USD)
 	 * @param transactionCurrency
-	 *          The transaction currency (e.g. USD in BTC/USD)
+	 *            The transaction currency (e.g. USD in BTC/USD)
 	 */
-	public MarketOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency) {
+	public MarketOrder(OrderType type, BigDecimal tradableAmount,
+			String tradableIdentifier, String transactionCurrency) {
 
-		super(type, tradableAmount, tradableIdentifier, transactionCurrency, "", null);
+		super(type, tradableAmount, tradableIdentifier, transactionCurrency,
+				"", null);
 	}
 
 }

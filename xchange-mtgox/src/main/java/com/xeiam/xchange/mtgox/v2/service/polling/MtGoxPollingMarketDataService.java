@@ -22,14 +22,19 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -41,9 +46,10 @@ import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTickerWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.MovingAverage;
 
 /**
  * <p>
@@ -55,22 +61,23 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-	private final MtGoxV2 mtGoxV2;
+  protected final MtGoxV2 mtGoxV2;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification
-	 *          The {@link ExchangeSpecification}
-	 */
-	public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   *          The {@link ExchangeSpecification}
+   */
+  public MtGoxPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
 		super(exchangeSpecification);
 		this.mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, exchangeSpecification.getSslUri());
 	}
 
-	@Override
-	public Ticker getTicker(String tradableIdentifier, String currency) {
+
+  @Override
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
 		verify(tradableIdentifier, currency);
 
@@ -91,54 +98,61 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 		}
 	}
 
-	@Override
-	public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+
+  @Override
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
 		verify(tradableIdentifier, currency);
 
-		try {
-			// Request data
-			MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
-			if (mtGoxDepthWrapper.getResult().equals("success")) {
-				// Adapt to XChange DTOs
-				List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-				List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-				return new OrderBook(asks, bids);
-			} else if (mtGoxDepthWrapper.getResult().equals("error")) {
-				throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
-			} else {
-				throw new ExchangeException("Error calling getPartialOrderBook(): Unexpected result!");
-			}
-		} catch (MtGoxException e) {
-			throw new ExchangeException("Error calling getPartialOrderBook(): " + e.getError());
-		}
-	}
 
-	@Override
-	public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+    try {
+      // Request data
+      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getDepth(tradableIdentifier, currency);
+      if (mtGoxDepthWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
+        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
+        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
 
-		verify(tradableIdentifier, currency);
+        return new OrderBook(date, asks, bids);
+      }
+      else if (mtGoxDepthWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getPartialOrderBook(): " + mtGoxDepthWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getPartialOrderBook(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getPartialOrderBook(): " + e.getError());
+    }
+  }
 
-		try {
-			MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
-			if (mtGoxDepthWrapper.getResult().equals("success")) {
-				// Adapt to XChange DTOs
-				List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-				List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-				return new OrderBook(asks, bids);
-			} else if (mtGoxDepthWrapper.getResult().equals("error")) {
-				throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
-			} else {
-				throw new ExchangeException("Error calling getFullOrderBook(): Unexpected result!");
-			}
-		} catch (MtGoxException e) {
-			throw new ExchangeException("Error calling getFullOrderBook(): " + e.getError());
-		}
-	}
 
-	@Override
-	public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  @Override
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
+    try {
+      MtGoxDepthWrapper mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
+      if (mtGoxDepthWrapper.getResult().equals("success")) {
+        // Adapt to XChange DTOs
+        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
+        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
+        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
+        return new OrderBook(date, asks, bids);
+      }
+      else if (mtGoxDepthWrapper.getResult().equals("error")) {
+        throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
+      }
+      else {
+        throw new ExchangeException("Error calling getFullOrderBook(): Unexpected result!");
+      }
+    } catch (MtGoxException e) {
+      throw new ExchangeException("Error calling getFullOrderBook(): " + e.getError());
+    }
+  }
+
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 		verify(tradableIdentifier, currency);
 
 		try {
@@ -165,15 +179,22 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 		}
 	}
 
-	/**
-	 * Verify
-	 * 
-	 * @param tradableIdentifier
-	 *          The tradeable identifier (e.g. BTC in BTC/USD)
-	 * @param currency
-	 *          The transaction currency (e.g. USD in BTC/USD)
-	 */
-	private void verify(String tradableIdentifier, String currency) {
+
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier
+   *          The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency
+   *          The transaction currency (e.g. USD in BTC/USD)
+   */
+  private void verify(String tradableIdentifier, String currency) {
 
 		Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
 		Assert.notNull(currency, "currency cannot be null");
@@ -185,5 +206,19 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 	public Set<CurrencyPair> getExchangeSymbols() {
 
 		return MtGoxUtils.CURRENCY_PAIRS;
+	}
+
+
+	@Override
+	public Map<CurrencyPair, MovingAverage> getAskAverages() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Map<CurrencyPair, MovingAverage> getBidAverages() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

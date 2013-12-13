@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class MtGoxTrade {
 
   private final long amountInt;
-  private final Long date;
+  private final Long date; // Note: This only has second and not millisecond precision
   private final String item;
   private final String priceCurrency;
   private final long priceInt;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.streaming;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,13 +47,13 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  */
 public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
-  public static void main(String[] args) throws ExecutionException, InterruptedException {
+  public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
     MtGoxWebSocketSyncronizedOrderBookDemo streamingTickerDemo = new MtGoxWebSocketSyncronizedOrderBookDemo();
     streamingTickerDemo.start();
   }
 
-  public void start() throws ExecutionException, InterruptedException {
+  public void start() throws IOException, ExecutionException, InterruptedException {
 
     // Use the default MtGox settings
     Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
@@ -61,17 +62,17 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
     ExchangeStreamingConfiguration btcusdConfiguration = new MtGoxStreamingConfiguration(10, 10000, 60000, false, "depth.BTCUSD");
 
     // Interested in the public streaming market data feed (no authentication)
-    StreamingExchangeService btcusdStreamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
+    StreamingExchangeService streamingMarketDataService = mtGoxExchange.getStreamingExchangeService(btcusdConfiguration);
 
     // Requesting initial order book using the polling service
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
     MarketDataRunnable.orderBook = marketDataService.getPartialOrderBook(Currencies.BTC, Currencies.USD);
 
     // Open the connections to the exchange
-    btcusdStreamingMarketDataService.connect();
+    streamingMarketDataService.connect();
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
-    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(btcusdStreamingMarketDataService));
+    Future<?> mtGoxMarketDataFuture = executorService.submit(new MarketDataRunnable(streamingMarketDataService));
 
     // the thread waits here until the Runnable is done.
     mtGoxMarketDataFuture.get();
@@ -80,7 +81,7 @@ public class MtGoxWebSocketSyncronizedOrderBookDemo {
 
     // Disconnect and exit
     System.out.println(Thread.currentThread().getName() + ": Disconnecting...");
-    btcusdStreamingMarketDataService.disconnect();
+    streamingMarketDataService.disconnect();
   }
 
   /**

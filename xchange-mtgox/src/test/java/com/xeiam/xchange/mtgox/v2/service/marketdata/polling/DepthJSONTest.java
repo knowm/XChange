@@ -51,5 +51,10 @@ public class DepthJSONTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(mtGoxDepth.getAsks().get(0).getAmountInt()).isEqualTo(246297453L);
     assertThat(mtGoxDepth.getFilterMaxPrice().getValueInt()).isEqualTo(20021100L);
+
+    // SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    // f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    // String dateString = f.format(DateUtils.fromMillisUtc(BTCETicker.getTicker().getServerTime() * 1000L));
+    // assertThat(dateString).isEqualTo("2012-12-22 19:12:09");
   }
 }

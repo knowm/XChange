@@ -1,5 +1,6 @@
 #Code,Numeric,DecPlaces,CountryCodes
 BTC,-1,-1,
+XBT,-1,-1,
 NMC,-1,-1,
 LTC,-1,-1,
 NVC,-1,-1,
@@ -71,3 +72,6 @@ NEC,-1,-1,
 PHS,-1,-1,
 SRC,-1,-1,
 ZET,-1,-1,
+XPM,-1,-1,
+VEN,-1,-1,
+

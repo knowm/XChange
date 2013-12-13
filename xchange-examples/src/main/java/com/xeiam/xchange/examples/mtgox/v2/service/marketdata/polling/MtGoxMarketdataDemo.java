@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
+
+import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -44,7 +46,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class MtGoxMarketdataDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Demonstrate the public market data service
     // Use the factory to get the version 2 MtGox exchange API using default settings

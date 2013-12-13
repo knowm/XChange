@@ -1,20 +1,27 @@
 /**
- * Copyright 2012 Xeiam LLC.
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.xeiam.xchange.bitcoincharts.service.polling;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,14 +35,16 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
+import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -51,8 +60,10 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
    * time stamps used to pace API calls
    */
   private long tickerRequestTimeStamp = 0L;
+  private long chartDataRequestTimeStamp = 0L;
 
   private BitcoinChartsTicker[] cachedBitcoinChartsTickers;
+  private ChartData[] cachedChartData;
 
   /**
    * Constructor
@@ -78,7 +89,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -113,6 +124,12 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
   /**
    * Verify
    * 
@@ -124,7 +141,21 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.isTrue(currency.equals(Currencies.BTC), "Base curreny must be " + Currencies.BTC + " for this exchange");
     Assert.isTrue(BitcoinChartsUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+  }
 
+  public ChartData[] getChartData(String exchange, int daysInPast) throws IOException {
+
+    // check for pacing violation
+    if (chartDataRequestTimeStamp == 0L || System.currentTimeMillis() - chartDataRequestTimeStamp >= getRefreshRate()) {
+
+      logger.debug("requesting BitcoinCharts chartdata");
+      chartDataRequestTimeStamp = System.currentTimeMillis();
+
+      // Request data
+      cachedChartData = BitcoinChartsAdapters.adaptChartData(bitcoinCharts.getChartData(exchange, daysInPast));
+    }
+
+    return cachedChartData;
   }
 
 }

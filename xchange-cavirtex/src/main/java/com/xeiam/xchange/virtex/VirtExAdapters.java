@@ -69,7 +69,7 @@ public final class VirtExAdapters {
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
 
   }
 

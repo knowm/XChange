@@ -21,14 +21,18 @@
  */
 package com.xeiam.xchange.mtgox.v0.service.marketdata.polling;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -39,9 +43,10 @@ import com.xeiam.xchange.mtgox.v0.MtGoxV0;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxDepth;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTicker;
 import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrades;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.utils.MovingAverage;
 
 /**
  * <p>
@@ -102,8 +107,8 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 		List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getAsks(), currency, "ask", "");
 		List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtgoxFullDepth.getBids(), currency, "bid", "");
 
-		return new OrderBook(asks, bids);
-	}
+    return new OrderBook(null, asks, bids);
+  }
 
 	@Override
 	public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
@@ -116,15 +121,14 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 		return MtGoxAdapters.adaptTrades(mtGoxTrades);
 	}
 
-	/**
-	 * Verify
-	 * 
-	 * @param tradableIdentifier
-	 *          The tradable identifier (e.g. BTC in BTC/USD)
-	 * @param currency
-	 *          The transaction currency (e.g. USD in BTC/USD)
-	 */
-	private void verify(String tradableIdentifier, String currency) {
+
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
+   */
+  private void verify(String tradableIdentifier, String currency) {
 
 		Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
 		Assert.notNull(currency, "currency cannot be null");
@@ -136,5 +140,25 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
 	public Set<CurrencyPair> getExchangeSymbols() {
 
 		return MtGoxUtils.CURRENCY_PAIRS;
+	}
+
+	@Override
+	public Map<CurrencyPair, MovingAverage> getAskAverages() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<CurrencyPair, MovingAverage> getBidAverages() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ExchangeInfo getExchangeInfo() throws IOException,
+			NotAvailableFromExchangeException,
+			NotYetImplementedForExchangeException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,6 +1,5 @@
-/*
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,6 +21,7 @@
  */
 package com.xeiam.xchange.campbx.service.polling;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -36,16 +36,18 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi
@@ -70,7 +72,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
+  public OpenOrders getOpenOrders() throws IOException {
 
     MyOpenOrders myOpenOrders = campbx.getOpenOrders(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
     logger.debug("myOpenOrders = {}", myOpenOrders);
@@ -83,7 +85,9 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
           logger.debug("Skipping non-order in Buy: " + cbo);
         }
         else {
-          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+          String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
+          BigMoney price = BigMoney.of(CurrencyUnit.USD, cbo.getPrice());
+          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD", id, cbo.getOrderEntered(), price));
         }
       }
       for (CampBXOrder cbo : myOpenOrders.getSell()) {
@@ -91,7 +95,10 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
           logger.debug("Skipping non-order in Sell: " + cbo);
         }
         else {
-          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID()), BigMoney.of(CurrencyUnit.USD, cbo.getPrice())));
+
+          String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
+          BigMoney price = BigMoney.of(CurrencyUnit.USD, cbo.getPrice());
+          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", id, cbo.getOrderEntered(), price));
         }
       }
       return new OpenOrders(orders);
@@ -102,7 +109,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     CampBX.AdvTradeMode mode = marketOrder.getType() == Order.OrderType.ASK ? CampBX.AdvTradeMode.AdvancedSell : CampBX.AdvTradeMode.AdvancedBuy;
     CampBXResponse campBXResponse =
@@ -118,7 +125,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     CampBX.TradeMode mode = limitOrder.getType() == Order.OrderType.ASK ? CampBX.TradeMode.QuickSell : CampBX.TradeMode.QuickBuy;
     CampBXResponse campBXResponse =
@@ -134,7 +141,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
   }
 
   @Override
-  public boolean cancelOrder(String orderId) {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     ParsedId parsedId = parseOrderId(orderId);
     CampBXResponse campBXResponse = campbx.tradeCancel(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), parsedId.type, Long.parseLong(parsedId.id));
@@ -180,4 +187,11 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
       this.id = id;
     }
   }
+
+  @Override
+  public Trades getTradeHistory(final Object... arguments) {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
 }

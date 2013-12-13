@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.joda.money.BigMoney;
@@ -47,7 +48,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class MtGoxTradeDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
@@ -80,7 +81,7 @@ public class MtGoxTradeDemo {
     transactionCurrency = "USD";
     BigMoney limitPrice = MoneyUtils.parse("USD 1.25");
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, limitPrice);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, limitPrice);
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 

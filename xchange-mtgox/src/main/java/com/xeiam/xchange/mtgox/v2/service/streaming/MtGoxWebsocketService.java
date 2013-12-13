@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -73,10 +73,10 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
 
     String apiBase = null;
     if (configuration.isEncryptedChannel()) {
-      apiBase = String.format("%s:%s/mtgox/", exchangeSpecification.getSslUriStreaming(), exchangeSpecification.getPort());
+      apiBase = String.format("%s:%s/mtgox/", exchangeSpecification.getSslUri(), exchangeSpecification.getPort());
     }
     else {
-      apiBase = String.format("%s:%s/mtgox/", exchangeSpecification.getPlainTextUriStreaming(), exchangeSpecification.getPort());
+      apiBase = String.format("%s:%s/mtgox/", exchangeSpecification.getHost(), exchangeSpecification.getPort());
     }
 
     String channel = configuration.getChannel();

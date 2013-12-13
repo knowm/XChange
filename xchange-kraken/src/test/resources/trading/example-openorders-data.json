@@ -1,0 +1,27 @@
+{
+   "error":[
+
+   ],
+   "result":{
+      "open":{
+         "OR6QMM-BCKM4-Q6YHIN":{
+            "refid":null,
+            "userref":null,
+            "status":"open",
+            "opentm":1380586080.222,
+            "starttm":0,
+            "expiretm":0,
+            "descr":{
+               "order":"buy 1.00000000 XBTEUR @ limit 1.00000"
+            },
+            "vol":"1.00000000",
+            "vol_exec":"0.00000000",
+            "cost":"0.00000",
+            "fee":"0.00000",
+            "price":"0.00000",
+            "misc":"",
+            "oflags":""
+         }
+      }
+   }
+}

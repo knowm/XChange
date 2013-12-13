@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -62,7 +62,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://data.mtgox.com");
     exchangeSpecification.setPlainTextUriStreaming("ws://websocket.mtgox.com");
     exchangeSpecification.setSslUriStreaming("wss://websocket.mtgox.com");
-    exchangeSpecification.setPlainTextUri("http://data.mtgox.com");
+    exchangeSpecification.setPlainTextUriStreaming("http://data.mtgox.com");
     exchangeSpecification.setHost("mtgox.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("MtGox");

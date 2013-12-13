@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -110,7 +110,7 @@ public final class MtGoxAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (MtGoxOrder mtGoxOrder : mtGoxOrders) {
-      limitOrders.add(adaptOrder(mtGoxOrder.getAmount(), mtGoxOrder.getPrice(), currency, orderType, id, new Date(mtGoxOrder.getStamp())));
+      limitOrders.add(adaptOrder(mtGoxOrder.getAmount(), mtGoxOrder.getPrice(), currency, orderType, id, new Date(mtGoxOrder.getStamp() / 1000)));
     }
 
     return limitOrders;
@@ -179,7 +179,7 @@ public final class MtGoxAdapters {
     String tradableIdentifier = mtGoxTrade.getItem();
     String transactionCurrency = mtGoxTrade.getPriceCurrency();
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPriceInt());
-    Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
+    Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getTid() / 1000L); // Note: the getDate is not millisecond precise therefore we use getTid()!
 
     return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, mtGoxTrade.getTid());
   }

@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -23,23 +22,27 @@
 package com.xeiam.xchange.bitstamp.service.polling;
 
 import java.util.Set;
+import java.io.IOException;
+import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitstamp.BitStamp;
+import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.streaming.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -59,10 +62,10 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
 		super(exchangeSpecification);
 		this.bitstamp = RestProxyFactory.createProxy(BitStamp.class, exchangeSpecification.getSslUri());
-	}
+  }
 
-	@Override
-	public Ticker getTicker(String tradableIdentifier, String currency) {
+  @Override
+  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
 
 		verify(tradableIdentifier, currency);
 		BitstampTicker bitstampTicker = bitstamp.getTicker();
@@ -81,22 +84,47 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
 	}
 
-	@Override
-	public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) {
+  @Override
+  public OrderBook getPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
 
 		throw new NotAvailableFromExchangeException();
 	}
-
-	@Override
-	public OrderBook getFullOrderBook(String tradableIdentifier, String currency) {
+  @Override
+  public OrderBook getFullOrderBook(String tradableIdentifier, String currency) throws IOException {
 
 		verify(tradableIdentifier, currency);
 
 		BitstampOrderBook bitstampOrderBook = bitstamp.getOrderBook();
 
 		return BitstampAdapters.adaptOrders(bitstampOrderBook, tradableIdentifier, currency);
+  }
 
-	}
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+
+    verify(tradableIdentifier, currency);
+
+    BitstampTransaction[] transactions = null;
+
+    if (args.length == 0) {
+      transactions = bitstamp.getTransactions(); // default values: offset=0, limit=100
+    }
+    else if (args.length == 1) {
+      BitstampTime bitstampTime = (BitstampTime) args[0];
+      transactions = bitstamp.getTransactions(bitstampTime.toString().toLowerCase()); // default values: limit=100
+    }
+
+    else {
+      throw new ExchangeException("Invalid argument length. Must be 0, or 1.");
+    }
+    return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
+  }
+
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
 
 	/**
 	 * Verify
@@ -118,5 +146,9 @@ public class BitstampPollingMarketDataService extends BasePollingExchangeService
 
 		return BitstampUtils.CURRENCY_PAIRS;
 	}
+
+  public enum BitstampTime {
+    HOUR, MINUTE;
+  }
 
 }
