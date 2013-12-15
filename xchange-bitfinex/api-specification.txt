@@ -1,0 +1,310 @@
+Bitfinex Exchange API specification V1
+======================================
+
+https://www.bitfinex.com/pages/api
+
+Api Documentation
+URL:
+The URL to use is
+
+https://api.bitfinex.com/v1
+Authentication
+Authentication is done using an API key and a secret. To generate this pair, go to the API page
+
+Say the client wants to make a request to
+POST https://api.bitfinex.com/v1/order/new
+With a payload of
+{
+"request": "/v1/order/new",
+"nonce": "1234",
+"option1": ...
+}
+The nonce provided must be strictly increasing.
+
+To authenticate a request, use the following:
+
+payload = parameters-dictionary -> JSON encode -> base64
+signature = HMAC-SHA384(payload, api-secret) as hexadecimal
+send (api-key, payload, signature)
+These are encoded as HTTP headers named:
+X-BFX-APIKEY
+X-BFX-PAYLOAD
+X-BFX-SIGNATURE
+Parameters nomenclature
+Requests parameters (presented below in the "Request" sections) are part of the PAYLOAD, not GET parameters.
+Unauthenticated
+Ticker
+GET /ticker/:symbol
+Gives innermost bid and asks and information on the most recent trade.
+Response:
+mid (price): (bid + ask) / 2
+bid (price): Innermost bid.
+ask (price): Innermost ask.
+last_price (price) The price at which the last order executed.
+timestamp (time) The timestamp at which this information was valid.
+Today
+GET /today/:symbol
+Today's low, high and volume.
+Response
+
+low (price)
+high (price)
+volume (price)
+Candles
+GET /candles/:symbol
+Get a list of the most recent candlesticks (trading data) for the given symbol.
+Request
+
+timestamp (time): Optional. Only show trades at or after this timestamp.
+Response
+
+An array of dictionaries
+start_at (timestamp)
+period (integer, period in seconds)
+open (price)
+close (price)
+highest (price)
+lowest (price)
+volume (decimal)
+Lendbook
+GET /lendbook/:currency
+Get the full lend book.
+Request:
+
+limit_bids (int): Optional. Limit the number of bids (loan demands) returned. May be 0 in which case the array of bids is empty. Default is 50. 
+limit_asks (int): Optional. Limit the number of asks (loan offers) returned. May be 0 in which case the array of asks is empty. Default is 50. 
+Response
+
+bids (array of loan demands):
+rate (rate in % per 365 days)
+amount (decimal)
+period (days): minimum period for the loan
+timestamp (time)
+asks (array of loan offers)
+rate (rate in % per 365 days)
+amount (decimal)
+period (days): maximum period for the loan
+timestamp (time)
+Orderbook
+GET /book/:symbol
+Get the full order book.
+Request:
+
+limit_bids (int): Optional. Limit the number of bids returned. May be 0 in which case the array of bids is empty. Default is 50. 
+limit_asks (int): Optional. Limit the number of asks returned. May be 0 in which case the array of asks is empty. Default is 50. 
+Response
+
+bids (array)
+price (price)
+amount (decimal)
+timestamp (time)
+asks (array)
+price (price)
+amount (decimal)
+timestamp (time)
+Trades
+GET /trades/:symbol
+Get a list of the most recent trades for the given symbol.
+Request
+
+timestamp (time): Optional. Only show trades at or after this timestamp.
+limit_trades (int): Optional. Limit the number of trades returned. Must be >= 1. Default is 50.
+Response
+
+An array of dictionaries
+price (price)
+amount (decimal)
+timestamp (time)
+exchange (string)
+Lends
+GET /lends/:currency
+Get a list of the most recent lending data for the given currency: total amount lent and rate (in % by 365 days).
+Request
+
+timestamp (time): Optional. Only show trades at or after this timestamp.
+limit_lends (int): Optional. Limit the number of lends returned. Must be >= 1. Default is 50.
+Response
+
+An array of dictionaries
+rate (decimal, % by 365 days): Average rate of total loans opened at fixed rates
+amount_lent (decimal): Total amount of open loans in the given currency
+timestamp (time)
+Symbols
+GET /symbols
+Get a list of valid symbol IDs.
+Response
+
+A list of symbol names. Currently just "btcusd".
+Authenticated
+New order
+POST /order/new
+Submit a new order.
+Request
+
+symbol (string): The name of the symbol (see `/symbols`).
+amount (decimal): Order size: how much to buy or sell.
+price (price): Price to buy or sell at. May omit if a market order.
+exchange (string): "bitfinex", "bitstamp", "all" (for no routing).
+side (string): Either "buy" or "sell".
+type (string): Either "market" / "limit" / "stop" / "trailing-stop" / "exchange market" / "exchange limit" / "exchange stop" / "exchange trailing-stop". (type starting by "exchange " are exchange orders, others are margin trading orders= 
+is_hidden (bool) true if the order should be hidden. Default is false.
+Response
+
+order_id (int): A randomly generated ID for the order.
+and the information given by /order/status
+Order types
+Margin trading type	Exchange type
+LIMIT	EXCHANGE LIMIT
+MARKET	EXCHANGE MARKET
+STOP	EXCHANGE STOP
+TRAILING STOP	EXCHANGE TRAILING STOP
+Multiple new orders
+POST /order/new/multi
+Submit several new orders at once.
+Request
+
+The request is an array of the array containing the order options sent with the previous call /order/new. That is an array of the following array: 
+symbol (string): The name of the symbol (see `/symbols`).
+amount (decimal): Order size: how much to buy or sell.
+price (price): Price to buy or sell at. May omit if a market order.
+exchange (string): "bitfinex", "mtgox", "bitstamp", "all" (for no routing).
+side (string): Either "buy" or "sell".
+type (string): Either "market" / "limit" / "stop" / "trailing-stop".
+Important: You can not place more than 10 orders at once.
+Response
+
+order_ids (array): An array of randomly generated ID for the orders opened.
+
+Cancel order
+POST /order/cancel
+Cancel an order.
+Request
+
+order_id (int): The order ID given by `/order/new`.
+Response
+
+Result of /order/status for the cancelled order.
+Cancel multiple orders
+POST /order/cancel/multi
+Cancel multiples orders at once.
+Request
+
+order_ids (array): An array of the order IDs given by `/order/new` or `/order/new/multi`.
+Response
+
+Confirmation of cancellation of the orders.
+Order status
+POST /order/status
+Get the status of an order. Is it active? Was it cancelled? To what extent has it been executed? etc.
+Request
+
+order_id (int): The order ID given by `/order/new`.
+Response
+
+symbol (string): The symbol name the order belongs to.
+exchange (string): "bitfinex", "mtgox", "bitstamp".
+price (decimal): The price the order was issued at (can be null for market orders).
+avg_execution_price (decimal): The average price at which this order as been executed so far. 0 if the order has not been executed at all. side (string): Either "buy" or "sell".
+type (string): Either "market" / "limit" / "stop" / "trailing-stop".
+timestamp (time): The timestamp the order was submitted.
+is_live (bool): Could the order still be filled?
+is_cancelled (bool): Has the order been cancelled?
+was_forced (bool): For margin only: true if it was forced by the system.
+executed_amount (decimal): How much of the order has been executed so far in its history?
+remaining_amount (decimal): How much is still remaining to be submitted?
+original_amount (decimal): What was the order originally submitted for?
+Active Orders
+POST /orders
+View your active orders.
+Response
+
+An array of the results of `/order/status` for all your live orders.
+Active Positions
+POST /positions
+View your active positions.
+Response
+
+An array of your active positions.
+Past trades
+POST /mytrades
+View your past trades
+Request
+
+symbol (string): The pair traded (BTCUSD, LTCUSD, LTCBTC).
+timestamp (time): Trades made before this timestamp won't be returned.
+limit_trades (int): Optional. Limit the number of trades returned. Default is 50.
+Response
+
+An array of dictionaries:
+price (price)
+amount (decimal)
+timestamp (time)
+exchange (string)
+type (string) Sell or Buy
+New offer (lending or borrowing)
+POST /offer/new
+Submit a new offer.
+Request
+
+currency (string): The name of the currency.
+amount (decimal): Offer size: how much to lend or borrow.
+rate (price): Rate to lend or borrow at. In percentage per 365 days.
+period (integer): Number of days of the loan (in days)
+direction (string): Either "lend" or "loan".
+insurance_option (optional, integer): 0 for "No insurance", 1 for "Insurance if available", 2 for "Always insure" (default is 0)
+Response
+
+offer_id (int): A randomly generated ID for the offer.
+and the information given by /offer/status
+Cancel offer
+POST /offer/cancel
+Cancel an offer.
+Request
+
+offer_id (int): The offer ID given by `/offer/new`.
+Response
+
+Result of /offer/status for the cancelled offer.
+Offer status
+POST /offer/status
+Get the status of an offer. Is it active? Was it cancelled? To what extent has it been executed? etc.
+Request
+
+offer_id (int): The offer ID given by `/offer/new`.
+Response
+
+currency (string): The currency name of the offer.
+rate (decimal): The rate the offer was issued at (in % per 365 days).
+period (integer): The number of days of the offer.
+direction (string): Either "lend" or "loan".
+type (string): Either "market" / "limit" / "stop" / "trailing-stop".
+timestamp (time): The timestamp the offer was submitted.
+is_live (bool): Could the offer still be filled?
+is_cancelled (bool): Has the offer been cancelled?
+executed_amount (decimal): How much of the offer has been executed so far in its history?
+remaining_amount (decimal): How much is still remaining to be submitted?
+original_amount (decimal): What was the offer originally submitted for?
+Active Offers
+POST /offers
+View your active offers.
+Response
+
+An array of the results of `/offer/status` for all your live offers (lending or borrowing).
+Active Credits
+POST /credits
+View your funds currently lent (active credits).
+Response
+
+An array of your active credits.
+Wallet Balances
+POST /balances
+See your balances.
+Response
+
+A list of wallet balances:
+type (string): "trading", "deposit" or "exchange".
+currency (string): Currency 
+amount (decimal): How much balance of this currency in this wallet
+available (decimal): How much X there is in this wallet that is available to trade.
+
+
