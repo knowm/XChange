@@ -22,9 +22,8 @@
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.fest.util.Lists;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -52,14 +51,18 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * </ul>
  */
 public class BitfinexPollingMarketDataService implements PollingMarketDataService {
-
   protected final Bitfinex bitfinex;
+  private final List<CurrencyPair> supportedCurrencies = new ArrayList<CurrencyPair>();
+  {
+    supportedCurrencies.add(CurrencyPair.BTC_USD);
+	supportedCurrencies.add(CurrencyPair.LTC_USD);
+	supportedCurrencies.add(CurrencyPair.LTC_BTC);
+  }
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitfinexPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
-
     bitfinex = RestProxyFactory.createProxy(Bitfinex.class, exchangeSpecification.getSslUri());
   }
 
@@ -100,7 +103,7 @@ public class BitfinexPollingMarketDataService implements PollingMarketDataServic
   
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
-	return Lists.newArrayList(CurrencyPair.BTC_USD, CurrencyPair.LTC_USD, CurrencyPair.LTC_BTC);
+	return supportedCurrencies;
   }
 
   @Override

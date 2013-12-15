@@ -11,7 +11,7 @@
 	<artifactId>xchange-bitfinex</artifactId>
 
 	<name>XChange BitFinex</name>
-	<description>XChange implementation for the BitFinexs Exchange</description>
+	<description>XChange implementation for the BitFinex Exchange</description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
