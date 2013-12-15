@@ -99,8 +99,8 @@ public final class BitfinexAdapters {
 
 	public static Ticker adaptTicker(BitfinexTicker bitfinexTicker, String tradableIdentifier, String currency) {
 		BigMoney last = MoneyUtils.parseMoney(currency, bitfinexTicker.getLast_price());
-		BigMoney bid = MoneyUtils.parseMoney(currency,bitfinexTicker.getAsk());
-		BigMoney ask = MoneyUtils.parseMoney(currency, bitfinexTicker.getBid());
+		BigMoney bid = MoneyUtils.parseMoney(currency,bitfinexTicker.getBid());
+		BigMoney ask = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
 		BigMoney high = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
 		BigMoney low = MoneyUtils.parseMoney(currency, bitfinexTicker.getBid());
 		BigDecimal volume = BigDecimal.ZERO;
