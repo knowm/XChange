@@ -117,7 +117,7 @@ public final class BitfinexAdapters {
 
 		for(BitfinexBalancesResponse balance : response) {
 			if(balance.getCurrency().equals("usd") || balance.getCurrency().equals("btc")) {
-				wallets.add(Wallet.createInstance(balance.getCurrency().toUpperCase(), balance.getAmount()));
+				wallets.add(Wallet.createInstance(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
 			}
 		}
 
@@ -160,10 +160,12 @@ public final class BitfinexAdapters {
 		for(BitfinexTradeResponse trade : trades) {
 			OrderType orderType = trade.getType().equals("buy") ? OrderType.BID
 					: OrderType.ASK;
-
+			
+			long id = trade.hashCode();
 			pastTrades.add(new Trade(orderType, trade.getAmount(), tradableIdentifier, transactionCurrency,
-					BigMoney.of(CurrencyUnit.USD, trade.getPrice()), new Date((long)(trade.getTimestamp() * 1000L)), 0L));
+					BigMoney.of(CurrencyUnit.USD, trade.getPrice()), new Date((long)(trade.getTimestamp() * 1000L)), id));
 		}
+		
 		return new Trades(pastTrades);
 	}
 }
