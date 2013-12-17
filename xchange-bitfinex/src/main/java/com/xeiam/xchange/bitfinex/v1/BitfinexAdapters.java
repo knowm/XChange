@@ -130,7 +130,7 @@ public final class BitfinexAdapters {
 				activeOrders.length);
 
 		for (BitfinexOrderStatusResponse order : activeOrders) {
-			OrderType orderType = order.getSide().equals("buy") ? OrderType.BID
+			OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID
 					: OrderType.ASK;
 			String tradableIdentifier = order.getSymbol().substring(0, 3)
 					.toUpperCase();
@@ -158,7 +158,7 @@ public final class BitfinexAdapters {
 				.toUpperCase();
 
 		for(BitfinexTradeResponse trade : trades) {
-			OrderType orderType = trade.getType().equals("buy") ? OrderType.BID
+			OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID
 					: OrderType.ASK;
 			
 			long id = trade.hashCode();
