@@ -52,7 +52,6 @@ public class BitfinexTrade {
 	public String getExchange() {
 		return exchange;
 	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
