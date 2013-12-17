@@ -52,7 +52,46 @@ public class BitfinexTrade {
 	public String getExchange() {
 		return exchange;
 	}
-
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
+		result = prime * result
+				+ ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + Float.floatToIntBits(timestamp);
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BitfinexTrade other = (BitfinexTrade) obj;
+		if (amount == null) {
+			if (other.amount != null)
+				return false;
+		} else if (!amount.equals(other.amount))
+			return false;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (Float.floatToIntBits(timestamp) != Float
+				.floatToIntBits(other.timestamp))
+			return false;
+		return true;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

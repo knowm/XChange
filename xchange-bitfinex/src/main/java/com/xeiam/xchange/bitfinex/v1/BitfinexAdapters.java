@@ -86,7 +86,7 @@ public final class BitfinexAdapters {
 		BigMoney price = MoneyUtils.parseMoney(currency, trade.getPrice());
 		Date date = DateUtils.fromMillisUtc((long)(trade.getTimestamp()*1000L));
 
-		return new Trade(orderType, amount, tradableIdentifier, currency, price, date, 0);
+		return new Trade(orderType, amount, tradableIdentifier, currency, price, date, trade.hashCode());
 	}
 
 	public static Trades adaptTrades(BitfinexTrade[] trades, String tradableIdentifier, String currency) {
