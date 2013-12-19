@@ -1,6 +1,4 @@
-[![XChange](http://xeiam.com/images/XChange_64_64.png)](http://xeiam.com/xchange.jsp)
-
-## XChange
+## [![XChange](http://xeiam.com/images/XChange_64_64.png)](http://xeiam.com/xchange.jsp) XChange
 A Financial Exchange Library for Java
 
 ## Important!
