@@ -38,7 +38,7 @@ import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 public interface BitcoinAverage {
 
   @GET
-  @Path("ticker/{currency}")
+  @Path("ticker/global/{currency}")
   @Produces("application/json")
   public BitcoinAverageTicker getTicker(@PathParam("currency") String currency) throws IOException;
 

@@ -48,10 +48,10 @@ public class BitcoinAverageTickerJSONTest {
     BitcoinAverageTicker BitcoinAverageTicker = mapper.readValue(is, BitcoinAverageTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BitcoinAverageTicker.getLast()).isEqualTo(new BigDecimal("367.14"));
-    assertThat(BitcoinAverageTicker.getBid()).isEqualTo(new BigDecimal("366.08"));
-    assertThat(BitcoinAverageTicker.getAsk()).isEqualTo(new BigDecimal("368.14"));
-    assertThat(BitcoinAverageTicker.getVolume()).isEqualTo(new BigDecimal("71085.8"));
+    assertThat(BitcoinAverageTicker.getLast()).isEqualTo(new BigDecimal("629.45"));
+    assertThat(BitcoinAverageTicker.getBid()).isEqualTo(new BigDecimal("628.2"));
+    assertThat(BitcoinAverageTicker.getAsk()).isEqualTo(new BigDecimal("631.21"));
+    assertThat(BitcoinAverageTicker.getVolume()).isEqualTo(new BigDecimal("118046.63"));
   }
 
 }

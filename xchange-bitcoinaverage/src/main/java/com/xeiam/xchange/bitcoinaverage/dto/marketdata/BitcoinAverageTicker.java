@@ -37,7 +37,7 @@ public final class BitcoinAverageTicker {
   private final BigDecimal last;
   private final BigDecimal ask;
   private final BigDecimal bid;
-  private final BigDecimal avg;
+  private final BigDecimal volume_percent;
   private final BigDecimal volume;
   private final String timestamp;
 
@@ -53,16 +53,16 @@ public final class BitcoinAverageTicker {
    */
   public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, 
 		  @JsonProperty("bid") BigDecimal bid, 
-		  @JsonProperty("total_vol") BigDecimal volume, 
+		  @JsonProperty("volume_btc") BigDecimal volume, 
 		  @JsonProperty("last") BigDecimal last,
-		  @JsonProperty("24h_avg") BigDecimal avg,
+		  @JsonProperty("volume_percent") BigDecimal volume_percent,
 		  @JsonProperty("timestamp") String timestamp) {
 
     this.ask = ask;
     this.bid = bid;
     this.volume = volume;
     this.last = last;
-    this.avg = avg;
+    this.volume_percent = volume_percent;
     this.timestamp = timestamp;
   }
 
@@ -86,9 +86,9 @@ public final class BitcoinAverageTicker {
     return volume;
   }
   
-  public BigDecimal getAvg() {
+  public BigDecimal getVolumePercent() {
 
-	 return avg;
+	 return volume_percent;
   }
   
   public Date getTimestamp() {
@@ -108,7 +108,7 @@ public final class BitcoinAverageTicker {
   @Override
   public String toString() {
 
-    return "BitcoinAverageTicker [last=" + last + ", ask=" + ask + ", bid=" + bid + ", volume=" + volume + ", avg=" + avg + ", timestamp=" + timestamp + "]";
+    return "BitcoinAverageTicker [last=" + last + ", ask=" + ask + ", bid=" + bid + ", volume=" + volume + ", volume_percent=" + volume_percent + ", timestamp=" + timestamp + "]";
 
   }
 

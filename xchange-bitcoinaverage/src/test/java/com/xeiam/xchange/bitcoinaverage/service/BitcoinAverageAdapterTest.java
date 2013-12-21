@@ -52,10 +52,10 @@ public class BitcoinAverageAdapterTest {
     Ticker ticker = BitcoinAverageAdapters.adaptTicker(BitcoinAverageTicker, "USD", "BTC");
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("USD 367.14");
-    assertThat(ticker.getBid().toString()).isEqualTo("USD 366.08");
-    assertThat(ticker.getAsk().toString()).isEqualTo("USD 368.14");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("71085.8"));
+    assertThat(ticker.getLast().toString()).isEqualTo("USD 629.45");
+    assertThat(ticker.getBid().toString()).isEqualTo("USD 628.2");
+    assertThat(ticker.getAsk().toString()).isEqualTo("USD 631.21");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("118046.63"));
 
   }
 }
