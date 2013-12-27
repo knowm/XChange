@@ -36,8 +36,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Matija Mazi
  */
 public class BTCEBasePollingService {
+  private static final long START_MILLIS = 1356998400000L;
   // counter for the nonce
-  private static final AtomicInteger lastNonce = new AtomicInteger(1);
+  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
   protected final String apiKey;
   protected final BTCEAuthenticated btce;
