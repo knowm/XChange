@@ -30,23 +30,23 @@ import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
 import com.xeiam.xchange.btce.v3.service.BTCEHmacPostBodyDigest;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @author Matija Mazi
  */
 public class BTCEBasePollingService {
-
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
+  // counter for the nonce
+  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
   protected final String apiKey;
   protected final BTCEAuthenticated btce;
   protected final ParamsDigest signatureCreator;
 
-  // counter for the nonce
-  private static int lastNonce = -1;
-
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEBasePollingService(ExchangeSpecification exchangeSpecification) {
@@ -56,18 +56,8 @@ public class BTCEBasePollingService {
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  protected synchronized int nextNonce() {
-
-    // nonce logic is now more robust.
-    // on the first call, it initializes to a number based upon the quarter second. From then on, it increments it.
-    //
-    // As long as you do not create a new BTCEBasedPollingService more than once every quarter second and make sure
-    // that you throw away the old one before you make a new one, this should work out fine.
-    if (lastNonce < 0) {
-      lastNonce = (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
-    }
-    int nonce = lastNonce++;
-    return nonce;
+  protected int nextNonce() {
+    return lastNonce.incrementAndGet();
   }
 
   protected void checkResult(BTCEReturn<?> info) {
