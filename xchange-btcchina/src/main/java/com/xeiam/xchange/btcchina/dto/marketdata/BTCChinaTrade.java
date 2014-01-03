@@ -36,6 +36,7 @@ public final class BTCChinaTrade {
   private final long date;
   private final BigDecimal price;
   private final long tid;
+  private final String orderType;
 
   /**
    * Constructor
@@ -44,13 +45,15 @@ public final class BTCChinaTrade {
    * @param date
    * @param price
    * @param tid
+   * @param orderType
    */
-  public BTCChinaTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid) {
+  public BTCChinaTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid, @JsonProperty("type") String orderType) {
 
     this.amount = amount;
     this.date = date;
     this.price = price;
     this.tid = tid;
+    this.orderType = orderType;
   }
 
   public BigDecimal getAmount() {
@@ -73,10 +76,12 @@ public final class BTCChinaTrade {
     return this.tid;
   }
 
+  public String getOrderType() { return this.orderType; }
+
   @Override
   public String toString() {
 
-    return "BTCChinaTrades [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + "]";
+    return "BTCChinaTrades [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + ", type=" + orderType + "]";
   }
 
 }

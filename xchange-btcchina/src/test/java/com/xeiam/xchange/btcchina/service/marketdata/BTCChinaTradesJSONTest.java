@@ -48,6 +48,6 @@ public class BTCChinaTradesJSONTest {
     BTCChinaTrade[] BTCChinaTrades = mapper.readValue(is, BTCChinaTrade[].class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BTCChinaTrades[0].getPrice()).isEqualTo(new BigDecimal("545"));
+    assertThat(BTCChinaTrades[0].getPrice()).isEqualTo(new BigDecimal("4719"));
   }
 }

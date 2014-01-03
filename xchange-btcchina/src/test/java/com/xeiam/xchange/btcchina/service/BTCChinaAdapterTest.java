@@ -81,12 +81,13 @@ public class BTCChinaAdapterTest {
     BTCChinaTrade[] BTCChinaTrades = mapper.readValue(is, BTCChinaTrade[].class);
 
     Trades trades = BTCChinaAdapters.adaptTrades(BTCChinaTrades, "CNY", "BTC");
-    assertThat(trades.getTrades().size()).isEqualTo(738);
+    assertThat(trades.getTrades().size()).isEqualTo(101);
 
     // Verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 545);
-    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.37);
-    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-07-25 18:22:55 GMT");
+    assertThat(trades.getTrades().get(0).getType().equals(OrderType.BID));
+    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 4719);
+    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.425);
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-01-03 16:04:24 GMT");
     System.out.println(trades.getTrades().get(0).toString());
 
   }
