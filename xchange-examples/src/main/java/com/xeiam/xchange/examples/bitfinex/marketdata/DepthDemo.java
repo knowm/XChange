@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.examples.bitfinex.marketdata;
 
+import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
-import com.xeiam.xchange.bitfinex.v1.service.BitfinexAuthHelper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -34,20 +34,21 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class DepthDemo {
 
-	public static void main(String[] args) throws Exception {
-		BitfinexAuthHelper.installCerts();
+  public static void main(String[] args) throws Exception {
 
-		// Use the factory to get BTC-E exchange API using default settings
-		Exchange btce = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    AuthHelper.trustAllCerts();
 
-		// Interested in the public polling market data feed (no authentication)
-		PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+    // Use the factory to get BTC-E exchange API using default settings
+    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
 
-		// Get the latest full order book data for LTC/USD
-		OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
-		System.out.println(orderBook.toString());
-		System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
-	}
+    // Get the latest full order book data for LTC/USD
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+    System.out.println(orderBook.toString());
+    System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+  }
 
 }

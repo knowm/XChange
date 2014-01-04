@@ -68,17 +68,17 @@ public class CampBXMarketDataDemo {
   private static void campbx(Exchange campBXExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    CampBXPollingMarketDataService campBXGenericMarketDataService = (CampBXPollingMarketDataService) campBXExchange.getPollingMarketDataService();
+    CampBXPollingMarketDataService campBXspecificMarketDataService = (CampBXPollingMarketDataService) campBXExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    CampBXTicker tcampBXTicker = campBXGenericMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);
+    CampBXTicker tcampBXTicker = campBXspecificMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);
 
     System.out.println("Last: " + tcampBXTicker.getLast());
     System.out.println("Bid: " + tcampBXTicker.getBid());
     System.out.println("Ask: " + tcampBXTicker.getAsk());
 
     // Get the latest order book data for BTC/USD
-    CampBXOrderBook campBXOrderBook = campBXGenericMarketDataService.getCampBXOrderBook(Currencies.BTC, Currencies.USD);
+    CampBXOrderBook campBXOrderBook = campBXspecificMarketDataService.getCampBXOrderBook(Currencies.BTC, Currencies.USD);
 
     System.out.println("Order book: " + campBXOrderBook);
   }

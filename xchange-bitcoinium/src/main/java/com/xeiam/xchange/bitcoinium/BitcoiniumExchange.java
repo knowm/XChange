@@ -66,7 +66,6 @@ public class BitcoiniumExchange extends BaseExchange implements Exchange {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://bitcoinium.com");
     exchangeSpecification.setHost("bitcoinium.com");
-    exchangeSpecification.setPort(9090);
     exchangeSpecification.setExchangeName("Bitcoinium");
     exchangeSpecification.setExchangeDescription("Bitcoinium Web Service provides compact and filtered data from various exchanges");
 

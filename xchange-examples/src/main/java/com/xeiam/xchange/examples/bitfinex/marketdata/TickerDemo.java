@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.examples.bitfinex.marketdata;
 
+import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
-import com.xeiam.xchange.bitfinex.v1.service.BitfinexAuthHelper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -34,28 +34,29 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TickerDemo {
 
-	public static void main(String[] args) throws Exception {
-		BitfinexAuthHelper.installCerts();
+  public static void main(String[] args) throws Exception {
 
-		// Use the factory to get Bitfinex exchange API using default settings
-		Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    AuthHelper.trustAllCerts();
 
-		// Interested in the public polling market data feed (no authentication)
-		PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
+    // Use the factory to get Bitfinex exchange API using default settings
+    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
 
-		// Get the latest ticker data showing BTC to CAD
-		Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-		double value = ticker.getLast().getAmount().doubleValue();
-		String currency = ticker.getLast().getCurrencyUnit().toString();
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
 
-		System.out.println("Last: " + currency + "-" + value);
-		System.out.println("Last: " + ticker.getLast().toString());
-		System.out.println("Volume: " + ticker.getVolume().toString());
-		System.out.println("High: " + ticker.getHigh().toString());
-		System.out.println("Low: " + ticker.getLow().toString());
-		System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
+    // Get the latest ticker data showing BTC to CAD
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    double value = ticker.getLast().getAmount().doubleValue();
+    String currency = ticker.getLast().getCurrencyUnit().toString();
 
-		System.out.println(ticker.toString());
+    System.out.println("Last: " + currency + "-" + value);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Volume: " + ticker.getVolume().toString());
+    System.out.println("High: " + ticker.getHigh().toString());
+    System.out.println("Low: " + ticker.getLow().toString());
+    System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
 
-	}
+    System.out.println(ticker.toString());
+
+  }
 }

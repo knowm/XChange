@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.examples.bitfinex.marketdata;
 
+import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
-import com.xeiam.xchange.bitfinex.v1.service.BitfinexAuthHelper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -34,18 +34,19 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TradesDemo {
 
-	public static void main(String[] args) throws Exception {
-		BitfinexAuthHelper.installCerts();
+  public static void main(String[] args) throws Exception {
 
-		// Use the factory to get BTC-E exchange API using default settings
-		Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+    AuthHelper.trustAllCerts();
 
-		// Interested in the public polling market data feed (no authentication)
-		PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
+    // Use the factory to get BTC-E exchange API using default settings
+    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
 
-		// Get the latest trade data for BTC/USD
-		Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
-		System.out.println(trades.toString());
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
 
-	}
+    // Get the latest trade data for BTC/USD
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    System.out.println(trades.toString());
+
+  }
 }
