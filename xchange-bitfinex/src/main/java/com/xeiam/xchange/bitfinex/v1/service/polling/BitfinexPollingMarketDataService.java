@@ -82,8 +82,9 @@ public class BitfinexPollingMarketDataService implements PollingMarketDataServic
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    int limit_bids = 10;
-    int limit_asks = 10;
+    // According to API docs, default is 50
+    int limit_bids = 50;
+    int limit_asks = 50;
 
     if (args.length == 2) {
       limit_bids = (Integer) args[0];

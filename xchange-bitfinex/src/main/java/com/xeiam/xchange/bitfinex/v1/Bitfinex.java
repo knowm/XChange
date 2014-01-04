@@ -26,6 +26,7 @@ import java.io.IOException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
@@ -39,9 +40,9 @@ public interface Bitfinex {
   BitfinexTicker getTicker(@PathParam("symbol") String symbol) throws IOException;
 
   @GET
-  @Path("book/{symbol}?limit_bids={limit_bids}&limit_asks={limit_asks}")
-  BitfinexDepth getBook(@PathParam("symbol") String symbol, @PathParam("limit_bids") int limit_bids, @PathParam("limit_asks") int limit_asks) throws IOException;
-  
+  @Path("book/{symbol}")
+  BitfinexDepth getBook(@PathParam("symbol") String symbol, @QueryParam("limit_bids") int limit_bids, @QueryParam("limit_asks") int limit_asks) throws IOException;
+
   @GET
   @Path("trades/{symbol}")
   BitfinexTrade[] getTrades(@PathParam("symbol") String symbol) throws IOException;
