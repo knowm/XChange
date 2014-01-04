@@ -34,15 +34,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitcoinium.BitcoiniumAdapters;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
-import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import com.xeiam.xchange.bitcoinium.service.marketdata.BitcoiniumDepthJSONTest;
 import com.xeiam.xchange.bitcoinium.service.marketdata.BitcoiniumTickerJSONTest;
-import com.xeiam.xchange.bitcoinium.service.marketdata.BitcoiniumTradesJSONTest;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Tests the BitcoiniumAdapter class
@@ -71,25 +67,6 @@ public class BitcoiniumAdapterTest {
   }
 
   @Test
-  public void testTradeAdapter() throws IOException {
-
-    // Read in the JSON from the example resources
-    InputStream is = BitcoiniumTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitcoiniumTickerHistory BitcoiniumTrades = mapper.readValue(is, BitcoiniumTickerHistory.class);
-
-    Trades trades = BitcoiniumAdapters.adaptTrades(BitcoiniumTrades, "USD", "BTC");
-    assertThat(trades.getTrades().size()).isEqualTo(116);
-
-    // Verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 138.98);
-    //assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 13.000000000);
-    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-09-15 17:00:24 GMT");
-  }
-
-  @Test
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
@@ -102,10 +79,10 @@ public class BitcoiniumAdapterTest {
     Ticker ticker = BitcoiniumAdapters.adaptTicker(BitcoiniumTicker, "USD", "BTC");
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("USD 132.22874");
-    assertThat(ticker.getLow().toString()).isEqualTo("USD 131.0");
-    assertThat(ticker.getHigh().toString()).isEqualTo("USD 135.99");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("6582"));
+    assertThat(ticker.getLast().toString()).isEqualTo("USD 914.88696");
+    assertThat(ticker.getLow().toString()).isEqualTo("USD 848.479");
+    assertThat(ticker.getHigh().toString()).isEqualTo("USD 932.38");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("13425"));
 
   }
 }

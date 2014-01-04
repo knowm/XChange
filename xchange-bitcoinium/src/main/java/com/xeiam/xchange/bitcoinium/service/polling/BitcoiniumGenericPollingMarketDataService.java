@@ -19,95 +19,86 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcurex.service.polling;
+package com.xeiam.xchange.bitcoinium.service.polling;
 
 import java.io.IOException;
 import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitcurex.Bitcurex;
-import com.xeiam.xchange.bitcurex.BitcurexAdapters;
-import com.xeiam.xchange.bitcurex.BitcurexUtils;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.bitcoinium.Bitcoinium;
+import com.xeiam.xchange.bitcoinium.BitcoiniumAdapters;
+import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
-import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Implementation of the market data service for Bitcurex
+ * Implementation of the market data service for Bitcoinium
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcurexPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+public class BitcoiniumGenericPollingMarketDataService extends BitcoiniumPollingMarketDataService implements PollingMarketDataService {
 
-  private Bitcurex bitcurex;
+  private final Bitcoinium bitcoinium;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BitcurexPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitcoiniumGenericPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchangeSpecification.getSslUri());
   }
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
+
+    String exchange = "";
+
+    if (args.length == 1) {
+      Object arg = args[0];
+      if (!(arg instanceof String)) {
+        throw new ExchangeException("Exchange argument must be a String!");
+      }
+      else {
+        exchange = (String) arg;
+      }
+    }
+    else {
+      throw new ExchangeException("One and only one String argument is allowed!");
+    }
+
     // Request data
-    BitcurexTicker bitcurexTicker = bitcurex.getTicker();
+    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(tradableIdentifier, currency, exchange);
 
     // Adapt to XChange DTOs
-    return BitcurexAdapters.adaptTicker(bitcurexTicker, currency, tradableIdentifier);
+    return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currency, tradableIdentifier);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
 
-    verify(tradableIdentifier, currency);
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexDepth bitcurexDepth = bitcurex.getFullDepth();
-
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = BitcurexAdapters.adaptOrders(bitcurexDepth.getAsks(), currency, OrderType.ASK, "");
-    List<LimitOrder> bids = BitcurexAdapters.adaptOrders(bitcurexDepth.getBids(), currency, OrderType.BID, "");
-
-    return new OrderBook(null, asks, bids);
+    return null;
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    verify(tradableIdentifier, currency);
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexTrade[] bitcurexTrades = bitcurex.getTrades();
-
-    // Adapt to XChange DTOs
-    return BitcurexAdapters.adaptTrades(bitcurexTrades, currency, tradableIdentifier);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -122,14 +113,18 @@ public class BitcurexPollingMarketDataService extends BasePollingExchangeService
 
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BitcurexUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
   }
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    return BitcurexUtils.CURRENCY_PAIRS;
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
 }

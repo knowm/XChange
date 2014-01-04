@@ -72,7 +72,7 @@ public class MtGoxPollingMarketDataService extends BasePollingExchangeService im
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) {
 
     verify(tradableIdentifier, currency);
 

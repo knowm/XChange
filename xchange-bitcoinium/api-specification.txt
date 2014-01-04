@@ -5,17 +5,17 @@ Public API:
 
 Documentation
 ------
-http://bitcoinium.com/service/home
+https://bitcoinium.com/service/home
+
+Ticker History
+------
+https://bitcoinium.com/service/tickerhistory?pair=BTC_USD&timewindow=1h
 
 Ticker
 ------
-http://bitcoinium.com:9090/service/tickerupdate
+https://bitcoinium.com/service/tickerupdate?pair=MTGOX_BTC_USD
 
 Orders
 ------
-http://bitcoinium.com:9090/service/orderbook
-
-Trades
-------
-http://bitcoinium.com:9090/service/tickerhistory
+https://bitcoinium.com/service/orderbook?exchange=mtgox&pair=MTGOX_BTC_USD&pricewindow=10p
 

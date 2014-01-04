@@ -51,25 +51,28 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * </ul>
  */
 public class BitfinexPollingMarketDataService implements PollingMarketDataService {
+
   protected final Bitfinex bitfinex;
   private final List<CurrencyPair> supportedCurrencies = new ArrayList<CurrencyPair>();
   {
     supportedCurrencies.add(CurrencyPair.BTC_USD);
-	supportedCurrencies.add(CurrencyPair.LTC_USD);
-	supportedCurrencies.add(CurrencyPair.LTC_BTC);
+    supportedCurrencies.add(CurrencyPair.LTC_USD);
+    supportedCurrencies.add(CurrencyPair.LTC_BTC);
   }
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitfinexPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+
     bitfinex = RestProxyFactory.createProxy(Bitfinex.class, exchangeSpecification.getSslUri());
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+
     BitfinexTicker btceTicker = bitfinex.getTicker(toPairString(tradableIdentifier, currency));
-    
+
     return BitfinexAdapters.adaptTicker(btceTicker, tradableIdentifier, currency);
   }
 
@@ -78,16 +81,17 @@ public class BitfinexPollingMarketDataService implements PollingMarketDataServic
    */
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
-	int limit_bids = 10;
-	int limit_asks = 10;
-	
-	if(args.length == 2) {
-		limit_bids = (Integer) args[0];
-		limit_asks = (Integer) args[1];
-	}
-	
+
+    int limit_bids = 10;
+    int limit_asks = 10;
+
+    if (args.length == 2) {
+      limit_bids = (Integer) args[0];
+      limit_asks = (Integer) args[1];
+    }
+
     BitfinexDepth btceDepth = bitfinex.getBook(toPairString(tradableIdentifier, currency), limit_bids, limit_asks);
-    
+
     List<LimitOrder> asks = BitfinexAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BitfinexAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
 
@@ -96,22 +100,26 @@ public class BitfinexPollingMarketDataService implements PollingMarketDataServic
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+
     BitfinexTrade[] trades = bitfinex.getTrades(toPairString(tradableIdentifier, currency));
 
     return BitfinexAdapters.adaptTrades(trades, tradableIdentifier, currency);
   }
-  
+
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
-	return supportedCurrencies;
+
+    return supportedCurrencies;
   }
 
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
+
     throw new NotAvailableFromExchangeException();
   }
 
   private static String toPairString(String tradableIdentifier, String currency) {
-	  return tradableIdentifier.toLowerCase() + currency.toLowerCase();
+
+    return tradableIdentifier.toLowerCase() + currency.toLowerCase();
   }
 }

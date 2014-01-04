@@ -24,7 +24,7 @@ package com.xeiam.xchange.bitcoinium;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumPollingMarketDataService;
+import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumGenericPollingMarketDataService;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public class BitcoiniumExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcoiniumPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitcoiniumGenericPollingMarketDataService(exchangeSpecification);
   }
 
   @Override

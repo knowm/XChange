@@ -86,7 +86,7 @@ public class BitcoinChartsPollingMarketDataService extends BasePollingExchangeSe
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 

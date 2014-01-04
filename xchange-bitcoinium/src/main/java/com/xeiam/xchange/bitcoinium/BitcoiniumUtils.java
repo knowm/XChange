@@ -24,9 +24,6 @@ package com.xeiam.xchange.bitcoinium;
 import java.util.Arrays;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.CurrencyPair;
-
 /**
  * A central place for shared Bitcoinium properties
  */
@@ -39,20 +36,34 @@ public final class BitcoiniumUtils {
 
   }
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+  public static final List<String> CURRENCY_PAIRS = Arrays.asList(
 
-		  new CurrencyPair(Currencies.BTC, "mtgox_USD"),
-		  
-		  new CurrencyPair(Currencies.BTC, "mtgox_EUR"),
-		  
-		  new CurrencyPair(Currencies.BTC, "mtgox_GBP"),
-		  
-		  new CurrencyPair(Currencies.BTC, "mtgox_CAD"),
-		  
-		  new CurrencyPair(Currencies.BTC, "mtgox_JPY"),
-		  
-		  new CurrencyPair(Currencies.BTC, "mtgox_PLN")
-		  
+  "MTGOX_BTC_USD",
+
+  "MTGOX_BTC_EUR",
+
+  "MTGOX_BTC_GBP",
+
+  "MTGOX_BTC_CAD",
+
+  "MTGOX_BTC_JPY",
+
+  "MTGOX_BTC_PLN",
+
+  "BITSTAMP_BTC_USD",
+
+  "BTCCHINA_BTC_CNY",
+
+  "BTCE_BTC_EUR",
+
+  "BTCE_BTC_RUR",
+
+  "BTCE_BTC_USD",
+
+  "KRAKEN_BTC_EUR",
+
+  "KRAKEN_BTC_USD"
+
   );
 
   /**
@@ -61,9 +72,23 @@ public final class BitcoiniumUtils {
    * @param currencyPair
    * @return
    */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+  public static boolean isValidCurrencyPair(String currencyPair) {
 
     return CURRENCY_PAIRS.contains(currencyPair);
+  }
+
+  /**
+   * Creates a valid currency pair for Bitcoinium.com
+   * 
+   * @param tradableIdentifier
+   * @param currency
+   * @param exchange
+   * @return
+   */
+  public static String createCurrencyPairString(String tradableIdentifier, String currency, String exchange) {
+
+    return exchange + "_" + tradableIdentifier + "_" + currency;
+
   }
 
 }

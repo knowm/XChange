@@ -65,7 +65,7 @@ public class BitcoinAveragePollingMarketDataService extends BasePollingExchangeS
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency) throws IOException {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -79,21 +79,20 @@ public class BitcoinAveragePollingMarketDataService extends BasePollingExchangeS
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-	throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-	throw new NotAvailableFromExchangeException();
-  }
-  
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
- 
-     throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
 
   /**
    * Verify

@@ -26,8 +26,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import org.junit.Test;
 
 import com.xeiam.xchange.bitcoinium.BitcoiniumUtils;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Test class for BitcoiniumUtils class
@@ -37,7 +35,7 @@ public class BitcoiniumUtilsTest {
   @Test
   public void testIsValidCurrencyPair() {
 
-    assertThat(BitcoiniumUtils.isValidCurrencyPair(new CurrencyPair(Currencies.BTC, "mtgox_USD"))).isTrue();
-    assertThat(BitcoiniumUtils.isValidCurrencyPair(new CurrencyPair(Currencies.BTC, "FFD"))).isFalse();
+    assertThat(BitcoiniumUtils.isValidCurrencyPair("MTGOX_BTC_USD")).isTrue();
+    assertThat(BitcoiniumUtils.isValidCurrencyPair("MTGOX_BTC_XYZ")).isFalse();
   }
 }

@@ -74,7 +74,7 @@
 	<modules>
 		<module>xchange-core</module>
 		<module>xchange-bitcoincharts</module>
-		<!-- <module>xchange-bitcoinium</module> -->
+		<module>xchange-bitcoinium</module>
 		<module>xchange-bitcurex</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-blockchain</module>

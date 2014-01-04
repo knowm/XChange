@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
@@ -38,16 +37,16 @@ public interface Bitcurex {
   @GET
   @Path("ticker.json")
   @Produces("application/json")
-  public BitcurexTicker getTicker(@PathParam("currency") String currency) throws IOException;
+  public BitcurexTicker getTicker() throws IOException;
 
   @GET
   @Path("orderbook.json")
   @Produces("application/json")
-  public BitcurexDepth getFullDepth(@PathParam("currency") String currency) throws IOException;
+  public BitcurexDepth getFullDepth() throws IOException;
 
   @GET
   @Path("trades.json")
   @Produces("application/json")
-  public BitcurexTrade[] getTrades(@PathParam("currency") String currency) throws IOException;
+  public BitcurexTrade[] getTrades() throws IOException;
 
 }

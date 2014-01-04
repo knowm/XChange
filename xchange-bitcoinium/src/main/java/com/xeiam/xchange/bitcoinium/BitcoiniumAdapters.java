@@ -70,7 +70,7 @@ public final class BitcoiniumAdapters {
     String tradableIdentifier = Currencies.BTC;
     BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
 
   }
 
@@ -86,21 +86,22 @@ public final class BitcoiniumAdapters {
   public static List<LimitOrder> adaptOrders(BitcoiniumOrderbook bitcoiniumOrders, String currency, String orderType, String id) {
 
     int listSize = 0;
-	ArrayList<BigDecimal> priceList;
-	ArrayList<BigDecimal> amountList;
+    ArrayList<BigDecimal> priceList;
+    ArrayList<BigDecimal> amountList;
 
-    if(orderType.equals("ask")){
-    	priceList = bitcoiniumOrders.getAskPriceList();
-    	amountList = bitcoiniumOrders.getAskVolumeList();  
-    } else {
-    	priceList = bitcoiniumOrders.getBidPriceList();
-    	amountList = bitcoiniumOrders.getBidVolumeList();
+    if (orderType.equals("ask")) {
+      priceList = bitcoiniumOrders.getAskPriceList();
+      amountList = bitcoiniumOrders.getAskVolumeList();
     }
-	listSize = priceList.size();
-    
+    else {
+      priceList = bitcoiniumOrders.getBidPriceList();
+      amountList = bitcoiniumOrders.getBidVolumeList();
+    }
+    listSize = priceList.size();
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (int i = 0; i < listSize; i++) {
-    	limitOrders.add(adaptOrder(amountList.get(i), priceList.get(i), currency, orderType, id));
+      limitOrders.add(adaptOrder(amountList.get(i), priceList.get(i), currency, orderType, id));
     }
 
     return limitOrders;
@@ -118,15 +119,15 @@ public final class BitcoiniumAdapters {
     long baseTime = bitcoiniumTrades.getBaseTimestamp();
 
     for (int i = 0; bitcoiniumTrades.getPriceHistoryList().size() > i; i++) {
-    	
-    	BigMoney price = MoneyUtils.parse(currency + " " + bitcoiniumTrades.getPriceHistoryList().get(i));
-    	
-    	// Get the date by adding the time delta of each trade to base timestamp
-    	long delta = bitcoiniumTrades.getTimeStampOffsets().get(i).longValue();
-    	baseTime += delta;
-    	Date date = DateUtils.fromMillisUtc(baseTime* 1000L);
-    	
-    	tradesList.add(new Trade(null, null, tradableIdentifier, currency, price, date, 0L));
+
+      BigMoney price = MoneyUtils.parse(currency + " " + bitcoiniumTrades.getPriceHistoryList().get(i));
+
+      // Get the date by adding the time delta of each trade to base timestamp
+      long delta = bitcoiniumTrades.getTimeStampOffsets().get(i).longValue();
+      baseTime += delta;
+      Date date = DateUtils.fromMillisUtc(baseTime * 1000L);
+
+      tradesList.add(new Trade(null, null, tradableIdentifier, currency, price, date, 0L));
     }
     return new Trades(tradesList);
   }

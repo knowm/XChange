@@ -29,65 +29,73 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Data object representing Ticker from Bitcoinium Web Service
  */
 public final class BitcoiniumTicker {
-    private final BigDecimal last;
-    private final BigDecimal timestamp;
-    private final BigDecimal volume;
-    private final BigDecimal high;
-    private final BigDecimal low;
-    private final BigDecimal bid;
-    private final BigDecimal ask;
 
-    public BitcoiniumTicker(
-            @JsonProperty("l") BigDecimal last, 
-            @JsonProperty("t") BigDecimal timestamp, 
-            @JsonProperty("v") BigDecimal volume,
-            @JsonProperty("h") BigDecimal high,
-            @JsonProperty("lo") BigDecimal low,
-            @JsonProperty("b") BigDecimal bid,
-            @JsonProperty("a") BigDecimal ask) {
-        
-        this.last = last;
-        this.timestamp = timestamp;
-        this.volume = volume;
-       	this.high = high;
-       	this.low = low;
-       	this.bid = bid;
-       	this.ask = ask;
-    }
+  private final BigDecimal last;
+  private final BigDecimal timestamp;
+  private final BigDecimal volume;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal bid;
+  private final BigDecimal ask;
+  private final boolean isAllTimeHigh;
 
-    public BigDecimal getLast() {
-        return this.last;
-    }
+  public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") BigDecimal timestamp, @JsonProperty("v") BigDecimal volume, @JsonProperty("h") BigDecimal high,
+      @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask, @JsonProperty("ath") String isAllTimeHigh) {
 
-    public BigDecimal getTimestamp() {
-        return this.timestamp;
-    }
+    this.last = last;
+    this.timestamp = timestamp;
+    this.volume = volume;
+    this.high = high;
+    this.low = low;
+    this.bid = bid;
+    this.ask = ask;
+    this.isAllTimeHigh = isAllTimeHigh.equals("T");
+  }
 
-    public BigDecimal getVolume() {
-        return this.volume;
-    }
-    
-    public BigDecimal getHigh() {
-        return this.high;
-    }
+  public BigDecimal getLast() {
 
-    public BigDecimal getLow() {
-        return this.low;
-    }
+    return this.last;
+  }
 
-    public BigDecimal getBid() {
-        return this.bid;
-    }
-    
-    public BigDecimal getAsk() {
-        return this.ask;
-    }
+  public BigDecimal getTimestamp() {
 
-	@Override
-	public String toString() {
-		return "BitcoiniumTicker [last=" + last + ", timestamp=" + timestamp
-				+ ", volume=" + volume + ", high=" + high + ", low=" + low
-				+ ", bid=" + bid + ", ask=" + ask + "]";
-	}
-    
+    return this.timestamp;
+  }
+
+  public BigDecimal getVolume() {
+
+    return this.volume;
+  }
+
+  public BigDecimal getHigh() {
+
+    return this.high;
+  }
+
+  public BigDecimal getLow() {
+
+    return this.low;
+  }
+
+  public BigDecimal getBid() {
+
+    return this.bid;
+  }
+
+  public BigDecimal getAsk() {
+
+    return this.ask;
+  }
+
+  public boolean isAllTimeHigh() {
+
+    return isAllTimeHigh;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BitcoiniumTicker [last=" + last + ", timestamp=" + timestamp + ", volume=" + volume + ", high=" + high + ", low=" + low + ", bid=" + bid + ", ask=" + ask + "]";
+  }
+
 }

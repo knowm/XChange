@@ -33,15 +33,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 
 /**
- * Test BitcoiniumTrade[] JSON parsing
+ * Test BitcoiniumTickerHistory JSON parsing
  */
-public class BitcoiniumTradesJSONTest {
+public class BitcoiniumTickerHistoryJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoiniumTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = BitcoiniumTickerHistoryJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
