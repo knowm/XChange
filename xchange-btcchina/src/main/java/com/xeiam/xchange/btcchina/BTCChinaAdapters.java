@@ -233,7 +233,6 @@ public final class BTCChinaAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     if (orders != null) {
       for (BTCChinaOrder order : orders) {
-        System.out.println(order);
         if (order.getStatus().equals("open")) {
           LimitOrder limitOrder = adaptLimitOrder(order);
           if (limitOrder != null) {
