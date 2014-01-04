@@ -25,8 +25,8 @@ import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 
@@ -37,8 +37,8 @@ import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 public interface OER {
 
   @GET
-  @Path("latest.json?app_id={app_id}")
+  @Path("latest.json")
   @Produces("application/json")
-  public OERTickers getTickers(@PathParam("app_id") String appId) throws IOException;
+  public OERTickers getTickers(@QueryParam("app_id") String appId) throws IOException;
 
 }
