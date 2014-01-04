@@ -23,6 +23,7 @@ package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
 
@@ -84,4 +85,7 @@ public final class BTCChinaUtils {
     return new BigDecimal(new BigInteger(value.getAmountInteger()), value.getAmountDecimal().intValue());
   }
 
+  public static BigDecimal truncateAmount(BigDecimal value) {
+    return value.setScale(3, RoundingMode.FLOOR).stripTrailingZeros();
+  }
 }
