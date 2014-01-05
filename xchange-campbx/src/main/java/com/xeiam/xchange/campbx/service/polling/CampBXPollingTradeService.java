@@ -96,7 +96,7 @@ public class CampBXPollingTradeService extends BasePollingExchangeService implem
         }
         else {
 
-          String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
+          String id = composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID());
           BigMoney price = BigMoney.of(CurrencyUnit.USD, cbo.getPrice());
           orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", id, cbo.getOrderEntered(), price));
         }
