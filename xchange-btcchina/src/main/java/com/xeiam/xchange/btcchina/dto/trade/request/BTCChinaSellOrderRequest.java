@@ -23,6 +23,7 @@ package com.xeiam.xchange.btcchina.dto.trade.request;
 
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
 /**
@@ -39,7 +40,7 @@ public final class BTCChinaSellOrderRequest extends BTCChinaRequest {
   public BTCChinaSellOrderRequest(BigDecimal price, BigDecimal amount) {
 
     method = "sellOrder";
-    params = "[" + price.toPlainString() + "," + amount.toPlainString() + "]";
+    params = "[" + price.toPlainString() + "," + BTCChinaUtils.truncateAmount(amount).toPlainString() + "]";
   }
 
   @Override

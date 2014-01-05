@@ -23,6 +23,7 @@ package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -92,7 +93,7 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
 
     long nonce = BTCChinaUtils.getNonce();
 
-    BTCChinaGetOrdersResponse response = null;
+    BTCChinaBooleanResponse response = null;
 
     if (limitOrder.getType() == OrderType.BID) {
 
@@ -105,14 +106,14 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
 
     }
 
-    return "" + response.getResult().getOrders().get(0).getId();
+    return "" + response.getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCChinaGetOrdersResponse response = btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
-    return false;
+    BTCChinaBooleanResponse response = btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
+    return response.getResult();
   }
 
   @Override

@@ -22,7 +22,9 @@
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
+import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
 /**
@@ -39,7 +41,7 @@ public final class BTCChinaBuyOrderRequest extends BTCChinaRequest {
   public BTCChinaBuyOrderRequest(BigDecimal price, BigDecimal amount) {
 
     method = "buyOrder";
-    params = "[" + price.toPlainString() + "," + amount.toPlainString() + "]";
+    params = "[" + price.toPlainString() + "," + BTCChinaUtils.truncateAmount(amount).toPlainString() + "]";
   }
 
   @Override
