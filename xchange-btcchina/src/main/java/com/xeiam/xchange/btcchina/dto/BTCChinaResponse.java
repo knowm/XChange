@@ -33,7 +33,7 @@ public class BTCChinaResponse<V> {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */

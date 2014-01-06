@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.btcchina.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * @author David Yam
@@ -41,7 +41,7 @@ public class BTCChinaOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param type
    * @param price
@@ -52,7 +52,7 @@ public class BTCChinaOrder {
    * @param status
    */
   public BTCChinaOrder(@JsonProperty("id") long id, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("date") long date, @JsonProperty("status") String status) {
+                       @JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("date") long date, @JsonProperty("status") String status) {
 
     this.id = id;
     this.type = type;

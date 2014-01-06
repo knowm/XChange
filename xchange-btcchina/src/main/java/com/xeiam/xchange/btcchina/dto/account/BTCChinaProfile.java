@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.btcchina.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * @author David Yam
@@ -40,7 +40,7 @@ public class BTCChinaProfile {
 
   /**
    * Constructor
-   * 
+   *
    * @param username
    * @param tradePasswordEnabled
    * @param otpEnabled
@@ -50,8 +50,8 @@ public class BTCChinaProfile {
    * @param btcWithdrawalAddress
    */
   public BTCChinaProfile(@JsonProperty("username") String username, @JsonProperty("trade_password_enabled") Boolean tradePasswordEnabled, @JsonProperty("otp_enabled") Boolean otpEnabled,
-      @JsonProperty("trade_fee") BigDecimal tradeFee, @JsonProperty("daily_btc_limit") BigDecimal dailyBtcLimit, @JsonProperty("btc_deposit_address") String btcDepositAddress,
-      @JsonProperty("btc_withdrawal_address") String btcWithdrawalAddress) {
+                         @JsonProperty("trade_fee") BigDecimal tradeFee, @JsonProperty("daily_btc_limit") BigDecimal dailyBtcLimit, @JsonProperty("btc_deposit_address") String btcDepositAddress,
+                         @JsonProperty("btc_withdrawal_address") String btcWithdrawalAddress) {
 
     this.username = username;
     this.tradePasswordEnabled = tradePasswordEnabled;

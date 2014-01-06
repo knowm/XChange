@@ -32,7 +32,7 @@ public class BTCChinaRequestWithdrawalResponse extends BTCChinaResponse<BTCChina
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */

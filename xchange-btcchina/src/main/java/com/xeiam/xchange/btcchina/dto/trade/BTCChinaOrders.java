@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.btcchina.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * @author David Yam

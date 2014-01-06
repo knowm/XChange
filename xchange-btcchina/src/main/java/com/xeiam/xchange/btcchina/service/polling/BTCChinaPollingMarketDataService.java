@@ -21,11 +21,6 @@
  */
 package com.xeiam.xchange.btcchina.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -45,6 +40,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -60,7 +59,7 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCChinaPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -105,20 +104,16 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
 
     if (args.length == 0) {
       btcChinaTrades = btcChina.getTrades(); // default values: offset=0, limit=100
-    }
-    else if (args.length == 1) {
+    } else if (args.length == 1) {
       Object arg0 = args[0];
 
       if (arg0 instanceof Integer) {
         Integer sinceTransactionID = (Integer) args[0];
         btcChinaTrades = btcChina.getTrades(sinceTransactionID); // default values: since=100
-      }
-      else {
+      } else {
         throw new ExchangeException("args[0] must be of type Integer!");
       }
-    }
-
-    else {
+    } else {
       throw new ExchangeException("Invalid argument length. Must be 0, or 1");
     }
     // Adapt to XChange DTOs
@@ -133,7 +128,7 @@ public class BTCChinaPollingMarketDataService extends BasePollingExchangeService
 
   /**
    * Verify
-   * 
+   *
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */

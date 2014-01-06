@@ -21,19 +21,6 @@
  */
 package com.xeiam.xchange.btcchina;
 
-import java.io.IOException;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
-import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetAccountInfoResponse;
@@ -45,7 +32,12 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import java.io.IOException;
 
 @Path("/")
 public interface BTCChina {
@@ -77,14 +69,14 @@ public interface BTCChina {
   @Consumes("application/json")
   @Produces("application/json")
   public BTCChinaGetAccountInfoResponse getAccountInfo(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
-      BTCChinaGetAccountInfoRequest getAccountInfoRequest) throws IOException;
+                                                       BTCChinaGetAccountInfoRequest getAccountInfoRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes("application/json")
   @Produces("application/json")
   public BTCChinaRequestWithdrawalResponse requestWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
-      BTCChinaRequestWithdrawalRequest requestWithdrawalRequest) throws IOException;
+                                                             BTCChinaRequestWithdrawalRequest requestWithdrawalRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
@@ -98,7 +90,7 @@ public interface BTCChina {
   @Consumes("application/json")
   @Produces("application/json")
   public BTCChinaBooleanResponse
-      cancelOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaCancelOrderRequest cancelOrderRequest) throws IOException;
+  cancelOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaCancelOrderRequest cancelOrderRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
