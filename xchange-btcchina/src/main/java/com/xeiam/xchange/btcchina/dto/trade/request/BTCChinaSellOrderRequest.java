@@ -21,10 +21,10 @@
  */
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
+
+import java.math.BigDecimal;
 
 /**
  * @author David Yam
@@ -33,8 +33,8 @@ public final class BTCChinaSellOrderRequest extends BTCChinaRequest {
 
   /**
    * Constructor
-   * 
-   * @param price unit price to sell at
+   *
+   * @param price  unit price to sell at
    * @param amount number of units to sell
    */
   public BTCChinaSellOrderRequest(BigDecimal price, BigDecimal amount) {

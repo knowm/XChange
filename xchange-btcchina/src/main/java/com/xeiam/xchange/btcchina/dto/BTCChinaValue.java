@@ -21,9 +21,9 @@
  */
 package com.xeiam.xchange.btcchina.dto;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * @author David Yam
@@ -37,7 +37,7 @@ public class BTCChinaValue {
   private final BigDecimal amountDecimal;
 
   public BTCChinaValue(@JsonProperty("currency") String currency, @JsonProperty("symbol") String symbol, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("amount_integer") String amountInteger, @JsonProperty("amount_decimal") BigDecimal amountDecimal) {
+                       @JsonProperty("amount_integer") String amountInteger, @JsonProperty("amount_decimal") BigDecimal amountDecimal) {
 
     this.currency = currency;
     this.symbol = symbol;

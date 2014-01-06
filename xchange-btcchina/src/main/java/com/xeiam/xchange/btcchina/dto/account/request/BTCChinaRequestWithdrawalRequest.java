@@ -21,11 +21,10 @@
  */
 package com.xeiam.xchange.btcchina.dto.account.request;
 
-import java.math.BigDecimal;
-
+import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 import org.joda.money.CurrencyUnit;
 
-import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
+import java.math.BigDecimal;
 
 /**
  * @author David Yam
@@ -34,7 +33,7 @@ public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param currencyUnit
    * @param amount
    */

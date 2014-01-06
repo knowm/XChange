@@ -41,7 +41,7 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param openOnly
    */
   public BTCChinaGetOrdersRequest(Boolean openOnly) {

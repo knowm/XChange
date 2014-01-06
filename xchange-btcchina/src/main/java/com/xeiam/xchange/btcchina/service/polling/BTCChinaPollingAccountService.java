@@ -21,14 +21,6 @@
  */
 package com.xeiam.xchange.btcchina.service.polling;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import org.joda.money.CurrencyUnit;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
@@ -43,6 +35,12 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
+import org.joda.money.CurrencyUnit;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -62,7 +60,7 @@ public class BTCChinaPollingAccountService extends BasePollingExchangeService im
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCChinaPollingAccountService(ExchangeSpecification exchangeSpecification) {

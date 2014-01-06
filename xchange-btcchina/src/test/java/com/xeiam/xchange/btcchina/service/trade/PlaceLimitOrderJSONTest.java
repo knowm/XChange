@@ -21,16 +21,15 @@
  */
 package com.xeiam.xchange.btcchina.service.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
-import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test Transaction[] JSON parsing

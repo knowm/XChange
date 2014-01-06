@@ -30,7 +30,7 @@ public final class BTCChinaCancelOrderRequest extends BTCChinaRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param orderId
    */
   public BTCChinaCancelOrderRequest(long orderId) {

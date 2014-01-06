@@ -21,12 +21,6 @@
  */
 package com.xeiam.xchange.btcchina.service.polling;
 
-import java.io.IOException;
-
-import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
@@ -39,7 +33,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
-import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -50,6 +44,10 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
 
 public class BTCChinaPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
@@ -61,7 +59,7 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
   public BTCChinaPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -99,8 +97,7 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
 
       response = btcchina.buyOrder(signatureCreator, nonce, new BTCChinaBuyOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
 
-    }
-    else if (limitOrder.getType() == OrderType.ASK) {
+    } else if (limitOrder.getType() == OrderType.ASK) {
 
       response = btcchina.sellOrder(signatureCreator, nonce, new BTCChinaSellOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
 
@@ -124,9 +121,9 @@ public class BTCChinaPollingTradeService extends BasePollingExchangeService impl
 
   /**
    * Verify
-   * 
+   *
    * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency The transaction currency (e.g. USD in BTC/USD)
+   * @param currency           The transaction currency (e.g. USD in BTC/USD)
    */
   private void verify(String tradableIdentifier, String currency) {
 

@@ -29,7 +29,6 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -40,13 +39,14 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
 
 /**
  * Various adapters for converting from BTCChina DTOs to XChange DTOs
@@ -174,6 +174,7 @@ public final class BTCChinaAdapters {
   // * @return
   // */
   // todo: can't have <> in javadoc
+
   /**
    * @param balances
    * @param frozens
@@ -211,8 +212,7 @@ public final class BTCChinaAdapters {
       BigDecimal frozenAmount = BTCChinaUtils.valueToBigDecimal(frozen);
       BigMoney cash = BigMoney.of(CurrencyUnit.of(balance.getCurrency()), balanceAmount.add(frozenAmount));
       return new Wallet(balance.getCurrency(), cash);
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -224,6 +224,7 @@ public final class BTCChinaAdapters {
   // * @return
   // */
   // todo: can't have <> in javadoc
+
   /**
    * @param orders
    * @return

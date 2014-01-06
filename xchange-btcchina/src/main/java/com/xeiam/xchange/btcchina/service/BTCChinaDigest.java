@@ -21,21 +21,19 @@
  */
 package com.xeiam.xchange.btcchina.service;
 
+import com.xeiam.xchange.btcchina.BTCChinaUtils;
+import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestInvocation;
+
+import javax.crypto.Mac;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import si.mazi.rescu.BasicAuthCredentials;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocation;
-
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
 
 /**
  * @author David Yam
@@ -48,7 +46,7 @@ public class BTCChinaDigest implements ParamsDigest {
 
   /**
    * Constructor
-   * 
+   *
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */

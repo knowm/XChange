@@ -32,7 +32,7 @@ public class BTCChinaGetOrdersResponse extends BTCChinaResponse<BTCChinaOrders> 
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */
