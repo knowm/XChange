@@ -32,6 +32,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitcoinium.Bitcoinium;
 import com.xeiam.xchange.bitcoinium.BitcoiniumAdapters;
+import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
@@ -39,7 +40,6 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -49,7 +49,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoiniumGenericPollingMarketDataService extends BitcoiniumPollingMarketDataService implements PollingMarketDataService {
+public class BitcoiniumGenericMarketDataService extends BitcoiniumMarketDataService implements PollingMarketDataService {
 
   private final Bitcoinium bitcoinium;
 
@@ -58,7 +58,7 @@ public class BitcoiniumGenericPollingMarketDataService extends BitcoiniumPolling
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BitcoiniumGenericPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitcoiniumGenericMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
     this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchangeSpecification.getSslUri());
@@ -66,8 +66,6 @@ public class BitcoiniumGenericPollingMarketDataService extends BitcoiniumPolling
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    verify(tradableIdentifier, currency);
 
     String exchange = "";
 
@@ -94,25 +92,40 @@ public class BitcoiniumGenericPollingMarketDataService extends BitcoiniumPolling
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
 
-    return null;
+    String exchange = "";
+    String priceWindow = "";
+
+    if (args.length == 2) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof String)) {
+        throw new ExchangeException("Exchange argument must be a String!");
+      }
+      else {
+        exchange = (String) arg0;
+      }
+      Object arg1 = args[1];
+      if (!(arg1 instanceof String)) {
+        throw new ExchangeException("priceWindow argument must be a String!");
+      }
+      else {
+        priceWindow = (String) arg1;
+      }
+    }
+    else {
+      throw new ExchangeException("Exactly 2 String arguments are necessary: exchange, and priceWindow!");
+    }
+
+    // Request data
+    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(tradableIdentifier, currency, exchange, priceWindow);
+
+    // Adapt to XChange DTOs
+    return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, tradableIdentifier, currency);
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
   }
 
   @Override

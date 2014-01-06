@@ -39,6 +39,18 @@ public final class BitcoiniumTicker {
   private final BigDecimal ask;
   private final boolean isAllTimeHigh;
 
+  /**
+   * Constructor
+   * 
+   * @param last
+   * @param timestamp
+   * @param volume
+   * @param high
+   * @param low
+   * @param bid
+   * @param ask
+   * @param isAllTimeHigh
+   */
   public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") BigDecimal timestamp, @JsonProperty("v") BigDecimal volume, @JsonProperty("h") BigDecimal high,
       @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask, @JsonProperty("ath") String isAllTimeHigh) {
 

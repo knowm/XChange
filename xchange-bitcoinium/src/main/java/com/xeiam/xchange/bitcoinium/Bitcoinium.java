@@ -23,7 +23,6 @@ package com.xeiam.xchange.bitcoinium;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
@@ -34,7 +33,6 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 /**
  * @author veken0m
  */
-
 @Path("service")
 public interface Bitcoinium {
 
@@ -44,15 +42,13 @@ public interface Bitcoinium {
   public BitcoiniumTicker getTicker(@QueryParam("pair") String pair);
 
   @GET
-  @Path("orderbook?exchange={exchange}&pair={baseCurrency}_{currency}&pricewindow={window}")
+  @Path("orderbook")
   @Produces("application/json")
-  public BitcoiniumOrderbook getFullDepth(@PathParam("exchange") String exchange, @PathParam("currency") String currency, @PathParam("baseCurrency") String baseCurrency,
-      @PathParam("window") String window);
+  public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("pricewindow") String pricewindow);
 
   @GET
-  @Path("tickerhistory?exchange={exchange}&pair={baseCurrency}_{currency}&timewindow={window}")
+  @Path("tickerhistory")
   @Produces("application/json")
-  public BitcoiniumTickerHistory getTrades(@PathParam("exchange") String exchange, @PathParam("currency") String currency, @PathParam("baseCurrency") String baseCurrency,
-      @PathParam("window") String window);
+  public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("timewindow") String timewindow);
 
 }

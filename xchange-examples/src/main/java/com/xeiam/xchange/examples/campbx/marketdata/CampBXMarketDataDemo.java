@@ -44,7 +44,7 @@ public class CampBXMarketDataDemo {
     // Use the factory to get CampBX exchange API using default settings
     Exchange campBXExchange = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
     generic(campBXExchange);
-    campbx(campBXExchange);
+    raw(campBXExchange);
   }
 
   private static void generic(Exchange campBXExchange) throws IOException {
@@ -65,7 +65,7 @@ public class CampBXMarketDataDemo {
     System.out.println("Order book: " + orderBook);
   }
 
-  private static void campbx(Exchange campBXExchange) throws IOException {
+  private static void raw(Exchange campBXExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
     CampBXPollingMarketDataService campBXspecificMarketDataService = (CampBXPollingMarketDataService) campBXExchange.getPollingMarketDataService();

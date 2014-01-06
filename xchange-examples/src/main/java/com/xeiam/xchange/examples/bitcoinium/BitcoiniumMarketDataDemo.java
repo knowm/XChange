@@ -27,9 +27,11 @@ import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
+import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
-import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumPollingMarketDataService;
+import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -45,7 +47,7 @@ public class BitcoiniumMarketDataDemo {
     // Use the factory to get Bitcoinium exchange API using default settings
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
     generic(bitcoiniumExchange);
-    specific(bitcoiniumExchange);
+    raw(bitcoiniumExchange);
   }
 
   private static void generic(Exchange exchange) throws IOException {
@@ -61,16 +63,16 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Ask: " + ticker.getAsk());
     System.out.println("Volume: " + ticker.getVolume());
 
-    // // Get the latest order book data for BTC/USD
-    // OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
-    //
-    // System.out.println("Order book: " + orderBook);
+    // Get the latest order book data for BTC/USD
+    OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
+
+    System.out.println("Order book: " + orderBook);
   }
 
-  private static void specific(Exchange exchange) throws IOException {
+  private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    BitcoiniumPollingMarketDataService bitcoiniumSpecificMarketDataService = (BitcoiniumPollingMarketDataService) exchange.getPollingMarketDataService();
+    BitcoiniumMarketDataService bitcoiniumSpecificMarketDataService = (BitcoiniumMarketDataService) exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     BitcoiniumTicker bitcoiniumTicker = bitcoiniumSpecificMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "MTGOX");
@@ -80,10 +82,9 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Ask: " + bitcoiniumTicker.getAsk());
     System.out.println("Volume: " + bitcoiniumTicker.getVolume());
 
-    // Get the latest order book data for BTC/USD
-    // CampBXOrderBook campBXOrderBook = bitcoiniumSpecificMarketDataService.getCampBXOrderBook(Currencies.BTC, Currencies.USD);
-    //
-    // System.out.println("Order book: " + campBXOrderBook);
-  }
+    // Get the latest order book data for BTC/USD - MtGox
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
 
+    System.out.println("Order book: " + bitcoiniumOrderbook);
+  }
 }

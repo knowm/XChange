@@ -26,7 +26,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -37,8 +36,8 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.service.marketdata.BitcoiniumDepthJSONTest;
 import com.xeiam.xchange.bitcoinium.service.marketdata.BitcoiniumTickerJSONTest;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Tests the BitcoiniumAdapter class
@@ -53,17 +52,16 @@ public class BitcoiniumAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoiniumOrderbook BitcoiniumDepth = mapper.readValue(is, BitcoiniumOrderbook.class);
+    BitcoiniumOrderbook bitcoiniumDepth = mapper.readValue(is, BitcoiniumOrderbook.class);
 
-    List<LimitOrder> asks = BitcoiniumAdapters.adaptOrders(BitcoiniumDepth, "USD", "ask", "");
+    OrderBook orderBook = BitcoiniumAdapters.adaptOrderbook(bitcoiniumDepth, "BTC", "USD");
 
     // Verify all fields filled
-    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(132.79);
-    assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(45.98);
-    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
-    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("USD");
-
+    assertThat(orderBook.getAsks().get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(132.79);
+    assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(OrderType.ASK);
+    assertThat(orderBook.getAsks().get(0).getTradableAmount().doubleValue()).isEqualTo(45.98);
+    assertThat(orderBook.getAsks().get(0).getTradableIdentifier()).isEqualTo("BTC");
+    assertThat(orderBook.getAsks().get(0).getTransactionCurrency()).isEqualTo("USD");
   }
 
   @Test

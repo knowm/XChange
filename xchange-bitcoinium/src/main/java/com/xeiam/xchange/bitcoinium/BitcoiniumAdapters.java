@@ -27,19 +27,16 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
-import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from Bitcoinium DTOs to XChange DTOs
@@ -51,90 +48,6 @@ public final class BitcoiniumAdapters {
    */
   private BitcoiniumAdapters() {
 
-  }
-
-  /**
-   * Adapts a BitcoiniumOrder to a LimitOrder
-   * 
-   * @param amount
-   * @param price
-   * @param currency
-   * @param orderTypeString
-   * @param id
-   * @return
-   */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, String orderTypeString, String id) {
-
-    // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    String tradableIdentifier = Currencies.BTC;
-    BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
-
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
-
-  }
-
-  /**
-   * Adapts a List of bitcoiniumOrders to a List of LimitOrders
-   * 
-   * @param bitcoiniumOrders
-   * @param currency
-   * @param orderType
-   * @param id
-   * @return
-   */
-  public static List<LimitOrder> adaptOrders(BitcoiniumOrderbook bitcoiniumOrders, String currency, String orderType, String id) {
-
-    int listSize = 0;
-    ArrayList<BigDecimal> priceList;
-    ArrayList<BigDecimal> amountList;
-
-    if (orderType.equals("ask")) {
-      priceList = bitcoiniumOrders.getAskPriceList();
-      amountList = bitcoiniumOrders.getAskVolumeList();
-    }
-    else {
-      priceList = bitcoiniumOrders.getBidPriceList();
-      amountList = bitcoiniumOrders.getBidVolumeList();
-    }
-    listSize = priceList.size();
-
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (int i = 0; i < listSize; i++) {
-      limitOrders.add(adaptOrder(amountList.get(i), priceList.get(i), currency, orderType, id));
-    }
-
-    return limitOrders;
-  }
-
-  /**
-   * Adapts a BitcoiniumTickerHistory[] to a Trades Object
-   * 
-   * @param TradesList The Bitcoinium trade data
-   * @return The trades
-   */
-  public static Trades adaptTrades(BitcoiniumTickerHistory bitcoiniumTrades, String currency, String tradableIdentifier) {
-
-    List<Trade> tradesList = new ArrayList<Trade>();
-    long baseTime = bitcoiniumTrades.getBaseTimestamp();
-
-    for (int i = 0; bitcoiniumTrades.getPriceHistoryList().size() > i; i++) {
-
-      BigMoney price = MoneyUtils.parse(currency + " " + bitcoiniumTrades.getPriceHistoryList().get(i));
-
-      // Get the date by adding the time delta of each trade to base timestamp
-      long delta = bitcoiniumTrades.getTimeStampOffsets().get(i).longValue();
-      baseTime += delta;
-      Date date = DateUtils.fromMillisUtc(baseTime * 1000L);
-
-      tradesList.add(new Trade(null, null, tradableIdentifier, currency, price, date, 0L));
-    }
-    return new Trades(tradesList);
-  }
-
-  public static String getPriceString(BigMoney price) {
-
-    return price.getAmount().stripTrailingZeros().toPlainString();
   }
 
   /**
@@ -155,4 +68,31 @@ public final class BitcoiniumAdapters {
     return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).withAsk(ask).withBid(bid).build();
   }
 
+  /**
+   * Adapts a BitcoiniumOrderbook to a OrderBook Object
+   * 
+   * @param bitcoiniumOrderbook
+   * @param currency The currency (e.g. USD in BTC/USD)
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @return the XChange OrderBook
+   */
+  public static OrderBook adaptOrderbook(BitcoiniumOrderbook bitcoiniumOrderbook, String tradableIdentifier, String currency) {
+
+    List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitcoiniumOrderbook.getAskPriceList(), bitcoiniumOrderbook.getAskVolumeList());
+    List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitcoiniumOrderbook.getBidPriceList(), bitcoiniumOrderbook.getBidVolumeList());
+    Date date = new Date(bitcoiniumOrderbook.getTimestamp()); // Note, this is the timestamp of the piggy-backed Ticker.
+    return new OrderBook(date, asks, bids);
+
+  }
+
+  private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<BigDecimal> prices, List<BigDecimal> volumes) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    for (int i = 0; i < prices.size(); i++) {
+
+      LimitOrder limitOrder = new LimitOrder(orderType, volumes.get(i), tradableIdentifier, currency, "", null, BigMoney.of(CurrencyUnit.getInstance(currency), prices.get(i)));
+      limitOrders.add(limitOrder);
+    }
+    return limitOrders;
+  }
 }

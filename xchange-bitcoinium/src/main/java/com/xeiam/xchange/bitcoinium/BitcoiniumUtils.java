@@ -66,6 +66,18 @@ public final class BitcoiniumUtils {
 
   );
 
+  public static final List<String> PRICE_WINDOW = Arrays.asList(
+
+  "2p", "5", "10p", "20p", "50p", "100p"
+
+  );
+
+  public static final List<String> TIME_WINDOW = Arrays.asList(
+
+  "10m", "1h", "3h", "12h", "24h", "3d", "7d", "30d", "2M"
+
+  );
+
   /**
    * Checks if a given CurrencyPair is covered by this exchange
    * 
@@ -91,4 +103,25 @@ public final class BitcoiniumUtils {
 
   }
 
+  /**
+   * Checks if a given PriceWindow is covered by this exchange
+   * 
+   * @param priceWindow
+   * @return
+   */
+  public static boolean isValidPriceWindow(String priceWindow) {
+
+    return PRICE_WINDOW.contains(priceWindow);
+  }
+
+  /**
+   * Checks if a given TimeWindow is covered by this exchange
+   * 
+   * @param timeWindow
+   * @return
+   */
+  public static boolean isValidTimeWindow(String timeWindow) {
+
+    return TIME_WINDOW.contains(timeWindow);
+  }
 }

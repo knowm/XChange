@@ -22,7 +22,7 @@
 package com.xeiam.xchange.bitcoinium.dto.marketdata;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,10 +31,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitcoiniumOrderbook {
 
-  private final ArrayList<BigDecimal> ap;
-  private final ArrayList<BigDecimal> av;
-  private final ArrayList<BigDecimal> bp;
-  private final ArrayList<BigDecimal> bv;
+  private final List<BigDecimal> askPrices;
+  private final List<BigDecimal> askVolumes;
+  private final List<BigDecimal> bidPrices;
+  private final List<BigDecimal> bidVolumes;
   private final BigDecimal high;
   private final BigDecimal low;
   private final BigDecimal bid;
@@ -43,14 +43,29 @@ public final class BitcoiniumOrderbook {
   private final BigDecimal volume;
   private final long timestamp;
 
-  public BitcoiniumOrderbook(@JsonProperty("ap") ArrayList<BigDecimal> ap, @JsonProperty("av") ArrayList<BigDecimal> av, @JsonProperty("bp") ArrayList<BigDecimal> bp,
-      @JsonProperty("bv") ArrayList<BigDecimal> bv, @JsonProperty("l") BigDecimal last, @JsonProperty("h") BigDecimal high, @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid,
-      @JsonProperty("a") BigDecimal ask, @JsonProperty("v") BigDecimal volume, @JsonProperty("t") long timestamp) {
+  /**
+   * Constructor
+   * 
+   * @param ap
+   * @param av
+   * @param bp
+   * @param bv
+   * @param last
+   * @param high
+   * @param low
+   * @param bid
+   * @param ask
+   * @param volume
+   * @param timestamp
+   */
+  public BitcoiniumOrderbook(@JsonProperty("ap") List<BigDecimal> ap, @JsonProperty("av") List<BigDecimal> av, @JsonProperty("bp") List<BigDecimal> bp, @JsonProperty("bv") List<BigDecimal> bv,
+      @JsonProperty("l") BigDecimal last, @JsonProperty("h") BigDecimal high, @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask,
+      @JsonProperty("v") BigDecimal volume, @JsonProperty("t") long timestamp) {
 
-    this.ap = ap;
-    this.av = av;
-    this.bp = bp;
-    this.bv = bv;
+    this.askPrices = ap;
+    this.askVolumes = av;
+    this.bidPrices = bp;
+    this.bidVolumes = bv;
     this.last = last;
     this.volume = volume;
     this.high = high;
@@ -60,24 +75,24 @@ public final class BitcoiniumOrderbook {
     this.timestamp = timestamp;
   }
 
-  public ArrayList<BigDecimal> getAskPriceList() {
+  public List<BigDecimal> getAskPriceList() {
 
-    return this.ap;
+    return this.askPrices;
   }
 
-  public ArrayList<BigDecimal> getAskVolumeList() {
+  public List<BigDecimal> getAskVolumeList() {
 
-    return this.av;
+    return this.askVolumes;
   }
 
-  public ArrayList<BigDecimal> getBidPriceList() {
+  public List<BigDecimal> getBidPriceList() {
 
-    return this.bp;
+    return this.bidPrices;
   }
 
-  public ArrayList<BigDecimal> getBidVolumeList() {
+  public List<BigDecimal> getBidVolumeList() {
 
-    return this.bv;
+    return this.bidVolumes;
   }
 
   public BigDecimal getLast() {
@@ -118,8 +133,8 @@ public final class BitcoiniumOrderbook {
   @Override
   public String toString() {
 
-    return "BitcoiniumOrderbook [askPrice=" + ap + ", askVolume=" + av + ", buyPrice=" + bp + ", buyVolume=" + bv + ", high=" + high + ", low=" + low + ", bid=" + bid + ", ask=" + ask + ", last="
-        + last + ", volume=" + volume + ", timestamp=" + timestamp + "]";
+    return "BitcoiniumOrderbook [askPrice=" + askPrices + ", askVolume=" + askVolumes + ", buyPrice=" + bidPrices + ", buyVolume=" + bidVolumes + ", high=" + high + ", low=" + low + ", bid=" + bid
+        + ", ask=" + ask + ", last=" + last + ", volume=" + volume + ", timestamp=" + timestamp + "]";
   }
 
 }
