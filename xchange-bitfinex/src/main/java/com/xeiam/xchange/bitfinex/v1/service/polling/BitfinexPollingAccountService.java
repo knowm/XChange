@@ -46,10 +46,10 @@ public class BitfinexPollingAccountService extends BitfinexBasePollingService im
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-	  BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, 
-			  new BitfinexBalancesRequest(String.valueOf(nextNonce())));
-	  
-	  return BitfinexAdapters.adaptAccountInfo(balances);
+
+    BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
+
+    return BitfinexAdapters.adaptAccountInfo(balances);
   }
 
   @Override

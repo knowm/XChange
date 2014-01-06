@@ -26,44 +26,53 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexTrade {
-	private final BigDecimal price;
-	private final BigDecimal amount;
-	private final float timestamp;
-	private final String exchange;
-	public BitfinexTrade(
-			@JsonProperty("price") BigDecimal price, 
-			@JsonProperty("amount") BigDecimal amount, 
-			@JsonProperty("timestamp") float timestamp,
-			@JsonProperty("exchange") String exchange) {
-		this.price = price;
-		this.amount = amount;
-		this.timestamp = timestamp;
-		this.exchange = exchange;
-	}
-	public BigDecimal getPrice() {
-		return price;
-	}
-	public BigDecimal getAmount() {
-		return amount;
-	}
-	public float getTimestamp() {
-		return timestamp;
-	}
-	public String getExchange() {
-		return exchange;
-	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BitfinexTrade [price=");
-		builder.append(price);
-		builder.append(", amount=");
-		builder.append(amount);
-		builder.append(", timestamp=");
-		builder.append(timestamp);
-		builder.append(", exchange=");
-		builder.append(exchange);
-		builder.append("]");
-		return builder.toString();
-	}
+
+  private final BigDecimal price;
+  private final BigDecimal amount;
+  private final float timestamp;
+  private final String exchange;
+
+  public BitfinexTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp, @JsonProperty("exchange") String exchange) {
+
+    this.price = price;
+    this.amount = amount;
+    this.timestamp = timestamp;
+    this.exchange = exchange;
+  }
+
+  public BigDecimal getPrice() {
+
+    return price;
+  }
+
+  public BigDecimal getAmount() {
+
+    return amount;
+  }
+
+  public float getTimestamp() {
+
+    return timestamp;
+  }
+
+  public String getExchange() {
+
+    return exchange;
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder builder = new StringBuilder();
+    builder.append("BitfinexTrade [price=");
+    builder.append(price);
+    builder.append(", amount=");
+    builder.append(amount);
+    builder.append(", timestamp=");
+    builder.append(timestamp);
+    builder.append(", exchange=");
+    builder.append(exchange);
+    builder.append("]");
+    return builder.toString();
+  }
 }

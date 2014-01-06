@@ -55,6 +55,7 @@ public class BitfinexDepth {
 
   @Override
   public String toString() {
+
     return "BitfinexDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 

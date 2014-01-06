@@ -49,123 +49,118 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
-
 public final class BitfinexAdapters {
-	@SuppressWarnings("unused")
-	private static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
 
-	private BitfinexAdapters() {
-	}
+  @SuppressWarnings("unused")
+  private static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
 
-	public static List<LimitOrder> adaptOrders(BitfinexLevel[] orders, String tradableIdentifier, String currency, String orderType, String id) {
-		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+  private BitfinexAdapters() {
 
-		for (BitfinexLevel order : orders) {
-			// Bid orderbook is reversed order. Insert at index 0 instead of appending
-			if (orderType.equalsIgnoreCase("bid")) {
-				limitOrders.add(0, adaptOrder(order.getAmount(), order.getPrice(), tradableIdentifier, currency, orderType, id));
-			}
-			else {
-				limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), tradableIdentifier, currency, orderType, id));
-			}
-		}
+  }
 
-		return limitOrders;
-	}
+  public static List<LimitOrder> adaptOrders(BitfinexLevel[] orders, String tradableIdentifier, String currency, String orderType, String id) {
 
-	public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
-		OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-		BigMoney limitPrice = MoneyUtils.parseMoney(currency, price);
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-		return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
-	}
+    for (BitfinexLevel order : orders) {
+      // Bid orderbook is reversed order. Insert at index 0 instead of appending
+      if (orderType.equalsIgnoreCase("bid")) {
+        limitOrders.add(0, adaptOrder(order.getAmount(), order.getPrice(), tradableIdentifier, currency, orderType, id));
+      }
+      else {
+        limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), tradableIdentifier, currency, orderType, id));
+      }
+    }
 
-	public static Trade adaptTrade(BitfinexTrade trade, String tradableIdentifier, String currency) {
-		OrderType orderType = null;
-		BigDecimal amount = trade.getAmount();
-		BigMoney price = MoneyUtils.parseMoney(currency, trade.getPrice());
-		Date date = DateUtils.fromMillisUtc((long)(trade.getTimestamp()*1000L));
+    return limitOrders;
+  }
 
-		return new Trade(orderType, amount, tradableIdentifier, currency, price, date, (int)trade.getTimestamp());
-	}
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
 
-	public static Trades adaptTrades(BitfinexTrade[] trades, String tradableIdentifier, String currency) {
-		List<Trade> tradesList = new ArrayList<Trade>();
-		for (BitfinexTrade trade : trades) {
-			tradesList.add(0, adaptTrade(trade, tradableIdentifier, currency));
-		}
-		return new Trades(tradesList);
-	}
+    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    BigMoney limitPrice = MoneyUtils.parseMoney(currency, price);
 
-	public static Ticker adaptTicker(BitfinexTicker bitfinexTicker, String tradableIdentifier, String currency) {
-		BigMoney last = MoneyUtils.parseMoney(currency, bitfinexTicker.getLast_price());
-		BigMoney bid = MoneyUtils.parseMoney(currency,bitfinexTicker.getBid());
-		BigMoney ask = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
-		BigMoney high = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
-		BigMoney low = MoneyUtils.parseMoney(currency, bitfinexTicker.getBid());
-		BigDecimal volume = BigDecimal.ZERO;
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
+  }
 
-		Date timestamp = DateUtils.fromMillisUtc((long)(bitfinexTicker.getTimestamp()*1000L));
+  public static Trade adaptTrade(BitfinexTrade trade, String tradableIdentifier, String currency) {
 
-		return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
-				.build();
-	}
+    OrderType orderType = null;
+    BigDecimal amount = trade.getAmount();
+    BigMoney price = MoneyUtils.parseMoney(currency, trade.getPrice());
+    Date date = DateUtils.fromMillisUtc((long) (trade.getTimestamp() * 1000L));
 
-	public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, (int) trade.getTimestamp());
+  }
 
-		List<Wallet> wallets = new ArrayList<Wallet>();
+  public static Trades adaptTrades(BitfinexTrade[] trades, String tradableIdentifier, String currency) {
 
-		for(BitfinexBalancesResponse balance : response) {
-			if(balance.getCurrency().equals("usd") || balance.getCurrency().equals("btc")) {
-				wallets.add(Wallet.createInstance(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
-			}
-		}
+    List<Trade> tradesList = new ArrayList<Trade>();
+    for (BitfinexTrade trade : trades) {
+      tradesList.add(0, adaptTrade(trade, tradableIdentifier, currency));
+    }
+    return new Trades(tradesList);
+  }
 
-		return new AccountInfo(null, wallets);
-	}
+  public static Ticker adaptTicker(BitfinexTicker bitfinexTicker, String tradableIdentifier, String currency) {
 
-	public static OpenOrders adaptOrders(
-			BitfinexOrderStatusResponse[] activeOrders) {
-		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(
-				activeOrders.length);
+    BigMoney last = MoneyUtils.parseMoney(currency, bitfinexTicker.getLast_price());
+    BigMoney bid = MoneyUtils.parseMoney(currency, bitfinexTicker.getBid());
+    BigMoney ask = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
+    BigMoney high = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
+    BigMoney low = MoneyUtils.parseMoney(currency, bitfinexTicker.getBid());
+    BigDecimal volume = BigDecimal.ZERO;
 
-		for (BitfinexOrderStatusResponse order : activeOrders) {
-			OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID
-					: OrderType.ASK;
-			String tradableIdentifier = order.getSymbol().substring(0, 3)
-					.toUpperCase();
-			String transactionCurrency = order.getSymbol().substring(3)
-					.toUpperCase();
+    Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
-			limitOrders.add(new LimitOrder(orderType, order
-					.getRemainingAmount(), tradableIdentifier,
-					transactionCurrency, String.valueOf(order.getId()),
-					new Date((long) order.getTimestamp()), BigMoney.of(
-							CurrencyUnit.of(transactionCurrency),
-							order.getPrice())));
-		}
+    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
+        .build();
+  }
 
-		return new OpenOrders(limitOrders);
-	}
+  public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
 
+    List<Wallet> wallets = new ArrayList<Wallet>();
 
-	public static Trades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
-		List<Trade> pastTrades = new ArrayList<Trade>(trades.length);
+    for (BitfinexBalancesResponse balance : response) {
+      if (balance.getCurrency().equals("usd") || balance.getCurrency().equals("btc")) {
+        wallets.add(Wallet.createInstance(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
+      }
+    }
 
-		String tradableIdentifier = symbol.substring(0, 3)
-				.toUpperCase();
-		String transactionCurrency = symbol.substring(3)
-				.toUpperCase();
+    return new AccountInfo(null, wallets);
+  }
 
-		for(BitfinexTradeResponse trade : trades) {
-			OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID
-					: OrderType.ASK;
-			
-			long id = trade.hashCode();
-			pastTrades.add(new Trade(orderType, trade.getAmount(), tradableIdentifier, transactionCurrency,
-					BigMoney.of(CurrencyUnit.USD, trade.getPrice()), new Date((long)(trade.getTimestamp() * 1000L)), id));
-		}
-		
-		return new Trades(pastTrades);
-	}
+  public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(activeOrders.length);
+
+    for (BitfinexOrderStatusResponse order : activeOrders) {
+      OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
+      String tradableIdentifier = order.getSymbol().substring(0, 3).toUpperCase();
+      String transactionCurrency = order.getSymbol().substring(3).toUpperCase();
+
+      limitOrders.add(new LimitOrder(orderType, order.getRemainingAmount(), tradableIdentifier, transactionCurrency, String.valueOf(order.getId()), new Date((long) order.getTimestamp()), BigMoney.of(
+          CurrencyUnit.of(transactionCurrency), order.getPrice())));
+    }
+
+    return new OpenOrders(limitOrders);
+  }
+
+  public static Trades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
+
+    List<Trade> pastTrades = new ArrayList<Trade>(trades.length);
+
+    String tradableIdentifier = symbol.substring(0, 3).toUpperCase();
+    String transactionCurrency = symbol.substring(3).toUpperCase();
+
+    for (BitfinexTradeResponse trade : trades) {
+      OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
+
+      long id = trade.hashCode();
+      pastTrades.add(new Trade(orderType, trade.getAmount(), tradableIdentifier, transactionCurrency, BigMoney.of(CurrencyUnit.USD, trade.getPrice()), new Date((long) (trade.getTimestamp() * 1000L)),
+          id));
+    }
+
+    return new Trades(pastTrades);
+  }
 }

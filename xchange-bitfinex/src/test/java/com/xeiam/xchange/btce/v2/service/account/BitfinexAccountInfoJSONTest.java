@@ -44,9 +44,9 @@ public class BitfinexAccountInfoJSONTest {
     InputStream is = BitfinexAccountInfoJSONTest.class.getResourceAsStream("/v1/account/example-account-info-data.json");
 
     // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper(); 
+    ObjectMapper mapper = new ObjectMapper();
     BitfinexBalancesResponse readValue = mapper.readValue(is, BitfinexBalancesResponse.class);
-    
+
     assertEquals(readValue.getAmount().toString(), new BigDecimal("8.53524686").toString());
 
   }

@@ -23,7 +23,6 @@ package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -39,7 +38,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
-import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;

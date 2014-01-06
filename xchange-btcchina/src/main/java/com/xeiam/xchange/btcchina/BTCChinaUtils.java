@@ -86,6 +86,7 @@ public final class BTCChinaUtils {
   }
 
   public static BigDecimal truncateAmount(BigDecimal value) {
+
     return value.setScale(3, RoundingMode.FLOOR).stripTrailingZeros();
   }
 }

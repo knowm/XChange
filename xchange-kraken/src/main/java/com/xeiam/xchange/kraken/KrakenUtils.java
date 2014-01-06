@@ -69,15 +69,15 @@ public final class KrakenUtils {
   new CurrencyPair("EUR", "XVN"),
 
   new CurrencyPair("USD", "XRP"),
-  
+
   new CurrencyPair("USD", "XRP"),
-  
+
   new CurrencyPair("LTC", "KRW"),
-  
+
   new CurrencyPair("NMC", "KRW"),
-  
+
   new CurrencyPair("BTC", "KRW"),
-  
+
   new CurrencyPair("KRW", "XRP"),
 
   new CurrencyPair("USD", "XVN")

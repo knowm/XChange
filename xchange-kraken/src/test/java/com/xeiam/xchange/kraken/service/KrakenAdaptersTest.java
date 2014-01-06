@@ -21,6 +21,19 @@
  */
 package com.xeiam.xchange.kraken.service;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.junit.Assert;
+import org.junit.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -38,18 +51,6 @@ import com.xeiam.xchange.kraken.service.marketdata.KrakenAssetPairsJSONTest;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenTickerJSONTest;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenTradesJSONTest;
 import com.xeiam.xchange.kraken.service.trading.KrakenOpenOrdersTest;
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class KrakenAdaptersTest {
 

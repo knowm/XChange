@@ -33,36 +33,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public final class BitcoiniumTickerHistory {
-    private final ArrayList<BigDecimal> pp;
-    private final long t;
-    private final ArrayList<BigDecimal> tt;
 
-    public BitcoiniumTickerHistory(
-            @JsonProperty("pp") ArrayList<BigDecimal> pp, 
-            @JsonProperty("t") long t, 
-            @JsonProperty("tt") ArrayList<BigDecimal> tt) {
+  private final ArrayList<BigDecimal> pp;
+  private final long t;
+  private final ArrayList<BigDecimal> tt;
 
-        this.pp = pp;
-        this.t = t;
-        this.tt = tt;
-    }
+  public BitcoiniumTickerHistory(@JsonProperty("pp") ArrayList<BigDecimal> pp, @JsonProperty("t") long t, @JsonProperty("tt") ArrayList<BigDecimal> tt) {
 
-    public ArrayList<BigDecimal> getPriceHistoryList() {
-        return this.pp;
-    }
+    this.pp = pp;
+    this.t = t;
+    this.tt = tt;
+  }
 
-    public long getBaseTimestamp() {
-        return this.t;
-    }
+  public ArrayList<BigDecimal> getPriceHistoryList() {
 
-    public ArrayList<BigDecimal> getTimeStampOffsets() {
-        return this.tt;
-    }
+    return this.pp;
+  }
 
-	@Override
-	public String toString() {
-		return "BitcoiniumTickerHistory [priceList=" + pp + ", timestamp=" + t + ", timeOffsets=" + tt
-				+ "]";
-	}
+  public long getBaseTimestamp() {
+
+    return this.t;
+  }
+
+  public ArrayList<BigDecimal> getTimeStampOffsets() {
+
+    return this.tt;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BitcoiniumTickerHistory [priceList=" + pp + ", timestamp=" + t + ", timeOffsets=" + tt + "]";
+  }
 
 }

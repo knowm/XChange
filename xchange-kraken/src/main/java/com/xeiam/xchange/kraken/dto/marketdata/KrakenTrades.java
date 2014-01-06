@@ -44,28 +44,12 @@ public class KrakenTrades {
    * @param xltczusd
    * @param last
    */
-  public KrakenTrades(@JsonProperty("XXBTZUSD") String[][] xxbtzusd, 
-		  @JsonProperty("XXBTZEUR") String[][] xxbtzeur, 
-		  @JsonProperty("XLTCZEUR") String[][] xltczeur,
-		  @JsonProperty("XXBTXLTC") String[][] xxbtxltc, 
-		  @JsonProperty("XLTCZUSD") String[][] xltczusd, 
-		  @JsonProperty("XLTCXXRP") String[][] xltcxxrp, 
-		  @JsonProperty("XLTCZKRW") String[][] xltczkrw, 
-		  @JsonProperty("XNMCXXRP") String[][] xnmcxxrp, 
-		  @JsonProperty("XNMCZEUR") String[][] xnmczeur, 
-		  @JsonProperty("XNMCZKRW") String[][] xnmczkrw, 
-		  @JsonProperty("XNMCZUSD") String[][] xnmczusd, 
-		  @JsonProperty("XXBTXNMC") String[][] xxbtxnmc, 
-		  @JsonProperty("XXBTXXRP") String[][] xxbtxxrp, 
-		  @JsonProperty("XXBTXXVN") String[][] xxbtxxvn, 
-		  @JsonProperty("XXBTZKRW") String[][] xxbtzkrw, 
-		  @JsonProperty("XXVNXXRP") String[][] xxvnxxrp, 
-		  @JsonProperty("ZEURXXRP") String[][] zeurxxrp, 
-		  @JsonProperty("ZEURXXVN") String[][] zeurxxvn, 
-		  @JsonProperty("ZKRWXXRP") String[][] zkrwxxrp, 
-		  @JsonProperty("ZUSDXXRP") String[][] zusdxxrp, 
-		  @JsonProperty("ZUSDXXVN") String[][] zusdxxvn, 
-		  @JsonProperty("last") long last) {
+  public KrakenTrades(@JsonProperty("XXBTZUSD") String[][] xxbtzusd, @JsonProperty("XXBTZEUR") String[][] xxbtzeur, @JsonProperty("XLTCZEUR") String[][] xltczeur,
+      @JsonProperty("XXBTXLTC") String[][] xxbtxltc, @JsonProperty("XLTCZUSD") String[][] xltczusd, @JsonProperty("XLTCXXRP") String[][] xltcxxrp, @JsonProperty("XLTCZKRW") String[][] xltczkrw,
+      @JsonProperty("XNMCXXRP") String[][] xnmcxxrp, @JsonProperty("XNMCZEUR") String[][] xnmczeur, @JsonProperty("XNMCZKRW") String[][] xnmczkrw, @JsonProperty("XNMCZUSD") String[][] xnmczusd,
+      @JsonProperty("XXBTXNMC") String[][] xxbtxnmc, @JsonProperty("XXBTXXRP") String[][] xxbtxxrp, @JsonProperty("XXBTXXVN") String[][] xxbtxxvn, @JsonProperty("XXBTZKRW") String[][] xxbtzkrw,
+      @JsonProperty("XXVNXXRP") String[][] xxvnxxrp, @JsonProperty("ZEURXXRP") String[][] zeurxxrp, @JsonProperty("ZEURXXVN") String[][] zeurxxvn, @JsonProperty("ZKRWXXRP") String[][] zkrwxxrp,
+      @JsonProperty("ZUSDXXRP") String[][] zusdxxrp, @JsonProperty("ZUSDXXVN") String[][] zusdxxvn, @JsonProperty("last") long last) {
 
     tradesPerCurrencyPair.put("XXBTZUSD", xxbtzusd);
     tradesPerCurrencyPair.put("XXBTZEUR", xxbtzeur);
@@ -88,7 +72,7 @@ public class KrakenTrades {
     tradesPerCurrencyPair.put("ZKRWXXRP", zkrwxxrp);
     tradesPerCurrencyPair.put("ZUSDXXRP", zusdxxrp);
     tradesPerCurrencyPair.put("ZUSDXXVN", zusdxxvn);
- 
+
     this.last = last;
 
   }

@@ -35,11 +35,12 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 @Ignore
 public class BitfinexTradeDataJSONTest {
 
-	@Test
-	public void testOpenOrders() throws IOException {
-		InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-open-orders-data.json");
-		BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
+  @Test
+  public void testOpenOrders() throws IOException {
 
-		assertEquals(response.getId(), 4003242);
-	}
+    InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-open-orders-data.json");
+    BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
+
+    assertEquals(response.getId(), 4003242);
+  }
 }

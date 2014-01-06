@@ -5,45 +5,51 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 
 public class BitfinexBalancesRequest {
 
-	@JsonProperty("request")
-	protected String request;
-	
-	@JsonProperty("nonce")
-	protected String nonce;
+  @JsonProperty("request")
+  protected String request;
 
-	@JsonProperty("options")
-	@JsonRawValue
-	protected String options;
+  @JsonProperty("nonce")
+  protected String nonce;
 
-	public BitfinexBalancesRequest(
-			String nonce){
-		this.request = "/v1/balances";
-		this.nonce =  String.valueOf(nonce);		
-		this.options = "[]";
-	}
+  @JsonProperty("options")
+  @JsonRawValue
+  protected String options;
 
-	public String getRequest() {
-		return request;
-	}
+  public BitfinexBalancesRequest(String nonce) {
 
-	public void setRequest(String request) {
-		this.request = request;
-	}
+    this.request = "/v1/balances";
+    this.nonce = String.valueOf(nonce);
+    this.options = "[]";
+  }
 
-	public String getNonce() {
-		return nonce;
-	}
+  public String getRequest() {
 
-	public void setNonce(String nonce) {
-		this.nonce = nonce;
-	}
+    return request;
+  }
 
-	public String getOptions() {
-		return options;
-	}
+  public void setRequest(String request) {
 
-	public void setOptions(String options) {
-		this.options = options;
-	}
+    this.request = request;
+  }
+
+  public String getNonce() {
+
+    return nonce;
+  }
+
+  public void setNonce(String nonce) {
+
+    this.nonce = nonce;
+  }
+
+  public String getOptions() {
+
+    return options;
+  }
+
+  public void setOptions(String options) {
+
+    this.options = options;
+  }
 
 }

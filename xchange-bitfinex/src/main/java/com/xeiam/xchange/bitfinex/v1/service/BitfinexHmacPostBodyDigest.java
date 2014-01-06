@@ -33,42 +33,43 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
 
-
 public class BitfinexHmacPostBodyDigest implements ParamsDigest {
 
-	private static final String HMAC_SHA_384 = "HmacSHA384";
-	private final Mac mac;
+  private static final String HMAC_SHA_384 = "HmacSHA384";
+  private final Mac mac;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param secretKeyBase64
-	 * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
-	 */
-	private BitfinexHmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
-		try {
-		
-			SecretKey secretKey = new SecretKeySpec(secretKeyBase64.getBytes(), HMAC_SHA_384);
-			mac = Mac.getInstance(HMAC_SHA_384);
-			mac.init(secretKey); 
+  /**
+   * Constructor
+   * 
+   * @param secretKeyBase64
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   */
+  private BitfinexHmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
 
-		} catch (InvalidKeyException e) {
-			throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-		}
-	}
+    try {
 
-	public static BitfinexHmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+      SecretKey secretKey = new SecretKeySpec(secretKeyBase64.getBytes(), HMAC_SHA_384);
+      mac = Mac.getInstance(HMAC_SHA_384);
+      mac.init(secretKey);
 
-		return secretKeyBase64 == null ? null : new BitfinexHmacPostBodyDigest(secretKeyBase64);
-	}
+    } catch (InvalidKeyException e) {
+      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+    }
+  }
 
-	@Override
-	public String digestParams(RestInvocation restInvocation) {
-		String postBody = restInvocation.getRequestBody();
-		mac.update(Base64.encodeBytes(postBody.getBytes()).getBytes());
-		
-		return String.format("%064x", new BigInteger(1, mac.doFinal()));
-	}
+  public static BitfinexHmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+
+    return secretKeyBase64 == null ? null : new BitfinexHmacPostBodyDigest(secretKeyBase64);
+  }
+
+  @Override
+  public String digestParams(RestInvocation restInvocation) {
+
+    String postBody = restInvocation.getRequestBody();
+    mac.update(Base64.encodeBytes(postBody.getBytes()).getBytes());
+
+    return String.format("%064x", new BigInteger(1, mac.doFinal()));
+  }
 }

@@ -50,6 +50,7 @@ public class BitfinexBasePollingService {
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitfinexBasePollingService(ExchangeSpecification exchangeSpecification) {
+
     this.bitfinex = RestProxyFactory.createProxy(BitfinexAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = BitfinexHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());

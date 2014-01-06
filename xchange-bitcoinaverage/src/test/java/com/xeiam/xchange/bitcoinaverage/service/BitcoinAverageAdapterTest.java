@@ -34,6 +34,7 @@ import com.xeiam.xchange.bitcoinaverage.BitcoinAverageAdapters;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.service.marketdata.BitcoinAverageTickerJSONTest;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+
 /**
  * Tests the BitcoinAverageAdapter class
  */

@@ -51,12 +51,8 @@ public final class BitcoinAverageTicker {
    * @param avg
    * @param timestamp
    */
-  public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, 
-		  @JsonProperty("bid") BigDecimal bid, 
-		  @JsonProperty("volume_btc") BigDecimal volume, 
-		  @JsonProperty("last") BigDecimal last,
-		  @JsonProperty("volume_percent") BigDecimal volume_percent,
-		  @JsonProperty("timestamp") String timestamp) {
+  public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("volume_btc") BigDecimal volume, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("volume_percent") BigDecimal volume_percent, @JsonProperty("timestamp") String timestamp) {
 
     this.ask = ask;
     this.bid = bid;
@@ -85,24 +81,24 @@ public final class BitcoinAverageTicker {
 
     return volume;
   }
-  
+
   public BigDecimal getVolumePercent() {
 
-	 return volume_percent;
+    return volume_percent;
   }
-  
+
   public Date getTimestamp() {
 
-	 try {
-		// Parse the timestamp into a Date object
-		return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
-	} catch (IllegalArgumentException e) {
-		// Return current Date
-		return new Date();
-	} catch (ParseException e) {
-		// Return current Date
-		return new Date();
-	}
+    try {
+      // Parse the timestamp into a Date object
+      return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
+    } catch (IllegalArgumentException e) {
+      // Return current Date
+      return new Date();
+    } catch (ParseException e) {
+      // Return current Date
+      return new Date();
+    }
   }
 
   @Override

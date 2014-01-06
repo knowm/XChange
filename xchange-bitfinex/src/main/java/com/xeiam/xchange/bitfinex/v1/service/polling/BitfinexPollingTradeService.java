@@ -41,70 +41,68 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class BitfinexPollingTradeService extends BitfinexBasePollingService implements PollingTradeService {
+
   private final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
   public BitfinexPollingTradeService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    BitfinexOrderStatusResponse[] activeOrders = bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator, 
-    		new BitfinexNonceOnlyRequest("/v1/orders", String.valueOf(nextNonce())));
-        
-    if(activeOrders.length <= 0) {
-    	return noOpenOrders;
-    } else {
-    	return BitfinexAdapters.adaptOrders(activeOrders);
+
+    BitfinexOrderStatusResponse[] activeOrders = bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest("/v1/orders", String.valueOf(nextNonce())));
+
+    if (activeOrders.length <= 0) {
+      return noOpenOrders;
+    }
+    else {
+      return BitfinexAdapters.adaptOrders(activeOrders);
     }
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
     throw new UnsupportedOperationException("Market orders not supported yet");
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
     String pair = String.format("%s%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
-    BitfinexOrderStatusResponse newOrder = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, 
-    		new BitfinexNewOrderRequest(
-    				String.valueOf(nextNonce()), 
-    				pair, 
-    				limitOrder.getTradableAmount(), 
-    				limitOrder.getLimitPrice().getAmount(), 
-    				"bitfinex", 
-    				type, 
-    				"exchange limit", 
-    				false));
-    
+    BitfinexOrderStatusResponse newOrder =
+        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice()
+            .getAmount(), "bitfinex", type, "exchange limit", false));
+
     return String.valueOf(newOrder.getId());
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-	  BitfinexOrderStatusResponse cancelResponse = bitfinex.cancelOrders(apiKey, payloadCreator, signatureCreator, 
-			  new BitfinexCancelOrderRequest(String.valueOf(nextNonce()), Integer.valueOf(orderId)));
-	 
-	  return cancelResponse.isCancelled();
+
+    BitfinexOrderStatusResponse cancelResponse = bitfinex.cancelOrders(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOrderRequest(String.valueOf(nextNonce()), Integer.valueOf(orderId)));
+
+    return cancelResponse.isCancelled();
   }
 
   @Override
   public Trades getTradeHistory(final Object... arguments) throws IOException {
-	  String symbol = "btcusd";
-	  long timestamp = 0;
-	  int limit = 50;
-	  
-	  if(arguments.length == 3) {
-		  symbol = (String) arguments[0];
-		  timestamp = (Long) arguments[1];
-		  limit = (Integer) arguments[2];
-	  }
-	  
-	  BitfinexTradeResponse[] trades = bitfinex.pastTrades(apiKey, payloadCreator, signatureCreator, 
-			  new BitfinexPastTradesRequest(String.valueOf(nextNonce()), symbol, timestamp, limit));
-	  
-	  return BitfinexAdapters.adaptTradeHistory(trades, symbol);
+
+    String symbol = "btcusd";
+    long timestamp = 0;
+    int limit = 50;
+
+    if (arguments.length == 3) {
+      symbol = (String) arguments[0];
+      timestamp = (Long) arguments[1];
+      limit = (Integer) arguments[2];
+    }
+
+    BitfinexTradeResponse[] trades = bitfinex.pastTrades(apiKey, payloadCreator, signatureCreator, new BitfinexPastTradesRequest(String.valueOf(nextNonce()), symbol, timestamp, limit));
+
+    return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
 }

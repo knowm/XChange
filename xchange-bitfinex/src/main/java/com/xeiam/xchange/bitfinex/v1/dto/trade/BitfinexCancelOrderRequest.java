@@ -5,27 +5,26 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 
 public class BitfinexCancelOrderRequest {
 
-	@JsonProperty("request")
-	protected String request;
-	
-	@JsonProperty("nonce")
-	protected String nonce;
+  @JsonProperty("request")
+  protected String request;
 
-	@JsonProperty("order_id")
-	@JsonRawValue
-	private int orderId;
+  @JsonProperty("nonce")
+  protected String nonce;
 
-	public BitfinexCancelOrderRequest(
-			String nonce,
-			int orderId
-			) {
-		this.request = "/v1/order/cancel";
-		this.orderId = orderId;
-		this.nonce = nonce;
-	}	
-	
-	public String getOrderId() {
-		return String.valueOf(orderId);
-	}
-	
+  @JsonProperty("order_id")
+  @JsonRawValue
+  private int orderId;
+
+  public BitfinexCancelOrderRequest(String nonce, int orderId) {
+
+    this.request = "/v1/order/cancel";
+    this.orderId = orderId;
+    this.nonce = nonce;
+  }
+
+  public String getOrderId() {
+
+    return String.valueOf(orderId);
+  }
+
 }

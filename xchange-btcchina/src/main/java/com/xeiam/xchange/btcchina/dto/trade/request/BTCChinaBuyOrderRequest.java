@@ -22,7 +22,6 @@
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;

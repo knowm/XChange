@@ -21,6 +21,16 @@
  */
 package com.xeiam.xchange.bitstamp;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
@@ -33,13 +43,6 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-import static org.fest.assertions.api.Assertions.assertThat;
-import org.junit.Test;
 
 /**
  * Tests the BitstampAdapter class
