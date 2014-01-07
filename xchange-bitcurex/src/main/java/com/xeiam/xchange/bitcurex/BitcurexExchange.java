@@ -24,7 +24,7 @@ package com.xeiam.xchange.bitcurex;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcurex.service.polling.BitcurexPollingMarketDataService;
+import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataService;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public class BitcurexExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcurexPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitcurexMarketDataService(exchangeSpecification);
   }
 
   @Override

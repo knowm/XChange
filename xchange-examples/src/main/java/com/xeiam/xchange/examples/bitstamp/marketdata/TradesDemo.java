@@ -26,7 +26,7 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
-import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingMarketDataService.BitstampTime;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataService.BitstampTime;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;

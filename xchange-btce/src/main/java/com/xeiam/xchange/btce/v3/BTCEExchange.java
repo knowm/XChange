@@ -24,9 +24,9 @@ package com.xeiam.xchange.btce.v3;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.service.polling.BTCEPollingAccountService;
-import com.xeiam.xchange.btce.v3.service.polling.BTCEPollingMarketDataService;
-import com.xeiam.xchange.btce.v3.service.polling.BTCEPollingTradeService;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
+import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 
 /**
  * <p>
@@ -60,9 +60,9 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BTCEPollingMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BTCEPollingAccountService(exchangeSpecification);
-    this.pollingTradeService = new BTCEPollingTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new BTCEMarketDataService(exchangeSpecification);
+    this.pollingAccountService = new BTCEAccountService(exchangeSpecification);
+    this.pollingTradeService = new BTCETradeService(exchangeSpecification);
   }
 
   @Override

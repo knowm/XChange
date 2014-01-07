@@ -24,9 +24,9 @@ package com.xeiam.xchange.bitfinex.v1;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexPollingAccountService;
-import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexPollingMarketDataService;
-import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexPollingTradeService;
+import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexAccountService;
+import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataService;
+import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
 
 /**
  * <p>
@@ -60,9 +60,9 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BitfinexPollingMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BitfinexPollingAccountService(exchangeSpecification);
-    this.pollingTradeService = new BitfinexPollingTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new BitfinexMarketDataService(exchangeSpecification);
+    this.pollingAccountService = new BitfinexAccountService(exchangeSpecification);
+    this.pollingTradeService = new BitfinexTradeService(exchangeSpecification);
   }
 
   @Override

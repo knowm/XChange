@@ -24,7 +24,7 @@ package com.xeiam.xchange.bitcoincharts;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcoincharts.service.polling.BitcoinChartsPollingMarketDataService;
+import com.xeiam.xchange.bitcoincharts.service.polling.BitcoinChartsMarketDataService;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcoinChartsPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitcoinChartsMarketDataService(exchangeSpecification);
   }
 
   @Override

@@ -24,9 +24,9 @@ package com.xeiam.xchange.mtgox.v2;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingAccountService;
-import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingMarketDataService;
-import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxPollingTradeService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxMarketDataService;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeService;
 import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxStreamingConfiguration;
 import com.xeiam.xchange.mtgox.v2.service.streaming.MtGoxWebsocketService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
@@ -48,9 +48,9 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
 
     // Configure the basic services if configuration does not apply
-    this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new MtGoxPollingTradeService(exchangeSpecification);
-    this.pollingAccountService = new MtGoxPollingAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new MtGoxMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new MtGoxTradeService(exchangeSpecification);
+    this.pollingAccountService = new MtGoxAccountService(exchangeSpecification);
   }
 
   @Override

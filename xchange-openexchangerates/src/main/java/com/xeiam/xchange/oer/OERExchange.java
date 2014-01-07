@@ -24,7 +24,7 @@ package com.xeiam.xchange.oer;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.oer.service.polling.OERPollingMarketDataService;
+import com.xeiam.xchange.oer.service.polling.OERMarketDataService;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public class OERExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new OERPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new OERMarketDataService(exchangeSpecification);
   }
 
   @Override

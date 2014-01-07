@@ -24,7 +24,7 @@ package com.xeiam.xchange.virtex;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.virtex.service.polling.VirtExPollingMarketDataService;
+import com.xeiam.xchange.virtex.service.polling.VirtExMarketDataService;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public class VirtExExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new VirtExPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new VirtExMarketDataService(exchangeSpecification);
   }
 
   @Override

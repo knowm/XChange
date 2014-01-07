@@ -24,9 +24,9 @@ package com.xeiam.xchange.kraken;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.kraken.service.polling.KrakenPollingAccountService;
-import com.xeiam.xchange.kraken.service.polling.KrakenPollingMarketDataService;
-import com.xeiam.xchange.kraken.service.polling.KrakenPollingTradeService;
+import com.xeiam.xchange.kraken.service.polling.KrakenAccountService;
+import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataService;
+import com.xeiam.xchange.kraken.service.polling.KrakenTradeService;
 
 /**
  * @author Benedikt Bünz
@@ -38,9 +38,9 @@ public class KrakenExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
     // Configure the basic services if configuration does not apply
-    this.pollingMarketDataService = new KrakenPollingMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new KrakenPollingTradeService(exchangeSpecification);
-    this.pollingAccountService = new KrakenPollingAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new KrakenMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new KrakenTradeService(exchangeSpecification);
+    this.pollingAccountService = new KrakenAccountService(exchangeSpecification);
   }
 
   @Override

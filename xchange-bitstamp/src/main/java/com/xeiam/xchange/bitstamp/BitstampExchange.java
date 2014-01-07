@@ -24,9 +24,9 @@ package com.xeiam.xchange.bitstamp;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingAccountService;
-import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingMarketDataService;
-import com.xeiam.xchange.bitstamp.service.polling.BitstampPollingTradeService;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountService;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataService;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeService;
 
 /**
  * @author Matija Mazi
@@ -49,9 +49,9 @@ public class BitstampExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitstampPollingMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new BitstampPollingTradeService(exchangeSpecification);
-    this.pollingAccountService = new BitstampPollingAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new BitstampMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new BitstampTradeService(exchangeSpecification);
+    this.pollingAccountService = new BitstampAccountService(exchangeSpecification);
   }
 
 }

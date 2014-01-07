@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v0;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxPollingMarketDataService;
+import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxMarketDataService;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ public class MtGoxExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new MtGoxPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new MtGoxMarketDataService(exchangeSpecification);
   }
 
   @Override

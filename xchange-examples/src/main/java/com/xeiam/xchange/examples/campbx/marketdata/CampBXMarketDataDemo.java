@@ -28,7 +28,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.campbx.CampBXExchange;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
-import com.xeiam.xchange.campbx.service.polling.CampBXPollingMarketDataService;
+import com.xeiam.xchange.campbx.service.polling.CampBXMarketDataService;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -68,7 +68,7 @@ public class CampBXMarketDataDemo {
   private static void raw(Exchange campBXExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    CampBXPollingMarketDataService campBXspecificMarketDataService = (CampBXPollingMarketDataService) campBXExchange.getPollingMarketDataService();
+    CampBXMarketDataService campBXspecificMarketDataService = (CampBXMarketDataService) campBXExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     CampBXTicker tcampBXTicker = campBXspecificMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);

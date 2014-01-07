@@ -24,9 +24,9 @@ package com.xeiam.xchange.btcchina;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btcchina.service.polling.BTCChinaPollingAccountService;
-import com.xeiam.xchange.btcchina.service.polling.BTCChinaPollingMarketDataService;
-import com.xeiam.xchange.btcchina.service.polling.BTCChinaPollingTradeService;
+import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountService;
+import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataService;
+import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
 
 /**
  * <p>
@@ -59,9 +59,9 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BTCChinaPollingMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new BTCChinaPollingTradeService(exchangeSpecification);
-    this.pollingAccountService = new BTCChinaPollingAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new BTCChinaTradeService(exchangeSpecification);
+    this.pollingAccountService = new BTCChinaAccountService(exchangeSpecification);
   }
 
   @Override
