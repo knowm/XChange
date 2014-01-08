@@ -41,7 +41,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 
-@Path("v1/")
+@Path("v1")
 public interface BitfinexAuthenticated {
 
   @POST

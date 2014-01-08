@@ -43,6 +43,11 @@ public class BitfinexTradeService extends BitfinexBaseService implements Polling
 
   private final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public BitfinexTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

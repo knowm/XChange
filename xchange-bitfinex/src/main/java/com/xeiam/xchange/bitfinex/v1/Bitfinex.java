@@ -32,7 +32,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 
-@Path("v1/")
+@Path("v1")
 public interface Bitfinex {
 
   @GET

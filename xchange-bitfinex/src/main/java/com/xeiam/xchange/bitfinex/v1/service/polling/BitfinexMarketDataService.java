@@ -53,6 +53,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 public class BitfinexMarketDataService implements PollingMarketDataService {
 
   protected final Bitfinex bitfinex;
+
   private final List<CurrencyPair> supportedCurrencies = new ArrayList<CurrencyPair>();
   {
     supportedCurrencies.add(CurrencyPair.BTC_USD);
@@ -61,6 +62,8 @@ public class BitfinexMarketDataService implements PollingMarketDataService {
   }
 
   /**
+   * Constructor
+   * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitfinexMarketDataService(ExchangeSpecification exchangeSpecification) {
