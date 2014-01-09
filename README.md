@@ -1,4 +1,4 @@
-## [![XChange](http://xeiam.com/images/XChange_64_64.png)](http://xeiam.com/xchange.jsp) XChange
+## [![XChange](http://xeiam.com/images/XChange_64_64.png)](http://xeiam.com/xchange) XChange
 A Financial Exchange Library for Java
 
 ## Important!
@@ -37,7 +37,7 @@ Now go ahead and [study some more examples](http://xeiam.com/xchange_examplecode
 * polling and streaming capability
     
 ## More Info
-Project Site: http://xeiam.com/xchange.jsp  
+Project Site: http://xeiam.com/xchange  
 Example Code: http://xeiam.com/xchange_examplecode.jsp  
 Change Log: http://xeiam.com/xchange_changelog.jsp  
 Java Docs: http://xeiam.com/xchange/javadoc/index.html  
@@ -57,7 +57,7 @@ New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New
 XChange is semantically versioned: http://semver.org  
 
 ### Non-Maven
-Download XChange Release Jars: http://xeiam.com/xchange.jsp
+Download XChange Release Jars: http://xeiam.com/xchange
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
 
 #### Compile Dependencies
