@@ -101,6 +101,7 @@ public class BitcoiniumRealtimeTickerDemo {
 
         try {
           BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+          System.out.println(bitcoiniumTicker.toString());
           Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
           double price = bitcoiniumTicker.getLast().doubleValue();
           if (xAxisData.get(xAxisData.size() - 1).getTime() != timestamp.getTime()) {
@@ -147,11 +148,11 @@ public class BitcoiniumRealtimeTickerDemo {
     }
 
     // create chart
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time MtGox Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time MtGox Price vs. Time").xAxisTitle("Time").yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     // add series
-    Series series = chart.addDateSeries(SERIES_NAME, xAxisData, yAxisData);
+    Series series = chart.addSeries(SERIES_NAME, xAxisData, yAxisData);
     series.setMarker(SeriesMarker.NONE);
 
     return new XChartPanel(chart);
