@@ -21,14 +21,20 @@
  */
 package com.xeiam.xchange.examples.bitcoinium;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.JFrame;
 
 import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
+import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
 import com.xeiam.xchange.currency.Currencies;
@@ -38,34 +44,98 @@ import com.xeiam.xchart.Series;
 import com.xeiam.xchart.SeriesMarker;
 import com.xeiam.xchart.StyleManager.ChartType;
 import com.xeiam.xchart.StyleManager.LegendPosition;
-import com.xeiam.xchart.SwingWrapper;
+import com.xeiam.xchart.XChartPanel;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
  * 
  * @author timmolter
  */
-public class BitcoiniumTickerHistoryDemo {
+public class BitcoiniumRealtimeTickerDemo {
+
+  BitcoiniumMarketDataService bitcoiniumMarketDataService;
+  List<Date> xAxisData;
+  List<Double> yAxisData;
+  public static final String SERIES_NAME = "MtGox USD/BTC";
 
   public static void main(String[] args) throws Exception {
 
     AuthHelper.trustAllCerts();
+    final BitcoiniumRealtimeTickerDemo bitcoiniumRealtimeTickerDemo = new BitcoiniumRealtimeTickerDemo();
+    bitcoiniumRealtimeTickerDemo.go();
+  }
+
+  private void go() throws IOException {
 
     // Use the factory to get Bitcoinium exchange API using default settings
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    BitcoiniumMarketDataService bitcoiniumMarketDataService = (BitcoiniumMarketDataService) bitcoiniumExchange.getPollingMarketDataService();
+    bitcoiniumMarketDataService = (BitcoiniumMarketDataService) bitcoiniumExchange.getPollingMarketDataService();
+
+    // Setup the panel
+    final XChartPanel chartPanel = buildPanel();
+    // Schedule a job for the event-dispatching thread:
+    // creating and showing this application's GUI.
+    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+
+      @Override
+      public void run() {
+
+        // Create and set up the window.
+        JFrame frame = new JFrame("XChart");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(chartPanel);
+
+        // Display the window.
+        frame.pack();
+        frame.setVisible(true);
+      }
+    });
+
+    // Simulate a data feed
+    TimerTask chartUpdaterTask = new TimerTask() {
+
+      @Override
+      public void run() {
+
+        try {
+          BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+          Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
+          double price = bitcoiniumTicker.getLast().doubleValue();
+          if (xAxisData.get(xAxisData.size() - 1).getTime() != timestamp.getTime()) {
+            xAxisData.add(timestamp);
+            yAxisData.add(price);
+            Series series = chartPanel.updateSeries(SERIES_NAME, xAxisData, yAxisData);
+            System.out.println(series.getXData());
+            System.out.println(series.getYData());
+          }
+          else {
+            System.out.println("No new data.");
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    };
+
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(chartUpdaterTask, 0, 10000); // every ten seconds
+
+  }
+
+  public XChartPanel buildPanel() throws IOException {
 
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - MTGOX
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, Currencies.USD, "MTGOX", "2M");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, Currencies.USD, "MTGOX", "3h");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
-    List<Date> xAxisData = new ArrayList<Date>();
-    List<Double> yAxisData = new ArrayList<Double>();
+    // build ticker history chart series data
+    xAxisData = new ArrayList<Date>();
+    yAxisData = new ArrayList<Double>();
     long runninTimestamp = bitcoiniumTickerHistory.getBaseTimestamp();
     for (int i = 0; i < bitcoiniumTickerHistory.getPriceHistoryList().size(); i++) {
 
@@ -76,12 +146,14 @@ public class BitcoiniumTickerHistoryDemo {
       yAxisData.add(price);
     }
 
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("MtGox Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
+    // create chart
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time MtGox Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
-    Series series = chart.addDateSeries("MtGox USD/BTC", xAxisData, yAxisData);
+    // add series
+    Series series = chart.addDateSeries(SERIES_NAME, xAxisData, yAxisData);
     series.setMarker(SeriesMarker.NONE);
 
-    new SwingWrapper(chart).displayChart();
+    return new XChartPanel(chart);
   }
 }
