@@ -56,9 +56,9 @@ public class BitcoiniumOrderBookChartDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - MTGOX
-    BitcoiniumOrderbook bitcoiniumOrderBook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
 
-    System.out.println("Order book: " + bitcoiniumOrderBook);
+    System.out.println("Order book: " + bitcoiniumOrderbook);
     System.out.println("received data.");
 
     System.out.println("plotting...");
@@ -74,17 +74,17 @@ public class BitcoiniumOrderBookChartDemo {
 
     // BIDS
 
-    Collections.reverse(bitcoiniumOrderBook.getBidPriceList());
-    Collections.reverse(bitcoiniumOrderBook.getBidVolumeList());
+    Collections.reverse(bitcoiniumOrderbook.getBidPriceList());
+    Collections.reverse(bitcoiniumOrderbook.getBidVolumeList());
 
     // Bids Series
-    Series series = chart.addSeries("bids", bitcoiniumOrderBook.getBidPriceList(), bitcoiniumOrderBook.getBidVolumeList());
+    Series series = chart.addSeries("bids", bitcoiniumOrderbook.getBidPriceList(), bitcoiniumOrderbook.getBidVolumeList());
     series.setMarker(SeriesMarker.NONE);
 
     // ASKS
 
     // Asks Series
-    series = chart.addSeries("asks", bitcoiniumOrderBook.getAskPriceList(), bitcoiniumOrderBook.getAskVolumeList());
+    series = chart.addSeries("asks", bitcoiniumOrderbook.getAskPriceList(), bitcoiniumOrderbook.getAskVolumeList());
     series.setMarker(SeriesMarker.NONE);
 
     new SwingWrapper(chart).displayChart();

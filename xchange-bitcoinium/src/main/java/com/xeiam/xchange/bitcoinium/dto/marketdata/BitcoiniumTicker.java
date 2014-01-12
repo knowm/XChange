@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class BitcoiniumTicker {
 
   private final BigDecimal last;
-  private final BigDecimal timestamp;
+  private final long timestamp;
   private final BigDecimal volume;
   private final BigDecimal high;
   private final BigDecimal low;
@@ -51,7 +51,7 @@ public final class BitcoiniumTicker {
    * @param ask
    * @param isAllTimeHigh
    */
-  public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") BigDecimal timestamp, @JsonProperty("v") BigDecimal volume, @JsonProperty("h") BigDecimal high,
+  public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") long timestamp, @JsonProperty("v") BigDecimal volume, @JsonProperty("h") BigDecimal high,
       @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask, @JsonProperty("ath") String isAllTimeHigh) {
 
     this.last = last;
@@ -69,7 +69,7 @@ public final class BitcoiniumTicker {
     return this.last;
   }
 
-  public BigDecimal getTimestamp() {
+  public long getTimestamp() {
 
     return this.timestamp;
   }

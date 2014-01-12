@@ -90,7 +90,7 @@ public class BitcoiniumGenericMarketDataService extends BitcoiniumMarketDataServ
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     String exchange = "";
     String priceWindow = "";
