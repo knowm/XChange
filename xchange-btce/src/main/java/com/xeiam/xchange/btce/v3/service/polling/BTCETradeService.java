@@ -104,7 +104,7 @@ public class BTCETradeService extends BTCEBaseService implements PollingTradeSer
       numberOfTransactions = (Long) arguments[0];
       tradableIdentifier = (String) arguments[1];
       transactionCurrency = (String) arguments[2];
-      id = (Long) arguments[3];
+      id = (Long) arguments[3]; 
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no arg given.
     }
