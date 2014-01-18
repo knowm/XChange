@@ -99,7 +99,7 @@ public class BTCETradeService extends BTCEBaseService implements PollingTradeSer
     Long numberOfTransactions = Long.MAX_VALUE;
     String tradableIdentifier = "";
     String transactionCurrency = "";
-    Long id = null;
+    Long id = null; 
     try {
       numberOfTransactions = (Long) arguments[0];
       tradableIdentifier = (String) arguments[1];
@@ -108,10 +108,10 @@ public class BTCETradeService extends BTCEBaseService implements PollingTradeSer
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no arg given.
     }
-    String pair = null;
-    if(!tradableIdentifier.equals("") && !transactionCurrency.equals("")){
-    	pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
-    }
+    String pair = null; 
+    if(!tradableIdentifier.equals("") && !transactionCurrency.equals("")){ 
+    	pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase(); 
+    } 
     BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
     checkResult(btceTradeHistory);
     return BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
