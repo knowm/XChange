@@ -96,20 +96,23 @@ public class BTCETradeService extends BTCEBaseService implements PollingTradeSer
 
   @Override
   public Trades getTradeHistory(final Object... arguments) throws IOException {
-
     Long numberOfTransactions = Long.MAX_VALUE;
     String tradableIdentifier = "";
     String transactionCurrency = "";
+    Long id = null; 
     try {
       numberOfTransactions = (Long) arguments[0];
       tradableIdentifier = (String) arguments[1];
       transactionCurrency = (String) arguments[2];
+      id = (Long) arguments[3]; 
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no arg given.
     }
-
-    String pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
-    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, numberOfTransactions, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
+    String pair = null; 
+    if(!tradableIdentifier.equals("") && !transactionCurrency.equals("")){ 
+    	pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase(); 
+    } 
+    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
     checkResult(btceTradeHistory);
     return BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
   }
