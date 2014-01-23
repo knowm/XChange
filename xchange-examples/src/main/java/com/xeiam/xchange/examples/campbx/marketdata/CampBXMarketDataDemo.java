@@ -71,11 +71,11 @@ public class CampBXMarketDataDemo {
     CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    CampBXTicker tcampBXTicker = campBXspecificMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);
+    CampBXTicker campBXTicker = campBXspecificMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);
 
-    System.out.println("Last: " + tcampBXTicker.getLast());
-    System.out.println("Bid: " + tcampBXTicker.getBid());
-    System.out.println("Ask: " + tcampBXTicker.getAsk());
+    System.out.println("Last: " + campBXTicker.getLast());
+    System.out.println("Bid: " + campBXTicker.getBid());
+    System.out.println("Ask: " + campBXTicker.getAsk());
 
     // Get the latest order book data for BTC/USD
     CampBXOrderBook campBXOrderBook = campBXspecificMarketDataService.getCampBXOrderBook(Currencies.BTC, Currencies.USD);
