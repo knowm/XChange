@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 
@@ -101,6 +102,10 @@ public class BitstampTradeService extends BasePollingExchangeService implements 
     else {
       bitstampOrder = bitstampAuthenticated.sell(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
+    if (bitstampOrder.getErrorMessage() != null) {
+      throw new ExchangeException(bitstampOrder.getErrorMessage());
+    }
+
     return Integer.toString(bitstampOrder.getId());
   }
 
