@@ -95,6 +95,7 @@ public final class BitstampOrder {
 
   @JsonIgnore
   public String getErrorMessage() {
+
     return errorMessage;
   }
 
