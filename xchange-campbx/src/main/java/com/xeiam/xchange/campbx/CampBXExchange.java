@@ -24,7 +24,7 @@ package com.xeiam.xchange.campbx;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.service.polling.CampBXGenericMarketDataService;
+import com.xeiam.xchange.campbx.service.polling.CampBXMarketDataService;
 import com.xeiam.xchange.campbx.service.polling.CampBXAccountService;
 import com.xeiam.xchange.campbx.service.polling.CampBXTradeService;
 
@@ -64,7 +64,7 @@ public class CampBXExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new CampBXGenericMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new CampBXMarketDataService(exchangeSpecification);
     this.pollingTradeService = new CampBXTradeService(exchangeSpecification);
     this.pollingAccountService = new CampBXAccountService(exchangeSpecification);
   }

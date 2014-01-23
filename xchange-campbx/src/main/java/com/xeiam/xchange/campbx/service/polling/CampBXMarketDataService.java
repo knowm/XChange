@@ -24,32 +24,22 @@ package com.xeiam.xchange.campbx.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.campbx.CampBX;
-import com.xeiam.xchange.campbx.CampBXUtils;
+import com.xeiam.xchange.campbx.CampBXAdapters;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
-import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * @author Matija Mazi
  */
-public class CampBXMarketDataService extends BasePollingExchangeService {
-
-  private final Logger logger = LoggerFactory.getLogger(CampBXMarketDataService.class);
-
-  private final CampBX campBX;
+public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
@@ -59,62 +49,39 @@ public class CampBXMarketDataService extends BasePollingExchangeService {
   public CampBXMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
-  public CampBXTicker getCampBXTicker(String tradableIdentifier, String currency) throws IOException {
+  @Override
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    CampBXTicker campbxTicker = getCampBXTicker(tradableIdentifier, currency);
 
-    CampBXTicker campbxTicker = campBX.getTicker();
-
-    if (!campbxTicker.isError()) {
-      return campbxTicker;
-    }
-    else {
-      throw new ExchangeException("Error calling getCampBXTicker(): " + campbxTicker.getError());
-    }
+    return CampBXAdapters.adaptTicker(campbxTicker, currency, tradableIdentifier);
   }
 
-  public CampBXOrderBook getCampBXOrderBook(String tradableIdentifier, String currency) throws IOException {
+  @Override
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    CampBXOrderBook campBXOrderBook = getCampBXOrderBook(tradableIdentifier, currency);
 
-    CampBXOrderBook campBXOrderBook = campBX.getOrderBook();
-
-    if (!campBXOrderBook.isError()) {
-      return campBXOrderBook;
-    }
-    else {
-      throw new ExchangeException("Error calling getCampBXFullOrderBook(): " + campBXOrderBook.getError());
-    }
+    return CampBXAdapters.adaptOrders(campBXOrderBook, currency, tradableIdentifier);
   }
 
-  public Trades getCampBXTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
-  public ExchangeInfo getCampBXExchangeInfo() throws IOException {
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
 
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(CampBXUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-  }
-
-  public List<CurrencyPair> getCampBXExchangeSymbols() {
-
-    return CampBXUtils.CURRENCY_PAIRS;
+    return getCampBXExchangeSymbols();
   }
 }

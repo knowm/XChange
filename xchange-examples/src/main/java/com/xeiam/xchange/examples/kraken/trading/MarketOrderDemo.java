@@ -48,7 +48,7 @@ public class MarketOrderDemo {
     String tradableIdentifier = "BTC";
     String transactionCurrency = "EUR";
 
-    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null);
 
     String orderID = tradeService.placeMarketOrder(marketOrder);
     System.out.println("Market Order ID: " + orderID);
