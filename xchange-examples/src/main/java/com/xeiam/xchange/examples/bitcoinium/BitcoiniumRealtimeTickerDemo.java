@@ -36,7 +36,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
+import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
@@ -53,7 +53,7 @@ import com.xeiam.xchart.XChartPanel;
  */
 public class BitcoiniumRealtimeTickerDemo {
 
-  BitcoiniumMarketDataService bitcoiniumMarketDataService;
+  BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   List<Date> xAxisData;
   List<Double> yAxisData;
   public static final String SERIES_NAME = "MtGox USD/BTC";
@@ -71,7 +71,7 @@ public class BitcoiniumRealtimeTickerDemo {
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    bitcoiniumMarketDataService = (BitcoiniumMarketDataService) bitcoiniumExchange.getPollingMarketDataService();
+    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
 
     // Setup the panel
     final XChartPanel chartPanel = buildPanel();

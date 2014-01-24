@@ -28,7 +28,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.campbx.CampBXExchange;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
-import com.xeiam.xchange.campbx.service.polling.CampBXMarketDataService;
+import com.xeiam.xchange.campbx.service.polling.CampBXMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -68,14 +68,14 @@ public class CampBXMarketDataDemo {
   private static void raw(Exchange campBXExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    CampBXMarketDataService campBXspecificMarketDataService = (CampBXMarketDataService) campBXExchange.getPollingMarketDataService();
+    CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    CampBXTicker tcampBXTicker = campBXspecificMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);
+    CampBXTicker campBXTicker = campBXspecificMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);
 
-    System.out.println("Last: " + tcampBXTicker.getLast());
-    System.out.println("Bid: " + tcampBXTicker.getBid());
-    System.out.println("Ask: " + tcampBXTicker.getAsk());
+    System.out.println("Last: " + campBXTicker.getLast());
+    System.out.println("Bid: " + campBXTicker.getBid());
+    System.out.println("Ask: " + campBXTicker.getAsk());
 
     // Get the latest order book data for BTC/USD
     CampBXOrderBook campBXOrderBook = campBXspecificMarketDataService.getCampBXOrderBook(Currencies.BTC, Currencies.USD);

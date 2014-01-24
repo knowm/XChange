@@ -30,7 +30,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
+import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
@@ -55,7 +55,7 @@ public class BitcoiniumTickerHistoryDemo {
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    BitcoiniumMarketDataService bitcoiniumMarketDataService = (BitcoiniumMarketDataService) bitcoiniumExchange.getPollingMarketDataService();
+    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
 
     System.out.println("fetching data...");
 

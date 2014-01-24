@@ -108,9 +108,12 @@ public interface PollingMarketDataService {
    * </p>
    * 
    * @return ExchangeInfo object
-   * @throws IOException
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
+  public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
   public static enum OrderBookType {
     PARTIAL, FULL

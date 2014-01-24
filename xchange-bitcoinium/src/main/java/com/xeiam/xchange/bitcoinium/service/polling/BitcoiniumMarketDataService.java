@@ -22,17 +22,20 @@
 package com.xeiam.xchange.bitcoinium.service.polling;
 
 import java.io.IOException;
+import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcoinium.Bitcoinium;
-import com.xeiam.xchange.bitcoinium.BitcoiniumUtils;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.bitcoinium.BitcoiniumAdapters;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
-import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
-import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * <p>
@@ -42,9 +45,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoiniumMarketDataService extends BasePollingExchangeService {
-
-  private final Bitcoinium bitcoinium;
+public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
@@ -54,97 +55,82 @@ public class BitcoiniumMarketDataService extends BasePollingExchangeService {
   public BitcoiniumMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchangeSpecification.getSslUri());
   }
 
-  /**
-   * @param tradableIdentifier
-   * @param currency
-   * @param exchange
-   * @return a Bitcoinium Ticker object
-   * @throws IOException
-   */
-  public BitcoiniumTicker getBitcoiniumTicker(String tradableIdentifier, String currency, String exchange) throws IOException {
+  @Override
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency, exchange);
+    String exchange = "";
 
-    verify(pair);
+    if (args.length == 1) {
+      Object arg = args[0];
+      if (!(arg instanceof String)) {
+        throw new ExchangeException("Exchange argument must be a String!");
+      }
+      else {
+        exchange = (String) arg;
+      }
+    }
+    else {
+      throw new ExchangeException("One and only one String argument is allowed!");
+    }
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair);
+    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(tradableIdentifier, currency, exchange);
 
     // Adapt to XChange DTOs
-    return bitcoiniumTicker;
+    return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currency, tradableIdentifier);
   }
 
-  /**
-   * @param tradableIdentifier
-   * @param currency
-   * @param exchange
-   * @param timeWindow - The time period of the requested ticker data. Value can be from set: { "10m", "1h", "3h", "12h", "24h", "3d", "7d", "30d", "2M" }
-   * @return
-   * @throws IOException
-   */
-  public BitcoiniumTickerHistory getBitcoiniumTickerHistory(String tradableIdentifier, String currency, String exchange, String timeWindow) throws IOException {
+  @Override
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency, exchange);
+    String exchange = "";
+    String priceWindow = "";
 
-    verify(pair);
-    verifyTimeWindow(timeWindow);
+    if (args.length == 2) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof String)) {
+        throw new ExchangeException("Exchange argument must be a String!");
+      }
+      else {
+        exchange = (String) arg0;
+      }
+      Object arg1 = args[1];
+      if (!(arg1 instanceof String)) {
+        throw new ExchangeException("priceWindow argument must be a String!");
+      }
+      else {
+        priceWindow = (String) arg1;
+      }
+    }
+    else {
+      throw new ExchangeException("Exactly 2 String arguments are necessary: exchange, and priceWindow!");
+    }
 
     // Request data
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoinium.getTickerHistory(pair, timeWindow);
+    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(tradableIdentifier, currency, exchange, priceWindow);
 
-    return bitcoiniumTickerHistory;
+    // Adapt to XChange DTOs
+    return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, tradableIdentifier, currency);
   }
 
-  /**
-   * @param tradableIdentifier
-   * @param currency
-   * @param exchange
-   * @param pricewindow - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p, 50p, 100p }
-   * @return
-   */
-  public BitcoiniumOrderbook getBitcoiniumOrderbook(String tradableIdentifier, String currency, String exchange, String pricewindow) throws IOException {
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency, exchange);
-
-    verify(pair);
-    verifyPriceWindow(pricewindow);
-
-    // Request data
-    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, pricewindow);
-
-    return bitcoiniumDepth;
+    throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * verify
-   * 
-   * @param pair
-   */
-  private void verify(String pair) {
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
 
-    Assert.isTrue(BitcoiniumUtils.isValidCurrencyPair(pair), pair + " is not a valid currency pair!");
+    throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * verify
-   * 
-   * @param pair
-   */
-  private void verifyPriceWindow(String priceWindow) {
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
-    Assert.isTrue(BitcoiniumUtils.isValidPriceWindow(priceWindow), priceWindow + " is not a valid price window!");
+    throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * verify
-   * 
-   * @param pair
-   */
-  private void verifyTimeWindow(String timeWindow) {
-
-    Assert.isTrue(BitcoiniumUtils.isValidTimeWindow(timeWindow), timeWindow + " is not a valid time window!");
-  }
 }

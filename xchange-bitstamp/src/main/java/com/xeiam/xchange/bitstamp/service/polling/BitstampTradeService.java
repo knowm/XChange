@@ -33,6 +33,7 @@ import org.joda.money.CurrencyUnit;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
@@ -101,6 +102,10 @@ public class BitstampTradeService extends BasePollingExchangeService implements 
     else {
       bitstampOrder = bitstampAuthenticated.sell(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
     }
+    if (bitstampOrder.getErrorMessage() != null) {
+      throw new ExchangeException(bitstampOrder.getErrorMessage());
+    }
+
     return Integer.toString(bitstampOrder.getId());
   }
 
