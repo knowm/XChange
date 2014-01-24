@@ -141,18 +141,21 @@ public final class Trade implements Comparable<Trade> {
   @Override
   public int compareTo(Trade trade) {
 
+    // NOTE: see https://github.com/timmolter/XChange/issues/225
     return ((Long) getId()).compareTo(trade.getId());
   }
 
   @Override
   public boolean equals(Object o) {
 
-    if (this == o)
+    if (this == o) {
       return true;
-    if (o == null || getClass() != o.getClass())
+    }
+    if (o == null || getClass() != o.getClass()) {
       return false;
+    }
 
-    return (id == ((Trade) o).id);
+    return (this.id == ((Trade) o).getId());
   }
 
   @Override

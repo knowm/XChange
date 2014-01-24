@@ -58,7 +58,7 @@ public final class Trades {
   }
 
   /**
-   * @return A list of trades ordered by timestamp
+   * @return A list of trades ordered by id
    */
   public List<Trade> getTrades() {
 
