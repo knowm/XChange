@@ -88,6 +88,7 @@
 		<module>xchange-mtgox</module>
 		<module>xchange-bitcoinaverage</module>
 		<module>xchange-bitfinex</module>
+		<module>xchange-justcoin</module>
 	</modules>
 
 	<repositories>
