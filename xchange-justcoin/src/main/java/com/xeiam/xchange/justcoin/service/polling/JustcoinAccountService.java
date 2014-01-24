@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -53,7 +54,7 @@ public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
   @Override
   public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
 
-    return withdrawFunds("BTC", amount, address).toString();
+    return withdrawFunds(Currencies.BTC, amount, address).toString();
   }
 
   /**
@@ -62,7 +63,7 @@ public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
-    return requestDepositAddress("BTC");
+    return requestDepositAddress(Currencies.BTC);
   }
 
 }

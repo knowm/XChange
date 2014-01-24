@@ -25,12 +25,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.Base64;
 
 /**
  * A central place for shared Justcoin properties
- * 
  * jamespedwards42
  */
 public final class JustcoinUtils {
@@ -42,7 +42,7 @@ public final class JustcoinUtils {
 
   }
 
-  public static final Set<String> CURRENCIES = new HashSet<String>(Arrays.asList("USD", "EUR", "NOK", "BTC", "LTC", "XRP"));
+  public static final Set<String> CURRENCIES = new HashSet<String>(Arrays.asList(Currencies.USD, Currencies.EUR, Currencies.NOK, Currencies.BTC, Currencies.LTC, Currencies.XRP));
 
   public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(Arrays.asList(
 
