@@ -91,7 +91,7 @@ public class JustcoinTradesTest {
   }
 
   @Test
-  public void testAdapter() throws IOException {
+  public void testAdapter() {
 
     final Trade trade = JustcoinAdapters.adaptTrade(justcoinTrade);
 

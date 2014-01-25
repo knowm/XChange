@@ -42,7 +42,7 @@ import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 /**
  * @author jamespedwards42
  */
-public class JustcoinBalancesJsonTest {
+public class JustcoinAccountBalancesTest {
 
   private String currency;
   private BigMoney balance;
@@ -61,7 +61,7 @@ public class JustcoinBalancesJsonTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    final InputStream is = JustcoinBalancesJsonTest.class.getResourceAsStream("/account/example-account-info-balances-data.json");
+    final InputStream is = JustcoinAccountBalancesTest.class.getResourceAsStream("/account/example-account-info-balances-data.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
@@ -75,7 +75,7 @@ public class JustcoinBalancesJsonTest {
   }
 
   @Test
-  public void testAdapter() throws IOException {
+  public void testAdapter() {
 
     final AccountInfo acctInfo = JustcoinAdapters.adaptAccountInfo("test", new JustcoinBalance[] { justcoinBalance });
 

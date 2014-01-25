@@ -90,7 +90,7 @@ public class JustcoinOrdersTest {
   }
 
   @Test
-  public void testAdapter() throws IOException {
+  public void testAdapter() {
 
     final LimitOrder limitOrder = JustcoinAdapters.adaptLimitOrder(justcoinOrder);
 

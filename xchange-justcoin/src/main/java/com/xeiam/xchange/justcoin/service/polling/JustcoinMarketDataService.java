@@ -22,16 +22,13 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
-import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
@@ -60,10 +57,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
 
     final JustcoinDepth justcoinDepth = getMarketDepth(tradableIdentifier, currency);
 
-    final List<LimitOrder> asks = JustcoinAdapters.adaptOrders(justcoinDepth.getAsks(), tradableIdentifier, currency, OrderType.ASK);
-    final List<LimitOrder> bids = JustcoinAdapters.adaptOrders(justcoinDepth.getBids(), tradableIdentifier, currency, OrderType.BID);
-
-    return new OrderBook(null, asks, bids);
+    return JustcoinAdapters.adaptOrderBook(tradableIdentifier, currency, justcoinDepth);
   }
 
   @Override

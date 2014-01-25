@@ -42,7 +42,7 @@ import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 /**
  * @author jamespedwards42
  */
-public class JustcoinTickerJsonTest {
+public class JustcoinTickerTest {
 
   private String tradableIdentifier;
   private String currency;
@@ -73,7 +73,7 @@ public class JustcoinTickerJsonTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    final InputStream is = JustcoinTickerJsonTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    final InputStream is = JustcoinTickerTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
@@ -86,7 +86,7 @@ public class JustcoinTickerJsonTest {
   }
 
   @Test
-  public void testAdapter() throws IOException {
+  public void testAdapter() {
 
     final Ticker ticker = JustcoinAdapters.adaptTicker(new JustcoinTicker[] { justcoinTicker }, tradableIdentifier, currency);
 

@@ -19,40 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.service.marketdata;
+package com.xeiam.xchange.justcoin.service.account;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
+import com.xeiam.xchange.justcoin.dto.account.JustcoinDepositAddress;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinDepthJsonTest {
+public class JustcoinDepositAddressTest {
 
+  final String address = "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB";
+  
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    final InputStream is = JustcoinDepthJsonTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    final InputStream is = JustcoinDepositAddressTest.class.getResourceAsStream("/account/example-deposit-address-data.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
-    final JustcoinDepth orderBook = mapper.readValue(is, JustcoinDepth.class);
+    final JustcoinDepositAddress justcoinDepositAddress = mapper.readValue(is, JustcoinDepositAddress.class);
 
-    // Verify that the example data was unmarshalled correctly
-    assertThat(orderBook.getBids().get(0).get(0)).isEqualTo(new BigDecimal("835.000"));
-    assertThat(orderBook.getBids().get(0).get(1)).isEqualTo(new BigDecimal("0.05450"));
-    assertThat(orderBook.getAsks().get(0).get(0)).isEqualTo(new BigDecimal("844.950"));
-    assertThat(orderBook.getAsks().get(0).get(1)).isEqualTo(new BigDecimal("0.02000"));
-    assertThat(orderBook.getBids().size()).isEqualTo(43);
-    assertThat(orderBook.getAsks().size()).isEqualTo(41);
+    assertThat(justcoinDepositAddress.getAddress()).isEqualTo(address);
   }
+
 }
