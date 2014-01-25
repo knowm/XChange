@@ -35,11 +35,6 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class JustcoinAccountService extends JustcoinAccountServiceRaw implements PollingAccountService {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
   public JustcoinAccountService(final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -57,13 +52,9 @@ public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
     return withdrawFunds(Currencies.BTC, amount, address).toString();
   }
 
-  /**
-   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
-   */
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
     return requestDepositAddress(Currencies.BTC);
   }
-
 }

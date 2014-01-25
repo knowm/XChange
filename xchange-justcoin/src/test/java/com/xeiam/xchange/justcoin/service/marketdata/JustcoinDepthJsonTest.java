@@ -35,13 +35,13 @@ import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
 /**
  * @author jamespedwards42
  */
-public class DepthJsonTest {
+public class JustcoinDepthJsonTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    final InputStream is = DepthJsonTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    final InputStream is = JustcoinDepthJsonTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();

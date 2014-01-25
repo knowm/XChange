@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.service.account;
+package com.xeiam.xchange.justcoin.service.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -34,53 +34,69 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.JustcoinUtils;
-import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
+import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinBalancesJsonTest {
+public class JustcoinTickerJsonTest {
 
+  private String tradableIdentifier;
   private String currency;
-  private BigMoney balance;
-  private JustcoinBalance justcoinBalance;
+  private BigMoney high;
+  private BigMoney low;
+  private BigMoney last;
+  private BigMoney bid;
+  private BigMoney ask;
+  private BigDecimal volume;
+  private JustcoinTicker justcoinTicker;
 
   @Before
   public void before() {
 
     // initialize expected values
-    currency = Currencies.LTC;
-    balance = MoneyUtils.parseMoney(currency, BigDecimal.valueOf(0.00055586));
-    justcoinBalance = new JustcoinBalance(currency, balance.getAmount(), BigDecimal.ZERO, BigDecimal.valueOf(0.00055586));
+    tradableIdentifier = Currencies.BTC;
+    currency = Currencies.XRP;
+    high = MoneyUtils.parseMoney(currency, BigDecimal.valueOf(43998.000));
+    low = MoneyUtils.parseMoney(currency, BigDecimal.valueOf(40782.944));
+    last = MoneyUtils.parseMoney(currency, BigDecimal.valueOf(40900.000));
+    bid = MoneyUtils.parseMoney(currency, BigDecimal.valueOf(40905.000));
+    ask = MoneyUtils.parseMoney(currency, BigDecimal.valueOf(43239.000));
+    volume = BigDecimal.valueOf(26.39377);
+    justcoinTicker = new JustcoinTicker(JustcoinUtils.getApiMarket(tradableIdentifier, currency), high.getAmount(), low.getAmount(), volume, last.getAmount(), bid.getAmount(), ask.getAmount(), 3);
   }
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    final InputStream is = JustcoinBalancesJsonTest.class.getResourceAsStream("/account/example-account-info-balances-data.json");
+    final InputStream is = JustcoinTickerJsonTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
-    final JustcoinBalance[] justcoinBalances = mapper.readValue(is, new JustcoinBalance[0].getClass());
+    final JustcoinTicker[] tickers = mapper.readValue(is, new JustcoinTicker[0].getClass());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(justcoinBalances.length).isEqualTo(JustcoinUtils.CURRENCIES.size());
-    final JustcoinBalance ltcBalance = justcoinBalances[3];
-    assertThat(ltcBalance).isEqualTo(justcoinBalance);
-    assertThat(ltcBalance.getHold().scale()).isEqualTo(8);
+    assertThat(tickers.length).isEqualTo(5);
+    final JustcoinTicker xrpTicker = tickers[4];
+    assertThat(xrpTicker).isEqualTo(justcoinTicker);
   }
 
   @Test
   public void testAdapter() throws IOException {
 
-    final AccountInfo acctInfo = JustcoinAdapters.adaptAccountInfo("test", new JustcoinBalance[] { justcoinBalance });
+    final Ticker ticker = JustcoinAdapters.adaptTicker(new JustcoinTicker[] { justcoinTicker }, tradableIdentifier, currency);
 
-    assertThat(acctInfo.getBalance(balance.getCurrencyUnit())).isEqualTo(balance);
-    assertThat(acctInfo.getWallets().size()).isEqualTo(1);
-    assertThat(acctInfo.getTradingFee()).isNull();
+    assertThat(ticker.getLast()).isEqualTo(last);
+    assertThat(ticker.getHigh()).isEqualTo(high);
+    assertThat(ticker.getLow()).isEqualTo(low);
+    assertThat(ticker.getBid()).isEqualTo(bid);
+    assertThat(ticker.getAsk()).isEqualTo(ask);
+    assertThat(ticker.getVolume()).isEqualTo(volume);
+    assertThat(ticker.getTimestamp()).isNull();
+    assertThat(ticker.getTradableIdentifier()).isEqualTo(tradableIdentifier);
   }
 }

@@ -27,8 +27,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing depth from Justcoin
- * 
  * @author jamespedwards42
  */
 public class JustcoinDepth {

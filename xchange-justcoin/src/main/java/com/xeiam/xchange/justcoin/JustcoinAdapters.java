@@ -32,34 +32,25 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
+import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
+import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
 
 /**
- * Various adapters for converting from Justcoin DTOs to XChange DTOs
- * 
  * jamespedwards42
  */
 public final class JustcoinAdapters {
 
-  /**
-   * private Constructor
-   */
   private JustcoinAdapters() {
 
   }
 
-  /**
-   * Adapts a List of Justcoin Orders to a List of LimitOrders
-   * 
-   * @param justcoinOrders
-   * @param currency
-   * @param orderType
-   * @param id
-   * @return
-   */
   public static List<LimitOrder> adaptOrders(final List<List<BigDecimal>> justcoinOrders, final String tradableIdentifier, final String currency, final OrderType orderType) {
 
     final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -71,16 +62,6 @@ public final class JustcoinAdapters {
     return limitOrders;
   }
 
-  /**
-   * Adapts a Justcoin Order to a LimitOrder
-   * 
-   * @param amount
-   * @param price
-   * @param currency
-   * @param orderTypeString
-   * @param id
-   * @return
-   */
   public static LimitOrder adaptOrder(final BigDecimal amount, final BigDecimal price, final String tradableIdentifier, final String currency, final OrderType orderType) {
 
     final BigMoney limitPrice = MoneyUtils.parseMoney(currency, price);
@@ -88,19 +69,13 @@ public final class JustcoinAdapters {
     return new LimitOrder(orderType, amount, tradableIdentifier, currency, null, null, limitPrice);
   }
 
-  /**
-   * Adapts a JustcoinTicker to a Ticker
-   * 
-   * @param justcoinTickers
-   * @return
-   */
   public static Ticker adaptTicker(final JustcoinTicker[] justcoinTickers, final String tradableIdentifier, final String currency) {
 
     for (final JustcoinTicker justcointTicker : justcoinTickers) {
       if (justcointTicker.getId().equals(tradableIdentifier + currency)) {
         final BigMoney last = MoneyUtils.parseMoney(currency, justcointTicker.getLast());
-        final BigMoney bid = MoneyUtils.parseMoney(currency, justcointTicker.getAsk());
-        final BigMoney ask = MoneyUtils.parseMoney(currency, justcointTicker.getBid());
+        final BigMoney bid = MoneyUtils.parseMoney(currency, justcointTicker.getBid());
+        final BigMoney ask = MoneyUtils.parseMoney(currency, justcointTicker.getAsk());
         final BigMoney high = MoneyUtils.parseMoney(currency, justcointTicker.getHigh());
         final BigMoney low = MoneyUtils.parseMoney(currency, justcointTicker.getLow());
         final BigDecimal volume = justcointTicker.getVolume();
@@ -124,4 +99,39 @@ public final class JustcoinAdapters {
     return new AccountInfo(username, wallets);
   }
 
+  public static OpenOrders adaptOpenOrders(final JustcoinOrder[] justoinOrders) {
+
+    final List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    for (final JustcoinOrder justcoinOrder : justoinOrders)
+      openOrders.add(adaptLimitOrder(justcoinOrder));
+
+    return new OpenOrders(openOrders);
+  }
+
+  public static LimitOrder adaptLimitOrder(final JustcoinOrder justcoinOrder) {
+
+    final String tradableIdentifier = JustcoinUtils.getTradableIdentifierFromApiMarket(justcoinOrder.getMarket());
+    final String transactionCurrency = JustcoinUtils.getPriceCurrencyFromApiMarket(justcoinOrder.getMarket());
+    final BigMoney limitPrice = MoneyUtils.parseMoney(transactionCurrency, justcoinOrder.getPrice());
+    return new LimitOrder(OrderType.valueOf(justcoinOrder.getType().toUpperCase()), justcoinOrder.getAmount(), tradableIdentifier, transactionCurrency, justcoinOrder.getId(), justcoinOrder
+        .getCreatedAt(), limitPrice);
+  }
+
+  public static Trades adaptTrades(final JustcoinTrade[] justoinOrders) {
+
+    final List<Trade> openOrders = new ArrayList<Trade>();
+    for (final JustcoinTrade justcoinOrder : justoinOrders)
+      openOrders.add(adaptTrade(justcoinOrder));
+
+    return new Trades(openOrders);
+  }
+
+  public static Trade adaptTrade(final JustcoinTrade justcoinTrade) {
+
+    final String tradableIdentifier = JustcoinUtils.getTradableIdentifierFromApiMarket(justcoinTrade.getMarket());
+    final String transactionCurrency = JustcoinUtils.getPriceCurrencyFromApiMarket(justcoinTrade.getMarket());
+    final BigMoney price = MoneyUtils.parseMoney(transactionCurrency, justcoinTrade.getAveragePrice());
+    final long id = Long.valueOf(justcoinTrade.getId());
+    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), tradableIdentifier, transactionCurrency, price, justcoinTrade.getCreatedAt(), id);
+  }
 }

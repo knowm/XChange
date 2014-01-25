@@ -24,10 +24,8 @@ package com.xeiam.xchange.justcoin.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -40,19 +38,10 @@ import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * <p>
- * Implementation of the market data service for Justcoin
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
  * @author jamespedwards42
  */
 public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw implements PollingMarketDataService {
 
-  /**
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
   public JustcoinMarketDataService(final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -63,25 +52,14 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
 
     final JustcoinTicker[] justcoinTickers = getTickers(tradableIdentifier, currency);
 
-    // Adapt to XChange DTOs
     return JustcoinAdapters.adaptTicker(justcoinTickers, tradableIdentifier, currency);
   }
 
-  /**
-   * Get market depth from exchange
-   * 
-   * @param tradableIdentifier The trade identifier to use (e.g. BTC or GOOG). First currency of the pair
-   * @param currency The currency used for pricing.
-   * @param args Optional arguments. Unused by JustcoinExchange
-   * @return The OrderBook
-   * @throws IOException
-   */
   @Override
   public OrderBook getOrderBook(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
 
     final JustcoinDepth justcoinDepth = getMarketDepth(tradableIdentifier, currency);
 
-    // Adapt to XChange DTOs
     final List<LimitOrder> asks = JustcoinAdapters.adaptOrders(justcoinDepth.getAsks(), tradableIdentifier, currency, OrderType.ASK);
     final List<LimitOrder> bids = JustcoinAdapters.adaptOrders(justcoinDepth.getBids(), tradableIdentifier, currency, OrderType.BID);
 
@@ -89,16 +67,14 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   }
 
   @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
+  public ExchangeInfo getExchangeInfo() throws NotAvailableFromExchangeException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(final String tradableIdentifier, final String currency, final Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(final String tradableIdentifier, final String currency, final Object... args) throws NotAvailableFromExchangeException {
 
     throw new NotAvailableFromExchangeException();
   }
-
 }

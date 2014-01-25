@@ -22,25 +22,31 @@
 package com.xeiam.xchange.justcoin;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * @author jamespedwards42
  */
-@Path("api/v1")
-public interface Justcoin {
+public class JustcoinTimestampDeserializer extends JsonDeserializer<Date> {
 
-  @GET
-  @Path("markets")
-  JustcoinTicker[] getTickers() throws IOException;
+  private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
-  @GET
-  @Path("markets/{ident}{currency}/depth")
-  JustcoinDepth getDepth(final @PathParam("ident") String tradeableIdentifier, final @PathParam("currency") String currency) throws IOException;
+  @Override
+  public Date deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+    final String str = jp.getValueAsString();
+    try {
+      return dateFormat.parse(str);
+    } catch (ParseException e) {
+      throw new InvalidFormatException("Error parsing as date", str, Date.class);
+    }
+  }
 }

@@ -26,27 +26,17 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.justcoin.service.polling.JustcoinAccountService;
 import com.xeiam.xchange.justcoin.service.polling.JustcoinMarketDataService;
+import com.xeiam.xchange.justcoin.service.polling.JustcoinTradeService;
 
 /**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BTCE exchange API</li>
- * </ul>
+ * @author jamespedwards42
  */
 public class JustcoinExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
   public JustcoinExchange() {
 
   }
 
-  /**
-   * @return A default configuration for this exchange
-   */
   public static Exchange newInstance() {
 
     final Exchange exchange = new JustcoinExchange();
@@ -61,7 +51,7 @@ public class JustcoinExchange extends BaseExchange implements Exchange {
 
     this.pollingMarketDataService = new JustcoinMarketDataService(exchangeSpecification);
     this.pollingAccountService = new JustcoinAccountService(exchangeSpecification);
-
+    this.pollingTradeService = new JustcoinTradeService(exchangeSpecification);
   }
 
   @Override

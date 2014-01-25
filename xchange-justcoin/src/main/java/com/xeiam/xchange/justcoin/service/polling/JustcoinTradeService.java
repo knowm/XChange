@@ -22,44 +22,52 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.justcoin.Justcoin;
-import com.xeiam.xchange.justcoin.JustcoinUtils;
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.justcoin.JustcoinAdapters;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinMarketDataServiceRaw extends BasePollingExchangeService {
+public class JustcoinTradeService extends JustcoinTradeServiceRaw implements PollingTradeService {
 
-  protected final Justcoin justcoin;
-
-  public JustcoinMarketDataServiceRaw(final ExchangeSpecification exchangeSpecification) {
+  public JustcoinTradeService(final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.justcoin = RestProxyFactory.createProxy(Justcoin.class, exchangeSpecification.getSslUri());
   }
 
-  public JustcoinTicker[] getTickers(final String tradableIdentifier, final String currency) throws IOException {
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
 
-    return justcoin.getTickers();
+    return JustcoinAdapters.adaptOpenOrders(super.getOrders());
   }
 
-  public JustcoinDepth getMarketDepth(final String tradableIdentifier, final String currency) throws IOException {
+  @Override
+  public String placeMarketOrder(final MarketOrder marketOrder) throws IOException {
 
-    return justcoin.getDepth(tradableIdentifier.toUpperCase(), currency.toUpperCase());
+    return super.placeMarketOrder(marketOrder, false);
   }
 
-  public List<CurrencyPair> getExchangeSymbols() {
+  @Override
+  public String placeLimitOrder(final LimitOrder limitOrder) throws IOException {
 
-    return new ArrayList<CurrencyPair>(JustcoinUtils.CURRENCY_PAIRS);
+    return super.placeLimitOrder(limitOrder, false);
+  }
+
+  @Override
+  public boolean cancelOrder(final String orderId) throws IOException {
+
+    return super.cancelOrder(orderId);
+  }
+
+  @Override
+  public Trades getTradeHistory(final Object... arguments) throws IOException {
+
+    return JustcoinAdapters.adaptTrades(super.getOrderHistory());
   }
 }
