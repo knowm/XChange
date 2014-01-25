@@ -85,7 +85,6 @@ public class JustcoinTradesTest {
     final ObjectMapper mapper = new ObjectMapper();
     final JustcoinTrade[] justcoinTrades = mapper.readValue(is, new JustcoinTrade[0].getClass());
     final JustcoinTrade deserializedTrade = justcoinTrades[0];
-    System.out.println(deserializedTrade);
     assertThat(justcoinTrades.length).isEqualTo(3);
     assertThat(deserializedTrade).isEqualTo(justcoinTrade);
   }

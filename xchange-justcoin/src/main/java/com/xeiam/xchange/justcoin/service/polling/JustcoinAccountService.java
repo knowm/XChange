@@ -49,7 +49,7 @@ public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
   @Override
   public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
 
-    return withdrawFunds(Currencies.BTC, amount, address).toString();
+    return withdrawFunds(Currencies.BTC, amount, address);
   }
 
   @Override

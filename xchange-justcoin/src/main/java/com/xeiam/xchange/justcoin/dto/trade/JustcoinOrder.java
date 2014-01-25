@@ -26,7 +26,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.justcoin.JustcoinTimestampDeserializer;
+import com.xeiam.xchange.justcoin.dto.JustcoinTimestampDeserializer;
 
 /**
  * @author jamespedwards42

@@ -29,7 +29,7 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.justcoin.dto.account.PostCreateResponse;
+import com.xeiam.xchange.justcoin.dto.PostCreateResponse;
 import com.xeiam.xchange.justcoin.service.marketdata.JustcoinDepthTest;
 
 /**

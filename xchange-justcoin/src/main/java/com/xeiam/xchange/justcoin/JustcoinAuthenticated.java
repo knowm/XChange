@@ -33,9 +33,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 
+import com.xeiam.xchange.justcoin.dto.PostCreateResponse;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinDepositAddress;
-import com.xeiam.xchange.justcoin.dto.account.PostCreateResponse;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
 

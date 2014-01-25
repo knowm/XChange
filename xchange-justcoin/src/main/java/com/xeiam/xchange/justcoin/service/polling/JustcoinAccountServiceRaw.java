@@ -30,7 +30,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.justcoin.JustcoinAuthenticated;
 import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
-import com.xeiam.xchange.justcoin.dto.account.PostCreateResponse;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
@@ -60,9 +59,9 @@ public class JustcoinAccountServiceRaw extends BasePollingExchangeService {
     return justcoinAuthenticated.getDepositAddress(currency, getBasicAuthentication(), exchangeSpecification.getApiKey()).getAddress();
   }
 
-  public PostCreateResponse withdrawFunds(final String currency, final BigDecimal amount, final String address) throws IOException {
+  public String withdrawFunds(final String currency, final BigDecimal amount, final String address) throws IOException {
 
-    return justcoinAuthenticated.withdraw(currency, address, amount, getBasicAuthentication(), exchangeSpecification.getApiKey());
+    return justcoinAuthenticated.withdraw(currency, address, amount, getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
   private String getBasicAuthentication() {

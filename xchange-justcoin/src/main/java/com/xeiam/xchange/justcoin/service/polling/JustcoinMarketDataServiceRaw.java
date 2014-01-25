@@ -48,7 +48,7 @@ public class JustcoinMarketDataServiceRaw extends BasePollingExchangeService {
     this.justcoin = RestProxyFactory.createProxy(Justcoin.class, exchangeSpecification.getSslUri());
   }
 
-  public JustcoinTicker[] getTickers(final String tradableIdentifier, final String currency) throws IOException {
+  public JustcoinTicker[] getTickers() throws IOException {
 
     return justcoin.getTickers();
   }

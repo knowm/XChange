@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin;
+package com.xeiam.xchange.justcoin.dto;
 
 import java.io.IOException;
 import java.text.ParseException;

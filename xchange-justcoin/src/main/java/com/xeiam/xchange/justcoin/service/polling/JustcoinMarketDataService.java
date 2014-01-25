@@ -47,7 +47,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
 
-    final JustcoinTicker[] justcoinTickers = getTickers(tradableIdentifier, currency);
+    final JustcoinTicker[] justcoinTickers = getTickers();
 
     return JustcoinAdapters.adaptTicker(justcoinTickers, tradableIdentifier, currency);
   }
