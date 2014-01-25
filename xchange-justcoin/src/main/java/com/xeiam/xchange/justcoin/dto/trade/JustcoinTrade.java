@@ -26,7 +26,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.justcoin.dto.JustcoinTimestampDeserializer;
+import com.xeiam.xchange.utils.jackson.ISODateDeserializer;
 
 /**
  * @author jamespedwards42
@@ -46,7 +46,7 @@ public class JustcoinTrade {
 
   public JustcoinTrade(final @JsonProperty("id") String id, final @JsonProperty("market") String market, final @JsonProperty("type") String type, final @JsonProperty("price") BigDecimal price,
       final @JsonProperty("amount") BigDecimal amount, final @JsonProperty("remaining") BigDecimal remaining, final @JsonProperty("matched") BigDecimal matched,
-      final @JsonProperty("cancelled") BigDecimal cancelled, final @JsonProperty("createdAt") @JsonDeserialize(using = JustcoinTimestampDeserializer.class) Date createdAt,
+      final @JsonProperty("cancelled") BigDecimal cancelled, final @JsonProperty("createdAt") @JsonDeserialize(using = ISODateDeserializer.class) Date createdAt,
       final @JsonProperty("averagePrice") BigDecimal averagePrice) {
 
     this.id = id;

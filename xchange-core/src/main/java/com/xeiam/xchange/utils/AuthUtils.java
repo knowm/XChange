@@ -19,34 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.dto;
+package com.xeiam.xchange.utils;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+public class AuthUtils {
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+  /**
+   * Generates a BASE64 Basic Authentication String
+   * 
+   * @param user
+   * @param pass
+   * @return BASE64 Basic Authentication String
+   */
+  public static String getBasicAuth(final String user, final String pass) {
 
-/**
- * @author jamespedwards42
- */
-public class JustcoinTimestampDeserializer extends JsonDeserializer<Date> {
-
-  private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-
-  @Override
-  public Date deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
-
-    final String str = jp.getValueAsString();
-    try {
-      return dateFormat.parse(str);
-    } catch (ParseException e) {
-      throw new InvalidFormatException("Error parsing as date", str, Date.class);
-    }
+    return "Basic " + Base64.encodeBytes((user + ":" + pass).getBytes());
   }
 }

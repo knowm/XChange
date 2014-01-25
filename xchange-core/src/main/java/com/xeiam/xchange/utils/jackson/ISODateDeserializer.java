@@ -19,35 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.service.trade;
-
-import static org.fest.assertions.api.Assertions.assertThat;
+package com.xeiam.xchange.utils.jackson;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Date;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.justcoin.dto.PostCreateResponse;
-import com.xeiam.xchange.justcoin.service.marketdata.JustcoinDepthTest;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
+ * Deserializes an ISO formatted Date String to a Java Date
+ * ISO format: 'yyyy-MM-dd'T'HH:mm:ss.SSS'Z''
+ * 
  * @author jamespedwards42
  */
-public class JustcoinPostCreateResponseJsonTest {
+public class ISODateDeserializer extends JsonDeserializer<Date> {
 
-  
-  @Test
-  public void testUnmarshal() throws IOException {
+  @Override
+  public Date deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-    // Read in the JSON from the example resources
-    final InputStream is = JustcoinDepthTest.class.getResourceAsStream("/trade/example-post-create-response-data.json");
-
-    // Use Jackson to parse it
-    final ObjectMapper mapper = new ObjectMapper();
-    final PostCreateResponse response = mapper.readValue(is, PostCreateResponse.class);
-    
-    assertThat(response.getId()).isEqualTo("1895549");
+    return DateUtils.fromISODateString(jp.getValueAsString());
   }
 }

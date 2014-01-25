@@ -28,9 +28,9 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.justcoin.JustcoinAuthenticated;
-import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.utils.AuthUtils;
 
 /**
  * @author jamespedwards42
@@ -48,7 +48,7 @@ public class JustcoinAccountServiceRaw extends BasePollingExchangeService {
   public JustcoinBalance[] getBalances() throws IOException {
 
     final String username = exchangeSpecification.getUserName();
-    final String basicAuth = JustcoinUtils.getBasicAuth(username, exchangeSpecification.getPassword());
+    final String basicAuth = AuthUtils.getBasicAuth(username, exchangeSpecification.getPassword());
     final JustcoinBalance[] justcoinBalances = justcoinAuthenticated.getBalances(basicAuth, exchangeSpecification.getApiKey());
 
     return justcoinBalances;
@@ -66,6 +66,6 @@ public class JustcoinAccountServiceRaw extends BasePollingExchangeService {
 
   private String getBasicAuthentication() {
 
-    return JustcoinUtils.getBasicAuth(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    return AuthUtils.getBasicAuth(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 }

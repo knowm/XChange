@@ -27,7 +27,6 @@ import java.util.Set;
 
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.utils.Base64;
 
 /**
  * jamespedwards42
@@ -61,10 +60,5 @@ public final class JustcoinUtils {
   public static String getPriceCurrencyFromApiMarket(final String market) {
 
     return market.substring(3);
-  }
-
-  public static String getBasicAuth(final String user, final String pass) {
-
-    return "Basic " + Base64.encodeBytes((user + ":" + pass).getBytes());
   }
 }
