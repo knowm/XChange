@@ -26,16 +26,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author jamespedwards42
  */
-public class WithdrawResponse {
+public class PostCreateResponse {
 
-  private final int id;
+  private final String id;
 
-  public WithdrawResponse(final @JsonProperty("id") int id) {
+  public PostCreateResponse(final @JsonProperty("id") String id) {
 
     this.id = id;
   }
 
-  public int getId() {
+  public String getId() {
 
     return id;
   }

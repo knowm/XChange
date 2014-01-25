@@ -50,13 +50,13 @@ public class JustcoinTradeService extends JustcoinTradeServiceRaw implements Pol
   @Override
   public String placeMarketOrder(final MarketOrder marketOrder) throws IOException {
 
-    return super.placeMarketOrder(marketOrder, false);
+    return super.placeMarketOrder(marketOrder);
   }
 
   @Override
   public String placeLimitOrder(final LimitOrder limitOrder) throws IOException {
 
-    return super.placeLimitOrder(limitOrder, false);
+    return super.placeLimitOrder(limitOrder);
   }
 
   @Override

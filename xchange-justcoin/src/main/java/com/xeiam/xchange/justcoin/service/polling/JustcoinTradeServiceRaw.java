@@ -57,18 +57,18 @@ public class JustcoinTradeServiceRaw extends BasePollingExchangeService {
     return justcoinAuthenticated.getOrderHistory(getBasicAuthentication(), exchangeSpecification.getApiKey());
   }
 
-  public String placeMarketOrder(final MarketOrder marketOrder, final boolean allOrNothing) throws IOException {
+  public String placeMarketOrder(final MarketOrder marketOrder) throws IOException {
 
     final String market = JustcoinUtils.getApiMarket(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
     return justcoinAuthenticated
-        .createMarketOrder(market, marketOrder.getType().toString(), marketOrder.getTradableAmount(), allOrNothing, getBasicAuthentication(), exchangeSpecification.getApiKey());
+        .createMarketOrder(market, marketOrder.getType().toString().toLowerCase(), marketOrder.getTradableAmount(), getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
-  public String placeLimitOrder(final LimitOrder limitOrder, final boolean allOrNothing) throws IOException {
+  public String placeLimitOrder(final LimitOrder limitOrder) throws IOException {
 
     final String market = JustcoinUtils.getApiMarket(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
-    return justcoinAuthenticated.createLimitOrder(market, limitOrder.getType().toString(), limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(), allOrNothing,
-        getBasicAuthentication(), exchangeSpecification.getApiKey());
+    return justcoinAuthenticated.createLimitOrder(market, limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(),
+        getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
   public boolean cancelOrder(final String orderId) throws IOException {

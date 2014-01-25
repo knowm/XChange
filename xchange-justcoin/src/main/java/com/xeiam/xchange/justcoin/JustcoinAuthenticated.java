@@ -35,7 +35,7 @@ import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinDepositAddress;
-import com.xeiam.xchange.justcoin.dto.account.WithdrawResponse;
+import com.xeiam.xchange.justcoin.dto.account.PostCreateResponse;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
 
@@ -56,31 +56,28 @@ public interface JustcoinAuthenticated {
 
   @POST
   @Path("{currency}/out")
-  public WithdrawResponse withdraw(final @PathParam("currency") String currency, final @FormParam("address") String address, final @FormParam("amount") BigDecimal amount,
+  public PostCreateResponse withdraw(final @PathParam("currency") String currency, final @FormParam("address") String address, final @FormParam("amount") BigDecimal amount,
       final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
   @GET
   @Path("orders")
   public JustcoinOrder[] getOrders(final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
-  
+
   @GET
   @Path("orders/history")
   public JustcoinTrade[] getOrderHistory(final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
-  
-  
+
   @POST
   @Path("orders")
-  public String createMarketOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, 
-      final @FormParam("amount") BigDecimal amount, final @FormParam("aon") boolean allOrNothing, 
+  public PostCreateResponse createMarketOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, final @FormParam("amount") BigDecimal amount,
       final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
   @POST
   @Path("orders")
-  public String createLimitOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, 
-      final @FormParam("price") BigDecimal limitPrice, final @FormParam("amount") BigDecimal amount, final @FormParam("aon") boolean allOrNothing,
-      final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
+  public PostCreateResponse createLimitOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, final @FormParam("price") BigDecimal limitPrice,
+      final @FormParam("amount") BigDecimal amount, final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
   @DELETE
   @Path("orders/{orderId}")
-  public String cancelOrder(final @PathParam("orderId") String orderId, final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
+  public void cancelOrder(final @PathParam("orderId") String orderId, final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 }
