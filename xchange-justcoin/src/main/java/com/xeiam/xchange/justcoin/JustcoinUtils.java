@@ -19,81 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v3;
+package com.xeiam.xchange.justcoin;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * A central place for shared BTC-E properties
+ * jamespedwards42
  */
-public final class BTCEUtils {
+public final class JustcoinUtils {
 
-  /**
-   * private Constructor
-   */
-  private BTCEUtils() {
+  private JustcoinUtils() {
 
   }
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+  public static final Set<String> CURRENCIES = new HashSet<String>(Arrays.asList(Currencies.USD, Currencies.EUR, Currencies.NOK, Currencies.BTC, Currencies.LTC, Currencies.XRP));
 
-  CurrencyPair.BTC_USD,
+  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.BTC_EUR, CurrencyPair.BTC_NOK,
+      CurrencyPair.BTC_XRP));
 
-  CurrencyPair.BTC_RUR,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.LTC_BTC,
-
-  CurrencyPair.LTC_USD,
-
-  CurrencyPair.LTC_RUR,
-
-  CurrencyPair.LTC_EUR,
-
-  CurrencyPair.NMC_BTC,
-
-  CurrencyPair.NMC_USD,
-
-  CurrencyPair.USD_RUR,
-
-  CurrencyPair.EUR_USD,
-  
-  CurrencyPair.EUR_RUR,
-
-  CurrencyPair.NVC_BTC,
-
-  CurrencyPair.NVC_USD,
-
-  CurrencyPair.TRC_BTC,
-
-  CurrencyPair.PPC_BTC,
-
-  CurrencyPair.PPC_USD,
-
-  CurrencyPair.FTC_BTC,
-
-  CurrencyPair.XPM_BTC
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+  public static boolean isValidCurrencyPair(final CurrencyPair currencyPair) {
 
     return CURRENCY_PAIRS.contains(currencyPair);
   }
 
-  public static String getPair(String tradableIdentifier, String currency) {
+  public static String getApiMarket(final String tradableIdentifier, final String currency) {
 
-    return tradableIdentifier.toLowerCase() + "_" + currency.toLowerCase();
+    return tradableIdentifier + currency;
   }
 
+  public static String getTradableIdentifierFromApiMarket(final String market) {
+
+    return market.substring(0, 3);
+  }
+
+  public static String getPriceCurrencyFromApiMarket(final String market) {
+
+    return market.substring(3);
+  }
 }

@@ -21,9 +21,12 @@
  */
 package com.xeiam.xchange.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * <p>
@@ -75,4 +78,23 @@ public class DateUtils {
     sd.setTimeZone(TimeZone.getTimeZone("GMT"));
     return sd.format(date);
   }
+
+  /**
+   * Converts an ISO formatted Date String to a Java Date
+   * ISO format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+   * 
+   * @param isoFormattedDate
+   * @return Date
+   * @throws InvalidFormatException
+   */
+  public static Date fromISODateString(String isoFormattedDate) throws InvalidFormatException {
+
+    SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    try {
+      return isoDateFormat.parse(isoFormattedDate);
+    } catch (ParseException e) {
+      throw new InvalidFormatException("Error parsing as date", isoFormattedDate, Date.class);
+    }
+  }
+
 }
