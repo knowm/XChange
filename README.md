@@ -183,4 +183,7 @@ If you'd like to submit a new implementation for another exchange, please take a
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
 
 ## Donations
-15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w
+
+[15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w](https://blockchain.info/address/15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w)
+
+All donations will be used to pay bounties for new features, refactoring, etc.
