@@ -85,7 +85,6 @@ public class MtGoxMarketDataService extends BasePollingExchangeService implement
    * Constructor
    * 
    * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
    */
   public MtGoxMarketDataService(ExchangeSpecification exchangeSpecification) {
 
