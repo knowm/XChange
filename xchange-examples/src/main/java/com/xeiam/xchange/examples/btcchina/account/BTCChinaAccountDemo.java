@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange.examples.btcchina.account;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.utils.CertHelper;
 
 /**
  * <p>
@@ -41,7 +41,7 @@ public class BTCChinaAccountDemo {
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
 
     Exchange btcchina = BTCChinaExamplesUtils.getExchange();
 

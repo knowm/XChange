@@ -25,13 +25,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.utils.CertHelper;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.Series;
@@ -49,7 +49,7 @@ public class BitcoiniumTickerHistoryDemo {
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
 
     // Use the factory to get Bitcoinium exchange API using default settings
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());

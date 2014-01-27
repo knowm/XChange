@@ -30,13 +30,13 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.utils.CertHelper;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.Series;
@@ -62,7 +62,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
     final BitcoiniumRealtimeOrderbookDemo bitcoiniumRealtimeTickerDemo = new BitcoiniumRealtimeOrderbookDemo();
     bitcoiniumRealtimeTickerDemo.go();
   }

@@ -169,7 +169,6 @@ The current snapshot version is:
 
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
-run integration tests: `mvn clean integration-test -P run-integration-tests`  
 generate dependency tree: `mvn dependency:tree`  
 create jar files with dependencies (-with-dependencies.jar): `mvn install`  
 check/update all header files: `mvn license:check` and `mvn license:format`
@@ -183,4 +182,7 @@ If you'd like to submit a new implementation for another exchange, please take a
 For more information such as a contributor list and a list of known projects depending on XChange, visit the [Main Project Wiki](https://github.com/timmolter/XChange/wiki). 
 
 ## Donations
-15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w
+
+[15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w](https://blockchain.info/address/15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w)
+
+All donations will be used to pay bounties for new features, refactoring, etc.

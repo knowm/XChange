@@ -23,7 +23,6 @@ package com.xeiam.xchange.examples.bitcoinium;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
@@ -34,6 +33,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.utils.CertHelper;
 
 /**
  * Demonstrate requesting Market Data from CampBX
@@ -42,7 +42,7 @@ public class BitcoiniumMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
 
     // Use the factory to get Bitcoinium exchange API using default settings
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());

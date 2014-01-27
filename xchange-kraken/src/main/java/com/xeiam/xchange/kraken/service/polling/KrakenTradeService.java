@@ -45,11 +45,24 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
+/**
+ * <p>
+ * Implementation of the trade service for Kraken
+ * </p>
+ * <ul>
+ * <li>Provides access to various trading capabilities</li>
+ * </ul>
+ */
 public class KrakenTradeService extends BasePollingExchangeService implements PollingTradeService {
 
   private KrakenAuthenticated krakenAuthenticated;
   private ParamsDigest signatureCreator;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public KrakenTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

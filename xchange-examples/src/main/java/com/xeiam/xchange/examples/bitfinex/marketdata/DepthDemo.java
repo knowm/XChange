@@ -21,13 +21,13 @@
  */
 package com.xeiam.xchange.examples.bitfinex.marketdata;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.utils.CertHelper;
 
 /**
  * Demonstrate requesting Order Book at Bitfinex
@@ -36,7 +36,7 @@ public class DepthDemo {
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
 
     // Use the factory to get BTC-E exchange API using default settings
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());

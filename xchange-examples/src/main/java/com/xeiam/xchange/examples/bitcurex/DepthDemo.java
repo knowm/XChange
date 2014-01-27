@@ -43,7 +43,7 @@ public class DepthDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
-    // Get the latest order book data for BTC/CAD
+    // Get the latest order book data for BTC/EUR
     OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.EUR);
 
     System.out.println(orderBook.toString());

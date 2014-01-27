@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange;
+package com.xeiam.xchange.utils;
 
 import java.security.cert.X509Certificate;
 
@@ -33,7 +33,7 @@ import javax.net.ssl.X509TrustManager;
 /**
  * Manually override the JVM's TrustManager to accept all HTTPS connections. Use this ONLY for testing, and even at that use it cautiously. Someone could steal your API keys with a MITM attack!
  */
-public class AuthHelper {
+public class CertHelper {
 
   public static void trustAllCerts() throws Exception {
 

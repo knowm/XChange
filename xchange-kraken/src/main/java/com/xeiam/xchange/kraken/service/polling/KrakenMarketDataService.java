@@ -49,13 +49,23 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
+/**
+ * <p>
+ * Implementation of the market data service for Kraken
+ * </p>
+ * <ul>
+ * <li>Provides access to various market data values</li>
+ * </ul>
+ */
 public class KrakenMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  // private final Logger logger = LoggerFactory.getLogger(KrakenPollingMarketDataService.class);
-
-  // private static final long PARTIAL_ORDERBOOK_SIZE = 200L;
   private final Kraken kraken;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public KrakenMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

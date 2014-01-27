@@ -24,11 +24,8 @@ package com.xeiam.xchange.bitcurex.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitcurex.Bitcurex;
 import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.bitcurex.BitcurexUtils;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
@@ -41,21 +38,17 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Implementation of the market data service for Bitcurex
+ * Implementation of the generic market data service for Bitcurex
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcurexMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private Bitcurex bitcurex;
+public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
@@ -70,10 +63,8 @@ public class BitcurexMarketDataService extends BasePollingExchangeService implem
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexTicker bitcurexTicker = bitcurex.getTicker();
+    // get data
+    BitcurexTicker bitcurexTicker = getBitcurexTicker(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     return BitcurexAdapters.adaptTicker(bitcurexTicker, currency, tradableIdentifier);
@@ -82,10 +73,8 @@ public class BitcurexMarketDataService extends BasePollingExchangeService implem
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexDepth bitcurexDepth = bitcurex.getFullDepth();
+    // get data
+    BitcurexDepth bitcurexDepth = getBitcurexOrderBook(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BitcurexAdapters.adaptOrders(bitcurexDepth.getAsks(), currency, OrderType.ASK, "");
@@ -97,10 +86,8 @@ public class BitcurexMarketDataService extends BasePollingExchangeService implem
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexTrade[] bitcurexTrades = bitcurex.getTrades();
+    // get data
+    BitcurexTrade[] bitcurexTrades = getBitcurexTrades(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     return BitcurexAdapters.adaptTrades(bitcurexTrades, currency, tradableIdentifier);
@@ -110,20 +97,6 @@ public class BitcurexMarketDataService extends BasePollingExchangeService implem
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BitcurexUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
   }
 
   @Override

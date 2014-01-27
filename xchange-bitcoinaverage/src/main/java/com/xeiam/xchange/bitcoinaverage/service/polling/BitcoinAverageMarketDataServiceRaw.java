@@ -22,69 +22,48 @@
 package com.xeiam.xchange.bitcoinaverage.service.polling;
 
 import java.io.IOException;
-import java.util.List;
+
+import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitcoinaverage.BitcoinAverageAdapters;
+import com.xeiam.xchange.bitcoinaverage.BitcoinAverage;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageUtils;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Implementation of the generic market data service for BitcoinAverage
+ * Implementation of the raw market data service for BitcoinAverage
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataServiceRaw implements PollingMarketDataService {
+public class BitcoinAverageMarketDataServiceRaw extends BasePollingExchangeService {
+
+  private final BitcoinAverage bitcoinAverage;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BitcoinAverageMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitcoinAverageMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.bitcoinAverage = RestProxyFactory.createProxy(BitcoinAverage.class, exchangeSpecification.getSslUri());
   }
 
-  @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public BitcoinAverageTicker getBitcoinAverageTicker(String tradableIdentifier, String currency) throws IOException {
 
     verify(tradableIdentifier, currency);
 
     // Request data
-    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(tradableIdentifier, currency);
+    BitcoinAverageTicker bitcoinAverageTicker = bitcoinAverage.getTicker(currency);
 
-    // Adapt to XChange DTOs
-    return BitcoinAverageAdapters.adaptTicker(bitcoinAverageTicker, currency, tradableIdentifier);
-  }
-
-  @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    return bitcoinAverageTicker;
   }
 
   /**
@@ -99,12 +78,6 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
     Assert.notNull(currency, "currency cannot be null");
     Assert.isTrue(BitcoinAverageUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BitcoinAverageUtils.CURRENCY_PAIRS;
   }
 
 }

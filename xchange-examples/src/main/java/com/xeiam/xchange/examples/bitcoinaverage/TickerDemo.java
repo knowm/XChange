@@ -19,44 +19,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.bitfinex.marketdata;
+package com.xeiam.xchange.examples.bitcoinaverage;
+
+import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
+import com.xeiam.xchange.bitcoinaverage.BitcoinAverageExchange;
+import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
+import com.xeiam.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.CertHelper;
 
 /**
- * Demonstrate requesting Order Book at Bitfinex
+ * Demonstrate requesting Ticker at Bitcurex
  */
 public class TickerDemo {
 
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws IOException {
 
-    CertHelper.trustAllCerts();
+    // Use the factory to get the BitcoinAverage exchange API using default settings
+    Exchange bitcoinAverageExchange = ExchangeFactory.INSTANCE.createExchange(BitcoinAverageExchange.class.getName());
+    generic(bitcoinAverageExchange);
+    raw(bitcoinAverageExchange);
+  }
 
-    // Use the factory to get Bitfinex exchange API using default settings
-    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
+  private static void generic(Exchange bitcoinAverageExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitcoinAverageExchange.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    // Get the latest ticker data showing BTC to EUR
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
     double value = ticker.getLast().getAmount().doubleValue();
     String currency = ticker.getLast().getCurrencyUnit().toString();
 
     System.out.println("Last: " + currency + "-" + value);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
-    System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
+  }
 
-    System.out.println(ticker.toString());
+  private static void raw(Exchange bitcoinAverageExchange) throws IOException {
 
+    BitcoinAverageMarketDataServiceRaw bitcoinAverageMarketDataServiceRaw = (BitcoinAverageMarketDataServiceRaw) bitcoinAverageExchange.getPollingMarketDataService();
+
+    // Get the latest ticker data showing BTC to EUR
+    BitcoinAverageTicker ticker = bitcoinAverageMarketDataServiceRaw.getBitcoinAverageTicker(Currencies.BTC, Currencies.EUR);
+
+    System.out.println("Last: " + ticker.getLast());
+    System.out.println("Vol: " + ticker.getVolume());
   }
 }

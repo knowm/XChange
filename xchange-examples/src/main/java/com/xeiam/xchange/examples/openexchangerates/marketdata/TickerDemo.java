@@ -29,6 +29,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.oer.OERExchange;
+import com.xeiam.xchange.oer.dto.marketdata.OERRates;
+import com.xeiam.xchange.oer.service.polling.OERMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -42,7 +44,14 @@ public class TickerDemo {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(OERExchange.class.getName());
     exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("ab32c922bca749ec9345b4717914ee1f");
+
     Exchange openExchangeRates = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    generic(openExchangeRates);
+    raw(openExchangeRates);
+
+  }
+
+  private static void generic(Exchange openExchangeRates) throws IOException {
 
     // Interested in the polling market data feed
     PollingMarketDataService marketDataService = openExchangeRates.getPollingMarketDataService();
@@ -63,7 +72,15 @@ public class TickerDemo {
     // Request BTC ticker. it will return a cached object
     ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
     System.out.println("cached Last: " + ticker.getLast().toString());
-
   }
 
+  private static void raw(Exchange openExchangeRates) throws IOException {
+
+    OERMarketDataServiceRaw oERMarketDataServiceRaw = (OERMarketDataServiceRaw) openExchangeRates.getPollingMarketDataService();
+
+    // Get the latest ticker data showing BTC to EUR
+    OERRates oERRates = oERMarketDataServiceRaw.getOERTicker(Currencies.BTC, Currencies.USD);
+
+    System.out.println(oERRates.toString());
+  }
 }
