@@ -58,7 +58,7 @@ public class JustcoinTradeDemo {
     PollingTradeService genericTradeService = justcoinExchange.getPollingTradeService();
 
     Trades trades = genericTradeService.getTradeHistory();
-    System.out.println(trades);
+    System.out.println("Trade History: " + trades);
 
     System.out.println("Open Orders: " + genericTradeService.getOpenOrders());
 
@@ -71,7 +71,7 @@ public class JustcoinTradeDemo {
 
     // Cancel the added order
     boolean cancelResult = genericTradeService.cancelOrder(orderId);
-    System.out.println("Canceling returned " + cancelResult);
+    System.out.println("Canceling order " + orderId + " returned " + cancelResult);
 
     System.out.println("Open Orders: " + genericTradeService.getOpenOrders());
   }
@@ -81,7 +81,7 @@ public class JustcoinTradeDemo {
     JustcoinTradeServiceRaw justcoinSpecificTradeService = (JustcoinTradeServiceRaw) justcoinExchange.getPollingTradeService();
 
     JustcoinTrade[] trades = justcoinSpecificTradeService.getOrderHistory();
-    System.out.println(trades);
+    System.out.println("Trade History: " + trades);
 
     System.out.println("Open Orders: " + Arrays.toString(justcoinSpecificTradeService.getOrders()));
 
@@ -94,7 +94,7 @@ public class JustcoinTradeDemo {
 
     // Cancel the added order
     boolean cancelResult = justcoinSpecificTradeService.cancelOrder(orderId);
-    System.out.println("Canceling returned " + cancelResult);
+    System.out.println("Canceling order " + orderId + " returned " + cancelResult);
 
     System.out.println("Open Orders: " + Arrays.toString(justcoinSpecificTradeService.getOrders()));
   }
