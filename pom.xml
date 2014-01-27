@@ -204,45 +204,7 @@
 				</plugins>
 			</build>
 		</profile>
-		<!-- use: mvn clean integration-test -P run-integration-tests -->
-		<!-- http://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html#groups -->
-		<profile>
-			<id>run-integration-tests</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${maven-surefire-plugin.version}</version>
-						<configuration>
-							<excludedGroups>none</excludedGroups>
-							<skip>false</skip>
-							<!-- <skipTests>false</skipTests> -->
-							<useFile>false</useFile>
-							<argLine>-Xms1024m -Xmx1024m -XX:MaxPermSize=512m</argLine>
-							<excludes>
-								<exclude>none</exclude>
-							</excludes>
-							<includes>
-								<include>**/*Test*.java</include>
-								<include>**/*Test.java</include>
-								<!-- <include>**/*TestCase.java</include> -->
-							</includes>
-						</configuration>
-						<executions>
-							<execution>
-								<id>integration-tests</id>
-								<phase>integration-test</phase>
-								<goals>
-									<goal>test</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+    </profiles>
 
 	<build>
 		<plugins>
@@ -286,27 +248,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Generate artifacts including dependencies -->
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-shade-plugin</artifactId> -->
-			<!-- <version>2.1</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <phase>package</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>shade</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <shadedArtifactAttached>true</shadedArtifactAttached> -->
-			<!-- <shadedClassifierName>with-dependencies</shadedClassifierName> -->
-			<!-- <transformers> -->
-			<!-- <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" /> -->
-			<!-- </transformers> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
 			<!-- for deploying to Maven Central -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -314,22 +255,6 @@
 				<version>2.4.1</version>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-				</configuration>
-			</plugin>
-			<!-- normally don't run the test classes annotated with @OnlineTest -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-surefire-plugin.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>${maven-surefire-plugin.version}</version>
-					</dependency>
-				</dependencies>
-				<configuration>
-					<excludedGroups>com.xeiam.xchange.OnlineTest</excludedGroups>
 				</configuration>
 			</plugin>
 			<plugin>

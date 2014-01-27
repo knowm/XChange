@@ -169,7 +169,6 @@ The current snapshot version is:
 
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
-run integration tests: `mvn clean integration-test -P run-integration-tests`  
 generate dependency tree: `mvn dependency:tree`  
 create jar files with dependencies (-with-dependencies.jar): `mvn install`  
 check/update all header files: `mvn license:check` and `mvn license:format`
