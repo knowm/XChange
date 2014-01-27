@@ -39,7 +39,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * <p>
- * Implementation of the market data service for Bitcoinium
+ * Implementation of the generic market data service for Bitcoinium
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>

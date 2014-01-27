@@ -36,7 +36,7 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Implementation of the market data service for Bitcoinium
+ * Implementation of the raw market data service for Bitcoinium
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
