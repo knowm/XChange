@@ -50,7 +50,7 @@ public class KrakenOpenOrdersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(order).isNotNull();
     assertThat(order.getOpentm()).isEqualTo(1380586080.222);
-    assertThat(order.getVolume()).isEqualTo("1.00000000");
+    assertThat(order.getVolume()).isEqualTo("0.01000000");
     assertThat(order.getVolumeExecuted()).isEqualTo("0.00000000");
   }
 }

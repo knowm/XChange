@@ -21,19 +21,42 @@
  */
 package com.xeiam.xchange.kraken.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KrakenOrderDescription {
 
-  private String order;
+	private String pair;
+	private String type;
+	private String orderType;
+	private String price;
 
-  public KrakenOrderDescription(@JsonProperty("order") String order) {
+	public KrakenOrderDescription(@JsonProperty("pair") String pair,
+			@JsonProperty("type") String type,
+			@JsonProperty("ordertype") String orderType,
+			@JsonProperty("price") String price) {
 
-    this.order = order;
-  }
+		this.pair      = pair;
+		this.type      = type;
+		this.orderType = orderType;
+		this.price     = price;
+	}
 
-  public String getOrderDescription() {
+	public String getPair() {
+		return pair;
+	}
 
-    return order;
-  }
+	public String getType() {
+		return type;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+	  
 }

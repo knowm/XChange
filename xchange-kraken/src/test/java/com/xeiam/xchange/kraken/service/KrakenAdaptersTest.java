@@ -132,9 +132,9 @@ public class KrakenAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(orders.getOpenOrders()).hasSize(1);
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice().getAmount()).isEqualTo("1.00000");
-    assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
-    assertThat(orders.getOpenOrders().get(0).getTradableIdentifier()).isEqualTo(Currencies.BTC);
+    assertThat(orders.getOpenOrders().get(0).getLimitPrice().getAmount()).isEqualTo("13.00000");
+    assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("0.01000000");
+    assertThat(orders.getOpenOrders().get(0).getTradableIdentifier()).isEqualTo(Currencies.LTC);
     assertThat(orders.getOpenOrders().get(0).getTransactionCurrency()).isEqualTo(Currencies.EUR);
 
   }
@@ -152,7 +152,7 @@ public class KrakenAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(orders.getOpenOrders()).hasSize(1);
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice().getAmount()).isEqualTo("1.00000");
+    assertThat(orders.getOpenOrders().get(0).getLimitPrice().getAmount()).isEqualTo("500.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
     assertThat(orders.getOpenOrders().get(0).getTradableIdentifier()).isEqualTo(Currencies.BTC);
     assertThat(orders.getOpenOrders().get(0).getTransactionCurrency()).isEqualTo(Currencies.EUR);
