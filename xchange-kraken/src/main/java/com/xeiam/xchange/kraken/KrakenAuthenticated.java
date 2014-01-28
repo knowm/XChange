@@ -43,7 +43,7 @@ public interface KrakenAuthenticated {
 
   @POST
   @Path("Balance")
-  public KrakenBalanceResult getBalance(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+  public KrakenBalanceResult balance(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
   /**
    * @param apiKey
@@ -68,6 +68,7 @@ public interface KrakenAuthenticated {
 
   @POST
   @Path("OpenOrders")
-  public KrakenOpenOrdersResult listOrders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("trades") Boolean trades,
+  public KrakenOpenOrdersResult openOrders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("trades") Boolean trades,
       @FormParam("userref") String userref) throws IOException;
+
 }

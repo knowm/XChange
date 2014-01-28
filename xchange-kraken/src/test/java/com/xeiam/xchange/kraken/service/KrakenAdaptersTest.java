@@ -113,7 +113,7 @@ public class KrakenAdaptersTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenBalanceResult krakenBalance = mapper.readValue(is, KrakenBalanceResult.class);
-    AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance, null);
+    AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance.getResult(), null);
     assertThat(info.getBalance(CurrencyUnit.EUR)).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1.0539")));
     assertThat(info.getBalance(CurrencyUnit.of(Currencies.BTC))).isEqualTo(BigMoney.of(CurrencyUnit.of(Currencies.BTC), new BigDecimal("0.4888583300")));
 
