@@ -46,6 +46,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.kraken.dto.account.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
 
 public class KrakenAdapters {
 
@@ -129,20 +130,22 @@ public class KrakenAdapters {
 
     List<LimitOrder> limitOrders = new LinkedList<LimitOrder>();
     for (Entry<String, KrakenOpenOrder> krakenOrder : krakenOrders.entrySet()) {
-      String[] descriptionWords = krakenOrder.getValue().getDescription().getOrderDescription().split(" ");
-      OrderType type = descriptionWords[0].equals("buy") ? OrderType.BID : OrderType.ASK;
+    	KrakenOrderDescription orderDescription = krakenOrder.getValue().getDescription();
+    	
+    	if( ! "limit".equals(orderDescription.getOrderType()) ) {
+    		// how to handle stop-loss, take-profit, stop-loss-limit, and so on orders?
+    		// ignore anything but a plain limit order for now
+    		continue;
+    	}
+    	
+      OrderType type = orderDescription.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
       BigDecimal tradableAmount = krakenOrder.getValue().getVolume().subtract(krakenOrder.getValue().getVolumeExecuted());
 
-      int wordOffset = 0;
-      if (descriptionWords[2].startsWith("(") && descriptionWords[2].endsWith(")")) {
-        wordOffset = 1;
-      }
-
-      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(descriptionWords[2 + wordOffset].substring(0, 3));
-      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(descriptionWords[2 + wordOffset].substring(3));
+      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(orderDescription.getPair().substring(0, 3));
+      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(orderDescription.getPair().substring(3));
       String id = krakenOrder.getKey();
       Date timestamp = new Date((long) (krakenOrder.getValue().getOpentm() * 1000L));
-      BigMoney limitPrice = BigMoney.of(CurrencyUnit.of(transactionCurrency), new BigDecimal(descriptionWords[5 + wordOffset]));
+      BigMoney limitPrice = BigMoney.of(CurrencyUnit.of(transactionCurrency), new BigDecimal(orderDescription.getPrice()));
       LimitOrder order = new LimitOrder(type, tradableAmount, tradableIdentifier, transactionCurrency, id, timestamp, limitPrice);
       limitOrders.add(order);
     }
