@@ -30,9 +30,6 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-/**
- * Kraken specific methods to handle account-related operations
- */
 public class KrakenAccountService extends KrakenAccountServiceRaw implements PollingAccountService {
 
   public KrakenAccountService(ExchangeSpecification exchangeSpecification) {

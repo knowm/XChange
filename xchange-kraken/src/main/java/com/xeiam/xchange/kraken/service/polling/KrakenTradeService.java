@@ -32,14 +32,6 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-/**
- * <p>
- * Implementation of the trade service for Kraken
- * </p>
- * <ul>
- * <li>Provides access to various trading capabilities</li>
- * </ul>
- */
 public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
 
   public KrakenTradeService(ExchangeSpecification exchangeSpecification) {

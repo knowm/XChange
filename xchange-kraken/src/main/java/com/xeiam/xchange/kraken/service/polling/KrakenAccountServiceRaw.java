@@ -22,11 +22,6 @@ public class KrakenAccountServiceRaw extends BasePollingExchangeService {
   private KrakenAuthenticated krakenAuthenticated;
   private ParamsDigest signatureCreator;
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
   public KrakenAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

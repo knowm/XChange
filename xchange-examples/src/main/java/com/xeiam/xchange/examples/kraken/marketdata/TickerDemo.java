@@ -28,22 +28,27 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.kraken.KrakenExchange;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
+import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-/**
- * Demonstrate requesting Order Book at Kraken
- */
 public class TickerDemo {
 
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Kraken exchange API using default settings
-    Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    
+    generic(krakenExchange);
+    raw(krakenExchange);
+  }
 
+  private static void generic(Exchange krakenExchange) throws IOException {
+   
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = kraken.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
+    // Get the latest ticker data showing BTC to EUR
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
 
     System.out.println("Ticker: " + ticker.toString());
@@ -52,7 +57,21 @@ public class TickerDemo {
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
     System.out.println("Low: " + ticker.getLow().toString());
-
   }
+  
+  private static void raw(Exchange krakenExchange) throws IOException {
+    
+    // Interested in the public polling market data feed (no authentication)
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
+    // Get the latest ticker data showing BTC to EUR
+    KrakenTicker ticker = krakenMarketDataService.getTicker("XXBTZEUR");
+
+    System.out.println("Ticker: " + ticker.toString());
+    System.out.println("Currency: " + Currencies.EUR);
+    System.out.println("Last: " + ticker.getClose()[0].toString());
+    System.out.println("Volume: " + ticker.getVolume()[1].toString());
+    System.out.println("High: " + ticker.getHigh()[1].toString());
+    System.out.println("Low: " + ticker.getLow()[1].toString());
+  }
 }

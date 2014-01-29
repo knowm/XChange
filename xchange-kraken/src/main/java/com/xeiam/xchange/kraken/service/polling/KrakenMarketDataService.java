@@ -37,21 +37,8 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-/**
- * <p>
- * Implementation of the market data service for Kraken
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
 public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements PollingMarketDataService {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
   public KrakenMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

@@ -23,11 +23,6 @@ public class KrakenMarketDataServiceRaw extends BasePollingExchangeService {
 
   private final Kraken kraken;
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
   public KrakenMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -79,7 +74,7 @@ public class KrakenMarketDataServiceRaw extends BasePollingExchangeService {
     KrakenTradesResult krakenTrades = (since == null) ? kraken.getTrades(currencyPair) : kraken.getTrades(currencyPair, since);
 
     if (krakenTrades.getError().length > 0) {
-      throw new ExchangeException(krakenTrades.getError().toString());
+      throw new ExchangeException(Arrays.toString(krakenTrades.getError()));
     }
     return krakenTrades.getResult();
   }
