@@ -28,8 +28,8 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -39,17 +39,24 @@ public class CancelOrderDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange kraken = KrakenExampleUtils.createTestExchange();
-    PollingTradeService tradeService = kraken.getPollingTradeService();
+    Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
-    printOpenOrders(tradeService);
+    generic(krakenExchange);
+    raw(krakenExchange);
+  }
+
+  private static void generic(Exchange krakenExchange) throws IOException {
+
+    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
+
+    System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "EUR", "", null, MoneyUtils.parse("EUR 1.25"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "LTC", "", null, MoneyUtils.parse("LTC 1.25"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    printOpenOrders(tradeService);
+    System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
 
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
@@ -57,12 +64,29 @@ public class CancelOrderDemo {
     // Cancel the added order
     cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
     System.out.println("Canceling second time  returned " + cancelResult);
-    printOpenOrders(tradeService);
+    System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void raw(Exchange krakenExchange) throws IOException {
 
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+
+    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
+
+    // place a limit buy order
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "LTC", "", null, MoneyUtils.parse("LTC 1.25"));
+    String limitOrderReturnValue = tradeService.placeKrakenLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+
+    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
+
+    // Cancel the added order
+    int cancelResult = tradeService.cancelKrakenOrder(limitOrderReturnValue);
+    System.out.println("Canceling returned " + cancelResult);
+    // Cancel the added order
+    cancelResult = tradeService.cancelKrakenOrder(limitOrderReturnValue);
+    System.out.println("Canceling second time  returned " + cancelResult);
+    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
+
   }
 }

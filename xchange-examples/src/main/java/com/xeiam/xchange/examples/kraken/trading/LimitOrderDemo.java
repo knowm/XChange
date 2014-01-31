@@ -31,6 +31,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -40,10 +41,15 @@ public class LimitOrderDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange kraken = KrakenExampleUtils.createTestExchange();
+    Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
+    generic(krakenExchange);
+    raw(krakenExchange);
+  }
+  
+  private static void generic(Exchange krakenExchange) throws IOException {
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = kraken.getPollingTradeService();
+    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
 
     // place a marketOrder with volume 0.01
     OrderType orderType = (OrderType.BID);
@@ -56,6 +62,22 @@ public class LimitOrderDemo {
 
     String orderID = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order ID: " + orderID);
+  }
+  
+  private static void raw(Exchange krakenExchange) throws IOException {
+    // Interested in the private trading functionality (authentication)
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 
+    // place a marketOrder with volume 0.01
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal("0.01");
+    BigMoney price = BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1"));
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "EUR";
+
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, price);
+
+    String orderID = tradeService.placeKrakenLimitOrder(limitOrder);
+    System.out.println("Limit Order ID: " + orderID);
   }
 }

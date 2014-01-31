@@ -38,17 +38,25 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.kraken.dto.account.KrakenBalanceResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
 
 public class KrakenAdapters {
+
+  public static OrderBook adaptOrderBook(KrakenDepth krakenDepth, String currency, String tradableIdentifier) {
+
+    List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currency, tradableIdentifier, "bids");
+    List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currency, tradableIdentifier, "asks");
+    return new OrderBook(null, asks, bids);
+  }
 
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, String currency, String tradableIdentifier, String orderType) {
 
@@ -75,8 +83,8 @@ public class KrakenAdapters {
     builder.withAsk(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getAsk()[0]));
     builder.withBid(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getBid()[0]));
     builder.withLast(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getClose()[0]));
-    builder.withHigh(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getHigh()[0]));
-    builder.withLow(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getLow()[0]));
+    builder.withHigh(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getHigh()[1]));
+    builder.withLow(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getLow()[1]));
     builder.withVolume(krakenTicker.getVolume()[1]);
     builder.withTradableIdentifier(tradableIdentifier);
     return builder.build();
@@ -104,10 +112,10 @@ public class KrakenAdapters {
     return new Trades(trades, last);
   }
 
-  public static AccountInfo adaptBalance(KrakenBalanceResult krakenBalance, String username) {
+  public static AccountInfo adaptBalance(Map<String, BigDecimal> krakenBalance, String username) {
 
     List<Wallet> wallets = new LinkedList<Wallet>();
-    for (Entry<String, BigDecimal> balancePair : krakenBalance.getResult().entrySet()) {
+    for (Entry<String, BigDecimal> balancePair : krakenBalance.entrySet()) {
       String currency = KrakenUtils.getStandardCurrencyCode(balancePair.getKey());
       Wallet wallet = Wallet.createInstance(currency, balancePair.getValue());
       wallets.add(wallet);

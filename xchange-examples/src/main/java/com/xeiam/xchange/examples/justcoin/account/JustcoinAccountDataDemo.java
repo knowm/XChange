@@ -38,7 +38,7 @@ public class JustcoinAccountDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get Campbx exchange API using default settings
+    // Use the factory to get Justcoin exchange API using default settings
     Exchange justcoinExchange = ExchangeFactory.INSTANCE.createExchange(JustcoinExchange.class.getName());
 
     // API key needed for access rights to specific API calls

@@ -96,7 +96,7 @@ public class KrakenAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenTradesResult krakenTrades = mapper.readValue(is, KrakenTradesResult.class);
 
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair("XXBTZUSD"), Currencies.EUR, Currencies.BTC, krakenTrades.getResult().getLast());
+    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair(Currencies.BTC, Currencies.USD), Currencies.USD, Currencies.BTC, krakenTrades.getResult().getLast());
     Assert.assertEquals(14, trades.getTrades().size());
     assertThat(trades.getTrades().get(0).getTimestamp()).isBefore(new Date());
     assertThat(trades.getTrades().get(0).getPrice().getAmount()).isEqualTo("1023.82219");
@@ -113,7 +113,7 @@ public class KrakenAdaptersTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenBalanceResult krakenBalance = mapper.readValue(is, KrakenBalanceResult.class);
-    AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance, null);
+    AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance.getResult(), null);
     assertThat(info.getBalance(CurrencyUnit.EUR)).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1.0539")));
     assertThat(info.getBalance(CurrencyUnit.of(Currencies.BTC))).isEqualTo(BigMoney.of(CurrencyUnit.of(Currencies.BTC), new BigDecimal("0.4888583300")));
 

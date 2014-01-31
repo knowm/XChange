@@ -22,10 +22,13 @@
 package com.xeiam.xchange.examples.kraken.trading;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
+import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -35,14 +38,29 @@ public class OpenOrdersDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange kraken = KrakenExampleUtils.createTestExchange();
+    Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
+
+    generic(krakenExchange);
+    raw(krakenExchange);
+  }
+
+  private static void generic(Exchange krakenExchange) throws IOException {
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = kraken.getPollingTradeService();
+    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
 
     // Get the open orders
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders.toString());
   }
 
+  private static void raw(Exchange krakenExchange) throws IOException {
+
+    // Interested in the private trading functionality (authentication)
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+
+    // Get the open orders
+    Map<String, KrakenOpenOrder> openOrders = tradeService.getKrakenOpenOrders();
+    System.out.println(openOrders);
+  }
 }
