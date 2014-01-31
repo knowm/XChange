@@ -83,8 +83,8 @@ public class KrakenAdapters {
     builder.withAsk(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getAsk()[0]));
     builder.withBid(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getBid()[0]));
     builder.withLast(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getClose()[0]));
-    builder.withHigh(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getHigh()[0]));
-    builder.withLow(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getLow()[0]));
+    builder.withHigh(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getHigh()[1]));
+    builder.withLow(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getLow()[1]));
     builder.withVolume(krakenTicker.getVolume()[1]);
     builder.withTradableIdentifier(tradableIdentifier);
     return builder.build();

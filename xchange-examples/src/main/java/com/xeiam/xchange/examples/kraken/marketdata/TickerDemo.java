@@ -38,13 +38,13 @@ public class TickerDemo {
 
     // Use the factory to get Kraken exchange API using default settings
     Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
-    
+
     generic(krakenExchange);
     raw(krakenExchange);
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {
-   
+
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
 
@@ -58,14 +58,14 @@ public class TickerDemo {
     System.out.println("High: " + ticker.getHigh().toString());
     System.out.println("Low: " + ticker.getLow().toString());
   }
-  
+
   private static void raw(Exchange krakenExchange) throws IOException {
-    
+
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    KrakenTicker ticker = krakenMarketDataService.getTicker("XXBTZEUR");
+    KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(Currencies.BTC, Currencies.EUR);
 
     System.out.println("Ticker: " + ticker.toString());
     System.out.println("Currency: " + Currencies.EUR);

@@ -9,6 +9,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.kraken.Kraken;
+import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepthResult;
@@ -30,7 +31,7 @@ public class KrakenMarketDataServiceRaw extends BasePollingExchangeService {
     kraken = RestProxyFactory.createProxy(Kraken.class, exchangeSpecification.getSslUri());
   }
 
-  public Set<String> getAssetPairs() throws IOException {
+  public Set<String> getKrakenAssetPairs() throws IOException {
 
     KrakenAssetPairsResult krakenAssetPairs = kraken.getAssetPairs();
     if (krakenAssetPairs.getError().length > 0) {
@@ -39,8 +40,9 @@ public class KrakenMarketDataServiceRaw extends BasePollingExchangeService {
     return krakenAssetPairs.getResult().keySet();
   }
 
-  public KrakenTicker getTicker(String krakenCurrencyPair) throws IOException {
+  public KrakenTicker getKrakenTicker(String tradableIdentifier, String currency) throws IOException {
 
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenTickerResult krakenTickerResult = kraken.getTicker(krakenCurrencyPair);
     if (krakenTickerResult.getError().length > 0) {
       throw new ExchangeException(Arrays.toString(krakenTickerResult.getError()));
@@ -50,13 +52,14 @@ public class KrakenMarketDataServiceRaw extends BasePollingExchangeService {
     return krakenTicker;
   }
 
-  public KrakenDepth getDepth(String krakenCurrencyPair) throws IOException {
+  public KrakenDepth getKrakenDepth(String tradableIdentifier, String currency) throws IOException {
 
-    return getDepth(krakenCurrencyPair, null);
+    return getKrakenDepth(tradableIdentifier, currency, null);
   }
 
-  public KrakenDepth getDepth(String krakenCurrencyPair, Long count) throws IOException {
+  public KrakenDepth getKrakenDepth(String tradableIdentifier, String currency, Long count) throws IOException {
 
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, count);
     if (krakenDepthReturn.getError().length > 0) {
       throw new ExchangeException(Arrays.toString(krakenDepthReturn.getError()));
@@ -64,14 +67,16 @@ public class KrakenMarketDataServiceRaw extends BasePollingExchangeService {
     return krakenDepthReturn.getResult().get(krakenCurrencyPair);
   }
 
-  public KrakenTrades getTrades(String currencyPair) throws IOException {
+  public KrakenTrades getKrakenTrades(String tradableIdentifier, String currency) throws IOException {
 
-    return getTrades(currencyPair, null);
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+    return getKrakenTrades(krakenCurrencyPair, null);
   }
 
-  public KrakenTrades getTrades(String currencyPair, Long since) throws IOException {
+  public KrakenTrades getKrakenTrades(String tradableIdentifier, String currency, Long since) throws IOException {
 
-    KrakenTradesResult krakenTrades = (since == null) ? kraken.getTrades(currencyPair) : kraken.getTrades(currencyPair, since);
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+    KrakenTradesResult krakenTrades = (since == null) ? kraken.getTrades(krakenCurrencyPair) : kraken.getTrades(krakenCurrencyPair, since);
 
     if (krakenTrades.getError().length > 0) {
       throw new ExchangeException(Arrays.toString(krakenTrades.getError()));

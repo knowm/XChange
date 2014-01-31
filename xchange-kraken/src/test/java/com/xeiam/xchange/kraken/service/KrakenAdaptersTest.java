@@ -96,7 +96,7 @@ public class KrakenAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenTradesResult krakenTrades = mapper.readValue(is, KrakenTradesResult.class);
 
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair("XXBTZUSD"), Currencies.EUR, Currencies.BTC, krakenTrades.getResult().getLast());
+    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTradesPerCurrencyPair(Currencies.BTC, Currencies.USD), Currencies.USD, Currencies.BTC, krakenTrades.getResult().getLast());
     Assert.assertEquals(14, trades.getTrades().size());
     assertThat(trades.getTrades().get(0).getTimestamp()).isBefore(new Date());
     assertThat(trades.getTrades().get(0).getPrice().getAmount()).isEqualTo("1023.82219");

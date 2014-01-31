@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.KrakenUtils;
 
 /**
  * @author Raphael Voellmy
@@ -81,8 +82,9 @@ public class KrakenTrades {
    * @param krakenCurrencyPair the concatenated currencies in their Kraken symbols e.g. XBTCZEUR
    * @return
    */
-  public String[][] getTradesPerCurrencyPair(String krakenCurrencyPair) {
+  public String[][] getTradesPerCurrencyPair(String tradableIdentifier, String currency) {
 
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     return tradesPerCurrencyPair.get(krakenCurrencyPair);
   }
 

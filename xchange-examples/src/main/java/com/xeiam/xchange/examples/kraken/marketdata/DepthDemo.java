@@ -65,12 +65,12 @@ public class DepthDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     // Get the latest full order book data for LTC/USD
-    KrakenDepth depth = krakenMarketDataService.getDepth("XLTCZUSD");
+    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(Currencies.LTC, Currencies.USD);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
 
     // Get the latest partial size order book data for LTC/USD
-    depth = krakenMarketDataService.getDepth("XLTCZUSD", 3L);
+    depth = krakenMarketDataService.getKrakenDepth(Currencies.LTC, Currencies.USD, 3L);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
   }

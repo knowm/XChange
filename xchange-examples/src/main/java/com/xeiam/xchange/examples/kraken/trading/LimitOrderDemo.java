@@ -77,7 +77,7 @@ public class LimitOrderDemo {
 
     LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, price);
 
-    String orderID = tradeService.addLimitOrder(limitOrder);
+    String orderID = tradeService.placeKrakenLimitOrder(limitOrder);
     System.out.println("Limit Order ID: " + orderID);
   }
 }

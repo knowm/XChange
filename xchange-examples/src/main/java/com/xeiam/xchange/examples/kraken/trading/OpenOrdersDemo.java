@@ -60,7 +60,7 @@ public class OpenOrdersDemo {
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 
     // Get the open orders
-    Map<String, KrakenOpenOrder> openOrders = tradeService.openOrders();
+    Map<String, KrakenOpenOrder> openOrders = tradeService.getKrakenOpenOrders();
     System.out.println(openOrders);
   }
 }

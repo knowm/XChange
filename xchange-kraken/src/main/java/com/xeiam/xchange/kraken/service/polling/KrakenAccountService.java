@@ -40,7 +40,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return KrakenAdapters.adaptBalance(getBalance(), exchangeSpecification.getUserName());
+    return KrakenAdapters.adaptBalance(getKrakenBalance(), exchangeSpecification.getUserName());
   }
 
   @Override

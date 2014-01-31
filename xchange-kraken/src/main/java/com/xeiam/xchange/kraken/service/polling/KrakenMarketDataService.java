@@ -45,7 +45,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols(){
+  public List<CurrencyPair> getExchangeSymbols() {
 
     return KrakenUtils.CURRENCY_PAIRS;
   }
@@ -53,25 +53,21 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    
-    return KrakenAdapters.adaptTicker(getTicker(krakenCurrencyPair), currency, tradableIdentifier);
+    return KrakenAdapters.adaptTicker(getKrakenTicker(tradableIdentifier, currency), currency, tradableIdentifier);
   }
 
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenDepth krakenDepth = (args.length > 0) ? getDepth(krakenCurrencyPair, (Long) args[0]) : getDepth(krakenCurrencyPair);
+    KrakenDepth krakenDepth = (args.length > 0) ? getKrakenDepth(tradableIdentifier, currency, (Long) args[0]) : getKrakenDepth(tradableIdentifier, currency);
     return KrakenAdapters.adaptOrderBook(krakenDepth, currency, tradableIdentifier);
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    String currencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenTrades krakenTrades = (args.length > 0) ? getTrades(currencyPair, (Long) args[0]) : getTrades(currencyPair);
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTradesPerCurrencyPair(currencyPair), currency, tradableIdentifier, krakenTrades.getLast());
+    KrakenTrades krakenTrades = (args.length > 0) ? getKrakenTrades(tradableIdentifier, currency, (Long) args[0]) : getKrakenTrades(tradableIdentifier, currency);
+    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTradesPerCurrencyPair(tradableIdentifier, currency), currency, tradableIdentifier, krakenTrades.getLast());
     return trades;
   }
 

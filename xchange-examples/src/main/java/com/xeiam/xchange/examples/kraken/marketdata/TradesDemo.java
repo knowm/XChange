@@ -48,12 +48,12 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
 
-    // Get the latest trade data for BTC/EUR
+    // Get the latest trade data for BTC/XRP
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP);
     System.out.println(trades.toString());
     System.out.println("Trades size: " + trades.getTrades().size());
 
-    // Get the latest trade data for BTC/EUR
+    // Get the latest trade data for BTC/XRP
     trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP, 1385579655033171108L);
     System.out.println(trades.toString());
     System.out.println("Trades size: " + trades.getTrades().size());
@@ -64,19 +64,19 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
-    // Get the latest trade data for BTC/EUR
-    KrakenTrades trades = krakenMarketDataService.getTrades("XXBTXXRP");
+    // Get the latest trade data for BTC/XRP
+    KrakenTrades trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP);
     long last = trades.getLast();
-    printKrakenTrades(trades.getTradesPerCurrencyPair("XXBTXXRP"));
+    printKrakenTrades(trades.getTradesPerCurrencyPair(Currencies.BTC, Currencies.XRP));
 
-    System.out.println("Trades size: " + trades.getTradesPerCurrencyPair("XXBTXXRP").length);
+    System.out.println("Trades size: " + trades.getTradesPerCurrencyPair(Currencies.BTC, Currencies.XRP).length);
     System.out.println("Last: " + last);
     
     // Poll for any new trades since last id
-    trades = krakenMarketDataService.getTrades("XXBTXXRP", last);
-    printKrakenTrades(trades.getTradesPerCurrencyPair("XXBTXXRP"));
+    trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP, last);
+    printKrakenTrades(trades.getTradesPerCurrencyPair(Currencies.BTC, Currencies.XRP));
     
-    System.out.println("Trades size: " + trades.getTradesPerCurrencyPair("XXBTXXRP").length);
+    System.out.println("Trades size: " + trades.getTradesPerCurrencyPair(Currencies.BTC, Currencies.XRP).length);
   }
   
   private static void printKrakenTrades(final String[][] krakenTrades) {

@@ -56,6 +56,6 @@ public class KrakenAccountDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getPollingAccountService();
-    System.out.println("Balance Info: " + rawKrakenAcctService.getBalance());
+    System.out.println("Balance Info: " + rawKrakenAcctService.getKrakenBalance());
   }
 }

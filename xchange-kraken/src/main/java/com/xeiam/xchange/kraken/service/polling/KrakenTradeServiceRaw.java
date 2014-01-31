@@ -34,7 +34,7 @@ public class KrakenTradeServiceRaw extends BasePollingExchangeService {
     signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  public Map<String, KrakenOpenOrder> openOrders() throws IOException {
+  public Map<String, KrakenOpenOrder> getKrakenOpenOrders() throws IOException {
 
     KrakenOpenOrdersResult result = krakenAuthenticated.openOrders(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), null, null);
 
@@ -44,7 +44,7 @@ public class KrakenTradeServiceRaw extends BasePollingExchangeService {
     return result.getResult().getOrders();
   }
 
-  public String addMarketOrder(MarketOrder marketOrder) throws IOException {
+  public String placeKrakenMarketOrder(MarketOrder marketOrder) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
     KrakenOrderResult result =
@@ -57,7 +57,7 @@ public class KrakenTradeServiceRaw extends BasePollingExchangeService {
     return result.getResult().getTxid();
   }
 
-  public String addLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
     KrakenOrderResult result =
@@ -70,7 +70,7 @@ public class KrakenTradeServiceRaw extends BasePollingExchangeService {
     return result.getResult().getTxid();
   }
 
-  public int cancelOrderWith(String orderId) throws IOException {
+  public int cancelKrakenOrder(String orderId) throws IOException {
 
     KrakenCancelOrderResult result = krakenAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), orderId);
 

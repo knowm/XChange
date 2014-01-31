@@ -42,25 +42,25 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    return KrakenAdapters.adaptOpenOrders(super.openOrders());
+    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    return super.addMarketOrder(marketOrder);
+    return super.placeKrakenMarketOrder(marketOrder);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    return super.addLimitOrder(limitOrder);
+    return super.placeKrakenLimitOrder(limitOrder);
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return super.cancelOrderWith(orderId) > 0;
+    return super.cancelKrakenOrder(orderId) > 0;
   }
 
   @Override

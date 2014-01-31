@@ -30,7 +30,7 @@ public class KrakenAccountServiceRaw extends BasePollingExchangeService {
     signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  public Map<String, BigDecimal> getBalance() throws IOException {
+  public Map<String, BigDecimal> getKrakenBalance() throws IOException {
 
     KrakenBalanceResult result = krakenAuthenticated.balance(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
     if (result.getError().length > 0) {
