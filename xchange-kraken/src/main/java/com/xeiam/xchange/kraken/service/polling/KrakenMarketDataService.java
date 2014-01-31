@@ -59,14 +59,14 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    KrakenDepth krakenDepth = (args.length > 0) ? getKrakenDepth(tradableIdentifier, currency, (Long) args[0]) : getKrakenDepth(tradableIdentifier, currency);
+    KrakenDepth krakenDepth = getKrakenDepth(tradableIdentifier, currency, args);
     return KrakenAdapters.adaptOrderBook(krakenDepth, currency, tradableIdentifier);
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    KrakenTrades krakenTrades = (args.length > 0) ? getKrakenTrades(tradableIdentifier, currency, (Long) args[0]) : getKrakenTrades(tradableIdentifier, currency);
+    KrakenTrades krakenTrades = getKrakenTrades(tradableIdentifier, currency, args);
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTradesPerCurrencyPair(tradableIdentifier, currency), currency, tradableIdentifier, krakenTrades.getLast());
     return trades;
   }

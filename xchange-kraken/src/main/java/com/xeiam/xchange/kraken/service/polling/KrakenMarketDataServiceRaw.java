@@ -52,31 +52,46 @@ public class KrakenMarketDataServiceRaw extends BasePollingExchangeService {
     return krakenTicker;
   }
 
-  public KrakenDepth getKrakenDepth(String tradableIdentifier, String currency) throws IOException {
-
-    return getKrakenDepth(tradableIdentifier, currency, null);
-  }
-
-  public KrakenDepth getKrakenDepth(String tradableIdentifier, String currency, Long count) throws IOException {
+  public KrakenDepth getKrakenDepth(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenDepthResult krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, count);
+    KrakenDepthResult krakenDepthReturn = null;
+    if (args.length > 0) {
+      Object arg = args[0];
+      if (!(arg instanceof Long) || (Long) arg < 1) {
+        throw new ExchangeException("Orderbook size argument must be an Long with a value greater than 0!");
+      }
+      else {
+        krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, (Long) arg);
+      }
+    }
+    else { // default to full orderbook
+      krakenDepthReturn = kraken.getDepth(krakenCurrencyPair, null);
+    }
+
     if (krakenDepthReturn.getError().length > 0) {
       throw new ExchangeException(Arrays.toString(krakenDepthReturn.getError()));
     }
     return krakenDepthReturn.getResult().get(krakenCurrencyPair);
   }
 
-  public KrakenTrades getKrakenTrades(String tradableIdentifier, String currency) throws IOException {
+  public KrakenTrades getKrakenTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    return getKrakenTrades(krakenCurrencyPair, null);
-  }
-
-  public KrakenTrades getKrakenTrades(String tradableIdentifier, String currency, Long since) throws IOException {
-
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenTradesResult krakenTrades = (since == null) ? kraken.getTrades(krakenCurrencyPair) : kraken.getTrades(krakenCurrencyPair, since);
+    KrakenTradesResult krakenTrades = null;
+    if (args.length > 0) {
+      Object arg0 = args[0];
+      if (arg0 instanceof Long) {
+        Long since = (Long) arg0;
+        krakenTrades = kraken.getTrades(krakenCurrencyPair, since);
+      }
+      else {
+        throw new ExchangeException("args[0] must be of type Long!");
+      }
+    }
+    else {
+      krakenTrades = kraken.getTrades(krakenCurrencyPair);
+    }
 
     if (krakenTrades.getError().length > 0) {
       throw new ExchangeException(Arrays.toString(krakenTrades.getError()));
