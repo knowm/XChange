@@ -29,7 +29,6 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 /**
@@ -45,14 +44,13 @@ public class KrakenTradesJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenTradesResult krakenDepth = mapper.readValue(is, KrakenTradesResult.class);
+    KrakenTradesResult krakenTrades = mapper.readValue(is, KrakenTradesResult.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair(Currencies.BTC, Currencies.EUR)).isNull();
-    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair(Currencies.BTC, Currencies.USD)[0][0]).isEqualTo("1023.82219");
-    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair(Currencies.BTC, Currencies.USD)[0][4]).isEqualTo("l");
-    assertThat(krakenDepth.getResult().getTradesPerCurrencyPair(Currencies.BTC, Currencies.USD)[1][2]).isEqualTo("1385579841.7876");
-    Long date = krakenDepth.getResult().getLast();
-    assertThat(date).isEqualTo(1385579841881785998L);
+    assertThat(krakenTrades.getResult().getTrades().get(0).getPrice()).isEqualTo("1023.82219");
+    assertThat(krakenTrades.getResult().getTrades().get(0).getOrderType()).isEqualTo("l");
+    assertThat(krakenTrades.getResult().getTrades().get(1).getTime()).isEqualTo(1385579841.7876);
+    long lastId = krakenTrades.getResult().getLast();
+    assertThat(lastId).isEqualTo(1385579841881785998L);
   }
 }

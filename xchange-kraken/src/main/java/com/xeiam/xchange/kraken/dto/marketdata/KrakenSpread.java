@@ -21,16 +21,40 @@
  */
 package com.xeiam.xchange.kraken.dto.marketdata;
 
-import java.util.Map;
+import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
+public class KrakenSpread {
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
+  private final long time;
+  private final BigDecimal bid;
+  private final BigDecimal ask;
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+  public KrakenSpread(long time, BigDecimal bid, BigDecimal ask) {
 
-    super(result, error);
+    this.time = time;
+    this.bid = bid;
+    this.ask = ask;
+  }
+
+  public long getTime() {
+
+    return time;
+  }
+
+  public BigDecimal getBid() {
+
+    return bid;
+  }
+
+  public BigDecimal getAsk() {
+
+    return ask;
+  }
+
+  @Override
+  public String toString() {
+
+    return "KrakenSpread [time=" + time + ", bid=" + bid + ", ask=" + ask + "]";
   }
 
 }

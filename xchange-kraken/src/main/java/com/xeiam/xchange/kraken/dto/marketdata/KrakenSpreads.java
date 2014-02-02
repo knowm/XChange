@@ -35,17 +35,17 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrades.KrakenTradesDeserializer;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads.KrakenSpreadsDeserializer;
 
-@JsonDeserialize(using = KrakenTradesDeserializer.class)
-public class KrakenTrades {
+@JsonDeserialize(using = KrakenSpreadsDeserializer.class)
+public class KrakenSpreads {
 
-  private final List<KrakenTrade> trades;
+  private final List<KrakenSpread> spreads;
   private final long last;
 
-  public KrakenTrades(List<KrakenTrade> trades, long last) {
+  public KrakenSpreads(List<KrakenSpread> spreads, long last) {
 
-    this.trades = trades;
+    this.spreads = spreads;
     this.last = last;
   }
 
@@ -54,23 +54,23 @@ public class KrakenTrades {
     return last;
   }
 
-  public List<KrakenTrade> getTrades() {
+  public List<KrakenSpread> getSpreads() {
 
-    return trades;
+    return spreads;
   }
 
   @Override
   public String toString() {
 
-    return "KrakenTrades [trades=" + trades + ", last=" + last + "]";
+    return "KrakenSpreads [spreads=" + spreads + ", last=" + last + "]";
   }
 
-  static class KrakenTradesDeserializer extends JsonDeserializer<KrakenTrades> {
+  static class KrakenSpreadsDeserializer extends JsonDeserializer<KrakenSpreads> {
 
     @Override
-    public KrakenTrades deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenSpreads deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      List<KrakenTrade> krakenTrades = new ArrayList<KrakenTrade>();
+      List<KrakenSpread> krakenTrades = new ArrayList<KrakenSpread>();
       long last = 0;
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
@@ -83,19 +83,16 @@ public class KrakenTrades {
           last = value.asLong();
         }
         else if (value.isArray()) {
-          for (JsonNode tradeJsonNode : value) {
-            BigDecimal price = new BigDecimal(tradeJsonNode.path(0).asText());
-            BigDecimal volume = new BigDecimal(tradeJsonNode.path(1).asText());
-            double time = tradeJsonNode.path(2).asDouble();
-            String type = tradeJsonNode.path(3).asText();
-            String orderType = tradeJsonNode.path(4).asText();
-            String miscellaneous = tradeJsonNode.path(5).asText();
+          for (JsonNode jsonSpreadNode : value) {
+            long time = jsonSpreadNode.path(0).asLong();
+            BigDecimal bid = new BigDecimal(jsonSpreadNode.path(1).asText());
+            BigDecimal ask = new BigDecimal(jsonSpreadNode.path(2).asText());
 
-            krakenTrades.add(new KrakenTrade(price, volume, time, type, orderType, miscellaneous));
+            krakenTrades.add(new KrakenSpread(time, bid, ask));
           }
         }
       }
-      return new KrakenTrades(krakenTrades, last);
+      return new KrakenSpreads(krakenTrades, last);
     }
 
   }

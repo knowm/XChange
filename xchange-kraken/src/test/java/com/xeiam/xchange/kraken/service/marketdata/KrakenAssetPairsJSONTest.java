@@ -25,16 +25,33 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairInfo;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenFee;
 
 /**
  * Test KrakenDepth JSON parsing
  */
 public class KrakenAssetPairsJSONTest {
+
+  private KrakenAssetPairInfo expectedAssetPairInfo;
+
+  @Before
+  public void before() {
+
+    List<KrakenFee> fees = new ArrayList<KrakenFee>();
+    fees.add(new KrakenFee(new BigDecimal("0"), new BigDecimal("0.3")));
+    expectedAssetPairInfo =
+        new KrakenAssetPairInfo("XBTUSD", "currency", "XXBT", "currency", "ZUSD", "unit", 5, 8, new BigDecimal(1), new ArrayList<String>(), fees, "ZUSD", new BigDecimal(80), new BigDecimal(40));
+  }
 
   @Test
   public void testUnmarshal() throws IOException {
@@ -50,5 +67,26 @@ public class KrakenAssetPairsJSONTest {
     assertThat(krakenAssetPairs.getResult()).hasSize(17);
     assertThat(krakenAssetPairs.getResult().get("XXBTZEUR")).isNotNull();
     assertThat(krakenAssetPairs.getResult().get("XBTCEUR")).isNull();
+
+    KrakenAssetPairInfo krakenAssetPairInfo = krakenAssetPairs.getResult().get("XXBTZUSD");
+    assertThat(krakenAssetPairInfo.getAltName()).isEqualTo(expectedAssetPairInfo.getAltName());
+    assertThat(krakenAssetPairInfo.getBase()).isEqualTo(expectedAssetPairInfo.getBase());
+    assertThat(krakenAssetPairInfo.getClassBase()).isEqualTo(expectedAssetPairInfo.getClassBase());
+    assertThat(krakenAssetPairInfo.getClassQuote()).isEqualTo(expectedAssetPairInfo.getClassQuote());
+    assertThat(krakenAssetPairInfo.getFeeVolumeCurrency()).isEqualTo(expectedAssetPairInfo.getFeeVolumeCurrency());
+    assertThat(krakenAssetPairInfo.getLeverage()).isEqualTo(expectedAssetPairInfo.getLeverage());
+    assertThat(krakenAssetPairInfo.getQuote()).isEqualTo(expectedAssetPairInfo.getQuote());
+    assertThat(krakenAssetPairInfo.getVolumeLotSize()).isEqualTo(expectedAssetPairInfo.getVolumeLotSize());
+    assertThat(krakenAssetPairInfo.getPairScale()).isEqualTo(expectedAssetPairInfo.getPairScale());
+    assertThat(krakenAssetPairInfo.getVolumeLotScale()).isEqualTo(expectedAssetPairInfo.getVolumeLotScale());
+    assertThat(krakenAssetPairInfo.getMarginCall()).isEqualTo(expectedAssetPairInfo.getMarginCall());
+    assertThat(krakenAssetPairInfo.getMarginStop()).isEqualTo(expectedAssetPairInfo.getMarginStop());
+    assertThat(krakenAssetPairInfo.getVolumeMultiplier()).isEqualTo(expectedAssetPairInfo.getVolumeMultiplier());
+    assertThat(krakenAssetPairInfo.getFees().size()).isEqualTo(26);
+
+    KrakenFee deserializedFee = krakenAssetPairInfo.getFees().get(0);
+    KrakenFee expectedFee = expectedAssetPairInfo.getFees().get(0);
+    assertThat(deserializedFee.getPercentFee()).isEqualTo(expectedFee.getPercentFee());
+    assertThat(deserializedFee.getVolume()).isEqualTo(expectedFee.getVolume());
   }
 }

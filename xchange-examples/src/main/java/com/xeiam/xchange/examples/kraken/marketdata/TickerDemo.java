@@ -69,9 +69,9 @@ public class TickerDemo {
 
     System.out.println("Ticker: " + ticker.toString());
     System.out.println("Currency: " + Currencies.EUR);
-    System.out.println("Last: " + ticker.getClose()[0].toString());
-    System.out.println("Volume: " + ticker.getVolume()[1].toString());
-    System.out.println("High: " + ticker.getHigh()[1].toString());
-    System.out.println("Low: " + ticker.getLow()[1].toString());
+    System.out.println("Last: " + ticker.getClose());
+    System.out.println("Volume: " + ticker.get24HourVolume().toString());
+    System.out.println("High: " + ticker.get24HourHigh().toString());
+    System.out.println("Low: " + ticker.get24HourLow().toString());
   }
 }
