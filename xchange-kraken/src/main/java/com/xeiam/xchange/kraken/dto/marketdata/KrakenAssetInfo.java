@@ -21,16 +21,46 @@
  */
 package com.xeiam.xchange.kraken.dto.marketdata;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
+public class KrakenAssetInfo {
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+  private final String altName;
+  private final String assetClass;
+  private final int scale;
+  private final int displayScale;
 
-    super(result, error);
+  public KrakenAssetInfo(@JsonProperty("altname") String altName, @JsonProperty("aclass") String assetClass, @JsonProperty("decimals") int scale, @JsonProperty("display_decimals") int displayScale) {
+
+    this.altName = altName;
+    this.assetClass = assetClass;
+    this.scale = scale;
+    this.displayScale = displayScale;
   }
 
+  public String getAltName() {
+
+    return altName;
+  }
+
+  public String getAssetClass() {
+
+    return assetClass;
+  }
+
+  public int getScale() {
+
+    return scale;
+  }
+
+  public int getDisplayScale() {
+
+    return displayScale;
+  }
+  
+  @Override
+  public String toString() {
+
+    return "KrakenAssetInfo [altName=" + altName + ", assetClass=" + assetClass + ", scale=" + scale + ", displayScale=" + displayScale + "]";
+  }
 }

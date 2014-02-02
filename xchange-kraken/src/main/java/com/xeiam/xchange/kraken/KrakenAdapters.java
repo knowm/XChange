@@ -36,16 +36,18 @@ import org.joda.money.CurrencyUnit;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrade;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
 
@@ -58,21 +60,21 @@ public class KrakenAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, String currency, String tradableIdentifier, String orderType) {
+  public static List<LimitOrder> adaptOrders(List<KrakenOrder> orders, String currency, String tradableIdentifier, String orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
-    for (BigDecimal[] order : orders) {
+    for (KrakenOrder order : orders) {
       limitOrders.add(adaptOrder(order, orderType, currency, tradableIdentifier));
     }
     return limitOrders;
   }
 
-  private static LimitOrder adaptOrder(BigDecimal[] order, String orderType, String currency, String tradableIdentifier) {
+  private static LimitOrder adaptOrder(KrakenOrder order, String orderType, String currency, String tradableIdentifier) {
 
     OrderType type = orderType.equalsIgnoreCase("asks") ? OrderType.ASK : OrderType.BID;
-    Date timeStamp = new Date(order[2].longValue() * 1000);
-    BigMoney price = BigMoney.of(CurrencyUnit.of(currency), order[0]);
-    BigDecimal volume = order[1];
+    Date timeStamp = new Date(order.getTimestamp() * 1000);
+    BigMoney price = BigMoney.of(CurrencyUnit.of(currency), order.getPrice());
+    BigDecimal volume = order.getVolume();
 
     return new LimitOrder(type, volume, tradableIdentifier, currency, "", timeStamp, price);
   }
@@ -80,33 +82,26 @@ public class KrakenAdapters {
   public static Ticker adaptTicker(KrakenTicker krakenTicker, String currency, String tradableIdentifier) {
 
     TickerBuilder builder = new TickerBuilder();
-    builder.withAsk(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getAsk()[0]));
-    builder.withBid(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getBid()[0]));
-    builder.withLast(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getClose()[0]));
-    builder.withHigh(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getHigh()[1]));
-    builder.withLow(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getLow()[1]));
-    builder.withVolume(krakenTicker.getVolume()[1]);
+    builder.withAsk(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getAsk().getPrice()));
+    builder.withBid(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getBid().getPrice()));
+    builder.withLast(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.getClose().getPrice()));
+    builder.withHigh(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.get24HourHigh()));
+    builder.withLow(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.get24HourLow()));
+    builder.withVolume(krakenTicker.get24HourVolume());
     builder.withTradableIdentifier(tradableIdentifier);
     return builder.build();
   }
 
-  /**
-   * @param krakenTrades
-   * @param currency
-   * @param tradableIdentifier
-   * @param last the id of the request provided in the return json
-   * @return
-   */
-  public static Trades adaptTrades(String[][] krakenTrades, String currency, String tradableIdentifier, long last) {
+  public static Trades adaptTrades(List<KrakenTrade> krakenTrades, String currency, String tradableIdentifier, long last) {
 
     List<Trade> trades = new LinkedList<Trade>();
-    for (String[] krakenTradeInformation : krakenTrades) {
-      OrderType type = krakenTradeInformation[3].equalsIgnoreCase("s") ? OrderType.ASK : OrderType.BID;
-      BigDecimal tradableAmount = new BigDecimal(krakenTradeInformation[1]);
-      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), new BigDecimal(krakenTradeInformation[0]));
-      Date timestamp = new Date((long) (Double.valueOf(krakenTradeInformation[2]) * 1000L));
-      long tradeID = (long) (Double.valueOf(krakenTradeInformation[2]) * 10000L);
-      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, tradeID));
+    for (KrakenTrade krakenTrade : krakenTrades) {
+      OrderType type = krakenTrade.getType().equalsIgnoreCase("s") ? OrderType.ASK : OrderType.BID;
+      BigDecimal tradableAmount = krakenTrade.getVolume();
+      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), krakenTrade.getPrice());
+      Date timestamp = new Date((long) krakenTrade.getTime() * 1000L);
+      
+      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, 0));
 
     }
     return new Trades(trades, last);

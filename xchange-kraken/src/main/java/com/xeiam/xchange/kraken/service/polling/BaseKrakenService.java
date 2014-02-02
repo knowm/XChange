@@ -19,18 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.service.polling;
 
-import java.util.Map;
+import java.util.Arrays;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.utils.Assert;
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
+abstract class BaseKrakenService extends BasePollingExchangeService {
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+  public BaseKrakenService(ExchangeSpecification exchangeSpecification) {
 
-    super(result, error);
+    super(exchangeSpecification);
+    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+
   }
 
+  protected <T> T checkResult(KrakenResult<T> krakenResult) {
+
+    if (!krakenResult.isSuccess())
+      throw new ExchangeException(Arrays.toString(krakenResult.getError()));
+
+    return krakenResult.getResult();
+  }
 }

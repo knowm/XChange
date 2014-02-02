@@ -67,7 +67,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     KrakenTrades krakenTrades = getKrakenTrades(tradableIdentifier, currency, args);
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTradesPerCurrencyPair(tradableIdentifier, currency), currency, tradableIdentifier, krakenTrades.getLast());
+    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currency, tradableIdentifier, krakenTrades.getLast());
     return trades;
   }
 
