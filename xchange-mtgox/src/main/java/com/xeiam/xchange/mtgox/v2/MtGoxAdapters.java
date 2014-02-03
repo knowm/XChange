@@ -71,7 +71,7 @@ public final class MtGoxAdapters {
   public static AccountInfo adaptAccountInfo(MtGoxAccountInfo mtGoxAccountInfo) {
 
     // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo(mtGoxAccountInfo.getLogin(), MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
+    AccountInfo accountInfo = new AccountInfo(mtGoxAccountInfo.getLogin(), mtGoxAccountInfo.getTradeFee(), MtGoxAdapters.adaptWallets(mtGoxAccountInfo.getWallets()));
     return accountInfo;
   }
 
