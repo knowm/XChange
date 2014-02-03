@@ -28,10 +28,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepthResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreadsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTickerResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTimeResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTradesResult;
 
 /**
@@ -45,11 +47,6 @@ public interface Kraken {
   @Path("Ticker")
   KrakenTickerResult getTicker(@QueryParam("pair") String currencyPair);
 
-  /**
-   * @param currencyPair kraken currency pair
-   * @param count can be null = full {@link OrderBook}
-   * @return
-   */
   @GET
   @Path("Depth")
   KrakenDepthResult getDepth(@QueryParam("pair") String currencyPair, @QueryParam("count") Long count) throws IOException;
@@ -63,6 +60,18 @@ public interface Kraken {
   KrakenTradesResult getTrades(@QueryParam("pair") String currencyPair, @QueryParam("since") long since) throws IOException;
 
   @GET
+  @Path("Spread")
+  KrakenSpreadsResult getSpread(@QueryParam("pair") String currencyPair, @QueryParam("since") long since);
+  
+  @GET
+  @Path("Assets")
+  KrakenAssetsResult getAssets() throws IOException;
+  
+  @GET
   @Path("AssetPairs")
   KrakenAssetPairsResult getAssetPairs() throws IOException;
+  
+  @GET
+  @Path("Time")
+  KrakenServerTimeResult getServerTime() throws IOException;
 }

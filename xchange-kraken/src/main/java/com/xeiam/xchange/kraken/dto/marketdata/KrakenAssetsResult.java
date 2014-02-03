@@ -26,11 +26,11 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+public class KrakenAssetsResult extends KrakenResult<Map<String, KrakenAssetInfo>> {
+
+  public KrakenAssetsResult(@JsonProperty("result") Map<String, KrakenAssetInfo> result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
-
 }

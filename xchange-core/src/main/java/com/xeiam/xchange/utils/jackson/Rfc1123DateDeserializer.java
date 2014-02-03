@@ -19,18 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.utils.jackson;
 
-import java.util.Map;
+import java.io.IOException;
+import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.xeiam.xchange.utils.DateUtils;
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
+/**
+ * Deserializes an rfc1123 formatted Date String to a Java Date
+ * rfc1123 format: 'EEE, dd MMM yyyy HH:mm:ss zzz'
+ * 
+ * @author jamespedwards42
+ */
+public class Rfc1123DateDeserializer extends JsonDeserializer<Date> {
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+	  @Override
+	  public Date deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-    super(result, error);
-  }
+	    return DateUtils.fromRfc1123DateString(jp.getValueAsString());
+	  }
 
 }

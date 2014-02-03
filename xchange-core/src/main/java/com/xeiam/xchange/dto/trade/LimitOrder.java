@@ -50,8 +50,8 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    * @param timestamp a Date object representing the order's timestamp
+   * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp, BigMoney limitPrice) {
 

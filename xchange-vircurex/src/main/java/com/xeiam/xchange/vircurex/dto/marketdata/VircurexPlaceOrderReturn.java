@@ -1,5 +1,6 @@
 /**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,18 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.vircurex.dto.marketdata;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
+public class VircurexPlaceOrderReturn {
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
+  String orderId;
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+  public String getOrderId() {
 
-    super(result, error);
+    return orderId;
   }
 
+  public void setOrderId(String orderId) {
+
+    this.orderId = orderId;
+  }
+
+  @JsonAnySetter
+  public void setMe(String aKey, Object aValue) {
+
+    System.out.println(aKey + " = " + aValue);
+  }
 }

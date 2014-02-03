@@ -23,14 +23,30 @@ package com.xeiam.xchange.kraken.dto.marketdata;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.KrakenUtils;
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
+public class KrakenAssets {
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+  private final Map<String, KrakenAssetInfo> assetInfoMap;
 
-    super(result, error);
+  public KrakenAssets(final Map<String, KrakenAssetInfo> assetInfoMap) {
+
+    this.assetInfoMap = assetInfoMap;
   }
 
+  public KrakenAssetInfo getAssetPairInfo(String tradableIdentifier, String currency) {
+
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
+    return getAssetPairInfo(krakenCurrencyPair);
+  }
+
+  public KrakenAssetInfo getAssetPairInfo(String krakenCurrencyPair) {
+
+    return assetInfoMap.get(krakenCurrencyPair);
+  }
+
+  public Map<String, KrakenAssetInfo> getAssetPairMap() {
+
+    return assetInfoMap;
+  }
 }

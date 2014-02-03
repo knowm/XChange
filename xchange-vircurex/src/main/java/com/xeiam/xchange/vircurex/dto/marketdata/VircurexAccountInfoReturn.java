@@ -1,5 +1,6 @@
 /**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2013 Matija Mazi
+ * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -19,18 +20,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.vircurex.dto.marketdata;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
 
-public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPairInfo>> {
+/**
+ * @author Matija Mazi
+ */
+public class VircurexAccountInfoReturn {
 
-  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPairInfo> result, @JsonProperty("error") String[] error) {
+  int status;
 
-    super(result, error);
+  public int getStatus() {
+
+    return status;
+  }
+
+  public void setStatus(int status) {
+
+    this.status = status;
+  }
+
+  public String getAccount() {
+
+    return account;
+  }
+
+  public void setAccount(String account) {
+
+    this.account = account;
+  }
+
+  Map<String, Map<String, BigDecimal>> availableFunds = new HashMap<String, Map<String, BigDecimal>>();
+
+  String account;
+
+  public Map<String, Map<String, BigDecimal>> getAvailableFunds() {
+
+    return availableFunds;
+  }
+
+  public VircurexAccountInfoReturn(@JsonProperty("status") int aStatus, @JsonProperty("account") String anAccount, @JsonProperty("balances") Map<String, Map<String, BigDecimal>> someBalances) {
+
+    availableFunds = someBalances;
+    status = aStatus;
+    account = anAccount;
   }
 
 }
