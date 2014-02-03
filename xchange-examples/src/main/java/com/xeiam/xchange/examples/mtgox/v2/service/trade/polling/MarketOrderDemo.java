@@ -21,37 +21,57 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * Test placing a market order at MtGox
  */
 public class MarketOrderDemo {
 
-  public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-    // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService();
+        // Interested in the private trading functionality (authentication)
+        PollingTradeService tradeService = mtgox.getPollingTradeService();
+        generic(tradeService);
+        raw(tradeService);
 
-    // place a market order for 1 Bitcoin at market price
-    OrderType orderType = (OrderType.BID);
-    BigDecimal tradeableAmount = new BigDecimal(1);
-    String tradableIdentifier = "BTC";
-    String transactionCurrency = "USD";
 
-    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    }
 
-    String orderID = tradeService.placeMarketOrder(marketOrder);
-    System.out.println("Market Order return value: " + orderID);
+    private static void raw(PollingTradeService tradeService) throws IOException {
+        // place a market order for 1 Bitcoin at market price
+        OrderType orderType = (OrderType.BID);
+        BigDecimal tradeableAmount = new BigDecimal(1);
+        String tradableIdentifier = "BTC";
+        String transactionCurrency = "USD";
 
-  }
+        MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+
+        MtGoxGenericResponse orderID = ((MtGoxTradeServiceRaw)tradeService).placeMtGoxMarketOrder(marketOrder);
+        System.out.println("Market Order return value: " + orderID.getDataString());
+    }
+
+    private static void generic(PollingTradeService tradeService) throws IOException {
+        // place a market order for 1 Bitcoin at market price
+        OrderType orderType = (OrderType.BID);
+        BigDecimal tradeableAmount = new BigDecimal(1);
+        String tradableIdentifier = "BTC";
+        String transactionCurrency = "USD";
+
+        MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+
+        String orderID = tradeService.placeMarketOrder(marketOrder);
+        System.out.println("Market Order return value: " + orderID);
+    }
 }

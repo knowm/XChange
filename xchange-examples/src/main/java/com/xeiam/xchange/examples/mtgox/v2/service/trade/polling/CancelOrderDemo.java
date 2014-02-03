@@ -21,34 +21,54 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+
+import java.io.IOException;
 
 /**
  * Test placing a limit order at MtGox.
  */
 public class CancelOrderDemo {
 
-  public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-    // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = mtgox.getPollingTradeService();
+        // Interested in the private trading functionality (authentication)
+        PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
-    System.out.println("success= " + success);
-
-    // get open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-      System.out.println(openOrder.toString());
+        generic(tradeService);
+        raw(tradeService);
     }
 
-  }
+    private static void raw(PollingTradeService tradeService) throws IOException {
+        MtGoxGenericResponse success = ((MtGoxTradeServiceRaw)tradeService)
+                                        .cancelMtGoxOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
+        System.out.println("success= " + success.getDataString());
+
+        // get open orders
+        MtGoxOpenOrder[] openOrders = ((MtGoxTradeServiceRaw)tradeService).getMtGoxOpenOrders();
+        for (MtGoxOpenOrder openOrder : openOrders) {
+            System.out.println(openOrder.toString());
+        }
+    }
+
+    private static void generic(PollingTradeService tradeService) throws IOException {
+        boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
+        System.out.println("success= " + success);
+
+        // get open orders
+        OpenOrders openOrders = tradeService.getOpenOrders();
+        for (LimitOrder openOrder : openOrders.getOpenOrders()) {
+            System.out.println(openOrder.toString());
+        }
+    }
 }

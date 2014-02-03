@@ -39,7 +39,7 @@ public class MtGoxTradeServiceRaw extends BasePollingExchangeService {
         this.signatureCreator = MtGoxV2Digest.createInstance(exchangeSpecification.getSecretKey());
     }
 
-    protected MtGoxOpenOrder[] getMtGoxOpenOrders() throws IOException {
+    public MtGoxOpenOrder[] getMtGoxOpenOrders() throws IOException {
         try {
             MtGoxOpenOrderWrapper mtGoxOpenOrderWrapper = mtGoxV2.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()),
                                                                                 signatureCreator, MtGoxUtils.getNonce());
@@ -56,7 +56,7 @@ public class MtGoxTradeServiceRaw extends BasePollingExchangeService {
         }
     }
 
-    protected MtGoxGenericResponse placeMtGoxMarketOrder(MarketOrder marketOrder) throws IOException {
+    public MtGoxGenericResponse placeMtGoxMarketOrder(MarketOrder marketOrder) throws IOException {
         try {
             MtGoxGenericResponse mtGoxGenericResponse =
                     mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(),
@@ -76,7 +76,7 @@ public class MtGoxTradeServiceRaw extends BasePollingExchangeService {
         }
     }
 
-    protected MtGoxGenericResponse placeMtGoxLimitOrder(String tradableIdentifier,
+    public MtGoxGenericResponse placeMtGoxLimitOrder(String tradableIdentifier,
                                                         String currency, String type,
                                                         BigDecimal amount, String price) throws IOException {
         try {
@@ -96,7 +96,7 @@ public class MtGoxTradeServiceRaw extends BasePollingExchangeService {
         }
     }
 
-    protected MtGoxGenericResponse cancelMtGoxOrder(String orderId) throws IOException {
+    public MtGoxGenericResponse cancelMtGoxOrder(String orderId) throws IOException {
         try {
 
             MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.cancelOrder(exchangeSpecification.getApiKey(),
