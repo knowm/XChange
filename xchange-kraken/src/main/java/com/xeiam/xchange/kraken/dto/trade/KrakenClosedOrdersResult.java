@@ -21,29 +21,31 @@
  */
 package com.xeiam.xchange.kraken.dto.trade;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenCancelOrderResult.KrakenCancelCount;
+import com.xeiam.xchange.kraken.dto.trade.KrakenClosedOrdersResult.KrakenClosedOrders;
 
-public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelCount> {
+public class KrakenClosedOrdersResult extends KrakenResult<KrakenClosedOrders> {
 
-  public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelCount result, @JsonProperty("error") String[] error) {
+  public KrakenClosedOrdersResult(@JsonProperty("result") KrakenClosedOrders result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
   
-  public static class KrakenCancelCount {
+  public static class KrakenClosedOrders {
 
-    private int count = -1;
+    private Map<String, KrakenOrder> orders;
 
-    public KrakenCancelCount(@JsonProperty("count") int count) {
+    public KrakenClosedOrders(@JsonProperty("closed") Map<String, KrakenOrder> orders) {
 
-      this.count = count;
+      this.orders = orders;
     }
 
-    public int getCount() {
+    public Map<String, KrakenOrder> getOrders() {
 
-      return count;
+      return orders;
     }
   }
 }

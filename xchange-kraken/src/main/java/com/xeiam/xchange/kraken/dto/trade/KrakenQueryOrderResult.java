@@ -21,19 +21,16 @@
  */
 package com.xeiam.xchange.kraken.dto.trade;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.KrakenResult;
 
-public class KrakenCancelCount {
+public class KrakenQueryOrderResult extends KrakenResult<Map<String, KrakenOrder>> {
 
-  private int count = -1;
+  public KrakenQueryOrderResult(@JsonProperty("result") Map<String, KrakenOrder> result, @JsonProperty("error") String[] error) {
 
-  public KrakenCancelCount(@JsonProperty("count") int count) {
-
-    this.count = count;
+    super(result, error);
   }
-
-  public int getCount() {
-
-    return count;
-  }
+ 
 }

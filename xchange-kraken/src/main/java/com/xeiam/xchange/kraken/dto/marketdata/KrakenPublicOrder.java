@@ -31,16 +31,16 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenOrder.KrakenOrderDeserializer;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder.KrakenOrderDeserializer;
 
 @JsonDeserialize(using = KrakenOrderDeserializer.class)
-public class KrakenOrder {
+public class KrakenPublicOrder {
 
   private final BigDecimal price;
   private final BigDecimal volume;
   private final long timestamp;
 
-  public KrakenOrder(BigDecimal price, BigDecimal volume, long timestamp) {
+  public KrakenPublicOrder(BigDecimal price, BigDecimal volume, long timestamp) {
 
     this.price = price;
     this.volume = volume;
@@ -68,10 +68,10 @@ public class KrakenOrder {
     return "KrakenOrder [price=" + price + ", volume=" + volume + ", timestamp=" + timestamp + "]";
   }
 
-  static class KrakenOrderDeserializer extends JsonDeserializer<KrakenOrder> {
+  static class KrakenOrderDeserializer extends JsonDeserializer<KrakenPublicOrder> {
 
     @Override
-    public KrakenOrder deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenPublicOrder deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
@@ -80,7 +80,7 @@ public class KrakenOrder {
         BigDecimal volume = new BigDecimal(node.path(1).asText());
         long timestamp = node.path(2).asLong();
 
-        return new KrakenOrder(price, volume, timestamp);
+        return new KrakenPublicOrder(price, volume, timestamp);
       }
 
       return null;

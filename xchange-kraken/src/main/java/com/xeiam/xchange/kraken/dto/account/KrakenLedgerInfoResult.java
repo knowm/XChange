@@ -19,31 +19,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.trade;
+package com.xeiam.xchange.kraken.dto.account;
+
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenCancelOrderResult.KrakenCancelCount;
+import com.xeiam.xchange.kraken.dto.account.KrakenLedgerInfoResult.KrakenLedgers;
 
-public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelCount> {
+public class KrakenLedgerInfoResult extends KrakenResult<KrakenLedgers> {
 
-  public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelCount result, @JsonProperty("error") String[] error) {
+  public KrakenLedgerInfoResult(@JsonProperty("result") KrakenLedgers result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
-  
-  public static class KrakenCancelCount {
 
-    private int count = -1;
+  public static class KrakenLedgers {
 
-    public KrakenCancelCount(@JsonProperty("count") int count) {
+    private final Map<String, KrakenLedgerInfo> ledgerMap;
+    private final int count;
 
+    public KrakenLedgers(Map<String, KrakenLedgerInfo> ledgerMap) {
+
+      this.ledgerMap = ledgerMap;
+      this.count = ledgerMap.size();
+    }
+
+    public KrakenLedgers(@JsonProperty("ledger") Map<String, KrakenLedgerInfo> ledgerMap, @JsonProperty("count") int count) {
+
+      this.ledgerMap = ledgerMap;
       this.count = count;
+    }
+
+    public Map<String, KrakenLedgerInfo> getLedgerMap() {
+
+      return ledgerMap;
     }
 
     public int getCount() {
 
       return count;
     }
+
+    @Override
+    public String toString() {
+
+      return "KrakenLedgers [ledgerMap=" + ledgerMap + ", count=" + count + "]";
+    }
+
   }
 }

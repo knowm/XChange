@@ -30,22 +30,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class KrakenDepth {
 
-  private final List<KrakenOrder> asks;
-  private final List<KrakenOrder> bids;
+  private final List<KrakenPublicOrder> asks;
+  private final List<KrakenPublicOrder> bids;
 
-  public KrakenDepth(@JsonProperty("asks") List<KrakenOrder> asks, @JsonProperty("bids") List<KrakenOrder> bids) {
+  public KrakenDepth(@JsonProperty("asks") List<KrakenPublicOrder> asks, @JsonProperty("bids") List<KrakenPublicOrder> bids) {
 
     this.asks = asks;
     this.bids = bids;
 
   }
 
-  public List<KrakenOrder> getAsks() {
+  public List<KrakenPublicOrder> getAsks() {
 
     return asks;
   }
 
-  public List<KrakenOrder> getBids() {
+  public List<KrakenPublicOrder> getBids() {
 
     return bids;
   }

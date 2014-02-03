@@ -45,10 +45,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrade;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
 
 public class KrakenAdapters {
@@ -60,16 +60,16 @@ public class KrakenAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static List<LimitOrder> adaptOrders(List<KrakenOrder> orders, String currency, String tradableIdentifier, String orderType) {
+  public static List<LimitOrder> adaptOrders(List<KrakenPublicOrder> orders, String currency, String tradableIdentifier, String orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
-    for (KrakenOrder order : orders) {
+    for (KrakenPublicOrder order : orders) {
       limitOrders.add(adaptOrder(order, orderType, currency, tradableIdentifier));
     }
     return limitOrders;
   }
 
-  private static LimitOrder adaptOrder(KrakenOrder order, String orderType, String currency, String tradableIdentifier) {
+  private static LimitOrder adaptOrder(KrakenPublicOrder order, String orderType, String currency, String tradableIdentifier) {
 
     OrderType type = orderType.equalsIgnoreCase("asks") ? OrderType.ASK : OrderType.BID;
     Date timeStamp = new Date(order.getTimestamp() * 1000);
@@ -129,11 +129,11 @@ public class KrakenAdapters {
     return currencyPairs;
   }
 
-  public static OpenOrders adaptOpenOrders(Map<String, KrakenOpenOrder> krakenOrders) {
+  public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders) {
 
     List<LimitOrder> limitOrders = new LinkedList<LimitOrder>();
-    for (Entry<String, KrakenOpenOrder> krakenOrder : krakenOrders.entrySet()) {
-    	KrakenOrderDescription orderDescription = krakenOrder.getValue().getDescription();
+    for (Entry<String, KrakenOrder> krakenOrder : krakenOrders.entrySet()) {
+    	KrakenOrderDescription orderDescription = krakenOrder.getValue().getOrderDescription();
     	
     	if( ! "limit".equals(orderDescription.getOrderType()) ) {
     		// how to handle stop-loss, take-profit, stop-loss-limit, and so on orders?
@@ -144,11 +144,11 @@ public class KrakenAdapters {
       OrderType type = orderDescription.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
       BigDecimal tradableAmount = krakenOrder.getValue().getVolume().subtract(krakenOrder.getValue().getVolumeExecuted());
 
-      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(orderDescription.getPair().substring(0, 3));
-      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(orderDescription.getPair().substring(3));
+      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(orderDescription.getAssetPair().substring(0, 3));
+      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(orderDescription.getAssetPair().substring(3));
       String id = krakenOrder.getKey();
-      Date timestamp = new Date((long) (krakenOrder.getValue().getOpentm() * 1000L));
-      BigMoney limitPrice = BigMoney.of(CurrencyUnit.of(transactionCurrency), new BigDecimal(orderDescription.getPrice()));
+      Date timestamp = new Date((long) (krakenOrder.getValue().getOpenTimestamp() * 1000L));
+      BigMoney limitPrice = BigMoney.of(CurrencyUnit.of(transactionCurrency), orderDescription.getPrice());
       LimitOrder order = new LimitOrder(type, tradableAmount, tradableIdentifier, transactionCurrency, id, timestamp, limitPrice);
       limitOrders.add(order);
     }

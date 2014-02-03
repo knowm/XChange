@@ -33,9 +33,14 @@ import javax.ws.rs.core.MediaType;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.kraken.dto.account.KrakenBalanceResult;
+import com.xeiam.xchange.kraken.dto.account.KrakenLedgerInfoResult;
+import com.xeiam.xchange.kraken.dto.account.KrakenQueryLedgerResult;
+import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfoResult;
 import com.xeiam.xchange.kraken.dto.trade.KrakenCancelOrderResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenClosedOrdersResult;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenQueryOrderResult;
 
 @Path("0/private")
 @Produces(MediaType.APPLICATION_JSON)
@@ -45,17 +50,19 @@ public interface KrakenAuthenticated {
   @Path("Balance")
   public KrakenBalanceResult balance(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
-  /**
-   * @param apiKey
-   * @param signer
-   * @param nonce
-   * @param pair kraken currency pair
-   * @param type buy or sell
-   * @param ordertype market or limit
-   * @param price optional: dependent upon ordertype
-   * @param volume order volume in lots
-   * @return
-   */
+  @POST
+  @Path("TradeBalance")
+  public KrakenTradeBalanceInfoResult tradeBalance(@FormParam("aclass") String assetClass, @FormParam("asset") String asset, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+
+  @POST
+  @Path("Ledgers")
+  public KrakenLedgerInfoResult ledgers(@FormParam("aclass") String assetClass, @FormParam("asset") String assets, @FormParam("type") String ledgerType, 
+      @FormParam("start") String start, @FormParam("end") String end, @FormParam("ofs") String offset, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+
+  @POST
+  @Path("QueryLedgers")
+  public KrakenQueryLedgerResult queryLedgers(@FormParam("id") String ledgerIds, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+
   @POST
   @Path("AddOrder")
   public KrakenOrderResult addOrder(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("pair") String pair,
@@ -68,7 +75,15 @@ public interface KrakenAuthenticated {
 
   @POST
   @Path("OpenOrders")
-  public KrakenOpenOrdersResult openOrders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("trades") Boolean trades,
-      @FormParam("userref") String userref) throws IOException;
+  public KrakenOpenOrdersResult openOrders(@FormParam("trades") boolean includeTrades, @FormParam("userref") String userReferenceId, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+  
+  @POST
+  @Path("ClosedOrders")
+  public KrakenClosedOrdersResult closedOrders(@FormParam("trades") boolean includeTrades, @FormParam("userref") String userReferenceId, 
+      @FormParam("start") String start, @FormParam("end") String end, @FormParam("ofs") String offset, @FormParam("closetime") String closeTime, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
+  @POST
+  @Path("QueryOrders")
+  public KrakenQueryOrderResult queryOrders(@FormParam("trades") boolean includeTrades, @FormParam("userref") String userReferenceId, @FormParam("txid") String transactionIds, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+  
 }
