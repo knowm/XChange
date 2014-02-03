@@ -54,13 +54,13 @@ public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
         }
     }
 
-    public OrderBook getMtGoxOrderBook(String tradableIdentifier, String currency, Object[] args) throws IOException {
+    public MtGoxDepthWrapper getMtGoxOrderBook(String tradableIdentifier, String currency, Object[] args) throws IOException {
         try {
             // Request data
             MtGoxDepthWrapper mtGoxDepthWrapper = null;
             if (args.length > 0) {
                 if (args[0] instanceof PollingMarketDataService.OrderBookType) {
-                    if (args[0] == PollingMarketDataService.OrderBookType.FULL) {
+                    if (PollingMarketDataService.OrderBookType.FULL.equals(args[0])) {
                         mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
                     } else {
                         mtGoxDepthWrapper = mtGoxV2.getPartialDepth(tradableIdentifier, currency);
@@ -72,11 +72,7 @@ public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
                 mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
             }
             if (mtGoxDepthWrapper.getResult().equals("success")) {
-                // Adapt to XChange DTOs
-                List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-                List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-                Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
-                return new OrderBook(date, asks, bids);
+                return mtGoxDepthWrapper;
             } else if (mtGoxDepthWrapper.getResult().equals("error")) {
                 throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
             } else {
