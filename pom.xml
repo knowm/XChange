@@ -89,6 +89,7 @@
 		<module>xchange-bitcoinaverage</module>
 		<module>xchange-bitfinex</module>
 		<module>xchange-justcoin</module>
+		<module>xchange-vircurex</module>
 	</modules>
 
 	<repositories>
