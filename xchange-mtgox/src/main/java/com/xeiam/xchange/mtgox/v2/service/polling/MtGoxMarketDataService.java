@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -77,48 +78,27 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class MtGoxMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  protected final MtGoxV2 mtGoxV2;
+public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
   public MtGoxMarketDataService(ExchangeSpecification exchangeSpecification) {
-
     super(exchangeSpecification);
-    this.mtGoxV2 = RestProxyFactory.createProxy(MtGoxV2.class, exchangeSpecification.getSslUri());
   }
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
-
-    try {
-      // Request data
-      MtGoxTickerWrapper mtGoxTickerWrapper = mtGoxV2.getTicker(tradableIdentifier, currency);
-
-      if (mtGoxTickerWrapper.getResult().equals("success")) {
-        // Adapt to XChange DTOs
-        return MtGoxAdapters.adaptTicker(mtGoxTickerWrapper.getMtGoxTicker());
-      }
-      else if (mtGoxTickerWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling getTicker(): " + mtGoxTickerWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling getTicker(): Unexpected result!");
-      }
-    } catch (MtGoxException e) {
-      throw new ExchangeException("Error calling getTicker(): " + e.getError());
-    }
+    return MtGoxAdapters.adaptTicker(getMtGoxTicker(tradableIdentifier, currency));
   }
 
-  /**
+    /**
    * Get market depth from exchange
-   * 
+   *
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
    * @param currency The currency of interest, null if irrelevant. Second currency of the pair
    * @param args Optional arguments. Exchange-specific. This implementation assumes:
@@ -131,74 +111,14 @@ public class MtGoxMarketDataService extends BasePollingExchangeService implement
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
-
-    try {
-      // Request data
-      MtGoxDepthWrapper mtGoxDepthWrapper = null;
-      if (args.length > 0) {
-        if (args[0] instanceof OrderBookType) {
-          if (args[0] == OrderBookType.FULL) {
-            mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
-          }
-          else {
-            mtGoxDepthWrapper = mtGoxV2.getPartialDepth(tradableIdentifier, currency);
-          }
-        }
-        else {
-          throw new ExchangeException("Orderbook size argument must be OrderBookType enum!");
-        }
-      }
-      else { // default to full orderbook
-        mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
-      }
-      if (mtGoxDepthWrapper.getResult().equals("success")) {
-        // Adapt to XChange DTOs
-        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
-        return new OrderBook(date, asks, bids);
-      }
-      else if (mtGoxDepthWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling getFullOrderBook(): Unexpected result!");
-      }
-    } catch (MtGoxException e) {
-      throw new ExchangeException("Error calling getFullOrderBook(): " + e.getError());
-    }
+    return getMtGoxOrderBook(tradableIdentifier, currency, args);
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
-
-    try {
-      MtGoxTradesWrapper mtGoxTradeWrapper = null;
-
-      if (args.length > 0) {
-        Long sinceTimeStamp = (Long) args[0];
-        // Request data
-        mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency, sinceTimeStamp);
-      }
-      else {
-        // Request data
-        mtGoxTradeWrapper = mtGoxV2.getTrades(tradableIdentifier, currency);
-      }
-
-      if (mtGoxTradeWrapper.getResult().equals("success")) {
-        return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
-      }
-      else if (mtGoxTradeWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling getTrades(): " + mtGoxTradeWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling getTrades(): Unexpected result!");
-      }
-    } catch (MtGoxException e) {
-      throw new ExchangeException("Error calling getTrades(): " + e.getError());
-    }
+    return getMtGoxTrades(tradableIdentifier, currency, args);
   }
 
   @Override
@@ -209,7 +129,7 @@ public class MtGoxMarketDataService extends BasePollingExchangeService implement
 
   /**
    * Verify
-   * 
+   *
    * @param tradableIdentifier
    *          The tradeable identifier (e.g. BTC in BTC/USD)
    * @param currency
