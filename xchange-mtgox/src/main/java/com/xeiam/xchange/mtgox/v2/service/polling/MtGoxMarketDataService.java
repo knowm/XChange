@@ -43,6 +43,10 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -57,10 +61,6 @@ import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 /**
  * <p>
  * Implementation of the market data service for Mt Gox V2
@@ -71,76 +71,77 @@ import java.util.List;
  */
 public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements PollingMarketDataService {
 
-    /**
-     * Constructor
-     *
-     * @param exchangeSpecification
-     */
-    public MtGoxMarketDataService(ExchangeSpecification exchangeSpecification) {
-        super(exchangeSpecification);
-    }
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public MtGoxMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    @Override
-    public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+    super(exchangeSpecification);
+  }
 
-        verify(tradableIdentifier, currency);
-        return MtGoxAdapters.adaptTicker(getMtGoxTicker(tradableIdentifier, currency));
-    }
+  @Override
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    /**
-     * Get market depth from exchange
-     *
-     * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
-     * @param currency           The currency of interest, null if irrelevant. Second currency of the pair
-     * @param args               Optional arguments. Exchange-specific. This implementation assumes:
-     *                           absent or OrderBookType.PARTIAL -> get partial OrderBook
-     *                           OrderBookType.FULL -> get full OrderBook
-     * @return The OrderBook
-     * @throws IOException
-     */
-    @Override
-    public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+    verify(tradableIdentifier, currency);
+    return MtGoxAdapters.adaptTicker(getMtGoxTicker(tradableIdentifier, currency));
+  }
 
-        verify(tradableIdentifier, currency);
+  /**
+   * Get market depth from exchange
+   * 
+   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
+   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
+   * @param args Optional arguments. Exchange-specific. This implementation assumes:
+   *          absent or OrderBookType.PARTIAL -> get partial OrderBook
+   *          OrderBookType.FULL -> get full OrderBook
+   * @return The OrderBook
+   * @throws IOException
+   */
+  @Override
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-        MtGoxDepthWrapper mtGoxDepthWrapper = getMtGoxOrderBook(tradableIdentifier, currency, args);
-        // Adapt to XChange DTOs
-        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
-        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
-        Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
-        return new OrderBook(date, asks, bids);
-    }
+    verify(tradableIdentifier, currency);
 
-    @Override
-    public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+    MtGoxDepthWrapper mtGoxDepthWrapper = getMtGoxOrderBook(tradableIdentifier, currency, args);
+    // Adapt to XChange DTOs
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
+    Date date = new Date(mtGoxDepthWrapper.getMtGoxDepth().getMicroTime() / 1000);
+    return new OrderBook(date, asks, bids);
+  }
 
-        verify(tradableIdentifier, currency);
-        return MtGoxAdapters.adaptTrades(getMtGoxTrades(tradableIdentifier, currency, args).getMtGoxTrades());
-    }
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    @Override
-    public ExchangeInfo getExchangeInfo() throws IOException {
+    verify(tradableIdentifier, currency);
+    return MtGoxAdapters.adaptTrades(getMtGoxTrades(tradableIdentifier, currency, args).getMtGoxTrades());
+  }
 
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
-    /**
-     * Verify
-     *
-     * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-     * @param currency           The transaction currency (e.g. USD in BTC/USD)
-     */
-    private void verify(String tradableIdentifier, String currency) {
+    throw new NotAvailableFromExchangeException();
+  }
 
-        Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-        Assert.notNull(currency, "currency cannot be null");
-        Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
+   */
+  private void verify(String tradableIdentifier, String currency) {
 
-    }
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
-    @Override
-    public List<CurrencyPair> getExchangeSymbols() {
+  }
 
-        return MtGoxUtils.CURRENCY_PAIRS;
-    }
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    return MtGoxUtils.CURRENCY_PAIRS;
+  }
 }

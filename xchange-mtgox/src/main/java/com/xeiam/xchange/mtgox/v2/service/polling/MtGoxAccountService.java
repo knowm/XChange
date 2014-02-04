@@ -21,15 +21,15 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * <p>
@@ -41,37 +41,40 @@ import java.math.BigDecimal;
  */
 public class MtGoxAccountService extends MtGoxAccountServiceRaw implements PollingAccountService {
 
-    /**
-     * Constructor
-     *
-     * @param exchangeSpecification The {@link ExchangeSpecification}
-     */
-    public MtGoxAccountService(ExchangeSpecification exchangeSpecification) {
-        super(exchangeSpecification);
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public MtGoxAccountService(ExchangeSpecification exchangeSpecification) {
+
+    super(exchangeSpecification);
+  }
+
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
+
+    return MtGoxAdapters.adaptAccountInfo(getMtGoxAccountInfo());
+  }
+
+  @Override
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+
+    return mtGoxWithdrawFunds(amount, address).getTransactionId();
+  }
+
+  @Override
+  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+
+    if (arguments.length < 2) {
+      throw new ExchangeException("Expected description and notificationUrl, in that order.");
     }
+    Assert.notNull(arguments[0], "Description cannot be null.");
 
-    @Override
-    public AccountInfo getAccountInfo() throws IOException {
-        return MtGoxAdapters.adaptAccountInfo(getMtGoxAccountInfo());
-    }
+    String description = arguments[0];
+    String notificationUrl = arguments[1];
 
-    @Override
-    public String withdrawFunds(BigDecimal amount, String address) throws IOException {
-
-        return mtGoxWithdrawFunds(amount, address).getTransactionId();
-    }
-
-    @Override
-    public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
-        if (arguments.length < 2) {
-            throw new ExchangeException("Expected description and notificationUrl, in that order.");
-        }
-        Assert.notNull(arguments[0], "Description cannot be null.");
-
-        String description = arguments[0];
-        String notificationUrl = arguments[1];
-
-        return mtGoxRequestDepositAddress(description, notificationUrl).getAddres();
-    }
+    return mtGoxRequestDepositAddress(description, notificationUrl).getAddres();
+  }
 
 }

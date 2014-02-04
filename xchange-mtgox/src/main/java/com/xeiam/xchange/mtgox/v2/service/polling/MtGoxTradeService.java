@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -35,76 +38,73 @@ import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 /**
  * @author timmolter
  */
 public class MtGoxTradeService extends MtGoxTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchangeSpecification The {@link ExchangeSpecification}
-     */
-    public MtGoxTradeService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public MtGoxTradeService(ExchangeSpecification exchangeSpecification) {
 
-        super(exchangeSpecification);
-    }
+    super(exchangeSpecification);
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
 
-        return new OpenOrders(MtGoxAdapters.adaptOrders(getMtGoxOpenOrders()));
-    }
+    return new OpenOrders(MtGoxAdapters.adaptOrders(getMtGoxOpenOrders()));
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-        verify(marketOrder);
+    verify(marketOrder);
 
-        return placeMtGoxMarketOrder(marketOrder).getDataString();
-    }
+    return placeMtGoxMarketOrder(marketOrder).getDataString();
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-        verify(limitOrder);
-        Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
-        Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
+    verify(limitOrder);
+    Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
+    Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
 
-        String tradableIdentifier = limitOrder.getTradableIdentifier();
-        String currency = limitOrder.getLimitPrice().getCurrencyUnit().toString();
-        String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
-        // need to convert to MtGox "amount"
-        BigDecimal amount = limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-        // need to convert to MtGox "Price"
-        String price = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
+    String tradableIdentifier = limitOrder.getTradableIdentifier();
+    String currency = limitOrder.getLimitPrice().getCurrencyUnit().toString();
+    String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
+    // need to convert to MtGox "amount"
+    BigDecimal amount = limitOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    // need to convert to MtGox "Price"
+    String price = MtGoxUtils.getPriceString(limitOrder.getLimitPrice());
 
-        return placeMtGoxLimitOrder(tradableIdentifier, currency, type, amount, price).getDataString();
-    }
+    return placeMtGoxLimitOrder(tradableIdentifier, currency, type, amount, price).getDataString();
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
 
-        Assert.notNull(orderId, "orderId cannot be null");
+    Assert.notNull(orderId, "orderId cannot be null");
 
-        return cancelMtGoxOrder(orderId).getResult().equals("success");
-    }
+    return cancelMtGoxOrder(orderId).getResult().equals("success");
+  }
 
-    private void verify(Order order) {
+  private void verify(Order order) {
 
-        Assert.notNull(order.getTradableIdentifier(), "getTradableIdentifier() cannot be null");
-        Assert.notNull(order.getType(), "getType() cannot be null");
-        Assert.notNull(order.getTradableAmount(), "getAmount_int() cannot be null");
-        Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(order.getTradableIdentifier(), order.getTransactionCurrency())), "currencyPair is not valid");
+    Assert.notNull(order.getTradableIdentifier(), "getTradableIdentifier() cannot be null");
+    Assert.notNull(order.getType(), "getType() cannot be null");
+    Assert.notNull(order.getTradableAmount(), "getAmount_int() cannot be null");
+    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(order.getTradableIdentifier(), order.getTransactionCurrency())), "currencyPair is not valid");
 
-    }
+  }
 
-    @Override
-    public Trades getTradeHistory(final Object... arguments) throws IOException {
+  @Override
+  public Trades getTradeHistory(final Object... arguments) throws IOException {
 
-        throw new NotYetImplementedForExchangeException();
-    }
+    throw new NotYetImplementedForExchangeException();
+  }
 }
