@@ -54,7 +54,7 @@ public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
     }
   }
 
-  public MtGoxDepthWrapper getMtGoxOrderBook(String tradableIdentifier, String currency, Object[] args) throws IOException {
+  public MtGoxDepthWrapper getMtGoxOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     try {
       // Request data
@@ -79,17 +79,17 @@ public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
         return mtGoxDepthWrapper;
       }
       else if (mtGoxDepthWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling getFullOrderBook(): " + mtGoxDepthWrapper.getError());
+        throw new ExchangeException("Error calling getMtGoxOrderBook(): " + mtGoxDepthWrapper.getError());
       }
       else {
-        throw new ExchangeException("Error calling getFullOrderBook(): Unexpected result!");
+        throw new ExchangeException("Error calling getMtGoxOrderBook(): Unexpected result!");
       }
     } catch (MtGoxException e) {
-      throw new ExchangeException("Error calling getFullOrderBook(): " + e.getError(), e);
+      throw new ExchangeException("Error calling getMtGoxOrderBook(): " + e.getError(), e);
     }
   }
 
-  public MtGoxTradesWrapper getMtGoxTrades(String tradableIdentifier, String currency, Object[] args) throws IOException {
+  public MtGoxTradesWrapper getMtGoxTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     try {
       MtGoxTradesWrapper mtGoxTradeWrapper = null;

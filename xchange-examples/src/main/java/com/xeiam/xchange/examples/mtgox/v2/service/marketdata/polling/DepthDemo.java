@@ -69,7 +69,7 @@ public class DepthDemo {
   private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the current orderbook
-    MtGoxDepthWrapper orderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.SEK, new Object[]{});
+    MtGoxDepthWrapper orderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.SEK, PollingMarketDataService.OrderBookType.FULL);
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getAsks(), Currencies.SEK, "ask", "");
     List<LimitOrder> bids = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getBids(), Currencies.SEK, "bid", "");
 
@@ -77,9 +77,7 @@ public class DepthDemo {
 
     System.out.println("First Ask: " + asks.get(0).toString());
 
-    System.out.println("First Bid: " + asks.get(0).toString());
-
-    System.out.println(orderBook.toString());
+    System.out.println("First Bid: " + bids.get(0).toString());
   }
 
 }
