@@ -73,7 +73,7 @@ public class MtGoxAccountServiceRaw extends BasePollingExchangeService {
         }
     }
 
-    public MtGoxBitcoinDepositAddress mtGoxrequestDepositAddress(String description, String notificationUrl) throws IOException {
+    public MtGoxBitcoinDepositAddress mtGoxRequestDepositAddress(String description, String notificationUrl) throws IOException {
         try {
           MtGoxBitcoinDepositAddressWrapper mtGoxBitcoinDepositAddressWrapper =
               mtGoxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description, notificationUrl);

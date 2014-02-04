@@ -64,7 +64,7 @@ public class MtGoxAccountService extends MtGoxAccountServiceRaw implements Polli
 
         String description = arguments[0];
         String notificationUrl = arguments[1];
-        return mtGoxrequestDepositAddress(description, notificationUrl).getAddres();
+        return mtGoxRequestDepositAddress(description, notificationUrl).getAddres();
     }
 
 }
