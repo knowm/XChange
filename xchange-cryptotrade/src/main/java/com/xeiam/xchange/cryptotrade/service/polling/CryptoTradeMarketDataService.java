@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.service.polling;
+package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
 import java.util.Date;
@@ -30,6 +30,10 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.cryptotrade.CryptoTrade;
+import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
+import com.xeiam.xchange.cryptotrade.CryptoTradeUtils;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -39,31 +43,27 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.vircurex.Vircurex;
-import com.xeiam.xchange.vircurex.VircurexAdapters;
-import com.xeiam.xchange.vircurex.VircurexUtils;
-import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
 
 /**
  * <p>
- * Implementation of the market data service for Vircurex
+ * Implementation of the market data service for CryptoTrade
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VircurexPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+public class CryptoTradeMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  private final Vircurex vircurex;
+  private final CryptoTrade cryptoTrade;
 
   /**
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public VircurexPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public CryptoTradeMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    vircurex = RestProxyFactory.createProxy(Vircurex.class, exchangeSpecification.getSslUri());
+    cryptoTrade = RestProxyFactory.createProxy(CryptoTrade.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -77,11 +77,11 @@ public class VircurexPollingMarketDataService extends BasePollingExchangeService
 
     verify(tradableIdentifier, currency);
 
-    VircurexDepth vircurexDepth = vircurex.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    CryptoTradeDepth btceDepth = cryptoTrade.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = VircurexAdapters.adaptOrders(vircurexDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = VircurexAdapters.adaptOrders(vircurexDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
+    List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
 
     return new OrderBook(new Date(), asks, bids);
   }
@@ -103,18 +103,18 @@ public class VircurexPollingMarketDataService extends BasePollingExchangeService
 
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(VircurexUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+    Assert.isTrue(CryptoTradeUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
   }
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    return VircurexUtils.CURRENCY_PAIRS;
+    return CryptoTradeUtils.CURRENCY_PAIRS;
   }
 
   @Override
-  public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

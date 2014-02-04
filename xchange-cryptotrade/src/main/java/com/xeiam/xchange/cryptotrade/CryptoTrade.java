@@ -19,27 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.dto.marketdata;
+package com.xeiam.xchange.cryptotrade;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
-public class VircurexPlaceOrderReturn {
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 
-  String orderId;
+@Path("api/1")
+public interface CryptoTrade {
 
-  public String getOrderId() {
+  @GET
+  @Path("depth/{ident}_{currency}")
+  CryptoTradeDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
 
-    return orderId;
-  }
-
-  public void setOrderId(String orderId) {
-
-    this.orderId = orderId;
-  }
-
-  @JsonAnySetter
-  public void setMe(String aKey, Object aValue) {
-
-    System.out.println(aKey + " = " + aValue);
-  }
 }

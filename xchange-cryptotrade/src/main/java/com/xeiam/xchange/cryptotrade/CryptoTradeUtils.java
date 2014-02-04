@@ -19,27 +19,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex;
+package com.xeiam.xchange.cryptotrade;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * A central place for shared Vircurex properties
+ * A central place for shared CryptoTrade properties
  */
-public final class VircurexUtils {
+public final class CryptoTradeUtils {
 
   /**
    * private Constructor
    */
-  private VircurexUtils() {
+  private CryptoTradeUtils() {
 
   }
 
@@ -49,20 +44,12 @@ public final class VircurexUtils {
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("DGC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("NMC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("NVC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("TRC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("IXC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("FRC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("FTC", "LTC"));
+    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
+    CURRENCY_PAIRS.add(new CurrencyPair("CNC", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("ANC", "BTC"));
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
+
   }
 
   /**
@@ -74,26 +61,6 @@ public final class VircurexUtils {
   public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
     return CURRENCY_PAIRS.contains(currencyPair);
-  }
-
-  public static String getUtcTimestamp() {
-
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    format.setTimeZone(TimeZone.getTimeZone("GMT"));
-    return format.format(new Date());
-  }
-
-  public static long convertLocalTimeToUtcTime() {
-
-    return System.currentTimeMillis() + VircurexUtils.getLocalToUtcDelta();
-  }
-
-  public static long getLocalToUtcDelta() {
-
-    Calendar local = Calendar.getInstance();
-    local.clear();
-    local.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
-    return local.getTimeInMillis();
   }
 
 }

@@ -1,5 +1,4 @@
 /**
- * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -28,9 +27,6 @@ import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
 
-/**
- * @author Matija Mazi
- */
 @Path("api")
 public interface Vircurex {
 

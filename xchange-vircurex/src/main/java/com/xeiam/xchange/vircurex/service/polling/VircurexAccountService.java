@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.vircurex.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -32,7 +33,7 @@ import com.xeiam.xchange.vircurex.VircurexAdapters;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexAccountInfoReturn;
 
-public class VircurexPollingAccountService implements PollingAccountService {
+public class VircurexAccountService implements PollingAccountService {
 
   ExchangeSpecification exchangeSpecification;
 
@@ -47,14 +48,14 @@ public class VircurexPollingAccountService implements PollingAccountService {
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public VircurexPollingAccountService(ExchangeSpecification exchangeSpecification) {
+  public VircurexAccountService(ExchangeSpecification exchangeSpecification) {
 
     this.exchangeSpecification = exchangeSpecification;
     this.vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
     if (lastCache + 10000 > System.currentTimeMillis()) {
       return VircurexAdapters.adaptAccountInfo(cacheInfo);
@@ -69,13 +70,13 @@ public class VircurexPollingAccountService implements PollingAccountService {
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     throw new UnsupportedOperationException("Funds withdrawal not supported by API.");
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) {
+  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
     throw new UnsupportedOperationException("Deposit address request not supported by API.");
   }

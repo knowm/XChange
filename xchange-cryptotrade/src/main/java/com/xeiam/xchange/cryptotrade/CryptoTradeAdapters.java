@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex;
+package com.xeiam.xchange.cryptotrade;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,25 +30,35 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.IllegalCurrencyException;
 
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeAccountInfoReturn;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.vircurex.dto.marketdata.VircurexAccountInfoReturn;
 
 /**
- * Various adapters for converting from Vircurex DTOs to XChange DTOs
+ * Various adapters for converting from CryptoTrade DTOs to XChange DTOs
  */
-public final class VircurexAdapters {
+public final class CryptoTradeAdapters {
 
   /**
    * private Constructor
    */
-  private VircurexAdapters() {
+  private CryptoTradeAdapters() {
 
   }
 
+  /**
+   * Adapts a cryptoTradeOrders to a LimitOrder
+   * 
+   * @param amount
+   * @param price
+   * @param currency
+   * @param orderTypeString
+   * @param id
+   * @return
+   */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
 
     // place a limit order
@@ -59,39 +69,49 @@ public final class VircurexAdapters {
     return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
   }
 
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> someOrders, String tradableIdentifier, String currency, String orderType, String id) {
+  /**
+   * Adapts a List of cryptoTradeOrders to a List of LimitOrders
+   * 
+   * @param cryptoTradeOrders
+   * @param currency
+   * @param orderType
+   * @param id
+   * @return
+   */
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> cryptoTradeOrders, String tradableIdentifier, String currency, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     // Bid orderbook is reversed order. Insert at index 0 instead of
-    for (BigDecimal[] order : someOrders) {
+    for (BigDecimal[] bterOrder : cryptoTradeOrders) {
       // appending
       if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(order[1], order[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(0, adaptOrder(bterOrder[0], bterOrder[1], tradableIdentifier, currency, orderType, id));
       }
       else {
-        limitOrders.add(adaptOrder(order[1], order[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(adaptOrder(bterOrder[0], bterOrder[1], tradableIdentifier, currency, orderType, id));
       }
     }
 
     return limitOrders;
   }
 
-  public static AccountInfo adaptAccountInfo(VircurexAccountInfoReturn vircurexAccountInfo) {
+  public static AccountInfo adaptAccountInfo(String userName, CryptoTradeAccountInfoReturn btceAccountInfo) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
-    Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
-
+    Map<String, BigDecimal> funds = btceAccountInfo.getAvailableFunds();
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
       try {
         CurrencyUnit.of(currency);
       } catch (IllegalCurrencyException e) {
-        // System.out.println("Ignoring unknown currency " + currency);
+        // log.in("Ignoring unknown currency {}", currency);
         continue;
       }
-      wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency).get("availablebalance")));
+      wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency)));
     }
-    return new AccountInfo(vircurexAccountInfo.getAccount(), wallets);
+
+    return new AccountInfo(userName, wallets);
   }
+
 }

@@ -1,4 +1,5 @@
 /**
+ * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,27 +20,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.dto.marketdata;
+package com.xeiam.xchange.cryptotrade.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
-public class VircurexPlaceOrderReturn {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-  String orderId;
+/**
+ * @author Matija Mazi
+ */
+public class CryptoTradeAccountInfoReturn {
+	String result;
+	Map<String, BigDecimal> availableFunds = new HashMap<String, BigDecimal>();
 
-  public String getOrderId() {
+	public String getResult() {
+		return result;
+	}
 
-    return orderId;
-  }
+	public void setResult(String result) {
+		this.result = result;
+	}
 
-  public void setOrderId(String orderId) {
+	public Map<String, BigDecimal> getAvailableFunds() {
+		return availableFunds;
+	}
 
-    this.orderId = orderId;
-  }
+	public void setAvailableFunds(Map<String, BigDecimal> availableFunds) {
+		this.availableFunds = availableFunds;
+	}
 
-  @JsonAnySetter
-  public void setMe(String aKey, Object aValue) {
+	public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
+		result = aResult;
+		availableFunds = data.getFunds();
 
-    System.out.println(aKey + " = " + aValue);
-  }
+	}
+
 }

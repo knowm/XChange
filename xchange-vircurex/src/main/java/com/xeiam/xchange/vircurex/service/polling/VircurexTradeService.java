@@ -25,9 +25,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -38,7 +36,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexPlaceOrderReturn;
 
-public class VircurexPollingTradeService implements PollingTradeService {
+public class VircurexTradeService implements PollingTradeService {
 
   ExchangeSpecification exchangeSpecification;
   VircurexAuthenticated vircurex;
@@ -49,7 +47,7 @@ public class VircurexPollingTradeService implements PollingTradeService {
    * @param anExchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public VircurexPollingTradeService(ExchangeSpecification anExchangeSpecification) {
+  public VircurexTradeService(ExchangeSpecification anExchangeSpecification) {
 
     exchangeSpecification = anExchangeSpecification;
     vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());
@@ -57,19 +55,19 @@ public class VircurexPollingTradeService implements PollingTradeService {
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
+  public OpenOrders getOpenOrders() throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String type = limitOrder.getType() == Order.OrderType.BID ? "buy" : "sell";
     String timestamp = VircurexUtils.getUtcTimestamp();
@@ -92,14 +90,14 @@ public class VircurexPollingTradeService implements PollingTradeService {
   }
 
   @Override
-  public boolean cancelOrder(String orderId) {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
 
   }
 
   @Override
-  public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTradeHistory(Object... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
 

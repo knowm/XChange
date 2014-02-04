@@ -19,29 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex;
+package com.xeiam.xchange.cryptotrade;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.vircurex.service.polling.VircurexAccountService;
-import com.xeiam.xchange.vircurex.service.polling.VircurexMarketDataService;
-import com.xeiam.xchange.vircurex.service.polling.VircurexTradeService;
+import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeAccountService;
+import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataService;
+import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeTradeService;
 
 /**
  * <p>
  * Exchange implementation to provide the following to applications:
  * </p>
  * <ul>
- * <li>A wrapper for the Vircurex exchange API</li>
+ * <li>A wrapper for the CryptoTrade exchange API</li>
  * </ul>
  */
-public class VircurexExchange extends BaseExchange implements Exchange {
+public class CryptoTradeExchange extends BaseExchange implements Exchange {
 
   /**
    * Default constructor for ExchangeFactory
    */
-  public VircurexExchange() {
+  public CryptoTradeExchange() {
 
   }
 
@@ -50,7 +50,7 @@ public class VircurexExchange extends BaseExchange implements Exchange {
    */
   public static Exchange newInstance() {
 
-    Exchange exchange = new VircurexExchange();
+    Exchange exchange = new CryptoTradeExchange();
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
     return exchange;
   }
@@ -60,20 +60,20 @@ public class VircurexExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new VircurexMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new VircurexAccountService(exchangeSpecification);
-    this.pollingTradeService = new VircurexTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new CryptoTradeMarketDataService(exchangeSpecification);
+    this.pollingAccountService = new CryptoTradeAccountService(exchangeSpecification);
+    this.pollingTradeService = new CryptoTradeTradeService(exchangeSpecification);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://vircurex.com");
-    exchangeSpecification.setHost("vircurex.com");
+    exchangeSpecification.setSslUri("https://crypto-trade.com");
+    exchangeSpecification.setHost("crypto-trade.com");
     exchangeSpecification.setPort(443);
-    exchangeSpecification.setExchangeName("Vircurex");
-    exchangeSpecification.setExchangeDescription("Vircurex");
+    exchangeSpecification.setExchangeName("Crypto-Trade");
+    exchangeSpecification.setExchangeDescription("Crypto-Trade is a Bitcoin exchange.");
 
     return exchangeSpecification;
   }

@@ -1,4 +1,5 @@
 /**
+ * Copyright (C) 2013 Matija Mazi
  * Copyright (C) 2013 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,27 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.dto.marketdata;
+package com.xeiam.xchange.cryptotrade.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class VircurexPlaceOrderReturn {
+/**
+ * @author Matija Mazi
+ */
+public class CryptoTradePlaceOrderReturn {
 
-  String orderId;
+	String success;
 
-  public String getOrderId() {
+	public CryptoTradePlaceOrderReturn(@JsonProperty("status") String aResult) {
 
-    return orderId;
-  }
+		success = aResult;
 
-  public void setOrderId(String orderId) {
-
-    this.orderId = orderId;
-  }
-
-  @JsonAnySetter
-  public void setMe(String aKey, Object aValue) {
-
-    System.out.println(aKey + " = " + aValue);
-  }
+	}
 }
