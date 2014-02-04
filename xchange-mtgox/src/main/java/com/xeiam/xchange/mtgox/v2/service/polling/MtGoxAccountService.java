@@ -21,10 +21,12 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.utils.Assert;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -61,9 +63,15 @@ public class MtGoxAccountService extends MtGoxAccountServiceRaw implements Polli
 
     @Override
     public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+        if (arguments.length < 2) {
+            throw new ExchangeException("Expected description and notificationUrl, in that order.");
+        }
+        Assert.notNull(arguments[0], "Description cannot be null.");
+        Assert.notNull(arguments[1], "NotificationUrl cannot be null.");
 
         String description = arguments[0];
         String notificationUrl = arguments[1];
+
         return mtGoxRequestDepositAddress(description, notificationUrl).getAddres();
     }
 
