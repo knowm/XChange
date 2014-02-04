@@ -43,14 +43,6 @@
  */
 package com.xeiam.xchange.mtgox.v2.service.polling;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -61,14 +53,13 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
-import com.xeiam.xchange.mtgox.v2.MtGoxV2;
-import com.xeiam.xchange.mtgox.v2.dto.MtGoxException;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTickerWrapper;
-import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -80,21 +71,21 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements PollingMarketDataService {
 
-  /**
-   * Constructor
-   *
-   * @param exchangeSpecification
-   */
-  public MtGoxMarketDataService(ExchangeSpecification exchangeSpecification) {
-    super(exchangeSpecification);
-  }
+    /**
+     * Constructor
+     *
+     * @param exchangeSpecification
+     */
+    public MtGoxMarketDataService(ExchangeSpecification exchangeSpecification) {
+        super(exchangeSpecification);
+    }
 
-  @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+    @Override
+    public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
-    return MtGoxAdapters.adaptTicker(getMtGoxTicker(tradableIdentifier, currency));
-  }
+        verify(tradableIdentifier, currency);
+        return MtGoxAdapters.adaptTicker(getMtGoxTicker(tradableIdentifier, currency));
+    }
 
     /**
      * Get market depth from exchange
@@ -120,38 +111,36 @@ public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements
         return new OrderBook(date, asks, bids);
     }
 
-  @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+    @Override
+    public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
-    return getMtGoxTrades(tradableIdentifier, currency, args);
-  }
+        verify(tradableIdentifier, currency);
+        return MtGoxAdapters.adaptTrades(getMtGoxTrades(tradableIdentifier, currency, args).getMtGoxTrades());
+    }
 
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
+    @Override
+    public ExchangeInfo getExchangeInfo() throws IOException {
 
-    throw new NotAvailableFromExchangeException();
-  }
+        throw new NotAvailableFromExchangeException();
+    }
 
-  /**
-   * Verify
-   *
-   * @param tradableIdentifier
-   *          The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   *          The transaction currency (e.g. USD in BTC/USD)
-   */
-  private void verify(String tradableIdentifier, String currency) {
+    /**
+     * Verify
+     *
+     * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+     * @param currency           The transaction currency (e.g. USD in BTC/USD)
+     */
+    private void verify(String tradableIdentifier, String currency) {
 
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+        Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+        Assert.notNull(currency, "currency cannot be null");
+        Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
-  }
+    }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+    @Override
+    public List<CurrencyPair> getExchangeSymbols() {
 
-    return MtGoxUtils.CURRENCY_PAIRS;
-  }
+        return MtGoxUtils.CURRENCY_PAIRS;
+    }
 }

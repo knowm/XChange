@@ -26,6 +26,8 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponse;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
@@ -44,9 +46,21 @@ public class MtGoxWithdrawDemo {
     Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
     PollingAccountService accountService = mtgox.getPollingAccountService();
-    System.out.println(accountService.getAccountInfo());
-
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
-    System.out.println("withdrawResult = " + withdrawResult);
+      generic(accountService);
+      raw(((MtGoxAccountServiceRaw)accountService));
   }
+
+    private static void generic(PollingAccountService accountService) throws IOException {
+        System.out.println(accountService.getAccountInfo());
+
+        String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+        System.out.println("withdrawResult = " + withdrawResult);
+    }
+
+    private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
+        System.out.println(accountService.getMtGoxAccountInfo());
+
+        MtGoxWithdrawalResponse withdrawResult = accountService.mtGoxWithdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+        System.out.println("withdrawResult = " + withdrawResult.getTransactionId());
+    }
 }

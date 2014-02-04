@@ -21,27 +21,39 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+
+import java.io.IOException;
 
 /**
  * Demo requesting account info at MtGox
  */
 public class AccountInfoDemo {
 
-  public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = mtgox.getPollingAccountService();
+        // Interested in the private account functionality (authentication)
+        PollingAccountService accountService = mtgox.getPollingAccountService();
+        generic(accountService);
+        raw(((MtGoxAccountServiceRaw)accountService));
+    }
 
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
-  }
+    private static void generic(PollingAccountService accountService) throws IOException {
+        // Get the account information
+        AccountInfo accountInfo = accountService.getAccountInfo();
+        System.out.println("AccountInfo as String: " + accountInfo.toString());
+    }
+
+    private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
+        // Get the account information
+        MtGoxAccountInfo accountInfo = accountService.getMtGoxAccountInfo();
+        System.out.println("AccountInfo as String: " + accountInfo.toString());
+    }
 }
