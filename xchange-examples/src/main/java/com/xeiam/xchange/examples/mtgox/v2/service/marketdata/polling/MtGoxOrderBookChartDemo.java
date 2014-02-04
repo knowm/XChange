@@ -42,7 +42,7 @@ import com.xeiam.xchart.SwingWrapper;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
- *
+ * 
  * @author timmolter
  */
 public class MtGoxOrderBookChartDemo {
@@ -58,7 +58,7 @@ public class MtGoxOrderBookChartDemo {
     System.out.println("fetching data...");
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, PollingMarketDataService.OrderBookType.PARTIAL);
 
     System.out.println("received data.");
 

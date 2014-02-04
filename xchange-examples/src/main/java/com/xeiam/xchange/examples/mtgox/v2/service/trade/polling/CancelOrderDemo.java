@@ -37,37 +37,38 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class CancelOrderDemo {
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-        // Interested in the private trading functionality (authentication)
-        PollingTradeService tradeService = mtgox.getPollingTradeService();
+    // Interested in the private trading functionality (authentication)
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-        generic(tradeService);
-        raw(tradeService);
+    generic(tradeService);
+    raw((MtGoxTradeServiceRaw) tradeService);
+  }
+
+  private static void raw(MtGoxTradeServiceRaw tradeService) throws IOException {
+
+    MtGoxGenericResponse success = tradeService.cancelMtGoxOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
+    System.out.println("success= " + success.getDataString());
+
+    // get open orders
+    MtGoxOpenOrder[] openOrders = tradeService.getMtGoxOpenOrders();
+    for (MtGoxOpenOrder openOrder : openOrders) {
+      System.out.println(openOrder.toString());
     }
+  }
 
-    private static void raw(PollingTradeService tradeService) throws IOException {
-        MtGoxGenericResponse success = ((MtGoxTradeServiceRaw)tradeService)
-                                        .cancelMtGoxOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
-        System.out.println("success= " + success.getDataString());
+  private static void generic(PollingTradeService tradeService) throws IOException {
 
-        // get open orders
-        MtGoxOpenOrder[] openOrders = ((MtGoxTradeServiceRaw)tradeService).getMtGoxOpenOrders();
-        for (MtGoxOpenOrder openOrder : openOrders) {
-            System.out.println(openOrder.toString());
-        }
+    boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
+    System.out.println("success= " + success);
+
+    // get open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
+      System.out.println(openOrder.toString());
     }
-
-    private static void generic(PollingTradeService tradeService) throws IOException {
-        boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
-        System.out.println("success= " + success);
-
-        // get open orders
-        OpenOrders openOrders = tradeService.getOpenOrders();
-        for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-            System.out.println(openOrder.toString());
-        }
-    }
+  }
 }

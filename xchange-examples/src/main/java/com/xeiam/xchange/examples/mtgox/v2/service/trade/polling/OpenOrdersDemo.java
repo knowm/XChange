@@ -26,6 +26,8 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -40,9 +42,23 @@ public class OpenOrdersDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
-    // Get the open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println(openOrders.toString());
+    generic(tradeService);
+    raw((MtGoxTradeServiceRaw) tradeService);
   }
 
+  private static void generic(PollingTradeService tradeService) throws IOException {
+
+    // Get the open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
+
+  }
+
+  private static void raw(MtGoxTradeServiceRaw tradeService) throws IOException {
+
+    // Get the open orders
+    MtGoxOpenOrder[] openOrders = tradeService.getMtGoxOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
+
+  }
 }

@@ -54,79 +54,79 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class MtGoxTradeDemo {
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-        // Interested in the private trading functionality (authentication)
-        PollingTradeService tradeService = mtgox.getPollingTradeService();
-        PollingAccountService accountService = mtgox.getPollingAccountService();
-        generic(tradeService, accountService);
-        raw(tradeService, accountService);
+    // Interested in the private trading functionality (authentication)
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
+    PollingAccountService accountService = mtgox.getPollingAccountService();
+    generic(tradeService, accountService);
+    raw((MtGoxTradeServiceRaw) tradeService, (MtGoxAccountServiceRaw) accountService);
 
+  }
 
-    }
+  private static void generic(PollingTradeService tradeService, PollingAccountService accountService) throws IOException {
 
-    private static void generic(PollingTradeService tradeService, PollingAccountService accountService) throws IOException {
-        // Get the account information
-        AccountInfo accountInfo = accountService.getAccountInfo();
-        System.out.println("AccountInfo as String: " + accountInfo.toString());
+    // Get the account information
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-        // Get the open orders
-        OpenOrders openOrders = tradeService.getOpenOrders();
-        System.out.println("Open Orders: " + openOrders.toString());
+    // Get the open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
 
-        // place a market order
-        OrderType orderType = (OrderType.BID);
-        BigDecimal tradeableAmount = new BigDecimal(1);
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "USD";
+    // place a market order
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(1);
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
 
-        MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
-        String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
-        System.out.println("Market Order return value: " + marketOrderReturnValue);
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    String marketOrderReturnValue = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + marketOrderReturnValue);
 
-        // place a limit order
-        orderType = (OrderType.BID);
-        tradeableAmount = new BigDecimal(Math.random());
-        tradableIdentifier = "BTC";
-        transactionCurrency = "USD";
-        BigMoney limitPrice = MoneyUtils.parse("USD 1.25");
+    // place a limit order
+    orderType = (OrderType.BID);
+    tradeableAmount = new BigDecimal(Math.random());
+    tradableIdentifier = "BTC";
+    transactionCurrency = "USD";
+    BigMoney limitPrice = MoneyUtils.parse("USD 1.25");
 
-        LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, limitPrice);
-        String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
-        System.out.println("Limit Order return value: " + limitOrderReturnValue);
-    }
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, limitPrice);
+    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+  }
 
-    private static void raw(PollingTradeService tradeService, PollingAccountService accountService) throws IOException {
-        // Get the account information
-        MtGoxAccountInfo accountInfo = ((MtGoxAccountServiceRaw)accountService).getMtGoxAccountInfo();
-        System.out.println("AccountInfo as String: " + accountInfo.toString());
+  private static void raw(MtGoxTradeServiceRaw tradeService, MtGoxAccountServiceRaw accountService) throws IOException {
 
-        // Get the open orders
-        MtGoxOpenOrder[] openOrders = ((MtGoxTradeServiceRaw)tradeService).getMtGoxOpenOrders();
-        System.out.println("Open Orders: " + openOrders.toString());
+    // Get the account information
+    MtGoxAccountInfo accountInfo = accountService.getMtGoxAccountInfo();
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-        // place a market order
-        OrderType orderType = (OrderType.BID);
-        BigDecimal tradeableAmount = new BigDecimal(1);
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "USD";
+    // Get the open orders
+    MtGoxOpenOrder[] openOrders = tradeService.getMtGoxOpenOrders();
+    System.out.println("Open Orders: " + openOrders.toString());
 
-        MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
-        MtGoxGenericResponse marketOrderReturnValue = ((MtGoxTradeServiceRaw)tradeService).placeMtGoxMarketOrder(marketOrder);
-        System.out.println("Market Order return value: " + marketOrderReturnValue.getDataString());
+    // place a market order
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(1);
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
 
-        // place a limit order
-        orderType = (OrderType.BID);
-        tradeableAmount = new BigDecimal(Math.random());
-        BigDecimal amount = tradeableAmount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-        tradableIdentifier = "BTC";
-        transactionCurrency = "USD";
-        BigMoney limitPrice = MoneyUtils.parse("USD 1.25");
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    MtGoxGenericResponse marketOrderReturnValue = tradeService.placeMtGoxMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + marketOrderReturnValue.getDataString());
 
-        MtGoxGenericResponse limitOrderReturnValue = ((MtGoxTradeServiceRaw)tradeService).placeMtGoxLimitOrder(tradableIdentifier,
-                transactionCurrency, "bid", amount, MtGoxUtils.getPriceString(limitPrice));
-        System.out.println("Limit Order return value: " + limitOrderReturnValue.getDataString());
-    }
+    // place a limit order
+    orderType = (OrderType.BID);
+    tradeableAmount = new BigDecimal(Math.random());
+    BigDecimal amount = tradeableAmount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+    tradableIdentifier = "BTC";
+    transactionCurrency = "USD";
+    BigMoney limitPrice = MoneyUtils.parse("USD 1.25");
+
+    MtGoxGenericResponse limitOrderReturnValue = tradeService.placeMtGoxLimitOrder(tradableIdentifier, transactionCurrency, "bid", amount, MtGoxUtils.getPriceString(limitPrice));
+    System.out.println("Limit Order return value: " + limitOrderReturnValue.getDataString());
+  }
 }

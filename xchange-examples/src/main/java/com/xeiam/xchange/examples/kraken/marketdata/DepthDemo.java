@@ -44,7 +44,7 @@ public class DepthDemo {
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {
-    
+
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
@@ -58,9 +58,9 @@ public class DepthDemo {
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
-  
+
   private static void raw(Exchange krakenExchange) throws IOException {
-    
+
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 

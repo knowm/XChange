@@ -36,7 +36,7 @@ import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWalletHistoryWrapper;
 import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
 
 /**
- * Demo requesting wallethistory at MtGox
+ * Demo requesting wallet history at MtGox
  */
 public class WalletHistoryDemo {
 

@@ -61,7 +61,7 @@ public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
       MtGoxDepthWrapper mtGoxDepthWrapper = null;
       if (args.length > 0) {
         if (args[0] instanceof PollingMarketDataService.OrderBookType) {
-          if (PollingMarketDataService.OrderBookType.FULL.equals(args[0])) {
+          if (PollingMarketDataService.OrderBookType.FULL == args[0]) {
             mtGoxDepthWrapper = mtGoxV2.getFullDepth(tradableIdentifier, currency);
           }
           else {

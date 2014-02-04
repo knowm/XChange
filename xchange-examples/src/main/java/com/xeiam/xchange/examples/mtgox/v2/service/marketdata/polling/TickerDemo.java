@@ -37,61 +37,62 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TickerDemo {
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        // Use the factory to get the version 2 MtGox exchange API using default settings
-        Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
+    // Use the factory to get the version 2 MtGox exchange API using default settings
+    Exchange mtGoxExchange = ExchangeFactory.INSTANCE.createExchange(MtGoxExchange.class.getName());
 
-        // Interested in the public polling market data feed (no authentication)
-        PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
-        generic(marketDataService);
-        raw((MtGoxMarketDataServiceRaw) marketDataService);
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
+    generic(marketDataService);
+    raw((MtGoxMarketDataServiceRaw) marketDataService);
 
+  }
 
-    }
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    private static void generic(PollingMarketDataService marketDataService) throws IOException {
-        // Get the latest ticker data showing BTC to USD
-        Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-        System.out.println(ticker.toString());
+    // Get the latest ticker data showing BTC to USD
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    System.out.println(ticker.toString());
 
-        // Get the latest ticker data showing BTC to EUR
-        ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
-        System.out.println(ticker.toString());
+    // Get the latest ticker data showing BTC to EUR
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
+    System.out.println(ticker.toString());
 
-        // Get the latest ticker data showing BTC to GBP
-        ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
-        System.out.println(ticker.toString());
+    // Get the latest ticker data showing BTC to GBP
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.GBP);
+    System.out.println(ticker.toString());
 
-        // Get the latest ticker data showing BTC to JPY
-        ticker = marketDataService.getTicker(Currencies.BTC, Currencies.JPY);
-        System.out.println(ticker.toString());
+    // Get the latest ticker data showing BTC to JPY
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.JPY);
+    System.out.println(ticker.toString());
 
-        // Get the latest ticker data showing BTC to SEK
-        ticker = marketDataService.getTicker(Currencies.BTC, Currencies.SEK);
-        System.out.println(ticker.toString());
-    }
+    // Get the latest ticker data showing BTC to SEK
+    ticker = marketDataService.getTicker(Currencies.BTC, Currencies.SEK);
+    System.out.println(ticker.toString());
+  }
 
-    private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
-        // Get the latest ticker data showing BTC to USD
-        MtGoxTicker ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.USD);
-        System.out.println(ticker.toString());
+  private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
 
-        // Get the latest ticker data showing BTC to EUR
-        ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.EUR);
-        System.out.println(ticker.toString());
+    // Get the latest ticker data showing BTC to USD
+    MtGoxTicker ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.USD);
+    System.out.println(ticker.toString());
 
-        // Get the latest ticker data showing BTC to GBP
-        ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.GBP);
-        System.out.println(ticker.toString());
+    // Get the latest ticker data showing BTC to EUR
+    ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.EUR);
+    System.out.println(ticker.toString());
 
-        // Get the latest ticker data showing BTC to JPY
-        ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.JPY);
-        System.out.println(ticker.toString());
+    // Get the latest ticker data showing BTC to GBP
+    ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.GBP);
+    System.out.println(ticker.toString());
 
-        // Get the latest ticker data showing BTC to SEK
-        ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.SEK);
-        System.out.println(ticker.toString());
-    }
+    // Get the latest ticker data showing BTC to JPY
+    ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.JPY);
+    System.out.println(ticker.toString());
+
+    // Get the latest ticker data showing BTC to SEK
+    ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.SEK);
+    System.out.println(ticker.toString());
+  }
 
 }

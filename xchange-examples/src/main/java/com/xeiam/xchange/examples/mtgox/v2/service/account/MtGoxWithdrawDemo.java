@@ -46,21 +46,23 @@ public class MtGoxWithdrawDemo {
     Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
     PollingAccountService accountService = mtgox.getPollingAccountService();
-      generic(accountService);
-      raw(((MtGoxAccountServiceRaw)accountService));
+    generic(accountService);
+    raw(((MtGoxAccountServiceRaw) accountService));
   }
 
-    private static void generic(PollingAccountService accountService) throws IOException {
-        System.out.println(accountService.getAccountInfo());
+  private static void generic(PollingAccountService accountService) throws IOException {
 
-        String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
-        System.out.println("withdrawResult = " + withdrawResult);
-    }
+    System.out.println(accountService.getAccountInfo());
 
-    private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
-        System.out.println(accountService.getMtGoxAccountInfo());
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+    System.out.println("withdrawResult = " + withdrawResult);
+  }
 
-        MtGoxWithdrawalResponse withdrawResult = accountService.mtGoxWithdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
-        System.out.println("withdrawResult = " + withdrawResult.getTransactionId());
-    }
+  private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
+
+    System.out.println(accountService.getMtGoxAccountInfo());
+
+    MtGoxWithdrawalResponse withdrawResult = accountService.mtGoxWithdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+    System.out.println("withdrawResult = " + withdrawResult.getTransactionId());
+  }
 }

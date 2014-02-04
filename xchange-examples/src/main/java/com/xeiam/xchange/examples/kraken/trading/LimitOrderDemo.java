@@ -46,8 +46,9 @@ public class LimitOrderDemo {
     generic(krakenExchange);
     raw(krakenExchange);
   }
-  
+
   private static void generic(Exchange krakenExchange) throws IOException {
+
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = krakenExchange.getPollingTradeService();
 
@@ -63,8 +64,9 @@ public class LimitOrderDemo {
     String orderID = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order ID: " + orderID);
   }
-  
+
   private static void raw(Exchange krakenExchange) throws IOException {
+
     // Interested in the private trading functionality (authentication)
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 

@@ -34,6 +34,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
@@ -42,55 +43,53 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class LimitOrderDemo {
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-        // Interested in the private trading functionality (authentication)
-        PollingTradeService tradeService = mtgox.getPollingTradeService();
-        generic(tradeService);
-        raw(tradeService);
+    // Interested in the private trading functionality (authentication)
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
+    generic(tradeService);
+    raw((MtGoxTradeServiceRaw) tradeService);
+  }
+
+  private static void raw(MtGoxTradeServiceRaw tradeService) throws IOException {
+
+    // place a limit order for a random amount of BTC at USD 1.25
+    BigDecimal tradeableAmount = new BigDecimal(Math.random());
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "JPY";
+    BigMoney limitPrice = MoneyUtils.parse("JPY 11000.0");
+    BigDecimal amount = tradeableAmount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+
+    MtGoxGenericResponse orderID = tradeService.placeMtGoxLimitOrder(tradableIdentifier, transactionCurrency, "bid", amount, MtGoxUtils.getPriceString(limitPrice));
+    System.out.println("Limit Order ID: " + orderID.getDataString());
+
+    // get open orders
+    MtGoxOpenOrder[] openOrders = tradeService.getMtGoxOpenOrders();
+    for (MtGoxOpenOrder openOrder : openOrders) {
+      System.out.println(openOrder.toString());
     }
+  }
 
-    private static void raw(PollingTradeService tradeService) throws IOException {
-        // place a limit order for a random amount of BTC at USD 1.25
-        OrderType orderType = (OrderType.BID);
-        BigDecimal tradeableAmount = new BigDecimal(Math.random());
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "JPY";
-        BigMoney limitPrice = MoneyUtils.parse("JPY 11000.0");
-        BigDecimal amount = tradeableAmount.multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
+  private static void generic(PollingTradeService tradeService) throws IOException {
 
+    // place a limit order for a random amount of BTC at USD 1.25
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(Math.random());
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "JPY";
+    BigMoney limitPrice = MoneyUtils.parse("JPY 11000.0");
 
-        MtGoxGenericResponse orderID = ((MtGoxTradeServiceRaw)tradeService).placeMtGoxLimitOrder(tradableIdentifier,
-                transactionCurrency, "bid", amount, MtGoxUtils.getPriceString(limitPrice));
-        System.out.println("Limit Order ID: " + orderID.getDataString());
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, limitPrice);
 
-        // get open orders
-        OpenOrders openOrders = tradeService.getOpenOrders();
-        for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-            System.out.println(openOrder.toString());
-        }
+    String orderID = tradeService.placeLimitOrder(limitOrder);
+    System.out.println("Limit Order ID: " + orderID);
+
+    // get open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    for (LimitOrder openOrder : openOrders.getOpenOrders()) {
+      System.out.println(openOrder.toString());
     }
-
-    private static void generic(PollingTradeService tradeService) throws IOException {
-        // place a limit order for a random amount of BTC at USD 1.25
-        OrderType orderType = (OrderType.BID);
-        BigDecimal tradeableAmount = new BigDecimal(Math.random());
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "JPY";
-        BigMoney limitPrice = MoneyUtils.parse("JPY 11000.0");
-
-        LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount,
-                                                tradableIdentifier, transactionCurrency, "", null, limitPrice);
-
-        String orderID = tradeService.placeLimitOrder(limitOrder);
-        System.out.println("Limit Order ID: " + orderID);
-
-        // get open orders
-        OpenOrders openOrders = tradeService.getOpenOrders();
-        for (LimitOrder openOrder : openOrders.getOpenOrders()) {
-            System.out.println(openOrder.toString());
-        }
-    }
+  }
 }

@@ -49,7 +49,7 @@ public class ExchangeSymbolsDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
-    
+
     for (CurrencyPair currencyPair : krakenMarketDataService.getExchangeSymbols()) {
       System.out.println(currencyPair);
     }
@@ -62,9 +62,9 @@ public class ExchangeSymbolsDemo {
 
     KrakenAssetPairs krakenAssetPairs = krakenMarketDataService.getKrakenAssetPairs();
     for (Entry<String, KrakenAssetPairInfo> assetPairEntry : krakenAssetPairs.getAssetPairMap().entrySet()) {
-      System.out.println(assetPairEntry.getKey()  + ": " + assetPairEntry.getValue());
+      System.out.println(assetPairEntry.getKey() + ": " + assetPairEntry.getValue());
     }
-    
+
     System.out.println(krakenAssetPairs.getAssetPairInfo(Currencies.BTC, Currencies.USD));
   }
 

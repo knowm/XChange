@@ -37,41 +37,42 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class MarketOrderDemo {
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-        // Interested in the private trading functionality (authentication)
-        PollingTradeService tradeService = mtgox.getPollingTradeService();
-        generic(tradeService);
-        raw(tradeService);
+    // Interested in the private trading functionality (authentication)
+    PollingTradeService tradeService = mtgox.getPollingTradeService();
+    generic(tradeService);
+    raw((MtGoxTradeServiceRaw) tradeService);
 
+  }
 
-    }
+  private static void raw(MtGoxTradeServiceRaw tradeService) throws IOException {
 
-    private static void raw(PollingTradeService tradeService) throws IOException {
-        // place a market order for 1 Bitcoin at market price
-        OrderType orderType = (OrderType.BID);
-        BigDecimal tradeableAmount = new BigDecimal(1);
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "USD";
+    // place a market order for 1 Bitcoin at market price
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(1);
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
 
-        MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
 
-        MtGoxGenericResponse orderID = ((MtGoxTradeServiceRaw)tradeService).placeMtGoxMarketOrder(marketOrder);
-        System.out.println("Market Order return value: " + orderID.getDataString());
-    }
+    MtGoxGenericResponse orderID = tradeService.placeMtGoxMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + orderID.getDataString());
+  }
 
-    private static void generic(PollingTradeService tradeService) throws IOException {
-        // place a market order for 1 Bitcoin at market price
-        OrderType orderType = (OrderType.BID);
-        BigDecimal tradeableAmount = new BigDecimal(1);
-        String tradableIdentifier = "BTC";
-        String transactionCurrency = "USD";
+  private static void generic(PollingTradeService tradeService) throws IOException {
 
-        MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+    // place a market order for 1 Bitcoin at market price
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(1);
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
 
-        String orderID = tradeService.placeMarketOrder(marketOrder);
-        System.out.println("Market Order return value: " + orderID);
-    }
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+
+    String orderID = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + orderID);
+  }
 }

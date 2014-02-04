@@ -54,7 +54,7 @@ public class TradesDemo {
     System.out.println("Trades size: " + trades.getTrades().size());
 
     // Get the latest trade data for BTC/XRP for the past 12 hours (note: doesn't account for time zone differences, should use UTC instead)
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP, (long) (System.nanoTime() - (12*60*60 * Math.pow(10, 9))));
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
     System.out.println(trades);
     System.out.println("Trades size: " + trades.getTrades().size());
   }

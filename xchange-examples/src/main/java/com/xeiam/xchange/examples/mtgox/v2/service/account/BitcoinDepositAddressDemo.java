@@ -34,26 +34,28 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class BitcoinDepositAddressDemo {
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
+    Exchange mtgox = MtGoxV2ExamplesUtils.createExchange();
 
-        // Interested in the private account functionality (authentication)
-        PollingAccountService accountService = mtgox.getPollingAccountService();
-        generic(accountService);
-        raw(((MtGoxAccountServiceRaw) accountService));
+    // Interested in the private account functionality (authentication)
+    PollingAccountService accountService = mtgox.getPollingAccountService();
+    generic(accountService);
+    raw(((MtGoxAccountServiceRaw) accountService));
 
-    }
+  }
 
-    private static void generic(PollingAccountService accountService) throws IOException {
-        // Request a Bitcoin deposit address
-        String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);
-        System.out.println("Address to deposit Bitcoins to: " + address);
-    }
+  private static void generic(PollingAccountService accountService) throws IOException {
 
-    private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
-        // Request a Bitcoin deposit address
-        MtGoxBitcoinDepositAddress address = accountService.mtGoxRequestDepositAddress("Demonstation address", null);
-        System.out.println("Address to deposit Bitcoins to: " + address.getAddres());
-    }
+    // Request a Bitcoin deposit address
+    String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);
+    System.out.println("Address to deposit Bitcoins to: " + address);
+  }
+
+  private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
+
+    // Request a Bitcoin deposit address
+    MtGoxBitcoinDepositAddress address = accountService.mtGoxRequestDepositAddress("Demonstation address", null);
+    System.out.println("Address to deposit Bitcoins to: " + address.getAddres());
+  }
 }
