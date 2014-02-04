@@ -183,6 +183,6 @@ For more information such as a contributor list and a list of known projects dep
 
 ## Donations
 
-[15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w](https://blockchain.info/address/15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w)
+[1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc](https://blockchain.info/address/1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc)
 
-All donations will be used to pay bounties for new features, refactoring, etc.
+All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/XChange/issues?state=open). More information on bounties paid so far can be found on [our Wiki](https://github.com/timmolter/XChange/wiki).
