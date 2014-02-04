@@ -83,7 +83,7 @@ public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
         }
     }
 
-    public Trades getMtGoxTrades(String tradableIdentifier, String currency, Object[] args) throws IOException {
+    public MtGoxTradesWrapper getMtGoxTrades(String tradableIdentifier, String currency, Object[] args) throws IOException {
         try {
             MtGoxTradesWrapper mtGoxTradeWrapper = null;
 
@@ -97,7 +97,7 @@ public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
             }
 
             if (mtGoxTradeWrapper.getResult().equals("success")) {
-                return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
+                return mtGoxTradeWrapper;
             } else if (mtGoxTradeWrapper.getResult().equals("error")) {
                 throw new ExchangeException("Error calling getTrades(): " + mtGoxTradeWrapper.getError());
             } else {

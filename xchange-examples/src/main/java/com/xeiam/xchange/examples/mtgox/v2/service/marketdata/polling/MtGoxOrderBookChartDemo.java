@@ -42,7 +42,7 @@ import com.xeiam.xchart.SwingWrapper;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
- * 
+ *
  * @author timmolter
  */
 public class MtGoxOrderBookChartDemo {

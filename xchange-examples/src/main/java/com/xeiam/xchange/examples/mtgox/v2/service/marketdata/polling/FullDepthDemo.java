@@ -22,12 +22,17 @@
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -42,11 +47,25 @@ public class FullDepthDemo {
 
     // Interested in the public market data feed (no authentication)
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
+      generic(marketDataService);
 
-    // Get the current full orderbook
-    OrderBook fullOrderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, PollingMarketDataService.OrderBookType.FULL);
-    System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
   }
+
+    private static void generic(PollingMarketDataService marketDataService) throws IOException {
+        // Get the current full orderbook
+        OrderBook fullOrderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, PollingMarketDataService.OrderBookType.FULL);
+        System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
+    }
+
+    private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
+        // Get the current full orderbook
+        Object[] args = {PollingMarketDataService.OrderBookType.FULL};
+        MtGoxDepthWrapper orderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.USD, args);
+
+        List<LimitOrder> asks = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getAsks(), Currencies.USD, "ask", "");
+        List<LimitOrder> bids = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getBids(), Currencies.USD, "bid", "");
+        System.out.println("Current Full Order Book size for BTC / USD: " + asks.size() + bids.size());
+    }
 
 }

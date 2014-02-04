@@ -32,6 +32,7 @@ import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTicker;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -61,34 +62,32 @@ public class MtGoxMarketdataDemo {
         // Interested in the public market data feed (no authentication)
         PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
         generic(marketDataService);
-        raw(marketDataService);
-
-
+        raw(((MtGoxMarketDataServiceRaw) marketDataService));
     }
 
-    private static void raw(PollingMarketDataService marketDataService) throws IOException {
+    private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
         // Get the latest ticker data showing BTC to USD
-        MtGoxTicker ticker = ((MtGoxMarketDataServiceRaw) marketDataService).getMtGoxTicker(Currencies.BTC, Currencies.USD);
+        MtGoxTicker ticker = marketDataService.getMtGoxTicker(Currencies.BTC, Currencies.USD);
         String btcusd = ticker.getLast().toString();
         System.out.println("Current exchange rate for BTC / USD: " + btcusd);
 
         // Get the current orderbook
         Object[] args = {};
-        MtGoxDepthWrapper orderBook = ((MtGoxMarketDataServiceRaw) marketDataService).getMtGoxOrderBook(Currencies.BTC, Currencies.USD, args);
+        MtGoxDepthWrapper orderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.USD, args);
         List<LimitOrder> asks = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getAsks(), Currencies.USD, "ask", "");
         List<LimitOrder> bids = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getBids(), Currencies.USD, "bid", "");
         System.out.println("Current Order Book size for BTC / USD: " + asks.size() + bids.size());
 
         // Get the current full orderbook
         Object[] argsWithFull = {PollingMarketDataService.OrderBookType.FULL};
-        MtGoxDepthWrapper fullOrderBook = ((MtGoxMarketDataServiceRaw) marketDataService).getMtGoxOrderBook(Currencies.BTC, Currencies.USD, argsWithFull);
+        MtGoxDepthWrapper fullOrderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.USD, argsWithFull);
         asks = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getAsks(), Currencies.USD, "ask", "");
         bids = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getBids(), Currencies.USD, "bid", "");
         System.out.println("Current Full Order Book size for BTC / USD: " + asks.size() + bids.size());
 
         // Get trades
-        Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-        System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
+        MtGoxTradesWrapper trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.PLN, args);
+        System.out.println("Current trades size for BTC / PLN: " + trades.getMtGoxTrades().length);
     }
 
     private static void generic(PollingMarketDataService marketDataService) throws IOException {
