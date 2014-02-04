@@ -19,48 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.trade.results;
+
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult.KrakenClosedOrders;
 
-public class KrakenAssetInfo {
+public class KrakenClosedOrdersResult extends KrakenResult<KrakenClosedOrders> {
 
-  private final String altName;
-  private final String assetClass;
-  private final int scale;
-  private final int displayScale;
+  public KrakenClosedOrdersResult(@JsonProperty("result") KrakenClosedOrders result, @JsonProperty("error") String[] error) {
 
-  public KrakenAssetInfo(@JsonProperty("altname") String altName, @JsonProperty("aclass") String assetClass, @JsonProperty("decimals") int scale, @JsonProperty("display_decimals") int displayScale) {
-
-    this.altName = altName;
-    this.assetClass = assetClass;
-    this.scale = scale;
-    this.displayScale = displayScale;
-  }
-
-  public String getAltName() {
-
-    return altName;
-  }
-
-  public String getAssetClass() {
-
-    return assetClass;
-  }
-
-  public int getScale() {
-
-    return scale;
-  }
-
-  public int getDisplayScale() {
-
-    return displayScale;
+    super(result, error);
   }
   
-  @Override
-  public String toString() {
+  public static class KrakenClosedOrders {
 
-    return "KrakenAssetInfo [altName=" + altName + ", assetClass=" + assetClass + ", scale=" + scale + ", displayScale=" + displayScale + "]";
+    private final Map<String, KrakenOrder> orders;
+
+    public KrakenClosedOrders(@JsonProperty("closed") Map<String, KrakenOrder> orders) {
+
+      this.orders = orders;
+    }
+
+    public Map<String, KrakenOrder> getOrders() {
+
+      return orders;
+    }
   }
 }

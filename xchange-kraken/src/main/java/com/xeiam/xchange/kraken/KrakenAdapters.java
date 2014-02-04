@@ -47,7 +47,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrade;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
 
@@ -92,10 +92,10 @@ public class KrakenAdapters {
     return builder.build();
   }
 
-  public static Trades adaptTrades(List<KrakenTrade> krakenTrades, String currency, String tradableIdentifier, long last) {
+  public static Trades adaptTrades(List<KrakenPublicTrade> krakenTrades, String currency, String tradableIdentifier, long last) {
 
     List<Trade> trades = new LinkedList<Trade>();
-    for (KrakenTrade krakenTrade : krakenTrades) {
+    for (KrakenPublicTrade krakenTrade : krakenTrades) {
       OrderType type = krakenTrade.getType().equalsIgnoreCase("s") ? OrderType.ASK : OrderType.BID;
       BigDecimal tradableAmount = krakenTrade.getVolume();
       BigMoney price = BigMoney.of(CurrencyUnit.of(currency), krakenTrade.getPrice());

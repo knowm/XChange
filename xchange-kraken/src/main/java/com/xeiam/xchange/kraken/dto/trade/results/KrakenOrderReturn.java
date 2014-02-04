@@ -19,20 +19,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.trade.results;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.ExchangeException;
 
+public class KrakenOrderReturn {
 
-public class KrakenSpreadsResult extends KrakenResult<KrakenSpreads> {
+  private String txid;
 
-  /**
-   * @param error List of errors
-   * @param result Recent spreads
-   */
-  public KrakenSpreadsResult(@JsonProperty("error") String[] error, @JsonProperty("result") KrakenSpreads result) {
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public KrakenOrderReturn(@JsonProperty("txid") String[] txids) {
 
-    super(result, error);
+    if (txids.length <= 0) {
+      throw new ExchangeException("No transaction Id");
+    }
+    else {
+      txid = txids[0];
+    }
+  }
+
+  public String getTxid() {
+
+    return txid;
   }
 }

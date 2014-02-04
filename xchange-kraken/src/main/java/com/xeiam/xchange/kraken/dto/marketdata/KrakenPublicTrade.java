@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class KrakenTrade {
+public class KrakenPublicTrade {
 
   private final BigDecimal price;
   private final BigDecimal volume;
@@ -34,7 +34,7 @@ public class KrakenTrade {
   private final String orderType;
   private final String miscellaneous;
 
-  public KrakenTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time, @JsonProperty("type") String type,
+  public KrakenPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time, @JsonProperty("type") String type,
       @JsonProperty("orderType") String orderType, @JsonProperty("miscellaneous") String miscellaneous) {
 
     this.price = price;

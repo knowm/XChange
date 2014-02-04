@@ -42,11 +42,11 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.kraken.KrakenAdapters;
-import com.xeiam.xchange.kraken.dto.account.KrakenBalanceResult;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTickerResult;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTradesResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenAssetPairsJSONTest;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenTickerJSONTest;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenTradesJSONTest;
@@ -94,7 +94,7 @@ public class KrakenAdaptersTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenTradesResult krakenTrades = mapper.readValue(is, KrakenTradesResult.class);
+    KrakenPublicTradesResult krakenTrades = mapper.readValue(is, KrakenPublicTradesResult.class);
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTrades(), Currencies.USD, Currencies.BTC, krakenTrades.getResult().getLast());
     Assert.assertEquals(14, trades.getTrades().size());
     assertThat(trades.getTrades().get(0).getTimestamp()).isBefore(new Date());

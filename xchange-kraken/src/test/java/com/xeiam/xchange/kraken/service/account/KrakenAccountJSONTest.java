@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.account.KrakenBalanceResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.service.marketdata.KrakenDepthJSONTest;
 
 public class KrakenAccountJSONTest {

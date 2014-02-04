@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class KrakenLedgerInfo {
+public class KrakenLedger {
 
   private final String refId;
   private final long unixTime;
@@ -36,7 +36,7 @@ public class KrakenLedgerInfo {
   private final BigDecimal fee;
   private final BigDecimal balance;
 
-  public KrakenLedgerInfo(@JsonProperty("refid") String refId, @JsonProperty("time") long unixTime, @JsonProperty("type") LedgerType ledgerType, @JsonProperty("aclass") String assetClass,
+  public KrakenLedger(@JsonProperty("refid") String refId, @JsonProperty("time") long unixTime, @JsonProperty("type") LedgerType ledgerType, @JsonProperty("aclass") String assetClass,
       @JsonProperty("asset") String asset, @JsonProperty("amount") BigDecimal transactionAmount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("balance") BigDecimal balance) {
 
     this.refId = refId;

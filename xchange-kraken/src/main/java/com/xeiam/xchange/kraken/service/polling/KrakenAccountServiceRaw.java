@@ -8,15 +8,18 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.KrakenAuthenticated;
 import com.xeiam.xchange.kraken.KrakenUtils;
-import com.xeiam.xchange.kraken.dto.account.KrakenBalanceResult;
-import com.xeiam.xchange.kraken.dto.account.KrakenLedgerInfo;
-import com.xeiam.xchange.kraken.dto.account.KrakenLedgerInfoResult;
-import com.xeiam.xchange.kraken.dto.account.KrakenQueryLedgerResult;
+import com.xeiam.xchange.kraken.dto.account.KrakenLedger;
 import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
-import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfoResult;
 import com.xeiam.xchange.kraken.dto.account.LedgerType;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenTradeVolume;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeVolumeResult;
 import com.xeiam.xchange.kraken.service.KrakenDigest;
 
 /**
@@ -68,7 +71,7 @@ public class KrakenAccountServiceRaw extends BaseKrakenService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedgerInfo> getKrakenLedgerInfo() throws IOException {
+  public Map<String, KrakenLedger> getKrakenLedgerInfo() throws IOException {
 
     return getKrakenLedgerInfo(null, null, null, null);
   }
@@ -84,7 +87,7 @@ public class KrakenAccountServiceRaw extends BaseKrakenService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedgerInfo> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset, String... assets) throws IOException {
+  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset, String... assets) throws IOException {
 
     StringBuilder commaDelimitedAssets = new StringBuilder();
     if (assets != null && assets.length > 0) {
@@ -100,23 +103,35 @@ public class KrakenAccountServiceRaw extends BaseKrakenService {
 
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
 
-    KrakenLedgerInfoResult ledgerResult =
+    KrakenLedgerResult ledgerResult =
         krakenAuthenticated.ledgers("currency", commaDelimitedAssets.toString(), ledgerTypeString, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
     return checkResult(ledgerResult).getLedgerMap();
   }
 
-  public Map<String, KrakenLedgerInfo> queryKrakenLedger(String... ledgerIds) throws IOException {
+  public Map<String, KrakenLedger> queryKrakenLedger(String... ledgerIds) throws IOException {
 
-    StringBuilder commaDelimitedLedgerIds = new StringBuilder();
-    if (ledgerIds != null) {
-      boolean started = false;
-      for (String ledgerId : ledgerIds) {
-        commaDelimitedLedgerIds.append((started) ? "," : "").append(ledgerId);
-        started = true;
+    KrakenQueryLedgerResult ledgerResult = krakenAuthenticated.queryLedgers(createDelimitedString(ledgerIds), exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+
+    return checkResult(ledgerResult);
+  }
+
+  public KrakenTradeVolume getTradeVolume(CurrencyPair... currencyPairs) throws IOException {
+
+    String assetPairsString = null;
+    if (currencyPairs != null) {
+      StringBuilder delimitStringBuilder = null;
+      for (CurrencyPair currencyPair : currencyPairs) {
+        String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
+        if (delimitStringBuilder == null)
+          delimitStringBuilder = new StringBuilder(krakenAssetPair);
+        else
+          delimitStringBuilder.append(",").append(krakenAssetPair);
       }
+      assetPairsString = delimitStringBuilder.toString();
     }
 
-    KrakenQueryLedgerResult ledgerResult = krakenAuthenticated.queryLedgers(commaDelimitedLedgerIds.toString(), exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
-    return checkResult(ledgerResult);
+    KrakenTradeVolumeResult result = krakenAuthenticated.tradeVolume(assetPairsString, exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+
+    return checkResult(result);
   }
 }

@@ -9,19 +9,19 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.kraken.Kraken;
 import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairs;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssets;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepthResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreadsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTickerResult;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTimeResult;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrades;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTradesResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
 public class KrakenMarketDataServiceRaw extends BaseKrakenService {
 
@@ -82,10 +82,10 @@ public class KrakenMarketDataServiceRaw extends BaseKrakenService {
     return checkResult(depthResult).get(krakenCurrencyPair);
   }
 
-  public KrakenTrades getKrakenTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public KrakenPublicTrades getKrakenTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenTradesResult tradesResult = null;
+    KrakenPublicTradesResult tradesResult = null;
     if (args.length > 0) {
       Object arg0 = args[0];
       if (arg0 instanceof Long) {

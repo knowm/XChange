@@ -19,33 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.trade;
-
-import java.util.Map;
+package com.xeiam.xchange.kraken.dto.account.results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenClosedOrdersResult.KrakenClosedOrders;
+import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 
-public class KrakenClosedOrdersResult extends KrakenResult<KrakenClosedOrders> {
+public class KrakenTradeBalanceInfoResult extends KrakenResult<KrakenTradeBalanceInfo> {
 
-  public KrakenClosedOrdersResult(@JsonProperty("result") KrakenClosedOrders result, @JsonProperty("error") String[] error) {
+  public KrakenTradeBalanceInfoResult(@JsonProperty("result") KrakenTradeBalanceInfo result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
-  
-  public static class KrakenClosedOrders {
 
-    private Map<String, KrakenOrder> orders;
-
-    public KrakenClosedOrders(@JsonProperty("closed") Map<String, KrakenOrder> orders) {
-
-      this.orders = orders;
-    }
-
-    public Map<String, KrakenOrder> getOrders() {
-
-      return orders;
-    }
-  }
 }

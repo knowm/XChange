@@ -23,50 +23,62 @@ package com.xeiam.xchange.kraken.dto.trade;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class KrakenOpenOrder {
+public class KrakenVolumeFee {
 
-  /**
-   * @param opentm
-   * @param description
-   * @param volume
-   * @param volumeExecuted
-   */
-  public KrakenOpenOrder(@JsonProperty("opentm") Double opentm, @JsonProperty("descr") KrakenOrderDescription description, @JsonProperty("vol") BigDecimal volume,
-      @JsonProperty("vol_exec") BigDecimal volumeExecuted) {
+  private final BigDecimal fee;
+  private final BigDecimal minFee;
+  private final BigDecimal maxFee;
+  private final BigDecimal nextFee;
+  private final BigDecimal nextVolume;
+  private final BigDecimal tierVolume;
 
-    this.opentm = opentm;
-    this.description = description;
-    this.volume = volume;
-    this.volumeExecuted = volumeExecuted;
+  public KrakenVolumeFee(@JsonProperty("fee") BigDecimal fee, @JsonProperty("minfee") BigDecimal minFee, @JsonProperty("maxfee") BigDecimal maxFee, @JsonProperty("nextfee") BigDecimal nextFee,
+      @JsonProperty("nextvolume") BigDecimal nextVolume, @JsonProperty("tiervolume") BigDecimal tierVolume) {
+
+    this.fee = fee;
+    this.minFee = minFee;
+    this.maxFee = maxFee;
+    this.nextFee = nextFee;
+    this.nextVolume = nextVolume;
+    this.tierVolume = tierVolume;
   }
 
-  public Double getOpentm() {
+  public BigDecimal getFee() {
 
-    return opentm;
+    return fee;
   }
 
-  public KrakenOrderDescription getDescription() {
+  public BigDecimal getMinFee() {
 
-    return description;
+    return minFee;
   }
 
-  public BigDecimal getVolume() {
+  public BigDecimal getMaxFee() {
 
-    return volume;
+    return maxFee;
   }
 
-  public BigDecimal getVolumeExecuted() {
+  public BigDecimal getNextFee() {
 
-    return volumeExecuted;
+    return nextFee;
   }
 
-  private Double opentm;
-  private KrakenOrderDescription description;
-  private BigDecimal volume;
-  private BigDecimal volumeExecuted;
+  public BigDecimal getNextVolume() {
+
+    return nextVolume;
+  }
+
+  public BigDecimal getTierVolume() {
+
+    return tierVolume;
+  }
+
+  @Override
+  public String toString() {
+
+    return "KrakenVolumeFee [fee=" + fee + ", minFee=" + minFee + ", maxFee=" + maxFee + ", nextFee=" + nextFee + ", nextVolume=" + nextVolume + ", tierVolume=" + tierVolume + "]";
+  }
 
 }

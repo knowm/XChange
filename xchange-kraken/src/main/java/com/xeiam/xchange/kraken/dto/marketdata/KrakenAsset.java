@@ -19,31 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.trade;
+package com.xeiam.xchange.kraken.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenCancelOrderResult.KrakenCancelCount;
 
-public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelCount> {
+public class KrakenAsset {
 
-  public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelCount result, @JsonProperty("error") String[] error) {
+  private final String altName;
+  private final String assetClass;
+  private final int scale;
+  private final int displayScale;
 
-    super(result, error);
+  public KrakenAsset(@JsonProperty("altname") String altName, @JsonProperty("aclass") String assetClass, @JsonProperty("decimals") int scale, @JsonProperty("display_decimals") int displayScale) {
+
+    this.altName = altName;
+    this.assetClass = assetClass;
+    this.scale = scale;
+    this.displayScale = displayScale;
+  }
+
+  public String getAltName() {
+
+    return altName;
+  }
+
+  public String getAssetClass() {
+
+    return assetClass;
+  }
+
+  public int getScale() {
+
+    return scale;
+  }
+
+  public int getDisplayScale() {
+
+    return displayScale;
   }
   
-  public static class KrakenCancelCount {
+  @Override
+  public String toString() {
 
-    private int count = -1;
-
-    public KrakenCancelCount(@JsonProperty("count") int count) {
-
-      this.count = count;
-    }
-
-    public int getCount() {
-
-      return count;
-    }
+    return "KrakenAssetInfo [altName=" + altName + ", assetClass=" + assetClass + ", scale=" + scale + ", displayScale=" + displayScale + "]";
   }
 }

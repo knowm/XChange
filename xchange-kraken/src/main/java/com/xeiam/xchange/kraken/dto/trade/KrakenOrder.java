@@ -42,8 +42,8 @@ public class KrakenOrder {
   private final BigDecimal price;
   private final BigDecimal stopPrice;
   private final BigDecimal limitPrice;
-  private final String misc;
-  private final String oflags;
+  private final String miscellaneous;
+  private final String orderFlags;
   private final List<String> tradeIds;
   private final double closeTimestamp;
   private final String closeReason;
@@ -68,8 +68,8 @@ public class KrakenOrder {
     this.price = price;
     this.stopPrice = stopPrice;
     this.limitPrice = limitPrice;
-    this.misc = misc;
-    this.oflags = oflags;
+    this.miscellaneous = misc;
+    this.orderFlags = oflags;
     this.tradeIds = tradeIds;
     this.closeTimestamp = closeTimestamp;
     this.closeReason = closeReason;
@@ -145,14 +145,14 @@ public class KrakenOrder {
     return limitPrice;
   }
 
-  public String getMisc() {
+  public String getMiscellaneous() {
 
-    return misc;
+    return miscellaneous;
   }
 
-  public String getOflags() {
+  public String getOrderFlags() {
 
-    return oflags;
+    return orderFlags;
   }
 
   public List<String> getTradeIds() {
@@ -175,7 +175,7 @@ public class KrakenOrder {
 
     return "KrakenOrder [refId=" + refId + ", userRefId=" + userRefId + ", status=" + status + ", openTimestamp=" + openTimestamp + ", startTimestamp=" + startTimestamp + ", expireTimestamp="
         + expireTimestamp + ", orderDescription=" + orderDescription + ", volume=" + volume + ", volumeExecuted=" + volumeExecuted + ", cost=" + cost + ", fee=" + fee + ", price=" + price
-        + ", stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", misc=" + misc + ", oflags=" + oflags + ", tradeIds=" + tradeIds + ", closeTimestamp="
+        + ", stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", miscellaneous=" + miscellaneous + ", orderFlags=" + orderFlags + ", tradeIds=" + tradeIds + ", closeTimestamp="
         + closeTimestamp + ", closeReason=" + closeReason + "]";
   }
 

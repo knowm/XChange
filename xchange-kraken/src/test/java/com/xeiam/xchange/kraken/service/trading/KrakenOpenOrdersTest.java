@@ -29,8 +29,8 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 
 /**
  * Test KrakenDepth JSON parsing
