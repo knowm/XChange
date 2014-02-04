@@ -21,14 +21,14 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.account;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Demo requesting account info at MtGox

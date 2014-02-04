@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -28,9 +31,6 @@ import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Test placing a market order at MtGox

@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -29,8 +31,6 @@ import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-
-import java.io.IOException;
 
 /**
  * Test requesting trades at MtGox

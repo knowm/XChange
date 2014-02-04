@@ -21,6 +21,11 @@
  */
 package com.xeiam.xchange.examples.mtgox.v2.service.trade.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -37,10 +42,6 @@ import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import org.joda.money.BigMoney;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * <p>
