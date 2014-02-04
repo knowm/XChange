@@ -69,7 +69,7 @@ public class DepthDemo {
   private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the current orderbook
-    MtGoxDepthWrapper orderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.SEK, null);
+    MtGoxDepthWrapper orderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.SEK, new Object[]{});
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getAsks(), Currencies.SEK, "ask", "");
     List<LimitOrder> bids = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getBids(), Currencies.SEK, "bid", "");
 
