@@ -36,7 +36,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexPlaceOrderReturn;
 
-public class VircurexPollingTradeService implements PollingTradeService {
+public class VircurexTradeService implements PollingTradeService {
 
   ExchangeSpecification exchangeSpecification;
   VircurexAuthenticated vircurex;
@@ -47,7 +47,7 @@ public class VircurexPollingTradeService implements PollingTradeService {
    * @param anExchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public VircurexPollingTradeService(ExchangeSpecification anExchangeSpecification) {
+  public VircurexTradeService(ExchangeSpecification anExchangeSpecification) {
 
     exchangeSpecification = anExchangeSpecification;
     vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());

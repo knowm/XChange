@@ -33,7 +33,7 @@ import com.xeiam.xchange.vircurex.VircurexAdapters;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexAccountInfoReturn;
 
-public class VircurexPollingAccountService implements PollingAccountService {
+public class VircurexAccountService implements PollingAccountService {
 
   ExchangeSpecification exchangeSpecification;
 
@@ -48,7 +48,7 @@ public class VircurexPollingAccountService implements PollingAccountService {
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public VircurexPollingAccountService(ExchangeSpecification exchangeSpecification) {
+  public VircurexAccountService(ExchangeSpecification exchangeSpecification) {
 
     this.exchangeSpecification = exchangeSpecification;
     this.vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());

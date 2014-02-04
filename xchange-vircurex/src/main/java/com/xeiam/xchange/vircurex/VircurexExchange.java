@@ -24,9 +24,9 @@ package com.xeiam.xchange.vircurex;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.vircurex.service.polling.VircurexPollingAccountService;
-import com.xeiam.xchange.vircurex.service.polling.VircurexPollingMarketDataService;
-import com.xeiam.xchange.vircurex.service.polling.VircurexPollingTradeService;
+import com.xeiam.xchange.vircurex.service.polling.VircurexAccountService;
+import com.xeiam.xchange.vircurex.service.polling.VircurexMarketDataService;
+import com.xeiam.xchange.vircurex.service.polling.VircurexTradeService;
 
 /**
  * <p>
@@ -60,9 +60,9 @@ public class VircurexExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new VircurexPollingMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new VircurexPollingAccountService(exchangeSpecification);
-    this.pollingTradeService = new VircurexPollingTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new VircurexMarketDataService(exchangeSpecification);
+    this.pollingAccountService = new VircurexAccountService(exchangeSpecification);
+    this.pollingTradeService = new VircurexTradeService(exchangeSpecification);
   }
 
   @Override
@@ -78,8 +78,4 @@ public class VircurexExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
-  // @Override
-  // public boolean isSupportedCurrencyPair(CurrencyPair aPair) {
-  // return VircurexUtils.isValidCurrencyPair(aPair);
-  // }
 }

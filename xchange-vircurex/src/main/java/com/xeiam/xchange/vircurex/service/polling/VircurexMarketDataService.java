@@ -52,7 +52,7 @@ import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VircurexPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+public class VircurexMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
   private final Vircurex vircurex;
 
@@ -60,7 +60,7 @@ public class VircurexPollingMarketDataService extends BasePollingExchangeService
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public VircurexPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public VircurexMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
     vircurex = RestProxyFactory.createProxy(Vircurex.class, exchangeSpecification.getSslUri());
