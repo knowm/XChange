@@ -32,7 +32,7 @@ import java.util.TimeZone;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * A central place for shared BTC-E properties
+ * A central place for shared Vircurex properties
  */
 public final class VircurexUtils {
 

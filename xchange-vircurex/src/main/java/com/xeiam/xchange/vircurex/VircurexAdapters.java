@@ -58,7 +58,6 @@ public final class VircurexAdapters {
     limitPrice = MoneyUtils.parse(currency + " " + price);
 
     return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
-
   }
 
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> someOrders, String tradableIdentifier, String currency, String orderType, String id) {
