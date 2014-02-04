@@ -63,7 +63,6 @@ public final class VircurexUtils {
     CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("ANC", "BTC"));
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
-
   }
 
   /**

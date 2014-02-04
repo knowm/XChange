@@ -67,13 +67,13 @@ public class VircurexPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
@@ -87,7 +87,7 @@ public class VircurexPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -114,7 +114,7 @@ public class VircurexPollingMarketDataService extends BasePollingExchangeService
   }
 
   @Override
-  public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
