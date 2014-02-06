@@ -19,10 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.trade;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,59 +32,38 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenOrder.KrakenOrderDeserializer;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType.KrakenTypeDeserializer;
 
-@JsonDeserialize(using = KrakenOrderDeserializer.class)
-public class KrakenOrder {
+@JsonDeserialize(using = KrakenTypeDeserializer.class)
+public enum KrakenType {
 
-  private final BigDecimal price;
-  private final BigDecimal volume;
-  private final long timestamp;
-
-  public KrakenOrder(BigDecimal price, BigDecimal volume, long timestamp) {
-
-    this.price = price;
-    this.volume = volume;
-    this.timestamp = timestamp;
-  }
-
-  public BigDecimal getPrice() {
-
-    return price;
-  }
-
-  public BigDecimal getVolume() {
-
-    return volume;
-  }
-
-  public long getTimestamp() {
-
-    return timestamp;
-  }
+  BUY, SELL;
 
   @Override
   public String toString() {
+    return super.toString().toLowerCase();
+  }
+  
+  public static KrakenType fromString(final String typeString) {
 
-    return "KrakenOrder [price=" + price + ", volume=" + volume + ", timestamp=" + timestamp + "]";
+    return fromString.get(typeString.toLowerCase());
   }
 
-  static class KrakenOrderDeserializer extends JsonDeserializer<KrakenOrder> {
+  private static final Map<String, KrakenType> fromString = new HashMap<String, KrakenType>();
+  static {
+    for (KrakenType type : values())
+      fromString.put(type.toString(), type);
+  }
+
+  static class KrakenTypeDeserializer extends JsonDeserializer<KrakenType> {
 
     @Override
-    public KrakenOrder deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
-      if (node.isArray()) {
-        BigDecimal price = new BigDecimal(node.path(0).asText());
-        BigDecimal volume = new BigDecimal(node.path(1).asText());
-        long timestamp = node.path(2).asLong();
-
-        return new KrakenOrder(price, volume, timestamp);
-      }
-
-      return null;
+      String typeString = node.textValue();
+      return fromString(typeString);
     }
   }
 }

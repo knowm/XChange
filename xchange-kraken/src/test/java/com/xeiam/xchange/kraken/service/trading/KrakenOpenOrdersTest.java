@@ -29,8 +29,8 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 
 /**
  * Test KrakenDepth JSON parsing
@@ -46,10 +46,10 @@ public class KrakenOpenOrdersTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenOpenOrdersResult krakenResult = mapper.readValue(is, KrakenOpenOrdersResult.class);
-    KrakenOpenOrder order = krakenResult.getResult().getOrders().values().iterator().next();
+    KrakenOrder order = krakenResult.getResult().getOrders().values().iterator().next();
     // Verify that the example data was unmarshalled correctly
     assertThat(order).isNotNull();
-    assertThat(order.getOpentm()).isEqualTo(1380586080.222);
+    assertThat(order.getOpenTimestamp()).isEqualTo(1380586080.222);
     assertThat(order.getVolume()).isEqualTo("0.01000000");
     assertThat(order.getVolumeExecuted()).isEqualTo("0.00000000");
   }

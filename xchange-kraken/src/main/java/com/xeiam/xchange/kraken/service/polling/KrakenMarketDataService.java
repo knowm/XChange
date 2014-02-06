@@ -34,7 +34,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrades;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements PollingMarketDataService {
@@ -66,7 +66,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    KrakenTrades krakenTrades = getKrakenTrades(tradableIdentifier, currency, args);
+    KrakenPublicTrades krakenTrades = getKrakenTrades(tradableIdentifier, currency, args);
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currency, tradableIdentifier, krakenTrades.getLast());
     return trades;
   }

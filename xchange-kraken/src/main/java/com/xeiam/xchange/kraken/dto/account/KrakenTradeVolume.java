@@ -19,15 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.account;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
 
-public class KrakenServerTimeResult extends KrakenResult<KrakenServerTime> {
+public class KrakenTradeVolume {
 
-  public KrakenServerTimeResult(@JsonProperty("error") String[] error, @JsonProperty("result") KrakenServerTime result) {
+  private final String currency;
+  private final BigDecimal volume;
+  private final Map<String, KrakenVolumeFee> fees;
 
-    super(result, error);
+  public KrakenTradeVolume(@JsonProperty("currency") String currency, @JsonProperty("volume") BigDecimal volume, @JsonProperty("fees") Map<String, KrakenVolumeFee> fees) {
+
+    this.currency = currency;
+    this.volume = volume;
+    this.fees = fees;
+  }
+
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  public BigDecimal getVolume() {
+
+    return volume;
+  }
+
+  public Map<String, KrakenVolumeFee> getFees() {
+
+    return fees;
+  }
+
+  @Override
+  public String toString() {
+
+    return "KrakenTradeVolume [currency=" + currency + ", volume=" + volume + ", fees=" + fees + "]";
   }
 }

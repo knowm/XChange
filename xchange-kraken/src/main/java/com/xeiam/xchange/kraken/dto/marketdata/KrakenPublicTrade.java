@@ -19,39 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.trade;
+package com.xeiam.xchange.kraken.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class KrakenOpenOrder {
+public class KrakenPublicTrade {
 
-  /**
-   * @param opentm
-   * @param description
-   * @param volume
-   * @param volumeExecuted
-   */
-  public KrakenOpenOrder(@JsonProperty("opentm") Double opentm, @JsonProperty("descr") KrakenOrderDescription description, @JsonProperty("vol") BigDecimal volume,
-      @JsonProperty("vol_exec") BigDecimal volumeExecuted) {
+  private final BigDecimal price;
+  private final BigDecimal volume;
+  private final double time;
+  private final String type;
+  private final String orderType;
+  private final String miscellaneous;
 
-    this.opentm = opentm;
-    this.description = description;
+  public KrakenPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time, @JsonProperty("type") String type,
+      @JsonProperty("orderType") String orderType, @JsonProperty("miscellaneous") String miscellaneous) {
+
+    this.price = price;
     this.volume = volume;
-    this.volumeExecuted = volumeExecuted;
+    this.time = time;
+    this.type = type;
+    this.orderType = orderType;
+    this.miscellaneous = miscellaneous;
   }
 
-  public Double getOpentm() {
+  public BigDecimal getPrice() {
 
-    return opentm;
-  }
-
-  public KrakenOrderDescription getDescription() {
-
-    return description;
+    return price;
   }
 
   public BigDecimal getVolume() {
@@ -59,14 +55,30 @@ public class KrakenOpenOrder {
     return volume;
   }
 
-  public BigDecimal getVolumeExecuted() {
+  public double getTime() {
 
-    return volumeExecuted;
+    return time;
   }
 
-  private Double opentm;
-  private KrakenOrderDescription description;
-  private BigDecimal volume;
-  private BigDecimal volumeExecuted;
+  public String getType() {
+
+    return type;
+  }
+
+  public String getOrderType() {
+
+    return orderType;
+  }
+
+  public String getMiscellaneous() {
+
+    return miscellaneous;
+  }
+
+  @Override
+  public String toString() {
+
+    return "KrakenTrade [price=" + price + ", volume=" + volume + ", time=" + time + ", type=" + type + ", orderType=" + orderType + ", miscellaneous=" + miscellaneous + "]";
+  }
 
 }

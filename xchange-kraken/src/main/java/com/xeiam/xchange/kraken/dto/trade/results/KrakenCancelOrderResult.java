@@ -19,34 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.trade.results;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
 
-import com.xeiam.xchange.kraken.KrakenUtils;
+public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderResponse> {
 
-public class KrakenAssets {
+  public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelOrderResponse result, @JsonProperty("error") String[] error) {
 
-  private final Map<String, KrakenAsset> assetInfoMap;
-
-  public KrakenAssets(final Map<String, KrakenAsset> assetInfoMap) {
-
-    this.assetInfoMap = assetInfoMap;
+    super(result, error);
   }
+  
+  public static class KrakenCancelOrderResponse {
 
-  public KrakenAsset getAssetPairInfo(String tradableIdentifier, String currency) {
+    private final int count;
+    private final boolean pending;
+    
+    public KrakenCancelOrderResponse(@JsonProperty("count") int count, @JsonProperty("pending") boolean pending) {
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    return getAssetPairInfo(krakenCurrencyPair);
-  }
+      this.count = count;
+      this.pending = pending;
+    }
 
-  public KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
+    public int getCount() {
 
-    return assetInfoMap.get(krakenCurrencyPair);
-  }
+      return count;
+    }
 
-  public Map<String, KrakenAsset> getAssetPairMap() {
+    public boolean isPending() {
 
-    return assetInfoMap;
+      return pending;
+    }
   }
 }
