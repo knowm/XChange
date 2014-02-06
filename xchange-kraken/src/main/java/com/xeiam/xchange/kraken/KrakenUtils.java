@@ -29,6 +29,7 @@ import java.util.Map;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType;
 
 public final class KrakenUtils {
 
@@ -116,9 +117,9 @@ public final class KrakenUtils {
     return CURRENCY_PAIRS.contains(currencyPair);
   }
 
-  public static String getKrakenOrderType(OrderType type) {
+  public static KrakenType getKrakenOrderType(OrderType type) {
 
-    return type == OrderType.ASK ? "sell" : "buy";
+    return type == OrderType.ASK ? KrakenType.SELL : KrakenType.BUY;
   }
 
   public static long getNonce() {

@@ -23,27 +23,34 @@ package com.xeiam.xchange.kraken.dto.trade.results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
-import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelCount;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
 
-public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelCount> {
+public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderResponse> {
 
-  public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelCount result, @JsonProperty("error") String[] error) {
+  public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelOrderResponse result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
   
-  public static class KrakenCancelCount {
+  public static class KrakenCancelOrderResponse {
 
     private final int count;
-
-    public KrakenCancelCount(@JsonProperty("count") int count) {
+    private final boolean pending;
+    
+    public KrakenCancelOrderResponse(@JsonProperty("count") int count, @JsonProperty("pending") boolean pending) {
 
       this.count = count;
+      this.pending = pending;
     }
 
     public int getCount() {
 
       return count;
+    }
+
+    public boolean isPending() {
+
+      return pending;
     }
   }
 }

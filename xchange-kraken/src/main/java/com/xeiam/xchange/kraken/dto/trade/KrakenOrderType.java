@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.account;
+package com.xeiam.xchange.kraken.dto.trade;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,39 +32,38 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.kraken.dto.account.LedgerType.LedgerTypeDeserializer;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderType.KrakenOrderTypeDeserializer;
 
-@JsonDeserialize(using = LedgerTypeDeserializer.class)
-public enum LedgerType {
+@JsonDeserialize(using = KrakenOrderTypeDeserializer.class)
+public enum KrakenOrderType {
 
-  DEPOSIT, WITHDRAWAL, TRADE, MARGIN;
+  MARKET, LIMIT, STOP_LOSS, TAKE_PROFIT, STOP_LOSS_PROFIT, STOP_LOSS_PROFIT_LIMIT, STOP_LOSS_LIMIT, TAKE_PROFIT_LIMIT, TRAILING_STOP, TRAILING_STOP_LIMIT, STOP_LOSS_AND_LIMIT;
 
   @Override
   public String toString() {
     return super.toString().toLowerCase();
   }
   
-  public static LedgerType fromString(final String ledgerTypeString) {
+  public static KrakenOrderType fromString(final String orderTypeString) {
 
-    return fromString.get(ledgerTypeString.toLowerCase());
+    return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
   }
 
-  private static final Map<String, LedgerType> fromString = new HashMap<String, LedgerType>();
+  private static final Map<String, KrakenOrderType> fromString = new HashMap<String, KrakenOrderType>();
   static {
-    for (LedgerType ledgerType : values())
-      fromString.put(ledgerType.toString(), ledgerType);
+    for (KrakenOrderType orderType : values())
+      fromString.put(orderType.toString(), orderType);
   }
 
-  static class LedgerTypeDeserializer extends JsonDeserializer<LedgerType> {
+  static class KrakenOrderTypeDeserializer extends JsonDeserializer<KrakenOrderType> {
 
     @Override
-    public LedgerType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenOrderType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
-      String ledgerTypeString = node.textValue();
-      return fromString(ledgerTypeString);
+      String orderTypeString = node.textValue();
+      return fromString(orderTypeString);
     }
-
   }
 }

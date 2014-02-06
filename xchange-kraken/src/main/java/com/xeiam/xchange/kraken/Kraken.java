@@ -23,6 +23,7 @@ package com.xeiam.xchange.kraken;
 
 import java.io.IOException;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -45,7 +46,7 @@ public interface Kraken {
 
   @GET
   @Path("Ticker")
-  KrakenTickerResult getTicker(@QueryParam("pair") String currencyPair);
+  KrakenTickerResult getTicker(@QueryParam("pair") String currencyPairs);
 
   @GET
   @Path("Depth")
@@ -65,11 +66,11 @@ public interface Kraken {
   
   @GET
   @Path("Assets")
-  KrakenAssetsResult getAssets() throws IOException;
+  KrakenAssetsResult getAssets(@FormParam("aclass") String assetClass, @FormParam("asset") String assets) throws IOException;
   
   @GET
   @Path("AssetPairs")
-  KrakenAssetPairsResult getAssetPairs() throws IOException;
+  KrakenAssetPairsResult getAssetPairs(@FormParam("pair") String assetPairs) throws IOException;
   
   @GET
   @Path("Time")

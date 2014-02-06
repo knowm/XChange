@@ -31,8 +31,8 @@ public class KrakenTrade {
   private final String orderTxId;
   private final String assetPair;
   private final double unixTimestamp;
-  private final String type;
-  private final String orderType;
+  private final KrakenType type;
+  private final KrakenOrderType orderType;
   private final BigDecimal price;
   private final BigDecimal cost;
   private final BigDecimal fee;
@@ -49,8 +49,8 @@ public class KrakenTrade {
   private final BigDecimal netDifference;
   private final List<String> tradeIds;
 
-  public KrakenTrade(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") double unixTimestamp, @JsonProperty("type") String type,
-      @JsonProperty("ordertype") String orderType, @JsonProperty("price") BigDecimal price, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
+  public KrakenTrade(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") double unixTimestamp, @JsonProperty("type") KrakenType type,
+      @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("vol") BigDecimal volume, @JsonProperty("margin") BigDecimal margin, @JsonProperty("misc") String miscellaneous, @JsonProperty("closing") String closing,
       @JsonProperty("posstatus") String positionStatus, @JsonProperty("cprice") BigDecimal averageClosePrice, @JsonProperty("ccost") BigDecimal closeCost, @JsonProperty("cfee") BigDecimal closeFee,
       @JsonProperty("cvol") BigDecimal closeVolume, @JsonProperty("cmargin") BigDecimal closeMargin, @JsonProperty("net") BigDecimal netDifference, @JsonProperty("trades") List<String> tradeIds) {
@@ -92,12 +92,12 @@ public class KrakenTrade {
     return unixTimestamp;
   }
 
-  public String getType() {
+  public KrakenType getType() {
 
     return type;
   }
 
-  public String getOrderType() {
+  public KrakenOrderType getOrderType() {
 
     return orderType;
   }

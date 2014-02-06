@@ -22,8 +22,11 @@
 package com.xeiam.xchange.kraken.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderFlags.KrakenOrderFlagsDeserializer;
 
 public class KrakenOpenPosition {
 
@@ -31,7 +34,7 @@ public class KrakenOpenPosition {
   private final String assetPair;
   private final long tradeUnixTimestamp;
   private final String type;
-  private final String orderType;
+  private final KrakenOrderType orderType;
   private final BigDecimal cost;
   private final BigDecimal fee;
   private final BigDecimal volume;
@@ -40,13 +43,14 @@ public class KrakenOpenPosition {
   private final BigDecimal value;
   private final BigDecimal netDifference;
   private final String miscellaneous;
-  private final String orderFlags;
+  private final Set<KrakenOrderFlags> orderFlags;
   private final BigDecimal volumeInQuoteCurrency;
 
   public KrakenOpenPosition(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") String type,
-      @JsonProperty("ordertype") String orderType, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
       @JsonProperty("vol_closed") BigDecimal volumeClosed, @JsonProperty("margin") BigDecimal margin, @JsonProperty("volue") BigDecimal value, @JsonProperty("net") BigDecimal netDifference,
-      @JsonProperty("misc") String miscellaneous, @JsonProperty("oflags") String orderFlags, @JsonProperty("viqc") BigDecimal volumeInQuoteCurrency) {
+      @JsonProperty("misc") String miscellaneous, @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFlags,
+      @JsonProperty("viqc") BigDecimal volumeInQuoteCurrency) {
 
     this.orderTxId = orderTxId;
     this.assetPair = assetPair;
@@ -85,7 +89,7 @@ public class KrakenOpenPosition {
     return type;
   }
 
-  public String getOrderType() {
+  public KrakenOrderType getOrderType() {
 
     return orderType;
   }
@@ -130,7 +134,7 @@ public class KrakenOpenPosition {
     return miscellaneous;
   }
 
-  public String getOrderFlags() {
+  public Set<KrakenOrderFlags> getOrderFlags() {
 
     return orderFlags;
   }

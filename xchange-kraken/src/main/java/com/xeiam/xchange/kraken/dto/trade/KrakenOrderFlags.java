@@ -19,11 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.account;
+package com.xeiam.xchange.kraken.dto.trade;
 
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,40 +33,41 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.kraken.dto.account.LedgerType.LedgerTypeDeserializer;
 
-@JsonDeserialize(using = LedgerTypeDeserializer.class)
-public enum LedgerType {
+public enum KrakenOrderFlags {
 
-  DEPOSIT, WITHDRAWAL, TRADE, MARGIN;
+  VIQC, PLBC, NOMPP;
 
   @Override
   public String toString() {
     return super.toString().toLowerCase();
   }
   
-  public static LedgerType fromString(final String ledgerTypeString) {
+  public static KrakenOrderFlags fromString(final String orderTypeString) {
 
-    return fromString.get(ledgerTypeString.toLowerCase());
+    return fromString.get(orderTypeString.toLowerCase());
   }
 
-  private static final Map<String, LedgerType> fromString = new HashMap<String, LedgerType>();
+  private static final Map<String, KrakenOrderFlags> fromString = new HashMap<String, KrakenOrderFlags>();
   static {
-    for (LedgerType ledgerType : values())
-      fromString.put(ledgerType.toString(), ledgerType);
+    for (KrakenOrderFlags orderFlag : values())
+      fromString.put(orderFlag.toString(), orderFlag);
   }
 
-  static class LedgerTypeDeserializer extends JsonDeserializer<LedgerType> {
+  static class KrakenOrderFlagsDeserializer extends JsonDeserializer<Set<KrakenOrderFlags>> {
 
     @Override
-    public LedgerType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Set<KrakenOrderFlags> deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
-      String ledgerTypeString = node.textValue();
-      return fromString(ledgerTypeString);
+      String orderFlagsString = node.textValue();
+      Set<KrakenOrderFlags> orderFlags = EnumSet.noneOf(KrakenOrderFlags.class);
+      if (!orderFlagsString.isEmpty()) {
+        for (String orderFlag : orderFlagsString.split(","))
+          orderFlags.add(fromString(orderFlag));
+      }
+      return orderFlags;
     }
-
   }
 }

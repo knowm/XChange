@@ -13,13 +13,13 @@ import com.xeiam.xchange.kraken.KrakenAuthenticated;
 import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.account.KrakenLedger;
 import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
+import com.xeiam.xchange.kraken.dto.account.KrakenTradeVolume;
 import com.xeiam.xchange.kraken.dto.account.LedgerType;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenTradeVolume;
-import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeVolumeResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import com.xeiam.xchange.kraken.service.KrakenDigest;
 
 /**
@@ -61,8 +61,19 @@ public class KrakenAccountServiceRaw extends BaseKrakenService {
     if (valuationCurrency != null)
       valuationCurrency = KrakenUtils.getKrakenCurrencyCode(valuationCurrency);
 
-    KrakenTradeBalanceInfoResult balanceResult = krakenAuthenticated.tradeBalance("currency", valuationCurrency, exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+    KrakenTradeBalanceInfoResult balanceResult = krakenAuthenticated.tradeBalance(null, valuationCurrency, exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
     return checkResult(balanceResult);
+  }
+
+  /**
+   * Retrieves the user's trade balance using the default currency ZUSD to
+   * determine the balance.
+   * @return KrakenTradeBalanceInfo
+   * @throws IOException
+   */
+  public KrakenTradeBalanceInfo getKrakenTradeBalance() throws IOException {
+
+    return getKrakenTradeBalance(null);
   }
 
   /**
@@ -89,22 +100,10 @@ public class KrakenAccountServiceRaw extends BaseKrakenService {
    */
   public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset, String... assets) throws IOException {
 
-    StringBuilder commaDelimitedAssets = new StringBuilder();
-    if (assets != null && assets.length > 0) {
-      boolean started = false;
-      for (String asset : assets) {
-        commaDelimitedAssets.append((started) ? "," : "").append(KrakenUtils.getKrakenCurrencyCode(asset));
-        started = true;
-      }
-    }
-    else {
-      commaDelimitedAssets.append("all");
-    }
-
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
 
     KrakenLedgerResult ledgerResult =
-        krakenAuthenticated.ledgers("currency", commaDelimitedAssets.toString(), ledgerTypeString, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+        krakenAuthenticated.ledgers(null, delimitAssets(assets), ledgerTypeString, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
     return checkResult(ledgerResult).getLedgerMap();
   }
 
@@ -117,20 +116,7 @@ public class KrakenAccountServiceRaw extends BaseKrakenService {
 
   public KrakenTradeVolume getTradeVolume(CurrencyPair... currencyPairs) throws IOException {
 
-    String assetPairsString = null;
-    if (currencyPairs != null) {
-      StringBuilder delimitStringBuilder = null;
-      for (CurrencyPair currencyPair : currencyPairs) {
-        String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
-        if (delimitStringBuilder == null)
-          delimitStringBuilder = new StringBuilder(krakenAssetPair);
-        else
-          delimitStringBuilder.append(",").append(krakenAssetPair);
-      }
-      assetPairsString = delimitStringBuilder.toString();
-    }
-
-    KrakenTradeVolumeResult result = krakenAuthenticated.tradeVolume(assetPairsString, exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+    KrakenTradeVolumeResult result = krakenAuthenticated.tradeVolume(delimitAssetPairs(currencyPairs), exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
 
     return checkResult(result);
   }

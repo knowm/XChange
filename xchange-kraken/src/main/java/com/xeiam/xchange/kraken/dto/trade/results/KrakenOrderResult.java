@@ -23,11 +23,13 @@ package com.xeiam.xchange.kraken.dto.trade.results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
 
-public class KrakenOrderResult extends KrakenResult<KrakenOrderReturn> {
+public class KrakenOrderResult extends KrakenResult<KrakenOrderResponse> {
 
-  public KrakenOrderResult(@JsonProperty("result") KrakenOrderReturn result, @JsonProperty("error") String[] error) {
+  public KrakenOrderResult(@JsonProperty("result") KrakenOrderResponse result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
+
 }

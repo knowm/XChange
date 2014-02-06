@@ -46,10 +46,12 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrade;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
+import com.xeiam.xchange.kraken.dto.trade.KrakenTrade;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType;
 
 public class KrakenAdapters {
 
@@ -100,7 +102,7 @@ public class KrakenAdapters {
       BigDecimal tradableAmount = krakenTrade.getVolume();
       BigMoney price = BigMoney.of(CurrencyUnit.of(currency), krakenTrade.getPrice());
       Date timestamp = new Date((long) krakenTrade.getTime() * 1000L);
-      
+
       trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, 0));
 
     }
@@ -133,15 +135,15 @@ public class KrakenAdapters {
 
     List<LimitOrder> limitOrders = new LinkedList<LimitOrder>();
     for (Entry<String, KrakenOrder> krakenOrder : krakenOrders.entrySet()) {
-    	KrakenOrderDescription orderDescription = krakenOrder.getValue().getOrderDescription();
-    	
-    	if( ! "limit".equals(orderDescription.getOrderType()) ) {
-    		// how to handle stop-loss, take-profit, stop-loss-limit, and so on orders?
-    		// ignore anything but a plain limit order for now
-    		continue;
-    	}
-    	
-      OrderType type = orderDescription.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
+      KrakenOrderDescription orderDescription = krakenOrder.getValue().getOrderDescription();
+
+      if (!"limit".equals(orderDescription.getOrderType().toString())) {
+        // how to handle stop-loss, take-profit, stop-loss-limit, and so on orders?
+        // ignore anything but a plain limit order for now
+        continue;
+      }
+
+      OrderType type = orderDescription.getType().equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
       BigDecimal tradableAmount = krakenOrder.getValue().getVolume().subtract(krakenOrder.getValue().getVolumeExecuted());
 
       String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(orderDescription.getAssetPair().substring(0, 3));
@@ -154,5 +156,25 @@ public class KrakenAdapters {
     }
     return new OpenOrders(limitOrders);
 
+  }
+
+  public static Trades adaptKrakenTrades(Map<String, KrakenTrade> krakenTrades) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    for (Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
+      
+      KrakenTrade krakenTrade = krakenTradeEntry.getValue();
+      
+      OrderType orderType = krakenTrade.getType().equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
+      BigDecimal tradableAmount = krakenTrade.getVolume();
+      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(krakenTrade.getAssetPair().substring(0, 3));
+      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(krakenTrade.getAssetPair().substring(3));
+      Date timestamp = new Date((long) (krakenTrade.getUnixTimestamp() * 1000L));
+      BigMoney price = BigMoney.of(CurrencyUnit.of(transactionCurrency), krakenTrade.getPrice());
+
+      Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, 0);
+      trades.add(trade);
+    }
+    return new Trades(trades);
   }
 }

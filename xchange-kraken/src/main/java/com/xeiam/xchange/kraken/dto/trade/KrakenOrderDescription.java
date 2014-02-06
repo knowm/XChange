@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class KrakenOrderDescription {
 
   private final String assetPair;
-  private final String type;
-  private final String orderType;
+  private final KrakenType type;
+  private final KrakenOrderType orderType;
   private final BigDecimal price;
   private final BigDecimal secondaryPrice;
   private final String leverage;
@@ -37,7 +37,7 @@ public class KrakenOrderDescription {
   private final String orderDescription;
   private final String closeDescription;
 
-  public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") String type, @JsonProperty("ordertype") String orderType, @JsonProperty("price") BigDecimal price,
+  public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
       @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId, @JsonProperty("order") String orderDescription,
       @JsonProperty("close") String closeDescription) {
 
@@ -57,12 +57,12 @@ public class KrakenOrderDescription {
     return assetPair;
   }
 
-  public String getType() {
+  public KrakenType getType() {
 
     return type;
   }
 
-  public String getOrderType() {
+  public KrakenOrderType getOrderType() {
 
     return orderType;
   }

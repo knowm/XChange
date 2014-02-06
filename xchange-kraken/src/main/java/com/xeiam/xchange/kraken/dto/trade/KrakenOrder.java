@@ -23,8 +23,11 @@ package com.xeiam.xchange.kraken.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderFlags.KrakenOrderFlagsDeserializer;
 
 public class KrakenOrder {
 
@@ -43,7 +46,7 @@ public class KrakenOrder {
   private final BigDecimal stopPrice;
   private final BigDecimal limitPrice;
   private final String miscellaneous;
-  private final String orderFlags;
+  private final Set<KrakenOrderFlags> orderFlags;
   private final List<String> tradeIds;
   private final double closeTimestamp;
   private final String closeReason;
@@ -52,7 +55,8 @@ public class KrakenOrder {
       @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp, @JsonProperty("descr") KrakenOrderDescription orderDescription,
       @JsonProperty("vol") BigDecimal volume, @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice, @JsonProperty("limitprice") BigDecimal limitPrice, @JsonProperty("misc") String misc,
-      @JsonProperty("oflags") String oflags, @JsonProperty("trades") List<String> tradeIds, @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
+      @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFLags, @JsonProperty("trades") List<String> tradeIds,
+      @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
 
     this.refId = refId;
     this.userRefId = userRefId;
@@ -69,7 +73,7 @@ public class KrakenOrder {
     this.stopPrice = stopPrice;
     this.limitPrice = limitPrice;
     this.miscellaneous = misc;
-    this.orderFlags = oflags;
+    this.orderFlags = orderFLags;
     this.tradeIds = tradeIds;
     this.closeTimestamp = closeTimestamp;
     this.closeReason = closeReason;
@@ -150,7 +154,7 @@ public class KrakenOrder {
     return miscellaneous;
   }
 
-  public String getOrderFlags() {
+  public Set<KrakenOrderFlags> getOrderFlags() {
 
     return orderFlags;
   }
@@ -178,5 +182,4 @@ public class KrakenOrder {
         + ", stopPrice=" + stopPrice + ", limitPrice=" + limitPrice + ", miscellaneous=" + miscellaneous + ", orderFlags=" + orderFlags + ", tradeIds=" + tradeIds + ", closeTimestamp="
         + closeTimestamp + ", closeReason=" + closeReason + "]";
   }
-
 }

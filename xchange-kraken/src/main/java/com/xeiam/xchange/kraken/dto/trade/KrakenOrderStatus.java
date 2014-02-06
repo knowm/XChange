@@ -39,15 +39,20 @@ public enum KrakenOrderStatus {
 
   PENDING, OPEN, CLOSED, CANCELED, EXPIRED;
 
-  public static KrakenOrderStatus fromString(final String ledgerTypeString) {
+  @Override
+  public String toString() {
+    return super.toString().toLowerCase();
+  }
+  
+  public static KrakenOrderStatus fromString(final String orderStatusString) {
 
-    return fromString.get(ledgerTypeString.toUpperCase());
+    return fromString.get(orderStatusString.toLowerCase());
   }
 
   private static final Map<String, KrakenOrderStatus> fromString = new HashMap<String, KrakenOrderStatus>();
   static {
-    for (KrakenOrderStatus ledgerType : values())
-      fromString.put(ledgerType.toString(), ledgerType);
+    for (KrakenOrderStatus orderStatus : values())
+      fromString.put(orderStatus.toString(), orderStatus);
   }
 
   static class KrakenOrderStatusDeserializer extends JsonDeserializer<KrakenOrderStatus> {
@@ -57,9 +62,8 @@ public enum KrakenOrderStatus {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
-      String ledgerTypeString = node.textValue();
-      return fromString(ledgerTypeString);
+      String orderStatusString = node.textValue();
+      return fromString(orderStatusString);
     }
-
   }
 }

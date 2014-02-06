@@ -7,18 +7,23 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.kraken.KrakenAuthenticated;
 import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOpenPosition;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
+import com.xeiam.xchange.kraken.dto.trade.KrakenStandardOrder;
+import com.xeiam.xchange.kraken.dto.trade.KrakenStandardOrder.KrakenOrderBuilder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenTrade;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenPositionsResult;
-import com.xeiam.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
@@ -110,24 +115,32 @@ public class KrakenTradeServiceRaw extends BaseKrakenService {
     return checkResult(result);
   }
 
-  public String placeKrakenMarketOrder(MarketOrder marketOrder) throws IOException {
+  public KrakenOrderResponse placeKrakenMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
-    KrakenOrderResult result =
-        krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), krakenCurrencyPair, KrakenUtils.getKrakenOrderType(marketOrder.getType()), "market",
-            null, marketOrder.getTradableAmount().toString());
+    CurrencyPair currencyPair = new CurrencyPair(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
+    KrakenType type = KrakenUtils.getKrakenOrderType(marketOrder.getType());
+    KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getMarketOrderBuilder(currencyPair, type, marketOrder.getTradableAmount());
 
-    return checkResult(result).getTxid();
+    return placeKrakentOrder(orderBuilder.buildOrder());
   }
 
-  public String placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
+  public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+    CurrencyPair currencyPair = new CurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+    KrakenType type = KrakenUtils.getKrakenOrderType(limitOrder.getType());
+    KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getLimitOrderBuilder(currencyPair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+
+    return placeKrakentOrder(orderBuilder.buildOrder());
+  }
+  
+  public KrakenOrderResponse placeKrakentOrder(KrakenStandardOrder order) throws IOException {
+
     KrakenOrderResult result =
-        krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), krakenCurrencyPair, KrakenUtils.getKrakenOrderType(limitOrder.getType()), "limit",
-            limitOrder.getLimitPrice().getAmount().toString(), limitOrder.getTradableAmount().toString());
+        krakenAuthenticated.addOrder(order.getAssetPair(), order.getType().toString(), order.getOrderType().toString(), order.getPrice().toString(), order.getSecondaryPrice().toString(), order
+            .getVolume().toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), order
+            .isValidateOnly(), exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
 
-    return checkResult(result).getTxid();
+    return checkResult(result);
   }
 
   public int cancelKrakenOrder(String orderId) throws IOException {

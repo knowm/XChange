@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.account;
+package com.xeiam.xchange.kraken.dto.trade;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,39 +32,38 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.kraken.dto.account.LedgerType.LedgerTypeDeserializer;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType.KrakenTypeDeserializer;
 
-@JsonDeserialize(using = LedgerTypeDeserializer.class)
-public enum LedgerType {
+@JsonDeserialize(using = KrakenTypeDeserializer.class)
+public enum KrakenType {
 
-  DEPOSIT, WITHDRAWAL, TRADE, MARGIN;
+  BUY, SELL;
 
   @Override
   public String toString() {
     return super.toString().toLowerCase();
   }
   
-  public static LedgerType fromString(final String ledgerTypeString) {
+  public static KrakenType fromString(final String typeString) {
 
-    return fromString.get(ledgerTypeString.toLowerCase());
+    return fromString.get(typeString.toLowerCase());
   }
 
-  private static final Map<String, LedgerType> fromString = new HashMap<String, LedgerType>();
+  private static final Map<String, KrakenType> fromString = new HashMap<String, KrakenType>();
   static {
-    for (LedgerType ledgerType : values())
-      fromString.put(ledgerType.toString(), ledgerType);
+    for (KrakenType type : values())
+      fromString.put(type.toString(), type);
   }
 
-  static class LedgerTypeDeserializer extends JsonDeserializer<LedgerType> {
+  static class KrakenTypeDeserializer extends JsonDeserializer<KrakenType> {
 
     @Override
-    public LedgerType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
-      String ledgerTypeString = node.textValue();
-      return fromString(ledgerTypeString);
+      String typeString = node.textValue();
+      return fromString(typeString);
     }
-
   }
 }
