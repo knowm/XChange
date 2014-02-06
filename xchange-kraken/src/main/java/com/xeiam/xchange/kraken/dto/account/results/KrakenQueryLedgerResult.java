@@ -19,25 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.account.results;
 
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.account.KrakenLedger;
 
-/**
- * @author Raphael Voellmy
- */
-public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
+public class KrakenQueryLedgerResult extends KrakenResult<Map<String, KrakenLedger>> {
 
-  /**
-   * Constructor
-   * 
-   * @param error array of string error messages
-   * @param result the returned depths
-   */
-  public KrakenDepthResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {
+  public KrakenQueryLedgerResult(@JsonProperty("result") Map<String, KrakenLedger> result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }

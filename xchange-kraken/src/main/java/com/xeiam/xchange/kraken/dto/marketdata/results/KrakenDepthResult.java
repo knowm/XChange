@@ -19,34 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.marketdata.results;
 
 import java.util.Map;
 
-import com.xeiam.xchange.kraken.KrakenUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 
-public class KrakenAssets {
+/**
+ * @author Raphael Voellmy
+ */
+public class KrakenDepthResult extends KrakenResult<Map<String, KrakenDepth>> {
 
-  private final Map<String, KrakenAsset> assetInfoMap;
+  /**
+   * Constructor
+   * 
+   * @param error array of string error messages
+   * @param result the returned depths
+   */
+  public KrakenDepthResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenDepth> result) {
 
-  public KrakenAssets(final Map<String, KrakenAsset> assetInfoMap) {
-
-    this.assetInfoMap = assetInfoMap;
-  }
-
-  public KrakenAsset getAssetPairInfo(String tradableIdentifier, String currency) {
-
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    return getAssetPairInfo(krakenCurrencyPair);
-  }
-
-  public KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
-
-    return assetInfoMap.get(krakenCurrencyPair);
-  }
-
-  public Map<String, KrakenAsset> getAssetPairMap() {
-
-    return assetInfoMap;
+    super(result, error);
   }
 }

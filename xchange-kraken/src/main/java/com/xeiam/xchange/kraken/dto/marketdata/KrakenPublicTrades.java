@@ -35,15 +35,15 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrades.KrakenTradesDeserializer;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades.KrakenTradesDeserializer;
 
 @JsonDeserialize(using = KrakenTradesDeserializer.class)
-public class KrakenTrades {
+public class KrakenPublicTrades {
 
-  private final List<KrakenTrade> trades;
+  private final List<KrakenPublicTrade> trades;
   private final long last;
 
-  public KrakenTrades(List<KrakenTrade> trades, long last) {
+  public KrakenPublicTrades(List<KrakenPublicTrade> trades, long last) {
 
     this.trades = trades;
     this.last = last;
@@ -54,7 +54,7 @@ public class KrakenTrades {
     return last;
   }
 
-  public List<KrakenTrade> getTrades() {
+  public List<KrakenPublicTrade> getTrades() {
 
     return trades;
   }
@@ -65,12 +65,12 @@ public class KrakenTrades {
     return "KrakenTrades [trades=" + trades + ", last=" + last + "]";
   }
 
-  static class KrakenTradesDeserializer extends JsonDeserializer<KrakenTrades> {
+  static class KrakenTradesDeserializer extends JsonDeserializer<KrakenPublicTrades> {
 
     @Override
-    public KrakenTrades deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public KrakenPublicTrades deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      List<KrakenTrade> krakenTrades = new ArrayList<KrakenTrade>();
+      List<KrakenPublicTrade> krakenTrades = new ArrayList<KrakenPublicTrade>();
       long last = 0;
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
@@ -91,11 +91,11 @@ public class KrakenTrades {
             String orderType = tradeJsonNode.path(4).asText();
             String miscellaneous = tradeJsonNode.path(5).asText();
 
-            krakenTrades.add(new KrakenTrade(price, volume, time, type, orderType, miscellaneous));
+            krakenTrades.add(new KrakenPublicTrade(price, volume, time, type, orderType, miscellaneous));
           }
         }
       }
-      return new KrakenTrades(krakenTrades, last);
+      return new KrakenPublicTrades(krakenTrades, last);
     }
 
   }

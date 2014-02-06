@@ -19,21 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.trade;
+package com.xeiam.xchange.kraken.dto.marketdata.results;
+
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 
-public class KrakenCancelCount {
+public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPair>> {
 
-  private int count = -1;
+  public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPair> result, @JsonProperty("error") String[] error) {
 
-  public KrakenCancelCount(@JsonProperty("count") int count) {
-
-    this.count = count;
+    super(result, error);
   }
 
-  public int getCount() {
-
-    return count;
-  }
 }

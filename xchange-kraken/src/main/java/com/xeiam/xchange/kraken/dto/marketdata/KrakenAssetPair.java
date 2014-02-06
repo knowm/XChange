@@ -26,7 +26,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class KrakenAssetPairInfo {
+public class KrakenAssetPair {
 
   private final String altName;
   private final String classBase;
@@ -43,7 +43,7 @@ public class KrakenAssetPairInfo {
   private final BigDecimal marginCall;
   private final BigDecimal marginStop;
 
-  public KrakenAssetPairInfo(@JsonProperty("altname") String altName, @JsonProperty("aclass_base") String classBase, @JsonProperty("base") String base,
+  public KrakenAssetPair(@JsonProperty("altname") String altName, @JsonProperty("aclass_base") String classBase, @JsonProperty("base") String base,
       @JsonProperty("aclass_quote") String classQuote, @JsonProperty("quote") String quote, @JsonProperty("lot") String volumeLotSize,
       @JsonProperty("pair_decimals") int pairScale, @JsonProperty("lot_decimals") int volumeLotScale, @JsonProperty("lot_multiplier") BigDecimal volumeMultiplier,
       @JsonProperty("leverage") List<String> leverage, @JsonProperty("fees") List<KrakenFee> fees,

@@ -19,34 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.trade.results;
 
 import java.util.Map;
 
-import com.xeiam.xchange.kraken.KrakenUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 
-public class KrakenAssets {
+public class KrakenQueryOrderResult extends KrakenResult<Map<String, KrakenOrder>> {
 
-  private final Map<String, KrakenAsset> assetInfoMap;
+  public KrakenQueryOrderResult(@JsonProperty("result") Map<String, KrakenOrder> result, @JsonProperty("error") String[] error) {
 
-  public KrakenAssets(final Map<String, KrakenAsset> assetInfoMap) {
-
-    this.assetInfoMap = assetInfoMap;
+    super(result, error);
   }
-
-  public KrakenAsset getAssetPairInfo(String tradableIdentifier, String currency) {
-
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    return getAssetPairInfo(krakenCurrencyPair);
-  }
-
-  public KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
-
-    return assetInfoMap.get(krakenCurrencyPair);
-  }
-
-  public Map<String, KrakenAsset> getAssetPairMap() {
-
-    return assetInfoMap;
-  }
+ 
 }

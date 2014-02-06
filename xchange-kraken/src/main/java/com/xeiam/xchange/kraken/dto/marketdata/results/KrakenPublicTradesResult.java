@@ -19,15 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.trade;
+package com.xeiam.xchange.kraken.dto.marketdata.results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 
-public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelCount> {
+/**
+ * @author Benedikt
+ */
+public class KrakenPublicTradesResult extends KrakenResult<KrakenPublicTrades> {
 
-  public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelCount result, @JsonProperty("error") String[] error) {
+  /**
+   * @param error List of errors
+   * @param result Recent trades
+   */
+  public KrakenPublicTradesResult(@JsonProperty("error") String[] error, @JsonProperty("result") KrakenPublicTrades result) {
 
     super(result, error);
   }
+
 }

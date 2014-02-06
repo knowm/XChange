@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTickerResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
 /**
  * Test KrakenTicker JSON parsing

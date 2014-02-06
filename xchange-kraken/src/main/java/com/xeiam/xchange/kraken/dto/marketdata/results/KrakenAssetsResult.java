@@ -19,25 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.marketdata.results;
 
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAsset;
 
-/**
- * @author Raphael Voellmy
- */
-public class KrakenTickerResult extends KrakenResult<Map<String, KrakenTicker>> {
+public class KrakenAssetsResult extends KrakenResult<Map<String, KrakenAsset>> {
 
-  /**
-   * Constructor
-   * 
-   * @param result The ticker data
-   * @param error List of errors
-   */
-  public KrakenTickerResult(@JsonProperty("error") String[] error, @JsonProperty("result") Map<String, KrakenTicker> result) {
+  public KrakenAssetsResult(@JsonProperty("result") Map<String, KrakenAsset> result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }

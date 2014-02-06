@@ -19,29 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.trade;
+package com.xeiam.xchange.kraken.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.ExchangeException;
 
-public class KrakenOrderReturn {
+public class KrakenAsset {
 
-  private String txid;
+  private final String altName;
+  private final String assetClass;
+  private final int scale;
+  private final int displayScale;
 
-  @JsonIgnoreProperties(ignoreUnknown = true)
-  public KrakenOrderReturn(@JsonProperty("txid") String[] txids) {
+  public KrakenAsset(@JsonProperty("altname") String altName, @JsonProperty("aclass") String assetClass, @JsonProperty("decimals") int scale, @JsonProperty("display_decimals") int displayScale) {
 
-    if (txids.length <= 0) {
-      throw new ExchangeException("No transaction Id");
-    }
-    else {
-      txid = txids[0];
-    }
+    this.altName = altName;
+    this.assetClass = assetClass;
+    this.scale = scale;
+    this.displayScale = displayScale;
   }
 
-  public String getTxid() {
+  public String getAltName() {
 
-    return txid;
+    return altName;
+  }
+
+  public String getAssetClass() {
+
+    return assetClass;
+  }
+
+  public int getScale() {
+
+    return scale;
+  }
+
+  public int getDisplayScale() {
+
+    return displayScale;
+  }
+  
+  @Override
+  public String toString() {
+
+    return "KrakenAssetInfo [altName=" + altName + ", assetClass=" + assetClass + ", scale=" + scale + ", displayScale=" + displayScale + "]";
   }
 }

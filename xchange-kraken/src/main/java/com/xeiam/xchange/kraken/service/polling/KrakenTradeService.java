@@ -24,7 +24,6 @@ package com.xeiam.xchange.kraken.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -48,13 +47,13 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    return super.placeKrakenMarketOrder(marketOrder);
+    return super.placeKrakenMarketOrder(marketOrder).getTransactionId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    return super.placeKrakenLimitOrder(limitOrder);
+    return super.placeKrakenLimitOrder(limitOrder).getTransactionId();
   }
 
   @Override
@@ -66,7 +65,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   @Override
   public Trades getTradeHistory(Object... arguments) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return KrakenAdapters.adaptKrakenTrades(super.getKrakenTradeHistory());
   }
 
 }
