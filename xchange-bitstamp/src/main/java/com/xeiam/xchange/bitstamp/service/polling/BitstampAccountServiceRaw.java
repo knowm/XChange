@@ -5,7 +5,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.polling.BitStampGenericResponse;
+import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import si.mazi.rescu.RestProxyFactory;
@@ -46,8 +46,8 @@ public class BitstampAccountServiceRaw extends BasePollingExchangeService {
         return bitstampBalance;
     }
 
-    public BitStampGenericResponse withdrawBitstampFunds(final BigDecimal amount, final String address) throws IOException {
-        final BitStampGenericResponse response = bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(),
+    public BitstampSuccessResponse withdrawBitstampFunds(final BigDecimal amount, final String address) throws IOException {
+        final BitstampSuccessResponse response = bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(),
                                                                                         signatureCreator, BitstampUtils.getNonce(),
                                                                                         amount, address);
         if(response.getError() != null)
@@ -58,8 +58,8 @@ public class BitstampAccountServiceRaw extends BasePollingExchangeService {
 
     }
 
-    public BitStampGenericResponse getBitstampBitcoinDepositAddress() throws IOException {
-        final BitStampGenericResponse response = bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
+    public BitstampSuccessResponse getBitstampBitcoinDepositAddress() throws IOException {
+        final BitstampSuccessResponse response = bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
         if(response.getError() != null)
         {
             throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());

@@ -29,7 +29,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import com.xeiam.xchange.bitstamp.dto.polling.BitStampGenericResponse;
+import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
@@ -80,12 +80,12 @@ public interface BitstampAuthenticated {
   @POST
   @Path("bitcoin_deposit_address/")
   @Produces("application/json")
-  public BitStampGenericResponse getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+  public BitstampSuccessResponse getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
   @POST
   @Path("bitcoin_withdrawal/")
   @Produces("application/json")
-  public BitStampGenericResponse withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
+  public BitstampSuccessResponse withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address) throws IOException;
 
   @POST

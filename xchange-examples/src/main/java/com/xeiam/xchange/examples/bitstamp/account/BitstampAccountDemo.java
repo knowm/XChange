@@ -23,7 +23,7 @@ package com.xeiam.xchange.examples.bitstamp.account;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.polling.BitStampGenericResponse;
+import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
@@ -51,8 +51,6 @@ public class BitstampAccountDemo {
         PollingAccountService accountService = bitstamp.getPollingAccountService();
         generic(accountService);
         raw((BitstampAccountServiceRaw) accountService);
-
-
     }
 
     private static void generic(PollingAccountService accountService) throws IOException {
@@ -60,8 +58,8 @@ public class BitstampAccountDemo {
         AccountInfo accountInfo = accountService.getAccountInfo();
         System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-//        String depositAddress = accountService.requestBitcoinDepositAddress();
-//        System.out.println("Deposit address: " + depositAddress);
+        String depositAddress = accountService.requestBitcoinDepositAddress();
+        System.out.println("Deposit address: " + depositAddress);
 
         String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
         System.out.println("withdrawResult = " + withdrawResult);
@@ -72,10 +70,10 @@ public class BitstampAccountDemo {
         BitstampBalance bitstampBalance = accountService.getBitstampBalance();
         System.out.println("AccountInfo as String: " + bitstampBalance.toString());
 
-        BitStampGenericResponse depositAddress = accountService.getBitstampBitcoinDepositAddress();
+        BitstampSuccessResponse depositAddress = accountService.getBitstampBitcoinDepositAddress();
         System.out.println("Deposit address: " + depositAddress);
 
-        BitStampGenericResponse withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
+        BitstampSuccessResponse withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
         System.out.println("withdrawResult = " + withdrawResult);
     }
 }

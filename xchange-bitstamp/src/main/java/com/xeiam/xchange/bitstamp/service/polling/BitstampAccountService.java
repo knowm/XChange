@@ -21,11 +21,9 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
-import com.xeiam.xchange.bitstamp.BitstampUtils;
-import com.xeiam.xchange.bitstamp.dto.polling.BitStampGenericResponse;
+import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
@@ -54,8 +52,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
 
     @Override
     public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
-        withdrawBitstampFunds(amount, address);
-        return "true";
+        final BitstampSuccessResponse response = withdrawBitstampFunds(amount, address);
+        return Boolean.toString(response.getSuccess());
     }
 
     /**
@@ -64,8 +62,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
     @Override
     public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
-        final BitStampGenericResponse response = getBitstampBitcoinDepositAddress();
-            return response.getResult();
+        final BitstampSuccessResponse response = getBitstampBitcoinDepositAddress();
+        return Boolean.toString(response.getSuccess());
 
     }
 }
