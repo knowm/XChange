@@ -19,34 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.trade.results;
 
 import java.util.Map;
 
-import com.xeiam.xchange.kraken.KrakenUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.KrakenResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult.KrakenClosedOrders;
 
-public class KrakenAssets {
+public class KrakenClosedOrdersResult extends KrakenResult<KrakenClosedOrders> {
 
-  private final Map<String, KrakenAsset> assetInfoMap;
+  public KrakenClosedOrdersResult(@JsonProperty("result") KrakenClosedOrders result, @JsonProperty("error") String[] error) {
 
-  public KrakenAssets(final Map<String, KrakenAsset> assetInfoMap) {
-
-    this.assetInfoMap = assetInfoMap;
+    super(result, error);
   }
+  
+  public static class KrakenClosedOrders {
 
-  public KrakenAsset getAssetPairInfo(String tradableIdentifier, String currency) {
+    private final Map<String, KrakenOrder> orders;
 
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    return getAssetPairInfo(krakenCurrencyPair);
-  }
+    public KrakenClosedOrders(@JsonProperty("closed") Map<String, KrakenOrder> orders) {
 
-  public KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
+      this.orders = orders;
+    }
 
-    return assetInfoMap.get(krakenCurrencyPair);
-  }
+    public Map<String, KrakenOrder> getOrders() {
 
-  public Map<String, KrakenAsset> getAssetPairMap() {
-
-    return assetInfoMap;
+      return orders;
+    }
   }
 }

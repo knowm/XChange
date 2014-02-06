@@ -19,66 +19,66 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata;
+package com.xeiam.xchange.kraken.dto.account;
 
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class KrakenTrade {
+public class KrakenVolumeFee {
 
-  private final BigDecimal price;
-  private final BigDecimal volume;
-  private final double time;
-  private final String type;
-  private final String orderType;
-  private final String miscellaneous;
+  private final BigDecimal fee;
+  private final BigDecimal minFee;
+  private final BigDecimal maxFee;
+  private final BigDecimal nextFee;
+  private final BigDecimal nextVolume;
+  private final BigDecimal tierVolume;
 
-  public KrakenTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time, @JsonProperty("type") String type,
-      @JsonProperty("orderType") String orderType, @JsonProperty("miscellaneous") String miscellaneous) {
+  public KrakenVolumeFee(@JsonProperty("fee") BigDecimal fee, @JsonProperty("minfee") BigDecimal minFee, @JsonProperty("maxfee") BigDecimal maxFee, @JsonProperty("nextfee") BigDecimal nextFee,
+      @JsonProperty("nextvolume") BigDecimal nextVolume, @JsonProperty("tiervolume") BigDecimal tierVolume) {
 
-    this.price = price;
-    this.volume = volume;
-    this.time = time;
-    this.type = type;
-    this.orderType = orderType;
-    this.miscellaneous = miscellaneous;
+    this.fee = fee;
+    this.minFee = minFee;
+    this.maxFee = maxFee;
+    this.nextFee = nextFee;
+    this.nextVolume = nextVolume;
+    this.tierVolume = tierVolume;
   }
 
-  public BigDecimal getPrice() {
+  public BigDecimal getFee() {
 
-    return price;
+    return fee;
   }
 
-  public BigDecimal getVolume() {
+  public BigDecimal getMinFee() {
 
-    return volume;
+    return minFee;
   }
 
-  public double getTime() {
+  public BigDecimal getMaxFee() {
 
-    return time;
+    return maxFee;
   }
 
-  public String getType() {
+  public BigDecimal getNextFee() {
 
-    return type;
+    return nextFee;
   }
 
-  public String getOrderType() {
+  public BigDecimal getNextVolume() {
 
-    return orderType;
+    return nextVolume;
   }
 
-  public String getMiscellaneous() {
+  public BigDecimal getTierVolume() {
 
-    return miscellaneous;
+    return tierVolume;
   }
 
   @Override
   public String toString() {
 
-    return "KrakenTrade [price=" + price + ", volume=" + volume + ", time=" + time + ", type=" + type + ", orderType=" + orderType + ", miscellaneous=" + miscellaneous + "]";
+    return "KrakenVolumeFee [fee=" + fee + ", minFee=" + minFee + ", maxFee=" + maxFee + ", nextFee=" + nextFee + ", nextVolume=" + nextVolume + ", tierVolume=" + tierVolume + "]";
   }
 
 }

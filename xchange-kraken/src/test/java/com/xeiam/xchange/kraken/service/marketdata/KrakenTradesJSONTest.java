@@ -29,7 +29,7 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTradesResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 
 /**
  * Test KrakenDepth JSON parsing
@@ -44,7 +44,7 @@ public class KrakenTradesJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenTradesResult krakenTrades = mapper.readValue(is, KrakenTradesResult.class);
+    KrakenPublicTradesResult krakenTrades = mapper.readValue(is, KrakenPublicTradesResult.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenTrades.getResult().getTrades().get(0).getPrice()).isEqualTo("1023.82219");
