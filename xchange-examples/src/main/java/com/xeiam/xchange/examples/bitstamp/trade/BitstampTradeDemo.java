@@ -21,16 +21,19 @@
  */
 package com.xeiam.xchange.examples.bitstamp.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
 import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -43,30 +46,61 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  */
 public class BitstampTradeDemo {
 
-  public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-    Exchange bitstamp = BitstampDemoUtils.createExchange();
-    PollingTradeService tradeService = bitstamp.getPollingTradeService();
+        Exchange bitstamp = BitstampDemoUtils.createExchange();
+        PollingTradeService tradeService = bitstamp.getPollingTradeService();
 
-    printOpenOrders(tradeService);
+        generic(tradeService);
+        raw((BitstampTradeServiceRaw) tradeService);
+    }
 
-    // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "USD", "", null, MoneyUtils.parse("USD 1.25"));
-    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
-    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+    private static void generic(PollingTradeService tradeService) throws IOException {
+        printOpenOrders(tradeService);
 
-    printOpenOrders(tradeService);
+        // place a limit buy order
+        LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "USD", "", null, MoneyUtils.parse("USD 1.25"));
+        String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
+        System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    // Cancel the added order
-    boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
-    System.out.println("Canceling returned " + cancelResult);
+        printOpenOrders(tradeService);
 
-    printOpenOrders(tradeService);
-  }
+        // Cancel the added order
+        boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
+        System.out.println("Canceling returned " + cancelResult);
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+        printOpenOrders(tradeService);
+    }
 
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
-  }
+    private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+
+        OpenOrders openOrders = tradeService.getOpenOrders();
+        System.out.println("Open Orders: " + openOrders.toString());
+    }
+
+    private static void raw(BitstampTradeServiceRaw tradeService) throws IOException {
+        printRawOpenOrders(tradeService);
+
+        // place a limit buy order
+        LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "USD", "", null, MoneyUtils.parse("USD 1.25"));
+        BitstampOrder order = tradeService.buyBitStampOrder(BigDecimal.ONE, BigDecimal.valueOf(1.25));
+        System.out.println("Limit Order return value: " + order);
+
+        printRawOpenOrders(tradeService);
+
+        // Cancel the added order
+        boolean cancelResult = tradeService.cancelBitstampOrder(order.getId());
+        System.out.println("Canceling returned " + cancelResult);
+
+        printRawOpenOrders(tradeService);
+    }
+
+    private static void printRawOpenOrders(BitstampTradeServiceRaw tradeService) throws IOException {
+        BitstampOrder[] openOrders = tradeService.getBitstampOpenOrders();
+        System.out.println("Open Orders: " + openOrders.length);
+        for (BitstampOrder order: openOrders)
+        {
+            System.out.println(order.toString());
+        }
+    }
 }
