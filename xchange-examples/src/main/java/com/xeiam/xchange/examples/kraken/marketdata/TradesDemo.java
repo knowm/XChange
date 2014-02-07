@@ -28,7 +28,6 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.kraken.KrakenExchange;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTrades;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 

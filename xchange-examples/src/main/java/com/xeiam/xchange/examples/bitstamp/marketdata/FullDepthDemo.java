@@ -44,36 +44,37 @@ public class FullDepthDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
-      generic(marketDataService);
-      raw((BitstampMarketDataServiceRaw) marketDataService);
-
+    generic(marketDataService);
+    raw((BitstampMarketDataServiceRaw) marketDataService);
 
   }
 
-    private static void generic(PollingMarketDataService marketDataService) throws IOException {
-        // Get the latest order book data for BTC/CAD
-        OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-        System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    // Get the latest order book data for BTC/CAD
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
 
-        System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-        System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
 
-        System.out.println(orderBook.toString());
-    }
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
 
-    private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
-        // Get the latest order book data for BTC/CAD
-        BitstampOrderBook orderBook = marketDataService.getBitstampOrderBook();
+    System.out.println(orderBook.toString());
+  }
 
-        System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+  private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
-        System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+    // Get the latest order book data for BTC/CAD
+    BitstampOrderBook orderBook = marketDataService.getBitstampOrderBook();
 
-        System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-        System.out.println(orderBook.toString());
-    }
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
+    System.out.println(orderBook.toString());
+  }
 
 }

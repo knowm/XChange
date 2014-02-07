@@ -29,10 +29,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 

@@ -21,49 +21,51 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 /**
  * @author Matija Mazi
  */
 public class BitstampAccountService extends BitstampAccountServiceRaw implements PollingAccountService {
 
-    /**
-     * Constructor
-     *
-     * @param exchangeSpecification The {@link ExchangeSpecification}
-     */
-    public BitstampAccountService(ExchangeSpecification exchangeSpecification) {
-        super(exchangeSpecification);
-    }
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public BitstampAccountService(ExchangeSpecification exchangeSpecification) {
 
-    @Override
-    public AccountInfo getAccountInfo() throws IOException {
+    super(exchangeSpecification);
+  }
 
-        return BitstampAdapters.adaptAccountInfo(getBitstampBalance(), exchangeSpecification.getUserName());
-    }
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
 
-    @Override
-    public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
-        final BitstampSuccessResponse response = withdrawBitstampFunds(amount, address);
-        return Boolean.toString(response.getSuccess());
-    }
+    return BitstampAdapters.adaptAccountInfo(getBitstampBalance(), exchangeSpecification.getUserName());
+  }
 
-    /**
-     * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
-     */
-    @Override
-    public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+  @Override
+  public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
 
-        final BitstampSuccessResponse response = getBitstampBitcoinDepositAddress();
-        return Boolean.toString(response.getSuccess());
+    final BitstampSuccessResponse response = withdrawBitstampFunds(amount, address);
+    return Boolean.toString(response.getSuccess());
+  }
 
-    }
+  /**
+   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
+   */
+  @Override
+  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+
+    final BitstampSuccessResponse response = getBitstampBitcoinDepositAddress();
+    return Boolean.toString(response.getSuccess());
+
+  }
 }

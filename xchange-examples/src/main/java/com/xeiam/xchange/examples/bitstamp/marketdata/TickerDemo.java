@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.bitstamp.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
@@ -30,46 +32,45 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-import java.io.IOException;
-
 /**
  * Demonstrate requesting Order Book at Bitstamp
  */
 public class TickerDemo {
 
-    public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-        // Use the factory to get Bitstamp exchange API using default settings
-        Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+    // Use the factory to get Bitstamp exchange API using default settings
+    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-        // Interested in the public polling market data feed (no authentication)
-        PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
-        generic(marketDataService);
-        raw((BitstampMarketDataServiceRaw) marketDataService);
+    // Interested in the public polling market data feed (no authentication)
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+    generic(marketDataService);
+    raw((BitstampMarketDataServiceRaw) marketDataService);
 
+  }
 
-    }
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    private static void generic(PollingMarketDataService marketDataService) throws IOException {
-        // Get the latest ticker data showing BTC to USD
-        Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    // Get the latest ticker data showing BTC to USD
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
 
-        System.out.println("Currency: " + Currencies.USD);
-        System.out.println("Last: " + ticker.getLast().toString());
-        System.out.println("Volume: " + ticker.getVolume().toString());
-        System.out.println("High: " + ticker.getHigh().toString());
-        System.out.println("Low: " + ticker.getLow().toString());
-    }
+    System.out.println("Currency: " + Currencies.USD);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Volume: " + ticker.getVolume().toString());
+    System.out.println("High: " + ticker.getHigh().toString());
+    System.out.println("Low: " + ticker.getLow().toString());
+  }
 
-    private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
-        // Get the latest ticker data showing BTC to USD
-        BitstampTicker ticker = marketDataService.getBitstampTicker();
+  private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
-        System.out.println("Currency: " + Currencies.USD);
-        System.out.println("Last: " + ticker.getLast().toString());
-        System.out.println("Volume: " + ticker.getVolume().toString());
-        System.out.println("High: " + ticker.getHigh().toString());
-        System.out.println("Low: " + ticker.getLow().toString());
-    }
+    // Get the latest ticker data showing BTC to USD
+    BitstampTicker ticker = marketDataService.getBitstampTicker();
+
+    System.out.println("Currency: " + Currencies.USD);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Volume: " + ticker.getVolume().toString());
+    System.out.println("High: " + ticker.getHigh().toString());
+    System.out.println("Low: " + ticker.getLow().toString());
+  }
 
 }

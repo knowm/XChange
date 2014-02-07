@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
@@ -33,73 +36,69 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
-import java.io.IOException;
-import java.util.List;
-
 /**
  * @author Matija Mazi
  */
 public class BitstampMarketDataService extends BitstampMarketDataServiceRaw implements PollingMarketDataService {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public BitstampMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    /**
-     * Constructor
-     *
-     * @param exchangeSpecification The {@link ExchangeSpecification}
-     */
-    public BitstampMarketDataService(ExchangeSpecification exchangeSpecification) {
+    super(exchangeSpecification);
 
-        super(exchangeSpecification);
+  }
 
-    }
+  @Override
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    @Override
-    public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+    verify(tradableIdentifier, currency);
 
-        verify(tradableIdentifier, currency);
+    return BitstampAdapters.adaptTicker(getBitstampTicker(), tradableIdentifier, currency);
+  }
 
-        return BitstampAdapters.adaptTicker(getBitstampTicker(), tradableIdentifier, currency);
-    }
+  @Override
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    @Override
-    public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+    verify(tradableIdentifier, currency);
 
-        verify(tradableIdentifier, currency);
+    return BitstampAdapters.adaptOrders(getBitstampOrderBook(), tradableIdentifier, currency);
+  }
 
-        return BitstampAdapters.adaptOrders(getBitstampOrderBook(), tradableIdentifier, currency);
-    }
+  @Override
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    @Override
-    public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+    verify(tradableIdentifier, currency);
 
-        verify(tradableIdentifier, currency);
+    return BitstampAdapters.adaptTrades(getBitstampTransactions(args), tradableIdentifier, currency);
+  }
 
-        return BitstampAdapters.adaptTrades(getBitstampTransactions(args), tradableIdentifier, currency);
-    }
+  @Override
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
-    @Override
-    public ExchangeInfo getExchangeInfo() throws IOException {
+    throw new NotAvailableFromExchangeException();
+  }
 
-        throw new NotAvailableFromExchangeException();
-    }
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency The transaction currency (e.g. USD in BTC/USD)
+   */
+  private void verify(String tradableIdentifier, String currency) {
 
-    /**
-     * Verify
-     *
-     * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-     * @param currency           The transaction currency (e.g. USD in BTC/USD)
-     */
-    private void verify(String tradableIdentifier, String currency) {
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(BitstampUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+  }
 
-        Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-        Assert.notNull(currency, "currency cannot be null");
-        Assert.isTrue(BitstampUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-    }
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
 
-    @Override
-    public List<CurrencyPair> getExchangeSymbols() {
-
-        return BitstampUtils.CURRENCY_PAIRS;
-    }
+    return BitstampUtils.CURRENCY_PAIRS;
+  }
 
 }

@@ -27,7 +27,6 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrder;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 

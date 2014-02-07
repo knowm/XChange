@@ -1,28 +1,28 @@
 package com.xeiam.xchange.bitstamp.dto.polling;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author gnandiga
  */
-public class BitstampSuccessResponseDeserializerTest
-{
-    @Test
-    public void verifyDeserialize() throws IOException {
+public class BitstampSuccessResponseDeserializerTest {
 
-        ObjectMapper mapper = new ObjectMapper();
-        BitstampSuccessResponse response =  mapper.readValue("{\"error\": \"User not verified\"}", BitstampSuccessResponse.class);
+  @Test
+  public void verifyDeserialize() throws IOException {
 
-        Assert.assertEquals("User not verified", response.getError());
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampSuccessResponse response = mapper.readValue("{\"error\": \"User not verified\"}", BitstampSuccessResponse.class);
 
-        response =  mapper.readValue("true", BitstampSuccessResponse.class);
+    Assert.assertEquals("User not verified", response.getError());
 
-        Assert.assertTrue(response.getSuccess());
+    response = mapper.readValue("true", BitstampSuccessResponse.class);
 
-    }
+    Assert.assertTrue(response.getSuccess());
+
+  }
 }
