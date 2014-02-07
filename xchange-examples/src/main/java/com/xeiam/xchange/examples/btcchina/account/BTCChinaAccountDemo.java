@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.examples.btcchina.account;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
@@ -32,7 +34,7 @@ import com.xeiam.xchange.utils.CertHelper;
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connect to Bitstamp exchange with authentication</li>
+ * <li>Connect to BTCChina exchange with authentication</li>
  * <li>View account balance</li>
  * <li>Get the bitcoin deposit address</li>
  * </ul>
@@ -54,7 +56,7 @@ public class BTCChinaAccountDemo {
     String depositAddress = accountService.requestBitcoinDepositAddress(null, null);
     System.out.println("Deposit address: " + depositAddress);
 
-    // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
-    // System.out.println("withdrawResult = " + withdrawResult);
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
+    System.out.println("withdrawResult = " + withdrawResult);
   }
 }
