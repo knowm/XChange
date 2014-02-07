@@ -75,7 +75,7 @@ public class MarketOrderDemo {
 
     MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
 
-    String orderID = tradeService.placeKrakenMarketOrder(marketOrder);
+    String orderID = tradeService.placeKrakenMarketOrder(marketOrder).getTransactionId();
     System.out.println("Market Order ID: " + orderID);
   }
 }

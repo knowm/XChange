@@ -128,7 +128,8 @@ public final class BitstampAdapters {
 
     List<Trade> trades = new ArrayList<Trade>();
     for (BitstampTransaction tx : transactions) {
-      trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tx.getTid()));
+      final String tradeId = String.valueOf(tx.getTid());
+      trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tradeId, null));
     }
 
     return new Trades(trades);
@@ -178,9 +179,10 @@ public final class BitstampAdapters {
         String transactionCurrency = Currencies.USD;
         BigMoney price = MoneyUtils.parse(transactionCurrency + " " + bitstampUserTransaction.getPrice());
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
-        long id = bitstampUserTransaction.getId();
+        final String tradeId = String.valueOf(bitstampUserTransaction.getId());
+        final String orderId = String.valueOf(bitstampUserTransaction.getOrderId()); 
 
-        Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, id);
+        Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, tradeId, orderId);
         trades.add(trade);
       }
     }

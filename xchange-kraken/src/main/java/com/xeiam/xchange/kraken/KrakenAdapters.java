@@ -102,8 +102,8 @@ public class KrakenAdapters {
       BigDecimal tradableAmount = krakenTrade.getVolume();
       BigMoney price = BigMoney.of(CurrencyUnit.of(currency), krakenTrade.getPrice());
       Date timestamp = new Date((long) krakenTrade.getTime() * 1000L);
-
-      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, 0));
+      
+      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, "0", null));
 
     }
     return new Trades(trades, last);
@@ -167,12 +167,13 @@ public class KrakenAdapters {
       
       OrderType orderType = krakenTrade.getType().equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
       BigDecimal tradableAmount = krakenTrade.getVolume();
-      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(krakenTrade.getAssetPair().substring(0, 3));
-      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(krakenTrade.getAssetPair().substring(3));
+      String tradableIdentifier = KrakenUtils.getStandardCurrencyCode(krakenTrade.getAssetPair().substring(0, 4));
+      String transactionCurrency = KrakenUtils.getStandardCurrencyCode(krakenTrade.getAssetPair().substring(4));
       Date timestamp = new Date((long) (krakenTrade.getUnixTimestamp() * 1000L));
       BigMoney price = BigMoney.of(CurrencyUnit.of(transactionCurrency), krakenTrade.getPrice());
 
-      Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, 0);
+      final String orderTxId = krakenTrade.getOrderTxId();
+      Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, krakenTradeEntry.getKey(), orderTxId);
       trades.add(trade);
     }
     return new Trades(trades);

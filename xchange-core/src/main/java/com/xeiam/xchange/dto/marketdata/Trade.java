@@ -66,8 +66,13 @@ public final class Trade implements Comparable<Trade> {
   /**
    * The trade id
    */
-  private final long id;
-
+  private final String id;
+  
+  /**
+   * The id of the order responsible for execution of this trade
+   */
+  private final String orderId;
+  
   /**
    * @param type
    *          The trade type (BID side or ASK side)
@@ -84,8 +89,11 @@ public final class Trade implements Comparable<Trade> {
    *          usually price first then timestamp asc to clear older orders
    * @param id
    *          The id of the trade
+   * @param orderId
+   *          The id of the order responsible for execution of this trade
+   *          
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, long id) {
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, String id, String orderId) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -94,6 +102,7 @@ public final class Trade implements Comparable<Trade> {
     this.price = price;
     this.timestamp = timestamp;
     this.id = id;
+    this.orderId = orderId;
   }
 
   public OrderType getType() {
@@ -126,7 +135,7 @@ public final class Trade implements Comparable<Trade> {
     return timestamp;
   }
 
-  public long getId() {
+  public String getId() {
 
     return id;
   }
@@ -135,14 +144,13 @@ public final class Trade implements Comparable<Trade> {
   public String toString() {
 
     return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
-        + ", timestamp=" + timestamp + ", id=" + id + "]";
+        + ", timestamp=" + timestamp + ", id=" + id + ", orderId=" + orderId + "]";
   }
 
   @Override
   public int compareTo(Trade trade) {
-
     // NOTE: see https://github.com/timmolter/XChange/issues/225
-    return ((Long) getId()).compareTo(trade.getId());
+    return getId().compareTo(trade.getId());
   }
 
   @Override
@@ -154,14 +162,12 @@ public final class Trade implements Comparable<Trade> {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    return (this.id == ((Trade) o).getId());
+    return this.id.equals(((Trade) o).getId());
   }
 
   @Override
   public int hashCode() {
-
-    return (int) (id ^ (id >>> 32));
+    return id.hashCode();
   }
 
 }
