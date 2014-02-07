@@ -26,6 +26,8 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -42,18 +44,36 @@ public class FullDepthDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+      generic(marketDataService);
+      raw((BitstampMarketDataServiceRaw) marketDataService);
 
-    // Get the latest order book data for BTC/CAD
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
-
-    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
-
-    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
-
-    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
-
-    System.out.println(orderBook.toString());
 
   }
+
+    private static void generic(PollingMarketDataService marketDataService) throws IOException {
+        // Get the latest order book data for BTC/CAD
+        OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+
+        System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+        System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+
+        System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
+        System.out.println(orderBook.toString());
+    }
+
+    private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
+        // Get the latest order book data for BTC/CAD
+        BitstampOrderBook orderBook = marketDataService.getBitstampOrderBook();
+
+        System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+        System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+
+        System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
+        System.out.println(orderBook.toString());
+    }
 
 }

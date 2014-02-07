@@ -21,13 +21,16 @@
  */
 package com.xeiam.xchange.examples.bitstamp.account;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -41,20 +44,36 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  */
 public class BitstampAccountDemo {
 
-  public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-    Exchange bitstamp = BitstampDemoUtils.createExchange();
+        Exchange bitstamp = BitstampDemoUtils.createExchange();
 
-    PollingAccountService accountService = bitstamp.getPollingAccountService();
+        PollingAccountService accountService = bitstamp.getPollingAccountService();
+        generic(accountService);
+        raw((BitstampAccountServiceRaw) accountService);
+    }
 
-    // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    private static void generic(PollingAccountService accountService) throws IOException {
+        // Get the account information
+        AccountInfo accountInfo = accountService.getAccountInfo();
+        System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-    String depositAddress = accountService.requestBitcoinDepositAddress(null, null);
-    System.out.println("Deposit address: " + depositAddress);
+        String depositAddress = accountService.requestBitcoinDepositAddress();
+        System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
-    System.out.println("withdrawResult = " + withdrawResult);
-  }
+        String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
+        System.out.println("withdrawResult = " + withdrawResult);
+    }
+
+    private static void raw(BitstampAccountServiceRaw accountService) throws IOException {
+        // Get the account information
+        BitstampBalance bitstampBalance = accountService.getBitstampBalance();
+        System.out.println("AccountInfo as String: " + bitstampBalance.toString());
+
+        BitstampSuccessResponse depositAddress = accountService.getBitstampBitcoinDepositAddress();
+        System.out.println("Deposit address: " + depositAddress);
+
+        BitstampSuccessResponse withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
+        System.out.println("withdrawResult = " + withdrawResult);
+    }
 }

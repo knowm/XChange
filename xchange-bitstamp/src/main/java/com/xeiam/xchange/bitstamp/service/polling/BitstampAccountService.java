@@ -21,67 +21,49 @@
  */
 package com.xeiam.xchange.bitstamp.service.polling;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
-import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
-import com.xeiam.xchange.bitstamp.BitstampUtils;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.service.BitstampDigest;
+import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * @author Matija Mazi
  */
-public class BitstampAccountService extends BasePollingExchangeService implements PollingAccountService {
+public class BitstampAccountService extends BitstampAccountServiceRaw implements PollingAccountService {
 
-  private BitstampAuthenticated bitstampAuthenticated;
-  private ParamsDigest signatureCreator;
-
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public BitstampAccountService(ExchangeSpecification exchangeSpecification) {
-
-    super(exchangeSpecification);
-    this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchangeSpecification.getSslUri());
-    signatureCreator = BitstampDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
-  }
-
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
-
-    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
-    if (bitstampBalance.getError() != null) {
-      throw new ExchangeException("Error getting balance. " + bitstampBalance.getError());
+    /**
+     * Constructor
+     *
+     * @param exchangeSpecification The {@link ExchangeSpecification}
+     */
+    public BitstampAccountService(ExchangeSpecification exchangeSpecification) {
+        super(exchangeSpecification);
     }
 
-    return BitstampAdapters.adaptAccountInfo(bitstampBalance, exchangeSpecification.getUserName());
-  }
+    @Override
+    public AccountInfo getAccountInfo() throws IOException {
 
-  @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+        return BitstampAdapters.adaptAccountInfo(getBitstampBalance(), exchangeSpecification.getUserName());
+    }
 
-    return bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, address).toString();
-  }
+    @Override
+    public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
+        final BitstampSuccessResponse response = withdrawBitstampFunds(amount, address);
+        return Boolean.toString(response.getSuccess());
+    }
 
-  /**
-   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
-   */
-  @Override
-  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+    /**
+     * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
+     */
+    @Override
+    public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
-    return bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
-  }
+        final BitstampSuccessResponse response = getBitstampBitcoinDepositAddress();
+        return Boolean.toString(response.getSuccess());
 
+    }
 }
