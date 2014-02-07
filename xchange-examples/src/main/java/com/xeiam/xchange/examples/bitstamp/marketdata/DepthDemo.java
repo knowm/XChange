@@ -33,9 +33,9 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at Bitstamp
+ * Demonstrate requesting Depth at Bitstamp
  */
-public class FullDepthDemo {
+public class DepthDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -44,6 +44,7 @@ public class FullDepthDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+
     generic(marketDataService);
     raw((BitstampMarketDataServiceRaw) marketDataService);
 

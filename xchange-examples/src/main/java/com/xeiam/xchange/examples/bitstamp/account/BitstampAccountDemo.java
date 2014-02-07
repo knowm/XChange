@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
@@ -47,8 +47,8 @@ public class BitstampAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
-
     PollingAccountService accountService = bitstamp.getPollingAccountService();
+
     generic(accountService);
     raw((BitstampAccountServiceRaw) accountService);
   }

@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
-import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
+import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 

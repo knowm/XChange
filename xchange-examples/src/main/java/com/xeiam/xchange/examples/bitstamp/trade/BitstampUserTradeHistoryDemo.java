@@ -45,9 +45,9 @@ public class BitstampUserTradeHistoryDemo {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
+
     generic(tradeService);
     raw((BitstampTradeServiceRaw) tradeService);
-
   }
 
   private static void generic(PollingTradeService tradeService) throws IOException {

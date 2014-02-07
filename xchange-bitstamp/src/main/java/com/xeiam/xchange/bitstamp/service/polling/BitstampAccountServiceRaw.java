@@ -9,8 +9,8 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
+import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.polling.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
@@ -48,7 +48,7 @@ public class BitstampAccountServiceRaw extends BasePollingExchangeService {
 
     final BitstampSuccessResponse response = bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, address);
     if (response.getError() != null) {
-      throw new ExchangeException("Withdrawing funds from bitStamp failed: " + response.getError());
+      throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.getError());
     }
     return response;
 

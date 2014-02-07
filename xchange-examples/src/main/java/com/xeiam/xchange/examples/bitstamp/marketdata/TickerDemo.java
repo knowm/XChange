@@ -33,7 +33,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at Bitstamp
+ * Demonstrate requesting Ticker at Bitstamp
  */
 public class TickerDemo {
 
@@ -44,6 +44,7 @@ public class TickerDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+
     generic(marketDataService);
     raw((BitstampMarketDataServiceRaw) marketDataService);
 

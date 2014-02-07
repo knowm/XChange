@@ -1,4 +1,4 @@
-package com.xeiam.xchange.bitstamp.dto.polling;
+package com.xeiam.xchange.bitstamp.dto;
 
 import java.io.IOException;
 

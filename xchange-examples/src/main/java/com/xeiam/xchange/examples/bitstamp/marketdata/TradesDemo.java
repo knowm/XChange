@@ -22,6 +22,7 @@
 package com.xeiam.xchange.examples.bitstamp.marketdata;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -33,7 +34,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at Bitstamp
+ * Demonstrate requesting Trades at Bitstamp
  */
 public class TradesDemo {
 
@@ -44,6 +45,7 @@ public class TradesDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+
     generic(marketDataService);
     raw((BitstampMarketDataServiceRaw) marketDataService);
 
@@ -74,6 +76,6 @@ public class TradesDemo {
 
     trades = marketDataService.getBitstampTransactions(BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
     System.out.println("Trades, minute= " + trades.length);
-    System.out.println(trades.toString());
+    System.out.println(Arrays.toString(trades));
   }
 }
