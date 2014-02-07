@@ -110,6 +110,9 @@ public final class Trade implements Comparable<Trade> {
    *          usually price first then timestamp asc to clear older orders
    * @param id
    *          The id of the trade
+   * @param orderId
+   *          The id of the order responsible for execution of this trade
+   *          
    */
   public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, String id, String orderId) {
 
