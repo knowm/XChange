@@ -27,6 +27,7 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
@@ -59,7 +60,7 @@ public class OpenOrdersDemo {
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 
     // Get the open orders
-    Map<String, KrakenOpenOrder> openOrders = tradeService.getKrakenOpenOrders();
+    Map<String, KrakenOrder> openOrders = tradeService.getKrakenOpenOrders();
     System.out.println(openOrders);
   }
 }

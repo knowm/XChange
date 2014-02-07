@@ -75,7 +75,7 @@ public class CancelOrderDemo {
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "LTC", "", null, MoneyUtils.parse("LTC 1.25"));
-    String limitOrderReturnValue = tradeService.placeKrakenLimitOrder(limitOrder);
+    String limitOrderReturnValue = tradeService.placeKrakenLimitOrder(limitOrder).getTransactionId();
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());

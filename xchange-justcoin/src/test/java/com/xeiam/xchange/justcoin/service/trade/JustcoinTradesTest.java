@@ -94,7 +94,7 @@ public class JustcoinTradesTest {
 
     final Trade trade = JustcoinAdapters.adaptTrade(justcoinTrade);
 
-    assertThat(trade.getId()).isEqualTo(Long.valueOf(id));
+    assertThat(trade.getId()).isEqualTo(id);
     assertThat(trade.getPrice()).isEqualTo(averagePrice);
     assertThat(trade.getTimestamp()).isEqualTo(orderCreatedAt);
     assertThat(trade.getTradableAmount()).isEqualTo(amount);

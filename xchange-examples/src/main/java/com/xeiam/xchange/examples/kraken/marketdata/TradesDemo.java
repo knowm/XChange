@@ -28,6 +28,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.kraken.KrakenExchange;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -64,7 +65,7 @@ public class TradesDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/XRP
-    KrakenTrades trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP);
+    KrakenPublicTrades trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP);
     long last = trades.getLast();
     System.out.print(trades.getTrades());
 

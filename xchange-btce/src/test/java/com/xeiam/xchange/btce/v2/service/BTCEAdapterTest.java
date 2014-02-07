@@ -132,7 +132,7 @@ public class BTCEAdapterTest {
     Trades trades = BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
     List<Trade> tradeList = trades.getTrades();
     Trade lastTrade = tradeList.get(tradeList.size() - 1);
-    assertThat(lastTrade.getId()).isEqualTo(7258275L);
+    assertThat(lastTrade.getId()).isEqualTo("7258275");
     assertThat(lastTrade.getType()).isEqualTo(OrderType.ASK);
     assertThat(lastTrade.getPrice()).isEqualTo(MoneyUtils.parse("USD 125.75"));
     assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(1378194574000L);

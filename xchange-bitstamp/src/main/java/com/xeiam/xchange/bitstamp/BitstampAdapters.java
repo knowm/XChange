@@ -178,9 +178,10 @@ public final class BitstampAdapters {
         String transactionCurrency = Currencies.USD;
         BigMoney price = MoneyUtils.parse(transactionCurrency + " " + bitstampUserTransaction.getPrice());
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
-        long id = bitstampUserTransaction.getId();
+        final String tradeId = String.valueOf(bitstampUserTransaction.getId());
+        final String orderId = String.valueOf(bitstampUserTransaction.getOrderId()); 
 
-        Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, id);
+        Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, tradeId, orderId);
         trades.add(trade);
       }
     }
