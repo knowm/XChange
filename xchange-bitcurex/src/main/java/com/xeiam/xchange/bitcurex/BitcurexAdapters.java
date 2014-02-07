@@ -103,7 +103,8 @@ public final class BitcurexAdapters {
     BigMoney price = MoneyUtils.parse(currency + " " + bitcurexTrade.getPrice());
     Date date = DateUtils.fromMillisUtc(bitcurexTrade.getDate() * 1000L);
 
-    return new Trade(null, amount, tradableIdentifier, currency, price, date, bitcurexTrade.getTid());
+    final String tradeId = String.valueOf(bitcurexTrade.getTid());
+    return new Trade(null, amount, tradableIdentifier, currency, price, date, tradeId, null);
   }
 
   /**

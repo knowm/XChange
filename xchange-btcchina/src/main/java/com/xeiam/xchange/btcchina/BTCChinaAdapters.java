@@ -114,7 +114,8 @@ public final class BTCChinaAdapters {
     Date date = DateUtils.fromMillisUtc(btcChinaTrade.getDate() * 1000L);
     OrderType orderType = btcChinaTrade.getOrderType().equals("sell") ? OrderType.ASK : OrderType.BID;
 
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, btcChinaTrade.getTid());
+    final String tradeId = String.valueOf(btcChinaTrade.getTid());
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId, null);
   }
 
   /**

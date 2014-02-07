@@ -138,7 +138,6 @@ public final class JustcoinAdapters {
     final String tradableIdentifier = JustcoinUtils.getTradableIdentifierFromApiMarket(justcoinTrade.getMarket());
     final String transactionCurrency = JustcoinUtils.getPriceCurrencyFromApiMarket(justcoinTrade.getMarket());
     final BigMoney price = MoneyUtils.parseMoney(transactionCurrency, justcoinTrade.getAveragePrice());
-    final long id = Long.valueOf(justcoinTrade.getId());
-    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), tradableIdentifier, transactionCurrency, price, justcoinTrade.getCreatedAt(), id);
+    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), tradableIdentifier, transactionCurrency, price, justcoinTrade.getCreatedAt(), justcoinTrade.getId(), null);
   }
 }

@@ -181,7 +181,8 @@ public final class MtGoxAdapters {
     BigMoney price = MtGoxUtils.getPrice(transactionCurrency, mtGoxTrade.getPriceInt());
     Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getTid() / 1000L); // Note: the getDate is not millisecond precise therefore we use getTid()!
 
-    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, mtGoxTrade.getTid());
+    final String tradeId = String.valueOf(mtGoxTrade.getTid());
+    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, tradeId, null);
   }
 
   public static OrderBookUpdate adaptDepthUpdate(MtGoxDepthUpdate mtGoxDepthUpdate) {

@@ -102,8 +102,9 @@ public class KrakenAdapters {
       BigDecimal tradableAmount = krakenTrade.getVolume();
       BigMoney price = BigMoney.of(CurrencyUnit.of(currency), krakenTrade.getPrice());
       Date timestamp = new Date((long) krakenTrade.getTime() * 1000L);
-
-      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, 0));
+      
+      final String tradeId = String.valueOf(0);
+      trades.add(new Trade(type, tradableAmount, tradableIdentifier, currency, price, timestamp, tradeId, null));
 
     }
     return new Trades(trades, last);

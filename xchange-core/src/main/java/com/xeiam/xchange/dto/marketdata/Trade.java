@@ -72,27 +72,6 @@ public final class Trade implements Comparable<Trade> {
    * The id of the order responsible for execution of this trade
    */
   private final String orderId;
-
-  /**
-   * @param type
-   *          The trade type (BID side or ASK side)
-   * @param tradableAmount
-   *          The depth of this trade
-   * @param tradableIdentifier
-   *          The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency
-   *          The transaction currency (e.g. USD in BTC/USD)
-   * @param price
-   *          The price (either the bid or the ask)
-   * @param timestamp
-   *          The timestamp when the order was placed. Exchange matching is
-   *          usually price first then timestamp asc to clear older orders
-   * @param id
-   *          The id of the trade
-   */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, long id) {
-    this(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, String.valueOf(id), null);
-  }
   
   /**
    * @param type
