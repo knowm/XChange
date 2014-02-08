@@ -36,6 +36,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades.KrakenTradesDeserializer;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderType;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType;
 
 @JsonDeserialize(using = KrakenTradesDeserializer.class)
 public class KrakenPublicTrades {
@@ -87,8 +89,8 @@ public class KrakenPublicTrades {
             BigDecimal price = new BigDecimal(tradeJsonNode.path(0).asText());
             BigDecimal volume = new BigDecimal(tradeJsonNode.path(1).asText());
             double time = tradeJsonNode.path(2).asDouble();
-            String type = tradeJsonNode.path(3).asText();
-            String orderType = tradeJsonNode.path(4).asText();
+            KrakenType type = KrakenType.fromString(tradeJsonNode.path(3).asText());
+            KrakenOrderType orderType = KrakenOrderType.fromString(tradeJsonNode.path(4).asText());
             String miscellaneous = tradeJsonNode.path(5).asText();
 
             krakenTrades.add(new KrakenPublicTrade(price, volume, time, type, orderType, miscellaneous));

@@ -41,9 +41,10 @@ public enum KrakenOrderType {
 
   @Override
   public String toString() {
+
     return super.toString().toLowerCase();
   }
-  
+
   public static KrakenOrderType fromString(final String orderTypeString) {
 
     return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
@@ -53,6 +54,9 @@ public enum KrakenOrderType {
   static {
     for (KrakenOrderType orderType : values())
       fromString.put(orderType.toString(), orderType);
+
+    fromString.put("l", LIMIT);
+    fromString.put("m", MARKET);
   }
 
   static class KrakenOrderTypeDeserializer extends JsonDeserializer<KrakenOrderType> {

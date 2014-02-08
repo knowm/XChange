@@ -37,9 +37,9 @@ public class KrakenOrderDescription {
   private final String orderDescription;
   private final String closeDescription;
 
-  public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId, @JsonProperty("order") String orderDescription,
-      @JsonProperty("close") String closeDescription) {
+  public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId,
+      @JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {
 
     this.assetPair = assetPair;
     this.type = type;

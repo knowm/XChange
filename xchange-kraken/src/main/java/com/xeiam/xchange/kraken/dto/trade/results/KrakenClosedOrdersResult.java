@@ -34,7 +34,7 @@ public class KrakenClosedOrdersResult extends KrakenResult<KrakenClosedOrders> {
 
     super(result, error);
   }
-  
+
   public static class KrakenClosedOrders {
 
     private final Map<String, KrakenOrder> orders;

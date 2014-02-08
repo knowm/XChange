@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.service.trading;
+package com.xeiam.xchange.kraken.service.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -29,28 +29,24 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
-import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
+import com.xeiam.xchange.utils.DateUtils;
 
-/**
- * Test KrakenDepth JSON parsing
- */
-public class KrakenOpenOrdersTest {
+public class KrakenServerTimeJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenOpenOrdersTest.class.getResourceAsStream("/trading/example-openorders-data.json");
+    InputStream is = KrakenServerTimeJSONTest.class.getResourceAsStream("/marketdata/example-servertime-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenOpenOrdersResult krakenResult = mapper.readValue(is, KrakenOpenOrdersResult.class);
-    KrakenOrder order = krakenResult.getResult().getOrders().values().iterator().next();
-    // Verify that the example data was unmarshalled correctly
-    assertThat(order).isNotNull();
-    assertThat(order.getOpenTimestamp()).isEqualTo(1380586080.222);
-    assertThat(order.getVolume()).isEqualTo("0.01000000");
-    assertThat(order.getVolumeExecuted()).isEqualTo("0.00000000");
+    KrakenServerTimeResult krakenResult = mapper.readValue(is, KrakenServerTimeResult.class);
+    KrakenServerTime serverTime = krakenResult.getResult();
+
+    assertThat(serverTime.getUnixTime()).isEqualTo(1391835876);
+    assertThat(serverTime.getRfc1123Time()).isEqualTo(DateUtils.fromRfc1123DateString("Sat,  8 Feb 14 05:04:36 +0000"));
   }
 }

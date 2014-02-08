@@ -33,5 +33,5 @@ public class KrakenQueryOrderResult extends KrakenResult<Map<String, KrakenOrder
 
     super(result, error);
   }
- 
+
 }

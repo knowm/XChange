@@ -22,17 +22,19 @@
 package com.xeiam.xchange.examples.kraken.marketdata;
 
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.KrakenExchange;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairs;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class TickerDemo {
+public class KrakenExchangeSymbolsDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -46,17 +48,11 @@ public class TickerDemo {
   private static void generic(Exchange krakenExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
+    PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to EUR
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
-
-    System.out.println("Ticker: " + ticker.toString());
-    System.out.println("Currency: " + Currencies.EUR);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
+    for (CurrencyPair currencyPair : krakenMarketDataService.getExchangeSymbols()) {
+      System.out.println(currencyPair);
+    }
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
@@ -64,14 +60,13 @@ public class TickerDemo {
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to EUR
-    KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(Currencies.BTC, Currencies.EUR);
+    KrakenAssetPairs krakenAssetPairs = krakenMarketDataService.getKrakenAssetPairs();
 
-    System.out.println("Ticker: " + ticker.toString());
-    System.out.println("Currency: " + Currencies.EUR);
-    System.out.println("Last: " + ticker.getClose());
-    System.out.println("Volume: " + ticker.get24HourVolume().toString());
-    System.out.println("High: " + ticker.get24HourHigh().toString());
-    System.out.println("Low: " + ticker.get24HourLow().toString());
+    for (Entry<String, KrakenAssetPair> assetPairEntry : krakenAssetPairs.getAssetPairMap().entrySet()) {
+      System.out.println(assetPairEntry.getKey() + ": " + assetPairEntry.getValue());
+    }
+
+    System.out.println(krakenAssetPairs.getAssetPairInfo(Currencies.BTC, Currencies.USD));
   }
+
 }

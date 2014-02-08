@@ -129,6 +129,29 @@
          "margin_call":80,
          "margin_stop":40
       },
+      "XLTCZKRW":{
+         "altname":"LTCKRW",
+         "aclass_base":"currency",
+         "base":"XLTC",
+         "aclass_quote":"currency",
+         "quote":"ZKRW",
+         "lot":"unit",
+         "pair_decimals":3,
+         "lot_decimals":8,
+         "lot_multiplier":1,
+         "leverage":[
+
+         ],
+         "fees":[
+            [
+               0,
+               0.25
+            ]
+         ],
+         "fee_volume_currency":"ZUSD",
+         "margin_call":80,
+         "margin_stop":40
+      },
       "XLTCZUSD":{
          "altname":"LTCUSD",
          "aclass_base":"currency",
@@ -332,6 +355,29 @@
             [
                1000000,
                0.05
+            ]
+         ],
+         "fee_volume_currency":"ZUSD",
+         "margin_call":80,
+         "margin_stop":40
+      },
+      "XNMCZKRW":{
+         "altname":"NMCKRW",
+         "aclass_base":"currency",
+         "base":"XNMC",
+         "aclass_quote":"currency",
+         "quote":"ZKRW",
+         "lot":"unit",
+         "pair_decimals":3,
+         "lot_decimals":8,
+         "lot_multiplier":1,
+         "leverage":[
+
+         ],
+         "fees":[
+            [
+               0,
+               0.25
             ]
          ],
          "fee_volume_currency":"ZUSD",
@@ -836,6 +882,29 @@
          "margin_call":80,
          "margin_stop":40
       },
+      "XXBTZKRW":{
+         "altname":"XBTKRW",
+         "aclass_base":"currency",
+         "base":"XXBT",
+         "aclass_quote":"currency",
+         "quote":"ZKRW",
+         "lot":"unit",
+         "pair_decimals":3,
+         "lot_decimals":8,
+         "lot_multiplier":1,
+         "leverage":[
+
+         ],
+         "fees":[
+            [
+               0,
+               0.25
+            ]
+         ],
+         "fee_volume_currency":"ZUSD",
+         "margin_call":80,
+         "margin_stop":40
+      },
       "XXBTZUSD":{
          "altname":"XBTUSD",
          "aclass_base":"currency",
@@ -1242,6 +1311,29 @@
             [
                1000000,
                0.05
+            ]
+         ],
+         "fee_volume_currency":"ZUSD",
+         "margin_call":80,
+         "margin_stop":40
+      },
+      "ZKRWXXRP":{
+         "altname":"KRWXRP",
+         "aclass_base":"currency",
+         "base":"ZKRW",
+         "aclass_quote":"currency",
+         "quote":"XXRP",
+         "lot":"unit",
+         "pair_decimals":5,
+         "lot_decimals":8,
+         "lot_multiplier":1,
+         "leverage":[
+
+         ],
+         "fees":[
+            [
+               0,
+               0.25
             ]
          ],
          "fee_volume_currency":"ZUSD",

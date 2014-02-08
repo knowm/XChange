@@ -22,18 +22,17 @@
 package com.xeiam.xchange.examples.kraken.marketdata;
 
 import java.io.IOException;
-import java.util.Map.Entry;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.kraken.KrakenExchange;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairs;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class ExchangeSymbolsDemo {
+public class KrakenDepthDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -49,9 +48,15 @@ public class ExchangeSymbolsDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
-    for (CurrencyPair currencyPair : krakenMarketDataService.getExchangeSymbols()) {
-      System.out.println(currencyPair);
-    }
+    // Get the latest full order book data for NMC/XRP
+    OrderBook orderBook = krakenMarketDataService.getOrderBook(Currencies.NMC, Currencies.XRP);
+    System.out.println(orderBook.toString());
+    System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+
+    // Get the latest partial size order book data for NMC/XRP
+    orderBook = krakenMarketDataService.getOrderBook(Currencies.NMC, Currencies.XRP, 3L);
+    System.out.println(orderBook.toString());
+    System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
@@ -59,12 +64,14 @@ public class ExchangeSymbolsDemo {
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
-    KrakenAssetPairs krakenAssetPairs = krakenMarketDataService.getKrakenAssetPairs();
-    for (Entry<String, KrakenAssetPairInfo> assetPairEntry : krakenAssetPairs.getAssetPairMap().entrySet()) {
-      System.out.println(assetPairEntry.getKey() + ": " + assetPairEntry.getValue());
-    }
+    // Get the latest full order book data
+    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR);
+    System.out.println(depth.toString());
+    System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
 
-    System.out.println(krakenAssetPairs.getAssetPairInfo(Currencies.BTC, Currencies.USD));
+    // Get the latest partial size order book data
+    depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR, 3L);
+    System.out.println(depth.toString());
+    System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
   }
-
 }

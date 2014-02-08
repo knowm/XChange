@@ -21,17 +21,19 @@
  */
 package com.xeiam.xchange.kraken.dto.trade;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class KrakenOrderResponse {
 
   private final KrakenOrderResponseDescription description;
-  private final String transactionId;
+  private final List<String> transactionIds;
 
-  public KrakenOrderResponse(@JsonProperty("descr") KrakenOrderResponseDescription description, @JsonProperty("txid") String transactionId) {
+  public KrakenOrderResponse(@JsonProperty("descr") KrakenOrderResponseDescription description, @JsonProperty("txid") List<String> transactionId) {
 
     this.description = description;
-    this.transactionId = transactionId;
+    this.transactionIds = transactionId;
   }
 
   public KrakenOrderResponseDescription getDescription() {
@@ -39,15 +41,15 @@ public class KrakenOrderResponse {
     return description;
   }
 
-  public String getTransactionId() {
+  public List<String> getTransactionIds() {
 
-    return transactionId;
+    return transactionIds;
   }
 
   @Override
   public String toString() {
 
-    return "KrakenOrderResponse [description=" + description + ", transactionId=" + transactionId + "]";
+    return "KrakenOrderResponse [description=" + description + ", transactionId=" + transactionIds + "]";
   }
 
   public static class KrakenOrderResponseDescription {

@@ -41,9 +41,10 @@ public enum KrakenType {
 
   @Override
   public String toString() {
+
     return super.toString().toLowerCase();
   }
-  
+
   public static KrakenType fromString(final String typeString) {
 
     return fromString.get(typeString.toLowerCase());
@@ -53,6 +54,9 @@ public enum KrakenType {
   static {
     for (KrakenType type : values())
       fromString.put(type.toString(), type);
+
+    fromString.put("b", BUY);
+    fromString.put("s", SELL);
   }
 
   static class KrakenTypeDeserializer extends JsonDeserializer<KrakenType> {

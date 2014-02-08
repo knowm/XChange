@@ -41,9 +41,10 @@ public enum LedgerType {
 
   @Override
   public String toString() {
+
     return super.toString().toLowerCase();
   }
-  
+
   public static LedgerType fromString(final String ledgerTypeString) {
 
     return fromString.get(ledgerTypeString.toLowerCase());

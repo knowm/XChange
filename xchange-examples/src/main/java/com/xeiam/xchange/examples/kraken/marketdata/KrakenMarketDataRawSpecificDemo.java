@@ -26,55 +26,29 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.kraken.KrakenExchange;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssets;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class TradesDemo {
+public class KrakenMarketDataRawSpecificDemo {
 
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get Kraken exchange API using default settings
     Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
-    generic(krakenExchange);
-    raw(krakenExchange);
-  }
-
-  private static void generic(Exchange krakenExchange) throws IOException {
-
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
-
-    // Get the latest trade data for BTC/XRP
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP);
-    System.out.println(trades);
-    System.out.println("Trades size: " + trades.getTrades().size());
-
-    // Get the latest trade data for BTC/XRP for the past 12 hours (note: doesn't account for time zone differences, should use UTC instead)
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
-    System.out.println(trades);
-    System.out.println("Trades size: " + trades.getTrades().size());
-  }
-
-  private static void raw(Exchange krakenExchange) throws IOException {
-
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
-    // Get the latest trade data for BTC/XRP
-    KrakenTrades trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP);
-    long last = trades.getLast();
-    System.out.print(trades.getTrades());
+    KrakenServerTime serverTime = krakenMarketDataService.getServerTime();
+    System.out.println(serverTime);
 
-    System.out.println("Trades size: " + trades.getTrades().size());
-    System.out.println("Last: " + last);
+    KrakenAssets assets = krakenMarketDataService.getKrakenAssets();
+    System.out.println(assets);
 
-    // Poll for any new trades since last id
-    trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP, last);
-    System.out.print(trades.getTrades());
-
-    System.out.println("Trades size: " + trades.getTrades().size());
+    KrakenSpreads spreads = krakenMarketDataService.getKrakenSpreads(Currencies.BTC, Currencies.USD);
+    System.out.println(spreads);
   }
 }

@@ -19,47 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.examples.kraken.trading;
+package com.xeiam.xchange.examples.kraken.account;
 
 import java.io.IOException;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
-import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.kraken.dto.account.KrakenLedger;
+import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
+import com.xeiam.xchange.kraken.dto.account.KrakenTradeVolume;
+import com.xeiam.xchange.kraken.service.polling.KrakenAccountServiceRaw;
 
-/**
- * Test requesting all open orders at Kraken
- */
-public class OpenOrdersDemo {
+public class KrakenAccountRawSpecificDemo {
 
   public static void main(String[] args) throws IOException {
 
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
-    generic(krakenExchange);
-    raw(krakenExchange);
-  }
+    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getPollingAccountService();
 
-  private static void generic(Exchange krakenExchange) throws IOException {
+    KrakenTradeBalanceInfo balanceInfo = rawKrakenAcctService.getKrakenTradeBalance();
+    System.out.println(balanceInfo);
 
-    // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
+    Map<String, KrakenLedger> ledgerInfo = rawKrakenAcctService.getKrakenLedgerInfo();
+    System.out.println(ledgerInfo);
 
-    // Get the open orders
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println(openOrders.toString());
-  }
+    KrakenTradeVolume tradeVolume = rawKrakenAcctService.getTradeVolume();
+    System.out.println(tradeVolume);
 
-  private static void raw(Exchange krakenExchange) throws IOException {
-
-    // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
-
-    // Get the open orders
-    Map<String, KrakenOpenOrder> openOrders = tradeService.getKrakenOpenOrders();
-    System.out.println(openOrders);
+    tradeVolume = rawKrakenAcctService.getTradeVolume(CurrencyPair.BTC_USD);
+    System.out.println(tradeVolume);
   }
 }
