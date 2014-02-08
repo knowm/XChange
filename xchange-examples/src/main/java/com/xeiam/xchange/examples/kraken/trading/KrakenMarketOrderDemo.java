@@ -28,13 +28,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-/**
- * Test placing a limit order at Kraken
- */
-public class MarketOrderDemo {
+public class KrakenMarketOrderDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -75,7 +73,7 @@ public class MarketOrderDemo {
 
     MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
 
-    String orderID = tradeService.placeKrakenMarketOrder(marketOrder).getTransactionId();
+    KrakenOrderResponse orderID = tradeService.placeKrakenMarketOrder(marketOrder);
     System.out.println("Market Order ID: " + orderID);
   }
 }

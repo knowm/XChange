@@ -19,53 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.service.polling;
+package com.xeiam.xchange.examples.kraken.trading;
 
 import java.io.IOException;
+import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.kraken.KrakenAdapters;
+import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.dto.trade.KrakenTrade;
+import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
+public class KrakenTradeHistoryDemo {
 
-  public KrakenTradeService(ExchangeSpecification exchangeSpecification) {
+  public static void main(String[] args) throws IOException {
 
-    super(exchangeSpecification);
+    Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
+
+    generic(krakenExchange);
+    raw(krakenExchange);
   }
 
-  @Override
-  public OpenOrders getOpenOrders() throws IOException {
+  private static void generic(Exchange krakenExchange) throws IOException {
 
-    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
+    // Interested in the private trading functionality (authentication)
+    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
+
+    // Get the trade history
+    Trades trades = tradeService.getTradeHistory();
+    System.out.println(trades.toString());
   }
 
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  private static void raw(Exchange krakenExchange) throws IOException {
 
-    return KrakenAdapters.adaptOrderId(super.placeKrakenMarketOrder(marketOrder));
+    // Interested in the private trading functionality (authentication)
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+
+    // Get the trade history
+    Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory();
+    System.out.println(trades);
+
   }
-
-  @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-
-    return KrakenAdapters.adaptOrderId(super.placeKrakenLimitOrder(limitOrder));
-  }
-
-  @Override
-  public boolean cancelOrder(String orderId) throws IOException {
-
-    return super.cancelKrakenOrder(orderId).getCount() > 0;
-  }
-
-  @Override
-  public Trades getTradeHistory(Object... arguments) throws IOException {
-
-    return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
-  }
-
 }

@@ -63,15 +63,15 @@ public interface Kraken {
   @GET
   @Path("Spread")
   KrakenSpreadsResult getSpread(@QueryParam("pair") String currencyPair, @QueryParam("since") long since);
-  
+
   @GET
   @Path("Assets")
   KrakenAssetsResult getAssets(@FormParam("aclass") String assetClass, @FormParam("asset") String assets) throws IOException;
-  
+
   @GET
   @Path("AssetPairs")
   KrakenAssetPairsResult getAssetPairs(@FormParam("pair") String assetPairs) throws IOException;
-  
+
   @GET
   @Path("Time")
   KrakenServerTimeResult getServerTime() throws IOException;

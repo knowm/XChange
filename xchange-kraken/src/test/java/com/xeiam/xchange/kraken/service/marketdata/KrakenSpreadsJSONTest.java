@@ -19,20 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.dto.marketdata.results;
+package com.xeiam.xchange.kraken.service.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.kraken.dto.KrakenResult;
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpread;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 
-public class KrakenSpreadsResult extends KrakenResult<KrakenSpreads> {
+public class KrakenSpreadsJSONTest {
 
-  /**
-   * @param error List of errors
-   * @param result Recent spreads
-   */
-  public KrakenSpreadsResult(@JsonProperty("error") String[] error, @JsonProperty("result") KrakenSpreads result) {
+  @Test
+  public void testUnmarshal() throws IOException {
 
-    super(result, error);
+    // Read in the JSON from the example resources
+    InputStream is = KrakenSpreadsJSONTest.class.getResourceAsStream("/marketdata/example-spreads-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    KrakenSpreadsResult krakenResult = mapper.readValue(is, KrakenSpreadsResult.class);
+    KrakenSpreads spreads = krakenResult.getResult();
+
+    assertThat(spreads.getLast()).isEqualTo(1391837200);
+    KrakenSpread spread = spreads.getSpreads().get(0);
+    assertThat(spread.getAsk()).isEqualTo("720.00000");
+    assertThat(spread.getBid()).isEqualTo("709.17169");
+    assertThat(spread.getTime()).isEqualTo(1391836639);
   }
 }

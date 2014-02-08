@@ -22,22 +22,16 @@
 package com.xeiam.xchange.examples.kraken.trading;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-/**
- * Test placing a limit order at Kraken
- */
-public class LimitOrderDemo {
+public class KrakenOpenOrdersDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -52,17 +46,9 @@ public class LimitOrderDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = krakenExchange.getPollingTradeService();
 
-    // place a marketOrder with volume 0.01
-    OrderType orderType = (OrderType.BID);
-    BigDecimal tradeableAmount = new BigDecimal("0.01");
-    BigMoney price = BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1"));
-    String tradableIdentifier = "BTC";
-    String transactionCurrency = "EUR";
-
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, price);
-
-    String orderID = tradeService.placeLimitOrder(limitOrder);
-    System.out.println("Limit Order ID: " + orderID);
+    // Get the open orders
+    OpenOrders openOrders = tradeService.getOpenOrders();
+    System.out.println(openOrders.toString());
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
@@ -70,16 +56,9 @@ public class LimitOrderDemo {
     // Interested in the private trading functionality (authentication)
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 
-    // place a marketOrder with volume 0.01
-    OrderType orderType = (OrderType.BID);
-    BigDecimal tradeableAmount = new BigDecimal("0.01");
-    BigMoney price = BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1"));
-    String tradableIdentifier = "BTC";
-    String transactionCurrency = "EUR";
+    // Get the open orders
+    Map<String, KrakenOrder> openOrders = tradeService.getKrakenOpenOrders();
+    System.out.println(openOrders);
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, price);
-
-    String orderID = tradeService.placeKrakenLimitOrder(limitOrder).getTransactionId();
-    System.out.println("Limit Order ID: " + orderID);
   }
 }

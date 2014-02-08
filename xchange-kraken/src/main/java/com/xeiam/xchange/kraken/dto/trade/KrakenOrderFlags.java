@@ -40,9 +40,10 @@ public enum KrakenOrderFlags {
 
   @Override
   public String toString() {
+
     return super.toString().toLowerCase();
   }
-  
+
   public static KrakenOrderFlags fromString(final String orderTypeString) {
 
     return fromString.get(orderTypeString.toLowerCase());

@@ -57,7 +57,7 @@ public class KrakenAsset {
 
     return displayScale;
   }
-  
+
   @Override
   public String toString() {
 

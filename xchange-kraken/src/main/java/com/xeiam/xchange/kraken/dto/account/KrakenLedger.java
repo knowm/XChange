@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class KrakenLedger {
 
   private final String refId;
-  private final long unixTime;
+  private final double unixTime;
   private final LedgerType ledgerType;
   private final String assetClass;
   private final String asset;
@@ -36,7 +36,7 @@ public class KrakenLedger {
   private final BigDecimal fee;
   private final BigDecimal balance;
 
-  public KrakenLedger(@JsonProperty("refid") String refId, @JsonProperty("time") long unixTime, @JsonProperty("type") LedgerType ledgerType, @JsonProperty("aclass") String assetClass,
+  public KrakenLedger(@JsonProperty("refid") String refId, @JsonProperty("time") double unixTime, @JsonProperty("type") LedgerType ledgerType, @JsonProperty("aclass") String assetClass,
       @JsonProperty("asset") String asset, @JsonProperty("amount") BigDecimal transactionAmount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("balance") BigDecimal balance) {
 
     this.refId = refId;
@@ -54,7 +54,7 @@ public class KrakenLedger {
     return refId;
   }
 
-  public long getUnixTime() {
+  public double getUnixTime() {
 
     return unixTime;
   }

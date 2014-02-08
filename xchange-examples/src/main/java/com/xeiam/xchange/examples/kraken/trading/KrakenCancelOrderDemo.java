@@ -23,19 +23,21 @@ package com.xeiam.xchange.examples.kraken.trading;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
+import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-/**
- * Test placing a limit order at Kraken.
- */
-public class CancelOrderDemo {
+public class KrakenCancelOrderDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -52,7 +54,7 @@ public class CancelOrderDemo {
     System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "LTC", "", null, MoneyUtils.parse("LTC 1.25"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".01"), "BTC", "LTC", "", null, MoneyUtils.parse("LTC 51.25"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -61,9 +63,6 @@ public class CancelOrderDemo {
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
     System.out.println("Canceling returned " + cancelResult);
-    // Cancel the added order
-    cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
-    System.out.println("Canceling second time  returned " + cancelResult);
     System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
   }
 
@@ -71,22 +70,24 @@ public class CancelOrderDemo {
 
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 
-    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
+    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders());
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "LTC", "", null, MoneyUtils.parse("LTC 1.25"));
-    String limitOrderReturnValue = tradeService.placeKrakenLimitOrder(limitOrder).getTransactionId();
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".01"), "BTC", "LTC", "", null, MoneyUtils.parse("LTC 51.25"));
+    KrakenOrderResponse limitOrderReturnValue = tradeService.placeKrakenLimitOrder(limitOrder);
+
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
-    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
+    Map<String, KrakenOrder> openOrders = tradeService.getKrakenOpenOrders();
+    System.out.println("Open Orders: " + openOrders);
 
     // Cancel the added order
-    int cancelResult = tradeService.cancelKrakenOrder(limitOrderReturnValue);
-    System.out.println("Canceling returned " + cancelResult);
-    // Cancel the added order
-    cancelResult = tradeService.cancelKrakenOrder(limitOrderReturnValue);
-    System.out.println("Canceling second time  returned " + cancelResult);
-    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
+    List<String> transactionIds = limitOrderReturnValue.getTransactionIds();
+    if (transactionIds != null && !transactionIds.isEmpty()) {
+      KrakenCancelOrderResponse cancelResult = tradeService.cancelKrakenOrder(transactionIds.get(0));
+      System.out.println("Canceling returned " + cancelResult);
+      System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders());
+    }
 
   }
 }

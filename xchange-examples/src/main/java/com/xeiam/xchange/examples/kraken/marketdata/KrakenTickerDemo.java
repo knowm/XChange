@@ -26,13 +26,13 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.kraken.KrakenExchange;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class TradesDemo {
+public class KrakenTickerDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -48,15 +48,15 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
 
-    // Get the latest trade data for BTC/XRP
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP);
-    System.out.println(trades);
-    System.out.println("Trades size: " + trades.getTrades().size());
+    // Get the latest ticker data showing BTC to EUR
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
 
-    // Get the latest trade data for BTC/XRP for the past 12 hours (note: doesn't account for time zone differences, should use UTC instead)
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.XRP, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
-    System.out.println(trades);
-    System.out.println("Trades size: " + trades.getTrades().size());
+    System.out.println("Ticker: " + ticker.toString());
+    System.out.println("Currency: " + Currencies.EUR);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Volume: " + ticker.getVolume().toString());
+    System.out.println("High: " + ticker.getHigh().toString());
+    System.out.println("Low: " + ticker.getLow().toString());
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
@@ -64,18 +64,14 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
-    // Get the latest trade data for BTC/XRP
-    KrakenPublicTrades trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP);
-    long last = trades.getLast();
-    System.out.print(trades.getTrades());
+    // Get the latest ticker data showing BTC to EUR
+    KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(Currencies.BTC, Currencies.EUR);
 
-    System.out.println("Trades size: " + trades.getTrades().size());
-    System.out.println("Last: " + last);
-
-    // Poll for any new trades since last id
-    trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP, last);
-    System.out.print(trades.getTrades());
-
-    System.out.println("Trades size: " + trades.getTrades().size());
+    System.out.println("Ticker: " + ticker.toString());
+    System.out.println("Currency: " + Currencies.EUR);
+    System.out.println("Last: " + ticker.getClose());
+    System.out.println("Volume: " + ticker.get24HourVolume().toString());
+    System.out.println("High: " + ticker.get24HourHigh().toString());
+    System.out.println("Low: " + ticker.get24HourLow().toString());
   }
 }

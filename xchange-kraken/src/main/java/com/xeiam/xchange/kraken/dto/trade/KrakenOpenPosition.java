@@ -33,7 +33,7 @@ public class KrakenOpenPosition {
   private final String orderTxId;
   private final String assetPair;
   private final long tradeUnixTimestamp;
-  private final String type;
+  private final KrakenType type;
   private final KrakenOrderType orderType;
   private final BigDecimal cost;
   private final BigDecimal fee;
@@ -46,7 +46,7 @@ public class KrakenOpenPosition {
   private final Set<KrakenOrderFlags> orderFlags;
   private final BigDecimal volumeInQuoteCurrency;
 
-  public KrakenOpenPosition(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") String type,
+  public KrakenOpenPosition(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") KrakenType type,
       @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
       @JsonProperty("vol_closed") BigDecimal volumeClosed, @JsonProperty("margin") BigDecimal margin, @JsonProperty("volue") BigDecimal value, @JsonProperty("net") BigDecimal netDifference,
       @JsonProperty("misc") String miscellaneous, @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFlags,
@@ -84,7 +84,7 @@ public class KrakenOpenPosition {
     return tradeUnixTimestamp;
   }
 
-  public String getType() {
+  public KrakenType getType() {
 
     return type;
   }

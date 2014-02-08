@@ -73,17 +73,17 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
         commaDelimitedAssets.append((started) ? "," : "").append(KrakenUtils.getKrakenCurrencyCode(asset));
         started = true;
       }
-    }
-    else {
-      commaDelimitedAssets.append("all");
+
+      return commaDelimitedAssets.toString();
     }
 
-    return commaDelimitedAssets.toString();
+    return null;
   }
-  
+
   protected String delimitAssetPairs(CurrencyPair[] currencyPairs) {
+
     String assetPairsString = null;
-    if (currencyPairs != null) {
+    if (currencyPairs != null && currencyPairs.length > 0) {
       StringBuilder delimitStringBuilder = null;
       for (CurrencyPair currencyPair : currencyPairs) {
         String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
@@ -94,11 +94,12 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
       }
       assetPairsString = delimitStringBuilder.toString();
     }
-    
+
     return assetPairsString;
   }
-  
+
   protected String delimitSet(Set<?> items) {
+
     String delimitedSetString = null;
     if (items != null && !items.isEmpty()) {
       StringBuilder delimitStringBuilder = null;
@@ -111,5 +112,5 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
     }
     return delimitedSetString;
   }
-  
+
 }

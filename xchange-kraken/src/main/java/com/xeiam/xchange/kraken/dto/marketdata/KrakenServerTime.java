@@ -27,13 +27,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.utils.jackson.Rfc1123DateDeserializer;
 
-
 public class KrakenServerTime {
 
   private final long unixTime;
   private final Date rfc1123Time;
-  
-  public KrakenServerTime(@JsonProperty("unixtime") long unixTime, @JsonProperty("rfc1123") @JsonDeserialize(using = Rfc1123DateDeserializer.class) Date rfc1123Time) { 
+
+  public KrakenServerTime(@JsonProperty("unixtime") long unixTime, @JsonProperty("rfc1123") @JsonDeserialize(using = Rfc1123DateDeserializer.class) Date rfc1123Time) {
+
     this.unixTime = unixTime;
     this.rfc1123Time = rfc1123Time;
   }
@@ -53,5 +53,5 @@ public class KrakenServerTime {
 
     return "KrakenServerTime [unixTime=" + unixTime + ", rfc1123Time=" + rfc1123Time + "]";
   }
-  
+
 }
