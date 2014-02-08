@@ -178,13 +178,13 @@ public class KrakenAdapters {
 
     List<Trade> trades = new ArrayList<Trade>();
     for (Entry<String, KrakenTrade> krakenTradeEntry : krakenTrades.entrySet()) {
-      trades.add(adaptTrade(krakenTradeEntry.getValue()));
+      trades.add(adaptTrade(krakenTradeEntry.getValue(), krakenTradeEntry.getKey()));
     }
 
     return new Trades(trades);
   }
 
-  public static Trade adaptTrade(KrakenTrade krakenTrade) {
+  public static Trade adaptTrade(KrakenTrade krakenTrade, String tradeId) {
 
     OrderType orderType = adaptOrderType(krakenTrade.getType());
     BigDecimal tradableAmount = krakenTrade.getVolume();
@@ -195,7 +195,7 @@ public class KrakenAdapters {
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigMoney price = BigMoney.of(CurrencyUnit.of(transactionCurrency), (averagePrice == null) ? krakenTrade.getPrice() : averagePrice);
 
-    return new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, "0", "");
+    return new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, tradeId, krakenTrade.getOrderTxId());
   }
 
   public static OrderType adaptOrderType(KrakenType krakenType) {
