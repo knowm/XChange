@@ -276,9 +276,9 @@ public class KrakenStandardOrder {
       return this;
     }
 
-    public KrakenOrderBuilder validateOnly() {
+    public KrakenOrderBuilder withValidateOnly(boolean validateOnly) {
 
-      this.validateOnly = true;
+      this.validateOnly = validateOnly;
       return this;
     }
 
