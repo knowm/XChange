@@ -130,7 +130,7 @@ public class KrakenTradeJsonTests {
     KrakenOrderResult krakenResult = mapper.readValue(is, KrakenOrderResult.class);
     KrakenOrderResponse orderResponse = krakenResult.getResult();
     
-    assertThat(orderResponse.getDescription().getOrderDescription()).isEqualTo("sell 0.01000000 XBTLTC @ limit 100.00000");
-    assertThat(orderResponse.getTransactionId()).isNull();
+    assertThat(orderResponse.getDescription().getOrderDescription()).isEqualTo("sell 0.01000000 XBTLTC @ limit 45.25000");
+    assertThat(orderResponse.getTransactionIds().get(0)).isEqualTo("OWQJ5O-ZWYC7-5R7POQ");
   }
 }

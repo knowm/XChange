@@ -25,17 +25,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-/**
- * Test placing a limit order at Kraken.
- */
-public class CancelOrderDemo {
+public class KrakenMarketOrderDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -43,50 +40,40 @@ public class CancelOrderDemo {
 
     generic(krakenExchange);
     raw(krakenExchange);
+
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
+    // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = krakenExchange.getPollingTradeService();
 
-    System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
+    // place a marketOrder with volume 0.01
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal("0.01");
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "EUR";
 
-    // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "LTC", "", null, MoneyUtils.parse("LTC 1.25"));
-    String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
-    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
 
-    System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
-
-    // Cancel the added order
-    boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
-    System.out.println("Canceling returned " + cancelResult);
-    // Cancel the added order
-    cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
-    System.out.println("Canceling second time  returned " + cancelResult);
-    System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
+    String orderID = tradeService.placeMarketOrder(marketOrder);
+    System.out.println("Market Order ID: " + orderID);
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
+    // Interested in the private trading functionality (authentication)
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 
-    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
+    // place a marketOrder with volume 0.01
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal("0.01");
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "EUR";
 
-    // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "LTC", "", null, MoneyUtils.parse("LTC 1.25"));
-    String limitOrderReturnValue = tradeService.placeKrakenLimitOrder(limitOrder);
-    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
 
-    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
-
-    // Cancel the added order
-    int cancelResult = tradeService.cancelKrakenOrder(limitOrderReturnValue);
-    System.out.println("Canceling returned " + cancelResult);
-    // Cancel the added order
-    cancelResult = tradeService.cancelKrakenOrder(limitOrderReturnValue);
-    System.out.println("Canceling second time  returned " + cancelResult);
-    System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders().toString());
-
+    KrakenOrderResponse orderID = tradeService.placeKrakenMarketOrder(marketOrder);
+    System.out.println("Market Order ID: " + orderID);
   }
 }

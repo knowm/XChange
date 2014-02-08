@@ -136,10 +136,19 @@ public class KrakenTradeServiceRaw extends BaseKrakenService {
 
   public KrakenOrderResponse placeKrakentOrder(KrakenStandardOrder order) throws IOException {
 
-    KrakenOrderResult result =
-        krakenAuthenticated.addOrder(order.getAssetPair(), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume().toString(),
-            order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), order.isValidateOnly(), order
-                .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+    KrakenOrderResult result = null;
+    if (!order.isValidateOnly()) {
+      result =
+          krakenAuthenticated.addOrder(order.getAssetPair(), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume().toString(),
+              order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), order.getCloseOrder(),
+              exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+    }
+    else {
+      result =
+          krakenAuthenticated.addOrderValidateOnly(order.getAssetPair(), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume().toString(),
+              order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), true, order.getCloseOrder(),
+              exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+    }
 
     return checkResult(result);
   }

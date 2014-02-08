@@ -52,5 +52,11 @@ public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderRespo
 
       return pending;
     }
+    
+    @Override
+    public String toString() {
+
+      return "KrakenCancelOrderResponse [count=" + count + ", pending=" + pending + "]";
+    }
   }
 }

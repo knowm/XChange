@@ -32,7 +32,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class DepthDemo {
+public class KrakenDepthDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -44,7 +44,7 @@ public class DepthDemo {
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {
-    
+
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
@@ -58,19 +58,19 @@ public class DepthDemo {
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
-  
+
   private static void raw(Exchange krakenExchange) throws IOException {
-    
+
     // Interested in the public polling market data feed (no authentication)
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
-    // Get the latest full order book data for LTC/USD
-    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(Currencies.LTC, Currencies.USD);
+    // Get the latest full order book data
+    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
 
-    // Get the latest partial size order book data for LTC/USD
-    depth = krakenMarketDataService.getKrakenDepth(Currencies.LTC, Currencies.USD, 3L);
+    // Get the latest partial size order book data
+    depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR, 3L);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
   }

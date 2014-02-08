@@ -32,7 +32,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class TickerDemo {
+public class KrakenTickerDemo {
 
   public static void main(String[] args) throws IOException {
 

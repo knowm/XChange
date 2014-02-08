@@ -49,6 +49,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrade;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
 import com.xeiam.xchange.kraken.dto.trade.KrakenTrade;
 import com.xeiam.xchange.kraken.dto.trade.KrakenType;
 
@@ -192,9 +193,15 @@ public class KrakenAdapters {
 
     return new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, 0);
   }
-  
+
   public static OrderType adaptOrderType(KrakenType krakenType) {
-    
+
     return krakenType.equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static String adaptOrderId(KrakenOrderResponse orderResponse) {
+
+    List<String> orderIds = orderResponse.getTransactionIds();
+    return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
   }
 }
