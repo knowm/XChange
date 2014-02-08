@@ -48,7 +48,7 @@ public class KrakenTradesJSONTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenTrades.getResult().getTrades().get(0).getPrice()).isEqualTo("1023.82219");
     assertThat(krakenTrades.getResult().getTrades().get(0).getVolume()).isEqualTo("0.00435995");
-    assertThat(krakenTrades.getResult().getTrades().get(0).getType()).isEqualTo(KrakenType.SELL);   
+    assertThat(krakenTrades.getResult().getTrades().get(0).getType()).isEqualTo(KrakenType.SELL);
     assertThat(krakenTrades.getResult().getTrades().get(0).getOrderType()).isEqualTo(KrakenOrderType.LIMIT);
     assertThat(krakenTrades.getResult().getTrades().get(1).getTime()).isEqualTo(1385579841.7876);
     long lastId = krakenTrades.getResult().getLast();

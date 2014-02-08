@@ -51,7 +51,7 @@ public class KrakenTickerJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenTickerResult krakenTickerResult = mapper.readValue(is, KrakenTickerResult.class);
     Map<String, KrakenTicker> krakenTickers = krakenTickerResult.getResult();
-    
+
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenTickers.get("ZEURXLTC")).isEqualTo(null);
     KrakenTicker krakenTicker = krakenTickers.get("XXBTZEUR");

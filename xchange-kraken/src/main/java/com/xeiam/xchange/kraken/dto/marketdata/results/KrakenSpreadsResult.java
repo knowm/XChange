@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
 
-
 public class KrakenSpreadsResult extends KrakenResult<KrakenSpreads> {
 
   /**

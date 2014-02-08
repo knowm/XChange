@@ -59,7 +59,7 @@ public class KrakenTradeJsonTests {
     KrakenOpenOrdersResult krakenResult = mapper.readValue(is, KrakenOpenOrdersResult.class);
     Entry<String, KrakenOrder> openOrderEntry = krakenResult.getResult().getOrders().entrySet().iterator().next();
     KrakenOrder order = openOrderEntry.getValue();
-    
+
     // Verify that the example data was unmarshalled correctly
     assertThat(openOrderEntry.getKey()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(order.getOpenTimestamp()).isEqualTo(1380586080.222);
@@ -77,7 +77,7 @@ public class KrakenTradeJsonTests {
     assertThat(orderDescription.getSecondaryPrice()).isEqualTo("0");
 
   }
-  
+
   @Test
   public void testTradeHistoryUnmarshal() throws IOException {
 
@@ -90,7 +90,7 @@ public class KrakenTradeJsonTests {
     KrakenTradeHistory krakenTradeHistory = krakenResult.getResult();
     Map<String, KrakenTrade> krakenTradeHistoryMap = krakenTradeHistory.getTrades();
     KrakenTrade trade = krakenTradeHistoryMap.get("TY5BYV-WJUQF-XPYEYD");
-    
+
     assertThat(trade.getAssetPair()).isEqualTo("XXBTXLTC");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getCost()).isEqualTo("16.03781");
@@ -103,7 +103,7 @@ public class KrakenTradeJsonTests {
     assertThat(trade.getOrderType()).isEqualTo(KrakenOrderType.MARKET);
     assertThat(trade.getMiscellaneous()).isEqualTo("");
   }
-  
+
   @Test
   public void testCancelOrderUnmarshal() throws IOException {
 
@@ -114,11 +114,11 @@ public class KrakenTradeJsonTests {
     ObjectMapper mapper = new ObjectMapper();
     KrakenCancelOrderResult krakenResult = mapper.readValue(is, KrakenCancelOrderResult.class);
     KrakenCancelOrderResponse cancelOrderResponse = krakenResult.getResult();
-    
+
     assertThat(cancelOrderResponse.getCount()).isEqualTo(1);
     assertFalse(cancelOrderResponse.isPending());
   }
-  
+
   @Test
   public void testAddOrderResponseUnmarshal() throws IOException {
 
@@ -129,7 +129,7 @@ public class KrakenTradeJsonTests {
     ObjectMapper mapper = new ObjectMapper();
     KrakenOrderResult krakenResult = mapper.readValue(is, KrakenOrderResult.class);
     KrakenOrderResponse orderResponse = krakenResult.getResult();
-    
+
     assertThat(orderResponse.getDescription().getOrderDescription()).isEqualTo("sell 0.01000000 XBTLTC @ limit 45.25000");
     assertThat(orderResponse.getTransactionIds().get(0)).isEqualTo("OWQJ5O-ZWYC7-5R7POQ");
   }

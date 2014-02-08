@@ -33,10 +33,8 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import com.xeiam.xchange.utils.DateUtils;
 
-
 public class KrakenServerTimeJSONTest {
 
-  
   @Test
   public void testUnmarshal() throws IOException {
 
@@ -47,7 +45,7 @@ public class KrakenServerTimeJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenServerTimeResult krakenResult = mapper.readValue(is, KrakenServerTimeResult.class);
     KrakenServerTime serverTime = krakenResult.getResult();
-    
+
     assertThat(serverTime.getUnixTime()).isEqualTo(1391835876);
     assertThat(serverTime.getRfc1123Time()).isEqualTo(DateUtils.fromRfc1123DateString("Sat,  8 Feb 14 05:04:36 +0000"));
   }

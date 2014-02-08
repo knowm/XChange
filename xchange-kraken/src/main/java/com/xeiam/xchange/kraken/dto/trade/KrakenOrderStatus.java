@@ -41,9 +41,10 @@ public enum KrakenOrderStatus {
 
   @Override
   public String toString() {
+
     return super.toString().toLowerCase();
   }
-  
+
   public static KrakenOrderStatus fromString(final String orderStatusString) {
 
     return fromString.get(orderStatusString.toLowerCase());

@@ -49,7 +49,7 @@ public class KrakenAssets {
 
     return assetInfoMap;
   }
-  
+
   @Override
   public String toString() {
 

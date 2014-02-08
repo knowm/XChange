@@ -145,9 +145,9 @@ public class KrakenTradeServiceRaw extends BaseKrakenService {
     }
     else {
       result =
-          krakenAuthenticated.addOrderValidateOnly(order.getAssetPair(), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume().toString(),
-              order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), true, order.getCloseOrder(),
-              exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
+          krakenAuthenticated.addOrderValidateOnly(order.getAssetPair(), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume()
+              .toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), true, order
+              .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce());
     }
 
     return checkResult(result);

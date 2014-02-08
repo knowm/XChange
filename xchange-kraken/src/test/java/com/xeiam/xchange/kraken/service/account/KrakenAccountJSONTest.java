@@ -74,7 +74,7 @@ public class KrakenAccountJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenTradeBalanceInfoResult krakenResult = mapper.readValue(is, KrakenTradeBalanceInfoResult.class);
     KrakenTradeBalanceInfo tradeBalanceInfo = krakenResult.getResult();
-    
+
     assertThat(tradeBalanceInfo.getTradeBalance()).isEqualTo("71.6310");
     assertThat(tradeBalanceInfo.getMargin()).isEqualTo("0.0000");
     assertThat(tradeBalanceInfo.getFreeMargin()).isEqualTo("71.6310");
@@ -83,7 +83,7 @@ public class KrakenAccountJSONTest {
     assertThat(tradeBalanceInfo.getFloatingValuation()).isEqualTo("0.0000");
     assertThat(tradeBalanceInfo.getUnrealizedGainsLosses()).isEqualTo("0.0000");
   }
-  
+
   @Test
   public void testLedgerInfoUnmarshal() throws IOException {
 
@@ -95,7 +95,7 @@ public class KrakenAccountJSONTest {
     KrakenLedgerResult krakenResult = mapper.readValue(is, KrakenLedgerResult.class);
     Map<String, KrakenLedger> ledgerInfo = krakenResult.getResult().getLedgerMap();
     KrakenLedger ledger = ledgerInfo.get("LQY6IE-WNT47-JRBOJV");
-    
+
     assertThat(ledger.getAsset()).isEqualTo("XXBT");
     assertThat(ledger.getAssetClass()).isEqualTo("currency");
     assertThat(ledger.getBalance()).isEqualTo("0.1000000000");
@@ -105,7 +105,7 @@ public class KrakenAccountJSONTest {
     assertThat(ledger.getRefId()).isEqualTo("QGBJIZV-4F6SPK-ZCBT5O");
     assertThat(ledger.getUnixTime()).isEqualTo(1391400160.0679);
   }
-  
+
   @Test
   public void testTradeVolumeUnmarshal() throws IOException {
 
@@ -116,7 +116,7 @@ public class KrakenAccountJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenTradeVolumeResult krakenResult = mapper.readValue(is, KrakenTradeVolumeResult.class);
     KrakenTradeVolume tradeVolume = krakenResult.getResult();
-    
+
     assertThat(tradeVolume.getCurrency()).isEqualTo("ZUSD");
     assertThat(tradeVolume.getVolume()).isEqualTo("451.3040");
     Map<String, KrakenVolumeFee> fees = tradeVolume.getFees();

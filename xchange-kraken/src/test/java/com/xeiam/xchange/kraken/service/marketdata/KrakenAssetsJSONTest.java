@@ -33,10 +33,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAsset;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 
-
 public class KrakenAssetsJSONTest {
 
-  
   @Test
   public void testUnmarshal() throws IOException {
 
@@ -47,7 +45,7 @@ public class KrakenAssetsJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
     Map<String, KrakenAsset> assets = krakenResult.getResult();
-    
+
     assertThat(assets).hasSize(9);
     KrakenAsset asset = assets.get("XXBT");
     assertThat(asset.getAltName()).isEqualTo("XBT");

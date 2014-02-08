@@ -28,14 +28,13 @@ import com.xeiam.xchange.kraken.dto.KrakenResult;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult.KrakenOpenOrders;
 
-
 public class KrakenOpenOrdersResult extends KrakenResult<KrakenOpenOrders> {
 
   public KrakenOpenOrdersResult(@JsonProperty("result") KrakenOpenOrders result, @JsonProperty("error") String[] error) {
 
     super(result, error);
   }
-  
+
   public static class KrakenOpenOrders {
 
     private final Map<String, KrakenOrder> orders;

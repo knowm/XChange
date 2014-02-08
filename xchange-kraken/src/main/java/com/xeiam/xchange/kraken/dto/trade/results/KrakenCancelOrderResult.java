@@ -31,12 +31,12 @@ public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderRespo
 
     super(result, error);
   }
-  
+
   public static class KrakenCancelOrderResponse {
 
     private final int count;
     private final boolean pending;
-    
+
     public KrakenCancelOrderResponse(@JsonProperty("count") int count, @JsonProperty("pending") boolean pending) {
 
       this.count = count;
@@ -52,7 +52,7 @@ public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderRespo
 
       return pending;
     }
-    
+
     @Override
     public String toString() {
 

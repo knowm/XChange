@@ -68,6 +68,7 @@ public class KrakenAccountServiceRaw extends BaseKrakenService {
   /**
    * Retrieves the user's trade balance using the default currency ZUSD to
    * determine the balance.
+   * 
    * @return KrakenTradeBalanceInfo
    * @throws IOException
    */
