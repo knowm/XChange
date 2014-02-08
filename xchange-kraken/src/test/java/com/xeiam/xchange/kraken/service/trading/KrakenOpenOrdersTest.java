@@ -25,16 +25,18 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderStatus;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderType;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 
-/**
- * Test KrakenDepth JSON parsing
- */
 public class KrakenOpenOrdersTest {
 
   @Test
@@ -46,11 +48,24 @@ public class KrakenOpenOrdersTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     KrakenOpenOrdersResult krakenResult = mapper.readValue(is, KrakenOpenOrdersResult.class);
-    KrakenOrder order = krakenResult.getResult().getOrders().values().iterator().next();
+    Entry<String, KrakenOrder> openOrderEntry = krakenResult.getResult().getOrders().entrySet().iterator().next();
+    KrakenOrder order = openOrderEntry.getValue();
+    
     // Verify that the example data was unmarshalled correctly
-    assertThat(order).isNotNull();
+    assertThat(openOrderEntry.getKey()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(order.getOpenTimestamp()).isEqualTo(1380586080.222);
+    assertThat(order.getPrice()).isEqualTo("0.00000");
     assertThat(order.getVolume()).isEqualTo("0.01000000");
     assertThat(order.getVolumeExecuted()).isEqualTo("0.00000000");
+    assertThat(order.getStatus()).isEqualTo(KrakenOrderStatus.OPEN);
+    KrakenOrderDescription orderDescription = order.getOrderDescription();
+    assertThat(orderDescription.getAssetPair()).isEqualTo("LTCEUR");
+    assertThat(orderDescription.getLeverage()).isEqualTo("none");
+    assertThat(orderDescription.getOrderDescription()).isEqualTo("buy 0.01000000 LTCEUR @ limit 13.00000");
+    assertThat(orderDescription.getOrderType()).isEqualTo(KrakenOrderType.LIMIT);
+    assertThat(orderDescription.getType()).isEqualTo(KrakenType.BUY);
+    assertThat(orderDescription.getPrice()).isEqualTo("13.00000");
+    assertThat(orderDescription.getSecondaryPrice()).isEqualTo("0");
+
   }
 }

@@ -73,12 +73,11 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
         commaDelimitedAssets.append((started) ? "," : "").append(KrakenUtils.getKrakenCurrencyCode(asset));
         started = true;
       }
+      
+      return commaDelimitedAssets.toString();
     }
-    else {
-      commaDelimitedAssets.append("all");
-    }
-
-    return commaDelimitedAssets.toString();
+    
+    return null;
   }
   
   protected String delimitAssetPairs(CurrencyPair[] currencyPairs) {

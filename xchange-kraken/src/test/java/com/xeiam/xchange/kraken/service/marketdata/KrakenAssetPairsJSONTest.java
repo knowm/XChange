@@ -38,9 +38,6 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenFee;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 
-/**
- * Test KrakenDepth JSON parsing
- */
 public class KrakenAssetPairsJSONTest {
 
   private KrakenAssetPair expectedAssetPairInfo;

@@ -29,29 +29,27 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOrderType;
-import com.xeiam.xchange.kraken.dto.trade.KrakenType;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpread;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 
-public class KrakenTradesJSONTest {
+public class KrakenSpreadsJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = KrakenSpreadsJSONTest.class.getResourceAsStream("/marketdata/example-spreads-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenPublicTradesResult krakenTrades = mapper.readValue(is, KrakenPublicTradesResult.class);
+    KrakenSpreadsResult krakenResult = mapper.readValue(is, KrakenSpreadsResult.class);
+    KrakenSpreads spreads = krakenResult.getResult();
 
-    // Verify that the example data was unmarshalled correctly
-    assertThat(krakenTrades.getResult().getTrades().get(0).getPrice()).isEqualTo("1023.82219");
-    assertThat(krakenTrades.getResult().getTrades().get(0).getVolume()).isEqualTo("0.00435995");
-    assertThat(krakenTrades.getResult().getTrades().get(0).getType()).isEqualTo(KrakenType.SELL);   
-    assertThat(krakenTrades.getResult().getTrades().get(0).getOrderType()).isEqualTo(KrakenOrderType.LIMIT);
-    assertThat(krakenTrades.getResult().getTrades().get(1).getTime()).isEqualTo(1385579841.7876);
-    long lastId = krakenTrades.getResult().getLast();
-    assertThat(lastId).isEqualTo(1385579841881785998L);
+    assertThat(spreads.getLast()).isEqualTo(1391837200);
+    KrakenSpread spread = spreads.getSpreads().get(0);
+    assertThat(spread.getAsk()).isEqualTo("720.00000");
+    assertThat(spread.getBid()).isEqualTo("709.17169");
+    assertThat(spread.getTime()).isEqualTo(1391836639);
   }
 }

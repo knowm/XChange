@@ -26,10 +26,12 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
 /**
@@ -47,26 +49,28 @@ public class KrakenTickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenTickerResult krakenTicker = mapper.readValue(is, KrakenTickerResult.class);
-
+    KrakenTickerResult krakenTickerResult = mapper.readValue(is, KrakenTickerResult.class);
+    Map<String, KrakenTicker> krakenTickers = krakenTickerResult.getResult();
+    
     // Verify that the example data was unmarshalled correctly
-    assertThat(krakenTicker.getResult().get("ZEURXLTC")).isEqualTo(null);
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getAsk().getPrice()).isEqualTo(new BigDecimal("562.26651"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getAsk().getVolume()).isEqualTo(new BigDecimal("1"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getBid().getPrice()).isEqualTo(new BigDecimal("560.46600"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getBid().getVolume()).isEqualTo(new BigDecimal("1"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getClose().getPrice()).isEqualTo(new BigDecimal("560.87711"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getClose().getVolume()).isEqualTo(new BigDecimal("0.01447739"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysVolume()).isEqualTo(new BigDecimal("84.23095922"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourVolume()).isEqualTo(new BigDecimal("600.91850325"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysVolumeAvg()).isEqualTo(new BigDecimal("562.19735"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourVolumeAvg()).isEqualTo(new BigDecimal("576.77284"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysNumTrades()).isEqualTo(new BigDecimal("305"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourNumTrades()).isEqualTo(new BigDecimal("2783"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysLow()).isEqualTo(new BigDecimal("560.00000"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourLow()).isEqualTo(new BigDecimal("560.00000"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysHigh()).isEqualTo(new BigDecimal("570.00000"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourHigh()).isEqualTo(new BigDecimal("591.11000"));
-    assertThat(krakenTicker.getResult().get("XXBTZEUR").getOpen()).isEqualTo(new BigDecimal("568.98910"));
+    assertThat(krakenTickers.get("ZEURXLTC")).isEqualTo(null);
+    KrakenTicker krakenTicker = krakenTickers.get("XXBTZEUR");
+    assertThat(krakenTicker.getAsk().getPrice()).isEqualTo(new BigDecimal("562.26651"));
+    assertThat(krakenTicker.getAsk().getVolume()).isEqualTo(new BigDecimal("1"));
+    assertThat(krakenTicker.getBid().getPrice()).isEqualTo(new BigDecimal("560.46600"));
+    assertThat(krakenTicker.getBid().getVolume()).isEqualTo(new BigDecimal("1"));
+    assertThat(krakenTicker.getClose().getPrice()).isEqualTo(new BigDecimal("560.87711"));
+    assertThat(krakenTicker.getClose().getVolume()).isEqualTo(new BigDecimal("0.01447739"));
+    assertThat(krakenTicker.getTodaysVolume()).isEqualTo(new BigDecimal("84.23095922"));
+    assertThat(krakenTicker.get24HourVolume()).isEqualTo(new BigDecimal("600.91850325"));
+    assertThat(krakenTicker.getTodaysVolumeAvg()).isEqualTo(new BigDecimal("562.19735"));
+    assertThat(krakenTicker.get24HourVolumeAvg()).isEqualTo(new BigDecimal("576.77284"));
+    assertThat(krakenTicker.getTodaysNumTrades()).isEqualTo(new BigDecimal("305"));
+    assertThat(krakenTicker.get24HourNumTrades()).isEqualTo(new BigDecimal("2783"));
+    assertThat(krakenTicker.getTodaysLow()).isEqualTo(new BigDecimal("560.00000"));
+    assertThat(krakenTicker.get24HourLow()).isEqualTo(new BigDecimal("560.00000"));
+    assertThat(krakenTicker.getTodaysHigh()).isEqualTo(new BigDecimal("570.00000"));
+    assertThat(krakenTicker.get24HourHigh()).isEqualTo(new BigDecimal("591.11000"));
+    assertThat(krakenTicker.getOpen()).isEqualTo(new BigDecimal("568.98910"));
   }
 }
