@@ -23,8 +23,9 @@ package com.xeiam.xchange.kraken;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -37,9 +38,9 @@ public final class KrakenUtils {
 
   }
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(CurrencyPair.LTC_XRP, CurrencyPair.LTC_EUR, CurrencyPair.LTC_USD, CurrencyPair.LTC_KRW, CurrencyPair.BTC_LTC,
+  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.LTC_XRP, CurrencyPair.LTC_EUR, CurrencyPair.LTC_USD, CurrencyPair.LTC_KRW, CurrencyPair.BTC_LTC,
       CurrencyPair.BTC_NMC, CurrencyPair.BTC_XRP, CurrencyPair.BTC_XVN, CurrencyPair.BTC_EUR, CurrencyPair.BTC_USD, CurrencyPair.BTC_KRW, CurrencyPair.NMC_XRP, CurrencyPair.NMC_EUR,
-      CurrencyPair.NMC_USD, CurrencyPair.XVN_XRP, CurrencyPair.USD_XVN, CurrencyPair.EUR_XVN, CurrencyPair.EUR_XRP, CurrencyPair.USD_XRP, CurrencyPair.KRW_XRP);
+      CurrencyPair.NMC_USD, CurrencyPair.NMC_KRW, CurrencyPair.XVN_XRP, CurrencyPair.USD_XVN, CurrencyPair.EUR_XVN, CurrencyPair.EUR_XRP, CurrencyPair.USD_XRP, CurrencyPair.KRW_XRP));
 
   private static Map<String, String> KRAKEN_CURRENCIES_FORWARD = new HashMap<String, String>();
   private static Map<String, String> KRAKEN_CURRENCIES_REVERSE = new HashMap<String, String>();
@@ -50,7 +51,6 @@ public final class KrakenUtils {
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.NMC, "XNMC");
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.BTC, "XXBT");
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.XBT, "XXBT");
-    KRAKEN_CURRENCIES_FORWARD.put(Currencies.VEN, "XXVN");
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.EUR, "ZEUR");
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.USD, "ZUSD");
     KRAKEN_CURRENCIES_FORWARD.put(Currencies.XRP, "XXRP");
@@ -60,7 +60,6 @@ public final class KrakenUtils {
     KRAKEN_CURRENCIES_REVERSE.put("XLTC", Currencies.LTC);
     KRAKEN_CURRENCIES_REVERSE.put("XNMC", Currencies.NMC);
     KRAKEN_CURRENCIES_REVERSE.put("XXBT", Currencies.BTC);
-    KRAKEN_CURRENCIES_REVERSE.put("XXVN", Currencies.VEN);
     KRAKEN_CURRENCIES_REVERSE.put("ZEUR", Currencies.EUR);
     KRAKEN_CURRENCIES_REVERSE.put("ZUSD", Currencies.USD);
     KRAKEN_CURRENCIES_REVERSE.put("XXRP", Currencies.XRP);
@@ -70,7 +69,6 @@ public final class KrakenUtils {
     KRAKEN_CURRENCIES_REVERSE.put(Currencies.LTC, Currencies.LTC);
     KRAKEN_CURRENCIES_REVERSE.put(Currencies.NMC, Currencies.NMC);
     KRAKEN_CURRENCIES_REVERSE.put(Currencies.XBT, Currencies.BTC);
-    KRAKEN_CURRENCIES_REVERSE.put(Currencies.XVN, Currencies.VEN);
     KRAKEN_CURRENCIES_REVERSE.put(Currencies.EUR, Currencies.EUR);
     KRAKEN_CURRENCIES_REVERSE.put(Currencies.USD, Currencies.USD);
     KRAKEN_CURRENCIES_REVERSE.put(Currencies.XRP, Currencies.XRP);

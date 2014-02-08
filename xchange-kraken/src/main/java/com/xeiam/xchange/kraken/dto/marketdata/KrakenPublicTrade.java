@@ -24,18 +24,20 @@ package com.xeiam.xchange.kraken.dto.marketdata;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderType;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType;
 
 public class KrakenPublicTrade {
 
   private final BigDecimal price;
   private final BigDecimal volume;
   private final double time;
-  private final String type;
-  private final String orderType;
+  private final KrakenType type;
+  private final KrakenOrderType orderType;
   private final String miscellaneous;
 
-  public KrakenPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time, @JsonProperty("type") String type,
-      @JsonProperty("orderType") String orderType, @JsonProperty("miscellaneous") String miscellaneous) {
+  public KrakenPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time, @JsonProperty("type") KrakenType type,
+      @JsonProperty("orderType") KrakenOrderType orderType, @JsonProperty("miscellaneous") String miscellaneous) {
 
     this.price = price;
     this.volume = volume;
@@ -60,12 +62,12 @@ public class KrakenPublicTrade {
     return time;
   }
 
-  public String getType() {
+  public KrakenType getType() {
 
     return type;
   }
 
-  public String getOrderType() {
+  public KrakenOrderType getOrderType() {
 
     return orderType;
   }

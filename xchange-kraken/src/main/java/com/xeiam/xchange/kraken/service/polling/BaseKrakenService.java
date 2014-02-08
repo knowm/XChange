@@ -83,7 +83,7 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
   
   protected String delimitAssetPairs(CurrencyPair[] currencyPairs) {
     String assetPairsString = null;
-    if (currencyPairs != null) {
+    if (currencyPairs != null && currencyPairs.length > 0) {
       StringBuilder delimitStringBuilder = null;
       for (CurrencyPair currencyPair : currencyPairs) {
         String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);

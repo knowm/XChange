@@ -22,6 +22,7 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -47,7 +48,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    return KrakenUtils.CURRENCY_PAIRS;
+    return new ArrayList<CurrencyPair>(KrakenUtils.CURRENCY_PAIRS);
   }
 
   @Override
@@ -60,7 +61,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     KrakenDepth krakenDepth = getKrakenDepth(tradableIdentifier, currency, args);
-    return KrakenAdapters.adaptOrderBook(krakenDepth, currency, tradableIdentifier);
+    return KrakenAdapters.adaptOrderBook(krakenDepth, tradableIdentifier, currency);
   }
 
   @Override

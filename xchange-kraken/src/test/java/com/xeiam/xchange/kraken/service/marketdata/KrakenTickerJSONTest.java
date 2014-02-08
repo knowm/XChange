@@ -51,22 +51,22 @@ public class KrakenTickerJSONTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenTicker.getResult().get("ZEURXLTC")).isEqualTo(null);
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getAsk().getPrice()).isEqualTo(new BigDecimal("96.99000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getAsk().getVolume()).isEqualTo(new BigDecimal("1"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getBid().getPrice()).isEqualTo(new BigDecimal("96.00000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getBid().getVolume()).isEqualTo(new BigDecimal("1"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getClose().getPrice()).isEqualTo(new BigDecimal("96.75000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getClose().getVolume()).isEqualTo(new BigDecimal("0.00000000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getTodaysVolume()).isEqualTo(new BigDecimal("0.00000000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").get24HourVolume()).isEqualTo(new BigDecimal("0.00000000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getTodaysVolumeAvg()).isEqualTo(new BigDecimal("0.00000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").get24HourVolumeAvg()).isEqualTo(new BigDecimal("0.00000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getTodaysNumTrades()).isEqualTo(new BigDecimal("0"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").get24HourNumTrades()).isEqualTo(new BigDecimal("0"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getTodaysLow()).isEqualTo(new BigDecimal("96.75000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").get24HourLow()).isEqualTo(new BigDecimal("0.00000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getTodaysHigh()).isEqualTo(new BigDecimal("96.75000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").get24HourLow()).isEqualTo(new BigDecimal("0.00000"));
-    assertThat(krakenTicker.getResult().get("XBTCZEUR").getOpen()).isEqualTo(new BigDecimal("96.75000"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getAsk().getPrice()).isEqualTo(new BigDecimal("562.26651"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getAsk().getVolume()).isEqualTo(new BigDecimal("1"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getBid().getPrice()).isEqualTo(new BigDecimal("560.46600"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getBid().getVolume()).isEqualTo(new BigDecimal("1"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getClose().getPrice()).isEqualTo(new BigDecimal("560.87711"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getClose().getVolume()).isEqualTo(new BigDecimal("0.01447739"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysVolume()).isEqualTo(new BigDecimal("84.23095922"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourVolume()).isEqualTo(new BigDecimal("600.91850325"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysVolumeAvg()).isEqualTo(new BigDecimal("562.19735"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourVolumeAvg()).isEqualTo(new BigDecimal("576.77284"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysNumTrades()).isEqualTo(new BigDecimal("305"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourNumTrades()).isEqualTo(new BigDecimal("2783"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysLow()).isEqualTo(new BigDecimal("560.00000"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourLow()).isEqualTo(new BigDecimal("560.00000"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getTodaysHigh()).isEqualTo(new BigDecimal("570.00000"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").get24HourHigh()).isEqualTo(new BigDecimal("591.11000"));
+    assertThat(krakenTicker.getResult().get("XXBTZEUR").getOpen()).isEqualTo(new BigDecimal("568.98910"));
   }
 }

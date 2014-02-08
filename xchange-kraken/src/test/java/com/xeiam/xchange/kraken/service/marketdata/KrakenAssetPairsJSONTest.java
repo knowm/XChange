@@ -33,6 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenFee;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
@@ -64,7 +65,7 @@ public class KrakenAssetPairsJSONTest {
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(krakenAssetPairs.getResult()).hasSize(17);
+    assertThat(krakenAssetPairs.getResult()).hasSize(KrakenUtils.CURRENCY_PAIRS.size());
     assertThat(krakenAssetPairs.getResult().get("XXBTZEUR")).isNotNull();
     assertThat(krakenAssetPairs.getResult().get("XBTCEUR")).isNull();
 

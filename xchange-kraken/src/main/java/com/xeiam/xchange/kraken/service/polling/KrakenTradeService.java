@@ -59,13 +59,13 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return super.cancelKrakenOrder(orderId) > 0;
+    return super.cancelKrakenOrder(orderId).getCount() > 0;
   }
 
   @Override
   public Trades getTradeHistory(Object... arguments) throws IOException {
 
-    return KrakenAdapters.adaptKrakenTrades(super.getKrakenTradeHistory());
+    return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
   }
 
 }

@@ -53,6 +53,9 @@ public enum KrakenOrderType {
   static {
     for (KrakenOrderType orderType : values())
       fromString.put(orderType.toString(), orderType);
+    
+    fromString.put("l", LIMIT);
+    fromString.put("m", MARKET);
   }
 
   static class KrakenOrderTypeDeserializer extends JsonDeserializer<KrakenOrderType> {

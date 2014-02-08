@@ -53,6 +53,9 @@ public enum KrakenType {
   static {
     for (KrakenType type : values())
       fromString.put(type.toString(), type);
+    
+    fromString.put("b", BUY);
+    fromString.put("s", SELL);
   }
 
   static class KrakenTypeDeserializer extends JsonDeserializer<KrakenType> {

@@ -26,7 +26,7 @@ public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
       this.count = count;
     }
 
-    public Map<String, KrakenTrade> getOrders() {
+    public Map<String, KrakenTrade> getTrades() {
 
       return orders;
     }
