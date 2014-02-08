@@ -28,11 +28,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CryptoTradePlaceOrderReturn {
 
-	String success;
+  String success;
 
-	public CryptoTradePlaceOrderReturn(@JsonProperty("status") String aResult) {
+  public CryptoTradePlaceOrderReturn(@JsonProperty("status") String aResult) {
 
-		success = aResult;
+    success = aResult;
 
-	}
+  }
 }

@@ -49,8 +49,8 @@ public class CryptoTradeOrder {
    * @param type
    * @param pair
    */
-  public CryptoTradeOrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public CryptoTradeOrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 
     this.status = status;
     this.timestampCreated = timestampCreated;

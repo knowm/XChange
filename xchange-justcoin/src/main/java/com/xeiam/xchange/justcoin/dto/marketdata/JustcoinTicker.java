@@ -164,5 +164,4 @@ public final class JustcoinTicker {
     return true;
   }
 
-  
 }

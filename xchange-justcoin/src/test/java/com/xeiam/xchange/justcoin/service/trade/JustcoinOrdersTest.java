@@ -71,8 +71,8 @@ public class JustcoinOrdersTest {
       e.printStackTrace();
     }
     justcoinOrder =
-        new JustcoinOrder(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "ask", price.getAmount(), amount, BigDecimal.valueOf(0.02000), BigDecimal.ZERO,
-            BigDecimal.ZERO, orderCreatedAt);
+        new JustcoinOrder(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "ask", price.getAmount(), amount, BigDecimal.valueOf(0.02000), BigDecimal.ZERO, BigDecimal.ZERO,
+            orderCreatedAt);
   }
 
   @Test

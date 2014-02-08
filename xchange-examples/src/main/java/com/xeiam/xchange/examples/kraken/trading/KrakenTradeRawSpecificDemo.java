@@ -46,11 +46,17 @@ public class KrakenTradeRawSpecificDemo {
     // Interested in the private trading functionality (authentication)
     KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
 
-    KrakenStandardOrder order = KrakenStandardOrder
-        .getLimitOrderBuilder(CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678"))
-        .withCloseOrder(KrakenOrderType.STOP_LOSS_PROFIT, "#5%", "#10") // stop at -5% loss, take profit at +$10 price increase.
-        .withValidateOnly(true) // validate only for demo purposes
-        .buildOrder();
+    KrakenStandardOrder order =
+        KrakenStandardOrder.getLimitOrderBuilder(CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678")).withCloseOrder(KrakenOrderType.STOP_LOSS_PROFIT, "#5%", "#10") // stop at
+                                                                                                                                                                                              // -5%
+                                                                                                                                                                                              // loss,
+                                                                                                                                                                                              // take
+                                                                                                                                                                                              // profit
+                                                                                                                                                                                              // at +$10
+                                                                                                                                                                                              // price
+                                                                                                                                                                                              // increase.
+            .withValidateOnly(true) // validate only for demo purposes
+            .buildOrder();
 
     KrakenOrderResponse orderResponse = tradeService.placeKrakentOrder(order);
     System.out.println(orderResponse);
@@ -59,7 +65,7 @@ public class KrakenTradeRawSpecificDemo {
     System.out.println(openOrders);
 
     limitRate();
-    
+
     Map<String, KrakenOrder> closedOrders = tradeService.getKrakenClosedOrders();
     System.out.println(closedOrders);
 
@@ -67,7 +73,7 @@ public class KrakenTradeRawSpecificDemo {
       System.out.println(tradeService.queryKrakenOrders(transactionId));
       limitRate();
     }
-     
+
     Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory();
     System.out.println(trades);
 
@@ -79,10 +85,12 @@ public class KrakenTradeRawSpecificDemo {
     Map<String, KrakenOpenPosition> openPositions = tradeService.getOpenPositions();
     System.out.println(openPositions);
   }
-  
+
   private static void limitRate() {
+
     try { // respect API rate limit
       Thread.sleep(500);
-    } catch (InterruptedException e) { }    
+    } catch (InterruptedException e) {
+    }
   }
 }

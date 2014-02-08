@@ -28,18 +28,21 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoTradeAccountData {
-	Map<String, BigDecimal> funds = new HashMap<String, BigDecimal>();
 
-	public CryptoTradeAccountData(@JsonProperty("funds") Map<String, BigDecimal> someFunds) {
-		
-		funds = someFunds;
-	}
+  Map<String, BigDecimal> funds = new HashMap<String, BigDecimal>();
 
-	public Map<String, BigDecimal> getFunds() {
-		return funds;
-	}
+  public CryptoTradeAccountData(@JsonProperty("funds") Map<String, BigDecimal> someFunds) {
 
-	public void setFunds(Map<String, BigDecimal> funds) {
-		this.funds = funds;
-	}
+    funds = someFunds;
+  }
+
+  public Map<String, BigDecimal> getFunds() {
+
+    return funds;
+  }
+
+  public void setFunds(Map<String, BigDecimal> funds) {
+
+    this.funds = funds;
+  }
 }
