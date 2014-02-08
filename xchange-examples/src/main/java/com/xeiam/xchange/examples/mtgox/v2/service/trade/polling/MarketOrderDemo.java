@@ -28,6 +28,8 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -41,6 +43,26 @@ public class MarketOrderDemo {
 
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
+    generic(tradeService);
+    raw((MtGoxTradeServiceRaw) tradeService);
+
+  }
+
+  private static void raw(MtGoxTradeServiceRaw tradeService) throws IOException {
+
+    // place a market order for 1 Bitcoin at market price
+    OrderType orderType = (OrderType.BID);
+    BigDecimal tradeableAmount = new BigDecimal(1);
+    String tradableIdentifier = "BTC";
+    String transactionCurrency = "USD";
+
+    MarketOrder marketOrder = new MarketOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency);
+
+    MtGoxGenericResponse orderID = tradeService.placeMtGoxMarketOrder(marketOrder);
+    System.out.println("Market Order return value: " + orderID.getDataString());
+  }
+
+  private static void generic(PollingTradeService tradeService) throws IOException {
 
     // place a market order for 1 Bitcoin at market price
     OrderType orderType = (OrderType.BID);
@@ -52,6 +74,5 @@ public class MarketOrderDemo {
 
     String orderID = tradeService.placeMarketOrder(marketOrder);
     System.out.println("Market Order return value: " + orderID);
-
   }
 }

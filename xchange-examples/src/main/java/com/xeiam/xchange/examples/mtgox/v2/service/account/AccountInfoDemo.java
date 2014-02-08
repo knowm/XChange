@@ -26,6 +26,8 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxAccountInfo;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
@@ -39,9 +41,21 @@ public class AccountInfoDemo {
 
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();
+    generic(accountService);
+    raw((MtGoxAccountServiceRaw) accountService);
+  }
+
+  private static void generic(PollingAccountService accountService) throws IOException {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
+  }
+
+  private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
+
+    // Get the account information
+    MtGoxAccountInfo accountInfo = accountService.getMtGoxAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
   }
 }

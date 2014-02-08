@@ -27,6 +27,9 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
+import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrder;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -41,6 +44,24 @@ public class CancelOrderDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = mtgox.getPollingTradeService();
 
+    generic(tradeService);
+    raw((MtGoxTradeServiceRaw) tradeService);
+  }
+
+  private static void raw(MtGoxTradeServiceRaw tradeService) throws IOException {
+
+    MtGoxGenericResponse success = tradeService.cancelMtGoxOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
+    System.out.println("success= " + success.getDataString());
+
+    // get open orders
+    MtGoxOpenOrder[] openOrders = tradeService.getMtGoxOpenOrders();
+    for (MtGoxOpenOrder openOrder : openOrders) {
+      System.out.println(openOrder.toString());
+    }
+  }
+
+  private static void generic(PollingTradeService tradeService) throws IOException {
+
     boolean success = tradeService.cancelOrder("5272fbd6-51bd-488d-86f7-a277c1e255aa");
     System.out.println("success= " + success);
 
@@ -49,6 +70,5 @@ public class CancelOrderDemo {
     for (LimitOrder openOrder : openOrders.getOpenOrders()) {
       System.out.println(openOrder.toString());
     }
-
   }
 }

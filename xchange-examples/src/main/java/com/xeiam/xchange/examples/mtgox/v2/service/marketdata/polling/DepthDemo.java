@@ -22,12 +22,17 @@
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -42,6 +47,12 @@ public class DepthDemo {
 
     // Interested in the public market data feed (no authentication)
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
+    generic(marketDataService);
+    raw((MtGoxMarketDataServiceRaw) marketDataService);
+
+  }
+
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the current orderbook
     OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.SEK);
@@ -53,7 +64,20 @@ public class DepthDemo {
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
 
     System.out.println(orderBook.toString());
+  }
 
+  private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get the current orderbook
+    MtGoxDepthWrapper orderBook = marketDataService.getMtGoxOrderBook(Currencies.BTC, Currencies.SEK, PollingMarketDataService.OrderBookType.FULL);
+    List<LimitOrder> asks = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getAsks(), Currencies.SEK, "ask", "");
+    List<LimitOrder> bids = MtGoxAdapters.adaptOrders(orderBook.getMtGoxDepth().getBids(), Currencies.SEK, "bid", "");
+
+    System.out.println("Current Order Book size for BTC / SEK: " + (asks.size() + bids.size()));
+
+    System.out.println("First Ask: " + asks.get(0).toString());
+
+    System.out.println("First Bid: " + bids.get(0).toString());
   }
 
 }

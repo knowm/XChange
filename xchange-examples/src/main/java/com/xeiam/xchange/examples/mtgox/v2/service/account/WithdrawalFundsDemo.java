@@ -26,6 +26,8 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponse;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
@@ -40,6 +42,12 @@ public class WithdrawalFundsDemo {
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();
 
+    generic(accountService);
+    raw((MtGoxAccountServiceRaw) accountService);
+  }
+
+  private static void generic(PollingAccountService accountService) throws IOException {
+
     System.out.println("AccountInfo= " + accountService.getAccountInfo());
 
     // Withdrawal transactions may be slow to appear for amounts less than 0.01, even though the API returns success.
@@ -47,6 +55,17 @@ public class WithdrawalFundsDemo {
     // May be a general Bitcoin thing.
     String transactionID = accountService.withdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
     System.out.println("transactionID= " + transactionID);
+  }
+
+  private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
+
+    System.out.println("AccountInfo= " + accountService.getMtGoxAccountInfo());
+
+    // Withdrawal transactions may be slow to appear for amounts less than 0.01, even though the API returns success.
+    // Change the amount to 0.01 or more to see the transaction appear in the block chain quickly.
+    // May be a general Bitcoin thing.
+    MtGoxWithdrawalResponse response = accountService.mtGoxWithdrawFunds(new BigDecimal("0.001"), "17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
+    System.out.println("transactionID= " + response.getTransactionId());
   }
 
 }

@@ -61,6 +61,7 @@ public class KrakenExchangeSymbolsDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     KrakenAssetPairs krakenAssetPairs = krakenMarketDataService.getKrakenAssetPairs();
+
     for (Entry<String, KrakenAssetPair> assetPairEntry : krakenAssetPairs.getAssetPairMap().entrySet()) {
       System.out.println(assetPairEntry.getKey() + ": " + assetPairEntry.getValue());
     }

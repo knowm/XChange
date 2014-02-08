@@ -68,7 +68,7 @@ public final class BitcoiniumUtils {
 
   public static final List<String> PRICE_WINDOW = Arrays.asList(
 
-  "2p", "5", "10p", "20p", "50p", "100p"
+  "2p", "5p", "10p", "20p", "50p", "100p"
 
   );
 

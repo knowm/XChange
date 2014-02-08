@@ -28,6 +28,8 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.mtgox.v2.MtGoxExchange;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -42,6 +44,11 @@ public class TradesDemo {
 
     // Interested in the public market data feed (no authentication)
     PollingMarketDataService marketDataService = mtGoxExchange.getPollingMarketDataService();
+    generic(marketDataService);
+    raw((MtGoxMarketDataServiceRaw) marketDataService);
+  }
+
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get trades with "since" parameter
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
@@ -52,7 +59,19 @@ public class TradesDemo {
     trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK);
     System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
     System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
+  }
 
+  private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get trades with "since" parameter
+    MtGoxTradesWrapper trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
+    System.out.println("Current trades size for BTC / SEK: " + trades.getMtGoxTrades().length);
+    System.out.println("Trade 0 : " + trades.getMtGoxTrades()[trades.getMtGoxTrades().length - 1].toString());
+
+    // Get "most recent" trades
+    trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.SEK);
+    System.out.println("Current trades size for BTC / SEK: " + trades.getMtGoxTrades().length);
+    System.out.println("Trade 0 : " + trades.getMtGoxTrades()[trades.getMtGoxTrades().length - 1].toString());
   }
 
 }

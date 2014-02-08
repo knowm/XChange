@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
+import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxBitcoinDepositAddress;
+import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
@@ -38,9 +40,22 @@ public class BitcoinDepositAddressDemo {
 
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = mtgox.getPollingAccountService();
+    generic(accountService);
+    raw(((MtGoxAccountServiceRaw) accountService));
+
+  }
+
+  private static void generic(PollingAccountService accountService) throws IOException {
 
     // Request a Bitcoin deposit address
     String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);
     System.out.println("Address to deposit Bitcoins to: " + address);
+  }
+
+  private static void raw(MtGoxAccountServiceRaw accountService) throws IOException {
+
+    // Request a Bitcoin deposit address
+    MtGoxBitcoinDepositAddress address = accountService.mtGoxRequestDepositAddress("Demonstation address", null);
+    System.out.println("Address to deposit Bitcoins to: " + address.getAddres());
   }
 }
