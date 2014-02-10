@@ -37,7 +37,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  * Example showing the following:
  * </p>
  * <ul>
- * <li>Connect to Bitstamp exchange with authentication</li>
+ * <li>Connect to BTCChina exchange with authentication</li>
  * <li>Enter, review and cancel limit orders</li>
  * </ul>
  */

@@ -27,26 +27,32 @@ import com.xeiam.xchange.kraken.KrakenUtils;
 
 public class KrakenAssets {
 
-  private final Map<String, KrakenAssetInfo> assetInfoMap;
+  private final Map<String, KrakenAsset> assetInfoMap;
 
-  public KrakenAssets(final Map<String, KrakenAssetInfo> assetInfoMap) {
+  public KrakenAssets(final Map<String, KrakenAsset> assetInfoMap) {
 
     this.assetInfoMap = assetInfoMap;
   }
 
-  public KrakenAssetInfo getAssetPairInfo(String tradableIdentifier, String currency) {
+  public KrakenAsset getAssetPairInfo(String tradableIdentifier, String currency) {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     return getAssetPairInfo(krakenCurrencyPair);
   }
 
-  public KrakenAssetInfo getAssetPairInfo(String krakenCurrencyPair) {
+  public KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
 
     return assetInfoMap.get(krakenCurrencyPair);
   }
 
-  public Map<String, KrakenAssetInfo> getAssetPairMap() {
+  public Map<String, KrakenAsset> getAssetPairMap() {
 
     return assetInfoMap;
+  }
+
+  @Override
+  public String toString() {
+
+    return "KrakenAssets [assetInfoMap=" + assetInfoMap + "]";
   }
 }

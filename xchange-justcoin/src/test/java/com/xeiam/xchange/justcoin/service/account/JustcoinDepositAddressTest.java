@@ -37,7 +37,7 @@ import com.xeiam.xchange.justcoin.dto.account.JustcoinDepositAddress;
 public class JustcoinDepositAddressTest {
 
   final String address = "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB";
-  
+
   @Test
   public void testUnmarshal() throws IOException {
 

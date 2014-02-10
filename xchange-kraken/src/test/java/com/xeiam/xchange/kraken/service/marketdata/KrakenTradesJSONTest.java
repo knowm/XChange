@@ -29,11 +29,10 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenTradesResult;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderType;
+import com.xeiam.xchange.kraken.dto.trade.KrakenType;
 
-/**
- * Test KrakenDepth JSON parsing
- */
 public class KrakenTradesJSONTest {
 
   @Test
@@ -44,11 +43,13 @@ public class KrakenTradesJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenTradesResult krakenTrades = mapper.readValue(is, KrakenTradesResult.class);
+    KrakenPublicTradesResult krakenTrades = mapper.readValue(is, KrakenPublicTradesResult.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(krakenTrades.getResult().getTrades().get(0).getPrice()).isEqualTo("1023.82219");
-    assertThat(krakenTrades.getResult().getTrades().get(0).getOrderType()).isEqualTo("l");
+    assertThat(krakenTrades.getResult().getTrades().get(0).getVolume()).isEqualTo("0.00435995");
+    assertThat(krakenTrades.getResult().getTrades().get(0).getType()).isEqualTo(KrakenType.SELL);
+    assertThat(krakenTrades.getResult().getTrades().get(0).getOrderType()).isEqualTo(KrakenOrderType.LIMIT);
     assertThat(krakenTrades.getResult().getTrades().get(1).getTime()).isEqualTo(1385579841.7876);
     long lastId = krakenTrades.getResult().getLast();
     assertThat(lastId).isEqualTo(1385579841881785998L);

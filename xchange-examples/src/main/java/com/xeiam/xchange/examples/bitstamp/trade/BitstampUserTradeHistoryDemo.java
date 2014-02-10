@@ -24,6 +24,8 @@ package com.xeiam.xchange.examples.bitstamp.trade;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -43,12 +45,31 @@ public class BitstampUserTradeHistoryDemo {
 
     Exchange bitstamp = BitstampDemoUtils.createExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
+
+    generic(tradeService);
+    raw((BitstampTradeServiceRaw) tradeService);
+  }
+
+  private static void generic(PollingTradeService tradeService) throws IOException {
+
     Trades trades = tradeService.getTradeHistory();
     System.out.println(trades.toString());
 
     Trades tradesLimitedTo17 = tradeService.getTradeHistory(17L);
     System.out.println(tradesLimitedTo17.toString());
+  }
 
+  private static void raw(BitstampTradeServiceRaw tradeService) throws IOException {
+
+    BitstampUserTransaction[] trades = tradeService.getBitstampUserTransactions(Long.MAX_VALUE);
+    for (BitstampUserTransaction trade : trades) {
+      System.out.println(trade.toString());
+    }
+
+    BitstampUserTransaction[] tradesLimitedTo17 = tradeService.getBitstampUserTransactions(17L);
+    for (BitstampUserTransaction trade : tradesLimitedTo17) {
+      System.out.println(trade.toString());
+    }
   }
 
 }

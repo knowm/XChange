@@ -148,7 +148,7 @@ public class BitstampAdapterTest {
 
     Trades userTradeHistory = BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
 
-    assertThat(userTradeHistory.getTrades().get(0).getId()).isEqualTo(1296712);
+    assertThat(userTradeHistory.getTrades().get(0).getId()).isEqualTo("1296712");
     assertThat(userTradeHistory.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(userTradeHistory.getTrades().get(0).getPrice()).isEqualTo(MoneyUtils.parse("USD 131.50"));
 

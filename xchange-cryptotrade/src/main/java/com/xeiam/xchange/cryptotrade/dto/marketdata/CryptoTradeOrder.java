@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -50,8 +49,8 @@ public class CryptoTradeOrder {
    * @param type
    * @param pair
    */
-  public CryptoTradeOrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public CryptoTradeOrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 
     this.status = status;
     this.timestampCreated = timestampCreated;

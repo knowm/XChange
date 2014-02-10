@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -29,11 +28,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CryptoTradePlaceOrderReturn {
 
-	String success;
+  String success;
 
-	public CryptoTradePlaceOrderReturn(@JsonProperty("status") String aResult) {
+  public CryptoTradePlaceOrderReturn(@JsonProperty("status") String aResult) {
 
-		success = aResult;
+    success = aResult;
 
-	}
+  }
 }

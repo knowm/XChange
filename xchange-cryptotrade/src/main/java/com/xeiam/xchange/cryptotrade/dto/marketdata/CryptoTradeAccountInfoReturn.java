@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -32,29 +31,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Matija Mazi
  */
 public class CryptoTradeAccountInfoReturn {
-	String result;
-	Map<String, BigDecimal> availableFunds = new HashMap<String, BigDecimal>();
 
-	public String getResult() {
-		return result;
-	}
+  String result;
+  Map<String, BigDecimal> availableFunds = new HashMap<String, BigDecimal>();
 
-	public void setResult(String result) {
-		this.result = result;
-	}
+  public String getResult() {
 
-	public Map<String, BigDecimal> getAvailableFunds() {
-		return availableFunds;
-	}
+    return result;
+  }
 
-	public void setAvailableFunds(Map<String, BigDecimal> availableFunds) {
-		this.availableFunds = availableFunds;
-	}
+  public void setResult(String result) {
 
-	public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
-		result = aResult;
-		availableFunds = data.getFunds();
+    this.result = result;
+  }
 
-	}
+  public Map<String, BigDecimal> getAvailableFunds() {
+
+    return availableFunds;
+  }
+
+  public void setAvailableFunds(Map<String, BigDecimal> availableFunds) {
+
+    this.availableFunds = availableFunds;
+  }
+
+  public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
+
+    result = aResult;
+    availableFunds = data.getFunds();
+
+  }
 
 }

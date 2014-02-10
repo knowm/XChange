@@ -22,9 +22,12 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
@@ -45,4 +48,69 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
 
     return krakenResult.getResult();
   }
+
+  protected String createDelimitedString(String[] items) {
+
+    StringBuilder commaDelimitedString = null;
+    if (items != null) {
+      for (String item : items) {
+        if (commaDelimitedString == null)
+          commaDelimitedString = new StringBuilder(item);
+        else
+          commaDelimitedString.append(",").append(item);
+      }
+    }
+
+    return (commaDelimitedString == null) ? null : commaDelimitedString.toString();
+  }
+
+  protected String delimitAssets(String[] assets) {
+
+    StringBuilder commaDelimitedAssets = new StringBuilder();
+    if (assets != null && assets.length > 0) {
+      boolean started = false;
+      for (String asset : assets) {
+        commaDelimitedAssets.append((started) ? "," : "").append(KrakenUtils.getKrakenCurrencyCode(asset));
+        started = true;
+      }
+
+      return commaDelimitedAssets.toString();
+    }
+
+    return null;
+  }
+
+  protected String delimitAssetPairs(CurrencyPair[] currencyPairs) {
+
+    String assetPairsString = null;
+    if (currencyPairs != null && currencyPairs.length > 0) {
+      StringBuilder delimitStringBuilder = null;
+      for (CurrencyPair currencyPair : currencyPairs) {
+        String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
+        if (delimitStringBuilder == null)
+          delimitStringBuilder = new StringBuilder(krakenAssetPair);
+        else
+          delimitStringBuilder.append(",").append(krakenAssetPair);
+      }
+      assetPairsString = delimitStringBuilder.toString();
+    }
+
+    return assetPairsString;
+  }
+
+  protected String delimitSet(Set<?> items) {
+
+    String delimitedSetString = null;
+    if (items != null && !items.isEmpty()) {
+      StringBuilder delimitStringBuilder = null;
+      for (Object item : items) {
+        if (delimitStringBuilder == null)
+          delimitStringBuilder = new StringBuilder(item.toString());
+        else
+          delimitStringBuilder.append(",").append(item.toString());
+      }
+    }
+    return delimitedSetString;
+  }
+
 }

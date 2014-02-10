@@ -42,7 +42,9 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
-/** @author Matija Mazi */
+/**
+ * @author Matija Mazi
+ */
 public class BTCETradeService extends BTCEBaseService implements PollingTradeService {
 
   /**

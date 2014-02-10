@@ -24,32 +24,22 @@ package com.xeiam.xchange.bitstamp.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
-import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
-import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
-import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author Matija Mazi
  */
-public class BitstampMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private final Bitstamp bitstamp;
+public class BitstampMarketDataService extends BitstampMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
@@ -59,16 +49,15 @@ public class BitstampMarketDataService extends BasePollingExchangeService implem
   public BitstampMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchangeSpecification.getSslUri());
+
   }
 
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
-    BitstampTicker bitstampTicker = bitstamp.getTicker();
 
-    return BitstampAdapters.adaptTicker(bitstampTicker, tradableIdentifier, currency);
+    return BitstampAdapters.adaptTicker(getBitstampTicker(), tradableIdentifier, currency);
   }
 
   @Override
@@ -76,9 +65,7 @@ public class BitstampMarketDataService extends BasePollingExchangeService implem
 
     verify(tradableIdentifier, currency);
 
-    BitstampOrderBook bitstampOrderBook = bitstamp.getOrderBook();
-
-    return BitstampAdapters.adaptOrders(bitstampOrderBook, tradableIdentifier, currency);
+    return BitstampAdapters.adaptOrders(getBitstampOrderBook(), tradableIdentifier, currency);
   }
 
   @Override
@@ -86,20 +73,7 @@ public class BitstampMarketDataService extends BasePollingExchangeService implem
 
     verify(tradableIdentifier, currency);
 
-    BitstampTransaction[] transactions = null;
-
-    if (args.length == 0) {
-      transactions = bitstamp.getTransactions(); // default values: offset=0, limit=100
-    }
-    else if (args.length == 1) {
-      BitstampTime bitstampTime = (BitstampTime) args[0];
-      transactions = bitstamp.getTransactions(bitstampTime.toString().toLowerCase()); // default values: limit=100
-    }
-
-    else {
-      throw new ExchangeException("Invalid argument length. Must be 0, or 1.");
-    }
-    return BitstampAdapters.adaptTrades(transactions, tradableIdentifier, currency);
+    return BitstampAdapters.adaptTrades(getBitstampTransactions(args), tradableIdentifier, currency);
   }
 
   @Override
@@ -125,10 +99,6 @@ public class BitstampMarketDataService extends BasePollingExchangeService implem
   public List<CurrencyPair> getExchangeSymbols() {
 
     return BitstampUtils.CURRENCY_PAIRS;
-  }
-
-  public enum BitstampTime {
-    HOUR, MINUTE;
   }
 
 }

@@ -33,16 +33,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairInfo;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairsResult;
+import com.xeiam.xchange.kraken.KrakenUtils;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenFee;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 
-/**
- * Test KrakenDepth JSON parsing
- */
 public class KrakenAssetPairsJSONTest {
 
-  private KrakenAssetPairInfo expectedAssetPairInfo;
+  private KrakenAssetPair expectedAssetPairInfo;
 
   @Before
   public void before() {
@@ -50,7 +48,7 @@ public class KrakenAssetPairsJSONTest {
     List<KrakenFee> fees = new ArrayList<KrakenFee>();
     fees.add(new KrakenFee(new BigDecimal("0"), new BigDecimal("0.3")));
     expectedAssetPairInfo =
-        new KrakenAssetPairInfo("XBTUSD", "currency", "XXBT", "currency", "ZUSD", "unit", 5, 8, new BigDecimal(1), new ArrayList<String>(), fees, "ZUSD", new BigDecimal(80), new BigDecimal(40));
+        new KrakenAssetPair("XBTUSD", "currency", "XXBT", "currency", "ZUSD", "unit", 5, 8, new BigDecimal(1), new ArrayList<String>(), fees, "ZUSD", new BigDecimal(80), new BigDecimal(40));
   }
 
   @Test
@@ -64,11 +62,11 @@ public class KrakenAssetPairsJSONTest {
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(krakenAssetPairs.getResult()).hasSize(17);
+    assertThat(krakenAssetPairs.getResult()).hasSize(KrakenUtils.CURRENCY_PAIRS.size());
     assertThat(krakenAssetPairs.getResult().get("XXBTZEUR")).isNotNull();
     assertThat(krakenAssetPairs.getResult().get("XBTCEUR")).isNull();
 
-    KrakenAssetPairInfo krakenAssetPairInfo = krakenAssetPairs.getResult().get("XXBTZUSD");
+    KrakenAssetPair krakenAssetPairInfo = krakenAssetPairs.getResult().get("XXBTZUSD");
     assertThat(krakenAssetPairInfo.getAltName()).isEqualTo(expectedAssetPairInfo.getAltName());
     assertThat(krakenAssetPairInfo.getBase()).isEqualTo(expectedAssetPairInfo.getBase());
     assertThat(krakenAssetPairInfo.getClassBase()).isEqualTo(expectedAssetPairInfo.getClassBase());

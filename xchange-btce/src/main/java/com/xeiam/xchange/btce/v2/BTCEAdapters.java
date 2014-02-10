@@ -129,7 +129,8 @@ public final class BTCEAdapters {
     String tradableIdentifier = bTCETrade.getTradeableIdentifier();
     Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
 
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, bTCETrade.getTid());
+    final String tradeId = String.valueOf(bTCETrade.getTid());
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId, null);
   }
 
   /**
@@ -214,7 +215,9 @@ public final class BTCEAdapters {
       BigMoney price = BigMoney.of(CurrencyUnit.of(transactionCurrency), result.getRate());
       BigDecimal tradableAmount = result.getAmount();
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
-      trades.add(new Trade(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timeStamp, entry.getKey()));
+      final String tradeId = String.valueOf(entry.getKey());
+      final String orderId = String.valueOf(result.getOrderId());
+      trades.add(new Trade(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timeStamp, tradeId, orderId));
     }
     return new Trades(trades);
   }

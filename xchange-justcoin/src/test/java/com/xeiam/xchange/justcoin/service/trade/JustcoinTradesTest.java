@@ -71,8 +71,8 @@ public class JustcoinTradesTest {
       e.printStackTrace();
     }
     justcoinTrade =
-        new JustcoinTrade(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "bid", null, amount, BigDecimal.ZERO, BigDecimal.valueOf(0.50024),
-            BigDecimal.ZERO, orderCreatedAt, averagePrice.getAmount());
+        new JustcoinTrade(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "bid", null, amount, BigDecimal.ZERO, BigDecimal.valueOf(0.50024), BigDecimal.ZERO, orderCreatedAt,
+            averagePrice.getAmount());
   }
 
   @Test
@@ -94,7 +94,7 @@ public class JustcoinTradesTest {
 
     final Trade trade = JustcoinAdapters.adaptTrade(justcoinTrade);
 
-    assertThat(trade.getId()).isEqualTo(Long.valueOf(id));
+    assertThat(trade.getId()).isEqualTo(id);
     assertThat(trade.getPrice()).isEqualTo(averagePrice);
     assertThat(trade.getTimestamp()).isEqualTo(orderCreatedAt);
     assertThat(trade.getTradableAmount()).isEqualTo(amount);

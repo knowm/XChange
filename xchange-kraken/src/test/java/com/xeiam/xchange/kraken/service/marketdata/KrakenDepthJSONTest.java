@@ -26,11 +26,15 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepthResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder;
+import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
 /**
  * Test KrakenDepth JSON parsing
@@ -45,12 +49,16 @@ public class KrakenDepthJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    KrakenDepthResult krakenDepth = mapper.readValue(is, KrakenDepthResult.class);
+    KrakenDepthResult krakenDepthResult = mapper.readValue(is, KrakenDepthResult.class);
+    Map<String, KrakenDepth> krakenDepths = krakenDepthResult.getResult();
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(krakenDepth.getResult().get("XBTCXLTC")).isEqualTo(null);
-    assertThat(krakenDepth.getResult().get("XBTCZEUR").getAsks().get(0).getPrice()).isEqualTo(new BigDecimal("96.99999"));
-    assertThat(krakenDepth.getResult().get("XBTCZEUR").getAsks().get(0).getVolume()).isEqualTo(new BigDecimal("1"));
-    assertThat(krakenDepth.getResult().get("XBTCZEUR").getAsks().get(0).getTimestamp()).isEqualTo(1378962690L);
+    assertThat(krakenDepths.get("XXBTXLTC")).isEqualTo(null);
+    List<KrakenPublicOrder> krakenAsks = krakenDepths.get("XXBTZEUR").getAsks();
+    KrakenPublicOrder krakenPublicOrder = krakenAsks.get(0);
+
+    assertThat(krakenPublicOrder.getPrice()).isEqualTo(new BigDecimal("530.75513"));
+    assertThat(krakenPublicOrder.getVolume()).isEqualTo(new BigDecimal("0.248"));
+    assertThat(krakenPublicOrder.getTimestamp()).isEqualTo(1391825343L);
   }
 }
