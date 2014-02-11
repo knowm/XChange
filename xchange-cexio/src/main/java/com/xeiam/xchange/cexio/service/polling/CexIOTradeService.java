@@ -1,5 +1,17 @@
 package com.xeiam.xchange.cexio.service.polling;
 
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -17,20 +29,10 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.DateUtils;
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class CexIOTradeService extends BasePollingExchangeService implements PollingTradeService {
@@ -40,7 +42,7 @@ public class CexIOTradeService extends BasePollingExchangeService implements Pol
 
   /**
    * Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public CexIOTradeService(ExchangeSpecification exchangeSpecification) {
@@ -79,7 +81,9 @@ public class CexIOTradeService extends BasePollingExchangeService implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    CexIOOrder order = exchange.placeOrder(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency(), exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(), (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+    CexIOOrder order =
+        exchange.placeOrder(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency(), exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(),
+            (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
     if (order.getErrorMessage() != null) {
       throw new ExchangeException(order.getErrorMessage());
     }

@@ -21,25 +21,31 @@
  */
 package com.xeiam.xchange.cexio;
 
+import java.io.IOException;
+
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
 import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 
-import javax.ws.rs.*;
-import java.io.IOException;
-
 /**
  * Author: brox
- * Since:  2/5/14
+ * Since: 2/5/14
  */
 
 @Path("api")
 @Produces("application/json")
 public interface CexIO {
+
   @GET
   @Path("ticker/{ident}/{currency}")
-  CexIOTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
-            throws IOException;
+  CexIOTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("order_book/{ident}/{currency}")

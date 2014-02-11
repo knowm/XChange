@@ -7,7 +7,7 @@ import com.xeiam.xchange.cexio.CexIOExchange;
 
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class CexIODemoUtils {

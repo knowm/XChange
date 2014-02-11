@@ -1,5 +1,8 @@
 package com.xeiam.xchange.examples.cexio.trade;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.currency.MoneyUtils;
@@ -9,12 +12,9 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.cexio.CexIODemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class TradeDemo {
@@ -33,7 +33,7 @@ public class TradeDemo {
     try {
       orderId = tradeService.placeLimitOrder(limitOrder);
       System.out.println("New Limit Order ID: " + orderId);
-    } catch(ExchangeException e) {
+    } catch (ExchangeException e) {
       System.out.println(e);
     }
     printOpenOrders(tradeService);

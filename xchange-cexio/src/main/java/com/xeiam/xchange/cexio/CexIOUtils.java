@@ -1,14 +1,14 @@
 package com.xeiam.xchange.cexio;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.xeiam.xchange.currency.CurrencyPair;
+
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class CexIOUtils {
@@ -21,20 +21,18 @@ public class CexIOUtils {
    * private Constructor
    */
   private CexIOUtils() {
+
   }
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-    CurrencyPair.LTC_BTC,
-    CurrencyPair.NMC_BTC,
-    CurrencyPair.GHs_BTC,
-    CurrencyPair.GHs_NMC
+  CurrencyPair.LTC_BTC, CurrencyPair.NMC_BTC, CurrencyPair.GHs_BTC, CurrencyPair.GHs_NMC
 
   );
 
   /**
    * Checks if a given CurrencyPair is covered by this exchange
-   *
+   * 
    * @param currencyPair
    * @return
    */

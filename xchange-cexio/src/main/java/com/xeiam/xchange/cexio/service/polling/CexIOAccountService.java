@@ -1,5 +1,11 @@
 package com.xeiam.xchange.cexio.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -12,15 +18,10 @@ import com.xeiam.xchange.cexio.service.CexIODigest;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class CexIOAccountService extends BasePollingExchangeService implements PollingAccountService {
@@ -28,13 +29,13 @@ public class CexIOAccountService extends BasePollingExchangeService implements P
   private final CexIOAuthenticated exchange;
   private ParamsDigest signatureCreator;
 
-
-    /**
+  /**
    * Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public CexIOAccountService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
     this.exchange = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchangeSpecification.getSslUri());
     signatureCreator = CexIODigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());

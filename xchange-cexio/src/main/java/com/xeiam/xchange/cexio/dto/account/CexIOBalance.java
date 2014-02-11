@@ -1,13 +1,13 @@
 package com.xeiam.xchange.cexio.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Author: brox
- * Since:  2/7/14
+ * Since: 2/7/14
  */
 
 public class CexIOBalance {
@@ -18,7 +18,7 @@ public class CexIOBalance {
 
   /**
    * Constructor
-   *
+   * 
    * @param available Available balance
    * @param orders Balance in pending orders
    * @param bonus Referral program bonus

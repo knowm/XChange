@@ -9,7 +9,7 @@ import com.xeiam.xchange.cexio.service.polling.CexIOTradeService;
 
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class CexIOExchange extends BaseExchange implements Exchange {

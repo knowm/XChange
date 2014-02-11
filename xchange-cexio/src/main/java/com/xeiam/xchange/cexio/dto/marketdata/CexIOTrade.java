@@ -1,12 +1,12 @@
 package com.xeiam.xchange.cexio.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Author: brox
- * Since:  2/5/14
+ * Since: 2/5/14
  */
 
 public class CexIOTrade {
@@ -18,7 +18,7 @@ public class CexIOTrade {
 
   /**
    * Constructor
-   *
+   * 
    * @param amount
    * @param price
    * @param date

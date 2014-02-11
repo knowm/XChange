@@ -1,5 +1,10 @@
 package com.xeiam.xchange.cexio.service.polling;
 
+import java.io.IOException;
+import java.util.List;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -18,14 +23,10 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class CexIOMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
@@ -34,16 +35,18 @@ public class CexIOMarketDataService extends BasePollingExchangeService implement
 
   /**
    * Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public CexIOMarketDataService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
     this.exchange = RestProxyFactory.createProxy(CexIO.class, exchangeSpecification.getSslUri());
   }
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
+
     return null;
   }
 
@@ -57,7 +60,8 @@ public class CexIOMarketDataService extends BasePollingExchangeService implement
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     verify(tradableIdentifier, currency);
     CexIODepth bitstampOrderBook = exchange.getDepth(tradableIdentifier, currency);
@@ -67,6 +71,7 @@ public class CexIOMarketDataService extends BasePollingExchangeService implement
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     verify(tradableIdentifier, currency);
     CexIOTrade[] trades;
 
@@ -94,7 +99,7 @@ public class CexIOMarketDataService extends BasePollingExchangeService implement
 
   /**
    * Verify that both currencies can make valid pair
-   *
+   * 
    * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */

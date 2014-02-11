@@ -1,20 +1,21 @@
 package com.xeiam.xchange.cexio.service;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocation;
+import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.FormParam;
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 /**
  * Author: brox
  * Since: 2/7/14 9:42 PM
  */
-public class CexIODigest  implements ParamsDigest {
+public class CexIODigest implements ParamsDigest {
 
   private static final String HMAC_SHA_256 = "HmacSHA256";
 
@@ -24,7 +25,7 @@ public class CexIODigest  implements ParamsDigest {
 
   /**
    * Constructor
-   *
+   * 
    * @param secretKeyBase64
    * @param clientId Account user name
    * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.examples.cexio.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.cexio.CexIOExchange;
@@ -7,11 +9,9 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-import java.io.IOException;
-
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class DepthDemo {
@@ -31,7 +31,7 @@ public class DepthDemo {
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
     System.out.println("Timestamp: " + orderBook.getTimeStamp().toString());
-//    System.out.println(orderBook.toString());
+    // System.out.println(orderBook.toString());
   }
 
 }

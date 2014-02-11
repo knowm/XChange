@@ -1,12 +1,12 @@
 package com.xeiam.xchange.cexio.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Author: brox
- * Since:  2/5/14
+ * Since: 2/5/14
  */
 
 public class CexIOOrder {
@@ -21,7 +21,7 @@ public class CexIOOrder {
 
   /**
    * Constructor
-   *
+   * 
    * @param id
    * @param time
    * @param type
@@ -29,8 +29,8 @@ public class CexIOOrder {
    * @param amount
    * @param pending
    */
-  public CexIOOrder(@JsonProperty("id") int id, @JsonProperty("time") long time, @JsonProperty("type") Type type, @JsonProperty("price") BigDecimal price,
-                    @JsonProperty("amount") BigDecimal amount, @JsonProperty("pending") BigDecimal pending, @JsonProperty("error") String errorMessage) {
+  public CexIOOrder(@JsonProperty("id") int id, @JsonProperty("time") long time, @JsonProperty("type") Type type, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("pending") BigDecimal pending, @JsonProperty("error") String errorMessage) {
 
     this.id = id;
     this.time = time;
@@ -65,7 +65,6 @@ public class CexIOOrder {
 
     return amount;
   }
-
 
   public BigDecimal getPending() {
 

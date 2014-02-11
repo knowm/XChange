@@ -1,15 +1,15 @@
 package com.xeiam.xchange.examples.cexio.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.cexio.CexIODemoUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-import java.io.IOException;
-
 /**
  * Author: brox
- * Since:  2/6/14
+ * Since: 2/6/14
  */
 
 public class AccountInfoDemo {

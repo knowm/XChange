@@ -1,12 +1,12 @@
 package com.xeiam.xchange.cexio.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.text.MessageFormat;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Author: brox
- * Since:  2/7/14
+ * Since: 2/7/14
  */
 
 public class CexIOBalanceInfo {
@@ -22,7 +22,7 @@ public class CexIOBalanceInfo {
 
   /**
    * Constructor
-   *
+   * 
    * @param error
    * @param timestamp The server time (Unix time)
    * @param username
@@ -32,10 +32,8 @@ public class CexIOBalanceInfo {
    * @param balanceDVC
    * @param balanceGHS
    */
-  public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username,
-      @JsonProperty("BTC") CexIOBalance balanceBTC, @JsonProperty("NMC") CexIOBalance balanceNMC,
-      @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC,
-      @JsonProperty("GHS") CexIOBalance balanceGHS) {
+  public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username, @JsonProperty("BTC") CexIOBalance balanceBTC,
+      @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC, @JsonProperty("GHS") CexIOBalance balanceGHS) {
 
     this.error = error;
     this.timestamp = timestamp;
@@ -90,7 +88,8 @@ public class CexIOBalanceInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, NMC={4}, IXC={5}, DVC={6}, GHS={7}]", error, timestamp, username, balanceBTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS);
+    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, NMC={4}, IXC={5}, DVC={6}, GHS={7}]", error, timestamp, username, balanceBTC, balanceNMC,
+        balanceIXC, balanceDVC, balanceGHS);
   }
 
 }
