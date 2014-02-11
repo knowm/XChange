@@ -22,10 +22,13 @@
 package com.xeiam.xchange.examples.bitcurex;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcurex.BitcurexExchange;
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
+import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -38,16 +41,34 @@ public class TradesDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get the Bitcurex exchange API using default settings
-    Exchange cavirtex = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    Exchange bitcurex = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitcurex.getPollingMarketDataService();
+
+    // // Get the latest trade data for BTC/EUR
+    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
+    // System.out.println(trades.toString());
+
+    generic(marketDataService);
+    raw((BitcurexMarketDataServiceRaw) marketDataService);
+
+  }
+
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/EUR
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
-
+    System.out.println("Trades, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
+  }
 
+  private static void raw(BitcurexMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get the latest trade data for BTC/EUR
+    BitcurexTrade[] trades = marketDataService.getBitcurexTrades("BTC", "EUR");
+    System.out.println("Trades, default. Size= " + trades.length);
+    System.out.println(Arrays.toString(trades));
   }
 
 }
