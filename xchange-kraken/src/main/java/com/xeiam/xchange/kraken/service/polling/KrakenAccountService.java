@@ -50,7 +50,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
+  public String requestBitcoinDepositAddress(String... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -64,15 +64,15 @@ public class MtGoxAccountService extends MtGoxAccountServiceRaw implements Polli
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+  public String requestBitcoinDepositAddress(String... args) throws IOException {
 
-    if (arguments.length < 2) {
+    if (args.length < 2) {
       throw new ExchangeException("Expected description and notificationUrl, in that order.");
     }
-    Assert.notNull(arguments[0], "Description cannot be null.");
+    Assert.notNull(args[0], "Description cannot be null.");
 
-    String description = arguments[0];
-    String notificationUrl = arguments[1];
+    String description = args[0];
+    String notificationUrl = args[1];
 
     return mtGoxRequestDepositAddress(description, notificationUrl).getAddres();
   }

@@ -63,7 +63,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   }
 
   @Override
-  public Trades getTradeHistory(Object... arguments) throws IOException {
+  public Trades getTradeHistory(Object... args) throws IOException {
 
     return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
   }
