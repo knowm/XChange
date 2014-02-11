@@ -21,9 +21,13 @@
  */
 package com.xeiam.xchange.examples.bitfinex.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
+import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -44,17 +48,23 @@ public class TickerDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
+    generic(marketDataService);
+    raw((BitfinexMarketDataServiceRaw) marketDataService);
 
-    System.out.println("Last: " + currency + "-" + value);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
-    System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
+  }
+
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+
+    // Get the latest ticker data showing BTC to USD
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+
+    System.out.println(ticker.toString());
+  }
+
+  private static void raw(BitfinexMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get the latest ticker data showing BTC to USD
+    BitfinexTicker ticker = marketDataService.getBitfinexTicker("btcusd");
 
     System.out.println(ticker.toString());
 

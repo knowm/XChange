@@ -19,59 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitfinex.v1.dto.marketdata;
+package com.xeiam.xchange.bitfinex.v1.service.polling;
 
-import java.math.BigDecimal;
+import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesResponse;
 
-public class BitfinexTicker {
+public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
-  private final BigDecimal mid;
-  private final BigDecimal bid;
-  private final BigDecimal ask;
-  private final BigDecimal last;
-  private final float timestamp;
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public BitfinexAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-  public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("last_price") BigDecimal last,
-      @JsonProperty("timestamp") float timestamp) {
-
-    this.mid = mid;
-    this.bid = bid;
-    this.ask = ask;
-    this.last = last;
-    this.timestamp = timestamp;
+    super(exchangeSpecification);
   }
 
-  public BigDecimal getMid() {
+  public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
 
-    return mid;
-  }
+    BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
 
-  public BigDecimal getBid() {
-
-    return bid;
-  }
-
-  public BigDecimal getAsk() {
-
-    return ask;
-  }
-
-  public BigDecimal getLast_price() {
-
-    return last;
-  }
-
-  public float getTimestamp() {
-
-    return timestamp;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitfinexTicker [mid=" + mid + ", bid=" + bid + ", ask=" + ask + ", last=" + last + ", timestamp=" + timestamp + "]";
+    return balances;
   }
 
 }

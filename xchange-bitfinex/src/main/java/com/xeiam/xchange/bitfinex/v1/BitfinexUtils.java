@@ -19,59 +19,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitfinex.v1.dto.marketdata;
+package com.xeiam.xchange.bitfinex.v1;
 
-import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.currency.CurrencyPair;
 
-public class BitfinexTicker {
+/**
+ * A central place for shared Bitfinex properties
+ */
+public final class BitfinexUtils {
 
-  private final BigDecimal mid;
-  private final BigDecimal bid;
-  private final BigDecimal ask;
-  private final BigDecimal last;
-  private final float timestamp;
+  /**
+   * private Constructor
+   */
+  private BitfinexUtils() {
 
-  public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("last_price") BigDecimal last,
-      @JsonProperty("timestamp") float timestamp) {
-
-    this.mid = mid;
-    this.bid = bid;
-    this.ask = ask;
-    this.last = last;
-    this.timestamp = timestamp;
   }
 
-  public BigDecimal getMid() {
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-    return mid;
+  CurrencyPair.BTC_USD,
+
+  CurrencyPair.LTC_USD,
+
+  CurrencyPair.LTC_BTC
+
+  );
+
+  /**
+   * Checks if a given CurrencyPair is covered by this exchange
+   * 
+   * @param currencyPair
+   * @return
+   */
+  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+
+    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
-  public BigDecimal getBid() {
+  public static String toPairString(String tradableIdentifier, String currency) {
 
-    return bid;
-  }
-
-  public BigDecimal getAsk() {
-
-    return ask;
-  }
-
-  public BigDecimal getLast_price() {
-
-    return last;
-  }
-
-  public float getTimestamp() {
-
-    return timestamp;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitfinexTicker [mid=" + mid + ", bid=" + bid + ", ask=" + ask + ", last=" + last + ", timestamp=" + timestamp + "]";
+    return tradableIdentifier.toLowerCase() + currency.toLowerCase();
   }
 
 }

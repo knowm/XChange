@@ -56,10 +56,7 @@ public class BitfinexLevel {
   @Override
   public String toString() {
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexLevel [timestamp=");
-    builder.append(timestamp);
-    builder.append("]");
-    return builder.toString();
+    return "BitfinexLevel [price=" + price + ", amount=" + amount + ", timestamp=" + timestamp + "]";
   }
+
 }
