@@ -19,6 +19,10 @@ public class CexIOOrder {
   private final BigDecimal pending;
   private final String errorMessage;
 
+  /** non-JSON fields */
+  private String tradableIdentifier;
+  private String transactionCurrency;
+
   /**
    * Constructor
    * 
@@ -74,6 +78,26 @@ public class CexIOOrder {
   public String getErrorMessage() {
 
     return errorMessage;
+  }
+
+  public String getTradableIdentifier() {
+
+    return tradableIdentifier;
+  }
+
+  public void setTradableIdentifier(String tradableIdentifier) {
+
+    this.tradableIdentifier = tradableIdentifier;
+  }
+
+  public String getTransactionCurrency() {
+
+    return transactionCurrency;
+  }
+
+  public void setTransactionCurrency(String transactionCurrency) {
+
+    this.transactionCurrency = transactionCurrency;
   }
 
   @Override

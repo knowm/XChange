@@ -13,6 +13,7 @@ import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
+import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order;
@@ -22,6 +23,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -158,6 +160,21 @@ public class CexIOAdapters {
     if (!argument) {
       throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
     }
+  }
+
+  public static OpenOrders adaptOpenOrders(List<CexIOOrder> cexIOOrderList) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+
+    for (CexIOOrder cexIOOrder : cexIOOrderList) {
+      Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+      String id = Integer.toString(cexIOOrder.getId());
+      BigMoney price = BigMoney.of(CurrencyUnit.of(cexIOOrder.getTransactionCurrency()), cexIOOrder.getPrice());
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency(), id, DateUtils.fromMillisUtc(cexIOOrder.getTime() * 1000L), price));
+    }
+
+    return new OpenOrders(limitOrders);
+
   }
 
 }

@@ -57,6 +57,6 @@ public interface CexIO {
 
   @GET
   @Path("trade_history/{ident}/{currency}/")
-  CexIOTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @QueryParam("since") int since) throws IOException;
+  CexIOTrade[] getTradesSince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @QueryParam("since") long since) throws IOException;
 
 }
