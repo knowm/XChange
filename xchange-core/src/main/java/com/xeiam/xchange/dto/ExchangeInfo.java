@@ -33,6 +33,11 @@ public final class ExchangeInfo {
 
   private final List<CurrencyPair> pairs;
 
+  /**
+   * Constructor
+   * 
+   * @param pairs
+   */
   public ExchangeInfo(List<CurrencyPair> pairs) {
 
     this.pairs = pairs;

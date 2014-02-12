@@ -46,16 +46,6 @@ public class DateUtils {
   }
 
   /**
-   * Creates a Date instance for this instant in the UTC timezone
-   * 
-   * @return the Date instance
-   */
-  public static Date nowUtc() {
-
-    return new Date();
-  }
-
-  /**
    * Creates a date from a long representing milliseconds from epoch
    * 
    * @param millisecondsFromEpoch
