@@ -44,6 +44,20 @@ public class JustcoinTrade {
   private final Date createdAt;
   private final BigDecimal averagePrice;
 
+  /**
+   * Constructor
+   * 
+   * @param id
+   * @param market
+   * @param type
+   * @param price
+   * @param amount
+   * @param remaining
+   * @param matched
+   * @param cancelled
+   * @param createdAt
+   * @param averagePrice
+   */
   public JustcoinTrade(final @JsonProperty("id") String id, final @JsonProperty("market") String market, final @JsonProperty("type") String type, final @JsonProperty("price") BigDecimal price,
       final @JsonProperty("amount") BigDecimal amount, final @JsonProperty("remaining") BigDecimal remaining, final @JsonProperty("matched") BigDecimal matched,
       final @JsonProperty("cancelled") BigDecimal cancelled, final @JsonProperty("createdAt") @JsonDeserialize(using = ISODateDeserializer.class) Date createdAt,
@@ -130,73 +144,96 @@ public class JustcoinTrade {
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     JustcoinTrade other = (JustcoinTrade) obj;
     if (amount == null) {
-      if (other.amount != null)
+      if (other.amount != null) {
         return false;
+      }
     }
-    else if (amount.compareTo(other.amount) != 0)
+    else if (amount.compareTo(other.amount) != 0) {
       return false;
+    }
     if (cancelled == null) {
-      if (other.cancelled != null)
+      if (other.cancelled != null) {
         return false;
+      }
     }
-    else if (cancelled.compareTo(other.cancelled) != 0)
+    else if (cancelled.compareTo(other.cancelled) != 0) {
       return false;
+    }
     if (createdAt == null) {
-      if (other.createdAt != null)
+      if (other.createdAt != null) {
         return false;
+      }
     }
-    else if (!createdAt.equals(other.createdAt))
+    else if (!createdAt.equals(other.createdAt)) {
       return false;
+    }
     if (id == null) {
-      if (other.id != null)
+      if (other.id != null) {
         return false;
+      }
     }
-    else if (!id.equals(other.id))
+    else if (!id.equals(other.id)) {
       return false;
+    }
     if (market == null) {
-      if (other.market != null)
+      if (other.market != null) {
         return false;
+      }
     }
-    else if (!market.equals(other.market))
+    else if (!market.equals(other.market)) {
       return false;
+    }
     if (matched == null) {
-      if (other.matched != null)
+      if (other.matched != null) {
         return false;
+      }
     }
-    else if (matched.compareTo(other.matched) != 0)
+    else if (matched.compareTo(other.matched) != 0) {
       return false;
+    }
     if (price == null) {
-      if (other.price != null)
+      if (other.price != null) {
         return false;
+      }
     }
-    else if (price.compareTo(other.price) != 0)
+    else if (price.compareTo(other.price) != 0) {
       return false;
+    }
     if (remaining == null) {
-      if (other.remaining != null)
+      if (other.remaining != null) {
         return false;
+      }
     }
-    else if (remaining.compareTo(other.remaining) != 0)
+    else if (remaining.compareTo(other.remaining) != 0) {
       return false;
+    }
     if (type == null) {
-      if (other.type != null)
+      if (other.type != null) {
         return false;
+      }
     }
-    else if (!type.equals(other.type))
+    else if (!type.equals(other.type)) {
       return false;
+    }
     if (averagePrice == null) {
-      if (other.averagePrice != null)
+      if (other.averagePrice != null) {
         return false;
+      }
     }
-    else if (averagePrice.compareTo(other.averagePrice) != 0)
+    else if (averagePrice.compareTo(other.averagePrice) != 0) {
       return false;
+    }
     return true;
   }
 

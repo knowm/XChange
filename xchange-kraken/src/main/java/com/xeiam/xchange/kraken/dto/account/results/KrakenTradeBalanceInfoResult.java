@@ -27,6 +27,12 @@ import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 
 public class KrakenTradeBalanceInfoResult extends KrakenResult<KrakenTradeBalanceInfo> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenTradeBalanceInfoResult(@JsonProperty("result") KrakenTradeBalanceInfo result, @JsonProperty("error") String[] error) {
 
     super(result, error);

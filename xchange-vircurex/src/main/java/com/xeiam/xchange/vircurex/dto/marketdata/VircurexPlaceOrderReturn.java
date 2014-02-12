@@ -21,25 +21,25 @@
  */
 package com.xeiam.xchange.vircurex.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VircurexPlaceOrderReturn {
 
-  String orderId;
+  private final String orderId;
 
   public String getOrderId() {
 
     return orderId;
   }
 
-  public void setOrderId(String orderId) {
+  /**
+   * Constructor
+   * 
+   * @param orderId
+   */
+  public VircurexPlaceOrderReturn(@JsonProperty("orederid") String orderId) {
 
     this.orderId = orderId;
   }
 
-  @JsonAnySetter
-  public void setMe(String aKey, Object aValue) {
-
-    System.out.println(aKey + " = " + aValue);
-  }
 }

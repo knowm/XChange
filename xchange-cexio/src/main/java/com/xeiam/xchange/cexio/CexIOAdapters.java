@@ -161,7 +161,7 @@ public class CexIOAdapters {
     return new AccountInfo(userName, null, wallets);
   }
 
-  private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (List<BigDecimal> o : orders) {
@@ -171,12 +171,12 @@ public class CexIOAdapters {
     return limitOrders;
   }
 
-  private static LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, "", null, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
   }
 
-  private static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
+  public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
 
     if (!argument) {
       throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
@@ -191,7 +191,8 @@ public class CexIOAdapters {
       Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;
       String id = Integer.toString(cexIOOrder.getId());
       BigMoney price = BigMoney.of(CurrencyUnit.of(cexIOOrder.getTransactionCurrency()), cexIOOrder.getPrice());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency(), id, DateUtils.fromMillisUtc(cexIOOrder.getTime() * 1000L), price));
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency(), id, DateUtils
+          .fromMillisUtc(cexIOOrder.getTime() * 1000L), price));
     }
 
     return new OpenOrders(limitOrders);

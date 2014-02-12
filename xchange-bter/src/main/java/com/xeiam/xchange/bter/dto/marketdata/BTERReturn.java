@@ -63,6 +63,6 @@ public class BTERReturn<V> {
   @Override
   public String toString() {
 
-    return String.format("BTCEReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+    return String.format("BTERReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
   }
 }

@@ -33,15 +33,11 @@ import com.xeiam.xchange.justcoin.service.polling.JustcoinTradeService;
  */
 public class JustcoinExchange extends BaseExchange implements Exchange {
 
+  /**
+   * Constructor
+   */
   public JustcoinExchange() {
 
-  }
-
-  public static Exchange newInstance() {
-
-    final Exchange exchange = new JustcoinExchange();
-    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-    return exchange;
   }
 
   @Override

@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Author: brox
  * Since: 2/5/14
  */
-
 public class CexIOTrade {
 
   private final BigDecimal amount;

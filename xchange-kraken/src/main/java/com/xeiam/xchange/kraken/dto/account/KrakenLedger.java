@@ -36,6 +36,18 @@ public class KrakenLedger {
   private final BigDecimal fee;
   private final BigDecimal balance;
 
+  /**
+   * Constructor
+   * 
+   * @param refId
+   * @param unixTime
+   * @param ledgerType
+   * @param assetClass
+   * @param asset
+   * @param transactionAmount
+   * @param fee
+   * @param balance
+   */
   public KrakenLedger(@JsonProperty("refid") String refId, @JsonProperty("time") double unixTime, @JsonProperty("type") LedgerType ledgerType, @JsonProperty("aclass") String assetClass,
       @JsonProperty("asset") String asset, @JsonProperty("amount") BigDecimal transactionAmount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("balance") BigDecimal balance) {
 

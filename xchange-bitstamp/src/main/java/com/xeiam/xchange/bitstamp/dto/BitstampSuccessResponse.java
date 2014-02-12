@@ -40,6 +40,12 @@ public class BitstampSuccessResponse {
   private final String error;
   private final boolean success;
 
+  /**
+   * Constructor
+   * 
+   * @param error
+   * @param result
+   */
   public BitstampSuccessResponse(String error, boolean result) {
 
     this.error = error;

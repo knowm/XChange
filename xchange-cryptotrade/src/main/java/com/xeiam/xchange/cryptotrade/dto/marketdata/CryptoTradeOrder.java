@@ -26,9 +26,6 @@ import java.text.MessageFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Matija Mazi
- */
 public class CryptoTradeOrder {
 
   private final String pair;

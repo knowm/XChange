@@ -25,40 +25,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTERPlaceOrderReturn {
 
-  String result;
-  String orderId;
-
-  public String getResult() {
-
-    return result;
-  }
-
-  public void setResult(String result) {
-
-    this.result = result;
-  }
-
-  public String getOrderId() {
-
-    return orderId;
-  }
-
-  public void setOrderId(String orderId) {
-
-    this.orderId = orderId;
-  }
-
-  public String getMsg() {
-
-    return msg;
-  }
-
-  public void setMsg(String msg) {
-
-    this.msg = msg;
-  }
-
-  String msg;
+  private final String result;
+  private final String orderId;
+  private final String msg;
 
   /**
    * Constructor
@@ -73,4 +42,20 @@ public class BTERPlaceOrderReturn {
     orderId = anOrderId;
     msg = aMessage;
   }
+
+  public String getResult() {
+
+    return result;
+  }
+
+  public String getOrderId() {
+
+    return orderId;
+  }
+
+  public String getMsg() {
+
+    return msg;
+  }
+
 }

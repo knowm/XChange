@@ -72,7 +72,7 @@ public class KrakenAdapters {
     return limitOrders;
   }
 
-  private static LimitOrder adaptOrder(KrakenPublicOrder order, OrderType orderType, String currency, String tradableIdentifier) {
+  public static LimitOrder adaptOrder(KrakenPublicOrder order, OrderType orderType, String currency, String tradableIdentifier) {
 
     Date timeStamp = new Date(order.getTimestamp() * 1000);
     BigMoney price = BigMoney.of(CurrencyUnit.of(currency), order.getPrice());

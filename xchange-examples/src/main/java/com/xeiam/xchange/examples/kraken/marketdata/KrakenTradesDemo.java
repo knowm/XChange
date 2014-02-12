@@ -65,7 +65,7 @@ public class KrakenTradesDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/XRP
-    KrakenPublicTrades trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP);
+    KrakenPublicTrades trades = krakenMarketDataService.getKrakenTrades(Currencies.BTC, Currencies.XRP, Long.MAX_VALUE);
     long last = trades.getLast();
     System.out.print(trades.getTrades());
 

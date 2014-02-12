@@ -49,6 +49,30 @@ public class KrakenTrade {
   private final BigDecimal netDifference;
   private final List<String> tradeIds;
 
+  /**
+   * Constructor
+   * 
+   * @param orderTxId
+   * @param assetPair
+   * @param unixTimestamp
+   * @param type
+   * @param orderType
+   * @param price
+   * @param cost
+   * @param fee
+   * @param volume
+   * @param margin
+   * @param miscellaneous
+   * @param closing
+   * @param positionStatus
+   * @param averageClosePrice
+   * @param closeCost
+   * @param closeFee
+   * @param closeVolume
+   * @param closeMargin
+   * @param netDifference
+   * @param tradeIds
+   */
   public KrakenTrade(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") double unixTimestamp, @JsonProperty("type") KrakenType type,
       @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("vol") BigDecimal volume, @JsonProperty("margin") BigDecimal margin, @JsonProperty("misc") String miscellaneous, @JsonProperty("closing") String closing,

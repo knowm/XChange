@@ -36,6 +36,18 @@ public class KrakenTradeBalanceInfo {
   private final BigDecimal freeMargin; // equity - initial margin (maximum margin available to open new positions)
   private final BigDecimal marginLevel; // (equity / initial margin) * 100
 
+  /**
+   * Constructor
+   * 
+   * @param tradeBalance
+   * @param margin
+   * @param unrealizedGainsLosses
+   * @param costBasis
+   * @param floatingValuation
+   * @param equity
+   * @param freeMargin
+   * @param marginLevel
+   */
   public KrakenTradeBalanceInfo(@JsonProperty("tb") BigDecimal tradeBalance, @JsonProperty("m") BigDecimal margin, @JsonProperty("n") BigDecimal unrealizedGainsLosses,
       @JsonProperty("c") BigDecimal costBasis, @JsonProperty("v") BigDecimal floatingValuation, @JsonProperty("e") BigDecimal equity, @JsonProperty("mf") BigDecimal freeMargin,
       @JsonProperty("ml") BigDecimal marginLevel) {

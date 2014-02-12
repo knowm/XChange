@@ -30,6 +30,12 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult.Krake
 
 public class KrakenClosedOrdersResult extends KrakenResult<KrakenClosedOrders> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenClosedOrdersResult(@JsonProperty("result") KrakenClosedOrders result, @JsonProperty("error") String[] error) {
 
     super(result, error);

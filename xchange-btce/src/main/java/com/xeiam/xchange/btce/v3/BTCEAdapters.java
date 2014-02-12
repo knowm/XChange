@@ -60,7 +60,7 @@ import com.xeiam.xchange.utils.DateUtils;
  */
 public final class BTCEAdapters {
 
-  private static final Logger log = LoggerFactory.getLogger(BTCEAdapters.class);
+  public static final Logger log = LoggerFactory.getLogger(BTCEAdapters.class);
 
   /**
    * private Constructor

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -60,14 +61,39 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    KrakenDepth krakenDepth = getKrakenDepth(tradableIdentifier, currency, args);
+    Long count = null;
+
+    if (args.length > 0) {
+      Object arg0 = args[0];
+      if (arg0 instanceof Long) {
+        count = (Long) arg0;
+      }
+      else {
+        throw new ExchangeException("args[0] must be of type Long!");
+      }
+    }
+
+    KrakenDepth krakenDepth = getKrakenDepth(tradableIdentifier, currency, count);
+
     return KrakenAdapters.adaptOrderBook(krakenDepth, tradableIdentifier, currency);
   }
 
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    KrakenPublicTrades krakenTrades = getKrakenTrades(tradableIdentifier, currency, args);
+    Long since = null;
+
+    if (args.length > 0) {
+      Object arg0 = args[0];
+      if (arg0 instanceof Long) {
+        since = (Long) arg0;
+      }
+      else {
+        throw new ExchangeException("args[0] must be of type Long!");
+      }
+    }
+
+    KrakenPublicTrades krakenTrades = getKrakenTrades(tradableIdentifier, currency, since);
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currency, tradableIdentifier, krakenTrades.getLast());
     return trades;
   }

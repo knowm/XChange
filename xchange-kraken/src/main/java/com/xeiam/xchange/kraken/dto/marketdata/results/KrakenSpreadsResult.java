@@ -28,6 +28,8 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
 public class KrakenSpreadsResult extends KrakenResult<KrakenSpreads> {
 
   /**
+   * Constructor
+   * 
    * @param error List of errors
    * @param result Recent spreads
    */

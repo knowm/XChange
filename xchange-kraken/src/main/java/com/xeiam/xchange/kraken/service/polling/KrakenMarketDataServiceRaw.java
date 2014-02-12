@@ -26,7 +26,6 @@ import java.util.Map;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.Kraken;
@@ -92,38 +91,12 @@ public class KrakenMarketDataServiceRaw extends BaseKrakenService {
     return checkResult(tickerResult);
   }
 
-  public KrakenDepth getKrakenDepth(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    if (args.length > 0) {
-      if (args[0] instanceof Long)
-        return getKrakenDepth(tradableIdentifier, currency, (Long) args[0]);
-      else
-        throw new ExchangeException("args[0] must be of type Long!");
-    }
-    else { // default to full orderbook
-      return getKrakenDepth(tradableIdentifier, currency, 0);
-    }
-  }
-
   public KrakenDepth getKrakenDepth(String tradableIdentifier, String currency, long count) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenDepthResult result = kraken.getDepth(krakenCurrencyPair, count);
 
     return checkResult(result).get(krakenCurrencyPair);
-  }
-
-  public KrakenPublicTrades getKrakenTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    if (args.length > 0) {
-      if (args[0] instanceof Long)
-        return getKrakenTrades(tradableIdentifier, currency, (Long) args[0]);
-      else
-        throw new ExchangeException("args[0] must be of type Long!");
-    }
-    else {
-      return getKrakenTrades(tradableIdentifier, currency, 0);
-    }
   }
 
   public KrakenPublicTrades getKrakenTrades(String tradableIdentifier, String currency, long since) throws IOException {
@@ -139,7 +112,7 @@ public class KrakenMarketDataServiceRaw extends BaseKrakenService {
     return getKrakenSpreads(tradableIdentifier, currency, 0);
   }
 
-  public KrakenSpreads getKrakenSpreads(String tradableIdentifier, String currency, long since) throws IOException {
+  private KrakenSpreads getKrakenSpreads(String tradableIdentifier, String currency, long since) throws IOException {
 
     String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenSpreadsResult spreadsResult = kraken.getSpread(krakenCurrencyPair, since);

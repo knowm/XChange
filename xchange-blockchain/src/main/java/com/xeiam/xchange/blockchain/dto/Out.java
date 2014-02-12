@@ -30,7 +30,7 @@ public final class Out {
 
   private final String addr;
   private final long n;
-  private final long tx_index;
+  private final long txIndex;
   private final int type;
   private final long value;
 
@@ -47,7 +47,7 @@ public final class Out {
 
     this.addr = addr;
     this.n = n;
-    this.tx_index = tx_index;
+    this.txIndex = tx_index;
     this.type = type;
     this.value = value;
   }
@@ -62,9 +62,9 @@ public final class Out {
     return this.n;
   }
 
-  public long getTx_index() {
+  public long getTxIndex() {
 
-    return this.tx_index;
+    return this.txIndex;
   }
 
   public int getType() {

@@ -90,7 +90,7 @@ public class BTEROrder {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEOrder[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}]", pair, type, amount, rate, timestampCreated, status);
+    return MessageFormat.format("BTEROrder[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}]", pair, type, amount, rate, timestampCreated, status);
   }
 
   public static enum Type {

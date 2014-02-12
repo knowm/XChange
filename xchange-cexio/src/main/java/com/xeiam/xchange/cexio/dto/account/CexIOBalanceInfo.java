@@ -29,7 +29,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Author: brox
  * Since: 2/7/14
  */
-
 public class CexIOBalanceInfo {
 
   private final String error;

@@ -22,47 +22,23 @@
 package com.xeiam.xchange.bter.dto.marketdata;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTERAccountInfoReturn {
 
-  String result;
-  Map<String, BigDecimal> availableFunds = new HashMap<String, BigDecimal>();
-  Map<String, BigDecimal> lockedFunds = new HashMap<String, BigDecimal>();
+  private final String result;
+  private final Map<String, BigDecimal> availableFunds;
+  private final Map<String, BigDecimal> lockedFunds;
 
-  public String getResult() {
-
-    return result;
-  }
-
-  public void setResult(String result) {
-
-    this.result = result;
-  }
-
-  public Map<String, BigDecimal> getAvailableFunds() {
-
-    return availableFunds;
-  }
-
-  public void setAvailableFunds(Map<String, BigDecimal> availableFunds) {
-
-    this.availableFunds = availableFunds;
-  }
-
-  public Map<String, BigDecimal> getLockedFunds() {
-
-    return lockedFunds;
-  }
-
-  public void setLockedFunds(Map<String, BigDecimal> lockedFunds) {
-
-    this.lockedFunds = lockedFunds;
-  }
-
+  /**
+   * Constructor
+   * 
+   * @param aResult
+   * @param theAvailableFunds
+   * @param theLockedFunds
+   */
   public BTERAccountInfoReturn(@JsonProperty("result") String aResult, @JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds,
       @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds) {
 
@@ -70,6 +46,21 @@ public class BTERAccountInfoReturn {
     availableFunds = theAvailableFunds;
     lockedFunds = theLockedFunds;
 
+  }
+
+  public String getResult() {
+
+    return result;
+  }
+
+  public Map<String, BigDecimal> getAvailableFunds() {
+
+    return availableFunds;
+  }
+
+  public Map<String, BigDecimal> getLockedFunds() {
+
+    return lockedFunds;
   }
 
 }

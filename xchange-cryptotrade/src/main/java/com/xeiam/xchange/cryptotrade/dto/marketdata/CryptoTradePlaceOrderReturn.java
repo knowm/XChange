@@ -23,16 +23,24 @@ package com.xeiam.xchange.cryptotrade.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Matija Mazi
- */
 public class CryptoTradePlaceOrderReturn {
 
-  String success;
+  private final String success;
 
-  public CryptoTradePlaceOrderReturn(@JsonProperty("status") String aResult) {
+  /**
+   * Constructor
+   * 
+   * @param status
+   */
+  public CryptoTradePlaceOrderReturn(@JsonProperty("status") String status) {
 
-    success = aResult;
+    success = status;
 
   }
+
+  public String getSuccess() {
+
+    return success;
+  }
+
 }

@@ -39,8 +39,8 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
  */
 public class BitstampTradeServiceRaw extends BasePollingExchangeService {
 
-  protected final BitstampAuthenticated bitstampAuthenticated;
-  protected final BitstampDigest signatureCreator;
+  private final BitstampAuthenticated bitstampAuthenticated;
+  private final BitstampDigest signatureCreator;
 
   /**
    * Initialize common properties from the exchange specification

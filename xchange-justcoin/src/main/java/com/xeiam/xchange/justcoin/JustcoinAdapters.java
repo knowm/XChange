@@ -56,8 +56,9 @@ public final class JustcoinAdapters {
   public static List<LimitOrder> adaptOrders(final List<List<BigDecimal>> justcoinOrders, final String tradableIdentifier, final String currency, final OrderType orderType) {
 
     final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (final List<BigDecimal> justcoinOrder : justcoinOrders)
+    for (final List<BigDecimal> justcoinOrder : justcoinOrders) {
       limitOrders.add(adaptOrder(justcoinOrder.get(1), justcoinOrder.get(0), tradableIdentifier, currency, orderType));
+    }
 
     return limitOrders;
   }
@@ -85,8 +86,9 @@ public final class JustcoinAdapters {
   public static AccountInfo adaptAccountInfo(final String username, final JustcoinBalance[] justcoinBalances) {
 
     final List<Wallet> wallets = new ArrayList<Wallet>();
-    for (final JustcoinBalance balanceForCurrency : justcoinBalances)
+    for (final JustcoinBalance balanceForCurrency : justcoinBalances) {
       wallets.add(adaptWallet(balanceForCurrency));
+    }
 
     return new AccountInfo(username, wallets);
   }
@@ -101,8 +103,9 @@ public final class JustcoinAdapters {
   public static OpenOrders adaptOpenOrders(final JustcoinOrder[] justoinOrders) {
 
     final List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
-    for (final JustcoinOrder justcoinOrder : justoinOrders)
+    for (final JustcoinOrder justcoinOrder : justoinOrders) {
       openOrders.add(adaptLimitOrder(justcoinOrder));
+    }
 
     return new OpenOrders(openOrders);
   }
@@ -127,8 +130,9 @@ public final class JustcoinAdapters {
   public static Trades adaptTrades(final JustcoinTrade[] justoinOrders) {
 
     final List<Trade> openOrders = new ArrayList<Trade>();
-    for (final JustcoinTrade justcoinOrder : justoinOrders)
+    for (final JustcoinTrade justcoinOrder : justoinOrders) {
       openOrders.add(adaptTrade(justcoinOrder));
+    }
 
     return new Trades(openOrders);
   }

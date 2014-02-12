@@ -29,6 +29,12 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 
 public class KrakenAssetPairsResult extends KrakenResult<Map<String, KrakenAssetPair>> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenAssetPairsResult(@JsonProperty("result") Map<String, KrakenAssetPair> result, @JsonProperty("error") String[] error) {
 
     super(result, error);

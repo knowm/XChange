@@ -83,12 +83,7 @@ public final class VircurexUtils {
     return format.format(new Date());
   }
 
-  public static long convertLocalTimeToUtcTime() {
-
-    return System.currentTimeMillis() + VircurexUtils.getLocalToUtcDelta();
-  }
-
-  public static long getLocalToUtcDelta() {
+  private static long getLocalToUtcDelta() {
 
     Calendar local = Calendar.getInstance();
     local.clear();

@@ -70,9 +70,7 @@ public final class BitcoinChartsAdapters {
 
       }
     }
-    // TODO check on this logic returning null
     return null;
-
   }
 
   public static ChartData[] adaptChartData(ArrayList<ArrayList> pRawData) {
@@ -80,7 +78,7 @@ public final class BitcoinChartsAdapters {
     ChartData[] ret = new ChartData[pRawData.size()];
     for (int i = 0; i < pRawData.size(); i++) {
       ArrayList cd = pRawData.get(i);
-      ChartData chartData = new ChartData((ArrayList) cd);
+      ChartData chartData = new ChartData(cd);
       ret[i] = chartData;
     }
     return ret;

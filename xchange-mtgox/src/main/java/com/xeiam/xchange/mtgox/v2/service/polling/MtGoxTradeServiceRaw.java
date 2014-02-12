@@ -45,8 +45,8 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class MtGoxTradeServiceRaw extends BasePollingExchangeService {
 
-  protected final MtGoxV2 mtGoxV2;
-  protected final MtGoxV2Digest signatureCreator;
+  private final MtGoxV2 mtGoxV2;
+  private final MtGoxV2Digest signatureCreator;
 
   /**
    * Initialize common properties from the exchange specification

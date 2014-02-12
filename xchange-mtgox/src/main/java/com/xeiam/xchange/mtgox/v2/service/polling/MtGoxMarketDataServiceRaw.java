@@ -39,7 +39,7 @@ import com.xeiam.xchange.utils.Assert;
 
 public class MtGoxMarketDataServiceRaw extends BasePollingExchangeService {
 
-  protected final MtGoxV2 mtGoxV2;
+  private final MtGoxV2 mtGoxV2;
 
   /**
    * Initialize common properties from the exchange specification

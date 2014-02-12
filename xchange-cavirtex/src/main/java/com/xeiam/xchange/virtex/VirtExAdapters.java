@@ -123,11 +123,6 @@ public final class VirtExAdapters {
     return new Trades(tradesList);
   }
 
-  public static String getPriceString(BigMoney price) {
-
-    return price.getAmount().stripTrailingZeros().toPlainString();
-  }
-
   /**
    * Adapts a VirtExTicker to a Ticker Object
    * 

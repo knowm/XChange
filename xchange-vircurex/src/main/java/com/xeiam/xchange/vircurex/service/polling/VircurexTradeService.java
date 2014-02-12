@@ -38,8 +38,8 @@ import com.xeiam.xchange.vircurex.dto.marketdata.VircurexPlaceOrderReturn;
 
 public class VircurexTradeService implements PollingTradeService {
 
-  ExchangeSpecification exchangeSpecification;
-  VircurexAuthenticated vircurex;
+  private ExchangeSpecification exchangeSpecification;
+  private VircurexAuthenticated vircurex;
 
   /**
    * Constructor

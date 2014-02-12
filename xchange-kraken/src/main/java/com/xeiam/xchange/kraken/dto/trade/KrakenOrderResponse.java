@@ -30,6 +30,12 @@ public class KrakenOrderResponse {
   private final KrakenOrderResponseDescription description;
   private final List<String> transactionIds;
 
+  /**
+   * Constructor
+   * 
+   * @param description
+   * @param transactionId
+   */
   public KrakenOrderResponse(@JsonProperty("descr") KrakenOrderResponseDescription description, @JsonProperty("txid") List<String> transactionId) {
 
     this.description = description;
@@ -57,6 +63,12 @@ public class KrakenOrderResponse {
     private final String orderDescription;
     private final String closeDescription;
 
+    /**
+     * Constructor
+     * 
+     * @param orderDescription
+     * @param closeDescription
+     */
     public KrakenOrderResponseDescription(@JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {
 
       this.orderDescription = orderDescription;
