@@ -24,8 +24,6 @@ package com.xeiam.xchange.virtex.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -34,14 +32,11 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.virtex.VirtEx;
 import com.xeiam.xchange.virtex.VirtExAdapters;
 import com.xeiam.xchange.virtex.VirtExUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
 /**
@@ -52,9 +47,7 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VirtExMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private final VirtEx virtEx;
+public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
@@ -64,7 +57,6 @@ public class VirtExMarketDataService extends BasePollingExchangeService implemen
   public VirtExMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -72,11 +64,8 @@ public class VirtExMarketDataService extends BasePollingExchangeService implemen
 
     verify(tradableIdentifier, currency);
 
-    // Request data
-    VirtExTicker virtExTicker = virtEx.getTicker(currency);
-
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(virtExTicker, currency, tradableIdentifier);
+    return VirtExAdapters.adaptTicker(getVirtExTicker(currency), currency, tradableIdentifier);
   }
 
   @Override
@@ -85,7 +74,7 @@ public class VirtExMarketDataService extends BasePollingExchangeService implemen
     verify(tradableIdentifier, currency);
 
     // Request data
-    VirtExDepth virtExDepth = virtEx.getFullDepth(currency);
+    VirtExDepth virtExDepth = getVirtExOrderBook(currency);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currency, "ask", "");
@@ -100,7 +89,7 @@ public class VirtExMarketDataService extends BasePollingExchangeService implemen
     verify(tradableIdentifier, currency);
 
     // Request data
-    VirtExTrade[] virtExTrades = virtEx.getTrades(currency);
+    VirtExTrade[] virtExTrades = getVirtExTrades(currency);
 
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTrades(virtExTrades, currency, tradableIdentifier);

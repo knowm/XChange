@@ -19,61 +19,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitfinex.v1.service.polling;
+package com.xeiam.xchange.virtex.service.polling;
 
 import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitfinex.v1.Bitfinex;
-import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
-import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
-import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.virtex.VirtEx;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
 /**
  * <p>
- * Implementation of the market data service for Bitfinex
+ * Implementation of the market data service for VirtEx
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitfinexMarketDataServiceRaw extends BasePollingExchangeService {
+public class VirtExMarketDataServiceRaw extends BasePollingExchangeService {
 
-  protected final Bitfinex bitfinex;
+  private final VirtEx virtEx;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BitfinexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public VirtExMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    bitfinex = RestProxyFactory.createProxy(Bitfinex.class, exchangeSpecification.getSslUri());
+    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchangeSpecification.getSslUri());
   }
 
-  public BitfinexTicker getBitfinexTicker(String pair) throws IOException {
+  public VirtExTicker getVirtExTicker(String currency) throws IOException {
 
-    BitfinexTicker btceTicker = bitfinex.getTicker(pair);
+    // Request data
+    VirtExTicker virtExTicker = virtEx.getTicker(currency);
 
-    return btceTicker;
+    // Adapt to XChange DTOs
+    return virtExTicker;
   }
 
-  public BitfinexDepth getBitfinexOrderBook(String pair, int limitBids, int limitAsks) throws IOException {
+  public VirtExDepth getVirtExOrderBook(String currency) throws IOException {
 
-    BitfinexDepth btceDepth = bitfinex.getBook(pair, limitBids, limitAsks);
+    // Request data
+    VirtExDepth virtExDepth = virtEx.getFullDepth(currency);
 
-    return btceDepth;
+    return virtExDepth;
   }
 
-  public BitfinexTrade[] getBitfinexTrades(String pair) throws IOException {
+  public VirtExTrade[] getVirtExTrades(String currency) throws IOException {
 
-    BitfinexTrade[] trades = bitfinex.getTrades(pair);
+    // Request data
+    VirtExTrade[] virtExTrades = virtEx.getTrades(currency);
 
-    return trades;
+    return virtExTrades;
   }
 
 }
