@@ -79,7 +79,8 @@
 		<module>xchange-bitstamp</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btcchina</module>
-		<module>xchange-btce</module>
+        <module>xchange-btce</module>
+        <module>xchange-bter</module>
 		<module>xchange-campbx</module>
 		<module>xchange-cavirtex</module>
 		<module>xchange-examples</module>

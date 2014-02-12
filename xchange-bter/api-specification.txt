@@ -1,0 +1,8 @@
+Bter Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+http://bter.com/api
