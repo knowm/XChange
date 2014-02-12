@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.service;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.Assert;

@@ -76,7 +76,7 @@ public class VircurexAccountService implements PollingAccountService {
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
     throw new UnsupportedOperationException("Deposit address request not supported by API.");
   }

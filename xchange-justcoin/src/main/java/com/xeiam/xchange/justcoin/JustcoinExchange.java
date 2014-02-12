@@ -55,10 +55,9 @@ public class JustcoinExchange extends BaseExchange implements Exchange {
 
     final ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://justcoin.com");
-    exchangeSpecification.setHost("justcoin.com");
     exchangeSpecification.setExchangeName("Justcoin");
     exchangeSpecification.setExchangeDescription("Justcoin is a digital currency exchange, founded in 2013 with its office in Oslo, Norway.");
-    exchangeSpecification.setTradeFeePercent(.5);
+
     return exchangeSpecification;
   }
 }
