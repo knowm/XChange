@@ -24,8 +24,13 @@ package com.xeiam.xchange.examples.btce.marketdata;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEExchange;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -35,16 +40,27 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class InfoDemo {
 
+  // Use the factory to get BTC-E exchange API using default settings
+    static Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+  // Interested in the public polling market data feed (no authentication)
+    static PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+    
   public static void main(String[] args) throws IOException {
-
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
-
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
-
+    generic();
+    raw();
+  }
+  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  	  
     // Get the latest info about traded currencies, fees etc.
     ExchangeInfo info = marketDataService.getExchangeInfo();
+
+    System.out.println(info.toString());
+  }
+
+  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+	  	  
+    // Get the latest info about traded currencies, fees etc.
+    BTCEExchangeInfo info = ((BTCEMarketDataServiceRaw)marketDataService).getBTCEExchangeInfo();
 
     System.out.println(info.toString());
   }

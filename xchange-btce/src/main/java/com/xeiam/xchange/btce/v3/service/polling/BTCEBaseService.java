@@ -21,7 +21,9 @@
  */
 package com.xeiam.xchange.btce.v3.service.polling;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
@@ -34,12 +36,15 @@ import com.xeiam.xchange.btce.v3.service.BTCEHmacPostBodyDigest;
 
 /**
  * @author Matija Mazi
+ * @author ObsessiveOrange
  */
 public class BTCEBaseService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
+  private static final long REQUEST_MAX_FREQ = 50l;
   // counter for the nonce
   private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
+  private static AtomicLong lastRequest = new AtomicLong(System.currentTimeMillis());
 
   protected final String apiKey;
   protected final BTCEAuthenticated btce;
@@ -58,7 +63,12 @@ public class BTCEBaseService {
   }
 
   protected int nextNonce() {
-
+	if(System.currentTimeMillis() - lastRequest.get() < REQUEST_MAX_FREQ){
+		try {TimeUnit.MILLISECONDS.sleep(REQUEST_MAX_FREQ - (System.currentTimeMillis() - lastRequest.get()));} catch (InterruptedException e) {}
+	}
+	
+	lastRequest.set(System.currentTimeMillis());
+	
     return lastNonce.incrementAndGet();
   }
 

@@ -92,13 +92,6 @@ public class BTCEAccountInfo {
 
     private final boolean info, trade, withdraw;
 
-    /**
-     * Constructor
-     * 
-     * @param info
-     * @param trade
-     * @param withdraw
-     */
     private Rights(@JsonProperty("info") boolean info, @JsonProperty("trade") boolean trade, @JsonProperty("withdraw") boolean withdraw) {
 
       this.info = info;
