@@ -61,7 +61,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    Long count = null;
+    long count = Long.MAX_VALUE;
 
     if (args.length > 0) {
       Object arg0 = args[0];
@@ -81,7 +81,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    Long since = null;
+    long since = 0L;
 
     if (args.length > 0) {
       Object arg0 = args[0];
