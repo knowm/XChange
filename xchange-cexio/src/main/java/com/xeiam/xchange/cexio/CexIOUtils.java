@@ -31,7 +31,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
  * Author: brox
  * Since: 2/6/14
  */
-
 public class CexIOUtils {
 
   private static final long START_MILLIS = 1388534400000L; // Jan 1st, 2014 in milliseconds from epoch
@@ -47,7 +46,13 @@ public class CexIOUtils {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.LTC_BTC, CurrencyPair.NMC_BTC, CurrencyPair.GHs_BTC, CurrencyPair.GHs_NMC
+  CurrencyPair.LTC_BTC,
+
+  CurrencyPair.NMC_BTC,
+
+  CurrencyPair.GHs_BTC,
+
+  CurrencyPair.GHs_NMC
 
   );
 

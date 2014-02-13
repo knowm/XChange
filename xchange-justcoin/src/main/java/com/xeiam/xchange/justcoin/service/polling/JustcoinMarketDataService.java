@@ -22,7 +22,6 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -79,6 +78,6 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    return new ArrayList<CurrencyPair>(JustcoinUtils.CURRENCY_PAIRS);
+    return JustcoinUtils.CURRENCY_PAIRS;
   }
 }

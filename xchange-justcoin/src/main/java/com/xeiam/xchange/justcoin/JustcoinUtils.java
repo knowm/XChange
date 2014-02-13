@@ -21,9 +21,8 @@
  */
 package com.xeiam.xchange.justcoin;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
@@ -32,12 +31,22 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public final class JustcoinUtils {
 
+  /**
+   * private Constructor
+   */
   private JustcoinUtils() {
 
   }
 
-  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.BTC_EUR, CurrencyPair.BTC_NOK,
-      CurrencyPair.BTC_XRP));
+  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
+
+  static {
+
+    CURRENCY_PAIRS.add(CurrencyPair.BTC_LTC);
+    CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
+    CURRENCY_PAIRS.add(CurrencyPair.BTC_NOK);
+    CURRENCY_PAIRS.add(CurrencyPair.BTC_XRP);
+  }
 
   public static boolean isValidCurrencyPair(final CurrencyPair currencyPair) {
 
