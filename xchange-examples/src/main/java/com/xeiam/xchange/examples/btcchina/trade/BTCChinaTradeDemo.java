@@ -39,24 +39,27 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * @author ObsessiveOrange
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connect to BTCChina exchange with authentication</li>
- * <li>Enter, review and cancel limit orders</li>
- * </ul>
+ *         <p>
+ *         Example showing the following:
+ *         </p>
+ *         <ul>
+ *         <li>Connect to BTCChina exchange with authentication</li>
+ *         <li>Enter, review and cancel limit orders</li>
+ *         </ul>
  */
 public class BTCChinaTradeDemo {
+
   static Exchange btcchina = BTCChinaExamplesUtils.getExchange();
   static PollingTradeService tradeService = btcchina.getPollingTradeService();
 
   public static void main(String[] args) throws IOException, InterruptedException {
-	generic();
-	raw();
+
+    generic();
+    raw();
   }
-  
-  public static void generic() throws IOException, InterruptedException{
+
+  public static void generic() throws IOException, InterruptedException {
+
     printOpenOrders();
 
     // place a limit buy order
@@ -89,32 +92,30 @@ public class BTCChinaTradeDemo {
     System.out.println(openOrders.toString());
     return openOrders;
   }
-  
-  public static void raw() throws IOException, InterruptedException{
-	  printOpenOrdersRaw();
+
+  public static void raw() throws IOException, InterruptedException {
+
+    printOpenOrdersRaw();
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "CNY", "", null, MoneyUtils.parse("CNY 0.01"));
-    BTCChinaBooleanResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw)tradeService).placeBTCChinaLimitOrder(limitOrder);
+    BTCChinaBooleanResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).placeBTCChinaLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     Thread.sleep(1500);
     BTCChinaResponse<BTCChinaOrders> openOrders = printOpenOrdersRaw();
 
-    
     long result = -1;
     for (int i = 0; i < openOrders.getResult().getOrders().size(); i++) {
       BTCChinaOrder order = openOrders.getResult().getOrders().get(i);
       long orderId = order.getId();
-      if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice().getAmount()) == 0
-          && orderId > result) {
+      if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice().getAmount()) == 0 && orderId > result) {
         result = orderId;
       }
     }
-	
 
     // Cancel the added order
-    BTCChinaBooleanResponse cancelResult = ((BTCChinaTradeServiceRaw)tradeService).cancelBTCChinaOrder(limitOrderReturnValue.getId());
+    BTCChinaBooleanResponse cancelResult = ((BTCChinaTradeServiceRaw) tradeService).cancelBTCChinaOrder(limitOrderReturnValue.getId());
     System.out.println("Canceling returned " + cancelResult);
 
     printOpenOrders();
@@ -122,8 +123,8 @@ public class BTCChinaTradeDemo {
 
   private static BTCChinaResponse<BTCChinaOrders> printOpenOrdersRaw() throws IOException {
 
-    BTCChinaResponse<BTCChinaOrders> openOrders = ((BTCChinaTradeServiceRaw)tradeService).getBTCChinaOpenOrders();
+    BTCChinaResponse<BTCChinaOrders> openOrders = ((BTCChinaTradeServiceRaw) tradeService).getBTCChinaOpenOrders();
     System.out.println(openOrders.toString());
     return openOrders;
-  }  
+  }
 }

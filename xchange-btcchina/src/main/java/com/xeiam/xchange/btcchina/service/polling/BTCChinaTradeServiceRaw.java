@@ -27,7 +27,6 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
@@ -40,21 +39,19 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
-
 /**
  * @author ObsessiveOrange
- * <p>
- * Implementation of the trade service for BTCChina
- * </p>
- * <ul>
- * <li>Provides access to trade functions</li>
- * </ul>
+ *         <p>
+ *         Implementation of the trade service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to trade functions</li>
+ *         </ul>
  */
-public class BTCChinaTradeServiceRaw extends BasePollingExchangeService{
+public class BTCChinaTradeServiceRaw extends BasePollingExchangeService {
 
   /**
    * Configured from the super class reading of the exchange specification
@@ -77,21 +74,12 @@ public class BTCChinaTradeServiceRaw extends BasePollingExchangeService{
   }
 
   /**
-   * 
    * @return Set of BTCChina Orders
    * @throws IOException
    */
   public BTCChinaResponse<BTCChinaOrders> getBTCChinaOpenOrders() throws IOException {
 
     return btcchina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest());
-  }
-  
-  /**
-   * Warning: Not availible from this exchange - will throw exception.
-   */
-  public String placeBTCChinaMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
   /**

@@ -34,12 +34,12 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * @author ObsessiveOrange
- * <p>
- * Implementation of the account data service for BTCChina
- * </p>
- * <ul>
- * <li>Provides access to account data</li>
- * </ul>
+ *         <p>
+ *         Implementation of the account data service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to account data</li>
+ *         </ul>
  */
 public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements PollingAccountService {
 

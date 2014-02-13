@@ -77,7 +77,7 @@ public class DateUtils {
    * @param isoFormattedDate
    * @return Date
    * @throws InvalidFormatException
-   */ 
+   */
   public static Date fromISODateString(String isoFormattedDate) throws InvalidFormatException {
 
     SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -95,7 +95,7 @@ public class DateUtils {
    * @param iso8601FormattedDate
    * @return Date
    * @throws InvalidFormatException
-   */ 
+   */
   public static Date fromISO8601DateString(String iso8601FormattedDate) throws InvalidFormatException {
 
     SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
@@ -105,7 +105,7 @@ public class DateUtils {
       throw new InvalidFormatException("Error parsing as date", iso8601FormattedDate, Date.class);
     }
   }
-  
+
   /**
    * Converts an rfc1123 formatted Date String to a Java Date
    * rfc1123 format: EEE, dd MMM yyyy HH:mm:ss zzz

@@ -39,15 +39,14 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
 
-
 /**
  * @author ObsessiveOrange
- * <p>
- * Implementation of the trade service for BTCChina
- * </p>
- * <ul>
- * <li>Provides access to trade functions</li>
- * </ul>
+ *         <p>
+ *         Implementation of the trade service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to trade functions</li>
+ *         </ul>
  */
 public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements PollingTradeService {
 

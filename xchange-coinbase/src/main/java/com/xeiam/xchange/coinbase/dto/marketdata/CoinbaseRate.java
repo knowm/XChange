@@ -19,12 +19,12 @@ import com.xeiam.xchange.currency.MoneyUtils;
 public class CoinbaseRate {
 
   private final BigMoney rate;
-  
+
   public CoinbaseRate(final BigMoney rate) {
-    
+
     this.rate = rate;
   }
-  
+
   public BigMoney getRate() {
 
     return rate;
@@ -45,12 +45,12 @@ public class CoinbaseRate {
       JsonNode node = oc.readTree(jp);
       return new CoinbaseRate(getBigMoneyFromNode(node));
     }
-    
+
     public BigMoney getBigMoneyFromNode(JsonNode node) {
-      
+
       String amount = node.path("amount").asText();
       String currency = node.path("currency").asText();
-      
+
       return MoneyUtils.parseMoney(currency, new BigDecimal(amount));
     }
   }

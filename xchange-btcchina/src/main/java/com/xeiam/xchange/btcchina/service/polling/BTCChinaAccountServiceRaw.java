@@ -43,12 +43,12 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author ObsessiveOrange
- * <p>
- * Implementation of the account data service for BTCChina
- * </p>
- * <ul>
- * <li>Provides access to account data</li>
- * </ul>
+ *         <p>
+ *         Implementation of the account data service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to account data</li>
+ *         </ul>
  */
 public class BTCChinaAccountServiceRaw extends BasePollingExchangeService {
 

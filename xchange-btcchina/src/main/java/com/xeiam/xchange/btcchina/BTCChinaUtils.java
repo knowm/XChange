@@ -32,13 +32,13 @@ import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author ObsessiveOrange
- * A central place for shared BTCChina properties
+ *         A central place for shared BTCChina properties
  */
 public final class BTCChinaUtils {
 
   private static long generatedId = 1;
   private static long lastNonce = 0l;
-  
+
   /**
    * private Constructor
    */
@@ -64,12 +64,15 @@ public final class BTCChinaUtils {
   }
 
   public synchronized static long getNonce() {
-	long newNonce = System.currentTimeMillis() * 1000;
-	
-	while(newNonce == lastNonce){newNonce++;}
-	
-	lastNonce = newNonce;
-	
+
+    long newNonce = System.currentTimeMillis() * 1000;
+
+    while (newNonce == lastNonce) {
+      newNonce++;
+    }
+
+    lastNonce = newNonce;
+
     return newNonce;
   }
 
