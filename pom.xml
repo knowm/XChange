@@ -82,6 +82,7 @@
 		<module>xchange-btce</module>
 		<module>xchange-campbx</module>
 		<module>xchange-cavirtex</module>
+		<module>xchange-coinbase</module>
 		<module>xchange-examples</module>
 		<module>xchange-kraken</module>
 		<module>xchange-openexchangerates</module>
