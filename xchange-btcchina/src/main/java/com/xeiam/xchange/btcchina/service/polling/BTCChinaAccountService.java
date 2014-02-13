@@ -24,9 +24,6 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.joda.money.CurrencyUnit;
-
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -37,28 +34,21 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaID;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
-import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
+ * @author ObsessiveOrange
  * <p>
- * Implementation of the market data service for BTCChina
+ * Implementation of the account data service for BTCChina
  * </p>
  * <ul>
- * <li>Provides access to various market data values</li>
+ * <li>Provides access to account data</li>
  * </ul>
  */
-public class BTCChinaAccountService extends BasePollingExchangeService implements PollingAccountService {
-
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final BTCChina btcchina;
-  private ParamsDigest signatureCreator;
+public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
@@ -70,21 +60,21 @@ public class BTCChinaAccountService extends BasePollingExchangeService implement
     super(exchangeSpecification);
 
     Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.btcchina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
-    signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+    RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
+    BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    BTCChinaResponse<BTCChinaAccountInfo> response = btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
+    BTCChinaResponse<BTCChinaAccountInfo> response = getBTCChinaAccountInfo();
     return BTCChinaAdapters.adaptAccountInfo(response);
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
-    BTCChinaResponse<BTCChinaID> response = btcchina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(CurrencyUnit.of("BTC"), amount));
+    BTCChinaResponse<BTCChinaID> response = withdrawBTCChinaFunds(amount, address);
     return response.getResult().getId();
   }
 
@@ -95,5 +85,4 @@ public class BTCChinaAccountService extends BasePollingExchangeService implement
 
     return response.getResult().getProfile().getBtcDepositAddress();
   }
-
 }

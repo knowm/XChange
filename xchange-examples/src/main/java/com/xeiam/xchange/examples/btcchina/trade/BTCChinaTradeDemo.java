@@ -25,6 +25,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -33,6 +38,7 @@ import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
+ * @author ObsessiveOrange
  * <p>
  * Example showing the following:
  * </p>
@@ -42,13 +48,16 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  * </ul>
  */
 public class BTCChinaTradeDemo {
+  static Exchange btcchina = BTCChinaExamplesUtils.getExchange();
+  static PollingTradeService tradeService = btcchina.getPollingTradeService();
 
   public static void main(String[] args) throws IOException, InterruptedException {
-
-    Exchange btcchina = BTCChinaExamplesUtils.getExchange();
-    PollingTradeService tradeService = btcchina.getPollingTradeService();
-
-    printOpenOrders(tradeService);
+	generic();
+	raw();
+  }
+  
+  public static void generic() throws IOException, InterruptedException{
+    printOpenOrders();
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "CNY", "", null, MoneyUtils.parse("CNY 0.01"));
@@ -56,7 +65,7 @@ public class BTCChinaTradeDemo {
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     Thread.sleep(1500);
-    OpenOrders openOrders = printOpenOrders(tradeService);
+    OpenOrders openOrders = printOpenOrders();
 
     long result = -1;
     for (LimitOrder order : openOrders.getOpenOrders()) {
@@ -71,13 +80,50 @@ public class BTCChinaTradeDemo {
     boolean cancelResult = tradeService.cancelOrder(Long.toString(result));
     System.out.println("Canceling returned " + cancelResult);
 
-    printOpenOrders(tradeService);
+    printOpenOrders();
   }
 
-  private static OpenOrders printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static OpenOrders printOpenOrders() throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders.toString());
     return openOrders;
   }
+  
+  public static void raw() throws IOException, InterruptedException{
+	  printOpenOrdersRaw();
+
+    // place a limit buy order
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "CNY", "", null, MoneyUtils.parse("CNY 0.01"));
+    BTCChinaBooleanResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw)tradeService).placeBTCChinaLimitOrder(limitOrder);
+    System.out.println("Limit Order return value: " + limitOrderReturnValue);
+
+    Thread.sleep(1500);
+    BTCChinaResponse<BTCChinaOrders> openOrders = printOpenOrdersRaw();
+
+    
+    long result = -1;
+    for (int i = 0; i < openOrders.getResult().getOrders().size(); i++) {
+      BTCChinaOrder order = openOrders.getResult().getOrders().get(i);
+      long orderId = order.getId();
+      if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice().getAmount()) == 0
+          && orderId > result) {
+        result = orderId;
+      }
+    }
+	
+
+    // Cancel the added order
+    BTCChinaBooleanResponse cancelResult = ((BTCChinaTradeServiceRaw)tradeService).cancelBTCChinaOrder(limitOrderReturnValue.getId());
+    System.out.println("Canceling returned " + cancelResult);
+
+    printOpenOrders();
+  }
+
+  private static BTCChinaResponse<BTCChinaOrders> printOpenOrdersRaw() throws IOException {
+
+    BTCChinaResponse<BTCChinaOrders> openOrders = ((BTCChinaTradeServiceRaw)tradeService).getBTCChinaOpenOrders();
+    System.out.println(openOrders.toString());
+    return openOrders;
+  }  
 }
