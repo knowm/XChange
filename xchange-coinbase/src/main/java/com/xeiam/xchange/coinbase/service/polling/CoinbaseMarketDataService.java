@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -46,30 +46,30 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
 
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public OrderBook getOrderBook(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
 
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public ExchangeInfo getExchangeInfo() throws NotAvailableFromExchangeException {
+  public ExchangeInfo getExchangeInfo() {
 
-    throw new NotAvailableFromExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Trades getTrades(final String tradableIdentifier, final String currency, final Object... args) throws NotAvailableFromExchangeException {
+  public Trades getTrades(final String tradableIdentifier, final String currency, final Object... args) {
 
-    throw new NotAvailableFromExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
-	@Override
-	public List<CurrencyPair> getExchangeSymbols() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    throw new NotYetImplementedForExchangeException();
+  }
 }

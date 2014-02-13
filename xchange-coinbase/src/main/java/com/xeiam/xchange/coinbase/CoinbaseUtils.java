@@ -21,44 +21,10 @@
  */
 package com.xeiam.xchange.coinbase;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.CurrencyPair;
-
-/**
- * jamespedwards42
- */
 public final class CoinbaseUtils {
 
   private CoinbaseUtils() {
 
   }
 
-  public static final Set<String> CURRENCIES = new HashSet<String>(Arrays.asList(Currencies.USD, Currencies.EUR, Currencies.NOK, Currencies.BTC, Currencies.LTC, Currencies.XRP));
-
-  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.BTC_EUR, CurrencyPair.BTC_NOK,
-      CurrencyPair.BTC_XRP));
-
-  public static boolean isValidCurrencyPair(final CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
-
-  public static String getApiMarket(final String tradableIdentifier, final String currency) {
-
-    return tradableIdentifier + currency;
-  }
-
-  public static String getTradableIdentifierFromApiMarket(final String market) {
-
-    return market.substring(0, 3);
-  }
-
-  public static String getPriceCurrencyFromApiMarket(final String market) {
-
-    return market.substring(3);
-  }
 }
