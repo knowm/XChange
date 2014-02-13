@@ -25,8 +25,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
@@ -62,7 +63,7 @@ public class BitstampAccountDemo {
     String depositAddress = accountService.requestBitcoinDepositAddress();
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
+    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 
@@ -72,10 +73,10 @@ public class BitstampAccountDemo {
     BitstampBalance bitstampBalance = accountService.getBitstampBalance();
     System.out.println("AccountInfo as String: " + bitstampBalance.toString());
 
-    BitstampSuccessResponse depositAddress = accountService.getBitstampBitcoinDepositAddress();
+    BitstampDepositAddress depositAddress = accountService.getBitstampBitcoinDepositAddress();
     System.out.println("Deposit address: " + depositAddress);
 
-    BitstampSuccessResponse withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1AU9vVDp5njxucauraN3G21i2Eou9gpxUW");
+    BitstampBooleanResponse withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 }

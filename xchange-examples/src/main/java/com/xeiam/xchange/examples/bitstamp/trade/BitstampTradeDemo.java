@@ -59,7 +59,7 @@ public class BitstampTradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "USD", "", null, MoneyUtils.parse("USD 1.25"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".001"), "BTC", "USD", "", null, MoneyUtils.parse("USD 1000.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -83,8 +83,7 @@ public class BitstampTradeDemo {
     printRawOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "USD", "", null, MoneyUtils.parse("USD 1.25"));
-    BitstampOrder order = tradeService.buyBitStampOrder(BigDecimal.ONE, BigDecimal.valueOf(1.25));
+    BitstampOrder order = tradeService.sellBitstampOrder(new BigDecimal(".001"), new BigDecimal("1000.00"));
     System.out.println("Limit Order return value: " + order);
 
     printRawOpenOrders(tradeService);
