@@ -23,6 +23,9 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -36,6 +39,8 @@ import com.xeiam.xchange.btce.v3.service.BTCEHmacPostBodyDigest;
  * @author Matija Mazi
  */
 public class BTCEBaseService {
+
+  private final Logger logger = LoggerFactory.getLogger(BTCEBaseService.class);
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
   // counter for the nonce
@@ -59,7 +64,10 @@ public class BTCEBaseService {
 
   protected int nextNonce() {
 
-    return lastNonce.incrementAndGet();
+    int nextNonce = lastNonce.incrementAndGet();
+    logger.debug("nextNonce in BTCEBaseService: " + nextNonce);
+
+    return nextNonce;
   }
 
   protected void checkResult(BTCEReturn<?> info) {
