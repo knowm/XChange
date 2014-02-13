@@ -82,5 +82,10 @@ public class BTCChinaAccountServiceRaw extends BasePollingExchangeService {
     return btcchina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(CurrencyUnit.of("BTC"), amount));
   }
 
-  //method requestBitcoinDepositAddress removed from *Raw layer - deposit address is returned with getBTCChinaAccountinfo() - see example for implementation;
+  public String requestBitcoinDepositAddress() throws IOException {
+
+    BTCChinaResponse<BTCChinaAccountInfo> response = btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
+
+    return response.getResult().getProfile().getBtcDepositAddress();
+  }
 }
