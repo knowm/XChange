@@ -24,6 +24,8 @@ package com.xeiam.xchange.examples.btce.trade;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
+import com.xeiam.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
@@ -36,8 +38,13 @@ public class BTCEUserTradeHistoryDemo {
     // TODO: The APIKey does not have the correct permissions
     Exchange btce = BTCEExamplesUtils.createExchange();
     PollingTradeService tradeService = btce.getPollingTradeService();
+    
+    //generic return
     Trades trades = tradeService.getTradeHistory(null, Currencies.BTC, Currencies.USD);
     System.out.println(trades.toString());
 
+    //raw method
+    BTCETradeHistoryReturn rawTrades = ((BTCETradeServiceRaw)tradeService).getBTCETradeHistory(null, Currencies.BTC, Currencies.USD);
+    System.out.println(rawTrades.toString());
   }
 }

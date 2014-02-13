@@ -61,6 +61,26 @@ public interface BTCEAuthenticated {
       @FormParam("end") Long end) throws IOException;
 
   /**
+   * None of the parameters are obligatory (ie. all are nullable).
+   * 
+   * @param from the number of the order to start displaying with (default: 0)
+   * @param count The number of orders for displaying (default: 1000)
+   * @param fromId id of the order to start displaying with (default: 0)
+   * @param endId id of the order to finish displaying (default: âˆž)
+   * @param order sorting (default: DESC)
+   * @param since when to start displaying UNIX time (default: 0)
+   * @param end when to finish displaying UNIX time (default: âˆž)
+   * @param pair the pair to display the orders eg. btc_usd (default: all pairs)
+   * @param active is it displaying of active orders only? 1 or 0 (default: 1)
+   */
+  @Deprecated
+  @POST
+  @FormParam("method")
+  BTCEOpenOrdersReturn OrderList(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
+      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+      @FormParam("end") Long end, @FormParam("pair") String pair, @FormParam("active") int active) throws IOException;
+
+  /**
    * None of the parameters are obligatory (ie. all are nullable). Use this method instead of OrderList, which is deprecated.
    * 
    * @param pair the pair to display the orders eg. btc_usd (default: all pairs)

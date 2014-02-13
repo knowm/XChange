@@ -24,8 +24,13 @@ package com.xeiam.xchange.examples.btce.marketdata;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEExchange;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -35,14 +40,17 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class DepthDemo {
 
+  // Use the factory to get BTC-E exchange API using default settings
+    static Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+  // Interested in the public polling market data feed (no authentication)
+    static PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+
   public static void main(String[] args) throws IOException {
+    generic();
+    raw();
+  }  
 
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
-
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
-
+  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
     // Get the latest full order book data for LTC/USD
     OrderBook orderBook = marketDataService.getOrderBook(Currencies.LTC, Currencies.USD);
     System.out.println(orderBook.toString());
@@ -59,5 +67,20 @@ public class DepthDemo {
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
   }
+  
+  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+	// Get the latest full order book data for LTC/USD
+	BTCEDepthWrapper orderBook = ((BTCEMarketDataServiceRaw)marketDataService).getBTCEOrderBook(Currencies.LTC, Currencies.USD);
+	System.out.println(orderBook.toString());
+
+	// Get the latest partial order book (2000 entries) data for BTC/USD
+	orderBook = ((BTCEMarketDataServiceRaw)marketDataService).getBTCEOrderBook(Currencies.BTC, Currencies.USD, 2000);
+	System.out.println(orderBook.toString());
+
+	// Get the latest partial size order book (3 entries) data for BTC/USD
+	orderBook = ((BTCEMarketDataServiceRaw)marketDataService).getBTCEOrderBook(Currencies.BTC, Currencies.USD, 3);
+	System.out.println(orderBook.toString());
+
+	  }
 
 }

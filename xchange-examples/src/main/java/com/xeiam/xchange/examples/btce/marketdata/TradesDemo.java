@@ -24,8 +24,13 @@ package com.xeiam.xchange.examples.btce.marketdata;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEExchange;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -35,18 +40,28 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class TradesDemo {
 
+  // Use the factory to get BTC-E exchange API using default settings
+    static Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+  // Interested in the public polling market data feed (no authentication)
+    static PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+  
   public static void main(String[] args) throws IOException {
-
-    // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
-
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
-
-    // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
-
-    System.out.println(trades.toString());
-
+	generic();
+	raw();
   }
+  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+	    // Get the latest trade data for BTC/EUR
+	    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
+
+	    System.out.println(trades.toString());
+
+	  }
+  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+	    // Get the latest trade data for BTC/EUR
+	    BTCETrade[] trades = ((BTCEMarketDataServiceRaw)marketDataService).getBTCETrades(Currencies.BTC, Currencies.EUR);
+
+	    for(BTCETrade currTrade: trades){
+	    	System.out.print(currTrade.toString());
+	    }
+	  }
 }

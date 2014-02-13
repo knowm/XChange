@@ -24,6 +24,11 @@ package com.xeiam.xchange.examples.btce.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -32,16 +37,29 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  * Demo requesting account info at BTC-E
  */
 public class BTCEAccountInfoDemo {
-
+  //Instantiate Exchange
+  static Exchange btce = BTCEExamplesUtils.createExchange();
+  
+  // Interested in the private account functionality (authentication)
+  static PollingAccountService accountService = btce.getPollingAccountService();
+  
   public static void main(String[] args) throws IOException {
-
-    Exchange btce = BTCEExamplesUtils.createExchange();
-
-    // Interested in the private account functionality (authentication)
-    PollingAccountService accountService = btce.getPollingAccountService();
+	  getGeneric();
+	  getRaw();
+  }
+    
+  public static void getGeneric() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+	  	  
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
+	AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("BTCE AccountInfo as String: " + accountInfo.toString());
+  }
+    
+  public static void getRaw() throws IOException{
+	  
+    // Get the account information
+    BTCEAccountInfoReturn accountInfo = ((BTCEAccountServiceRaw) accountService).getBTCEAccountInfo();
+    System.out.println("Raw BTCE AccountInfo as String: " + accountInfo.toString());
   }
 }

@@ -45,6 +45,16 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   }
 
+  /**
+   * @return A default configuration for this exchange
+   */
+  public static Exchange newInstance() {
+
+    Exchange exchange = new BTCEExchange();
+    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
+    return exchange;
+  }
+
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

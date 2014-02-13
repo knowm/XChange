@@ -25,40 +25,36 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.BTCEAdapters;
+import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * @author Matija Mazi
  * @author ObsessiveOrange
  */
-public class BTCEAccountService extends BTCEAccountServiceRaw implements PollingAccountService {
+public class BTCEAccountServiceRaw extends BTCEBaseService{
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCEAccountService(ExchangeSpecification exchangeSpecification) {
+  public BTCEAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }
 
-  public AccountInfo getAccountInfo() throws IOException {
-
-    BTCEAccountInfoReturn info = getBTCEAccountInfo();
-    checkResult(info);
-    return BTCEAdapters.adaptAccountInfo(info.getReturnValue());
+  public BTCEAccountInfoReturn getBTCEAccountInfo() throws IOException {
+	  
+    return btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
   }
 
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawBTCEFunds(BigDecimal amount, String address) throws IOException {
 
     throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
   }
 
-  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+  public String requestBTCEBitcoinDepositAddress(final String... arguments) throws IOException {
 
     throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
   }
