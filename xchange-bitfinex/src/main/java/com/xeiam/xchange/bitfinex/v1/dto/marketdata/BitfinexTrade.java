@@ -32,6 +32,14 @@ public class BitfinexTrade {
   private final float timestamp;
   private final String exchange;
 
+  /**
+   * Constructor
+   * 
+   * @param price
+   * @param amount
+   * @param timestamp
+   * @param exchange
+   */
   public BitfinexTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp, @JsonProperty("exchange") String exchange) {
 
     this.price = price;

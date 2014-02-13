@@ -27,6 +27,12 @@ import com.xeiam.xchange.kraken.dto.account.KrakenTradeVolume;
 
 public class KrakenTradeVolumeResult extends KrakenResult<KrakenTradeVolume> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenTradeVolumeResult(@JsonProperty("result") KrakenTradeVolume result, @JsonProperty("error") String[] error) {
 
     super(result, error);

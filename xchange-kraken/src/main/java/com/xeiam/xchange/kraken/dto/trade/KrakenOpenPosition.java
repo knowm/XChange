@@ -46,6 +46,25 @@ public class KrakenOpenPosition {
   private final Set<KrakenOrderFlags> orderFlags;
   private final BigDecimal volumeInQuoteCurrency;
 
+  /**
+   * Constructor
+   * 
+   * @param orderTxId
+   * @param assetPair
+   * @param tradeUnixTimestamp
+   * @param type
+   * @param orderType
+   * @param cost
+   * @param fee
+   * @param volume
+   * @param volumeClosed
+   * @param margin
+   * @param value
+   * @param netDifference
+   * @param miscellaneous
+   * @param orderFlags
+   * @param volumeInQuoteCurrency
+   */
   public KrakenOpenPosition(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") KrakenType type,
       @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
       @JsonProperty("vol_closed") BigDecimal volumeClosed, @JsonProperty("margin") BigDecimal margin, @JsonProperty("volue") BigDecimal value, @JsonProperty("net") BigDecimal netDifference,

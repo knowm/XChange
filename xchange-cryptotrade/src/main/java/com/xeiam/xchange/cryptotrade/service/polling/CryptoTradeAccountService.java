@@ -40,10 +40,10 @@ public class CryptoTradeAccountService implements PollingAccountService {
   // from epoch
   private static long lastCache = 0;
   private static AccountInfo accountInfo = null;
-  ExchangeSpecification exchangeSpecification;
+  private ExchangeSpecification exchangeSpecification;
 
-  CryptoTradeAuthenticated cryptoTrade;
-  ParamsDigest signatureCreator;
+  private CryptoTradeAuthenticated cryptoTrade;
+  private ParamsDigest signatureCreator;
 
   /**
    * Constructor
@@ -70,7 +70,7 @@ public class CryptoTradeAccountService implements PollingAccountService {
     return accountInfo = CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), info);
   }
 
-  protected static int nextNonce() {
+  private static int nextNonce() {
 
     // NOTE: this nonce creation formula is not bullet-proof:
     // - It allows for only one request per .25 seconds,

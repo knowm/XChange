@@ -27,6 +27,12 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.Kraken
 
 public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderResponse> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenCancelOrderResult(@JsonProperty("result") KrakenCancelOrderResponse result, @JsonProperty("error") String[] error) {
 
     super(result, error);
@@ -37,6 +43,12 @@ public class KrakenCancelOrderResult extends KrakenResult<KrakenCancelOrderRespo
     private final int count;
     private final boolean pending;
 
+    /**
+     * Constructor
+     * 
+     * @param count
+     * @param pending
+     */
     public KrakenCancelOrderResponse(@JsonProperty("count") int count, @JsonProperty("pending") boolean pending) {
 
       this.count = count;

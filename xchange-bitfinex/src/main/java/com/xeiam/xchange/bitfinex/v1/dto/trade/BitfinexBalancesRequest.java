@@ -36,6 +36,11 @@ public class BitfinexBalancesRequest {
   @JsonRawValue
   protected String options;
 
+  /**
+   * Constructor
+   * 
+   * @param nonce
+   */
   public BitfinexBalancesRequest(String nonce) {
 
     this.request = "/v1/balances";

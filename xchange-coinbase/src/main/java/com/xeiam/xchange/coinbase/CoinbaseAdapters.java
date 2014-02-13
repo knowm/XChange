@@ -19,32 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.dto.polling;
+package com.xeiam.xchange.coinbase;
 
-import java.io.IOException;
-
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
 
 /**
- * @author gnandiga
+ * jamespedwards42
  */
-public class BitstampSuccessResponseDeserializerTest {
+public final class CoinbaseAdapters {
 
-  @Test
-  public void verifyDeserialize() throws IOException {
-
-    ObjectMapper mapper = new ObjectMapper();
-    BitstampSuccessResponse response = mapper.readValue("{\"error\": \"User not verified\"}", BitstampSuccessResponse.class);
-
-    Assert.assertEquals("User not verified", response.getError());
-
-    response = mapper.readValue("true", BitstampSuccessResponse.class);
-
-    Assert.assertTrue(response.getSuccess());
+  private CoinbaseAdapters() {
 
   }
+
 }

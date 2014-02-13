@@ -85,7 +85,7 @@ public final class BitcoiniumAdapters {
 
   }
 
-  private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<BigDecimal> prices, List<BigDecimal> volumes) {
+  public static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<BigDecimal> prices, List<BigDecimal> volumes) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (int i = 0; i < prices.size(); i++) {

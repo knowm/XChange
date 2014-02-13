@@ -41,6 +41,7 @@ public final class CryptoTradeUtils {
   public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
   static {
+
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
@@ -49,7 +50,6 @@ public final class CryptoTradeUtils {
     CURRENCY_PAIRS.add(new CurrencyPair("CNC", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
-
   }
 
   /**

@@ -37,58 +37,13 @@ import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePlaceOrderReturn;
 @Path("api/1/private")
 public interface CryptoTradeAuthenticated {
 
-  /**
-   * @param from The ID of the transaction to start displaying with; default 0
-   * @param count The number of transactions for displaying default 1,000
-   * @param fromId The ID of the transaction to start displaying with default 0
-   * @param endId The ID of the transaction to finish displaying with default ∞
-   * @param order sorting ASC or DESC default DESC
-   * @param since When to start displaying? UNIX time default 0
-   * @param end When to finish displaying? UNIX time default ∞
-   * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}}
-   */
   @POST
   @Path("getinfo")
   CryptoTradeAccountInfoReturn getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
-  /**
-   * None of the parameters are obligatory (ie. all are nullable).
-   * 
-   * @param from the number of the order to start displaying with (default: 0)
-   * @param count The number of orders for displaying (default: 1000)
-   * @param fromId id of the order to start displaying with (default: 0)
-   * @param endId id of the ordeк to finish displaying (default: ∞)
-   * @param order sorting (default: DESC)
-   * @param since when to start displaying UNIX time (default: 0)
-   * @param end when to finish displaying UNIX time (default: ∞)
-   * @param pair the pair to display the orders eg. btc_usd (default: all pairs)
-   * @param active is it displaying of active orders only? 1 or 0 (default: 1)
-   */
-  // @POST
-  // @FormParam("method")
-  // BTCEOpenOrdersReturn OrderList(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
-  // @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-  // @FormParam("end") Long end, @FormParam("pair") String pair, @FormParam("active") int active);
-  //
-  // /**
-  // * All parameters are obligatory (ie. none may be null).
-  // *
-  // * @param pair pair, eg. btc_usd
-  // * @param type The transaction type (buy or sell)
-  // * @param rate The price to buy/sell
-  // * @param amount The amount which is necessary to buy/sell
-  // */
   @POST
   @Path("trade")
-  // @FormParam("method")
-      CryptoTradePlaceOrderReturn trade(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
-          @FormParam("type") CryptoTradeOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
+  CryptoTradePlaceOrderReturn trade(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
+      @FormParam("type") CryptoTradeOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
 
-  // @POST
-  // @FormParam("method")
-  // BTCECancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("order_id") long orderId);
-
-  enum SortOrder {
-    ASC, DESC
-  }
 }

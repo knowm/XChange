@@ -26,7 +26,8 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
-import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
@@ -38,7 +39,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchangeSpecification
+   *          The {@link ExchangeSpecification}
    */
   public BitstampAccountService(ExchangeSpecification exchangeSpecification) {
 
@@ -54,18 +56,19 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   @Override
   public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
 
-    final BitstampSuccessResponse response = withdrawBitstampFunds(amount, address);
-    return Boolean.toString(response.getSuccess());
+    final BitstampBooleanResponse response = withdrawBitstampFunds(amount, address);
+    return Boolean.toString(response.getResponse());
   }
 
   /**
-   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
+   * This returns the currently set deposit address. It will not generate a
+   * new address (ie. repeated calls will return the same address).
    */
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
-    final BitstampSuccessResponse response = getBitstampBitcoinDepositAddress();
-    return Boolean.toString(response.getSuccess());
+    final BitstampDepositAddress response = getBitstampBitcoinDepositAddress();
+    return response.getDepositAddress();
 
   }
 }

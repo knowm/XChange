@@ -45,16 +45,6 @@ public class CryptoTradeExchange extends BaseExchange implements Exchange {
 
   }
 
-  /**
-   * @return A default configuration for this exchange
-   */
-  public static Exchange newInstance() {
-
-    Exchange exchange = new CryptoTradeExchange();
-    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-    return exchange;
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

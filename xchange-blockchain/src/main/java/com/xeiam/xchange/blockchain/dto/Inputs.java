@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class Inputs {
 
-  private final Out prev_out;
+  private final Out prevOut;
 
   /**
    * Constructor
@@ -37,12 +37,12 @@ public final class Inputs {
    */
   public Inputs(@JsonProperty("prev_out") Out prev_out) {
 
-    this.prev_out = prev_out;
+    this.prevOut = prev_out;
   }
 
-  public Out getPrev_out() {
+  public Out getPrevOut() {
 
-    return this.prev_out;
+    return this.prevOut;
   }
 
 }

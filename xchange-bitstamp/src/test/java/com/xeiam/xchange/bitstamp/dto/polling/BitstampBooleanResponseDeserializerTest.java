@@ -19,37 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.bitstamp.dto.polling;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.Assert;
+import java.io.IOException;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 
 /**
- * <p>
- * Abstract base class to provide the following to exchange services:
- * </p>
- * <ul>
- * <li>Provision of standard specification parsing</li>
- * </ul>
+ * @author gnandiga
  */
-public abstract class BaseExchangeService {
+public class BitstampBooleanResponseDeserializerTest {
 
-  /**
-   * The exchange specification containing session-specific information
-   */
-  protected final ExchangeSpecification exchangeSpecification;
+  @Test
+  public void verifyDeserialize() throws IOException {
 
-  /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  protected BaseExchangeService(ExchangeSpecification exchangeSpecification) {
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampBooleanResponse response = mapper.readValue("{\"error\": \"User not verified\"}", BitstampBooleanResponse.class);
 
-    Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
+    Assert.assertEquals("User not verified", response.getError());
 
-    this.exchangeSpecification = exchangeSpecification;
+    response = mapper.readValue("true", BitstampBooleanResponse.class);
+
+    Assert.assertTrue(response.getResponse());
 
   }
-
 }

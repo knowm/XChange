@@ -31,6 +31,12 @@ public class BitfinexNonceOnlyRequest {
   @JsonProperty("nonce")
   protected String nonce;
 
+  /**
+   * Constructor
+   * 
+   * @param request
+   * @param nonce
+   */
   public BitfinexNonceOnlyRequest(String request, String nonce) {
 
     this.request = request;

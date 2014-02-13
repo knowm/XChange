@@ -23,9 +23,6 @@ package com.xeiam.xchange.bitfinex.v1.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Data object representing depth from BTCE
- */
 public class BitfinexDepth {
 
   private final BitfinexLevel[] asks;

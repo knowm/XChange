@@ -36,6 +36,15 @@ public class BTCChinaValue {
   private final String amountInteger;
   private final BigDecimal amountDecimal;
 
+  /**
+   * Constructor
+   * 
+   * @param currency
+   * @param symbol
+   * @param amount
+   * @param amountInteger
+   * @param amountDecimal
+   */
   public BTCChinaValue(@JsonProperty("currency") String currency, @JsonProperty("symbol") String symbol, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("amount_integer") String amountInteger, @JsonProperty("amount_decimal") BigDecimal amountDecimal) {
 

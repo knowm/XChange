@@ -56,10 +56,6 @@ public class VircurexMarketDataService extends BasePollingExchangeService implem
 
   private final Vircurex vircurex;
 
-  /**
-   * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
-   */
   public VircurexMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -92,21 +88,6 @@ public class VircurexMarketDataService extends BasePollingExchangeService implem
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier
-   *          The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(VircurexUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
-  }
-
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
@@ -117,6 +98,21 @@ public class VircurexMarketDataService extends BasePollingExchangeService implem
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  /**
+   * Verify
+   * 
+   * @param tradableIdentifier
+   *          The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currency
+   */
+  public void verify(String tradableIdentifier, String currency) {
+
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(getExchangeSymbols().contains(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+
   }
 
 }

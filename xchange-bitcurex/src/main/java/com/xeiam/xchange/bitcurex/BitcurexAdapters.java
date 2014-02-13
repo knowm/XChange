@@ -122,11 +122,6 @@ public final class BitcurexAdapters {
     return new Trades(tradesList);
   }
 
-  public static String getPriceString(BigMoney price) {
-
-    return price.getAmount().stripTrailingZeros().toPlainString();
-  }
-
   /**
    * Adapts a BitcurexTicker to a Ticker Object
    * 

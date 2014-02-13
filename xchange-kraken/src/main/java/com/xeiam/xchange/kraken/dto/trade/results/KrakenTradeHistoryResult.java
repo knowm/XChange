@@ -30,6 +30,12 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.Krake
 
 public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenTradeHistoryResult(@JsonProperty("result") KrakenTradeHistory result, @JsonProperty("error") String[] error) {
 
     super(result, error);
@@ -40,6 +46,12 @@ public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
     private final Map<String, KrakenTrade> orders;
     private final int count;
 
+    /**
+     * Constructor
+     * 
+     * @param orders
+     * @param count
+     */
     public KrakenTradeHistory(@JsonProperty("trades") Map<String, KrakenTrade> orders, @JsonProperty("count") int count) {
 
       this.orders = orders;

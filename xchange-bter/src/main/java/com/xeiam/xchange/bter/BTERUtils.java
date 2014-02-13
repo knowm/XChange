@@ -19,40 +19,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.marketdata;
+package com.xeiam.xchange.bter;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CryptoTradeDepthReturn {
+import com.xeiam.xchange.currency.CurrencyPair;
 
-  String success;
-  CryptoTradeDepth depth;
+/**
+ * A central place for shared Bter properties
+ */
+public final class BTERUtils {
 
-  public CryptoTradeDepthReturn(@JsonProperty("status") String success, @JsonProperty("data") CryptoTradeDepth depth) {
+  /**
+   * private Constructor
+   */
+  private BTERUtils() {
 
-    super();
-    this.success = success;
-    this.depth = depth;
   }
 
-  public String getSuccess() {
+  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
-    return success;
+  static {
+
+    CURRENCY_PAIRS.add(new CurrencyPair("BTC", "CNY"));
+    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
+    CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
+
   }
 
-  public void setSuccess(String success) {
+  /**
+   * Checks if a given CurrencyPair is covered by this exchange
+   * 
+   * @param currencyPair
+   * @return
+   */
+  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
 
-    this.success = success;
-  }
-
-  public CryptoTradeDepth getDepth() {
-
-    return depth;
-  }
-
-  public void setDepth(CryptoTradeDepth depth) {
-
-    this.depth = depth;
+    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
 }

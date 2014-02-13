@@ -53,22 +53,27 @@ public class BitstampUserTradeHistoryDemo {
   private static void generic(PollingTradeService tradeService) throws IOException {
 
     Trades trades = tradeService.getTradeHistory();
-    System.out.println(trades.toString());
+    System.out.println(trades);
 
+    // Warning: using a limit here can be misleading. The underlying call
+    // retrieves trades, withdrawals, and deposits. So the example here will
+    // limit the result to 17 of those types and from those 17 only trades are
+    // returned. It is recommended to use the raw service demonstrated below
+    // if you want to use this feature.
     Trades tradesLimitedTo17 = tradeService.getTradeHistory(17L);
-    System.out.println(tradesLimitedTo17.toString());
+    System.out.println(tradesLimitedTo17);
   }
 
   private static void raw(BitstampTradeServiceRaw tradeService) throws IOException {
 
     BitstampUserTransaction[] trades = tradeService.getBitstampUserTransactions(Long.MAX_VALUE);
     for (BitstampUserTransaction trade : trades) {
-      System.out.println(trade.toString());
+      System.out.println(trade);
     }
 
     BitstampUserTransaction[] tradesLimitedTo17 = tradeService.getBitstampUserTransactions(17L);
     for (BitstampUserTransaction trade : tradesLimitedTo17) {
-      System.out.println(trade.toString());
+      System.out.println(trade);
     }
   }
 

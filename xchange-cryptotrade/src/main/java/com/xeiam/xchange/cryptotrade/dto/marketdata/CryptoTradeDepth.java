@@ -26,9 +26,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Data object representing depth from BTCE
- */
 public class CryptoTradeDepth {
 
   private final List<BigDecimal[]> asks;
@@ -59,7 +56,7 @@ public class CryptoTradeDepth {
   @Override
   public String toString() {
 
-    return "BTERDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    return "CryptoTradeDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
 }

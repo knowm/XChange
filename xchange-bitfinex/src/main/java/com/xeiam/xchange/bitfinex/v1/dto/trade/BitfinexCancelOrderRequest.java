@@ -36,6 +36,12 @@ public class BitfinexCancelOrderRequest {
   @JsonRawValue
   private int orderId;
 
+  /**
+   * Constructor
+   * 
+   * @param nonce
+   * @param orderId
+   */
   public BitfinexCancelOrderRequest(String nonce, int orderId) {
 
     this.request = "/v1/order/cancel";

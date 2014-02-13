@@ -39,7 +39,7 @@ import javax.xml.bind.DatatypeConverter;
 public class VircurexSha2Digest {
 
   private static final String SHA_256 = "SHA-256";
-  MessageDigest digest;
+  private MessageDigest digest;
   private final String secretWord;
 
   /**

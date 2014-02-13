@@ -24,6 +24,7 @@ package com.xeiam.xchange.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -43,16 +44,6 @@ public class DateUtils {
    */
   private DateUtils() {
 
-  }
-
-  /**
-   * Creates a Date instance for this instant in the UTC timezone
-   * 
-   * @return the Date instance
-   */
-  public static Date nowUtc() {
-
-    return new Date();
   }
 
   /**
@@ -86,7 +77,7 @@ public class DateUtils {
    * @param isoFormattedDate
    * @return Date
    * @throws InvalidFormatException
-   */
+   */ 
   public static Date fromISODateString(String isoFormattedDate) throws InvalidFormatException {
 
     SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -98,6 +89,24 @@ public class DateUtils {
   }
 
   /**
+   * Converts an ISO 8601 formatted Date String to a Java Date
+   * General format: yyyy-MM-dd'T'HH:mm:ssX
+   * 
+   * @param iso8601FormattedDate
+   * @return Date
+   * @throws InvalidFormatException
+   */ 
+  public static Date fromISO8601DateString(String iso8601FormattedDate) throws InvalidFormatException {
+
+    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+    try {
+      return iso8601Format.parse(iso8601FormattedDate);
+    } catch (ParseException e) {
+      throw new InvalidFormatException("Error parsing as date", iso8601FormattedDate, Date.class);
+    }
+  }
+  
+  /**
    * Converts an rfc1123 formatted Date String to a Java Date
    * rfc1123 format: EEE, dd MMM yyyy HH:mm:ss zzz
    * 
@@ -105,9 +114,9 @@ public class DateUtils {
    * @return Date
    * @throws InvalidFormatException
    */
-  public static Date fromRfc1123DateString(String rfc1123FormattedDate) throws InvalidFormatException {
+  public static Date fromRfc1123DateString(String rfc1123FormattedDate, Locale locale) throws InvalidFormatException {
 
-    SimpleDateFormat rfc1123DateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+    SimpleDateFormat rfc1123DateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", locale);
     try {
       return rfc1123DateFormat.parse(rfc1123FormattedDate);
     } catch (ParseException e) {

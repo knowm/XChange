@@ -24,7 +24,6 @@ package com.xeiam.xchange.vircurex;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -46,6 +45,7 @@ public final class VircurexUtils {
   public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
   static {
+
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
@@ -65,35 +65,11 @@ public final class VircurexUtils {
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
   }
 
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
-
   public static String getUtcTimestamp() {
 
     DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     format.setTimeZone(TimeZone.getTimeZone("GMT"));
     return format.format(new Date());
-  }
-
-  public static long convertLocalTimeToUtcTime() {
-
-    return System.currentTimeMillis() + VircurexUtils.getLocalToUtcDelta();
-  }
-
-  public static long getLocalToUtcDelta() {
-
-    Calendar local = Calendar.getInstance();
-    local.clear();
-    local.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
-    return local.getTimeInMillis();
   }
 
 }

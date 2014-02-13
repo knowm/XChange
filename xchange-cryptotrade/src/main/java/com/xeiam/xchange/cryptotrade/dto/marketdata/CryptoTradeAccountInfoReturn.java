@@ -22,44 +22,36 @@
 package com.xeiam.xchange.cryptotrade.dto.marketdata;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Matija Mazi
- */
 public class CryptoTradeAccountInfoReturn {
 
-  String result;
-  Map<String, BigDecimal> availableFunds = new HashMap<String, BigDecimal>();
+  private final String result;
+  private final Map<String, BigDecimal> availableFunds;
+
+  /**
+   * Constructor
+   * 
+   * @param aResult
+   * @param data
+   */
+  public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
+
+    result = aResult;
+    availableFunds = data.getFunds();
+
+  }
 
   public String getResult() {
 
     return result;
   }
 
-  public void setResult(String result) {
-
-    this.result = result;
-  }
-
   public Map<String, BigDecimal> getAvailableFunds() {
 
     return availableFunds;
-  }
-
-  public void setAvailableFunds(Map<String, BigDecimal> availableFunds) {
-
-    this.availableFunds = availableFunds;
-  }
-
-  public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
-
-    result = aResult;
-    availableFunds = data.getFunds();
-
   }
 
 }

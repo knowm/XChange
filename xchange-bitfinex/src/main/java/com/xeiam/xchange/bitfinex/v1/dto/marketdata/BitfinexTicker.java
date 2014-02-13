@@ -33,6 +33,15 @@ public class BitfinexTicker {
   private final BigDecimal last;
   private final float timestamp;
 
+  /**
+   * Constructor
+   * 
+   * @param mid
+   * @param bid
+   * @param ask
+   * @param last
+   * @param timestamp
+   */
   public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("last_price") BigDecimal last,
       @JsonProperty("timestamp") float timestamp) {
 

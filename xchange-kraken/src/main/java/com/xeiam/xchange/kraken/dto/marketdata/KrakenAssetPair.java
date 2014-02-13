@@ -43,6 +43,24 @@ public class KrakenAssetPair {
   private final BigDecimal marginCall;
   private final BigDecimal marginStop;
 
+  /**
+   * Constructor
+   * 
+   * @param altName
+   * @param classBase
+   * @param base
+   * @param classQuote
+   * @param quote
+   * @param volumeLotSize
+   * @param pairScale
+   * @param volumeLotScale
+   * @param volumeMultiplier
+   * @param leverage
+   * @param fees
+   * @param feeVolumeCurrency
+   * @param marginCall
+   * @param marginStop
+   */
   public KrakenAssetPair(@JsonProperty("altname") String altName, @JsonProperty("aclass_base") String classBase, @JsonProperty("base") String base, @JsonProperty("aclass_quote") String classQuote,
       @JsonProperty("quote") String quote, @JsonProperty("lot") String volumeLotSize, @JsonProperty("pair_decimals") int pairScale, @JsonProperty("lot_decimals") int volumeLotScale,
       @JsonProperty("lot_multiplier") BigDecimal volumeMultiplier, @JsonProperty("leverage") List<String> leverage, @JsonProperty("fees") List<KrakenFee> fees,

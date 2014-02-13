@@ -22,7 +22,7 @@
 package com.xeiam.xchange.service.polling;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.streaming.BaseExchangeService;
+import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * <p>

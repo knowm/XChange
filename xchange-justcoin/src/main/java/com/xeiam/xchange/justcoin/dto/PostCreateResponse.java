@@ -30,6 +30,11 @@ public class PostCreateResponse {
 
   private final String id;
 
+  /**
+   * Constructor
+   * 
+   * @param id
+   */
   public PostCreateResponse(final @JsonProperty("id") String id) {
 
     this.id = id;

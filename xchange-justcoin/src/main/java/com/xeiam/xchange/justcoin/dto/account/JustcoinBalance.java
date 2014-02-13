@@ -35,6 +35,14 @@ public class JustcoinBalance {
   private final BigDecimal hold;
   private final BigDecimal available;
 
+  /**
+   * Constructor
+   * 
+   * @param currency
+   * @param balance
+   * @param hold
+   * @param available
+   */
   public JustcoinBalance(final @JsonProperty("currency") String currency, final @JsonProperty("balance") BigDecimal balance, final @JsonProperty("hold") BigDecimal hold,
       final @JsonProperty("available") BigDecimal available) {
 
@@ -82,37 +90,48 @@ public class JustcoinBalance {
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     JustcoinBalance other = (JustcoinBalance) obj;
     if (available == null) {
-      if (other.available != null)
+      if (other.available != null) {
         return false;
+      }
     }
-    else if (available.compareTo(other.available) != 0)
+    else if (available.compareTo(other.available) != 0) {
       return false;
+    }
     if (balance == null) {
-      if (other.balance != null)
+      if (other.balance != null) {
         return false;
+      }
     }
-    else if (balance.compareTo(other.balance) != 0)
+    else if (balance.compareTo(other.balance) != 0) {
       return false;
+    }
     if (currency == null) {
-      if (other.currency != null)
+      if (other.currency != null) {
         return false;
+      }
     }
-    else if (!currency.equals(other.currency))
+    else if (!currency.equals(other.currency)) {
       return false;
+    }
     if (hold == null) {
-      if (other.hold != null)
+      if (other.hold != null) {
         return false;
+      }
     }
-    else if (hold.compareTo(other.hold) != 0)
+    else if (hold.compareTo(other.hold) != 0) {
       return false;
+    }
     return true;
   }
 }

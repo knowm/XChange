@@ -51,6 +51,18 @@ public final class BitfinexNewOrderRequest {
   @JsonProperty("price")
   protected BigDecimal price;
 
+  /**
+   * Constructor
+   * 
+   * @param nonce
+   * @param symbol
+   * @param amount
+   * @param price
+   * @param exchange
+   * @param side
+   * @param type
+   * @param is_hidden
+   */
   public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type, boolean is_hidden) {
 
     this.request = "/v1/order/new";

@@ -30,8 +30,9 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
-import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
@@ -40,8 +41,8 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
  */
 public class BitstampAccountServiceRaw extends BasePollingExchangeService {
 
-  protected final BitstampDigest signatureCreator;
-  protected final BitstampAuthenticated bitstampAuthenticated;
+  private final BitstampDigest signatureCreator;
+  private final BitstampAuthenticated bitstampAuthenticated;
 
   /**
    * Initialize common properties from the exchange specification
@@ -65,9 +66,9 @@ public class BitstampAccountServiceRaw extends BasePollingExchangeService {
     return bitstampBalance;
   }
 
-  public BitstampSuccessResponse withdrawBitstampFunds(final BigDecimal amount, final String address) throws IOException {
+  public BitstampBooleanResponse withdrawBitstampFunds(final BigDecimal amount, final String address) throws IOException {
 
-    final BitstampSuccessResponse response = bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, address);
+    final BitstampBooleanResponse response = bitstampAuthenticated.withdrawBitcoin(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, address);
     if (response.getError() != null) {
       throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.getError());
     }
@@ -75,9 +76,9 @@ public class BitstampAccountServiceRaw extends BasePollingExchangeService {
 
   }
 
-  public BitstampSuccessResponse getBitstampBitcoinDepositAddress() throws IOException {
+  public BitstampDepositAddress getBitstampBitcoinDepositAddress() throws IOException {
 
-    final BitstampSuccessResponse response = bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
+    final BitstampDepositAddress response = bitstampAuthenticated.getBitcoinDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
     if (response.getError() != null) {
       throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
     }

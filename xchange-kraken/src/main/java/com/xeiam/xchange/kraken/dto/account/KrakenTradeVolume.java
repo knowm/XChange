@@ -32,6 +32,13 @@ public class KrakenTradeVolume {
   private final BigDecimal volume;
   private final Map<String, KrakenVolumeFee> fees;
 
+  /**
+   * Constructor
+   * 
+   * @param currency
+   * @param volume
+   * @param fees
+   */
   public KrakenTradeVolume(@JsonProperty("currency") String currency, @JsonProperty("volume") BigDecimal volume, @JsonProperty("fees") Map<String, KrakenVolumeFee> fees) {
 
     this.currency = currency;

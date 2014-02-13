@@ -24,7 +24,6 @@ package com.xeiam.xchange.btcchina.dto.trade.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 
-// TODO this is currently not being used.
 /**
  * @author David Yam
  */

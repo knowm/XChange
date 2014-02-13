@@ -22,14 +22,17 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
+import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -39,13 +42,13 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw implements PollingMarketDataService {
 
-  public JustcoinMarketDataService(final ExchangeSpecification exchangeSpecification) {
+  public JustcoinMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }
 
   @Override
-  public Ticker getTicker(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     final JustcoinTicker[] justcoinTickers = getTickers();
 
@@ -53,7 +56,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   }
 
   @Override
-  public OrderBook getOrderBook(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     final JustcoinDepth justcoinDepth = getMarketDepth(tradableIdentifier, currency);
 
@@ -67,8 +70,14 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   }
 
   @Override
-  public Trades getTrades(final String tradableIdentifier, final String currency, final Object... args) throws NotAvailableFromExchangeException {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws NotAvailableFromExchangeException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    return JustcoinUtils.CURRENCY_PAIRS;
   }
 }

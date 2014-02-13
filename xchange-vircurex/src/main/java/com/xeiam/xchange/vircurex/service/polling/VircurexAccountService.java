@@ -35,12 +35,12 @@ import com.xeiam.xchange.vircurex.dto.marketdata.VircurexAccountInfoReturn;
 
 public class VircurexAccountService implements PollingAccountService {
 
-  ExchangeSpecification exchangeSpecification;
+  private ExchangeSpecification exchangeSpecification;
 
-  VircurexAuthenticated vircurex;
+  private VircurexAuthenticated vircurex;
 
-  static VircurexAccountInfoReturn cacheInfo;
-  static long lastCache = 0;
+  private static VircurexAccountInfoReturn cacheInfo;
+  private static long lastCache = 0;
 
   /**
    * Constructor
@@ -76,7 +76,7 @@ public class VircurexAccountService implements PollingAccountService {
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
     throw new UnsupportedOperationException("Deposit address request not supported by API.");
   }

@@ -30,6 +30,12 @@ import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult.KrakenLed
 
 public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenLedgerResult(@JsonProperty("result") KrakenLedgers result, @JsonProperty("error") String[] error) {
 
     super(result, error);
@@ -40,12 +46,23 @@ public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
     private final Map<String, KrakenLedger> ledgerMap;
     private final int count;
 
+    /**
+     * Constructor
+     * 
+     * @param ledgerMap
+     */
     public KrakenLedgers(Map<String, KrakenLedger> ledgerMap) {
 
       this.ledgerMap = ledgerMap;
       this.count = ledgerMap.size();
     }
 
+    /**
+     * Constructor
+     * 
+     * @param ledgerMap
+     * @param count
+     */
     public KrakenLedgers(@JsonProperty("ledger") Map<String, KrakenLedger> ledgerMap, @JsonProperty("count") int count) {
 
       this.ledgerMap = ledgerMap;

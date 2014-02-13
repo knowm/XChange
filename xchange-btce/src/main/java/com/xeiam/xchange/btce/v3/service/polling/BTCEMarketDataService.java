@@ -56,6 +56,9 @@ import com.xeiam.xchange.utils.Assert;
 public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements PollingMarketDataService {
 
 
+  // private static final int PARTIAL_SIZE = 150;
+  // private static final int FULL_SIZE = 2000;
+
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */

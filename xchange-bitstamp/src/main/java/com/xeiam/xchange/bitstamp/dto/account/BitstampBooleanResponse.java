@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitstamp.dto;
+package com.xeiam.xchange.bitstamp.dto.account;
 
 import java.io.IOException;
 
@@ -30,46 +30,54 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.bitstamp.dto.BitstampBaseResponse;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse.BitstampBooleanResponseDeserializer;
 
 /**
  * @author gnandiga
  */
-@JsonDeserialize(using = BitstampSuccessResponse.BitstampSuccessResponseDeserializer.class)
-public class BitstampSuccessResponse {
+@JsonDeserialize(using = BitstampBooleanResponseDeserializer.class)
+public class BitstampBooleanResponse extends BitstampBaseResponse {
 
-  private final String error;
-  private final boolean success;
+  private final boolean response;
 
-  public BitstampSuccessResponse(String error, boolean result) {
+  /**
+   * Constructor
+   * 
+   * @param error
+   * @param response
+   */
+  public BitstampBooleanResponse(String error, boolean response) {
 
-    this.error = error;
-    this.success = result;
+    super(error);
+    this.response = response;
   }
 
-  public String getError() {
+  public boolean getResponse() {
 
-    return error;
+    return response;
   }
 
-  public boolean getSuccess() {
+  @Override
+  public String toString() {
 
-    return success;
+    return "BitstampWithdrawResponse [withdrawResult=" + response + "]";
   }
 
-  static class BitstampSuccessResponseDeserializer extends JsonDeserializer<BitstampSuccessResponse> {
+  static class BitstampBooleanResponseDeserializer extends JsonDeserializer<BitstampBooleanResponse> {
 
     @Override
-    public BitstampSuccessResponse deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public BitstampBooleanResponse deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
       if (node.isBoolean()) {
-        return new BitstampSuccessResponse(null, node.asBoolean());
+        return new BitstampBooleanResponse(null, node.asBoolean());
       }
-      else if (node.path("error") != null) {
-        return new BitstampSuccessResponse(node.path("error").asText(), false);
+      else if (node.get("error") != null) {
+        return new BitstampBooleanResponse(node.path("error").asText(), false);
       }
-      return new BitstampSuccessResponse("Invalid response from Bitstamp Server.", false);
+      return new BitstampBooleanResponse("Invalid response from Bitstamp Server.", false);
     }
   }
 
