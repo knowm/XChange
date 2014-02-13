@@ -30,6 +30,11 @@ public class JustcoinDepositAddress {
 
   private final String address;
 
+  /**
+   * Constructor
+   * 
+   * @param address
+   */
   public JustcoinDepositAddress(final @JsonProperty("address") String address) {
 
     this.address = address;
@@ -58,19 +63,24 @@ public class JustcoinDepositAddress {
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     JustcoinDepositAddress other = (JustcoinDepositAddress) obj;
     if (address == null) {
-      if (other.address != null)
+      if (other.address != null) {
         return false;
+      }
     }
-    else if (!address.equals(other.address))
+    else if (!address.equals(other.address)) {
       return false;
+    }
     return true;
   }
 }

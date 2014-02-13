@@ -155,7 +155,7 @@ public class CampBXTradeService extends BasePollingExchangeService implements Po
     }
   }
 
-  static String composeOrderId(String id, Order.OrderType orderType) {
+  private static String composeOrderId(String id, Order.OrderType orderType) {
 
     CampBX.OrderType type = orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
     return composeOrderId(type, id);

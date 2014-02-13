@@ -51,6 +51,29 @@ public class KrakenOrder {
   private final double closeTimestamp;
   private final String closeReason;
 
+  /**
+   * Constructor
+   * 
+   * @param refId
+   * @param userRefId
+   * @param status
+   * @param openTimestamp
+   * @param startTimestamp
+   * @param expireTimestamp
+   * @param orderDescription
+   * @param volume
+   * @param volumeExecuted
+   * @param cost
+   * @param fee
+   * @param price
+   * @param stopPrice
+   * @param limitPrice
+   * @param misc
+   * @param orderFLags
+   * @param tradeIds
+   * @param closeTimestamp
+   * @param closeReason
+   */
   public KrakenOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") KrakenOrderStatus status, @JsonProperty("opentm") double openTimestamp,
       @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp, @JsonProperty("descr") KrakenOrderDescription orderDescription,
       @JsonProperty("vol") BigDecimal volume, @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,

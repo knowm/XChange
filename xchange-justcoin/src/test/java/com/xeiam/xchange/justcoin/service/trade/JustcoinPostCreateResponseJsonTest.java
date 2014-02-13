@@ -37,7 +37,6 @@ import com.xeiam.xchange.justcoin.service.marketdata.JustcoinDepthTest;
  */
 public class JustcoinPostCreateResponseJsonTest {
 
-  
   @Test
   public void testUnmarshal() throws IOException {
 
@@ -47,7 +46,7 @@ public class JustcoinPostCreateResponseJsonTest {
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
     final PostCreateResponse response = mapper.readValue(is, PostCreateResponse.class);
-    
+
     assertThat(response.getId()).isEqualTo("1895549");
   }
 }

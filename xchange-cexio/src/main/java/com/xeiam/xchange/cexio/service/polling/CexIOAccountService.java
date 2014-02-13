@@ -19,37 +19,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.cexio.service.polling;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.cexio.CexIOAdapters;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
- * <p>
- * Abstract base class to provide the following to exchange services:
- * </p>
- * <ul>
- * <li>Provision of standard specification parsing</li>
- * </ul>
+ * Author: brox
+ * Since: 2/6/14
  */
-public abstract class BaseExchangeService {
+
+public class CexIOAccountService extends CexIOAccountServiceRaw implements PollingAccountService {
 
   /**
-   * The exchange specification containing session-specific information
-   */
-  protected final ExchangeSpecification exchangeSpecification;
-
-  /**
-   * Constructor Initialize common properties from the exchange specification
+   * Initialize common properties from the exchange specification
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected BaseExchangeService(ExchangeSpecification exchangeSpecification) {
+  public CexIOAccountService(ExchangeSpecification exchangeSpecification) {
 
-    Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
+    super(exchangeSpecification);
+  }
 
-    this.exchangeSpecification = exchangeSpecification;
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
 
+    return CexIOAdapters.adaptAccountInfo(getCexIOAccountInfo(), exchangeSpecification.getUserName());
+  }
+
+  @Override
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
 }

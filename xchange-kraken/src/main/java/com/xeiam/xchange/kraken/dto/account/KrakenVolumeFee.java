@@ -34,6 +34,16 @@ public class KrakenVolumeFee {
   private final BigDecimal nextVolume;
   private final BigDecimal tierVolume;
 
+  /**
+   * Constructor
+   * 
+   * @param fee
+   * @param minFee
+   * @param maxFee
+   * @param nextFee
+   * @param nextVolume
+   * @param tierVolume
+   */
   public KrakenVolumeFee(@JsonProperty("fee") BigDecimal fee, @JsonProperty("minfee") BigDecimal minFee, @JsonProperty("maxfee") BigDecimal maxFee, @JsonProperty("nextfee") BigDecimal nextFee,
       @JsonProperty("nextvolume") BigDecimal nextVolume, @JsonProperty("tiervolume") BigDecimal tierVolume) {
 

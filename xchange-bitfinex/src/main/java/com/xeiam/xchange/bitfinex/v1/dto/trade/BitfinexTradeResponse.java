@@ -33,6 +33,15 @@ public class BitfinexTradeResponse {
   private final String exchange;
   private final String type;
 
+  /**
+   * Constructor
+   * 
+   * @param price
+   * @param amount
+   * @param timestamp
+   * @param exchange
+   * @param type
+   */
   public BitfinexTradeResponse(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp,
       @JsonProperty("exchange") String exchange, @JsonProperty("type") String type) {
 

@@ -74,32 +74,6 @@ public interface Exchange {
    * A market data service typically consists of a regularly updated list of the available prices for the various symbols
    * </p>
    * <p>
-   * This is the non-streaming (blocking) version of the service
-   * </p>
-   * 
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's market data service
-   */
-  PollingMarketDataService getPollingMarketDataService(ExchangeStreamingConfiguration configuration);
-
-  /**
-   * <p>
-   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
-   * </p>
-   * <p>
-   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
-   * place.
-   * </p>
-   * 
-   * @return The exchange's "push" market data service
-   */
-  StreamingExchangeService getStreamingExchangeService();
-
-  /**
-   * <p>
-   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
-   * </p>
-   * <p>
    * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
    * place.
    * </p>
@@ -123,19 +97,6 @@ public interface Exchange {
 
   /**
    * <p>
-   * An trade service typically provides access to trading functionality
-   * </p>
-   * <p>
-   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
-   * </p>
-   * 
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's polling trade service
-   */
-  PollingTradeService getPollingTradeService(ExchangeStreamingConfiguration configuration);
-
-  /**
-   * <p>
    * An account service typically provides access to the user's private exchange data
    * </p>
    * <p>
@@ -145,18 +106,5 @@ public interface Exchange {
    * @return The exchange's polling account service
    */
   PollingAccountService getPollingAccountService();
-
-  /**
-   * <p>
-   * An account service typically provides access to the user's private exchange data
-   * </p>
-   * <p>
-   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
-   * </p>
-   * 
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's polling account service
-   */
-  PollingAccountService getPollingAccountService(ExchangeStreamingConfiguration configuration);
 
 }

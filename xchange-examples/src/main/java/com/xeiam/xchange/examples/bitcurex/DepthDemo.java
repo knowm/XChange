@@ -26,6 +26,8 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcurex.BitcurexExchange;
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
+import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -43,11 +45,37 @@ public class DepthDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
-    // Get the latest order book data for BTC/EUR
+    generic(marketDataService);
+    raw((BitcurexMarketDataServiceRaw) marketDataService);
+
+  }
+
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+
+    // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.EUR);
 
-    System.out.println(orderBook.toString());
+    System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
+    System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
+
+    System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
+
+    System.out.println(orderBook.toString());
+  }
+
+  private static void raw(BitcurexMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get the latest order book data for BTC/CAD
+    BitcurexDepth bitcurexDepth = marketDataService.getBitcurexOrderBook("BTC", "EUR");
+
+    System.out.println("Current Order Book size for BTC / EUR: " + (bitcurexDepth.getAsks().size() + bitcurexDepth.getBids().size()));
+
+    System.out.println("First Ask: " + bitcurexDepth.getAsks().get(0)[0].toString());
+
+    System.out.println("First Bid: " + bitcurexDepth.getBids().get(0)[0].toString());
+
+    System.out.println(bitcurexDepth.toString());
   }
 
 }

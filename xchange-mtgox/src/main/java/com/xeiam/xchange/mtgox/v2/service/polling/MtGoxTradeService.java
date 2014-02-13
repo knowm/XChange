@@ -103,7 +103,7 @@ public class MtGoxTradeService extends MtGoxTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException {
+  public Trades getTradeHistory(Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,25 +21,25 @@
  */
 package com.xeiam.xchange.vircurex.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VircurexPlaceOrderReturn {
 
-  String orderId;
+  private final String orderId;
 
   public String getOrderId() {
 
     return orderId;
   }
 
-  public void setOrderId(String orderId) {
+  /**
+   * Constructor
+   * 
+   * @param orderId
+   */
+  public VircurexPlaceOrderReturn(@JsonProperty("orederid") String orderId) {
 
     this.orderId = orderId;
   }
 
-  @JsonAnySetter
-  public void setMe(String aKey, Object aValue) {
-
-    System.out.println(aKey + " = " + aValue);
-  }
 }

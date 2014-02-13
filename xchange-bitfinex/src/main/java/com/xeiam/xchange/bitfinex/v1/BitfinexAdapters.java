@@ -52,7 +52,7 @@ import com.xeiam.xchange.utils.DateUtils;
 public final class BitfinexAdapters {
 
   @SuppressWarnings("unused")
-  private static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
+  public static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
 
   private BitfinexAdapters() {
 

@@ -67,12 +67,12 @@ public final class Trade implements Comparable<Trade> {
    * The trade id
    */
   private final String id;
-  
+
   /**
    * The id of the order responsible for execution of this trade
    */
   private final String orderId;
-  
+
   /**
    * @param type
    *          The trade type (BID side or ASK side)
@@ -91,7 +91,6 @@ public final class Trade implements Comparable<Trade> {
    *          The id of the trade
    * @param orderId
    *          The id of the order responsible for execution of this trade
-   *          
    */
   public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, String id, String orderId) {
 
@@ -149,6 +148,7 @@ public final class Trade implements Comparable<Trade> {
 
   @Override
   public int compareTo(Trade trade) {
+
     // NOTE: see https://github.com/timmolter/XChange/issues/225
     return getId().compareTo(trade.getId());
   }
@@ -167,6 +167,7 @@ public final class Trade implements Comparable<Trade> {
 
   @Override
   public int hashCode() {
+
     return id.hashCode();
   }
 

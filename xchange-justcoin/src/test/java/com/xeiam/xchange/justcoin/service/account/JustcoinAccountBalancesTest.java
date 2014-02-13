@@ -36,7 +36,6 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
-import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 
 /**
@@ -68,7 +67,6 @@ public class JustcoinAccountBalancesTest {
     final JustcoinBalance[] justcoinBalances = mapper.readValue(is, new JustcoinBalance[0].getClass());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(justcoinBalances.length).isEqualTo(JustcoinUtils.CURRENCIES.size());
     final JustcoinBalance ltcBalance = justcoinBalances[3];
     assertThat(ltcBalance).isEqualTo(justcoinBalance);
     assertThat(ltcBalance.getHold().scale()).isEqualTo(8);

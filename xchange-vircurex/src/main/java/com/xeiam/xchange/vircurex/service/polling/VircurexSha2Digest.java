@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -39,7 +39,7 @@ import javax.xml.bind.DatatypeConverter;
 public class VircurexSha2Digest {
 
   private static final String SHA_256 = "SHA-256";
-  MessageDigest digest;
+  private MessageDigest digest;
   private final String secretWord;
 
   /**

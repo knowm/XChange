@@ -21,9 +21,14 @@
  */
 package com.xeiam.xchange.examples.bitfinex.marketdata;
 
+import java.io.IOException;
+import java.util.Arrays;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -44,9 +49,24 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
 
+    generic(marketDataService);
+    raw((BitfinexMarketDataServiceRaw) marketDataService);
+
+  }
+
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+
     // Get the latest trade data for BTC/USD
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    System.out.println("Trades, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
+  }
 
+  private static void raw(BitfinexMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get the latest trade data for BTC/USD
+    BitfinexTrade[] trades = marketDataService.getBitfinexTrades("btcusd");
+    System.out.println("Trades, default. Size= " + trades.length);
+    System.out.println(Arrays.toString(trades));
   }
 }

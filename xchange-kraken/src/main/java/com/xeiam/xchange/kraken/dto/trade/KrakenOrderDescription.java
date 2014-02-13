@@ -37,6 +37,19 @@ public class KrakenOrderDescription {
   private final String orderDescription;
   private final String closeDescription;
 
+  /**
+   * Constructor
+   * 
+   * @param assetPair
+   * @param type
+   * @param orderType
+   * @param price
+   * @param secondaryPrice
+   * @param leverage
+   * @param positionTxId
+   * @param orderDescription
+   * @param closeDescription
+   */
   public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType,
       @JsonProperty("price") BigDecimal price, @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId,
       @JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {

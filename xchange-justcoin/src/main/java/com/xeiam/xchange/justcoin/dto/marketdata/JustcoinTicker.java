@@ -39,6 +39,18 @@ public final class JustcoinTicker {
   private final BigDecimal volume;
   private final int scale;
 
+  /**
+   * Constructor
+   * 
+   * @param id
+   * @param high
+   * @param low
+   * @param volume
+   * @param last
+   * @param bid
+   * @param ask
+   * @param scale
+   */
   public JustcoinTicker(final @JsonProperty("id") String id, final @JsonProperty("high") BigDecimal high, final @JsonProperty("low") BigDecimal low, final @JsonProperty("volume") BigDecimal volume,
       final @JsonProperty("last") BigDecimal last, final @JsonProperty("bid") BigDecimal bid, final @JsonProperty("ask") BigDecimal ask, final @JsonProperty("scale") int scale) {
 
@@ -110,59 +122,76 @@ public final class JustcoinTicker {
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     JustcoinTicker other = (JustcoinTicker) obj;
     if (ask == null) {
-      if (other.ask != null)
+      if (other.ask != null) {
         return false;
+      }
     }
-    else if (ask.compareTo(other.ask) != 0)
+    else if (ask.compareTo(other.ask) != 0) {
       return false;
+    }
     if (bid == null) {
-      if (other.bid != null)
+      if (other.bid != null) {
         return false;
+      }
     }
-    else if (bid.compareTo(other.bid) != 0)
+    else if (bid.compareTo(other.bid) != 0) {
       return false;
+    }
     if (high == null) {
-      if (other.high != null)
+      if (other.high != null) {
         return false;
+      }
     }
-    else if (high.compareTo(other.high) != 0)
+    else if (high.compareTo(other.high) != 0) {
       return false;
+    }
     if (id == null) {
-      if (other.id != null)
+      if (other.id != null) {
         return false;
+      }
     }
-    else if (!id.equals(other.id))
+    else if (!id.equals(other.id)) {
       return false;
+    }
     if (last == null) {
-      if (other.last != null)
+      if (other.last != null) {
         return false;
+      }
     }
-    else if (last.compareTo(other.last) != 0)
+    else if (last.compareTo(other.last) != 0) {
       return false;
+    }
     if (low == null) {
-      if (other.low != null)
+      if (other.low != null) {
         return false;
+      }
     }
-    else if (low.compareTo(other.low) != 0)
+    else if (low.compareTo(other.low) != 0) {
       return false;
-    if (scale != other.scale)
+    }
+    if (scale != other.scale) {
       return false;
+    }
     if (volume == null) {
-      if (other.volume != null)
+      if (other.volume != null) {
         return false;
+      }
     }
-    else if (volume.compareTo(other.volume) != 0)
+    else if (volume.compareTo(other.volume) != 0) {
       return false;
+    }
     return true;
   }
 
-  
 }

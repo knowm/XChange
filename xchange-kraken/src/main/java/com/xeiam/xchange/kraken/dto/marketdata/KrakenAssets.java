@@ -29,6 +29,11 @@ public class KrakenAssets {
 
   private final Map<String, KrakenAsset> assetInfoMap;
 
+  /**
+   * Constructor
+   * 
+   * @param assetInfoMap
+   */
   public KrakenAssets(final Map<String, KrakenAsset> assetInfoMap) {
 
     this.assetInfoMap = assetInfoMap;
@@ -40,7 +45,7 @@ public class KrakenAssets {
     return getAssetPairInfo(krakenCurrencyPair);
   }
 
-  public KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
+  private KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
 
     return assetInfoMap.get(krakenCurrencyPair);
   }

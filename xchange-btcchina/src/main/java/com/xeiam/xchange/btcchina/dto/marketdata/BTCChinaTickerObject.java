@@ -27,12 +27,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaTickerObject {
 
-  private BigDecimal buy;
-  private BigDecimal high;
-  private BigDecimal last;
-  private BigDecimal low;
-  private BigDecimal sell;
-  private BigDecimal vol;
+  private final BigDecimal buy;
+  private final BigDecimal high;
+  private final BigDecimal last;
+  private final BigDecimal low;
+  private final BigDecimal sell;
+  private final BigDecimal vol;
 
   /**
    * Constructor

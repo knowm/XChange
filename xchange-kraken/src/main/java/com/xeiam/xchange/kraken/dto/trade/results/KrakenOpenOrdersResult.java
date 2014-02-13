@@ -30,6 +30,12 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult.KrakenO
 
 public class KrakenOpenOrdersResult extends KrakenResult<KrakenOpenOrders> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenOpenOrdersResult(@JsonProperty("result") KrakenOpenOrders result, @JsonProperty("error") String[] error) {
 
     super(result, error);
@@ -39,6 +45,11 @@ public class KrakenOpenOrdersResult extends KrakenResult<KrakenOpenOrders> {
 
     private final Map<String, KrakenOrder> orders;
 
+    /**
+     * Constructor
+     * 
+     * @param orders
+     */
     public KrakenOpenOrders(@JsonProperty("open") Map<String, KrakenOrder> orders) {
 
       this.orders = orders;

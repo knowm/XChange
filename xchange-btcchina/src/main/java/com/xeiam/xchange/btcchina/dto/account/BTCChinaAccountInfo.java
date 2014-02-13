@@ -42,7 +42,6 @@ public class BTCChinaAccountInfo {
    * @param balances balances for the various currencies
    * @param frozens balances for the various frozen currencies
    */
-  // todo: document frozens
   public BTCChinaAccountInfo(@JsonProperty("profile") BTCChinaProfile profile, @JsonProperty("balance") Map<String, BTCChinaValue> balances, @JsonProperty("frozen") Map<String, BTCChinaValue> frozens) {
 
     this.profile = profile;

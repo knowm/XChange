@@ -30,6 +30,11 @@ public class BTCChinaID {
 
   private final String id;
 
+  /**
+   * Constructor
+   * 
+   * @param id
+   */
   public BTCChinaID(@JsonProperty("id") String id) {
 
     this.id = id;

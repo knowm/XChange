@@ -29,6 +29,12 @@ import com.xeiam.xchange.kraken.dto.trade.KrakenTrade;
 
 public class KrakenQueryTradeResult extends KrakenResult<Map<String, KrakenTrade>> {
 
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param error
+   */
   public KrakenQueryTradeResult(@JsonProperty("result") Map<String, KrakenTrade> result, @JsonProperty("error") String[] error) {
 
     super(result, error);

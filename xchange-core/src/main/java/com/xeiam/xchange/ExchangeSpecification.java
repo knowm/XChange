@@ -24,9 +24,6 @@ package com.xeiam.xchange;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * <p>
  * Specification to provide the following to {@link ExchangeFactory}:
@@ -35,160 +32,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * <li>Provision of required exchangeSpecificParameters for creating an {@link Exchange}</li>
  * <li>Provision of optional exchangeSpecificParameters for additional configuration</li>
  * </ul>
- * <p>
- * Due to the JSON annotations, you can externalise your exchange configuration as follows:
- * </p>
- * <code>config.yaml:</code>
- * 
- * <pre>
- * # Mt Gox configuration
- * mtgox:
- *   tradeFeePercent: 0.6
- *   apiKey: exampleApiKey
- *   secretKey: exampleSecretKey
- *   exchangeClassName: com.xeiam.xchange.mtgox.v1.MtGoxExchange
- * 
- * # BTC-E configuration
- * btce:
- *   tradeFeePercent: 0.2
- *   apiKey: exampleApiKey
- *   secretKey: exampleSecretKey
- *   exchangeClassName: com.xeiam.xchange.btce.BTCEExchange
- * 
- * # Bitstamp configuration
- * bitstamp:
- *   tradeFeePercent: 0.5
- *   userName: exampleUser
- *   password: examplePassword
- *   exchangeClassName: com.xeiam.xchange.bitstamp.BitstampExchange
- * 
- * </pre>
- * <p>
- * Which is used to populate a <code>Configuration</code> object:
- * </p>
- * 
- * <pre>
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * public class Configuration {
- * 
- *   private ExchangeSpecification mtgox;
- *   private ExchangeSpecification btce;
- *   private ExchangeSpecification bitstamp;
- * 
- *   public ExchangeSpecification getMtgox() {
- * 
- *     return mtgox;
- *   }
- * 
- *   public ExchangeSpecification getBtce() {
- * 
- *     return btce;
- *   }
- * 
- *   public ExchangeSpecification getBitstamp() {
- * 
- *     return bitstamp;
- *   }
- * 
- * }
- * </pre>
- * <p>
- * And read it in at application startup:
- * </p>
- * 
- * <pre>
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
- * InputStream fis = new FileInputStream(&quot;config.yaml&quot;);
- * Configuration configuration = mapper.readValue(fis, Configuration.class);
- * </pre>
- * <p>
- * The <code>YAMLFactory</code> requires an additional Maven dependency in your application:
- * </p>
- * 
- * <pre>
- * {@code
- * <dependency>
- *   <groupId>com.fasterxml.jackson.dataformat</groupId>
- *   <artifactId>jackson-dataformat-yaml</artifactId>
- *   <version>${jackson.version}</version>
- * </dependency>
- * }
- * </pre>
  */
 public class ExchangeSpecification {
 
-  @JsonProperty
   private String exchangeName;
 
-  @JsonProperty
   private String exchangeDescription;
 
-  @JsonProperty
-  private Double tradeFeePercent = Double.valueOf(0.0);
-
-  @JsonProperty
-  private String minTradeFee;
-
-  @JsonProperty
   private String userName;
 
-  @JsonProperty
   private String password;
 
-  @JsonProperty
   private String secretKey;
 
-  @JsonProperty
   private String apiKey;
 
-  @JsonProperty
   private String sslUri;
 
-  @JsonProperty
   private String plainTextUri;
 
-  @JsonProperty
   private String sslUriStreaming;
 
-  @JsonProperty
   private String plainTextUriStreaming;
 
-  @JsonProperty
   private String host;
 
-  @JsonProperty
   private int port = 80;
 
   private final String exchangeClassName;
 
-  @JsonProperty
+  /** arbitrary exchange params that can be set for unique cases */
   private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
 
   /**
@@ -196,8 +69,7 @@ public class ExchangeSpecification {
    * 
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
-  @JsonCreator
-  public ExchangeSpecification(@JsonProperty("exchangeClassName") String exchangeClassName) {
+  public ExchangeSpecification(String exchangeClassName) {
 
     this.exchangeClassName = exchangeClassName;
   }
@@ -493,55 +365,4 @@ public class ExchangeSpecification {
     this.exchangeDescription = exchangeDescription;
   }
 
-  /**
-   * Get the per-trade fee, expressed as a percentage of the trade amount (e.g. 0.6 is 0.6%).
-   * <p>
-   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally.
-   * </p>
-   * 
-   * @return per-trade fee
-   */
-  public Double getTradeFeePercent() {
-
-    return tradeFeePercent;
-  }
-
-  /**
-   * Set the per-trade fee, expressed as a percentage of the trade amount (e.g. 0.6 is 0.6%).
-   * <p>
-   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally.
-   * </p>
-   * 
-   * @param tradeFeePercent per-trade fee
-   */
-  public void setTradeFeePercent(Double tradeFeePercent) {
-
-    this.tradeFeePercent = tradeFeePercent;
-  }
-
-  /**
-   * Get the minimum per-trade fee per trade expressed in the exchange's local currency (e.g. "USD 0.25").
-   * <p>
-   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally.
-   * </p>
-   * 
-   * @return the minimum fee per trade
-   */
-  public String getMinTradeFee() {
-
-    return minTradeFee;
-  }
-
-  /**
-   * Set the minimum per-trade fee per trade expressed in the exchange's local currency (e.g. "USD 0.25").
-   * <p>
-   * Some exchanges offer a sliding scale that is earned based on trade history so this is normally set externally.
-   * </p>
-   * 
-   * @param minTradeFee the minimum fee per trade
-   */
-  public void setMinTradeFee(String minTradeFee) {
-
-    this.minTradeFee = minTradeFee;
-  }
 }

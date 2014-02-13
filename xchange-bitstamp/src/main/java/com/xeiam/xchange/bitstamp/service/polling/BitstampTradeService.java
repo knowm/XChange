@@ -102,11 +102,17 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException {
+  public Trades getTradeHistory(Object... args) throws IOException {
 
     Long numberOfTransactions = Long.MAX_VALUE;
-    if (arguments.length > 0) {
-      numberOfTransactions = (Long) arguments[0];
+    if (args.length > 0) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Long)) {
+        throw new ExchangeException("Argument must be of type Long!");
+      }
+      else {
+        numberOfTransactions = (Long) args[0];
+      }
     }
 
     return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(numberOfTransactions));

@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -49,7 +49,7 @@ public class CurrencyPair {
   public static final CurrencyPair USD_XVN = new CurrencyPair(Currencies.USD, Currencies.XVN);
   public static final CurrencyPair EUR_XVN = new CurrencyPair(Currencies.EUR, Currencies.XVN);
   public static final CurrencyPair KRW_XRP = new CurrencyPair(Currencies.KRW, Currencies.XRP);
-  
+
   // Provide some courtesy BTC major symbols
   public static final CurrencyPair BTC_USD = new CurrencyPair(Currencies.BTC);
   public static final CurrencyPair BTC_GBP = new CurrencyPair(Currencies.BTC, Currencies.GBP);
@@ -72,8 +72,8 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_ZAR = new CurrencyPair(Currencies.BTC, Currencies.ZAR);
   public static final CurrencyPair BTC_BRL = new CurrencyPair(Currencies.BTC, Currencies.BRL);
   public static final CurrencyPair BTC_CZK = new CurrencyPair(Currencies.BTC, Currencies.CZK);
-  public static final CurrencyPair BTC_ILS = new CurrencyPair(Currencies.BTC, Currencies.ILS);  
-  public static final CurrencyPair BTC_KRW = new CurrencyPair(Currencies.BTC, Currencies.KRW); 
+  public static final CurrencyPair BTC_ILS = new CurrencyPair(Currencies.BTC, Currencies.ILS);
+  public static final CurrencyPair BTC_KRW = new CurrencyPair(Currencies.BTC, Currencies.KRW);
   public static final CurrencyPair BTC_LTC = new CurrencyPair(Currencies.BTC, Currencies.LTC);
   public static final CurrencyPair BTC_XRP = new CurrencyPair(Currencies.BTC, Currencies.XRP);
   public static final CurrencyPair BTC_NMC = new CurrencyPair(Currencies.BTC, Currencies.NMC);
@@ -86,7 +86,7 @@ public class CurrencyPair {
   public static final CurrencyPair LTC_EUR = new CurrencyPair(Currencies.LTC, Currencies.EUR);
   public static final CurrencyPair LTC_BTC = new CurrencyPair(Currencies.LTC, Currencies.BTC);
   public static final CurrencyPair LTC_XRP = new CurrencyPair(Currencies.LTC, Currencies.XRP);
-  
+
   public static final CurrencyPair NMC_USD = new CurrencyPair(Currencies.NMC, Currencies.USD);
   public static final CurrencyPair NMC_CNY = new CurrencyPair(Currencies.NMC, Currencies.CNY);
   public static final CurrencyPair NMC_EUR = new CurrencyPair(Currencies.NMC, Currencies.EUR);
@@ -94,29 +94,32 @@ public class CurrencyPair {
   public static final CurrencyPair NMC_BTC = new CurrencyPair(Currencies.NMC, Currencies.BTC);
   public static final CurrencyPair NMC_LTC = new CurrencyPair(Currencies.NMC, Currencies.LTC);
   public static final CurrencyPair NMC_XRP = new CurrencyPair(Currencies.NMC, Currencies.XRP);
-  
+
   public static final CurrencyPair NVC_USD = new CurrencyPair(Currencies.NVC, Currencies.USD);
   public static final CurrencyPair NVC_BTC = new CurrencyPair(Currencies.NVC, Currencies.BTC);
-  
+
   public static final CurrencyPair TRC_BTC = new CurrencyPair(Currencies.TRC, Currencies.BTC);
-  
+
   public static final CurrencyPair PPC_USD = new CurrencyPair(Currencies.PPC, Currencies.USD);
   public static final CurrencyPair PPC_BTC = new CurrencyPair(Currencies.PPC, Currencies.BTC);
   public static final CurrencyPair PPC_LTC = new CurrencyPair(Currencies.PPC, Currencies.LTC);
-  
+
   public static final CurrencyPair FTC_USD = new CurrencyPair(Currencies.FTC, Currencies.USD);
   public static final CurrencyPair FTC_CNY = new CurrencyPair(Currencies.FTC, Currencies.CNY);
   public static final CurrencyPair FTC_BTC = new CurrencyPair(Currencies.FTC, Currencies.BTC);
   public static final CurrencyPair FTC_LTC = new CurrencyPair(Currencies.FTC, Currencies.LTC);
-  
+
   public static final CurrencyPair XPM_USD = new CurrencyPair(Currencies.XPM, Currencies.USD);
   public static final CurrencyPair XPM_CNY = new CurrencyPair(Currencies.XPM, Currencies.CNY);
   public static final CurrencyPair XPM_BTC = new CurrencyPair(Currencies.XPM, Currencies.BTC);
   public static final CurrencyPair XPM_LTC = new CurrencyPair(Currencies.XPM, Currencies.LTC);
   public static final CurrencyPair XPM_PPC = new CurrencyPair(Currencies.XPM, Currencies.PPC);
-  
+
   public static final CurrencyPair XVN_XRP = new CurrencyPair(Currencies.XVN, Currencies.XRP);
-  
+
+  // not real currencies, but tradable commodities (GH/s)
+  public static final CurrencyPair GHs_BTC = new CurrencyPair(Currencies.GHs, Currencies.BTC);
+  public static final CurrencyPair GHs_NMC = new CurrencyPair(Currencies.GHs, Currencies.NMC);
 
   public final String baseCurrency;
   public final String counterCurrency;

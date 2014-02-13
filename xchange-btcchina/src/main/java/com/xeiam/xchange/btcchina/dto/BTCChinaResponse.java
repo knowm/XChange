@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BTCChinaResponse<V> {
 
-  protected final String id;
-  protected final V result;
+  private final String id;
+  private final V result;
 
   /**
    * Constructor

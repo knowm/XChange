@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,16 +23,24 @@ package com.xeiam.xchange.cryptotrade.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Matija Mazi
- */
 public class CryptoTradePlaceOrderReturn {
 
-	String success;
+  private final String success;
 
-	public CryptoTradePlaceOrderReturn(@JsonProperty("status") String aResult) {
+  /**
+   * Constructor
+   * 
+   * @param status
+   */
+  public CryptoTradePlaceOrderReturn(@JsonProperty("status") String status) {
 
-		success = aResult;
+    success = status;
 
-	}
+  }
+
+  public String getSuccess() {
+
+    return success;
+  }
+
 }

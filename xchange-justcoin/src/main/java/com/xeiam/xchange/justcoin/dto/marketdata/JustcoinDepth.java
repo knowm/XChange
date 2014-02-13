@@ -35,6 +35,12 @@ public class JustcoinDepth {
 
   private List<List<BigDecimal>> asks;
 
+  /**
+   * Constructor
+   * 
+   * @param bids
+   * @param asks
+   */
   public JustcoinDepth(@JsonProperty("bids") final List<List<BigDecimal>> bids, @JsonProperty("asks") final List<List<BigDecimal>> asks) {
 
     this.bids = bids;

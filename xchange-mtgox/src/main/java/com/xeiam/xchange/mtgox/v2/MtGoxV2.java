@@ -45,7 +45,6 @@ import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxGenericResponse;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxLagWrapper;
 import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrderWrapper;
-import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOrderResultWrapper;
 
 /**
  * @author timmolter
@@ -101,15 +100,6 @@ public interface MtGoxV2 {
   @Path("money/orders")
   MtGoxOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws MtGoxException,
       IOException;
-
-  /**
-   * @param type "ask" or "bid"
-   * @param orderId (Returned from placeOrder)
-   */
-  @POST
-  @Path("money/order/result")
-  MtGoxOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-      @FormParam("type") String type, @FormParam("order") String orderId) throws MtGoxException, IOException;
 
   /**
    * @param postBodySignatureCreator

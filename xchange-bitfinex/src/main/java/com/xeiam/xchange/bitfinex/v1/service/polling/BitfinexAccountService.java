@@ -26,12 +26,10 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesRequest;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class BitfinexAccountService extends BitfinexBaseService implements PollingAccountService {
+public class BitfinexAccountService extends BitfinexAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
@@ -46,20 +44,18 @@ public class BitfinexAccountService extends BitfinexBaseService implements Polli
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
-
-    return BitfinexAdapters.adaptAccountInfo(balances);
+    return BitfinexAdapters.adaptAccountInfo(getBitfinexAccountInfo());
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
-    throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
+    throw new UnsupportedOperationException("Funds withdrawal not supported by Bitfinex API.");
   }
 
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
-    throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
+    throw new UnsupportedOperationException("Deposit address request not supported by Bitfinex API.");
   }
 }

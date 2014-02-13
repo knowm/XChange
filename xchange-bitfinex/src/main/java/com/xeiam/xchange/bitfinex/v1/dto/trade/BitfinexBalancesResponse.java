@@ -31,6 +31,14 @@ public class BitfinexBalancesResponse {
   private final String currency;
   private final BigDecimal amount;
 
+  /**
+   * Constructor
+   * 
+   * @param type
+   * @param currency
+   * @param amount
+   * @param available
+   */
   public BitfinexBalancesResponse(@JsonProperty("type") String type, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("available") BigDecimal available) {
 

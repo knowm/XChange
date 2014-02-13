@@ -88,10 +88,4 @@ public interface BitstampAuthenticated {
   public BitstampSuccessResponse withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address) throws IOException;
 
-  @POST
-  @Path("user_transactions/")
-  @Produces("application/json")
-  public BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce,
-      @FormParam("amount") BigDecimal amount, @FormParam("limit") long numberOfTransactions) throws IOException;
-
 }

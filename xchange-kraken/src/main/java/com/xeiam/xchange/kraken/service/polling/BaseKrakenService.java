@@ -34,6 +34,11 @@ import com.xeiam.xchange.utils.Assert;
 
 abstract class BaseKrakenService extends BasePollingExchangeService {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public BaseKrakenService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -43,8 +48,9 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
 
   protected <T> T checkResult(KrakenResult<T> krakenResult) {
 
-    if (!krakenResult.isSuccess())
+    if (!krakenResult.isSuccess()) {
       throw new ExchangeException(Arrays.toString(krakenResult.getError()));
+    }
 
     return krakenResult.getResult();
   }
@@ -54,10 +60,12 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
     StringBuilder commaDelimitedString = null;
     if (items != null) {
       for (String item : items) {
-        if (commaDelimitedString == null)
+        if (commaDelimitedString == null) {
           commaDelimitedString = new StringBuilder(item);
-        else
+        }
+        else {
           commaDelimitedString.append(",").append(item);
+        }
       }
     }
 
@@ -87,10 +95,12 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
       StringBuilder delimitStringBuilder = null;
       for (CurrencyPair currencyPair : currencyPairs) {
         String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
-        if (delimitStringBuilder == null)
+        if (delimitStringBuilder == null) {
           delimitStringBuilder = new StringBuilder(krakenAssetPair);
-        else
+        }
+        else {
           delimitStringBuilder.append(",").append(krakenAssetPair);
+        }
       }
       assetPairsString = delimitStringBuilder.toString();
     }
@@ -104,10 +114,12 @@ abstract class BaseKrakenService extends BasePollingExchangeService {
     if (items != null && !items.isEmpty()) {
       StringBuilder delimitStringBuilder = null;
       for (Object item : items) {
-        if (delimitStringBuilder == null)
+        if (delimitStringBuilder == null) {
           delimitStringBuilder = new StringBuilder(item.toString());
-        else
+        }
+        else {
           delimitStringBuilder.append(",").append(item.toString());
+        }
       }
     }
     return delimitedSetString;

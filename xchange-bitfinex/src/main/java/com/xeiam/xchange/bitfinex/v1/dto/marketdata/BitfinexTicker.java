@@ -30,16 +30,25 @@ public class BitfinexTicker {
   private final BigDecimal mid;
   private final BigDecimal bid;
   private final BigDecimal ask;
-  private final BigDecimal last_price;
+  private final BigDecimal last;
   private final float timestamp;
 
-  public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("last_price") BigDecimal last_price,
+  /**
+   * Constructor
+   * 
+   * @param mid
+   * @param bid
+   * @param ask
+   * @param last
+   * @param timestamp
+   */
+  public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("last_price") BigDecimal last,
       @JsonProperty("timestamp") float timestamp) {
 
     this.mid = mid;
     this.bid = bid;
     this.ask = ask;
-    this.last_price = last_price;
+    this.last = last;
     this.timestamp = timestamp;
   }
 
@@ -60,7 +69,7 @@ public class BitfinexTicker {
 
   public BigDecimal getLast_price() {
 
-    return last_price;
+    return last;
   }
 
   public float getTimestamp() {
@@ -71,18 +80,7 @@ public class BitfinexTicker {
   @Override
   public String toString() {
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexTicker [mid=");
-    builder.append(mid);
-    builder.append(", bid=");
-    builder.append(bid);
-    builder.append(", ask=");
-    builder.append(ask);
-    builder.append(", last_price=");
-    builder.append(last_price);
-    builder.append(", timestamp=");
-    builder.append(timestamp);
-    builder.append("]");
-    return builder.toString();
+    return "BitfinexTicker [mid=" + mid + ", bid=" + bid + ", ask=" + ask + ", last=" + last + ", timestamp=" + timestamp + "]";
   }
+
 }

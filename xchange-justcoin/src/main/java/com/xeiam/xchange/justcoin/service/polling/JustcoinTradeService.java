@@ -66,7 +66,7 @@ public class JustcoinTradeService extends JustcoinTradeServiceRaw implements Pol
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException {
+  public Trades getTradeHistory(Object... args) throws IOException {
 
     return JustcoinAdapters.adaptTrades(super.getOrderHistory());
   }

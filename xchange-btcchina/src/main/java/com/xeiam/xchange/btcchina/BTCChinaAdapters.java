@@ -133,11 +133,6 @@ public final class BTCChinaAdapters {
     return new Trades(tradesList);
   }
 
-  public static String getPriceString(BigMoney price) {
-
-    return price.getAmount().stripTrailingZeros().toPlainString();
-  }
-
   /**
    * Adapts a BTCChinaTicker to a Ticker Object
    * 
@@ -168,14 +163,6 @@ public final class BTCChinaAdapters {
     return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
   }
 
-  // /**
-  // * Adapts Map<String, BTCChinaValue> balances, Map<String,BTCChinaValue> frozens to List<Wallet>
-  // *
-  // * @param balances
-  // * @param frozens
-  // * @return
-  // */
-  // todo: can't have <> in javadoc
   /**
    * @param balances
    * @param frozens

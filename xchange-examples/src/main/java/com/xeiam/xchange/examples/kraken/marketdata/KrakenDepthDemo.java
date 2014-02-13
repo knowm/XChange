@@ -65,7 +65,7 @@ public class KrakenDepthDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     // Get the latest full order book data
-    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR);
+    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR, Long.MAX_VALUE);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
 

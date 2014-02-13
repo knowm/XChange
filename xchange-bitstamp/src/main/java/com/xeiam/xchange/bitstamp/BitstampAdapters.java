@@ -94,7 +94,7 @@ public final class BitstampAdapters {
     return new OrderBook(date, asks, bids);
   }
 
-  private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (List<BigDecimal> ask : orders) {
@@ -104,12 +104,12 @@ public final class BitstampAdapters {
     return limitOrders;
   }
 
-  private static LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, "", null, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
   }
 
-  private static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
+  public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
 
     if (!argument) {
       throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
@@ -180,7 +180,7 @@ public final class BitstampAdapters {
         BigMoney price = MoneyUtils.parse(transactionCurrency + " " + bitstampUserTransaction.getPrice());
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
         final String tradeId = String.valueOf(bitstampUserTransaction.getId());
-        final String orderId = String.valueOf(bitstampUserTransaction.getOrderId()); 
+        final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
 
         Trade trade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, tradeId, orderId);
         trades.add(trade);
