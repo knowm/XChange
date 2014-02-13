@@ -49,14 +49,14 @@ public class KrakenDepthDemo {
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
-    OrderBook orderBook = krakenMarketDataService.getOrderBook(Currencies.NMC, Currencies.XRP);
+    OrderBook orderBook = krakenMarketDataService.getOrderBook(Currencies.BTC, Currencies.EUR);
     System.out.println(orderBook.toString());
-    System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println("full orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     // Get the latest partial size order book data for NMC/XRP
-    orderBook = krakenMarketDataService.getOrderBook(Currencies.NMC, Currencies.XRP, 3L);
+    orderBook = krakenMarketDataService.getOrderBook(Currencies.BTC, Currencies.EUR, 3L);
     System.out.println(orderBook.toString());
-    System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println("partial orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
