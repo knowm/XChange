@@ -27,24 +27,24 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 
 /**
  * @author gnandiga
  */
-public class BitstampSuccessResponseDeserializerTest {
+public class BitstampBooleanResponseDeserializerTest {
 
   @Test
   public void verifyDeserialize() throws IOException {
 
     ObjectMapper mapper = new ObjectMapper();
-    BitstampSuccessResponse response = mapper.readValue("{\"error\": \"User not verified\"}", BitstampSuccessResponse.class);
+    BitstampBooleanResponse response = mapper.readValue("{\"error\": \"User not verified\"}", BitstampBooleanResponse.class);
 
     Assert.assertEquals("User not verified", response.getError());
 
-    response = mapper.readValue("true", BitstampSuccessResponse.class);
+    response = mapper.readValue("true", BitstampBooleanResponse.class);
 
-    Assert.assertTrue(response.getSuccess());
+    Assert.assertTrue(response.getResponse());
 
   }
 }

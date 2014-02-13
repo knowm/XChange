@@ -167,12 +167,8 @@ public final class BitstampAdapters {
   public static Trades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
 
     List<Trade> trades = new ArrayList<Trade>();
-    for (int i = 0; i < bitstampUserTransactions.length; i++) {
-
-      BitstampUserTransaction bitstampUserTransaction = bitstampUserTransactions[i];
-
+    for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-
         OrderType orderType = bitstampUserTransaction.getUsd().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
         BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
         String tradableIdentifier = Currencies.BTC;

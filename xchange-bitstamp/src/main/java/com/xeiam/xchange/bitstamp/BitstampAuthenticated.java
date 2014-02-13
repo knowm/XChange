@@ -31,8 +31,9 @@ import javax.ws.rs.Produces;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.bitstamp.dto.BitstampSuccessResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
@@ -64,7 +65,7 @@ public interface BitstampAuthenticated {
   @POST
   @Path("cancel_order/")
   @Produces("application/json")
-  public Object cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId) throws IOException;
+  public BitstampBooleanResponse cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId) throws IOException;
 
   @POST
   @Path("balance/")
@@ -80,12 +81,12 @@ public interface BitstampAuthenticated {
   @POST
   @Path("bitcoin_deposit_address/")
   @Produces("application/json")
-  public BitstampSuccessResponse getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+  public BitstampDepositAddress getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 
   @POST
   @Path("bitcoin_withdrawal/")
   @Produces("application/json")
-  public BitstampSuccessResponse withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
+  public BitstampBooleanResponse withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address) throws IOException;
 
 }

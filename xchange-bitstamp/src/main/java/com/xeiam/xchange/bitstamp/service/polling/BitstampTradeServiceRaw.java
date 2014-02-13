@@ -26,9 +26,11 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
@@ -59,19 +61,24 @@ public class BitstampTradeServiceRaw extends BasePollingExchangeService {
     return bitstampAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
   }
 
-  public BitstampOrder sellBitstampOrder(BigDecimal tradableAmount, BigDecimal amount) throws IOException {
+  public BitstampOrder sellBitstampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    return bitstampAuthenticated.sell(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), tradableAmount, amount);
+    return bitstampAuthenticated.sell(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), tradableAmount, price);
   }
 
-  public BitstampOrder buyBitStampOrder(BigDecimal tradableAmount, BigDecimal amount) throws IOException {
+  public BitstampOrder buyBitStampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    return bitstampAuthenticated.buy(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), tradableAmount, amount);
+    return bitstampAuthenticated.buy(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), tradableAmount, price);
   }
 
   public boolean cancelBitstampOrder(int orderId) throws IOException {
 
-    return bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), orderId).equals(true);
+    final BitstampBooleanResponse response = bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), orderId);
+
+    if (response.getError() != null)
+      throw new ExchangeException("Failed to cancel order " + orderId + " because " + response.getError());
+
+    return response.getResponse();
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
