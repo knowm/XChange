@@ -37,7 +37,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * @author ObsessiveOrange
- * Demonstrate requesting Trades at BTC China
+ *         Demonstrate requesting Trades at BTC China
  */
 public class BTCChinaTradesDemo {
 
@@ -46,13 +46,15 @@ public class BTCChinaTradesDemo {
 
   // Interested in the public polling market data feed (no authentication)
   static PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
-  
+
   public static void main(String[] args) throws IOException {
-	generic();
-	raw();
+
+    generic();
+    raw();
   }
-  
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+
+  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     // Get the latest trade data for BTC/CNY
     Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.CNY);
 
@@ -60,27 +62,28 @@ public class BTCChinaTradesDemo {
     System.out.println("NumTrades=" + trades.getTrades().size());
 
     // Get the offset trade data for BTC/CNY
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.CNY, 1540753);
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.CNY, 4640403);
 
     System.out.println(trades.toString());
     System.out.println("NumTrades=" + trades.getTrades().size());
 
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
-    // Get the latest trade data for BTC/CNY
-    BTCChinaTrade[] trades = ((BTCChinaMarketDataServiceRaw)marketDataService).getBTCChinaTrades(Currencies.BTC, Currencies.CNY, 100);
+  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    for(BTCChinaTrade trade: trades){
-    	System.out.println(trade.toString());
+    // Get the latest trade data for BTC/CNY
+    BTCChinaTrade[] trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTrades();
+
+    for (BTCChinaTrade trade : trades) {
+      System.out.println(trade.toString());
     }
     System.out.println("NumTrades=" + trades.length);
 
     // Get the offset trade data for BTC/CNY
-    trades = ((BTCChinaMarketDataServiceRaw)marketDataService).getBTCChinaTrades(Currencies.BTC, Currencies.CNY, 1540753);
+    trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTrades(4640403);
 
-    for(BTCChinaTrade trade: trades){
-    	System.out.println(trade.toString());
+    for (BTCChinaTrade trade : trades) {
+      System.out.println(trade.toString());
     }
     System.out.println("NumTrades=" + trades.length);
 

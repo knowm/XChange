@@ -22,6 +22,7 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -33,14 +34,14 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author ObsessiveOrange
- * <p>
- * Implementation of the market data service for BTCChina
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
+ *         <p>
+ *         Implementation of the market data service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to various market data values</li>
+ *         </ul>
  */
-public class BTCChinaMarketDataServiceRaw extends BasePollingExchangeService{
+public class BTCChinaMarketDataServiceRaw extends BasePollingExchangeService {
 
   private final BTCChina btcChina;
 
@@ -55,19 +56,24 @@ public class BTCChinaMarketDataServiceRaw extends BasePollingExchangeService{
     this.btcChina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
   }
 
-  public BTCChinaTicker getBTCChinaTicker(String tradableIdentifier, String currency) throws IOException {
+  public BTCChinaTicker getBTCChinaTicker() throws IOException {
 
     return btcChina.getTicker();
   }
 
-  public BTCChinaDepth getBTCChinaOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public BTCChinaDepth getBTCChinaOrderBook() throws IOException {
 
     return btcChina.getFullDepth();
   }
 
-  public BTCChinaTrade[] getBTCChinaTrades(String tradableIdentifier, String currency, int sinceTransactionID) throws IOException {
+  public BTCChinaTrade[] getBTCChinaTrades(Integer sinceTransactionID) throws IOException {
 
     return btcChina.getTrades(sinceTransactionID);
+  }
+
+  public BTCChinaTrade[] getBTCChinaTrades() throws IOException {
+
+    return btcChina.getTrades();
   }
 
 }

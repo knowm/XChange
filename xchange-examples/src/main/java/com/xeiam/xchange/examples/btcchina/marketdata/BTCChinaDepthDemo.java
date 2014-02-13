@@ -38,7 +38,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * @author ObsessiveOrange
- * Demonstrate requesting Order Book at BTC China
+ *         Demonstrate requesting Order Book at BTC China
  */
 public class BTCChinaDepthDemo {
 
@@ -47,13 +47,15 @@ public class BTCChinaDepthDemo {
 
   // Interested in the public polling market data feed (no authentication)
   static PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
-  
+
   public static void main(String[] args) throws IOException {
+
     generic();
-	raw();
+    raw();
   }
-  
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+
+  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     // Get the latest order book data for BTC/CNY
     OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.CNY);
 
@@ -65,16 +67,17 @@ public class BTCChinaDepthDemo {
 
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     // Get the latest order book data for BTC/CNY
-    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw)marketDataService).getBTCChinaOrderBook(Currencies.BTC, Currencies.CNY);
+    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaOrderBook();
 
     System.out.println(orderBook.toString());
 
-    //first item in each BigDecial[] will be price (in RMB), and second will be volume/depth.
+    // first item in each BigDecial[] will be price (in RMB), and second will be volume/depth.
     System.out.println("Asks:");
-    for(BigDecimal[] currRow: orderBook.getAsks()){
-      for(BigDecimal currItem: currRow){
+    for (BigDecimal[] currRow : orderBook.getAsks()) {
+      for (BigDecimal currItem : currRow) {
         System.out.print(currItem.toPlainString() + ", ");
       }
       System.out.println();

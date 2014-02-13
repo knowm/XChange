@@ -44,12 +44,12 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author ObsessiveOrange
- * <p>
- * Implementation of the market data service for BTCChina
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
+ *         <p>
+ *         Implementation of the market data service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to various market data values</li>
+ *         </ul>
  */
 public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw implements PollingMarketDataService {
 
@@ -69,7 +69,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     verify(tradableIdentifier, currency);
 
     // Request data
-    BTCChinaTicker btcChinaTicker = getBTCChinaTicker(tradableIdentifier, currency);
+    BTCChinaTicker btcChinaTicker = getBTCChinaTicker();
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTicker(btcChinaTicker, currency, tradableIdentifier);
@@ -81,7 +81,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     verify(tradableIdentifier, currency);
 
     // Request data
-    BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook(tradableIdentifier, currency);
+    BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook();
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currency, OrderType.ASK);
@@ -98,14 +98,14 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     BTCChinaTrade[] btcChinaTrades = null;
 
     if (args.length == 0) {
-      btcChinaTrades = getBTCChinaTrades(tradableIdentifier, currency, 100); // default values: since=100
+      btcChinaTrades = getBTCChinaTrades();
     }
     else if (args.length == 1) {
       Object arg0 = args[0];
 
       if (arg0 instanceof Integer) {
         Integer sinceTransactionID = (Integer) args[0];
-        btcChinaTrades = getBTCChinaTrades(tradableIdentifier, currency, sinceTransactionID); // default values: since=100
+        btcChinaTrades = getBTCChinaTrades(sinceTransactionID);
       }
       else {
         throw new ExchangeException("args[0] must be of type Integer!");
@@ -115,7 +115,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     else {
       throw new ExchangeException("Invalid argument length. Must be 0, or 1");
     }
-    
+
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTrades(btcChinaTrades, currency, tradableIdentifier);
   }
@@ -139,7 +139,8 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     Assert.isTrue(BTCChinaUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
 
   }
-  
+
+  @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
     return BTCChinaUtils.CURRENCY_PAIRS;

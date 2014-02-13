@@ -37,7 +37,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * @author ObsessiveOrange
- * Demonstrate requesting Ticker at BTC China
+ *         Demonstrate requesting Ticker at BTC China
  */
 public class BTCChinaTickerDemo {
 
@@ -46,13 +46,15 @@ public class BTCChinaTickerDemo {
 
   // Interested in the public polling market data feed (no authentication)
   static PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
-  
+
   public static void main(String[] args) throws IOException {
+
     generic();
     raw();
   }
-  
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+
+  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     // Get the latest ticker data showing BTC to CNY
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.CNY);
 
@@ -63,9 +65,10 @@ public class BTCChinaTickerDemo {
 
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     // Get the latest ticker data showing BTC to CNY
-    BTCChinaTicker ticker = ((BTCChinaMarketDataServiceRaw)marketDataService).getBTCChinaTicker(Currencies.BTC, Currencies.CNY);
+    BTCChinaTicker ticker = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTicker();
 
     System.out.println("Last: " + ticker.getTicker().getLast().toString());
     System.out.println("Volume: " + ticker.getTicker().getVol().toString());
