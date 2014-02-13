@@ -25,6 +25,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import org.junit.Test;
 
@@ -47,6 +48,6 @@ public class KrakenServerTimeJSONTest {
     KrakenServerTime serverTime = krakenResult.getResult();
 
     assertThat(serverTime.getUnixTime()).isEqualTo(1391835876);
-    assertThat(serverTime.getRfc1123Time()).isEqualTo(DateUtils.fromRfc1123DateString("Sat,  8 Feb 14 05:04:36 +0000"));
+    assertThat(serverTime.getRfc1123Time()).isEqualTo(DateUtils.fromRfc1123DateString("Sat,  8 Feb 14 05:04:36 +0000", Locale.US));
   }
 }
