@@ -26,6 +26,8 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btce.v3.BTCEExchange;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -39,12 +41,26 @@ public class InfoDemo {
 
     // Use the factory to get BTC-E exchange API using default settings
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    generic(btce);
+    raw(btce);
+  }
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+  private static void generic(Exchange exchange) throws IOException {
+
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+
+    // Get the latest info about traded currencies
+    ExchangeInfo info = marketDataService.getExchangeInfo();
+
+    System.out.println(info.toString());
+  }
+
+  private static void raw(Exchange exchange) throws IOException {
+
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest info about traded currencies, fees etc.
-    ExchangeInfo info = marketDataService.getExchangeInfo();
+    BTCEExchangeInfo info = marketDataService.getBTCEInfo();
 
     System.out.println(info.toString());
   }

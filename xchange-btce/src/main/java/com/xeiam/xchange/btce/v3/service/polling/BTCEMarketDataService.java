@@ -22,6 +22,7 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -52,19 +53,16 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BTCEMarketDataService implements PollingMarketDataService {
+public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements PollingMarketDataService {
 
-  protected final BTCE btce;
-
-  // private static final int PARTIAL_SIZE = 150;
-  private static final int FULL_SIZE = 2000;
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
+      super(exchangeSpecification);
+//    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -72,7 +70,10 @@ public class BTCEMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
-    BTCETickerWrapper btceTickerWrapper = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 1);
+    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
+    pairs.add(new CurrencyPair(tradableIdentifier, currency));
+
+    BTCETickerWrapper btceTickerWrapper = getBTCETicker(pairs);
 
     // Adapt to XChange DTOs
     return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(tradableIdentifier, currency), tradableIdentifier, currency);
@@ -92,6 +93,10 @@ public class BTCEMarketDataService implements PollingMarketDataService {
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
+
+    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
+    pairs.add(new CurrencyPair(tradableIdentifier, currency));
+
     BTCEDepthWrapper btceDepthWrapper = null;
 
     if (args.length > 0) {
@@ -100,11 +105,11 @@ public class BTCEMarketDataService implements PollingMarketDataService {
         throw new ExchangeException("Orderbook size argument must be an Integer in the range: (1, 2000)!");
       }
       else {
-        btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), (Integer) arg, 1);
+        btceDepthWrapper = getBTCEDepth(pairs, (Integer) arg);
       }
     }
     else { // default to full orderbook
-      btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), FULL_SIZE, 1);
+      btceDepthWrapper = getBTCEDepth(pairs, FULL_SIZE);
     }
 
     // Adapt to XChange DTOs
@@ -131,6 +136,9 @@ public class BTCEMarketDataService implements PollingMarketDataService {
 
     verify(tradableIdentifier, currency);
 
+    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
+    pairs.add(new CurrencyPair(tradableIdentifier, currency));
+
     int numberOfItems = -1;
     try {
       numberOfItems = (Integer) args[0];
@@ -140,13 +148,13 @@ public class BTCEMarketDataService implements PollingMarketDataService {
     BTCETrade[] bTCETrades = null;
 
     if (numberOfItems == -1) {
-      bTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 2000, 1).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+      bTCETrades = getBTCETrades(pairs, FULL_SIZE).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
     }
     else {
-      bTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase(), numberOfItems, 1).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+      bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
     }
-    return BTCEAdapters.adaptTrades(bTCETrades, tradableIdentifier, currency);
 
+    return BTCEAdapters.adaptTrades(bTCETrades, tradableIdentifier, currency);
   }
 
   /**
@@ -171,7 +179,7 @@ public class BTCEMarketDataService implements PollingMarketDataService {
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    BTCEExchangeInfo bTCEExchangeInfo = btce.getInfo();
+    BTCEExchangeInfo bTCEExchangeInfo = getBTCEInfo();
     return BTCEAdapters.adaptExchangeInfo(bTCEExchangeInfo);
   }
 
