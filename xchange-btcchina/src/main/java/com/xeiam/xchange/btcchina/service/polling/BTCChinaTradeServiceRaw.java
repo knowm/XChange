@@ -28,7 +28,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
@@ -40,7 +39,6 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
@@ -125,8 +123,4 @@ public class BTCChinaTradeServiceRaw extends BasePollingExchangeService{
     return btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
   }
 
-  public Trades getBTCChinaTradeHistory(final Object... arguments) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
 }

@@ -24,20 +24,13 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaID;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
-import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
-import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author ObsessiveOrange
@@ -59,9 +52,6 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
 
     super(exchangeSpecification);
 
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
-    BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
   }
 
   @Override
@@ -81,8 +71,6 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
   @Override
   public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
-    BTCChinaResponse<BTCChinaAccountInfo> response = btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
-
-    return response.getResult().getProfile().getBtcDepositAddress();
+    return requestBTCChinaBitcoinDepositAddress();
   }
 }

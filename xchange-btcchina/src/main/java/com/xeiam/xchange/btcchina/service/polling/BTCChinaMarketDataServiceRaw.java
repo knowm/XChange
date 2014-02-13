@@ -22,19 +22,13 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
-import java.util.List;
-
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btcchina.BTCChina;
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
@@ -74,17 +68,6 @@ public class BTCChinaMarketDataServiceRaw extends BasePollingExchangeService{
   public BTCChinaTrade[] getBTCChinaTrades(String tradableIdentifier, String currency, int sinceTransactionID) throws IOException {
 
     return btcChina.getTrades(sinceTransactionID);
-  }
-
-  public ExchangeInfo getBTCChinaExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BTCChinaUtils.CURRENCY_PAIRS;
   }
 
 }

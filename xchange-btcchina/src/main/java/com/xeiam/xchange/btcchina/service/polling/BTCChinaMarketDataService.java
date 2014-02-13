@@ -24,12 +24,9 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -64,7 +61,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   public BTCChinaMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -144,5 +140,8 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   }
   
-  //getExchangeSymbols inherited from Superclass
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    return BTCChinaUtils.CURRENCY_PAIRS;
+  }
 }

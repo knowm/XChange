@@ -55,8 +55,8 @@ public class BTCChinaAccountServiceRaw extends BasePollingExchangeService {
   /**
    * Configured from the super class reading of the exchange specification
    */
-  protected final BTCChina btcchina;
-  protected ParamsDigest signatureCreator;
+  private final BTCChina btcchina;
+  private ParamsDigest signatureCreator;
 
   /**
    * Constructor
@@ -82,7 +82,7 @@ public class BTCChinaAccountServiceRaw extends BasePollingExchangeService {
     return btcchina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(CurrencyUnit.of("BTC"), amount));
   }
 
-  public String requestBitcoinDepositAddress() throws IOException {
+  public String requestBTCChinaBitcoinDepositAddress() throws IOException {
 
     BTCChinaResponse<BTCChinaAccountInfo> response = btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
 
