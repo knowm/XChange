@@ -15,33 +15,36 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress.BitstampDep
 @JsonDeserialize(using = BitstampDepositAddressDeserializer.class)
 public class BitstampDepositAddress extends BitstampBaseResponse {
 
-	private final String depositAddress;
-	
-	protected BitstampDepositAddress(String error, String depositAddress) {
-		super(error);
-		this.depositAddress = depositAddress;
-	}
+  private final String depositAddress;
 
-	public String getDepositAddress() {
-		return depositAddress;
-	}
+  protected BitstampDepositAddress(String error, String depositAddress) {
 
-	@Override
-	public String toString() {
-		return "BitstampDepositAddress [depositAddress=" + depositAddress + "]";
-	}
+    super(error);
+    this.depositAddress = depositAddress;
+  }
 
-	static class BitstampDepositAddressDeserializer extends JsonDeserializer<BitstampDepositAddress> {
+  public String getDepositAddress() {
 
-	    @Override
-	    public BitstampDepositAddress deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    return depositAddress;
+  }
 
-	      ObjectCodec oc = jsonParser.getCodec();
-	      JsonNode node = oc.readTree(jsonParser);
-	      if (node.get("error") != null) {
-	        return new BitstampDepositAddress(node.path("error").asText(), "");
-	      }
-	      return new BitstampDepositAddress(null, node.asText());
-	    }
-	  }
+  @Override
+  public String toString() {
+
+    return "BitstampDepositAddress [depositAddress=" + depositAddress + "]";
+  }
+
+  static class BitstampDepositAddressDeserializer extends JsonDeserializer<BitstampDepositAddress> {
+
+    @Override
+    public BitstampDepositAddress deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+      ObjectCodec oc = jsonParser.getCodec();
+      JsonNode node = oc.readTree(jsonParser);
+      if (node.get("error") != null) {
+        return new BitstampDepositAddress(node.path("error").asText(), "");
+      }
+      return new BitstampDepositAddress(null, node.asText());
+    }
+  }
 }

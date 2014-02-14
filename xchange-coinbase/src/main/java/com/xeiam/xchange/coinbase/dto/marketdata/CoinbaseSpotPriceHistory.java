@@ -55,7 +55,7 @@ public class CoinbaseSpotPriceHistory {
         historyStringBuilder.append((char) c);
 
       // Parse in reverse because they are inconsistent with the number of decimals for the rates
-      // which makes it difficult to differentiate from the following year.  Going in reverse
+      // which makes it difficult to differentiate from the following year. Going in reverse
       // we can rely on the comma.
       final String entireHistoryString = historyStringBuilder.reverse().toString();
       final Matcher matcher = historicalRateStringPatternInReverse.matcher(entireHistoryString);
@@ -64,7 +64,7 @@ public class CoinbaseSpotPriceHistory {
         final BigDecimal spotRate = new BigDecimal(rateString);
         final String timestampString = new StringBuilder(matcher.group(2)).reverse().toString();
         final Date timestamp = DateUtils.fromISO8601DateString(timestampString);
-        
+
         final CoinbaseHistoricalSpotPrice historicalSpotPrice = new CoinbaseHistoricalSpotPrice(timestamp, spotRate);
         historicalPrices.add(historicalSpotPrice);
       }

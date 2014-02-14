@@ -70,7 +70,7 @@ public interface BTCChina {
   @GET
   @Path("data/historydata")
   @Produces("application/json")
-  public BTCChinaTrade[] getTrades(@QueryParam("since") int time) throws IOException;
+  public BTCChinaTrade[] getTrades(@QueryParam("since") int transactionID) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

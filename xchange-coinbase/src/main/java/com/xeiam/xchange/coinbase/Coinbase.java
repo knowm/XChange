@@ -48,11 +48,11 @@ public interface Coinbase {
   @GET
   @Path("currencies/exchange_rates")
   Map<String, BigDecimal> getCurrencyExchangeRates() throws IOException;
-  
+
   @GET
   @Path("prices/buy")
   CoinbasePrice getBuyPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException;
-  
+
   @GET
   @Path("prices/sell")
   CoinbasePrice getSellPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException;
@@ -60,7 +60,7 @@ public interface Coinbase {
   @GET
   @Path("prices/spot_rate")
   CoinbaseRate getSpotRate(@QueryParam("currency") String currency) throws IOException;
-  
+
   @GET
   @Path("prices/historical")
   CoinbaseSpotPriceHistory getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;

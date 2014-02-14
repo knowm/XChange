@@ -50,7 +50,7 @@ public interface Kraken {
 
   @GET
   @Path("Depth")
-  KrakenDepthResult getDepth(@QueryParam("pair") String currencyPair, @QueryParam("count") Long count) throws IOException;
+  KrakenDepthResult getDepth(@QueryParam("pair") String currencyPair, @QueryParam("count") long count) throws IOException;
 
   @GET
   @Path("Trades")
