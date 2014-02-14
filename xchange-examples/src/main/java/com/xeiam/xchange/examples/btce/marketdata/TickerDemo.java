@@ -22,11 +22,16 @@
 package com.xeiam.xchange.examples.btce.marketdata;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btce.v3.BTCEExchange;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -39,9 +44,14 @@ public class TickerDemo {
 
     // Use the factory to get BTC-E exchange API using default settings
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    generic(btce);
+    raw(btce);
+  }
+
+  private static void generic(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
@@ -56,6 +66,16 @@ public class TickerDemo {
     System.out.println("tradeable ID: " + ticker.getTradableIdentifier());
 
     System.out.println(ticker.toString());
-
   }
+
+  private static void raw(Exchange exchange) throws IOException {
+
+    // Interested in the public polling market data feed (no authentication)
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+
+    // Get the latest ticker data showing BTC to USD
+    BTCETickerWrapper ticker = marketDataService.getBTCETicker("btc_usd");
+    System.out.println(ticker.toString());
+  }
+
 }
