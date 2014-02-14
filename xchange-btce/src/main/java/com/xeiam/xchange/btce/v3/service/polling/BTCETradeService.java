@@ -73,6 +73,9 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
     String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
+
+    Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency())), "currencyPair is not valid:" + pair);
+
     BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(), type, pair);
 
     BTCEPlaceOrderResult result = placeBTCEOrder(btceOrder);

@@ -67,9 +67,7 @@ public class TradesDemo {
     BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/USD
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
-    pairs.add(new CurrencyPair(Currencies.BTC, Currencies.USD));
-    Map<String, BTCETrade[]> trades = marketDataService.getBTCETrades(pairs, 7).getTradesMap();
+    Map<String, BTCETrade[]> trades = marketDataService.getBTCETrades("btc_usd", 7).getTradesMap();
 
     for (Map.Entry<String, BTCETrade[]> entry : trades.entrySet()) {
       System.out.println("Pair: " + entry.getKey() + ", Trades:");

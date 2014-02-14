@@ -74,9 +74,7 @@ public class TickerDemo {
     BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
-    pairs.add(new CurrencyPair(Currencies.BTC, Currencies.USD));
-    BTCETickerWrapper ticker = marketDataService.getBTCETicker(pairs);
+    BTCETickerWrapper ticker = marketDataService.getBTCETicker("btc_usd");
     System.out.println(ticker.toString());
   }
 

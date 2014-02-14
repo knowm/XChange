@@ -22,14 +22,10 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.BTCE;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
@@ -56,16 +52,12 @@ import com.xeiam.xchange.utils.Assert;
 public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements PollingMarketDataService {
 
 
-  // private static final int PARTIAL_SIZE = 150;
-  // private static final int FULL_SIZE = 2000;
-
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-      super(exchangeSpecification);
-//    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
+    super(exchangeSpecification);
   }
 
   @Override
@@ -73,9 +65,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
 
     verify(tradableIdentifier, currency);
 
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
-    pairs.add(new CurrencyPair(tradableIdentifier, currency));
-
+    String pairs = tradableIdentifier.concat("_").concat(currency);
     BTCETickerWrapper btceTickerWrapper = getBTCETicker(pairs);
 
     // Adapt to XChange DTOs
@@ -97,18 +87,16 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
 
     verify(tradableIdentifier, currency);
 
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
-    pairs.add(new CurrencyPair(tradableIdentifier, currency));
-
+    String pairs = tradableIdentifier.concat("_").concat(currency);
     BTCEDepthWrapper btceDepthWrapper = null;
 
     if (args.length > 0) {
-      Object arg = args[0];
-      if (!(arg instanceof Integer) || ((Integer) arg < 1) || ((Integer) arg > FULL_SIZE)) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Integer) || ((Integer) arg0 < 1) || ((Integer) arg0 > FULL_SIZE)) {
         throw new ExchangeException("Orderbook size argument must be an Integer in the range: (1, 2000)!");
       }
       else {
-        btceDepthWrapper = getBTCEDepth(pairs, (Integer) arg);
+        btceDepthWrapper = getBTCEDepth(pairs, (Integer) arg0);
       }
     }
     else { // default to full orderbook
@@ -126,7 +114,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
    * Get recent trades from exchange
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
-   * @param currency The currency of interest, null if irrelevant
+   * @param currency The currency of interest
    * @param args Optional arguments. This implementation assumes
    *          args[0] is integer value limiting number of trade items to get.
    *          -1 or missing -> use default 2000 max fetch value
@@ -139,9 +127,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
 
     verify(tradableIdentifier, currency);
 
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
-    pairs.add(new CurrencyPair(tradableIdentifier, currency));
-
+    String pairs = tradableIdentifier.concat("_").concat(currency);
     int numberOfItems = -1;
     try {
       numberOfItems = (Integer) args[0];

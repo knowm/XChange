@@ -78,10 +78,7 @@ public class DepthDemo {
     BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest full order book data for LTC/USD
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>(1);
-    pairs.add(new CurrencyPair(Currencies.LTC, Currencies.USD));
-
-    Map<String, BTCEDepth> depth = marketDataService.getBTCEDepth(pairs, 7).getDepthMap();
+    Map<String, BTCEDepth> depth = marketDataService.getBTCEDepth("ltc_usd", 7).getDepthMap();
     for (Map.Entry<String, BTCEDepth> entry : depth.entrySet()) {
       System.out.println("Pair: " + entry.getKey() + ", Depth:" + entry.getValue());
     }

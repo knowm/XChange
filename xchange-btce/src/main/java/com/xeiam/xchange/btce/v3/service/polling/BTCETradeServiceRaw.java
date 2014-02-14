@@ -53,10 +53,6 @@ public class BTCETradeServiceRaw extends BTCEBaseService {
   public BTCEPlaceOrderResult placeBTCEOrder(BTCEOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
-    String[] p = pair.split("_");
-
-    Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(p[0].toUpperCase(), p[1].toUpperCase())), "currencyPair is not valid:" + pair);
-
     BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, order.getType(), order.getRate(), order.getAmount());
     checkResult(ret);
     return ret.getReturnValue();

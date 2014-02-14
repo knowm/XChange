@@ -45,18 +45,18 @@ public interface BTCE {
   BTCEExchangeInfo getInfo() throws IOException;
 
   @GET
-  @Path("3/ticker/{ident}_{currency}")
-  BTCETickerWrapper getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
+  @Path("3/ticker/{pairs}")
+  BTCETickerWrapper getTicker(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
       throws IOException;
 
   @GET
-  @Path("3/depth/{ident}_{currency}")
-  BTCEDepthWrapper getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("150") @QueryParam("limit") int limit,
+  @Path("3/depth/{pairs}")
+  BTCEDepthWrapper getDepth(@PathParam("pairs") String pairs, @DefaultValue("150") @QueryParam("limit") int limit,
       @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
   @GET
-  @Path("3/trades/{ident}_{currency}")
-  BTCETradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @QueryParam("limit") int limit,
+  @Path("3/trades/{pairs}")
+  BTCETradesWrapper getTrades(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit,
       @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
 
 }
