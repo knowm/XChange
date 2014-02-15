@@ -26,8 +26,6 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -62,7 +60,7 @@ public class MtGoxTradeService extends MtGoxTradeServiceRaw implements PollingTr
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    verify(marketOrder);
+    verify(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
 
     return placeMtGoxMarketOrder(marketOrder).getDataString();
   }
@@ -70,7 +68,8 @@ public class MtGoxTradeService extends MtGoxTradeServiceRaw implements PollingTr
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder);
+    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+
     Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
     Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
 
@@ -91,15 +90,6 @@ public class MtGoxTradeService extends MtGoxTradeServiceRaw implements PollingTr
     Assert.notNull(orderId, "orderId cannot be null");
 
     return cancelMtGoxOrder(orderId).getResult().equals("success");
-  }
-
-  private void verify(Order order) {
-
-    Assert.notNull(order.getTradableIdentifier(), "getTradableIdentifier() cannot be null");
-    Assert.notNull(order.getType(), "getType() cannot be null");
-    Assert.notNull(order.getTradableAmount(), "getAmount_int() cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(order.getTradableIdentifier(), order.getTransactionCurrency())), "currencyPair is not valid");
-
   }
 
   @Override

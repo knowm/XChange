@@ -27,19 +27,16 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
-import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -50,7 +47,6 @@ import com.xeiam.xchange.utils.Assert;
  * </ul>
  */
 public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements PollingMarketDataService {
-
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
@@ -144,25 +140,6 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
     }
 
     return BTCEAdapters.adaptTrades(bTCETrades, tradableIdentifier, currency);
-  }
-
-  /**
-   * Verify that both currencies can make valid pair
-   * 
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) throws IOException {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BTCEUtils.CURRENCY_PAIRS;
   }
 
   @Override

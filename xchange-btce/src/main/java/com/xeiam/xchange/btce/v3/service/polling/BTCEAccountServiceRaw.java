@@ -1,21 +1,20 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
 
-import java.io.IOException;
-
 /**
  * Author: brox
- * Since: 2014-02-12
  */
-public class BTCEAccountServiceRaw extends BTCEBaseService {
+public class BTCEAccountServiceRaw extends BTCEBasePollingService {
 
   /**
    * Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public BTCEAccountServiceRaw(ExchangeSpecification exchangeSpecification) {

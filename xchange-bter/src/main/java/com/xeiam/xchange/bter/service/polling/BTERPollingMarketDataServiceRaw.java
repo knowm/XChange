@@ -28,9 +28,8 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
-public class BTERPollingMarketDataServiceRaw extends BasePollingExchangeService {
+public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService {
 
   private final BTER bter;
 

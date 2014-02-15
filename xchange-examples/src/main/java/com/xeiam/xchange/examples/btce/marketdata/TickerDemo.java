@@ -22,8 +22,6 @@
 package com.xeiam.xchange.examples.btce.marketdata;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -31,7 +29,6 @@ import com.xeiam.xchange.btce.v3.BTCEExchange;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 

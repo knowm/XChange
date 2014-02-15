@@ -28,16 +28,13 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 import com.xeiam.xchange.vircurex.VircurexAdapters;
-import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
 
 /**
@@ -87,30 +84,9 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return VircurexUtils.CURRENCY_PAIRS;
-  }
-
-  @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier
-   *          The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(getExchangeSymbols().contains(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
   }
 
 }

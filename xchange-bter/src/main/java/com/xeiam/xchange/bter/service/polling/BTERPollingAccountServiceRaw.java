@@ -28,8 +28,8 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAuthenticated;
-import com.xeiam.xchange.bter.BTERHmacPostBodyDigest;
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
+import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
 
 public class BTERPollingAccountServiceRaw extends BTERBasePollingService {
 

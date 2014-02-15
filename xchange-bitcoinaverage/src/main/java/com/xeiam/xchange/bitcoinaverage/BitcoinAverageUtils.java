@@ -21,10 +21,6 @@
  */
 package com.xeiam.xchange.bitcoinaverage;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared BitcoinAverage properties
@@ -36,53 +32,6 @@ public final class BitcoinAverageUtils {
    */
   private BitcoinAverageUtils() {
 
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_AUD,
-
-  CurrencyPair.BTC_BRL,
-
-  CurrencyPair.BTC_CAD,
-
-  CurrencyPair.BTC_CNY,
-
-  CurrencyPair.BTC_CZK,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_GBP,
-
-  CurrencyPair.BTC_ILS,
-
-  CurrencyPair.BTC_JPY,
-
-  CurrencyPair.BTC_NOK,
-
-  CurrencyPair.BTC_NZD,
-
-  CurrencyPair.BTC_PLN,
-
-  CurrencyPair.BTC_RUB,
-
-  CurrencyPair.BTC_SEK,
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.BTC_ZAR
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
 }

@@ -27,7 +27,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 
-public class BitfinexAccountServiceRaw extends BitfinexBaseService {
+public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
 
   /**
    * Constructor

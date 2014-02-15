@@ -27,17 +27,14 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author ObsessiveOrange
@@ -92,22 +89,9 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException {
+  public Trades getTradeHistory(Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency The transaction currency (e.g. USD in BTC/USD)
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BTCChinaUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
   }
 
 }

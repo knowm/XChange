@@ -27,13 +27,10 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcurex.Bitcurex;
-import com.xeiam.xchange.bitcurex.BitcurexUtils;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
-import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.bitcurex.service.BitcurexBaseService;
 
 /**
  * <p>
@@ -43,7 +40,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcurexMarketDataServiceRaw extends BasePollingExchangeService {
+public class BitcurexMarketDataServiceRaw extends BitcurexBaseService {
 
   private Bitcurex bitcurex;
 
@@ -85,20 +82,6 @@ public class BitcurexMarketDataServiceRaw extends BasePollingExchangeService {
     BitcurexTrade[] bitcurexTrades = bitcurex.getTrades();
 
     return bitcurexTrades;
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BitcurexUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
   }
 
 }

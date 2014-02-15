@@ -30,7 +30,6 @@ import com.xeiam.xchange.bitfinex.v1.Bitfinex;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * <p>
@@ -40,7 +39,7 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitfinexMarketDataServiceRaw extends BasePollingExchangeService {
+public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
 
   protected final Bitfinex bitfinex;
 

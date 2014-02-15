@@ -33,13 +33,13 @@ import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+import com.xeiam.xchange.bitstamp.service.BitstampBaseService;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author gnandiga
  */
-public class BitstampTradeServiceRaw extends BasePollingExchangeService {
+public class BitstampTradeServiceRaw extends BitstampBaseService {
 
   private final BitstampAuthenticated bitstampAuthenticated;
   private final BitstampDigest signatureCreator;
@@ -75,8 +75,9 @@ public class BitstampTradeServiceRaw extends BasePollingExchangeService {
 
     final BitstampBooleanResponse response = bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), orderId);
 
-    if (response.getError() != null)
+    if (response.getError() != null) {
       throw new ExchangeException("Failed to cancel order " + orderId + " because " + response.getError());
+    }
 
     return response.getResponse();
   }

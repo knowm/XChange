@@ -29,7 +29,7 @@ import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-public class CryptoTradeTradeServiceRaw extends CryptoTradeBaseService {
+public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService {
 
   /**
    * Constructor

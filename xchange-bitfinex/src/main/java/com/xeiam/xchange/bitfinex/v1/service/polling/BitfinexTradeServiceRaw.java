@@ -33,7 +33,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-public class BitfinexTradeServiceRaw extends BitfinexBaseService {
+public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
 
   /**
    * Constructor

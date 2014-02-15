@@ -34,12 +34,12 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseRate;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.coinbase.service.CoinbaseBaseService;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMarketDataServiceRaw extends BasePollingExchangeService {
+public class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
 
   protected final Coinbase coinbase;
 

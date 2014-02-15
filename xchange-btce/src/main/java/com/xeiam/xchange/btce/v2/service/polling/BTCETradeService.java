@@ -45,7 +45,7 @@ import com.xeiam.xchange.utils.Assert;
 
 /** @author Matija Mazi */
 @Deprecated
-public class BTCETradeService extends BTCEBaseService implements PollingTradeService {
+public class BTCETradeService extends BTCEBasePollingService implements PollingTradeService {
 
   /**
    * Constructor

@@ -32,13 +32,13 @@ import com.xeiam.xchange.justcoin.JustcoinAuthenticated;
 import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.justcoin.service.JustcoinBaseService;
 import com.xeiam.xchange.utils.AuthUtils;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinTradeServiceRaw extends BasePollingExchangeService {
+public class JustcoinTradeServiceRaw extends JustcoinBaseService {
 
   private JustcoinAuthenticated justcoinAuthenticated;
 

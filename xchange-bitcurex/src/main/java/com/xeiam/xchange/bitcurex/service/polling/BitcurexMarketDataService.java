@@ -27,11 +27,9 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcurex.BitcurexAdapters;
-import com.xeiam.xchange.bitcurex.BitcurexUtils;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -97,12 +95,6 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BitcurexUtils.CURRENCY_PAIRS;
   }
 
 }

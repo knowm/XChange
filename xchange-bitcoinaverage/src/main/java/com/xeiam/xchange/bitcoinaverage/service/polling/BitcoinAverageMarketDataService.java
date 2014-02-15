@@ -22,20 +22,16 @@
 package com.xeiam.xchange.bitcoinaverage.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageAdapters;
-import com.xeiam.xchange.bitcoinaverage.BitcoinAverageUtils;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -85,26 +81,6 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) throws IOException {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BitcoinAverageUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BitcoinAverageUtils.CURRENCY_PAIRS;
   }
 
 }

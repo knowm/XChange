@@ -46,7 +46,7 @@ import com.xeiam.xchange.kraken.service.KrakenDigest;
 /**
  * @author jamespedwards42
  */
-public class KrakenAccountServiceRaw extends BaseKrakenService {
+public class KrakenAccountServiceRaw extends KrakenBasePollingService {
 
   private KrakenAuthenticated krakenAuthenticated;
   private ParamsDigest signatureCreator;

@@ -26,13 +26,13 @@ import java.io.IOException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.vircurex.VircurexAuthenticated;
-import com.xeiam.xchange.vircurex.VircurexSha2Digest;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
+import com.xeiam.xchange.vircurex.service.VircurexBaseService;
+import com.xeiam.xchange.vircurex.service.VircurexSha2Digest;
 
-public class VircurexAccountServiceRaw extends BasePollingExchangeService {
+public class VircurexAccountServiceRaw extends VircurexBaseService {
 
   private VircurexAuthenticated vircurex;
 

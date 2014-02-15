@@ -49,17 +49,14 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.mtgox.MtGoxUtils;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -125,23 +122,4 @@ public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency The transaction currency (e.g. USD in BTC/USD)
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(MtGoxUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return MtGoxUtils.CURRENCY_PAIRS;
-  }
 }

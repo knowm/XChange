@@ -45,7 +45,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
-public class KrakenMarketDataServiceRaw extends BaseKrakenService {
+public class KrakenMarketDataServiceRaw extends KrakenBasePollingService {
 
   private final Kraken kraken;
 

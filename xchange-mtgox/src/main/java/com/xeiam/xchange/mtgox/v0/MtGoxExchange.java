@@ -24,7 +24,7 @@ package com.xeiam.xchange.mtgox.v0;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.mtgox.v0.service.marketdata.polling.MtGoxMarketDataService;
+import com.xeiam.xchange.mtgox.v0.service.polling.marketdata.MtGoxMarketDataService;
 
 /**
  * <p>

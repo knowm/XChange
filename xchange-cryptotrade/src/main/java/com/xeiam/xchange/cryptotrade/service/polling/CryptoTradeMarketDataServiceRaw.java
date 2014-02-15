@@ -28,7 +28,6 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * <p>
@@ -38,7 +37,7 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class CryptoTradeMarketDataServiceRaw extends BasePollingExchangeService {
+public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingService {
 
   private final CryptoTrade cryptoTrade;
 

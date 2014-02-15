@@ -26,9 +26,9 @@ import java.io.IOException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.vircurex.Vircurex;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
+import com.xeiam.xchange.vircurex.service.VircurexBaseService;
 
 /**
  * <p>
@@ -38,7 +38,7 @@ import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VircurexMarketDataServiceRaw extends BasePollingExchangeService {
+public class VircurexMarketDataServiceRaw extends VircurexBaseService {
 
   private final Vircurex vircurex;
 
@@ -55,6 +55,7 @@ public class VircurexMarketDataServiceRaw extends BasePollingExchangeService {
 
   public VircurexDepth getVircurexOrderBook(String tradableIdentifier, String currency) throws IOException {
 
+    verify(tradableIdentifier, currency);
     VircurexDepth vircurexDepth = vircurex.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return vircurexDepth;

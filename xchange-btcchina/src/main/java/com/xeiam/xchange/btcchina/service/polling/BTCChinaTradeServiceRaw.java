@@ -36,10 +36,10 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -51,7 +51,7 @@ import com.xeiam.xchange.utils.Assert;
  *         <li>Provides access to trade functions</li>
  *         </ul>
  */
-public class BTCChinaTradeServiceRaw extends BasePollingExchangeService {
+public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
 
   /**
    * Configured from the super class reading of the exchange specification

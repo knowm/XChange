@@ -21,10 +21,6 @@
  */
 package com.xeiam.xchange.bitfinex.v1;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bitfinex properties
@@ -36,27 +32,6 @@ public final class BitfinexUtils {
    */
   private BitfinexUtils() {
 
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.LTC_USD,
-
-  CurrencyPair.LTC_BTC
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   public static String toPairString(String tradableIdentifier, String currency) {

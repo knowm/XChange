@@ -24,11 +24,8 @@ package com.xeiam.xchange.btcchina;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.util.Arrays;
-import java.util.List;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author ObsessiveOrange
@@ -44,23 +41,6 @@ public final class BTCChinaUtils {
    */
   private BTCChinaUtils() {
 
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_CNY
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   public synchronized static long getNonce() {

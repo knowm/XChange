@@ -22,17 +22,14 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
-import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -75,9 +72,4 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return JustcoinUtils.CURRENCY_PAIRS;
-  }
 }

@@ -37,8 +37,8 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
+import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -50,7 +50,7 @@ import com.xeiam.xchange.utils.Assert;
  *         <li>Provides access to account data</li>
  *         </ul>
  */
-public class BTCChinaAccountServiceRaw extends BasePollingExchangeService {
+public class BTCChinaAccountServiceRaw extends BTCChinaBaseService {
 
   /**
    * Configured from the super class reading of the exchange specification

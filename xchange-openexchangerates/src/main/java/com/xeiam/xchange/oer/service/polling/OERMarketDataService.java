@@ -24,18 +24,15 @@ package com.xeiam.xchange.oer.service.polling;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.oer.OERAdapters;
-import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -52,12 +49,6 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
   public OERMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return OERUtils.CURRENCY_PAIRS;
   }
 
   @Override

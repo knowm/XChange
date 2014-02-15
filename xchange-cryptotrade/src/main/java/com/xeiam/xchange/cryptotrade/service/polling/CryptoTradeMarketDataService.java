@@ -28,16 +28,13 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
-import com.xeiam.xchange.cryptotrade.CryptoTradeUtils;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -83,27 +80,6 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier
-   *          The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(CryptoTradeUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CryptoTradeUtils.CURRENCY_PAIRS;
   }
 
   @Override

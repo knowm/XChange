@@ -51,7 +51,7 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import com.xeiam.xchange.kraken.service.KrakenDigest;
 
-public class KrakenTradeServiceRaw extends BaseKrakenService {
+public class KrakenTradeServiceRaw extends KrakenBasePollingService {
 
   private KrakenAuthenticated krakenAuthenticated;
   private ParamsDigest signatureCreator;

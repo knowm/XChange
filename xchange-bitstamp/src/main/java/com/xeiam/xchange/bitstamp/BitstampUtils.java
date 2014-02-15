@@ -23,12 +23,9 @@ package com.xeiam.xchange.bitstamp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bitstamp properties
@@ -42,23 +39,6 @@ public final class BitstampUtils {
    */
   private BitstampUtils() {
 
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   /**

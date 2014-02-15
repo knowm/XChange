@@ -31,13 +31,13 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
 import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
+import com.xeiam.xchange.cexio.service.CexIOBaseService;
 import com.xeiam.xchange.cexio.service.CexIODigest;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author timmolter
  */
-public class CexIOAccountServiceRaw extends BasePollingExchangeService {
+public class CexIOAccountServiceRaw extends CexIOBaseService {
 
   private final CexIOAuthenticated cexIOAuthenticated;
   private ParamsDigest signatureCreator;

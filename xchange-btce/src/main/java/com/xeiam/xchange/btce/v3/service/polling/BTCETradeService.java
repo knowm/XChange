@@ -28,19 +28,16 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author Matija Mazi
@@ -77,7 +74,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
     String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
 
-    Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency())), "currencyPair is not valid:" + pair);
+    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
 
     BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(), type, pair);
 

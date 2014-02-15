@@ -21,10 +21,6 @@
  */
 package com.xeiam.xchange.justcoin;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * jamespedwards42
@@ -36,21 +32,6 @@ public final class JustcoinUtils {
    */
   private JustcoinUtils() {
 
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
-
-  static {
-
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_LTC);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_NOK);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_XRP);
-  }
-
-  public static boolean isValidCurrencyPair(final CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   public static String getApiMarket(final String tradableIdentifier, final String currency) {

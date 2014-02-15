@@ -27,11 +27,8 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverage;
-import com.xeiam.xchange.bitcoinaverage.BitcoinAverageUtils;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
-import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.bitcoinaverage.service.BitcoinaverageBaseService;
 
 /**
  * <p>
@@ -41,7 +38,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoinAverageMarketDataServiceRaw extends BasePollingExchangeService {
+public class BitcoinAverageMarketDataServiceRaw extends BitcoinaverageBaseService {
 
   private final BitcoinAverage bitcoinAverage;
 
@@ -64,20 +61,6 @@ public class BitcoinAverageMarketDataServiceRaw extends BasePollingExchangeServi
     BitcoinAverageTicker bitcoinAverageTicker = bitcoinAverage.getTicker(currency);
 
     return bitcoinAverageTicker;
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) throws IOException {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BitcoinAverageUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
   }
 
 }

@@ -31,18 +31,16 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.oer.OER;
 import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
-import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.oer.service.OERBaseService;
 
 /**
  * @author timmolter
  */
-public class OERMarketDataServiceRaw extends BasePollingExchangeService implements CachedDataSession {
+public class OERMarketDataServiceRaw extends OERBaseService implements CachedDataSession {
 
   private final Logger logger = LoggerFactory.getLogger(OERMarketDataServiceRaw.class);
 
@@ -95,20 +93,6 @@ public class OERMarketDataServiceRaw extends BasePollingExchangeService implemen
 
     // Adapt to XChange DTOs
     return rates;
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency The transaction currency (e.g. USD in BTC/USD)
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.isTrue(currency.equals("USD"), "Base curreny must be USD for this exchange");
-    Assert.isTrue(OERUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
   }
 
 }

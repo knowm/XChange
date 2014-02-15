@@ -21,11 +21,8 @@
  */
 package com.xeiam.xchange.kraken;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -37,11 +34,6 @@ public final class KrakenUtils {
   private KrakenUtils() {
 
   }
-
-  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.LTC_XRP, CurrencyPair.LTC_EUR, CurrencyPair.LTC_USD, CurrencyPair.LTC_KRW,
-      CurrencyPair.BTC_LTC, CurrencyPair.BTC_NMC, CurrencyPair.BTC_XRP, CurrencyPair.BTC_XVN, CurrencyPair.BTC_EUR, CurrencyPair.BTC_USD, CurrencyPair.BTC_KRW, CurrencyPair.NMC_XRP,
-      CurrencyPair.NMC_EUR, CurrencyPair.NMC_USD, CurrencyPair.NMC_KRW, CurrencyPair.XVN_XRP, CurrencyPair.USD_XVN, CurrencyPair.EUR_XVN, CurrencyPair.EUR_XRP, CurrencyPair.USD_XRP,
-      CurrencyPair.KRW_XRP));
 
   private static Map<String, String> KRAKEN_CURRENCIES_FORWARD = new HashMap<String, String>();
   private static Map<String, String> KRAKEN_CURRENCIES_REVERSE = new HashMap<String, String>();
@@ -103,17 +95,6 @@ public final class KrakenUtils {
       currency2 = currency;
     }
     return currency1 + currency2;
-  }
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   public static KrakenType getKrakenOrderType(OrderType type) {

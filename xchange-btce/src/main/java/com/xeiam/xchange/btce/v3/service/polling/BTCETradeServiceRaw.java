@@ -1,22 +1,26 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v3.BTCEUtils;
-import com.xeiam.xchange.btce.v3.dto.trade.*;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.utils.Assert;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 
 /**
  * Author: brox
  * Since: 2014-02-13
  */
 
-public class BTCETradeServiceRaw extends BTCEBaseService {
+public class BTCETradeServiceRaw extends BTCEBasePollingService {
 
   /**
    * Constructor

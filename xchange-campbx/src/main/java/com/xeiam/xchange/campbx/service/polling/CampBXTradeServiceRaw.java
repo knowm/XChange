@@ -31,15 +31,15 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
+import com.xeiam.xchange.campbx.service.CampBXBaseService;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi
  */
-public class CampBXTradeServiceRaw extends BasePollingExchangeService {
+public class CampBXTradeServiceRaw extends CampBXBaseService {
 
   private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
 

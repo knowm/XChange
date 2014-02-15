@@ -27,11 +27,11 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAuthenticated;
-import com.xeiam.xchange.bter.BTERHmacPostBodyDigest;
 import com.xeiam.xchange.bter.dto.BTERReturn;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.bter.service.BTERBaseService;
+import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
 
-public class BTERBasePollingService extends BasePollingExchangeService {
+public class BTERBasePollingService extends BTERBaseService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
@@ -73,4 +73,5 @@ public class BTERBasePollingService extends BasePollingExchangeService {
       throw new ExchangeException("Got error message: " + info.getError());
     }
   }
+
 }

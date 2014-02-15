@@ -35,16 +35,16 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
 import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
+import com.xeiam.xchange.cexio.service.CexIOBaseService;
 import com.xeiam.xchange.cexio.service.CexIODigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author timmolter
  */
 
-public class CexIOTradeServiceRaw extends BasePollingExchangeService {
+public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   private final CexIOAuthenticated cexIOAuthenticated;
   private ParamsDigest signatureCreator;
@@ -65,7 +65,7 @@ public class CexIOTradeServiceRaw extends BasePollingExchangeService {
 
     List<CexIOOrder> cexIOOrderList = new ArrayList<CexIOOrder>();
 
-    for (CurrencyPair currencyPair : CexIOUtils.CURRENCY_PAIRS) {
+    for (CurrencyPair currencyPair : getExchangeSymbols()) {
 
       String tradableIdentifier = currencyPair.baseCurrency;
       String transactionCurrency = currencyPair.counterCurrency;
