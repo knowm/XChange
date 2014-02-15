@@ -30,9 +30,9 @@ import javax.ws.rs.Path;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeAccountInfoReturn;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeOrder;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePlaceOrderReturn;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfoReturn;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrder;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 
 @Path("api/1/private")
 public interface CryptoTradeAuthenticated {

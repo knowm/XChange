@@ -19,31 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitfinex.v1.service.polling;
+package com.xeiam.xchange.vircurex.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
-import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import si.mazi.rescu.RestProxyFactory;
 
-public class BitfinexAccountServiceRaw extends BitfinexBaseService {
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.vircurex.VircurexAuthenticated;
+import com.xeiam.xchange.vircurex.VircurexSha2Digest;
+import com.xeiam.xchange.vircurex.VircurexUtils;
+import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
+
+public class VircurexAccountServiceRaw extends BasePollingExchangeService {
+
+  private VircurexAuthenticated vircurex;
 
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchangeSpecification
    */
-  public BitfinexAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public VircurexAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());
   }
 
-  public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
+  public VircurexAccountInfoReturn getVircurexAccountInfo() throws IOException {
 
-    BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
-
-    return balances;
+    String timestamp = VircurexUtils.getUtcTimestamp();
+    String nonce = (System.currentTimeMillis() / 250L) + "";
+    VircurexSha2Digest digest = new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "get_balances");
+    VircurexAccountInfoReturn info = vircurex.getInfo(exchangeSpecification.getUserName(), nonce, digest.toString(), timestamp);
+    return info;
   }
-
 }

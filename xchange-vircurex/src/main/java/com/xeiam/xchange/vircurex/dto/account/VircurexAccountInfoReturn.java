@@ -19,60 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitfinex.v1.dto.trade;
+package com.xeiam.xchange.vircurex.dto.account;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BitfinexBalancesResponse {
+public class VircurexAccountInfoReturn {
 
-  private final String type;
-  private final String currency;
-  private final BigDecimal amount;
+  private final int status;
+
+  private final String account;
+
+  private final Map<String, Map<String, BigDecimal>> availableFunds;
 
   /**
    * Constructor
    * 
-   * @param type
-   * @param currency
-   * @param amount
-   * @param available
+   * @param aStatus
+   * @param anAccount
+   * @param someBalances
    */
-  public BitfinexBalancesResponse(@JsonProperty("type") String type, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("available") BigDecimal available) {
+  public VircurexAccountInfoReturn(@JsonProperty("status") int aStatus, @JsonProperty("account") String anAccount, @JsonProperty("balances") Map<String, Map<String, BigDecimal>> someBalances) {
 
-    this.type = type;
-    this.currency = currency;
-    this.amount = amount;
+    availableFunds = someBalances;
+    status = aStatus;
+    account = anAccount;
   }
 
-  public BigDecimal getAmount() {
+  public int getStatus() {
 
-    return amount;
+    return status;
   }
 
-  public String getCurrency() {
+  public String getAccount() {
 
-    return currency;
+    return account;
   }
 
-  public String getType() {
+  public Map<String, Map<String, BigDecimal>> getAvailableFunds() {
 
-    return type;
+    return availableFunds;
   }
 
-  @Override
-  public String toString() {
-
-    StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexBalancesResponse [type=");
-    builder.append(type);
-    builder.append(", currency=");
-    builder.append(currency);
-    builder.append(", amount=");
-    builder.append(amount);
-    builder.append("]");
-    return builder.toString();
-  }
 }

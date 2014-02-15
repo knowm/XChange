@@ -19,43 +19,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.marketdata;
+package com.xeiam.xchange.bter.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTERPlaceOrderReturn {
+public class BTERReturn<V> {
 
-  private final String result;
-  private final String orderId;
-  private final String msg;
+  private final boolean success;
+  private final V returnValue;
+  private final String error;
 
   /**
    * Constructor
    * 
    * @param success
-   * @param value
+   * @param returnValue
    * @param error
    */
-  public BTERPlaceOrderReturn(@JsonProperty("result") String aResult, @JsonProperty("order_id") String anOrderId, @JsonProperty("msg") String aMessage) {
+  @JsonCreator
+  public BTERReturn(@JsonProperty("result") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("msg") String error) {
 
-    result = aResult;
-    orderId = anOrderId;
-    msg = aMessage;
+    this.success = success;
+    this.returnValue = returnValue;
+    this.error = error;
   }
 
-  public String getResult() {
+  public boolean isSuccess() {
 
-    return result;
+    return success;
   }
 
-  public String getOrderId() {
+  public V getReturnValue() {
 
-    return orderId;
+    return returnValue;
   }
 
-  public String getMsg() {
+  public String getError() {
 
-    return msg;
+    return error;
   }
 
+  @Override
+  public String toString() {
+
+    return String.format("BTERReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+  }
 }

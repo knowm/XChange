@@ -19,46 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.dto.marketdata;
+package com.xeiam.xchange.cryptotrade.dto.account;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class VircurexAccountInfoReturn {
+public class CryptoTradeAccountInfoReturn {
 
-  private final int status;
-
-  private final String account;
-
-  private final Map<String, Map<String, BigDecimal>> availableFunds;
+  private final String result;
+  private final Map<String, BigDecimal> availableFunds;
 
   /**
    * Constructor
    * 
-   * @param aStatus
-   * @param anAccount
-   * @param someBalances
+   * @param aResult
+   * @param data
    */
-  public VircurexAccountInfoReturn(@JsonProperty("status") int aStatus, @JsonProperty("account") String anAccount, @JsonProperty("balances") Map<String, Map<String, BigDecimal>> someBalances) {
+  public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
 
-    availableFunds = someBalances;
-    status = aStatus;
-    account = anAccount;
+    result = aResult;
+    availableFunds = data.getFunds();
+
   }
 
-  public int getStatus() {
+  public String getResult() {
 
-    return status;
+    return result;
   }
 
-  public String getAccount() {
-
-    return account;
-  }
-
-  public Map<String, Map<String, BigDecimal>> getAvailableFunds() {
+  public Map<String, BigDecimal> getAvailableFunds() {
 
     return availableFunds;
   }

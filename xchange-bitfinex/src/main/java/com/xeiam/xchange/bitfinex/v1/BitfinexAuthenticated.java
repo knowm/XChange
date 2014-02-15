@@ -32,8 +32,8 @@ import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesRequest;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesResponse;
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;

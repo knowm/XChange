@@ -29,7 +29,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.CryptoTradeHmacPostBodyDigest;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeAccountInfoReturn;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfoReturn;
 
 public class CryptoTradeAccountServiceRaw extends CryptoTradeBaseService {
 

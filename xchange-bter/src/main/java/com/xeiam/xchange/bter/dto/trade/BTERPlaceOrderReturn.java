@@ -19,33 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.marketdata;
-
-import java.math.BigDecimal;
-import java.util.Map;
+package com.xeiam.xchange.bter.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTERAccountInfoReturn {
+public class BTERPlaceOrderReturn {
 
   private final String result;
-  private final Map<String, BigDecimal> availableFunds;
-  private final Map<String, BigDecimal> lockedFunds;
+  private final String orderId;
+  private final String msg;
 
   /**
    * Constructor
    * 
-   * @param aResult
-   * @param theAvailableFunds
-   * @param theLockedFunds
+   * @param success
+   * @param value
+   * @param error
    */
-  public BTERAccountInfoReturn(@JsonProperty("result") String aResult, @JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds,
-      @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds) {
+  public BTERPlaceOrderReturn(@JsonProperty("result") String aResult, @JsonProperty("order_id") String anOrderId, @JsonProperty("msg") String aMessage) {
 
     result = aResult;
-    availableFunds = theAvailableFunds;
-    lockedFunds = theLockedFunds;
-
+    orderId = anOrderId;
+    msg = aMessage;
   }
 
   public String getResult() {
@@ -53,14 +48,14 @@ public class BTERAccountInfoReturn {
     return result;
   }
 
-  public Map<String, BigDecimal> getAvailableFunds() {
+  public String getOrderId() {
 
-    return availableFunds;
+    return orderId;
   }
 
-  public Map<String, BigDecimal> getLockedFunds() {
+  public String getMsg() {
 
-    return lockedFunds;
+    return msg;
   }
 
 }

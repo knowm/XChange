@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.marketdata;
+package com.xeiam.xchange.bter.dto.trade;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CryptoTradeOrder {
+public class BTEROrder {
 
   private final String pair;
   private final Type type;
@@ -46,8 +46,8 @@ public class CryptoTradeOrder {
    * @param type
    * @param pair
    */
-  public CryptoTradeOrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public BTEROrder(@JsonProperty("status") int status, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 
     this.status = status;
     this.timestampCreated = timestampCreated;
@@ -90,10 +90,10 @@ public class CryptoTradeOrder {
   @Override
   public String toString() {
 
-    return MessageFormat.format("CryptoTradeOrder[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}]", pair, type, amount, rate, timestampCreated, status);
+    return MessageFormat.format("BTEROrder[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}]", pair, type, amount, rate, timestampCreated, status);
   }
 
   public static enum Type {
-    Buy, Sell
+    buy, sell
   }
 }

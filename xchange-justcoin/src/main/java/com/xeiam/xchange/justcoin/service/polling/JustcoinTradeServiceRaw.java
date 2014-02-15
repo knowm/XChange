@@ -42,6 +42,11 @@ public class JustcoinTradeServiceRaw extends BasePollingExchangeService {
 
   private JustcoinAuthenticated justcoinAuthenticated;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public JustcoinTradeServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

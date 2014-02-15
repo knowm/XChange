@@ -28,11 +28,12 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
 import com.xeiam.xchange.bitfinex.v1.service.BitfinexHmacPostBodyDigest;
 import com.xeiam.xchange.bitfinex.v1.service.BitfinexPayloadDigest;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi
  */
-public class BitfinexBaseService {
+public class BitfinexBaseService extends BasePollingExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
@@ -51,6 +52,7 @@ public class BitfinexBaseService {
    */
   public BitfinexBaseService(ExchangeSpecification exchangeSpecification) {
 
+    super(exchangeSpecification);
     this.bitfinex = RestProxyFactory.createProxy(BitfinexAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = BitfinexHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());

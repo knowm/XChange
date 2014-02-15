@@ -38,6 +38,11 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw implements PollingMarketDataService {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public CoinbaseMarketDataService(final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

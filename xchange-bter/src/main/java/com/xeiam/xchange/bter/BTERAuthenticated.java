@@ -30,9 +30,9 @@ import javax.ws.rs.Path;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.bter.dto.marketdata.BTERAccountInfoReturn;
-import com.xeiam.xchange.bter.dto.marketdata.BTEROrder;
-import com.xeiam.xchange.bter.dto.marketdata.BTERPlaceOrderReturn;
+import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
+import com.xeiam.xchange.bter.dto.trade.BTEROrder;
+import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
 
 @Path("api/1/private")
 public interface BTERAuthenticated {

@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
@@ -36,10 +34,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.vircurex.Vircurex;
 import com.xeiam.xchange.vircurex.VircurexAdapters;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
@@ -52,14 +48,16 @@ import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VircurexMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
+public class VircurexMarketDataService extends VircurexMarketDataServiceRaw implements PollingMarketDataService {
 
-  private final Vircurex vircurex;
-
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public VircurexMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    vircurex = RestProxyFactory.createProxy(Vircurex.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -73,7 +71,7 @@ public class VircurexMarketDataService extends BasePollingExchangeService implem
 
     verify(tradableIdentifier, currency);
 
-    VircurexDepth vircurexDepth = vircurex.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    VircurexDepth vircurexDepth = getVircurexOrderBook(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VircurexAdapters.adaptOrders(vircurexDepth.getAsks(), tradableIdentifier, currency, "ask", "");
@@ -107,7 +105,7 @@ public class VircurexMarketDataService extends BasePollingExchangeService implem
    *          The tradable identifier (e.g. BTC in BTC/USD)
    * @param currency
    */
-  public void verify(String tradableIdentifier, String currency) {
+  private void verify(String tradableIdentifier, String currency) {
 
     Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
     Assert.notNull(currency, "currency cannot be null");

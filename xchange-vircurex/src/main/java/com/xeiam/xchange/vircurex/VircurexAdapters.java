@@ -35,7 +35,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.vircurex.dto.marketdata.VircurexAccountInfoReturn;
+import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
 
 /**
  * Various adapters for converting from Vircurex DTOs to XChange DTOs

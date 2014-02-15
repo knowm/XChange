@@ -24,8 +24,8 @@ package com.xeiam.xchange.bter.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bter.dto.marketdata.BTEROrder;
-import com.xeiam.xchange.bter.dto.marketdata.BTERPlaceOrderReturn;
+import com.xeiam.xchange.bter.dto.trade.BTEROrder;
+import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 

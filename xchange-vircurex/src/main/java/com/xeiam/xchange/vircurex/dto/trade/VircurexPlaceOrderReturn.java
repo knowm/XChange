@@ -19,50 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.marketdata;
+package com.xeiam.xchange.vircurex.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTERReturn<V> {
+public class VircurexPlaceOrderReturn {
 
-  private final boolean success;
-  private final V returnValue;
-  private final String error;
+  private final String orderId;
+
+  public String getOrderId() {
+
+    return orderId;
+  }
 
   /**
    * Constructor
    * 
-   * @param success
-   * @param returnValue
-   * @param error
+   * @param orderId
    */
-  @JsonCreator
-  public BTERReturn(@JsonProperty("result") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("msg") String error) {
+  public VircurexPlaceOrderReturn(@JsonProperty("orederid") String orderId) {
 
-    this.success = success;
-    this.returnValue = returnValue;
-    this.error = error;
+    this.orderId = orderId;
   }
 
-  public boolean isSuccess() {
-
-    return success;
-  }
-
-  public V getReturnValue() {
-
-    return returnValue;
-  }
-
-  public String getError() {
-
-    return error;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTERReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
-  }
 }

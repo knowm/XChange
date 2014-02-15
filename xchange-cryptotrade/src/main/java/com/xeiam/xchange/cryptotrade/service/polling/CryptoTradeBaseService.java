@@ -27,9 +27,9 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.CryptoTradeHmacPostBodyDigest;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
-public class CryptoTradeBaseService extends BaseExchangeService {
+public class CryptoTradeBaseService extends BasePollingExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 

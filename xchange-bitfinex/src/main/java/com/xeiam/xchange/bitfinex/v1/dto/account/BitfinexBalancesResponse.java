@@ -19,27 +19,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.dto.marketdata;
+package com.xeiam.xchange.bitfinex.v1.dto.account;
+
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class VircurexPlaceOrderReturn {
+public class BitfinexBalancesResponse {
 
-  private final String orderId;
-
-  public String getOrderId() {
-
-    return orderId;
-  }
+  private final String type;
+  private final String currency;
+  private final BigDecimal amount;
 
   /**
    * Constructor
    * 
-   * @param orderId
+   * @param type
+   * @param currency
+   * @param amount
+   * @param available
    */
-  public VircurexPlaceOrderReturn(@JsonProperty("orederid") String orderId) {
+  public BitfinexBalancesResponse(@JsonProperty("type") String type, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("available") BigDecimal available) {
 
-    this.orderId = orderId;
+    this.type = type;
+    this.currency = currency;
+    this.amount = amount;
   }
 
+  public BigDecimal getAmount() {
+
+    return amount;
+  }
+
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  public String getType() {
+
+    return type;
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder builder = new StringBuilder();
+    builder.append("BitfinexBalancesResponse [type=");
+    builder.append(type);
+    builder.append(", currency=");
+    builder.append(currency);
+    builder.append(", amount=");
+    builder.append(amount);
+    builder.append("]");
+    return builder.toString();
+  }
 }

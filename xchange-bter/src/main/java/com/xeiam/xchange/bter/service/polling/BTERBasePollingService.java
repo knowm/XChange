@@ -28,10 +28,10 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAuthenticated;
 import com.xeiam.xchange.bter.BTERHmacPostBodyDigest;
-import com.xeiam.xchange.bter.dto.marketdata.BTERReturn;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.bter.dto.BTERReturn;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
-public class BTERBasePollingService extends BaseExchangeService {
+public class BTERBasePollingService extends BasePollingExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 

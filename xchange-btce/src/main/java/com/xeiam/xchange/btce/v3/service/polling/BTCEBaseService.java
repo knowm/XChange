@@ -34,11 +34,12 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
 import com.xeiam.xchange.btce.v3.service.BTCEHmacPostBodyDigest;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author Matija Mazi
  */
-public class BTCEBaseService {
+public class BTCEBaseService extends BasePollingExchangeService {
 
   private final Logger logger = LoggerFactory.getLogger(BTCEBaseService.class);
 
@@ -56,6 +57,8 @@ public class BTCEBaseService {
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEBaseService(ExchangeSpecification exchangeSpecification) {
+
+    super(exchangeSpecification);
 
     this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();

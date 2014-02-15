@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.service.polling;
+package com.xeiam.xchange.vircurex;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
-import com.xeiam.xchange.vircurex.dto.marketdata.VircurexAccountInfoReturn;
-import com.xeiam.xchange.vircurex.dto.marketdata.VircurexPlaceOrderReturn;
+import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
+import com.xeiam.xchange.vircurex.dto.trade.VircurexPlaceOrderReturn;
 
 @Path("api")
 public interface VircurexAuthenticated {

@@ -24,8 +24,8 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeOrder;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePlaceOrderReturn;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrder;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 

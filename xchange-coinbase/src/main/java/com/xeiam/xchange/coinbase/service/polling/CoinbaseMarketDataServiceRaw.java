@@ -43,6 +43,11 @@ public class CoinbaseMarketDataServiceRaw extends BasePollingExchangeService {
 
   protected final Coinbase coinbase;
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public CoinbaseMarketDataServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);

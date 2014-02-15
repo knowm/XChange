@@ -19,63 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitfinex.v1.dto.trade;
+package com.xeiam.xchange.cryptotrade.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
 
-public class BitfinexBalancesRequest {
+/**
+ * 
+ */
+public class CryptoTradePlaceOrderReturn {
 
-  @JsonProperty("request")
-  protected String request;
-
-  @JsonProperty("nonce")
-  protected String nonce;
-
-  @JsonProperty("options")
-  @JsonRawValue
-  protected String options;
+  private final String success;
 
   /**
    * Constructor
    * 
-   * @param nonce
+   * @param status
    */
-  public BitfinexBalancesRequest(String nonce) {
+  public CryptoTradePlaceOrderReturn(@JsonProperty("status") String status) {
 
-    this.request = "/v1/balances";
-    this.nonce = String.valueOf(nonce);
-    this.options = "[]";
+    success = status;
+
   }
 
-  public String getRequest() {
+  public String getSuccess() {
 
-    return request;
-  }
-
-  public void setRequest(String request) {
-
-    this.request = request;
-  }
-
-  public String getNonce() {
-
-    return nonce;
-  }
-
-  public void setNonce(String nonce) {
-
-    this.nonce = nonce;
-  }
-
-  public String getOptions() {
-
-    return options;
-  }
-
-  public void setOptions(String options) {
-
-    this.options = options;
+    return success;
   }
 
 }

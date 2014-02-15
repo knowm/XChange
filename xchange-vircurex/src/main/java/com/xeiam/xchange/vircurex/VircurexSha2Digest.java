@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.vircurex.service.polling;
+package com.xeiam.xchange.vircurex;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

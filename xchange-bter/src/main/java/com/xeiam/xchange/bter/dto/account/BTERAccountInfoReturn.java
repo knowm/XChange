@@ -19,28 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.marketdata;
+package com.xeiam.xchange.bter.dto.account;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CryptoTradeAccountInfoReturn {
+public class BTERAccountInfoReturn {
 
   private final String result;
   private final Map<String, BigDecimal> availableFunds;
+  private final Map<String, BigDecimal> lockedFunds;
 
   /**
    * Constructor
    * 
    * @param aResult
-   * @param data
+   * @param theAvailableFunds
+   * @param theLockedFunds
    */
-  public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
+  public BTERAccountInfoReturn(@JsonProperty("result") String aResult, @JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds,
+      @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds) {
 
     result = aResult;
-    availableFunds = data.getFunds();
+    availableFunds = theAvailableFunds;
+    lockedFunds = theLockedFunds;
 
   }
 
@@ -52,6 +56,11 @@ public class CryptoTradeAccountInfoReturn {
   public Map<String, BigDecimal> getAvailableFunds() {
 
     return availableFunds;
+  }
+
+  public Map<String, BigDecimal> getLockedFunds() {
+
+    return lockedFunds;
   }
 
 }
