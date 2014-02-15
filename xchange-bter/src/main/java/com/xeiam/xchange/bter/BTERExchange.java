@@ -61,9 +61,7 @@ public class BTERExchange extends BaseExchange implements Exchange {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://bter.com");
     exchangeSpecification.setHost("bter.com");
-    exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("BTER");
-    exchangeSpecification.setExchangeDescription("BTER is a Bitcoin exchange registered in China.");
 
     return exchangeSpecification;
   }

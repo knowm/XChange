@@ -19,34 +19,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter;
+package com.xeiam.xchange.bter.service.polling;
 
-import java.math.BigDecimal;
-
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import java.io.IOException;
 
 import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bter.BTERAuthenticated;
+import com.xeiam.xchange.bter.BTERHmacPostBodyDigest;
 import com.xeiam.xchange.bter.dto.marketdata.BTERAccountInfoReturn;
-import com.xeiam.xchange.bter.dto.marketdata.BTEROrder;
-import com.xeiam.xchange.bter.dto.marketdata.BTERPlaceOrderReturn;
 
-@Path("api/1/private")
-public interface BTERAuthenticated {
+public class BTERPollingAccountServiceRaw extends BTERBasePollingService {
 
-  @POST
-  @Path("getfunds")
-  BTERAccountInfoReturn getInfo(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce);
+  private ExchangeSpecification exchangeSpecification;
+  private BTERAuthenticated bterAuthenticated;
+  private ParamsDigest signatureCreator;
 
-  @POST
-  @Path("placeorder")
-  BTERPlaceOrderReturn Trade(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
-      @FormParam("type") BTEROrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public BTERPollingAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-  enum SortOrder {
-    ASC, DESC
+    super(exchangeSpecification);
+
+    this.exchangeSpecification = exchangeSpecification;
+    this.bterAuthenticated = RestProxyFactory.createProxy(BTERAuthenticated.class, exchangeSpecification.getSslUri());
+    this.signatureCreator = BTERHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
+
+  public BTERAccountInfoReturn getBTERAccountInfo() throws IOException {
+
+    BTERAccountInfoReturn bTERAccountInfoReturn = bterAuthenticated.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    return bTERAccountInfoReturn;
+  }
+
 }

@@ -19,34 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter;
+package com.xeiam.xchange.bter.service.polling;
 
-import java.math.BigDecimal;
+import java.io.IOException;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-
-import si.mazi.rescu.ParamsDigest;
-
-import com.xeiam.xchange.bter.dto.marketdata.BTERAccountInfoReturn;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.dto.marketdata.BTEROrder;
 import com.xeiam.xchange.bter.dto.marketdata.BTERPlaceOrderReturn;
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
-@Path("api/1/private")
-public interface BTERAuthenticated {
+public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
 
-  @POST
-  @Path("getfunds")
-  BTERAccountInfoReturn getInfo(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce);
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public BTERPollingTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-  @POST
-  @Path("placeorder")
-  BTERPlaceOrderReturn Trade(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
-      @FormParam("type") BTEROrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
-
-  enum SortOrder {
-    ASC, DESC
+    super(exchangeSpecification);
   }
+
+  public String placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
+    BTEROrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTEROrder.Type.buy : BTEROrder.Type.sell;
+    BTERPlaceOrderReturn ret = bter.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+
+    return ret.getOrderId();
+  }
+
 }

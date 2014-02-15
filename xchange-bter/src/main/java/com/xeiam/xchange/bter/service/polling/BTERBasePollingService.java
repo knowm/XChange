@@ -55,16 +55,13 @@ public class BTERBasePollingService {
     // NOTE: this nonce creation formula is not bullet-proof:
     // - It allows for only one request per .25 seconds,
     // - It will cycle over MAX_INTEGER and start producing illegal negative nonces on January 5, 2030
-
-    // If you run into problems with nonces (eg. you've once submitted a large nonce and can't use normal nonces any more),
-    // you can request new api credentials (key, secret) with BTCE.
     return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
   }
 
   protected void checkResult(BTERReturn<?> info) {
 
     if (!info.isSuccess()) {
-      throw new ExchangeException("BTCE returned an error: " + info.getError());
+      throw new ExchangeException("Bter returned an error: " + info.getError());
     }
     else if (info.getReturnValue() == null) {
       throw new ExchangeException("Didn't recieve any return value. Message: " + info.getError());

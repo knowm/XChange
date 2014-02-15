@@ -33,5 +33,4 @@ public interface BTER {
   @GET
   @Path("depth/{ident}_{currency}")
   BTERDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
-
 }
