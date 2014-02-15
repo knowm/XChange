@@ -27,4 +27,8 @@ public final class CoinbaseUtils {
 
   }
 
+  public static long getNonce() {
+
+    return System.currentTimeMillis();
+  }
 }

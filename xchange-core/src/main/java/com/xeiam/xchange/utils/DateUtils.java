@@ -89,7 +89,7 @@ public class DateUtils {
 
   /**
    * Converts an ISO 8601 formatted Date String to a Java Date
-   * General format: yyyy-MM-dd'T'HH:mm:ssX
+   * ISO 8601 format: yyyy-MM-dd'T'HH:mm:ssX
    * 
    * @param iso8601FormattedDate
    * @return Date

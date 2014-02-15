@@ -12,45 +12,45 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseRate.CoibaseRateDeserializer;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount.CoibaseAmountDeserializer;
 import com.xeiam.xchange.currency.MoneyUtils;
 
-@JsonDeserialize(using = CoibaseRateDeserializer.class)
-public class CoinbaseRate {
+@JsonDeserialize(using = CoibaseAmountDeserializer.class)
+public class CoinbaseAmount {
 
-  private final BigMoney rate;
-  
-  public CoinbaseRate(final BigMoney rate) {
-    
-    this.rate = rate;
+  private final BigMoney amount;
+
+  public CoinbaseAmount(final BigMoney amount) {
+
+    this.amount = amount;
   }
-  
-  public BigMoney getRate() {
 
-    return rate;
+  public BigMoney getAmount() {
+
+    return amount;
   }
 
   @Override
   public String toString() {
 
-    return "CoinbaseRate [rate=" + rate + "]";
+    return "CoinbaseAmount [amount=" + amount + "]";
   }
 
-  static class CoibaseRateDeserializer extends JsonDeserializer<CoinbaseRate> {
+  static class CoibaseAmountDeserializer extends JsonDeserializer<CoinbaseAmount> {
 
     @Override
-    public CoinbaseRate deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseAmount deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
-      return new CoinbaseRate(getBigMoneyFromNode(node));
+      return new CoinbaseAmount(getBigMoneyFromNode(node));
     }
-    
-    public BigMoney getBigMoneyFromNode(JsonNode node) {
-      
+
+    private BigMoney getBigMoneyFromNode(JsonNode node) {
+
       String amount = node.path("amount").asText();
       String currency = node.path("currency").asText();
-      
+
       return MoneyUtils.parseMoney(currency, new BigDecimal(amount));
     }
   }

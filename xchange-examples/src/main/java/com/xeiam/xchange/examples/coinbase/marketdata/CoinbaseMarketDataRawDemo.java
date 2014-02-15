@@ -11,7 +11,7 @@ import com.xeiam.xchange.coinbase.CoinbaseExchange;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseRate;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -51,7 +51,7 @@ public class CoinbaseMarketDataRawDemo {
     CoinbasePrice sellPrice = coinbaseRawMarketDataService.getSellPrice();
     System.out.println(sellPrice);
 
-    CoinbaseRate spotRate = coinbaseRawMarketDataService.getSpotRate("EUR");
+    CoinbaseAmount spotRate = coinbaseRawMarketDataService.getSpotRate("EUR");
     System.out.println(spotRate);
 
     int page = 3;

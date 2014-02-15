@@ -32,7 +32,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.Coinbase;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseRate;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
@@ -89,7 +89,7 @@ public class CoinbaseMarketDataServiceRaw extends BasePollingExchangeService {
     return coinbase.getBuyPrice(quantity, currency);
   }
 
-  public CoinbaseRate getSpotRate(String currency) throws IOException {
+  public CoinbaseAmount getSpotRate(String currency) throws IOException {
 
     return coinbase.getSpotRate(currency);
   }

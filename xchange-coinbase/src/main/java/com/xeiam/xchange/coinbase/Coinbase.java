@@ -32,7 +32,7 @@ import javax.ws.rs.QueryParam;
 
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseRate;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 
 /**
@@ -59,7 +59,7 @@ public interface Coinbase {
 
   @GET
   @Path("prices/spot_rate")
-  CoinbaseRate getSpotRate(@QueryParam("currency") String currency) throws IOException;
+  CoinbaseAmount getSpotRate(@QueryParam("currency") String currency) throws IOException;
   
   @GET
   @Path("prices/historical")

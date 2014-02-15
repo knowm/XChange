@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice.CoibasePriceDeserializer;
 import com.xeiam.xchange.currency.MoneyUtils;
 
-
 @JsonDeserialize(using = CoibasePriceDeserializer.class)
 public class CoinbasePrice {
 
@@ -62,7 +61,6 @@ public class CoinbasePrice {
 
     return "CoinbasePrice [coinbaseFee=" + coinbaseFee + ", bankFee=" + bankFee + ", total=" + total + ", subTotal=" + subTotal + "]";
   }
-
 
   static class CoibasePriceDeserializer extends JsonDeserializer<CoinbasePrice> {
 
