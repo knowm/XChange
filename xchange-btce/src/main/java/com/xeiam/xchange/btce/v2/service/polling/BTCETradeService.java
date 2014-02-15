@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v2.BTCEUtils;
@@ -71,7 +72,7 @@ public class BTCETradeService extends BTCEBaseService implements PollingTradeSer
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    throw new UnsupportedOperationException("Market orders not supported by BTCE API.");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

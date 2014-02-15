@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -50,12 +51,12 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   @Override
   public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
-    throw new UnsupportedOperationException("Funds withdrawal not supported by Bitfinex API.");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
 
-    throw new UnsupportedOperationException("Deposit address request not supported by Bitfinex API.");
+    throw new NotAvailableFromExchangeException();
   }
 }

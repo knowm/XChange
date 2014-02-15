@@ -22,14 +22,17 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.BTCEUtils;
-import com.xeiam.xchange.btce.v3.dto.trade.*;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -65,7 +68,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    throw new UnsupportedOperationException("Market orders not supported by BTCE API.");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -91,11 +94,10 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
   /**
    * @param arguments Vararg list of optional (nullable) arguments:
-   *    (Long) arguments[0] Number of transactions to return
-   *    (String) arguments[1] TradableIdentifier
-   *    (String) arguments[2] TransactionCurrency
-   *    (Long) arguments[3] Starting ID
-   *
+   *          (Long) arguments[0] Number of transactions to return
+   *          (String) arguments[1] TradableIdentifier
+   *          (String) arguments[2] TransactionCurrency
+   *          (Long) arguments[3] Starting ID
    * @return Trades object
    * @throws IOException
    */
