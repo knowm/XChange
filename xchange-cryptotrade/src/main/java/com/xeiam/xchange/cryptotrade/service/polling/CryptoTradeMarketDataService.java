@@ -22,15 +22,11 @@
 package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.CryptoTradeUtils;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
@@ -40,7 +36,6 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.Assert;
 
@@ -52,42 +47,40 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class CryptoTradeMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private final CryptoTrade cryptoTrade;
+public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
+   * Constructor
+   * 
    * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
    */
   public CryptoTradeMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    cryptoTrade = RestProxyFactory.createProxy(CryptoTrade.class, exchangeSpecification.getSslUri());
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
+  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
 
-    CryptoTradeDepth btceDepth = cryptoTrade.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    CryptoTradeDepth cryptoTradeDepth = getCryptoTradeOrderBook(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getAsks(), tradableIdentifier, currency, "ask", "");
+    List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getBids(), tradableIdentifier, currency, "bid", "");
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

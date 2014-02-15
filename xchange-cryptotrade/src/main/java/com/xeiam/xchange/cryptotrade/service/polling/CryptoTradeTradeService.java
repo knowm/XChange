@@ -23,25 +23,20 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeOrder;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class CryptoTradeTradeService extends CryptoTradeBaseService implements PollingTradeService {
+public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implements PollingTradeService {
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
    */
   public CryptoTradeTradeService(ExchangeSpecification exchangeSpecification) {
 
@@ -49,47 +44,32 @@ public class CryptoTradeTradeService extends CryptoTradeBaseService implements P
   }
 
   @Override
-  public OpenOrders getOpenOrders() {
+  public OpenOrders getOpenOrders() throws IOException {
 
-    //
-    // BTCEOpenOrdersReturn orders = btce.OrderList(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, null, 1);
-    // if ("no orders".equals(orders.getError())) {
-    // return new OpenOrders(new ArrayList<LimitOrder>());
-    // }
-    // checkResult(orders);
-    // return BTCEAdapters.adaptOrders(orders.getReturnValue());
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    throw new UnsupportedOperationException("Market orders not supported by BTER API.");
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
-    CryptoTradeOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? CryptoTradeOrder.Type.Buy : CryptoTradeOrder.Type.Sell;
-    cryptoTradeProxy.trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
-
-    return "ok";
+    return placeCryptoTradeLimitOrder(limitOrder);
   }
 
   @Override
-  public boolean cancelOrder(String orderId) {
+  public boolean cancelOrder(String orderId) throws IOException {
 
-    // BTCECancelOrderReturn ret = btce.CancelOrder(apiKey, signatureCreator, nextNonce(), Long.parseLong(orderId));
-    // checkResult(ret);
-    // return ret.isSuccess();
-    return false;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTradeHistory(Object... args) throws IOException {
 
-    // TODO Auto-generated method stub
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 }

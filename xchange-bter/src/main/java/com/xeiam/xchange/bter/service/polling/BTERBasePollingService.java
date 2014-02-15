@@ -29,21 +29,24 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAuthenticated;
 import com.xeiam.xchange.bter.BTERHmacPostBodyDigest;
 import com.xeiam.xchange.bter.dto.marketdata.BTERReturn;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class BTERBasePollingService {
+public class BTERBasePollingService extends BaseExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
-  protected final String apiKey;
-  protected final BTERAuthenticated bter;
-  protected final ParamsDigest signatureCreator;
+  final String apiKey;
+  final BTERAuthenticated bter;
+  final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchangeSpecification
    */
   public BTERBasePollingService(ExchangeSpecification exchangeSpecification) {
+
+    super(exchangeSpecification);
 
     this.bter = RestProxyFactory.createProxy(BTERAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();

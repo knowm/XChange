@@ -22,7 +22,6 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -69,7 +68,7 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
     List<LimitOrder> asks = BTERAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BTERAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override

@@ -26,14 +26,16 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
+import com.xeiam.xchange.cryptotrade.CryptoTradeHmacPostBodyDigest;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CryptoTradeBaseService {
+public class CryptoTradeBaseService extends BaseExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
-  protected final String apiKey;
-  protected final CryptoTradeAuthenticated cryptoTradeProxy;
-  protected final ParamsDigest signatureCreator;
+  final String apiKey;
+  final CryptoTradeAuthenticated cryptoTradeProxy;
+  final ParamsDigest signatureCreator;
 
   /**
    * Constructor
@@ -42,6 +44,8 @@ public class CryptoTradeBaseService {
    */
   public CryptoTradeBaseService(ExchangeSpecification exchangeSpecification) {
 
+    super(exchangeSpecification);
+
     this.cryptoTradeProxy = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
@@ -49,12 +53,6 @@ public class CryptoTradeBaseService {
 
   protected int nextNonce() {
 
-    // NOTE: this nonce creation formula is not bullet-proof:
-    // - It allows for only one request per .25 seconds,
-    // - It will cycle over MAX_INTEGER and start producing illegal negative nonces on January 5, 2030
-
-    // If you run into problems with nonces (eg. you've once submitted a large nonce and can't use normal nonces any more),
-    // you can request new api credentials (key, secret) with BTCE.
     return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
   }
 

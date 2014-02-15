@@ -22,42 +22,37 @@
 package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
+import com.xeiam.xchange.cryptotrade.CryptoTradeHmacPostBodyDigest;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeAccountInfoReturn;
 
-public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw implements PollingAccountService {
+public class CryptoTradeAccountServiceRaw extends CryptoTradeBaseService {
+
+  private CryptoTradeAuthenticated cryptoTrade;
+  private ParamsDigest signatureCreator;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
    */
-  public CryptoTradeAccountService(ExchangeSpecification exchangeSpecification) {
+  public CryptoTradeAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
 
+    this.cryptoTrade = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchangeSpecification.getSslUri());
+    this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
+  public CryptoTradeAccountInfoReturn getCryptoTradeAccountInfo() throws IOException {
 
-    return CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getCryptoTradeAccountInfo());
+    CryptoTradeAccountInfoReturn info = cryptoTrade.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    return info;
   }
 
-  @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public String requestBitcoinDepositAddress(String... args) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
 }

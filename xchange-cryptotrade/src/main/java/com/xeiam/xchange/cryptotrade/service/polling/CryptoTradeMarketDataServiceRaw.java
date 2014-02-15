@@ -19,35 +19,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.marketdata;
+package com.xeiam.xchange.cryptotrade.service.polling;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import si.mazi.rescu.RestProxyFactory;
 
-public class CryptoTradeAccountData {
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.cryptotrade.CryptoTrade;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
+import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
-  Map<String, BigDecimal> funds = new HashMap<String, BigDecimal>();
+/**
+ * <p>
+ * Implementation of the market data service for CryptoTrade
+ * </p>
+ * <ul>
+ * <li>Provides access to various market data values</li>
+ * </ul>
+ */
+public class CryptoTradeMarketDataServiceRaw extends BasePollingExchangeService {
+
+  private final CryptoTrade cryptoTrade;
 
   /**
    * Constructor
    * 
-   * @param someFunds
+   * @param exchangeSpecification
    */
-  public CryptoTradeAccountData(@JsonProperty("funds") Map<String, BigDecimal> someFunds) {
+  public CryptoTradeMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    funds = someFunds;
+    super(exchangeSpecification);
+    cryptoTrade = RestProxyFactory.createProxy(CryptoTrade.class, exchangeSpecification.getSslUri());
   }
 
-  public Map<String, BigDecimal> getFunds() {
+  public CryptoTradeDepth getCryptoTradeOrderBook(String tradableIdentifier, String currency) throws IOException {
 
-    return funds;
+    CryptoTradeDepth cryptoTradeDepth = cryptoTrade.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+
+    return cryptoTradeDepth;
   }
 
-  public void setFunds(Map<String, BigDecimal> funds) {
-
-    this.funds = funds;
-  }
 }

@@ -23,6 +23,9 @@ package com.xeiam.xchange.cryptotrade.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * 
+ */
 public class CryptoTradePlaceOrderReturn {
 
   private final String success;

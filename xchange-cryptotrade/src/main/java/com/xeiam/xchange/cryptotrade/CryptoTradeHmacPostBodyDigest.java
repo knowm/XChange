@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.service.polling;
+package com.xeiam.xchange.cryptotrade;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
