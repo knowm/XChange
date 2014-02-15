@@ -129,7 +129,7 @@ public final class BitstampAdapters {
     List<Trade> trades = new ArrayList<Trade>();
     for (BitstampTransaction tx : transactions) {
       final String tradeId = String.valueOf(tx.getTid());
-      trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tradeId, null));
+      trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tradeId));
     }
 
     return new Trades(trades);

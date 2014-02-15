@@ -132,7 +132,7 @@ public final class BTCEAdapters {
     Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
 
     final String tradeId = String.valueOf(bTCETrade.getTid());
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId, null);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId);
   }
 
   /**

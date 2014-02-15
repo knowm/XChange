@@ -185,7 +185,7 @@ public final class MtGoxAdapters {
     Date dateTime = DateUtils.fromMillisUtc(mtGoxTrade.getDate() * 1000L);
 
     final String tradeId = String.valueOf(mtGoxTrade.getTid());
-    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, tradeId, null);
+    return new Trade(orderType, amount, tradableIdentifier, transactionCurrency, price, dateTime, tradeId);
   }
 
   public static OrderBookUpdate adaptDepthUpdate(MtGoxDepthUpdate mtGoxDepthUpdate) {

@@ -90,7 +90,7 @@ public final class Trade implements Comparable<Trade> {
    * @param id
    *          The id of the trade
    * @param orderId
-   *          The id of the order responsible for execution of this trade
+   *          The id of the corresponding order responsible for execution of this trade
    */
   public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, String id, String orderId) {
 
@@ -102,6 +102,29 @@ public final class Trade implements Comparable<Trade> {
     this.timestamp = timestamp;
     this.id = id;
     this.orderId = orderId;
+  }
+
+  /**
+   * @param type
+   *          The trade type (BID side or ASK side)
+   * @param tradableAmount
+   *          The depth of this trade
+   * @param tradableIdentifier
+   *          The exchange identifier (e.g. "BTC/USD")
+   * @param transactionCurrency
+   *          The transaction currency (e.g. USD in BTC/USD)
+   * @param price
+   *          The price (either the bid or the ask)
+   * @param timestamp
+   *          The timestamp when the order was placed. Exchange matching is
+   *          usually price first then timestamp asc to clear older orders
+   * @param id
+   *          The id of the trade
+   */
+  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, String id) {
+
+    this(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, id, null);
+
   }
 
   public OrderType getType() {

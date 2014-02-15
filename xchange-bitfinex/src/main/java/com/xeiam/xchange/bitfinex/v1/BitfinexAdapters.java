@@ -90,7 +90,7 @@ public final class BitfinexAdapters {
     BigMoney price = MoneyUtils.parseMoney(currency, trade.getPrice());
     Date date = DateUtils.fromMillisUtc((long) (trade.getTimestamp() * 1000L));
     final String tradeId = String.valueOf(trade.getTimestamp());
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId, null);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId);
   }
 
   public static Trades adaptTrades(BitfinexTrade[] trades, String tradableIdentifier, String currency) {
@@ -158,7 +158,7 @@ public final class BitfinexAdapters {
 
       String id = String.valueOf(trade.hashCode());
       pastTrades.add(new Trade(orderType, trade.getAmount(), tradableIdentifier, transactionCurrency, BigMoney.of(CurrencyUnit.USD, trade.getPrice()), new Date((long) (trade.getTimestamp() * 1000L)),
-          id, null));
+          id));
     }
 
     return new Trades(pastTrades);

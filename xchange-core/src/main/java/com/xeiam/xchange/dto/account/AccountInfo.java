@@ -44,6 +44,8 @@ public final class AccountInfo {
   private final List<Wallet> wallets;
 
   /**
+   * Constructor
+   * 
    * @param username The user name
    * @param wallets The available wallets
    */
@@ -53,6 +55,8 @@ public final class AccountInfo {
   }
 
   /**
+   * Constructor
+   * 
    * @param username The user name
    * @param tradingFee the trading fee
    * @param wallets The available wallets

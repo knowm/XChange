@@ -69,7 +69,7 @@ public class CexIOAdapters {
     BigMoney price = MoneyUtils.parse(currency + " " + trade.getPrice());
     Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
     // Cex.IO API does not return trade type
-    return new Trade(null, amount, tradableIdentifier, currency, price, date, String.valueOf(trade.getTid()), null);
+    return new Trade(null, amount, tradableIdentifier, currency, price, date, String.valueOf(trade.getTid()));
   }
 
   /**
