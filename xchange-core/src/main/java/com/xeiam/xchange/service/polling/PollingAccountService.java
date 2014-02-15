@@ -77,7 +77,7 @@ public interface PollingAccountService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String requestBitcoinDepositAddress(final String... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public String requestBitcoinDepositAddress(String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   // TODO: Transaction history (deposits, withrawals, etc.)
 }
