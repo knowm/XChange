@@ -3,21 +3,26 @@ package com.xeiam.xchange.coinbase;
 import java.io.IOException;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
 
+import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAccountChanges;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddressCallback;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddresses;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseContacts;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransactions;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 
@@ -66,6 +71,38 @@ public interface CoinbaseAuthenticated {
   @GET
   @Path("transactions") 
   CoinbaseTransactions getTransactions(@QueryParam("page") Integer page, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
+      @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+  
+  @GET
+  @Path("transactions/{transactionId}") 
+  CoinbaseTransaction getTransactionDetails(@PathParam("transactionId") String transactionId, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
+      @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Path("transactions/request_money")
+  CoinbaseTransaction requestMoney(CoinbaseTransaction transactionRequest, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
+      @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Path("transactions/send_money")
+  CoinbaseTransaction sendMoney(CoinbaseTransaction transactionRequest, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
+      @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+  
+  @PUT
+  @Path("transactions/{transactionId}/resend_request")
+  CoinbaseBaseResponse resendRequest(@PathParam("transactionId") String transactionId, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
+      @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+
+  @PUT
+  @Path("transactions/{transactionId}/complete_request")
+  CoinbaseTransaction completeRequest(@PathParam("transactionId") String transactionId, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
+      @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+  
+  @DELETE
+  @Path("transactions/{transactionId}/cancel_request")
+  CoinbaseBaseResponse cancelRequest(@PathParam("transactionId") String transactionId, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
 
 }

@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.CoinbasePostResponse;
+import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
-public class CoinbaseAddress extends CoinbasePostResponse {
+public class CoinbaseAddress extends CoinbaseBaseResponse {
 
   private final String address;
   private final String callbackUrl;

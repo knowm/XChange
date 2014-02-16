@@ -8,7 +8,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.CoinbaseAuthenticated;
-import com.xeiam.xchange.coinbase.dto.CoinbasePostResponse;
+import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.service.CoinbaseDigest;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
@@ -24,7 +24,7 @@ public abstract class CoinbaseBaseAuthenticatedService extends BasePollingExchan
     signatureCreator = CoinbaseDigest.createInstance(exchangeSpecification.getSecretKey());
   }
   
-  protected <T extends CoinbasePostResponse> T handlePostResponse(final T postResponse) {
+  protected <T extends CoinbaseBaseResponse> T handleResponse(final T postResponse) {
 
     final List<String> errors = postResponse.getErrors();
     if (errors != null && !errors.isEmpty())

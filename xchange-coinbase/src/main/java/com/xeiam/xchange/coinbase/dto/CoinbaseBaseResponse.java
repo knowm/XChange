@@ -2,22 +2,27 @@ package com.xeiam.xchange.coinbase.dto;
 
 import java.util.List;
 
-public abstract class CoinbasePostResponse {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class CoinbaseBaseResponse {
 
   private final boolean success;
   private final List<String> errors;
 
-  public CoinbasePostResponse(final boolean success, final List<String> errors) {
+  public CoinbaseBaseResponse(@JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
 
     this.success = success;
     this.errors = errors;
   }
 
+  @JsonIgnore
   public boolean isSuccess() {
 
     return success;
   }
 
+  @JsonIgnore
   public List<String> getErrors() {
 
     return errors;
