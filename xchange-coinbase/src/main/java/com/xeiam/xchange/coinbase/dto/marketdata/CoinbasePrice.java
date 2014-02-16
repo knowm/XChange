@@ -1,7 +1,6 @@
 package com.xeiam.xchange.coinbase.dto.marketdata;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.joda.money.BigMoney;
 
@@ -12,8 +11,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.coinbase.dto.CoinbaseMoneyDeserializer;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice.CoibasePriceDeserializer;
-import com.xeiam.xchange.currency.MoneyUtils;
 
 @JsonDeserialize(using = CoibasePriceDeserializer.class)
 public class CoinbasePrice {
@@ -67,22 +66,14 @@ public class CoinbasePrice {
     @Override
     public CoinbasePrice deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      ObjectCodec oc = jp.getCodec();
-      JsonNode node = oc.readTree(jp);
-      BigMoney subTotal = getBigMoneyFromNode(node.path("subtotal"));
-      JsonNode feesNode = node.path("fees");
-      BigMoney coinbaseFee = getBigMoneyFromNode(feesNode.path(0).path("coinbase"));
-      BigMoney bankFee = getBigMoneyFromNode(feesNode.path(1).path("bank"));
-      BigMoney total = getBigMoneyFromNode(node.path("total"));
+      final ObjectCodec oc = jp.getCodec();
+      final JsonNode node = oc.readTree(jp);
+      final BigMoney subTotal = CoinbaseMoneyDeserializer.getBigMoneyFromNode(node.path("subtotal"));
+      final JsonNode feesNode = node.path("fees");
+      final BigMoney coinbaseFee = CoinbaseMoneyDeserializer.getBigMoneyFromNode(feesNode.path(0).path("coinbase"));
+      final BigMoney bankFee = CoinbaseMoneyDeserializer.getBigMoneyFromNode(feesNode.path(1).path("bank"));
+      final BigMoney total = CoinbaseMoneyDeserializer.getBigMoneyFromNode(node.path("total"));
       return new CoinbasePrice(coinbaseFee, bankFee, total, subTotal);
-    }
-    
-    public BigMoney getBigMoneyFromNode(JsonNode node) {
-      
-      String amount = node.path("amount").asText();
-      String currency = node.path("currency").asText();
-      
-      return MoneyUtils.parseMoney(currency, new BigDecimal(amount));
     }
   }
 }

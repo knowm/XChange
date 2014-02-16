@@ -1,7 +1,6 @@
 package com.xeiam.xchange.coinbase.dto.trade;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import org.joda.money.BigMoney;
@@ -13,9 +12,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.coinbase.dto.CoinbaseCentsDeserializer;
+import com.xeiam.xchange.coinbase.dto.CoinbaseMoneyDeserializer;
 import com.xeiam.xchange.coinbase.dto.CoinbaseTransferType;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.utils.DateUtils;
 
 @JsonDeserialize(using = CoinbaseTransferDeserializer.class)
@@ -35,8 +35,8 @@ public class CoinbaseTransfer {
   private final BigMoney total;
   private final String description;
 
-  public CoinbaseTransfer(final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt, final BigMoney coinbaseFee, final BigMoney bankFee, final Date payoutDate,
-      final String transactionId, final CoinbaseTransferStatus status, final BigMoney btcAmount, final BigMoney subtotal, final BigMoney total, final String description) {
+  public CoinbaseTransfer(final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt, final BigMoney coinbaseFee, final BigMoney bankFee,
+      final Date payoutDate, final String transactionId, final CoinbaseTransferStatus status, final BigMoney btcAmount, final BigMoney subtotal, final BigMoney total, final String description) {
 
     this.type = type;
     this.fundingType = fundingType;
@@ -144,34 +144,17 @@ public class CoinbaseTransfer {
       final String code = transferNode.path("code").asText();
       final Date createdAt = DateUtils.fromISO8601DateString(transferNode.path("created_at").asText());
       final JsonNode feesNode = transferNode.path("fees");
-      final BigMoney coinbaseFee = getBigMoneyFromCents(feesNode.path("coinbase"));
-      final BigMoney bankFee = getBigMoneyFromCents(feesNode.path("bank"));
+      final BigMoney coinbaseFee = CoinbaseCentsDeserializer.getBigMoneyFromCents(feesNode.path("coinbase"));
+      final BigMoney bankFee = CoinbaseCentsDeserializer.getBigMoneyFromCents(feesNode.path("bank"));
       final Date payoutDate = DateUtils.fromISO8601DateString(transferNode.path("payout_date").asText());
       final String transactionId = transferNode.path("transaction_id").asText();
       final CoinbaseTransferStatus status = CoinbaseTransferStatus.valueOf(transferNode.path("status").asText().toUpperCase());
-      final BigMoney btcAmount = getBigMoneyFromNode(transferNode.path("btc"));
-      final BigMoney subtotal = getBigMoneyFromNode(transferNode.path("subtotal"));
-      final BigMoney total = getBigMoneyFromNode(transferNode.path("total"));
+      final BigMoney btcAmount = CoinbaseMoneyDeserializer.getBigMoneyFromNode(transferNode.path("btc"));
+      final BigMoney subtotal = CoinbaseMoneyDeserializer.getBigMoneyFromNode(transferNode.path("subtotal"));
+      final BigMoney total = CoinbaseMoneyDeserializer.getBigMoneyFromNode(transferNode.path("total"));
       final String description = transferNode.path("description").asText();
 
       return new CoinbaseTransfer(type, fundingType, code, createdAt, coinbaseFee, bankFee, payoutDate, transactionId, status, btcAmount, subtotal, total, description);
     }
-
-    private BigMoney getBigMoneyFromNode(JsonNode node) {
-
-      String amount = node.path("amount").asText();
-      String currency = node.path("currency").asText();
-
-      return MoneyUtils.parseMoney(currency, new BigDecimal(amount));
-    }
-
-    private BigMoney getBigMoneyFromCents(JsonNode node) {
-
-      String amount = node.path("cents").asText();
-      String currency = node.path("currency_iso").asText();
-
-      return MoneyUtils.parseMoney(currency, new BigDecimal(amount).movePointLeft(2));
-    }
   }
-
 }

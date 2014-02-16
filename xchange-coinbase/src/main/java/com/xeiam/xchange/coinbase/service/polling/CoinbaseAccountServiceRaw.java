@@ -11,6 +11,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddressCallback;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddresses;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseContacts;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseRequestMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseSendMoneyRequest;
@@ -138,5 +139,11 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseAuthenticatedService 
     
     final CoinbaseBaseResponse response = coinbaseAuthenticated.cancelRequest(transactionId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
     return handleResponse(response);
+  }
+  
+  public CoinbaseButton createCoinbaseButton(final CoinbaseButton button) throws IOException {
+    
+    final CoinbaseButton createdButton = coinbaseAuthenticated.createButton(button, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    return handleResponse(createdButton);
   }
 }

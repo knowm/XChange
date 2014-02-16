@@ -16,6 +16,12 @@ public class CoinbaseBaseResponse {
     this.errors = errors;
   }
 
+  public CoinbaseBaseResponse(@JsonProperty("success") final boolean success) {
+
+    this.success = success;
+    this.errors = null;
+  }
+  
   @JsonIgnore
   public boolean isSuccess() {
 

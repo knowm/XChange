@@ -22,6 +22,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddressCallback;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddresses;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseContacts;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransactions;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
@@ -105,4 +106,11 @@ public interface CoinbaseAuthenticated {
   CoinbaseBaseResponse cancelRequest(@PathParam("transactionId") String transactionId, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
 
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Path("buttons")
+  CoinbaseButton createButton(CoinbaseButton button, @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
+      @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+  
 }
