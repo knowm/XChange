@@ -59,7 +59,7 @@ public class VircurexExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://vircurex.com");
+    exchangeSpecification.setSslUri("https://api.vircurex.com");
     exchangeSpecification.setExchangeName("Vircurex");
 
     return exchangeSpecification;
