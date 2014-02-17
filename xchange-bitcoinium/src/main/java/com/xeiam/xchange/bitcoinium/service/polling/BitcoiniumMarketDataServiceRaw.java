@@ -71,7 +71,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
     verify(pair);
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair);
+    BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair, exchangeSpecification.getApiKey());
 
     // Adapt to XChange DTOs
     return bitcoiniumTicker;
@@ -93,7 +93,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
     verifyTimeWindow(timeWindow);
 
     // Request data
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoinium.getTickerHistory(pair, timeWindow);
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoinium.getTickerHistory(pair, timeWindow, exchangeSpecification.getApiKey());
 
     return bitcoiniumTickerHistory;
   }
@@ -113,7 +113,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
     verifyPriceWindow(pricewindow);
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, pricewindow);
+    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, pricewindow, exchangeSpecification.getApiKey());
 
     return bitcoiniumDepth;
   }
