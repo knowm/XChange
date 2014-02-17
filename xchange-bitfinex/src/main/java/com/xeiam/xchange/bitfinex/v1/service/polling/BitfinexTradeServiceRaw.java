@@ -52,13 +52,14 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     return activeOrders;
   }
 
-  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder) throws IOException {
+  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, boolean onMargin) throws IOException {
 
     String pair = String.format("%s%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+    String orderType = onMargin?"limit" : "exchange limit";
     BitfinexOrderStatusResponse newOrder =
         bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice()
-            .getAmount(), "bitfinex", type, "exchange limit", false));
+            .getAmount(), "bitfinex", type, orderType, false));
 
     return newOrder;
   }
