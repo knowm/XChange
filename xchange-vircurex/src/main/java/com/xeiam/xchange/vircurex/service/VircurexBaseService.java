@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 
@@ -40,20 +41,18 @@ public class VircurexBaseService extends BaseExchangeService {
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("DGC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("NMC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("NVC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("TRC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("IXC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("FRC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("FTC", "LTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("DGC", Currencies.BTC));
+    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.NVC, Currencies.BTC));
+    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.NMC, Currencies.BTC));
+    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.TRC, Currencies.BTC));
+    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.DVC, Currencies.BTC));
+    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.IXC, Currencies.BTC));
+    CURRENCY_PAIRS.add(new CurrencyPair("FRC", Currencies.BTC));
+    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.FTC, Currencies.LTC));
     CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
-    CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("ANC", "BTC"));
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
+    CURRENCY_PAIRS.add(new CurrencyPair("ANC", Currencies.BTC));
+    CURRENCY_PAIRS.add(CurrencyPair.DOGE_BTC);
   }
 
   /**

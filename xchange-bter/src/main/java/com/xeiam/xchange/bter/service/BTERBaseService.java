@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 
@@ -34,12 +35,13 @@ public class BTERBaseService extends BaseExchangeService {
 
   static {
 
-    CURRENCY_PAIRS.add(new CurrencyPair("BTC", "CNY"));
+    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.BTC, Currencies.CNY));
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("WDC", Currencies.BTC));
+    CURRENCY_PAIRS.add(CurrencyPair.DOGE_BTC);
 
   }
 

@@ -78,6 +78,7 @@ public class Currencies {
   public static final String DKK = "DKK"; // "Danish Krone",
   public static final String DOP = "DOP"; // "Dominican Peso",
   public static final String DVC = "DVC"; // Devcoin,
+  public static final String DOGE = "DOGE"; // Dogecoin,
   public static final String DZD = "DZD"; // "Algerian Dinar",
   public static final String EEK = "EEK"; // "Estonian Kroon",
   public static final String EGP = "EGP"; // "Egyptian Pound",
