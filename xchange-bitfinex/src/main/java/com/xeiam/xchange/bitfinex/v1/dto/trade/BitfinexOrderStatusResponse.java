@@ -120,6 +120,10 @@ public class BitfinexOrderStatusResponse {
 
     return id;
   }
+  
+  public boolean isLive() {
+	  return isLive;
+  }
 
   @Override
   public String toString() {
