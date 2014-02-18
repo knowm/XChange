@@ -52,7 +52,7 @@ public class VircurexBaseService extends BaseExchangeService {
     CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
     CURRENCY_PAIRS.add(new CurrencyPair("ANC", Currencies.BTC));
-    CURRENCY_PAIRS.add(CurrencyPair.DOGE_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.XDC_BTC);
   }
 
   /**
