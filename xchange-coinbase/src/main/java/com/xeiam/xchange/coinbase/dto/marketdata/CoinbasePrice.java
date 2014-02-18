@@ -11,8 +11,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.CoinbaseMoneyDeserializer;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice.CoibasePriceDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 
 @JsonDeserialize(using = CoibasePriceDeserializer.class)
 public class CoinbasePrice {
@@ -22,7 +22,7 @@ public class CoinbasePrice {
   private final BigMoney total;
   private final BigMoney subTotal;
   
-  public CoinbasePrice(final BigMoney coinbaseFee, final BigMoney bankFee, final BigMoney total, final BigMoney subTotal) {
+  private CoinbasePrice(final BigMoney coinbaseFee, final BigMoney bankFee, final BigMoney total, final BigMoney subTotal) {
     
     this.coinbaseFee = coinbaseFee;
     this.bankFee = bankFee;

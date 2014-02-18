@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto;
+package com.xeiam.xchange.coinbase.dto.trade;
 
 import java.io.IOException;
 
@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xeiam.xchange.coinbase.dto.CoinbaseTransferType.CoinbaseTransferTypeDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
+import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransferType.CoinbaseTransferTypeDeserializer;
 
 @JsonDeserialize(using = CoinbaseTransferTypeDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)

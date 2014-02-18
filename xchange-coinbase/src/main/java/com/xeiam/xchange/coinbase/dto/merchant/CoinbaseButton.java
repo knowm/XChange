@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
-import com.xeiam.xchange.coinbase.dto.CoinbaseCentsDeserializer;
+import com.xeiam.xchange.coinbase.dto.common.CoinbaseRepeat;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
 
 public class CoinbaseButton extends CoinbaseBaseResponse {
 
@@ -56,10 +57,10 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
   @JsonIgnore
   public BigMoney getPrice() {
-    
+
     return button.getPrice();
   }
-  
+
   @JsonIgnore
   public String getPriceString() {
 
@@ -250,8 +251,8 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     public CoinbaseButton buildButton() {
 
       final CoinbaseButtonInfo buttonInfo =
-          new CoinbaseButtonInfo(name, price, type, description, null, custom, style, null, text, repeat, customSecure, callbackUrl, successUrl, cancelUrl, infoUrl, autoDirect,
-              variablePrice, choosePrice, includeAddress, includeEmail, price1, price2, price3, price4, price5);
+          new CoinbaseButtonInfo(name, price, type, description, null, custom, style, null, text, repeat, customSecure, callbackUrl, successUrl, cancelUrl, infoUrl, autoDirect, variablePrice,
+              choosePrice, includeAddress, includeEmail, price1, price2, price3, price4, price5);
 
       return new CoinbaseButton(buttonInfo);
     }
@@ -262,10 +263,10 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     }
 
     public BigMoney getPrice() {
-      
+
       return price;
     }
-    
+
     public String getPriceString() {
 
       return price.getAmount().toPlainString();
@@ -499,7 +500,6 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
       return this;
     }
-
   }
 
   static class CoinbaseButtonInfo {
@@ -530,8 +530,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     private final String price4;
     private final String price5;
 
-    private CoinbaseButtonInfo(@JsonProperty("name") final String name,  
-        @JsonProperty("price")  @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final BigMoney price, 
+    private CoinbaseButtonInfo(@JsonProperty("name") final String name, @JsonProperty("price") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final BigMoney price,
         @JsonProperty("type") final CoinbaseButtonType type, @JsonProperty("description") final String description, @JsonProperty("id") final String id, @JsonProperty("custom") final String custom,
         @JsonProperty("style") final CoinbaseButtonStyle style, @JsonProperty("code") final String code, @JsonProperty("text") final String text, @JsonProperty("repeat") final CoinbaseRepeat repeat,
         @JsonProperty("custom_secure") final boolean customSecure, @JsonProperty("callback_url") final String callbackUrl, @JsonProperty("success_url") final String successUrl,
@@ -593,10 +592,10 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
     @JsonIgnore
     public BigMoney getPrice() {
-      
+
       return price;
     }
-    
+
     @JsonProperty("price_string")
     public String getPriceString() {
 

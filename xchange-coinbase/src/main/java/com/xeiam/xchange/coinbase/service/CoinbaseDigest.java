@@ -16,11 +16,11 @@ public class CoinbaseDigest implements ParamsDigest {
 
   private final Mac mac256;
 
-  private CoinbaseDigest(String secretKeyBase64) throws IllegalArgumentException {
+  private CoinbaseDigest(final String secretKey) throws IllegalArgumentException {
 
     try {
       mac256 = Mac.getInstance("HmacSHA256");
-      mac256.init(new SecretKeySpec(secretKeyBase64.getBytes("UTF-8"), "HmacSHA256"));
+      mac256.init(new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA256"));
     } catch (InvalidKeyException e) {
       throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
     } catch (NoSuchAlgorithmException e) {
@@ -30,18 +30,17 @@ public class CoinbaseDigest implements ParamsDigest {
     }
   }
 
-  public static CoinbaseDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+  public static CoinbaseDigest createInstance(final String secretKey) throws IllegalArgumentException {
 
-    return secretKeyBase64 == null ? null : new CoinbaseDigest(secretKeyBase64);
+    return secretKey == null ? null : new CoinbaseDigest(secretKey);
   }
 
   @Override
-  public String digestParams(RestInvocation restInvocation) {
+  public String digestParams(final RestInvocation restInvocation) {
 
     final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() 
         + restInvocation.getInvocationUrl() + restInvocation.getRequestBody();
 
-    System.out.println(message);
     mac256.update(message.getBytes());
 
     return String.format("%064x", new BigInteger(1, mac256.doFinal()));

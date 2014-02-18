@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto.merchant;
+package com.xeiam.xchange.coinbase.dto.common;
 
 import java.io.IOException;
 
@@ -10,22 +10,22 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonType.CoinbaseButtonTypeDeserializer;
+import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentType.CoinbaseRecurringPaymentTypeDeserializer;
 import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
-@JsonDeserialize(using = CoinbaseButtonTypeDeserializer.class)
+@JsonDeserialize(using = CoinbaseRecurringPaymentTypeDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
-public enum CoinbaseButtonType {
+public enum CoinbaseRecurringPaymentType {
 
-  BUY_NOW, DONATION, SUBSCRIPTION;
+  BUY, SELL, SEND, REQUEST;
+  
+  static class CoinbaseRecurringPaymentTypeDeserializer extends JsonDeserializer<CoinbaseRecurringPaymentType> {
 
-  static class CoinbaseButtonTypeDeserializer extends JsonDeserializer<CoinbaseButtonType> {
-
-    private static final EnumFromStringHelper<CoinbaseButtonType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseButtonType>(CoinbaseButtonType.class);
+    private static final EnumFromStringHelper<CoinbaseRecurringPaymentType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRecurringPaymentType>(CoinbaseRecurringPaymentType.class);
 
     @Override
-    public CoinbaseButtonType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseRecurringPaymentType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);

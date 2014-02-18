@@ -10,12 +10,13 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.Coinbase;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
-import com.xeiam.xchange.coinbase.dto.CoinbaseToken;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.service.CoinbaseDigest;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
-public abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchangeService {
+abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchangeService {
 
   protected final T coinbase;
   protected final ParamsDigest signatureCreator;
@@ -27,15 +28,11 @@ public abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollin
     signatureCreator = CoinbaseDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  protected <R extends CoinbaseBaseResponse> R handleResponse(final R postResponse) {
+  public List<CoinbaseCurrency> getCurrencies() throws IOException {
 
-    final List<String> errors = postResponse.getErrors();
-    if (errors != null && !errors.isEmpty())
-      throw new ExchangeException(errors.toString());
-
-    return postResponse;
+    return coinbase.getCurrencies();
   }
-
+  
   public CoinbaseUser createCoinbaseUser(final CoinbaseUser user) throws IOException {
 
     final CoinbaseUser createdUser = coinbase.createUser(user);
@@ -52,5 +49,14 @@ public abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollin
 
     final CoinbaseToken token = coinbase.createToken();
     return handleResponse(token);
+  }
+  
+  protected <R extends CoinbaseBaseResponse> R handleResponse(final R postResponse) {
+
+    final List<String> errors = postResponse.getErrors();
+    if (errors != null && !errors.isEmpty())
+      throw new ExchangeException(errors.toString());
+
+    return postResponse;
   }
 }

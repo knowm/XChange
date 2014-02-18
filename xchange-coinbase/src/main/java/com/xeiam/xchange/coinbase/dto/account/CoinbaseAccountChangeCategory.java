@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto;
+package com.xeiam.xchange.coinbase.dto.account;
 
 import java.io.IOException;
 
@@ -10,20 +10,22 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xeiam.xchange.coinbase.dto.CoinbaseCategory.CoinbaseCategoryDeserializer;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseAccountChangeCategory.CoinbaseCategoryDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
 @JsonDeserialize(using = CoinbaseCategoryDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
-public enum CoinbaseCategory {
+public enum CoinbaseAccountChangeCategory {
 
   TX, REQUEST, TRANSFER, INVOICE;
 
-  static class CoinbaseCategoryDeserializer extends JsonDeserializer<CoinbaseCategory> {
+  static class CoinbaseCategoryDeserializer extends JsonDeserializer<CoinbaseAccountChangeCategory> {
 
-    private static final EnumFromStringHelper<CoinbaseCategory> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseCategory>(CoinbaseCategory.class);
+    private static final EnumFromStringHelper<CoinbaseAccountChangeCategory> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseAccountChangeCategory>(CoinbaseAccountChangeCategory.class);
 
     @Override
-    public CoinbaseCategory deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseAccountChangeCategory deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);

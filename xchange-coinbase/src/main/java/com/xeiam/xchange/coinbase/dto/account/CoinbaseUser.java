@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto;
+package com.xeiam.xchange.coinbase.dto.account;
 
 import java.util.List;
 
@@ -7,7 +7,10 @@ import org.joda.money.BigMoney;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
+import com.xeiam.xchange.coinbase.dto.auth.CoinbaseOAuth;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseMerchant;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 
 public class CoinbaseUser extends CoinbaseBaseResponse {
 

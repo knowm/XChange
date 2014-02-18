@@ -1,11 +1,10 @@
-package com.xeiam.xchange.coinbase.dto.trade;
+package com.xeiam.xchange.coinbase.dto.account;
 
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
-import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseTransactionStatus;
 
 public interface CoinbaseTransactionInfo {
 

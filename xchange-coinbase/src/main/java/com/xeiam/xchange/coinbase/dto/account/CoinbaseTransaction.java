@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto.trade;
+package com.xeiam.xchange.coinbase.dto.account;
 
 import java.io.IOException;
 import java.util.Date;
@@ -15,11 +15,10 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUser.CoinbaseUserInfo;
-import com.xeiam.xchange.coinbase.dto.EnumFromStringHelper;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus.CoinbaseTransactionStatusDeserializer;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
-import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseTransactionStatus.CoinbaseTransactionStatusDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 

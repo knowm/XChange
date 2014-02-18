@@ -1,7 +1,9 @@
 package com.xeiam.xchange.coinbase.dto.trade;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.joda.money.BigMoney;
 
@@ -12,14 +14,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.CoinbaseCentsDeserializer;
-import com.xeiam.xchange.coinbase.dto.CoinbaseMoneyDeserializer;
-import com.xeiam.xchange.coinbase.dto.CoinbaseTransferType;
+import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
 import com.xeiam.xchange.utils.DateUtils;
 
 @JsonDeserialize(using = CoinbaseTransferDeserializer.class)
-public class CoinbaseTransfer {
+public class CoinbaseTransfer extends CoinbaseBaseResponse {
 
   private final CoinbaseTransferType type;
   private final String fundingType;
@@ -36,8 +38,10 @@ public class CoinbaseTransfer {
   private final String description;
 
   public CoinbaseTransfer(final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt, final BigMoney coinbaseFee, final BigMoney bankFee,
-      final Date payoutDate, final String transactionId, final CoinbaseTransferStatus status, final BigMoney btcAmount, final BigMoney subtotal, final BigMoney total, final String description) {
+      final Date payoutDate, final String transactionId, final CoinbaseTransferStatus status, final BigMoney btcAmount, final BigMoney subtotal, final BigMoney total, final String description,
+      final boolean success, final List<String> errors) {
 
+    super(success, errors);
     this.type = type;
     this.fundingType = fundingType;
     this.code = code;
@@ -138,6 +142,18 @@ public class CoinbaseTransfer {
 
       final ObjectCodec oc = jp.getCodec();
       final JsonNode node = oc.readTree(jp);
+
+      final JsonNode successNode = node.path("success");
+      boolean success = true;
+      final List<String> errors = new ArrayList<String>();
+      if (successNode.isBoolean()) {
+        success = successNode.asBoolean();
+        final JsonNode errorsNode = node.path("errors");
+        if (errorsNode.isArray())
+          for (final JsonNode errorNode : errorsNode)
+            errors.add(errorNode.asText());
+      }
+      
       final JsonNode transferNode = node.path("transfer");
       final String fundingType = transferNode.path("_type").asText();
       final CoinbaseTransferType type = CoinbaseTransferType.valueOf(transferNode.path("type").asText().toUpperCase());
@@ -154,7 +170,7 @@ public class CoinbaseTransfer {
       final BigMoney total = CoinbaseMoneyDeserializer.getBigMoneyFromNode(transferNode.path("total"));
       final String description = transferNode.path("description").asText();
 
-      return new CoinbaseTransfer(type, fundingType, code, createdAt, coinbaseFee, bankFee, payoutDate, transactionId, status, btcAmount, subtotal, total, description);
+      return new CoinbaseTransfer(type, fundingType, code, createdAt, coinbaseFee, bankFee, payoutDate, transactionId, status, btcAmount, subtotal, total, description, success, errors);
     }
   }
 }

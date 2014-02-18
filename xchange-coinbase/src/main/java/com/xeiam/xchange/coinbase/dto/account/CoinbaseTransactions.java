@@ -1,11 +1,10 @@
-package com.xeiam.xchange.coinbase.dto.trade;
+package com.xeiam.xchange.coinbase.dto.account;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinbase.dto.CoinbasePagedResult;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUser.CoinbaseUserInfo;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 
 

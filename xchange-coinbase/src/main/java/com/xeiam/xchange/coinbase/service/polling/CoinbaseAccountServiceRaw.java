@@ -6,22 +6,25 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.CoinbaseAuthenticated;
 import com.xeiam.xchange.coinbase.CoinbaseUtils;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
-import com.xeiam.xchange.coinbase.dto.CoinbaseUsers;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAccountChanges;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddressCallback;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddresses;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseContacts;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseRecurringPayment;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseRecurringPayments;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransactions;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseRequestMoneyRequest;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrders;
-import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction;
-import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseRequestMoneyRequest;
-import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseSendMoneyRequest;
-import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransactions;
-import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
+import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscription;
+import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 
 public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated> {
 
@@ -36,18 +39,18 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
     return users;
   }
 
-  public CoinbaseUser updateCoinbaseUsers(final CoinbaseUser user) throws IOException {
+  public CoinbaseUser updateCoinbaseUser(final CoinbaseUser user) throws IOException {
 
     final CoinbaseUser updatedUser = coinbase.updateUser(user.getId(), user, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
     return handleResponse(updatedUser);
   }
 
   public boolean redeemCoinbaseToken(final String tokenId) throws IOException {
-    
+
     final CoinbaseBaseResponse response = coinbase.redeemToken(tokenId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
     return handleResponse(response).isSuccess();
   }
-  
+
   public CoinbaseAmount getCoinbaseBalance() throws IOException {
 
     final CoinbaseAmount balance = coinbase.getBalance(exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
@@ -106,17 +109,6 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
     return contacts;
   }
 
-  public CoinbaseTransfers getCoinbaseTransfers() throws IOException {
-
-    return getCoinbaseTransfers(null, null);
-  }
-
-  public CoinbaseTransfers getCoinbaseTransfers(final Integer page, final Integer limit) throws IOException {
-
-    final CoinbaseTransfers transfers = coinbase.getTransfers(page, limit, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
-    return transfers;
-  }
-
   public CoinbaseTransactions getCoinbaseTransactions() throws IOException {
 
     return getCoinbaseTransactions(null);
@@ -136,15 +128,13 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseTransaction requestMoney(final CoinbaseRequestMoneyRequest transactionRequest) throws IOException {
 
-    final CoinbaseTransaction pendingTransaction =
-        coinbase.requestMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseTransaction pendingTransaction = coinbase.requestMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
     return handleResponse(pendingTransaction);
   }
 
   public CoinbaseTransaction sendMoney(final CoinbaseSendMoneyRequest transactionRequest) throws IOException {
 
-    final CoinbaseTransaction pendingTransaction =
-        coinbase.sendMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseTransaction pendingTransaction = coinbase.sendMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
     return handleResponse(pendingTransaction);
   }
 
@@ -199,5 +189,39 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
     final CoinbaseOrder createdOrder = coinbase.createOrder(button, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
     return handleResponse(createdOrder);
+  }
+
+  public CoinbaseRecurringPayments getCoinbaseRecurringPayments() throws IOException {
+
+    return getCoinbaseRecurringPayments(null, null);
+  }
+
+  public CoinbaseRecurringPayments getCoinbaseRecurringPayments(final Integer page, final Integer limit) throws IOException {
+
+    final CoinbaseRecurringPayments recurringPayments = coinbase.getRecurringPayments(page, limit, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    return recurringPayments;
+  }
+
+  public CoinbaseRecurringPayment getCoinbaseRecurringPayment(final String recurringPaymentId) throws IOException {
+
+    final CoinbaseRecurringPayment recurringPayment = coinbase.getRecurringPayment(recurringPaymentId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    return recurringPayment;
+  }
+
+  public CoinbaseSubscriptions getCoinbaseSubscriptions() throws IOException {
+
+    return getCoinbaseSubscriptions(null, null);
+  }
+
+  public CoinbaseSubscriptions getCoinbaseSubscriptions(final Integer page, final Integer limit) throws IOException {
+
+    final CoinbaseSubscriptions subscriptions = coinbase.getsSubscriptions(page, limit, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    return subscriptions;
+  }
+
+  public CoinbaseSubscription getCoinbaseSubscription(final String subscriptionId) throws IOException {
+
+    final CoinbaseSubscription subscription = coinbase.getsSubscription(subscriptionId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    return subscription;
   }
 }

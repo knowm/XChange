@@ -16,11 +16,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
-import com.xeiam.xchange.coinbase.dto.CoinbaseCentsDeserializer;
-import com.xeiam.xchange.coinbase.dto.EnumFromStringHelper;
-import com.xeiam.xchange.coinbase.dto.EnumLowercaseJsonSerializer;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder.CoinbaseOrderStatus.CoinbaseOrderStatusDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
 public class CoinbaseOrder extends CoinbaseBaseResponse {

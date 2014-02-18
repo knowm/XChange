@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto;
+package com.xeiam.xchange.coinbase.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

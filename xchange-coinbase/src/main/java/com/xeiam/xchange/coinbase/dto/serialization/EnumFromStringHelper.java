@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto;
+package com.xeiam.xchange.coinbase.dto.serialization;
 
 import java.util.HashMap;
 import java.util.Map;

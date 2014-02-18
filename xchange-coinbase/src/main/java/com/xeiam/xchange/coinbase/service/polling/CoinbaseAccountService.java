@@ -11,7 +11,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 
-public class CoinbaseAccountService extends CoinbaseAccountServiceRaw implements PollingAccountService {
+public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw implements PollingAccountService {
 
   public CoinbaseAccountService(ExchangeSpecification exchangeSpecification) {
 

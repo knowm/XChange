@@ -8,7 +8,7 @@ public class CoinbaseHistoricalSpotPrice {
   private final Date timestamp;
   private final BigDecimal spotRate;
 
-  public CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
 
     this.timestamp = timestamp;
     this.spotRate = spotRate;

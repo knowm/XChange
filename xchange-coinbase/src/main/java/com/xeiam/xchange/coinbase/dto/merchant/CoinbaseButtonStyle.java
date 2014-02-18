@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xeiam.xchange.coinbase.dto.EnumFromStringHelper;
-import com.xeiam.xchange.coinbase.dto.EnumLowercaseJsonSerializer;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonStyle.CoinbaseButtonStyleDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
 @JsonDeserialize(using = CoinbaseButtonStyleDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)

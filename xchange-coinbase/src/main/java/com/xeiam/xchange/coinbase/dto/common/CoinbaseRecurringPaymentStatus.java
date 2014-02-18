@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinbase.dto.merchant;
+package com.xeiam.xchange.coinbase.dto.common;
 
 import java.io.IOException;
 
@@ -10,22 +10,22 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonType.CoinbaseButtonTypeDeserializer;
+import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus.CoinbaseRecurringPaymentStatusDeserializer;
 import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
-@JsonDeserialize(using = CoinbaseButtonTypeDeserializer.class)
+@JsonDeserialize(using = CoinbaseRecurringPaymentStatusDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
-public enum CoinbaseButtonType {
+public enum CoinbaseRecurringPaymentStatus {
 
-  BUY_NOW, DONATION, SUBSCRIPTION;
+  NEW, ACTIVE, PAUSED, COMPLETED, CANCELED;
+  
+  static class CoinbaseRecurringPaymentStatusDeserializer extends JsonDeserializer<CoinbaseRecurringPaymentStatus> {
 
-  static class CoinbaseButtonTypeDeserializer extends JsonDeserializer<CoinbaseButtonType> {
-
-    private static final EnumFromStringHelper<CoinbaseButtonType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseButtonType>(CoinbaseButtonType.class);
+    private static final EnumFromStringHelper<CoinbaseRecurringPaymentStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRecurringPaymentStatus>(CoinbaseRecurringPaymentStatus.class);
 
     @Override
-    public CoinbaseButtonType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseRecurringPaymentStatus deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);

@@ -17,7 +17,7 @@ public class CoinbaseCurrency {
   private final String name;
   private final String isoCode;
 
-  public CoinbaseCurrency(final String name, final String isoCode) {
+  private CoinbaseCurrency(final String name, final String isoCode) {
 
     this.name = name;
     this.isoCode = isoCode;

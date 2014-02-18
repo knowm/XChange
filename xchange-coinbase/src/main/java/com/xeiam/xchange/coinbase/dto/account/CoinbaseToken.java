@@ -1,8 +1,9 @@
-package com.xeiam.xchange.coinbase.dto;
+package com.xeiam.xchange.coinbase.dto.account;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 
 public class CoinbaseToken extends CoinbaseBaseResponse {
 
