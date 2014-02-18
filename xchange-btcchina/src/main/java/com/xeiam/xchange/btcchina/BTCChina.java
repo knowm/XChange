@@ -30,6 +30,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -48,69 +49,60 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 
 @Path("/")
+@Produces(MediaType.APPLICATION_JSON)
 public interface BTCChina {
 
   @GET
   @Path("data/ticker")
-  @Produces("application/json")
   public BTCChinaTicker getTicker() throws IOException;
 
   @GET
   @Path("data/orderbook")
-  @Produces("application/json")
   public BTCChinaDepth getFullDepth() throws IOException;
 
   // (return last 100 trade records.)
   @GET
   @Path("data/historydata")
-  @Produces("application/json")
   public BTCChinaTrade[] getTrades() throws IOException;
 
   // return 100 trade records starting from id $since.
   @GET
   @Path("data/historydata")
-  @Produces("application/json")
   public BTCChinaTrade[] getTrades(@QueryParam("since") int transactionID) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaGetAccountInfoResponse getAccountInfo(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaGetAccountInfoRequest getAccountInfoRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaRequestWithdrawalResponse requestWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaRequestWithdrawalRequest requestWithdrawalRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaGetOrdersResponse getOrders(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetOrdersRequest getOrdersRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaBooleanResponse cancelOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaCancelOrderRequest cancelOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaBooleanResponse buyOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaBuyOrderRequest buyOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaBooleanResponse sellOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
       throws IOException;
 

@@ -24,6 +24,7 @@ package com.xeiam.xchange.justcoin;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -31,7 +32,9 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.justcoin.dto.PostCreateResponse;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
@@ -43,6 +46,7 @@ import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
  * @author jamespedwards42
  */
 @Path("api/v1")
+@Produces(MediaType.APPLICATION_JSON)
 public interface JustcoinAuthenticated {
 
   @GET
@@ -56,6 +60,7 @@ public interface JustcoinAuthenticated {
 
   @POST
   @Path("{currency}/out")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public PostCreateResponse withdraw(final @PathParam("currency") String currency, final @FormParam("address") String address, final @FormParam("amount") BigDecimal amount,
       final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
@@ -69,11 +74,13 @@ public interface JustcoinAuthenticated {
 
   @POST
   @Path("orders")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public PostCreateResponse createMarketOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, final @FormParam("amount") BigDecimal amount,
       final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
   @POST
   @Path("orders")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public PostCreateResponse createLimitOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, final @FormParam("price") BigDecimal limitPrice,
       final @FormParam("amount") BigDecimal amount, final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
