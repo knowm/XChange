@@ -79,7 +79,7 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_NMC = new CurrencyPair(Currencies.BTC, Currencies.NMC);
   public static final CurrencyPair BTC_XVN = new CurrencyPair(Currencies.BTC, Currencies.XVN);
 
-  public static final CurrencyPair DOGE_BTC = new CurrencyPair(Currencies.DOGE, Currencies.BTC);
+  public static final CurrencyPair XDC_BTC = new CurrencyPair(Currencies.XDC, Currencies.BTC);
 
   public static final CurrencyPair LTC_USD = new CurrencyPair(Currencies.LTC, Currencies.USD);
   public static final CurrencyPair LTC_KRW = new CurrencyPair(Currencies.LTC, Currencies.KRW);
