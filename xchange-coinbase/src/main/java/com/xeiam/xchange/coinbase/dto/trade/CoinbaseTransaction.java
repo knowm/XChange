@@ -15,11 +15,13 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
+import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.CoinbaseUser.CoinbaseUserInfo;
 import com.xeiam.xchange.coinbase.dto.EnumFromStringHelper;
-import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseTransactionStatus.CoinbaseTransactionStatusDeserializer;
 import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
 public class CoinbaseTransaction extends CoinbaseBaseResponse implements CoinbaseTransactionInfo {
 
@@ -137,7 +139,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     @JsonProperty("notes")
     protected String notes;
 
-    public CoinbaseTransactionRequest(String currency, String amountString) {
+    private CoinbaseTransactionRequest(final String currency, final String amountString) {
 
       this.amountString = amountString;
       this.currencyIso = currency;
@@ -342,9 +344,9 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     private final String transactionHash;
     private final String idempotencyKey;
 
-    private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id, @JsonProperty("created_at") final Date createdAt, @JsonProperty("amount") final CoinbaseAmount amount,
-        @JsonProperty("request") final boolean request, @JsonProperty("status") final CoinbaseTransactionStatus status, @JsonProperty("sender") final CoinbaseUser sender,
-        @JsonProperty("recipient") final CoinbaseUser recipient, @JsonProperty("recipient_address") final String recipientAddress, @JsonProperty("notes") final String notes,
+    private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using=ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("amount") final CoinbaseAmount amount,
+        @JsonProperty("request") final boolean request, @JsonProperty("status") final CoinbaseTransactionStatus status, @JsonProperty("sender") final CoinbaseUserInfo sender,
+        @JsonProperty("recipient") final CoinbaseUserInfo recipient, @JsonProperty("recipient_address") final String recipientAddress, @JsonProperty("notes") final String notes,
         @JsonProperty("hsh") final String transactionHash, @JsonProperty("idem") final String idempotencyKey) {
 
       this.id = id;
@@ -352,8 +354,8 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
       this.amount = amount;
       this.request = request;
       this.status = status;
-      this.sender = sender;
-      this.recipient = recipient;
+      this.sender = new CoinbaseUser(sender);
+      this.recipient = new CoinbaseUser(recipient);
       this.recipientAddress = recipientAddress;
       this.notes = notes;
       this.transactionHash = transactionHash;

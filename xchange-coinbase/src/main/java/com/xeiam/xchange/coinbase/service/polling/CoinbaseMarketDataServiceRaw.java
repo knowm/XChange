@@ -26,27 +26,21 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.Coinbase;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMarketDataServiceRaw extends BasePollingExchangeService {
-
-  protected final Coinbase coinbase;
+public class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService<Coinbase> {
 
   public CoinbaseMarketDataServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.coinbase = RestProxyFactory.createProxy(Coinbase.class, exchangeSpecification.getSslUri());
+    super(Coinbase.class, exchangeSpecification);
   }
 
   public List<CoinbaseCurrency> getCurrencies() throws IOException {
@@ -103,4 +97,5 @@ public class CoinbaseMarketDataServiceRaw extends BasePollingExchangeService {
 
     return coinbase.getHistoricalSpotRates(page);
   }
+
 }

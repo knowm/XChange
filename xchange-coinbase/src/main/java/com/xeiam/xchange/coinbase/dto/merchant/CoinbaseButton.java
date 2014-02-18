@@ -18,13 +18,13 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
   @JsonProperty("button")
   private final CoinbaseButtonInfo button;
 
-  public CoinbaseButton(@JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
+  private CoinbaseButton(@JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
     this.button = button;
   }
 
-  public CoinbaseButton(final CoinbaseButtonInfo button) {
+  CoinbaseButton(final CoinbaseButtonInfo button) {
 
     super(true);
     this.button = button;
@@ -502,7 +502,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
   }
 
-  private static class CoinbaseButtonInfo {
+  static class CoinbaseButtonInfo {
 
     private final String name;
     private final BigMoney price;

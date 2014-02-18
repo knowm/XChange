@@ -3,7 +3,7 @@ package com.xeiam.xchange.coinbase.dto.trade;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransaction.CoinbaseTransactionStatus;
 

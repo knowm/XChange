@@ -5,6 +5,8 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseCategory;
+import com.xeiam.xchange.coinbase.dto.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.CoinbaseUser.CoinbaseUserInfo;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
@@ -70,11 +72,11 @@ public class CoinbaseAccountChange {
     private final CoinbaseCategory category;
     private final CoinbaseUser otherUser;
 
-    public CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent, @JsonProperty("category") final CoinbaseCategory category, @JsonProperty("other_user") final CoinbaseUser otherUser) {
+    public CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent, @JsonProperty("category") final CoinbaseCategory category, @JsonProperty("other_user") final CoinbaseUserInfo otherUser) {
 
       this.notesPresent = notesPresent;
       this.category = category;
-      this.otherUser = otherUser;
+      this.otherUser = new CoinbaseUser(otherUser);
     }
 
     public boolean isNotesPresent() {

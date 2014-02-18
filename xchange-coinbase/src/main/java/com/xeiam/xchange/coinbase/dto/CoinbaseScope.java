@@ -10,20 +10,20 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.xeiam.xchange.coinbase.dto.CoinbaseCategory.CoinbaseCategoryDeserializer;
+import com.xeiam.xchange.coinbase.dto.CoinbaseScope.CoinbaseScopeDeserializer;
 
-@JsonDeserialize(using = CoinbaseCategoryDeserializer.class)
+@JsonDeserialize(using = CoinbaseScopeDeserializer.class)
 @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
-public enum CoinbaseCategory {
+public enum CoinbaseScope {
 
-  TX, REQUEST, TRANSFER, INVOICE;
+  ALL, MERCHANT, BALANCE, USER, ADDRESSES, BUTTONS, BUY, SELL, CONTACTS, ORDERS, TRANSACTIONS, SEND, REQUEST, TRANSFERS, RECURRING_PAYMENTS;
 
-  static class CoinbaseCategoryDeserializer extends JsonDeserializer<CoinbaseCategory> {
+  static class CoinbaseScopeDeserializer extends JsonDeserializer<CoinbaseScope> {
 
-    private static final EnumFromStringHelper<CoinbaseCategory> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseCategory>(CoinbaseCategory.class);
+    private static final EnumFromStringHelper<CoinbaseScope> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseScope>(CoinbaseScope.class);
 
     @Override
-    public CoinbaseCategory deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseScope deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);
