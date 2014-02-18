@@ -41,7 +41,7 @@ public class BTERBaseService extends BaseExchangeService {
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
     CURRENCY_PAIRS.add(new CurrencyPair("WDC", Currencies.BTC));
-    CURRENCY_PAIRS.add(CurrencyPair.DOGE_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.XDC_BTC);
 
   }
 
