@@ -58,7 +58,7 @@ public class MtGoxOrderBookChartDemo {
     System.out.println("fetching data...");
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, PollingMarketDataService.OrderBookType.PARTIAL);
+    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, "partial");
 
     System.out.println("received data.");
 

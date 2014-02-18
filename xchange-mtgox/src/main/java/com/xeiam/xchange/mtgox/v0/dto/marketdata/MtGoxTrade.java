@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v1.dto.marketdata;
+package com.xeiam.xchange.mtgox.v0.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,15 +28,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Data object representing a Trade from Mt Gox
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
- * <p>
- * 
- * @deprecated Use V2! This will be removed in 1.8.0+
  */
-@Deprecated
 public final class MtGoxTrade {
 
   private final long amountInt;
-  private final Long date;
+  private final Long date; // Note: This only has second and not millisecond precision
   private final String item;
   private final String priceCurrency;
   private final long priceInt;

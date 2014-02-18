@@ -53,13 +53,13 @@ public class TradesDemo {
 
     // Get trades with "since" parameter
     long time = (new Date().getTime() - 1000 * 60 * 60) * 1000;
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, time);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, time);
+    System.out.println("Current trades size for BTC / USD: " + trades.getTrades().size());
     System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
 
     // Get "most recent" trades
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    System.out.println("Current trades size for BTC / USD: " + trades.getTrades().size());
     System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
   }
 
@@ -67,13 +67,13 @@ public class TradesDemo {
 
     // Get trades with "since" parameter
     long time = (new Date().getTime() - 1000 * 60 * 60) * 1000;
-    MtGoxTradesWrapper trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.SEK, time);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getMtGoxTrades().length);
+    MtGoxTradesWrapper trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.USD, time);
+    System.out.println("Current trades size for BTC / USD: " + trades.getMtGoxTrades().length);
     System.out.println("Trade 0 : " + trades.getMtGoxTrades()[trades.getMtGoxTrades().length - 1].toString());
 
     // Get "most recent" trades
-    trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.SEK);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getMtGoxTrades().length);
+    trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.USD, null);
+    System.out.println("Current trades size for BTC / USD: " + trades.getMtGoxTrades().length);
     System.out.println("Trade 0 : " + trades.getMtGoxTrades()[trades.getMtGoxTrades().length - 1].toString());
   }
 
