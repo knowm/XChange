@@ -32,6 +32,7 @@ import javax.swing.JFrame;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
@@ -67,8 +68,10 @@ public class BitcoiniumRealtimeTickerDemo {
 
   private void go() throws IOException {
 
-    // Use the factory to get Bitcoinium exchange API using default settings
-    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    exchangeSpecification.setApiKey("6seon0iepta86txluchde");
+    // Use the factory to get the Open Exchange Rates exchange API
+    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public polling market data feed (no authentication)
     bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();

@@ -25,6 +25,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
@@ -38,17 +39,17 @@ public interface Bitcoinium {
 
   @GET
   @Path("tickerupdate")
-  @Produces("application/json")
-  public BitcoiniumTicker getTicker(@QueryParam("pair") String pair);
+  @Produces(MediaType.APPLICATION_JSON)
+  public BitcoiniumTicker getTicker(@QueryParam("pair") String pair, @QueryParam("apikey") String apikey);
 
   @GET
   @Path("orderbook")
-  @Produces("application/json")
-  public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("pricewindow") String pricewindow);
+  @Produces(MediaType.APPLICATION_JSON)
+  public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("pricewindow") String pricewindow, @QueryParam("apikey") String apikey);
 
   @GET
   @Path("tickerhistory")
-  @Produces("application/json")
-  public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("timewindow") String timewindow);
+  @Produces(MediaType.APPLICATION_JSON)
+  public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("timewindow") String timewindow, @QueryParam("apikey") String apikey);
 
 }

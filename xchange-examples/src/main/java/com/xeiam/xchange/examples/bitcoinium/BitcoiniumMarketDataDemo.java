@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
@@ -44,8 +45,11 @@ public class BitcoiniumMarketDataDemo {
 
     CertHelper.trustAllCerts();
 
-    // Use the factory to get Bitcoinium exchange API using default settings
-    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    exchangeSpecification.setApiKey("6seon0iepta86txluchde");
+    // Use the factory to get the Open Exchange Rates exchange API
+    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+
     generic(bitcoiniumExchange);
     raw(bitcoiniumExchange);
   }
