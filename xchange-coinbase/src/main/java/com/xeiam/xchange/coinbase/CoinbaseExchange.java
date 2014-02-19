@@ -26,6 +26,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseMarketDataService;
+import com.xeiam.xchange.coinbase.service.polling.CoinbaseTradeService;
 
 /**
  * @author jamespedwards42
@@ -50,7 +51,7 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
 
     this.pollingMarketDataService = new CoinbaseMarketDataService(exchangeSpecification);
     this.pollingAccountService = new CoinbaseAccountService(exchangeSpecification);
-    this.pollingTradeService = null;
+    this.pollingTradeService = new CoinbaseTradeService(exchangeSpecification);
   }
 
   @Override

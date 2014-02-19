@@ -10,13 +10,13 @@ public class CoinbaseBaseResponse {
   private final boolean success;
   private final List<String> errors;
 
-  public CoinbaseBaseResponse(@JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
+  protected CoinbaseBaseResponse(@JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
 
     this.success = success;
     this.errors = errors;
   }
 
-  public CoinbaseBaseResponse(final boolean success) {
+  protected CoinbaseBaseResponse(final boolean success) {
 
     this.success = success;
     this.errors = null;

@@ -28,11 +28,11 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
     signatureCreator = CoinbaseDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  public List<CoinbaseCurrency> getCurrencies() throws IOException {
+  public List<CoinbaseCurrency> getCoinbaseCurrencies() throws IOException {
 
     return coinbase.getCurrencies();
   }
-  
+
   public CoinbaseUser createCoinbaseUser(final CoinbaseUser user) throws IOException {
 
     final CoinbaseUser createdUser = coinbase.createUser(user);
@@ -50,7 +50,12 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
     final CoinbaseToken token = coinbase.createToken();
     return handleResponse(token);
   }
-  
+
+  protected long getNonce() {
+
+    return System.currentTimeMillis();
+  }
+
   protected <R extends CoinbaseBaseResponse> R handleResponse(final R postResponse) {
 
     final List<String> errors = postResponse.getErrors();

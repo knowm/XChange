@@ -18,52 +18,52 @@ public class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService<Coinbase> 
     super(Coinbase.class, exchangeSpecification);
   }
   
-  public Map<String, BigDecimal> getCurrencyExchangeRates() throws IOException {
+  public Map<String, BigDecimal> getCoinbaseCurrencyExchangeRates() throws IOException {
 
     return coinbase.getCurrencyExchangeRates();
   }
 
-  public CoinbasePrice getBuyPrice() throws IOException {
+  public CoinbasePrice getCoinbaseBuyPrice() throws IOException {
 
-    return getBuyPrice(null, null);
+    return getCoinbaseBuyPrice(null, null);
   }
 
-  public CoinbasePrice getBuyPrice(BigDecimal quantity) throws IOException {
+  public CoinbasePrice getCoinbaseBuyPrice(BigDecimal quantity) throws IOException {
 
-    return getBuyPrice(quantity, null);
+    return getCoinbaseBuyPrice(quantity, null);
   }
 
-  public CoinbasePrice getBuyPrice(BigDecimal quantity, String currency) throws IOException {
+  public CoinbasePrice getCoinbaseBuyPrice(BigDecimal quantity, String currency) throws IOException {
 
     return coinbase.getBuyPrice(quantity, currency);
   }
 
-  public CoinbasePrice getSellPrice() throws IOException {
+  public CoinbasePrice getCoinbaseSellPrice() throws IOException {
 
-    return getBuyPrice(null, null);
+    return getCoinbaseSellPrice(null, null);
   }
 
-  public CoinbasePrice getSellPrice(BigDecimal quantity) throws IOException {
+  public CoinbasePrice getCoinbaseSellPrice(BigDecimal quantity) throws IOException {
 
-    return getBuyPrice(quantity, null);
+    return getCoinbaseSellPrice(quantity, null);
   }
 
-  public CoinbasePrice getSellPrice(BigDecimal quantity, String currency) throws IOException {
+  public CoinbasePrice getCoinbaseSellPrice(BigDecimal quantity, String currency) throws IOException {
 
-    return coinbase.getBuyPrice(quantity, currency);
+    return coinbase.getSellPrice(quantity, currency);
   }
 
-  public CoinbaseAmount getSpotRate(String currency) throws IOException {
+  public CoinbaseAmount getCoinbaseSpotRate(String currency) throws IOException {
 
     return coinbase.getSpotRate(currency);
   }
 
-  public CoinbaseSpotPriceHistory getHistoricalSpotRates() throws IOException {
+  public CoinbaseSpotPriceHistory getCoinbaseHistoricalSpotRates() throws IOException {
 
-    return getHistoricalSpotRates(null);
+    return getCoinbaseHistoricalSpotRates(null);
   }
 
-  public CoinbaseSpotPriceHistory getHistoricalSpotRates(Integer page) throws IOException {
+  public CoinbaseSpotPriceHistory getCoinbaseHistoricalSpotRates(Integer page) throws IOException {
 
     return coinbase.getHistoricalSpotRates(page);
   }

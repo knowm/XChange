@@ -25,11 +25,11 @@ public enum CoinbaseRecurringPaymentType {
     private static final EnumFromStringHelper<CoinbaseRecurringPaymentType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRecurringPaymentType>(CoinbaseRecurringPaymentType.class);
 
     @Override
-    public CoinbaseRecurringPaymentType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseRecurringPaymentType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      ObjectCodec oc = jsonParser.getCodec();
-      JsonNode node = oc.readTree(jsonParser);
-      String jsonString = node.textValue();
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String jsonString = node.textValue();
       return FROM_STRING_HELPER.fromJsonString(jsonString);
     }
   }

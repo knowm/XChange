@@ -24,11 +24,6 @@ package com.xeiam.xchange.coinbase;
 public final class CoinbaseUtils {
 
   private CoinbaseUtils() {
-
   }
 
-  public static long getNonce() {
-
-    return System.currentTimeMillis();
-  }
 }

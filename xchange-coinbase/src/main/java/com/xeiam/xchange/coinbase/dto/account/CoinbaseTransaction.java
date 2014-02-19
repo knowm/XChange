@@ -1,6 +1,7 @@
 package com.xeiam.xchange.coinbase.dto.account;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -185,7 +186,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
       return null;
     }
-    
+
     @Override
     public String getRecipientAddress() {
 
@@ -197,7 +198,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
       return notes;
     }
-    
+
     public abstract CoinbaseTransactionRequest withNotes(final String notes);
 
     @Override
@@ -213,22 +214,47 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     }
   }
 
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final BigMoney amount) {
+
+    return createMoneyRequest(from, amount.getCurrencyUnit().getCurrencyCode(), amount.getAmount());
+  }
+
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final String currency, final BigDecimal amount) {
+
+    return createMoneyRequest(from, currency, amount.toPlainString());
+  }
+
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final String currency, final String amountString) {
+
+    return new CoinbaseRequestMoneyRequest(from, currency, amountString);
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final BigMoney amount) {
+
+    return createSendMoneyRequest(from, amount.getCurrencyUnit().getCurrencyCode(), amount.getAmount());
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final String currency, final BigDecimal amount) {
+
+    return createSendMoneyRequest(from, currency, amount.toPlainString());
+  }
+
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final String currency, final String amountString) {
+
+    return new CoinbaseSendMoneyRequest(from, currency, amountString);
+  }
+
   public static class CoinbaseRequestMoneyRequest extends CoinbaseTransactionRequest {
 
     @JsonProperty("from")
     private final String from;
 
-    public CoinbaseRequestMoneyRequest(final String from, String currency, String amountString) {
+    private CoinbaseRequestMoneyRequest(final String from, final String currency, final String amountString) {
 
       super(currency, amountString);
       this.from = from;
     }
 
-    public CoinbaseRequestMoneyRequest(final String from, final BigMoney amount) {
-
-      this(from, amount.getCurrencyUnit().getCurrencyCode(), amount.getAmount().toPlainString());
-    }
-    
     public String getFrom() {
 
       return from;
@@ -254,70 +280,65 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     private String idempotencyKey;
     @JsonProperty("instant_buy")
     private boolean instantBuy;
-    
-    public CoinbaseSendMoneyRequest(final String to, String currency, String amountString) {
+
+    private CoinbaseSendMoneyRequest(final String to, final String currency, final String amountString) {
 
       super(currency, amountString);
       this.to = to;
-    }
-
-    public CoinbaseSendMoneyRequest(final String to, final BigMoney amount) {
-
-      this(to, amount.getCurrencyUnit().getCurrencyCode(), amount.getAmount().toPlainString());
     }
 
     public String getTo() {
 
       return to;
     }
-    
+
     @Override
     public CoinbaseSendMoneyRequest withNotes(String notes) {
 
       this.notes = notes;
       return this;
     }
-    
+
     public String getUserFee() {
-      
+
       return userFee;
     }
 
     public CoinbaseSendMoneyRequest withUserFee(final String userFee) {
-      
+
       this.userFee = userFee;
       return this;
     }
-    
+
     public String getReferrerId() {
-    
+
       return referrerId;
     }
 
     public CoinbaseSendMoneyRequest withReferrerId(final String referrerId) {
-      
+
       this.referrerId = referrerId;
       return this;
     }
-    
+
     public String getIdempotencyKey() {
-    
+
       return idempotencyKey;
     }
 
     public CoinbaseSendMoneyRequest withIdempotencyKey(final String idempotencyKey) {
-      
+
       this.idempotencyKey = idempotencyKey;
       return this;
     }
-    
+
     public boolean isInstantBuy() {
-    
+
       return instantBuy;
     }
-    
+
     public CoinbaseSendMoneyRequest withInstantBuy(final boolean instantBuy) {
-      
+
       this.instantBuy = instantBuy;
       return this;
     }
@@ -343,10 +364,10 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     private final String transactionHash;
     private final String idempotencyKey;
 
-    private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using=ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("amount") final CoinbaseAmount amount,
-        @JsonProperty("request") final boolean request, @JsonProperty("status") final CoinbaseTransactionStatus status, @JsonProperty("sender") final CoinbaseUserInfo sender,
-        @JsonProperty("recipient") final CoinbaseUserInfo recipient, @JsonProperty("recipient_address") final String recipientAddress, @JsonProperty("notes") final String notes,
-        @JsonProperty("hsh") final String transactionHash, @JsonProperty("idem") final String idempotencyKey) {
+    private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("amount") final CoinbaseAmount amount, @JsonProperty("request") final boolean request, @JsonProperty("status") final CoinbaseTransactionStatus status,
+        @JsonProperty("sender") final CoinbaseUserInfo sender, @JsonProperty("recipient") final CoinbaseUserInfo recipient, @JsonProperty("recipient_address") final String recipientAddress,
+        @JsonProperty("notes") final String notes, @JsonProperty("hsh") final String transactionHash, @JsonProperty("idem") final String idempotencyKey) {
 
       this.id = id;
       this.createdAt = createdAt;

@@ -25,11 +25,11 @@ public enum CoinbaseScope {
     private static final EnumFromStringHelper<CoinbaseScope> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseScope>(CoinbaseScope.class);
 
     @Override
-    public CoinbaseScope deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseScope deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      ObjectCodec oc = jsonParser.getCodec();
-      JsonNode node = oc.readTree(jsonParser);
-      String jsonString = node.textValue();
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String jsonString = node.textValue();
       return FROM_STRING_HELPER.fromJsonString(jsonString);
     }
   }

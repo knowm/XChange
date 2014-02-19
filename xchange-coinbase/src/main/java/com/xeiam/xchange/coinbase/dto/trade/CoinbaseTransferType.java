@@ -25,11 +25,11 @@ public enum CoinbaseTransferType {
     private static final EnumFromStringHelper<CoinbaseTransferType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseTransferType>(CoinbaseTransferType.class);
 
     @Override
-    public CoinbaseTransferType deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseTransferType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      ObjectCodec oc = jsonParser.getCodec();
-      JsonNode node = oc.readTree(jsonParser);
-      String jsonString = node.textValue();
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String jsonString = node.textValue();
       return FROM_STRING_HELPER.fromJsonString(jsonString);
     }
   }

@@ -13,7 +13,7 @@ public class CoinbaseAccountChanges extends CoinbasePagedResult {
   private final CoinbaseAmount balance;
   private final List<CoinbaseAccountChange> accountChanges;
 
-  public CoinbaseAccountChanges(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseAmount balance,
+  private CoinbaseAccountChanges(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseAmount balance,
       @JsonProperty("account_changes") final List<CoinbaseAccountChange> accountChanges, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
       @JsonProperty("current_page") final int currentPage) {
 

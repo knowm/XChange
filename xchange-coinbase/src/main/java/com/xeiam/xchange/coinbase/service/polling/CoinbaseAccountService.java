@@ -3,13 +3,15 @@ package com.xeiam.xchange.coinbase.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.coinbase.CoinbaseAdapters;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-
 
 public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw implements PollingAccountService {
 
@@ -19,24 +21,25 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
 
-    // TODO Auto-generated method stub
-    return null;
+    final CoinbaseUsers users = super.getCoinbaseUsers();
+    return CoinbaseAdapters.adaptAccountInfo(users.getUsers().get(0));
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
-    // TODO Auto-generated method stub
-    return null;
+    final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, Currencies.BTC, amount);
+    final CoinbaseTransaction sendMoneyTransaction = super.sendMoneyCoinbaseRequest(sendMoneyRequest);
+    return sendMoneyTransaction.getTransactionHash();
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
-    // TODO Auto-generated method stub
-    return null;
+    final CoinbaseAddress receiveAddress = super.getCoinbaseReceiveAddress();
+    return receiveAddress.getAddress();
   }
 
 }

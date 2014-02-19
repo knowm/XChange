@@ -17,7 +17,7 @@ public class CoinbaseAccountChange {
   private final CoinbaseCache cache;
   private final CoinbaseAmount amount;
 
-  public CoinbaseAccountChange(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using=ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("transaction_id") final String transactionId,
+  private CoinbaseAccountChange(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using=ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("transaction_id") final String transactionId,
       @JsonProperty("confirmed") final boolean confirmed, @JsonProperty("cache") final CoinbaseCache cache, @JsonProperty("amount") final CoinbaseAmount amount) {
 
     this.id = id;
@@ -70,7 +70,7 @@ public class CoinbaseAccountChange {
     private final CoinbaseAccountChangeCategory category;
     private final CoinbaseUser otherUser;
 
-    public CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent, @JsonProperty("category") final CoinbaseAccountChangeCategory category, @JsonProperty("other_user") final CoinbaseUserInfo otherUser) {
+    private CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent, @JsonProperty("category") final CoinbaseAccountChangeCategory category, @JsonProperty("other_user") final CoinbaseUserInfo otherUser) {
 
       this.notesPresent = notesPresent;
       this.category = category;

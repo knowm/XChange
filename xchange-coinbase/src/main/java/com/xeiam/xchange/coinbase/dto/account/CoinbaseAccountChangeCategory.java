@@ -25,11 +25,11 @@ public enum CoinbaseAccountChangeCategory {
     private static final EnumFromStringHelper<CoinbaseAccountChangeCategory> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseAccountChangeCategory>(CoinbaseAccountChangeCategory.class);
 
     @Override
-    public CoinbaseAccountChangeCategory deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseAccountChangeCategory deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      ObjectCodec oc = jsonParser.getCodec();
-      JsonNode node = oc.readTree(jsonParser);
-      String jsonString = node.textValue();
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String jsonString = node.textValue();
       return FROM_STRING_HELPER.fromJsonString(jsonString);
     }
   }

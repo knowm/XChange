@@ -9,7 +9,7 @@ public class CoinbaseTransfers extends CoinbasePagedResult {
 
   private final List<CoinbaseTransfer> transfers;
 
-  public CoinbaseTransfers(@JsonProperty("transfers") final List<CoinbaseTransfer> transfers, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
+  private CoinbaseTransfers(@JsonProperty("transfers") final List<CoinbaseTransfer> transfers, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
       @JsonProperty("current_page") final int currentPage) {
 
     super(totalCount, numPages, currentPage);

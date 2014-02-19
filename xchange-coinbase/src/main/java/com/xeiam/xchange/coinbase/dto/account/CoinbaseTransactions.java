@@ -14,7 +14,7 @@ public class CoinbaseTransactions extends CoinbasePagedResult {
   private final CoinbaseAmount balance;
   private final List<CoinbaseTransaction> transactions;
   
-  public CoinbaseTransactions(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseAmount balance, 
+  private CoinbaseTransactions(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseAmount balance, 
       @JsonProperty("transactions") final List<CoinbaseTransaction> transactions, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
       @JsonProperty("current_page") final int currentPage) {
     

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.CoinbaseAuthenticated;
-import com.xeiam.xchange.coinbase.CoinbaseUtils;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAccountChanges;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
@@ -14,11 +13,11 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseContacts;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseRecurringPayment;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseRecurringPayments;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseRequestMoneyRequest;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransactions;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
-import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseRequestMoneyRequest;
-import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
@@ -35,31 +34,31 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseUsers getCoinbaseUsers() throws IOException {
 
-    final CoinbaseUsers users = coinbase.getUsers(exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseUsers users = coinbase.getUsers(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return users;
   }
 
   public CoinbaseUser updateCoinbaseUser(final CoinbaseUser user) throws IOException {
 
-    final CoinbaseUser updatedUser = coinbase.updateUser(user.getId(), user, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseUser updatedUser = coinbase.updateUser(user.getId(), user, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(updatedUser);
   }
 
   public boolean redeemCoinbaseToken(final String tokenId) throws IOException {
 
-    final CoinbaseBaseResponse response = coinbase.redeemToken(tokenId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseBaseResponse response = coinbase.redeemToken(tokenId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(response).isSuccess();
   }
 
   public CoinbaseAmount getCoinbaseBalance() throws IOException {
 
-    final CoinbaseAmount balance = coinbase.getBalance(exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseAmount balance = coinbase.getBalance(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return balance;
   }
 
   public CoinbaseAddress getCoinbaseReceiveAddress() throws IOException {
 
-    final CoinbaseAddress receiveResult = coinbase.getReceiveAddress(exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseAddress receiveResult = coinbase.getReceiveAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return receiveResult;
   }
 
@@ -70,7 +69,7 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseAddresses getCoinbaseAddresses(final Integer page, final Integer limit, final String filter) throws IOException {
 
-    final CoinbaseAddresses receiveResult = coinbase.getAddresses(page, limit, filter, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseAddresses receiveResult = coinbase.getAddresses(page, limit, filter, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return receiveResult;
   }
 
@@ -82,7 +81,7 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
   public CoinbaseAddress generateCoinbaseReceiveAddress(final String callbackUrl, final String label) throws IOException {
 
     final CoinbaseAddressCallback callbackUrlParam = new CoinbaseAddressCallback(callbackUrl, label);
-    final CoinbaseAddress generateReceiveAddress = coinbase.generateReceiveAddress(callbackUrlParam, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseAddress generateReceiveAddress = coinbase.generateReceiveAddress(callbackUrlParam, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
 
     return handleResponse(generateReceiveAddress);
   }
@@ -94,7 +93,7 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseAccountChanges getCoinbaseAccountChanges(final Integer page) throws IOException {
 
-    final CoinbaseAccountChanges accountChanges = coinbase.getAccountChanges(page, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseAccountChanges accountChanges = coinbase.getAccountChanges(page, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return accountChanges;
   }
 
@@ -105,7 +104,7 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseContacts getCoinbaseContacts(final Integer page, final Integer limit, final String filter) throws IOException {
 
-    final CoinbaseContacts contacts = coinbase.getContacts(page, limit, filter, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseContacts contacts = coinbase.getContacts(page, limit, filter, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return contacts;
   }
 
@@ -116,49 +115,49 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseTransactions getCoinbaseTransactions(final Integer page) throws IOException {
 
-    final CoinbaseTransactions transactions = coinbase.getTransactions(page, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseTransactions transactions = coinbase.getTransactions(page, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return transactions;
   }
 
   public CoinbaseTransaction getCoinbaseTransaction(final String transactionId) throws IOException {
 
-    final CoinbaseTransaction transaction = coinbase.getTransactionDetails(transactionId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseTransaction transaction = coinbase.getTransactionDetails(transactionId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(transaction);
   }
 
-  public CoinbaseTransaction requestMoney(final CoinbaseRequestMoneyRequest transactionRequest) throws IOException {
+  public CoinbaseTransaction requestMoneyCoinbaseRequest(final CoinbaseRequestMoneyRequest transactionRequest) throws IOException {
 
-    final CoinbaseTransaction pendingTransaction = coinbase.requestMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseTransaction pendingTransaction = coinbase.requestMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(pendingTransaction);
   }
 
-  public CoinbaseTransaction sendMoney(final CoinbaseSendMoneyRequest transactionRequest) throws IOException {
+  public CoinbaseTransaction sendMoneyCoinbaseRequest(final CoinbaseSendMoneyRequest transactionRequest) throws IOException {
 
-    final CoinbaseTransaction pendingTransaction = coinbase.sendMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseTransaction pendingTransaction = coinbase.sendMoney(new CoinbaseTransaction(transactionRequest), exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(pendingTransaction);
   }
 
-  public CoinbaseBaseResponse resendRequest(final String transactionId) throws IOException {
+  public CoinbaseBaseResponse resendCoinbaseRequest(final String transactionId) throws IOException {
 
-    final CoinbaseBaseResponse response = coinbase.resendRequest(transactionId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseBaseResponse response = coinbase.resendRequest(transactionId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(response);
   }
 
-  public CoinbaseTransaction completeRequest(final String transactionId) throws IOException {
+  public CoinbaseTransaction completeCoinbaseRequest(final String transactionId) throws IOException {
 
-    final CoinbaseTransaction response = coinbase.completeRequest(transactionId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseTransaction response = coinbase.completeRequest(transactionId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(response);
   }
 
-  public CoinbaseBaseResponse cancelRequest(final String transactionId) throws IOException {
+  public CoinbaseBaseResponse cancelCoinbaseRequest(final String transactionId) throws IOException {
 
-    final CoinbaseBaseResponse response = coinbase.cancelRequest(transactionId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseBaseResponse response = coinbase.cancelRequest(transactionId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(response);
   }
 
   public CoinbaseButton createCoinbaseButton(final CoinbaseButton button) throws IOException {
 
-    final CoinbaseButton createdButton = coinbase.createButton(button, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseButton createdButton = coinbase.createButton(button, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(createdButton);
   }
 
@@ -169,25 +168,25 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseOrders getCoinbaseOrders(final Integer page) throws IOException {
 
-    final CoinbaseOrders orders = coinbase.getOrders(page, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseOrders orders = coinbase.getOrders(page, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return orders;
   }
 
   public CoinbaseOrder getCoinbaseOrder(final String orderId) throws IOException {
 
-    final CoinbaseOrder order = coinbase.getOrder(orderId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseOrder order = coinbase.getOrder(orderId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(order);
   }
 
   public CoinbaseOrder createCoinbaseOrder(final String code) throws IOException {
 
-    final CoinbaseOrder createdOrder = coinbase.createOrder(code, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseOrder createdOrder = coinbase.createOrder(code, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(createdOrder);
   }
 
   public CoinbaseOrder createCoinbaseOrder(final CoinbaseButton button) throws IOException {
 
-    final CoinbaseOrder createdOrder = coinbase.createOrder(button, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseOrder createdOrder = coinbase.createOrder(button, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(createdOrder);
   }
 
@@ -198,13 +197,13 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseRecurringPayments getCoinbaseRecurringPayments(final Integer page, final Integer limit) throws IOException {
 
-    final CoinbaseRecurringPayments recurringPayments = coinbase.getRecurringPayments(page, limit, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseRecurringPayments recurringPayments = coinbase.getRecurringPayments(page, limit, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return recurringPayments;
   }
 
   public CoinbaseRecurringPayment getCoinbaseRecurringPayment(final String recurringPaymentId) throws IOException {
 
-    final CoinbaseRecurringPayment recurringPayment = coinbase.getRecurringPayment(recurringPaymentId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseRecurringPayment recurringPayment = coinbase.getRecurringPayment(recurringPaymentId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return recurringPayment;
   }
 
@@ -215,13 +214,13 @@ public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthe
 
   public CoinbaseSubscriptions getCoinbaseSubscriptions(final Integer page, final Integer limit) throws IOException {
 
-    final CoinbaseSubscriptions subscriptions = coinbase.getsSubscriptions(page, limit, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseSubscriptions subscriptions = coinbase.getsSubscriptions(page, limit, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return subscriptions;
   }
 
   public CoinbaseSubscription getCoinbaseSubscription(final String subscriptionId) throws IOException {
 
-    final CoinbaseSubscription subscription = coinbase.getsSubscription(subscriptionId, exchangeSpecification.getApiKey(), signatureCreator, CoinbaseUtils.getNonce());
+    final CoinbaseSubscription subscription = coinbase.getsSubscription(subscriptionId, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return subscription;
   }
 }
