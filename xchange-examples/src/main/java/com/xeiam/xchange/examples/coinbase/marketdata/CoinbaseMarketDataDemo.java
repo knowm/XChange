@@ -39,6 +39,9 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseMarketDataDemo {
 
   public static void main(String[] args) throws IOException {

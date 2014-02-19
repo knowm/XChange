@@ -26,6 +26,8 @@ import java.util.List;
 import org.joda.money.BigMoney;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
@@ -36,6 +38,7 @@ import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 /**
  * @author jamespedwards42
  */
+@JsonInclude(Include.NON_NULL)
 public class CoinbaseUser extends CoinbaseBaseResponse {
 
   @JsonProperty("user")
@@ -212,6 +215,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     return "CoinbaseUser [user=" + user + ", oAuth=" + oAuth + ", oAuthClientId=" + oAuthClientId + "]";
   }
 
+  @JsonInclude(Include.NON_NULL)
   public static class CoinbaseUserInfo {
 
     private final String id;

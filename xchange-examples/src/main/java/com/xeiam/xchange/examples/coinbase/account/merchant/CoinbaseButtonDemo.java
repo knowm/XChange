@@ -33,6 +33,9 @@ import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseButtonDemo {
 
   public static void main(String[] args) throws IOException {

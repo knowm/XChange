@@ -39,6 +39,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -67,7 +68,7 @@ public final class CoinbaseAdapters {
     for (final CoinbaseTransfer transfer : transfers.getTransfers()) 
       trades.add(adaptTrade(transfer));
     
-    final Trades adaptedTrades = new Trades(trades);
+    final Trades adaptedTrades = new Trades(trades, TradeSortType.SortByTimestamp);
     return adaptedTrades;
   }
 

@@ -32,7 +32,9 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 
-
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseMerchantDemo {
 
   public static void main(String[] args) throws IOException {

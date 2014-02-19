@@ -30,6 +30,9 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseTradeDemo {
 
   public static void main(String[] args) throws IOException {

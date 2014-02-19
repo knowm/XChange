@@ -45,6 +45,9 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
+/**
+ * @author jamespedwards42
+ */
 public class CoinbaseAccountDemo {
 
   public static void main(String[] args) throws IOException {
@@ -153,10 +156,8 @@ public class CoinbaseAccountDemo {
     System.out.println(cancelResponse);
 
     // CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction
-    // .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
-    // .withNotes("Demo Money!")
-    // .withInstantBuy(false)
-    // .withUserFee("0.0");
+    //    .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
+    //    .withNotes("Demo Money!").withInstantBuy(false).withUserFee("0.0");
     // CoinbaseTransaction sendTransaction = accountService.sendMoney(sendMoneyRequest);
     // System.out.println(sendTransaction);
 
