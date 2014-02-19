@@ -27,133 +27,159 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexOrderStatusResponse {
 
-  private final int id;
-  private final String symbol;
-  private final String exchange;
-  private final BigDecimal price;
-  private final BigDecimal avgExecutionPrice;
-  private final String side;
-  private final String type;
-  private final float timestamp;
-  private final boolean isLive;
-  private final boolean isCancelled;
-  private final boolean wasForced;
-  private final BigDecimal originalAmount;
-  private final BigDecimal remainingAmount;
-  private final BigDecimal executedAmount;
+	private final int id;
+	private final String symbol;
+	private final String exchange;
+	private final BigDecimal price;
+	private final BigDecimal avgExecutionPrice;
+	private final String side;
+	private final String type;
+	private final float timestamp;
+	private final boolean isLive;
+	private final boolean isCancelled;
+	private final boolean wasForced;
+	private final BigDecimal originalAmount;
+	private final BigDecimal remainingAmount;
+	private final BigDecimal executedAmount;
 
-  /**
-   * Constructor
-   * 
-   * @param id
-   * @param symbol
-   * @param exchange
-   * @param price
-   * @param avgExecutionPrice
-   * @param side
-   * @param type
-   * @param timestamp
-   * @param isLive
-   * @param isCancelled
-   * @param wasForced
-   * @param originalAmount
-   * @param remainingAmount
-   * @param executedAmount
-   */
-  public BitfinexOrderStatusResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("exchange") String exchange, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side, @JsonProperty("type") String type, @JsonProperty("timestamp") float timestamp,
-      @JsonProperty("is_live") boolean isLive, @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
-      @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount, @JsonProperty("executed_amount") BigDecimal executedAmount) {
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 * @param symbol
+	 * @param exchange
+	 * @param price
+	 * @param avgExecutionPrice
+	 * @param side
+	 * @param type
+	 * @param timestamp
+	 * @param isLive
+	 * @param isCancelled
+	 * @param wasForced
+	 * @param originalAmount
+	 * @param remainingAmount
+	 * @param executedAmount
+	 */
+	public BitfinexOrderStatusResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("exchange") String exchange, @JsonProperty("price") BigDecimal price,
+			@JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side, @JsonProperty("type") String type, @JsonProperty("timestamp") float timestamp,
+			@JsonProperty("is_live") boolean isLive, @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
+			@JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount, @JsonProperty("executed_amount") BigDecimal executedAmount) {
 
-    this.id = id;
-    this.symbol = symbol;
-    this.exchange = exchange;
-    this.price = price;
-    this.avgExecutionPrice = avgExecutionPrice;
-    this.side = side;
-    this.type = type;
-    this.timestamp = timestamp;
-    this.isLive = isLive;
-    this.isCancelled = isCancelled;
-    this.wasForced = wasForced;
-    this.originalAmount = originalAmount;
-    this.remainingAmount = remainingAmount;
-    this.executedAmount = executedAmount;
-  }
+		this.id = id;
+		this.symbol = symbol;
+		this.exchange = exchange;
+		this.price = price;
+		this.avgExecutionPrice = avgExecutionPrice;
+		this.side = side;
+		this.type = type;
+		this.timestamp = timestamp;
+		this.isLive = isLive;
+		this.isCancelled = isCancelled;
+		this.wasForced = wasForced;
+		this.originalAmount = originalAmount;
+		this.remainingAmount = remainingAmount;
+		this.executedAmount = executedAmount;
+	}
 
-  public BigDecimal getExecutedAmount() {
+	public BigDecimal getExecutedAmount() {
 
-    return executedAmount;
-  }
+		return executedAmount;
+	}
 
-  public BigDecimal getRemainingAmount() {
+	public BigDecimal getRemainingAmount() {
 
-    return remainingAmount;
-  }
+		return remainingAmount;
+	}
 
-  public String getSymbol() {
+	public BigDecimal getOriginalAmount() {
+		return originalAmount;
+	}
 
-    return symbol;
-  }
+	public boolean getWasForced() {
+		return wasForced;
+	}
 
-  public boolean isCancelled() {
+	public  String getExchange() {
+		return exchange;
+	}
 
-    return isCancelled;
-  }
+	public  String getType() {
+		return type;
+	}
 
-  public BigDecimal getPrice() {
+	public String getSymbol() {
 
-    return price;
-  }
+		return symbol;
+	}
 
-  public String getSide() {
+	public boolean isCancelled() {
 
-    return side;
-  }
+		return isCancelled;
+	}
 
-  public float getTimestamp() {
+	public BigDecimal getPrice() {
 
-    return timestamp;
-  }
+		return price;
+	}
 
-  public int getId() {
+	public String getSide() {
 
-    return id;
-  }
+		return side;
+	}
 
-  @Override
-  public String toString() {
+	public float getTimestamp() {
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexOrderStatusResponse [id=");
-    builder.append(id);
-    builder.append(", symbol=");
-    builder.append(symbol);
-    builder.append(", exchange=");
-    builder.append(exchange);
-    builder.append(", price=");
-    builder.append(price);
-    builder.append(", avgExecutionPrice=");
-    builder.append(avgExecutionPrice);
-    builder.append(", side=");
-    builder.append(side);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append(", timestamp=");
-    builder.append(timestamp);
-    builder.append(", isLive=");
-    builder.append(isLive);
-    builder.append(", isCancelled=");
-    builder.append(isCancelled);
-    builder.append(", wasForced=");
-    builder.append(wasForced);
-    builder.append(", originalAmount=");
-    builder.append(originalAmount);
-    builder.append(", remainingAmount=");
-    builder.append(remainingAmount);
-    builder.append(", executedAmount=");
-    builder.append(executedAmount);
-    builder.append("]");
-    return builder.toString();
-  }
+		return timestamp;
+	}
+
+	public int getId() {
+
+		return id;
+	}
+
+	public boolean isLive() {
+		return isLive;
+	}
+
+	public BigDecimal getAvgExecutionPrice() {
+		return avgExecutionPrice;
+	}
+
+
+
+	@Override
+	public String toString() {
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("BitfinexOrderStatusResponse [id=");
+		builder.append(id);
+		builder.append(", symbol=");
+		builder.append(symbol);
+		builder.append(", exchange=");
+		builder.append(exchange);
+		builder.append(", price=");
+		builder.append(price);
+		builder.append(", avgExecutionPrice=");
+		builder.append(avgExecutionPrice);
+		builder.append(", side=");
+		builder.append(side);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append(", timestamp=");
+		builder.append(timestamp);
+		builder.append(", isLive=");
+		builder.append(isLive);
+		builder.append(", isCancelled=");
+		builder.append(isCancelled);
+		builder.append(", wasForced=");
+		builder.append(wasForced);
+		builder.append(", originalAmount=");
+		builder.append(originalAmount);
+		builder.append(", remainingAmount=");
+		builder.append(remainingAmount);
+		builder.append(", executedAmount=");
+		builder.append(executedAmount);
+		builder.append("]");
+		return builder.toString();
+	}
 }

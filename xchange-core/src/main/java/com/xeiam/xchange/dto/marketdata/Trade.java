@@ -176,6 +176,7 @@ public final class Trade implements Comparable<Trade> {
     // NOTE: see https://github.com/timmolter/XChange/issues/225
     // NOTE: see https://github.com/timmolter/XChange/issues/316
     return getId().compareTo(trade.getId());
+
   }
 
   @Override
