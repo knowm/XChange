@@ -19,39 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
-
-import java.math.BigDecimal;
-import java.util.Date;
+package com.xeiam.xchange.coinbase.dto;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public abstract class CoinbasePagedResult {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
+  private final int totalCount;
+  private final int numPages;
+  private final int currentPage;
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  protected CoinbasePagedResult(final int totalCount, final int numPages, final int currentPage) {
 
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+    this.totalCount = totalCount;
+    this.numPages = numPages;
+    this.currentPage = currentPage;
   }
 
-  public Date getTimestamp() {
+  public int getTotalCount() {
 
-    return timestamp;
+    return totalCount;
   }
 
-  public BigDecimal getSpotRate() {
+  public int getNumPages() {
 
-    return spotRate;
+    return numPages;
+  }
+
+  public int getCurrentPage() {
+
+    return currentPage;
   }
 
   @Override
   public String toString() {
 
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
+    return "CoinbasePagedResult [totalCount=" + totalCount + ", numPages=" + numPages + ", currentPage=" + currentPage + "]";
   }
 
 }

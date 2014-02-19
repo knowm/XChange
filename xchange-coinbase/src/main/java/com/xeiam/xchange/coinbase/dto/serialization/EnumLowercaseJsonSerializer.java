@@ -1,16 +1,16 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
- * 
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,39 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.service;
+package com.xeiam.xchange.coinbase.dto.serialization;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
- * @author timmolter
+ * @author jamespedwards42
  */
-public class CoinbaseBaseService extends BaseExchangeService {
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD
-
-  );
-
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
-  public CoinbaseBaseService(ExchangeSpecification exchangeSpecification) {
-
-    super(exchangeSpecification);
-  }
+public class EnumLowercaseJsonSerializer extends JsonSerializer<Enum<?>> {
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public void serialize(Enum<?> value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
 
-    return CURRENCY_PAIRS;
+    jgen.writeString(value.toString().toLowerCase());
   }
+
+
 }

@@ -19,39 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.examples.coinbase;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.coinbase.CoinbaseExchange;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class CoinbaseDemoUtils {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
+  public static Exchange createExchange() {
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
-
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+    ExchangeSpecification exSpec = new CoinbaseExchange().getDefaultExchangeSpecification();
+    exSpec.setApiKey("");
+    exSpec.setSecretKey("");
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
-  public Date getTimestamp() {
-
-    return timestamp;
-  }
-
-  public BigDecimal getSpotRate() {
-
-    return spotRate;
-  }
-
-  @Override
-  public String toString() {
-
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
-  }
-
 }

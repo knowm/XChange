@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto.common;
 
 import java.io.IOException;
 
@@ -30,52 +30,31 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency.CoibaseCurrencyDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.xeiam.xchange.coinbase.dto.common.CoinbaseRepeat.CoinbaseRepeatDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
 /**
  * @author jamespedwards42
  */
-@JsonDeserialize(using = CoibaseCurrencyDeserializer.class)
-public class CoinbaseCurrency {
+@JsonDeserialize(using = CoinbaseRepeatDeserializer.class)
+@JsonSerialize(using = EnumLowercaseJsonSerializer.class)
+public enum CoinbaseRepeat {
 
-  private final String name;
-  private final String isoCode;
+  NEVER, DAILY, WEEKLY, EVERY_TWO_WEEKS, MONTHLY, QUARTERLY, YEARLY;
+  
+  static class CoinbaseRepeatDeserializer extends JsonDeserializer<CoinbaseRepeat> {
 
-  private CoinbaseCurrency(final String name, final String isoCode) {
-
-    this.name = name;
-    this.isoCode = isoCode;
-  }
-
-  public String getName() {
-
-    return name;
-  }
-
-  public String getIsoCode() {
-
-    return isoCode;
-  }
-
-  @Override
-  public String toString() {
-
-    return "CoinbaseCurrency [name=" + name + ", isoCode=" + isoCode + "]";
-  }
-
-  static class CoibaseCurrencyDeserializer extends JsonDeserializer<CoinbaseCurrency> {
+    private static final EnumFromStringHelper<CoinbaseRepeat> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRepeat>(CoinbaseRepeat.class);
 
     @Override
-    public CoinbaseCurrency deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseRepeat deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      ObjectCodec oc = jp.getCodec();
-      JsonNode node = oc.readTree(jp);
-      if (node.isArray()) {
-        String name = node.path(0).asText();
-        String isoCode = node.path(1).asText();
-        return new CoinbaseCurrency(name, isoCode);
-      }
-      return null;
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String jsonString = node.textValue();
+      return FROM_STRING_HELPER.fromJsonString(jsonString);
     }
   }
 }

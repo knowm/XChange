@@ -19,39 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto.account;
 
-import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public interface CoinbaseTransactionInfo {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
+  @JsonIgnore
+  public String getId();
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  @JsonIgnore
+  public Date getCreatedAt();
 
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
-  }
+  @JsonIgnore
+  public CoinbaseAmount getAmount();
 
-  public Date getTimestamp() {
+  @JsonIgnore
+  public boolean isRequest();
 
-    return timestamp;
-  }
+  @JsonIgnore
+  public CoinbaseTransactionStatus getStatus();
 
-  public BigDecimal getSpotRate() {
+  @JsonIgnore
+  public CoinbaseUser getSender();
 
-    return spotRate;
-  }
+  @JsonIgnore
+  public CoinbaseUser getRecipient();
 
-  @Override
-  public String toString() {
+  @JsonIgnore
+  public String getRecipientAddress();
 
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
-  }
+  public String getNotes();
 
-}
+  @JsonIgnore
+  public String getTransactionHash();
+
+  @JsonIgnore
+  public String getIdempotencyKey();
+};

@@ -19,39 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto.serialization;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class EnumFromStringHelper<T extends Enum<T>> {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
+  private final Map<String, T> fromString = new HashMap<String, T>();
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  public EnumFromStringHelper(Class<T> enumClass) {
 
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+    for (final T enumVal : enumClass.getEnumConstants())
+      fromString.put(enumVal.toString().toLowerCase(), enumVal);
   }
 
-  public Date getTimestamp() {
+  public EnumFromStringHelper<T> addJsonStringMapping(final String jsonString, final T enumVal) {
 
-    return timestamp;
+    fromString.put(jsonString, enumVal);
+    return this;
   }
-
-  public BigDecimal getSpotRate() {
-
-    return spotRate;
+  
+  public T fromJsonString(final String jsonString) {
+    
+    return fromString.get(jsonString.toLowerCase());
   }
-
-  @Override
-  public String toString() {
-
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
-  }
-
 }

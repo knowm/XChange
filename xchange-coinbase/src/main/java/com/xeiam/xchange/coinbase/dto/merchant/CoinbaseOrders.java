@@ -19,39 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto.merchant;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.coinbase.dto.CoinbasePagedResult;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class CoinbaseOrders extends CoinbasePagedResult {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
+  private final List<CoinbaseOrder> orders;
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  private CoinbaseOrders(@JsonProperty("orders") final List<CoinbaseOrder> orders, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
+      @JsonProperty("current_page") final int currentPage) {
 
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+    super(totalCount, numPages, currentPage);
+    this.orders = orders;
   }
 
-  public Date getTimestamp() {
+  public List<CoinbaseOrder> getOrders() {
 
-    return timestamp;
-  }
-
-  public BigDecimal getSpotRate() {
-
-    return spotRate;
+    return orders;
   }
 
   @Override
   public String toString() {
 
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
+    return "CoinbaseOrders [orders=" + orders + "]";
   }
-
 }

@@ -19,39 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto.merchant;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.coinbase.dto.CoinbasePagedResult;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class CoinbaseSubscriptions extends CoinbasePagedResult {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
-
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
-
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+  private final List<CoinbaseSubscription> subscriptions;
+  
+  private CoinbaseSubscriptions(@JsonProperty("recurring_payments") final List<CoinbaseSubscription> subscriptions, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
+      @JsonProperty("current_page") final int currentPage) {
+    
+    super(totalCount, numPages, currentPage);
+    this.subscriptions = subscriptions;
   }
 
-  public Date getTimestamp() {
+  public List<CoinbaseSubscription> getSubscriptions() {
 
-    return timestamp;
-  }
-
-  public BigDecimal getSpotRate() {
-
-    return spotRate;
+    return subscriptions;
   }
 
   @Override
   public String toString() {
 
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
+    return "CoinbaseSubscriptions [subscriptions=" + subscriptions + "]";
   }
-
+  
 }

@@ -19,39 +19,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class CoinbaseAddressCallback {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
+  @JsonProperty("address")
+  private final CoinbaseCallbackUrlParam callbackUrlParam;
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  public CoinbaseAddressCallback(final String callbackUrl, final String label) {
 
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+    this.callbackUrlParam = new CoinbaseCallbackUrlParam(callbackUrl, label);
   }
 
-  public Date getTimestamp() {
+  private static class CoinbaseCallbackUrlParam {
 
-    return timestamp;
-  }
+    @JsonProperty("callback_url")
+    private final String callbackUrl;
 
-  public BigDecimal getSpotRate() {
+    @JsonProperty("label")
+    private final String label;
 
-    return spotRate;
+    private CoinbaseCallbackUrlParam(final String callbackUrl, final String label) {
+
+      this.callbackUrl = callbackUrl;
+      this.label = label;
+    }
+
+    @Override
+    public String toString() {
+
+      return "CoinbaseCallbackUrlParam [callbackUrl=" + callbackUrl + ", label=" + label + "]";
+    }
   }
 
   @Override
   public String toString() {
 
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
+    return "CoinbaseAddressCallback [callbackUrlParam=" + callbackUrlParam + "]";
   }
-
 }

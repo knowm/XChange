@@ -19,39 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class CoinbaseBaseResponse {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
+  private final boolean success;
+  private final List<String> errors;
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  protected CoinbaseBaseResponse(@JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
 
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+    this.success = success;
+    this.errors = errors;
   }
 
-  public Date getTimestamp() {
+  protected CoinbaseBaseResponse(final boolean success) {
 
-    return timestamp;
+    this.success = success;
+    this.errors = null;
+  }
+  
+  @JsonIgnore
+  public boolean isSuccess() {
+
+    return success;
   }
 
-  public BigDecimal getSpotRate() {
+  @JsonIgnore
+  public List<String> getErrors() {
 
-    return spotRate;
+    return errors;
   }
 
   @Override
   public String toString() {
 
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
+    return "CoinbasePostResponse [success=" + success + ", errors=" + errors + "]";
   }
-
 }

@@ -26,15 +26,19 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseRate;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 
 /**
@@ -62,9 +66,19 @@ public interface Coinbase {
 
   @GET
   @Path("prices/spot_rate")
-  CoinbaseRate getSpotRate(@QueryParam("currency") String currency) throws IOException;
+  CoinbaseAmount getSpotRate(@QueryParam("currency") String currency) throws IOException;
 
   @GET
   @Path("prices/historical")
   CoinbaseSpotPriceHistory getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Path("users")
+  CoinbaseUser createUser(CoinbaseUser user) throws IOException;
+  
+  @POST
+  @Path("tokens")
+  CoinbaseToken createToken() throws IOException;
+  
 }

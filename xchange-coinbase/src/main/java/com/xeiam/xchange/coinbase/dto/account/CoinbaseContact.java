@@ -19,39 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.marketdata;
+package com.xeiam.xchange.coinbase.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class CoinbaseContact {
 
-  private final Date timestamp;
-  private final BigDecimal spotRate;
-
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
-
-    this.timestamp = timestamp;
-    this.spotRate = spotRate;
+  private final CoinbaseContactEmail contact;
+  
+  public CoinbaseContact(@JsonProperty("contact") final CoinbaseContactEmail contact) {
+    
+    this.contact = contact;
   }
-
-  public Date getTimestamp() {
-
-    return timestamp;
-  }
-
-  public BigDecimal getSpotRate() {
-
-    return spotRate;
+  
+  public String getEmail() {
+    
+    return contact.email;
   }
 
   @Override
   public String toString() {
 
-    return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
+    return "CoinbaseContact [contact=" + contact + "]";
   }
 
+  private static class CoinbaseContactEmail {
+    
+    private final String email;
+    
+    private CoinbaseContactEmail(@JsonProperty("email") final String email) {
+      
+      this.email = email;
+    }
+
+    @Override
+    public String toString() {
+
+      return "CoinbaseContactEmail [email=" + email + "]";
+    }
+  }
 }
