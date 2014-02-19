@@ -116,6 +116,7 @@ public class KrakenAdaptersTest {
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(new Date(1385579841777L));
     assertThat(trades.getTrades().get(1).getTradableAmount()).isEqualTo("0.01500000");
+    assertThat(trades.getTimestamp()).isEqualTo(1385579841881L);
 
   }
 

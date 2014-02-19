@@ -43,6 +43,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -87,7 +88,7 @@ public class CexIOAdapters {
       // Date is reversed order. Insert at index 0 instead of appending
       tradesList.add(0, adaptTrade(trade, tradableIdentifier, currency));
     }
-    return new Trades(tradesList);
+    return new Trades(tradesList, TradeSortType.SortByID);
   }
 
   /**

@@ -37,6 +37,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -119,7 +120,7 @@ public final class BitcurexAdapters {
     for (BitcurexTrade bitcurexTrade : bitcurexTrades) {
       tradesList.add(adaptTrade(bitcurexTrade, currency, tradableIdentifier));
     }
-    return new Trades(tradesList);
+    return new Trades(tradesList, TradeSortType.SortByID);
   }
 
   /**

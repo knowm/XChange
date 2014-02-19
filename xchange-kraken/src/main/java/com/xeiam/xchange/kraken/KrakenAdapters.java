@@ -40,6 +40,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -101,7 +102,7 @@ public class KrakenAdapters {
       trades.add(adaptTrade(krakenTrade, currency, tradableIdentifier));
     }
 
-    return new Trades(trades, last);
+    return new Trades(trades, (last / 1000000L), TradeSortType.SortByTimestamp);
   }
 
   public static Trade adaptTrade(KrakenPublicTrade krakenTrade, String currency, String tradableIdentifier) {
@@ -181,7 +182,7 @@ public class KrakenAdapters {
       trades.add(adaptTrade(krakenTradeEntry.getValue(), krakenTradeEntry.getKey()));
     }
 
-    return new Trades(trades);
+    return new Trades(trades, TradeSortType.SortByID);
   }
 
   public static Trade adaptTrade(KrakenTrade krakenTrade, String tradeId) {
