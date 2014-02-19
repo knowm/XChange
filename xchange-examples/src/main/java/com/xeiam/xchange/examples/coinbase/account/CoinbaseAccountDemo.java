@@ -1,3 +1,24 @@
+/**
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.examples.coinbase.account;
 
 import java.io.IOException;
@@ -49,29 +70,28 @@ public class CoinbaseAccountDemo {
 
   public static void raw(CoinbaseAccountService accountService) throws IOException {
 
-    
     CoinbaseAmount balance = accountService.getCoinbaseBalance();
     System.out.println(balance);
 
     demoUsers(accountService);
-    
+
     demoAddresses(accountService);
-    
+
     demoTransactions(accountService);
-    
+
     CoinbaseAccountChanges accountChanges = accountService.getCoinbaseAccountChanges();
     System.out.println(accountChanges);
-    
+
     CoinbaseContacts contacts = accountService.getCoinbaseContacts();
     System.out.println(contacts);
-    
+
     demoTokens(accountService);
-    
+
     demoRecurringPayments(accountService);
   }
-  
+
   private static void demoRecurringPayments(CoinbaseAccountService accountService) throws IOException {
-    
+
     CoinbaseRecurringPayments recurringPayments = accountService.getCoinbaseRecurringPayments();
     System.out.println(recurringPayments);
 
@@ -82,9 +102,9 @@ public class CoinbaseAccountDemo {
       System.out.println(recurringPayment);
     }
   }
-  
+
   private static void demoUsers(CoinbaseAccountService accountService) throws IOException {
-    
+
     CoinbaseUsers users = accountService.getCoinbaseUsers();
     System.out.println("Current User: " + users);
 
@@ -92,19 +112,24 @@ public class CoinbaseAccountDemo {
     user.updateTimeZone("Tijuana").updateNativeCurrency("MXN");
     user = accountService.updateCoinbaseUser(user);
     System.out.println("Updated User: " + user);
+
+    CoinbaseUser newUser = CoinbaseUser.createNewCoinbaseUser("xchange@demo.com", "demo1234");
+    String oauthClientId = "c044110d72cb725bc94ea4361ab37f312eeda8d27df30d2bcc47825723fcfb58"; // optional
+    CoinbaseUser createdUser = accountService.createCoinbaseUser(newUser, oauthClientId);
+    System.out.println("Newly created user: " + createdUser);
   }
-  
+
   private static void demoTokens(CoinbaseAccountService accountService) throws IOException {
-    
+
     CoinbaseToken token = accountService.createCoinbaseToken();
     System.out.println(token);
 
     boolean isAccepted = accountService.redeemCoinbaseToken(token.getTokenId());
     System.out.println(isAccepted);
   }
-  
+
   private static void demoAddresses(CoinbaseAccountService accountService) throws IOException {
-    
+
     CoinbaseAddress receiveAddress = accountService.getCoinbaseReceiveAddress();
     System.out.println(receiveAddress);
 
@@ -114,30 +139,30 @@ public class CoinbaseAccountDemo {
     CoinbaseAddresses addresses = accountService.getCoinbaseAddresses();
     System.out.println(addresses);
   }
-  
+
   private static void demoTransactions(CoinbaseAccountService accountService) throws IOException {
-    
+
     CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", MoneyUtils.parse("BTC .001")).withNotes("test");
     CoinbaseTransaction pendingTransaction = accountService.requestMoneyCoinbaseRequest(moneyRequest);
     System.out.println(pendingTransaction);
-    
+
     CoinbaseBaseResponse resendResponse = accountService.resendCoinbaseRequest(pendingTransaction.getId());
     System.out.println(resendResponse);
-    
+
     CoinbaseBaseResponse cancelResponse = accountService.cancelCoinbaseRequest(pendingTransaction.getId());
     System.out.println(cancelResponse);
-    
+
     // CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction
-    //    .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
-    //    .withNotes("Demo Money!")
-    //    .withInstantBuy(false)
-    //    .withUserFee("0.0");
+    // .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
+    // .withNotes("Demo Money!")
+    // .withInstantBuy(false)
+    // .withUserFee("0.0");
     // CoinbaseTransaction sendTransaction = accountService.sendMoney(sendMoneyRequest);
-    //  System.out.println(sendTransaction);
+    // System.out.println(sendTransaction);
 
     // CoinbaseTransaction completedTransaction = accountService.completeRequest("530010d62b342891e2000083");
     // System.out.println(completedTransaction);
-    
+
     CoinbaseTransactions transactions = accountService.getCoinbaseTransactions();
     System.out.println(transactions);
 
