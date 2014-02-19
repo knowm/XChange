@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.ExchangeInfo;
@@ -56,6 +57,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.mtgox.v2.MtGoxAdapters;
 import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxDepthWrapper;
+import com.xeiam.xchange.mtgox.v2.dto.marketdata.MtGoxTradesWrapper;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -91,8 +93,8 @@ public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
    * @param currency The currency of interest, null if irrelevant. Second currency of the pair
    * @param args Optional arguments. Exchange-specific. This implementation assumes:
-   *          absent or OrderBookType.PARTIAL -> get partial OrderBook
-   *          OrderBookType.FULL -> get full OrderBook
+   *          absent or "full" -> get full OrderBook
+   *          "partial" -> get partial OrderBook
    * @return The OrderBook
    * @throws IOException
    */
@@ -101,7 +103,25 @@ public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements
 
     verify(tradableIdentifier, currency);
 
-    MtGoxDepthWrapper mtGoxDepthWrapper = getMtGoxOrderBook(tradableIdentifier, currency, args);
+    // Request data
+    MtGoxDepthWrapper mtGoxDepthWrapper = null;
+    if (args.length > 0) {
+      if (args[0] instanceof String) {
+        if ("full" == args[0]) {
+          mtGoxDepthWrapper = getMtGoxFullOrderBook(tradableIdentifier, currency);
+        }
+        else {
+          mtGoxDepthWrapper = getMtGoxPartialOrderBook(tradableIdentifier, currency);
+        }
+      }
+      else {
+        throw new ExchangeException("Orderbook type argument must be a String!");
+      }
+    }
+    else { // default to full orderbook
+      mtGoxDepthWrapper = getMtGoxFullOrderBook(tradableIdentifier, currency);
+    }
+
     // Adapt to XChange DTOs
     List<LimitOrder> asks = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getAsks(), currency, "ask", "");
     List<LimitOrder> bids = MtGoxAdapters.adaptOrders(mtGoxDepthWrapper.getMtGoxDepth().getBids(), currency, "bid", "");
@@ -113,7 +133,23 @@ public class MtGoxMarketDataService extends MtGoxMarketDataServiceRaw implements
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     verify(tradableIdentifier, currency);
-    return MtGoxAdapters.adaptTrades(getMtGoxTrades(tradableIdentifier, currency, args).getMtGoxTrades());
+
+    MtGoxTradesWrapper mtGoxTradeWrapper = null;
+    if (args.length > 0) {
+      if (args[0] instanceof Long) {
+        Long sinceTimeStamp = (Long) args[0];
+        // Request data
+        mtGoxTradeWrapper = getMtGoxTrades(tradableIdentifier, currency, sinceTimeStamp);
+      }
+      else {
+        throw new ExchangeException("the \"since\" type argument must be a Long!");
+      }
+    }
+    else {
+      mtGoxTradeWrapper = getMtGoxTrades(tradableIdentifier, currency, null);
+    }
+
+    return MtGoxAdapters.adaptTrades(mtGoxTradeWrapper.getMtGoxTrades());
   }
 
   @Override

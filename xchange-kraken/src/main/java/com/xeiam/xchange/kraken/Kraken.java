@@ -28,6 +28,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
@@ -41,7 +42,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
  * @author Benedikt Bünz
  */
 @Path("0/public")
-@Produces("application/json")
+@Produces(MediaType.APPLICATION_JSON)
 public interface Kraken {
 
   @GET

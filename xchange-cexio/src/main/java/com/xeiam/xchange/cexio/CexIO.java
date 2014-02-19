@@ -29,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
@@ -36,11 +37,9 @@ import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 
 /**
  * Author: brox
- * Since: 2/5/14
  */
-
 @Path("api")
-@Produces("application/json")
+@Produces(MediaType.APPLICATION_JSON)
 public interface CexIO {
 
   @GET

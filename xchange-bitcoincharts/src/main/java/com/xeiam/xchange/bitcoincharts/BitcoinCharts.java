@@ -25,6 +25,8 @@ import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 
@@ -36,6 +38,7 @@ public interface BitcoinCharts {
 
   @GET
   @Path("v1/markets.json")
+  @Produces(MediaType.APPLICATION_JSON)
   public BitcoinChartsTicker[] getMarketData() throws IOException;
 
 }

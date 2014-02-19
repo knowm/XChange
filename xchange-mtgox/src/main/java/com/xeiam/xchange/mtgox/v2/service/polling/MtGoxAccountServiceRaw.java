@@ -41,9 +41,6 @@ import com.xeiam.xchange.mtgox.v2.service.MtGoxBaseService;
 import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
 import com.xeiam.xchange.utils.Assert;
 
-/**
- * @author gnandiga
- */
 public class MtGoxAccountServiceRaw extends MtGoxBaseService {
 
   private final MtGoxV2 mtGoxV2;
@@ -67,15 +64,7 @@ public class MtGoxAccountServiceRaw extends MtGoxBaseService {
 
     try {
       MtGoxAccountInfoWrapper mtGoxAccountInfoWrapper = mtGoxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce());
-      if (mtGoxAccountInfoWrapper.getResult().equals("success")) {
-        return mtGoxAccountInfoWrapper.getMtGoxAccountInfo();
-      }
-      else if (mtGoxAccountInfoWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling getAccountInfo(): " + mtGoxAccountInfoWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling getAccountInfo(): Unexpected result!");
-      }
+      return mtGoxAccountInfoWrapper.getMtGoxAccountInfo();
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling getAccountInfo(): " + e.getError(), e);
     }
@@ -87,16 +76,7 @@ public class MtGoxAccountServiceRaw extends MtGoxBaseService {
       MtGoxWithdrawalResponseWrapper mtGoxWithdrawalResponseWrapper =
           mtGoxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), address, amount.multiply(
               new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
-
-      if (mtGoxWithdrawalResponseWrapper.getResult().equals("success")) {
-        return mtGoxWithdrawalResponseWrapper.getMtGoxWithdrawalResponse();
-      }
-      else if (mtGoxWithdrawalResponseWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling withdrawFunds(): " + mtGoxWithdrawalResponseWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling withdrawFunds(): Unexpected result!");
-      }
+      return mtGoxWithdrawalResponseWrapper.getMtGoxWithdrawalResponse();
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling withdrawFunds(): " + e.getError(), e);
     }
@@ -107,15 +87,7 @@ public class MtGoxAccountServiceRaw extends MtGoxBaseService {
     try {
       MtGoxBitcoinDepositAddressWrapper mtGoxBitcoinDepositAddressWrapper =
           mtGoxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), description, notificationUrl);
-      if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("success")) {
-        return mtGoxBitcoinDepositAddressWrapper.getMtGoxBitcoinDepositAddress();
-      }
-      else if (mtGoxBitcoinDepositAddressWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + mtGoxBitcoinDepositAddressWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling requestBitcoinDepositAddress(): Unexpected result!");
-      }
+      return mtGoxBitcoinDepositAddressWrapper.getMtGoxBitcoinDepositAddress();
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + e.getError(), e);
     }

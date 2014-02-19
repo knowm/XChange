@@ -104,8 +104,4 @@ public interface PollingMarketDataService {
    */
   public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
-  public static enum OrderBookType {
-    PARTIAL, FULL
-  }
-
 }

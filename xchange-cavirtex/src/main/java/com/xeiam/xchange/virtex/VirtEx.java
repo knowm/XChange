@@ -27,6 +27,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
@@ -36,21 +37,19 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
  * @author timmolter
  */
 @Path("api")
+@Produces(MediaType.APPLICATION_JSON)
 public interface VirtEx {
 
   @GET
   @Path("{currency}/ticker.json")
-  @Produces("application/json")
   public VirtExTicker getTicker(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{currency}/orderbook.json")
-  @Produces("application/json")
   public VirtExDepth getFullDepth(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{currency}/trades.json")
-  @Produces("application/json")
   public VirtExTrade[] getTrades(@PathParam("currency") String currency) throws IOException;
 
 }

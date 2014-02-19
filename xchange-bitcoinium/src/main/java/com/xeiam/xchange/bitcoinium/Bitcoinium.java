@@ -35,21 +35,19 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
  * @author veken0m
  */
 @Path("service")
+@Produces(MediaType.APPLICATION_JSON)
 public interface Bitcoinium {
 
   @GET
   @Path("tickerupdate")
-  @Produces(MediaType.APPLICATION_JSON)
   public BitcoiniumTicker getTicker(@QueryParam("pair") String pair, @QueryParam("apikey") String apikey);
 
   @GET
   @Path("orderbook")
-  @Produces(MediaType.APPLICATION_JSON)
   public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("pricewindow") String pricewindow, @QueryParam("apikey") String apikey);
 
   @GET
   @Path("tickerhistory")
-  @Produces(MediaType.APPLICATION_JSON)
   public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("timewindow") String timewindow, @QueryParam("apikey") String apikey);
 
 }

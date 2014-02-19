@@ -40,9 +40,6 @@ import com.xeiam.xchange.mtgox.v2.service.MtGoxBaseService;
 import com.xeiam.xchange.mtgox.v2.service.MtGoxV2Digest;
 import com.xeiam.xchange.utils.Assert;
 
-/**
- * @author gnandiga
- */
 public class MtGoxTradeServiceRaw extends MtGoxBaseService {
 
   private final MtGoxV2 mtGoxV2;
@@ -66,16 +63,7 @@ public class MtGoxTradeServiceRaw extends MtGoxBaseService {
 
     try {
       MtGoxOpenOrderWrapper mtGoxOpenOrderWrapper = mtGoxV2.getOpenOrders(MtGoxUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, MtGoxUtils.getNonce());
-
-      if (mtGoxOpenOrderWrapper.getResult().equals("success")) {
-        return mtGoxOpenOrderWrapper.getMtGoxOpenOrders();
-      }
-      else if (mtGoxOpenOrderWrapper.getResult().equals("error")) {
-        throw new ExchangeException("Error calling getOpenOrders(): " + mtGoxOpenOrderWrapper.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling getOpenOrders(): Unexpected result!");
-      }
+      return mtGoxOpenOrderWrapper.getMtGoxOpenOrders();
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling getOpenOrders(): " + e.getError(), e);
     }
@@ -87,16 +75,7 @@ public class MtGoxTradeServiceRaw extends MtGoxBaseService {
       MtGoxGenericResponse mtGoxGenericResponse =
           mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(), marketOrder
               .getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(MtGoxUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
-
-      if (mtGoxGenericResponse.getResult().equals("success")) {
-        return mtGoxGenericResponse;
-      }
-      else if (mtGoxGenericResponse.getResult().equals("error")) {
-        throw new ExchangeException("Error calling placeMarketOrder(): " + mtGoxGenericResponse.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling placeMarketOrder(): Unexpected result!");
-      }
+      return mtGoxGenericResponse;
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling placeMarketOrder(): " + e.getError(), e);
     }
@@ -106,16 +85,7 @@ public class MtGoxTradeServiceRaw extends MtGoxBaseService {
 
     try {
       MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), tradableIdentifier, currency, type, amount, price);
-
-      if (mtGoxGenericResponse.getResult().equals("success")) {
-        return mtGoxGenericResponse;
-      }
-      else if (mtGoxGenericResponse.getResult().equals("error")) {
-        throw new ExchangeException("Error calling placeLimitOrder(): " + mtGoxGenericResponse.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling placeLimitOrder(): Unexpected result!");
-      }
+      return mtGoxGenericResponse;
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling placeLimitOrder(): " + e.getError(), e);
     }
@@ -126,16 +96,7 @@ public class MtGoxTradeServiceRaw extends MtGoxBaseService {
     try {
 
       MtGoxGenericResponse mtGoxGenericResponse = mtGoxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, MtGoxUtils.getNonce(), orderId);
-
-      if (mtGoxGenericResponse.getResult().equals("success")) {
-        return mtGoxGenericResponse;
-      }
-      else if (mtGoxGenericResponse.getResult().equals("error")) {
-        throw new ExchangeException("Error calling cancelOrder(): " + mtGoxGenericResponse.getError());
-      }
-      else {
-        throw new ExchangeException("Error calling placeLimitOrder(): Unexpected result!");
-      }
+      return mtGoxGenericResponse;
     } catch (MtGoxException e) {
       throw new ExchangeException("Error calling cancelOrder(): " + e.getError(), e);
     }
