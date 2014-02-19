@@ -71,7 +71,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder);
+    BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder, false);
 
     return String.valueOf(newOrder.getId());
   }

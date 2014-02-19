@@ -173,7 +173,11 @@ public final class Trade implements Comparable<Trade> {
   public int compareTo(Trade trade) {
 
     // NOTE: see https://github.com/timmolter/XChange/issues/225
-    return getId().compareTo(trade.getId());
+    
+	  if(timestamp != null && trade.getTimestamp() != null && timestamp.compareTo(trade.getTimestamp()) != 0 ) {
+		  return  timestamp.compareTo(trade.getTimestamp());
+	  }
+	  return getId().compareTo(trade.getId());
   }
 
   @Override
