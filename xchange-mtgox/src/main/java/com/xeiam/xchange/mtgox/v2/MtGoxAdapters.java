@@ -37,6 +37,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mtgox.MtGoxUtils;
@@ -213,7 +214,7 @@ public final class MtGoxAdapters {
 
       tradesList.add(adaptTrade(mtGoxTrades[i]));
     }
-    return new Trades(tradesList);
+    return new Trades(tradesList, TradeSortType.SortByID);
   }
 
   public static Ticker adaptTicker(MtGoxTicker mtGoxTicker) {

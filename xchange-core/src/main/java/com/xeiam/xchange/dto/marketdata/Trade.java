@@ -31,7 +31,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 /**
  * Data object representing a Trade
  */
-public final class Trade implements Comparable<Trade> {
+public final class Trade {
 
   /**
    * Did this trade result from the execution of a bid or a ask?
@@ -167,13 +167,6 @@ public final class Trade implements Comparable<Trade> {
 
     return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
         + ", timestamp=" + timestamp + ", id=" + id + ", orderId=" + orderId + "]";
-  }
-
-  @Override
-  public int compareTo(Trade trade) {
-
-    // NOTE: see https://github.com/timmolter/XChange/issues/225
-    return getId().compareTo(trade.getId());
   }
 
   @Override

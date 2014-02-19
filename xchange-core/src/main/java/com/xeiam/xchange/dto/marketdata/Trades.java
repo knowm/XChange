@@ -23,6 +23,7 @@ package com.xeiam.xchange.dto.marketdata;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -33,28 +34,43 @@ import java.util.List;
 public final class Trades {
 
   private final List<Trade> trades;
-  private final long id;
+  private final long timestamp;
+  private final TradeSortType tradeSortType;
 
   /**
    * Constructor
    * 
-   * @param trades The list of trades
+   * @param trades
+   * @param tradeSortType
    */
-  public Trades(List<Trade> trades) {
+  public Trades(List<Trade> trades, TradeSortType tradeSortType) {
 
-    this.trades = new ArrayList<Trade>(trades);
-    this.id = 0L;
+    this(trades, 0L, tradeSortType);
   }
 
   /**
    * Constructor
    * 
    * @param trades The list of trades
+   * @param timestamp
    */
-  public Trades(List<Trade> trades, long id) {
+  public Trades(List<Trade> trades, long timestamp, TradeSortType tradeSortType) {
 
     this.trades = new ArrayList<Trade>(trades);
-    this.id = id;
+    this.timestamp = timestamp;
+    this.tradeSortType = tradeSortType;
+
+    switch (tradeSortType) {
+    case SortByTimestamp:
+      Collections.sort(this.trades, new TradeTimestampComparator());
+      break;
+    case SortByID:
+      Collections.sort(this.trades, new TradeIDComparator());
+      break;
+
+    default:
+      break;
+    }
   }
 
   /**
@@ -62,16 +78,20 @@ public final class Trades {
    */
   public List<Trade> getTrades() {
 
-    Collections.sort(trades);
     return trades;
   }
 
   /**
    * @return a Unique ID for the fetched trades
    */
-  public long getId() {
+  public long getTimestamp() {
 
-    return id;
+    return timestamp;
+  }
+
+  public TradeSortType getTradeSortType() {
+
+    return tradeSortType;
   }
 
   @Override
@@ -84,6 +104,28 @@ public final class Trades {
       sb.append("]\n");
     }
     return sb.toString();
+  }
+
+  public enum TradeSortType {
+    SortByTimestamp, SortByID
+  }
+
+  public class TradeTimestampComparator implements Comparator<Trade> {
+
+    @Override
+    public int compare(Trade trade1, Trade trade2) {
+
+      return trade1.getTimestamp().compareTo(trade2.getTimestamp());
+    }
+  }
+
+  public class TradeIDComparator implements Comparator<Trade> {
+
+    @Override
+    public int compare(Trade trade1, Trade trade2) {
+
+      return trade1.getId().compareTo(trade2.getId());
+    }
   }
 
 }

@@ -46,6 +46,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
@@ -132,7 +133,7 @@ public final class BitstampAdapters {
       trades.add(new Trade(null, tx.getAmount(), tradableIdentifier, currency, BigMoney.of(CurrencyUnit.of(currency), tx.getPrice()), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tradeId));
     }
 
-    return new Trades(trades);
+    return new Trades(trades, TradeSortType.SortByID);
   }
 
   /**
@@ -183,6 +184,6 @@ public final class BitstampAdapters {
       }
     }
 
-    return new Trades(trades);
+    return new Trades(trades, TradeSortType.SortByID);
   }
 }

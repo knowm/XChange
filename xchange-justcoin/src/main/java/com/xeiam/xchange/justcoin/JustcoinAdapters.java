@@ -35,6 +35,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -134,7 +135,7 @@ public final class JustcoinAdapters {
       openOrders.add(adaptTrade(justcoinOrder));
     }
 
-    return new Trades(openOrders);
+    return new Trades(openOrders, TradeSortType.SortByID);
   }
 
   public static Trade adaptTrade(final JustcoinTrade justcoinTrade) {

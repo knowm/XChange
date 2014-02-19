@@ -46,6 +46,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -147,7 +148,7 @@ public final class BTCEAdapters {
       // Date is reversed order. Insert at index 0 instead of appending
       tradesList.add(0, adaptTrade(BTCETrade));
     }
-    return new Trades(tradesList);
+    return new Trades(tradesList, TradeSortType.SortByID);
   }
 
   /**
@@ -219,7 +220,7 @@ public final class BTCEAdapters {
       final String orderId = String.valueOf(result.getOrderId());
       trades.add(new Trade(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timeStamp, tradeId, orderId));
     }
-    return new Trades(trades);
+    return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
 }
