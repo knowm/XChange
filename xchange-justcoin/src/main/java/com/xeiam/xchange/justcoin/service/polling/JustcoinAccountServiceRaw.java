@@ -29,13 +29,13 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.justcoin.JustcoinAuthenticated;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.justcoin.service.JustcoinBaseService;
 import com.xeiam.xchange.utils.AuthUtils;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinAccountServiceRaw extends BasePollingExchangeService {
+public class JustcoinAccountServiceRaw extends JustcoinBaseService {
 
   private JustcoinAuthenticated justcoinAuthenticated;
 

@@ -23,12 +23,10 @@ package com.xeiam.xchange.coinbase.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -41,6 +39,11 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw implements PollingMarketDataService {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public CoinbaseMarketDataService(final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -70,17 +73,6 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(final String tradableIdentifier, final String currency, final Object... args) {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Use {@link #getCoinbaseCurrencies()} instead.  It will provide
-   * a list of all currencies that are currently supported by 
-   * Coinbase.  
-   */
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
 
     throw new NotAvailableFromExchangeException();
   }

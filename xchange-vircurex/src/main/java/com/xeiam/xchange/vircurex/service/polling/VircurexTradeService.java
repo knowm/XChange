@@ -23,35 +23,24 @@ package com.xeiam.xchange.vircurex.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.vircurex.VircurexUtils;
-import com.xeiam.xchange.vircurex.dto.marketdata.VircurexPlaceOrderReturn;
 
-public class VircurexTradeService implements PollingTradeService {
-
-  private ExchangeSpecification exchangeSpecification;
-  private VircurexAuthenticated vircurex;
+public class VircurexTradeService extends VircurexTradeServiceRaw implements PollingTradeService {
 
   /**
    * Constructor
    * 
-   * @param anExchangeSpecification
-   *          The {@link ExchangeSpecification}
+   * @param exchangeSpecification
    */
-  public VircurexTradeService(ExchangeSpecification anExchangeSpecification) {
+  public VircurexTradeService(ExchangeSpecification exchangeSpecification) {
 
-    exchangeSpecification = anExchangeSpecification;
-    vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());
-
+    super(exchangeSpecification);
   }
 
   @Override
@@ -69,37 +58,18 @@ public class VircurexTradeService implements PollingTradeService {
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String type = limitOrder.getType() == Order.OrderType.BID ? "buy" : "sell";
-    String timestamp = VircurexUtils.getUtcTimestamp();
-    String nonce = (System.currentTimeMillis() / 250L) + "";
-    VircurexSha2Digest digest =
-        new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "create_order", type.toString(), limitOrder.getTradableAmount().floatValue()
-            + "", limitOrder.getTradableIdentifier().toLowerCase(), limitOrder.getLimitPrice().getAmount().floatValue() + "", limitOrder.getTransactionCurrency().toLowerCase());
-
-    VircurexPlaceOrderReturn ret =
-        vircurex.trade(exchangeSpecification.getApiKey(), nonce, digest.toString(), timestamp, type.toString(), limitOrder.getTradableAmount().floatValue() + "", limitOrder.getTradableIdentifier()
-            .toLowerCase(), limitOrder.getLimitPrice().getAmount().floatValue() + "", limitOrder.getTransactionCurrency().toLowerCase());
-
-    timestamp = VircurexUtils.getUtcTimestamp();
-    nonce = (System.currentTimeMillis() / 200L) + "";
-
-    digest = new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "release_order", ret.getOrderId());
-
-    ret = vircurex.release(exchangeSpecification.getApiKey(), nonce, digest.toString(), timestamp, ret.getOrderId());
-    return ret.getOrderId();
+    return placeVircurexLimitOrder(limitOrder);
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
-
   }
 
   @Override
   public Trades getTradeHistory(Object... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
-
   }
 }

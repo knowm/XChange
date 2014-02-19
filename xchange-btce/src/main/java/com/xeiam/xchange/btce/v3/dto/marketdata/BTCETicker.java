@@ -49,7 +49,7 @@ public final class BTCETicker {
    * @param last
    * @param avg
    * @param buy
-   * @param serverTime
+   * @param updated
    * @param volCur
    * @param sell
    */

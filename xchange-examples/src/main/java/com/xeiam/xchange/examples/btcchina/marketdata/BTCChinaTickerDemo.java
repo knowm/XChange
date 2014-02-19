@@ -24,31 +24,40 @@ package com.xeiam.xchange.examples.btcchina.marketdata;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Ticker at BTC China
+ * @author ObsessiveOrange
+ *         Demonstrate requesting Ticker at BTC China
  */
 public class BTCChinaTickerDemo {
 
+  // Use the factory to get the BTC China exchange API using default settings
+  static Exchange btcchina = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
+
+  // Interested in the public polling market data feed (no authentication)
+  static PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
+
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get the BTC China exchange API using default settings
-    Exchange btcchina = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
+    generic();
+    raw();
+  }
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
+  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest ticker data showing BTC to CNY
     Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.CNY);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
 
-    System.out.println("Last: " + currency + "-" + value);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -56,4 +65,15 @@ public class BTCChinaTickerDemo {
 
   }
 
+  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    // Get the latest ticker data showing BTC to CNY
+    BTCChinaTicker ticker = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTicker();
+
+    System.out.println("Last: " + ticker.getTicker().getLast().toString());
+    System.out.println("Volume: " + ticker.getTicker().getVol().toString());
+    System.out.println("High: " + ticker.getTicker().getHigh().toString());
+    System.out.println("Low: " + ticker.getTicker().getLow().toString());
+
+  }
 }

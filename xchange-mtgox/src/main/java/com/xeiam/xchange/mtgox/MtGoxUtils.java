@@ -24,12 +24,9 @@ package com.xeiam.xchange.mtgox;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
 
 import org.joda.money.BigMoney;
 
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.currency.MoneyUtils;
 
 /**
@@ -43,44 +40,6 @@ public final class MtGoxUtils {
   private MtGoxUtils() {
 
   }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_GBP,
-
-  CurrencyPair.BTC_AUD,
-
-  CurrencyPair.BTC_CAD,
-
-  CurrencyPair.BTC_CHF,
-
-  CurrencyPair.BTC_JPY,
-
-  CurrencyPair.BTC_CNY,
-
-  CurrencyPair.BTC_DKK,
-
-  CurrencyPair.BTC_HKD,
-
-  CurrencyPair.BTC_NZD,
-
-  CurrencyPair.BTC_PLN,
-
-  CurrencyPair.BTC_RUB,
-
-  CurrencyPair.BTC_SEK,
-
-  CurrencyPair.BTC_SGD,
-
-  CurrencyPair.BTC_THB,
-
-  CurrencyPair.BTC_NOK
-
-  );
 
   /**
    * <p>
@@ -137,17 +96,6 @@ public final class MtGoxUtils {
     else { // JPY
       return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(MtGoxUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)));
     }
-  }
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   public static String urlEncode(String str) {

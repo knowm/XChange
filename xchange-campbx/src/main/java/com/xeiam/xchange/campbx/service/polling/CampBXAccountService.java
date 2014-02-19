@@ -28,42 +28,35 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * @author Matija Mazi
  */
-public class CampBXAccountService extends BasePollingExchangeService implements PollingAccountService {
+public class CampBXAccountService extends CampBXAccountServiceRaw implements PollingAccountService {
 
   private final Logger logger = LoggerFactory.getLogger(CampBXAccountService.class);
-
-  private final CampBX campBX;
 
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchangeSpecification
    */
   public CampBXAccountService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    MyFunds myFunds = campBX.getMyFunds(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    MyFunds myFunds = getCampBXAccountInfo();
     logger.debug("myFunds = {}", myFunds);
 
     if (!myFunds.isError()) {
@@ -77,7 +70,7 @@ public class CampBXAccountService extends BasePollingExchangeService implements 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
-    CampBXResponse campBXResponse = campBX.withdrawBtc(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), address, amount);
+    CampBXResponse campBXResponse = withdrawCampBXFunds(amount, address);
     logger.debug("campBXResponse = {}", campBXResponse);
 
     if (!campBXResponse.isError()) {
@@ -89,9 +82,9 @@ public class CampBXAccountService extends BasePollingExchangeService implements 
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
+  public String requestBitcoinDepositAddress(String... args) throws IOException {
 
-    CampBXResponse campBXResponse = campBX.getDepositAddress(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
+    CampBXResponse campBXResponse = requestCampBXBitcoinDepositAddress();
     logger.debug("campBXResponse = {}", campBXResponse);
 
     if (!campBXResponse.isError()) {

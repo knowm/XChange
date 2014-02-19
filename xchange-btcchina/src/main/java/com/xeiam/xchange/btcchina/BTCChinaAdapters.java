@@ -115,7 +115,7 @@ public final class BTCChinaAdapters {
     OrderType orderType = btcChinaTrade.getOrderType().equals("sell") ? OrderType.ASK : OrderType.BID;
 
     final String tradeId = String.valueOf(btcChinaTrade.getTid());
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId, null);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId);
   }
 
   /**

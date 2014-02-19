@@ -31,7 +31,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mtgox.v1.dto.marketdata.MtGoxTrade;
+import com.xeiam.xchange.mtgox.v0.dto.marketdata.MtGoxTrade;
 
 /**
  * Test MtGoxTrade[] JSON parsing

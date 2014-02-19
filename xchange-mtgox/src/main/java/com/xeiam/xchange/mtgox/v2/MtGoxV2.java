@@ -24,13 +24,16 @@ package com.xeiam.xchange.mtgox.v2;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -50,6 +53,7 @@ import com.xeiam.xchange.mtgox.v2.dto.trade.polling.MtGoxOpenOrderWrapper;
  * @author timmolter
  */
 @Path("api/2")
+@Produces(MediaType.APPLICATION_JSON)
 public interface MtGoxV2 {
 
   @GET
@@ -80,16 +84,19 @@ public interface MtGoxV2 {
 
   @POST
   @Path("money/info")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   MtGoxAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce)
       throws MtGoxException, IOException;
 
   @POST
   @Path("money/bitcoin/address")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   MtGoxBitcoinDepositAddressWrapper requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("description") String description, @FormParam("ipn") String notificationUrl) throws MtGoxException, IOException;
 
   @POST
   @Path("money/bitcoin/send_simple")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   MtGoxWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green)
       throws MtGoxException, IOException;
@@ -98,6 +105,7 @@ public interface MtGoxV2 {
 
   @POST
   @Path("money/orders")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   MtGoxOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws MtGoxException,
       IOException;
 
@@ -107,6 +115,7 @@ public interface MtGoxV2 {
    */
   @POST
   @Path("{tradeIdent}{currency}/money/order/add")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   MtGoxGenericResponse placeOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount_int") BigDecimal amount,
       @FormParam("price_int") String price) throws MtGoxException, IOException;
@@ -123,6 +132,7 @@ public interface MtGoxV2 {
    */
   @POST
   @Path("BTCEUR/money/order/cancel")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   MtGoxGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("oid") String orderId) throws MtGoxException, IOException;
 
@@ -139,6 +149,7 @@ public interface MtGoxV2 {
    */
   @POST
   @Path("money/wallet/history")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   MtGoxWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
       @FormParam("currency") String currency, @FormParam("page") Integer page) throws MtGoxException, IOException;
 }

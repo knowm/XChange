@@ -26,11 +26,11 @@ import java.io.IOException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.virtex.VirtEx;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
+import com.xeiam.xchange.virtex.service.VirtexBaseService;
 
 /**
  * <p>
@@ -40,7 +40,7 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VirtExMarketDataServiceRaw extends BasePollingExchangeService {
+public class VirtExMarketDataServiceRaw extends VirtexBaseService {
 
   private final VirtEx virtEx;
 

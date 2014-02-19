@@ -24,39 +24,31 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
- * <p>
- * Implementation of the market data service for BTCChina
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
+ * @author ObsessiveOrange
+ *         <p>
+ *         Implementation of the market data service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to various market data values</li>
+ *         </ul>
  */
-public class BTCChinaMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private final BTCChina btcChina;
+public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
@@ -66,7 +58,6 @@ public class BTCChinaMarketDataService extends BasePollingExchangeService implem
   public BTCChinaMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
   }
 
   @Override
@@ -75,7 +66,7 @@ public class BTCChinaMarketDataService extends BasePollingExchangeService implem
     verify(tradableIdentifier, currency);
 
     // Request data
-    BTCChinaTicker btcChinaTicker = btcChina.getTicker();
+    BTCChinaTicker btcChinaTicker = getBTCChinaTicker();
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTicker(btcChinaTicker, currency, tradableIdentifier);
@@ -87,7 +78,7 @@ public class BTCChinaMarketDataService extends BasePollingExchangeService implem
     verify(tradableIdentifier, currency);
 
     // Request data
-    BTCChinaDepth btcChinaDepth = btcChina.getFullDepth();
+    BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook();
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currency, OrderType.ASK);
@@ -104,14 +95,14 @@ public class BTCChinaMarketDataService extends BasePollingExchangeService implem
     BTCChinaTrade[] btcChinaTrades = null;
 
     if (args.length == 0) {
-      btcChinaTrades = btcChina.getTrades(); // default values: offset=0, limit=100
+      btcChinaTrades = getBTCChinaTrades();
     }
     else if (args.length == 1) {
       Object arg0 = args[0];
 
       if (arg0 instanceof Integer) {
         Integer sinceTransactionID = (Integer) args[0];
-        btcChinaTrades = btcChina.getTrades(sinceTransactionID); // default values: since=100
+        btcChinaTrades = getBTCChinaTrades(sinceTransactionID);
       }
       else {
         throw new ExchangeException("args[0] must be of type Integer!");
@@ -121,6 +112,7 @@ public class BTCChinaMarketDataService extends BasePollingExchangeService implem
     else {
       throw new ExchangeException("Invalid argument length. Must be 0, or 1");
     }
+
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTrades(btcChinaTrades, currency, tradableIdentifier);
   }
@@ -129,26 +121,6 @@ public class BTCChinaMarketDataService extends BasePollingExchangeService implem
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BTCChinaUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BTCChinaUtils.CURRENCY_PAIRS;
   }
 
 }

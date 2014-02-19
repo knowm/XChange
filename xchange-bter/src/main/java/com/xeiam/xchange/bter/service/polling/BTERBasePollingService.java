@@ -27,23 +27,26 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAuthenticated;
-import com.xeiam.xchange.bter.BTERHmacPostBodyDigest;
-import com.xeiam.xchange.bter.dto.marketdata.BTERReturn;
+import com.xeiam.xchange.bter.dto.BTERReturn;
+import com.xeiam.xchange.bter.service.BTERBaseService;
+import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
 
-public class BTERBasePollingService {
+public class BTERBasePollingService extends BTERBaseService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
-  protected final String apiKey;
-  protected final BTERAuthenticated bter;
-  protected final ParamsDigest signatureCreator;
+  final String apiKey;
+  final BTERAuthenticated bter;
+  final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchangeSpecification
    */
   public BTERBasePollingService(ExchangeSpecification exchangeSpecification) {
+
+    super(exchangeSpecification);
 
     this.bter = RestProxyFactory.createProxy(BTERAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
@@ -55,16 +58,13 @@ public class BTERBasePollingService {
     // NOTE: this nonce creation formula is not bullet-proof:
     // - It allows for only one request per .25 seconds,
     // - It will cycle over MAX_INTEGER and start producing illegal negative nonces on January 5, 2030
-
-    // If you run into problems with nonces (eg. you've once submitted a large nonce and can't use normal nonces any more),
-    // you can request new api credentials (key, secret) with BTCE.
     return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
   }
 
   protected void checkResult(BTERReturn<?> info) {
 
     if (!info.isSuccess()) {
-      throw new ExchangeException("BTCE returned an error: " + info.getError());
+      throw new ExchangeException("Bter returned an error: " + info.getError());
     }
     else if (info.getReturnValue() == null) {
       throw new ExchangeException("Didn't recieve any return value. Message: " + info.getError());
@@ -73,4 +73,5 @@ public class BTERBasePollingService {
       throw new ExchangeException("Got error message: " + info.getError());
     }
   }
+
 }

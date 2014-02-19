@@ -21,7 +21,10 @@
  */
 package com.xeiam.xchange.service;
 
+import java.util.List;
+
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -49,7 +52,28 @@ public abstract class BaseExchangeService {
     Assert.notNull(exchangeSpecification, "exchangeSpecification cannot be null");
 
     this.exchangeSpecification = exchangeSpecification;
+  }
 
+  /**
+   * <p>
+   * what symbol pairs the exchange supports
+   * </p>
+   * 
+   * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementers should log the error.
+   */
+  public abstract List<CurrencyPair> getExchangeSymbols();
+
+  /**
+   * Verify that both currencies can make valid pair
+   * 
+   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
+   * @param currency
+   */
+  public void verify(String tradableIdentifier, String currency) {
+
+    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
+    Assert.notNull(currency, "currency cannot be null");
+    Assert.isTrue(getExchangeSymbols().contains(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
   }
 
 }

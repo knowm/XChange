@@ -53,31 +53,26 @@ public class CoinbasePrice {
     this.total = total;
     this.subTotal = subTotal;
   }
-  
-  
+
   public BigMoney getCoinbaseFee() {
 
     return coinbaseFee;
   }
-
 
   public BigMoney getBankFee() {
 
     return bankFee;
   }
 
-
   public BigMoney getTotal() {
 
     return total;
   }
 
-
   public BigMoney getSubTotal() {
 
     return subTotal;
   }
-
 
   @Override
   public String toString() {

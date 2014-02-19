@@ -22,6 +22,7 @@
 package com.xeiam.xchange.coinbase.service.polling;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import si.mazi.rescu.ParamsDigest;
@@ -35,6 +36,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.service.CoinbaseDigest;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 /**
@@ -73,6 +75,23 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
 
     final CoinbaseToken token = coinbase.createToken();
     return handleResponse(token);
+  }
+
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+
+  CurrencyPair.BTC_USD
+
+  );
+  
+  /**
+   * Use {@link #getCoinbaseCurrencies()} instead.  It will provide
+   * a list of all currencies that are currently supported by 
+   * Coinbase.  
+   */
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    return CURRENCY_PAIRS;
   }
 
   protected long getNonce() {

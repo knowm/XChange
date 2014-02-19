@@ -37,6 +37,9 @@ public class MtGoxException extends RuntimeException {
   @JsonProperty("token")
   private String token;
 
+  /**
+   * Constructor
+   */
   public MtGoxException() {
 
   }

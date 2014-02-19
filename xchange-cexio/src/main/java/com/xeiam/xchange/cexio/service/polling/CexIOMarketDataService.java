@@ -22,22 +22,18 @@
 package com.xeiam.xchange.cexio.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cexio.CexIOAdapters;
-import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * Author: brox
@@ -54,12 +50,6 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   public CexIOMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CexIOUtils.CURRENCY_PAIRS;
   }
 
   @Override
@@ -105,19 +95,6 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify that both currencies can make valid pair
-   * 
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) throws IOException {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(CexIOUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
   }
 
 }

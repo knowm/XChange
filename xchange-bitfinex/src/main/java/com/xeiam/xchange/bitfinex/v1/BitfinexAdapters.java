@@ -31,10 +31,10 @@ import org.joda.money.CurrencyUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import com.xeiam.xchange.currency.MoneyUtils;
@@ -90,7 +90,7 @@ public final class BitfinexAdapters {
     BigMoney price = MoneyUtils.parseMoney(currency, trade.getPrice());
     Date date = DateUtils.fromMillisUtc((long) (trade.getTimestamp() * 1000L));
     final String tradeId = String.valueOf(trade.getTimestamp());
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId, null);
+    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId);
   }
 
   public static Trades adaptTrades(BitfinexTrade[] trades, String tradableIdentifier, String currency) {
@@ -158,7 +158,7 @@ public final class BitfinexAdapters {
 
       String id = String.valueOf(trade.hashCode());
       pastTrades.add(new Trade(orderType, trade.getAmount(), tradableIdentifier, transactionCurrency, BigMoney.of(CurrencyUnit.USD, trade.getPrice()), new Date((long) (trade.getTimestamp() * 1000L)),
-          id, null));
+          id));
     }
 
     return new Trades(pastTrades);

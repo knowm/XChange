@@ -22,19 +22,15 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
-import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -47,12 +43,6 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return new ArrayList<CurrencyPair>(KrakenUtils.CURRENCY_PAIRS);
-  }
-
-  @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     return KrakenAdapters.adaptTicker(getKrakenTicker(tradableIdentifier, currency), currency, tradableIdentifier);
@@ -61,7 +51,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    Long count = null;
+    long count = Long.MAX_VALUE;
 
     if (args.length > 0) {
       Object arg0 = args[0];
@@ -81,7 +71,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    Long since = null;
+    long since = 0L;
 
     if (args.length > 0) {
       Object arg0 = args[0];

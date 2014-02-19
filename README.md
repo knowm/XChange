@@ -2,7 +2,7 @@
 XChange is a Java library providing a simple and consistent API for interacting with over a dozen Bitcoin exchanges providing a consistent interface for trading and accessing market data.
 
 ## Important!
-The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Xeiam's Twitter page](https://twitter.com/Xeiam). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues).
+The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Xeiam's Twitter page](https://twitter.com/Xeiam). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://xeiam.com/bounties) to be had as well.
 
 ## Description
 XChange is a library providing a simple and consistent API for interacting with a diverse set of financial security exchanges, including support for Bitcoin. 
@@ -170,7 +170,6 @@ The current snapshot version is:
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
-create jar files with dependencies (-with-dependencies.jar): `mvn install`  
 check/update all header files: `mvn license:check` and `mvn license:format`
 
 ## Bugs
@@ -185,4 +184,4 @@ For more information such as a contributor list and a list of known projects dep
 
 [1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc](https://blockchain.info/address/1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc)
 
-All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/XChange/issues?state=open). More information on bounties paid so far can be found on [our Wiki](https://github.com/timmolter/XChange/wiki).
+All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/XChange/issues?state=open). Open bounties and bounties paid thus far can be found on Xeiam's [bounties](http://xeiam.com/bounties) page.

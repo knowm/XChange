@@ -24,60 +24,39 @@ package com.xeiam.xchange.vircurex.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.vircurex.VircurexAdapters;
-import com.xeiam.xchange.vircurex.VircurexUtils;
-import com.xeiam.xchange.vircurex.dto.marketdata.VircurexAccountInfoReturn;
 
-public class VircurexAccountService implements PollingAccountService {
-
-  private ExchangeSpecification exchangeSpecification;
-
-  private VircurexAuthenticated vircurex;
-
-  private static VircurexAccountInfoReturn cacheInfo;
-  private static long lastCache = 0;
+public class VircurexAccountService extends VircurexAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
    */
   public VircurexAccountService(ExchangeSpecification exchangeSpecification) {
 
-    this.exchangeSpecification = exchangeSpecification;
-    this.vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());
+    super(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    if (lastCache + 10000 > System.currentTimeMillis()) {
-      return VircurexAdapters.adaptAccountInfo(cacheInfo);
-    }
-    String timestamp = VircurexUtils.getUtcTimestamp();
-    String nonce = (System.currentTimeMillis() / 250L) + "";
-    VircurexSha2Digest digest = new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "get_balances");
-    VircurexAccountInfoReturn info = cacheInfo = vircurex.getInfo(exchangeSpecification.getUserName(), nonce, digest.toString(), timestamp);
-    // checkResult(info);
-    lastCache = System.currentTimeMillis();
-    return VircurexAdapters.adaptAccountInfo(info);
+    return VircurexAdapters.adaptAccountInfo(getVircurexAccountInfo());
   }
 
   @Override
   public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
-    throw new UnsupportedOperationException("Funds withdrawal not supported by API.");
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String requestBitcoinDepositAddress(String... arguments) throws IOException {
 
-    throw new UnsupportedOperationException("Deposit address request not supported by API.");
+    throw new NotYetImplementedForExchangeException();
   }
 }

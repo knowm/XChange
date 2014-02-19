@@ -53,7 +53,7 @@ public class BTCEExchangeInfo {
   @Override
   public String toString() {
 
-    return "BTCEInfoV3 [serverTime=" + serverTime + "pairs=" + pairs.toString() + "]";
+    return "BTCEInfoV3 [serverTime=" + serverTime + ", pairs=" + pairs.toString() + "]";
   }
 
 }

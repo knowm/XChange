@@ -24,18 +24,17 @@ package com.xeiam.xchange.btcchina;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.util.Arrays;
-import java.util.List;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * A central place for shared BTCChina properties
+ * @author ObsessiveOrange
+ *         A central place for shared BTCChina properties
  */
 public final class BTCChinaUtils {
 
   private static long generatedId = 1;
+  private static long lastNonce = 0l;
 
   /**
    * private Constructor
@@ -44,26 +43,17 @@ public final class BTCChinaUtils {
 
   }
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+  public synchronized static long getNonce() {
 
-  CurrencyPair.BTC_CNY
+    long newNonce = System.currentTimeMillis() * 1000;
 
-  );
+    while (newNonce == lastNonce) {
+      newNonce++;
+    }
 
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
+    lastNonce = newNonce;
 
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
-
-  public static long getNonce() {
-
-    return System.currentTimeMillis() * 1000;
+    return newNonce;
   }
 
   public static long getGeneratedId() {

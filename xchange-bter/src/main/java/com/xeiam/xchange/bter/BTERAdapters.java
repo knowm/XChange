@@ -30,7 +30,7 @@ import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.IllegalCurrencyException;
 
-import com.xeiam.xchange.bter.dto.marketdata.BTERAccountInfoReturn;
+import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;

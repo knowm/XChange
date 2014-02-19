@@ -143,6 +143,6 @@ public final class JustcoinAdapters {
     final String transactionCurrency = JustcoinUtils.getPriceCurrencyFromApiMarket(justcoinTrade.getMarket());
     final BigMoney price = MoneyUtils.parseMoney(transactionCurrency, justcoinTrade.getAveragePrice());
     return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), tradableIdentifier, transactionCurrency, price, justcoinTrade.getCreatedAt(), justcoinTrade
-        .getId(), null);
+        .getId());
   }
 }

@@ -29,12 +29,12 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.justcoin.Justcoin;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.justcoin.service.JustcoinBaseService;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinMarketDataServiceRaw extends BasePollingExchangeService {
+public class JustcoinMarketDataServiceRaw extends JustcoinBaseService {
 
   private final Justcoin justcoin;
 

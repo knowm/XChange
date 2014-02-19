@@ -21,77 +21,43 @@
  */
 package com.xeiam.xchange.cryptotrade.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
-import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeAccountInfoReturn;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class CryptoTradeAccountService implements PollingAccountService {
-
-  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in
-  // milliseconds
-  // from epoch
-  private static long lastCache = 0;
-  private static AccountInfo accountInfo = null;
-  private ExchangeSpecification exchangeSpecification;
-
-  private CryptoTradeAuthenticated cryptoTrade;
-  private ParamsDigest signatureCreator;
+public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
    */
   public CryptoTradeAccountService(ExchangeSpecification exchangeSpecification) {
 
-    this.exchangeSpecification = exchangeSpecification;
-    this.cryptoTrade = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    super(exchangeSpecification);
+
   }
 
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
-    if (lastCache + 10000 > System.currentTimeMillis()) {
-      return accountInfo;
-    }
-    CryptoTradeAccountInfoReturn info = cryptoTrade.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
-    // checkResult(info);
-    lastCache = System.currentTimeMillis();
-    return accountInfo = CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), info);
-  }
-
-  private static int nextNonce() {
-
-    // NOTE: this nonce creation formula is not bullet-proof:
-    // - It allows for only one request per .25 seconds,
-    // - It will cycle over MAX_INTEGER and start producing illegal negative
-    // nonces on January 5, 2030
-
-    // If you run into problems with nonces (eg. you've once submitted a
-    // large nonce and can't use normal nonces any more),
-    // you can request new api credentials (key, secret) with BTCE.
-    return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
+    return CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getCryptoTradeAccountInfo());
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
-    throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) {
+  public String requestBitcoinDepositAddress(String... args) throws IOException {
 
-    throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
+    throw new NotYetImplementedForExchangeException();
   }
 }

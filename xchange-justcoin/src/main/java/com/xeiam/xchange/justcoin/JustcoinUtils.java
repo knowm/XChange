@@ -21,27 +21,17 @@
  */
 package com.xeiam.xchange.justcoin;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * jamespedwards42
  */
 public final class JustcoinUtils {
 
+  /**
+   * private Constructor
+   */
   private JustcoinUtils() {
 
-  }
-
-  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_LTC, CurrencyPair.BTC_EUR, CurrencyPair.BTC_NOK,
-      CurrencyPair.BTC_XRP));
-
-  public static boolean isValidCurrencyPair(final CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
   public static String getApiMarket(final String tradableIdentifier, final String currency) {

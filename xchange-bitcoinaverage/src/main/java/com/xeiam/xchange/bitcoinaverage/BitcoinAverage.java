@@ -27,6 +27,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 
@@ -35,11 +36,11 @@ import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
  */
 
 @Path("/")
+@Produces(MediaType.APPLICATION_JSON)
 public interface BitcoinAverage {
 
   @GET
   @Path("ticker/global/{currency}")
-  @Produces("application/json")
   public BitcoinAverageTicker getTicker(@PathParam("currency") String currency) throws IOException;
 
 }

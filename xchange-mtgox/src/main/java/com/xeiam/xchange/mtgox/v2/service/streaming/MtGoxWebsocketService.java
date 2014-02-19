@@ -23,12 +23,14 @@ package com.xeiam.xchange.mtgox.v2.service.streaming;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.streaming.BaseWebSocketExchangeService;
 import com.xeiam.xchange.service.streaming.ExchangeEventListener;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -96,5 +98,12 @@ public class MtGoxWebsocketService extends BaseWebSocketExchangeService implemen
 
     // Use the default internal connect
     internalConnect(uri, exchangeEventListener, headers);
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    // TODO Auto-generated method stub
+    return null;
   }
 }

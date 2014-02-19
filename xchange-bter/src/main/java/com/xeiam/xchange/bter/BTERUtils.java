@@ -21,10 +21,6 @@
  */
 package com.xeiam.xchange.bter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bter properties
@@ -36,30 +32,6 @@ public final class BTERUtils {
    */
   private BTERUtils() {
 
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
-
-  static {
-    CURRENCY_PAIRS.add(new CurrencyPair("BTC", "CNY"));
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
-    // CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
-
-  }
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
 }

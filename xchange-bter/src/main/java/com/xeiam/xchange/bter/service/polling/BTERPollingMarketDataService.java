@@ -22,44 +22,34 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.BTERAdapters;
-import com.xeiam.xchange.bter.BTERUtils;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
-public class BTERPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private final BTER bter;
+public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
+   * Constructor
+   * 
    * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
    */
   public BTERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    bter = RestProxyFactory.createProxy(BTER.class, exchangeSpecification.getSslUri());
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) {
+  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
@@ -69,44 +59,23 @@ public class BTERPollingMarketDataService extends BasePollingExchangeService imp
 
     verify(tradableIdentifier, currency);
 
-    BTERDepth btceDepth = bter.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTERDepth btceDepth = getBTEROrderBook(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTERAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
     List<LimitOrder> bids = BTERAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier
-   *          The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BTERUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BTERUtils.CURRENCY_PAIRS;
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -24,10 +24,13 @@ package com.xeiam.xchange.btce.v3;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -42,16 +45,18 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
  * @author Matija Mazi
  */
 @Path("tapi")
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+@Produces(MediaType.APPLICATION_JSON)
 public interface BTCEAuthenticated {
 
   /**
    * @param from The ID of the transaction to start displaying with; default 0
-   * @param count The number of transactions for displaying default 1,000
+   * @param count The number of transactions for displaying default 1000
    * @param fromId The ID of the transaction to start displaying with default 0
-   * @param endId The ID of the transaction to finish displaying with default âˆž
+   * @param endId The ID of the transaction to finish displaying with default +inf
    * @param order sorting ASC or DESC default DESC
    * @param since When to start displaying? UNIX time default 0
-   * @param end When to finish displaying? UNIX time default âˆž
+   * @param end When to finish displaying? UNIX time default +inf
    * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}}
    */
   @POST
@@ -90,12 +95,12 @@ public interface BTCEAuthenticated {
    * All parameters are nullable
    * 
    * @param from The number of the transactions to start displaying with; default 0
-   * @param count The number of transactions for displaying; default 1,000
+   * @param count The number of transactions for displaying; default 1000
    * @param fromId The ID of the transaction to start displaying with; default 0
-   * @param endId The ID of the transaction to finish displaying with; default ∞
+   * @param endId The ID of the transaction to finish displaying with; default +inf
    * @param order sorting ASC or DESC; default DESC
    * @param since When to start displaying; UNIX time default 0
-   * @param end When to finish displaying; UNIX time default ∞
+   * @param end When to finish displaying; UNIX time default +inf
    * @param pair The pair to show the transaction; example btc_usd; all pairs
    * @return {success=1, return={tradeId={pair=btc_usd, type=sell, amount=1, rate=1, orderId=1234, timestamp=1234}}}
    */

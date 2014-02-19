@@ -22,13 +22,11 @@
 package com.xeiam.xchange.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -46,15 +44,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
  * </p>
  */
 public interface PollingMarketDataService {
-
-  /**
-   * <p>
-   * Ask the exchange what symbol pairs it supports
-   * </p>
-   * 
-   * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementers should log the error.
-   */
-  List<CurrencyPair> getExchangeSymbols();
 
   /**
    * <p>
@@ -114,9 +103,5 @@ public interface PollingMarketDataService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
-
-  public static enum OrderBookType {
-    PARTIAL, FULL
-  }
 
 }

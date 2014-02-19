@@ -30,6 +30,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
@@ -44,6 +45,7 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
  * @author jamespedwards42
  */
 @Path("api/v1")
+@Produces(MediaType.APPLICATION_JSON)
 public interface Coinbase {
 
   @GET
@@ -53,11 +55,11 @@ public interface Coinbase {
   @GET
   @Path("currencies/exchange_rates")
   Map<String, BigDecimal> getCurrencyExchangeRates() throws IOException;
-  
+
   @GET
   @Path("prices/buy")
   CoinbasePrice getBuyPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException;
-  
+
   @GET
   @Path("prices/sell")
   CoinbasePrice getSellPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException;
@@ -65,7 +67,7 @@ public interface Coinbase {
   @GET
   @Path("prices/spot_rate")
   CoinbaseAmount getSpotRate(@QueryParam("currency") String currency) throws IOException;
-  
+
   @GET
   @Path("prices/historical")
   CoinbaseSpotPriceHistory getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;

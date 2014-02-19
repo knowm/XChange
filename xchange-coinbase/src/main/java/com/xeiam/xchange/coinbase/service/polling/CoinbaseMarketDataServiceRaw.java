@@ -36,6 +36,11 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
  */
 class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService<Coinbase> {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public CoinbaseMarketDataServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
     super(Coinbase.class, exchangeSpecification);

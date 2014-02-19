@@ -31,7 +31,7 @@ import com.xeiam.xchange.bitcoinium.BitcoiniumUtils;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.bitcoinium.service.BitcoiniumBaseService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -42,7 +42,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoiniumMarketDataServiceRaw extends BasePollingExchangeService {
+public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
 
   private final Bitcoinium bitcoinium;
 
@@ -71,7 +71,7 @@ public class BitcoiniumMarketDataServiceRaw extends BasePollingExchangeService {
     verify(pair);
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair);
+    BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair, exchangeSpecification.getApiKey());
 
     // Adapt to XChange DTOs
     return bitcoiniumTicker;
@@ -93,7 +93,7 @@ public class BitcoiniumMarketDataServiceRaw extends BasePollingExchangeService {
     verifyTimeWindow(timeWindow);
 
     // Request data
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoinium.getTickerHistory(pair, timeWindow);
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoinium.getTickerHistory(pair, timeWindow, exchangeSpecification.getApiKey());
 
     return bitcoiniumTickerHistory;
   }
@@ -113,7 +113,7 @@ public class BitcoiniumMarketDataServiceRaw extends BasePollingExchangeService {
     verifyPriceWindow(pricewindow);
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, pricewindow);
+    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, pricewindow, exchangeSpecification.getApiKey());
 
     return bitcoiniumDepth;
   }

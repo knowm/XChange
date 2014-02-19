@@ -22,6 +22,7 @@
 package com.xeiam.xchange.examples.mtgox.v2.service.marketdata.polling;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -51,26 +52,28 @@ public class TradesDemo {
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get trades with "since" parameter
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
+    long time = (new Date().getTime() - 1000 * 60 * 60) * 1000;
+    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, time);
+    System.out.println("Current trades size for BTC / USD: " + trades.getTrades().size());
     System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
 
     // Get "most recent" trades
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.SEK);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getTrades().size());
+    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    System.out.println("Current trades size for BTC / USD: " + trades.getTrades().size());
     System.out.println("Trade 0 : " + trades.getTrades().get(trades.getTrades().size() - 1).toString());
   }
 
   private static void raw(MtGoxMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get trades with "since" parameter
-    MtGoxTradesWrapper trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.SEK, 1365502698000000L);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getMtGoxTrades().length);
+    long time = (new Date().getTime() - 1000 * 60 * 60) * 1000;
+    MtGoxTradesWrapper trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.USD, time);
+    System.out.println("Current trades size for BTC / USD: " + trades.getMtGoxTrades().length);
     System.out.println("Trade 0 : " + trades.getMtGoxTrades()[trades.getMtGoxTrades().length - 1].toString());
 
     // Get "most recent" trades
-    trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.SEK);
-    System.out.println("Current trades size for BTC / SEK: " + trades.getMtGoxTrades().length);
+    trades = marketDataService.getMtGoxTrades(Currencies.BTC, Currencies.USD, null);
+    System.out.println("Current trades size for BTC / USD: " + trades.getMtGoxTrades().length);
     System.out.println("Trade 0 : " + trades.getMtGoxTrades()[trades.getMtGoxTrades().length - 1].toString());
   }
 

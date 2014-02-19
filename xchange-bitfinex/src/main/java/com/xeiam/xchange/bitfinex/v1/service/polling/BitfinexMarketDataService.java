@@ -31,7 +31,6 @@ import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -106,12 +105,6 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
     BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(tradableIdentifier, currency));
 
     return BitfinexAdapters.adaptTrades(trades, tradableIdentifier, currency);
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BitfinexUtils.CURRENCY_PAIRS;
   }
 
   @Override
