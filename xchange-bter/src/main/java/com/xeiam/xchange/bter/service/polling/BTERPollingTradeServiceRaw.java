@@ -21,13 +21,19 @@
  */
 package com.xeiam.xchange.bter.service.polling;
 
-import java.io.IOException;
-
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bter.dto.trade.BTEROrder;
-import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
+import com.xeiam.xchange.bter.BTERAdapters;
+import com.xeiam.xchange.bter.BTERUtils;
+import com.xeiam.xchange.bter.dto.trade.*;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
 
@@ -45,9 +51,45 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
 
     String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
     BTEROrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTEROrder.Type.buy : BTEROrder.Type.sell;
-    BTERPlaceOrderReturn ret = bter.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+    BTERPlaceOrderReturn ret = bterAuthenticated.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
 
     return ret.getOrderId();
+  }
+
+  public OpenOrders getBTEROpenOrders() {
+
+    // get the summaries of the open orders
+    BTEROpenOrdersReturn bterOpenOrdersReturn = bterAuthenticated.getOpenOrders(apiKey, signatureCreator, nextNonce());
+
+    if (!bterOpenOrdersReturn.isResult()) {
+      throw new ExchangeException("Failed to retrieve open orders because " + bterOpenOrdersReturn.getMsg());
+    }
+
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+
+    // get the detailed information of each open order...
+    for(BTEROpenOrderSummary orderSummary : bterOpenOrdersReturn.getOrders()) {
+
+      openOrders.add(getBTEROrderStatus(orderSummary.getId()));
+    }
+
+    return new OpenOrders(openOrders);
+  }
+
+  public LimitOrder getBTEROrderStatus(String orderId) {
+
+    BTEROrderStatusReturn orderStatusReturn = bterAuthenticated.getOrderStatus(apiKey, signatureCreator, nextNonce(), orderId);
+
+    if (!orderStatusReturn.isResult()) {
+      throw new ExchangeException("Failed to retrieve order status because " + orderStatusReturn.getMsg());
+    }
+
+    BTEROrderStatus orderStatus = orderStatusReturn.getBterOrderStatus();
+
+    CurrencyPair currencyPair = BTERUtils.parseCurrencyPairString(orderStatus.getTradePair());
+
+    return BTERAdapters.adaptOrder(orderStatus.getAmount(), orderStatus.getRate(), currencyPair.baseCurrency, currencyPair.counterCurrency,
+                                   orderStatus.getType(),orderId);
   }
 
 }
