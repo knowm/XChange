@@ -36,7 +36,7 @@ public class BTERBasePollingService extends BTERBaseService {
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
   final String apiKey;
-  final BTERAuthenticated bter;
+  final BTERAuthenticated bterAuthenticated;
   final ParamsDigest signatureCreator;
 
   /**
@@ -48,7 +48,7 @@ public class BTERBasePollingService extends BTERBaseService {
 
     super(exchangeSpecification);
 
-    this.bter = RestProxyFactory.createProxy(BTERAuthenticated.class, exchangeSpecification.getSslUri());
+    this.bterAuthenticated = RestProxyFactory.createProxy(BTERAuthenticated.class, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = BTERHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }

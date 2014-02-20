@@ -47,7 +47,7 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return getBTEROpenOrders();
   }
 
   @Override

@@ -21,26 +21,29 @@
  */
 package com.xeiam.xchange.bter;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.IllegalCurrencyException;
-
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.IllegalCurrencyException;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Various adapters for converting from Bter DTOs to XChange DTOs
  */
 public final class BTERAdapters {
+
+  // BTER specific bid/ask syntax
+  public static final String BTER_BID = "buy";
+  public static final String BTER_ASK = "sell";
 
   /**
    * private Constructor
@@ -62,11 +65,11 @@ public final class BTERAdapters {
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
 
     // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = orderTypeString.equalsIgnoreCase(BTER_BID) ? OrderType.BID : OrderType.ASK;
     BigMoney limitPrice;
     limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
+    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
   }
 
   /**
@@ -85,7 +88,7 @@ public final class BTERAdapters {
     // Bid orderbook is reversed order. Insert at index 0 instead of
     for (BigDecimal[] bterOrder : orders) {
       // appending
-      if (orderType.equalsIgnoreCase("bid")) {
+      if (orderType.equalsIgnoreCase(BTER_BID)) {
         limitOrders.add(0, adaptOrder(bterOrder[1], bterOrder[0], tradableIdentifier, currency, orderType, id));
       }
       else {

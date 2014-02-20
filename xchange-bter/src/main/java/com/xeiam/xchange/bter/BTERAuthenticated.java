@@ -31,6 +31,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrdersReturn;
+import com.xeiam.xchange.bter.dto.trade.BTEROrderStatusReturn;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
@@ -51,4 +53,12 @@ public interface BTERAuthenticated {
   BTERPlaceOrderReturn Trade(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
       @FormParam("type") BTEROrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
 
+  @POST
+  @Path("orderlist")
+  BTEROpenOrdersReturn getOpenOrders(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce);
+
+  @POST
+  @Path("getorder")
+  BTEROrderStatusReturn getOrderStatus(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce,
+                                       @FormParam("order_id") String orderId);
 }
