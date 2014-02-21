@@ -116,8 +116,8 @@ public class CoinbaseAccountDemo {
     user = accountService.updateCoinbaseUser(user);
     System.out.println("Updated User: " + user);
 
-    CoinbaseUser newUser = CoinbaseUser.createNewCoinbaseUser("xchange@demo.com", "demo1234");
-    String oauthClientId = "c044110d72cb725bc94ea4361ab37f312eeda8d27df30d2bcc47825723fcfb58"; // optional
+    CoinbaseUser newUser = CoinbaseUser.createCoinbaseNewUserWithReferrerId("demo@demo.com", "pass1234", "527d2a1ffedcb8b73b000028");
+    String oauthClientId = ""; // optional
     CoinbaseUser createdUser = accountService.createCoinbaseUser(newUser, oauthClientId);
     System.out.println("Newly created user: " + createdUser);
   }
@@ -156,8 +156,8 @@ public class CoinbaseAccountDemo {
     System.out.println(cancelResponse);
 
     // CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction
-    //    .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
-    //    .withNotes("Demo Money!").withInstantBuy(false).withUserFee("0.0");
+    // .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
+    // .withNotes("Demo Money!").withInstantBuy(false).withUserFee("0.0");
     // CoinbaseTransaction sendTransaction = accountService.sendMoney(sendMoneyRequest);
     // System.out.println(sendTransaction);
 

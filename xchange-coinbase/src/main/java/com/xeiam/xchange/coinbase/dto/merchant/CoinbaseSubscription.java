@@ -26,6 +26,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
+import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
 /**
@@ -80,13 +81,13 @@ public class CoinbaseSubscription {
     private final CoinbaseButton button;
 
     private CoinbaseSubscriptionInfo(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("custom") final String custom, @JsonProperty("button") final CoinbaseButton button) {
+        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("custom") final String custom, @JsonProperty("button") final CoinbaseButtonInfo button) {
 
       this.id = id;
       this.createdAt = createdAt;
       this.status = status;
       this.custom = custom;
-      this.button = button;
+      this.button = new CoinbaseButton(button);
     }
 
     public String getId() {

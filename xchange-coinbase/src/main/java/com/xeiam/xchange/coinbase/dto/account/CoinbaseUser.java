@@ -151,13 +151,13 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
   }
 
   @JsonIgnore
-  public int getBuyLevel() {
+  public CoinbaseBuySellLevel getBuyLevel() {
 
     return user.getBuyLevel();
   }
 
   @JsonIgnore
-  public int getSellLevel() {
+  public CoinbaseBuySellLevel getSellLevel() {
 
     return user.getSellLevel();
   }
@@ -233,8 +233,8 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     private final BigMoney balance;
     @JsonProperty("native_currency")
     private String nativeCurrency;
-    private final Integer buyLevel;
-    private final Integer sellLevel;
+    private final CoinbaseBuySellLevel buyLevel;
+    private final CoinbaseBuySellLevel sellLevel;
     private final BigMoney buyLimit;
     private final BigMoney sellLimit;
     @JsonProperty("pin")
@@ -244,7 +244,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     private CoinbaseUserInfo(@JsonProperty("id") final String id, @JsonProperty("email") final String email, @JsonProperty("name") final String name, @JsonProperty("password") final String password,
         @JsonProperty("receive_address") final String receiveAddress, @JsonProperty("referrer_id") final String referrerId, @JsonProperty("time_zone") final String timeZone,
         @JsonProperty("balance") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final BigMoney balance, @JsonProperty("native_currency") final String nativeCurrency,
-        @JsonProperty("buy_level") final Integer buyLevel, @JsonProperty("sell_level") final Integer sellLevel,
+        @JsonProperty("buy_level") final CoinbaseBuySellLevel buyLevel, @JsonProperty("sell_level") final CoinbaseBuySellLevel sellLevel,
         @JsonProperty("buy_limit") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final BigMoney buyLimit, @JsonProperty("sell_limit") @JsonDeserialize(
             using = CoinbaseMoneyDeserializer.class) final BigMoney sellLimit, @JsonProperty("pin") final String pin, @JsonProperty("marchant") final CoinbaseMerchant merchant) {
 
@@ -353,13 +353,13 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     }
     
     @JsonIgnore
-    public Integer getBuyLevel() {
+    public CoinbaseBuySellLevel getBuyLevel() {
 
       return buyLevel;
     }
 
     @JsonIgnore
-    public Integer getSellLevel() {
+    public CoinbaseBuySellLevel getSellLevel() {
 
       return sellLevel;
     }
