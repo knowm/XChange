@@ -102,7 +102,7 @@ public class KrakenAdapters {
       trades.add(adaptTrade(krakenTrade, currency, tradableIdentifier));
     }
 
-    return new Trades(trades, (last / 1000000L), TradeSortType.SortByTimestamp);
+    return new Trades(trades, last, TradeSortType.SortByTimestamp);
   }
 
   public static Trade adaptTrade(KrakenPublicTrade krakenTrade, String currency, String tradableIdentifier) {
