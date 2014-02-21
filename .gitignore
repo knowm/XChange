@@ -7,4 +7,5 @@
 .DS_Store
 log/
 target/
-/bin
+bin/
+javadoc/
