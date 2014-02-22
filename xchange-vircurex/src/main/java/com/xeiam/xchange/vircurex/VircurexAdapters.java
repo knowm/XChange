@@ -22,10 +22,14 @@
 package com.xeiam.xchange.vircurex;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrder;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.IllegalCurrencyException;
@@ -41,6 +45,8 @@ import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
  * Various adapters for converting from Vircurex DTOs to XChange DTOs
  */
 public final class VircurexAdapters {
+
+  private static SimpleDateFormat vircurexDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
   /**
    * private Constructor
@@ -93,5 +99,29 @@ public final class VircurexAdapters {
       wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency).get("availablebalance")));
     }
     return new AccountInfo(vircurexAccountInfo.getAccount(), wallets);
+  }
+
+  public static List<LimitOrder> adaptOpenOrders(List<VircurexOpenOrder> openOrders) {
+
+    ArrayList<LimitOrder> adaptedOrders = new ArrayList<LimitOrder>();
+
+    for(VircurexOpenOrder vircurexOpenOrder : openOrders) {
+
+      OrderType orderType = vircurexOpenOrder.getOrderType().equalsIgnoreCase(VircurexUtils.BID) ? OrderType.BID : OrderType.ASK;
+
+      Date timeStamp;
+
+      try {
+        timeStamp = vircurexDateFormat.parse(vircurexOpenOrder.getReleaseDate());
+      } catch (ParseException e) {
+        timeStamp = null;
+      }
+
+      adaptedOrders.add(new LimitOrder(orderType, BigDecimal.ONE, vircurexOpenOrder.getBaseCurrency(),
+              vircurexOpenOrder.getCounterCurrency(), vircurexOpenOrder.getOrderId(), timeStamp,
+              MoneyUtils.parse(vircurexOpenOrder.getCounterCurrency() + " " + vircurexOpenOrder.getUnitPrice())));
+    }
+
+    return adaptedOrders;
   }
 }

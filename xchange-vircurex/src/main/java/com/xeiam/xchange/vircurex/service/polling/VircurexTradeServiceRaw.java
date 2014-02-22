@@ -23,6 +23,9 @@ package com.xeiam.xchange.vircurex.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.vircurex.VircurexAdapters;
+import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrdersReturn;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -69,6 +72,15 @@ public class VircurexTradeServiceRaw extends VircurexBaseService {
 
     ret = vircurex.release(exchangeSpecification.getApiKey(), nonce, digest.toString(), timestamp, ret.getOrderId());
     return ret.getOrderId();
+  }
+
+  public OpenOrders getVircurexOpenOrders() throws IOException {
+    String timestamp = VircurexUtils.getUtcTimestamp();
+    String nonce = (System.currentTimeMillis() / 250L) + "";
+    VircurexSha2Digest digest = new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "read_orders");
+    VircurexOpenOrdersReturn openOrdersReturn = vircurex.getOpenOrders(exchangeSpecification.getUserName(), nonce, digest.toString(), timestamp, VircurexUtils.RELEASED_ORDER);
+
+    return new OpenOrders(VircurexAdapters.adaptOpenOrders(openOrdersReturn.getOpenOrders()));
   }
 
 }

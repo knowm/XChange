@@ -31,6 +31,14 @@ import java.util.TimeZone;
  */
 public final class VircurexUtils {
 
+  // Vircurex API parameters
+  public static final int UNRELEASED_ORDER = 0;
+  public static final int RELEASED_ORDER = 1;
+
+  // Vircurex bid/ask syntax
+  public static final String BID = "BUY";
+  public static final String ASK = "SELL";
+
   /**
    * private Constructor
    */
