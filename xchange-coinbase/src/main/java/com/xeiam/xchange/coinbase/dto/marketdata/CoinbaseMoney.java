@@ -32,18 +32,18 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount.CoibaseAmountDeserializer;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney.CoinbaseMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
 
 /**
  * @author jamespedwards42
  */
-@JsonDeserialize(using = CoibaseAmountDeserializer.class)
-public class CoinbaseAmount {
+@JsonDeserialize(using = CoinbaseMoneyDeserializer.class)
+public class CoinbaseMoney {
 
   private final BigMoney amount;
 
-  public CoinbaseAmount(final BigMoney amount) {
+  public CoinbaseMoney(final BigMoney amount) {
 
     this.amount = amount;
   }
@@ -56,17 +56,18 @@ public class CoinbaseAmount {
   @Override
   public String toString() {
 
-    return "CoinbaseAmount [amount=" + amount + "]";
+    return "CoinbaseMoney [amount=" + amount + "]";
   }
 
-  static class CoibaseAmountDeserializer extends JsonDeserializer<CoinbaseAmount> {
+  static class CoinbaseMoneyDeserializer extends JsonDeserializer<CoinbaseMoney> {
 
     @Override
-    public CoinbaseAmount deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseMoney deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
-      return new CoinbaseAmount(CoinbaseMoneyDeserializer.getBigMoneyFromNode(node));
+      return new CoinbaseMoney(CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(node));
     }
   }
+
 }

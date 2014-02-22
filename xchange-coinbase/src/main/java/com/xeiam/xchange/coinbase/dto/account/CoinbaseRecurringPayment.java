@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentType;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRepeat;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
 /**
@@ -162,7 +162,7 @@ public class CoinbaseRecurringPayment {
         @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("to") final String to, @JsonProperty("from") final String from,
         @JsonProperty("start_type") final String startType, @JsonProperty("times") final int times, @JsonProperty("times_run") final int timesRun, @JsonProperty("repeat") final CoinbaseRepeat repeat,
         @JsonProperty("last_run") final Date lastRun, @JsonProperty("next_run") final Date nextRun, @JsonProperty("notes") final String notes, @JsonProperty("description") final String description,
-        @JsonProperty("amount") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final BigMoney amount) {
+        @JsonProperty("amount") @JsonDeserialize(using = CoinbaseBigMoneyDeserializer.class) final BigMoney amount) {
 
       this.id = id;
       this.type = type;

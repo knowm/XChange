@@ -29,7 +29,7 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.coinbase.CoinbaseExchange;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
@@ -74,7 +74,7 @@ public class CoinbaseMarketDataDemo {
     CoinbasePrice sellPrice = marketDataService.getCoinbaseSellPrice();
     System.out.println("Sell Price: " + sellPrice);
 
-    CoinbaseAmount spotRate = marketDataService.getCoinbaseSpotRate("EUR");
+    CoinbaseMoney spotRate = marketDataService.getCoinbaseSpotRate("EUR");
     System.out.println("Spot Rate: " + spotRate);
 
     int page = 2;

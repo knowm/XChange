@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -189,9 +189,9 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
       final Date payoutDate = DateUtils.fromISO8601DateString(transferNode.path("payout_date").asText());
       final String transactionId = transferNode.path("transaction_id").asText();
       final CoinbaseTransferStatus status = CoinbaseTransferStatus.valueOf(transferNode.path("status").asText().toUpperCase());
-      final BigMoney btcAmount = CoinbaseMoneyDeserializer.getBigMoneyFromNode(transferNode.path("btc"));
-      final BigMoney subtotal = CoinbaseMoneyDeserializer.getBigMoneyFromNode(transferNode.path("subtotal"));
-      final BigMoney total = CoinbaseMoneyDeserializer.getBigMoneyFromNode(transferNode.path("total"));
+      final BigMoney btcAmount = CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(transferNode.path("btc"));
+      final BigMoney subtotal = CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(transferNode.path("subtotal"));
+      final BigMoney total = CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(transferNode.path("total"));
       final String description = transferNode.path("description").asText();
 
       return new CoinbaseTransfer(type, fundingType, code, createdAt, coinbaseFee, bankFee, payoutDate, transactionId, status, btcAmount, subtotal, total, description, success, errors);

@@ -49,7 +49,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransactions;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrders;
@@ -85,7 +85,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("account/balance")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  CoinbaseAmount getBalance(@HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
+  CoinbaseMoney getBalance(@HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") long nonce) throws IOException;
 
   @GET
   @Path("account/receive_address")

@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMoneyDeserializer extends JsonDeserializer<BigMoney> {
+public class CoinbaseBigMoneyDeserializer extends JsonDeserializer<BigMoney> {
 
   @Override
   public BigMoney deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {

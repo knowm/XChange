@@ -26,7 +26,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinbase.dto.CoinbasePagedResult;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 
 /**
  * @author jamespedwards42
@@ -34,10 +34,10 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
 public class CoinbaseAccountChanges extends CoinbasePagedResult {
 
   private final CoinbaseUser currentUser;
-  private final CoinbaseAmount balance;
+  private final CoinbaseMoney balance;
   private final List<CoinbaseAccountChange> accountChanges;
 
-  private CoinbaseAccountChanges(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseAmount balance,
+  private CoinbaseAccountChanges(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseMoney balance,
       @JsonProperty("account_changes") final List<CoinbaseAccountChange> accountChanges, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
       @JsonProperty("current_page") final int currentPage) {
 
@@ -52,7 +52,7 @@ public class CoinbaseAccountChanges extends CoinbasePagedResult {
     return currentUser;
   }
 
-  public CoinbaseAmount getBalance() {
+  public CoinbaseMoney getBalance() {
 
     return balance;
   }

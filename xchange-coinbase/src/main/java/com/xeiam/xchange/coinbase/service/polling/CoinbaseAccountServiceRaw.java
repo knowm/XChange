@@ -39,7 +39,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMo
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransactions;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrders;
@@ -105,9 +105,9 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticate
    * @return A {@code CoinbaseAmount} wrapper around a {@code BigMoney} object representing the current user's balance.
    * @throws IOException
    */
-  public CoinbaseAmount getCoinbaseBalance() throws IOException {
+  public CoinbaseMoney getCoinbaseBalance() throws IOException {
 
-    final CoinbaseAmount balance = coinbase.getBalance(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
+    final CoinbaseMoney balance = coinbase.getBalance(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return balance;
   }
 

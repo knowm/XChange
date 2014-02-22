@@ -38,7 +38,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseReques
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransactions;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -73,7 +73,7 @@ public class CoinbaseAccountDemo {
 
   public static void raw(CoinbaseAccountService accountService) throws IOException {
 
-    CoinbaseAmount balance = accountService.getCoinbaseBalance();
+    CoinbaseMoney balance = accountService.getCoinbaseBalance();
     System.out.println(balance);
 
     demoUsers(accountService);

@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.auth.CoinbaseOAuth;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseMerchant;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
 
 /**
  * @author jamespedwards42
@@ -243,10 +243,10 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
 
     private CoinbaseUserInfo(@JsonProperty("id") final String id, @JsonProperty("email") final String email, @JsonProperty("name") final String name, @JsonProperty("password") final String password,
         @JsonProperty("receive_address") final String receiveAddress, @JsonProperty("referrer_id") final String referrerId, @JsonProperty("time_zone") final String timeZone,
-        @JsonProperty("balance") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final BigMoney balance, @JsonProperty("native_currency") final String nativeCurrency,
+        @JsonProperty("balance") @JsonDeserialize(using = CoinbaseBigMoneyDeserializer.class) final BigMoney balance, @JsonProperty("native_currency") final String nativeCurrency,
         @JsonProperty("buy_level") final CoinbaseBuySellLevel buyLevel, @JsonProperty("sell_level") final CoinbaseBuySellLevel sellLevel,
-        @JsonProperty("buy_limit") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final BigMoney buyLimit, @JsonProperty("sell_limit") @JsonDeserialize(
-            using = CoinbaseMoneyDeserializer.class) final BigMoney sellLimit, @JsonProperty("pin") final String pin, @JsonProperty("marchant") final CoinbaseMerchant merchant) {
+        @JsonProperty("buy_limit") @JsonDeserialize(using = CoinbaseBigMoneyDeserializer.class) final BigMoney buyLimit, @JsonProperty("sell_limit") @JsonDeserialize(
+            using = CoinbaseBigMoneyDeserializer.class) final BigMoney sellLimit, @JsonProperty("pin") final String pin, @JsonProperty("merchant") final CoinbaseMerchant merchant) {
 
       this.id = id;
       this.email = email;

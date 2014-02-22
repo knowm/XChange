@@ -43,18 +43,19 @@ import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 public enum CoinbaseBuySellLevel {
 
   ONE, TWO, THREE;
-  
+
   static class CoinbaseBuySellLevelDeserializer extends JsonDeserializer<CoinbaseBuySellLevel> {
 
-    private static final EnumFromStringHelper<CoinbaseBuySellLevel> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseBuySellLevel>(CoinbaseBuySellLevel.class);
+    private static final EnumFromStringHelper<CoinbaseBuySellLevel> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseBuySellLevel>(CoinbaseBuySellLevel.class).addJsonStringMapping("1", ONE)
+        .addJsonStringMapping("2", TWO).addJsonStringMapping("3", THREE);
 
     @Override
     public CoinbaseBuySellLevel deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);
-      final String jsonString = node.textValue();
-      return FROM_STRING_HELPER.fromJsonString(jsonString);
+      final int buySellLevel = node.asInt();
+      return FROM_STRING_HELPER.fromJsonString(String.valueOf(buySellLevel));
     }
   }
 }
