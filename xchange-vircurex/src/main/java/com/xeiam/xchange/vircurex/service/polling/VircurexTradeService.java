@@ -46,7 +46,7 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return getVircurexOpenOrders();
   }
 
   @Override

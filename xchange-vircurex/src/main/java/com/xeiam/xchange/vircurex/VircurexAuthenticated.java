@@ -28,6 +28,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
+import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrdersReturn;
 import com.xeiam.xchange.vircurex.dto.trade.VircurexPlaceOrderReturn;
 
 @Path("api")
@@ -48,4 +49,10 @@ public interface VircurexAuthenticated {
   @GET
   VircurexPlaceOrderReturn release(@QueryParam("account") String apiKey, @QueryParam("id") String nonce, @QueryParam("token") String token, @QueryParam("timestamp") String timestamp,
       @QueryParam("orderid") String orderId);
+
+  @Path("read_orders.json")
+  @GET
+  VircurexOpenOrdersReturn getOpenOrders(@QueryParam("account") String apiKey, @QueryParam("id") String nonce,
+                                         @QueryParam("token") String token, @QueryParam("timestamp") String timestamp,
+                                         @QueryParam("otype") int releaseStatus);
 }
