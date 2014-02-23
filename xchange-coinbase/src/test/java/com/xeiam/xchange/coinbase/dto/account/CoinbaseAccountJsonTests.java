@@ -32,18 +32,24 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAccountChange.CoinbaseCache;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
+import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
+import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentType;
+import com.xeiam.xchange.coinbase.dto.common.CoinbaseRepeat;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseMerchant;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.utils.DateUtils;
 
-public class CoinbaseAccountTests {
+/**
+ * @author jamespedwards42
+ */
+public class CoinbaseAccountJsonTests {
 
   @Test
   public void testDeserializeAccountChanges() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountTests.class.getResourceAsStream("/account/example-account-changes-data.json");
+    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-account-changes-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -84,7 +90,7 @@ public class CoinbaseAccountTests {
   public void testDeserializeUsers() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountTests.class.getResourceAsStream("/account/example-users-data.json");
+    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-users-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -114,7 +120,7 @@ public class CoinbaseAccountTests {
   public void testDeserializeBalance() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountTests.class.getResourceAsStream("/account/example-balance-data.json");
+    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-balance-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -127,7 +133,7 @@ public class CoinbaseAccountTests {
   public void testDeserializeAddresses() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountTests.class.getResourceAsStream("/account/example-addresses-data.json");
+    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-addresses-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -157,7 +163,7 @@ public class CoinbaseAccountTests {
   public void testDeserializeContacts() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountTests.class.getResourceAsStream("/account/example-contacts-data.json");
+    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-contacts-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -178,7 +184,7 @@ public class CoinbaseAccountTests {
   public void testDeserializeTransactions() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountTests.class.getResourceAsStream("/account/example-transactions-data.json");
+    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-transactions-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -208,5 +214,36 @@ public class CoinbaseAccountTests {
     assertThat(transaction.getRecipientAddress()).isEqualTo("xchange@demo.com");
     assertThat(transaction.getNotes()).isEqualTo("notes");
     assertThat(transaction.getIdempotencyKey()).isEmpty();
+  }
+
+  @Test
+  public void testDeserializeRecurringPayments() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-recurring-payments-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CoinbaseRecurringPayments recurringPayments = mapper.readValue(is, CoinbaseRecurringPayments.class);
+
+    List<CoinbaseRecurringPayment> recurringPaymentList = recurringPayments.getRecurringPayments();
+    assertThat(recurringPaymentList.size()).isEqualTo(2);
+
+    CoinbaseRecurringPayment recurringPayment = recurringPaymentList.get(0);
+    assertThat(recurringPayment.getId()).isEqualTo("5302f9f55d701853720000ea");
+    assertThat(recurringPayment.getType()).isEqualTo(CoinbaseRecurringPaymentType.BUY);
+    assertThat(recurringPayment.getStatus()).isEqualTo(CoinbaseRecurringPaymentStatus.ACTIVE);
+    assertThat(recurringPayment.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-17T22:13:09-08:00"));
+    assertThat(recurringPayment.getTo()).isEmpty();
+    assertThat(recurringPayment.getFrom()).isEmpty();
+    assertThat(recurringPayment.getStartType()).isEqualTo("on");
+    assertThat(recurringPayment.getTimes()).isEqualTo(-1);
+    assertThat(recurringPayment.getTimesRun()).isEqualTo(0);
+    assertThat(recurringPayment.getRepeat()).isEqualTo(CoinbaseRepeat.MONTHLY);
+    assertThat(recurringPayment.getLastRun()).isNull();
+    assertThat(recurringPayment.getNextRun()).isEqualTo(DateUtils.fromISO8601DateString("2014-03-01T07:00:00-08:00"));
+    assertThat(recurringPayment.getNotes()).isEqualTo("For Demo");
+    assertThat(recurringPayment.getDescription()).isEqualTo("Buy 0.01 BTC");
+    assertThat(recurringPayment.getAmount()).isEqualTo(MoneyUtils.parse("BTC 0.01000000"));
   }
 }

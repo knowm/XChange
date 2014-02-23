@@ -26,12 +26,13 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.coinbase.CoinbaseAdapters;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -56,9 +57,11 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
     final CoinbasePrice buyPrice = super.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
     final CoinbasePrice sellPrice = super.getCoinbaseSellPrice(BigDecimal.ONE, currency);
     final CoinbaseMoney spotRate = super.getCoinbaseSpotRate(currency);
-    final Ticker ticker =
-        TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withAsk(buyPrice.getSubTotal()).withBid(sellPrice.getSubTotal()).withLast(spotRate.getAmount()).build();
-    return ticker;
+
+    final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory = (args != null && args.length > 0 && args[0] instanceof Boolean && (Boolean) args[0]) ?
+      super.getCoinbaseHistoricalSpotRates() : null;
+
+    return CoinbaseAdapters.adaptTicker(tradableIdentifier, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
   }
 
   @Override

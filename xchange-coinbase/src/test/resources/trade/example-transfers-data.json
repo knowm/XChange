@@ -32,11 +32,11 @@
                "amount":"914.30",
                "currency":"USD"
             },
-            "description":"Bought 1.20 BTC for $914.30.  \n\nPaid for with USAA - Bank ****. Your bitcoin will arrive by the end of day on Thursday Feb  6, 2014."
+            "description":"Bought 1.20 BTC for $914.30.  \n\nPaid for with Bank ****. Your bitcoin will arrive by the end of day on Thursday Feb  6, 2014."
          }
       }
    ],
-   "total_count":8,
-   "num_pages":8,
+   "total_count":1,
+   "num_pages":1,
    "current_page":1
 }

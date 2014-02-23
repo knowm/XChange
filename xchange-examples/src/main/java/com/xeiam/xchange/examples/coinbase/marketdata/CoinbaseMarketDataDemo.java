@@ -55,7 +55,7 @@ public class CoinbaseMarketDataDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD, true);
     System.out.println(ticker);
   }
 
