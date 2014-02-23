@@ -33,9 +33,6 @@ import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
 
 public class BTERPollingAccountServiceRaw extends BTERBasePollingService {
 
-  private ExchangeSpecification exchangeSpecification;
-  private BTERAuthenticated bterAuthenticated;
-  private ParamsDigest signatureCreator;
 
   /**
    * Constructor
@@ -45,10 +42,6 @@ public class BTERPollingAccountServiceRaw extends BTERBasePollingService {
   public BTERPollingAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-
-    this.exchangeSpecification = exchangeSpecification;
-    this.bterAuthenticated = RestProxyFactory.createProxy(BTERAuthenticated.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = BTERHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   public BTERAccountInfoReturn getBTERAccountInfo() throws IOException {

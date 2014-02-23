@@ -161,6 +161,11 @@ public final class Trade {
 
     return id;
   }
+  
+  public String getOrderId() {
+  
+      return orderId;
+  }
 
   @Override
   public String toString() {

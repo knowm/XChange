@@ -34,7 +34,7 @@ import java.util.List;
 public final class Trades {
 
   private final List<Trade> trades;
-  private final long timestamp;
+  private final long lastID;
   private final TradeSortType tradeSortType;
 
   /**
@@ -52,12 +52,12 @@ public final class Trades {
    * Constructor
    * 
    * @param trades The list of trades
-   * @param timestamp
+   * @param lastID
    */
-  public Trades(List<Trade> trades, long timestamp, TradeSortType tradeSortType) {
+  public Trades(List<Trade> trades, long lastID, TradeSortType tradeSortType) {
 
     this.trades = new ArrayList<Trade>(trades);
-    this.timestamp = timestamp;
+    this.lastID = lastID;
     this.tradeSortType = tradeSortType;
 
     switch (tradeSortType) {
@@ -84,9 +84,9 @@ public final class Trades {
   /**
    * @return a Unique ID for the fetched trades
    */
-  public long getTimestamp() {
+  public long getlastID() {
 
-    return timestamp;
+    return lastID;
   }
 
   public TradeSortType getTradeSortType() {

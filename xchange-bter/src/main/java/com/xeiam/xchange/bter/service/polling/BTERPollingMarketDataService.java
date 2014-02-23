@@ -62,8 +62,8 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
     BTERDepth btceDepth = getBTEROrderBook(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTERAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTERAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = BTERAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, BTERAdapters.BTER_ASK, "");
+    List<LimitOrder> bids = BTERAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, BTERAdapters.BTER_BID, "");
 
     return new OrderBook(null, asks, bids);
   }
