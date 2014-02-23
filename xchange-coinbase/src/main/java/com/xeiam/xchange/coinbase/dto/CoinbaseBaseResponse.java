@@ -45,7 +45,7 @@ public class CoinbaseBaseResponse {
     this.success = success;
     this.errors = null;
   }
-  
+
   @JsonIgnore
   public boolean isSuccess() {
 

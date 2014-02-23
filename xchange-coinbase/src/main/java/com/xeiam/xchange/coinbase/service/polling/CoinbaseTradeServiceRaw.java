@@ -40,10 +40,9 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated>
   }
 
   /**
-   * Authenticated resource that lets you purchase Bitcoin using the primary bank account that is linked to your account. 
+   * Authenticated resource that lets you purchase Bitcoin using the primary bank account that is linked to your account.
    * (You must link and verify your bank account through the website before this API call will work).
-   * The underlying optional parameter agree_btc_amount_varies is set to false. Use {@link #buyAndAgreeBTCAmountVaries} 
-   * to have it set to true.
+   * The underlying optional parameter agree_btc_amount_varies is set to false. Use {@link #buyAndAgreeBTCAmountVaries} to have it set to true.
    * 
    * @see <a href="https://coinbase.com/api/doc/1.0/buys/create.html">coinbase.com/api/doc/1.0/buys/create.html</a>
    * @param quantity The quantity of Bitcoin you would like to buy.
@@ -57,10 +56,9 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated>
   }
 
   /**
-   * Authenticated resource that lets you purchase Bitcoin using the primary bank account that is linked to your account. 
+   * Authenticated resource that lets you purchase Bitcoin using the primary bank account that is linked to your account.
    * (You must link and verify your bank account through the website before this API call will work).
-   * The underlying optional parameter agree_btc_amount_varies is set to true. Use {@link #buyAndAgreeBTCAmountVaries} 
-   * to have it set to false.
+   * The underlying optional parameter agree_btc_amount_varies is set to true. Use {@link #buyAndAgreeBTCAmountVaries} to have it set to false.
    * 
    * @see <a href="https://coinbase.com/api/doc/1.0/buys/create.html">coinbase.com/api/doc/1.0/buys/create.html</a>
    * @param quantity The quantity of Bitcoin you would like to buy.
@@ -74,7 +72,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated>
   }
 
   /**
-   * Authenticated resource that lets you convert Bitcoin in your account to USD by crediting your primary bank account on Coinbase. 
+   * Authenticated resource that lets you convert Bitcoin in your account to USD by crediting your primary bank account on Coinbase.
    * (You must link and verify your bank account through the website before this API call will work).
    * 
    * @see <a href="https://coinbase.com/api/doc/1.0/sells/create.html">coinbase.com/api/doc/1.0/sells/create.html</a>
@@ -87,7 +85,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated>
     final CoinbaseTransfer sellTransfer = coinbase.sell(quantity.toPlainString(), exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(sellTransfer);
   }
-  
+
   /**
    * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in descending order by creation date.
    * This is a paged resource and will return the first page by default.

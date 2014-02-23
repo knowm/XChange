@@ -44,16 +44,16 @@ public class CoinbaseBigMoneyDeserializer extends JsonDeserializer<BigMoney> {
 
     final ObjectCodec oc = jp.getCodec();
     final JsonNode node = oc.readTree(jp);
-    
+
     return getBigMoneyFromNode(node);
   }
-  
+
   public static BigMoney getBigMoneyFromNode(final JsonNode node) {
-    
+
     final String amount = node.path("amount").asText();
     final String currency = node.path("currency").asText();
     final CurrencyUnit currencyUnit = CurrencyUnit.of(currency);
-    
+
     return BigMoney.of(currencyUnit, new BigDecimal(amount));
   }
 

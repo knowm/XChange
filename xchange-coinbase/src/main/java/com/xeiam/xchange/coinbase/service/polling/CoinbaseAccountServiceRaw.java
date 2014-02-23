@@ -430,7 +430,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticate
     final CoinbaseOrder createdOrder = coinbase.createOrder(code, exchangeSpecification.getApiKey(), signatureCreator, getNonce());
     return handleResponse(createdOrder);
   }
-  
+
   /**
    * Authenticated resource which returns an order for a new button.
    * 
@@ -488,7 +488,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticate
   }
 
   /**
-   * Authenticated resource that lets you (as a merchant) list all the subscriptions customers have made with you. 
+   * Authenticated resource that lets you (as a merchant) list all the subscriptions customers have made with you.
    * This call returns {@code CoinbaseSubscription} objects where you are the merchant.
    * This is a paged resource and will return the first page by default.
    * 
@@ -502,7 +502,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticate
   }
 
   /**
-   * Authenticated resource that lets you (as a merchant) list all the subscriptions customers have made with you. 
+   * Authenticated resource that lets you (as a merchant) list all the subscriptions customers have made with you.
    * This call returns {@code CoinbaseSubscription} objects where you are the merchant.
    * 
    * @see <a href="https://coinbase.com/api/doc/1.0/subscribers/index.html">coinbase.com/api/doc/1.0/subscribers/index.html</a>
@@ -518,7 +518,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticate
   }
 
   /**
-   * Authenticated resource that lets you (as a merchant) show an individual subscription than a customer has created with you. 
+   * Authenticated resource that lets you (as a merchant) show an individual subscription than a customer has created with you.
    * This call returns a {@code CoinbaseSubscription} object where you are the merchant.
    * 
    * @see <a href="https://coinbase.com/api/doc/1.0/subscribers/show.html">coinbase.com/api/doc/1.0/subscribers/show.html</a>

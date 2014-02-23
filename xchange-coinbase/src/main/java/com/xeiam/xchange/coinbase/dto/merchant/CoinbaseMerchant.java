@@ -30,9 +30,9 @@ public class CoinbaseMerchant {
 
   private final String companyName;
   private final String logo;
-  
+
   private CoinbaseMerchant(@JsonProperty("company_name") final String companyName, @JsonProperty("logo") final String logo) {
-    
+
     this.companyName = companyName;
     this.logo = logo;
   }

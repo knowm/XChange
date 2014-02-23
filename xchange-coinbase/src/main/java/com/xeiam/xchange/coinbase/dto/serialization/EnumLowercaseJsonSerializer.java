@@ -39,5 +39,4 @@ public class EnumLowercaseJsonSerializer extends JsonSerializer<Enum<?>> {
     jgen.writeString(value.toString().toLowerCase());
   }
 
-
 }

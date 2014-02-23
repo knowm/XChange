@@ -45,9 +45,9 @@ public class CoinbasePrice {
   private final BigMoney bankFee;
   private final BigMoney total;
   private final BigMoney subTotal;
-  
+
   private CoinbasePrice(final BigMoney coinbaseFee, final BigMoney bankFee, final BigMoney total, final BigMoney subTotal) {
-    
+
     this.coinbaseFee = coinbaseFee;
     this.bankFee = bankFee;
     this.total = total;

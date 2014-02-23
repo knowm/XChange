@@ -36,11 +36,11 @@ public class CoinbaseTransactions extends CoinbasePagedResult {
   private final CoinbaseUser currentUser;
   private final CoinbaseMoney balance;
   private final List<CoinbaseTransaction> transactions;
-  
-  private CoinbaseTransactions(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseMoney balance, 
+
+  private CoinbaseTransactions(@JsonProperty("current_user") final CoinbaseUserInfo currentUser, @JsonProperty("balance") final CoinbaseMoney balance,
       @JsonProperty("transactions") final List<CoinbaseTransaction> transactions, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
       @JsonProperty("current_page") final int currentPage) {
-    
+
     super(totalCount, numPages, currentPage);
     this.currentUser = new CoinbaseUser(currentUser);
     this.balance = balance;

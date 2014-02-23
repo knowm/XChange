@@ -100,8 +100,8 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
    * Creates tokens redeemable for Bitcoin.
    * 
    * @see <a href="https://coinbase.com/api/doc/1.0/tokens/create.html">coinbase.com/api/doc/1.0/tokens/create.html</a>
-   * @return The returned Bitcoin address can be used to send money to the token, 
-   * and will be credited to the account of the token redeemer if money is sent both before or after redemption.
+   * @return The returned Bitcoin address can be used to send money to the token,
+   *         and will be credited to the account of the token redeemer if money is sent both before or after redemption.
    * @throws IOException
    */
   public CoinbaseToken createCoinbaseToken() throws IOException {

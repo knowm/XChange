@@ -184,7 +184,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
           for (final JsonNode errorNode : errorsNode)
             errors.add(errorNode.asText());
       }
-      
+
       final JsonNode transferNode = node.path("transfer");
       final String id = transferNode.path("id").asText();
       final String fundingType = transferNode.path("_type").asText();

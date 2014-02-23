@@ -71,14 +71,14 @@ public interface Coinbase {
   @GET
   @Path("prices/historical")
   CoinbaseSpotPriceHistory getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;
-  
+
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("users")
   CoinbaseUser createUser(CoinbaseUser user) throws IOException;
-  
+
   @POST
   @Path("tokens")
   CoinbaseToken createToken() throws IOException;
-  
+
 }

@@ -51,66 +51,58 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
 
   @JsonProperty("order")
   private CoinbaseOrderInfo order;
-  
+
   private CoinbaseOrder(@JsonProperty("order") final CoinbaseOrderInfo order, @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
-   
+
     super(success, errors);
     this.order = order;
   }
-  
+
   public String getId() {
 
     return order.getId();
   }
 
-  
   public Date getCreatedAt() {
-  
+
     return order.getCreatedAt();
   }
 
-  
   public CoinbaseOrderStatus getStatus() {
-  
+
     return order.getStatus();
   }
 
-  
   public BigMoney getTotalBTC() {
-  
+
     return order.getTotalBTC();
   }
 
-  
   public BigMoney getTotalNative() {
-  
+
     return order.getTotalNative();
   }
 
-  
   public String getCustom() {
-  
+
     return order.getCustom();
   }
 
-  
   public String getReceiveAddress() {
-  
+
     return order.getReceiveAddress();
   }
 
-  
   public CoinbaseButton getButton() {
-  
+
     return order.getButton();
   }
 
-  
   public CoinbaseOrderTransaction getTransaction() {
-  
+
     return order.getTransaction();
   }
-  
+
   @Override
   public String toString() {
 
@@ -119,10 +111,10 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
 
   @JsonDeserialize(using = CoinbaseOrderStatusDeserializer.class)
   @JsonSerialize(using = EnumLowercaseJsonSerializer.class)
-  public enum CoinbaseOrderStatus { 
-    
-    NEW, COMPLETED, CANCELED; 
-    
+  public enum CoinbaseOrderStatus {
+
+    NEW, COMPLETED, CANCELED;
+
     static class CoinbaseOrderStatusDeserializer extends JsonDeserializer<CoinbaseOrderStatus> {
 
       private static final EnumFromStringHelper<CoinbaseOrderStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseOrderStatus>(CoinbaseOrderStatus.class);
@@ -137,7 +129,7 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
       }
     }
   }
-  
+
   private static class CoinbaseOrderInfo {
 
     private final String id;
@@ -150,9 +142,10 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     private final CoinbaseButton button;
     private final CoinbaseOrderTransaction transaction;
 
-    private CoinbaseOrderInfo(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using=ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("status") final CoinbaseOrderStatus status, 
-        @JsonProperty("total_btc") @JsonDeserialize(using=CoinbaseCentsDeserializer.class) final BigMoney totalBTC, @JsonProperty("total_native") @JsonDeserialize(using=CoinbaseCentsDeserializer.class) final BigMoney totalNative, @JsonProperty("custom") final String custom, 
-        @JsonProperty("receive_address") final String receiveAddress, @JsonProperty("button") final CoinbaseButtonInfo button,  @JsonProperty("transaction") final CoinbaseOrderTransaction transaction) {
+    private CoinbaseOrderInfo(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("status") final CoinbaseOrderStatus status, @JsonProperty("total_btc") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final BigMoney totalBTC,
+        @JsonProperty("total_native") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final BigMoney totalNative, @JsonProperty("custom") final String custom,
+        @JsonProperty("receive_address") final String receiveAddress, @JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("transaction") final CoinbaseOrderTransaction transaction) {
 
       this.id = id;
       this.createdAt = createdAt;
@@ -170,51 +163,43 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
       return id;
     }
 
-    
     public Date getCreatedAt() {
-    
+
       return createdAt;
     }
 
-    
     public CoinbaseOrderStatus getStatus() {
-    
+
       return status;
     }
 
-    
     public BigMoney getTotalBTC() {
-    
+
       return totalBTC;
     }
 
-    
     public BigMoney getTotalNative() {
-    
+
       return totalNative;
     }
 
-    
     public String getCustom() {
-    
+
       return custom;
     }
 
-    
     public String getReceiveAddress() {
-    
+
       return receiveAddress;
     }
 
-    
     public CoinbaseButton getButton() {
-    
+
       return button;
     }
 
-    
     public CoinbaseOrderTransaction getTransaction() {
-    
+
       return transaction;
     }
 
@@ -223,8 +208,8 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
 
       return "CoinbaseOrderInfo [id=" + id + ", createdAt=" + createdAt + ", status=" + status + ", totalBTC=" + totalBTC + ", totalNative=" + totalNative + ", custom=" + custom + ", receiveAddress="
           + receiveAddress + ", button=" + button + ", transaction=" + transaction + "]";
-    } 
-    
+    }
+
   }
 
   public static class CoinbaseOrderTransaction {

@@ -32,10 +32,10 @@ import com.xeiam.xchange.coinbase.dto.CoinbasePagedResult;
 public class CoinbaseSubscriptions extends CoinbasePagedResult {
 
   private final List<CoinbaseSubscription> subscriptions;
-  
-  private CoinbaseSubscriptions(@JsonProperty("recurring_payments") final List<CoinbaseSubscription> subscriptions, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
-      @JsonProperty("current_page") final int currentPage) {
-    
+
+  private CoinbaseSubscriptions(@JsonProperty("recurring_payments") final List<CoinbaseSubscription> subscriptions, @JsonProperty("total_count") final int totalCount,
+      @JsonProperty("num_pages") final int numPages, @JsonProperty("current_page") final int currentPage) {
+
     super(totalCount, numPages, currentPage);
     this.subscriptions = subscriptions;
   }
@@ -50,5 +50,5 @@ public class CoinbaseSubscriptions extends CoinbasePagedResult {
 
     return "CoinbaseSubscriptions [subscriptions=" + subscriptions + "]";
   }
-  
+
 }

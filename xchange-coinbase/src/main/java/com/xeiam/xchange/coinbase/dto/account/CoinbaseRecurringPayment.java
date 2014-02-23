@@ -39,101 +39,87 @@ import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 public class CoinbaseRecurringPayment {
 
   private final CoinbaseRecurringPaymentInfo recurringPayment;
-  
+
   private CoinbaseRecurringPayment(@JsonProperty("recurring_payment") final CoinbaseRecurringPaymentInfo recurringPayment) {
-    
+
     this.recurringPayment = recurringPayment;
   }
-  
+
   public String getId() {
-    
+
     return recurringPayment.getId();
   }
 
-  
   public CoinbaseRecurringPaymentType getType() {
-  
+
     return recurringPayment.getType();
   }
 
-  
   public CoinbaseRecurringPaymentStatus getStatus() {
-  
+
     return recurringPayment.getStatus();
   }
 
-  
   public Date getCreatedAt() {
-  
+
     return recurringPayment.getCreatedAt();
   }
 
-  
   public String getTo() {
-  
+
     return recurringPayment.getTo();
   }
 
-  
   public String getFrom() {
-  
+
     return recurringPayment.getFrom();
   }
 
-  
   public String getStartType() {
-  
+
     return recurringPayment.getStartType();
   }
 
-  
   public int getTimes() {
-  
+
     return recurringPayment.getTimes();
   }
 
-  
   public int getTimesRun() {
-  
+
     return recurringPayment.getTimesRun();
   }
 
-  
   public CoinbaseRepeat getRepeat() {
-  
+
     return recurringPayment.getRepeat();
   }
 
-  
   public Date getLastRun() {
-  
+
     return recurringPayment.getLastRun();
   }
 
-  
   public Date getNextRun() {
-  
+
     return recurringPayment.getNextRun();
   }
 
-  
   public String getNotes() {
-  
+
     return recurringPayment.getNotes();
   }
 
-  
   public String getDescription() {
-  
+
     return recurringPayment.getDescription();
   }
 
-  
   public BigMoney getAmount() {
-  
+
     return recurringPayment.getAmount();
   }
-  
+
   @Override
   public String toString() {
 
@@ -158,10 +144,11 @@ public class CoinbaseRecurringPayment {
     private final String description;
     private final BigMoney amount;
 
-    private CoinbaseRecurringPaymentInfo(@JsonProperty("id") final String id, @JsonProperty("type") final CoinbaseRecurringPaymentType type, @JsonProperty("status") final CoinbaseRecurringPaymentStatus status,
-        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("to") final String to, @JsonProperty("from") final String from,
-        @JsonProperty("start_type") final String startType, @JsonProperty("times") final int times, @JsonProperty("times_run") final int timesRun, @JsonProperty("repeat") final CoinbaseRepeat repeat,
-        @JsonProperty("last_run") final Date lastRun, @JsonProperty("next_run") final Date nextRun, @JsonProperty("notes") final String notes, @JsonProperty("description") final String description,
+    private CoinbaseRecurringPaymentInfo(@JsonProperty("id") final String id, @JsonProperty("type") final CoinbaseRecurringPaymentType type,
+        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("to") final String to, @JsonProperty("from") final String from, @JsonProperty("start_type") final String startType, @JsonProperty("times") final int times,
+        @JsonProperty("times_run") final int timesRun, @JsonProperty("repeat") final CoinbaseRepeat repeat, @JsonProperty("last_run") final Date lastRun, @JsonProperty("next_run") final Date nextRun,
+        @JsonProperty("notes") final String notes, @JsonProperty("description") final String description,
         @JsonProperty("amount") @JsonDeserialize(using = CoinbaseBigMoneyDeserializer.class) final BigMoney amount) {
 
       this.id = id;
@@ -181,93 +168,78 @@ public class CoinbaseRecurringPayment {
       this.amount = amount;
     }
 
-    
     public String getId() {
-    
+
       return id;
     }
 
-    
     public CoinbaseRecurringPaymentType getType() {
-    
+
       return type;
     }
 
-    
     public CoinbaseRecurringPaymentStatus getStatus() {
-    
+
       return status;
     }
 
-    
     public Date getCreatedAt() {
-    
+
       return createdAt;
     }
 
-    
     public String getTo() {
-    
+
       return to;
     }
 
-    
     public String getFrom() {
-    
+
       return from;
     }
 
-    
     public String getStartType() {
-    
+
       return startType;
     }
 
-    
     public int getTimes() {
-    
+
       return times;
     }
 
-    
     public int getTimesRun() {
-    
+
       return timesRun;
     }
 
-    
     public CoinbaseRepeat getRepeat() {
-    
+
       return repeat;
     }
 
-    
     public Date getLastRun() {
-    
+
       return lastRun;
     }
 
-    
     public Date getNextRun() {
-    
+
       return nextRun;
     }
 
-    
     public String getNotes() {
-    
+
       return notes;
     }
 
-    
     public String getDescription() {
-    
+
       return description;
     }
 
-    
     public BigMoney getAmount() {
-    
+
       return amount;
     }
 
@@ -278,6 +250,6 @@ public class CoinbaseRecurringPayment {
           + ", times=" + times + ", timesRun=" + timesRun + ", repeat=" + repeat + ", lastRun=" + lastRun + ", nextRun=" + nextRun + ", notes=" + notes + ", description=" + description + ", amount="
           + amount + "]";
     }
-   
+
   }
 }

@@ -42,9 +42,9 @@ public class EnumFromStringHelper<T extends Enum<T>> {
     fromString.put(jsonString, enumVal);
     return this;
   }
-  
+
   public T fromJsonString(final String jsonString) {
-    
+
     return fromString.get(jsonString.toLowerCase());
   }
 }
