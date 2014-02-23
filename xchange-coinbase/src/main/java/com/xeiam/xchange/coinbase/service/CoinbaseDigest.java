@@ -62,8 +62,7 @@ public class CoinbaseDigest implements ParamsDigest {
   @Override
   public String digestParams(final RestInvocation restInvocation) {
 
-    final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() 
-        + restInvocation.getInvocationUrl() + restInvocation.getRequestBody();
+    final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() + restInvocation.getInvocationUrl() + restInvocation.getRequestBody();
 
     mac256.update(message.getBytes());
 

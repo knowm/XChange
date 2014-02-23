@@ -31,9 +31,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CoinbaseUsers {
 
   private final List<CoinbaseUser> users;
-  
+
   private CoinbaseUsers(@JsonProperty("users") final List<CoinbaseUser> users) {
-    
+
     this.users = users;
   }
 
@@ -47,5 +47,5 @@ public class CoinbaseUsers {
 
     return "CoinbaseUsers [users=" + users + "]";
   }
-  
+
 }

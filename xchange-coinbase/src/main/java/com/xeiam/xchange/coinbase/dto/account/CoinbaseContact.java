@@ -29,14 +29,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CoinbaseContact {
 
   private final CoinbaseContactEmail contact;
-  
+
   public CoinbaseContact(@JsonProperty("contact") final CoinbaseContactEmail contact) {
-    
+
     this.contact = contact;
   }
-  
+
   public String getEmail() {
-    
+
     return contact.email;
   }
 
@@ -47,11 +47,11 @@ public class CoinbaseContact {
   }
 
   private static class CoinbaseContactEmail {
-    
+
     private final String email;
-    
+
     private CoinbaseContactEmail(@JsonProperty("email") final String email) {
-      
+
       this.email = email;
     }
 

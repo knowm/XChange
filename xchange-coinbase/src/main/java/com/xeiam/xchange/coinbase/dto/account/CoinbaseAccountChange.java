@@ -26,7 +26,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
 /**
@@ -39,10 +39,11 @@ public class CoinbaseAccountChange {
   private final String transactionId;
   private final boolean confirmed;
   private final CoinbaseCache cache;
-  private final CoinbaseAmount amount;
+  private final CoinbaseMoney amount;
 
-  private CoinbaseAccountChange(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using=ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("transaction_id") final String transactionId,
-      @JsonProperty("confirmed") final boolean confirmed, @JsonProperty("cache") final CoinbaseCache cache, @JsonProperty("amount") final CoinbaseAmount amount) {
+  private CoinbaseAccountChange(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+      @JsonProperty("transaction_id") final String transactionId, @JsonProperty("confirmed") final boolean confirmed, @JsonProperty("cache") final CoinbaseCache cache,
+      @JsonProperty("amount") final CoinbaseMoney amount) {
 
     this.id = id;
     this.createdAt = createdAt;
@@ -77,7 +78,7 @@ public class CoinbaseAccountChange {
     return cache;
   }
 
-  public CoinbaseAmount getAmount() {
+  public CoinbaseMoney getAmount() {
 
     return amount;
   }
@@ -94,7 +95,8 @@ public class CoinbaseAccountChange {
     private final CoinbaseAccountChangeCategory category;
     private final CoinbaseUser otherUser;
 
-    private CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent, @JsonProperty("category") final CoinbaseAccountChangeCategory category, @JsonProperty("other_user") final CoinbaseUserInfo otherUser) {
+    private CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent, @JsonProperty("category") final CoinbaseAccountChangeCategory category,
+        @JsonProperty("other_user") final CoinbaseUserInfo otherUser) {
 
       this.notesPresent = notesPresent;
       this.category = category;

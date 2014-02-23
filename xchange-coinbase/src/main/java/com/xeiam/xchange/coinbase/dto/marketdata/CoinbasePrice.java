@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice.CoibasePriceDeserializer;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
 
 /**
  * @author jamespedwards42
@@ -45,9 +45,9 @@ public class CoinbasePrice {
   private final BigMoney bankFee;
   private final BigMoney total;
   private final BigMoney subTotal;
-  
+
   private CoinbasePrice(final BigMoney coinbaseFee, final BigMoney bankFee, final BigMoney total, final BigMoney subTotal) {
-    
+
     this.coinbaseFee = coinbaseFee;
     this.bankFee = bankFee;
     this.total = total;
@@ -87,11 +87,11 @@ public class CoinbasePrice {
 
       final ObjectCodec oc = jp.getCodec();
       final JsonNode node = oc.readTree(jp);
-      final BigMoney subTotal = CoinbaseMoneyDeserializer.getBigMoneyFromNode(node.path("subtotal"));
+      final BigMoney subTotal = CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(node.path("subtotal"));
       final JsonNode feesNode = node.path("fees");
-      final BigMoney coinbaseFee = CoinbaseMoneyDeserializer.getBigMoneyFromNode(feesNode.path(0).path("coinbase"));
-      final BigMoney bankFee = CoinbaseMoneyDeserializer.getBigMoneyFromNode(feesNode.path(1).path("bank"));
-      final BigMoney total = CoinbaseMoneyDeserializer.getBigMoneyFromNode(node.path("total"));
+      final BigMoney coinbaseFee = CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(feesNode.path(0).path("coinbase"));
+      final BigMoney bankFee = CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(feesNode.path(1).path("bank"));
+      final BigMoney total = CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(node.path("total"));
       return new CoinbasePrice(coinbaseFee, bankFee, total, subTotal);
     }
   }

@@ -43,7 +43,7 @@ import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 public enum CoinbaseRecurringPaymentStatus {
 
   NEW, ACTIVE, PAUSED, COMPLETED, CANCELED;
-  
+
   static class CoinbaseRecurringPaymentStatusDeserializer extends JsonDeserializer<CoinbaseRecurringPaymentStatus> {
 
     private static final EnumFromStringHelper<CoinbaseRecurringPaymentStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRecurringPaymentStatus>(CoinbaseRecurringPaymentStatus.class);

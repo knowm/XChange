@@ -43,7 +43,7 @@ import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 public enum CoinbaseRecurringPaymentType {
 
   BUY, SELL, SEND, REQUEST;
-  
+
   static class CoinbaseRecurringPaymentTypeDeserializer extends JsonDeserializer<CoinbaseRecurringPaymentType> {
 
     private static final EnumFromStringHelper<CoinbaseRecurringPaymentType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRecurringPaymentType>(CoinbaseRecurringPaymentType.class);

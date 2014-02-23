@@ -47,30 +47,63 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
   protected final T coinbase;
   protected final ParamsDigest signatureCreator;
 
-  protected CoinbaseBaseService(Class<T> type, final ExchangeSpecification exchangeSpecification) {
+  protected CoinbaseBaseService(final Class<T> type, final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
     coinbase = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     signatureCreator = CoinbaseDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
+  /**
+   * Unauthenticated resource that returns currencies supported on Coinbase.
+   * 
+   * @return A list of currency names and their corresponding ISO code.
+   * @throws IOException
+   */
   public List<CoinbaseCurrency> getCoinbaseCurrencies() throws IOException {
 
     return coinbase.getCurrencies();
   }
 
+  /**
+   * Unauthenticated resource that creates a user with an email and password.
+   * 
+   * @see <a href="https://coinbase.com/api/doc/1.0/users/create.html">coinbase.com/api/doc/1.0/users/create.html</a>
+   * @see {@link CoinbaseUser#createNewCoinbaseUser} and {@link CoinbaseUser#createCoinbaseNewUserWithReferrerId}
+   * @param user New Coinbase User information.
+   * @return Information for the newly created user.
+   * @throws IOException
+   */
   public CoinbaseUser createCoinbaseUser(final CoinbaseUser user) throws IOException {
 
     final CoinbaseUser createdUser = coinbase.createUser(user);
     return handleResponse(createdUser);
   }
 
+  /**
+   * Unauthenticated resource that creates a user with an email and password.
+   * 
+   * @see <a href="https://coinbase.com/api/doc/1.0/users/create.html">coinbase.com/api/doc/1.0/users/create.html</a>
+   * @see {@link CoinbaseUser#createNewCoinbaseUser} and {@link CoinbaseUser#createCoinbaseNewUserWithReferrerId}
+   * @param user New Coinbase User information.
+   * @param oAuthClientId Optional client id that corresponds to your OAuth2 application.
+   * @return Information for the newly created user, including information to perform future OAuth requests for the user.
+   * @throws IOException
+   */
   public CoinbaseUser createCoinbaseUser(final CoinbaseUser user, final String oAuthClientId) throws IOException {
 
     final CoinbaseUser createdUser = coinbase.createUser(user.withoAuthClientId(oAuthClientId));
     return handleResponse(createdUser);
   }
 
+  /**
+   * Creates tokens redeemable for Bitcoin.
+   * 
+   * @see <a href="https://coinbase.com/api/doc/1.0/tokens/create.html">coinbase.com/api/doc/1.0/tokens/create.html</a>
+   * @return The returned Bitcoin address can be used to send money to the token,
+   *         and will be credited to the account of the token redeemer if money is sent both before or after redemption.
+   * @throws IOException
+   */
   public CoinbaseToken createCoinbaseToken() throws IOException {
 
     final CoinbaseToken token = coinbase.createToken();
@@ -82,12 +115,7 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
   CurrencyPair.BTC_USD
 
   );
-  
-  /**
-   * Use {@link #getCoinbaseCurrencies()} instead.  It will provide
-   * a list of all currencies that are currently supported by 
-   * Coinbase.  
-   */
+
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
@@ -99,12 +127,12 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
     return System.currentTimeMillis();
   }
 
-  protected <R extends CoinbaseBaseResponse> R handleResponse(final R postResponse) {
+  protected <R extends CoinbaseBaseResponse> R handleResponse(final R response) {
 
-    final List<String> errors = postResponse.getErrors();
+    final List<String> errors = response.getErrors();
     if (errors != null && !errors.isEmpty())
       throw new ExchangeException(errors.toString());
 
-    return postResponse;
+    return response;
   }
 }

@@ -39,7 +39,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus.CoinbaseTransactionStatusDeserializer;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseAmount;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
@@ -78,7 +78,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
   }
 
   @Override
-  public CoinbaseAmount getAmount() {
+  public CoinbaseMoney getAmount() {
 
     return transaction.getAmount();
   }
@@ -182,9 +182,9 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     }
 
     @Override
-    public CoinbaseAmount getAmount() {
+    public CoinbaseMoney getAmount() {
 
-      return new CoinbaseAmount(MoneyUtils.parse(currencyIso + " " + amountString));
+      return new CoinbaseMoney(MoneyUtils.parse(currencyIso + " " + amountString));
     }
 
     @Override
@@ -378,7 +378,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
     private final String id;
     private final Date createdAt;
-    private final CoinbaseAmount amount;
+    private final CoinbaseMoney amount;
     private final boolean request;
     private final CoinbaseTransactionStatus status;
     private final CoinbaseUser sender;
@@ -389,7 +389,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     private final String idempotencyKey;
 
     private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-        @JsonProperty("amount") final CoinbaseAmount amount, @JsonProperty("request") final boolean request, @JsonProperty("status") final CoinbaseTransactionStatus status,
+        @JsonProperty("amount") final CoinbaseMoney amount, @JsonProperty("request") final boolean request, @JsonProperty("status") final CoinbaseTransactionStatus status,
         @JsonProperty("sender") final CoinbaseUserInfo sender, @JsonProperty("recipient") final CoinbaseUserInfo recipient, @JsonProperty("recipient_address") final String recipientAddress,
         @JsonProperty("notes") final String notes, @JsonProperty("hsh") final String transactionHash, @JsonProperty("idem") final String idempotencyKey) {
 
@@ -419,7 +419,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     }
 
     @Override
-    public CoinbaseAmount getAmount() {
+    public CoinbaseMoney getAmount() {
 
       return amount;
     }

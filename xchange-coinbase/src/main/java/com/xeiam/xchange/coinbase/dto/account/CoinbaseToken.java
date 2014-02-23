@@ -32,13 +32,13 @@ import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 public class CoinbaseToken extends CoinbaseBaseResponse {
 
   private final CoinbaseTokenInfo token;
-  
+
   private CoinbaseToken(@JsonProperty("token") final CoinbaseTokenInfo token, @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
-    
+
     super(success, errors);
     this.token = token;
   }
-  
+
   public String getTokenId() {
 
     return token.getTokenId();
@@ -48,7 +48,7 @@ public class CoinbaseToken extends CoinbaseBaseResponse {
 
     return token.getAddress();
   }
-  
+
   @Override
   public String toString() {
 
@@ -56,12 +56,12 @@ public class CoinbaseToken extends CoinbaseBaseResponse {
   }
 
   private static class CoinbaseTokenInfo {
-    
+
     private final String tokenId;
     private final String address;
-    
+
     private CoinbaseTokenInfo(@JsonProperty("token_id") final String tokenId, @JsonProperty("address") final String address) {
-      
+
       this.tokenId = tokenId;
       this.address = address;
     }
@@ -81,6 +81,6 @@ public class CoinbaseToken extends CoinbaseBaseResponse {
 
       return "CoinbaseTokenInfo [tokenId=" + tokenId + ", address=" + address + "]";
     }
-    
+
   }
 }

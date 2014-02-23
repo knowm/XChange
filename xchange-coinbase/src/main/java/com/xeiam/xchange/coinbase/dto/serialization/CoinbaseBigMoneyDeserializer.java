@@ -19,48 +19,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.account;
+package com.xeiam.xchange.coinbase.dto.serialization;
 
-import java.util.Date;
+import java.io.IOException;
+import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author jamespedwards42
  */
-public interface CoinbaseTransactionInfo {
+public class CoinbaseBigMoneyDeserializer extends JsonDeserializer<BigMoney> {
 
-  @JsonIgnore
-  public String getId();
+  @Override
+  public BigMoney deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-  @JsonIgnore
-  public Date getCreatedAt();
+    final ObjectCodec oc = jp.getCodec();
+    final JsonNode node = oc.readTree(jp);
 
-  @JsonIgnore
-  public CoinbaseMoney getAmount();
+    return getBigMoneyFromNode(node);
+  }
 
-  @JsonIgnore
-  public boolean isRequest();
+  public static BigMoney getBigMoneyFromNode(final JsonNode node) {
 
-  @JsonIgnore
-  public CoinbaseTransactionStatus getStatus();
+    final String amount = node.path("amount").asText();
+    final String currency = node.path("currency").asText();
+    final CurrencyUnit currencyUnit = CurrencyUnit.of(currency);
 
-  @JsonIgnore
-  public CoinbaseUser getSender();
+    return BigMoney.of(currencyUnit, new BigDecimal(amount));
+  }
 
-  @JsonIgnore
-  public CoinbaseUser getRecipient();
-
-  @JsonIgnore
-  public String getRecipientAddress();
-
-  public String getNotes();
-
-  @JsonIgnore
-  public String getTransactionHash();
-
-  @JsonIgnore
-  public String getIdempotencyKey();
-};
+}

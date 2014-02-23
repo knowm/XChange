@@ -158,9 +158,9 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
   }
 
   @JsonIgnore
-  public boolean isAutoDirect() {
+  public boolean isAutoReDirect() {
 
-    return button.isAutoDirect();
+    return button.isAutoReDirect();
   }
 
   @JsonIgnore
@@ -543,7 +543,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     private final String successUrl;
     private final String cancelUrl;
     private final String infoUrl;
-    private final boolean autoDirect;
+    private final boolean autoReDirect;
     private final boolean variablePrice;
     private final boolean choosePrice;
     private final boolean includeAddress;
@@ -558,7 +558,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
         @JsonProperty("type") final CoinbaseButtonType type, @JsonProperty("description") final String description, @JsonProperty("id") final String id, @JsonProperty("custom") final String custom,
         @JsonProperty("style") final CoinbaseButtonStyle style, @JsonProperty("code") final String code, @JsonProperty("text") final String text, @JsonProperty("repeat") final CoinbaseRepeat repeat,
         @JsonProperty("custom_secure") final boolean customSecure, @JsonProperty("callback_url") final String callbackUrl, @JsonProperty("success_url") final String successUrl,
-        @JsonProperty("cancel_url") final String cancelUrl, @JsonProperty("info_url") final String infoUrl, @JsonProperty("auto_direct") final boolean autoDirect,
+        @JsonProperty("cancel_url") final String cancelUrl, @JsonProperty("info_url") final String infoUrl, @JsonProperty("auto_redirect") final boolean autoDirect,
         @JsonProperty("variable_price") final boolean variablePrice, @JsonProperty("choose_price") final boolean choosePrice, @JsonProperty("include_address") final boolean includeAddress,
         @JsonProperty("include_email") final boolean includeEmail, @JsonProperty("price1") final String price1, @JsonProperty("price2") final String price2,
         @JsonProperty("price3") final String price3, @JsonProperty("price4") final String price4, @JsonProperty("price5") final String price5) {
@@ -578,7 +578,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       this.successUrl = successUrl;
       this.cancelUrl = cancelUrl;
       this.infoUrl = infoUrl;
-      this.autoDirect = autoDirect;
+      this.autoReDirect = autoDirect;
       this.variablePrice = variablePrice;
       this.choosePrice = choosePrice;
       this.includeAddress = includeAddress;
@@ -693,9 +693,9 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     }
 
     @JsonProperty("auto_direct")
-    public boolean isAutoDirect() {
+    public boolean isAutoReDirect() {
 
-      return autoDirect;
+      return autoReDirect;
     }
 
     @JsonProperty("variable_price")
@@ -757,7 +757,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
       return "CoinbaseButtonInfo [name=" + name + ", price=" + price + ", type=" + type + ", description=" + description + ", id=" + id + ", custom=" + custom + ", style=" + style + ", code=" + code
           + ", text=" + text + ", repeat=" + repeat + ", customSecure=" + customSecure + ", callbackUrl=" + callbackUrl + ", successUrl=" + successUrl + ", cancelUrl=" + cancelUrl + ", infoUrl="
-          + infoUrl + ", autoDirect=" + autoDirect + ", variablePrice=" + variablePrice + ", choosePrice=" + choosePrice + ", includeAddress=" + includeAddress + ", includeEmail=" + includeEmail
+          + infoUrl + ", autoDirect=" + autoReDirect + ", variablePrice=" + variablePrice + ", choosePrice=" + choosePrice + ", includeAddress=" + includeAddress + ", includeEmail=" + includeEmail
           + ", price1=" + price1 + ", price2=" + price2 + ", price3=" + price3 + ", price4=" + price4 + ", price5=" + price5 + "]";
     }
   }

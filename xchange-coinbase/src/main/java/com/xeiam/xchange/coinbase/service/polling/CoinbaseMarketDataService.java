@@ -26,11 +26,13 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.coinbase.CoinbaseAdapters;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -49,14 +51,24 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
     super(exchangeSpecification);
   }
 
+  /**
+   * @param args Optional Boolean. If true an additional call to retrieve the spot price history will be made
+   *          and used to populate the 24 hour high and low values for the Ticker.
+   * @return A Ticker with Coinbase's current buy price as the best ask, sell price as the best bid,
+   *         spot price as the last value, and can optionally use the spot price history to find the 24 hour
+   *         high and low.
+   */
   @Override
   public Ticker getTicker(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
 
     final CoinbasePrice buyPrice = super.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
     final CoinbasePrice sellPrice = super.getCoinbaseSellPrice(BigDecimal.ONE, currency);
+    final CoinbaseMoney spotRate = super.getCoinbaseSpotRate(currency);
 
-    final Ticker ticker = TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withAsk(buyPrice.getSubTotal()).withBid(sellPrice.getSubTotal()).build();
-    return ticker;
+    final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory =
+        (args != null && args.length > 0 && args[0] != null && args[0] instanceof Boolean && (Boolean) args[0]) ? super.getCoinbaseHistoricalSpotRates() : null;
+
+    return CoinbaseAdapters.adaptTicker(tradableIdentifier, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
   }
 
   @Override

@@ -19,13 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.dto.serialization;
+package com.xeiam.xchange.coinbase.dto.account;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,28 +29,33 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.xeiam.xchange.coinbase.dto.account.CoinbaseBuySellLevel.CoinbaseBuySellLevelDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMoneyDeserializer extends JsonDeserializer<BigMoney> {
+@JsonDeserialize(using = CoinbaseBuySellLevelDeserializer.class)
+@JsonSerialize(using = EnumLowercaseJsonSerializer.class)
+public enum CoinbaseBuySellLevel {
 
-  @Override
-  public BigMoney deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  ONE, TWO, THREE;
 
-    final ObjectCodec oc = jp.getCodec();
-    final JsonNode node = oc.readTree(jp);
-    
-    return getBigMoneyFromNode(node);
+  static class CoinbaseBuySellLevelDeserializer extends JsonDeserializer<CoinbaseBuySellLevel> {
+
+    private static final EnumFromStringHelper<CoinbaseBuySellLevel> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseBuySellLevel>(CoinbaseBuySellLevel.class).addJsonStringMapping("1", ONE)
+        .addJsonStringMapping("2", TWO).addJsonStringMapping("3", THREE);
+
+    @Override
+    public CoinbaseBuySellLevel deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final int buySellLevel = node.asInt();
+      return FROM_STRING_HELPER.fromJsonString(String.valueOf(buySellLevel));
+    }
   }
-  
-  public static BigMoney getBigMoneyFromNode(final JsonNode node) {
-    
-    final String amount = node.path("amount").asText();
-    final String currency = node.path("currency").asText();
-    final CurrencyUnit currencyUnit = CurrencyUnit.of(currency);
-    
-    return BigMoney.of(currencyUnit, new BigDecimal(amount));
-  }
-
 }

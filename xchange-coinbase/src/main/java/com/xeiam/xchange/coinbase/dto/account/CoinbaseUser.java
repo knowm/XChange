@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.auth.CoinbaseOAuth;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseMerchant;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
 
 /**
  * @author jamespedwards42
@@ -85,7 +85,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
   }
 
   public CoinbaseUser updateEmail(final String email) {
-    
+
     user.setEmail(email);
     return this;
   }
@@ -97,11 +97,11 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
   }
 
   public CoinbaseUser updateName(final String name) {
-    
+
     user.setName(name);
     return this;
   }
-  
+
   @JsonIgnore
   public String getPassword() {
 
@@ -127,11 +127,11 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
   }
 
   public CoinbaseUser updateTimeZone(final String timeZone) {
-    
+
     user.setTimeZone(timeZone);
     return this;
   }
-  
+
   @JsonIgnore
   public BigMoney getBalance() {
 
@@ -145,19 +145,19 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
   }
 
   public CoinbaseUser updateNativeCurrency(final String nativeCurrency) {
-    
+
     user.setNativeCurrency(nativeCurrency);
     return this;
   }
 
   @JsonIgnore
-  public int getBuyLevel() {
+  public CoinbaseBuySellLevel getBuyLevel() {
 
     return user.getBuyLevel();
   }
 
   @JsonIgnore
-  public int getSellLevel() {
+  public CoinbaseBuySellLevel getSellLevel() {
 
     return user.getSellLevel();
   }
@@ -181,7 +181,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
   }
 
   public CoinbaseUser updatePin(final String pin) {
-    
+
     user.setPin(pin);
     return this;
   }
@@ -191,7 +191,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
 
     return user.getMerchant();
   }
-  
+
   @JsonIgnore
   public CoinbaseOAuth getOAuth() {
 
@@ -233,8 +233,8 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     private final BigMoney balance;
     @JsonProperty("native_currency")
     private String nativeCurrency;
-    private final Integer buyLevel;
-    private final Integer sellLevel;
+    private final CoinbaseBuySellLevel buyLevel;
+    private final CoinbaseBuySellLevel sellLevel;
     private final BigMoney buyLimit;
     private final BigMoney sellLimit;
     @JsonProperty("pin")
@@ -243,10 +243,10 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
 
     private CoinbaseUserInfo(@JsonProperty("id") final String id, @JsonProperty("email") final String email, @JsonProperty("name") final String name, @JsonProperty("password") final String password,
         @JsonProperty("receive_address") final String receiveAddress, @JsonProperty("referrer_id") final String referrerId, @JsonProperty("time_zone") final String timeZone,
-        @JsonProperty("balance") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final BigMoney balance, @JsonProperty("native_currency") final String nativeCurrency,
-        @JsonProperty("buy_level") final Integer buyLevel, @JsonProperty("sell_level") final Integer sellLevel,
-        @JsonProperty("buy_limit") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final BigMoney buyLimit, @JsonProperty("sell_limit") @JsonDeserialize(
-            using = CoinbaseMoneyDeserializer.class) final BigMoney sellLimit, @JsonProperty("pin") final String pin, @JsonProperty("marchant") final CoinbaseMerchant merchant) {
+        @JsonProperty("balance") @JsonDeserialize(using = CoinbaseBigMoneyDeserializer.class) final BigMoney balance, @JsonProperty("native_currency") final String nativeCurrency,
+        @JsonProperty("buy_level") final CoinbaseBuySellLevel buyLevel, @JsonProperty("sell_level") final CoinbaseBuySellLevel sellLevel, @JsonProperty("buy_limit") @JsonDeserialize(
+            using = CoinbaseBigMoneyDeserializer.class) final BigMoney buyLimit, @JsonProperty("sell_limit") @JsonDeserialize(using = CoinbaseBigMoneyDeserializer.class) final BigMoney sellLimit,
+        @JsonProperty("pin") final String pin, @JsonProperty("merchant") final CoinbaseMerchant merchant) {
 
       this.id = id;
       this.email = email;
@@ -296,20 +296,20 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     }
 
     private void setEmail(final String email) {
-      
+
       this.email = email;
     }
-    
+
     public String getName() {
 
       return name;
     }
 
     private void setName(final String name) {
-      
+
       this.name = name;
     }
-    
+
     public String getPassword() {
 
       return password;
@@ -332,10 +332,10 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     }
 
     private void setTimeZone(final String timeZone) {
-      
+
       this.timeZone = timeZone;
     }
-    
+
     @JsonIgnore
     public BigMoney getBalance() {
 
@@ -348,18 +348,18 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     }
 
     private void setNativeCurrency(final String nativeCurrency) {
-      
+
       this.nativeCurrency = nativeCurrency;
     }
-    
+
     @JsonIgnore
-    public Integer getBuyLevel() {
+    public CoinbaseBuySellLevel getBuyLevel() {
 
       return buyLevel;
     }
 
     @JsonIgnore
-    public Integer getSellLevel() {
+    public CoinbaseBuySellLevel getSellLevel() {
 
       return sellLevel;
     }
@@ -382,10 +382,10 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     }
 
     private void setPin(final String pin) {
-      
+
       this.pin = pin;
     }
-    
+
     @JsonIgnore
     public CoinbaseMerchant getMerchant() {
 

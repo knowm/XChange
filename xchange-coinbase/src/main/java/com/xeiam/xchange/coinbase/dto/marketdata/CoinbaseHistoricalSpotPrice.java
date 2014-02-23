@@ -27,7 +27,7 @@ import java.util.Date;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseHistoricalSpotPrice {
+public class CoinbaseHistoricalSpotPrice implements Comparable<CoinbaseHistoricalSpotPrice> {
 
   private final Date timestamp;
   private final BigDecimal spotRate;
@@ -52,6 +52,12 @@ public class CoinbaseHistoricalSpotPrice {
   public String toString() {
 
     return "CoinbaseHistoricalPrice [timestamp=" + timestamp + ", spotRate=" + spotRate + "]";
+  }
+
+  @Override
+  public int compareTo(CoinbaseHistoricalSpotPrice o) {
+
+    return this.timestamp.compareTo(o.timestamp);
   }
 
 }

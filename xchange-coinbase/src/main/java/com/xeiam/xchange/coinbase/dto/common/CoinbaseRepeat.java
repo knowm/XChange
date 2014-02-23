@@ -43,7 +43,7 @@ import com.xeiam.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
 public enum CoinbaseRepeat {
 
   NEVER, DAILY, WEEKLY, EVERY_TWO_WEEKS, MONTHLY, QUARTERLY, YEARLY;
-  
+
   static class CoinbaseRepeatDeserializer extends JsonDeserializer<CoinbaseRepeat> {
 
     private static final EnumFromStringHelper<CoinbaseRepeat> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRepeat>(CoinbaseRepeat.class);
