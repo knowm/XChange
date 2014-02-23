@@ -51,12 +51,18 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
     return CoinbaseAdapters.adaptAccountInfo(users.getUsers().get(0));
   }
 
+  /**
+   * 
+   * @return The Coinbase transaction id for the newly created withdrawal. 
+   * See {@link CoinbaseAccountServiceRaw#getCoinbaseTransaction(String transactionIdOrIdemField)} to retreive more information
+   * about the transaction, including the blockchain transaction hash.
+   */
   @Override
   public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, Currencies.BTC, amount);
     final CoinbaseTransaction sendMoneyTransaction = super.sendMoneyCoinbaseRequest(sendMoneyRequest);
-    return sendMoneyTransaction.getTransactionHash();
+    return sendMoneyTransaction.getId();
   }
 
   @Override
