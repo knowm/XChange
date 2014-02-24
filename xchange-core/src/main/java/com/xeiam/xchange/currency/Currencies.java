@@ -200,6 +200,7 @@ public class Currencies {
   public static final String VEN = "VEN"; // Hub Culture's Ven,
   public static final String VND = "VND"; // "Vietnamese Dong",
   public static final String VUV = "VUV"; // "Vanuatu Vatu",
+  public static final String WDC = "WDC"; // "WorldCoin",
   public static final String WST = "WST"; // "Samoan Tala",
   public static final String XAF = "XAF"; // "CFA Franc BEAC",
   public static final String XBT = "XBT"; // Bitcoin,

@@ -19,27 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade;
+package com.xeiam.xchange.cryptotrade.dto;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+public class CryptoTradeBaseResponse {
 
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+	private final String status;
+	private final String error;
+	
+	protected CryptoTradeBaseResponse(String status, String error) {
+		
+		this.status = status;
+		this.error = error;
+	}
 
-@Path("api/1")
-@Produces(MediaType.APPLICATION_JSON)
-public interface CryptoTrade {
+	public String getStatus() {
+		return status;
+	}
 
-  @GET
-  @Path("depth/{ident}_{currency}")
-  CryptoTradeDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+	public String getError() {
+		return error;
+	}
 
-  @GET
-  @Path("ticker/{ident}_{currency}")
-  CryptoTradeTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
-
+	@Override
+	public String toString() {
+		return "CryptoTradeBaseResponse [status=" + status + ", error=" + error
+				+ "]";
+	}
 }

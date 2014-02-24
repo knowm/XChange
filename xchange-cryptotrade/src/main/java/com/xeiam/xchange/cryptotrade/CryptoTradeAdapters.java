@@ -31,9 +31,12 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.IllegalCurrencyException;
 
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfoReturn;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 
@@ -114,4 +117,16 @@ public final class CryptoTradeAdapters {
     return new AccountInfo(userName, wallets);
   }
 
+  public static Ticker adaptTicker(String currency, CryptoTradeTicker cryptoTradeTicker) {
+
+    CurrencyUnit priceCurrencyUnit = CurrencyUnit.of(currency);
+    BigMoney ask = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getMinAsk());
+    BigMoney bid = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getMaxBid());
+    BigMoney last = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getLast());
+    BigMoney low = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getLow());
+    BigMoney high = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getHigh());
+    BigDecimal volume = cryptoTradeTicker.getVolumePriceCurrency();
+
+    return TickerBuilder.newInstance().withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
+  }
 }

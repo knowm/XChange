@@ -28,6 +28,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 
 /**
  * <p>
@@ -52,6 +53,13 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
     cryptoTrade = RestProxyFactory.createProxy(CryptoTrade.class, exchangeSpecification.getSslUri());
   }
 
+  public CryptoTradeTicker getCryptoTradeTicker(String tradableIdentifier, String currency) throws IOException {
+
+    CryptoTradeTicker cryptoTradeTicker = cryptoTrade.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+
+    return cryptoTradeTicker;
+  }
+  
   public CryptoTradeDepth getCryptoTradeOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     CryptoTradeDepth cryptoTradeDepth = cryptoTrade.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());

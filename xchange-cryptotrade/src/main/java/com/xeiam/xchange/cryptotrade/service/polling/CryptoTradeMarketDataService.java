@@ -26,9 +26,9 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -59,7 +59,9 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(tradableIdentifier, currency);
+
+    return CryptoTradeAdapters.adaptTicker(currency, cryptoTradeTicker);
   }
 
   @Override

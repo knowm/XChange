@@ -30,34 +30,45 @@ import com.xeiam.xchange.service.BaseExchangeService;
 
 public class CryptoTradeBaseService extends BaseExchangeService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
+	public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
-  static {
+	static {
 
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("CNC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
-  }
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
+		CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
+		CURRENCY_PAIRS.add(CurrencyPair.LTC_USD);
+		CURRENCY_PAIRS.add(CurrencyPair.LTC_EUR);
+		CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.NMC_USD);
+		CURRENCY_PAIRS.add(CurrencyPair.XPM_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.XPM_USD);
+		CURRENCY_PAIRS.add(CurrencyPair.XPM_PPC);
+		CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.PPC_USD);
+		CURRENCY_PAIRS.add(CurrencyPair.FTC_USD);
+		CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.CNC_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
+		CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
+	}
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public CryptoTradeBaseService(ExchangeSpecification exchangeSpecification) {
+	/**
+	 * Constructor
+	 * 
+	 * @param exchangeSpecification
+	 *            The {@link ExchangeSpecification}
+	 */
+	public CryptoTradeBaseService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+		super(exchangeSpecification);
 
-  }
+	}
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+	@Override
+	public List<CurrencyPair> getExchangeSymbols() {
 
-    return CURRENCY_PAIRS;
-  }
+		return CURRENCY_PAIRS;
+	}
 }

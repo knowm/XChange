@@ -21,9 +21,6 @@
  */
 package com.xeiam.xchange.cryptotrade.service.polling;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -31,7 +28,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeBaseService;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 public class CryptoTradeBasePollingService extends CryptoTradeBaseService {
 
@@ -40,8 +36,6 @@ public class CryptoTradeBasePollingService extends CryptoTradeBaseService {
   final String apiKey;
   final CryptoTradeAuthenticated cryptoTradeProxy;
   final ParamsDigest signatureCreator;
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
   /**
    * Constructor
