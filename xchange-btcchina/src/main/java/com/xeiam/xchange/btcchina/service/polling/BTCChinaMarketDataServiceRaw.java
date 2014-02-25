@@ -53,7 +53,8 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBaseService {
   public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
+    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, 
+    		(String) exchangeSpecification.getExchangeSpecificParameters().get("dataSslUri"));
   }
 
   public BTCChinaTicker getBTCChinaTicker() throws IOException {
