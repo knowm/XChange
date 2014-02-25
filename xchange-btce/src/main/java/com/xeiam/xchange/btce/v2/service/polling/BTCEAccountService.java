@@ -22,7 +22,8 @@
 package com.xeiam.xchange.btce.v2.service.polling;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -57,13 +58,13 @@ public class BTCEAccountService extends BTCEBasePollingService implements Pollin
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(BigMoney amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+  public String requestDepositAddress(String currency,  String... arguments) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

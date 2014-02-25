@@ -29,6 +29,8 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -60,10 +62,10 @@ public class BitstampAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-    String depositAddress = accountService.requestBitcoinDepositAddress();
+    String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(4), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
+    String withdrawResult = accountService.withdrawFunds(MoneyUtils.parseMoney("BTC", new BigDecimal(1).movePointLeft(4)), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 

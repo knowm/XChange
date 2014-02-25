@@ -22,7 +22,8 @@
 package com.xeiam.xchange.service.polling;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -55,29 +56,30 @@ public interface PollingAccountService {
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
-   * Withdraw funds from this account. Allows to withdraw Bitcoins from the exchange account to an external bitcoin address
+   * Withdraw funds from this account. Allows to withdraw digital currency funds from the exchange account to an external address
    * 
    * @param amount The amount to withdraw
-   * @param address The external Bitcoin address
+   * @param address The destination address
    * @return The result of the withdrawal (usually a transaction ID)
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public String withdrawFunds(BigMoney amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
-   * Request a bitcoin address to fund this account. Allows to fund the exchange account with Bitcoins from an external bitcoin address
+   * Request a digital currency address to fund this account. Allows to fund the exchange account with digital currency from an external address
    * 
+   * @param currency The digital currency that corresponds to the desired deposit address.
    * @param arguments
-   * @return the internal bitcoin address to send funds to
+   * @return the internal deposit address to send funds to
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String requestBitcoinDepositAddress(String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   // TODO: Transaction history (deposits, withrawals, etc.)
 }
