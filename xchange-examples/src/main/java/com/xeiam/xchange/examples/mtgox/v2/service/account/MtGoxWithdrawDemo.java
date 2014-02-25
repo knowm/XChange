@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.examples.mtgox.v2.MtGoxV2ExamplesUtils;
 import com.xeiam.xchange.mtgox.v2.dto.account.polling.MtGoxWithdrawalResponse;
 import com.xeiam.xchange.mtgox.v2.service.polling.MtGoxAccountServiceRaw;
@@ -54,7 +55,7 @@ public class MtGoxWithdrawDemo {
 
     System.out.println(accountService.getAccountInfo());
 
-    String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(2), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
+    String withdrawResult = accountService.withdrawFunds(MoneyUtils.parseMoney("BTC", new BigDecimal(1).movePointLeft(2)), "1Mh5brotRiiLYbbA1vqRDMNKgjSxoxLevi");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 

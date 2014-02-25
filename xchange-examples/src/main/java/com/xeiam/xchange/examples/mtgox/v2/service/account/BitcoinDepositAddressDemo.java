@@ -48,7 +48,7 @@ public class BitcoinDepositAddressDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     // Request a Bitcoin deposit address
-    String address = accountService.requestBitcoinDepositAddress("Demonstation address", null);
+    String address = accountService.requestDepositAddress("Demonstation address", null);
     System.out.println("Address to deposit Bitcoins to: " + address);
   }
 

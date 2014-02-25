@@ -22,7 +22,8 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
@@ -62,14 +63,14 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(BigMoney amount, String address) throws IOException {
 
     BTCChinaResponse<BTCChinaID> response = withdrawBTCChinaFunds(amount, address);
     return response.getResult().getId();
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
     return requestBTCChinaBitcoinDepositAddress();
   }
