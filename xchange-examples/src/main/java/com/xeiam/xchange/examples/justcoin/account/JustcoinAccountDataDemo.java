@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.justcoin.JustcoinExchange;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
@@ -58,10 +59,10 @@ public class JustcoinAccountDataDemo {
     AccountInfo accountInfo = genericAccountService.getAccountInfo();
     System.out.println(accountInfo);
 
-    String depositAddr = genericAccountService.requestBitcoinDepositAddress();
-    System.out.println("BTC deposit address: " + depositAddr);
+    String depositAddr = genericAccountService.requestDepositAddress(Currencies.LTC);
+    System.out.println("LTC deposit address: " + depositAddr);
 
-    String txid = genericAccountService.withdrawFunds(new BigDecimal("0.001"), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
+    String txid = genericAccountService.withdrawFunds(MoneyUtils.parseMoney("BTC", new BigDecimal("0.001")), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
     System.out.println("See the withdrawal transaction: http://blockchain.info/tx-index/" + txid);
   }
 

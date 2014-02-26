@@ -22,7 +22,8 @@
 package com.xeiam.xchange.coinbase.service.polling;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+
+import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.CoinbaseAdapters;
@@ -30,7 +31,6 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
@@ -57,15 +57,16 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
    *         about the transaction, including the blockchain transaction hash.
    */
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(BigMoney amount, String address) throws IOException {
 
-    final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, Currencies.BTC, amount);
+    final String currency = amount.getCurrencyUnit().getCode();
+    final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, currency, amount.getAmount());
     final CoinbaseTransaction sendMoneyTransaction = super.sendMoneyCoinbaseRequest(sendMoneyRequest);
     return sendMoneyTransaction.getId();
   }
 
   @Override
-  public String requestBitcoinDepositAddress(String... arguments) throws IOException {
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
     final CoinbaseAddress receiveAddress = super.getCoinbaseReceiveAddress();
     return receiveAddress.getAddress();

@@ -40,6 +40,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
@@ -64,7 +65,7 @@ public class CoinbaseAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("Account Info: " + accountInfo);
 
-    String depositAddress = accountService.requestBitcoinDepositAddress();
+    String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit Address: " + depositAddress);
 
     // String transactionHash = accountService.withdrawFunds(new BigDecimal(".01"), "1CYmvfR53AYPj87TjxXZQrLZ8z8dRUKDMs");
