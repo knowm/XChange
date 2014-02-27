@@ -25,8 +25,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 
-public class CryptoTradeDepth {
+public class CryptoTradeDepth extends CryptoTradeBaseResponse {
 
   private final List<BigDecimal[]> asks;
   private final List<BigDecimal[]> bids;
@@ -36,9 +37,13 @@ public class CryptoTradeDepth {
    * 
    * @param asks
    * @param bids
+   * @param status
+   * @param error
    */
-  public CryptoTradeDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
+  public CryptoTradeDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids, 
+      @JsonProperty("status") String status, @JsonProperty("error") String error) {
 
+    super(status, error);
     this.asks = asks;
     this.bids = bids;
   }

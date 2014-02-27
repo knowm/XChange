@@ -57,9 +57,9 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
 
     CryptoTradeTicker cryptoTradeTicker = cryptoTrade.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    return cryptoTradeTicker;
+    return handleResponse(cryptoTradeTicker);
   }
-  
+
   public CryptoTradeDepth getCryptoTradeOrderBook(String tradableIdentifier, String currency) throws IOException {
 
     CryptoTradeDepth cryptoTradeDepth = cryptoTrade.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());

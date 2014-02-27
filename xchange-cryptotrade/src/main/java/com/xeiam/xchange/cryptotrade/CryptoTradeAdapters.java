@@ -24,13 +24,12 @@ package com.xeiam.xchange.cryptotrade;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
-import org.joda.money.IllegalCurrencyException;
 
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfoReturn;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -62,12 +61,9 @@ public final class CryptoTradeAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, OrderType orderType, String id) {
 
-    // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigMoney limitPrice;
-    limitPrice = MoneyUtils.parse(currency + " " + price);
+    BigMoney limitPrice = MoneyUtils.parseMoney(currency, price);
 
     return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
   }
@@ -81,52 +77,52 @@ public final class CryptoTradeAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> cryptoTradeOrders, String tradableIdentifier, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> cryptoTradeOrders, String tradableIdentifier, String currency, OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     // Bid orderbook is reversed order. Insert at index 0 instead of
-    for (BigDecimal[] bterOrder : cryptoTradeOrders) {
-      // appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(bterOrder[0], bterOrder[1], tradableIdentifier, currency, orderType, id));
-      }
-      else {
-        limitOrders.add(adaptOrder(bterOrder[0], bterOrder[1], tradableIdentifier, currency, orderType, id));
+    for (BigDecimal[] order : cryptoTradeOrders) {
+      switch (orderType) {
+      case ASK:
+        limitOrders.add(adaptOrder(order[1], order[0], tradableIdentifier, currency, orderType, ""));
+        break;
+      case BID:
+        limitOrders.add(0, adaptOrder(order[1], order[0], tradableIdentifier, currency, orderType, ""));
+        break;
+      default:
+        break;
+
       }
     }
 
     return limitOrders;
   }
 
-  public static AccountInfo adaptAccountInfo(String userName, CryptoTradeAccountInfoReturn btceAccountInfo) {
+  public static AccountInfo adaptAccountInfo(String userName, CryptoTradeAccountInfo accountInfo) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
-    Map<String, BigDecimal> funds = btceAccountInfo.getAvailableFunds();
-    for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
-      try {
-        CurrencyUnit.of(currency);
-      } catch (IllegalCurrencyException e) {
-        // log.in("Ignoring unknown currency {}", currency);
-        continue;
-      }
-      wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency)));
-    }
+    for (Entry<String, BigDecimal> fundsEntry : accountInfo.getFunds().entrySet())
+      wallets.add(Wallet.createInstance(fundsEntry.getKey().toUpperCase(), fundsEntry.getValue()));
 
     return new AccountInfo(userName, wallets);
   }
 
-  public static Ticker adaptTicker(String currency, CryptoTradeTicker cryptoTradeTicker) {
+  public static Ticker adaptTicker(String tradeCurrency, String priceCurrency, CryptoTradeTicker cryptoTradeTicker) {
 
-    CurrencyUnit priceCurrencyUnit = CurrencyUnit.of(currency);
-    BigMoney ask = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getMinAsk());
-    BigMoney bid = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getMaxBid());
-    BigMoney last = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getLast());
-    BigMoney low = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getLow());
-    BigMoney high = BigMoney.of(priceCurrencyUnit, cryptoTradeTicker.getHigh());
+    CurrencyUnit priceCurrencyUnit = CurrencyUnit.of(priceCurrency);
+    BigMoney ask = toBigMoneyIfNotNull(priceCurrencyUnit, cryptoTradeTicker.getMinAsk());
+    BigMoney bid = toBigMoneyIfNotNull(priceCurrencyUnit, cryptoTradeTicker.getMaxBid());
+    BigMoney last = toBigMoneyIfNotNull(priceCurrencyUnit, cryptoTradeTicker.getLast());
+    BigMoney low = toBigMoneyIfNotNull(priceCurrencyUnit, cryptoTradeTicker.getLow());
+    BigMoney high = toBigMoneyIfNotNull(priceCurrencyUnit, cryptoTradeTicker.getHigh());
     BigDecimal volume = cryptoTradeTicker.getVolumePriceCurrency();
 
-    return TickerBuilder.newInstance().withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
+    return TickerBuilder.newInstance().withTradableIdentifier(tradeCurrency).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
+  }
+
+  private static BigMoney toBigMoneyIfNotNull(CurrencyUnit currencyUnit, BigDecimal number) {
+
+    return number == null ? null : BigMoney.of(currencyUnit, number);
   }
 }

@@ -28,7 +28,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfoReturn;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
 
 public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService {
@@ -49,10 +49,10 @@ public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService 
     this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
-  public CryptoTradeAccountInfoReturn getCryptoTradeAccountInfo() throws IOException {
+  public CryptoTradeAccountInfo getCryptoTradeAccountInfo() throws IOException {
 
-    CryptoTradeAccountInfoReturn info = cryptoTrade.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
-    return info;
+    CryptoTradeAccountInfo info = cryptoTrade.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    return handleResponse(info);
   }
 
 }

@@ -105,6 +105,11 @@ public class CryptoTradeTicker extends CryptoTradeBaseResponse {
 
   static class CoibasePriceDeserializer extends JsonDeserializer<CryptoTradeTicker> {
 
+    private BigDecimal getNumberIfPresent(final String numberString) {
+      
+      return numberString.isEmpty() ? null : new BigDecimal(numberString);
+    }
+    
     @Override
     public CryptoTradeTicker deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
@@ -112,11 +117,11 @@ public class CryptoTradeTicker extends CryptoTradeBaseResponse {
       final JsonNode node = oc.readTree(jp);
       final JsonNode tickerDataParentNode = node.path("data");
 
-      final BigDecimal last = new BigDecimal(tickerDataParentNode.path("last").asText());
-      final BigDecimal low = new BigDecimal(tickerDataParentNode.path("low").asText());
-      final BigDecimal high = new BigDecimal(tickerDataParentNode.path("high").asText());
-      final BigDecimal minAsk = new BigDecimal(tickerDataParentNode.path("min_ask").asText());
-      final BigDecimal maxBid = new BigDecimal(tickerDataParentNode.path("max_bid").asText());
+      final BigDecimal last = getNumberIfPresent(tickerDataParentNode.path("last").asText());
+      final BigDecimal low = getNumberIfPresent(tickerDataParentNode.path("low").asText());
+      final BigDecimal high = getNumberIfPresent(tickerDataParentNode.path("high").asText());
+      final BigDecimal minAsk = getNumberIfPresent(tickerDataParentNode.path("min_ask").asText());
+      final BigDecimal maxBid = getNumberIfPresent(tickerDataParentNode.path("max_bid").asText());
       BigDecimal volumeTradeCurrency = null;
       BigDecimal volumePriceCurrency = null;
       if (tickerDataParentNode instanceof ObjectNode) {
@@ -126,9 +131,9 @@ public class CryptoTradeTicker extends CryptoTradeBaseResponse {
           final Entry<String, JsonNode> tickerDataEntry = tickerDataFields.next();
           if (tickerDataEntry.getKey().startsWith("vol_")) {
             if (volumeTradeCurrency == null)
-              volumeTradeCurrency = new BigDecimal(tickerDataEntry.getValue().asText());
+              volumeTradeCurrency = getNumberIfPresent(tickerDataEntry.getValue().asText());
             else {
-              volumePriceCurrency = new BigDecimal(tickerDataEntry.getValue().asText());
+              volumePriceCurrency = getNumberIfPresent(tickerDataEntry.getValue().asText());
               break;
             }
           }

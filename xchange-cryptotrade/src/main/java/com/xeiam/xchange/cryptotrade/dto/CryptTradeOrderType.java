@@ -19,39 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.account;
+package com.xeiam.xchange.cryptotrade.dto;
 
-import java.math.BigDecimal;
-import java.util.Map;
+import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.cryptotrade.dto.CryptTradeOrderType.CryptTradeOrderTypeDeserializer;
 
-public class CryptoTradeAccountInfoReturn {
+@JsonDeserialize(using = CryptTradeOrderTypeDeserializer.class)
+public enum CryptTradeOrderType {
 
-  private final String result;
-  private final Map<String, BigDecimal> availableFunds;
+  BUY, SELL;
 
-  /**
-   * Constructor
-   * 
-   * @param aResult
-   * @param data
-   */
-  public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
+  static class CryptTradeOrderTypeDeserializer extends JsonDeserializer<CryptTradeOrderType> {
 
-    result = aResult;
-    availableFunds = data.getFunds();
+    @Override
+    public CryptTradeOrderType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String orderType = node.asText().toUpperCase();
+      return CryptTradeOrderType.valueOf(orderType);
+    }
   }
-
-  public String getResult() {
-
-    return result;
-  }
-
-  public Map<String, BigDecimal> getAvailableFunds() {
-
-    return availableFunds;
-  }
-
 }

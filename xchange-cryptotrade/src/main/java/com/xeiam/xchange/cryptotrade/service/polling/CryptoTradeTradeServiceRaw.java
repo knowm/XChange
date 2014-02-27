@@ -41,14 +41,14 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService {
     super(exchangeSpecification);
   }
 
-  public String placeCryptoTradeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public CryptoTradePlaceOrderReturn placeCryptoTradeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
     CryptoTradeOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? CryptoTradeOrder.Type.Buy : CryptoTradeOrder.Type.Sell;
     CryptoTradePlaceOrderReturn cryptoTradePlaceOrderReturn =
         cryptoTradeProxy.trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
 
-    return cryptoTradePlaceOrderReturn.getSuccess();
+    return handleResponse(cryptoTradePlaceOrderReturn);
   }
 
 }

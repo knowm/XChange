@@ -30,6 +30,7 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.dto.ExchangeInfo;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -61,7 +62,7 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
 
     CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(tradableIdentifier, currency);
 
-    return CryptoTradeAdapters.adaptTicker(currency, cryptoTradeTicker);
+    return CryptoTradeAdapters.adaptTicker(tradableIdentifier, currency, cryptoTradeTicker);
   }
 
   @Override
@@ -69,11 +70,11 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
 
     verify(tradableIdentifier, currency);
 
-    CryptoTradeDepth cryptoTradeDepth = getCryptoTradeOrderBook(tradableIdentifier, currency);
+    CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(tradableIdentifier, currency);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getAsks(), tradableIdentifier, currency, OrderType.ASK);
+    List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getBids(), tradableIdentifier, currency, OrderType.BID);
 
     return new OrderBook(null, asks, bids);
   }

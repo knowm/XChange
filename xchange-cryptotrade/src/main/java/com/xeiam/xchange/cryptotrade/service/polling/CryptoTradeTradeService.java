@@ -58,7 +58,7 @@ public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implemen
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    return placeCryptoTradeLimitOrder(limitOrder);
+    return String.valueOf(placeCryptoTradeLimitOrder(limitOrder).getOrderId());
   }
 
   @Override

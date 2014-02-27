@@ -33,7 +33,7 @@ import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfoReturn;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrder;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 
@@ -44,7 +44,7 @@ public interface CryptoTradeAuthenticated {
 
   @POST
   @Path("getinfo")
-  CryptoTradeAccountInfoReturn getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+  CryptoTradeAccountInfo getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
   @POST
   @Path("trade")

@@ -19,58 +19,62 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.marketdata;
+package com.xeiam.xchange.cryptotrade.dto.trade;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CryptoTradeMarketDataJsonTests {
+
+public class CryptoTradeTradeJsonTests {
 
   @Test
-  public void testDeserializeTicker() throws IOException {
+  public void testDeserializePlacedOrderData() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-placed-order-return-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CryptoTradeTicker ticker = mapper.readValue(is, CryptoTradeTicker.class);
+    CryptoTradePlaceOrderReturn placedOrder = mapper.readValue(is, CryptoTradePlaceOrderReturn.class);
 
-    assertThat(ticker.getLast()).isEqualTo("128");
-    assertThat(ticker.getLow()).isEqualTo("127.9999");
-    assertThat(ticker.getHigh()).isEqualTo("129.1");
-    assertThat(ticker.getVolumeTradeCurrency()).isEqualTo("5.4");
-    assertThat(ticker.getVolumePriceCurrency()).isEqualTo("693.8199");
-    assertThat(ticker.getMinAsk()).isEqualTo("129.1");
-    assertThat(ticker.getMaxBid()).isEqualTo("128");
+    assertThat(placedOrder.getBought()).isEqualTo("0");
+    assertThat(placedOrder.getRemaining()).isEqualTo("1");
+    assertThat(placedOrder.getOrderId()).isEqualTo(13);
     
-    assertThat(ticker.getStatus()).isEqualTo("success");
-    assertThat(ticker.getError()).isEmpty();
+    Map<String, BigDecimal> funds = placedOrder.getFunds();
+    assertThat(funds.size()).isEqualTo(12);
+    assertThat(funds.get("usd")).isEqualTo("1535.78614365");
+    
+    assertThat(placedOrder.getStatus()).isEqualTo("success");
+    assertThat(placedOrder.getError()).isNull();
   }
   
   @Test
-  public void testDeserializeDepth() throws IOException {
+  public void testDeserializeCancelledOrderData() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-cancel-order-return-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CryptoTradeDepth depth = mapper.readValue(is, CryptoTradeDepth.class);
+    CryptoTradeCancelOrderReturn cancelledOrder = mapper.readValue(is, CryptoTradeCancelOrderReturn.class);
+
+    assertThat(cancelledOrder.getOrderStatus()).isEqualTo("Cancelled");
+    assertThat(cancelledOrder.getOrderId()).isEqualTo(10);
     
-    List<BigDecimal[]> asks = depth.getAsks();
-    assertThat(asks.size()).isEqualTo(3);
+    Map<String, BigDecimal> funds = cancelledOrder.getFunds();
+    assertThat(funds.size()).isEqualTo(11);
+    assertThat(funds.get("ltc")).isEqualTo("1000");
     
-    BigDecimal[] ask = asks.get(0);
-    assertThat(ask[0]).isEqualTo("102");
-    assertThat(ask[1]).isEqualTo("0.81718312");
+    assertThat(cancelledOrder.getStatus()).isEqualTo("success");
+    assertThat(cancelledOrder.getError()).isNull();
   }
 }

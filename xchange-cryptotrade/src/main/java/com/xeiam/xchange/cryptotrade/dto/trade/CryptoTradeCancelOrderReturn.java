@@ -27,71 +27,58 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 
-public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
+public class CryptoTradeCancelOrderReturn extends CryptoTradeBaseResponse {
 
-  private final CryptoTradePlacedOrderData placedOrderData;
+  private final CryptoTradeCancelledOrderData cancelledOrderData;
 
-  private CryptoTradePlaceOrderReturn(@JsonProperty("data") CryptoTradePlacedOrderData placedOrderData, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeCancelOrderReturn(@JsonProperty("data") CryptoTradeCancelledOrderData placedOrderData, @JsonProperty("status") String status, @JsonProperty("error") String error) {
 
     super(status, error);
-    this.placedOrderData = placedOrderData;
-  }
-
-  public BigDecimal getBought() {
-
-    return placedOrderData.getBought();
-  }
-
-  public BigDecimal getRemaining() {
-
-    return placedOrderData.getRemaining();
+    this.cancelledOrderData = placedOrderData;
   }
 
   public int getOrderId() {
 
-    return placedOrderData.getOrderId();
+    return cancelledOrderData.getOrderId();
+  }
+
+  public String getOrderStatus() {
+
+    return cancelledOrderData.getOrderStatus();
   }
 
   public Map<String, BigDecimal> getFunds() {
 
-    return placedOrderData.getFunds();
+    return cancelledOrderData.getFunds();
   }
 
   @Override
   public String toString() {
 
-    return "CryptoTradePlaceOrderReturn [placedOrderData=" + placedOrderData + "]";
+    return "CryptoTradeCancelOrderReturn [cancelledOrderData=" + cancelledOrderData + "]";
   }
 
-  private static class CryptoTradePlacedOrderData {
+  private static class CryptoTradeCancelledOrderData {
 
-    private final BigDecimal bought;
-    private final BigDecimal remaining;
     private final int orderId;
+    private final String orderStatus;
     private final Map<String, BigDecimal> funds;
 
-    private CryptoTradePlacedOrderData(@JsonProperty("bought") BigDecimal bought, @JsonProperty("remaining") BigDecimal remaining, @JsonProperty("order_id") int orderId,
-        @JsonProperty("funds") Map<String, BigDecimal> funds) {
+    private CryptoTradeCancelledOrderData(@JsonProperty("order_id") int orderId, @JsonProperty("orderstatus") String orderStatus, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
-      this.bought = bought;
-      this.remaining = remaining;
+      this.orderStatus = orderStatus;
       this.orderId = orderId;
       this.funds = funds;
-    }
-
-    public BigDecimal getBought() {
-
-      return bought;
-    }
-
-    public BigDecimal getRemaining() {
-
-      return remaining;
     }
 
     public int getOrderId() {
 
       return orderId;
+    }
+
+    public String getOrderStatus() {
+
+      return orderStatus;
     }
 
     public Map<String, BigDecimal> getFunds() {
@@ -102,8 +89,7 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
     @Override
     public String toString() {
 
-      return "CryptoTradePlacedOrderData [bought=" + bought + ", remaining=" + remaining + ", orderId=" + orderId + ", funds=" + funds + "]";
+      return "CryptoTradeCancelledOrderData [orderId=" + orderId + ", orderStatus=" + orderStatus + ", funds=" + funds + "]";
     }
-
   }
 }

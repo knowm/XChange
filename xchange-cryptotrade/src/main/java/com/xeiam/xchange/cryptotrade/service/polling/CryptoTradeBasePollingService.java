@@ -24,8 +24,10 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeBaseService;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
 
@@ -54,6 +56,15 @@ public class CryptoTradeBasePollingService extends CryptoTradeBaseService {
   protected int nextNonce() {
 
     return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
+  }
+  
+  protected <R extends CryptoTradeBaseResponse> R handleResponse(final R response) {
+
+    final String error = response.getError();
+    if (response.getStatus().equalsIgnoreCase("error") || (error != null && !error.isEmpty()))
+      throw new ExchangeException(error);
+
+    return response;
   }
 
 }
