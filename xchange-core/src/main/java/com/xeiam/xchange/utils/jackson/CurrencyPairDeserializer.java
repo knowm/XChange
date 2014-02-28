@@ -19,30 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.service.polling;
+package com.xeiam.xchange.utils.jackson;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.xeiam.xchange.currency.CurrencyPair;
 
-public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService<CryptoTradeAuthenticated> {
+public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
-  public CryptoTradeAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  @Override
+  public CurrencyPair deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-    super(CryptoTradeAuthenticated.class, exchangeSpecification);
+    final ObjectCodec oc = jsonParser.getCodec();
+    final JsonNode node = oc.readTree(jsonParser);
+    final String currencyPair = node.asText().toUpperCase();
+    final String tradeCurrency = currencyPair.substring(0, 3);
+    final String priceCurrency = currencyPair.substring(currencyPair.length() - 3);
+    return new CurrencyPair(tradeCurrency, priceCurrency);
   }
-
-  public CryptoTradeAccountInfo getCryptoTradeAccountInfo() throws IOException {
-
-    CryptoTradeAccountInfo info = cryptoTradeProxy.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
-    return handleResponse(info);
-  }
-
 }

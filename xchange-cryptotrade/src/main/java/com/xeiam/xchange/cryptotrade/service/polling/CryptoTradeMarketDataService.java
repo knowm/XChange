@@ -22,18 +22,16 @@
 package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -59,7 +57,11 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    verify(tradableIdentifier, currency);
+    
+    CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(tradableIdentifier, currency);
+
+    return CryptoTradeAdapters.adaptTicker(tradableIdentifier, currency, cryptoTradeTicker);
   }
 
   @Override
@@ -67,13 +69,9 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
 
     verify(tradableIdentifier, currency);
 
-    CryptoTradeDepth cryptoTradeDepth = getCryptoTradeOrderBook(tradableIdentifier, currency);
+    CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(tradableIdentifier, currency);
 
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getBids(), tradableIdentifier, currency, "bid", "");
-
-    return new OrderBook(null, asks, bids);
+    return CryptoTradeAdapters.adaptOrderBook(tradableIdentifier, currency, cryptoTradeDepth);
   }
 
   @Override
