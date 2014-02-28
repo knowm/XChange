@@ -21,6 +21,9 @@
  */
 package com.xeiam.xchange.cryptotrade.service.polling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -28,10 +31,11 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
-import com.xeiam.xchange.cryptotrade.service.CryptoTradeBaseService;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CryptoTradeBasePollingService <T extends CryptoTrade> extends CryptoTradeBaseService {
+public class CryptoTradeBasePollingService <T extends CryptoTrade> extends BaseExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
@@ -67,4 +71,33 @@ public class CryptoTradeBasePollingService <T extends CryptoTrade> extends Crypt
     return response;
   }
 
+  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
+
+  static {
+
+    CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
+    CURRENCY_PAIRS.add(CurrencyPair.LTC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.LTC_EUR);
+    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.NMC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.XPM_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.XPM_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.XPM_PPC);
+    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.PPC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.FTC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.CNC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    return CURRENCY_PAIRS;
+  }
 }
