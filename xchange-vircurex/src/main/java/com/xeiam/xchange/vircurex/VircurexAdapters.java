@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrder;
 import org.joda.money.BigMoney;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.IllegalCurrencyException;
@@ -40,6 +39,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
+import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrder;
 
 /**
  * Various adapters for converting from Vircurex DTOs to XChange DTOs

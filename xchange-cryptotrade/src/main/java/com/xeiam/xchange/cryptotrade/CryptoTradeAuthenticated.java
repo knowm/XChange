@@ -39,9 +39,9 @@ import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeCancelOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrdering;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
-import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
 
 @Path("api/1/private")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
