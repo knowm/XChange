@@ -19,39 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.account;
+package com.xeiam.xchange.cryptotrade.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public enum CryptoTradeOrdering {
 
-public class CryptoTradeAccountInfoReturn {
-
-  private final String result;
-  private final Map<String, BigDecimal> availableFunds;
-
-  /**
-   * Constructor
-   * 
-   * @param aResult
-   * @param data
-   */
-  public CryptoTradeAccountInfoReturn(@JsonProperty("status") String aResult, @JsonProperty("data") CryptoTradeAccountData data) {
-
-    result = aResult;
-    availableFunds = data.getFunds();
-
-  }
-
-  public String getResult() {
-
-    return result;
-  }
-
-  public Map<String, BigDecimal> getAvailableFunds() {
-
-    return availableFunds;
-  }
-
+  ASC, DESC;
 }

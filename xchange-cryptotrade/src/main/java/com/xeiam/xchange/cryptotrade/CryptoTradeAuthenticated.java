@@ -33,22 +33,52 @@ import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfoReturn;
-import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrder;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeCancelOrderReturn;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrdering;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
 
 @Path("api/1/private")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface CryptoTradeAuthenticated {
+public interface CryptoTradeAuthenticated extends CryptoTrade {
 
   @POST
   @Path("getinfo")
-  CryptoTradeAccountInfoReturn getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+  CryptoTradeAccountInfo getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
   @POST
   @Path("trade")
-  CryptoTradePlaceOrderReturn trade(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
-      @FormParam("type") CryptoTradeOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount);
+  CryptoTradePlaceOrderReturn trade(@FormParam("pair") String pair, @FormParam("type") CryptoTradeOrderType type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount,
+      @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+
+  @POST
+  @Path("cancelorder")
+  CryptoTradeCancelOrderReturn cancelOrder(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+
+  @POST
+  @Path("orderinfo")
+  CryptoTradeOrder getOrderInfo(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+
+  @POST
+  @Path("tradeshistory")
+  CryptoTradeTrades getTradeHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate, 
+      @FormParam("count") int count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+ 
+  @POST
+  @Path("ordershistory")
+  CryptoTradeOrders getOrderHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate, 
+      @FormParam("count") int count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+ 
+  @POST
+  @Path("transactions")
+  CryptoTradeTransactions getTransactionHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate, 
+      @FormParam("count") int count, @FormParam("order") CryptoTradeOrdering ordering, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
+
 
 }

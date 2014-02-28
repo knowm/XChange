@@ -19,45 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.service;
+package com.xeiam.xchange.cryptotrade.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CryptoTradeBaseResponse {
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.BaseExchangeService;
+	private final String status;
+	private final String error;
+	
+	protected CryptoTradeBaseResponse(String status, String error) {
+		
+		this.status = status;
+		this.error = error;
+	}
 
-public class CryptoTradeBaseService extends BaseExchangeService {
+	public String getStatus() {
+		return status;
+	}
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
+	public String getError() {
+		return error;
+	}
 
-  static {
-
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("CNC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("WDC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("DVC", "BTC"));
-  }
-
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public CryptoTradeBaseService(ExchangeSpecification exchangeSpecification) {
-
-    super(exchangeSpecification);
-
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CURRENCY_PAIRS;
-  }
+	@Override
+	public String toString() {
+		return "CryptoTradeBaseResponse [status=" + status + ", error=" + error
+				+ "]";
+	}
 }

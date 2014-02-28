@@ -26,7 +26,7 @@ import java.io.IOException;
 import org.joda.money.BigMoney;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -53,12 +53,12 @@ public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw impl
   @Override
   public String withdrawFunds(BigMoney amount, String address) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String requestDepositAddress(String currency, String... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 }
