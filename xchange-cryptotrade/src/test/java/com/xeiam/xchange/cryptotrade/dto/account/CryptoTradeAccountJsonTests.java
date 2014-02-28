@@ -32,7 +32,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountData.CryptoTradeAccountPermissions;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo.CryptoTradeAccountPermissions;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions.CryptoTradeTransaction;
 import com.xeiam.xchange.currency.Currencies;
 

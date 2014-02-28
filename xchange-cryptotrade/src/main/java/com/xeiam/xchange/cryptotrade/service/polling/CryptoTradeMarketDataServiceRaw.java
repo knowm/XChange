@@ -23,8 +23,6 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
@@ -38,9 +36,7 @@ import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingService {
-
-  private final CryptoTrade cryptoTrade;
+public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingService<CryptoTrade> {
 
   /**
    * Constructor
@@ -49,20 +45,19 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
    */
   public CryptoTradeMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    cryptoTrade = RestProxyFactory.createProxy(CryptoTrade.class, exchangeSpecification.getSslUri());
+    super(CryptoTrade.class, exchangeSpecification);
   }
 
   public CryptoTradeTicker getCryptoTradeTicker(String tradableIdentifier, String currency) throws IOException {
 
-    CryptoTradeTicker cryptoTradeTicker = cryptoTrade.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    CryptoTradeTicker cryptoTradeTicker = cryptoTradeProxy.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(cryptoTradeTicker);
   }
 
   public CryptoTradeDepth getCryptoTradeOrderBook(String tradableIdentifier, String currency) throws IOException {
 
-    CryptoTradeDepth cryptoTradeDepth = cryptoTrade.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    CryptoTradeDepth cryptoTradeDepth = cryptoTradeProxy.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return handleResponse(cryptoTradeDepth);
   }

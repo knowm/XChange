@@ -26,29 +26,29 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
+import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeBaseService;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
 
-public class CryptoTradeBasePollingService extends CryptoTradeBaseService {
+public class CryptoTradeBasePollingService <T extends CryptoTrade> extends CryptoTradeBaseService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
-  final String apiKey;
-  final CryptoTradeAuthenticated cryptoTradeProxy;
-  final ParamsDigest signatureCreator;
+  protected final String apiKey;
+  protected final T cryptoTradeProxy;
+  protected final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public CryptoTradeBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public CryptoTradeBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
 
-    this.cryptoTradeProxy = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchangeSpecification.getSslUri());
+    this.cryptoTradeProxy = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }

@@ -60,7 +60,6 @@ public class CryptoTradeMarketDataDemo {
     System.out.println(ticker);
     
     CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(Currencies.BTC, Currencies.USD);
-    System.out.println(marketDepth);
-    
+    System.out.println(marketDepth);   
   }
 }

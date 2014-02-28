@@ -34,19 +34,19 @@ import javax.ws.rs.core.MediaType;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
-import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrdering;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders.CryptoTradeOrder;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTrades;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeCancelOrderReturn;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrdering;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
 
 @Path("api/1/private")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface CryptoTradeAuthenticated {
+public interface CryptoTradeAuthenticated extends CryptoTrade {
 
   @POST
   @Path("getinfo")

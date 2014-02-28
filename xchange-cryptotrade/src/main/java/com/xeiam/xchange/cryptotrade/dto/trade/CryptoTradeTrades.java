@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.account;
+package com.xeiam.xchange.cryptotrade.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,51 +31,48 @@ import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
 
-public class CryptoTradeOrders extends CryptoTradeBaseResponse {
+public class CryptoTradeTrades extends CryptoTradeBaseResponse {
 
-  private final List<CryptoTradeOrder> orders;
+  private final List<CryptoTradeTrade> trades;
 
-  private CryptoTradeOrders(@JsonProperty("data") List<CryptoTradeOrder> orders, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeTrades(@JsonProperty("data") List<CryptoTradeTrade> trades, @JsonProperty("status") String status, @JsonProperty("error") String error) {
 
     super(status, error);
-    this.orders = orders;
+    this.trades = trades;
   }
 
-  public List<CryptoTradeOrder> getOrders() {
+  public List<CryptoTradeTrade> getTrades() {
 
-    return orders;
+    return trades;
   }
 
   @Override
   public String toString() {
 
-    return "CryptoTradeOrders [orders=" + orders + "]";
+    return "CryptoTradeTrades [trades=" + trades + "]";
   }
 
-  public static class CryptoTradeOrder {
+  public static class CryptoTradeTrade {
 
     private final long id;
     private final long timestamp;
     private final CurrencyPair currencyPair;
     private final CryptoTradeOrderType type;
-    private final BigDecimal initialAmount;
-    private final BigDecimal remainingAmount;
+    private final BigDecimal amount;
     private final BigDecimal rate;
-    private final String status;
+    private final long myOrder;
 
-    private CryptoTradeOrder(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
+    private CryptoTradeTrade(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
         @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair, @JsonProperty("type") CryptoTradeOrderType type,
-        @JsonProperty("initial_amount") BigDecimal initialAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount, @JsonProperty("rate") BigDecimal rate,
-        @JsonProperty("status") String status) {
+        @JsonProperty("amount") BigDecimal amount, @JsonProperty("rate") BigDecimal rate, @JsonProperty("my_order") long myOrder) {
 
       this.id = id;
       this.timestamp = timestamp;
       this.currencyPair = currencyPair;
       this.type = type;
-      this.initialAmount = initialAmount;
-      this.remainingAmount = remainingAmount;
+      this.amount = amount;
       this.rate = rate;
-      this.status = status;
+      this.myOrder = myOrder;
     }
 
     public long getId() {
@@ -98,14 +95,9 @@ public class CryptoTradeOrders extends CryptoTradeBaseResponse {
       return type;
     }
 
-    public BigDecimal getInitialAmount() {
+    public BigDecimal getAmount() {
 
-      return initialAmount;
-    }
-
-    public BigDecimal getRemainingAmount() {
-
-      return remainingAmount;
+      return amount;
     }
 
     public BigDecimal getRate() {
@@ -113,16 +105,15 @@ public class CryptoTradeOrders extends CryptoTradeBaseResponse {
       return rate;
     }
 
-    public String getStatus() {
+    public long getMyOrder() {
 
-      return status;
+      return myOrder;
     }
 
     @Override
     public String toString() {
 
-      return "CryptoTradeOrder [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currencyPair + ", type=" + type + ", initialAmount=" + initialAmount + ", remainingAmount="
-          + remainingAmount + ", rate=" + rate + ", status=" + status + "]";
+      return "CryptoTradeTrade [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currencyPair + ", type=" + type + ", amount=" + amount + ", rate=" + rate + ", myOrder=" + myOrder + "]";
     }
 
   }

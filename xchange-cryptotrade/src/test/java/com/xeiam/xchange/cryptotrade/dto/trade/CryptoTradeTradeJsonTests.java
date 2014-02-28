@@ -33,10 +33,8 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders.CryptoTradeOrder;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTrades;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTrades.CryptoTradeTrade;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades.CryptoTradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 public class CryptoTradeTradeJsonTests {

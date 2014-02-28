@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto;
+package com.xeiam.xchange.cryptotrade.dto.trade;
 
 import com.xeiam.xchange.cryptotrade.CryptoTradeUtils;
 import com.xeiam.xchange.currency.CurrencyPair;

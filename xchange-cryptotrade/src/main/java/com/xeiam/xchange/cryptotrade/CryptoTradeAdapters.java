@@ -32,13 +32,13 @@ import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders.CryptoTradeOrder;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTrades;
-import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTrades.CryptoTradeTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicOrder;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades.CryptoTradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;

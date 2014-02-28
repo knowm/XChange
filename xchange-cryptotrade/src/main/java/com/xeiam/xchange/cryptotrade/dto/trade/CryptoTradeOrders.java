@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptotrade.dto.account;
+package com.xeiam.xchange.cryptotrade.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,48 +31,51 @@ import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
 
-public class CryptoTradeTrades extends CryptoTradeBaseResponse {
+public class CryptoTradeOrders extends CryptoTradeBaseResponse {
 
-  private final List<CryptoTradeTrade> trades;
+  private final List<CryptoTradeOrder> orders;
 
-  private CryptoTradeTrades(@JsonProperty("data") List<CryptoTradeTrade> trades, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeOrders(@JsonProperty("data") List<CryptoTradeOrder> orders, @JsonProperty("status") String status, @JsonProperty("error") String error) {
 
     super(status, error);
-    this.trades = trades;
+    this.orders = orders;
   }
 
-  public List<CryptoTradeTrade> getTrades() {
+  public List<CryptoTradeOrder> getOrders() {
 
-    return trades;
+    return orders;
   }
 
   @Override
   public String toString() {
 
-    return "CryptoTradeTrades [trades=" + trades + "]";
+    return "CryptoTradeOrders [orders=" + orders + "]";
   }
 
-  public static class CryptoTradeTrade {
+  public static class CryptoTradeOrder {
 
     private final long id;
     private final long timestamp;
     private final CurrencyPair currencyPair;
     private final CryptoTradeOrderType type;
-    private final BigDecimal amount;
+    private final BigDecimal initialAmount;
+    private final BigDecimal remainingAmount;
     private final BigDecimal rate;
-    private final long myOrder;
+    private final String status;
 
-    private CryptoTradeTrade(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
+    private CryptoTradeOrder(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
         @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair, @JsonProperty("type") CryptoTradeOrderType type,
-        @JsonProperty("amount") BigDecimal amount, @JsonProperty("rate") BigDecimal rate, @JsonProperty("my_order") long myOrder) {
+        @JsonProperty("initial_amount") BigDecimal initialAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount, @JsonProperty("rate") BigDecimal rate,
+        @JsonProperty("status") String status) {
 
       this.id = id;
       this.timestamp = timestamp;
       this.currencyPair = currencyPair;
       this.type = type;
-      this.amount = amount;
+      this.initialAmount = initialAmount;
+      this.remainingAmount = remainingAmount;
       this.rate = rate;
-      this.myOrder = myOrder;
+      this.status = status;
     }
 
     public long getId() {
@@ -95,9 +98,14 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
       return type;
     }
 
-    public BigDecimal getAmount() {
+    public BigDecimal getInitialAmount() {
 
-      return amount;
+      return initialAmount;
+    }
+
+    public BigDecimal getRemainingAmount() {
+
+      return remainingAmount;
     }
 
     public BigDecimal getRate() {
@@ -105,15 +113,16 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
       return rate;
     }
 
-    public long getMyOrder() {
+    public String getStatus() {
 
-      return myOrder;
+      return status;
     }
 
     @Override
     public String toString() {
 
-      return "CryptoTradeTrade [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currencyPair + ", type=" + type + ", amount=" + amount + ", rate=" + rate + ", myOrder=" + myOrder + "]";
+      return "CryptoTradeOrder [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currencyPair + ", type=" + type + ", initialAmount=" + initialAmount + ", remainingAmount="
+          + remainingAmount + ", rate=" + rate + ", status=" + status + "]";
     }
 
   }

@@ -23,18 +23,11 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
-import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
 
-public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService {
-
-  private CryptoTradeAuthenticated cryptoTrade;
-  private ParamsDigest signatureCreator;
+public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService<CryptoTradeAuthenticated> {
 
   /**
    * Constructor
@@ -43,15 +36,12 @@ public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService 
    */
   public CryptoTradeAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-
-    this.cryptoTrade = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    super(CryptoTradeAuthenticated.class, exchangeSpecification);
   }
 
   public CryptoTradeAccountInfo getCryptoTradeAccountInfo() throws IOException {
 
-    CryptoTradeAccountInfo info = cryptoTrade.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    CryptoTradeAccountInfo info = cryptoTradeProxy.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     return handleResponse(info);
   }
 
