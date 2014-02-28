@@ -52,7 +52,7 @@ public class CryptoTradeTransactions extends CryptoTradeBaseResponse {
 
   public static class CryptoTradeTransaction {
 
-    private final int id;
+    private final long id;
     private final long timestamp;
     private final String currency;
     private final String type;
@@ -60,7 +60,7 @@ public class CryptoTradeTransactions extends CryptoTradeBaseResponse {
     private final String description;
     private final String status;
 
-    private CryptoTradeTransaction(@JsonProperty("id") int id, @JsonProperty("timestamp") long timestamp,
+    private CryptoTradeTransaction(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
         @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) String currency, @JsonProperty("type") String type, @JsonProperty("amount") BigDecimal amount,
         @JsonProperty("rate") BigDecimal rate, @JsonProperty("desc") String description, @JsonProperty("status") String status) {
 
@@ -73,7 +73,7 @@ public class CryptoTradeTransactions extends CryptoTradeBaseResponse {
       this.status = status;
     }
 
-    public int getId() {
+    public long getId() {
 
       return id;
     }

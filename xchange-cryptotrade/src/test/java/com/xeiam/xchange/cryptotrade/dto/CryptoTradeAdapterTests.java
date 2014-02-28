@@ -26,6 +26,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -33,14 +34,21 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTrades;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTradeJsonTests;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public class CryptoTradeAdapterTests {
@@ -77,17 +85,19 @@ public class CryptoTradeAdapterTests {
       ObjectMapper mapper = new ObjectMapper();
       CryptoTradeDepth depth = mapper.readValue(is, CryptoTradeDepth.class);
       
-      List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(depth.getAsks(), Currencies.BTC, Currencies.USD, OrderType.ASK);
+      OrderBook orderBook = CryptoTradeAdapters.adaptOrderBook(Currencies.BTC, Currencies.USD, depth);
+      
+      List<LimitOrder> asks = orderBook.getAsks();
       assertThat(asks.size()).isEqualTo(3);
       
       LimitOrder ask = asks.get(0);
       assertThat(ask.getLimitPrice()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("102")));
       assertThat(ask.getTradableAmount()).isEqualTo("0.81718312");
       
-      List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(depth.getBids(), Currencies.BTC, Currencies.USD, OrderType.BID);
+      List<LimitOrder> bids = orderBook.getBids();
       assertThat(bids.size()).isEqualTo(3);
       
-      LimitOrder bid = bids.get(0);
+      LimitOrder bid = bids.get(2);
       assertThat(bid.getLimitPrice()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("99.03")));
       assertThat(bid.getTradableAmount()).isEqualTo("4");
     }
@@ -112,6 +122,51 @@ public class CryptoTradeAdapterTests {
         if (wallet.getCurrency().equals(Currencies.BTC)) 
           assertThat(wallet.getBalance()).isEqualTo(MoneyUtils.parseMoney(Currencies.BTC, new BigDecimal("12098.91081965")));
       }
+    }
+    
+    @Test
+    public void testAdaptOpenOrders() throws IOException {
 
+      // Read in the JSON from the example resources
+      InputStream is = CryptoTradeAdapterTests.class.getResourceAsStream("/trade/example-order-history-data.json");
+
+      // Use Jackson to parse it
+      ObjectMapper mapper = new ObjectMapper();
+      CryptoTradeOrders orderHistory = mapper.readValue(is, CryptoTradeOrders.class);
+
+      OpenOrders orders = CryptoTradeAdapters.adaptOpenOrders(orderHistory);
+      
+      assertThat(orders.getOpenOrders()).hasSize(1);
+      
+      LimitOrder order = orders.getOpenOrders().get(0);
+      assertThat(order.getId()).isEqualTo("5");
+      assertThat(order.getLimitPrice().getAmount()).isEqualTo("300");
+      assertThat(order.getTradableAmount()).isEqualTo("1");
+      assertThat(order.getTradableIdentifier()).isEqualTo(Currencies.BTC);
+      assertThat(order.getTransactionCurrency()).isEqualTo(Currencies.USD);
+      assertThat(order.getType()).isEqualTo(OrderType.BID);
+      assertThat(order.getTimestamp()).isEqualTo(new Date(1370944500));
+    }
+    
+    @Test
+    public void testAdaptTrades() throws IOException {
+
+      // Read in the JSON from the example resources
+      InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-trade-history-data.json");
+
+      // Use Jackson to parse it
+      ObjectMapper mapper = new ObjectMapper();
+      CryptoTradeTrades tradeHistory = mapper.readValue(is, CryptoTradeTrades.class);
+
+      Trades trades = CryptoTradeAdapters.adaptTrades(tradeHistory);
+      
+      assertThat(trades.getTrades()).hasSize(2);
+      Trade trade = trades.getTrades().get(1);
+      assertThat(trade.getPrice().getAmount()).isEqualTo("128");
+      assertThat(trade.getType()).isEqualTo(OrderType.ASK);
+      assertThat(trade.getTimestamp()).isEqualTo(new Date(1370965122));
+      assertThat(trade.getTradableAmount()).isEqualTo("0.1");
+      assertThat(trade.getId()).isEqualTo("17");
+      assertThat(trade.getOrderId()).isEqualTo("1");
     }
 }

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.utils.jackson;
+package com.xeiam.xchange.cryptotrade.dto;
 
 import java.io.IOException;
 
@@ -29,18 +29,23 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType.CryptTradeOrderTypeDeserializer;
 
-public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
+@JsonDeserialize(using = CryptTradeOrderTypeDeserializer.class)
+public enum CryptoTradeOrderType {
 
-  @Override
-  public CurrencyPair deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  Buy, Sell;
+  
+  static class CryptTradeOrderTypeDeserializer extends JsonDeserializer<CryptoTradeOrderType> {
 
-    final ObjectCodec oc = jsonParser.getCodec();
-    final JsonNode node = oc.readTree(jsonParser);
-    final String currencyPair = node.asText().toUpperCase();
-    final String tradeCurrency = currencyPair.substring(0, 3);
-    final String priceCurrency = currencyPair.substring(currencyPair.length() - 3);
-    return new CurrencyPair(tradeCurrency, priceCurrency);
+    @Override
+    public CryptoTradeOrderType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String orderType = node.asText();
+      return CryptoTradeOrderType.valueOf(orderType);
+    }
   }
 }

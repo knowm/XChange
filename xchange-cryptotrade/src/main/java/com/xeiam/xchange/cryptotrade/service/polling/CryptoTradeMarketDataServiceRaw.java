@@ -64,7 +64,7 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
 
     CryptoTradeDepth cryptoTradeDepth = cryptoTrade.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    return cryptoTradeDepth;
+    return handleResponse(cryptoTradeDepth);
   }
 
 }

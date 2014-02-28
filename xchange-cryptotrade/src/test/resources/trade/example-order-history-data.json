@@ -20,6 +20,16 @@
             "remaining_amount": "0",
             "rate": "128.5",
             "status": "Completed"
+        },
+        {
+            "id": 5,
+            "timestamp": 1370944500,
+            "pair": "btc_usd",
+            "type": "Buy",
+            "initial_amount": "2",
+            "remaining_amount": "1",
+            "rate": "300",
+            "status": "Open"
         }
     ]
 }

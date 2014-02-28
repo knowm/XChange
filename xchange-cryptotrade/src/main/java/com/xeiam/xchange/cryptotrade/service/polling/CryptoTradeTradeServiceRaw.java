@@ -24,7 +24,13 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrder;
+import com.xeiam.xchange.cryptotrade.CryptoTradeUtils;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeHistoryQueryParams;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeOrders;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTrades;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeCancelOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -43,12 +49,62 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService {
 
   public CryptoTradePlaceOrderReturn placeCryptoTradeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
-    CryptoTradeOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? CryptoTradeOrder.Type.Buy : CryptoTradeOrder.Type.Sell;
+    String pair = CryptoTradeUtils.getCryptoTradeCurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+    CryptoTradeOrderType type = limitOrder.getType() == Order.OrderType.BID ? CryptoTradeOrderType.Buy : CryptoTradeOrderType.Sell;
     CryptoTradePlaceOrderReturn cryptoTradePlaceOrderReturn =
-        cryptoTradeProxy.trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+        cryptoTradeProxy.trade(pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(), apiKey, signatureCreator, nextNonce());
 
     return handleResponse(cryptoTradePlaceOrderReturn);
   }
 
+  public CryptoTradeCancelOrderReturn cancelCryptoTradeOrder(long orderId) {
+
+    CryptoTradeCancelOrderReturn cryptoTradeCancelOrderReturn = cryptoTradeProxy.cancelOrder(orderId, apiKey, signatureCreator, nextNonce());
+
+    return handleResponse(cryptoTradeCancelOrderReturn);
+  }
+
+  private static final CryptoTradeHistoryQueryParams NO_QUERY_PARAMS = CryptoTradeHistoryQueryParams.getQueryParamsBuilder().build();
+  
+  public CryptoTradeTrades getCryptoTradeTradeHistory() {
+
+    return getCryptoTradeTradeHistory(NO_QUERY_PARAMS);
+  }
+  
+  public CryptoTradeTrades getCryptoTradeTradeHistory(CryptoTradeHistoryQueryParams queryParams) {
+
+    CryptoTradeTrades trades =
+        cryptoTradeProxy.getTradeHistory(queryParams.getStartId(), queryParams.getEndId(), queryParams.getStartDate(), queryParams.getEndDate(), queryParams.getCount(), queryParams.getOrdering(),
+            queryParams.getCurrencyPair(), apiKey, signatureCreator, nextNonce());
+
+    return handleResponse(trades);
+  }
+  
+  public CryptoTradeOrders getCryptoTradeOrderHistory() {
+
+    return getCryptoTradeOrderHistory(NO_QUERY_PARAMS);
+  }
+  
+  public CryptoTradeOrders getCryptoTradeOrderHistory(CryptoTradeHistoryQueryParams queryParams) {
+
+    CryptoTradeOrders orders =
+        cryptoTradeProxy.getOrderHistory(queryParams.getStartId(), queryParams.getEndId(), queryParams.getStartDate(), queryParams.getEndDate(), queryParams.getCount(), queryParams.getOrdering(),
+            queryParams.getCurrencyPair(), apiKey, signatureCreator, nextNonce());
+
+    return handleResponse(orders);
+  }
+  
+  public CryptoTradeTransactions getCryptoTradeTransactionHistory() {
+
+    return getCryptoTradeTransactionHistory(NO_QUERY_PARAMS);
+  }
+  
+  public CryptoTradeTransactions getCryptoTradeTransactionHistory(CryptoTradeHistoryQueryParams queryParams) {
+
+    CryptoTradeTransactions transactions =
+        cryptoTradeProxy.getTransactionHistory(queryParams.getStartId(), queryParams.getEndId(), queryParams.getStartDate(), queryParams.getEndDate(), queryParams.getCount(), queryParams.getOrdering(),
+            apiKey, signatureCreator, nextNonce());
+
+    return handleResponse(transactions);
+  }
 }

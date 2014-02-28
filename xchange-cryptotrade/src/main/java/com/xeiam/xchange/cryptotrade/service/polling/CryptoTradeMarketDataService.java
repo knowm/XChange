@@ -22,7 +22,6 @@
 package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -30,11 +29,9 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.dto.ExchangeInfo;
-import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -60,6 +57,8 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 
+    verify(tradableIdentifier, currency);
+    
     CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(tradableIdentifier, currency);
 
     return CryptoTradeAdapters.adaptTicker(tradableIdentifier, currency, cryptoTradeTicker);
@@ -72,11 +71,7 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
 
     CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(tradableIdentifier, currency);
 
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getAsks(), tradableIdentifier, currency, OrderType.ASK);
-    List<LimitOrder> bids = CryptoTradeAdapters.adaptOrders(cryptoTradeDepth.getBids(), tradableIdentifier, currency, OrderType.BID);
-
-    return new OrderBook(null, asks, bids);
+    return CryptoTradeAdapters.adaptOrderBook(tradableIdentifier, currency, cryptoTradeDepth);
   }
 
   @Override

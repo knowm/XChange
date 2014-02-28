@@ -25,7 +25,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
@@ -66,11 +65,11 @@ public class CryptoTradeMarketDataJsonTests {
     ObjectMapper mapper = new ObjectMapper();
     CryptoTradeDepth depth = mapper.readValue(is, CryptoTradeDepth.class);
     
-    List<BigDecimal[]> asks = depth.getAsks();
+    List<CryptoTradePublicOrder> asks = depth.getAsks();
     assertThat(asks.size()).isEqualTo(3);
     
-    BigDecimal[] ask = asks.get(0);
-    assertThat(ask[0]).isEqualTo("102");
-    assertThat(ask[1]).isEqualTo("0.81718312");
+    CryptoTradePublicOrder ask = asks.get(0);
+    assertThat(ask.getPrice()).isEqualTo("102");
+    assertThat(ask.getAmount()).isEqualTo("0.81718312");
   }
 }

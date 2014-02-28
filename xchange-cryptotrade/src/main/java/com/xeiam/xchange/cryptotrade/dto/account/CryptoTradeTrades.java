@@ -26,7 +26,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.cryptotrade.dto.CryptTradeOrderType;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
@@ -54,17 +54,17 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
 
   public static class CryptoTradeTrade {
 
-    private final int id;
+    private final long id;
     private final long timestamp;
     private final CurrencyPair currencyPair;
-    private final CryptTradeOrderType type;
+    private final CryptoTradeOrderType type;
     private final BigDecimal amount;
     private final BigDecimal rate;
-    private final int myOrder;
+    private final long myOrder;
 
-    private CryptoTradeTrade(@JsonProperty("id") int id, @JsonProperty("timestamp") long timestamp,
-        @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair, @JsonProperty("type") CryptTradeOrderType type,
-        @JsonProperty("amount") BigDecimal amount, @JsonProperty("rate") BigDecimal rate, @JsonProperty("my_order") int myOrder) {
+    private CryptoTradeTrade(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
+        @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair, @JsonProperty("type") CryptoTradeOrderType type,
+        @JsonProperty("amount") BigDecimal amount, @JsonProperty("rate") BigDecimal rate, @JsonProperty("my_order") long myOrder) {
 
       this.id = id;
       this.timestamp = timestamp;
@@ -75,7 +75,7 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
       this.myOrder = myOrder;
     }
 
-    public int getId() {
+    public long getId() {
 
       return id;
     }
@@ -90,7 +90,7 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
       return currencyPair;
     }
 
-    public CryptTradeOrderType getType() {
+    public CryptoTradeOrderType getType() {
 
       return type;
     }
@@ -105,7 +105,7 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
       return rate;
     }
 
-    public int getMyOrder() {
+    public long getMyOrder() {
 
       return myOrder;
     }
