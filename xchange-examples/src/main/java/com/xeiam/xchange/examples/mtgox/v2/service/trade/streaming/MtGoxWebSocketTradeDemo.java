@@ -78,9 +78,6 @@ public class MtGoxWebSocketTradeDemo {
     streamingExchangeService.disconnect();
   }
 
-  /**
-   * Encapsulates some market data monitoring behavior
-   */
   class TradeDataRunnable implements Runnable {
 
     private final StreamingExchangeService streamingExchangeService;
