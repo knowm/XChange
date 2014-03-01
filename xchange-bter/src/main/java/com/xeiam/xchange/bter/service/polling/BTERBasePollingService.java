@@ -21,34 +21,33 @@
  */
 package com.xeiam.xchange.bter.service.polling;
 
+import java.util.Collection;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bter.BTERAuthenticated;
+import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.dto.BTERReturn;
-import com.xeiam.xchange.bter.service.BTERBaseService;
 import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class BTERBasePollingService extends BTERBaseService {
+public class BTERBasePollingService <T extends BTER> extends BaseExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
-  final String apiKey;
-  final BTERAuthenticated bterAuthenticated;
-  final ParamsDigest signatureCreator;
-
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
-  public BTERBasePollingService(ExchangeSpecification exchangeSpecification) {
+  protected final String apiKey;
+  protected final T bter;
+  protected final ParamsDigest signatureCreator;
+  private Collection<CurrencyPair> pairs;
+  
+  public BTERBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
 
-    this.bterAuthenticated = RestProxyFactory.createProxy(BTERAuthenticated.class, exchangeSpecification.getSslUri());
+    this.bter = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = BTERHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
@@ -61,6 +60,15 @@ public class BTERBasePollingService extends BTERBaseService {
     return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
   }
 
+  @Override
+  public Collection<CurrencyPair> getExchangeSymbols() {
+    
+    if (pairs == null)
+      pairs = bter.getPairs().getPairs();
+    
+    return pairs;
+  }
+  
   protected void checkResult(BTERReturn<?> info) {
 
     if (!info.isSuccess()) {

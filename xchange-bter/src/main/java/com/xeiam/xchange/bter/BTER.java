@@ -27,11 +27,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 
 @Path("api/1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BTER {
+
+  @GET
+  @Path("pairs")
+  BTERCurrencyPairs getPairs();
 
   @GET
   @Path("depth/{ident}_{currency}")

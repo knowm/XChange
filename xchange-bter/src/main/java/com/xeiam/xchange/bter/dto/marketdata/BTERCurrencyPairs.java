@@ -19,9 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.utils.jackson;
+package com.xeiam.xchange.bter.dto.marketdata;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,27 +32,47 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs.BTERCurrencyPairsDeserializer;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
 
-public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
+@JsonDeserialize(using = BTERCurrencyPairsDeserializer.class)
+public class BTERCurrencyPairs {
 
-  @Override
-  public CurrencyPair deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  private final Set<CurrencyPair> pairs;
 
-    final ObjectCodec oc = jsonParser.getCodec();
-    final JsonNode node = oc.readTree(jsonParser);
-    final String currencyPairString = node.asText();
-    
-    return getCurrencyPairFromString(currencyPairString);
+  private BTERCurrencyPairs(Set<CurrencyPair> pairs) {
+
+    this.pairs = pairs;
   }
   
-  public static CurrencyPair getCurrencyPairFromString(String currencyPairString) {
-    
-    if (currencyPairString == null || currencyPairString.isEmpty()) return null;
-    
-    currencyPairString = currencyPairString.toUpperCase();
-    final String tradeCurrency = currencyPairString.substring(0, 3);
-    final String priceCurrency = currencyPairString.substring(currencyPairString.length() - 3);
-    return new CurrencyPair(tradeCurrency, priceCurrency);
+  public Collection<CurrencyPair> getPairs() {
+
+    return pairs;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTERCurrencyPairs [pairs=" + pairs + "]";
+  }
+
+  static class BTERCurrencyPairsDeserializer extends JsonDeserializer<BTERCurrencyPairs> {
+
+    @Override
+    public BTERCurrencyPairs deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+      final Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
+      final ObjectCodec oc = jp.getCodec();
+      final JsonNode node = oc.readTree(jp);
+      if (node.isArray()) {
+        for (JsonNode pairNode : node) {
+          CurrencyPair pair = CurrencyPairDeserializer.getCurrencyPairFromString(pairNode.asText());
+          pairs.add(pair);
+        }
+      }
+      return new BTERCurrencyPairs(pairs);
+    }
   }
 }

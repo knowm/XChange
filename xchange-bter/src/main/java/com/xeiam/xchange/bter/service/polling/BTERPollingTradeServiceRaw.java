@@ -24,6 +24,7 @@ package com.xeiam.xchange.bter.service.polling;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAdapters;
+import com.xeiam.xchange.bter.BTERAuthenticated;
 import com.xeiam.xchange.bter.BTERUtils;
 import com.xeiam.xchange.bter.dto.trade.*;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -35,7 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
+public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
 
   /**
    * Constructor
@@ -44,14 +45,14 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
    */
   public BTERPollingTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    super(BTERAuthenticated.class, exchangeSpecification);
   }
 
   public String placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
     BTEROrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTEROrder.Type.buy : BTEROrder.Type.sell;
-    BTERPlaceOrderReturn ret = bterAuthenticated.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+    BTERPlaceOrderReturn ret = bter.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
 
     return ret.getOrderId();
   }
@@ -59,7 +60,7 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
   public OpenOrders getBTEROpenOrders() {
 
     // get the summaries of the open orders
-    BTEROpenOrdersReturn bterOpenOrdersReturn = bterAuthenticated.getOpenOrders(apiKey, signatureCreator, nextNonce());
+    BTEROpenOrdersReturn bterOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator, nextNonce());
 
     if (!bterOpenOrdersReturn.isResult()) {
       throw new ExchangeException("Failed to retrieve open orders because " + bterOpenOrdersReturn.getMsg());
@@ -78,7 +79,7 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
 
   public LimitOrder getBTEROrderStatus(String orderId) {
 
-    BTEROrderStatusReturn orderStatusReturn = bterAuthenticated.getOrderStatus(apiKey, signatureCreator, nextNonce(), orderId);
+    BTEROrderStatusReturn orderStatusReturn = bter.getOrderStatus(apiKey, signatureCreator, nextNonce(), orderId);
 
     if (!orderStatusReturn.isResult()) {
       throw new ExchangeException("Failed to retrieve order status because " + orderStatusReturn.getMsg());

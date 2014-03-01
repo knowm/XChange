@@ -29,7 +29,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 
-public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService {
+public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER> {
 
   private final BTER bter;
 
@@ -40,7 +40,7 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService {
    */
   public BTERPollingMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    super(BTER.class, exchangeSpecification);
     bter = RestProxyFactory.createProxy(BTER.class, exchangeSpecification.getSslUri());
   }
 

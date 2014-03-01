@@ -21,7 +21,7 @@
  */
 package com.xeiam.xchange.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -61,7 +61,7 @@ public abstract class BaseExchangeService {
    * 
    * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementers should log the error.
    */
-  public abstract List<CurrencyPair> getExchangeSymbols();
+  public abstract Collection<CurrencyPair> getExchangeSymbols();
 
   /**
    * Verify that both currencies can make valid pair

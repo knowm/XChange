@@ -22,8 +22,6 @@
 package com.xeiam.xchange.bter;
 
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.bter.service.BTERBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
@@ -43,13 +41,7 @@ public final class BTERUtils {
     String baseCurrency = currencyPairString.split("_")[0];
     String counterCurrency = currencyPairString.split("_")[1];
 
-    CurrencyPair currencyPair = new CurrencyPair(baseCurrency.toUpperCase(), counterCurrency.toUpperCase());
-
-    if (BTERBaseService.CURRENCY_PAIRS.contains(currencyPair)) {
-      return currencyPair;
-    } else {
-      throw new ExchangeException("No support for currency pair: " + currencyPair);
-    }
+    return new CurrencyPair(baseCurrency.toUpperCase(), counterCurrency.toUpperCase());
   }
 
 }

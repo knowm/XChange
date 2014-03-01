@@ -35,9 +35,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
-import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker.CoibasePriceDeserializer;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker.CryptoTradeTickerDeserializer;
 
-@JsonDeserialize(using = CoibasePriceDeserializer.class)
+@JsonDeserialize(using = CryptoTradeTickerDeserializer.class)
 public class CryptoTradeTicker extends CryptoTradeBaseResponse {
 
   private final BigDecimal last;
@@ -103,7 +103,7 @@ public class CryptoTradeTicker extends CryptoTradeBaseResponse {
         + minAsk + ", maxBid=" + maxBid + "]";
   }
 
-  static class CoibasePriceDeserializer extends JsonDeserializer<CryptoTradeTicker> {
+  static class CryptoTradeTickerDeserializer extends JsonDeserializer<CryptoTradeTicker> {
 
     private BigDecimal getNumberIfPresent(final String numberString) {
       
