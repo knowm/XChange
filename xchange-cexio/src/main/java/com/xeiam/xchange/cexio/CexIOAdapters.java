@@ -174,7 +174,8 @@ public class CexIOAdapters {
 
   public static LimitOrder createOrder(String tradableIdentifier, String currency, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, "", null, BigMoney.of(CurrencyUnit.USD, priceAndAmount.get(0)));
+    return new LimitOrder(orderType, priceAndAmount.get(1), tradableIdentifier, currency, "", null, 
+    		BigMoney.of(CurrencyUnit.of(Currencies.BTC), priceAndAmount.get(0)));
   }
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
