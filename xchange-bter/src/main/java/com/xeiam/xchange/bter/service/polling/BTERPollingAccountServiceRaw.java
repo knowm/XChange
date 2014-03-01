@@ -24,9 +24,10 @@ package com.xeiam.xchange.bter.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bter.BTERAuthenticated;
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
 
-public class BTERPollingAccountServiceRaw extends BTERBasePollingService {
+public class BTERPollingAccountServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
 
 
   /**
@@ -36,12 +37,12 @@ public class BTERPollingAccountServiceRaw extends BTERBasePollingService {
    */
   public BTERPollingAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    super(BTERAuthenticated.class, exchangeSpecification);
   }
 
   public BTERAccountInfoReturn getBTERAccountInfo() throws IOException {
 
-    BTERAccountInfoReturn bTERAccountInfoReturn = bterAuthenticated.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    BTERAccountInfoReturn bTERAccountInfoReturn = bter.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     return bTERAccountInfoReturn;
   }
 

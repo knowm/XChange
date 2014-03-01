@@ -42,7 +42,7 @@ import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
 @Path("api/1/private")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface BTERAuthenticated {
+public interface BTERAuthenticated extends BTER {
 
   @POST
   @Path("getfunds")
