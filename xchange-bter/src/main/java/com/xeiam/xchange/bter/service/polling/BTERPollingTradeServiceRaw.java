@@ -21,22 +21,28 @@
  */
 package com.xeiam.xchange.bter.service.polling;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.BTERAuthenticated;
 import com.xeiam.xchange.bter.BTERUtils;
-import com.xeiam.xchange.bter.dto.trade.*;
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrderSummary;
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrdersReturn;
+import com.xeiam.xchange.bter.dto.trade.BTEROrder;
+import com.xeiam.xchange.bter.dto.trade.BTEROrderStatus;
+import com.xeiam.xchange.bter.dto.trade.BTEROrderStatusReturn;
+import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
+
 
   /**
    * Constructor

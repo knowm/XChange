@@ -193,7 +193,7 @@ public class CexIOAdapters {
       String id = Integer.toString(cexIOOrder.getId());
       BigMoney price = BigMoney.of(CurrencyUnit.of(cexIOOrder.getTransactionCurrency()), cexIOOrder.getPrice());
       limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency(), id, DateUtils
-          .fromMillisUtc(cexIOOrder.getTime() * 1000L), price));
+          .fromMillisUtc(cexIOOrder.getTime()), price));
     }
 
     return new OpenOrders(limitOrders);

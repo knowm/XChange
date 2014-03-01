@@ -36,8 +36,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
 import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
 import com.xeiam.xchange.utils.DateUtils;
 

@@ -31,12 +31,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.xeiam.xchange.bter.dto.trade.BTEROpenOrdersReturn;
-import com.xeiam.xchange.bter.dto.trade.BTEROrderStatusReturn;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrdersReturn;
 import com.xeiam.xchange.bter.dto.trade.BTEROrder;
+import com.xeiam.xchange.bter.dto.trade.BTEROrderStatusReturn;
 import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
 
 @Path("api/1/private")

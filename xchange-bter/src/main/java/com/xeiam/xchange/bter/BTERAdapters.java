@@ -21,20 +21,21 @@
  */
 package com.xeiam.xchange.bter;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.joda.money.BigMoney;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.IllegalCurrencyException;
+
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.IllegalCurrencyException;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Various adapters for converting from Bter DTOs to XChange DTOs

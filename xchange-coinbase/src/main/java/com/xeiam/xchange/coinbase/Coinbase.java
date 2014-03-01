@@ -36,8 +36,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 

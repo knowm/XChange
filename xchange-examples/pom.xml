@@ -156,7 +156,6 @@
 			<artifactId>xchart</artifactId>
 		</dependency>
 
-
 	</dependencies>
 
 </project>
