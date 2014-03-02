@@ -24,6 +24,7 @@ package com.xeiam.xchange.btce.v3.dto.marketdata;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Author: brox
@@ -50,9 +51,9 @@ public class BTCETickerWrapper {
     return tickerMap;
   }
 
-  public BTCETicker getTicker(String tradableIdentifier, String currency) {
+  public BTCETicker getTicker(CurrencyPair currencyPair) {
 
-    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
+    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     BTCETicker result = null;
     if (tickerMap.containsKey(pair)) {
       result = tickerMap.get(pair);

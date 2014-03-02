@@ -24,6 +24,7 @@ package com.xeiam.xchange.btce.v3.dto.marketdata;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Author: brox
@@ -50,9 +51,9 @@ public class BTCEDepthWrapper {
     return depthMap;
   }
 
-  public BTCEDepth getDepth(String tradableIdentifier, String currency) {
+  public BTCEDepth getDepth(CurrencyPair currencyPair) {
 
-    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
+    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     BTCEDepth result = null;
     if (depthMap.containsKey(pair)) {
       result = depthMap.get(pair);

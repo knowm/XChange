@@ -29,9 +29,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.IllegalCurrencyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +39,6 @@ import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -79,17 +75,17 @@ public final class BTCEAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, String tradableIdentifier, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (BigDecimal[] btceOrder : bTCEOrders) {
       // Bid orderbook is reversed order. Insert at index 0 instead of appending
       if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
       }
       else {
-        limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
       }
     }
 
@@ -106,14 +102,14 @@ public final class BTCEAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigMoney limitPrice;
+    BigDecimal limitPrice;
     limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
+    return new LimitOrder(orderType, amount, currencyPair, id, null, limitPrice);
 
   }
 
@@ -125,15 +121,15 @@ public final class BTCEAdapters {
    * @param currency Second currency in the pair
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(BTCETrade bTCETrade, String tradableIdentifier, String currency) {
+  public static Trade adaptTrade(BTCETrade bTCETrade, CurrencyPair currencyPair) {
 
     OrderType orderType = bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = bTCETrade.getAmount();
-    BigMoney price = MoneyUtils.parse(currency + " " + bTCETrade.getPrice());
+    BigDecimal price = MoneyUtils.parse(currency + " " + bTCETrade.getPrice());
     Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
 
     final String tradeId = String.valueOf(bTCETrade.getTid());
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId);
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
   /**
@@ -144,12 +140,12 @@ public final class BTCEAdapters {
    * @param currency Second currency of the pair
    * @return The trades
    */
-  public static Trades adaptTrades(BTCETrade[] BTCETrades, String tradableIdentifier, String currency) {
+  public static Trades adaptTrades(BTCETrade[] BTCETrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
     for (BTCETrade BTCETrade : BTCETrades) {
       // Date is reversed order. Insert at index 0 instead of appending
-      tradesList.add(0, adaptTrade(BTCETrade, tradableIdentifier, currency));
+      tradesList.add(0, adaptTrade(BTCETrade, currencyPair));
     }
     return new Trades(tradesList, TradeSortType.SortByID);
   }
@@ -160,13 +156,13 @@ public final class BTCEAdapters {
    * @param bTCETicker
    * @return
    */
-  public static Ticker adaptTicker(BTCETicker bTCETicker, String tradableIdentifier, String currency) {
+  public static Ticker adaptTicker(BTCETicker bTCETicker, CurrencyPair currencyPair) {
 
-    BigMoney last = MoneyUtils.parse(currency + " " + bTCETicker.getLast());
-    BigMoney bid = MoneyUtils.parse(currency + " " + bTCETicker.getSell());
-    BigMoney ask = MoneyUtils.parse(currency + " " + bTCETicker.getBuy());
-    BigMoney high = MoneyUtils.parse(currency + " " + bTCETicker.getHigh());
-    BigMoney low = MoneyUtils.parse(currency + " " + bTCETicker.getLow());
+    BigDecimal last = MoneyUtils.parse(currency + " " + bTCETicker.getLast());
+    BigDecimal bid = MoneyUtils.parse(currency + " " + bTCETicker.getSell());
+    BigDecimal ask = MoneyUtils.parse(currency + " " + bTCETicker.getBuy());
+    BigDecimal high = MoneyUtils.parse(currency + " " + bTCETicker.getHigh());
+    BigDecimal low = MoneyUtils.parse(currency + " " + bTCETicker.getLow());
     BigDecimal volume = bTCETicker.getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
@@ -200,7 +196,7 @@ public final class BTCEAdapters {
       OrderType orderType = bTCEOrder.getType() == BTCEOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String[] pair = bTCEOrder.getPair().split("_");
       String currency = pair[1].toUpperCase();
-      BigMoney price = BigMoney.of(CurrencyUnit.of(currency), bTCEOrder.getRate());
+      BigDecimal price = BigDecimal.of(CurrencyUnit.of(currency), bTCEOrder.getRate());
       Date timestamp = DateUtils.fromMillisUtc(bTCEOrder.getTimestampCreated() * 1000L);
       limitOrders.add(new LimitOrder(orderType, bTCEOrder.getAmount(), pair[0].toUpperCase(), currency, Long.toString(id), timestamp, price));
     }
@@ -216,7 +212,7 @@ public final class BTCEAdapters {
       String[] pair = result.getPair().split("_");
       String tradableIdentifier = pair[0].toUpperCase();
       String transactionCurrency = pair[1].toUpperCase();
-      BigMoney price = BigMoney.of(CurrencyUnit.of(transactionCurrency), result.getRate());
+      BigDecimal price = BigDecimal.of(CurrencyUnit.of(transactionCurrency), result.getRate());
       BigDecimal tradableAmount = result.getAmount();
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
