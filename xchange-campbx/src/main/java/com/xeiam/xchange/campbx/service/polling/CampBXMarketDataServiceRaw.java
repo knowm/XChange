@@ -32,6 +32,7 @@ import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.campbx.service.CampBXBaseService;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.Trades;
 
@@ -53,9 +54,9 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
     this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
-  public CampBXTicker getCampBXTicker(String tradableIdentifier, String currency) throws IOException {
+  public CampBXTicker getCampBXTicker(CurrencyPair currencyPair) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     CampBXTicker campbxTicker = campBX.getTicker();
 
@@ -67,9 +68,9 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
     }
   }
 
-  public CampBXOrderBook getCampBXOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public CampBXOrderBook getCampBXOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     CampBXOrderBook campBXOrderBook = campBX.getOrderBook();
 
@@ -81,7 +82,7 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
     }
   }
 
-  public Trades getCampBXTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getCampBXTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

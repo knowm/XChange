@@ -34,33 +34,32 @@ import com.xeiam.xchange.vircurex.VircurexAdapters;
 
 public class VircurexAccountService extends VircurexAccountServiceRaw implements PollingAccountService {
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification
-	 */
-	public VircurexAccountService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public VircurexAccountService(ExchangeSpecification exchangeSpecification) {
 
-		super(exchangeSpecification);
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public AccountInfo getAccountInfo() throws IOException {
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
 
-		return VircurexAdapters.adaptAccountInfo(getVircurexAccountInfo());
-	}
+    return VircurexAdapters.adaptAccountInfo(getVircurexAccountInfo());
+  }
 
-	@Override
-	public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  @Override
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
-		throw new NotYetImplementedForExchangeException();
-	}
+    throw new NotYetImplementedForExchangeException();
+  }
 
-	@Override
-	public String withdrawFunds(BigDecimal amount, String address)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
+  @Override
+  public String withdrawFunds(String currecny, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	}
+    throw new NotYetImplementedForExchangeException();
+
+  }
 }
