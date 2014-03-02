@@ -62,7 +62,7 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     BTCChinaResponse<BTCChinaID> response = withdrawBTCChinaFunds(amount, address);
     return response.getResult().getId();

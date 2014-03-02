@@ -54,7 +54,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     final BitstampBooleanResponse response = withdrawBitstampFunds(amount, address);
     return Boolean.toString(response.getResponse());
