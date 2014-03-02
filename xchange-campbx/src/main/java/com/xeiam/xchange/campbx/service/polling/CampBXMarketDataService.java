@@ -28,6 +28,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.campbx.CampBXAdapters;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -50,23 +51,27 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    CampBXTicker campbxTicker = getCampBXTicker(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    return CampBXAdapters.adaptTicker(campbxTicker, currency, tradableIdentifier);
+    CampBXTicker campbxTicker = getCampBXTicker(currencyPair);
+
+    return CampBXAdapters.adaptTicker(campbxTicker, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    CampBXOrderBook campBXOrderBook = getCampBXOrderBook(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    return CampBXAdapters.adaptOrders(campBXOrderBook, currency, tradableIdentifier);
+    CampBXOrderBook campBXOrderBook = getCampBXOrderBook(currencyPair);
+
+    return CampBXAdapters.adaptOrders(campBXOrderBook, currencyPair);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
