@@ -38,6 +38,7 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexDepthJSONTest;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexTickerJSONTest;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexTradesJSONTest;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -59,14 +60,13 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexDepth BitcurexDepth = mapper.readValue(is, BitcurexDepth.class);
 
-    List<LimitOrder> asks = BitcurexAdapters.adaptOrders(BitcurexDepth.getAsks(), "EUR", OrderType.ASK, "");
+    List<LimitOrder> asks = BitcurexAdapters.adaptOrders(BitcurexDepth.getAsks(), CurrencyPair.BTC_EUR, OrderType.ASK, "");
 
     // Verify all fields filled
-    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(70.00000000);
+    assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(70.00000000);
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(0.1021341);
-    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
-    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("EUR");
+    assertThat(asks.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
 
   }
 
@@ -80,11 +80,11 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexTrade[] BitcurexTrades = mapper.readValue(is, BitcurexTrade[].class);
 
-    Trades trades = BitcurexAdapters.adaptTrades(BitcurexTrades, "EUR", "BTC");
+    Trades trades = BitcurexAdapters.adaptTrades(BitcurexTrades, CurrencyPair.BTC_EUR);
     assertThat(trades.getTrades().size()).isEqualTo(70);
 
     // Verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 70.00000000);
+    assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 70.00000000);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 23.99500000);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-07-29 16:53:28 GMT");
   }
@@ -99,12 +99,12 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexTicker BitcurexTicker = mapper.readValue(is, BitcurexTicker.class);
 
-    Ticker ticker = BitcurexAdapters.adaptTicker(BitcurexTicker, "EUR", "BTC");
+    Ticker ticker = BitcurexAdapters.adaptTicker(BitcurexTicker, CurrencyPair.BTC_EUR);
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("EUR 70");
-    assertThat(ticker.getLow().toString()).isEqualTo("EUR 63.66");
-    assertThat(ticker.getHigh().toString()).isEqualTo("EUR 70");
+    assertThat(ticker.getLast().toString()).isEqualTo("70");
+    assertThat(ticker.getLow().toString()).isEqualTo("63.66");
+    assertThat(ticker.getHigh().toString()).isEqualTo("70");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("103.23546591"));
 
   }
