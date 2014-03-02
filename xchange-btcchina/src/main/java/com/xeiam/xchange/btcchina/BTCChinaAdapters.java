@@ -27,9 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
@@ -37,7 +34,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -71,12 +68,12 @@ public final class BTCChinaAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, String currency, OrderType orderType) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
-      limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currency, orderType));
+      limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currencyPair, orderType));
     }
 
     return limitOrders;
@@ -92,13 +89,12 @@ public final class BTCChinaAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, OrderType orderType) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType) {
 
     // place a limit order
     String tradableIdentifier = Currencies.BTC;
-    BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
+    return new LimitOrder(orderType, amount, currencyPair, "", null, price);
 
   }
 
@@ -108,15 +104,15 @@ public final class BTCChinaAdapters {
    * @param btcChinaTrade A BTCChina trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(BTCChinaTrade btcChinaTrade, String currency, String tradableIdentifier) {
+  public static Trade adaptTrade(BTCChinaTrade btcChinaTrade, CurrencyPair currencyPair) {
 
     BigDecimal amount = btcChinaTrade.getAmount();
-    BigMoney price = MoneyUtils.parse(currency + " " + btcChinaTrade.getPrice());
+    BigDecimal price = btcChinaTrade.getPrice();
     Date date = DateUtils.fromMillisUtc(btcChinaTrade.getDate() * 1000L);
     OrderType orderType = btcChinaTrade.getOrderType().equals("sell") ? OrderType.ASK : OrderType.BID;
 
     final String tradeId = String.valueOf(btcChinaTrade.getTid());
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, tradeId);
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
   /**
@@ -125,11 +121,11 @@ public final class BTCChinaAdapters {
    * @param btcchinaTrades The BTCChina trade data
    * @return The trades
    */
-  public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, String currency, String tradableIdentifier) {
+  public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
-      tradesList.add(adaptTrade(btcchinaTrade, currency, tradableIdentifier));
+      tradesList.add(adaptTrade(btcchinaTrade, currencyPair));
     }
     return new Trades(tradesList, TradeSortType.SortByID);
   }
@@ -140,16 +136,16 @@ public final class BTCChinaAdapters {
    * @param btcChinaTicker
    * @return
    */
-  public static Ticker adaptTicker(BTCChinaTicker btcChinaTicker, String currency, String tradableIdentifier) {
+  public static Ticker adaptTicker(BTCChinaTicker btcChinaTicker, CurrencyPair currencyPair) {
 
-    BigMoney last = MoneyUtils.parse(currency + " " + btcChinaTicker.getTicker().getLast());
-    BigMoney high = MoneyUtils.parse(currency + " " + btcChinaTicker.getTicker().getHigh());
-    BigMoney low = MoneyUtils.parse(currency + " " + btcChinaTicker.getTicker().getLow());
-    BigMoney buy = MoneyUtils.parse(currency + " " + btcChinaTicker.getTicker().getBuy());
-    BigMoney sell = MoneyUtils.parse(currency + " " + btcChinaTicker.getTicker().getSell());
+    BigDecimal last = btcChinaTicker.getTicker().getLast();
+    BigDecimal high = btcChinaTicker.getTicker().getHigh();
+    BigDecimal low = btcChinaTicker.getTicker().getLow();
+    BigDecimal buy = btcChinaTicker.getTicker().getBuy();
+    BigDecimal sell = btcChinaTicker.getTicker().getSell();
     BigDecimal volume = btcChinaTicker.getTicker().getVol();
 
-    return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
   }
 
   /**
@@ -199,7 +195,7 @@ public final class BTCChinaAdapters {
     if (balance != null && frozen != null) {
       BigDecimal balanceAmount = BTCChinaUtils.valueToBigDecimal(balance);
       BigDecimal frozenAmount = BTCChinaUtils.valueToBigDecimal(frozen);
-      BigMoney cash = BigMoney.of(CurrencyUnit.of(balance.getCurrency()), balanceAmount.add(frozenAmount));
+      BigDecimal cash = balanceAmount.add(frozenAmount);
       return new Wallet(balance.getCurrency(), cash);
     }
     else {
@@ -247,9 +243,9 @@ public final class BTCChinaAdapters {
     BigDecimal amount = order.getAmount();
     String id = Long.toString(order.getId());
     Date date = new Date(order.getDate() * 1000);
-    BigMoney price = BigMoney.of(CurrencyUnit.of(order.getCurrency()), order.getPrice());
+    BigDecimal price = order.getPrice();
 
-    return new LimitOrder(orderType, amount, "BTC", "CNY", id, date, price);
+    return new LimitOrder(orderType, amount, CurrencyPair.BTC_CNY, id, date, price);
   }
 
 }
