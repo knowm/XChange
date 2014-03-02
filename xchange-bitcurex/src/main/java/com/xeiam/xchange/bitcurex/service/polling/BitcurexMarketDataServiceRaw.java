@@ -54,9 +54,8 @@ public class BitcurexMarketDataServiceRaw extends BitcurexBaseService {
     super(exchangeSpecification);
   }
 
-  public BitcurexTicker getBitcurexTicker(String tradableIdentifier, String currency) throws IOException {
+  public BitcurexTicker getBitcurexTicker(String currency) throws IOException {
 
-    verify(tradableIdentifier, currency);
     this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
     // Request data
     BitcurexTicker bitcurexTicker = bitcurex.getTicker();
@@ -64,9 +63,8 @@ public class BitcurexMarketDataServiceRaw extends BitcurexBaseService {
     return bitcurexTicker;
   }
 
-  public BitcurexDepth getBitcurexOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public BitcurexDepth getBitcurexOrderBook(String currency) throws IOException {
 
-    verify(tradableIdentifier, currency);
     this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
     // Request data
     BitcurexDepth bitcurexDepth = bitcurex.getFullDepth();
@@ -74,9 +72,8 @@ public class BitcurexMarketDataServiceRaw extends BitcurexBaseService {
     return bitcurexDepth;
   }
 
-  public BitcurexTrade[] getBitcurexTrades(String tradableIdentifier, String currency) throws IOException {
+  public BitcurexTrade[] getBitcurexTrades(String currency) throws IOException {
 
-    verify(tradableIdentifier, currency);
     this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
     // Request data
     BitcurexTrade[] bitcurexTrades = bitcurex.getTrades();
