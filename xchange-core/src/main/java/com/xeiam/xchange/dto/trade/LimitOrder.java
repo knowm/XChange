@@ -24,8 +24,7 @@ package com.xeiam.xchange.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 
 /**
@@ -42,27 +41,26 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   /**
    * The limit price
    */
-  private final BigMoney limitPrice;
+  private final BigDecimal limitPrice;
 
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
-   * @param tradableIdentifier The identifier (e.g. BTC in BTC/USD)
-   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param CurrencyPair currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
-  public LimitOrder(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, String id, Date timestamp, BigMoney limitPrice) {
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
 
-    super(type, tradableAmount, tradableIdentifier, transactionCurrency, id, timestamp);
+    super(type, tradableAmount, currencyPair, id, timestamp);
     this.limitPrice = limitPrice;
   }
 
   /**
    * @return The limit price
    */
-  public BigMoney getLimitPrice() {
+  public BigDecimal getLimitPrice() {
 
     return limitPrice;
   }
@@ -76,7 +74,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   @Override
   public int compareTo(LimitOrder limitOrder) {
 
-    return this.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) * (getType() == OrderType.BID ? -1 : 1);
+    return this.getLimitPrice().compareTo(limitOrder.getLimitPrice()) * (getType() == OrderType.BID ? -1 : 1);
   }
 
   @Override

@@ -34,12 +34,6 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
-		<!-- All money handling is through Joda Money -->
-		<dependency>
-			<groupId>org.joda</groupId>
-			<artifactId>joda-money</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>com.github.mmazi</groupId>
 			<artifactId>rescu</artifactId>

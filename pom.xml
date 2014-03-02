@@ -130,14 +130,6 @@
 				<scope>test</scope>
 			</dependency>
 
-			<!-- All money handling is through Joda Money -->
-			<dependency>
-				<groupId>org.joda</groupId>
-				<artifactId>joda-money</artifactId>
-				<!-- Require 0.8+ to support Bitcoin (see #40) -->
-				<version>0.9</version>
-			</dependency>
-
 			<!-- Charting -->
 			<dependency>
 				<groupId>com.xeiam.xchart</groupId>

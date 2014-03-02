@@ -22,8 +22,7 @@
 package com.xeiam.xchange.service.polling;
 
 import java.io.IOException;
-
-import org.joda.money.BigMoney;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -66,7 +65,7 @@ public interface PollingAccountService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String withdrawFunds(BigMoney amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public String withdrawFunds(BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Request a digital currency address to fund this account. Allows to fund the exchange account with digital currency from an external address

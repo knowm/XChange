@@ -24,8 +24,7 @@ package com.xeiam.xchange.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
@@ -44,19 +43,14 @@ public final class Trade {
   private final BigDecimal tradableAmount;
 
   /**
-   * An identifier that uniquely identifies the tradable
+   * The currency pair
    */
-  private final String tradableIdentifier;
-
-  /**
-   * The currency used to settle the market order transaction
-   */
-  private final String transactionCurrency;
+  private final CurrencyPair currencyPair;
 
   /**
    * The price
    */
-  private final BigMoney price;
+  private final BigDecimal price;
 
   /**
    * The timestamp of the trade
@@ -92,12 +86,11 @@ public final class Trade {
    * @param orderId
    *          The id of the corresponding order responsible for execution of this trade
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, String id, String orderId) {
+  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
-    this.tradableIdentifier = tradableIdentifier;
-    this.transactionCurrency = transactionCurrency;
+    this.currencyPair = currencyPair;
     this.price = price;
     this.timestamp = timestamp;
     this.id = id;
@@ -121,9 +114,9 @@ public final class Trade {
    * @param id
    *          The id of the trade
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, String id) {
+  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
 
-    this(type, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, id, null);
+    this(type, tradableAmount, currencyPair, price, timestamp, id, null);
 
   }
 
@@ -137,17 +130,12 @@ public final class Trade {
     return tradableAmount;
   }
 
-  public String getTradableIdentifier() {
+  public CurrencyPair getCurrencyPair() {
 
-    return tradableIdentifier;
+    return currencyPair;
   }
 
-  public String getTransactionCurrency() {
-
-    return transactionCurrency;
-  }
-
-  public BigMoney getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }
@@ -161,17 +149,17 @@ public final class Trade {
 
     return id;
   }
-  
+
   public String getOrderId() {
-  
-      return orderId;
+
+    return orderId;
   }
 
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
-        + ", timestamp=" + timestamp + ", id=" + id + ", orderId=" + orderId + "]";
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id + ", orderId=" + orderId
+        + "]";
   }
 
   @Override
