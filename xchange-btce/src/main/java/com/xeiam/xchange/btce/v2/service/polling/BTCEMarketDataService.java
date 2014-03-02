@@ -68,7 +68,7 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
 
     verify(currencyPair);
 
-    BTCETickerWrapper btceTicker = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCETickerWrapper btceTicker = btce.getTicker(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
 
     // Adapt to XChange DTOs
     return BTCEAdapters.adaptTicker(btceTicker, currencyPair);
@@ -79,7 +79,7 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
 
     verify(currencyPair);
 
-    BTCEDepth btceDepth = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCEDepth btceDepth = btce.getDepth(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), currencyPair, "ask", "");
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), currencyPair, "bid", "");
@@ -104,7 +104,7 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
 
     verify(currencyPair);
 
-    BTCETrade[] BTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTCETrade[] BTCETrades = btce.getTrades(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
 
     return BTCEAdapters.adaptTrades(BTCETrades);
 

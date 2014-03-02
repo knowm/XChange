@@ -26,12 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.IllegalCurrencyException;
-
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -63,14 +59,13 @@ public final class BTERAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase(BTER_BID) ? OrderType.BID : OrderType.ASK;
-    BigMoney limitPrice;
-    limitPrice = MoneyUtils.parse(currency + " " + price);
+    BigDecimal limitPrice;
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
+    return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
 
   /**
@@ -82,7 +77,7 @@ public final class BTERAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, String tradableIdentifier, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, CurrencyPair currencyPair, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
@@ -90,10 +85,10 @@ public final class BTERAdapters {
     for (BigDecimal[] bterOrder : orders) {
       // appending
       if (orderType.equalsIgnoreCase(BTER_BID)) {
-        limitOrders.add(0, adaptOrder(bterOrder[1], bterOrder[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(0, adaptOrder(bterOrder[1], bterOrder[0], currencyPair, orderType, id));
       }
       else {
-        limitOrders.add(adaptOrder(bterOrder[1], bterOrder[0], tradableIdentifier, currency, orderType, id));
+        limitOrders.add(adaptOrder(bterOrder[1], bterOrder[0], currencyPair, orderType, id));
       }
     }
 
@@ -106,13 +101,7 @@ public final class BTERAdapters {
     Map<String, BigDecimal> funds = btceAccountInfo.getAvailableFunds();
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
-      try {
-        CurrencyUnit.of(currency);
-      } catch (IllegalCurrencyException e) {
-        // log.in("Ignoring unknown currency {}", currency);
-        continue;
-      }
-      wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency)));
+      wallets.add(new Wallet(currency, funds.get(lcCurrency)));
     }
 
     return new AccountInfo("", wallets);

@@ -57,13 +57,13 @@ public class BTCEAccountService extends BTCEBasePollingService implements Pollin
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency,  String... arguments) throws IOException {
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
