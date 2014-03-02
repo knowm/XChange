@@ -26,6 +26,8 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -33,9 +35,11 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author jamespedwards42
  */
-public class JustcoinAccountService extends JustcoinAccountServiceRaw implements PollingAccountService {
+public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
+		PollingAccountService {
 
-	public JustcoinAccountService(final ExchangeSpecification exchangeSpecification) {
+	public JustcoinAccountService(
+			final ExchangeSpecification exchangeSpecification) {
 
 		super(exchangeSpecification);
 	}
@@ -43,22 +47,22 @@ public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
 	@Override
 	public AccountInfo getAccountInfo() throws IOException {
 
-		return JustcoinAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getBalances());
+		return JustcoinAdapters.adaptAccountInfo(
+				exchangeSpecification.getUserName(), getBalances());
 	}
 
 	@Override
-	public String withdrawFunds(final BigDecimal amount, final String address) throws IOException {
+	public String withdrawFunds(String currency, BigDecimal amount,
+			String address) throws ExchangeException,
+			NotAvailableFromExchangeException,
+			NotYetImplementedForExchangeException, IOException {
 
-		if(args.length <= 0) {
-			throw new ExchangeException("Argument required for withdrawl currency");
-		}
-
-		String currency = args[0];
 		return withdrawFunds(currency, amount, address);
 	}
 
 	@Override
-	public String requestDepositAddress(final String currency, final String... arguments) throws IOException {
+	public String requestDepositAddress(final String currency,
+			final String... arguments) throws IOException {
 
 		return requestDepositAddress(currency);
 	}
