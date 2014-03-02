@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -45,19 +46,19 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     final JustcoinTicker[] justcoinTickers = getTickers();
 
-    return JustcoinAdapters.adaptTicker(justcoinTickers, tradableIdentifier, currency);
+    return JustcoinAdapters.adaptTicker(justcoinTickers, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    final JustcoinDepth justcoinDepth = getMarketDepth(tradableIdentifier, currency);
+    final JustcoinDepth justcoinDepth = getMarketDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
-    return JustcoinAdapters.adaptOrderBook(tradableIdentifier, currency, justcoinDepth);
+    return JustcoinAdapters.adaptOrderBook(currencyPair, justcoinDepth);
   }
 
   @Override
@@ -67,7 +68,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws NotAvailableFromExchangeException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws NotAvailableFromExchangeException {
 
     throw new NotAvailableFromExchangeException();
   }

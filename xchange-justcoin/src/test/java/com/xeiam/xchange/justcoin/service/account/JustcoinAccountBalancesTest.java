@@ -27,13 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.joda.money.BigMoney;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
@@ -44,7 +42,7 @@ import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 public class JustcoinAccountBalancesTest {
 
   private String currency;
-  private BigMoney balance;
+  private BigDecimal balance;
   private JustcoinBalance justcoinBalance;
 
   @Before
@@ -52,8 +50,8 @@ public class JustcoinAccountBalancesTest {
 
     // initialize expected values
     currency = Currencies.LTC;
-    balance = MoneyUtils.parseMoney(currency, BigDecimal.valueOf(0.00055586));
-    justcoinBalance = new JustcoinBalance(currency, balance.getAmount(), BigDecimal.ZERO, BigDecimal.valueOf(0.00055586));
+    balance = BigDecimal.valueOf(0.00055586);
+    justcoinBalance = new JustcoinBalance(currency, balance, BigDecimal.ZERO, BigDecimal.valueOf(0.00055586));
   }
 
   @Test
@@ -77,7 +75,6 @@ public class JustcoinAccountBalancesTest {
 
     final AccountInfo acctInfo = JustcoinAdapters.adaptAccountInfo("test", new JustcoinBalance[] { justcoinBalance });
 
-    assertThat(acctInfo.getBalance(balance.getCurrencyUnit())).isEqualTo(balance);
     assertThat(acctInfo.getWallets().size()).isEqualTo(1);
     assertThat(acctInfo.getTradingFee()).isNull();
   }

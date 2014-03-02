@@ -34,6 +34,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
@@ -84,13 +85,13 @@ public class JustcoinDepthTest {
   @Test
   public void testAdapter() {
 
-    final OrderBook orderBook = JustcoinAdapters.adaptOrderBook(Currencies.BTC, Currencies.USD, justcoinDepth);
+    final OrderBook orderBook = JustcoinAdapters.adaptOrderBook(CurrencyPair.BTC_USD, justcoinDepth);
 
     final LimitOrder ask = orderBook.getAsks().get(0);
     assertThat(ask.getTradableAmount()).isEqualTo(justcoinDepth.getAsks().get(0).get(1));
-    assertThat(ask.getLimitPrice().getAmount()).isEqualTo(justcoinDepth.getAsks().get(0).get(0));
+    assertThat(ask.getLimitPrice()).isEqualTo(justcoinDepth.getAsks().get(0).get(0));
     final LimitOrder bid = orderBook.getBids().get(0);
     assertThat(bid.getTradableAmount()).isEqualTo(justcoinDepth.getBids().get(0).get(1));
-    assertThat(bid.getLimitPrice().getAmount()).isEqualTo(justcoinDepth.getBids().get(0).get(0));
+    assertThat(bid.getLimitPrice()).isEqualTo(justcoinDepth.getBids().get(0).get(0));
   }
 }
