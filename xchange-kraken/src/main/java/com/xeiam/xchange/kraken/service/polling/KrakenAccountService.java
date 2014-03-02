@@ -22,8 +22,7 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
-
-import org.joda.money.BigMoney;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -45,7 +44,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
   }
 
   @Override
-  public String withdrawFunds(BigMoney amount, String address) throws IOException {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

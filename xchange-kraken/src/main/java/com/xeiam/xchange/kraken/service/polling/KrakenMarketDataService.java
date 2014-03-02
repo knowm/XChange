@@ -26,6 +26,7 @@ import java.io.IOException;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -43,13 +44,13 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return KrakenAdapters.adaptTicker(getKrakenTicker(tradableIdentifier, currency), currency, tradableIdentifier);
+    return KrakenAdapters.adaptTicker(getKrakenTicker(currencyPair), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     long count = Long.MAX_VALUE;
 
@@ -63,13 +64,13 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
       }
     }
 
-    KrakenDepth krakenDepth = getKrakenDepth(tradableIdentifier, currency, count);
+    KrakenDepth krakenDepth = getKrakenDepth(currencyPair, count);
 
-    return KrakenAdapters.adaptOrderBook(krakenDepth, tradableIdentifier, currency);
+    return KrakenAdapters.adaptOrderBook(krakenDepth, currencyPair);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     long since = 0L;
 
@@ -83,8 +84,8 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
       }
     }
 
-    KrakenPublicTrades krakenTrades = getKrakenTrades(tradableIdentifier, currency, since);
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currency, tradableIdentifier, krakenTrades.getLast());
+    KrakenPublicTrades krakenTrades = getKrakenTrades(currencyPair, since);
+    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
     return trades;
   }
 
