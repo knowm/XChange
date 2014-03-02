@@ -19,36 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter;
+package com.xeiam.xchange.bter.dto;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+public abstract class BTERBaseResponse {
 
-import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs;
-import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
-import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
-import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
+  private final boolean result;
+  private final String message;
 
-@Path("api/1")
-@Produces(MediaType.APPLICATION_JSON)
-public interface BTER {
+  protected BTERBaseResponse(final boolean result, final String message) {
 
-  @GET
-  @Path("pairs")
-  BTERCurrencyPairs getPairs();
+    this.result = result;
+    this.message = message;
+  }
 
-  @GET
-  @Path("tickers")
-  BTERTickers getTickers();
-  
-  @GET
-  @Path("ticker/{ident}_{currency}")
-  BTERTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  public boolean isResult() {
 
-  @GET
-  @Path("depth/{ident}_{currency}")
-  BTERDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+    return result;
+  }
+
+  public String getMessage() {
+
+    return message;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BTERBaseResponse [result=" + result + ", message=" + message + "]";
+  }
 }

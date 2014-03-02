@@ -22,16 +22,16 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
-
-import si.mazi.rescu.RestProxyFactory;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER> {
-
-  private final BTER bter;
 
   /**
    * Constructor
@@ -41,14 +41,27 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER
   public BTERPollingMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(BTER.class, exchangeSpecification);
-    bter = RestProxyFactory.createProxy(BTER.class, exchangeSpecification.getSslUri());
+  }
+
+  public Map<CurrencyPair, BTERTicker> getBTERTickers() throws IOException {
+
+    BTERTickers bterTickers = bter.getTickers();
+
+    return bterTickers.getTickerMap();
+  }
+
+  public BTERTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
+
+    BTERTicker bterTicker = bter.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+
+    return bterTicker;
   }
 
   public BTERDepth getBTEROrderBook(String tradableIdentifier, String currency) throws IOException {
 
-    BTERDepth btceDepth = bter.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTERDepth bterDepth = bter.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    return btceDepth;
+    return bterDepth;
   }
 
 }

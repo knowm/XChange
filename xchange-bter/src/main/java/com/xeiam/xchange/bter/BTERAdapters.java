@@ -31,6 +31,7 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.IllegalCurrencyException;
 
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -53,6 +54,12 @@ public final class BTERAdapters {
 
   }
 
+  public static CurrencyPair adaptCurrencyPair(String pair) {
+    
+    final String[] currencies = pair.toUpperCase().split("_");
+    return new CurrencyPair(currencies[0], currencies[1]);
+  }
+  
   /**
    * Adapts a BTEROrder to a LimitOrder
    * 

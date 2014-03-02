@@ -22,9 +22,10 @@
 package com.xeiam.xchange.bter.dto.marketdata;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,44 +35,55 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.bter.BTERAdapters;
-import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs.BTERCurrencyPairsDeserializer;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTicker.BTERTickerTickerDeserializer;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTickers.BTERTickersDeserializer;
 import com.xeiam.xchange.currency.CurrencyPair;
 
-@JsonDeserialize(using = BTERCurrencyPairsDeserializer.class)
-public class BTERCurrencyPairs {
+@JsonDeserialize(using = BTERTickersDeserializer.class)
+public class BTERTickers {
 
-  private final Set<CurrencyPair> pairs;
+  private final Map<CurrencyPair, BTERTicker> tickerMap;
 
-  private BTERCurrencyPairs(Set<CurrencyPair> pairs) {
+  private BTERTickers(final Map<CurrencyPair, BTERTicker> tickerMap) {
 
-    this.pairs = pairs;
+    this.tickerMap = tickerMap;
   }
-  
-  public Collection<CurrencyPair> getPairs() {
 
-    return pairs;
+  public Map<CurrencyPair, BTERTicker> getTickerMap() {
+
+    return tickerMap;
   }
 
   @Override
   public String toString() {
 
-    return "BTERCurrencyPairs [pairs=" + pairs + "]";
+    return "BTERTickers [tickerMap=" + tickerMap + "]";
   }
 
-  static class BTERCurrencyPairsDeserializer extends JsonDeserializer<BTERCurrencyPairs> {
+  static class BTERTickersDeserializer extends JsonDeserializer<BTERTickers> {
 
     @Override
-    public BTERCurrencyPairs deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public BTERTickers deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      final Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
-      final ObjectCodec oc = jp.getCodec();
-      final JsonNode node = oc.readTree(jp);
-      if (node.isArray()) {
-        for (JsonNode pairNode : node) {
-          pairs.add(BTERAdapters.adaptCurrencyPair(pairNode.asText()));
+      Map<CurrencyPair, BTERTicker> tickerMap = new HashMap<CurrencyPair, BTERTicker>();
+      ObjectCodec oc = jp.getCodec();
+      JsonNode node = oc.readTree(jp);
+      if (node.isObject()) {
+        
+        Iterator<Entry<String, JsonNode>> tickerEntryIter = node.fields();
+        while (tickerEntryIter.hasNext()) {
+          Entry<String, JsonNode> tickerEntryNode = tickerEntryIter.next();
+
+          String pairString = tickerEntryNode.getKey();
+          CurrencyPair pair = BTERAdapters.adaptCurrencyPair(pairString);
+
+          JsonNode tickerNode = tickerEntryNode.getValue();
+          BTERTicker ticker = BTERTickerTickerDeserializer.deserializeFromNode(tickerNode);
+
+          tickerMap.put(pair, ticker);
         }
       }
-      return new BTERCurrencyPairs(pairs);
+      return new BTERTickers(tickerMap);
     }
   }
 }
