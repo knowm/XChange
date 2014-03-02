@@ -167,7 +167,7 @@ public final class BTCEAdapters {
     BigDecimal volume = bTCETicker.getTicker().getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getTicker().getServerTime() * 1000L);
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
+    return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
         .build();
   }
 

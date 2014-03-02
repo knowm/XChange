@@ -75,7 +75,7 @@ public final class JustcoinAdapters {
 
     for (final JustcoinTicker justcointTicker : justcoinTickers) {
       if (justcointTicker.getId().equals(JustcoinUtils.getApiMarket(tradableIdentifier, currency))) {
-        return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(MoneyUtils.parseMoney(currency, justcointTicker.getLast())).withBid(
+        return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(MoneyUtils.parseMoney(currency, justcointTicker.getLast())).withBid(
             MoneyUtils.parseMoney(currency, justcointTicker.getBid())).withAsk(MoneyUtils.parseMoney(currency, justcointTicker.getAsk())).withHigh(
             MoneyUtils.parseMoney(currency, justcointTicker.getHigh())).withLow(MoneyUtils.parseMoney(currency, justcointTicker.getLow())).withVolume(justcointTicker.getVolume()).build();
       }

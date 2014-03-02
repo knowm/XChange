@@ -107,7 +107,7 @@ public class CoinbaseAdapterTests {
   public void testAdaptTicker() throws IOException {
 
     Ticker expectedTicker =
-        TickerBuilder.newInstance().withTradableIdentifier(Currencies.BTC).withAsk(MoneyUtils.parse("USD 723.09")).withBid(MoneyUtils.parse("USD 723.09")).withLast(MoneyUtils.parse("USD 719.79"))
+        TickerBuilder.newInstance().withCurrencyPair(Currencies.BTC).withAsk(MoneyUtils.parse("USD 723.09")).withBid(MoneyUtils.parse("USD 723.09")).withLast(MoneyUtils.parse("USD 719.79"))
             .withLow(MoneyUtils.parse("USD 718.2")).withHigh(MoneyUtils.parse("USD 723.11")).build();
 
     InputStream is = CoinbaseAdapterTests.class.getResourceAsStream("/marketdata/example-price-data.json");

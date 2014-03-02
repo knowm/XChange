@@ -45,7 +45,7 @@ public final class OERAdapters {
 
     BigMoney last = MoneyUtils.parse(tradableIdentifier + " " + exchangeRate);
     Date timestampDate = new Date(timestamp);
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withTimestamp(timestampDate).build();
+    return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(last).withTimestamp(timestampDate).build();
   }
 
 }

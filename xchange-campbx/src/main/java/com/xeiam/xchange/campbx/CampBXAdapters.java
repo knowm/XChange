@@ -94,7 +94,7 @@ public final class CampBXAdapters {
     BigMoney bid = MoneyUtils.parse(currency + " " + campbxTicker.getBid());
     BigMoney ask = MoneyUtils.parse(currency + " " + campbxTicker.getAsk());
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).build();
+    return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).build();
 
   }
 

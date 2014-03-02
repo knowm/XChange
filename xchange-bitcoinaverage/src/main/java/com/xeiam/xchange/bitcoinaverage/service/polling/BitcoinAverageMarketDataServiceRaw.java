@@ -55,8 +55,6 @@ public class BitcoinAverageMarketDataServiceRaw extends BitcoinaverageBaseServic
 
   public BitcoinAverageTicker getBitcoinAverageTicker(String tradableIdentifier, String currency) throws IOException {
 
-    verify(tradableIdentifier, currency);
-
     // Request data
     BitcoinAverageTicker bitcoinAverageTicker = bitcoinAverage.getTicker(currency);
 

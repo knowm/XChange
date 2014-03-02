@@ -137,7 +137,7 @@ public final class VirtExAdapters {
     BigMoney low = MoneyUtils.parse(currency + " " + virtExTicker.getLow());
     BigDecimal volume = virtExTicker.getVolume();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
 }

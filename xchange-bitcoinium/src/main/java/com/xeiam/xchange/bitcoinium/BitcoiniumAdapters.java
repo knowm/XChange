@@ -65,7 +65,7 @@ public final class BitcoiniumAdapters {
     BigMoney bid = MoneyUtils.parse(currency + " " + bitcoiniumTicker.getBid());
     BigDecimal volume = bitcoiniumTicker.getVolume();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).withAsk(ask).withBid(bid).build();
+    return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).withAsk(ask).withBid(bid).build();
   }
 
   /**

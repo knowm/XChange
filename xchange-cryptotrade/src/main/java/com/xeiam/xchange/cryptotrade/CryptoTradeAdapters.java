@@ -107,7 +107,7 @@ public final class CryptoTradeAdapters {
     BigMoney high = toBigMoneyIfNotNull(priceCurrencyUnit, cryptoTradeTicker.getHigh());
     BigDecimal volume = cryptoTradeTicker.getVolumePriceCurrency();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradeCurrency).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(tradeCurrency).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
   }
 
   private static BigMoney toBigMoneyIfNotNull(CurrencyUnit currencyUnit, BigDecimal number) {

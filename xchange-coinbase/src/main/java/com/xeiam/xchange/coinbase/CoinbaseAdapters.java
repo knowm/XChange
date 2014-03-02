@@ -111,7 +111,7 @@ public final class CoinbaseAdapters {
       final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
     final TickerBuilder tickerBuilder =
-        TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withAsk(buyPrice.getSubTotal()).withBid(sellPrice.getSubTotal()).withLast(spotRate.getAmount());
+        TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withAsk(buyPrice.getSubTotal()).withBid(sellPrice.getSubTotal()).withLast(spotRate.getAmount());
 
     // Get the 24 hour high and low spot price if the history is provided.
     if (coinbaseSpotPriceHistory != null) {

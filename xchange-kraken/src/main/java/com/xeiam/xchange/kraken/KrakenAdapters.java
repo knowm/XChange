@@ -91,7 +91,7 @@ public class KrakenAdapters {
     builder.withHigh(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.get24HourHigh()));
     builder.withLow(BigMoney.of(CurrencyUnit.of(currency), krakenTicker.get24HourLow()));
     builder.withVolume(krakenTicker.get24HourVolume());
-    builder.withTradableIdentifier(tradableIdentifier);
+    builder.withCurrencyPair(tradableIdentifier);
     return builder.build();
   }
 

@@ -66,14 +66,12 @@ public abstract class BaseExchangeService {
   /**
    * Verify that both currencies can make valid pair
    * 
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency
+   * @param currencyPair The currency pair (e.g. BTC/USD)
    */
-  public void verify(String tradableIdentifier, String currency) {
+  public void verify(CurrencyPair currencyPair) {
 
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(getExchangeSymbols().contains(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
+    Assert.notNull(currencyPair, "currencyPair cannot be null");
+    Assert.isTrue(getExchangeSymbols().contains(currencyPair), "currencyPair is not valid:" + currencyPair.toString());
   }
 
 }

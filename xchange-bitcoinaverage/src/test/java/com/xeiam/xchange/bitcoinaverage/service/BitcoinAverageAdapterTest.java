@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageAdapters;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.service.marketdata.BitcoinAverageTickerJSONTest;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 /**
@@ -50,12 +51,13 @@ public class BitcoinAverageAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcoinAverageTicker BitcoinAverageTicker = mapper.readValue(is, BitcoinAverageTicker.class);
 
-    Ticker ticker = BitcoinAverageAdapters.adaptTicker(BitcoinAverageTicker, "USD", "BTC");
+    Ticker ticker = BitcoinAverageAdapters.adaptTicker(BitcoinAverageTicker, CurrencyPair.BTC_USD);
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("USD 629.45");
-    assertThat(ticker.getBid().toString()).isEqualTo("USD 628.2");
-    assertThat(ticker.getAsk().toString()).isEqualTo("USD 631.21");
+    assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(ticker.getLast().toString()).isEqualTo("629.45");
+    assertThat(ticker.getBid().toString()).isEqualTo("628.2");
+    assertThat(ticker.getAsk().toString()).isEqualTo("631.21");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("118046.63"));
 
   }

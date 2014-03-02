@@ -164,7 +164,7 @@ public final class Ticker {
       }
     }
 
-    public TickerBuilder withTradableIdentifier(CurrencyPair currencyPair) {
+    public TickerBuilder withCurrencyPair(CurrencyPair currencyPair) {
 
       this.currencyPair = currencyPair;
       return this;

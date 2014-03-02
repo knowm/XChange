@@ -138,7 +138,7 @@ public final class BitcurexAdapters {
     BigMoney sell = MoneyUtils.parse(currency + " " + bitcurexTicker.getSell());
     BigDecimal volume = bitcurexTicker.getVol();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
   }
 
 }
