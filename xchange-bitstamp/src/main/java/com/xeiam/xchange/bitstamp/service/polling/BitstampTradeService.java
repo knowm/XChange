@@ -24,17 +24,16 @@ package com.xeiam.xchange.bitstamp.service.polling;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -66,8 +65,8 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
     for (BitstampOrder bitstampOrder : openOrders) {
       OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
       String id = Integer.toString(bitstampOrder.getId());
-      BigMoney price = BigMoney.of(CurrencyUnit.USD, bitstampOrder.getPrice());
-      limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), "BTC", "USD", id, bitstampOrder.getTime(), price));
+      BigDecimal price = bitstampOrder.getPrice();
+      limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), CurrencyPair.BTC_USD, id, bitstampOrder.getTime(), price));
     }
     return new OpenOrders(limitOrders);
   }
@@ -83,10 +82,10 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
-      bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
     else {
-      bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice().getAmount());
+      bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
