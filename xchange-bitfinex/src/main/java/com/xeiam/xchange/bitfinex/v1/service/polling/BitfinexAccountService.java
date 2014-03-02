@@ -22,8 +22,7 @@
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
-
-import org.joda.money.BigMoney;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -50,7 +49,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(BigMoney amount, String address) throws IOException {
+  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
