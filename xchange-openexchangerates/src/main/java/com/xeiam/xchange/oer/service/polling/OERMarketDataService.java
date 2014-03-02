@@ -28,6 +28,7 @@ import java.lang.reflect.Method;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -52,14 +53,14 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    OERRates rates = getOERTicker(tradableIdentifier, currency);
+    OERRates rates = getOERTicker(currencyPair);
 
     // Use reflection to get at data.
     Method method = null;
     try {
-      method = OERRates.class.getMethod("get" + tradableIdentifier, null);
+      method = OERRates.class.getMethod("get" + currencyPair.baseCurrency, null);
     } catch (SecurityException e) {
       throw new ExchangeException("Problem getting exchange rate!", e);
     } catch (NoSuchMethodException e) {
@@ -78,17 +79,17 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
     }
 
     // Adapt to XChange DTOs
-    return OERAdapters.adaptTicker(tradableIdentifier, exchangeRate, cachedOERTickers.getTimestamp() * 1000L);
+    return OERAdapters.adaptTicker(currencyPair, exchangeRate, cachedOERTickers.getTimestamp() * 1000L);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
