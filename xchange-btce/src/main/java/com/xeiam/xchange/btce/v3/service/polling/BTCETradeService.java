@@ -71,12 +71,13 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
+    verify(limitOrder.getCurrencyPair());
+
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
-    String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
 
-    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(limitOrder.getCurrencyPair());
 
-    BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(), type, pair);
+    BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), type, pair);
 
     BTCEPlaceOrderResult result = placeBTCEOrder(btceOrder);
     return Long.toString(result.getOrderId());
