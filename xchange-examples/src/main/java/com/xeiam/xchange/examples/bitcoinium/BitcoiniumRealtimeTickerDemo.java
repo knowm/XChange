@@ -103,7 +103,7 @@ public class BitcoiniumRealtimeTickerDemo {
       public void run() {
 
         try {
-          BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+          BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "BITSTAMP");
           System.out.println(bitcoiniumTicker.toString());
           Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
           double price = bitcoiniumTicker.getLast().doubleValue();
@@ -132,8 +132,8 @@ public class BitcoiniumRealtimeTickerDemo {
 
     System.out.println("fetching data...");
 
-    // Get the latest order book data for BTC/USD - MTGOX
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, Currencies.USD, "MTGOX", "3h");
+    // Get the latest order book data for BTC/USD - BITSTAMP
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, Currencies.USD, "BITSTAMP", "3h");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 

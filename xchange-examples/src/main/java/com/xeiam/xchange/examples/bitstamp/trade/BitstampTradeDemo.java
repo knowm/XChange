@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -59,7 +59,7 @@ public class BitstampTradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".001"), "BTC", "USD", "", null, MoneyUtils.parse("USD 1000.00"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".001"), CurrencyPair.BTC_USD, "", null, new BigDecimal("1000.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 

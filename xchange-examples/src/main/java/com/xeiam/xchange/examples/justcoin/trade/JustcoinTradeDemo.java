@@ -27,8 +27,7 @@ import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -63,7 +62,7 @@ public class JustcoinTradeDemo {
     System.out.println("Open Orders: " + genericTradeService.getOpenOrders());
 
     // Place an ask limit order to sell BTC priced in LTC
-    LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.01"), "BTC", "LTC", "", null, MoneyUtils.parseMoney(Currencies.LTC, new BigDecimal("60")));
+    LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.01"), CurrencyPair.BTC_LTC, "", null, new BigDecimal("60"));
     String orderId = genericTradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order Id: " + orderId);
 
@@ -86,7 +85,7 @@ public class JustcoinTradeDemo {
     System.out.println("Open Orders: " + Arrays.toString(justcoinSpecificTradeService.getOrders()));
 
     // Place a bid limit order to buy BTC priced in LTC
-    LimitOrder limitOrder = new LimitOrder(OrderType.BID, new BigDecimal("0.01"), "BTC", "LTC", "", null, MoneyUtils.parseMoney(Currencies.LTC, new BigDecimal("10")));
+    LimitOrder limitOrder = new LimitOrder(OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_LTC, "", null, new BigDecimal("10"));
     String orderId = justcoinSpecificTradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order Id: " + orderId);
 

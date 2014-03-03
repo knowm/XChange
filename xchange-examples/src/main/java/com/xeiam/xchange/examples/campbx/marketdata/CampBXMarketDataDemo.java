@@ -29,7 +29,7 @@ import com.xeiam.xchange.campbx.CampBXExchange;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.campbx.service.polling.CampBXMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -53,14 +53,14 @@ public class CampBXMarketDataDemo {
     PollingMarketDataService campBXGenericMarketDataService = campBXExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = campBXGenericMarketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    Ticker ticker = campBXGenericMarketDataService.getTicker(CurrencyPair.BTC_USD);
 
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Bid: " + ticker.getBid());
     System.out.println("Ask: " + ticker.getAsk());
 
     // Get the latest order book data for BTC/USD
-    OrderBook orderBook = campBXGenericMarketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook orderBook = campBXGenericMarketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
     System.out.println("Order book: " + orderBook);
   }
@@ -71,14 +71,14 @@ public class CampBXMarketDataDemo {
     CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    CampBXTicker campBXTicker = campBXspecificMarketDataService.getCampBXTicker(Currencies.BTC, Currencies.USD);
+    CampBXTicker campBXTicker = campBXspecificMarketDataService.getCampBXTicker();
 
     System.out.println("Last: " + campBXTicker.getLast());
     System.out.println("Bid: " + campBXTicker.getBid());
     System.out.println("Ask: " + campBXTicker.getAsk());
 
     // Get the latest order book data for BTC/USD
-    CampBXOrderBook campBXOrderBook = campBXspecificMarketDataService.getCampBXOrderBook(Currencies.BTC, Currencies.USD);
+    CampBXOrderBook campBXOrderBook = campBXspecificMarketDataService.getCampBXOrderBook();
 
     System.out.println("Order book: " + campBXOrderBook);
   }

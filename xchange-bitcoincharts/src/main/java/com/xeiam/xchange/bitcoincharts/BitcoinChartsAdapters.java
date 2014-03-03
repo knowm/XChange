@@ -51,7 +51,7 @@ public final class BitcoinChartsAdapters {
   public static Ticker adaptTicker(BitcoinChartsTicker[] bitcoinChartsTickers, CurrencyPair currencyPair) {
 
     for (int i = 0; i < bitcoinChartsTickers.length; i++) {
-      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.baseCurrency)) {
+      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counterCurrency)) {
 
         BigDecimal last = bitcoinChartsTickers[i].getClose() != null ? bitcoinChartsTickers[i].getClose() : null;
         BigDecimal bid = bitcoinChartsTickers[i].getBid() != null ? bitcoinChartsTickers[i].getBid() : null;

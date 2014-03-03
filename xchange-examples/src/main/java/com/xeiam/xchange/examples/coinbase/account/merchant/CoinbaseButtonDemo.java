@@ -30,7 +30,6 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonStyle;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonType;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 
 /**

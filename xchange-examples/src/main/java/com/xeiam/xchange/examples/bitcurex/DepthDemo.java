@@ -28,7 +28,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcurex.BitcurexExchange;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -53,7 +53,7 @@ public class DepthDemo {
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.EUR);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
 
     System.out.println("Current Order Book size for BTC / EUR: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
@@ -67,7 +67,7 @@ public class DepthDemo {
   private static void raw(BitcurexMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
-    BitcurexDepth bitcurexDepth = marketDataService.getBitcurexOrderBook("BTC", "EUR");
+    BitcurexDepth bitcurexDepth = marketDataService.getBitcurexOrderBook("EUR");
 
     System.out.println("Current Order Book size for BTC / EUR: " + (bitcurexDepth.getAsks().size() + bitcurexDepth.getBids().size()));
 

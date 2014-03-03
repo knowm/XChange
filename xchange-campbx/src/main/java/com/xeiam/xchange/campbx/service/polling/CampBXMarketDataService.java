@@ -55,7 +55,7 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
 
     verify(currencyPair);
 
-    CampBXTicker campbxTicker = getCampBXTicker(currencyPair);
+    CampBXTicker campbxTicker = getCampBXTicker();
 
     return CampBXAdapters.adaptTicker(campbxTicker, currencyPair);
   }
@@ -65,7 +65,7 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
 
     verify(currencyPair);
 
-    CampBXOrderBook campBXOrderBook = getCampBXOrderBook(currencyPair);
+    CampBXOrderBook campBXOrderBook = getCampBXOrderBook();
 
     return CampBXAdapters.adaptOrders(campBXOrderBook, currencyPair);
   }

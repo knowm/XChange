@@ -26,6 +26,7 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
@@ -49,7 +50,7 @@ public class KrakenTickerDemo {
     PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
 
     System.out.println("Ticker: " + ticker.toString());
     System.out.println("Currency: " + Currencies.EUR);
@@ -65,7 +66,7 @@ public class KrakenTickerDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(Currencies.BTC, Currencies.EUR);
+    KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(CurrencyPair.BTC_EUR);
 
     System.out.println("Ticker: " + ticker.toString());
     System.out.println("Currency: " + Currencies.EUR);

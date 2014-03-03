@@ -54,9 +54,7 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
     this.campBX = RestProxyFactory.createProxy(CampBX.class, exchangeSpecification.getSslUri());
   }
 
-  public CampBXTicker getCampBXTicker(CurrencyPair currencyPair) throws IOException {
-
-    verify(currencyPair);
+  public CampBXTicker getCampBXTicker() throws IOException {
 
     CampBXTicker campbxTicker = campBX.getTicker();
 
@@ -68,9 +66,7 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
     }
   }
 
-  public CampBXOrderBook getCampBXOrderBook(CurrencyPair currencyPair) throws IOException {
-
-    verify(currencyPair);
+  public CampBXOrderBook getCampBXOrderBook() throws IOException {
 
     CampBXOrderBook campBXOrderBook = campBX.getOrderBook();
 

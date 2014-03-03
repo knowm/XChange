@@ -24,10 +24,8 @@ package com.xeiam.xchange.examples.kraken.trading;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
@@ -54,11 +52,9 @@ public class KrakenLimitOrderDemo {
 
     OrderType orderType = (OrderType.ASK);
     BigDecimal tradeableAmount = new BigDecimal("0.01");
-    BigMoney price = MoneyUtils.parse("LTC 65.25");
-    String tradableIdentifier = "BTC";
-    String transactionCurrency = "LTC";
+    BigDecimal price = new BigDecimal("65.25");
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, price);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, CurrencyPair.BTC_LTC, "", null, price);
 
     String orderID = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order ID: " + orderID);
@@ -70,11 +66,9 @@ public class KrakenLimitOrderDemo {
 
     OrderType orderType = (OrderType.ASK);
     BigDecimal tradeableAmount = new BigDecimal("0.01");
-    BigMoney price = MoneyUtils.parse("LTC 65.25");
-    String tradableIdentifier = "BTC";
-    String transactionCurrency = "LTC";
+    BigDecimal price = new BigDecimal("65.25");
 
-    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, tradableIdentifier, transactionCurrency, "", null, price);
+    LimitOrder limitOrder = new LimitOrder(orderType, tradeableAmount, CurrencyPair.BTC_LTC, "", null, price);
 
     KrakenOrderResponse orderResponse = tradeService.placeKrakenLimitOrder(limitOrder);
     System.out.println("Limit Order response: " + orderResponse);

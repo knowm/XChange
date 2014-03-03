@@ -36,221 +36,221 @@ public class BitcoinChartsBaseService extends BaseExchangeService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  new CurrencyPair("thAUD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "thAUD"),
 
-  new CurrencyPair("bitmarketAUD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitmarketAUD"),
 
-  new CurrencyPair("mtgoxAUD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxAUD"),
 
-  new CurrencyPair("ruxumAUD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumAUD"),
 
-  new CurrencyPair("weexAUD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "weexAUD"),
 
-  new CurrencyPair("wbxAUD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "wbxAUD"),
 
-  new CurrencyPair("cryptoxAUD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "cryptoxAUD"),
 
-  new CurrencyPair("mrcdBRL", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mrcdBRL"),
 
-  new CurrencyPair("bbmBRL", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bbmBRL"),
 
-  new CurrencyPair("mtgoxCAD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxCAD"),
 
-  new CurrencyPair("virtexCAD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "virtexCAD"),
 
-  new CurrencyPair("weexCAD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "weexCAD"),
 
-  new CurrencyPair("mtgoxCHF", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxCHF"),
 
-  new CurrencyPair("ruxumCHF", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumCHF"),
 
-  new CurrencyPair("thCLP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "thCLP"),
 
-  new CurrencyPair("btcnCNY", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcnCNY"),
 
-  new CurrencyPair("mtgoxCNY", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxCNY"),
 
-  new CurrencyPair("mtgoxDKK", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxDKK"),
 
-  new CurrencyPair("bcEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcEUR"),
 
-  new CurrencyPair("btcexEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcexEUR"),
 
-  new CurrencyPair("thEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "thEUR"),
 
-  new CurrencyPair("rockEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "rockEUR"),
 
-  new CurrencyPair("b7EUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "b7EUR"),
 
-  new CurrencyPair("mtgoxEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxEUR"),
 
-  new CurrencyPair("aqoinEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "aqoinEUR"),
 
-  new CurrencyPair("ruxumEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumEUR"),
 
-  new CurrencyPair("intrsngEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "intrsngEUR"),
 
-  new CurrencyPair("btcdeEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcdeEUR"),
 
-  new CurrencyPair("globalEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "globalEUR"),
 
-  new CurrencyPair("vcxEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "vcxEUR"),
 
-  new CurrencyPair("imcexEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "imcexEUR"),
 
-  new CurrencyPair("btc24EUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btc24EUR"),
 
-  new CurrencyPair("bitcurexEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitcurexEUR"),
 
-  new CurrencyPair("btceEUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btceEUR"),
 
-  new CurrencyPair("bcmPXGAU", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcmPXGAU"),
 
-  new CurrencyPair("bcmBMGAU", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcmBMGAU"),
 
-  new CurrencyPair("britcoinGBP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "britcoinGBP"),
 
-  new CurrencyPair("bitmarketGBP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitmarketGBP"),
 
-  new CurrencyPair("bcGBP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcGBP"),
 
-  new CurrencyPair("bcGBP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcGBP"),
 
-  new CurrencyPair("intrsngGBP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "intrsngGBP"),
 
-  new CurrencyPair("ruxumGBP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumGBP"),
 
-  new CurrencyPair("globalGBP", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "globalGBP"),
 
-  new CurrencyPair("mtgoxHKD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxHKD"),
 
-  new CurrencyPair("ruxumHKD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumHKD"),
 
-  new CurrencyPair("ruxumHUF", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumHUF"),
 
-  new CurrencyPair("thINR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "thINR"),
 
-  new CurrencyPair("btcexJPY", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcexJPY"),
 
-  new CurrencyPair("ruxumJPY", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumJPY"),
 
-  new CurrencyPair("mtgoxJPY", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxJPY"),
 
-  new CurrencyPair("bitnzNZD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitnzNZD"),
 
-  new CurrencyPair("mtgoxNZD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxNZD"),
 
-  new CurrencyPair("bitomatPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitomatPLN"),
 
-  new CurrencyPair("bitmarketPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitmarketPLN"),
 
-  new CurrencyPair("bitchangePLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitchangePLN"),
 
-  new CurrencyPair("mtgoxPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxPLN"),
 
-  new CurrencyPair("intrsngPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "intrsngPLN"),
 
-  new CurrencyPair("ruxumPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumPLN"),
 
-  new CurrencyPair("globalPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "globalPLN"),
 
-  new CurrencyPair("freshPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "freshPLN"),
 
-  new CurrencyPair("bitcurexPLN", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitcurexPLN"),
 
-  new CurrencyPair("btcexWMR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcexWMR"),
 
-  new CurrencyPair("btcexRUB", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcexRUB"),
 
-  new CurrencyPair("btcexYAD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcexYAD"),
 
-  new CurrencyPair("bitmarketRUB", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitmarketRUB"),
 
-  new CurrencyPair("mtgoxRUB", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxRUB"),
 
-  new CurrencyPair("ruxumRUB", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumRUB"),
 
-  new CurrencyPair("btceRUR", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btceRUR"),
 
-  new CurrencyPair("mtgoxSEK", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxSEK"),
 
-  new CurrencyPair("ruxumSEK", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumSEK"),
 
-  new CurrencyPair("kptnSEK", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "kptnSEK"),
 
-  new CurrencyPair("mtgoxSGD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxSGD"),
 
-  new CurrencyPair("ruxumSGD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumSGD"),
 
-  new CurrencyPair("fybsgSGD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "fybsgSGD"),
 
-  new CurrencyPair("virwoxSLL", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "virwoxSLL"),
 
-  new CurrencyPair("rockSLL", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "rockSLL"),
 
-  new CurrencyPair("ruxumTHB", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumTHB"),
 
-  new CurrencyPair("mtgoxTHB", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxTHB"),
 
-  new CurrencyPair("ruxumUAH", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumUAH"),
 
-  new CurrencyPair("bcmPPUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcmPPUSD"),
 
-  new CurrencyPair("mtgoxUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "mtgoxUSD"),
 
-  new CurrencyPair("bcmLRUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcmLRUSD"),
 
-  new CurrencyPair("btcexUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcexUSD"),
 
-  new CurrencyPair("btcexWMZ", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btcexWMZ"),
 
-  new CurrencyPair("bcmBMUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcmBMUSD"),
 
-  new CurrencyPair("bcmMBUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bcmMBUSD"),
 
-  new CurrencyPair("b2cUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "b2cUSD"),
 
-  new CurrencyPair("thLRUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "thLRUSD"),
 
-  new CurrencyPair("thUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "thUSD"),
 
-  new CurrencyPair("vcxUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "vcxUSD"),
 
-  new CurrencyPair("exchbUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "exchbUSD"),
 
-  new CurrencyPair("b7USD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "b7USD"),
 
-  new CurrencyPair("ruxumUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "ruxumUSD"),
 
-  new CurrencyPair("cbxUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "cbxUSD"),
 
-  new CurrencyPair("btceUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btceUSD"),
 
-  new CurrencyPair("bitstampUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitstampUSD"),
 
-  new CurrencyPair("globalUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "globalUSD"),
 
-  new CurrencyPair("intrsngUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "intrsngUSD"),
 
-  new CurrencyPair("bitfloorUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitfloorUSD"),
 
-  new CurrencyPair("rockUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "rockUSD"),
 
-  new CurrencyPair("cryptoxUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "cryptoxUSD"),
 
-  new CurrencyPair("icbitUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "icbitUSD"),
 
-  new CurrencyPair("bitmeUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "bitmeUSD"),
 
-  new CurrencyPair("imcexUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "imcexUSD"),
 
-  new CurrencyPair("btctreeUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btctreeUSD"),
 
-  new CurrencyPair("btc24USD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "btc24USD"),
 
-  new CurrencyPair("weexUSD", Currencies.BTC),
+  new CurrencyPair(Currencies.BTC, "weexUSD"),
 
-  new CurrencyPair("ruxumZAR", Currencies.BTC)
+  new CurrencyPair(Currencies.BTC, "ruxumZAR")
 
   );
 
