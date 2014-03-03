@@ -36,7 +36,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapLikeType;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -89,10 +88,10 @@ public class CoinbaseMarketDataJsonTests {
     ObjectMapper mapper = new ObjectMapper();
     CoinbasePrice price = mapper.readValue(is, CoinbasePrice.class);
 
-    assertThat(price.getSubTotal()).isEqualTo(MoneyUtils.parse("USD 723.09"));
-    assertThat(price.getCoinbaseFee()).isEqualTo(MoneyUtils.parse("USD 7.23"));
-    assertThat(price.getBankFee()).isEqualTo(MoneyUtils.parse("USD 0.15"));
-    assertThat(price.getTotal()).isEqualTo(MoneyUtils.parse("USD 730.47"));
+    assertThat(price.getSubTotal()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("723.09")));
+    assertThat(price.getCoinbaseFee()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("7.23")));
+    assertThat(price.getBankFee()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("0.15")));
+    assertThat(price.getTotal()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("730.47")));
   }
 
   @Test

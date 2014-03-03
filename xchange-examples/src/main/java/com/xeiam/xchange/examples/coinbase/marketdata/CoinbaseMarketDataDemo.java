@@ -35,7 +35,7 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseMarketDataService;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -55,7 +55,7 @@ public class CoinbaseMarketDataDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD, true);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD, true);
     System.out.println(ticker);
   }
 

@@ -30,6 +30,7 @@ import com.xeiam.xchange.coinbase.CoinbaseAdapters;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -59,8 +60,9 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
    *         high and low.
    */
   @Override
-  public Ticker getTicker(final String tradableIdentifier, final String currency, final Object... args) throws IOException {
+  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws IOException {
 
+    final String currency = currencyPair.counterCurrency;
     final CoinbasePrice buyPrice = super.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
     final CoinbasePrice sellPrice = super.getCoinbaseSellPrice(BigDecimal.ONE, currency);
     final CoinbaseMoney spotRate = super.getCoinbaseSpotRate(currency);
@@ -68,11 +70,11 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
     final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory =
         (args != null && args.length > 0 && args[0] != null && args[0] instanceof Boolean && (Boolean) args[0]) ? super.getCoinbaseHistoricalSpotRates() : null;
 
-    return CoinbaseAdapters.adaptTicker(tradableIdentifier, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
+    return CoinbaseAdapters.adaptTicker(currencyPair, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
   }
 
   @Override
-  public OrderBook getOrderBook(final String tradableIdentifier, final String currency, final Object... args) {
+  public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -84,8 +86,9 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
   }
 
   @Override
-  public Trades getTrades(final String tradableIdentifier, final String currency, final Object... args) {
+  public Trades getTrades(final CurrencyPair currencyPair, final Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }
+
 }
