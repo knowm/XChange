@@ -30,13 +30,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
@@ -51,7 +49,7 @@ public class JustcoinTradesTest {
   private String id;
   private String tradableIdentifier;
   private String transactionCurrency;
-  private BigMoney averagePrice;
+  private BigDecimal averagePrice;
   private BigDecimal amount;
   private Date orderCreatedAt;
   private JustcoinTrade justcoinTrade;
@@ -63,7 +61,7 @@ public class JustcoinTradesTest {
     id = "1591866";
     tradableIdentifier = Currencies.BTC;
     transactionCurrency = Currencies.LTC;
-    averagePrice = MoneyUtils.parseMoney(transactionCurrency, BigDecimal.valueOf(31.400));
+    averagePrice = BigDecimal.valueOf(31.400);
     amount = BigDecimal.valueOf(0.50024);
     try {
       orderCreatedAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse("2014-01-07T06:44:14.576Z");
@@ -72,7 +70,7 @@ public class JustcoinTradesTest {
     }
     justcoinTrade =
         new JustcoinTrade(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "bid", null, amount, BigDecimal.ZERO, BigDecimal.valueOf(0.50024), BigDecimal.ZERO, orderCreatedAt,
-            averagePrice.getAmount());
+            averagePrice);
   }
 
   @Test
@@ -98,8 +96,8 @@ public class JustcoinTradesTest {
     assertThat(trade.getPrice()).isEqualTo(averagePrice);
     assertThat(trade.getTimestamp()).isEqualTo(orderCreatedAt);
     assertThat(trade.getTradableAmount()).isEqualTo(amount);
-    assertThat(trade.getTradableIdentifier()).isEqualTo(tradableIdentifier);
-    assertThat(trade.getTransactionCurrency()).isEqualTo(transactionCurrency);
+    assertThat(trade.getCurrencyPair().baseCurrency).isEqualTo(tradableIdentifier);
+    assertThat(trade.getCurrencyPair().counterCurrency).isEqualTo(transactionCurrency);
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
   }
 }

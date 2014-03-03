@@ -39,6 +39,7 @@ public class CurrencyPair {
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR);
   public static final CurrencyPair GBP_USD = new CurrencyPair(Currencies.GBP);
   public static final CurrencyPair USD_JPY = new CurrencyPair(Currencies.USD, Currencies.JPY);
+  public static final CurrencyPair JPY_USD = new CurrencyPair(Currencies.JPY, Currencies.USD);
   public static final CurrencyPair USD_CHF = new CurrencyPair(Currencies.USD, Currencies.CHF);
   public static final CurrencyPair USD_AUD = new CurrencyPair(Currencies.USD, Currencies.AUD);
   public static final CurrencyPair USD_CAD = new CurrencyPair(Currencies.USD, Currencies.CAD);
@@ -118,17 +119,17 @@ public class CurrencyPair {
   public static final CurrencyPair XPM_PPC = new CurrencyPair(Currencies.XPM, Currencies.PPC);
 
   public static final CurrencyPair XVN_XRP = new CurrencyPair(Currencies.XVN, Currencies.XRP);
-  
+
   // not real currencies, but tradable commodities (GH/s)
   public static final CurrencyPair GHs_BTC = new CurrencyPair(Currencies.GHs, Currencies.BTC);
   public static final CurrencyPair GHs_NMC = new CurrencyPair(Currencies.GHs, Currencies.NMC);
 
   public static final CurrencyPair CNC_BTC = new CurrencyPair(Currencies.CNC, Currencies.BTC);
-  
+
   public static final CurrencyPair WDC_BTC = new CurrencyPair(Currencies.WDC, Currencies.BTC);
-  
+
   public static final CurrencyPair DVC_BTC = new CurrencyPair(Currencies.DVC, Currencies.BTC);
-  
+
   public final String baseCurrency;
   public final String counterCurrency;
 

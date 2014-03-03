@@ -30,7 +30,7 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -63,7 +63,7 @@ public class BTCChinaTradeDemo {
     printOpenOrders();
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "CNY", "", null, MoneyUtils.parse("CNY 0.01"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, CurrencyPair.BTC_CNY, "", null, new BigDecimal("0.01"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -73,8 +73,8 @@ public class BTCChinaTradeDemo {
     long result = -1;
     for (LimitOrder order : openOrders.getOpenOrders()) {
       long orderId = Long.parseLong(order.getId());
-      if (order.getType() == limitOrder.getType() && order.getLimitPrice().getAmount().compareTo(limitOrder.getLimitPrice().getAmount()) == 0
-          && order.getTradableIdentifier() == order.getTradableIdentifier() && order.getTransactionCurrency() == order.getTransactionCurrency() && orderId > result) {
+      if (order.getType().equals(limitOrder.getType().toString()) && order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0 && orderId > result) {
+
         result = orderId;
       }
     }
@@ -98,8 +98,8 @@ public class BTCChinaTradeDemo {
     printOpenOrdersRaw();
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "CNY", "", null, MoneyUtils.parse("CNY 0.01"));
-    BTCChinaBooleanResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).placeBTCChinaLimitOrder(limitOrder);
+    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, CurrencyPair.BTC_CNY, "", null, new BigDecimal("0.01"));
+    BTCChinaBooleanResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).placeBTCChinaLimitOrder(new BigDecimal("0.01"), BigDecimal.ONE, OrderType.BID);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     Thread.sleep(1500);
@@ -109,7 +109,7 @@ public class BTCChinaTradeDemo {
     for (int i = 0; i < openOrders.getResult().getOrders().size(); i++) {
       BTCChinaOrder order = openOrders.getResult().getOrders().get(i);
       long orderId = order.getId();
-      if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice().getAmount()) == 0 && orderId > result) {
+      if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice()) == 0 && orderId > result) {
         result = orderId;
       }
     }

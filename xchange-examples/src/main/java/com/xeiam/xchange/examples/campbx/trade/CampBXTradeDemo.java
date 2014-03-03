@@ -28,7 +28,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.CampBXExchange;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -57,11 +57,11 @@ public class CampBXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder lo = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", "", null, MoneyUtils.parse("USD 28.99"));
+    LimitOrder lo = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", null, new BigDecimal("28.99"));
     String rv = tradeService.placeLimitOrder(lo);
     System.out.println("Limit Order return value: " + rv);
     // place a limit sell order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), "BTC", "USD", "", null, MoneyUtils.parse("USD 110"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", null, new BigDecimal("110"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 

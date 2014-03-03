@@ -22,6 +22,7 @@
 package com.xeiam.xchange.examples.coinbase.account;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
@@ -41,7 +42,6 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -146,7 +146,7 @@ public class CoinbaseAccountDemo {
 
   private static void demoTransactions(CoinbaseAccountService accountService) throws IOException {
 
-    CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", MoneyUtils.parse("BTC .001")).withNotes("test");
+    CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", Currencies.BTC, new BigDecimal(".001")).withNotes("test");
     CoinbaseTransaction pendingTransaction = accountService.requestMoneyCoinbaseRequest(moneyRequest);
     System.out.println(pendingTransaction);
 

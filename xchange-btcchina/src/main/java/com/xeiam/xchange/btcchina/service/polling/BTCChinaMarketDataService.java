@@ -31,6 +31,7 @@ import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -61,36 +62,36 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Request data
     BTCChinaTicker btcChinaTicker = getBTCChinaTicker();
 
     // Adapt to XChange DTOs
-    return BTCChinaAdapters.adaptTicker(btcChinaTicker, currency, tradableIdentifier);
+    return BTCChinaAdapters.adaptTicker(btcChinaTicker, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Request data
     BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook();
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currency, OrderType.ASK);
-    List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBids(), currency, OrderType.BID);
+    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currencyPair, OrderType.ASK);
+    List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBids(), currencyPair, OrderType.BID);
 
     return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     BTCChinaTrade[] btcChinaTrades = null;
 
@@ -114,7 +115,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     }
 
     // Adapt to XChange DTOs
-    return BTCChinaAdapters.adaptTrades(btcChinaTrades, currency, tradableIdentifier);
+    return BTCChinaAdapters.adaptTrades(btcChinaTrades, currencyPair);
   }
 
   @Override

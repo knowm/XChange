@@ -29,7 +29,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.justcoin.JustcoinAuthenticated;
-import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
 import com.xeiam.xchange.justcoin.service.JustcoinBaseService;
@@ -65,15 +64,15 @@ public class JustcoinTradeServiceRaw extends JustcoinBaseService {
 
   public String placeMarketOrder(final MarketOrder marketOrder) throws IOException {
 
-    final String market = JustcoinUtils.getApiMarket(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
+    final String market = marketOrder.getCurrencyPair().toString();
     return justcoinAuthenticated
         .createMarketOrder(market, marketOrder.getType().toString().toLowerCase(), marketOrder.getTradableAmount(), getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
   public String placeLimitOrder(final LimitOrder limitOrder) throws IOException {
 
-    final String market = JustcoinUtils.getApiMarket(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
-    return justcoinAuthenticated.createLimitOrder(market, limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(),
+    final String market = limitOrder.getCurrencyPair().toString();
+    return justcoinAuthenticated.createLimitOrder(market, limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount(),
         getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 

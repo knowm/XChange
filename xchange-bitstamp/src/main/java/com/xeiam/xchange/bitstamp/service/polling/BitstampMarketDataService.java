@@ -26,6 +26,7 @@ import java.io.IOException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -49,27 +50,27 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    return BitstampAdapters.adaptTicker(getBitstampTicker(), tradableIdentifier, currency);
+    return BitstampAdapters.adaptTicker(getBitstampTicker(), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    return BitstampAdapters.adaptOrders(getBitstampOrderBook(), tradableIdentifier, currency);
+    return BitstampAdapters.adaptOrders(getBitstampOrderBook(), currencyPair);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    return BitstampAdapters.adaptTrades(getBitstampTransactions(args), tradableIdentifier, currency);
+    return BitstampAdapters.adaptTrades(getBitstampTransactions(args), currencyPair);
   }
 
   @Override

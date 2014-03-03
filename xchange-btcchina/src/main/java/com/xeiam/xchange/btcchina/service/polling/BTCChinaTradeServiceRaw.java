@@ -22,6 +22,7 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
@@ -39,7 +40,6 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -85,19 +85,16 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
   /**
    * @return BTCChinaBooleanResponse of new limit order status.
    */
-  public BTCChinaBooleanResponse placeBTCChinaLimitOrder(LimitOrder limitOrder) throws IOException {
+  public BTCChinaBooleanResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
 
     BTCChinaBooleanResponse response = null;
 
-    if (limitOrder.getType() == OrderType.BID) {
+    if (orderType == OrderType.BID) {
 
-      response = btcchina.buyOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaBuyOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
-
+      response = btcchina.buyOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaBuyOrderRequest(price, amount));
     }
-    else if (limitOrder.getType() == OrderType.ASK) {
-
-      response = btcchina.sellOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaSellOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
-
+    else {
+      response = btcchina.sellOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaSellOrderRequest(price, amount));
     }
 
     return response;

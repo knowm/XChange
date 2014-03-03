@@ -22,10 +22,11 @@
 package com.xeiam.xchange.vircurex.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
-import org.joda.money.BigMoney;
-
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -50,14 +51,15 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(BigMoney amount, String address) throws IOException {
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String withdrawFunds(String currecny, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotYetImplementedForExchangeException();
+
   }
 }

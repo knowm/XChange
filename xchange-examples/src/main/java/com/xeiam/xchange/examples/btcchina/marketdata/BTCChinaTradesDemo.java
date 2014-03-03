@@ -31,7 +31,7 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -56,13 +56,13 @@ public class BTCChinaTradesDemo {
   public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest trade data for BTC/CNY
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.CNY);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY);
 
     System.out.println(trades.toString());
     System.out.println("NumTrades=" + trades.getTrades().size());
 
     // Get the offset trade data for BTC/CNY
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.CNY, 4640403);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, 4640403);
 
     System.out.println(trades.toString());
     System.out.println("NumTrades=" + trades.getTrades().size());

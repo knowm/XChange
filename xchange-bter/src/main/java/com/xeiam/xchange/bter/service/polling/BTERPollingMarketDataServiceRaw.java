@@ -44,9 +44,9 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER
     bter = RestProxyFactory.createProxy(BTER.class, exchangeSpecification.getSslUri());
   }
 
-  public BTERDepth getBTEROrderBook(String tradableIdentifier, String currency) throws IOException {
+  public BTERDepth getBTEROrderBook(String tradeableIdentifier, String currency) throws IOException {
 
-    BTERDepth btceDepth = bter.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTERDepth btceDepth = bter.getFullDepth(tradeableIdentifier, currency);
 
     return btceDepth;
   }

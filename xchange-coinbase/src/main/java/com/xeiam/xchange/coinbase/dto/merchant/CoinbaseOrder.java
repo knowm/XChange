@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,6 +35,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder.CoinbaseOrderStatus.CoinbaseOrderStatusDeserializer;
 import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
@@ -73,12 +72,12 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     return order.getStatus();
   }
 
-  public BigMoney getTotalBTC() {
+  public CoinbaseMoney getTotalBTC() {
 
     return order.getTotalBTC();
   }
 
-  public BigMoney getTotalNative() {
+  public CoinbaseMoney getTotalNative() {
 
     return order.getTotalNative();
   }
@@ -135,16 +134,16 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     private final String id;
     private final Date createdAt;
     private final CoinbaseOrderStatus status;
-    private final BigMoney totalBTC;
-    private final BigMoney totalNative;
+    private final CoinbaseMoney totalBTC;
+    private final CoinbaseMoney totalNative;
     private final String custom;
     private final String receiveAddress;
     private final CoinbaseButton button;
     private final CoinbaseOrderTransaction transaction;
 
     private CoinbaseOrderInfo(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-        @JsonProperty("status") final CoinbaseOrderStatus status, @JsonProperty("total_btc") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final BigMoney totalBTC,
-        @JsonProperty("total_native") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final BigMoney totalNative, @JsonProperty("custom") final String custom,
+        @JsonProperty("status") final CoinbaseOrderStatus status, @JsonProperty("total_btc") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalBTC,
+        @JsonProperty("total_native") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalNative, @JsonProperty("custom") final String custom,
         @JsonProperty("receive_address") final String receiveAddress, @JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("transaction") final CoinbaseOrderTransaction transaction) {
 
       this.id = id;
@@ -173,12 +172,12 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
       return status;
     }
 
-    public BigMoney getTotalBTC() {
+    public CoinbaseMoney getTotalBTC() {
 
       return totalBTC;
     }
 
-    public BigMoney getTotalNative() {
+    public CoinbaseMoney getTotalNative() {
 
       return totalNative;
     }

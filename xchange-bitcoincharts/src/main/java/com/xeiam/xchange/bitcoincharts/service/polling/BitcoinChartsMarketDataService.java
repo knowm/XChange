@@ -36,6 +36,7 @@ import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.bitcoincharts.service.BitcoinChartsBaseService;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -76,9 +77,9 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService imp
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // check for pacing violation
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
@@ -90,17 +91,17 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService imp
       cachedBitcoinChartsTickers = bitcoinCharts.getMarketData();
     }
 
-    return BitcoinChartsAdapters.adaptTicker(cachedBitcoinChartsTickers, tradableIdentifier);
+    return BitcoinChartsAdapters.adaptTicker(cachedBitcoinChartsTickers, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

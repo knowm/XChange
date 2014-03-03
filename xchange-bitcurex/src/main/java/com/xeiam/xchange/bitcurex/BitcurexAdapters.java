@@ -26,12 +26,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
@@ -62,12 +59,12 @@ public final class BitcurexAdapters {
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bitcurexOrders, String currency, OrderType orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bitcurexOrders, CurrencyPair currencyPair, OrderType orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (BigDecimal[] bitcurexOrder : bitcurexOrders) {
-      limitOrders.add(adaptOrder(bitcurexOrder[1], bitcurexOrder[0], currency, orderType, id));
+      limitOrders.add(adaptOrder(bitcurexOrder[1], bitcurexOrder[0], currencyPair, orderType, id));
     }
 
     return limitOrders;
@@ -83,13 +80,12 @@ public final class BitcurexAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String currency, OrderType orderType, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, String id) {
 
     // place a limit order
-    String tradableIdentifier = Currencies.BTC;
-    BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
+    BigDecimal limitPrice = price;
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
+    return new LimitOrder(orderType, amount, currencyPair, id, null, limitPrice);
   }
 
   /**
@@ -98,14 +94,14 @@ public final class BitcurexAdapters {
    * @param bitcurexTrade A Bitcurex trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(BitcurexTrade bitcurexTrade, String currency, String tradableIdentifier) {
+  public static Trade adaptTrade(BitcurexTrade bitcurexTrade, CurrencyPair currencyPair) {
 
     BigDecimal amount = bitcurexTrade.getAmount();
-    BigMoney price = MoneyUtils.parse(currency + " " + bitcurexTrade.getPrice());
+    BigDecimal price = bitcurexTrade.getPrice();
     Date date = DateUtils.fromMillisUtc(bitcurexTrade.getDate() * 1000L);
     final String tradeId = String.valueOf(bitcurexTrade.getTid());
 
-    return new Trade(bitcurexTrade.getType() == 1 ? OrderType.ASK : OrderType.BID, amount, tradableIdentifier, currency, price, date, tradeId);
+    return new Trade(bitcurexTrade.getType() == 1 ? OrderType.ASK : OrderType.BID, amount, currencyPair, price, date, tradeId);
   }
 
   /**
@@ -114,11 +110,11 @@ public final class BitcurexAdapters {
    * @param bitcurexTrades The Bitcurex trade data
    * @return The trades
    */
-  public static Trades adaptTrades(BitcurexTrade[] bitcurexTrades, String currency, String tradableIdentifier) {
+  public static Trades adaptTrades(BitcurexTrade[] bitcurexTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
     for (BitcurexTrade bitcurexTrade : bitcurexTrades) {
-      tradesList.add(adaptTrade(bitcurexTrade, currency, tradableIdentifier));
+      tradesList.add(adaptTrade(bitcurexTrade, currencyPair));
     }
     return new Trades(tradesList, TradeSortType.SortByID);
   }
@@ -129,16 +125,16 @@ public final class BitcurexAdapters {
    * @param bitcurexTicker
    * @return
    */
-  public static Ticker adaptTicker(BitcurexTicker bitcurexTicker, String currency, String tradableIdentifier) {
+  public static Ticker adaptTicker(BitcurexTicker bitcurexTicker, CurrencyPair currencyPair) {
 
-    BigMoney last = MoneyUtils.parse(currency + " " + bitcurexTicker.getLast());
-    BigMoney high = MoneyUtils.parse(currency + " " + bitcurexTicker.getHigh());
-    BigMoney low = MoneyUtils.parse(currency + " " + bitcurexTicker.getLow());
-    BigMoney buy = MoneyUtils.parse(currency + " " + bitcurexTicker.getBuy());
-    BigMoney sell = MoneyUtils.parse(currency + " " + bitcurexTicker.getSell());
+    BigDecimal last = bitcurexTicker.getLast();
+    BigDecimal high = bitcurexTicker.getHigh();
+    BigDecimal low = bitcurexTicker.getLow();
+    BigDecimal buy = bitcurexTicker.getBuy();
+    BigDecimal sell = bitcurexTicker.getSell();
     BigDecimal volume = bitcurexTicker.getVol();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
   }
 
 }

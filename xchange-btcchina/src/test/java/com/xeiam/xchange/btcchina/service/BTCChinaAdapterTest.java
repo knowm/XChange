@@ -38,6 +38,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaDepthJSONTest;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaTickerJSONTest;
 import com.xeiam.xchange.btcchina.service.marketdata.BTCChinaTradesJSONTest;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -59,14 +60,13 @@ public class BTCChinaAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCChinaDepth BTCChinaDepth = mapper.readValue(is, BTCChinaDepth.class);
 
-    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(BTCChinaDepth.getAsks(), "CNY", OrderType.ASK);
+    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(BTCChinaDepth.getAsks(), CurrencyPair.BTC_CNY, OrderType.ASK);
 
     // Verify all fields filled
-    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(1.0e+14);
+    assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(1.0e+14);
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(0.031);
-    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
-    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("CNY");
+    assertThat(asks.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_CNY);
 
   }
 
@@ -80,12 +80,12 @@ public class BTCChinaAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCChinaTrade[] BTCChinaTrades = mapper.readValue(is, BTCChinaTrade[].class);
 
-    Trades trades = BTCChinaAdapters.adaptTrades(BTCChinaTrades, "CNY", "BTC");
+    Trades trades = BTCChinaAdapters.adaptTrades(BTCChinaTrades, CurrencyPair.BTC_CNY);
     assertThat(trades.getTrades().size()).isEqualTo(101);
 
     // Verify all fields filled
     assertThat(trades.getTrades().get(0).getType().equals(OrderType.BID));
-    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 4719);
+    assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 4719);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.425);
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-01-03 16:04:24 GMT");
     System.out.println(trades.getTrades().get(0).toString());
@@ -102,12 +102,12 @@ public class BTCChinaAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCChinaTicker BTCChinaTicker = mapper.readValue(is, BTCChinaTicker.class);
 
-    Ticker ticker = BTCChinaAdapters.adaptTicker(BTCChinaTicker, "CNY", "BTC");
+    Ticker ticker = BTCChinaAdapters.adaptTicker(BTCChinaTicker, CurrencyPair.BTC_CNY);
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("CNY 546.00");
-    assertThat(ticker.getLow().toString()).isEqualTo("CNY 545.00");
-    assertThat(ticker.getHigh().toString()).isEqualTo("CNY 547.77");
+    assertThat(ticker.getLast().toString()).isEqualTo("546.00");
+    assertThat(ticker.getLow().toString()).isEqualTo("545.00");
+    assertThat(ticker.getHigh().toString()).isEqualTo("547.77");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("2593.89900000"));
 
   }

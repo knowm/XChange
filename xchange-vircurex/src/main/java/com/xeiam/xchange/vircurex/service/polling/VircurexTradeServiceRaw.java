@@ -59,11 +59,11 @@ public class VircurexTradeServiceRaw extends VircurexBaseService {
     String nonce = (System.currentTimeMillis() / 250L) + "";
     VircurexSha2Digest digest =
         new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "create_order", type.toString(), limitOrder.getTradableAmount().floatValue()
-            + "", limitOrder.getTradableIdentifier().toLowerCase(), limitOrder.getLimitPrice().getAmount().floatValue() + "", limitOrder.getTransactionCurrency().toLowerCase());
+            + "", limitOrder.getCurrencyPair().counterCurrency.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseCurrency.toLowerCase());
 
     VircurexPlaceOrderReturn ret =
-        vircurex.trade(exchangeSpecification.getApiKey(), nonce, digest.toString(), timestamp, type.toString(), limitOrder.getTradableAmount().floatValue() + "", limitOrder.getTradableIdentifier()
-            .toLowerCase(), limitOrder.getLimitPrice().getAmount().floatValue() + "", limitOrder.getTransactionCurrency().toLowerCase());
+        vircurex.trade(exchangeSpecification.getApiKey(), nonce, digest.toString(), timestamp, type.toString(), limitOrder.getTradableAmount().floatValue() + "", limitOrder.getCurrencyPair().counterCurrency
+            .toLowerCase(), limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseCurrency.toLowerCase());
 
     timestamp = VircurexUtils.getUtcTimestamp();
     nonce = (System.currentTimeMillis() / 200L) + "";

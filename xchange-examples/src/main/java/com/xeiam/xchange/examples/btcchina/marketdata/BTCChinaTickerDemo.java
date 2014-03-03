@@ -31,7 +31,7 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -56,7 +56,7 @@ public class BTCChinaTickerDemo {
   public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest ticker data showing BTC to CNY
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.CNY);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_CNY);
 
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());

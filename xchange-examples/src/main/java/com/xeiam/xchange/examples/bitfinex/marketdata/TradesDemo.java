@@ -29,7 +29,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.CertHelper;
@@ -57,7 +57,7 @@ public class TradesDemo {
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/USD
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println("Trades, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }

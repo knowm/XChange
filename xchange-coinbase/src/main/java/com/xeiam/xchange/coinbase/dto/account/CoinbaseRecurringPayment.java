@@ -23,14 +23,13 @@ package com.xeiam.xchange.coinbase.dto.account;
 
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentType;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRepeat;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
 /**
@@ -115,7 +114,7 @@ public class CoinbaseRecurringPayment {
     return recurringPayment.getDescription();
   }
 
-  public BigMoney getAmount() {
+  public CoinbaseMoney getAmount() {
 
     return recurringPayment.getAmount();
   }
@@ -142,14 +141,14 @@ public class CoinbaseRecurringPayment {
     private final Date nextRun;
     private final String notes;
     private final String description;
-    private final BigMoney amount;
+    private final CoinbaseMoney amount;
 
     private CoinbaseRecurringPaymentInfo(@JsonProperty("id") final String id, @JsonProperty("type") final CoinbaseRecurringPaymentType type,
         @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
         @JsonProperty("to") final String to, @JsonProperty("from") final String from, @JsonProperty("start_type") final String startType, @JsonProperty("times") final int times,
         @JsonProperty("times_run") final int timesRun, @JsonProperty("repeat") final CoinbaseRepeat repeat, @JsonProperty("last_run") final Date lastRun, @JsonProperty("next_run") final Date nextRun,
         @JsonProperty("notes") final String notes, @JsonProperty("description") final String description,
-        @JsonProperty("amount") @JsonDeserialize(using = CoinbaseBigMoneyDeserializer.class) final BigMoney amount) {
+        @JsonProperty("amount") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney amount) {
 
       this.id = id;
       this.type = type;
@@ -238,7 +237,7 @@ public class CoinbaseRecurringPayment {
       return description;
     }
 
-    public BigMoney getAmount() {
+    public CoinbaseMoney getAmount() {
 
       return amount;
     }

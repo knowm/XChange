@@ -23,9 +23,8 @@ package com.xeiam.xchange.btcchina.dto.account.request;
 
 import java.math.BigDecimal;
 
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
+import com.xeiam.xchange.currency.Currencies;
 
 /**
  * @author David Yam
@@ -38,10 +37,10 @@ public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
    * @param currencyUnit
    * @param amount
    */
-  public BTCChinaRequestWithdrawalRequest(CurrencyUnit currencyUnit, BigDecimal amount) {
+  public BTCChinaRequestWithdrawalRequest(BigDecimal amount) {
 
     method = "requestWithdrawal";
-    params = "[\"" + currencyUnit.getCode() + "\"," + amount.doubleValue() + "]";
+    params = "[\"" + Currencies.BTC + "\"," + amount.doubleValue() + "]";
   }
 
   @Override

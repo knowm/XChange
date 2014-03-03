@@ -26,8 +26,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,7 +39,6 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransa
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.utils.jackson.ISO8601DateDeserializer;
 
 /**
@@ -184,7 +181,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     @Override
     public CoinbaseMoney getAmount() {
 
-      return new CoinbaseMoney(MoneyUtils.parse(currencyIso + " " + amountString));
+      return new CoinbaseMoney(currencyIso, new BigDecimal(amountString));
     }
 
     @Override
@@ -238,9 +235,9 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     }
   }
 
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final BigMoney amount) {
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final CoinbaseMoney amount) {
 
-    return createMoneyRequest(from, amount.getCurrencyUnit().getCurrencyCode(), amount.getAmount());
+    return createMoneyRequest(from, amount.getCurrency(), amount.getAmount());
   }
 
   public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final String currency, final BigDecimal amount) {
@@ -253,9 +250,9 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     return new CoinbaseRequestMoneyRequest(from, currency, amountString);
   }
 
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final BigMoney amount) {
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final CoinbaseMoney amount) {
 
-    return createSendMoneyRequest(from, amount.getCurrencyUnit().getCurrencyCode(), amount.getAmount());
+    return createSendMoneyRequest(from, amount.getCurrency(), amount.getAmount());
   }
 
   public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final String currency, final BigDecimal amount) {

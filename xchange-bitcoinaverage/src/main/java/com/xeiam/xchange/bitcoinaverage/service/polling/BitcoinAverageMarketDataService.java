@@ -27,6 +27,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageAdapters;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -54,25 +55,25 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Request data
-    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(tradableIdentifier, currency);
+    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
-    return BitcoinAverageAdapters.adaptTicker(bitcoinAverageTicker, currency, tradableIdentifier);
+    return BitcoinAverageAdapters.adaptTicker(bitcoinAverageTicker, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

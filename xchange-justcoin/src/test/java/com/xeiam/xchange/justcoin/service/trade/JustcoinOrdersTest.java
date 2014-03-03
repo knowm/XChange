@@ -30,13 +30,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
@@ -51,7 +49,7 @@ public class JustcoinOrdersTest {
   private String id;
   private String tradableIdentifier;
   private String transactionCurrency;
-  private BigMoney price;
+  private BigDecimal price;
   private BigDecimal amount;
   private Date orderCreatedAt;
   private JustcoinOrder justcoinOrder;
@@ -63,7 +61,7 @@ public class JustcoinOrdersTest {
     id = "1895549";
     tradableIdentifier = Currencies.BTC;
     transactionCurrency = Currencies.LTC;
-    price = MoneyUtils.parseMoney(transactionCurrency, BigDecimal.valueOf(45.000));
+    price = BigDecimal.valueOf(45.000);
     amount = BigDecimal.valueOf(0.02000);
     try {
       orderCreatedAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse("2014-01-24T05:25:47.774Z");
@@ -71,7 +69,7 @@ public class JustcoinOrdersTest {
       e.printStackTrace();
     }
     justcoinOrder =
-        new JustcoinOrder(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "ask", price.getAmount(), amount, BigDecimal.valueOf(0.02000), BigDecimal.ZERO, BigDecimal.ZERO,
+        new JustcoinOrder(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "ask", price, amount, BigDecimal.valueOf(0.02000), BigDecimal.ZERO, BigDecimal.ZERO,
             orderCreatedAt);
   }
 
@@ -98,8 +96,8 @@ public class JustcoinOrdersTest {
     assertThat(limitOrder.getLimitPrice()).isEqualTo(price);
     assertThat(limitOrder.getTimestamp()).isEqualTo(orderCreatedAt);
     assertThat(limitOrder.getTradableAmount()).isEqualTo(amount);
-    assertThat(limitOrder.getTradableIdentifier()).isEqualTo(tradableIdentifier);
-    assertThat(limitOrder.getTransactionCurrency()).isEqualTo(transactionCurrency);
+    assertThat(limitOrder.getCurrencyPair().baseCurrency).isEqualTo(tradableIdentifier);
+    assertThat(limitOrder.getCurrencyPair().counterCurrency).isEqualTo(transactionCurrency);
     assertThat(limitOrder.getType()).isEqualTo(OrderType.ASK);
   }
 }

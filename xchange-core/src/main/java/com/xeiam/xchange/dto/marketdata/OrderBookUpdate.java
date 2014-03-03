@@ -24,8 +24,7 @@ package com.xeiam.xchange.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
@@ -52,9 +51,9 @@ public final class OrderBookUpdate {
    */
   // todo: document the distinction between volume and total volume, and which currencies they are in respectively
   // todo: document which currency the limitPrice is in
-  public OrderBookUpdate(OrderType type, BigDecimal volume, String tradableIdentifier, String transactionCurrency, BigMoney limitPrice, Date timestamp, BigDecimal totalVolume) {
+  public OrderBookUpdate(OrderType type, BigDecimal volume, CurrencyPair currencyPair, BigDecimal limitPrice, Date timestamp, BigDecimal totalVolume) {
 
-    this.limitOrder = new LimitOrder(type, volume, tradableIdentifier, transactionCurrency, "", timestamp, limitPrice);
+    this.limitOrder = new LimitOrder(type, volume, currencyPair, "", timestamp, limitPrice);
     this.totalVolume = totalVolume;
   }
 

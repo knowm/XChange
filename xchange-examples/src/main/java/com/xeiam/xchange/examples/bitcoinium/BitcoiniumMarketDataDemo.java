@@ -31,6 +31,7 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -60,7 +61,7 @@ public class BitcoiniumMarketDataDemo {
     PollingMarketDataService bitcoiniumGenericMarketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = bitcoiniumGenericMarketDataService.getTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+    Ticker ticker = bitcoiniumGenericMarketDataService.getTicker(CurrencyPair.BTC_USD, "BITSTAMP");
 
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Bid: " + ticker.getBid());
@@ -68,7 +69,7 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Volume: " + ticker.getVolume());
 
     // Get the latest order book data for BTC/USD
-    OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
+    OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(CurrencyPair.BTC_USD, "BITSTAMP", "10p");
 
     System.out.println("Order book: " + orderBook);
   }
@@ -79,7 +80,7 @@ public class BitcoiniumMarketDataDemo {
     BitcoiniumMarketDataServiceRaw bitcoiniumSpecificMarketDataService = (BitcoiniumMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    BitcoiniumTicker bitcoiniumTicker = bitcoiniumSpecificMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+    BitcoiniumTicker bitcoiniumTicker = bitcoiniumSpecificMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "BITSTAMP");
 
     System.out.println("Last: " + bitcoiniumTicker.getLast());
     System.out.println("Bid: " + bitcoiniumTicker.getBid());
@@ -87,7 +88,7 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Volume: " + bitcoiniumTicker.getVolume());
 
     // Get the latest order book data for BTC/USD - MtGox
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "BITSTAMP", "10p");
 
     System.out.println("Order book: " + bitcoiniumOrderbook);
   }

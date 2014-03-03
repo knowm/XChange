@@ -30,8 +30,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -74,16 +72,16 @@ public class KrakenAdaptersTest {
     KrakenTickerResult krakenTicker = mapper.readValue(is, KrakenTickerResult.class);
     CurrencyPair currencyPair = CurrencyPair.BTC_EUR;
     String krakenCurencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
-    Ticker ticker = KrakenAdapters.adaptTicker(krakenTicker.getResult().get(krakenCurencyPair), currencyPair.counterCurrency, currencyPair.baseCurrency);
+    Ticker ticker = KrakenAdapters.adaptTicker(krakenTicker.getResult().get(krakenCurencyPair), currencyPair);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(ticker.getAsk()).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("562.26651")));
-    assertThat(ticker.getBid()).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("560.46600")));
-    assertThat(ticker.getLow()).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("560.00000")));
-    assertThat(ticker.getHigh()).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("591.11000")));
-    assertThat(ticker.getLast()).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("560.87711")));
+    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("562.26651"));
+    assertThat(ticker.getBid()).isEqualTo( new BigDecimal("560.46600"));
+    assertThat(ticker.getLow()).isEqualTo(new BigDecimal("560.00000"));
+    assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("591.11000"));
+    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("560.87711"));
     assertThat(ticker.getVolume()).isEqualByComparingTo("600.91850325");
-    assertThat(ticker.getTradableIdentifier()).isEqualTo(currencyPair.baseCurrency);
+    assertThat(ticker.getCurrencyPair().baseCurrency).isEqualTo(currencyPair.baseCurrency);
   }
 
   @Test
@@ -109,10 +107,10 @@ public class KrakenAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenPublicTradesResult krakenTrades = mapper.readValue(is, KrakenPublicTradesResult.class);
 
-    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTrades(), Currencies.USD, Currencies.BTC, krakenTrades.getResult().getLast());
+    Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getResult().getTrades(), CurrencyPair.BTC_USD, krakenTrades.getResult().getLast());
 
     Assert.assertEquals(14, trades.getTrades().size());
-    assertThat(trades.getTrades().get(0).getPrice().getAmount()).isEqualTo("1023.82219");
+    assertThat(trades.getTrades().get(0).getPrice()).isEqualTo("1023.82219");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(new Date(1385579841777L));
     assertThat(trades.getTrades().get(1).getTradableAmount()).isEqualTo("0.01500000");
@@ -133,13 +131,13 @@ public class KrakenAdaptersTest {
     String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(Currencies.BTC, Currencies.EUR);
     KrakenDepth krakenDepth = krakenDepths.get(krakenAssetPair);
 
-    OrderBook orderBook = KrakenAdapters.adaptOrderBook(krakenDepth, Currencies.BTC, Currencies.EUR);
+    OrderBook orderBook = KrakenAdapters.adaptOrderBook(krakenDepth, CurrencyPair.BTC_EUR);
 
     List<LimitOrder> asks = orderBook.getAsks();
 
     assertThat(asks.size()).isEqualTo(3);
     LimitOrder order = asks.get(0);
-    assertThat(order.getLimitPrice()).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("530.75513")));
+    assertThat(order.getLimitPrice()).isEqualTo(new BigDecimal("530.75513"));
     assertThat(order.getTradableAmount()).isEqualTo("0.248");
     assertThat(order.getTimestamp()).isEqualTo(new Date(1391825343000L));
   }
@@ -156,8 +154,8 @@ public class KrakenAdaptersTest {
 
     AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance.getResult(), null);
 
-    assertThat(info.getBalance(CurrencyUnit.EUR)).isEqualTo(BigMoney.of(CurrencyUnit.EUR, new BigDecimal("1.0539")));
-    assertThat(info.getBalance(CurrencyUnit.of(Currencies.BTC))).isEqualTo(BigMoney.of(CurrencyUnit.of(Currencies.BTC), new BigDecimal("0.4888583300")));
+    assertThat(info.getBalance(Currencies.EUR)).isEqualTo(new BigDecimal("1.0539"));
+    assertThat(info.getBalance(Currencies.BTC)).isEqualTo(new BigDecimal("0.4888583300"));
 
   }
 
@@ -176,10 +174,10 @@ public class KrakenAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(orders.getOpenOrders()).hasSize(1);
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice().getAmount()).isEqualTo("13.00000");
+    assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("13.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("0.01000000");
-    assertThat(orders.getOpenOrders().get(0).getTradableIdentifier()).isEqualTo(Currencies.LTC);
-    assertThat(orders.getOpenOrders().get(0).getTransactionCurrency()).isEqualTo(Currencies.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseCurrency).isEqualTo(Currencies.LTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterCurrency).isEqualTo(Currencies.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
@@ -198,10 +196,10 @@ public class KrakenAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(orders.getOpenOrders()).hasSize(1);
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice().getAmount()).isEqualTo("500.00000");
+    assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("500.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
-    assertThat(orders.getOpenOrders().get(0).getTradableIdentifier()).isEqualTo(Currencies.BTC);
-    assertThat(orders.getOpenOrders().get(0).getTransactionCurrency()).isEqualTo(Currencies.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterCurrency).isEqualTo(Currencies.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
@@ -223,10 +221,10 @@ public class KrakenAdaptersTest {
     assertThat(tradeList.size()).isEqualTo(1);
     Trade trade = tradeList.get(0);
     // assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD"); TODO change Trade id to String
-    assertThat(trade.getPrice()).isEqualTo(BigMoney.of(CurrencyUnit.of(Currencies.LTC), new BigDecimal("32.07562")));
+    assertThat(trade.getPrice()).isEqualTo(new BigDecimal("32.07562"));
     assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
-    assertThat(trade.getTradableIdentifier()).isEqualTo(Currencies.BTC);
-    assertThat(trade.getTransactionCurrency()).isEqualTo(Currencies.LTC);
+    assertThat(trade.getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
+    assertThat(trade.getCurrencyPair().counterCurrency).isEqualTo(Currencies.LTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
   }
 }

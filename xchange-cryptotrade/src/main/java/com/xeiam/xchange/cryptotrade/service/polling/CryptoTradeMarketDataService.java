@@ -28,6 +28,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -55,27 +56,27 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
     
-    CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(tradableIdentifier, currency);
+    CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(currencyPair);
 
-    return CryptoTradeAdapters.adaptTicker(tradableIdentifier, currency, cryptoTradeTicker);
+    return CryptoTradeAdapters.adaptTicker(currencyPair, cryptoTradeTicker);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(tradableIdentifier, currency);
+    CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(currencyPair);
 
-    return CryptoTradeAdapters.adaptOrderBook(tradableIdentifier, currency, cryptoTradeDepth);
+    return CryptoTradeAdapters.adaptOrderBook(currencyPair, cryptoTradeDepth);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -49,12 +49,12 @@ public class KrakenDepthDemo {
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
-    OrderBook orderBook = krakenMarketDataService.getOrderBook(Currencies.BTC, Currencies.EUR);
+    OrderBook orderBook = krakenMarketDataService.getOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(orderBook.toString());
     System.out.println("full orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     // Get the latest partial size order book data for NMC/XRP
-    orderBook = krakenMarketDataService.getOrderBook(Currencies.BTC, Currencies.EUR, 3L);
+    orderBook = krakenMarketDataService.getOrderBook(CurrencyPair.BTC_EUR, 3L);
     System.out.println(orderBook.toString());
     System.out.println("partial orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
@@ -65,12 +65,12 @@ public class KrakenDepthDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
 
     // Get the latest full order book data
-    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR, Long.MAX_VALUE);
+    KrakenDepth depth = krakenMarketDataService.getKrakenDepth(CurrencyPair.BTC_EUR, Long.MAX_VALUE);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
 
     // Get the latest partial size order book data
-    depth = krakenMarketDataService.getKrakenDepth(Currencies.BTC, Currencies.EUR, 3L);
+    depth = krakenMarketDataService.getKrakenDepth(CurrencyPair.BTC_EUR, 3L);
     System.out.println(depth.toString());
     System.out.println("size: " + (depth.getAsks().size() + depth.getBids().size()));
   }

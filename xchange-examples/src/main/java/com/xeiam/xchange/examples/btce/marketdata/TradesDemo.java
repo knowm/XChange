@@ -29,7 +29,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btce.v3.BTCEExchange;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -52,7 +52,7 @@ public class TradesDemo {
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.EUR);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
 
     System.out.println(trades.toString());
   }

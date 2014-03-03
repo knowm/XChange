@@ -29,7 +29,7 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataService;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -47,19 +47,19 @@ public class CryptoTradeMarketDataDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
 
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook);
   }
 
   private static void raw(CryptoTradeMarketDataService marketDataService) throws IOException {
 
-    CryptoTradeTicker ticker = marketDataService.getCryptoTradeTicker(Currencies.BTC, Currencies.USD);
+    CryptoTradeTicker ticker = marketDataService.getCryptoTradeTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
-    
-    CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(Currencies.BTC, Currencies.USD);
-    System.out.println(marketDepth);   
+
+    CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(CurrencyPair.BTC_USD);
+    System.out.println(marketDepth);
   }
 }

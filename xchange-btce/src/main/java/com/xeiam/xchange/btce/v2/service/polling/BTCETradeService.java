@@ -28,20 +28,17 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v2.BTCEUtils;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEOpenOrdersReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.utils.Assert;
 
 /** @author Matija Mazi */
 @Deprecated
@@ -78,12 +75,11 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency())), "currencyPair is not valid:"
-        + limitOrder.getTradableIdentifier() + " " + limitOrder.getTransactionCurrency());
+    verify(limitOrder.getCurrencyPair());
 
-    String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
+    String pair = String.format("%s_%s", limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency).toLowerCase();
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
     checkResult(ret);
     return Long.toString(ret.getReturnValue().getOrderId());
   }

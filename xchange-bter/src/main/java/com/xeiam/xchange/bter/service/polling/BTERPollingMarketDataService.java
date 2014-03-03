@@ -29,6 +29,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -49,27 +50,27 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    BTERDepth btceDepth = getBTEROrderBook(tradableIdentifier, currency);
+    BTERDepth btceDepth = getBTEROrderBook(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTERAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, BTERAdapters.BTER_ASK, "");
-    List<LimitOrder> bids = BTERAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, BTERAdapters.BTER_BID, "");
+    List<LimitOrder> asks = BTERAdapters.adaptOrders(btceDepth.getAsks(), currencyPair, BTERAdapters.BTER_ASK, "");
+    List<LimitOrder> bids = BTERAdapters.adaptOrders(btceDepth.getBids(), currencyPair, BTERAdapters.BTER_BID, "");
 
     return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

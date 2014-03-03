@@ -29,7 +29,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btce.v3.BTCEExchange;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -52,17 +52,17 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest full order book data for LTC/USD
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.LTC, Currencies.USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_USD);
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     // Get the latest partial order book (2000 entries) data for BTC/USD
-    orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, 2000);
+    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 2000);
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     // Get the latest partial size order book (3 entries) data for BTC/USD
-    orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.USD, 3);
+    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 3);
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

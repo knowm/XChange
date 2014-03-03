@@ -29,11 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.IllegalCurrencyException;
-
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -46,82 +42,73 @@ import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrder;
  */
 public final class VircurexAdapters {
 
-  private static SimpleDateFormat vircurexDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+	private static SimpleDateFormat vircurexDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
-  /**
-   * private Constructor
-   */
-  private VircurexAdapters() {
+	/**
+	 * private Constructor
+	 */
+	private VircurexAdapters() {
 
-  }
+	}
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
+	public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
 
-    // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigMoney limitPrice;
-    limitPrice = MoneyUtils.parse(currency + " " + price);
+		// place a limit order
+		OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+		return new LimitOrder(orderType, amount, currencyPair, "", null, price);
+	}
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, "", null, limitPrice);
-  }
+	public static List<LimitOrder> adaptOrders(List<BigDecimal[]> someOrders, CurrencyPair currencyPair, String orderType, String id) {
 
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> someOrders, String tradableIdentifier, String currency, String orderType, String id) {
+		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+		// Bid orderbook is reversed order. Insert at index 0 instead of
+		for (BigDecimal[] order : someOrders) {
+			// appending
+			if (orderType.equalsIgnoreCase("bid")) {
+				limitOrders.add(0, adaptOrder(order[1], order[0], currencyPair, orderType, id));
+			}
+			else {
+				limitOrders.add(adaptOrder(order[1], order[0], currencyPair, orderType, id));
+			}
+		}
 
-    // Bid orderbook is reversed order. Insert at index 0 instead of
-    for (BigDecimal[] order : someOrders) {
-      // appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(order[1], order[0], tradableIdentifier, currency, orderType, id));
-      }
-      else {
-        limitOrders.add(adaptOrder(order[1], order[0], tradableIdentifier, currency, orderType, id));
-      }
-    }
+		return limitOrders;
+	}
 
-    return limitOrders;
-  }
+	public static AccountInfo adaptAccountInfo(VircurexAccountInfoReturn vircurexAccountInfo) {
 
-  public static AccountInfo adaptAccountInfo(VircurexAccountInfoReturn vircurexAccountInfo) {
+		List<Wallet> wallets = new ArrayList<Wallet>();
+		Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
-    Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
+		for (String lcCurrency : funds.keySet()) {
+			String currency = lcCurrency.toUpperCase();
+			wallets.add(new Wallet(currency, funds.get(lcCurrency).get("availablebalance")));
+		}
+		return new AccountInfo(vircurexAccountInfo.getAccount(), wallets);
+	}
 
-    for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
-      try {
-        CurrencyUnit.of(currency);
-      } catch (IllegalCurrencyException e) {
-        // System.out.println("Ignoring unknown currency " + currency);
-        continue;
-      }
-      wallets.add(Wallet.createInstance(currency, funds.get(lcCurrency).get("availablebalance")));
-    }
-    return new AccountInfo(vircurexAccountInfo.getAccount(), wallets);
-  }
+	public static List<LimitOrder> adaptOpenOrders(List<VircurexOpenOrder> openOrders) {
 
-  public static List<LimitOrder> adaptOpenOrders(List<VircurexOpenOrder> openOrders) {
+		ArrayList<LimitOrder> adaptedOrders = new ArrayList<LimitOrder>();
 
-    ArrayList<LimitOrder> adaptedOrders = new ArrayList<LimitOrder>();
+		for(VircurexOpenOrder vircurexOpenOrder : openOrders) {
 
-    for(VircurexOpenOrder vircurexOpenOrder : openOrders) {
+			OrderType orderType = vircurexOpenOrder.getOrderType().equalsIgnoreCase(VircurexUtils.BID) ? OrderType.BID : OrderType.ASK;
 
-      OrderType orderType = vircurexOpenOrder.getOrderType().equalsIgnoreCase(VircurexUtils.BID) ? OrderType.BID : OrderType.ASK;
+			Date timeStamp;
 
-      Date timeStamp;
+			try {
+				timeStamp = vircurexDateFormat.parse(vircurexOpenOrder.getReleaseDate());
+			} catch (ParseException e) {
+				timeStamp = null;
+			}
 
-      try {
-        timeStamp = vircurexDateFormat.parse(vircurexOpenOrder.getReleaseDate());
-      } catch (ParseException e) {
-        timeStamp = null;
-      }
+			adaptedOrders.add(new LimitOrder(orderType, BigDecimal.ONE, 
+					new CurrencyPair(vircurexOpenOrder.getBaseCurrency(), vircurexOpenOrder.getCounterCurrency()), vircurexOpenOrder.getOrderId(), timeStamp,
+					vircurexOpenOrder.getUnitPrice()));
+		}
 
-      adaptedOrders.add(new LimitOrder(orderType, BigDecimal.ONE, vircurexOpenOrder.getBaseCurrency(),
-              vircurexOpenOrder.getCounterCurrency(), vircurexOpenOrder.getOrderId(), timeStamp,
-              MoneyUtils.parse(vircurexOpenOrder.getCounterCurrency() + " " + vircurexOpenOrder.getUnitPrice())));
-    }
-
-    return adaptedOrders;
-  }
+		return adaptedOrders;
+	}
 }
