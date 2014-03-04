@@ -46,6 +46,8 @@ public class ExchangeSpecification {
   private String secretKey;
 
   private String apiKey;
+  
+  private String cookie;
 
   private String sslUri;
 
@@ -139,6 +141,26 @@ public class ExchangeSpecification {
   public void setApiKey(String apiKey) {
 
     this.apiKey = apiKey;
+  }
+
+  /**
+   * Get the cookie. This is currently (28-Feb-14) only used for coinfloor
+   * 
+   * @return the Cookie
+   */
+  public String getCookie() {
+
+    return cookie;
+  }
+
+  /**
+   * Set the cookie. This is currently (28-Feb-14) only used for coinfloor
+   * 
+   * @param cookie the Cookie
+   */
+  public void setCookie(String cookie) {
+
+    this.cookie = cookie;
   }
 
   /**

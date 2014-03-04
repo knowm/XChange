@@ -24,9 +24,14 @@ package com.xeiam.xchange.service.streaming;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.java_websocket.WebSocket.READYSTATE;
+import org.java_websocket.framing.FramedataImpl1;
+import org.java_websocket.framing.Framedata.Opcode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +51,8 @@ import com.xeiam.xchange.utils.Assert;
 public abstract class BaseWebSocketExchangeService extends BaseExchangeService implements StreamingExchangeService {
 
   private final Logger log = LoggerFactory.getLogger(BaseWebSocketExchangeService.class);
+  private final Timer timer = new Timer();
+  private final ExchangeStreamingConfiguration exchangeStreamingConfiguration;
 
   /**
    * The event queue for the consumer
@@ -67,6 +74,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 
     super(exchangeSpecification);
+    this.exchangeStreamingConfiguration = exchangeStreamingConfiguration;
     reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
   }
 
@@ -79,12 +87,15 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
     try {
       log.debug("Attempting to open a websocket against {}", uri);
-      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), exchangeEventListener, headers);
+      this.exchangeEventProducer = new WebSocketEventProducer(uri.toString(), exchangeEventListener, headers, reconnectService);
       exchangeEventProducer.connect();
     } catch (URISyntaxException e) {
       throw new ExchangeException("Failed to open websocket!", e);
     }
 
+    if(exchangeStreamingConfiguration.keepAlive()){
+      timer.schedule(new KeepAliveTask(), 15000, 15000);
+    }
   }
 
   @Override
@@ -100,10 +111,6 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   public ExchangeEvent getNextEvent() throws InterruptedException {
 
     ExchangeEvent event = consumerEventQueue.take();
-
-    if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(event);
-    }
     return event;
   }
 
@@ -111,6 +118,22 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   public void send(String msg) {
 
     exchangeEventProducer.send(msg);
+  }
+  
+  @Override
+  public READYSTATE getWebSocketStatus() {
+
+    return exchangeEventProducer.getConnection().getReadyState();
+  }
+  
+  class KeepAliveTask extends TimerTask {
+    @Override
+    public void run() {
+      //log.debug("Keep-Alive ping sent.");
+      FramedataImpl1 frame = new FramedataImpl1(Opcode.PING);
+      frame.setFin(true);
+      exchangeEventProducer.getConnection().sendFrame(frame);
+    }
   }
 
 }

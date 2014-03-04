@@ -19,54 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.examples.coinfloor;
 
-import org.java_websocket.WebSocket.READYSTATE;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.coinfloor.CoinfloorExchange;
+
 
 /**
- * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
- * </ul>
+ *
+ * @author obsessiveOrange
+ *
  */
-public interface StreamingExchangeService {
+public class CoinfloorExampleUtils {
 
   /**
-   * <p>
-   * Opens the connection to the upstream server for this instance.
-   * </p>
+   * @return
    */
-  void connect();
+  public static Exchange createExchange() {
+    ExchangeSpecification exSpec = new ExchangeSpecification(CoinfloorExchange.class);
+    exSpec.setPlainTextUriStreaming("ws://api.coinfloor.co.uk");
 
-  /**
-   * <p>
-   * Closes the connection to the upstream server for this instance.
-   * </p>
-   */
-  void disconnect();
 
-  /**
-   * <p>
-   * Returns next event in consumer event queue, then removes it.
-   * </p>
-   * 
-   * @return An ExchangeEvent
-   */
-  ExchangeEvent getNextEvent() throws InterruptedException;
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+  }
 
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  void send(String msg);
-  
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  READYSTATE getWebSocketStatus();
 }
