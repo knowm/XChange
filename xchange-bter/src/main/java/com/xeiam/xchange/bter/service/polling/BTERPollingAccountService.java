@@ -22,8 +22,7 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
-
-import org.joda.money.BigMoney;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -51,7 +50,7 @@ public class BTERPollingAccountService extends BTERPollingAccountServiceRaw impl
   }
 
   @Override
-  public String withdrawFunds(BigMoney amount, String address) throws IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -58,8 +58,8 @@ public class BitcoiniumOrderBookChartDemo {
 
     System.out.println("fetching data...");
 
-    // Get the latest order book data for BTC/USD - MTGOX
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
+    // Get the latest order book data for BTC/USD - BITSTAMP
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "BITSTAMP", "10p");
 
     System.out.println("Order book: " + bitcoiniumOrderbook);
     System.out.println("received data.");
@@ -70,7 +70,7 @@ public class BitcoiniumOrderBookChartDemo {
     Chart chart = new Chart(800, 500);
 
     // Customize Chart
-    chart.setChartTitle("Bitcoinium Order Book - MTGOX_BTC_USD");
+    chart.setChartTitle("Bitcoinium Order Book - BITSTAMP_BTC_USD");
     chart.setYAxisTitle("BTC");
     chart.setXAxisTitle("USD");
     chart.getStyleManager().setChartType(ChartType.Area);

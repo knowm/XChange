@@ -27,6 +27,7 @@ import java.util.Arrays;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.justcoin.JustcoinExchange;
@@ -51,12 +52,12 @@ public class JustcoinMarketDataDemo {
     PollingMarketDataService justcoinGenericMarketDataService = justcoinExchange.getPollingMarketDataService();
 
     // Get the latest ticker data for the BTC/LTC market
-    Ticker ticker = justcoinGenericMarketDataService.getTicker(Currencies.BTC, Currencies.LTC);
+    Ticker ticker = justcoinGenericMarketDataService.getTicker(CurrencyPair.BTC_LTC);
 
     System.out.println(ticker);
 
     // Get the latest order book data for BTC/LTC
-    OrderBook orderBook = justcoinGenericMarketDataService.getOrderBook(Currencies.BTC, Currencies.LTC);
+    OrderBook orderBook = justcoinGenericMarketDataService.getOrderBook(CurrencyPair.BTC_LTC);
 
     System.out.println("Order book: " + orderBook);
   }

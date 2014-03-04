@@ -26,6 +26,7 @@ import java.io.IOException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.vircurex.Vircurex;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
 import com.xeiam.xchange.vircurex.service.VircurexBaseService;
@@ -53,10 +54,10 @@ public class VircurexMarketDataServiceRaw extends VircurexBaseService {
     vircurex = RestProxyFactory.createProxy(Vircurex.class, exchangeSpecification.getSslUri());
   }
 
-  public VircurexDepth getVircurexOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public VircurexDepth getVircurexOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    verify(tradableIdentifier, currency);
-    VircurexDepth vircurexDepth = vircurex.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    verify(currencyPair);
+    VircurexDepth vircurexDepth = vircurex.getFullDepth(currencyPair.counterCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
 
     return vircurexDepth;
   }

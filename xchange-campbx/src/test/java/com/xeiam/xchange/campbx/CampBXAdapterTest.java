@@ -32,7 +32,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -52,15 +52,14 @@ public class CampBXAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CampBXOrderBook bitstampOrderBook = mapper.readValue(is, CampBXOrderBook.class);
 
-    OrderBook orderBook = CampBXAdapters.adaptOrders(bitstampOrderBook, "USD", "BTC");
+    OrderBook orderBook = CampBXAdapters.adaptOrders(bitstampOrderBook, CurrencyPair.BTC_USD);
     assertThat(orderBook.getBids().size()).isEqualTo(36);
 
     // verify all fields filled
-    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount()).isEqualTo(new BigDecimal("13.3"));
+    assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("13.3");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.00021609"));
-    assertThat(orderBook.getBids().get(0).getTradableIdentifier()).isEqualTo("BTC");
-    assertThat(orderBook.getBids().get(0).getTransactionCurrency()).isEqualTo("USD");
+    assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
 
   }
 
@@ -74,11 +73,11 @@ public class CampBXAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CampBXTicker campBXTicker = mapper.readValue(is, CampBXTicker.class);
 
-    Ticker ticker = CampBXAdapters.adaptTicker(campBXTicker, "USD", "BTC");
+    Ticker ticker = CampBXAdapters.adaptTicker(campBXTicker, CurrencyPair.BTC_USD);
 
-    assertThat(ticker.getLast()).isEqualTo(MoneyUtils.parse("USD 13.30"));
-    assertThat(ticker.getBid()).isEqualTo(MoneyUtils.parse("USD 13.30"));
-    assertThat(ticker.getAsk()).isEqualTo(MoneyUtils.parse("USD 13.52"));
+    assertThat(ticker.getLast()).isEqualTo("13.30");
+    assertThat(ticker.getBid()).isEqualTo("13.30");
+    assertThat(ticker.getAsk()).isEqualTo("13.52");
 
   }
 }

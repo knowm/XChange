@@ -30,6 +30,7 @@ import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -59,36 +60,42 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    verify(currencyPair);
 
     // get data
-    BitcurexTicker bitcurexTicker = getBitcurexTicker(tradableIdentifier, currency);
+    BitcurexTicker bitcurexTicker = getBitcurexTicker(currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
-    return BitcurexAdapters.adaptTicker(bitcurexTicker, currency, tradableIdentifier);
+    return BitcurexAdapters.adaptTicker(bitcurexTicker, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    verify(currencyPair);
 
     // get data
-    BitcurexDepth bitcurexDepth = getBitcurexOrderBook(tradableIdentifier, currency);
+    BitcurexDepth bitcurexDepth = getBitcurexOrderBook(currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BitcurexAdapters.adaptOrders(bitcurexDepth.getAsks(), currency, OrderType.ASK, "");
-    List<LimitOrder> bids = BitcurexAdapters.adaptOrders(bitcurexDepth.getBids(), currency, OrderType.BID, "");
+    List<LimitOrder> asks = BitcurexAdapters.adaptOrders(bitcurexDepth.getAsks(), currencyPair, OrderType.ASK, "");
+    List<LimitOrder> bids = BitcurexAdapters.adaptOrders(bitcurexDepth.getBids(), currencyPair, OrderType.BID, "");
 
     return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    verify(currencyPair);
 
     // get data
-    BitcurexTrade[] bitcurexTrades = getBitcurexTrades(tradableIdentifier, currency);
+    BitcurexTrade[] bitcurexTrades = getBitcurexTrades(currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
-    return BitcurexAdapters.adaptTrades(bitcurexTrades, currency, tradableIdentifier);
+    return BitcurexAdapters.adaptTrades(bitcurexTrades, currencyPair);
   }
 
   @Override

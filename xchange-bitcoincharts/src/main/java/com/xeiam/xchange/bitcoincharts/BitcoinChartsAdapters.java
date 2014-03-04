@@ -22,14 +22,10 @@
 package com.xeiam.xchange.bitcoincharts;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
-import com.xeiam.xchange.bitcoincharts.dto.charts.ChartData;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 
@@ -52,35 +48,24 @@ public final class BitcoinChartsAdapters {
    * @param tradableIdentifier
    * @return
    */
-  public static Ticker adaptTicker(BitcoinChartsTicker[] bitcoinChartsTickers, String tradableIdentifier) {
+  public static Ticker adaptTicker(BitcoinChartsTicker[] bitcoinChartsTickers, CurrencyPair currencyPair) {
 
     for (int i = 0; i < bitcoinChartsTickers.length; i++) {
-      if (bitcoinChartsTickers[i].getSymbol().equals(tradableIdentifier)) {
+      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counterCurrency)) {
 
-        BigMoney last = bitcoinChartsTickers[i].getClose() != null ? MoneyUtils.parse(bitcoinChartsTickers[i].getCurrency() + " " + bitcoinChartsTickers[i].getClose()) : null;
-        BigMoney bid = bitcoinChartsTickers[i].getBid() != null ? MoneyUtils.parse(bitcoinChartsTickers[i].getCurrency() + " " + bitcoinChartsTickers[i].getBid()) : null;
-        BigMoney ask = bitcoinChartsTickers[i].getAsk() != null ? MoneyUtils.parse(bitcoinChartsTickers[i].getCurrency() + " " + bitcoinChartsTickers[i].getAsk()) : null;
-        BigMoney high = bitcoinChartsTickers[i].getHigh() != null ? MoneyUtils.parse(bitcoinChartsTickers[i].getCurrency() + " " + bitcoinChartsTickers[i].getHigh()) : null;
-        BigMoney low = bitcoinChartsTickers[i].getLow() != null ? MoneyUtils.parse(bitcoinChartsTickers[i].getCurrency() + " " + bitcoinChartsTickers[i].getLow()) : null;
+        BigDecimal last = bitcoinChartsTickers[i].getClose() != null ? bitcoinChartsTickers[i].getClose() : null;
+        BigDecimal bid = bitcoinChartsTickers[i].getBid() != null ? bitcoinChartsTickers[i].getBid() : null;
+        BigDecimal ask = bitcoinChartsTickers[i].getAsk() != null ? bitcoinChartsTickers[i].getAsk() : null;
+        BigDecimal high = bitcoinChartsTickers[i].getHigh() != null ? bitcoinChartsTickers[i].getHigh() : null;
+        BigDecimal low = bitcoinChartsTickers[i].getLow() != null ? bitcoinChartsTickers[i].getLow() : null;
         BigDecimal volume = bitcoinChartsTickers[i].getVolume();
         Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
 
-        return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timeStamp)
-            .build();
+        return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timeStamp).build();
 
       }
     }
     return null;
   }
 
-  public static ChartData[] adaptChartData(ArrayList<ArrayList> pRawData) {
-
-    ChartData[] ret = new ChartData[pRawData.size()];
-    for (int i = 0; i < pRawData.size(); i++) {
-      ArrayList cd = pRawData.get(i);
-      ChartData chartData = new ChartData(cd);
-      ret[i] = chartData;
-    }
-    return ret;
-  }
 }

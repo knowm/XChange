@@ -22,8 +22,7 @@
 package com.xeiam.xchange.bitstamp.service.polling;
 
 import java.io.IOException;
-
-import org.joda.money.BigMoney;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
@@ -55,9 +54,9 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(final BigMoney amount, final String address) throws IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    final BitstampBooleanResponse response = withdrawBitstampFunds(amount.getAmount(), address);
+    final BitstampBooleanResponse response = withdrawBitstampFunds(amount, address);
     return Boolean.toString(response.getResponse());
   }
 
@@ -66,7 +65,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
    * new address (ie. repeated calls will return the same address).
    */
   @Override
-  public String requestDepositAddress(final String currency, final String... arguments) throws IOException {
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
     final BitstampDepositAddress response = getBitstampBitcoinDepositAddress();
     return response.getDepositAddress();

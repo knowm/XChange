@@ -31,6 +31,7 @@ import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 import com.xeiam.xchange.cexio.service.CexIOBaseService;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author timmolter
@@ -50,29 +51,29 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
     this.cexio = RestProxyFactory.createProxy(CexIO.class, exchangeSpecification.getSslUri());
   }
 
-  public CexIOTicker getCexIOTicker(String tradableIdentifier, String currency) throws IOException {
+  public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {
 
-    CexIOTicker cexIOTicker = cexio.getTicker(tradableIdentifier, currency);
+    CexIOTicker cexIOTicker = cexio.getTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
     return cexIOTicker;
   }
 
-  public CexIODepth getCexIOOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public CexIODepth getCexIOOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    CexIODepth cexIODepth = cexio.getDepth(tradableIdentifier, currency);
+    CexIODepth cexIODepth = cexio.getDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
     return cexIODepth;
   }
 
-  public CexIOTrade[] getCexIOTrades(String tradableIdentifier, String currency, Long since) throws IOException {
+  public CexIOTrade[] getCexIOTrades(CurrencyPair currencyPair, Long since) throws IOException {
 
     CexIOTrade[] trades;
 
     if (since != null) {
-      trades = cexio.getTradesSince(tradableIdentifier, currency, since);
+      trades = cexio.getTradesSince(currencyPair.baseCurrency, currencyPair.counterCurrency, since);
     }
     else { // default to full available trade history
-      trades = cexio.getTrades(tradableIdentifier, currency);
+      trades = cexio.getTrades(currencyPair.baseCurrency, currencyPair.counterCurrency);
     }
 
     return trades;

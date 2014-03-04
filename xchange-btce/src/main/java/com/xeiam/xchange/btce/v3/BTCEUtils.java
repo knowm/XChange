@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.btce.v3;
 
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared BTC-E properties
@@ -34,9 +35,9 @@ public final class BTCEUtils {
 
   }
 
-  public static String getPair(String tradableIdentifier, String currency) {
+  public static String getPair(CurrencyPair currencyPair) {
 
-    return tradableIdentifier.toLowerCase() + "_" + currency.toLowerCase();
+    return currencyPair.baseCurrency.toLowerCase() + "_" + currencyPair.counterCurrency.toLowerCase();
   }
 
 }

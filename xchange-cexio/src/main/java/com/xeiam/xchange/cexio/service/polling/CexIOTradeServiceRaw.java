@@ -84,8 +84,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
   public CexIOOrder placeCexIOLimitOrder(LimitOrder limitOrder) throws IOException {
 
     CexIOOrder order =
-        cexIOAuthenticated.placeOrder(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency(), exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(), (limitOrder
-            .getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+        cexIOAuthenticated.placeOrder(limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency, exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(), (limitOrder
+            .getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
     if (order.getErrorMessage() != null) {
       throw new ExchangeException(order.getErrorMessage());
     }

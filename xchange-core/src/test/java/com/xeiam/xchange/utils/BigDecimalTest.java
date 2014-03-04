@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 /**
- * Tests various BigMoney and BigDecimal behavior
+ * Tests various BigDecimal and BigDecimal behavior
  */
 public class BigDecimalTest {
 

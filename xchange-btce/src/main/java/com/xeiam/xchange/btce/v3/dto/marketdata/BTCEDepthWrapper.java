@@ -50,9 +50,8 @@ public class BTCEDepthWrapper {
     return depthMap;
   }
 
-  public BTCEDepth getDepth(String tradableIdentifier, String currency) {
+  public BTCEDepth getDepth(String pair) {
 
-    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
     BTCEDepth result = null;
     if (depthMap.containsKey(pair)) {
       result = depthMap.get(pair);

@@ -43,7 +43,6 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 
 public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
 
-
   /**
    * Constructor
    * 
@@ -56,9 +55,9 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthe
 
   public String placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String pair = String.format("%s_%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
+    String pair = String.format("%s_%s", limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency).toLowerCase();
     BTEROrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTEROrder.Type.buy : BTEROrder.Type.sell;
-    BTERPlaceOrderReturn ret = bter.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount());
+    BTERPlaceOrderReturn ret = bter.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
 
     return ret.getOrderId();
   }
@@ -75,7 +74,7 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthe
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
 
     // get the detailed information of each open order...
-    for(BTEROpenOrderSummary orderSummary : bterOpenOrdersReturn.getOrders()) {
+    for (BTEROpenOrderSummary orderSummary : bterOpenOrdersReturn.getOrders()) {
 
       openOrders.add(getBTEROrderStatus(orderSummary.getId()));
     }
@@ -95,8 +94,7 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthe
 
     CurrencyPair currencyPair = BTERUtils.parseCurrencyPairString(orderStatus.getTradePair());
 
-    return BTERAdapters.adaptOrder(orderStatus.getAmount(), orderStatus.getRate(), currencyPair.baseCurrency, currencyPair.counterCurrency,
-                                   orderStatus.getType(),orderId);
+    return BTERAdapters.adaptOrder(orderStatus.getAmount(), orderStatus.getRate(), currencyPair, orderStatus.getType(), orderId);
   }
 
 }

@@ -21,19 +21,10 @@
  */
 package com.xeiam.xchange.coinbase.dto.marketdata;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 
-import org.joda.money.BigMoney;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney.CoinbaseMoneyDeserializer;
-import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer;
+import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 
 /**
  * @author jamespedwards42
@@ -41,14 +32,21 @@ import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseBigMoneyDeserializer
 @JsonDeserialize(using = CoinbaseMoneyDeserializer.class)
 public class CoinbaseMoney {
 
-  private final BigMoney amount;
+  private final String currency; 
+  private final BigDecimal amount;
+  
+  public CoinbaseMoney(final String currency, final BigDecimal amount) {
 
-  public CoinbaseMoney(final BigMoney amount) {
-
+    this.currency = currency;
     this.amount = amount;
   }
 
-  public BigMoney getAmount() {
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  public BigDecimal getAmount() {
 
     return amount;
   }
@@ -56,18 +54,7 @@ public class CoinbaseMoney {
   @Override
   public String toString() {
 
-    return "CoinbaseMoney [amount=" + amount + "]";
-  }
-
-  static class CoinbaseMoneyDeserializer extends JsonDeserializer<CoinbaseMoney> {
-
-    @Override
-    public CoinbaseMoney deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-
-      ObjectCodec oc = jp.getCodec();
-      JsonNode node = oc.readTree(jp);
-      return new CoinbaseMoney(CoinbaseBigMoneyDeserializer.getBigMoneyFromNode(node));
-    }
+    return "CoinbaseMoney [currency=" + currency + ", amount=" + amount + "]";
   }
 
 }

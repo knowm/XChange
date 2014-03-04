@@ -26,10 +26,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
@@ -68,9 +66,8 @@ public final class VirtExAdapters {
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     String tradableIdentifier = Currencies.BTC;
-    BigMoney limitPrice = MoneyUtils.parse(currency + " " + price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
+    return new LimitOrder(orderType, amount, new CurrencyPair(tradableIdentifier, currency), id, null, price);
 
   }
 
@@ -100,13 +97,12 @@ public final class VirtExAdapters {
    * @param virtExTrade A VirtEx trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(VirtExTrade virtExTrade, String currency, String tradableIdentifier) {
+  public static Trade adaptTrade(VirtExTrade virtExTrade, CurrencyPair currencyPair) {
 
     BigDecimal amount = virtExTrade.getAmount();
-    BigMoney price = MoneyUtils.parse(currency + " " + virtExTrade.getPrice());
     Date date = DateUtils.fromMillisUtc((long) virtExTrade.getDate() * 1000L);
     final String tradeId = String.valueOf(virtExTrade.getTid());
-    return new Trade(null, amount, tradableIdentifier, currency, price, date, tradeId);
+    return new Trade(null, amount, currencyPair, virtExTrade.getPrice(), date, tradeId);
   }
 
   /**
@@ -115,11 +111,11 @@ public final class VirtExAdapters {
    * @param virtexTrades The VirtEx trade data
    * @return The trades
    */
-  public static Trades adaptTrades(VirtExTrade[] virtexTrades, String currency, String tradableIdentifier) {
+  public static Trades adaptTrades(VirtExTrade[] virtexTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
     for (VirtExTrade virtexTrade : virtexTrades) {
-      tradesList.add(adaptTrade(virtexTrade, currency, tradableIdentifier));
+      tradesList.add(adaptTrade(virtexTrade, currencyPair));
     }
     return new Trades(tradesList, TradeSortType.SortByID);
   }
@@ -130,14 +126,14 @@ public final class VirtExAdapters {
    * @param virtExTicker
    * @return
    */
-  public static Ticker adaptTicker(VirtExTicker virtExTicker, String currency, String tradableIdentifier) {
+  public static Ticker adaptTicker(VirtExTicker virtExTicker, CurrencyPair currencyPair) {
 
-    BigMoney last = MoneyUtils.parse(currency + " " + virtExTicker.getLast());
-    BigMoney high = MoneyUtils.parse(currency + " " + virtExTicker.getHigh());
-    BigMoney low = MoneyUtils.parse(currency + " " + virtExTicker.getLow());
+    BigDecimal last = virtExTicker.getLast();
+    BigDecimal high = virtExTicker.getHigh();
+    BigDecimal low = virtExTicker.getLow();
     BigDecimal volume = virtExTicker.getVolume();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
 }

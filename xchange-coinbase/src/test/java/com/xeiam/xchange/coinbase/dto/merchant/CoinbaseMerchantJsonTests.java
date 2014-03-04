@@ -25,6 +25,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
@@ -32,9 +33,9 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
 import com.xeiam.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder.CoinbaseOrderStatus;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder.CoinbaseOrderTransaction;
-import com.xeiam.xchange.currency.MoneyUtils;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -64,7 +65,7 @@ public class CoinbaseMerchantJsonTests {
     assertThat(button.getCancelUrl()).isNull();
     assertThat(button.getInfoUrl()).isNull();
     assertThat(button.isAutoReDirect()).isFalse();
-    assertThat(button.getPrice()).isEqualTo(MoneyUtils.parse("BTC .00100000"));
+    assertThat(button.getPrice()).isEqualsToByComparingFields(new CoinbaseMoney("BTC", new BigDecimal(".00100000")));
     assertThat(button.isVariablePrice()).isTrue();
     assertThat(button.isChoosePrice()).isFalse();
     assertThat(button.isIncludeAddress()).isFalse();
@@ -88,8 +89,8 @@ public class CoinbaseMerchantJsonTests {
     assertThat(order.getId()).isEqualTo("ND4923CX");
     assertThat(order.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-19T13:30:50-08:00"));
     assertThat(order.getStatus()).isEqualTo(CoinbaseOrderStatus.COMPLETED);
-    assertThat(order.getTotalBTC()).isEqualTo(MoneyUtils.parse("BTC .00157800"));
-    assertThat(order.getTotalNative()).isEqualTo(MoneyUtils.parse("USD 1.00"));
+    assertThat(order.getTotalBTC()).isEqualsToByComparingFields(new CoinbaseMoney("BTC", new BigDecimal(".00157800")));
+    assertThat(order.getTotalNative()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("1.00")));
     assertThat(order.getCustom()).isEmpty();
     assertThat(order.getReceiveAddress()).isEqualTo("1DkHhHANFeZmJL4p6HXzGDHbvxHT8DzQgW");
 

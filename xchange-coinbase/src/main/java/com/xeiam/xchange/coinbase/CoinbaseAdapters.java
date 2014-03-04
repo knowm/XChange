@@ -27,9 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
@@ -38,6 +35,7 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -59,8 +57,8 @@ public final class CoinbaseAdapters {
   public static AccountInfo adaptAccountInfo(final CoinbaseUser user) {
 
     final String username = user.getEmail();
-    final BigMoney balance = user.getBalance();
-    final Wallet wallet = new Wallet(balance.getCurrencyUnit().getCode(), balance);
+    final CoinbaseMoney balance = user.getBalance();
+    final Wallet wallet = new Wallet(balance.getCurrency(), balance.getAmount());
     final List<Wallet> wallets = new ArrayList<Wallet>();
     wallets.add(wallet);
 
@@ -81,16 +79,16 @@ public final class CoinbaseAdapters {
   public static Trade adaptTrade(final CoinbaseTransfer transfer) {
 
     final OrderType orderType = adaptOrderType(transfer.getType());
-    final BigMoney btcAmount = transfer.getBtcAmount();
+    final CoinbaseMoney btcAmount = transfer.getBtcAmount();
     final BigDecimal tradableAmount = btcAmount.getAmount();
-    final String tradableIdentifier = btcAmount.getCurrencyUnit().getCode();
-    final BigMoney subTotal = transfer.getSubtotal();
-    final String transactionCurrency = subTotal.getCurrencyUnit().getCode();
-    final BigMoney price = subTotal.dividedBy(tradableAmount, RoundingMode.HALF_EVEN);
+    final String tradableIdentifier = btcAmount.getCurrency();
+    final CoinbaseMoney subTotal = transfer.getSubtotal();
+    final String transactionCurrency = subTotal.getCurrency();
+    final BigDecimal price = subTotal.getAmount().divide(tradableAmount, RoundingMode.HALF_EVEN);
     final Date timestamp = transfer.getCreatedAt();
     final String id = transfer.getTransactionId();
 
-    final Trade adaptedTrade = new Trade(orderType, tradableAmount, tradableIdentifier, transactionCurrency, price, timestamp, id, id);
+    final Trade adaptedTrade = new Trade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id);
     return adaptedTrade;
   }
 
@@ -107,16 +105,16 @@ public final class CoinbaseAdapters {
 
   private static final int TWENTY_FOUR_HOURS_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-  public static Ticker adaptTicker(final String tradableIdentifier, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice, final CoinbaseMoney spotRate,
+  public static Ticker adaptTicker(final CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice, final CoinbaseMoney spotRate,
       final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
     final TickerBuilder tickerBuilder =
-        TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withAsk(buyPrice.getSubTotal()).withBid(sellPrice.getSubTotal()).withLast(spotRate.getAmount());
+        TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(buyPrice.getSubTotal().getAmount()).withBid(sellPrice.getSubTotal().getAmount()).withLast(spotRate.getAmount());
 
     // Get the 24 hour high and low spot price if the history is provided.
     if (coinbaseSpotPriceHistory != null) {
-      BigDecimal observedHigh = spotRate.getAmount().getAmount();
-      BigDecimal observedLow = spotRate.getAmount().getAmount();
+      BigDecimal observedHigh = spotRate.getAmount();
+      BigDecimal observedLow = spotRate.getAmount();
       Date twentyFourHoursAgo = null;
       // The spot price history list is sorted in descending order by timestamp when deserialized.
       for (final CoinbaseHistoricalSpotPrice historicalSpotPrice : coinbaseSpotPriceHistory.getSpotPriceHistory()) {
@@ -132,8 +130,7 @@ public final class CoinbaseAdapters {
         else if (spotPriceAmount.compareTo(observedHigh) > 0)
           observedHigh = spotPriceAmount;
       }
-      final CurrencyUnit btcCurrencyUnit = CurrencyUnit.of("USD");
-      tickerBuilder.withHigh(BigMoney.of(btcCurrencyUnit, observedHigh)).withLow(BigMoney.of(btcCurrencyUnit, observedLow));
+      tickerBuilder.withHigh(observedHigh).withLow(observedLow);
     }
 
     return tickerBuilder.build();

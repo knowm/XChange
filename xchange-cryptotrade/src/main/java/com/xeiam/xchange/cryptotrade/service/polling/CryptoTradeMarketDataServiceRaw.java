@@ -27,6 +27,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * <p>
@@ -48,16 +49,16 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
     super(CryptoTrade.class, exchangeSpecification);
   }
 
-  public CryptoTradeTicker getCryptoTradeTicker(String tradableIdentifier, String currency) throws IOException {
+  public CryptoTradeTicker getCryptoTradeTicker(CurrencyPair currencyPair) throws IOException {
 
-    CryptoTradeTicker cryptoTradeTicker = cryptoTradeProxy.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    CryptoTradeTicker cryptoTradeTicker = cryptoTradeProxy.getTicker(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
 
     return handleResponse(cryptoTradeTicker);
   }
 
-  public CryptoTradeDepth getCryptoTradeOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public CryptoTradeDepth getCryptoTradeOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    CryptoTradeDepth cryptoTradeDepth = cryptoTradeProxy.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    CryptoTradeDepth cryptoTradeDepth = cryptoTradeProxy.getFullDepth(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
 
     return handleResponse(cryptoTradeDepth);
   }

@@ -29,6 +29,7 @@ import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -53,7 +54,7 @@ public class TickerDemo {
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
     System.out.println("Currency: " + Currencies.USD);
     System.out.println("Last: " + ticker.getLast().toString());

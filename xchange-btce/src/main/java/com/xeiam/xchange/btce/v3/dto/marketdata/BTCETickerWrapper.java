@@ -50,9 +50,8 @@ public class BTCETickerWrapper {
     return tickerMap;
   }
 
-  public BTCETicker getTicker(String tradableIdentifier, String currency) {
+  public BTCETicker getTicker(String pair) {
 
-    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
     BTCETicker result = null;
     if (tickerMap.containsKey(pair)) {
       result = tickerMap.get(pair);

@@ -26,6 +26,7 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -57,39 +58,39 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(getVirtExTicker(currency), currency, tradableIdentifier);
+    return VirtExAdapters.adaptTicker(getVirtExTicker(currencyPair.baseCurrency), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Request data
-    VirtExDepth virtExDepth = getVirtExOrderBook(currency);
+    VirtExDepth virtExDepth = getVirtExOrderBook(currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currency, "ask", "");
-    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currency, "bid", "");
+    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currencyPair.counterCurrency, "ask", "");
+    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currencyPair.counterCurrency, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Request data
-    VirtExTrade[] virtExTrades = getVirtExTrades(currency);
+    VirtExTrade[] virtExTrades = getVirtExTrades(currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTrades(virtExTrades, currency, tradableIdentifier);
+    return VirtExAdapters.adaptTrades(virtExTrades, currencyPair);
   }
 
   @Override

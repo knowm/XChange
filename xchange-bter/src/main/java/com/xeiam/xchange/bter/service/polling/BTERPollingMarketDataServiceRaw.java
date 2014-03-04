@@ -57,9 +57,9 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER
     return bterTicker;
   }
 
-  public BTERDepth getBTEROrderBook(String tradableIdentifier, String currency) throws IOException {
+  public BTERDepth getBTEROrderBook(String tradeableIdentifier, String currency) throws IOException {
 
-    BTERDepth bterDepth = bter.getFullDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+    BTERDepth bterDepth = bter.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
 
     return bterDepth;
   }

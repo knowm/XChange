@@ -22,8 +22,7 @@
 package com.xeiam.xchange.coinbase.service.polling;
 
 import java.io.IOException;
-
-import org.joda.money.BigMoney;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.CoinbaseAdapters;
@@ -57,10 +56,9 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
    *         about the transaction, including the blockchain transaction hash.
    */
   @Override
-  public String withdrawFunds(BigMoney amount, String address) throws IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    final String currency = amount.getCurrencyUnit().getCode();
-    final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, currency, amount.getAmount());
+    final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, currency, amount);
     final CoinbaseTransaction sendMoneyTransaction = super.sendMoneyCoinbaseRequest(sendMoneyRequest);
     return sendMoneyTransaction.getId();
   }

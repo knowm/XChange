@@ -26,7 +26,8 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -48,7 +49,7 @@ public class TradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, "GHS", "BTC", "", null, MoneyUtils.parse("BTC 0.00015600"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, new CurrencyPair(Currencies.GHs, Currencies.BTC), "", null, new BigDecimal("0.00015600"));
     System.out.println("Trying to place: " + limitOrder);
     String orderId = "0";
     try {

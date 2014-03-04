@@ -59,6 +59,8 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
+    verify(limitOrder.getCurrencyPair());
+
     return placeBTERLimitOrder(limitOrder);
   }
 

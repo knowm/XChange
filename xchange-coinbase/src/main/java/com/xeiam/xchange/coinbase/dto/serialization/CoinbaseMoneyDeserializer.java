@@ -19,46 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.mtgox.v2.dto.trade.polling;
+package com.xeiam.xchange.coinbase.dto.serialization;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 
 /**
- * @author timmolter
+ * @author jamespedwards42
  */
-public class MtGoxOpenOrderWrapper {
+public class CoinbaseMoneyDeserializer extends JsonDeserializer<CoinbaseMoney> {
 
-  private final String result;
-  private final MtGoxOpenOrder[] mtGoxOpenOrders;
-  private final String error;
+  @Override
+  public CoinbaseMoney deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-  /**
-   * Constructor
-   * 
-   * @param result
-   * @param mtGoxOpenOrders
-   * @param error
-   */
-  public MtGoxOpenOrderWrapper(@JsonProperty("result") String result, @JsonProperty("data") MtGoxOpenOrder[] mtGoxOpenOrders, @JsonProperty("error") String error) {
+    final ObjectCodec oc = jp.getCodec();
+    final JsonNode node = oc.readTree(jp);
 
-    this.result = result;
-    this.mtGoxOpenOrders = mtGoxOpenOrders;
-    this.error = error;
+    return getCoinbaseMoneyFromNode(node);
   }
 
-  public String getResult() {
+  public static CoinbaseMoney getCoinbaseMoneyFromNode(final JsonNode node) {
 
-    return result;
-  }
+    final String amount = node.path("amount").asText();
+    final String currency = node.path("currency").asText();
 
-  public MtGoxOpenOrder[] getMtGoxOpenOrders() {
-
-    return mtGoxOpenOrders;
-  }
-
-  public String getError() {
-
-    return error;
+    return new CoinbaseMoney(currency, new BigDecimal(amount));
   }
 
 }

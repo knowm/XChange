@@ -28,7 +28,6 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.kraken.KrakenAuthenticated;
@@ -139,18 +138,16 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService {
 
   public KrakenOrderResponse placeKrakenMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    CurrencyPair currencyPair = new CurrencyPair(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
     KrakenType type = KrakenUtils.getKrakenOrderType(marketOrder.getType());
-    KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getMarketOrderBuilder(currencyPair, type, marketOrder.getTradableAmount());
+    KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getMarketOrderBuilder(marketOrder.getCurrencyPair(), type, marketOrder.getTradableAmount());
 
     return placeKrakentOrder(orderBuilder.buildOrder());
   }
 
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
-
-    CurrencyPair currencyPair = new CurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+	  
     KrakenType type = KrakenUtils.getKrakenOrderType(limitOrder.getType());
-    KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getLimitOrderBuilder(currencyPair, type, limitOrder.getLimitPrice().getAmount().toString(), limitOrder.getTradableAmount());
+    KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getLimitOrderBuilder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice().toString(), limitOrder.getTradableAmount());
 
     return placeKrakentOrder(orderBuilder.buildOrder());
   }

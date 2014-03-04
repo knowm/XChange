@@ -102,7 +102,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticate
    * Authenticated resource that returns the user’s current account balance in BTC.
    * 
    * @see <a href="https://coinbase.com/api/doc/1.0/accounts/balance.html">coinbase.com/api/doc/1.0/accounts/balance.html</a>
-   * @return A {@code CoinbaseAmount} wrapper around a {@code BigMoney} object representing the current user's balance.
+   * @return A {@code CoinbaseAmount} wrapper around a {@code CoinbaseMoney} object representing the current user's balance.
    * @throws IOException
    */
   public CoinbaseMoney getCoinbaseBalance() throws IOException {

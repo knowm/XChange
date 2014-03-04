@@ -32,7 +32,7 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -57,7 +57,7 @@ public class BTCChinaDepthDemo {
   public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest order book data for BTC/CNY
-    OrderBook orderBook = marketDataService.getOrderBook(Currencies.BTC, Currencies.CNY);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
 
     // System.out.println(orderBook.toString());
     System.out.println("lowestAsk: " + orderBook.getAsks().get(0));

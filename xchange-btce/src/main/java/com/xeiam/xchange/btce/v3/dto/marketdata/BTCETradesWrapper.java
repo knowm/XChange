@@ -49,9 +49,8 @@ public class BTCETradesWrapper {
     return tradesMap;
   }
 
-  public BTCETrade[] getTrades(String tradableIdentifier, String currency) {
+  public BTCETrade[] getTrades(String pair) {
 
-    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(tradableIdentifier, currency);
     BTCETrade[] result = null;
     if (tradesMap.containsKey(pair)) {
       result = tradesMap.get(pair);

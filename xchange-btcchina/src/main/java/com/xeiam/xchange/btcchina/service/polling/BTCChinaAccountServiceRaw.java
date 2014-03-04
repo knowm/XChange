@@ -22,8 +22,7 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
-
-import org.joda.money.BigMoney;
+import java.math.BigDecimal;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
@@ -76,9 +75,9 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBaseService {
     return btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
   }
 
-  public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigMoney amount, String address) throws IOException {
+  public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {
 
-    return btcchina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount.getCurrencyUnit(), amount.getAmount()));
+    return btcchina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount));
   }
 
   public String requestBTCChinaBitcoinDepositAddress() throws IOException {

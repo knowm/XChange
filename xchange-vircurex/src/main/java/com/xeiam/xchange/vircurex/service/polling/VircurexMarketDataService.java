@@ -28,6 +28,7 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -58,27 +59,27 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    VircurexDepth vircurexDepth = getVircurexOrderBook(tradableIdentifier, currency);
+    VircurexDepth vircurexDepth = getVircurexOrderBook(currencyPair);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = VircurexAdapters.adaptOrders(vircurexDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = VircurexAdapters.adaptOrders(vircurexDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = VircurexAdapters.adaptOrders(vircurexDepth.getAsks(), currencyPair, "ask", "");
+    List<LimitOrder> bids = VircurexAdapters.adaptOrders(vircurexDepth.getBids(), currencyPair, "bid", "");
 
     return new OrderBook(new Date(), asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

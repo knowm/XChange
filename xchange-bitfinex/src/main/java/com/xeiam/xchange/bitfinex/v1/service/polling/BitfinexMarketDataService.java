@@ -31,6 +31,7 @@ import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -59,16 +60,16 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitfinexAdapters.adaptTicker(getBitfinexTicker(BitfinexUtils.toPairString(tradableIdentifier, currency)), tradableIdentifier, currency);
+    return BitfinexAdapters.adaptTicker(getBitfinexTicker(BitfinexUtils.toPairString(currencyPair)), currencyPair);
   }
 
   /**
    * @param args If two integers are provided, then those count as limit bid and limit ask count
    */
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // According to API docs, default is 50
     int limitBids = 50;
@@ -91,20 +92,20 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
       }
     }
 
-    BitfinexDepth btceDepth = getBitfinexOrderBook(BitfinexUtils.toPairString(tradableIdentifier, currency), limitBids, limitAsks);
+    BitfinexDepth btceDepth = getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
 
-    List<LimitOrder> asks = BitfinexAdapters.adaptOrders(btceDepth.getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BitfinexAdapters.adaptOrders(btceDepth.getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = BitfinexAdapters.adaptOrders(btceDepth.getAsks(), currencyPair, "ask", "");
+    List<LimitOrder> bids = BitfinexAdapters.adaptOrders(btceDepth.getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(tradableIdentifier, currency));
+    BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair));
 
-    return BitfinexAdapters.adaptTrades(trades, tradableIdentifier, currency);
+    return BitfinexAdapters.adaptTrades(trades, currencyPair);
   }
 
   @Override

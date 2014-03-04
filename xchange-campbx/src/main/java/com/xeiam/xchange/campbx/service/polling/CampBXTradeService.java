@@ -22,12 +22,11 @@
 package com.xeiam.xchange.campbx.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +37,7 @@ import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -72,6 +72,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
     if (!myOpenOrders.isError()) {
 
+      // TODO move to adapter class
       List<LimitOrder> orders = new ArrayList<LimitOrder>();
       for (CampBXOrder cbo : myOpenOrders.getBuy()) {
         if (cbo.isError() || cbo.isInfo()) {
@@ -79,8 +80,8 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
         }
         else {
           String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
-          BigMoney price = BigMoney.of(CurrencyUnit.USD, cbo.getPrice());
-          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), "BTC", "USD", id, cbo.getOrderEntered(), price));
+          BigDecimal price = cbo.getPrice();
+          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
         }
       }
       for (CampBXOrder cbo : myOpenOrders.getSell()) {
@@ -90,8 +91,8 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
         else {
 
           String id = composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID());
-          BigMoney price = BigMoney.of(CurrencyUnit.USD, cbo.getPrice());
-          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), "BTC", "USD", id, cbo.getOrderEntered(), price));
+          BigDecimal price = cbo.getPrice();
+          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
         }
       }
       return new OpenOrders(orders);
@@ -103,6 +104,8 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    verify(marketOrder.getCurrencyPair());
 
     CampBXResponse campBXResponse = placeCampBXMarketOrder(marketOrder);
     logger.debug("campBXResponse = {}", campBXResponse);
@@ -117,6 +120,8 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    verify(limitOrder.getCurrencyPair());
 
     CampBXResponse campBXResponse = placeCampBXLimitOrder(limitOrder);
     logger.debug("campBXResponse = {}", campBXResponse);

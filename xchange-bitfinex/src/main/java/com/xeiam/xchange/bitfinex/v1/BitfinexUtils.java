@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bitfinex.v1;
 
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bitfinex properties
@@ -34,9 +35,9 @@ public final class BitfinexUtils {
 
   }
 
-  public static String toPairString(String tradableIdentifier, String currency) {
+  public static String toPairString(CurrencyPair currencyPair) {
 
-    return tradableIdentifier.toLowerCase() + currency.toLowerCase();
+    return currencyPair.baseCurrency.toLowerCase() + currencyPair.counterCurrency.toLowerCase();
   }
 
 }

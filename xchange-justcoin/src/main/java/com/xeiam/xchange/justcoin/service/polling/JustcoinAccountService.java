@@ -22,10 +22,12 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
-import org.joda.money.BigMoney;
-
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -33,28 +35,35 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author jamespedwards42
  */
-public class JustcoinAccountService extends JustcoinAccountServiceRaw implements PollingAccountService {
+public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
+		PollingAccountService {
 
-  public JustcoinAccountService(final ExchangeSpecification exchangeSpecification) {
+	public JustcoinAccountService(
+			final ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-  }
+		super(exchangeSpecification);
+	}
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
+	@Override
+	public AccountInfo getAccountInfo() throws IOException {
 
-    return JustcoinAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getBalances());
-  }
+		return JustcoinAdapters.adaptAccountInfo(
+				exchangeSpecification.getUserName(), getBalances());
+	}
 
-  @Override
-  public String withdrawFunds(final BigMoney amount, final String address) throws IOException {
+	@Override
+	public String withdrawFunds(String currency, BigDecimal amount,
+			String address) throws ExchangeException,
+			NotAvailableFromExchangeException,
+			NotYetImplementedForExchangeException, IOException {
 
-    return withdrawFunds(amount.getCurrencyUnit().getCode(), amount.getAmount(), address);
-  }
+		return withdrawFunds(currency, amount, address);
+	}
 
-  @Override
-  public String requestDepositAddress(final String currency, final String... arguments) throws IOException {
+	@Override
+	public String requestDepositAddress(final String currency,
+			final String... arguments) throws IOException {
 
-    return requestDepositAddress(currency);
-  }
+		return requestDepositAddress(currency);
+	}
 }

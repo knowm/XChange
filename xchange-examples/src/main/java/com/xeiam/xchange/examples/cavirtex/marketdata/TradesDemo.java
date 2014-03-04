@@ -26,7 +26,7 @@ import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.virtex.VirtExExchange;
@@ -54,7 +54,7 @@ public class TradesDemo {
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/CAD
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.CAD);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CAD);
     System.out.println("Trades, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }

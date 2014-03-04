@@ -29,7 +29,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -54,13 +54,13 @@ public class TradesDemo {
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/USD
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println("Trades, default. Size= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, BitstampMarketDataServiceRaw.BitstampTime.HOUR);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.HOUR);
     System.out.println("Trades, hour= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(Currencies.BTC, Currencies.USD, BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
     System.out.println("Trades, minute= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }

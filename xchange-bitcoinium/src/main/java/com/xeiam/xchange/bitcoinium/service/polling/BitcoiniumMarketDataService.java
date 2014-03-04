@@ -58,7 +58,7 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     String exchange = "";
 
@@ -76,14 +76,14 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
     }
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(tradableIdentifier, currency, exchange);
+    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.baseCurrency, currencyPair.counterCurrency, exchange);
 
     // Adapt to XChange DTOs
-    return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currency, tradableIdentifier);
+    return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     String exchange = "";
     String priceWindow = "";
@@ -109,14 +109,14 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
     }
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(tradableIdentifier, currency, exchange, priceWindow);
+    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.baseCurrency, currencyPair.counterCurrency, exchange, priceWindow);
 
     // Adapt to XChange DTOs
-    return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, tradableIdentifier, currency);
+    return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, currencyPair);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

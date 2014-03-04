@@ -50,10 +50,10 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
 
   public CryptoTradePlaceOrderReturn placeCryptoTradeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String pair = CryptoTradeUtils.getCryptoTradeCurrencyPair(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+    String pair = CryptoTradeUtils.getCryptoTradeCurrencyPair(limitOrder.getCurrencyPair());
     CryptoTradeOrderType type = limitOrder.getType() == Order.OrderType.BID ? CryptoTradeOrderType.Buy : CryptoTradeOrderType.Sell;
     CryptoTradePlaceOrderReturn cryptoTradePlaceOrderReturn =
-        cryptoTradeProxy.trade(pair, type, limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount(), apiKey, signatureCreator, nextNonce());
+        cryptoTradeProxy.trade(pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), apiKey, signatureCreator, nextNonce());
 
     return handleResponse(cryptoTradePlaceOrderReturn);
   }

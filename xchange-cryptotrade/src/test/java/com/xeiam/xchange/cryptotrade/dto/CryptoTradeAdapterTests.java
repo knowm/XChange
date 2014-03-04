@@ -40,7 +40,7 @@ import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTradeJsonTests;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -63,15 +63,15 @@ public class CryptoTradeAdapterTests {
       ObjectMapper mapper = new ObjectMapper();
       CryptoTradeTicker cryptoTradeTicker = mapper.readValue(is, CryptoTradeTicker.class);
 
-      Ticker adaptedTicker = CryptoTradeAdapters.adaptTicker(Currencies.BTC, Currencies.USD, cryptoTradeTicker);
+      Ticker adaptedTicker = CryptoTradeAdapters.adaptTicker(CurrencyPair.BTC_USD, cryptoTradeTicker);
       
-      assertThat(adaptedTicker.getLast()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("128")));
-      assertThat(adaptedTicker.getLow()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("127.9999")));
-      assertThat(adaptedTicker.getHigh()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("129.1")));
+      assertThat(adaptedTicker.getLast()).isEqualTo(new BigDecimal("128"));
+      assertThat(adaptedTicker.getLow()).isEqualTo(new BigDecimal("127.9999"));
+      assertThat(adaptedTicker.getHigh()).isEqualTo(new BigDecimal("129.1"));
       assertThat(adaptedTicker.getVolume()).isEqualTo("693.8199");
-      assertThat(adaptedTicker.getAsk()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("129.1")));
-      assertThat(adaptedTicker.getBid()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("128")));
-      assertThat(adaptedTicker.getTradableIdentifier()).isEqualTo(Currencies.BTC);
+      assertThat(adaptedTicker.getAsk()).isEqualTo(new BigDecimal("129.1"));
+      assertThat(adaptedTicker.getBid()).isEqualTo(new BigDecimal("128"));
+      assertThat(adaptedTicker.getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
       assertThat(adaptedTicker.getTimestamp()).isNull();
     }
     
@@ -85,20 +85,20 @@ public class CryptoTradeAdapterTests {
       ObjectMapper mapper = new ObjectMapper();
       CryptoTradeDepth depth = mapper.readValue(is, CryptoTradeDepth.class);
       
-      OrderBook orderBook = CryptoTradeAdapters.adaptOrderBook(Currencies.BTC, Currencies.USD, depth);
+      OrderBook orderBook = CryptoTradeAdapters.adaptOrderBook(CurrencyPair.BTC_USD, depth);
       
       List<LimitOrder> asks = orderBook.getAsks();
       assertThat(asks.size()).isEqualTo(3);
       
       LimitOrder ask = asks.get(0);
-      assertThat(ask.getLimitPrice()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("102")));
+      assertThat(ask.getLimitPrice()).isEqualTo(new BigDecimal("102"));
       assertThat(ask.getTradableAmount()).isEqualTo("0.81718312");
       
       List<LimitOrder> bids = orderBook.getBids();
       assertThat(bids.size()).isEqualTo(3);
       
       LimitOrder bid = bids.get(2);
-      assertThat(bid.getLimitPrice()).isEqualTo(MoneyUtils.parseMoney(Currencies.USD, new BigDecimal("99.03")));
+      assertThat(bid.getLimitPrice()).isEqualTo(new BigDecimal("99.03"));
       assertThat(bid.getTradableAmount()).isEqualTo("4");
     }
     
@@ -120,7 +120,7 @@ public class CryptoTradeAdapterTests {
       assertThat(wallets.size()).isEqualTo(11);
       for (Wallet wallet : wallets) {
         if (wallet.getCurrency().equals(Currencies.BTC)) 
-          assertThat(wallet.getBalance()).isEqualTo(MoneyUtils.parseMoney(Currencies.BTC, new BigDecimal("12098.91081965")));
+          assertThat(wallet.getBalance()).isEqualTo(new BigDecimal("12098.91081965"));
       }
     }
     
@@ -140,10 +140,10 @@ public class CryptoTradeAdapterTests {
       
       LimitOrder order = orders.getOpenOrders().get(0);
       assertThat(order.getId()).isEqualTo("5");
-      assertThat(order.getLimitPrice().getAmount()).isEqualTo("300");
+      assertThat(order.getLimitPrice()).isEqualTo("300");
       assertThat(order.getTradableAmount()).isEqualTo("1");
-      assertThat(order.getTradableIdentifier()).isEqualTo(Currencies.BTC);
-      assertThat(order.getTransactionCurrency()).isEqualTo(Currencies.USD);
+      assertThat(order.getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
+      assertThat(order.getCurrencyPair().counterCurrency).isEqualTo(Currencies.USD);
       assertThat(order.getType()).isEqualTo(OrderType.BID);
       assertThat(order.getTimestamp()).isEqualTo(new Date(1370944500));
     }
@@ -162,7 +162,7 @@ public class CryptoTradeAdapterTests {
       
       assertThat(trades.getTrades()).hasSize(2);
       Trade trade = trades.getTrades().get(1);
-      assertThat(trade.getPrice().getAmount()).isEqualTo("128");
+      assertThat(trade.getPrice()).isEqualTo("128");
       assertThat(trade.getType()).isEqualTo(OrderType.ASK);
       assertThat(trade.getTimestamp()).isEqualTo(new Date(1370965122));
       assertThat(trade.getTradableAmount()).isEqualTo("0.1");

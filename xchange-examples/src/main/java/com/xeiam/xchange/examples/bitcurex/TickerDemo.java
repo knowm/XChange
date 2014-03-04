@@ -29,6 +29,7 @@ import com.xeiam.xchange.bitcurex.BitcurexExchange;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -51,11 +52,9 @@ public class TickerDemo {
     PollingMarketDataService marketDataService = bitcurex.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.EUR);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
+    double value = ticker.getLast().doubleValue();
 
-    System.out.println("Last: " + currency + "-" + value);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -67,7 +66,7 @@ public class TickerDemo {
     BitcurexMarketDataServiceRaw bitcurexMarketDataServiceRaw = (BitcurexMarketDataServiceRaw) bitcurex.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    BitcurexTicker ticker = bitcurexMarketDataServiceRaw.getBitcurexTicker(Currencies.BTC, Currencies.EUR);
+    BitcurexTicker ticker = bitcurexMarketDataServiceRaw.getBitcurexTicker(Currencies.EUR);
 
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Vol: " + ticker.getVol());
