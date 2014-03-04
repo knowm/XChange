@@ -21,18 +21,18 @@
  */
 package com.xeiam.xchange.bter.dto.marketdata;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.bter.dto.BTERBaseResponse;
 
 /**
  * Data object representing depth from Bter
  */
-public class BTERDepth {
+public class BTERDepth extends BTERBaseResponse {
 
-  private final List<BigDecimal[]> asks;
-  private final List<BigDecimal[]> bids;
+  private final List<BTERPublicOrder> asks;
+  private final List<BTERPublicOrder> bids;
 
   /**
    * Constructor
@@ -40,18 +40,19 @@ public class BTERDepth {
    * @param asks
    * @param bids
    */
-  public BTERDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
+  private BTERDepth(@JsonProperty("asks") List<BTERPublicOrder> asks, @JsonProperty("bids") List<BTERPublicOrder> bids, @JsonProperty("result") boolean result) {
 
+    super(result, null);
     this.asks = asks;
     this.bids = bids;
   }
 
-  public List<BigDecimal[]> getAsks() {
+  public List<BTERPublicOrder> getAsks() {
 
     return asks;
   }
 
-  public List<BigDecimal[]> getBids() {
+  public List<BTERPublicOrder> getBids() {
 
     return bids;
   }

@@ -23,24 +23,34 @@ package com.xeiam.xchange.bter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
+import com.xeiam.xchange.bter.dto.BTEROrderType;
 import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
+import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
+import com.xeiam.xchange.bter.dto.marketdata.BTERPublicOrder;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from Bter DTOs to XChange DTOs
  */
 public final class BTERAdapters {
-
-  // BTER specific bid/ask syntax
-  public static final String BTER_BID = "buy";
-  public static final String BTER_ASK = "sell";
 
   /**
    * private Constructor
@@ -55,59 +65,81 @@ public final class BTERAdapters {
     return new CurrencyPair(currencies[0], currencies[1]);
   }
   
-  /**
-   * Adapts a BTEROrder to a LimitOrder
-   * 
-   * @param amount
-   * @param price
-   * @param currency
-   * @param orderTypeString
-   * @param id
-   * @return
-   */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
+  public static Ticker adaptTicker(CurrencyPair currencyPair, BTERTicker bterTicker) {
 
-    // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase(BTER_BID) ? OrderType.BID : OrderType.ASK;
-    BigDecimal limitPrice;
+    BigDecimal ask = bterTicker.getSell();
+    BigDecimal bid = bterTicker.getBuy();
+    BigDecimal last = bterTicker.getLast();
+    BigDecimal low = bterTicker.getLow();
+    BigDecimal high = bterTicker.getHigh();
+    BigDecimal volume = bterTicker.getPriceCurrencyVolume();
 
-    return new LimitOrder(orderType, amount, currencyPair, id, null, price);
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
+  }
+  
+  public static LimitOrder adaptOrder(BTERPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {
+
+    return new LimitOrder(orderType, order.getAmount(), currencyPair, "", null, order.getPrice());
   }
 
   /**
    * Adapts a List of Bter Orders to a List of LimitOrders
    * 
    * @param orders
-   * @param currency
+   * @param currencyPair
    * @param orderType
-   * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, CurrencyPair currencyPair, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BTERPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    // Bid orderbook is reversed order. Insert at index 0 instead of
-    for (BigDecimal[] bterOrder : orders) {
-      // appending
-      if (orderType.equalsIgnoreCase(BTER_BID)) {
-        limitOrders.add(0, adaptOrder(bterOrder[1], bterOrder[0], currencyPair, orderType, id));
-      }
-      else {
-        limitOrders.add(adaptOrder(bterOrder[1], bterOrder[0], currencyPair, orderType, id));
-      }
+    for (BTERPublicOrder bterOrder : orders) {
+      limitOrders.add(adaptOrder(bterOrder, currencyPair, orderType));
     }
 
     return limitOrders;
   }
 
-  public static AccountInfo adaptAccountInfo(BTERAccountInfoReturn btceAccountInfo) {
+  public static OrderBook adaptOrderBook(BTERDepth depth, CurrencyPair currencyPair) {
+    
+    List<LimitOrder> asks = BTERAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
+    List<LimitOrder> bids = BTERAdapters.adaptOrders(depth.getBids(), currencyPair, OrderType.BID);
+
+    return new OrderBook(null, asks, bids);
+  }
+  
+  public static OrderType adaptOrderType(BTEROrderType cryptoTradeOrderType) {
+
+    return (cryptoTradeOrderType.equals(BTEROrderType.BUY)) ? OrderType.BID : OrderType.ASK;
+  }
+  
+  public static Trade adaptTrade(BTERPublicTrade trade, CurrencyPair currencyPair) {
+
+    OrderType orderType = adaptOrderType(trade.getType());
+    Date timestamp = DateUtils.fromMillisUtc(trade.getDate()*1000);
+
+    return new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), null);
+  }
+
+  public static Trades adaptTrades(BTERTradeHistory tradeHistory, CurrencyPair currencyPair) {
+
+    List<Trade> tradeList = new ArrayList<Trade>();
+    for (BTERPublicTrade trade : tradeHistory.getTrades()) {
+      Trade adaptedTrade = adaptTrade(trade, currencyPair);
+      tradeList.add(adaptedTrade);
+    }
+
+    return new Trades(tradeList, TradeSortType.SortByTimestamp);
+  }
+  
+  public static AccountInfo adaptAccountInfo(BTERAccountInfoReturn bterAccountInfo) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
-    Map<String, BigDecimal> funds = btceAccountInfo.getAvailableFunds();
-    for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
-      wallets.add(new Wallet(currency, funds.get(lcCurrency)));
+    for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
+      String currency = funds.getKey().toUpperCase();
+      BigDecimal amount = funds.getValue();
+      wallets.add(new Wallet(currency, amount));
     }
 
     return new AccountInfo("", wallets);

@@ -21,48 +21,31 @@
  */
 package com.xeiam.xchange.bter.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.IOException;
 
-public class BTERReturn<V> {
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.bter.dto.BTEROrderType.BTEROrderTypeDeserializer;
 
-  private final boolean success;
-  private final V returnValue;
-  private final String error;
+@JsonDeserialize(using = BTEROrderTypeDeserializer.class)
+public enum BTEROrderType {
 
-  /**
-   * Constructor
-   * 
-   * @param success
-   * @param returnValue
-   * @param error
-   */
-  @JsonCreator
-  public BTERReturn(@JsonProperty("result") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("msg") String error) {
+  BUY, SELL;
+  
+  static class BTEROrderTypeDeserializer extends JsonDeserializer<BTEROrderType> {
 
-    this.success = success;
-    this.returnValue = returnValue;
-    this.error = error;
-  }
+    @Override
+    public BTEROrderType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-  public boolean isSuccess() {
-
-    return success;
-  }
-
-  public V getReturnValue() {
-
-    return returnValue;
-  }
-
-  public String getError() {
-
-    return error;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTERReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String orderType = node.asText();
+      return BTEROrderType.valueOf(orderType.toUpperCase());
+    }
   }
 }

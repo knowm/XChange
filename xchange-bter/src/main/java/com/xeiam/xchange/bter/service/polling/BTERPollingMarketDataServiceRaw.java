@@ -29,6 +29,7 @@ import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER> {
@@ -63,5 +64,18 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER
 
     return bterDepth;
   }
+  
+  public BTERTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency) throws IOException {
+    
+    BTERTradeHistory tradeHistory = bter.getTradeHistory(tradeableIdentifier, currency);
+    
+    return tradeHistory;
+  }
 
+  public BTERTradeHistory getBTERTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
+    
+    BTERTradeHistory tradeHistory = bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
+    
+    return tradeHistory;
+  }
 }

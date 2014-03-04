@@ -26,10 +26,8 @@ import java.util.Collection;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTER;
-import com.xeiam.xchange.bter.dto.BTERReturn;
 import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -68,10 +66,8 @@ public class BTERBasePollingService <T extends BTER> extends BaseExchangeService
     
     return pairs;
   }
-  
-  protected void checkResult(BTERReturn<?> info) {
-
-    if (!info.isSuccess()) {
+ 
+/*    if (!info.isSuccess()) {
       throw new ExchangeException("Bter returned an error: " + info.getError());
     }
     else if (info.getReturnValue() == null) {
@@ -80,6 +76,6 @@ public class BTERBasePollingService <T extends BTER> extends BaseExchangeService
     else if (info.getError() != null) {
       throw new ExchangeException("Got error message: " + info.getError());
     }
-  }
+  }*/
 
 }

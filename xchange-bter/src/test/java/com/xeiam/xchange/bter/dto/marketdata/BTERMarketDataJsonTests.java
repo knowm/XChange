@@ -25,14 +25,17 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.bter.dto.BTEROrderType;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-
 
 public class BTERMarketDataJsonTests {
 
@@ -45,13 +48,13 @@ public class BTERMarketDataJsonTests {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTERCurrencyPairs tickers = mapper.readValue(is, BTERCurrencyPairs.class);
-    
+
     Collection<CurrencyPair> pairs = tickers.getPairs();
     assertThat(pairs).hasSize(83);
-    
+
     assertThat(pairs.contains(new CurrencyPair("TIPS", "CNY"))).isTrue();
   }
-  
+
   @Test
   public void testDeserializeTickers() throws IOException {
 
@@ -61,11 +64,11 @@ public class BTERMarketDataJsonTests {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTERTickers tickers = mapper.readValue(is, BTERTickers.class);
-    
+
     Map<CurrencyPair, BTERTicker> tickerMap = tickers.getTickerMap();
-    
+
     assertThat(tickerMap).hasSize(3);
-    
+
     BTERTicker ticker = tickerMap.get(CurrencyPair.BTC_CNY);
     assertThat(ticker.getLast()).isEqualTo("3400.01");
     assertThat(ticker.getHigh()).isEqualTo("3497.41");
@@ -75,7 +78,51 @@ public class BTERMarketDataJsonTests {
     assertThat(ticker.getBuy()).isEqualTo("3400.01");
     assertThat(ticker.getTradeCurrencyVolume()).isEqualTo("347.2045");
     assertThat(ticker.getPriceCurrencyVolume()).isEqualTo("1200127.03");
-    
+
     assertThat(ticker.isResult()).isTrue();
+  }
+  
+  @Test
+  public void testDeserializeDepth() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BTERMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-depth-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTERDepth depth = mapper.readValue(is, BTERDepth.class);
+    
+    assertThat(depth.isResult()).isTrue();
+    
+    List<BTERPublicOrder> asks = depth.getAsks(); 
+    assertThat(asks).hasSize(3);
+    
+    BTERPublicOrder ask = asks.get(0);
+    assertThat(ask.getPrice()).isEqualTo("0.17936");
+    assertThat(ask.getAmount()).isEqualTo("687");
+  }
+
+  @Test
+  public void testDeserializeTrades() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BTERMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTERTradeHistory tradeHistory = mapper.readValue(is, BTERTradeHistory.class);
+
+    assertThat(tradeHistory.isResult()).isTrue();
+    assertThat(tradeHistory.getElapsed()).isEqualTo("0.634ms");
+
+    List<BTERPublicTrade> trades = tradeHistory.getTrades();
+    assertThat(trades).hasSize(2);
+
+    BTERPublicTrade trade = trades.get(0);
+    assertThat(trade.getDate()).isEqualTo(1393908191);
+    assertThat(trade.getPrice()).isEqualTo(new BigDecimal("3942"));
+    assertThat(trade.getAmount()).isEqualTo(new BigDecimal("0.0129"));
+    assertThat(trade.getTradeId()).isEqualTo("5600118");
+    assertThat(trade.getType()).isEqualTo(BTEROrderType.SELL);
   }
 }
