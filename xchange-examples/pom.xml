@@ -149,6 +149,10 @@
 			<groupId>com.xeiam.xchart</groupId>
 			<artifactId>xchart</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.github.mmazi</groupId>
+			<artifactId>rescu</artifactId>
+		</dependency>
 
 	</dependencies>
 
