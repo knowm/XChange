@@ -62,6 +62,21 @@ public enum ExchangeEventType {
   // Specific message types to assist consumer processing
 
   /**
+   * A message with welcome status 
+   */
+  WELCOME,
+  
+  /**
+   * A message with authentication status 
+   */
+  AUTHENTICATION,
+
+  /**
+   * A message about subscription of market ticker
+   */
+  SUBSCRIBE_TICKER,
+  
+  /**
    * A message with a Ticker payload
    */
   TICKER,
@@ -72,9 +87,19 @@ public enum ExchangeEventType {
   TRADE,
 
   /**
+   * A message about subscription of market depth
+   */
+  SUBSCRIBE_DEPTH,
+  
+  /**
    * A message with a Market Depth update payload
    */
   DEPTH,
+  
+  /**
+   * A message of orderbook data
+   */
+  SUBSCRIBE_ORDERS,
 
   /**
    * A message containing the private id key
@@ -87,6 +112,16 @@ public enum ExchangeEventType {
   USER_ORDER,
 
   /**
+   * A message sent when a user order is added
+   */
+  ORDER_ADDED,
+
+  /**
+   * A message sent when a user order is cancelled
+   */
+  ORDER_CANCELED,
+  
+  /**
    * A message with the trade lag
    */
   TRADE_LAG,
@@ -97,15 +132,20 @@ public enum ExchangeEventType {
   USER_ORDERS_LIST,
 
   /**
-   * A message with user orders
+   * A message with user accountInfo
    */
   ACCOUNT_INFO,
+  
+  /**
+   * A message with user orders
+   */
+  USER_TRADE_VOLUME,
 
   /**
    * A message sent when a user order is added
    */
   USER_ORDER_ADDED,
-
+  
   /**
    * A message sent when a user order is cancelled
    */
@@ -117,8 +157,17 @@ public enum ExchangeEventType {
   USER_ORDER_NOT_FOUND,
 
   /**
+   * A message with wallet data
+   */
+  USER_WALLET,
+  
+  /**
    * A message with the wallet update
    */
-  USER_WALLET_UPDATE
+  USER_WALLET_UPDATE,
 
+  /**
+   * A message with data about an estimated market order
+   */
+  USER_MARKET_ORDER_EST
 }

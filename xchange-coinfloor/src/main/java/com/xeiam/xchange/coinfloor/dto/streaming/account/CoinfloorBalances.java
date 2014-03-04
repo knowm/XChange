@@ -19,54 +19,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.coinfloor.dto.streaming.account;
 
-import org.java_websocket.WebSocket.READYSTATE;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
- * </ul>
+ * @author obsessiveOrange
  */
-public interface StreamingExchangeService {
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CoinfloorBalances {
+
+  private final int tag;
+  private final int errorCode;
+  private final List<CoinfloorAssetBalance> balances;
 
   /**
-   * <p>
-   * Opens the connection to the upstream server for this instance.
-   * </p>
-   */
-  void connect();
-
-  /**
-   * <p>
-   * Closes the connection to the upstream server for this instance.
-   * </p>
-   */
-  void disconnect();
-
-  /**
-   * <p>
-   * Returns next event in consumer event queue, then removes it.
-   * </p>
+   * Constructor
    * 
-   * @return An ExchangeEvent
+   * @param balance
+   * @param op
+   * @param amount
    */
-  ExchangeEvent getNextEvent() throws InterruptedException;
+  public CoinfloorBalances(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode, @JsonProperty("balances") List<CoinfloorAssetBalance> balances) {
 
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  void send(String msg);
-  
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  READYSTATE getWebSocketStatus();
+    this.tag = tag;
+    this.errorCode = errorCode;
+    this.balances = balances;
+  }
+
+  public int getTag() {
+
+    return tag;
+  }
+
+  public int getErrorCode() {
+
+    return errorCode;
+  }
+
+  public List<CoinfloorAssetBalance> getBalances() {
+
+    return balances;
+  }
+
+  @Override
+  public String toString() {
+
+    return "CoinfloorBalancesReturn{tag='" + tag + "',errorCode='" + errorCode + "',balances='" + balances + "}";
+  }
 }

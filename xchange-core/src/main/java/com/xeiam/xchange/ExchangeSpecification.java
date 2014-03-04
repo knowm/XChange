@@ -286,6 +286,26 @@ public class ExchangeSpecification {
   }
 
   /**
+   * Get an item from the arbitrary exchange-specific parameters to be passed to the exchange implementation.
+   * 
+   * @return a Map of named exchange-specific parameter values
+   */
+  public Object getExchangeSpecificParametersItem(String key) {
+
+    return exchangeSpecificParameters.get(key);
+  }
+
+  /**
+   * Set an item in the arbitrary exchange-specific parameters to be passed to the exchange implementation.
+   * 
+   * @param exchangeSpecificParameters a Map of named exchange-specific parameter values
+   */
+  public void setExchangeSpecificParametersItem(String key, Object value) {
+
+    this.exchangeSpecificParameters.put(key, value);
+  }
+
+  /**
    * Get the password for authentication.
    * 
    * @return the password

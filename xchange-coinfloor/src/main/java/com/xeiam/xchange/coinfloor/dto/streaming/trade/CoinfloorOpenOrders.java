@@ -19,54 +19,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.coinfloor.dto.streaming.trade;
 
-import org.java_websocket.WebSocket.READYSTATE;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorOrder;
 
 /**
- * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
- * </ul>
+ * @author obsessiveOrange
  */
-public interface StreamingExchangeService {
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CoinfloorOpenOrders {
+
+  private final int tag;
+  private final int errorCode;
+  private final List<CoinfloorOrder> orders;
 
   /**
-   * <p>
-   * Opens the connection to the upstream server for this instance.
-   * </p>
-   */
-  void connect();
-
-  /**
-   * <p>
-   * Closes the connection to the upstream server for this instance.
-   * </p>
-   */
-  void disconnect();
-
-  /**
-   * <p>
-   * Returns next event in consumer event queue, then removes it.
-   * </p>
+   * Constructor
    * 
-   * @return An ExchangeEvent
+   * @param balance
+   * @param op
+   * @param amount
    */
-  ExchangeEvent getNextEvent() throws InterruptedException;
+  public CoinfloorOpenOrders(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode, @JsonProperty("orders") List<CoinfloorOrder> orders) {
 
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  void send(String msg);
-  
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  READYSTATE getWebSocketStatus();
+    this.tag = tag;
+    this.errorCode = errorCode;
+    this.orders = orders;
+  }
+
+  public int getTag() {
+
+    return tag;
+  }
+
+  public int getErrorCode() {
+
+    return errorCode;
+  }
+
+  public List<CoinfloorOrder> getOrders() {
+
+    return orders;
+  }
+
+  @Override
+  public String toString() {
+
+    return "CoinfloorOpenOrders{tag='" + tag + "',errorCode='" + errorCode + "',orders='" + orders + "}";
+  }
 }

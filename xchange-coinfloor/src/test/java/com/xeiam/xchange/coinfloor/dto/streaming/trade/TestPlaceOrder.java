@@ -19,54 +19,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.service.streaming;
+package com.xeiam.xchange.coinfloor.dto.streaming.trade;
 
-import org.java_websocket.WebSocket.READYSTATE;
+import java.io.IOException;
+import java.io.InputStream;
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * <p>
- * Interface to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>Standard methods available to explore the market data using asynchronous streaming data feeds</li>
- * </ul>
+ * @author obsessiveOrange
  */
-public interface StreamingExchangeService {
+public class TestPlaceOrder {
 
-  /**
-   * <p>
-   * Opens the connection to the upstream server for this instance.
-   * </p>
-   */
-  void connect();
+  @Test
+  public void testMapping() throws JsonParseException, JsonMappingException, IOException {
 
-  /**
-   * <p>
-   * Closes the connection to the upstream server for this instance.
-   * </p>
-   */
-  void disconnect();
+    // Read in the JSON from the example resources
+    InputStream is = TestPlaceOrder.class.getResourceAsStream("/trade/example-placeOrder-response.json");
 
-  /**
-   * <p>
-   * Returns next event in consumer event queue, then removes it.
-   * </p>
-   * 
-   * @return An ExchangeEvent
-   */
-  ExchangeEvent getNextEvent() throws InterruptedException;
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CoinfloorPlaceOrder testObject = mapper.readValue(is, CoinfloorPlaceOrder.class);
 
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  void send(String msg);
-  
-  /**
-   * <p>
-   * Sends a msg over the socket.
-   * </p>
-   */
-  READYSTATE getWebSocketStatus();
+    // Verify that the example data was mapped correctly
+    Assert.assertEquals(0, testObject.getErrorCode());
+    Assert.assertEquals(302, testObject.getTag());
+    Assert.assertEquals(211120, testObject.getId());
+  }
 }
