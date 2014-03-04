@@ -118,6 +118,9 @@ public class CoinfloorOrder{
 	  
 	  @Override
 	  public String toString(){
-		  return "CoinfloorOrder{id='" + id + "', bidID='" + bidID + "', askID='" + askID + "', base='" + base + "', counter='" + counter + "', baseQty='" + baseQty + "', price='" + price + "', counterQty='" + counterQty + "', time='" + time + "'}";
+		  return "CoinfloorOrder{id='" + id + "', bidID='" + bidID + "', askID='" + askID + "', base='" + base + 
+				  "', counter='" + counter + "', baseQty='" + baseQty + "', price='" + price + "', counterQty='" + counterQty + 
+				  "', bidRem='" + bidRem + "', askRem='" + askRem + "', bidBaseFee='" + bidBaseFee + "', bidCounterFee='" + bidCounterFee + 
+				  "', askBaseFee='" + askBaseFee + "', askCounterFee='" + askCounterFee + "', time='" + time + "'}";
 	  }
 }

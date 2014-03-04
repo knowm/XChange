@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.framing.FramedataImpl1;
@@ -111,6 +112,13 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   public ExchangeEvent getNextEvent() throws InterruptedException {
 
     ExchangeEvent event = consumerEventQueue.take();
+    return event;
+  }
+
+  public synchronized ExchangeEvent checkNextEvent() throws InterruptedException {
+	
+	if(consumerEventQueue.isEmpty()){TimeUnit.MILLISECONDS.sleep(100);}
+    ExchangeEvent event = consumerEventQueue.peek();
     return event;
   }
 

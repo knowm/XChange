@@ -466,4 +466,21 @@ public class CoinfloorAdapters {
 		if(cachedTrades == null){throw new ExchangeException("watchOrders method has not been called yet, or no trades have occurred!");}
 		return cachedTrades;
 	}
+	
+	/**
+	 * Experimental: USE WITH CAUTION.
+	 * 
+	 * Adapters cache every "OrdersMatched" event, add the trade to a local Trades object.
+	 * This method will return that cached Trades object. 
+	 * 
+	 * Notes: Will not survive program restarts, will only cache user's transactions, unless
+	 * \tWatchOrders method is called, in which case it will cache ALL transctions happening on that market.
+	 * 
+	 * @return Trades object representing all OrdersMatched trades recieved.
+	 * @throws ExchangeException if watchOrders method has not been called, or no trades have occurred.
+	 */
+	public Ticker getCachedTicker(){
+		if(cachedTicker == null){throw new ExchangeException("watchTicker method has not been called yet, or data has not been recieved");}
+		return cachedTicker;
+	}
 }

@@ -23,10 +23,12 @@ package com.xeiam.xchange.examples.coinfloor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import com.xeiam.xchange.Exchange;
@@ -47,11 +49,22 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
+ * This class shows the ExcutorService way of processing returns from the server. While it does look neat, it suffers from the
+ * problem that the requests and responses come on different streams, and responses have to be matched with requests before
+ * the data can be used. See the cancel all orders section of this demo. To cancel all orders, a request has to first be made to
+ * get all open orders, the response of which will be caught by the eventCatcherThread (MarketDataRunnable). Then, it will process
+ * that event, print it out, and then store the event in a secondary queue for retrival by the cancel-all-orders part of this program.
+ * 
+ * This is vastly different from the polling services, where data retrieved is returned directly from the method. This 
+ * CoinfloorStreamingExchangeService allows for the same retrival methods as the polling services. Please see CoinfloorDemo2 
+ * for example code implementing that route of data retrival. (Note: It is possible to mix both.)
+ * 
  * @author obsessiveOrange
  */
-
 public class CoinfloorDemo {
 
+  public static BlockingQueue<CoinfloorExchangeEvent> secondaryQueue = new LinkedBlockingQueue<CoinfloorExchangeEvent>();
+	
   public static void main(String[] args) throws InterruptedException, ExecutionException {
 	  ExchangeSpecification exSpec = new ExchangeSpecification(CoinfloorExchange.class);
 		exSpec.setUserName("163");
@@ -74,26 +87,13 @@ public class CoinfloorDemo {
 	        
 	    //connect, and authenicate using username/cookie/password provided in exSpec
 	    streamingExchangeService.connect();
-
-	    //get user's current open orders, cancel all of them.
-	    ((CoinfloorStreamingExchangeService)streamingExchangeService).getOrders();
-	    TimeUnit.MILLISECONDS.sleep(1000);
 	    
-	    CoinfloorExchangeEvent nextEvent = ((CoinfloorStreamingExchangeService)streamingExchangeService).getNextEvent();
-	    while(!nextEvent.getEventType().equals(ExchangeEventType.USER_ORDERS_LIST)){
-	    	nextEvent = ((CoinfloorStreamingExchangeService)streamingExchangeService).getNextEvent();
-		    TimeUnit.MILLISECONDS.sleep(1000);
-	    }
-
-	    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) nextEvent.getPayloadItem("raw");
-	    for(CoinfloorOrder order : openOrders.getOrders()){
-	        ((CoinfloorStreamingExchangeService)streamingExchangeService).cancelOrder(order.getId());
-		    TimeUnit.MILLISECONDS.sleep(1000);
-	    }
+	    
+	    
 	    
 	    //start handler for events
 	    ExecutorService executorService = Executors.newSingleThreadExecutor();
-	    Future<?> eventCatcherThread = executorService.submit(new MarketDataRunnable(streamingExchangeService));
+	    Future<?> eventCatcherThread = executorService.submit(new MarketDataRunnable(streamingExchangeService, secondaryQueue));
 	    
 	    //request AccountInfo data (balances)
 	    ((CoinfloorStreamingExchangeService)streamingExchangeService).getBalances();
@@ -133,7 +133,14 @@ public class CoinfloorDemo {
 	    MarketOrder estMarketOrder = new MarketOrder(OrderType.ASK, new BigDecimal(1), new CurrencyPair("BTC", "GBP"));
 	    ((CoinfloorStreamingExchangeService)streamingExchangeService).estimateMarketOrder(estMarketOrder);
 	    TimeUnit.MILLISECONDS.sleep(1000);
-
+	    
+	    //get user's current open orders, cancel all of them.
+	    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) ((CoinfloorStreamingExchangeService)streamingExchangeService).getOrders().getPayloadItem("raw");
+	    for(CoinfloorOrder order : openOrders.getOrders()){
+	        ((CoinfloorStreamingExchangeService)streamingExchangeService).cancelOrder(order.getId());
+		    TimeUnit.MILLISECONDS.sleep(1000);
+	    }
+	    
 	    //unsubscribe to ticker feed
 	    ((CoinfloorStreamingExchangeService)streamingExchangeService).unwatchTicker("BTC", "GBP");
 	    TimeUnit.MILLISECONDS.sleep(1000);
@@ -174,15 +181,17 @@ public class CoinfloorDemo {
   static class MarketDataRunnable implements Runnable {
 
     private final StreamingExchangeService streamingExchangeService;
-
+    private final BlockingQueue<CoinfloorExchangeEvent> secondaryQueue;
+    
     /**
      * Constructor
      * 
      * @param streamingExchangeService
      */
-    public MarketDataRunnable(StreamingExchangeService streamingExchangeService) {
-
+    public MarketDataRunnable(StreamingExchangeService streamingExchangeService, BlockingQueue<CoinfloorExchangeEvent> secondaryQueue) {
+   
       this.streamingExchangeService = streamingExchangeService;
+      this.secondaryQueue = secondaryQueue;
     }
 
     @Override
@@ -281,6 +290,7 @@ public class CoinfloorDemo {
 	          default:
 	            break;
 	          }
+          secondaryQueue.add(exchangeEvent);
 
         }
       } catch (InterruptedException e) {

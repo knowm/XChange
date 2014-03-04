@@ -66,6 +66,7 @@ import com.xeiam.xchange.service.streaming.ExchangeEventType;
 public class CoinfloorEventListener extends ExchangeEventListener {
 
   private static final Logger log = LoggerFactory.getLogger(CoinfloorEventListener.class);
+  private final BlockingQueue<ExchangeEvent> systemEventQueue;
   private final BlockingQueue<ExchangeEvent> consumerEventQueue;
   private final ObjectMapper streamObjectMapper;
   private final CoinfloorAdapters coinfloorAdapters = new CoinfloorAdapters();
@@ -73,9 +74,10 @@ public class CoinfloorEventListener extends ExchangeEventListener {
   /**
    * @param consumerEventQueue
    */
-  public CoinfloorEventListener(BlockingQueue<ExchangeEvent> consumerEventQueue) {
+  public CoinfloorEventListener(BlockingQueue<ExchangeEvent> consumerEventQueue, BlockingQueue<ExchangeEvent> systemEventQueue) {
 
     this.consumerEventQueue = consumerEventQueue;
+    this.systemEventQueue = systemEventQueue;
     this.streamObjectMapper = new ObjectMapper();
     this.streamObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
@@ -203,6 +205,7 @@ public class CoinfloorEventListener extends ExchangeEventListener {
 
     try {
       consumerEventQueue.put(event);
+      systemEventQueue.put(event);
     } catch (InterruptedException e) {
       throw new ExchangeException("InterruptedException!", e);
     }

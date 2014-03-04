@@ -75,7 +75,11 @@ public class CoinfloorExchangeEvent implements ExchangeEvent {
   }
 
   @Override
-  public Object getPayload(){
+  public Map<String, Object> getPayload(){
+	  return payload;
+  }
+  
+  public Object getPayloadGeneric(){
 	  return payload.get("Generic");
   }
 
