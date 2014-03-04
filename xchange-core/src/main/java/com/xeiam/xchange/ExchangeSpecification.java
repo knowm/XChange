@@ -46,8 +46,6 @@ public class ExchangeSpecification {
   private String secretKey;
 
   private String apiKey;
-  
-  private String cookie;
 
   private String sslUri;
 
@@ -141,26 +139,6 @@ public class ExchangeSpecification {
   public void setApiKey(String apiKey) {
 
     this.apiKey = apiKey;
-  }
-
-  /**
-   * Get the cookie. This is currently (28-Feb-14) only used for coinfloor
-   * 
-   * @return the Cookie
-   */
-  public String getCookie() {
-
-    return cookie;
-  }
-
-  /**
-   * Set the cookie. This is currently (28-Feb-14) only used for coinfloor
-   * 
-   * @param cookie the Cookie
-   */
-  public void setCookie(String cookie) {
-
-    this.cookie = cookie;
   }
 
   /**
@@ -305,6 +283,26 @@ public class ExchangeSpecification {
   public void setExchangeSpecificParameters(Map<String, Object> exchangeSpecificParameters) {
 
     this.exchangeSpecificParameters = exchangeSpecificParameters;
+  }
+
+  /**
+   * Get an item from the arbitrary exchange-specific parameters to be passed to the exchange implementation.
+   * 
+   * @return a Map of named exchange-specific parameter values
+   */
+  public Object getExchangeSpecificParametersItem(String key) {
+
+    return exchangeSpecificParameters.get(key);
+  }
+
+  /**
+   * Set an item in the arbitrary exchange-specific parameters to be passed to the exchange implementation.
+   * 
+   * @param exchangeSpecificParameters a Map of named exchange-specific parameter values
+   */
+  public void setExchangeSpecificParametersItem(String key, Object value) {
+
+    this.exchangeSpecificParameters.put(key, value);
   }
 
   /**

@@ -153,43 +153,41 @@ public class CoinfloorEventListener extends ExchangeEventListener {
 		  }
 	  }
 	  else if(jsonData.containsKey("notice")){
-		  switch((String)jsonData.get("notice")){
-		  	case "Welcome":
-		  		CoinfloorExchangeEvent welcomeEvent = new CoinfloorExchangeEvent(ExchangeEventType.WELCOME,
-		  				event.getData(),
-		  				jsonData);
-		  		addToEventQueue(welcomeEvent);
-		  		break;
-		  	case "BalanceChanged":
-		  		CoinfloorExchangeEvent balancesChangedEvent = new CoinfloorExchangeEvent(ExchangeEventType.USER_WALLET_UPDATE,
-		  				event.getData(),
-		  				coinfloorAdapters.adaptBalancesChanged(event.getData()));
-		  		addToEventQueue(balancesChangedEvent);
-		  		break;
-		  	case "OrderOpened":
-		  		CoinfloorExchangeEvent orderOpenedEvent = new CoinfloorExchangeEvent(ExchangeEventType.ORDER_ADDED,
-		  				event.getData(),
-		  				coinfloorAdapters.adaptOrderOpened(event.getData()));
-		  		addToEventQueue(orderOpenedEvent);
-		  		break;
-		  	case "OrdersMatched":
-		  		CoinfloorExchangeEvent tradeEvent = new CoinfloorExchangeEvent(ExchangeEventType.TRADE,
-		  				event.getData(),
-		  				coinfloorAdapters.adaptOrdersMatched(event.getData()));
-		  		addToEventQueue(tradeEvent);
-		  		break;
-		  	case "OrderClosed":
-		  		CoinfloorExchangeEvent orderClosedEvent = new CoinfloorExchangeEvent(ExchangeEventType.ORDER_CANCELED,
-		  				event.getData(),
-		  				coinfloorAdapters.adaptOrderClosed(event.getData()));
-		  		addToEventQueue(orderClosedEvent);
-		  		break;
-		  	case "TickerChanged":
-		  		CoinfloorExchangeEvent tickerChangedEvent = new CoinfloorExchangeEvent(ExchangeEventType.TICKER,
-		  				event.getData(),
-		  				coinfloorAdapters.adaptTickerUpdate(event.getData()));
-		  		addToEventQueue(tickerChangedEvent);
-		  		break;
+		  if(jsonData.get("notice").equals("Welcome")){
+			CoinfloorExchangeEvent welcomeEvent = new CoinfloorExchangeEvent(ExchangeEventType.WELCOME,
+	  			event.getData(),
+  				jsonData);
+	  		addToEventQueue(welcomeEvent);
+		  }
+		  else if(jsonData.get("notice").equals("BalanceChanged")){
+	  		CoinfloorExchangeEvent balancesChangedEvent = new CoinfloorExchangeEvent(ExchangeEventType.USER_WALLET_UPDATE,
+	  				event.getData(),
+	  				coinfloorAdapters.adaptBalancesChanged(event.getData()));
+	  		addToEventQueue(balancesChangedEvent);
+		  }
+		  else if(jsonData.get("notice").equals("OrderOpened")){
+	  		CoinfloorExchangeEvent orderOpenedEvent = new CoinfloorExchangeEvent(ExchangeEventType.ORDER_ADDED,
+	  				event.getData(),
+	  				coinfloorAdapters.adaptOrderOpened(event.getData()));
+	  		addToEventQueue(orderOpenedEvent);
+		  }
+		  else if(jsonData.get("notice").equals("OrdersMatched")){
+	  		CoinfloorExchangeEvent tradeEvent = new CoinfloorExchangeEvent(ExchangeEventType.TRADE,
+	  				event.getData(),
+	  				coinfloorAdapters.adaptOrdersMatched(event.getData()));
+	  		addToEventQueue(tradeEvent);
+		  }
+		  else if(jsonData.get("notice").equals("OrderClosed")){
+	  		CoinfloorExchangeEvent orderClosedEvent = new CoinfloorExchangeEvent(ExchangeEventType.ORDER_CANCELED,
+	  				event.getData(),
+	  				coinfloorAdapters.adaptOrderClosed(event.getData()));
+	  		addToEventQueue(orderClosedEvent);
+		  }
+		  else if(jsonData.get("notice").equals("TickerChanged")){
+	  		CoinfloorExchangeEvent tickerChangedEvent = new CoinfloorExchangeEvent(ExchangeEventType.TICKER,
+	  				event.getData(),
+	  				coinfloorAdapters.adaptTickerUpdate(event.getData()));
+	  		addToEventQueue(tickerChangedEvent);
 		  }
 	  }
 	  else{

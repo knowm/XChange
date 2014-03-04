@@ -118,7 +118,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 	    	  
 	RequestFactory.CoinfloorAuthenticationRequest authVars = new RequestFactory.CoinfloorAuthenticationRequest(
 	    Long.valueOf(exchangeSpecification.getUserName()), 
-	    exchangeSpecification.getCookie(), 
+	    (String)exchangeSpecification.getExchangeSpecificParametersItem("cookie"), 
 	    exchangeSpecification.getPassword(), 
 	    (String) event.getPayloadItem("nonce"));
 	

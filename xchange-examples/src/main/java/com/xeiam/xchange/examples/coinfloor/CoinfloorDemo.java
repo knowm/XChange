@@ -67,7 +67,7 @@ public class CoinfloorDemo {
   public static void main(String[] args) throws InterruptedException, ExecutionException {
 	  ExchangeSpecification exSpec = new ExchangeSpecification(CoinfloorExchange.class);
 		exSpec.setUserName("163");
-		exSpec.setCookie("X1UC55QE4WXNZMKfP4FfCsxKVfw=");
+		exSpec.setExchangeSpecificParametersItem("cookie", "X1UC55QE4WXNZMKfP4FfCsxKVfw=");
 		exSpec.setPassword("2QvxAyUvPTIX8mrCvH");
 		exSpec.setPlainTextUriStreaming("ws://api.coinfloor.co.uk");
 		exSpec.setSslUriStreaming("wss://api.coinfloor.co.uk");

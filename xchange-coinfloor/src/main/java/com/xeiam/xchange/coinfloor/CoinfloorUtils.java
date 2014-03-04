@@ -111,44 +111,31 @@ public class CoinfloorUtils {
   }
 
   public static String getCurrency(int currencyCode){
-	  switch(currencyCode){
-	  	case 0:
-	  		return null;
-	  	case 63488:
-	  		return "BTC";
-	  	case 64032:
-	  		return "GBP";	  		
-	  }
+	  if(currencyCode == 0){return null;}
+	  else if(currencyCode == 63488){return "BTC";}
+	  else if(currencyCode == 64032){return "GBP";}
+	  
 	  throw new ExchangeException("Currency Code " + currencyCode + " not supported by coinfloor!");
   }
   		
   public static int toCurrencyCode(String currency) {
-	  switch(currency){
-	  	case "BTC":
-	  		return 63488;
-	  	case "GBP":
-	  		return 64032;	
-	  }
+	  if(currency.equals("BTC")){return 63488;}
+	  else if(currency.equals("GBP")){return 64032;}
+	  
 	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
   }
 
   public static BigDecimal scaleToBigDecimal(String currency, int amountToScale){
-	  switch(currency){
-	  	case "BTC":
-	  		return new BigDecimal(amountToScale).divide(new BigDecimal(10000));
-	  	case "GBP":
-	  		return new BigDecimal(amountToScale).divide(new BigDecimal(10000));	  		
-	  }
+	  if(currency.equals("BTC")){return new BigDecimal(amountToScale).divide(new BigDecimal(10000));}
+	  else if(currency.equals("GBP")){return new BigDecimal(amountToScale).divide(new BigDecimal(10000));}
+	  
 	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
   }
   
   public static int scaleToInt(String currency, BigDecimal amountToScale){
-	  switch(currency){
-	  	case "BTC":
-	  		return amountToScale.multiply(new BigDecimal(10000)).intValue();
-	  	case "GBP":
-	  		return amountToScale.multiply(new BigDecimal(10000)).intValue();	  		
-	  }
+	  if(currency.equals("BTC")){return amountToScale.multiply(new BigDecimal(10000)).intValue();}
+	  else if(currency.equals("GBP")){return amountToScale.multiply(new BigDecimal(10000)).intValue();}
+	  
 	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
   }
 
