@@ -104,7 +104,7 @@ public class CoinfloorUtils {
   
   public static void checkSuccess(Map<String, Object> payload){
 	  if(payload.containsKey("error_code")){
-		  if(!(payload.get("error_code") instanceof Integer) || (int)payload.get("error_code") != 0){
+		  if(!(payload.get("error_code") instanceof Integer) || (Integer)payload.get("error_code") != 0){
 			  throw new ExchangeException("Server returned error " + payload.get("error_code") + ": " + payload.get("error_msg"));
 		  }
 	  }
