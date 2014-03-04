@@ -210,10 +210,6 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
   /**
    * Stop watching the orderbook
-   * 
-   * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
-   * > A raw object of type CoinfloorOrderbookReturn (key "raw")
-   * > A generic object of type Depth (key "generic")
    */
   public void unwatchOrders(String tradableIdentifier, String tradingCurrency) {
 	doNewRequest(new RequestFactory.UnwatchOrdersRequest(tradableIdentifier, tradingCurrency));
@@ -232,10 +228,6 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
   /**
    * Stop watching the ticker feed
-   * 
-   * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
-   * > A raw object of type CoinfloorTicker (key "raw")
-   * > A generic object of type Ticker (key "generic")
    */
   public void unwatchTicker(String tradableIdentifier, String tradingCurrency) {
 	doNewRequest(new RequestFactory.UnwatchTickerRequest(tradableIdentifier, tradingCurrency));

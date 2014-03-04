@@ -250,13 +250,15 @@ public class CoinfloorAdapters {
 		List<LimitOrder> askList = (cachedOrderBook == null ? new ArrayList<LimitOrder>() : cachedOrderBook.getAsks());
 	    List<CoinfloorOrder> orders = rawRetObj.getOrders();
 
-	    for (CoinfloorOrder order : orders) {
-	    	if(order.getBaseQty().doubleValue() > 0){
-	    		bidList.add(adaptOrder(order));
-	    	}
-	    	else{
-	    		askList.add(adaptOrder(order));
-	    	}
+	    if(orders != null){
+		    for (CoinfloorOrder order : orders) {
+		    	if(order.getBaseQty().doubleValue() > 0){
+		    		bidList.add(adaptOrder(order));
+		    	}
+		    	else{
+		    		askList.add(adaptOrder(order));
+		    	}
+		    }
 	    }
 	    
 	    OrderBook orderbook = new OrderBook(new Date(), askList, bidList);

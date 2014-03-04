@@ -75,6 +75,22 @@ public class CoinfloorDemo {
 	    //connect, and authenicate using username/cookie/password provided in exSpec
 	    streamingExchangeService.connect();
 
+	    //get user's current open orders, cancel all of them.
+	    ((CoinfloorStreamingExchangeService)streamingExchangeService).getOrders();
+	    TimeUnit.MILLISECONDS.sleep(1000);
+	    
+	    CoinfloorExchangeEvent nextEvent = ((CoinfloorStreamingExchangeService)streamingExchangeService).getNextEvent();
+	    while(!nextEvent.getEventType().equals(ExchangeEventType.USER_ORDERS_LIST)){
+	    	nextEvent = ((CoinfloorStreamingExchangeService)streamingExchangeService).getNextEvent();
+		    TimeUnit.MILLISECONDS.sleep(1000);
+	    }
+
+	    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) nextEvent.getPayloadItem("raw");
+	    for(CoinfloorOrder order : openOrders.getOrders()){
+	        ((CoinfloorStreamingExchangeService)streamingExchangeService).cancelOrder(order.getId());
+		    TimeUnit.MILLISECONDS.sleep(1000);
+	    }
+	    
 	    //start handler for events
 	    ExecutorService executorService = Executors.newSingleThreadExecutor();
 	    Future<?> eventCatcherThread = executorService.submit(new MarketDataRunnable(streamingExchangeService));
@@ -118,21 +134,13 @@ public class CoinfloorDemo {
 	    ((CoinfloorStreamingExchangeService)streamingExchangeService).estimateMarketOrder(estMarketOrder);
 	    TimeUnit.MILLISECONDS.sleep(1000);
 
-	    //get user's current open orders, cancel all of them.
-	    ((CoinfloorStreamingExchangeService)streamingExchangeService).getOrders();
+	    //unsubscribe to ticker feed
+	    ((CoinfloorStreamingExchangeService)streamingExchangeService).unwatchTicker("BTC", "GBP");
 	    TimeUnit.MILLISECONDS.sleep(1000);
 
-	    CoinfloorExchangeEvent nextEvent = ((CoinfloorStreamingExchangeService)streamingExchangeService).getNextEvent();
-	    while(!nextEvent.getEventType().equals(ExchangeEventType.USER_ORDERS_LIST)){
-	    	nextEvent = ((CoinfloorStreamingExchangeService)streamingExchangeService).getNextEvent();
-		    TimeUnit.MILLISECONDS.sleep(1000);
-	    }
-
-	    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) nextEvent.getPayloadItem("raw");
-	    for(CoinfloorOrder order : openOrders.getOrders()){
-	        ((CoinfloorStreamingExchangeService)streamingExchangeService).cancelOrder(order.getId());
-		    TimeUnit.MILLISECONDS.sleep(1000);
-	    }
+	    //unsubscribe to orderbook
+		((CoinfloorStreamingExchangeService)streamingExchangeService).unwatchOrders("BTC", "GBP");
+	    TimeUnit.MILLISECONDS.sleep(1000);
 
 	    TimeUnit.MINUTES.sleep(1);
 	    
@@ -205,13 +213,13 @@ public class CoinfloorDemo {
 	            break;
 	
 	          case SUBSCRIBE_ORDERS:
-		        	System.out.println("Successfully subscribed to order feed: ");
+		        	System.out.println("Successfully subscribed/unsubscribed to order feed: ");
 		        	System.out.println("Raw Object: " + exchangeEvent.getPayloadItem("raw"));
 		        	System.out.println("Generic Object: " + exchangeEvent.getPayloadItem("generic"));
 	            break;
 	
 	          case SUBSCRIBE_TICKER:
-		        	System.out.println("Successfully subscribed to ticker feed: ");
+		        	System.out.println("Successfully subscribed/unsubscribed to ticker feed: ");
 		        	System.out.println("Raw Object: " + exchangeEvent.getPayloadItem("raw"));
 		        	System.out.println("Generic Object: " + exchangeEvent.getPayloadItem("generic"));
 	            break;
