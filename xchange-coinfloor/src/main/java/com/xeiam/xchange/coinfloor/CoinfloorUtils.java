@@ -125,16 +125,16 @@ public class CoinfloorUtils {
 	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
   }
 
-  public static BigDecimal scaleToBigDecimal(String currency, int amountToScale){
-	  if(currency.equals("BTC")){return new BigDecimal(amountToScale).divide(new BigDecimal(10000));}
-	  else if(currency.equals("GBP")){return new BigDecimal(amountToScale).divide(new BigDecimal(10000));}
+  public static BigDecimal scaleToBigDecimal(String currency, Integer amountToScale){
+	  if(currency.equals("BTC")){return new BigDecimal(amountToScale.toString()).divide(new BigDecimal("10000"));}
+	  else if(currency.equals("GBP")){return new BigDecimal(amountToScale.toString()).divide(new BigDecimal("10000"));}
 	  
 	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
   }
   
   public static int scaleToInt(String currency, BigDecimal amountToScale){
-	  if(currency.equals("BTC")){return amountToScale.multiply(new BigDecimal(10000)).intValue();}
-	  else if(currency.equals("GBP")){return amountToScale.multiply(new BigDecimal(10000)).intValue();}
+	  if(currency.equals("BTC")){return amountToScale.multiply(new BigDecimal("10000")).intValue();}
+	  else if(currency.equals("GBP")){return amountToScale.multiply(new BigDecimal("10000")).intValue();}
 	  
 	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
   }
@@ -144,8 +144,8 @@ public class CoinfloorUtils {
    * @param amountToScale The integer result recieved from API Call
    * @return BigDecimal representation of integer amount
    */
-  public static BigDecimal scalePriceToBigDecimal(int amountToScale){
-	  return new BigDecimal(amountToScale).divide(new BigDecimal(10000));
+  public static BigDecimal scalePriceToBigDecimal(Integer amountToScale){
+	  return new BigDecimal(amountToScale.toString()).divide(new BigDecimal(10000));
   }
   
 

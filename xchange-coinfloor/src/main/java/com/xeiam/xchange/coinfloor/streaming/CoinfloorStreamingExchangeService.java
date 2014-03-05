@@ -143,7 +143,6 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 					nextEventType.equals(ExchangeEventType.TRADE) || nextEventType.equals(ExchangeEventType.ORDER_CANCELED) || 
 					nextEventType.equals(ExchangeEventType.TICKER) || nextEventType.equals(ExchangeEventType.WELCOME) || 
 					nextEventType.equals(ExchangeEventType.AUTHENTICATION)){
-				System.out.println(consumerEventQueue.size());
 				updateEventQueue.put(
 						(CoinfloorExchangeEvent)getNextSystemEvent());
 			}
