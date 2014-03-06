@@ -67,7 +67,7 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
 
     verify(limitOrder.getCurrencyPair());
 
-    return super.placeBTERLimitOrder(limitOrder);
+    return String.valueOf(super.placeBTERLimitOrder(limitOrder));
   }
 
   @Override

@@ -47,19 +47,19 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthe
     super(BTERAuthenticated.class, exchangeSpecification);
   }
 
-  public String placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
+  public boolean placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
 
     BTEROrderType type = (limitOrder.getType() == Order.OrderType.BID) ? BTEROrderType.BUY : BTEROrderType.SELL;
     
     return placeBTERLimitOrder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
   }
 
-  public String placeBTERLimitOrder(CurrencyPair currencyPair, BTEROrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
+  public boolean placeBTERLimitOrder(CurrencyPair currencyPair, BTEROrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
 
     String pair = String.format("%s_%s", currencyPair.baseCurrency, currencyPair.counterCurrency).toLowerCase();
     BTERPlaceOrderReturn orderId = bter.placeOrder(pair, orderType, rate, amount, apiKey, signatureCreator, nextNonce());
 
-    return handleResponse(orderId).getOrderId();
+    return handleResponse(orderId).isResult();
   }
   
   public boolean cancelOrder(String orderId) throws IOException {
