@@ -22,12 +22,11 @@
 package com.xeiam.xchange.bter.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.bter.dto.BTERBaseResponse;
 
-public class BTERPlaceOrderReturn {
+public class BTERPlaceOrderReturn extends BTERBaseResponse {
 
-  private final String result;
   private final String orderId;
-  private final String msg;
 
   /**
    * Constructor
@@ -36,16 +35,10 @@ public class BTERPlaceOrderReturn {
    * @param value
    * @param error
    */
-  public BTERPlaceOrderReturn(@JsonProperty("result") String aResult, @JsonProperty("order_id") String anOrderId, @JsonProperty("msg") String aMessage) {
+  private BTERPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("order_id") String anOrderId, @JsonProperty("msg") String message) {
 
-    result = aResult;
+    super(result, message);
     orderId = anOrderId;
-    msg = aMessage;
-  }
-
-  public String getResult() {
-
-    return result;
   }
 
   public String getOrderId() {
@@ -53,9 +46,10 @@ public class BTERPlaceOrderReturn {
     return orderId;
   }
 
-  public String getMsg() {
+  @Override
+  public String toString() {
 
-    return msg;
+    return "BTERPlaceOrderReturn [orderId=" + orderId + "]";
   }
 
 }

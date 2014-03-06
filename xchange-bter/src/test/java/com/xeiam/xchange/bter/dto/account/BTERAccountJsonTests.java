@@ -19,23 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoinium.service;
+package com.xeiam.xchange.bter.dto.account;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Map;
+
 import org.junit.Test;
 
-import com.xeiam.xchange.bitcoinium.BitcoiniumUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.Currencies;
 
-/**
- * Test class for BitcoiniumUtils class
- */
-public class BitcoiniumUtilsTest {
+
+public class BTERAccountJsonTests {
 
   @Test
-  public void testIsValidCurrencyPair() {
+  public void testDeserializeFunds() throws IOException {
 
-    assertThat(BitcoiniumUtils.isValidCurrencyPair("MTGOX_BTC_USD")).isTrue();
-    assertThat(BitcoiniumUtils.isValidCurrencyPair("MTGOX_BTC_XYZ")).isFalse();
+    // Read in the JSON from the example resources
+    InputStream is = BTERAccountJsonTests.class.getResourceAsStream("/account/example-funds-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTERFunds funds = mapper.readValue(is, BTERFunds.class);
+
+    assertThat(funds.isResult()).isTrue();
+    
+    Map<String, BigDecimal> availableFunds = funds.getAvailableFunds();
+    assertThat(availableFunds).hasSize(4);
+    assertThat(availableFunds.get(Currencies.FTC)).isEqualTo("0.00003326");
+    
+    Map<String, BigDecimal> lockedFunds = funds.getLockedFunds();
+    assertThat(lockedFunds).hasSize(1);
+    assertThat(lockedFunds.get(Currencies.LTC)).isEqualTo("0.384");
   }
 }

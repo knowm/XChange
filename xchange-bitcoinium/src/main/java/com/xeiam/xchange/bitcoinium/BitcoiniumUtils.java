@@ -36,36 +36,6 @@ public final class BitcoiniumUtils {
 
   }
 
-  public static final List<String> CURRENCY_PAIRS = Arrays.asList(
-
-  "MTGOX_BTC_USD",
-
-  "MTGOX_BTC_EUR",
-
-  "MTGOX_BTC_GBP",
-
-  "MTGOX_BTC_CAD",
-
-  "MTGOX_BTC_JPY",
-
-  "MTGOX_BTC_PLN",
-
-  "BITSTAMP_BTC_USD",
-
-  "BTCCHINA_BTC_CNY",
-
-  "BTCE_BTC_EUR",
-
-  "BTCE_BTC_RUR",
-
-  "BTCE_BTC_USD",
-
-  "KRAKEN_BTC_EUR",
-
-  "KRAKEN_BTC_USD"
-
-  );
-
   public static final List<String> PRICE_WINDOW = Arrays.asList(
 
   "2p", "5p", "10p", "20p", "50p", "100p"
@@ -79,17 +49,6 @@ public final class BitcoiniumUtils {
   );
 
   /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(String currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
-
-  /**
    * Creates a valid currency pair for Bitcoinium.com
    * 
    * @param tradableIdentifier
@@ -97,9 +56,9 @@ public final class BitcoiniumUtils {
    * @param exchange
    * @return
    */
-  public static String createCurrencyPairString(String tradableIdentifier, String currency, String exchange) {
+  public static String createCurrencyPairString(String tradableIdentifier, String currency) {
 
-    return exchange + "_" + tradableIdentifier + "_" + currency;
+    return tradableIdentifier + "_" + currency;
 
   }
 

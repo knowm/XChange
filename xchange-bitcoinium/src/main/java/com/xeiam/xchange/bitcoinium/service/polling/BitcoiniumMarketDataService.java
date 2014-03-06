@@ -22,7 +22,6 @@
 package com.xeiam.xchange.bitcoinium.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -60,23 +59,10 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String exchange = "";
-
-    if (args.length == 1) {
-      Object arg = args[0];
-      if (!(arg instanceof String)) {
-        throw new ExchangeException("Exchange argument must be a String!");
-      }
-      else {
-        exchange = (String) arg;
-      }
-    }
-    else {
-      throw new ExchangeException("One and only one String argument is allowed!");
-    }
+    verify(currencyPair);
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.baseCurrency, currencyPair.counterCurrency, exchange);
+    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currencyPair);
@@ -85,31 +71,25 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String exchange = "";
+    verify(currencyPair);
+
     String priceWindow = "";
 
-    if (args.length == 2) {
+    if (args.length == 1) {
       Object arg0 = args[0];
       if (!(arg0 instanceof String)) {
-        throw new ExchangeException("Exchange argument must be a String!");
-      }
-      else {
-        exchange = (String) arg0;
-      }
-      Object arg1 = args[1];
-      if (!(arg1 instanceof String)) {
         throw new ExchangeException("priceWindow argument must be a String!");
       }
       else {
-        priceWindow = (String) arg1;
+        priceWindow = (String) arg0;
       }
     }
     else {
-      throw new ExchangeException("Exactly 2 String arguments are necessary: exchange, and priceWindow!");
+      throw new ExchangeException("Exactly 1 String arguments is necessary: the priceWindow!");
     }
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.baseCurrency, currencyPair.counterCurrency, exchange, priceWindow);
+    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.baseCurrency, currencyPair.counterCurrency, priceWindow);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, currencyPair);
@@ -117,12 +97,6 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
 
     throw new NotAvailableFromExchangeException();
   }

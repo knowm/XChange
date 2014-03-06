@@ -110,7 +110,6 @@ public final class CryptoTradeAdapters {
 
   public static LimitOrder adaptOrder(CryptoTradeOrder order) {
 
-    CurrencyPair currencyPair = order.getCurrencyPair();
     Date timestamp = DateUtils.fromMillisUtc(order.getTimestamp());
     OrderType orderType = adaptOrderType(order.getType());
 
@@ -134,7 +133,6 @@ public final class CryptoTradeAdapters {
   public static Trade adaptTrade(CryptoTradeTrade trade) {
 
     OrderType orderType = adaptOrderType(trade.getType());
-    CurrencyPair currencyPair = trade.getCurrencyPair();
     Date timestamp = DateUtils.fromMillisUtc(trade.getTimestamp());
 
     return new Trade(orderType, trade.getAmount(), trade.getCurrencyPair(), trade.getRate(), timestamp, String.valueOf(trade.getId()), String.valueOf(trade.getMyOrder()));

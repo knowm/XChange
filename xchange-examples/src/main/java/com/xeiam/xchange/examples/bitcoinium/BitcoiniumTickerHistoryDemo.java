@@ -63,7 +63,7 @@ public class BitcoiniumTickerHistoryDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, Currencies.USD, "BITSTAMP", "2M");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "2M");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 

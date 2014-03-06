@@ -56,7 +56,6 @@ public class VircurexMarketDataServiceRaw extends VircurexBaseService {
 
   public VircurexDepth getVircurexOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    verify(currencyPair);
     VircurexDepth vircurexDepth = vircurex.getFullDepth(currencyPair.counterCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
 
     return vircurexDepth;

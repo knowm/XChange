@@ -71,12 +71,12 @@ public class TestCoinfloorUtils {
   @Test
   public void verifyScaling() {
 
-    Assert.assertEquals(new BigDecimal(1), CoinfloorUtils.scaleToBigDecimal("BTC", 10000));
-    Assert.assertEquals(new BigDecimal(1), CoinfloorUtils.scaleToBigDecimal("GBP", 10000));
-    Assert.assertEquals(new BigDecimal(1), CoinfloorUtils.scalePriceToBigDecimal(10000));
-    Assert.assertEquals(10000, CoinfloorUtils.scaleToInt("BTC", new BigDecimal(1)));
-    Assert.assertEquals(10000, CoinfloorUtils.scaleToInt("GBP", new BigDecimal(1)));
-    Assert.assertEquals(10000, CoinfloorUtils.scalePriceToInt(new BigDecimal(1)));
+    Assert.assertEquals(BigDecimal.valueOf(10000, 4), CoinfloorUtils.scaleToBigDecimal("BTC", 10000));
+    Assert.assertEquals(BigDecimal.valueOf(100, 2), CoinfloorUtils.scaleToBigDecimal("GBP", 100));
+    Assert.assertEquals(BigDecimal.valueOf(100, 2), CoinfloorUtils.scalePriceToBigDecimal("BTC", "GBP", 100));
+    Assert.assertEquals(10000, CoinfloorUtils.scaleToInt("BTC", BigDecimal.valueOf(1)));
+    Assert.assertEquals(100, CoinfloorUtils.scaleToInt("GBP", BigDecimal.valueOf(1)));
+    Assert.assertEquals(100, CoinfloorUtils.scalePriceToInt("BTC", "GBP", BigDecimal.valueOf(1)));
   }
   
   @Test (expected = ExchangeException.class)

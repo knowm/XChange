@@ -24,13 +24,13 @@ package com.xeiam.xchange.coinfloor.dto.streaming.account;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.coinfloor.dto.streaming.account.CoinfloorBalances;
 
 /**
  * @author obsessiveOrange
@@ -52,8 +52,8 @@ public class TestGetBalancesReturn {
     Assert.assertEquals(101, testObject.getTag());
     Assert.assertEquals(2, testObject.getBalances().size());
     Assert.assertEquals("BTC", testObject.getBalances().get(0).getAsset());
-    Assert.assertEquals(new BigDecimal("10001.4718"), testObject.getBalances().get(0).getBalance());
+    Assert.assertEquals(new BigDecimal("100014718"), testObject.getBalances().get(0).getBalance());
     Assert.assertEquals("GBP", testObject.getBalances().get(1).getAsset());
-    Assert.assertEquals(new BigDecimal("93.1913"), testObject.getBalances().get(1).getBalance());
+    Assert.assertEquals(new BigDecimal("931913"), testObject.getBalances().get(1).getBalance());
   }
 }

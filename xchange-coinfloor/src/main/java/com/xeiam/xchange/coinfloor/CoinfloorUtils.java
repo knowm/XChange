@@ -125,18 +125,26 @@ public class CoinfloorUtils {
 	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
   }
 
+  public static int getCurrencyScale(String currency) {
+
+    if (currency.equals("BTC")) {
+      return 4;
+    }
+    else if (currency.equals("GBP")) {
+      return 2;
+    }
+
+    throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
+  }
+
   public static BigDecimal scaleToBigDecimal(String currency, Integer amountToScale){
-	  if(currency.equals("BTC")){return new BigDecimal(amountToScale.toString()).divide(new BigDecimal("10000"));}
-	  else if(currency.equals("GBP")){return new BigDecimal(amountToScale.toString()).divide(new BigDecimal("10000"));}
-	  
-	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
+
+    return BigDecimal.valueOf(amountToScale, getCurrencyScale(currency));
   }
   
   public static int scaleToInt(String currency, BigDecimal amountToScale){
-	  if(currency.equals("BTC")){return amountToScale.multiply(new BigDecimal("10000")).intValue();}
-	  else if(currency.equals("GBP")){return amountToScale.multiply(new BigDecimal("10000")).intValue();}
-	  
-	  throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
+
+    return amountToScale.movePointRight(getCurrencyScale(currency)).intValue();
   }
 
   /**
@@ -144,8 +152,9 @@ public class CoinfloorUtils {
    * @param amountToScale The integer result recieved from API Call
    * @return BigDecimal representation of integer amount
    */
-  public static BigDecimal scalePriceToBigDecimal(Integer amountToScale){
-	  return new BigDecimal(amountToScale.toString()).divide(new BigDecimal(10000));
+  public static BigDecimal scalePriceToBigDecimal(String baseCurrency, String counterCurrency, Integer amountToScale) {
+
+    return BigDecimal.valueOf(amountToScale, getCurrencyScale(counterCurrency) - getCurrencyScale(baseCurrency) + 4);
   }
   
 
@@ -154,7 +163,8 @@ public class CoinfloorUtils {
    * @param amountToScale The integer result recieved from API Call
    * @return BigDecimal representation of integer amount
    */
-  public static int scalePriceToInt(BigDecimal amountToScale){
-	  return amountToScale.multiply(new BigDecimal(10000)).intValue();
+  public static int scalePriceToInt(String baseCurrency, String counterCurrency, BigDecimal amountToScale) {
+
+    return amountToScale.movePointRight(getCurrencyScale(counterCurrency) - getCurrencyScale(baseCurrency) + 4).intValue();
   }
 }

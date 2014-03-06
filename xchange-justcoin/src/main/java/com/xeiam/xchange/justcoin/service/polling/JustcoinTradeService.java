@@ -48,19 +48,23 @@ public class JustcoinTradeService extends JustcoinTradeServiceRaw implements Pol
   }
 
   @Override
-  public String placeMarketOrder(final MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    verify(marketOrder.getCurrencyPair());
 
     return super.placeMarketOrder(marketOrder);
   }
 
   @Override
-  public String placeLimitOrder(final LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    verify(limitOrder.getCurrencyPair());
 
     return super.placeLimitOrder(limitOrder);
   }
 
   @Override
-  public boolean cancelOrder(final String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     return super.cancelOrder(orderId);
   }

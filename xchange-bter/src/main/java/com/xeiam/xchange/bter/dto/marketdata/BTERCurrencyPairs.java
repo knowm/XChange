@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs.BTERCurrencyPairsDeserializer;
 import com.xeiam.xchange.currency.CurrencyPair;
 
@@ -67,9 +68,7 @@ public class BTERCurrencyPairs {
       final JsonNode node = oc.readTree(jp);
       if (node.isArray()) {
         for (JsonNode pairNode : node) {
-          final String[] currencies = pairNode.asText().toUpperCase().split("_");
-          final CurrencyPair pair = new CurrencyPair(currencies[0], currencies[1]);
-          pairs.add(pair);
+          pairs.add(BTERAdapters.adaptCurrencyPair(pairNode.asText()));
         }
       }
       return new BTERCurrencyPairs(pairs);

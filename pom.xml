@@ -88,13 +88,13 @@
 		<module>xchange-cavirtex</module>
 		<module>xchange-cexio</module>
 		<module>xchange-coinbase</module>
+		<module>xchange-coinfloor</module>
 		<module>xchange-cryptotrade</module>
 		<module>xchange-examples</module>
 		<module>xchange-justcoin</module>
 		<module>xchange-kraken</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-vircurex</module>
-		<module>xchange-coinfloor</module>
 	</modules>
 
 	<repositories>

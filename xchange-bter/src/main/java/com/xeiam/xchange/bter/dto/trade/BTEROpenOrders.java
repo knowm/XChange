@@ -21,33 +21,40 @@
  */
 package com.xeiam.xchange.bter.dto.trade;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.bter.dto.BTERBaseResponse;
 
 /**
  * Created by David Henry on 2/19/14.
  */
-public class BTEROrderStatusReturn {
+public class BTEROpenOrders extends BTERBaseResponse {
 
-  private final boolean result;
-  private final BTEROrderStatus bterOrderStatus;
-  private final String msg;
+  private final List<BTEROpenOrder> orders;
 
-  public BTEROrderStatusReturn(@JsonProperty("result") boolean result,@JsonProperty("order") BTEROrderStatus bterOrderStatus,
-                               @JsonProperty("msg") String msg) {
-    this.result = result;
-    this.bterOrderStatus = bterOrderStatus;
-    this.msg = msg;
+  /**
+   * Constructor
+   * 
+   * @param result
+   * @param orders
+   * @param msg
+   */
+  public BTEROpenOrders(@JsonProperty("result") Boolean result, @JsonProperty("orders") List<BTEROpenOrder> orders, @JsonProperty("msg") String msg) {
+
+    super(result, msg);
+    this.orders = orders;
   }
 
-  public boolean isResult() {
-    return result;
+  public List<BTEROpenOrder> getOrders() {
+
+    return orders;
   }
 
-  public BTEROrderStatus getBterOrderStatus() {
-    return bterOrderStatus;
+  @Override
+  public String toString() {
+
+    return "BTEROpenOrdersReturn [orders=" + orders + "]";
   }
 
-  public String getMsg() {
-    return msg;
-  }
 }

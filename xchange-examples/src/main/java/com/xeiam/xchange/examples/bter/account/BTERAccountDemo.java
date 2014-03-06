@@ -19,50 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto;
+package com.xeiam.xchange.examples.bter.account;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.IOException;
 
-public class BTERReturn<V> {
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bter.dto.account.BTERFunds;
+import com.xeiam.xchange.bter.service.polling.BTERPollingAccountServiceRaw;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.examples.bter.BTERDemoUtils;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
-  private final boolean success;
-  private final V returnValue;
-  private final String error;
+public class BTERAccountDemo {
 
-  /**
-   * Constructor
-   * 
-   * @param success
-   * @param returnValue
-   * @param error
-   */
-  @JsonCreator
-  public BTERReturn(@JsonProperty("result") boolean success, @JsonProperty("return") V returnValue, @JsonProperty("msg") String error) {
+  public static void main(String[] args) throws IOException {
 
-    this.success = success;
-    this.returnValue = returnValue;
-    this.error = error;
+    Exchange exchange = BTERDemoUtils.createExchange();
+    PollingAccountService accountService = exchange.getPollingAccountService();
+
+    generic(accountService);
+    raw((BTERPollingAccountServiceRaw) accountService);
   }
 
-  public boolean isSuccess() {
+  private static void generic(PollingAccountService accountService) throws IOException {
 
-    return success;
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println(accountInfo);
   }
 
-  public V getReturnValue() {
+  private static void raw(BTERPollingAccountServiceRaw accountService) throws IOException {
 
-    return returnValue;
-  }
-
-  public String getError() {
-
-    return error;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTERReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+    BTERFunds accountFunds = accountService.getBTERAccountInfo();
+    System.out.println(accountFunds);
   }
 }

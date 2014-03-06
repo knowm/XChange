@@ -29,6 +29,9 @@ import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 
 @Path("api/1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,6 +42,22 @@ public interface BTER {
   BTERCurrencyPairs getPairs();
 
   @GET
+  @Path("tickers")
+  BTERTickers getTickers();
+  
+  @GET
+  @Path("ticker/{ident}_{currency}")
+  BTERTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+
+  @GET
   @Path("depth/{ident}_{currency}")
   BTERDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  
+  @GET
+  @Path("trade/{ident}_{currency}")
+  BTERTradeHistory getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+
+  @GET
+  @Path("trade/{ident}_{currency}/{tradeId}")
+  BTERTradeHistory getTradeHistorySince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @PathParam("tradeId") String tradeId);
 }
