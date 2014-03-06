@@ -42,8 +42,8 @@ public class TestCoinfloorAdapters {
 	 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptBalances(result);
 
-		Assert.assertEquals(new BigDecimal("10001.4718"), ((AccountInfo)testObj.get("generic")).getBalance("BTC"));
-		Assert.assertEquals(new BigDecimal("93.1913"), ((AccountInfo)testObj.get("generic")).getBalance("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), ((AccountInfo) testObj.get("generic")).getBalance("BTC"));
+    Assert.assertEquals(BigDecimal.valueOf(931913, 2), ((AccountInfo) testObj.get("generic")).getBalance("GBP"));
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class TestCoinfloorAdapters {
 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptOpenOrders(result);
 
-		Assert.assertEquals(new BigDecimal("1"), ((OpenOrders)testObj.get("generic")).getOpenOrders().get(0).getTradableAmount());
+    Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getTradableAmount());
 		Assert.assertEquals("211118", ((OpenOrders)testObj.get("generic")).getOpenOrders().get(0).getId());
 		Assert.assertEquals("GBP", ((OpenOrders)testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().counterCurrency);
 		Assert.assertEquals("BTC", ((OpenOrders)testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().baseCurrency);
@@ -99,7 +99,7 @@ public class TestCoinfloorAdapters {
 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptTradeVolume(result);
 		
-		Assert.assertEquals(new BigDecimal("4.007"), new BigDecimal(String.valueOf(testObj.get("generic"))));
+    Assert.assertEquals(BigDecimal.valueOf(40070, 4), new BigDecimal(String.valueOf(testObj.get("generic"))));
 	}
 
 	@Test
@@ -116,11 +116,11 @@ public class TestCoinfloorAdapters {
 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptTicker(result);
 
-	    Assert.assertEquals(new BigDecimal("3.2"), ((Ticker) testObj.get("generic")).getLast());
-	    Assert.assertEquals(new BigDecimal(0), ((Ticker) testObj.get("generic")).getHigh());
-	    Assert.assertEquals(new BigDecimal(0), ((Ticker) testObj.get("generic")).getLow());
-	    Assert.assertEquals(new BigDecimal("3.3"), ((Ticker) testObj.get("generic")).getAsk());
-	    Assert.assertEquals(new BigDecimal("3.2"), ((Ticker) testObj.get("generic")).getBid());
+    Assert.assertEquals(BigDecimal.valueOf(32000, 2), ((Ticker) testObj.get("generic")).getLast());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), ((Ticker) testObj.get("generic")).getHigh());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), ((Ticker) testObj.get("generic")).getLow());
+    Assert.assertEquals(BigDecimal.valueOf(33000, 2), ((Ticker) testObj.get("generic")).getAsk());
+    Assert.assertEquals(BigDecimal.valueOf(32000, 2), ((Ticker) testObj.get("generic")).getBid());
 	}
 
 	@Test
@@ -149,11 +149,11 @@ public class TestCoinfloorAdapters {
 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptTickerUpdate(result2);
 
-	    Assert.assertEquals(new BigDecimal("3.2"), ((Ticker) testObj.get("generic")).getLast());
-	    Assert.assertEquals(new BigDecimal("0"), ((Ticker) testObj.get("generic")).getHigh());
-	    Assert.assertEquals(new BigDecimal("0"), ((Ticker) testObj.get("generic")).getLow());
-	    Assert.assertEquals(new BigDecimal("3.1899"), ((Ticker) testObj.get("generic")).getAsk());
-	    Assert.assertEquals(new BigDecimal("3.2"), ((Ticker) testObj.get("generic")).getBid());
+    Assert.assertEquals(BigDecimal.valueOf(32000, 2), ((Ticker) testObj.get("generic")).getLast());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), ((Ticker) testObj.get("generic")).getHigh());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), ((Ticker) testObj.get("generic")).getLow());
+    Assert.assertEquals(BigDecimal.valueOf(31899, 2), ((Ticker) testObj.get("generic")).getAsk());
+    Assert.assertEquals(BigDecimal.valueOf(32000, 2), ((Ticker) testObj.get("generic")).getBid());
 	}
 
 	@Test
@@ -172,7 +172,7 @@ public class TestCoinfloorAdapters {
 
 		Assert.assertEquals(7, ((OrderBook) testObj.get("generic")).getAsks().size());
 		Assert.assertEquals(7, ((OrderBook) testObj.get("generic")).getBids().size());
-		Assert.assertEquals(new BigDecimal("0.9983"), ((OrderBook) testObj.get("generic")).getBids().get(0).getTradableAmount());
+    Assert.assertEquals(BigDecimal.valueOf(9983, 4), ((OrderBook) testObj.get("generic")).getBids().get(0).getTradableAmount());
 	}
 
 	@Test
@@ -189,7 +189,7 @@ public class TestCoinfloorAdapters {
 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptOrderOpened(result);
 
-		Assert.assertEquals(new BigDecimal("1"), ((LimitOrder) testObj.get("generic")).getTradableAmount());
+    Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((LimitOrder) testObj.get("generic")).getTradableAmount());
 		Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterCurrency);
 		Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseCurrency);
 	}
@@ -208,7 +208,7 @@ public class TestCoinfloorAdapters {
 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptOrderClosed(result);
 
-		Assert.assertEquals(new BigDecimal("1"), ((LimitOrder) testObj.get("generic")).getTradableAmount());
+    Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((LimitOrder) testObj.get("generic")).getTradableAmount());
 		Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterCurrency);
 		Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseCurrency);
 	}
@@ -228,7 +228,7 @@ public class TestCoinfloorAdapters {
 		Map<String, Object> testObj = coinfloorAdapters.adaptOrdersMatched(result);
 
 		Assert.assertEquals("211184", ((Trade) testObj.get("generic")).getId());
-		Assert.assertEquals(new BigDecimal("0.4768"), ((Trade) testObj.get("generic")).getTradableAmount());
+    Assert.assertEquals(BigDecimal.valueOf(4768, 4), ((Trade) testObj.get("generic")).getTradableAmount());
 		Assert.assertEquals("GBP", ((Trade) testObj.get("generic")).getCurrencyPair().counterCurrency);
 		Assert.assertEquals("BTC", ((Trade) testObj.get("generic")).getCurrencyPair().baseCurrency);
 		Assert.assertEquals(OrderType.ASK, ((Trade) testObj.get("generic")).getType());
@@ -250,7 +250,7 @@ public class TestCoinfloorAdapters {
 		
 		Map<String, Object> testObj = coinfloorAdapters.adaptBalancesChanged(result);
 		
-		Assert.assertEquals(new BigDecimal("99"), ((AccountInfo) testObj.get("generic")).getBalance("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(990000, 2), ((AccountInfo) testObj.get("generic")).getBalance("GBP"));
 	}
 	
 	/**
