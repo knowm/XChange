@@ -61,7 +61,6 @@ public class TickerDemo {
     System.out.println("Last: " + ticker.getLast().toString());
 
     // Alternate way to print out ticker currency and amount
-    double value = ticker.getLast().doubleValue();
     System.out.println("ticker: " + ticker.toString());
 
     // Request another ticker. it will return a cached object
@@ -78,7 +77,7 @@ public class TickerDemo {
     OERMarketDataServiceRaw oERMarketDataServiceRaw = (OERMarketDataServiceRaw) openExchangeRates.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    OERRates oERRates = oERMarketDataServiceRaw.getOERTicker(CurrencyPair.BTC_USD);
+    OERRates oERRates = oERMarketDataServiceRaw.getOERTicker();
 
     System.out.println(oERRates.toString());
   }

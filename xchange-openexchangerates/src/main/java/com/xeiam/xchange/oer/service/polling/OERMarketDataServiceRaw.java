@@ -31,7 +31,6 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.CachedDataSession;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.oer.OER;
 import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;
@@ -71,9 +70,7 @@ public class OERMarketDataServiceRaw extends OERBaseService implements CachedDat
     return OERUtils.REFRESH_RATE_MILLIS;
   }
 
-  public OERRates getOERTicker(CurrencyPair currencyPair) throws IOException {
-
-    verify(currencyPair);
+  public OERRates getOERTicker() throws IOException {
 
     // check for pacing violation
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {

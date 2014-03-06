@@ -32,11 +32,6 @@ import com.xeiam.xchange.service.BaseExchangeService;
  */
 public class BitcoiniumBaseService extends BaseExchangeService {
 
-  // public static final List<String> CURRENCY_PAIRS = Arrays.asList(
-
-  // TODO implement
-  // );
-
   /**
    * Constructor
    * 
