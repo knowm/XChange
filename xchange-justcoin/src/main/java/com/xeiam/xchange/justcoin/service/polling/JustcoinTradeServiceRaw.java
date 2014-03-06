@@ -62,21 +62,21 @@ public class JustcoinTradeServiceRaw extends JustcoinBaseService {
     return justcoinAuthenticated.getOrderHistory(getBasicAuthentication(), exchangeSpecification.getApiKey());
   }
 
-  public String placeMarketOrder(final MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     final String market = marketOrder.getCurrencyPair().toString();
     return justcoinAuthenticated
         .createMarketOrder(market, marketOrder.getType().toString().toLowerCase(), marketOrder.getTradableAmount(), getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
-  public String placeLimitOrder(final LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     final String market = limitOrder.getCurrencyPair().toString();
-    return justcoinAuthenticated.createLimitOrder(market, limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount(),
-        getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
+    return justcoinAuthenticated.createLimitOrder(market, limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), getBasicAuthentication(),
+        exchangeSpecification.getApiKey()).getId();
   }
 
-  public boolean cancelOrder(final String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     justcoinAuthenticated.cancelOrder(orderId, getBasicAuthentication(), exchangeSpecification.getApiKey());
     return true;
