@@ -35,17 +35,19 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.bter.BTERAdapters;
+import com.xeiam.xchange.bter.dto.BTERBaseResponse;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker.BTERTickerTickerDeserializer;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTickers.BTERTickersDeserializer;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 @JsonDeserialize(using = BTERTickersDeserializer.class)
-public class BTERTickers {
+public class BTERTickers extends BTERBaseResponse {
 
   private final Map<CurrencyPair, BTERTicker> tickerMap;
 
-  private BTERTickers(final Map<CurrencyPair, BTERTicker> tickerMap) {
+  private BTERTickers(final Map<CurrencyPair, BTERTicker> tickerMap, boolean result, String message) {
 
+    super(result, message);
     this.tickerMap = tickerMap;
   }
 
@@ -83,7 +85,15 @@ public class BTERTickers {
           tickerMap.put(pair, ticker);
         }
       }
-      return new BTERTickers(tickerMap);
+      
+      boolean result = true;
+      String message = "";
+      JsonNode resultNode = node.path("result");
+      if (resultNode.isBoolean()) {
+        result = resultNode.asBoolean();
+        message = node.path("message").asText();
+      }
+      return new BTERTickers(tickerMap, result, message);
     }
   }
 }

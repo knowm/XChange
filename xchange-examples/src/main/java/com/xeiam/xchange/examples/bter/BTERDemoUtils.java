@@ -19,54 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.trade;
+package com.xeiam.xchange.examples.bter;
 
-import java.util.List;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bter.BTERExchange;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by David Henry on 2/19/14.
- */
-public class BTEROpenOrdersReturn {
+public class BTERDemoUtils {
 
-  private final Boolean result;
-  private final List<BTEROpenOrderSummary> orders;
-  private final String msg;
+  public static Exchange createExchange() {
 
-  /**
-   * Constructor
-   *
-   * @param result
-   * @param orders
-   * @param msg
-   */
-  public BTEROpenOrdersReturn(@JsonProperty("result") Boolean result, @JsonProperty("orders") List<BTEROpenOrderSummary> orders,
-                              @JsonProperty("msg") String msg) {
-    this.result = result;
-    this.orders = orders;
-    this.msg = msg;
+    ExchangeSpecification exSpec = new BTERExchange().getDefaultExchangeSpecification();
+    exSpec.setApiKey("");
+    exSpec.setSecretKey("");
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
-  public Boolean isResult() {
-    return result;
-  }
-
-  public List<BTEROpenOrderSummary> getOrders() {
-    return orders;
-  }
-
-  public String getMsg() {
-    return msg;
-  }
-
-  @Override
-  public String toString() {
-    return "BTEROpenOrdersReturn{" +
-            "result=" + result +
-            ", orders=" + orders +
-            ", msg='" + msg + '\'' +
-            '}';
-  }
-
 }

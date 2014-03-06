@@ -48,34 +48,34 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER
 
     BTERTickers bterTickers = bter.getTickers();
 
-    return bterTickers.getTickerMap();
+    return handleResponse(bterTickers).getTickerMap();
   }
 
   public BTERTicker getBTERTicker(String tradableIdentifier, String currency) throws IOException {
 
     BTERTicker bterTicker = bter.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    return bterTicker;
+    return handleResponse(bterTicker);
   }
 
   public BTERDepth getBTEROrderBook(String tradeableIdentifier, String currency) throws IOException {
 
     BTERDepth bterDepth = bter.getFullDepth(tradeableIdentifier.toLowerCase(), currency.toLowerCase());
 
-    return bterDepth;
+    return handleResponse(bterDepth);
   }
   
   public BTERTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency) throws IOException {
     
     BTERTradeHistory tradeHistory = bter.getTradeHistory(tradeableIdentifier, currency);
     
-    return tradeHistory;
+    return handleResponse(tradeHistory);
   }
 
   public BTERTradeHistory getBTERTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
     
     BTERTradeHistory tradeHistory = bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
     
-    return tradeHistory;
+    return handleResponse(tradeHistory);
   }
 }

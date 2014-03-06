@@ -21,12 +21,14 @@
  */
 package com.xeiam.xchange.bter.dto;
 
-public abstract class BTERBaseResponse {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class BTERBaseResponse {
 
   private final boolean result;
   private final String message;
 
-  protected BTERBaseResponse(final boolean result, final String message) {
+  protected BTERBaseResponse(@JsonProperty("result") final boolean result, @JsonProperty("msg") final String message) {
 
     this.result = result;
     this.message = message;

@@ -19,37 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.trade;
+package com.xeiam.xchange.bter.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.bter.dto.BTERBaseResponse;
+import static org.fest.assertions.api.Assertions.assertThat;
 
-public class BTERPlaceOrderReturn extends BTERBaseResponse {
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Map;
 
-  private final String orderId;
+import org.junit.Test;
 
-  /**
-   * Constructor
-   * 
-   * @param success
-   * @param value
-   * @param error
-   */
-  private BTERPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("order_id") String anOrderId, @JsonProperty("msg") String message) {
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.Currencies;
 
-    super(result, message);
-    orderId = anOrderId;
+
+public class BTERAccountJsonTests {
+
+  @Test
+  public void testDeserializeFunds() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BTERAccountJsonTests.class.getResourceAsStream("/account/example-funds-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTERFunds funds = mapper.readValue(is, BTERFunds.class);
+
+    assertThat(funds.isResult()).isTrue();
+    
+    Map<String, BigDecimal> availableFunds = funds.getAvailableFunds();
+    assertThat(availableFunds).hasSize(4);
+    assertThat(availableFunds.get(Currencies.FTC)).isEqualTo("0.00003326");
+    
+    Map<String, BigDecimal> lockedFunds = funds.getLockedFunds();
+    assertThat(lockedFunds).hasSize(1);
+    assertThat(lockedFunds.get(Currencies.LTC)).isEqualTo("0.384");
   }
-
-  public String getOrderId() {
-
-    return orderId;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BTERPlaceOrderReturn [orderId=" + orderId + "]";
-  }
-
 }

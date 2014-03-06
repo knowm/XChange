@@ -19,48 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.account;
+package com.xeiam.xchange.examples.bter.account;
 
-import java.math.BigDecimal;
-import java.util.Map;
+import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bter.dto.account.BTERFunds;
+import com.xeiam.xchange.bter.service.polling.BTERPollingAccountServiceRaw;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.examples.bter.BTERDemoUtils;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class BTERAccountInfoReturn {
+public class BTERAccountDemo {
 
-  private final String result;
-  private final Map<String, BigDecimal> availableFunds;
-  private final Map<String, BigDecimal> lockedFunds;
+  public static void main(String[] args) throws IOException {
 
-  /**
-   * Constructor
-   * 
-   * @param aResult
-   * @param theAvailableFunds
-   * @param theLockedFunds
-   */
-  public BTERAccountInfoReturn(@JsonProperty("result") String aResult, @JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds,
-      @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds) {
+    Exchange exchange = BTERDemoUtils.createExchange();
+    PollingAccountService accountService = exchange.getPollingAccountService();
 
-    result = aResult;
-    availableFunds = theAvailableFunds;
-    lockedFunds = theLockedFunds;
-
+    generic(accountService);
+    raw((BTERPollingAccountServiceRaw) accountService);
   }
 
-  public String getResult() {
+  private static void generic(PollingAccountService accountService) throws IOException {
 
-    return result;
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println(accountInfo);
   }
 
-  public Map<String, BigDecimal> getAvailableFunds() {
+  private static void raw(BTERPollingAccountServiceRaw accountService) throws IOException {
 
-    return availableFunds;
+    BTERFunds accountFunds = accountService.getBTERAccountInfo();
+    System.out.println(accountFunds);
   }
-
-  public Map<String, BigDecimal> getLockedFunds() {
-
-    return lockedFunds;
-  }
-
 }

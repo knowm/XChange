@@ -24,77 +24,138 @@ package com.xeiam.xchange.bter.dto.trade;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.bter.BTERAdapters;
+import com.xeiam.xchange.bter.dto.BTERBaseResponse;
+import com.xeiam.xchange.bter.dto.BTEROrderType;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Created by David Henry on 2/19/14.
  */
-public class BTEROrderStatus {
+public class BTEROrderStatus extends BTERBaseResponse {
 
-  private final String id;
-  private final String status;
-  private final String tradePair;
-  private final String type;
-  private final BigDecimal rate;
-  private final BigDecimal amount;
-  private final BigDecimal initialRate;
-  private final BigDecimal initialAmount;
+  private final BTEROrderStatusInfo orderStatusInfo;
 
-  public BTEROrderStatus(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("pair") String tradePair,
-                         @JsonProperty("type") String type, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
-                         @JsonProperty("initial_rate") BigDecimal initialRate, @JsonProperty("initial_amount") BigDecimal initialAmount) {
-    this.id = id;
-    this.status = status;
-    this.tradePair = tradePair;
-    this.type = type;
-    this.rate = rate;
-    this.amount = amount;
-    this.initialRate = initialRate;
-    this.initialAmount = initialAmount;
+  private BTEROrderStatus(@JsonProperty("order") BTEROrderStatusInfo orderStatusInfo, @JsonProperty("result") boolean result, @JsonProperty("msg") String msg) {
+
+    super(result, msg);
+    this.orderStatusInfo = orderStatusInfo;
   }
 
   public String getId() {
-    return id;
+
+    return orderStatusInfo.getId();
   }
 
   public String getStatus() {
-    return status;
+
+    return orderStatusInfo.getStatus();
   }
 
-  public String getTradePair() {
-    return tradePair;
+  public CurrencyPair getCurrencyPair() {
+
+    return orderStatusInfo.getCurrencyPair();
   }
 
-  public String getType() {
-    return type;
+  public BTEROrderType getType() {
+
+    return orderStatusInfo.getType();
   }
 
   public BigDecimal getRate() {
-    return rate;
+
+    return orderStatusInfo.getRate();
   }
 
   public BigDecimal getAmount() {
-    return amount;
+
+    return orderStatusInfo.getAmount();
   }
 
   public BigDecimal getInitialRate() {
-    return initialRate;
+
+    return orderStatusInfo.getInitialRate();
   }
 
   public BigDecimal getInitialAmount() {
-    return initialAmount;
+
+    return orderStatusInfo.getInitialAmount();
   }
 
-  @Override
   public String toString() {
-    return "BTEROrderStatus{" +
-            "id='" + id + '\'' +
-            ", status='" + status + '\'' +
-            ", tradePair='" + tradePair + '\'' +
-            ", type='" + type + '\'' +
-            ", rate=" + rate +
-            ", amount=" + amount +
-            ", initialRate=" + initialRate +
-            ", initialAmount=" + initialAmount +
-            '}';
+
+    return orderStatusInfo.toString();
+  }
+
+  public static class BTEROrderStatusInfo {
+
+    private final String id;
+    private final String status;
+    private final CurrencyPair currencyPair;
+    private final BTEROrderType type;
+    private final BigDecimal rate;
+    private final BigDecimal amount;
+    private final BigDecimal initialRate;
+    private final BigDecimal initialAmount;
+
+    private BTEROrderStatusInfo(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("pair") String currencyPair, @JsonProperty("type") BTEROrderType type,
+        @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount, @JsonProperty("initial_rate") BigDecimal initialRate, @JsonProperty("initial_amount") BigDecimal initialAmount) {
+
+      this.id = id;
+      this.status = status;
+      this.currencyPair = BTERAdapters.adaptCurrencyPair(currencyPair);
+      this.type = type;
+      this.rate = rate;
+      this.amount = amount;
+      this.initialRate = initialRate;
+      this.initialAmount = initialAmount;
+    }
+
+    public String getId() {
+
+      return id;
+    }
+
+    public String getStatus() {
+
+      return status;
+    }
+
+    public CurrencyPair getCurrencyPair() {
+
+      return currencyPair;
+    }
+
+    public BTEROrderType getType() {
+
+      return type;
+    }
+
+    public BigDecimal getRate() {
+
+      return rate;
+    }
+
+    public BigDecimal getAmount() {
+
+      return amount;
+    }
+
+    public BigDecimal getInitialRate() {
+
+      return initialRate;
+    }
+
+    public BigDecimal getInitialAmount() {
+
+      return initialAmount;
+    }
+
+    @Override
+    public String toString() {
+
+      return "BTEROrderStatusInfo [id=" + id + ", status=" + status + ", currencyPair=" + currencyPair + ", type=" + type + ", rate=" + rate + ", amount=" + amount + ", initialRate=" + initialRate
+          + ", initialAmount=" + initialAmount + "]";
+    }
   }
 }

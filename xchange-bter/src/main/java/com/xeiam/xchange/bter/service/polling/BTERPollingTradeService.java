@@ -22,10 +22,13 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.bter.BTERAdapters;
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -47,7 +50,10 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    return getBTEROpenOrders();
+    BTEROpenOrders openOrders = super.getBTEROpenOrders();
+    Collection<CurrencyPair> currencyPairs = super.getExchangeSymbols();
+    
+    return BTERAdapters.adaptOpenOrders(openOrders, currencyPairs);
   }
 
   @Override
@@ -61,20 +67,19 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
 
     verify(limitOrder.getCurrencyPair());
 
-    return placeBTERLimitOrder(limitOrder);
+    return super.placeBTERLimitOrder(limitOrder);
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
-
+    return super.cancelOrder(orderId);
   }
 
   @Override
   public Trades getTradeHistory(Object... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
 
   }
 }

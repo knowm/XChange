@@ -22,21 +22,18 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAuthenticated;
-import com.xeiam.xchange.bter.dto.trade.BTEROpenOrderSummary;
-import com.xeiam.xchange.bter.dto.trade.BTEROpenOrdersReturn;
-import com.xeiam.xchange.bter.dto.trade.BTEROrder;
+import com.xeiam.xchange.bter.dto.BTERBaseResponse;
+import com.xeiam.xchange.bter.dto.BTEROrderType;
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTEROrderStatus;
-import com.xeiam.xchange.bter.dto.trade.BTEROrderStatusReturn;
 import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
 
 public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
 
@@ -52,46 +49,38 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthe
 
   public String placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String pair = String.format("%s_%s", limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency).toLowerCase();
-    BTEROrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTEROrder.Type.buy : BTEROrder.Type.sell;
-    BTERPlaceOrderReturn ret = bter.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
-
-    return ret.getOrderId();
+    BTEROrderType type = (limitOrder.getType() == Order.OrderType.BID) ? BTEROrderType.BUY : BTEROrderType.SELL;
+    
+    return placeBTERLimitOrder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
   }
 
-  public OpenOrders getBTEROpenOrders() {
+  public String placeBTERLimitOrder(CurrencyPair currencyPair, BTEROrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
 
-    // get the summaries of the open orders
-    BTEROpenOrdersReturn bterOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator, nextNonce());
+    String pair = String.format("%s_%s", currencyPair.baseCurrency, currencyPair.counterCurrency).toLowerCase();
+    BTERPlaceOrderReturn orderId = bter.placeOrder(pair, orderType, rate, amount, apiKey, signatureCreator, nextNonce());
 
-    if (!bterOpenOrdersReturn.isResult()) {
-      throw new ExchangeException("Failed to retrieve open orders because " + bterOpenOrdersReturn.getMsg());
-    }
+    return handleResponse(orderId).getOrderId();
+  }
+  
+  public boolean cancelOrder(String orderId) throws IOException {
+    
+    BTERBaseResponse cancelOrderResult = bter.cancelOrder(orderId, apiKey, signatureCreator, nextNonce());
+    
+    return handleResponse(cancelOrderResult).isResult();
+  }
+  
+  public BTEROpenOrders getBTEROpenOrders() throws IOException {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    BTEROpenOrders bterOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator, nextNonce());
 
-    // get the detailed information of each open order...
-    for (BTEROpenOrderSummary orderSummary : bterOpenOrdersReturn.getOrders()) {
-
-      openOrders.add(getBTEROrderStatus(orderSummary.getId()));
-    }
-
-    return new OpenOrders(openOrders);
+    return handleResponse(bterOpenOrdersReturn);
   }
 
-  public LimitOrder getBTEROrderStatus(String orderId) {
+  public BTEROrderStatus getBTEROrderStatus(String orderId) throws IOException {
 
-    BTEROrderStatusReturn orderStatusReturn = bter.getOrderStatus(apiKey, signatureCreator, nextNonce(), orderId);
+    BTEROrderStatus orderStatus = bter.getOrderStatus(orderId, apiKey, signatureCreator, nextNonce());
 
-    if (!orderStatusReturn.isResult()) {
-      throw new ExchangeException("Failed to retrieve order status because " + orderStatusReturn.getMsg());
-    }
-
-    BTEROrderStatus orderStatus = orderStatusReturn.getBterOrderStatus();
-
-  //  CurrencyPair currencyPair = BTERUtils.parseCurrencyPairString(orderStatus.getTradePair());
-
-    return null; //BTERAdapters.adaptOrder(orderStatus.getAmount(), orderStatus.getRate(), currencyPair, orderStatus.getType(), orderId);
+    return handleResponse(orderStatus);
   }
 
 }

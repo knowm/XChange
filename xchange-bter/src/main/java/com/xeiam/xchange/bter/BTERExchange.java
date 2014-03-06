@@ -59,7 +59,7 @@ public class BTERExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://bter.com");
+    exchangeSpecification.setSslUri("https://data.bter.com");
     exchangeSpecification.setHost("bter.com");
     exchangeSpecification.setExchangeName("BTER");
 

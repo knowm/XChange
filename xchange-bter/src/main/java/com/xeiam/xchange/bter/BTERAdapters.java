@@ -22,18 +22,22 @@
 package com.xeiam.xchange.bter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
 import com.xeiam.xchange.bter.dto.BTEROrderType;
-import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
+import com.xeiam.xchange.bter.dto.account.BTERFunds;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERPublicOrder;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrder;
+import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -44,6 +48,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -60,11 +65,11 @@ public final class BTERAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String pair) {
-    
+
     final String[] currencies = pair.toUpperCase().split("_");
     return new CurrencyPair(currencies[0], currencies[1]);
   }
-  
+
   public static Ticker adaptTicker(CurrencyPair currencyPair, BTERTicker bterTicker) {
 
     BigDecimal ask = bterTicker.getSell();
@@ -76,20 +81,12 @@ public final class BTERAdapters {
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
   }
-  
+
   public static LimitOrder adaptOrder(BTERPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {
 
     return new LimitOrder(orderType, order.getAmount(), currencyPair, "", null, order.getPrice());
   }
 
-  /**
-   * Adapts a List of Bter Orders to a List of LimitOrders
-   * 
-   * @param orders
-   * @param currencyPair
-   * @param orderType
-   * @return
-   */
   public static List<LimitOrder> adaptOrders(List<BTERPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -102,22 +99,45 @@ public final class BTERAdapters {
   }
 
   public static OrderBook adaptOrderBook(BTERDepth depth, CurrencyPair currencyPair) {
-    
+
     List<LimitOrder> asks = BTERAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
     List<LimitOrder> bids = BTERAdapters.adaptOrders(depth.getBids(), currencyPair, OrderType.BID);
 
     return new OrderBook(null, asks, bids);
   }
-  
+
+  public static LimitOrder adaptOrder(BTEROpenOrder order, Collection<CurrencyPair> currencyPairs) {
+
+    CurrencyPair possibleCurrencyPair = new CurrencyPair(order.getSellCurrency(), order.getBuyCurrency());
+    if (currencyPairs.contains(possibleCurrencyPair)) {
+      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), RoundingMode.HALF_EVEN);
+      return new LimitOrder(OrderType.ASK, order.getSellAmount(), possibleCurrencyPair, order.getId(), null, price);
+    }
+    else {
+      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), RoundingMode.HALF_EVEN);
+      return new LimitOrder(OrderType.BID, order.getBuyAmount(), possibleCurrencyPair, order.getId(), null, price);
+    }
+  }
+
+  public static OpenOrders adaptOpenOrders(BTEROpenOrders openOrders, Collection<CurrencyPair> currencyPairs) {
+
+    List<LimitOrder> adaptedOrders = new ArrayList<LimitOrder>();
+    for (BTEROpenOrder openOrder : openOrders.getOrders()) {
+      adaptedOrders.add(adaptOrder(openOrder, currencyPairs));
+    }
+
+    return new OpenOrders(adaptedOrders);
+  }
+
   public static OrderType adaptOrderType(BTEROrderType cryptoTradeOrderType) {
 
     return (cryptoTradeOrderType.equals(BTEROrderType.BUY)) ? OrderType.BID : OrderType.ASK;
   }
-  
+
   public static Trade adaptTrade(BTERPublicTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = adaptOrderType(trade.getType());
-    Date timestamp = DateUtils.fromMillisUtc(trade.getDate()*1000);
+    Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
 
     return new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), null);
   }
@@ -132,8 +152,8 @@ public final class BTERAdapters {
 
     return new Trades(tradeList, TradeSortType.SortByTimestamp);
   }
-  
-  public static AccountInfo adaptAccountInfo(BTERAccountInfoReturn bterAccountInfo) {
+
+  public static AccountInfo adaptAccountInfo(BTERFunds bterAccountInfo) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {

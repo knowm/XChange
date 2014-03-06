@@ -47,9 +47,9 @@ public class BTERMarketDataJsonTests {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTERCurrencyPairs tickers = mapper.readValue(is, BTERCurrencyPairs.class);
+    BTERCurrencyPairs currencyPairs = mapper.readValue(is, BTERCurrencyPairs.class);
 
-    Collection<CurrencyPair> pairs = tickers.getPairs();
+    Collection<CurrencyPair> pairs = currencyPairs.getPairs();
     assertThat(pairs).hasSize(83);
 
     assertThat(pairs.contains(new CurrencyPair("TIPS", "CNY"))).isTrue();
