@@ -59,7 +59,7 @@ public class BitcoiniumOrderBookChartDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "BITSTAMP", "10p");
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, "BITSTAMP_USD", "10p");
 
     System.out.println("Order book: " + bitcoiniumOrderbook);
     System.out.println("received data.");

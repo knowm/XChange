@@ -143,7 +143,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
     // /////////////////////////////////
     // Get the latest order book data for BTC/USD - MTGOX
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "BITSTAMP", "10p");
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, "BITSTAMP_USD", "10p");
 
     System.out.println(bitcoiniumOrderbook.toString());
 

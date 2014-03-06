@@ -64,11 +64,9 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
    * @return a Bitcoinium Ticker object
    * @throws IOException
    */
-  public BitcoiniumTicker getBitcoiniumTicker(String tradableIdentifier, String currency, String exchange) throws IOException {
+  public BitcoiniumTicker getBitcoiniumTicker(String tradableIdentifier, String currency) throws IOException {
 
-    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency, exchange);
-
-    verify(pair);
+    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency);
 
     // Request data
     BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair, exchangeSpecification.getApiKey());
@@ -85,11 +83,10 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
    * @return
    * @throws IOException
    */
-  public BitcoiniumTickerHistory getBitcoiniumTickerHistory(String tradableIdentifier, String currency, String exchange, String timeWindow) throws IOException {
+  public BitcoiniumTickerHistory getBitcoiniumTickerHistory(String tradableIdentifier, String currency, String timeWindow) throws IOException {
 
-    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency, exchange);
+    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency);
 
-    verify(pair);
     verifyTimeWindow(timeWindow);
 
     // Request data
@@ -105,27 +102,16 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
    * @param pricewindow - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p, 50p, 100p }
    * @return
    */
-  public BitcoiniumOrderbook getBitcoiniumOrderbook(String tradableIdentifier, String currency, String exchange, String pricewindow) throws IOException {
+  public BitcoiniumOrderbook getBitcoiniumOrderbook(String tradableIdentifier, String currency, String pricewindow) throws IOException {
 
-    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency, exchange);
+    String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency);
 
-    verify(pair);
     verifyPriceWindow(pricewindow);
 
     // Request data
     BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, pricewindow, exchangeSpecification.getApiKey());
 
     return bitcoiniumDepth;
-  }
-
-  /**
-   * verify
-   * 
-   * @param pair
-   */
-  private void verify(String pair) {
-
-    Assert.isTrue(BitcoiniumUtils.isValidCurrencyPair(pair), pair + " is not a valid currency pair!");
   }
 
   /**
