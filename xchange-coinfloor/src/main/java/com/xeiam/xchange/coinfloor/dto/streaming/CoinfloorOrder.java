@@ -40,7 +40,7 @@ public class CoinfloorOrder{
 		  this.base = (base == 0 ? "BTC" : CoinfloorUtils.getCurrency(base));
 		  this.counter = (counter == 0 ? "GBP" : CoinfloorUtils.getCurrency(counter));
 		  this.baseQty = CoinfloorUtils.scaleToBigDecimal(this.base, baseQty);;
-		  this.price = CoinfloorUtils.scalePriceToBigDecimal(price);;
+    this.price = CoinfloorUtils.scalePriceToBigDecimal(this.base, this.counter, price);
 		  this.counterQty = CoinfloorUtils.scaleToBigDecimal(this.counter, counterQty);
 		  this.bidRem = CoinfloorUtils.scaleToBigDecimal(this.base, bidRem);
 		  this.askRem = CoinfloorUtils.scaleToBigDecimal(this.counter, askRem);
