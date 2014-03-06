@@ -39,6 +39,7 @@ public class WebSocketEventProducer extends WebSocketClient {
   private final Logger logger = LoggerFactory.getLogger(WebSocketEventProducer.class);
 
   private final ExchangeEventListener exchangeEventListener;
+  private final ReconnectService reconnectService;
 
   /**
    * Constructor
@@ -48,10 +49,11 @@ public class WebSocketEventProducer extends WebSocketClient {
    * @param headers
    * @throws URISyntaxException
    */
-  public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener, Map<String, String> headers) throws URISyntaxException {
+  public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener, Map<String, String> headers, ReconnectService reconnectService) throws URISyntaxException {
 
     super(new URI(url), new Draft_17(), headers, 0);
     this.exchangeEventListener = exchangeEventListener;
+    this.reconnectService = reconnectService;
 
   }
 
@@ -61,8 +63,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     logger.debug("opened connection");
     // if you plan to refuse connection based on ip or httpfields overload: onWebsocketHandshakeReceivedAsClient
 
-    logger.debug("onOpen");
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.CONNECT, "connected");
+    
+    if (reconnectService != null) { // logic here to intercept errors and reconnect..
+      reconnectService.intercept(exchangeEvent);
+    }
+    
     exchangeEventListener.handleEvent(exchangeEvent);
   }
 
@@ -73,6 +79,11 @@ public class WebSocketEventProducer extends WebSocketClient {
 
     logger.debug(message);
     ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, message);
+    
+    if (reconnectService != null) { // logic here to intercept errors and reconnect..
+      reconnectService.intercept(exchangeEvent);
+    }
+    
     exchangeEventListener.handleEvent(exchangeEvent);
   }
 
@@ -80,11 +91,16 @@ public class WebSocketEventProducer extends WebSocketClient {
   public void onClose(int code, String reason, boolean remote) {
 
     // The codecodes are documented in class org.java_websocket.framing.CloseFrame
-    logger.debug("Connection closed by " + (remote ? "remote peer" : "us"));
+    logger.debug("Connection closed by " + (remote ? "remote peer" : "local client"));
     logger.debug("reason= " + reason);
 
     logger.debug("onClose");
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.DISCONNECT, "disconnected");
+    
+    if (reconnectService != null) { // logic here to intercept errors and reconnect..
+      reconnectService.intercept(exchangeEvent);
+    }
+    
     exchangeEventListener.handleEvent(exchangeEvent);
   }
 
@@ -96,7 +112,11 @@ public class WebSocketEventProducer extends WebSocketClient {
 
     logger.error("onError: {}", ex.getMessage());
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.ERROR, ex.getMessage());
+    
+    if (reconnectService != null) { // logic here to intercept errors and reconnect..
+      reconnectService.intercept(exchangeEvent);
+    }
+    
     exchangeEventListener.handleEvent(exchangeEvent);
   }
-
 }

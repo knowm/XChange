@@ -24,6 +24,7 @@ package com.xeiam.xchange.service.streaming;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.java_websocket.WebSocket.READYSTATE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,29 +76,33 @@ public class ReconnectService {
   }
 
   private void reconnect() {
-
-    log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + exchangeStreamingConfiguration.getMaxReconnectAttempts());
-
-    if (numConnectionAttempts >= exchangeStreamingConfiguration.getMaxReconnectAttempts()) {
-      log.debug("Terminating reconnection attempts.");
-      streamingExchangeService.disconnect();
-      Thread.currentThread().interrupt();
-      return;
-    }
-    streamingExchangeService.disconnect();
-    streamingExchangeService.connect();
-    numConnectionAttempts++;
-
+	if(!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)){
+	    log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + exchangeStreamingConfiguration.getMaxReconnectAttempts());
+	
+	    if (numConnectionAttempts >= exchangeStreamingConfiguration.getMaxReconnectAttempts()) {
+	      log.debug("Terminating reconnection attempts.");
+	      streamingExchangeService.disconnect();
+	      Thread.currentThread().interrupt();
+	      return;
+	    }
+	    streamingExchangeService.disconnect();
+	    streamingExchangeService.connect();
+	    numConnectionAttempts++;
+	}
   }
 
   class ReconnectTask extends TimerTask {
 
     @Override
     public void run() {
-
-      log.debug("Time out!");
+      //log.debug("ReconnectTask called; result: " + (streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN) ? "Connection still alive" : "Connection dead - reconnecting"));
+      if(!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)){
+	      log.debug("Time out!");
+	      timer.purge();
+	      reconnect();
+      }
       timer.purge();
-      reconnect();
+      timer.schedule(new ReconnectTask(), exchangeStreamingConfiguration.getTimeoutInMs());
     }
   }
 
