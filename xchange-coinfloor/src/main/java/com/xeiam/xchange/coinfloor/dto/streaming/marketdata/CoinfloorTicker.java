@@ -32,11 +32,11 @@ public class CoinfloorTicker{
 		  this.errorCode = errorCode;
 		  this.base = CoinfloorUtils.getCurrency(base);
 		  this.counter = CoinfloorUtils.getCurrency(counter);
-		  this.last = CoinfloorUtils.scalePriceToBigDecimal(last);
-		  this.bid = CoinfloorUtils.scalePriceToBigDecimal(bid);
-		  this.ask = CoinfloorUtils.scalePriceToBigDecimal(ask);
-		  this.low = CoinfloorUtils.scalePriceToBigDecimal(low);
-		  this.high = CoinfloorUtils.scalePriceToBigDecimal(high);
+    this.last = CoinfloorUtils.scalePriceToBigDecimal(this.base, this.counter, last);
+    this.bid = CoinfloorUtils.scalePriceToBigDecimal(this.base, this.counter, bid);
+    this.ask = CoinfloorUtils.scalePriceToBigDecimal(this.base, this.counter, ask);
+    this.low = CoinfloorUtils.scalePriceToBigDecimal(this.base, this.counter, low);
+    this.high = CoinfloorUtils.scalePriceToBigDecimal(this.base, this.counter, high);
 		  this.volume = CoinfloorUtils.scaleToBigDecimal("BTC", volume);
 	  }
 

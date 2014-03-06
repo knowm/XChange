@@ -109,7 +109,7 @@ public class RequestFactory {
 			else {this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseCurrency, order.getTradableAmount());}
 			
 			if(order instanceof LimitOrder){
-				this.price = CoinfloorUtils.scalePriceToInt(((LimitOrder) order).getLimitPrice());
+        this.price = CoinfloorUtils.scalePriceToInt(order.getCurrencyPair().baseCurrency, order.getCurrencyPair().counterCurrency, ((LimitOrder) order).getLimitPrice());
 			}
 			else{
 				this.price = (Integer) null;

@@ -27,7 +27,7 @@ public class CoinfloorCancelOrder{
 		  this.base = CoinfloorUtils.getCurrency(base);
 		  this.counter = CoinfloorUtils.getCurrency(counter);
 		  this.quantity = CoinfloorUtils.scaleToBigDecimal(CoinfloorUtils.getCurrency(base), quantity);
-		  this.price = CoinfloorUtils.scalePriceToBigDecimal(price);
+    this.price = CoinfloorUtils.scalePriceToBigDecimal(this.base, this.counter, price);
 	  }
 
 	  public int getTag(){
