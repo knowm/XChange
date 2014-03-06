@@ -22,19 +22,18 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
+import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRaw implements PollingMarketDataService {
@@ -52,7 +51,11 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    verify(currencyPair);
+    
+    BTERTicker ticker = super.getBTERTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    
+    return BTERAdapters.adaptTicker(currencyPair, ticker);
   }
 
   @Override
@@ -60,19 +63,19 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
 
     verify(currencyPair);
 
-    BTERDepth btceDepth = getBTEROrderBook(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    BTERDepth bterDepth = super.getBTEROrderBook(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
-    // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTERAdapters.adaptOrders(btceDepth.getAsks(), currencyPair, BTERAdapters.BTER_ASK, "");
-    List<LimitOrder> bids = BTERAdapters.adaptOrders(btceDepth.getBids(), currencyPair, BTERAdapters.BTER_BID, "");
-
-    return new OrderBook(null, asks, bids);
+    return BTERAdapters.adaptOrderBook(bterDepth, currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    BTERTradeHistory tradeHistory = (args != null && args.length > 0 && args[0] != null && args[0] instanceof String) ? 
+        super.getBTERTradeHistorySince(currencyPair.baseCurrency, currencyPair.counterCurrency, (String) args[0]) :
+          super.getBTERTradeHistory(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    
+    return BTERAdapters.adaptTrades(tradeHistory, currencyPair);
   }
 
   @Override

@@ -19,37 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.trade;
+package com.xeiam.xchange.bter.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.bter.dto.BTERBaseResponse;
+import java.io.IOException;
 
-public class BTERPlaceOrderReturn extends BTERBaseResponse {
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.bter.dto.BTEROrderType.BTEROrderTypeDeserializer;
 
-  private final String orderId;
+@JsonDeserialize(using = BTEROrderTypeDeserializer.class)
+public enum BTEROrderType {
 
-  /**
-   * Constructor
-   * 
-   * @param success
-   * @param value
-   * @param error
-   */
-  private BTERPlaceOrderReturn(@JsonProperty("result") boolean result, @JsonProperty("order_id") String anOrderId, @JsonProperty("msg") String message) {
+  BUY, SELL;
+  
+  static class BTEROrderTypeDeserializer extends JsonDeserializer<BTEROrderType> {
 
-    super(result, message);
-    orderId = anOrderId;
+    @Override
+    public BTEROrderType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+      final ObjectCodec oc = jsonParser.getCodec();
+      final JsonNode node = oc.readTree(jsonParser);
+      final String orderType = node.asText();
+      return BTEROrderType.valueOf(orderType.toUpperCase());
+    }
   }
-
-  public String getOrderId() {
-
-    return orderId;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BTERPlaceOrderReturn [orderId=" + orderId + "]";
-  }
-
 }

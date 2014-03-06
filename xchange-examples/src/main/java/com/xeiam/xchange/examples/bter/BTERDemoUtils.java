@@ -19,48 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bter.dto.account;
+package com.xeiam.xchange.examples.bter;
 
-import java.math.BigDecimal;
-import java.util.Map;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bter.BTERExchange;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTERAccountInfoReturn {
+public class BTERDemoUtils {
 
-  private final String result;
-  private final Map<String, BigDecimal> availableFunds;
-  private final Map<String, BigDecimal> lockedFunds;
+  public static Exchange createExchange() {
 
-  /**
-   * Constructor
-   * 
-   * @param aResult
-   * @param theAvailableFunds
-   * @param theLockedFunds
-   */
-  public BTERAccountInfoReturn(@JsonProperty("result") String aResult, @JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds,
-      @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds) {
-
-    result = aResult;
-    availableFunds = theAvailableFunds;
-    lockedFunds = theLockedFunds;
-
+    ExchangeSpecification exSpec = new BTERExchange().getDefaultExchangeSpecification();
+    exSpec.setApiKey("");
+    exSpec.setSecretKey("");
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
-
-  public String getResult() {
-
-    return result;
-  }
-
-  public Map<String, BigDecimal> getAvailableFunds() {
-
-    return availableFunds;
-  }
-
-  public Map<String, BigDecimal> getLockedFunds() {
-
-    return lockedFunds;
-  }
-
 }

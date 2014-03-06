@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAuthenticated;
-import com.xeiam.xchange.bter.dto.account.BTERAccountInfoReturn;
+import com.xeiam.xchange.bter.dto.account.BTERFunds;
 
 public class BTERPollingAccountServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
 
@@ -40,10 +40,10 @@ public class BTERPollingAccountServiceRaw extends BTERBasePollingService<BTERAut
     super(BTERAuthenticated.class, exchangeSpecification);
   }
 
-  public BTERAccountInfoReturn getBTERAccountInfo() throws IOException {
+  public BTERFunds getBTERAccountInfo() throws IOException {
 
-    BTERAccountInfoReturn bTERAccountInfoReturn = bter.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
-    return bTERAccountInfoReturn;
+    BTERFunds bterFunds = bter.getFunds(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    return handleResponse(bterFunds);
   }
 
 }

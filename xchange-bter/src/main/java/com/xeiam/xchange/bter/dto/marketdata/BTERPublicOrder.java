@@ -22,9 +22,7 @@
 package com.xeiam.xchange.bter.dto.marketdata;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,45 +31,49 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.bter.BTERAdapters;
-import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs.BTERCurrencyPairsDeserializer;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.bter.dto.marketdata.BTERPublicOrder.BTERPublicOrderDeserializer;
 
-@JsonDeserialize(using = BTERCurrencyPairsDeserializer.class)
-public class BTERCurrencyPairs {
+@JsonDeserialize(using = BTERPublicOrderDeserializer.class)
+public class BTERPublicOrder {
 
-  private final Set<CurrencyPair> pairs;
-
-  private BTERCurrencyPairs(Set<CurrencyPair> pairs) {
-
-    this.pairs = pairs;
-  }
+  private final BigDecimal price;
+  private final BigDecimal amount;
   
-  public Collection<CurrencyPair> getPairs() {
+  private BTERPublicOrder(final BigDecimal price, final BigDecimal amount) {
+    
+    this.price = price;
+    this.amount = amount;
+  }
 
-    return pairs;
+  public BigDecimal getPrice() {
+
+    return price;
+  }
+
+  public BigDecimal getAmount() {
+
+    return amount;
   }
 
   @Override
   public String toString() {
 
-    return "BTERCurrencyPairs [pairs=" + pairs + "]";
+    return "BTERPublicOrder [price=" + price + ", amount=" + amount + "]";
   }
-
-  static class BTERCurrencyPairsDeserializer extends JsonDeserializer<BTERCurrencyPairs> {
+  
+  static class BTERPublicOrderDeserializer extends JsonDeserializer<BTERPublicOrder> {
 
     @Override
-    public BTERCurrencyPairs deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public BTERPublicOrder deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      final Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
       final ObjectCodec oc = jp.getCodec();
-      final JsonNode node = oc.readTree(jp);
-      if (node.isArray()) {
-        for (JsonNode pairNode : node) {
-          pairs.add(BTERAdapters.adaptCurrencyPair(pairNode.asText()));
-        }
-      }
-      return new BTERCurrencyPairs(pairs);
+      final JsonNode tickerNode = oc.readTree(jp);
+      
+      final BigDecimal price = new BigDecimal(tickerNode.path(0).asText());
+      final BigDecimal amount = new BigDecimal(tickerNode.path(1).asText());
+      
+      return new BTERPublicOrder(price, amount);
     }
+
   }
 }
