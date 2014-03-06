@@ -1,6 +1,0 @@
-language: java
-
-# whitelist
-branches:
-  only:
-    - develop
