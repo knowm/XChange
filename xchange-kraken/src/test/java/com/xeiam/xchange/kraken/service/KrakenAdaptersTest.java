@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,7 +48,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.kraken.KrakenAdapters;
-import com.xeiam.xchange.kraken.KrakenUtils;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
@@ -71,7 +71,7 @@ public class KrakenAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenTickerResult krakenTicker = mapper.readValue(is, KrakenTickerResult.class);
     CurrencyPair currencyPair = CurrencyPair.BTC_EUR;
-    String krakenCurencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
+    String krakenCurencyPair = "XXBTZEUR";
     Ticker ticker = KrakenAdapters.adaptTicker(krakenTicker.getResult().get(krakenCurencyPair), currencyPair);
 
     // Verify that the example data was unmarshalled correctly
@@ -94,7 +94,9 @@ public class KrakenAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
-    List<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
+    Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
+    assertThat(pairs).hasSize(21);
+    assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
   }
 
   @Test
@@ -128,7 +130,7 @@ public class KrakenAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenDepthResult krakenDepthResult = mapper.readValue(is, KrakenDepthResult.class);
     Map<String, KrakenDepth> krakenDepths = krakenDepthResult.getResult();
-    String krakenAssetPair = KrakenUtils.createKrakenCurrencyPair(Currencies.BTC, Currencies.EUR);
+    String krakenAssetPair = "XXBTZEUR";
     KrakenDepth krakenDepth = krakenDepths.get(krakenAssetPair);
 
     OrderBook orderBook = KrakenAdapters.adaptOrderBook(krakenDepth, CurrencyPair.BTC_EUR);
@@ -220,7 +222,7 @@ public class KrakenAdaptersTest {
 
     assertThat(tradeList.size()).isEqualTo(1);
     Trade trade = tradeList.get(0);
-    // assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD"); TODO change Trade id to String
+    assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("32.07562"));
     assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
     assertThat(trade.getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);

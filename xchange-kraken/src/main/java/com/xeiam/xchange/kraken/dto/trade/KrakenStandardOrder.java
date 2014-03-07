@@ -28,11 +28,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.kraken.KrakenUtils;
 
 public class KrakenStandardOrder {
 
-  private final String assetPair;
+  private final CurrencyPair currencyPair;
   private final KrakenType type;
   private final KrakenOrderType orderType;
   private final String price;
@@ -47,10 +46,10 @@ public class KrakenStandardOrder {
   private final boolean validateOnly;
   private final Map<String, String> closeOrder;
 
-  public KrakenStandardOrder(String assetPair, KrakenType type, KrakenOrderType orderType, String price, String secondaryPrice, BigDecimal volume, String leverage, String positionTxId,
+  private KrakenStandardOrder(CurrencyPair currencyPair, KrakenType type, KrakenOrderType orderType, String price, String secondaryPrice, BigDecimal volume, String leverage, String positionTxId,
       Set<KrakenOrderFlags> orderFlags, String startTime, String expireTime, String userRefId, boolean validateOnly, Map<String, String> closeOrder) {
 
-    this.assetPair = assetPair;
+    this.currencyPair = currencyPair;
     this.type = type;
     this.orderType = orderType;
     this.price = price;
@@ -66,9 +65,9 @@ public class KrakenStandardOrder {
     this.closeOrder = closeOrder;
   }
 
-  public String getAssetPair() {
+  public CurrencyPair getAssetPair() {
 
-    return assetPair;
+    return currencyPair;
   }
 
   public KrakenType getType() {
@@ -139,7 +138,7 @@ public class KrakenStandardOrder {
   @Override
   public String toString() {
 
-    return "KrakenStandardOrder [assetPair=" + assetPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price + ", secondaryPrice=" + secondaryPrice + ", volume=" + volume
+    return "KrakenStandardOrder [currencyPair=" + currencyPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price + ", secondaryPrice=" + secondaryPrice + ", volume=" + volume
         + ", leverage=" + leverage + ", positionTxId=" + positionTxId + ", orderFlags=" + orderFlags + ", startTime=" + startTime + ", expireTime=" + expireTime + ", userRefId=" + userRefId
         + ", validateOnly=" + validateOnly + ", closeOrder=" + closeOrder + "]";
   }
@@ -201,7 +200,7 @@ public class KrakenStandardOrder {
 
   public static class KrakenOrderBuilder {
 
-    private final String assetPair;
+    private final CurrencyPair currencyPair;
     private final KrakenType type;
     private final KrakenOrderType orderType;
     private String price;
@@ -218,7 +217,7 @@ public class KrakenStandardOrder {
 
     private KrakenOrderBuilder(CurrencyPair currencyPair, KrakenType type, KrakenOrderType orderType, BigDecimal volume) {
 
-      this.assetPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
+      this.currencyPair = currencyPair;
       this.type = type;
       this.orderType = orderType;
       this.volume = volume;
@@ -293,20 +292,20 @@ public class KrakenStandardOrder {
 
     public KrakenStandardOrder buildOrder() {
 
-      return new KrakenStandardOrder(assetPair, type, orderType, price, secondaryPrice, volume, leverage, positionTxId, orderFlags, startTime, expireTime, userRefId, validateOnly, closeOrder);
+      return new KrakenStandardOrder(currencyPair, type, orderType, price, secondaryPrice, volume, leverage, positionTxId, orderFlags, startTime, expireTime, userRefId, validateOnly, closeOrder);
     }
 
     @Override
     public String toString() {
 
-      return "KrakenOrderBuilder [assetPair=" + assetPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price + ", secondaryPrice=" + secondaryPrice + ", volume=" + volume
+      return "KrakenOrderBuilder [currencyPair=" + currencyPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price + ", secondaryPrice=" + secondaryPrice + ", volume=" + volume
           + ", leverage=" + leverage + ", positionTxId=" + positionTxId + ", orderFlags=" + orderFlags + ", startTime=" + startTime + ", expireTime=" + expireTime + ", userRefId=" + userRefId
           + ", validateOnly=" + validateOnly + ", closeOrder=" + closeOrder + "]";
     }
 
-    public String getAssetPair() {
+    public CurrencyPair getAssetPair() {
 
-      return assetPair;
+      return currencyPair;
     }
 
     public KrakenType getType() {
