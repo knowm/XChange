@@ -97,7 +97,7 @@ public class CoinfloorEventListener extends ExchangeEventListener {
     }
     CoinfloorUtils.checkSuccess(jsonData);
     if (jsonData.containsKey("tag")) {
-      switch ((Integer) jsonData.get("tag") % 1000) {
+      switch (((Integer) jsonData.get("tag") & (1 << 10) - 1)) {
       case 1:
         CoinfloorExchangeEvent authenticationEvent = new CoinfloorExchangeEvent((Integer) jsonData.get("tag"), ExchangeEventType.AUTHENTICATION, event.getData(), jsonData);
         addToEventQueue(authenticationEvent);
