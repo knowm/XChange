@@ -101,8 +101,9 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
     internalConnect(uri, exchangeEventListener, headers);
 
     try {
-      if (getNextSystemEvent().getEventType() != ExchangeEventType.WELCOME)
-        ;
+      if (getNextSystemEvent().getEventType() != ExchangeEventType.WELCOME) {
+        throw new ExchangeException("Could not connect.");
+      }
     } catch (InterruptedException e) {
       throw new ExchangeException("Could not connect.");
     }
