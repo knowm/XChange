@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.bter;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -39,25 +41,25 @@ public interface BTER {
 
   @GET
   @Path("pairs")
-  BTERCurrencyPairs getPairs();
+  BTERCurrencyPairs getPairs() throws IOException;
 
   @GET
   @Path("tickers")
-  BTERTickers getTickers();
+  BTERTickers getTickers() throws IOException;
   
   @GET
   @Path("ticker/{ident}_{currency}")
-  BTERTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  BTERTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("depth/{ident}_{currency}")
-  BTERDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  BTERDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
   
   @GET
   @Path("trade/{ident}_{currency}")
-  BTERTradeHistory getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+  BTERTradeHistory getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("trade/{ident}_{currency}/{tradeId}")
-  BTERTradeHistory getTradeHistorySince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @PathParam("tradeId") String tradeId);
+  BTERTradeHistory getTradeHistorySince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @PathParam("tradeId") String tradeId) throws IOException;
 }

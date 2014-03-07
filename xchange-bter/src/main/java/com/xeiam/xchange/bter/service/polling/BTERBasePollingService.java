@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bter.service.polling;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import si.mazi.rescu.ParamsDigest;
@@ -61,7 +62,7 @@ public class BTERBasePollingService <T extends BTER> extends BaseExchangeService
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() {
+  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
     
     if (pairs == null)
       pairs = bter.getPairs().getPairs();

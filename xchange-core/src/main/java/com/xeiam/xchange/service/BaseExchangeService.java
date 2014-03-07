@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.service;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -61,14 +62,14 @@ public abstract class BaseExchangeService {
    * 
    * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementers should log the error.
    */
-  public abstract Collection<CurrencyPair> getExchangeSymbols();
+  public abstract Collection<CurrencyPair> getExchangeSymbols() throws IOException;
 
   /**
    * Verify that both currencies can make valid pair
    * 
    * @param currencyPair The currency pair (e.g. BTC/USD)
    */
-  public void verify(CurrencyPair currencyPair) {
+  public void verify(CurrencyPair currencyPair) throws IOException {
 
     Assert.notNull(currencyPair, "currencyPair cannot be null");
     Assert.isTrue(getExchangeSymbols().contains(currencyPair), "currencyPair is not valid:" + currencyPair.toString());

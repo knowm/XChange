@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
@@ -66,7 +65,6 @@ public class KrakenExchangeSymbolsDemo {
       System.out.println(assetPairEntry.getKey() + ": " + assetPairEntry.getValue());
     }
 
-    System.out.println(krakenAssetPairs.getAssetPairInfo(Currencies.BTC, Currencies.USD));
   }
 
 }

@@ -41,39 +41,39 @@ import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 /**
  * @author Benedikt Bünz
  */
-@Path("0/public")
+@Path("0")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Kraken {
 
   @GET
-  @Path("Ticker")
+  @Path("public/Ticker")
   KrakenTickerResult getTicker(@QueryParam("pair") String currencyPairs);
 
   @GET
-  @Path("Depth")
+  @Path("public/Depth")
   KrakenDepthResult getDepth(@QueryParam("pair") String currencyPair, @QueryParam("count") long count) throws IOException;
 
   @GET
-  @Path("Trades")
+  @Path("public/Trades")
   KrakenPublicTradesResult getTrades(@QueryParam("pair") String currencyPair) throws IOException;
 
   @GET
-  @Path("Trades")
-  KrakenPublicTradesResult getTrades(@QueryParam("pair") String currencyPair, @QueryParam("since") long since) throws IOException;
+  @Path("public/Trades")
+  KrakenPublicTradesResult getTrades(@QueryParam("pair") String currencyPair, @QueryParam("since") Long since) throws IOException;
 
   @GET
-  @Path("Spread")
-  KrakenSpreadsResult getSpread(@QueryParam("pair") String currencyPair, @QueryParam("since") long since);
+  @Path("public/Spread")
+  KrakenSpreadsResult getSpread(@QueryParam("pair") String currencyPair, @QueryParam("since") Long since);
 
   @GET
-  @Path("Assets")
+  @Path("public/Assets")
   KrakenAssetsResult getAssets(@FormParam("aclass") String assetClass, @FormParam("asset") String assets) throws IOException;
 
   @GET
-  @Path("AssetPairs")
+  @Path("public/AssetPairs")
   KrakenAssetPairsResult getAssetPairs(@FormParam("pair") String assetPairs) throws IOException;
 
   @GET
-  @Path("Time")
+  @Path("public/Time")
   KrakenServerTimeResult getServerTime() throws IOException;
 }
