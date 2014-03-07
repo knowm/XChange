@@ -54,8 +54,9 @@ public class CoinfloorExchange extends BaseExchange implements Exchange {
 
     return new CoinfloorStreamingExchangeService(getExchangeSpecification(), (CoinfloorStreamingConfiguration) exchangeStreamingConfiguration);
   }
-  
+
   public StreamingExchangeService getStreamingExchangeService() {
+
     return getStreamingExchangeService(new CoinfloorStreamingConfiguration(10, 10000, 60000, false, true, false));
   }
 }

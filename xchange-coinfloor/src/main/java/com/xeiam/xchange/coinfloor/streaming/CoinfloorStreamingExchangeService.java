@@ -27,13 +27,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorExchangeEvent;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorStreamingConfiguration;
+import com.xeiam.xchange.coinfloor.streaming.RequestFactory.CoinfloorRequest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -41,11 +45,6 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.MarketOrder;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.streaming.BaseWebSocketExchangeService;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
@@ -60,9 +59,9 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
   private final CoinfloorStreamingConfiguration configuration;
   private final CoinfloorEventListener exchangeEventListener;
-  private final BlockingQueue<ExchangeEvent> systemEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
-  private final BlockingQueue<CoinfloorExchangeEvent> updateEventQueue = new LinkedBlockingQueue<CoinfloorExchangeEvent>(1024);
-  
+  private final BlockingQueue<ExchangeEvent> systemEventQueue = new LinkedBlockingQueue<ExchangeEvent>();
+  private final BlockingQueue<CoinfloorExchangeEvent> updateEventQueue = new LinkedBlockingQueue<CoinfloorExchangeEvent>();
+
   ObjectMapper jsonObjectMapper;
 
   /**
@@ -100,169 +99,184 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
     // Use the default internal connect
     internalConnect(uri, exchangeEventListener, headers);
-    
-    if(configuration.getauthenticateOnConnect()){authenticate();}
-  }
 
-  public void authenticate(){
-	if(exchangeSpecification.getUserName() == null || exchangeSpecification.getUserName() == null || exchangeSpecification.getUserName() == null){
-		throw new ExchangeException("Username (UserID), Cookie, and Password cannot be null");
-	}
-	try{Long.valueOf(exchangeSpecification.getUserName());
-	}catch(NumberFormatException e){throw new ExchangeException("Username (UserID) must be the string representation of a integer or long value.");}
-	  
-	CoinfloorExchangeEvent event;
-	try {
-		for(event = getNextEvent(); !event.getEventType().equals(ExchangeEventType.WELCOME); event = getNextEvent()){}
-	} catch (InterruptedException e) {throw new ExchangeException("Interrupted while attempting to authenticate");}
-	    	  
-	RequestFactory.CoinfloorAuthenticationRequest authVars = new RequestFactory.CoinfloorAuthenticationRequest(
-	    Long.valueOf(exchangeSpecification.getUserName()), 
-	    (String)exchangeSpecification.getExchangeSpecificParametersItem("cookie"), 
-	    exchangeSpecification.getPassword(), 
-	    (String) event.getPayloadItem("nonce"));
-	
     try {
-      send(jsonObjectMapper.writeValueAsString(authVars));
-    } catch (JsonProcessingException e) {
-      throw new ExchangeException("Cannot convert Object to String", e);
+      synchronized (systemEventQueue) {
+        systemEventQueue.wait();
+      }
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
 
+    if (configuration.getauthenticateOnConnect()) {
+      authenticate();
+    }
   }
-	  
-  private CoinfloorExchangeEvent doNewRequest(final Object requestObject, ExchangeEventType expectedEventType){
-    try{
-    	try{
-		  logger.debug("Sent message: " + jsonObjectMapper.writeValueAsString(requestObject));
-	      send(jsonObjectMapper.writeValueAsString(requestObject));
-	    }catch (JsonProcessingException e) {throw new ExchangeException("Cannot convert Object to String", e);}
-		
-		ExchangeEventType nextEventType = checkNextSystemEvent().getEventType();
-		while(!nextEventType.equals(expectedEventType)){
-			if(nextEventType.equals(ExchangeEventType.USER_WALLET_UPDATE) || nextEventType.equals(ExchangeEventType.ORDER_ADDED) || 
-					nextEventType.equals(ExchangeEventType.TRADE) || nextEventType.equals(ExchangeEventType.ORDER_CANCELED) || 
-					nextEventType.equals(ExchangeEventType.TICKER) || nextEventType.equals(ExchangeEventType.WELCOME) || 
-					nextEventType.equals(ExchangeEventType.AUTHENTICATION)){
-				updateEventQueue.put(
-						(CoinfloorExchangeEvent)getNextSystemEvent());
-			}
-			nextEventType = checkNextSystemEvent().getEventType();
-		}
-		return getNextSystemEvent();
-    }catch(Exception e){throw new ExchangeException("Error processing request", e);}
+
+  public void authenticate() {
+
+    if (exchangeSpecification.getUserName() == null || exchangeSpecification.getUserName() == null || exchangeSpecification.getUserName() == null) {
+      throw new ExchangeException("Username (UserID), Cookie, and Password cannot be null");
+    }
+    try {
+      Long.valueOf(exchangeSpecification.getUserName());
+    } catch (NumberFormatException e) {
+      throw new ExchangeException("Username (UserID) must be the string representation of a integer or long value.");
+    }
+
+    RequestFactory.CoinfloorAuthenticationRequest authVars =
+        new RequestFactory.CoinfloorAuthenticationRequest(Long.valueOf(exchangeSpecification.getUserName()), (String) exchangeSpecification.getExchangeSpecificParametersItem("cookie"),
+            exchangeSpecification.getPassword(), (String) exchangeEventListener.getServerNonce());
+
+    doNewRequest(authVars, ExchangeEventType.AUTHENTICATION);
+
   }
-  
+
+  @SuppressWarnings("incomplete-switch")
+  private CoinfloorExchangeEvent doNewRequest(final CoinfloorRequest requestObject, ExchangeEventType expectedEventType) {
+
+    try {
+      try {
+        logger.trace("Sent message: " + jsonObjectMapper.writeValueAsString(requestObject));
+        send(jsonObjectMapper.writeValueAsString(requestObject));
+      } catch (JsonProcessingException e) {
+        throw new ExchangeException("Cannot convert Object to String", e);
+      }
+
+      CoinfloorExchangeEvent nextEvent = checkNextSystemEvent();
+      while (!nextEvent.getEventType().equals(expectedEventType) || nextEvent.getTag() != requestObject.getTag()) {
+        switch (nextEvent.getEventType()) {
+        case USER_WALLET_UPDATE:
+        case ORDER_ADDED:
+        case TRADE:
+        case ORDER_CANCELED:
+        case TICKER:
+        case AUTHENTICATION:
+        case WELCOME:
+          updateEventQueue.put((CoinfloorExchangeEvent) getNextSystemEvent());
+          break;
+
+        }
+        synchronized (this) {
+          nextEvent = checkNextSystemEvent();
+        }
+      }
+      return getNextSystemEvent();
+    } catch (Exception e) {
+      throw new ExchangeException("Error processing request", e);
+    }
+  }
+
   /**
    * Get user's balances
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorBalances (key "raw")
    * > A generic object of type AccountInfo (key "generic")
    */
   public CoinfloorExchangeEvent getBalances() {
-	return doNewRequest(new RequestFactory.GetBalancesRequest(), ExchangeEventType.USER_WALLET);
+
+    return doNewRequest(new RequestFactory.GetBalancesRequest(), ExchangeEventType.USER_WALLET);
   }
 
   /**
    * Get user's open orders
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorOpenOrders (key "raw")
    * > A generic object of type OpenOrders (key "generic")
    */
   public CoinfloorExchangeEvent getOrders() {
-	  return doNewRequest(new RequestFactory.GetOrdersRequest(), ExchangeEventType.USER_ORDERS_LIST);
+
+    return doNewRequest(new RequestFactory.GetOrdersRequest(), ExchangeEventType.USER_ORDERS_LIST);
   }
 
   /**
    * Place an order
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorPlaceOrder (key "raw")
    * > A generic object of type String, representing the orderID (key "generic")
    */
   public CoinfloorExchangeEvent placeOrder(Order order) {
-	  return doNewRequest(new RequestFactory.PlaceOrderRequest(order), ExchangeEventType.USER_ORDER);
+
+    return doNewRequest(new RequestFactory.PlaceOrderRequest(order), ExchangeEventType.USER_ORDER);
   }
 
   /**
    * Cancel an order
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorCancelOrder (key "raw")
    * > A generic object of type LimitOrder, representing the cancelled order (key "generic")
    */
   public CoinfloorExchangeEvent cancelOrder(int orderID) {
-	  return doNewRequest(new RequestFactory.CancelOrderRequest(orderID), ExchangeEventType.USER_ORDER_CANCELED);
+
+    return doNewRequest(new RequestFactory.CancelOrderRequest(orderID), ExchangeEventType.USER_ORDER_CANCELED);
   }
 
   /**
    * Get past 30-day trade volume
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorTradeVolume (key "raw")
    * > A generic object of type BigDecimal, representing the past-30 day volume (key "generic")
    */
   public CoinfloorExchangeEvent getTradeVolume(String currency) {
-	  return doNewRequest(new RequestFactory.GetTradeVolumeRequest(currency), ExchangeEventType.USER_TRADE_VOLUME);
+
+    return doNewRequest(new RequestFactory.GetTradeVolumeRequest(currency), ExchangeEventType.USER_TRADE_VOLUME);
   }
 
   /**
    * Estimate the results of a market order
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorEstimateMarketOrder (key "raw")
-   * 
    * Note that this method has no (useful) generic return. The "generic" key corresponds to the same item as the "raw" key
    */
   public CoinfloorExchangeEvent estimateMarketOrder(MarketOrder order) {
-	  return doNewRequest(new RequestFactory.EstimateMarketOrderRequest(order), ExchangeEventType.USER_MARKET_ORDER_EST);
+
+    return doNewRequest(new RequestFactory.EstimateMarketOrderRequest(order), ExchangeEventType.USER_MARKET_ORDER_EST);
   }
 
   /**
    * Watch the orderbook
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorOrderbookReturn (key "raw")
    * > A generic object of type Depth (key "generic")
    */
   public CoinfloorExchangeEvent watchOrders(String tradableIdentifier, String tradingCurrency) {
-	  return doNewRequest(new RequestFactory.WatchOrdersRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_ORDERS);
+
+    return doNewRequest(new RequestFactory.WatchOrdersRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_ORDERS);
   }
 
   /**
    * Stop watching the orderbook
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorOrderbookReturn (key "raw")
    * > A generic object of type Depth (key "generic")
    */
   public CoinfloorExchangeEvent unwatchOrders(String tradableIdentifier, String tradingCurrency) {
-	  return doNewRequest(new RequestFactory.UnwatchOrdersRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_ORDERS);
+
+    return doNewRequest(new RequestFactory.UnwatchOrdersRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_ORDERS);
   }
 
   /**
    * Watch the ticker feed
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorTicker (key "raw")
    * > A generic object of type Ticker (key "generic")
    */
   public CoinfloorExchangeEvent watchTicker(String tradableIdentifier, String tradingCurrency) {
-	  return doNewRequest(new RequestFactory.WatchTickerRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_TICKER);
+
+    return doNewRequest(new RequestFactory.WatchTickerRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_TICKER);
   }
 
   /**
    * Stop watching the ticker feed
-   * 
    * Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of:
    * > A raw object of type CoinfloorTicker (key "raw")
    * > A generic object of type Ticker (key "generic")
    */
   public CoinfloorExchangeEvent unwatchTicker(String tradableIdentifier, String tradingCurrency) {
-	  return doNewRequest(new RequestFactory.UnwatchTickerRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_TICKER);
+
+    return doNewRequest(new RequestFactory.UnwatchTickerRequest(tradableIdentifier, tradingCurrency), ExchangeEventType.SUBSCRIBE_TICKER);
   }
-  
+
   /**
    * Retrieves cached AccountInfo.
    * WARNING: EXPERIMENTAL METHOD
@@ -271,9 +285,10 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
    * @throws ExchangeException if getBalances() method has not been called, or data not recieved yet.
    */
   public AccountInfo getCachedAccountInfo() {
-	  return exchangeEventListener.getAdapterInstance().getCachedAccountInfo();
+
+    return exchangeEventListener.getAdapterInstance().getCachedAccountInfo();
   }
-  
+
   /**
    * Retrieves cached OrderBook.
    * WARNING: EXPERIMENTAL METHOD
@@ -282,9 +297,10 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
    * @throws ExchangeException if watchOrders() method has not been called, or data not recieved yet.
    */
   public OrderBook getCachedOrderBook() {
-	  return exchangeEventListener.getAdapterInstance().getCachedOrderBook();
+
+    return exchangeEventListener.getAdapterInstance().getCachedOrderBook();
   }
-  
+
   /**
    * Retrieves cached Trades.
    * WARNING: EXPERIMENTAL METHOD
@@ -293,9 +309,10 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
    * @throws ExchangeException if watchOrders() method has not been called, or no trades have occurred yet.
    */
   public Trades getCachedTrades() {
-	  return exchangeEventListener.getAdapterInstance().getCachedTrades();
+
+    return exchangeEventListener.getAdapterInstance().getCachedTrades();
   }
-  
+
   /**
    * Retrieves cached Ticker.
    * WARNING: EXPERIMENTAL METHOD
@@ -304,9 +321,10 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
    * @throws ExchangeException if watchTicker() method has not been called, or no ticker data has been recieved.
    */
   public Ticker getCachedTicker() {
-	  return exchangeEventListener.getAdapterInstance().getCachedTicker();
+
+    return exchangeEventListener.getAdapterInstance().getCachedTicker();
   }
-  
+
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
@@ -315,19 +333,29 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
   @Override
   public CoinfloorExchangeEvent getNextEvent() throws InterruptedException {
+
     return (CoinfloorExchangeEvent) super.getNextEvent();
-  } 
-  
+  }
+
   public CoinfloorExchangeEvent getNextSystemEvent() throws InterruptedException {
 
-	  CoinfloorExchangeEvent event = (CoinfloorExchangeEvent)systemEventQueue.take();
+    CoinfloorExchangeEvent event = (CoinfloorExchangeEvent) systemEventQueue.take();
     return event;
   }
 
-  public synchronized CoinfloorExchangeEvent checkNextSystemEvent() throws InterruptedException {
-	
-	while(systemEventQueue.isEmpty()){TimeUnit.MILLISECONDS.sleep(100);}
-	CoinfloorExchangeEvent event = (CoinfloorExchangeEvent)systemEventQueue.peek();
-    return event;
+  public CoinfloorExchangeEvent checkNextSystemEvent() throws InterruptedException {
+
+    while (true) {
+      if (systemEventQueue.isEmpty()) {
+        synchronized (systemEventQueue) {
+          systemEventQueue.wait();
+        }
+      }
+      CoinfloorExchangeEvent event = (CoinfloorExchangeEvent) systemEventQueue.peek();
+      if (event == null) {
+        continue;
+      }
+      return event;
+    }
   }
 }

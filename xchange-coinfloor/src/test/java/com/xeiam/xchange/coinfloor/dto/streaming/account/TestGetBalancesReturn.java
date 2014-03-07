@@ -31,6 +31,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinfloor.CoinfloorUtils.CoinfloorCurrency;
 
 /**
  * @author obsessiveOrange
@@ -51,9 +52,9 @@ public class TestGetBalancesReturn {
     Assert.assertEquals(0, testObject.getErrorCode());
     Assert.assertEquals(101, testObject.getTag());
     Assert.assertEquals(2, testObject.getBalances().size());
-    Assert.assertEquals("BTC", testObject.getBalances().get(0).getAsset());
-    Assert.assertEquals(new BigDecimal("100014718"), testObject.getBalances().get(0).getBalance());
-    Assert.assertEquals("GBP", testObject.getBalances().get(1).getAsset());
-    Assert.assertEquals(new BigDecimal("931913"), testObject.getBalances().get(1).getBalance());
+    Assert.assertEquals(CoinfloorCurrency.BTC, testObject.getBalances().get(0).getAsset());
+    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), testObject.getBalances().get(0).getBalance());
+    Assert.assertEquals(CoinfloorCurrency.GBP, testObject.getBalances().get(1).getAsset());
+    Assert.assertEquals(BigDecimal.valueOf(931913, 2), testObject.getBalances().get(1).getBalance());
   }
 }

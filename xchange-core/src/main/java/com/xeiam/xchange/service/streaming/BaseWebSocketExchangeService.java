@@ -58,7 +58,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   /**
    * The event queue for the consumer
    */
-  protected final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+  protected final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>();
 
   protected ReconnectService reconnectService;
 

@@ -5,32 +5,37 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinfloor.CoinfloorUtils;
+import com.xeiam.xchange.coinfloor.CoinfloorUtils.CoinfloorCurrency;
 
 /**
  * @author obsessiveOrange
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CoinfloorAssetBalance{
-	  
-	  private final String asset;
-	  private final BigDecimal balance;
-	  
-	  public CoinfloorAssetBalance(@JsonProperty("asset") int asset, @JsonProperty("balance") int balance){
-		  this.asset = CoinfloorUtils.getCurrency(asset);
-		  this.balance = CoinfloorUtils.scaleToBigDecimal(CoinfloorUtils.getCurrency(asset), balance);
-	  }
+public class CoinfloorAssetBalance {
 
-	  public String getAsset(){
-		  return asset;
-	  }
-	  
-	  public BigDecimal getBalance(){
-		  return balance;
-	  }
-	  
-	  @Override
-	  public String toString(){
-		  return "CoinfloorAssetBalance{asset='" + asset + "', balance='" + balance + "'}";
-	  }
+  private final CoinfloorCurrency asset;
+  private final BigDecimal balance;
+
+  public CoinfloorAssetBalance(@JsonProperty("asset") int asset, @JsonProperty("balance") int balance) {
+
+    this.asset = CoinfloorUtils.getCurrency(asset);
+    this.balance = CoinfloorUtils.scaleToBigDecimal(this.asset, balance);
+  }
+
+  public CoinfloorCurrency getAsset() {
+
+    return asset;
+  }
+
+  public BigDecimal getBalance() {
+
+    return balance;
+  }
+
+  @Override
+  public String toString() {
+
+    return "CoinfloorAssetBalance{asset='" + asset + "', balance='" + balance + "'}";
+  }
 }

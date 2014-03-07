@@ -115,11 +115,11 @@ public class CoinfloorDemo {
 	    TimeUnit.MILLISECONDS.sleep(1000);
 
 	    //send two orders, that will (partially) fulfill each other, to generate a trade.
-	    LimitOrder buyLimitOrder = new LimitOrder(OrderType.BID, new BigDecimal(1), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(3.20));
+	    LimitOrder buyLimitOrder = new LimitOrder(OrderType.BID, new BigDecimal(1), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(320));
 	    ((CoinfloorStreamingExchangeService)streamingExchangeService).placeOrder(buyLimitOrder);
 	    TimeUnit.MILLISECONDS.sleep(1000);
 	    
-	    LimitOrder sellLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.52321512784), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(3.19));
+	    LimitOrder sellLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.52321512784), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(319));
 	    ((CoinfloorStreamingExchangeService)streamingExchangeService).placeOrder(sellLimitOrder);
 	    TimeUnit.MILLISECONDS.sleep(1000);
 	    
