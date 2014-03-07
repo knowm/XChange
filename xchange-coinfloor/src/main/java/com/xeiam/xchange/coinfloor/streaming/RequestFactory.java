@@ -1,6 +1,7 @@
 package com.xeiam.xchange.coinfloor.streaming;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinfloor.CoinfloorUtils;
@@ -18,6 +19,8 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
  */
 public class RequestFactory {
 
+  private static AtomicInteger tagCounter = new AtomicInteger(1);
+
   public static abstract class CoinfloorRequest {
 
     public abstract int getTag();
@@ -26,7 +29,7 @@ public class RequestFactory {
   public static class CoinfloorAuthenticationRequest extends CoinfloorRequest {
 
     final String method = "Authenticate";
-    final int tag = 001 + (int) (Math.random() * 10000) * 1000;
+    final int tag = 001 + tagCounter.getAndIncrement() * 1000;
 
     @JsonProperty("user_id")
     final long userId;
@@ -84,7 +87,7 @@ public class RequestFactory {
   public static class GetBalancesRequest extends CoinfloorRequest {
 
     private final String method = "GetBalances";
-    private final int tag = 101 + (int) (Math.random() * 10000) * 1000;
+    private final int tag = 101 + tagCounter.getAndIncrement() * 1000;
 
     public String getMethod() {
 
@@ -100,7 +103,7 @@ public class RequestFactory {
   public static class GetOrdersRequest extends CoinfloorRequest {
 
     private final String method = "GetOrders";
-    private final int tag = 301 + (int) (Math.random() * 10000) * 1000;
+    private final int tag = 301 + tagCounter.getAndIncrement() * 1000;
 
     public String getMethod() {
 
@@ -116,7 +119,7 @@ public class RequestFactory {
   public static class PlaceOrderRequest extends CoinfloorRequest {
 
     private final String method = "PlaceOrder";
-    private final int tag = 302 + (int) (Math.random() * 10000) * 1000;
+    private final int tag = 302 + tagCounter.getAndIncrement() * 1000;
     private final int base;
     private final int counter;
     private final int quantity;
@@ -177,7 +180,7 @@ public class RequestFactory {
   public static class CancelOrderRequest extends CoinfloorRequest {
 
     private final String method = "CancelOrder";
-    private final int tag = 303 + (int) (Math.random() * 10000) * 1000;
+    private final int tag = 303 + tagCounter.getAndIncrement() * 1000;
     private final int id;
 
     public CancelOrderRequest(int id) {
@@ -213,10 +216,10 @@ public class RequestFactory {
       this.asset = CoinfloorUtils.toCurrencyCode(currency);
 
       if (currency.equals("BTC")) {
-        tag = 102 + (int) (Math.random() * 10000) * 1000;
+        tag = 102 + tagCounter.getAndIncrement() * 1000;
       }
       else {
-        tag = 103 + (int) (Math.random() * 10000) * 1000;
+        tag = 103 + tagCounter.getAndIncrement() * 1000;
       }
     }
 
@@ -239,7 +242,7 @@ public class RequestFactory {
   public static class EstimateMarketOrderRequest extends CoinfloorRequest {
 
     private final String method = "EstimateMarketOrder";
-    private final int tag = 304 + (int) (Math.random() * 10000) * 1000;
+    private final int tag = 304 + tagCounter.getAndIncrement() * 1000;
     private final int base;
     private final int counter;
     private final int quantity;
@@ -287,7 +290,7 @@ public class RequestFactory {
   private static class TickerRequest extends CoinfloorRequest {
 
     private final String method = "WatchTicker";
-    private final int tag = 202 + (int) (Math.random() * 10000) * 1000;
+    private final int tag = 202 + tagCounter.getAndIncrement() * 1000;
     private final int base;
     private final int counter;
     private final boolean watch;
@@ -344,7 +347,7 @@ public class RequestFactory {
   private static class OrdersRequest extends CoinfloorRequest {
 
     private final String method = "WatchOrders";
-    private final int tag = 201 + (int) (Math.random() * 10000) * 1000;
+    private final int tag = 201 + tagCounter.getAndIncrement() * 1000;
     private final int base;
     private final int counter;
     private final boolean watch;

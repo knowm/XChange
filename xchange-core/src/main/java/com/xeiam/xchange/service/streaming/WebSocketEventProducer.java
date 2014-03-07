@@ -80,6 +80,10 @@ public class WebSocketEventProducer extends WebSocketClient {
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
+
+    synchronized (this) {
+      this.notifyAll();
+    }
   }
 
   @Override

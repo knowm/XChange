@@ -62,7 +62,7 @@ public interface StreamingExchangeService {
    * </p>
    */
   void send(String msg);
-  
+
   /**
    * <p>
    * Sends a msg over the socket.

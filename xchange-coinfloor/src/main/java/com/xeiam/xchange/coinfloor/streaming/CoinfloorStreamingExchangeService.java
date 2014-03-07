@@ -101,11 +101,10 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
     internalConnect(uri, exchangeEventListener, headers);
 
     try {
-      synchronized (systemEventQueue) {
-        systemEventQueue.wait();
-      }
+      if (getNextSystemEvent().getEventType() != ExchangeEventType.WELCOME)
+        ;
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      throw new ExchangeException("Could not connect.");
     }
 
     if (configuration.getauthenticateOnConnect()) {
@@ -346,8 +345,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   public CoinfloorExchangeEvent checkNextSystemEvent() throws InterruptedException {
 
     while (true) {
-      if (systemEventQueue.isEmpty()) {
-        synchronized (systemEventQueue) {
+      synchronized (systemEventQueue) {
+        if (systemEventQueue.isEmpty()) {
           systemEventQueue.wait();
         }
       }
