@@ -24,6 +24,7 @@ package com.xeiam.xchange.coinfloor.dto.streaming.marketdata;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,11 +50,11 @@ public class TestTicker {
     // Verify that the example data was mapped correctly
     Assert.assertEquals(0, testObject.getErrorCode());
     Assert.assertEquals(202, testObject.getTag());
-    Assert.assertEquals(new BigDecimal("3.2"), testObject.getLast());
-    Assert.assertEquals(new BigDecimal(0), testObject.getHigh());
-    Assert.assertEquals(new BigDecimal(0), testObject.getLow());
-    Assert.assertEquals(new BigDecimal("3.3"), testObject.getAsk());
-    Assert.assertEquals(new BigDecimal("3.2"), testObject.getBid());
+    Assert.assertEquals(BigDecimal.valueOf(32000, 2), testObject.getLast());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), testObject.getHigh());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), testObject.getLow());
+    Assert.assertEquals(BigDecimal.valueOf(33000, 2), testObject.getAsk());
+    Assert.assertEquals(BigDecimal.valueOf(32000, 2), testObject.getBid());
   }
 
   @Test
@@ -68,10 +69,10 @@ public class TestTicker {
 
     // Verify that the example data was mapped correctly
     Assert.assertEquals(0, testObject.getErrorCode());
-    Assert.assertEquals(new BigDecimal(0), testObject.getLast());
-    Assert.assertEquals(new BigDecimal(0), testObject.getHigh());
-    Assert.assertEquals(new BigDecimal(0), testObject.getLow());
-    Assert.assertEquals(new BigDecimal("3.1899"), testObject.getAsk());
-    Assert.assertEquals(new BigDecimal(0), testObject.getBid());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), testObject.getLast());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), testObject.getHigh());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), testObject.getLow());
+    Assert.assertEquals(BigDecimal.valueOf(31899, 2), testObject.getAsk());
+    Assert.assertEquals(BigDecimal.valueOf(0, 2), testObject.getBid());
   }
 }

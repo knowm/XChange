@@ -31,7 +31,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.coinfloor.dto.streaming.account.CoinfloorTradeVolume;
 
 /**
  * @author obsessiveOrange
@@ -51,6 +50,6 @@ public class TestTradeVolumeReturn {
     // Verify that the example data was mapped correctly
     Assert.assertEquals(0, testObject.getErrorCode());
     Assert.assertEquals(102, testObject.getTag());
-    Assert.assertEquals(new BigDecimal("4.007"), testObject.getAssetVol());
+    Assert.assertEquals(BigDecimal.valueOf(40070, 4), testObject.getAssetVol());
   }
 }

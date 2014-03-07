@@ -41,7 +41,8 @@ public class CoinfloorStreamingConfiguration implements ExchangeStreamingConfigu
    * @param timeoutInMs
    * @param keepAlive if true, will ping server every 15s to keep connection alive. If false, server will likely terminate connection after 60s of inactivity.
    * @param isEncryptedChannel if true, use WSS:// (SSL link)
-   * @param authenticateOnConnect setting this flag to true will cause the CoinfloorStreamingExchangeService to authenticate immediately upon connection. If false, authenticated methods will not be availiable unless authenicate() is called. Relies on userID/Cookie/Password from exchangeSpecification
+   * @param authenticateOnConnect setting this flag to true will cause the CoinfloorStreamingExchangeService to authenticate immediately upon connection. If false, authenticated methods will not be
+   *          availiable unless authenicate() is called. Relies on userID/Cookie/Password from exchangeSpecification
    */
   public CoinfloorStreamingConfiguration(int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean isEncryptedChannel, boolean keepAlive, boolean authenticateOnConnect) {
 
@@ -77,15 +78,16 @@ public class CoinfloorStreamingConfiguration implements ExchangeStreamingConfigu
 
     return isEncryptedChannel;
   }
-  
+
   @Override
   public boolean keepAlive() {
 
     return keepAlive;
   }
-  
-  public boolean getauthenticateOnConnect(){
-	  return authenticateOnConnect;
+
+  public boolean getauthenticateOnConnect() {
+
+    return authenticateOnConnect;
   }
 
 }

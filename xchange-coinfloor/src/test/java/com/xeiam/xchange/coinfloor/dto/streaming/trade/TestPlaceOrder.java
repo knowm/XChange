@@ -23,6 +23,7 @@ package com.xeiam.xchange.coinfloor.dto.streaming.trade;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.junit.Assert;
 import org.junit.Test;
 

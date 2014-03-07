@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinfloor.CoinfloorUtils;
+import com.xeiam.xchange.coinfloor.CoinfloorUtils.CoinfloorCurrency;
 
 /**
  * @author obsessiveOrange
@@ -49,8 +50,8 @@ public class CoinfloorTradeVolume {
 
     this.tag = tag;
     this.errorCode = errorCode;
-    
-	String currency = (tag == 102) ? "BTC" : "GBP";	
+
+    CoinfloorCurrency currency = (tag == 102) ? CoinfloorCurrency.BTC : CoinfloorCurrency.GBP;
     this.assetVol = CoinfloorUtils.scaleToBigDecimal(currency, assetVol);
   }
 

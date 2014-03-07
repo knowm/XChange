@@ -24,6 +24,7 @@ package com.xeiam.xchange.coinfloor.dto.streaming.trade;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,7 +50,7 @@ public class TestEstimateMarketorder {
     // Verify that the example data was mapped correctly
     Assert.assertEquals(0, testObject.getErrorCode());
     Assert.assertEquals(304, testObject.getTag());
-    Assert.assertEquals(new BigDecimal("1"), testObject.getBaseQty());
-    Assert.assertEquals(new BigDecimal("3.3"), testObject.getCounterQty());
+    Assert.assertEquals(BigDecimal.valueOf(10000, 4), testObject.getBaseQty());
+    Assert.assertEquals(BigDecimal.valueOf(33000, 2), testObject.getCounterQty());
   }
 }

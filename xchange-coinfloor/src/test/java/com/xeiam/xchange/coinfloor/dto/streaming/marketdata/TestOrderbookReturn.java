@@ -24,6 +24,7 @@ package com.xeiam.xchange.coinfloor.dto.streaming.marketdata;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,7 +52,7 @@ public class TestOrderbookReturn {
     Assert.assertEquals(201, testObject.getTag());
     Assert.assertEquals(14, testObject.getOrders().size());
     Assert.assertEquals(211077, testObject.getOrders().get(0).getId());
-    Assert.assertEquals(new BigDecimal("3.2"), testObject.getOrders().get(0).getPrice());
-    Assert.assertEquals(new BigDecimal("0.9983"), testObject.getOrders().get(0).getBaseQty());
+    Assert.assertEquals(BigDecimal.valueOf(32000, 2), testObject.getOrders().get(0).getPrice());
+    Assert.assertEquals(BigDecimal.valueOf(9983, 4), testObject.getOrders().get(0).getBaseQty());
   }
 }

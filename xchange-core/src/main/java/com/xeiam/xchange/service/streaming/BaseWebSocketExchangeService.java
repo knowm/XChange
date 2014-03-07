@@ -31,8 +31,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.java_websocket.WebSocket.READYSTATE;
-import org.java_websocket.framing.FramedataImpl1;
 import org.java_websocket.framing.Framedata.Opcode;
+import org.java_websocket.framing.FramedataImpl1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +58,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   /**
    * The event queue for the consumer
    */
-  protected final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>(1024);
+  protected final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>();
 
   protected ReconnectService reconnectService;
 
@@ -94,7 +94,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
       throw new ExchangeException("Failed to open websocket!", e);
     }
 
-    if(exchangeStreamingConfiguration.keepAlive()){
+    if (exchangeStreamingConfiguration.keepAlive()) {
       timer.schedule(new KeepAliveTask(), 15000, 15000);
     }
   }
@@ -116,8 +116,10 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   }
 
   public synchronized ExchangeEvent checkNextEvent() throws InterruptedException {
-	
-	if(consumerEventQueue.isEmpty()){TimeUnit.MILLISECONDS.sleep(100);}
+
+    if (consumerEventQueue.isEmpty()) {
+      TimeUnit.MILLISECONDS.sleep(100);
+    }
     ExchangeEvent event = consumerEventQueue.peek();
     return event;
   }
@@ -127,17 +129,19 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
     exchangeEventProducer.send(msg);
   }
-  
+
   @Override
   public READYSTATE getWebSocketStatus() {
 
     return exchangeEventProducer.getConnection().getReadyState();
   }
-  
+
   class KeepAliveTask extends TimerTask {
+
     @Override
     public void run() {
-      //log.debug("Keep-Alive ping sent.");
+
+      // log.debug("Keep-Alive ping sent.");
       FramedataImpl1 frame = new FramedataImpl1(Opcode.PING);
       frame.setFin(true);
       exchangeEventProducer.getConnection().sendFrame(frame);
