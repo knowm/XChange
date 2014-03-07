@@ -46,14 +46,14 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
   public KrakenTicker getKrakenTicker(CurrencyPair currencyPair) throws IOException {
 
     String krakenCurrencyPair = createKrakenCurrencyPair(currencyPair);
-    KrakenTickerResult tickerResult = krakenAuthenticated.getTicker(krakenCurrencyPair);
+    KrakenTickerResult tickerResult = kraken.getTicker(krakenCurrencyPair);
 
     return checkResult(tickerResult).get(krakenCurrencyPair);
   }
 
   public Map<String, KrakenTicker> getKrakenTicker(CurrencyPair... currencyPairs) throws IOException {
 
-    KrakenTickerResult tickerResult = krakenAuthenticated.getTicker(delimitAssetPairs(currencyPairs));
+    KrakenTickerResult tickerResult = kraken.getTicker(delimitAssetPairs(currencyPairs));
 
     return checkResult(tickerResult);
   }
@@ -61,7 +61,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
   public KrakenDepth getKrakenDepth(CurrencyPair currencyPair, long count) throws IOException {
 
     String krakenCurrencyPair = createKrakenCurrencyPair(currencyPair);
-    KrakenDepthResult result = krakenAuthenticated.getDepth(krakenCurrencyPair, count);
+    KrakenDepthResult result = kraken.getDepth(krakenCurrencyPair, count);
 
     return checkResult(result).get(krakenCurrencyPair);
   }
@@ -74,7 +74,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
   public KrakenPublicTrades getKrakenTrades(CurrencyPair currencyPair, Long since) throws IOException {
 
     String krakenCurrencyPair = createKrakenCurrencyPair(currencyPair);
-    KrakenPublicTradesResult result = krakenAuthenticated.getTrades(krakenCurrencyPair, since);
+    KrakenPublicTradesResult result = kraken.getTrades(krakenCurrencyPair, since);
 
     return checkResult(result);
   }
@@ -87,7 +87,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
   private KrakenSpreads getKrakenSpreads(String tradableIdentifier, String currency, Long since) throws IOException {
 
     String krakenCurrencyPair = createKrakenCurrencyPair(tradableIdentifier, currency);
-    KrakenSpreadsResult spreadsResult = krakenAuthenticated.getSpread(krakenCurrencyPair, since);
+    KrakenSpreadsResult spreadsResult = kraken.getSpread(krakenCurrencyPair, since);
 
     return checkResult(spreadsResult);
   }

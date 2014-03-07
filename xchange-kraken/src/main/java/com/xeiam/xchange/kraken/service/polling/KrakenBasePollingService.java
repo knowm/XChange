@@ -52,7 +52,7 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
   private static final Set<String> FIAT_CURRENCIES = new HashSet<String>();
   private static final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
 
-  protected T krakenAuthenticated;
+  protected T kraken;
   protected ParamsDigest signatureCreator;
 
   /**
@@ -63,7 +63,7 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
   public KrakenBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    krakenAuthenticated = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
+    kraken = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
@@ -125,21 +125,21 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
 
   public KrakenServerTime getServerTime() throws IOException {
 
-    KrakenServerTimeResult timeResult = krakenAuthenticated.getServerTime();
+    KrakenServerTimeResult timeResult = kraken.getServerTime();
 
     return checkResult(timeResult);
   }
 
   public KrakenAssets getKrakenAssets(String... assets) throws IOException {
 
-    KrakenAssetsResult assetPairsResult = krakenAuthenticated.getAssets(null, delimitAssets(assets));
+    KrakenAssetsResult assetPairsResult = kraken.getAssets(null, delimitAssets(assets));
 
     return new KrakenAssets(checkResult(assetPairsResult));
   }
 
   public KrakenAssetPairs getKrakenAssetPairs(CurrencyPair... currencyPairs) throws IOException {
 
-    KrakenAssetPairsResult assetPairsResult = krakenAuthenticated.getAssetPairs(delimitAssetPairs(currencyPairs));
+    KrakenAssetPairsResult assetPairsResult = kraken.getAssetPairs(delimitAssetPairs(currencyPairs));
 
     return new KrakenAssetPairs(checkResult(assetPairsResult));
   }

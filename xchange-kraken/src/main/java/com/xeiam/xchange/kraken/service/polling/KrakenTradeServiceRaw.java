@@ -59,7 +59,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
   public Map<String, KrakenOrder> getKrakenOpenOrders(boolean includeTrades, String userRef) throws IOException {
 
-    KrakenOpenOrdersResult result = krakenAuthenticated.openOrders(includeTrades, userRef, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenOpenOrdersResult result = kraken.openOrders(includeTrades, userRef, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result).getOrders();
   }
@@ -72,7 +72,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
   public Map<String, KrakenOrder> getKrakenClosedOrders(boolean includeTrades, String userRef, String start, String end, String offset, String closeTime) throws IOException {
 
     KrakenClosedOrdersResult result =
-        krakenAuthenticated.closedOrders(includeTrades, userRef, start, end, offset, closeTime, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+        kraken.closedOrders(includeTrades, userRef, start, end, offset, closeTime, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result).getOrders();
   }
@@ -85,7 +85,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
   public Map<String, KrakenOrder> queryKrakenOrders(boolean includeTrades, String userRef, String... transactionIds) throws IOException {
 
     KrakenQueryOrderResult result =
-        krakenAuthenticated.queryOrders(includeTrades, userRef, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+        kraken.queryOrders(includeTrades, userRef, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result);
   }
@@ -97,7 +97,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
   public Map<String, KrakenTrade> getKrakenTradeHistory(String type, boolean includeTrades, String start, String end, String offset) throws IOException {
 
-    KrakenTradeHistoryResult result = krakenAuthenticated.tradeHistory(type, includeTrades, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenTradeHistoryResult result = kraken.tradeHistory(type, includeTrades, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result).getTrades();
   }
@@ -109,7 +109,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
   public Map<String, KrakenTrade> queryKrakenTrades(boolean includeTrades, String... transactionIds) throws IOException {
 
-    KrakenQueryTradeResult result = krakenAuthenticated.queryTrades(includeTrades, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenQueryTradeResult result = kraken.queryTrades(includeTrades, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result);
   }
@@ -121,7 +121,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
   public Map<String, KrakenOpenPosition> getOpenPositions(boolean doCalcs, String... transactionIds) throws IOException {
 
-    KrakenOpenPositionsResult result = krakenAuthenticated.openPositions(createDelimitedString(transactionIds), doCalcs, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenOpenPositionsResult result = kraken.openPositions(createDelimitedString(transactionIds), doCalcs, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result);
   }
@@ -147,13 +147,13 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
     KrakenOrderResult result = null;
     if (!order.isValidateOnly()) {
       result =
-          krakenAuthenticated.addOrder(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume().toString(),
+          kraken.addOrder(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume().toString(),
               order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), order.getCloseOrder(),
               exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
     else {
       result =
-          krakenAuthenticated.addOrderValidateOnly(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume()
+          kraken.addOrderValidateOnly(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume()
               .toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), true, order
               .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
@@ -163,7 +163,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
   public KrakenCancelOrderResponse cancelKrakenOrder(String orderId) throws IOException {
 
-    KrakenCancelOrderResult result = krakenAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, nextNonce(), orderId);
+    KrakenCancelOrderResult result = kraken.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, nextNonce(), orderId);
 
     return checkResult(result);
   }

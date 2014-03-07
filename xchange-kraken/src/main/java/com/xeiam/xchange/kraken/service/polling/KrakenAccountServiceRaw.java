@@ -57,7 +57,7 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuth
    */
   public Map<String, BigDecimal> getKrakenBalance() throws IOException {
 
-    KrakenBalanceResult balanceResult = krakenAuthenticated.balance(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenBalanceResult balanceResult = kraken.balance(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     return checkResult(balanceResult);
   }
 
@@ -73,7 +73,7 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuth
     if (valuationCurrency != null)
       valuationCurrency = getKrakenCurrencyCode(valuationCurrency);
 
-    KrakenTradeBalanceInfoResult balanceResult = krakenAuthenticated.tradeBalance(null, valuationCurrency, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenTradeBalanceInfoResult balanceResult = kraken.tradeBalance(null, valuationCurrency, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     return checkResult(balanceResult);
   }
 
@@ -116,20 +116,20 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuth
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
 
     KrakenLedgerResult ledgerResult =
-        krakenAuthenticated.ledgers(null, delimitAssets(assets), ledgerTypeString, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+        kraken.ledgers(null, delimitAssets(assets), ledgerTypeString, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     return checkResult(ledgerResult).getLedgerMap();
   }
 
   public Map<String, KrakenLedger> queryKrakenLedger(String... ledgerIds) throws IOException {
 
-    KrakenQueryLedgerResult ledgerResult = krakenAuthenticated.queryLedgers(createDelimitedString(ledgerIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenQueryLedgerResult ledgerResult = kraken.queryLedgers(createDelimitedString(ledgerIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(ledgerResult);
   }
 
   public KrakenTradeVolume getTradeVolume(CurrencyPair... currencyPairs) throws IOException {
 
-    KrakenTradeVolumeResult result = krakenAuthenticated.tradeVolume(delimitAssetPairs(currencyPairs), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenTradeVolumeResult result = kraken.tradeVolume(delimitAssetPairs(currencyPairs), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result);
   }
