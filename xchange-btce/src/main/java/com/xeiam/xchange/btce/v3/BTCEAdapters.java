@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,10 +105,8 @@ public final class BTCEAdapters {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigDecimal limitPrice;
-
+    
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
-
   }
 
   /**
@@ -215,15 +212,26 @@ public final class BTCEAdapters {
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
+  public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
+    
+    String[] currencies = btceCurrencyPair.split("_");
+    return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+  }
+  
+  public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
+    
+    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
+    for (String btcePair : btcePairs) 
+      pairs.add(adaptCurrencyPair(btcePair));
+    
+    return pairs;
+  }
+  
   public static ExchangeInfo adaptExchangeInfo(BTCEExchangeInfo infoV3) {
 
-    Set<String> btcePairs = infoV3.getPairs().keySet();
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
-    for (String s : btcePairs) {
-      String[] p = s.split("_");
-      pairs.add(new CurrencyPair(p[0].toUpperCase(), p[1].toUpperCase()));
-    }
-    return new ExchangeInfo(pairs);
+    List<CurrencyPair> currencyPairs = adaptCurrencyPairs(infoV3.getPairs().keySet());
+
+    return new ExchangeInfo(currencyPairs);
   }
 
 }

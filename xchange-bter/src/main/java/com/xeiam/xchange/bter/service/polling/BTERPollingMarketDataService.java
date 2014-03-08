@@ -22,9 +22,10 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
@@ -80,8 +81,10 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
 
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    currencyPairs.addAll(super.getExchangeSymbols());
+    return new ExchangeInfo(currencyPairs);
   }
 
 }

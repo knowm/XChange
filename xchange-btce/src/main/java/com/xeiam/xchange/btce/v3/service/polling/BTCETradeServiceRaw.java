@@ -41,7 +41,7 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
  * Since: 2014-02-13
  */
 
-public class BTCETradeServiceRaw extends BTCEBasePollingService {
+public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticated> {
 
   /**
    * Constructor
@@ -50,7 +50,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService {
    */
   public BTCETradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    super(BTCEAuthenticated.class, exchangeSpecification);
   }
 
   /**

@@ -64,8 +64,9 @@ public class CryptoTradeBasePollingService <T extends CryptoTrade> extends BaseE
   
   protected <R extends CryptoTradeBaseResponse> R handleResponse(final R response) {
 
+    final String status = response.getStatus();
     final String error = response.getError();
-    if (response.getStatus().equalsIgnoreCase("error") || (error != null && !error.isEmpty()))
+    if ((status != null && status.equalsIgnoreCase("error")) || (error != null && !error.isEmpty()))
       throw new ExchangeException(error);
 
     return response;

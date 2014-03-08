@@ -31,7 +31,7 @@ import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
 /**
  * Author: brox
  */
-public class BTCEAccountServiceRaw extends BTCEBasePollingService {
+public class BTCEAccountServiceRaw extends BTCEBasePollingService<BTCEAuthenticated> {
 
   /**
    * Initialize common properties from the exchange specification
@@ -40,7 +40,7 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService {
    */
   public BTCEAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    super(BTCEAuthenticated.class, exchangeSpecification);
   }
 
   /**
