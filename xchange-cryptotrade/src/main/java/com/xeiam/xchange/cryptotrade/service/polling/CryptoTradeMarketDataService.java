@@ -84,7 +84,7 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    return new ExchangeInfo(super.getExchangeSymbols());
   }
 
 }

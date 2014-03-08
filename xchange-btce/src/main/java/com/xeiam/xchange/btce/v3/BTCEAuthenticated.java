@@ -44,10 +44,10 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 /**
  * @author Matija Mazi
  */
-@Path("tapi")
+@Path("/")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface BTCEAuthenticated {
+public interface BTCEAuthenticated extends BTCE {
 
   /**
    * @param from The ID of the transaction to start displaying with; default 0
@@ -60,6 +60,7 @@ public interface BTCEAuthenticated {
    * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}}
    */
   @POST
+  @Path("tapi")
   @FormParam("method")
   BTCEAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
       @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
@@ -71,6 +72,7 @@ public interface BTCEAuthenticated {
    * @param pair the pair to display the orders eg. btc_usd (default: all pairs)
    */
   @POST
+  @Path("tapi")
   @FormParam("method")
   BTCEOpenOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair) throws IOException;
 
@@ -83,11 +85,13 @@ public interface BTCEAuthenticated {
    * @param amount The amount which is necessary to buy/sell
    */
   @POST
+  @Path("tapi")
   @FormParam("method")
   BTCEPlaceOrderReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair,
       @FormParam("type") BTCEOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount) throws IOException;
 
   @POST
+  @Path("tapi")
   @FormParam("method")
   BTCECancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("order_id") Long orderId) throws IOException;
 
@@ -105,6 +109,7 @@ public interface BTCEAuthenticated {
    * @return {success=1, return={tradeId={pair=btc_usd, type=sell, amount=1, rate=1, orderId=1234, timestamp=1234}}}
    */
   @POST
+  @Path("tapi")
   @FormParam("method")
   BTCETradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("from") Long from,
       @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,

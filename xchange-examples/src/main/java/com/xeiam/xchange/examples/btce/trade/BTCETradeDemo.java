@@ -57,7 +57,7 @@ public class BTCETradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", null, new BigDecimal("99.025"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.1"), CurrencyPair.LTC_USD, "", null, new BigDecimal("123.45"));
 
     String limitOrderReturnValue = null;
     try {
@@ -85,7 +85,7 @@ public class BTCETradeDemo {
     // place buy order
     BTCEOrder.Type type = BTCEOrder.Type.buy;
     String pair = "btc_usd";
-    BTCEOrder btceOrder = new BTCEOrder(0, null, new BigDecimal("0.1"), new BigDecimal("0.1"), type, pair);
+    BTCEOrder btceOrder = new BTCEOrder(0, null, new BigDecimal("1"), new BigDecimal("0.1"), type, pair);
 
     BTCEPlaceOrderResult result = null;
     try {
