@@ -85,7 +85,7 @@ public class BTCETradeDemo {
     // place buy order
     BTCEOrder.Type type = BTCEOrder.Type.buy;
     String pair = "btc_usd";
-    BTCEOrder btceOrder = new BTCEOrder(0, null, new BigDecimal("1000.00"), new BigDecimal("0.1"), type, pair);
+    BTCEOrder btceOrder = new BTCEOrder(0, null, new BigDecimal("1"), new BigDecimal("0.1"), type, pair);
 
     BTCEPlaceOrderResult result = null;
     try {
