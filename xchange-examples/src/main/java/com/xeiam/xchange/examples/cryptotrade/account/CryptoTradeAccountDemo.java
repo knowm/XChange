@@ -31,7 +31,6 @@ import com.xeiam.xchange.examples.cryptotrade.CryptoTradeExampleUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.utils.CertHelper;
 
-
 public class CryptoTradeAccountDemo {
 
   public static void main(String[] args) throws Exception {

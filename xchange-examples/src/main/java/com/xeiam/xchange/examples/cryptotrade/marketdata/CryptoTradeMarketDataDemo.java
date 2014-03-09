@@ -40,7 +40,7 @@ import com.xeiam.xchange.utils.CertHelper;
 public class CryptoTradeMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
-
+    
     CertHelper.trustAllCerts();
     
     Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CryptoTradeExchange.class.getName());

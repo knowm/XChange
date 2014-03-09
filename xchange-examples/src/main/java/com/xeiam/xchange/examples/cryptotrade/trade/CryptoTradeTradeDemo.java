@@ -41,7 +41,6 @@ import com.xeiam.xchange.examples.cryptotrade.CryptoTradeExampleUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.CertHelper;
 
-
 public class CryptoTradeTradeDemo {
 
   public static void main(String[] args) throws Exception {
@@ -51,7 +50,7 @@ public class CryptoTradeTradeDemo {
     Exchange exchange = CryptoTradeExampleUtils.createExchange();
     PollingTradeService accountService = exchange.getPollingTradeService();
 
-//    generic(accountService);
+    generic(accountService);
     raw((CryptoTradeTradeServiceRaw) accountService);
   }
 
