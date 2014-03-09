@@ -108,7 +108,9 @@ public class WebSocketEventProducer extends WebSocketClient {
       throw new ExchangeException("Invalid frame recieved");
     }
 
-    if (frame.getPayloadData().limit() != 4096) {
+    System.out.println("---------------------------------------------" + frame.isFin());
+
+    if (frame.isFin() == true) {
       try {
         onMessage(Charsetfunctions.stringUtf8(getLastFragmentedMessage().getPayloadData()));
       } catch (InvalidDataException e) {
