@@ -29,7 +29,7 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonBuil
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonStyle;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonType;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
-import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
+import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 
@@ -41,21 +41,18 @@ public class CoinbaseButtonDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinbase = CoinbaseDemoUtils.createExchange();
-    CoinbaseAccountService accountService = (CoinbaseAccountService) coinbase.getPollingAccountService();
+    CoinbaseAccountServiceRaw accountService = (CoinbaseAccountServiceRaw) coinbase.getPollingAccountService().getRaw();
 
     CoinbaseButtonBuilder buttonBuilder = new CoinbaseButtonBuilder("Demo Button", Currencies.BTC, ".001");
-    buttonBuilder.withDescription("Coinbase button demo for Coinbase.")
-        .withIncludeEmail(true)
-        .withStyle(CoinbaseButtonStyle.DONATION_LARGE)
-        .withType(CoinbaseButtonType.DONATION)
-        .withVariablePrice(true);
+    buttonBuilder.withDescription("Coinbase button demo for Coinbase.").withIncludeEmail(true).withStyle(CoinbaseButtonStyle.DONATION_LARGE).withType(CoinbaseButtonType.DONATION).withVariablePrice(
+        true);
 
     CoinbaseButton createdButton = accountService.createCoinbaseButton(buttonBuilder.buildButton());
     System.out.println(createdButton);
 
     CoinbaseOrder createdOrder = accountService.createCoinbaseOrder(createdButton.getCode());
     System.out.println(createdOrder);
-    
+
     createdOrder = accountService.createCoinbaseOrder(createdButton);
     System.out.println(createdOrder);
   }

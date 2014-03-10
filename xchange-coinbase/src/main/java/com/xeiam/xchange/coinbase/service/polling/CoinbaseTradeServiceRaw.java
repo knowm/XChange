@@ -32,9 +32,9 @@ import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 /**
  * @author jamespedwards42
  */
-class CoinbaseTradeServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated> {
+public class CoinbaseTradeServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated> {
 
-  protected CoinbaseTradeServiceRaw(final ExchangeSpecification exchangeSpecification) {
+  public CoinbaseTradeServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
     super(CoinbaseAuthenticated.class, exchangeSpecification);
   }

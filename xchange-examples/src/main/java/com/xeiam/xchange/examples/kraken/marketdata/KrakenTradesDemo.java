@@ -62,7 +62,7 @@ public class KrakenTradesDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService().getRaw();
 
     // Get the latest trade data for BTC/XRP
     KrakenPublicTrades trades = krakenMarketDataService.getKrakenTrades(CurrencyPair.BTC_XRP, Long.MAX_VALUE);

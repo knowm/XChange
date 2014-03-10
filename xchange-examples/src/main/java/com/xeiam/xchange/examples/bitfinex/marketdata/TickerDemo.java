@@ -49,7 +49,7 @@ public class TickerDemo {
     PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((BitfinexMarketDataServiceRaw) marketDataService);
+    raw((BitfinexMarketDataServiceRaw) marketDataService.getRaw());
 
   }
 

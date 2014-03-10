@@ -35,7 +35,10 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implements PollingTradeService {
+public class BTERPollingTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTERPollingTradeServiceRaw raw;
 
   /**
    * Constructor
@@ -44,15 +47,16 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
    */
   public BTERPollingTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTERPollingTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BTEROpenOrders openOrders = super.getBTEROpenOrders();
-    Collection<CurrencyPair> currencyPairs = super.getExchangeSymbols();
-    
+    BTEROpenOrders openOrders = raw.getBTEROpenOrders();
+    Collection<CurrencyPair> currencyPairs = raw.getExchangeSymbols();
+
     return BTERAdapters.adaptOpenOrders(openOrders, currencyPairs);
   }
 
@@ -65,15 +69,15 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    return String.valueOf(super.placeBTERLimitOrder(limitOrder));
+    return String.valueOf(raw.placeBTERLimitOrder(limitOrder));
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return super.cancelOrder(orderId);
+    return raw.cancelOrder(orderId);
   }
 
   @Override
@@ -81,5 +85,11 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
 
     throw new NotAvailableFromExchangeException();
 
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

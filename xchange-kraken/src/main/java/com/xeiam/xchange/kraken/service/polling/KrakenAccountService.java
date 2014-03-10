@@ -30,17 +30,21 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class KrakenAccountService extends KrakenAccountServiceRaw implements PollingAccountService {
+public class KrakenAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final KrakenAccountServiceRaw raw;
 
   public KrakenAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new KrakenAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return KrakenAdapters.adaptBalance(getKrakenBalance(), exchangeSpecification.getUserName());
+    return KrakenAdapters.adaptBalance(raw.getKrakenBalance(), exchangeSpecification.getUserName());
   }
 
   @Override
@@ -55,4 +59,9 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

@@ -62,7 +62,7 @@ public class KrakenMarketOrderDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService().getRaw();
 
     // place a marketOrder with volume 0.01
     OrderType orderType = (OrderType.BID);

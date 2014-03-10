@@ -49,25 +49,24 @@ public class BTERMarketDataDemo {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BTERExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
-    
     generic(marketDataService);
-    raw((BTERPollingMarketDataServiceRaw) marketDataService);
+    raw((BTERPollingMarketDataServiceRaw) marketDataService.getRaw());
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.PPC_BTC);
     System.out.println(ticker);
-    
+
     OrderBook oderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
     System.out.println(oderBook);
-    
+
     Trades tradeHistory = marketDataService.getTrades(CurrencyPair.BTC_CNY);
     System.out.println(tradeHistory);
-    
+
     List<Trade> trades = tradeHistory.getTrades();
     if (trades.size() > 1) {
-      Trade trade = trades.get(trades.size()-2);
+      Trade trade = trades.get(trades.size() - 2);
       tradeHistory = marketDataService.getTrades(CurrencyPair.BTC_CNY, Long.valueOf(trade.getId()));
       System.out.println(tradeHistory);
     }
@@ -77,22 +76,22 @@ public class BTERMarketDataDemo {
 
     Collection<CurrencyPair> pairs = marketDataService.getExchangeSymbols();
     System.out.println(pairs);
-    
+
     Map<CurrencyPair, BTERTicker> tickers = marketDataService.getBTERTickers();
     System.out.println(tickers);
-    
+
     BTERTicker ticker = marketDataService.getBTERTicker(Currencies.PPC, Currencies.BTC);
     System.out.println(ticker);
-    
+
     BTERDepth depth = marketDataService.getBTEROrderBook(Currencies.BTC, Currencies.CNY);
     System.out.println(depth);
-    
+
     BTERTradeHistory tradeHistory = marketDataService.getBTERTradeHistory(Currencies.BTC, Currencies.CNY);
     System.out.println(tradeHistory);
-    
+
     List<BTERPublicTrade> trades = tradeHistory.getTrades();
     if (trades.size() > 1) {
-      BTERPublicTrade trade = trades.get(trades.size()-2);
+      BTERPublicTrade trade = trades.get(trades.size() - 2);
       tradeHistory = marketDataService.getBTERTradeHistorySince(Currencies.BTC, Currencies.CNY, trade.getTradeId());
       System.out.println(tradeHistory);
     }

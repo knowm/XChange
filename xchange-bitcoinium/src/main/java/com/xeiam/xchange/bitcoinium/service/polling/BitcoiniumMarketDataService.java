@@ -44,7 +44,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw implements PollingMarketDataService {
+public class BitcoiniumMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitcoiniumMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -53,16 +56,17 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
    */
   public BitcoiniumMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitcoiniumMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BitcoiniumTicker bitcoiniumTicker = raw.getBitcoiniumTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currencyPair);
@@ -71,7 +75,7 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     String priceWindow = "";
 
@@ -89,7 +93,7 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
     }
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.baseCurrency, currencyPair.counterCurrency, priceWindow);
+    BitcoiniumOrderbook bitcoiniumOrderbook = raw.getBitcoiniumOrderbook(currencyPair.baseCurrency, currencyPair.counterCurrency, priceWindow);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, currencyPair);
@@ -107,4 +111,9 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

@@ -31,7 +31,10 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class VircurexTradeService extends VircurexTradeServiceRaw implements PollingTradeService {
+public class VircurexTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final VircurexTradeServiceRaw raw;
 
   /**
    * Constructor
@@ -40,13 +43,14 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
    */
   public VircurexTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new VircurexTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    return getVircurexOpenOrders();
+    return raw.getVircurexOpenOrders();
   }
 
   @Override
@@ -58,9 +62,9 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    return placeVircurexLimitOrder(limitOrder);
+    return raw.placeVircurexLimitOrder(limitOrder);
   }
 
   @Override
@@ -73,5 +77,11 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
   public Trades getTradeHistory(Object... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

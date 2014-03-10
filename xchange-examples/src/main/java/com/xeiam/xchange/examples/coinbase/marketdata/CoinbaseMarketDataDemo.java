@@ -34,7 +34,7 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
-import com.xeiam.xchange.coinbase.service.polling.CoinbaseMarketDataService;
+import com.xeiam.xchange.coinbase.service.polling.CoinbaseMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -50,7 +50,7 @@ public class CoinbaseMarketDataDemo {
     PollingMarketDataService marketDataService = coinbaseExchange.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((CoinbaseMarketDataService) marketDataService);
+    raw((CoinbaseMarketDataServiceRaw) marketDataService.getRaw());
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
@@ -59,7 +59,7 @@ public class CoinbaseMarketDataDemo {
     System.out.println(ticker);
   }
 
-  private static void raw(CoinbaseMarketDataService marketDataService) throws IOException {
+  private static void raw(CoinbaseMarketDataServiceRaw marketDataService) throws IOException {
 
     List<CoinbaseCurrency> currencies = marketDataService.getCoinbaseCurrencies();
     System.out.println(currencies);

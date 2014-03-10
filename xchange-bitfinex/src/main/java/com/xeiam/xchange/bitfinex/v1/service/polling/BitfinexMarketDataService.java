@@ -47,7 +47,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw implements PollingMarketDataService {
+public class BitfinexMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitfinexMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -56,13 +59,14 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
    */
   public BitfinexMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitfinexMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitfinexAdapters.adaptTicker(getBitfinexTicker(BitfinexUtils.toPairString(currencyPair)), currencyPair);
+    return BitfinexAdapters.adaptTicker(raw.getBitfinexTicker(BitfinexUtils.toPairString(currencyPair)), currencyPair);
   }
 
   /**
@@ -92,7 +96,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
       }
     }
 
-    BitfinexDepth btceDepth = getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
+    BitfinexDepth btceDepth = raw.getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
 
     List<LimitOrder> asks = BitfinexAdapters.adaptOrders(btceDepth.getAsks(), currencyPair, "ask", "");
     List<LimitOrder> bids = BitfinexAdapters.adaptOrders(btceDepth.getBids(), currencyPair, "bid", "");
@@ -103,7 +107,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair));
+    BitfinexTrade[] trades = raw.getBitfinexTrades(BitfinexUtils.toPairString(currencyPair));
 
     return BitfinexAdapters.adaptTrades(trades, currencyPair);
   }
@@ -114,4 +118,9 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

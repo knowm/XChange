@@ -46,7 +46,7 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((BitcurexMarketDataServiceRaw) marketDataService);
+    raw((BitcurexMarketDataServiceRaw) marketDataService.getRaw());
 
   }
 

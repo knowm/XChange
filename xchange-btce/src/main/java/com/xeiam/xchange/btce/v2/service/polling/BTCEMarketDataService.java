@@ -24,15 +24,10 @@ package com.xeiam.xchange.btce.v2.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.btce.v2.BTCE;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETickerWrapper;
-import com.xeiam.xchange.btce.v2.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -50,36 +45,35 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * </ul>
  */
 @Deprecated
-public class BTCEMarketDataService extends BTCEBasePollingService implements PollingMarketDataService {
+public class BTCEMarketDataService extends PollingMarketDataService {
 
-  protected final BTCE btce;
+  final ExchangeSpecification exchangeSpecification;
+  final BTCEMarketDataServiceRaw raw;
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCEMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
-    BTCETickerWrapper btceTicker = btce.getTicker(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    raw.verify(currencyPair);
 
     // Adapt to XChange DTOs
-    return BTCEAdapters.adaptTicker(btceTicker, currencyPair);
+    return BTCEAdapters.adaptTicker(raw.getBTCETicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    BTCEDepth btceDepth = btce.getDepth(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    BTCEDepth btceDepth = raw.getBTCEOrderBook(currencyPair);
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepth.getAsks(), currencyPair, "ask", "");
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepth.getBids(), currencyPair, "bid", "");
@@ -102,11 +96,9 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    BTCETrade[] BTCETrades = btce.getTrades(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
-
-    return BTCEAdapters.adaptTrades(BTCETrades);
+    return BTCEAdapters.adaptTrades(raw.getBTCETrades(currencyPair));
 
   }
 
@@ -116,4 +108,9 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

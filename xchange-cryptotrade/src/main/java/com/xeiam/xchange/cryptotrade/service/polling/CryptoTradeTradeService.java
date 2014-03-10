@@ -39,7 +39,10 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implements PollingTradeService {
+public class CryptoTradeTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CryptoTradeTradeServiceRaw raw;
 
   /**
    * Constructor
@@ -48,13 +51,14 @@ public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implemen
    */
   public CryptoTradeTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CryptoTradeTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    CryptoTradeOrders orderHistory = super.getCryptoTradeOrderHistory();
+    CryptoTradeOrders orderHistory = raw.getCryptoTradeOrderHistory();
 
     return CryptoTradeAdapters.adaptOpenOrders(orderHistory);
   }
@@ -68,15 +72,15 @@ public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implemen
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    return String.valueOf(placeCryptoTradeLimitOrder(limitOrder).getOrderId());
+    return String.valueOf(raw.placeCryptoTradeLimitOrder(limitOrder).getOrderId());
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    CryptoTradeCancelOrderReturn cancelOrderReturn = super.cancelCryptoTradeOrder(Long.valueOf(orderId));
+    CryptoTradeCancelOrderReturn cancelOrderReturn = raw.cancelCryptoTradeOrder(Long.valueOf(orderId));
 
     return cancelOrderReturn.getStatus().equalsIgnoreCase("success");
   }
@@ -117,8 +121,14 @@ public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implemen
         }
       }
     }
-    CryptoTradeTrades tradeHistory = super.getCryptoTradeTradeHistory(paramsBuilder.build());
+    CryptoTradeTrades tradeHistory = raw.getCryptoTradeTradeHistory(paramsBuilder.build());
 
     return CryptoTradeAdapters.adaptTrades(tradeHistory);
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

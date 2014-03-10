@@ -42,7 +42,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataServiceRaw implements PollingMarketDataService {
+public class BitcoinAverageMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitcoinAverageMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -51,16 +54,17 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
    */
   public BitcoinAverageMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitcoinAverageMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // Request data
-    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BitcoinAverageTicker bitcoinAverageTicker = raw.getBitcoinAverageTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
     // Adapt to XChange DTOs
     return BitcoinAverageAdapters.adaptTicker(bitcoinAverageTicker, currencyPair);
@@ -84,4 +88,9 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

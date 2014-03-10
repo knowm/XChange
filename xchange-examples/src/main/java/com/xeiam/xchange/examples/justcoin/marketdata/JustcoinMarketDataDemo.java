@@ -65,7 +65,7 @@ public class JustcoinMarketDataDemo {
   private static void raw(Exchange justcoinExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    JustcoinMarketDataServiceRaw justcoinSpecificMarketDataService = (JustcoinMarketDataServiceRaw) justcoinExchange.getPollingMarketDataService();
+    JustcoinMarketDataServiceRaw justcoinSpecificMarketDataService = (JustcoinMarketDataServiceRaw) justcoinExchange.getPollingMarketDataService().getRaw();
 
     // Get the latest ticker data for all markets on the Justcoin Exchange
     JustcoinTicker[] justcoinTickers = justcoinSpecificMarketDataService.getTickers();

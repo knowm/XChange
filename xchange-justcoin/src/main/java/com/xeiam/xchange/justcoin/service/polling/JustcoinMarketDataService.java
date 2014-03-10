@@ -38,17 +38,21 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * @author jamespedwards42
  */
-public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw implements PollingMarketDataService {
+public class JustcoinMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final JustcoinMarketDataServiceRaw raw;
 
   public JustcoinMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new JustcoinMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    final JustcoinTicker[] justcoinTickers = getTickers();
+    final JustcoinTicker[] justcoinTickers = raw.getTickers();
 
     return JustcoinAdapters.adaptTicker(justcoinTickers, currencyPair);
   }
@@ -56,7 +60,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    final JustcoinDepth justcoinDepth = getMarketDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    final JustcoinDepth justcoinDepth = raw.getMarketDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
 
     return JustcoinAdapters.adaptOrderBook(currencyPair, justcoinDepth);
   }
@@ -73,4 +77,9 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

@@ -57,7 +57,7 @@ public class InfoDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService().getRaw();
 
     // Get the latest info about traded currencies, fees etc.
     BTCEExchangeInfo info = marketDataService.getBTCEInfo();

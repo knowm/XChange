@@ -48,7 +48,10 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 /**
  * @author Matija Mazi
  */
-public class CampBXTradeService extends CampBXTradeServiceRaw implements PollingTradeService {
+public class CampBXTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CampBXTradeServiceRaw raw;
 
   private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
 
@@ -61,13 +64,14 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
    */
   public CampBXTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CampBXTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    MyOpenOrders myOpenOrders = getCampBXOpenOrders();
+    MyOpenOrders myOpenOrders = raw.getCampBXOpenOrders();
     logger.debug("myOpenOrders = {}", myOpenOrders);
 
     if (!myOpenOrders.isError()) {
@@ -105,9 +109,9 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    verify(marketOrder.getCurrencyPair());
+    raw.verify(marketOrder.getCurrencyPair());
 
-    CampBXResponse campBXResponse = placeCampBXMarketOrder(marketOrder);
+    CampBXResponse campBXResponse = raw.placeCampBXMarketOrder(marketOrder);
     logger.debug("campBXResponse = {}", campBXResponse);
 
     if (!campBXResponse.isError()) {
@@ -121,9 +125,9 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    CampBXResponse campBXResponse = placeCampBXLimitOrder(limitOrder);
+    CampBXResponse campBXResponse = raw.placeCampBXLimitOrder(limitOrder);
     logger.debug("campBXResponse = {}", campBXResponse);
 
     if (!campBXResponse.isError()) {
@@ -137,7 +141,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    CampBXResponse campBXResponse = cancelCampBXOrder(orderId);
+    CampBXResponse campBXResponse = raw.cancelCampBXOrder(orderId);
     logger.debug("campBXResponse = {}", campBXResponse);
 
     if (!campBXResponse.isError()) {
@@ -165,4 +169,9 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
     throw new NotYetImplementedForExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

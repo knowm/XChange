@@ -47,7 +47,7 @@ public class TickerDemo {
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((VirtExMarketDataServiceRaw) marketDataService);
+    raw((VirtExMarketDataServiceRaw) marketDataService.getRaw());
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {

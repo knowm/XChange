@@ -52,7 +52,7 @@ public class BitstampAccountDemo {
     PollingAccountService accountService = bitstamp.getPollingAccountService();
 
     generic(accountService);
-    raw((BitstampAccountServiceRaw) accountService);
+    raw((BitstampAccountServiceRaw) accountService.getRaw());
   }
 
   private static void generic(PollingAccountService accountService) throws IOException {

@@ -30,7 +30,10 @@ import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class BTERPollingAccountService extends BTERPollingAccountServiceRaw implements PollingAccountService {
+public class BTERPollingAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTERPollingAccountServiceRaw raw;
 
   /**
    * Constructor
@@ -39,14 +42,14 @@ public class BTERPollingAccountService extends BTERPollingAccountServiceRaw impl
    */
   public BTERPollingAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTERPollingAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BTERAdapters.adaptAccountInfo(super.getBTERAccountInfo());
+    return BTERAdapters.adaptAccountInfo(raw.getBTERAccountInfo());
   }
 
   @Override
@@ -59,5 +62,11 @@ public class BTERPollingAccountService extends BTERPollingAccountServiceRaw impl
   public String requestDepositAddress(String currency, String... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

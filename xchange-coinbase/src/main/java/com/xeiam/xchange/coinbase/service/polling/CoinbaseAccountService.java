@@ -36,17 +36,21 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author jamespedwards42
  */
-public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw implements PollingAccountService {
+public final class CoinbaseAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CoinbaseAccountServiceRaw raw;
 
   public CoinbaseAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CoinbaseAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    final CoinbaseUsers users = super.getCoinbaseUsers();
+    final CoinbaseUsers users = raw.getCoinbaseUsers();
     return CoinbaseAdapters.adaptAccountInfo(users.getUsers().get(0));
   }
 
@@ -59,15 +63,20 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, currency, amount);
-    final CoinbaseTransaction sendMoneyTransaction = super.sendMoneyCoinbaseRequest(sendMoneyRequest);
+    final CoinbaseTransaction sendMoneyTransaction = raw.sendMoneyCoinbaseRequest(sendMoneyRequest);
     return sendMoneyTransaction.getId();
   }
 
   @Override
   public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
-    final CoinbaseAddress receiveAddress = super.getCoinbaseReceiveAddress();
+    final CoinbaseAddress receiveAddress = raw.getCoinbaseReceiveAddress();
     return receiveAddress.getAddress();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
-import com.xeiam.xchange.coinbase.service.polling.CoinbaseTradeService;
+import com.xeiam.xchange.coinbase.service.polling.CoinbaseTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -41,27 +41,27 @@ public class CoinbaseTradeDemo {
     PollingTradeService tradeService = coinbase.getPollingTradeService();
 
     generic(tradeService);
-    raw((CoinbaseTradeService) tradeService);
+    raw((CoinbaseTradeServiceRaw) tradeService.getRaw());
   }
 
   public static void generic(PollingTradeService tradeService) throws IOException {
 
-    //MarketOrder marketOrder = new MarketOrder(OrderType.BID, new BigDecimal(".01"), Currencies.BTC, Currencies.USD);
-    //String orderId = tradeService.placeMarketOrder(marketOrder);
-    //System.out.println("Order Id: " + orderId);
-    
+    // MarketOrder marketOrder = new MarketOrder(OrderType.BID, new BigDecimal(".01"), Currencies.BTC, Currencies.USD);
+    // String orderId = tradeService.placeMarketOrder(marketOrder);
+    // System.out.println("Order Id: " + orderId);
+
     int page = 1; // optional
     int limit = 3; // optional
     Trades trades = tradeService.getTradeHistory(page, limit);
     System.out.println(trades);
   }
 
-  public static void raw(CoinbaseTradeService tradeService) throws IOException {
+  public static void raw(CoinbaseTradeServiceRaw tradeService) throws IOException {
 
-    //CoinbaseTransfer buyTransfer = tradeService.buy(new BigDecimal(".01"));
-    //System.out.println(buyTransfer);
-    
-    CoinbaseTransfers transfers = tradeService.getCoinbaseTransfers(); 
+    // CoinbaseTransfer buyTransfer = tradeService.buy(new BigDecimal(".01"));
+    // System.out.println(buyTransfer);
+
+    CoinbaseTransfers transfers = tradeService.getCoinbaseTransfers();
     System.out.println(transfers);
   }
 }

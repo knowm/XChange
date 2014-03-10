@@ -35,35 +35,38 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author jamespedwards42
  */
-public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
-		PollingAccountService {
+public class JustcoinAccountService extends PollingAccountService {
 
-	public JustcoinAccountService(
-			final ExchangeSpecification exchangeSpecification) {
+  final ExchangeSpecification exchangeSpecification;
+  final JustcoinAccountServiceRaw raw;
 
-		super(exchangeSpecification);
-	}
+  public JustcoinAccountService(final ExchangeSpecification exchangeSpecification) {
 
-	@Override
-	public AccountInfo getAccountInfo() throws IOException {
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new JustcoinAccountServiceRaw(exchangeSpecification);
+  }
 
-		return JustcoinAdapters.adaptAccountInfo(
-				exchangeSpecification.getUserName(), getBalances());
-	}
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
 
-	@Override
-	public String withdrawFunds(String currency, BigDecimal amount,
-			String address) throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+    return JustcoinAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), raw.getBalances());
+  }
 
-		return withdrawFunds(currency, amount, address);
-	}
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	@Override
-	public String requestDepositAddress(final String currency,
-			final String... arguments) throws IOException {
+    return withdrawFunds(currency, amount, address);
+  }
 
-		return requestDepositAddress(currency);
-	}
+  @Override
+  public String requestDepositAddress(final String currency, final String... arguments) throws IOException {
+
+    return requestDepositAddress(currency);
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

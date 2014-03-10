@@ -68,7 +68,7 @@ public class CampBXMarketDataDemo {
   private static void raw(Exchange campBXExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getPollingMarketDataService();
+    CampBXMarketDataServiceRaw campBXspecificMarketDataService = (CampBXMarketDataServiceRaw) campBXExchange.getPollingMarketDataService().getRaw();
 
     // Get the latest ticker data showing BTC to USD
     CampBXTicker campBXTicker = campBXspecificMarketDataService.getCampBXTicker();

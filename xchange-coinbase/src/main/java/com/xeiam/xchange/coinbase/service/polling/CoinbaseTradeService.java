@@ -39,11 +39,15 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 /**
  * @author jamespedwards42
  */
-public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implements PollingTradeService {
+public final class CoinbaseTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CoinbaseTradeServiceRaw raw;
 
   public CoinbaseTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CoinbaseTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
@@ -55,7 +59,7 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
 
-    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getTradableAmount()) : super.sell(marketOrder.getTradableAmount());
+    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? raw.buy(marketOrder.getTradableAmount()) : raw.sell(marketOrder.getTradableAmount());
     return transfer.getTransactionId();
   }
 
@@ -95,8 +99,13 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
       }
     }
 
-    final CoinbaseTransfers transfers = super.getCoinbaseTransfers(page, limit);
+    final CoinbaseTransfers transfers = raw.getCoinbaseTransfers(page, limit);
     return CoinbaseAdapters.adaptTrades(transfers);
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

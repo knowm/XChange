@@ -40,7 +40,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransactions;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
+import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
@@ -57,7 +57,7 @@ public class CoinbaseAccountDemo {
     PollingAccountService accountService = coinbase.getPollingAccountService();
 
     generic(accountService);
-    raw((CoinbaseAccountService) accountService);
+    raw((CoinbaseAccountServiceRaw) accountService.getRaw());
   }
 
   private static void generic(PollingAccountService accountService) throws IOException {
@@ -72,7 +72,7 @@ public class CoinbaseAccountDemo {
     // System.out.println("Bitcoin blockchain transaction hash: " + transactionHash);
   }
 
-  public static void raw(CoinbaseAccountService accountService) throws IOException {
+  public static void raw(CoinbaseAccountServiceRaw accountService) throws IOException {
 
     CoinbaseMoney balance = accountService.getCoinbaseBalance();
     System.out.println(balance);
@@ -94,7 +94,7 @@ public class CoinbaseAccountDemo {
     demoRecurringPayments(accountService);
   }
 
-  private static void demoRecurringPayments(CoinbaseAccountService accountService) throws IOException {
+  private static void demoRecurringPayments(CoinbaseAccountServiceRaw accountService) throws IOException {
 
     CoinbaseRecurringPayments recurringPayments = accountService.getCoinbaseRecurringPayments();
     System.out.println(recurringPayments);
@@ -107,7 +107,7 @@ public class CoinbaseAccountDemo {
     }
   }
 
-  private static void demoUsers(CoinbaseAccountService accountService) throws IOException {
+  private static void demoUsers(CoinbaseAccountServiceRaw accountService) throws IOException {
 
     CoinbaseUsers users = accountService.getCoinbaseUsers();
     System.out.println("Current User: " + users);
@@ -123,7 +123,7 @@ public class CoinbaseAccountDemo {
     System.out.println("Newly created user: " + createdUser);
   }
 
-  private static void demoTokens(CoinbaseAccountService accountService) throws IOException {
+  private static void demoTokens(CoinbaseAccountServiceRaw accountService) throws IOException {
 
     CoinbaseToken token = accountService.createCoinbaseToken();
     System.out.println(token);
@@ -132,7 +132,7 @@ public class CoinbaseAccountDemo {
     System.out.println(isAccepted);
   }
 
-  private static void demoAddresses(CoinbaseAccountService accountService) throws IOException {
+  private static void demoAddresses(CoinbaseAccountServiceRaw accountService) throws IOException {
 
     CoinbaseAddress receiveAddress = accountService.getCoinbaseReceiveAddress();
     System.out.println(receiveAddress);
@@ -144,7 +144,7 @@ public class CoinbaseAccountDemo {
     System.out.println(addresses);
   }
 
-  private static void demoTransactions(CoinbaseAccountService accountService) throws IOException {
+  private static void demoTransactions(CoinbaseAccountServiceRaw accountService) throws IOException {
 
     CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", Currencies.BTC, new BigDecimal(".001")).withNotes("test");
     CoinbaseTransaction pendingTransaction = accountService.requestMoneyCoinbaseRequest(moneyRequest);

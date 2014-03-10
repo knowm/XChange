@@ -54,7 +54,7 @@ public class KrakenTradeHistoryDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService().getRaw();
 
     // Get the trade history
     Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory();

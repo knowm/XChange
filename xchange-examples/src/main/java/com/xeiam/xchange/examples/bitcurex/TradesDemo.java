@@ -52,7 +52,7 @@ public class TradesDemo {
     // System.out.println(trades.toString());
 
     generic(marketDataService);
-    raw((BitcurexMarketDataServiceRaw) marketDataService);
+    raw((BitcurexMarketDataServiceRaw) marketDataService.getRaw());
 
   }
 

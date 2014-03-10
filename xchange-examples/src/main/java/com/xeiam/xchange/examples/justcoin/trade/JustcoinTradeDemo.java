@@ -77,7 +77,7 @@ public class JustcoinTradeDemo {
 
   private static void raw(Exchange justcoinExchange) throws IOException {
 
-    JustcoinTradeServiceRaw justcoinSpecificTradeService = (JustcoinTradeServiceRaw) justcoinExchange.getPollingTradeService();
+    JustcoinTradeServiceRaw justcoinSpecificTradeService = (JustcoinTradeServiceRaw) justcoinExchange.getPollingTradeService().getRaw();
 
     JustcoinTrade[] trades = justcoinSpecificTradeService.getOrderHistory();
     System.out.println("Trade History: " + trades);

@@ -19,62 +19,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cexio.service.polling;
+package com.xeiam.xchange.btce.v2.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.cexio.CexIOAdapters;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
+import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfo;
+import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfoReturn;
 
 /**
- * Author: brox
- * Since: 2/6/14
+ * @author Matija Mazi
  */
-
-public class CexIOAccountService extends PollingAccountService {
-
-  final ExchangeSpecification exchangeSpecification;
-  final CexIOAccountServiceRaw raw;
+@Deprecated
+public class BTCEAccountServiceRaw extends BTCEBasePollingService {
 
   /**
-   * Initialize common properties from the exchange specification
+   * Constructor
    * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public CexIOAccountService(ExchangeSpecification exchangeSpecification) {
+  public BTCEAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    this.exchangeSpecification = exchangeSpecification;
-    raw = new CexIOAccountServiceRaw(exchangeSpecification);
+    super(exchangeSpecification);
   }
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
+  public BTCEAccountInfo getBTCEAccountInfo() throws IOException {
 
-    return CexIOAdapters.adaptAccountInfo(raw.getCexIOAccountInfo(), exchangeSpecification.getUserName());
+    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
+    checkResult(info);
+    return info.getReturnValue();
   }
 
-  @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String withdrawBTCEFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestBTCEDepositAddress(String currency, String... arguments) throws IOException {
 
     throw new NotAvailableFromExchangeException();
-
-  }
-
-  @Override
-  public Object getRaw() {
-
-    return raw;
   }
 }

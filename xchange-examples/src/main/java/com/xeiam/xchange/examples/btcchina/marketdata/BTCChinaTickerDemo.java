@@ -68,7 +68,7 @@ public class BTCChinaTickerDemo {
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest ticker data showing BTC to CNY
-    BTCChinaTicker ticker = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTicker();
+    BTCChinaTicker ticker = ((BTCChinaMarketDataServiceRaw) marketDataService.getRaw()).getBTCChinaTicker();
 
     System.out.println("Last: " + ticker.getTicker().getLast().toString());
     System.out.println("Volume: " + ticker.getTicker().getVol().toString());

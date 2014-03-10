@@ -53,8 +53,6 @@ public class TickerDemo {
 
     // Get the latest ticker data showing BTC to EUR
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
-    double value = ticker.getLast().doubleValue();
-
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -63,7 +61,7 @@ public class TickerDemo {
 
   private static void raw(Exchange bitcurex) throws IOException {
 
-    BitcurexMarketDataServiceRaw bitcurexMarketDataServiceRaw = (BitcurexMarketDataServiceRaw) bitcurex.getPollingMarketDataService();
+    BitcurexMarketDataServiceRaw bitcurexMarketDataServiceRaw = (BitcurexMarketDataServiceRaw) bitcurex.getPollingMarketDataService().getRaw();
 
     // Get the latest ticker data showing BTC to EUR
     BitcurexTicker ticker = bitcurexMarketDataServiceRaw.getBitcurexTicker(Currencies.EUR);

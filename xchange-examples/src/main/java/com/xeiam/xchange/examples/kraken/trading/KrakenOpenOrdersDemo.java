@@ -54,7 +54,7 @@ public class KrakenOpenOrdersDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService().getRaw();
 
     // Get the open orders
     Map<String, KrakenOrder> openOrders = tradeService.getKrakenOpenOrders();

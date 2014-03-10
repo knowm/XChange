@@ -49,7 +49,7 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = btce.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((BitfinexMarketDataServiceRaw) marketDataService);
+    raw((BitfinexMarketDataServiceRaw) marketDataService.getRaw());
 
   }
 

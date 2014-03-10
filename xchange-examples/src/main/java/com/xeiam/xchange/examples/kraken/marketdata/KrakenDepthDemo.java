@@ -62,7 +62,7 @@ public class KrakenDepthDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService().getRaw();
 
     // Get the latest full order book data
     KrakenDepth depth = krakenMarketDataService.getKrakenDepth(CurrencyPair.BTC_EUR, Long.MAX_VALUE);

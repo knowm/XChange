@@ -72,7 +72,7 @@ public class BTCChinaTradesDemo {
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest trade data for BTC/CNY
-    BTCChinaTrade[] trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTrades();
+    BTCChinaTrade[] trades = ((BTCChinaMarketDataServiceRaw) marketDataService.getRaw()).getBTCChinaTrades();
 
     for (BTCChinaTrade trade : trades) {
       System.out.println(trade.toString());
@@ -80,7 +80,7 @@ public class BTCChinaTradesDemo {
     System.out.println("NumTrades=" + trades.length);
 
     // Get the offset trade data for BTC/CNY
-    trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTrades(4640403);
+    trades = ((BTCChinaMarketDataServiceRaw) marketDataService.getRaw()).getBTCChinaTrades(4640403);
 
     for (BTCChinaTrade trade : trades) {
       System.out.println(trade.toString());

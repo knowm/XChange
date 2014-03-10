@@ -38,7 +38,7 @@ public class BTERAccountDemo {
     PollingAccountService accountService = exchange.getPollingAccountService();
 
     generic(accountService);
-    raw((BTERPollingAccountServiceRaw) accountService);
+    raw((BTERPollingAccountServiceRaw) accountService.getRaw());
   }
 
   private static void generic(PollingAccountService accountService) throws IOException {

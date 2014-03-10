@@ -22,6 +22,10 @@
 package com.xeiam.xchange.service.polling;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -45,7 +49,9 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
  * The implementation of this service is expected to be based on a client polling mechanism of some kind
  * </p>
  */
-public interface PollingTradeService {
+public abstract class PollingTradeService {
+
+  private final static ExecutorService executorService = Executors.newCachedThreadPool();
 
   /**
    * Gets the open orders
@@ -56,7 +62,7 @@ public interface PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public abstract OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Place a market order
@@ -68,7 +74,7 @@ public interface PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public abstract String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Place a limit order
@@ -80,7 +86,7 @@ public interface PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public abstract String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * cancels order with matching orderId
@@ -92,7 +98,7 @@ public interface PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public abstract boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * gets trade history for user's account
@@ -104,6 +110,137 @@ public interface PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Trades getTradeHistory(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public abstract Trades getTradeHistory(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
+  /*
+   * The following methods are Asynchronous versions of the ones above. They create a new thread to retrieve data (thus allowing multiple requests
+   * at the same time), and return the Future<?> object. The get() method may be called upon that Future<?> Object to retrieve the result, or block
+   * until the result has been retrieved.
+   */
+
+  /**
+   * Asynchronously gets the open orders
+   * 
+   * @return the open orders, null if some sort of error occurred. Implementers should log the error.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  public Future<OpenOrders> getOpenOrdersAsync() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    class CallableAccountInfoRequest implements Callable<OpenOrders> {
+
+      @Override
+      public OpenOrders call() throws Exception {
+
+        return getOpenOrders();
+      }
+
+    }
+    return executorService.submit(new CallableAccountInfoRequest());
+  }
+
+  /**
+   * Asynchronously places a market order
+   * 
+   * @param marketOrder
+   * @return the order ID
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  public Future<String> placeMarketOrderAsync(final MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    class CallableAccountInfoRequest implements Callable<String> {
+
+      @Override
+      public String call() throws Exception {
+
+        return placeMarketOrder(marketOrder);
+      }
+
+    }
+    return executorService.submit(new CallableAccountInfoRequest());
+  }
+
+  /**
+   * Asynchronously places a limit order
+   * 
+   * @param limitOrder
+   * @return the order ID
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  public Future<String> placeLimitOrderAsync(final LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    class CallableAccountInfoRequest implements Callable<String> {
+
+      @Override
+      public String call() throws Exception {
+
+        return placeLimitOrder(limitOrder);
+      }
+
+    }
+    return executorService.submit(new CallableAccountInfoRequest());
+  }
+
+  /**
+   * Asynchronously cancels order with matching orderId
+   * 
+   * @param orderId
+   * @return true if order was successfully cancelled, false otherwise.
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  public Future<Boolean> cancelOrderAsync(final String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    class CallableAccountInfoRequest implements Callable<Boolean> {
+
+      @Override
+      public Boolean call() throws Exception {
+
+        return cancelOrder(orderId);
+      }
+
+    }
+    return executorService.submit(new CallableAccountInfoRequest());
+  }
+
+  /**
+   * Asynchronously gets trade history for user's account
+   * 
+   * @param arguments
+   * @return
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
+  public Future<Trades> getTradeHistoryAsync(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    class CallableAccountInfoRequest implements Callable<Trades> {
+
+      @Override
+      public Trades call() throws Exception {
+
+        return getTradeHistory(arguments);
+      }
+
+    }
+    return executorService.submit(new CallableAccountInfoRequest());
+  }
+
+  /**
+   * Retrieves the raw layer for calling of raw methods.
+   * 
+   * @return
+   */
+  public abstract Object getRaw();
 }

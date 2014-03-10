@@ -51,7 +51,7 @@ public class BitstampTradeDemo {
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
 
     generic(tradeService);
-    raw((BitstampTradeServiceRaw) tradeService);
+    raw((BitstampTradeServiceRaw) tradeService.getRaw());
   }
 
   private static void generic(PollingTradeService tradeService) throws IOException {

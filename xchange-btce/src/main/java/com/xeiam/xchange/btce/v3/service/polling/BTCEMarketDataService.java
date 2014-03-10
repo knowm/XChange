@@ -48,23 +48,27 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements PollingMarketDataService {
+public class BTCEMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTCEMarketDataServiceRaw raw;
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCEMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
-    BTCETickerWrapper btceTickerWrapper = getBTCETicker(pairs);
+    BTCETickerWrapper btceTickerWrapper = raw.getBTCETicker(pairs);
 
     // Adapt to XChange DTOs
     return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(BTCEUtils.getPair(currencyPair)), currencyPair);
@@ -83,22 +87,22 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     BTCEDepthWrapper btceDepthWrapper = null;
 
     if (args.length > 0) {
       Object arg0 = args[0];
-      if (!(arg0 instanceof Integer) || ((Integer) arg0 < 1) || ((Integer) arg0 > FULL_SIZE)) {
+      if (!(arg0 instanceof Integer) || ((Integer) arg0 < 1) || ((Integer) arg0 > BTCEMarketDataServiceRaw.FULL_SIZE)) {
         throw new ExchangeException("Orderbook size argument must be an Integer in the range: (1, 2000)!");
       }
       else {
-        btceDepthWrapper = getBTCEDepth(pairs, (Integer) arg0);
+        btceDepthWrapper = raw.getBTCEDepth(pairs, (Integer) arg0);
       }
     }
     else { // default to full orderbook
-      btceDepthWrapper = getBTCEDepth(pairs, FULL_SIZE);
+      btceDepthWrapper = raw.getBTCEDepth(pairs, BTCEMarketDataServiceRaw.FULL_SIZE);
     }
 
     // Adapt to XChange DTOs
@@ -123,7 +127,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     int numberOfItems = -1;
@@ -135,10 +139,10 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
     BTCETrade[] bTCETrades = null;
 
     if (numberOfItems == -1) {
-      bTCETrades = getBTCETrades(pairs, FULL_SIZE).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
+      bTCETrades = raw.getBTCETrades(pairs, BTCEMarketDataServiceRaw.FULL_SIZE).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
     }
     else {
-      bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
+      bTCETrades = raw.getBTCETrades(pairs, numberOfItems).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
     }
 
     return BTCEAdapters.adaptTrades(bTCETrades, currencyPair);
@@ -147,8 +151,13 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    BTCEExchangeInfo bTCEExchangeInfo = getBTCEInfo();
+    BTCEExchangeInfo bTCEExchangeInfo = raw.getBTCEInfo();
     return BTCEAdapters.adaptExchangeInfo(bTCEExchangeInfo);
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

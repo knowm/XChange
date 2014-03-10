@@ -51,7 +51,7 @@ public class KrakenExchangeSymbolsDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
-    for (CurrencyPair currencyPair : ((BaseExchangeService) krakenMarketDataService).getExchangeSymbols()) {
+    for (CurrencyPair currencyPair : ((BaseExchangeService) krakenMarketDataService.getRaw()).getExchangeSymbols()) {
       System.out.println(currencyPair);
     }
   }
@@ -59,7 +59,7 @@ public class KrakenExchangeSymbolsDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService().getRaw();
 
     KrakenAssetPairs krakenAssetPairs = krakenMarketDataService.getKrakenAssetPairs();
     for (Entry<String, KrakenAssetPair> assetPairEntry : krakenAssetPairs.getAssetPairMap().entrySet()) {

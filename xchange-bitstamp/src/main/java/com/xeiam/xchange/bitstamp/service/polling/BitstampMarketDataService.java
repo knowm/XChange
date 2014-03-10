@@ -36,7 +36,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * @author Matija Mazi
  */
-public class BitstampMarketDataService extends BitstampMarketDataServiceRaw implements PollingMarketDataService {
+public class BitstampMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitstampMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -45,32 +48,33 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
    */
   public BitstampMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitstampMarketDataServiceRaw(exchangeSpecification);
 
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    return BitstampAdapters.adaptTicker(getBitstampTicker(), currencyPair);
+    return BitstampAdapters.adaptTicker(raw.getBitstampTicker(), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    return BitstampAdapters.adaptOrders(getBitstampOrderBook(), currencyPair);
+    return BitstampAdapters.adaptOrders(raw.getBitstampOrderBook(), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    return BitstampAdapters.adaptTrades(getBitstampTransactions(args), currencyPair);
+    return BitstampAdapters.adaptTrades(raw.getBitstampTransactions(args), currencyPair);
   }
 
   @Override
@@ -79,4 +83,9 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

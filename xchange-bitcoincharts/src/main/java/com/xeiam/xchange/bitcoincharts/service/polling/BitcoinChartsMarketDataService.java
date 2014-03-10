@@ -46,7 +46,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * @author timmolter
  */
-public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService implements PollingMarketDataService, CachedDataSession {
+public class BitcoinChartsMarketDataService extends PollingMarketDataService implements CachedDataSession {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitcoinChartsBaseService raw;
 
   private final Logger logger = LoggerFactory.getLogger(BitcoinChartsMarketDataService.class);
 
@@ -66,7 +69,8 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService imp
    */
   public BitcoinChartsMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitcoinChartsBaseService(exchangeSpecification);
     this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchangeSpecification.getPlainTextUri());
   }
 
@@ -79,7 +83,7 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService imp
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // check for pacing violation
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
@@ -112,4 +116,9 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService imp
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

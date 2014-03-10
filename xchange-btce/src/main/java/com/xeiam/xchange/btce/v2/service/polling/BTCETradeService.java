@@ -27,13 +27,8 @@ import java.util.ArrayList;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
-import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEOpenOrdersReturn;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCEOrder;
-import com.xeiam.xchange.btce.v2.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -42,7 +37,10 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /** @author Matija Mazi */
 @Deprecated
-public class BTCETradeService extends BTCEBasePollingService implements PollingTradeService {
+public class BTCETradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTCETradeServiceRaw raw;
 
   /**
    * Constructor
@@ -52,17 +50,18 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
    */
   public BTCETradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCETradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BTCEOpenOrdersReturn orders = btce.ActiveOrders(apiKey, signatureCreator, nextNonce(), null);
+    BTCEOpenOrdersReturn orders = raw.getBTCEOpenOrders();
     if ("no orders".equals(orders.getError())) {
       return new OpenOrders(new ArrayList<LimitOrder>());
     }
-    checkResult(orders);
+    raw.checkResult(orders);
     return BTCEAdapters.adaptOrders(orders.getReturnValue());
   }
 
@@ -75,21 +74,15 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    String pair = String.format("%s_%s", limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency).toLowerCase();
-    BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
-    checkResult(ret);
-    return Long.toString(ret.getReturnValue().getOrderId());
+    return Long.toString(raw.placeBTCELimitOrder(limitOrder).getReturnValue().getOrderId());
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCECancelOrderReturn ret = btce.CancelOrder(apiKey, signatureCreator, nextNonce(), Long.parseLong(orderId));
-    checkResult(ret);
-    return ret.isSuccess();
+    return raw.cancelBTCEOrder(orderId).isSuccess();
   }
 
   @Override
@@ -106,10 +99,13 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
       // ignore, can happen if no arg given.
     }
 
-    String pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
-    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, numberOfTransactions, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
-    checkResult(btceTradeHistory);
+    BTCETradeHistoryReturn btceTradeHistory = raw.getBTCETradeHistory(numberOfTransactions, tradableIdentifier, transactionCurrency);
     return BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

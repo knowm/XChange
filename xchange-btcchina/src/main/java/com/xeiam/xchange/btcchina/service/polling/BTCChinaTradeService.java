@@ -45,7 +45,10 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  *         <li>Provides access to trade functions</li>
  *         </ul>
  */
-public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements PollingTradeService {
+public class BTCChinaTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTCChinaTradeServiceRaw raw;
 
   /**
    * Constructor
@@ -54,14 +57,15 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
    */
   public BTCChinaTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCChinaTradeServiceRaw(exchangeSpecification);
 
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BTCChinaResponse<BTCChinaOrders> response = getBTCChinaOpenOrders();
+    BTCChinaResponse<BTCChinaOrders> response = raw.getBTCChinaOpenOrders();
     return BTCChinaAdapters.adaptOpenOrders(response.getResult().getOrders());
   }
 
@@ -74,9 +78,9 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    BTCChinaBooleanResponse response = placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
+    BTCChinaBooleanResponse response = raw.placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
 
     return "" + response.getId();
   }
@@ -84,7 +88,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCChinaBooleanResponse response = cancelBTCChinaOrder(orderId);
+    BTCChinaBooleanResponse response = raw.cancelBTCChinaOrder(orderId);
     return response.getResult();
   }
 
@@ -94,4 +98,9 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     throw new NotYetImplementedForExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

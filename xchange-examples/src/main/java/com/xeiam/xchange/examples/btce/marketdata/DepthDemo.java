@@ -71,7 +71,7 @@ public class DepthDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService().getRaw();
 
     // Get the latest full order book data for LTC/USD
     Map<String, BTCEDepth> depth = marketDataService.getBTCEDepth("ltc_usd", 7).getDepthMap();

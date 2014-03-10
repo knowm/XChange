@@ -32,36 +32,44 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw implements PollingAccountService {
+public class CryptoTradeAccountService extends PollingAccountService {
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification
-	 */
-	public CryptoTradeAccountService(ExchangeSpecification exchangeSpecification) {
+  final ExchangeSpecification exchangeSpecification;
+  final CryptoTradeAccountServiceRaw raw;
 
-		super(exchangeSpecification);
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public CryptoTradeAccountService(ExchangeSpecification exchangeSpecification) {
 
-	}
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CryptoTradeAccountServiceRaw(exchangeSpecification);
 
-	@Override
-	public AccountInfo getAccountInfo() throws IOException {
+  }
 
-		return CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getCryptoTradeAccountInfo());
-	}
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
 
+    return CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), raw.getCryptoTradeAccountInfo());
+  }
 
-	@Override
-	public String requestDepositAddress(String currency, String... args) throws IOException {
+  @Override
+  public String requestDepositAddress(String currency, String... args) throws IOException {
 
-		throw new NotAvailableFromExchangeException();
-	}
+    throw new NotAvailableFromExchangeException();
+  }
 
-	@Override
-	public String withdrawFunds(String currency, BigDecimal amount, String address)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotAvailableFromExchangeException();
-	}
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

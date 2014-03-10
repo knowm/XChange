@@ -39,8 +39,10 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author Matija Mazi
  */
-public class CampBXAccountService extends CampBXAccountServiceRaw implements PollingAccountService {
+public class CampBXAccountService extends PollingAccountService {
 
+  final ExchangeSpecification exchangeSpecification;
+  final CampBXAccountServiceRaw raw;
   private final Logger logger = LoggerFactory.getLogger(CampBXAccountService.class);
 
   /**
@@ -50,13 +52,14 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
    */
   public CampBXAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CampBXAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    MyFunds myFunds = getCampBXAccountInfo();
+    MyFunds myFunds = raw.getCampBXAccountInfo();
     logger.debug("myFunds = {}", myFunds);
 
     if (!myFunds.isError()) {
@@ -71,7 +74,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    CampBXResponse campBXResponse = withdrawCampBXFunds(amount, address);
+    CampBXResponse campBXResponse = raw.withdrawCampBXFunds(amount, address);
     logger.debug("campBXResponse = {}", campBXResponse);
 
     if (!campBXResponse.isError()) {
@@ -85,7 +88,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
   @Override
   public String requestDepositAddress(String currency, String... args) throws IOException {
 
-    CampBXResponse campBXResponse = requestCampBXBitcoinDepositAddress();
+    CampBXResponse campBXResponse = raw.requestCampBXBitcoinDepositAddress();
     logger.debug("campBXResponse = {}", campBXResponse);
 
     if (!campBXResponse.isError()) {
@@ -96,4 +99,9 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
     }
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

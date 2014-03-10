@@ -35,7 +35,10 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class BitfinexTradeService extends BitfinexTradeServiceRaw implements PollingTradeService {
+public class BitfinexTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitfinexTradeServiceRaw raw;
 
   private final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
@@ -46,13 +49,14 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
    */
   public BitfinexTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitfinexTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
+    BitfinexOrderStatusResponse[] activeOrders = raw.getBitfinexOpenOrders();
 
     if (activeOrders.length <= 0) {
       return noOpenOrders;
@@ -71,9 +75,9 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder, false);
+    BitfinexOrderStatusResponse newOrder = raw.placeBitfinexLimitOrder(limitOrder, false);
 
     return String.valueOf(newOrder.getId());
   }
@@ -81,7 +85,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BitfinexOrderStatusResponse cancelResponse = cancelBitfinexOrder(orderId);
+    BitfinexOrderStatusResponse cancelResponse = raw.cancelBitfinexOrder(orderId);
 
     return cancelResponse.isCancelled();
   }
@@ -99,8 +103,14 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
       limit = (Integer) arguments[2];
     }
 
-    BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
+    BitfinexTradeResponse[] trades = raw.getBitfinexTradeHistory(symbol, timestamp, limit);
 
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }
