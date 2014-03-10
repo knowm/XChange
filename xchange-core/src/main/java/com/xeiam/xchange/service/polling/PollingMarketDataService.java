@@ -50,7 +50,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
  */
 public abstract class PollingMarketDataService {
 
-  private final static ExecutorService executorService = Executors.newCachedThreadPool();
+  private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
   /**
    * <p>

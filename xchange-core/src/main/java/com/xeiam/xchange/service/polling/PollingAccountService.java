@@ -47,7 +47,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
  */
 public abstract class PollingAccountService {
 
-  private final static ExecutorService executorService = Executors.newCachedThreadPool();
+  private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
   /**
    * Get account info

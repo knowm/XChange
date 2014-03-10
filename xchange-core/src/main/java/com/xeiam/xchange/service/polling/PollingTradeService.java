@@ -51,7 +51,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
  */
 public abstract class PollingTradeService {
 
-  private final static ExecutorService executorService = Executors.newCachedThreadPool();
+  private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
   /**
    * Gets the open orders
