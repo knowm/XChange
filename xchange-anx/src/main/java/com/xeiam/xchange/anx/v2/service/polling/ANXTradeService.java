@@ -60,28 +60,30 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    verify(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
+//    verify(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
 
+    verify(marketOrder.getCurrencyPair());
     return placeANXMarketOrder(marketOrder).getDataString();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+//    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+      verify(limitOrder.getCurrencyPair());
 
-    Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
-    Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
+//    Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
+//    Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
 
-    String tradableIdentifier = limitOrder.getTradableIdentifier();
-    String currency = limitOrder.getLimitPrice().getCurrencyUnit().toString();
+//    String tradableIdentifier = limitOrder.getTradableIdentifier();
+//    String currency = limitOrder.getLimitPrice().getCurrencyUnit().toString();
     String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
     // need to convert to ANX "amount"
     BigDecimal amount = limitOrder.getTradableAmount().multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
     // need to convert to ANX "Price"
     String price = ANXUtils.getPriceString(limitOrder.getLimitPrice());
 
-    return placeANXLimitOrder(tradableIdentifier, currency, type, amount, price).getDataString();
+    return placeANXLimitOrder(limitOrder.getCurrencyPair(), type, amount, price).getDataString();
   }
 
   @Override

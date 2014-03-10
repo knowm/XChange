@@ -63,44 +63,24 @@ public final class ANXUtils {
     return amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
   }
 
-  /**
-   * Converts a price in decimal form to a properly scaled int-String for Mt Gox
-   * 
-   * @param price
-   * @return
-   */
-//  public static String getPriceString(BigMoney price) {
-//
+  public static BigDecimal getPrice(long price) {
+      return new BigDecimal(price).divide(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR));
+  }
+
+  public static String getPriceString(BigDecimal price) {
+
 //    if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
 //      return price.getAmount().multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
 //    }
 //    else { // JPY, SEK
 //      return price.getAmount().multiply(new BigDecimal(ANXUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
 //    }
-//  }
 
-  /**
-   * Converts a currency and long price into a BigMoney Object
-   * 
-   * @param currency
-   * @param price
-   * @return
-   */
-//  public static BigMoney getPrice(String currency, long price) {
-//
-//    if (!(currency.equals("JPY") || currency.equals("SEK"))) {
-//      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)));
-//    }
-//    else { // JPY
-//      return MoneyUtils.parse(currency + " " + new BigDecimal(price).divide(new BigDecimal(ANXUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)));
-//    }
-//  }
-
-  public static BigDecimal getPrice(long price) {
-      return new BigDecimal(price).divide(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR));
+      return price.multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
   }
 
-  public static String urlEncode(String str) {
+
+    public static String urlEncode(String str) {
 
     try {
       return URLEncoder.encode(str, "UTF-8");

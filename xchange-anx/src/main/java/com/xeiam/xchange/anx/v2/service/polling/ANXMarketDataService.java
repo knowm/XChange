@@ -50,9 +50,11 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -81,17 +83,16 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    verify(tradableIdentifier, currency);
-    return ANXAdapters.adaptTicker(getANXTicker(tradableIdentifier, currency));
+//  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+//  Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    verify(currencyPair);
+    return ANXAdapters.adaptTicker(getANXTicker(currencyPair));
   }
 
   /**
    * Get market depth from exchange
    * 
-   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
-   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
    * @param args Optional arguments. Exchange-specific. This implementation assumes:
    *          absent or "full" -> get full OrderBook
    *          "partial" -> get partial OrderBook
@@ -99,53 +100,56 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
    * @throws java.io.IOException
    */
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+//    verify(tradableIdentifier, currency);
+      verify(currencyPair);
 
     // Request data
     ANXDepthWrapper anxDepthWrapper = null;
     if (args.length > 0) {
       if (args[0] instanceof String) {
         if ("full" == args[0]) {
-          anxDepthWrapper = getANXFullOrderBook(tradableIdentifier, currency);
+          anxDepthWrapper = getANXFullOrderBook(currencyPair);
         }
         else {
-          anxDepthWrapper = getANXPartialOrderBook(tradableIdentifier, currency);
+          anxDepthWrapper = getANXPartialOrderBook(currencyPair);
         }
       } else {
         throw new ExchangeException("Orderbook type argument must be a String!");
       }
     }
     else { // default to full orderbook
-      anxDepthWrapper = getANXFullOrderBook(tradableIdentifier, currency);
+      anxDepthWrapper = getANXFullOrderBook(currencyPair);
     }
 
     // Adapt to XChange DTOs
-      List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), tradableIdentifier, currency, "ask", "");
-      List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), tradableIdentifier, currency, "bid", "");
+      List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.baseCurrency, currencyPair.counterCurrency, "ask", "");
+      List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.baseCurrency, currencyPair.counterCurrency, "bid", "");
     Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
     return new OrderBook(date, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+      //    verify(tradableIdentifier, currency);
+      verify(currencyPair);
 
-    ANXTradesWrapper anxTradeWrapper = null;
+
+      ANXTradesWrapper anxTradeWrapper = null;
     if (args.length > 0) {
       if (args[0] instanceof Long) {
         Long sinceTimeStamp = (Long) args[0];
         // Request data
-        anxTradeWrapper = getANXTrades(tradableIdentifier, currency, sinceTimeStamp);
+        anxTradeWrapper = getANXTrades(currencyPair, sinceTimeStamp);
       }
       else {
         throw new ExchangeException("the \"since\" type argument must be a Long!");
       }
     }
     else {
-      anxTradeWrapper = getANXTrades(tradableIdentifier, currency, null);
+      anxTradeWrapper = getANXTrades(currencyPair, null);
     }
 
     return ANXAdapters.adaptTrades(anxTradeWrapper.getANXTrades());

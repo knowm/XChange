@@ -31,6 +31,7 @@ import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrderWrapper;
 import com.xeiam.xchange.anx.v2.service.ANXBaseService;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
+import com.xeiam.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -73,7 +74,7 @@ public class ANXTradeServiceRaw extends ANXBaseService {
 
     try {
       ANXGenericResponse anxGenericResponse =
-          anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency(), marketOrder
+          anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), marketOrder.getCurrencyPair().baseCurrency,  marketOrder.getCurrencyPair().counterCurrency, marketOrder
               .getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount().multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)), null);
       return anxGenericResponse;
     } catch (ANXException e) {
@@ -81,11 +82,14 @@ public class ANXTradeServiceRaw extends ANXBaseService {
     }
   }
 
-  public ANXGenericResponse placeANXLimitOrder(String tradableIdentifier, String currency, String type, BigDecimal amount, String price) throws IOException {
+//  public ANXGenericResponse placeANXLimitOrder(String tradableIdentifier, String currency, String type, BigDecimal amount, String price) throws IOException {
+  public ANXGenericResponse placeANXLimitOrder(CurrencyPair currencyPair, String type, BigDecimal amount, String price) throws IOException {
 
     try {
-      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), tradableIdentifier, currency, type, amount, price);
-      return anxGenericResponse;
+//      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), tradableIdentifier, currency, type, amount, price);
+        ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), currencyPair.baseCurrency, currencyPair.counterCurrency, type, amount, price);
+
+        return anxGenericResponse;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling placeLimitOrder(): " + e.getError(), e);
     }

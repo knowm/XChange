@@ -29,6 +29,7 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickerWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 import com.xeiam.xchange.anx.v2.service.ANXBaseService;
+import com.xeiam.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -53,50 +54,50 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
     this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchangeSpecification.getSslUri());
   }
 
-  public ANXTicker getANXTicker(String tradableIdentifier, String currency) throws IOException {
+  public ANXTicker getANXTicker(CurrencyPair currencyPair) throws IOException {
 
     try {
-      ANXTickerWrapper anxTickerWrapper = anxV2.getTicker(tradableIdentifier, currency);
+      ANXTickerWrapper anxTickerWrapper = anxV2.getTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
       return anxTickerWrapper.getAnxTicker();
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getTicker(): " + e.getError(), e);
     }
   }
 
-  public ANXDepthWrapper getANXFullOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public ANXDepthWrapper getANXFullOrderBook(CurrencyPair currencyPair) throws IOException {
 
     try {
       ANXDepthWrapper anxDepthWrapper = null;
-      anxDepthWrapper = anxV2.getFullDepth(tradableIdentifier, currency);
+      anxDepthWrapper = anxV2.getFullDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
       return anxDepthWrapper;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getANXFullOrderBook(): " + e.getError(), e);
     }
   }
 
-  public ANXDepthWrapper getANXPartialOrderBook(String tradableIdentifier, String currency) throws IOException {
+  public ANXDepthWrapper getANXPartialOrderBook(CurrencyPair currencyPair) throws IOException {
 
     try {
       ANXDepthWrapper anxDepthWrapper = null;
-      anxDepthWrapper = anxV2.getPartialDepth(tradableIdentifier, currency);
+      anxDepthWrapper = anxV2.getPartialDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
       return anxDepthWrapper;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getANXPartialOrderBook(): " + e.getError(), e);
     }
   }
 
-  public ANXTradesWrapper getANXTrades(String tradableIdentifier, String currency, Long sinceTimeStamp) throws IOException {
+  public ANXTradesWrapper getANXTrades(CurrencyPair currencyPair, Long sinceTimeStamp) throws IOException {
 
     try {
       ANXTradesWrapper anxTradeWrapper = null;
 
       if (sinceTimeStamp != null) {
         // Request data with since param
-        anxTradeWrapper = anxV2.getTrades(tradableIdentifier, currency, sinceTimeStamp);
+        anxTradeWrapper = anxV2.getTrades(currencyPair.baseCurrency, currencyPair.counterCurrency, sinceTimeStamp);
       }
       else {
         // Request data
-        anxTradeWrapper = anxV2.getTrades(tradableIdentifier, currency);
+        anxTradeWrapper = anxV2.getTrades(currencyPair.baseCurrency, currencyPair.counterCurrency);
       }
 
       return anxTradeWrapper;
