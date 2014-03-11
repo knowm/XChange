@@ -30,7 +30,10 @@ import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class BitfinexAccountService extends BitfinexAccountServiceRaw implements PollingAccountService {
+public class BitfinexAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitfinexAccountServiceRaw raw;
 
   /**
    * Constructor
@@ -39,13 +42,14 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
    */
   public BitfinexAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitfinexAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BitfinexAdapters.adaptAccountInfo(getBitfinexAccountInfo());
+    return BitfinexAdapters.adaptAccountInfo(raw.getBitfinexAccountInfo());
   }
 
   @Override
@@ -58,5 +62,11 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

@@ -46,7 +46,10 @@ import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VircurexMarketDataService extends VircurexMarketDataServiceRaw implements PollingMarketDataService {
+public class VircurexMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final VircurexMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -55,7 +58,8 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
    */
   public VircurexMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new VircurexMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
@@ -67,9 +71,9 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    VircurexDepth vircurexDepth = getVircurexOrderBook(currencyPair);
+    VircurexDepth vircurexDepth = raw.getVircurexOrderBook(currencyPair);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VircurexAdapters.adaptOrders(vircurexDepth.getAsks(), currencyPair, "ask", "");
@@ -90,4 +94,9 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

@@ -57,7 +57,7 @@ public class BTCEUserTradeHistoryDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getPollingTradeService();
+    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getPollingTradeService().getRaw();
     Map<Long, BTCETradeHistoryResult> trades = null;
     try {
       trades = tradeService.getBTCETradeHistory(null, null, null, null, null, null, null, null);

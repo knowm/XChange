@@ -37,7 +37,10 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  * Since: 2/6/14
  */
 
-public class CexIOAccountService extends CexIOAccountServiceRaw implements PollingAccountService {
+public class CexIOAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CexIOAccountServiceRaw raw;
 
   /**
    * Initialize common properties from the exchange specification
@@ -46,13 +49,14 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Polli
    */
   public CexIOAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CexIOAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return CexIOAdapters.adaptAccountInfo(getCexIOAccountInfo(), exchangeSpecification.getUserName());
+    return CexIOAdapters.adaptAccountInfo(raw.getCexIOAccountInfo(), exchangeSpecification.getUserName());
   }
 
   @Override
@@ -65,7 +69,11 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Polli
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
-
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

@@ -40,7 +40,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw implements PollingMarketDataService {
+public class CoinbaseMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CoinbaseMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -49,7 +52,8 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
    */
   public CoinbaseMarketDataService(final ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CoinbaseMarketDataServiceRaw(exchangeSpecification);
   }
 
   /**
@@ -63,12 +67,12 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
   public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws IOException {
 
     final String currency = currencyPair.counterSymbol;
-    final CoinbasePrice buyPrice = super.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
-    final CoinbasePrice sellPrice = super.getCoinbaseSellPrice(BigDecimal.ONE, currency);
-    final CoinbaseMoney spotRate = super.getCoinbaseSpotRate(currency);
+    final CoinbasePrice buyPrice = raw.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
+    final CoinbasePrice sellPrice = raw.getCoinbaseSellPrice(BigDecimal.ONE, currency);
+    final CoinbaseMoney spotRate = raw.getCoinbaseSpotRate(currency);
 
     final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory =
-        (args != null && args.length > 0 && args[0] != null && args[0] instanceof Boolean && (Boolean) args[0]) ? super.getCoinbaseHistoricalSpotRates() : null;
+        (args != null && args.length > 0 && args[0] != null && args[0] instanceof Boolean && (Boolean) args[0]) ? raw.getCoinbaseHistoricalSpotRates() : null;
 
     return CoinbaseAdapters.adaptTicker(currencyPair, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
   }
@@ -91,4 +95,9 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

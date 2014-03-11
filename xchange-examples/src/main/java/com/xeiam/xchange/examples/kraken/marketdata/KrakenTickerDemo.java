@@ -63,7 +63,7 @@ public class KrakenTickerDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService().getRaw();
 
     // Get the latest ticker data showing BTC to EUR
     KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(CurrencyPair.BTC_EUR);

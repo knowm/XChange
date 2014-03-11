@@ -64,7 +64,7 @@ public class TickerDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService().getRaw();
 
     // Get the latest ticker data showing BTC to USD
     BTCETickerWrapper ticker = marketDataService.getBTCETicker("btc_usd");

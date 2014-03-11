@@ -65,7 +65,7 @@ public class BTCChinaAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-    String depositAddress = accountService.requestDepositAddress(null, null);
+    String depositAddress = accountService.requestDepositAddress(null, (String) null);
     System.out.println("Deposit address: " + depositAddress);
 
     // API key has no withdraw rights - returns 401 unauthorized
@@ -76,7 +76,7 @@ public class BTCChinaAccountDemo {
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the account information
-    BTCChinaResponse<BTCChinaAccountInfo> accountInfo = ((BTCChinaAccountServiceRaw) accountService).getBTCChinaAccountInfo();
+    BTCChinaResponse<BTCChinaAccountInfo> accountInfo = ((BTCChinaAccountServiceRaw) accountService.getRaw()).getBTCChinaAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.getResult().toString());
 
     // Not implemented for *Raw layer - retrieve from accountInfo

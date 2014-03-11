@@ -29,7 +29,7 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrders;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscription;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
-import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
+import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountServiceRaw;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 
 /**
@@ -40,7 +40,7 @@ public class CoinbaseMerchantDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinbase = CoinbaseDemoUtils.createExchange();
-    CoinbaseAccountService accountService = (CoinbaseAccountService) coinbase.getPollingAccountService();
+    CoinbaseAccountServiceRaw accountService = (CoinbaseAccountServiceRaw) coinbase.getPollingAccountService().getRaw();
 
     CoinbaseSubscriptions subscriptions = accountService.getCoinbaseSubscriptions();
     System.out.println(subscriptions);

@@ -46,7 +46,7 @@ public class BTERTradeDemo {
     PollingTradeService tradeService = exchange.getPollingTradeService();
 
     generic(tradeService);
-    raw((BTERPollingTradeServiceRaw) tradeService);
+    raw((BTERPollingTradeServiceRaw) tradeService.getRaw());
   }
 
   private static void generic(PollingTradeService tradeService) throws IOException, InterruptedException {

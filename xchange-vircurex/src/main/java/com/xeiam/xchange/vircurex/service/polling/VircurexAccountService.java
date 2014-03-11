@@ -32,7 +32,10 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.vircurex.VircurexAdapters;
 
-public class VircurexAccountService extends VircurexAccountServiceRaw implements PollingAccountService {
+public class VircurexAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final VircurexAccountServiceRaw raw;
 
   /**
    * Constructor
@@ -41,13 +44,14 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
    */
   public VircurexAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new VircurexAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return VircurexAdapters.adaptAccountInfo(getVircurexAccountInfo());
+    return VircurexAdapters.adaptAccountInfo(raw.getVircurexAccountInfo());
   }
 
   @Override
@@ -61,5 +65,11 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
 
     throw new NotYetImplementedForExchangeException();
 
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

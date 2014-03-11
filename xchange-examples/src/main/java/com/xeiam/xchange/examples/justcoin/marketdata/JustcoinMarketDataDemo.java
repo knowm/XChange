@@ -68,7 +68,7 @@ public class JustcoinMarketDataDemo {
   private static void raw(Exchange justcoinExchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    JustcoinMarketDataServiceRaw justcoinSpecificMarketDataService = (JustcoinMarketDataServiceRaw) justcoinExchange.getPollingMarketDataService();
+    JustcoinMarketDataServiceRaw justcoinSpecificMarketDataService = (JustcoinMarketDataServiceRaw) justcoinExchange.getPollingMarketDataService().getRaw();
 
     List<CurrencyPair> currencyPairs = justcoinSpecificMarketDataService.getExchangeSymbols();
     System.out.println(currencyPairs);

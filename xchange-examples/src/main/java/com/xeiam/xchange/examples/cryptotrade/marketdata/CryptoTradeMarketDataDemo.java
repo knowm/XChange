@@ -28,7 +28,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
-import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataService;
+import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -45,7 +45,7 @@ public class CryptoTradeMarketDataDemo {
     PollingMarketDataService marketDataService = coinbaseExchange.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((CryptoTradeMarketDataService) marketDataService);
+    raw((CryptoTradeMarketDataServiceRaw) marketDataService.getRaw());
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
@@ -57,7 +57,7 @@ public class CryptoTradeMarketDataDemo {
     System.out.println(orderBook);
   }
 
-  private static void raw(CryptoTradeMarketDataService marketDataService) throws IOException {
+  private static void raw(CryptoTradeMarketDataServiceRaw marketDataService) throws IOException {
 
     CryptoTradeTicker ticker = marketDataService.getCryptoTradeTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);

@@ -41,7 +41,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * Since: 2/6/14
  */
 
-public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements PollingMarketDataService {
+public class CexIOMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CexIOMarketDataServiceRaw raw;
 
   /**
    * Initialize common properties from the exchange specification
@@ -50,29 +53,30 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
    */
   public CexIOMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CexIOMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    return CexIOAdapters.adaptTicker(getCexIOTicker(currencyPair), currencyPair);
+    return CexIOAdapters.adaptTicker(raw.getCexIOTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    return CexIOAdapters.adaptOrderBook(getCexIOOrderBook(currencyPair), currencyPair);
+    return CexIOAdapters.adaptOrderBook(raw.getCexIOOrderBook(currencyPair), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
     CexIOTrade[] trades;
 
     if (args.length > 0) {
@@ -81,11 +85,11 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
         throw new ExchangeException("Size argument must be a Long > 1");
       }
       else {
-        trades = getCexIOTrades(currencyPair, (Long) arg0);
+        trades = raw.getCexIOTrades(currencyPair, (Long) arg0);
       }
     }
     else { // default to full available trade history
-      trades = getCexIOTrades(currencyPair, null);
+      trades = raw.getCexIOTrades(currencyPair, null);
     }
 
     return CexIOAdapters.adaptTrades(trades, currencyPair);
@@ -97,4 +101,9 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

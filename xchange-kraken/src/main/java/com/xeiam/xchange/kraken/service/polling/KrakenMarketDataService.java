@@ -37,17 +37,21 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements PollingMarketDataService {
+public class KrakenMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final KrakenMarketDataServiceRaw raw;
 
   public KrakenMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new KrakenMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return KrakenAdapters.adaptTicker(getKrakenTicker(currencyPair), currencyPair);
+    return KrakenAdapters.adaptTicker(raw.getKrakenTicker(currencyPair), currencyPair);
   }
 
   @Override
@@ -65,7 +69,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
       }
     }
 
-    KrakenDepth krakenDepth = getKrakenDepth(currencyPair, count);
+    KrakenDepth krakenDepth = raw.getKrakenDepth(currencyPair, count);
 
     return KrakenAdapters.adaptOrderBook(krakenDepth, currencyPair);
   }
@@ -85,7 +89,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
       }
     }
 
-    KrakenPublicTrades krakenTrades = getKrakenTrades(currencyPair, since);
+    KrakenPublicTrades krakenTrades = raw.getKrakenTrades(currencyPair, since);
     Trades trades = KrakenAdapters.adaptTrades(krakenTrades.getTrades(), currencyPair, krakenTrades.getLast());
     return trades;
   }
@@ -94,7 +98,13 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    currencyPairs.addAll(super.getExchangeSymbols());
+    currencyPairs.addAll(raw.getExchangeSymbols());
     return new ExchangeInfo(currencyPairs);
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

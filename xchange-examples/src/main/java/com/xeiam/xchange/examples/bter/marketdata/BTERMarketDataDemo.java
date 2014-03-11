@@ -51,7 +51,7 @@ public class BTERMarketDataDemo {
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((BTERPollingMarketDataServiceRaw) marketDataService);
+    raw((BTERPollingMarketDataServiceRaw) marketDataService.getRaw());
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {

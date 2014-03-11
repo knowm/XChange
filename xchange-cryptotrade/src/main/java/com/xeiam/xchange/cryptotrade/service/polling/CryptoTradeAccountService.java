@@ -32,7 +32,10 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw implements PollingAccountService {
+public class CryptoTradeAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CryptoTradeAccountServiceRaw raw;
 
   /**
    * Constructor
@@ -41,14 +44,15 @@ public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw impl
    */
   public CryptoTradeAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CryptoTradeAccountServiceRaw(exchangeSpecification);
 
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getCryptoTradeAccountInfo());
+    return CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), raw.getCryptoTradeAccountInfo());
   }
 
   @Override
@@ -61,5 +65,11 @@ public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw impl
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

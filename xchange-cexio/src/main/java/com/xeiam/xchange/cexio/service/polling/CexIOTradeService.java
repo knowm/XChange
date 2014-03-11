@@ -39,7 +39,10 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  * Since: 2/6/14
  */
 
-public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTradeService {
+public class CexIOTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CexIOTradeServiceRaw raw;
 
   /**
    * Initialize common properties from the exchange specification
@@ -48,13 +51,14 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
    */
   public CexIOTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CexIOTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
+    List<CexIOOrder> cexIOOrderList = raw.getCexIOOpenOrders();
 
     return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
   }
@@ -68,7 +72,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    CexIOOrder order = placeCexIOLimitOrder(limitOrder);
+    CexIOOrder order = raw.placeCexIOLimitOrder(limitOrder);
 
     return Integer.toString(order.getId());
   }
@@ -76,7 +80,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return cancelCexIOOrder(orderId);
+    return raw.cancelCexIOOrder(orderId);
   }
 
   @Override
@@ -85,4 +89,9 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

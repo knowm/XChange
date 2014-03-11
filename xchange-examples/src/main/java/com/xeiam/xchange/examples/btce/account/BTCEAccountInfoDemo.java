@@ -55,7 +55,7 @@ public class BTCEAccountInfoDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the private account functionality (authentication)
-    BTCEAccountServiceRaw accountService = (BTCEAccountServiceRaw) exchange.getPollingAccountService();
+    BTCEAccountServiceRaw accountService = (BTCEAccountServiceRaw) exchange.getPollingAccountService().getRaw();
 
     // Get the account information
     BTCEAccountInfo accountInfo = accountService.getBTCEAccountInfo(null, null, null, null, null, null, null);

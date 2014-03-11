@@ -34,44 +34,54 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 /**
  * @author jamespedwards42
  */
-public class JustcoinTradeService extends JustcoinTradeServiceRaw implements PollingTradeService {
+public class JustcoinTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final JustcoinTradeServiceRaw raw;
 
   public JustcoinTradeService(final ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new JustcoinTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    return JustcoinAdapters.adaptOpenOrders(super.getOrders());
+    return JustcoinAdapters.adaptOpenOrders(raw.getOrders());
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    verify(marketOrder.getCurrencyPair());
+    raw.verify(marketOrder.getCurrencyPair());
 
-    return super.placeMarketOrder(marketOrder);
+    return raw.placeMarketOrder(marketOrder);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    return super.placeLimitOrder(limitOrder);
+    return raw.placeLimitOrder(limitOrder);
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return super.cancelOrder(orderId);
+    return raw.cancelOrder(orderId);
   }
 
   @Override
   public Trades getTradeHistory(Object... args) throws IOException {
 
-    return JustcoinAdapters.adaptTrades(super.getOrderHistory());
+    return JustcoinAdapters.adaptTrades(raw.getOrderHistory());
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

@@ -70,7 +70,7 @@ public class BTCChinaDepthDemo {
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest order book data for BTC/CNY
-    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaOrderBook();
+    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService.getRaw()).getBTCChinaOrderBook();
 
     System.out.println(orderBook.toString());
 

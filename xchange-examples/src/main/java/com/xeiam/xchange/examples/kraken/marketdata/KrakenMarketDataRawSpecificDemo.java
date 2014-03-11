@@ -40,7 +40,7 @@ public class KrakenMarketDataRawSpecificDemo {
     Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService().getRaw();
 
     KrakenServerTime serverTime = krakenMarketDataService.getServerTime();
     System.out.println(serverTime);

@@ -49,9 +49,9 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 /**
  * @author jamespedwards42
  */
-class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated> {
+public class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated> {
 
-  protected CoinbaseAccountServiceRaw(final ExchangeSpecification exchangeSpecification) {
+  public CoinbaseAccountServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
     super(CoinbaseAuthenticated.class, exchangeSpecification);
   }

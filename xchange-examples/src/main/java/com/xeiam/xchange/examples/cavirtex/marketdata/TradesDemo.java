@@ -47,7 +47,7 @@ public class TradesDemo {
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((VirtExMarketDataServiceRaw) marketDataService);
+    raw((VirtExMarketDataServiceRaw) marketDataService.getRaw());
 
   }
 

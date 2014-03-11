@@ -42,7 +42,10 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 /**
  * @author Matija Mazi
  */
-public class BTCETradeService extends BTCETradeServiceRaw implements PollingTradeService {
+public class BTCETradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTCETradeServiceRaw raw;
 
   /**
    * Constructor
@@ -52,13 +55,14 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
    */
   public BTCETradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCETradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    Map<Long, BTCEOrder> orders = getBTCEActiveOrders(null);
+    Map<Long, BTCEOrder> orders = raw.getBTCEActiveOrders(null);
     return BTCEAdapters.adaptOrders(orders);
   }
 
@@ -71,7 +75,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
 
@@ -79,14 +83,14 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), type, pair);
 
-    BTCEPlaceOrderResult result = placeBTCEOrder(btceOrder);
+    BTCEPlaceOrderResult result = raw.placeBTCEOrder(btceOrder);
     return Long.toString(result.getOrderId());
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCECancelOrderResult ret = cancelBTCEOrder(Long.parseLong(orderId));
+    BTCECancelOrderResult ret = raw.cancelBTCEOrder(Long.parseLong(orderId));
     return (ret != null);
   }
 
@@ -118,8 +122,13 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     if (!tradableIdentifier.equals("") && !transactionCurrency.equals("")) {
       pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
     }
-    Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
+    Map<Long, BTCETradeHistoryResult> resultMap = raw.getBTCETradeHistory(null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
     return BTCEAdapters.adaptTradeHistory(resultMap);
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

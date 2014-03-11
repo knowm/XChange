@@ -78,7 +78,7 @@ public class BTCETradeDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getPollingTradeService();
+    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getPollingTradeService().getRaw();
 
     printRawOpenOrders(tradeService);
 

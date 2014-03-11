@@ -45,7 +45,10 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implements PollingMarketDataService {
+public class VirtExMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final VirtExMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -54,25 +57,26 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
    */
   public VirtExMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new VirtExMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(getVirtExTicker(currencyPair.baseSymbol), currencyPair);
+    return VirtExAdapters.adaptTicker(raw.getVirtExTicker(currencyPair.baseSymbol), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // Request data
-    VirtExDepth virtExDepth = getVirtExOrderBook(currencyPair.counterSymbol);
+    VirtExDepth virtExDepth = raw.getVirtExOrderBook(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currencyPair.counterSymbol, "ask", "");
@@ -84,10 +88,10 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // Request data
-    VirtExTrade[] virtExTrades = getVirtExTrades(currencyPair.counterSymbol);
+    VirtExTrade[] virtExTrades = raw.getVirtExTrades(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTrades(virtExTrades, currencyPair);
@@ -99,4 +103,9 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

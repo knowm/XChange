@@ -43,7 +43,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRaw implements PollingMarketDataService {
+public class CryptoTradeMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CryptoTradeMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -52,15 +55,16 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
    */
   public CryptoTradeMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CryptoTradeMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(currencyPair);
+    CryptoTradeTicker cryptoTradeTicker = raw.getCryptoTradeTicker(currencyPair);
 
     return CryptoTradeAdapters.adaptTicker(currencyPair, cryptoTradeTicker);
   }
@@ -68,9 +72,9 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(currencyPair);
+    CryptoTradeDepth cryptoTradeDepth = raw.getCryptoTradeOrderBook(currencyPair);
 
     return CryptoTradeAdapters.adaptOrderBook(currencyPair, cryptoTradeDepth);
   }
@@ -84,7 +88,12 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    return new ExchangeInfo(super.getExchangeSymbols());
+    return new ExchangeInfo(raw.getExchangeSymbols());
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

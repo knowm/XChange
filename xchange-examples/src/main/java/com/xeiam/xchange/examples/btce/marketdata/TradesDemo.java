@@ -60,7 +60,7 @@ public class TradesDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService().getRaw();
 
     // Get the latest trade data for BTC/USD
     Map<String, BTCETrade[]> trades = marketDataService.getBTCETrades("btc_usd", 7).getTradesMap();

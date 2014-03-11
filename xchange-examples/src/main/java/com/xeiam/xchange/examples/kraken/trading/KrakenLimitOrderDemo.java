@@ -62,7 +62,7 @@ public class KrakenLimitOrderDemo {
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService().getRaw();
 
     OrderType orderType = (OrderType.ASK);
     BigDecimal tradeableAmount = new BigDecimal("0.01");

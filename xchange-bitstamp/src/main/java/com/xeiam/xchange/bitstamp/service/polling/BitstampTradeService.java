@@ -44,7 +44,10 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 /**
  * @author Matija Mazi
  */
-public class BitstampTradeService extends BitstampTradeServiceRaw implements PollingTradeService {
+public class BitstampTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitstampTradeServiceRaw raw;
 
   /**
    * Constructor
@@ -53,13 +56,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
    */
   public BitstampTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitstampTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BitstampOrder[] openOrders = getBitstampOpenOrders();
+    BitstampOrder[] openOrders = raw.getBitstampOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (BitstampOrder bitstampOrder : openOrders) {
@@ -80,14 +84,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
-      bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      bitstampOrder = raw.buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
     else {
-      bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      bitstampOrder = raw.sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
@@ -99,7 +103,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return cancelBitstampOrder(Integer.parseInt(orderId));
+    return raw.cancelBitstampOrder(Integer.parseInt(orderId));
   }
 
   @Override
@@ -116,7 +120,12 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
       }
     }
 
-    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(numberOfTransactions));
+    return BitstampAdapters.adaptTradeHistory(raw.getBitstampUserTransactions(numberOfTransactions));
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

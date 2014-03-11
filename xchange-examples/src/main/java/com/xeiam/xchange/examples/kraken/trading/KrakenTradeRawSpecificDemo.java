@@ -45,7 +45,7 @@ public class KrakenTradeRawSpecificDemo {
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
     // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService().getRaw();
 
     KrakenStandardOrder order = // stop at -5% loss, take profit at +$10 price increase.
         KrakenStandardOrder.getLimitOrderBuilder(CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678")).withCloseOrder(KrakenOrderType.STOP_LOSS_PROFIT, "#5%", "#10")

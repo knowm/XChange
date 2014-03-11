@@ -26,51 +26,40 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.btce.v2.BTCEAdapters;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
+import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfo;
+import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfoReturn;
 
 /**
  * @author Matija Mazi
  */
 @Deprecated
-public class BTCEAccountService extends PollingAccountService {
-
-  final ExchangeSpecification exchangeSpecification;
-  final BTCEAccountServiceRaw raw;
+public class BTCEAccountServiceRaw extends BTCEBasePollingService {
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCEAccountService(ExchangeSpecification exchangeSpecification) {
+  public BTCEAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    this.exchangeSpecification = exchangeSpecification;
-    raw = new BTCEAccountServiceRaw(exchangeSpecification);
+    super(exchangeSpecification);
   }
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
+  public BTCEAccountInfo getBTCEAccountInfo() throws IOException {
 
-    return BTCEAdapters.adaptAccountInfo(raw.getBTCEAccountInfo());
+    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
+    checkResult(info);
+    return info.getReturnValue();
   }
 
-  @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawBTCEFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
-  @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String requestBTCEDepositAddress(String currency, String... arguments) throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public Object getRaw() {
-
-    return raw;
   }
 }

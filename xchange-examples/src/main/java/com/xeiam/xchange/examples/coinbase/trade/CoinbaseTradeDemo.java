@@ -25,7 +25,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
-import com.xeiam.xchange.coinbase.service.polling.CoinbaseTradeService;
+import com.xeiam.xchange.coinbase.service.polling.CoinbaseTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -41,7 +41,7 @@ public class CoinbaseTradeDemo {
     PollingTradeService tradeService = coinbase.getPollingTradeService();
 
     generic(tradeService);
-    raw((CoinbaseTradeService) tradeService);
+    raw((CoinbaseTradeServiceRaw) tradeService.getRaw());
   }
 
   public static void generic(PollingTradeService tradeService) throws IOException {
@@ -56,7 +56,7 @@ public class CoinbaseTradeDemo {
     System.out.println(trades);
   }
 
-  public static void raw(CoinbaseTradeService tradeService) throws IOException {
+  public static void raw(CoinbaseTradeServiceRaw tradeService) throws IOException {
 
     // CoinbaseTransfer buyTransfer = tradeService.buy(new BigDecimal(".01"));
     // System.out.println(buyTransfer);

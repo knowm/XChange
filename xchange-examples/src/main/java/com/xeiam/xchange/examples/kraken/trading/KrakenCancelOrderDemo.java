@@ -68,7 +68,7 @@ public class KrakenCancelOrderDemo {
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService().getRaw();
 
     System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders());
 

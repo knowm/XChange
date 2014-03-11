@@ -35,17 +35,21 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author jamespedwards42
  */
-public class JustcoinAccountService extends JustcoinAccountServiceRaw implements PollingAccountService {
+public class JustcoinAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final JustcoinAccountServiceRaw raw;
 
   public JustcoinAccountService(final ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new JustcoinAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return JustcoinAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getBalances());
+    return JustcoinAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), raw.getBalances());
   }
 
   @Override
@@ -58,5 +62,11 @@ public class JustcoinAccountService extends JustcoinAccountServiceRaw implements
   public String requestDepositAddress(final String currency, final String... arguments) throws IOException {
 
     return requestDepositAddress(currency);
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

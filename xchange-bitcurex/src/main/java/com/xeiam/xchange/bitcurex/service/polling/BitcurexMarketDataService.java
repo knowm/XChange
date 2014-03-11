@@ -47,7 +47,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw implements PollingMarketDataService {
+public class BitcurexMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitcurexMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -56,16 +59,17 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
    */
   public BitcurexMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitcurexMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // get data
-    BitcurexTicker bitcurexTicker = getBitcurexTicker(currencyPair.counterSymbol);
+    BitcurexTicker bitcurexTicker = raw.getBitcurexTicker(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcurexAdapters.adaptTicker(bitcurexTicker, currencyPair);
@@ -74,10 +78,10 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // get data
-    BitcurexDepth bitcurexDepth = getBitcurexOrderBook(currencyPair.counterSymbol);
+    BitcurexDepth bitcurexDepth = raw.getBitcurexOrderBook(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BitcurexAdapters.adaptOrders(bitcurexDepth.getAsks(), currencyPair, OrderType.ASK, "");
@@ -89,10 +93,10 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // get data
-    BitcurexTrade[] bitcurexTrades = getBitcurexTrades(currencyPair.counterSymbol);
+    BitcurexTrade[] bitcurexTrades = raw.getBitcurexTrades(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcurexAdapters.adaptTrades(bitcurexTrades, currencyPair);
@@ -104,4 +108,9 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

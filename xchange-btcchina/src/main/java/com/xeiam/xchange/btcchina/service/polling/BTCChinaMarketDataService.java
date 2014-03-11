@@ -49,7 +49,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  *         <li>Provides access to various market data values</li>
  *         </ul>
  */
-public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw implements PollingMarketDataService {
+public class BTCChinaMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTCChinaMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -58,16 +61,17 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
    */
   public BTCChinaMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCChinaMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // Request data
-    BTCChinaTicker btcChinaTicker = getBTCChinaTicker();
+    BTCChinaTicker btcChinaTicker = raw.getBTCChinaTicker();
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTicker(btcChinaTicker, currencyPair);
@@ -76,10 +80,10 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     // Request data
-    BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook();
+    BTCChinaDepth btcChinaDepth = raw.getBTCChinaOrderBook();
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currencyPair, OrderType.ASK);
@@ -91,19 +95,19 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
     BTCChinaTrade[] btcChinaTrades = null;
 
     if (args.length == 0) {
-      btcChinaTrades = getBTCChinaTrades();
+      btcChinaTrades = raw.getBTCChinaTrades();
     }
     else if (args.length == 1) {
       Object arg0 = args[0];
 
       if (arg0 instanceof Integer) {
         Integer sinceTransactionID = (Integer) args[0];
-        btcChinaTrades = getBTCChinaTrades(sinceTransactionID);
+        btcChinaTrades = raw.getBTCChinaTrades(sinceTransactionID);
       }
       else {
         throw new ExchangeException("args[0] must be of type Integer!");
@@ -124,4 +128,9 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

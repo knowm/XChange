@@ -41,7 +41,10 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  *         <li>Provides access to account data</li>
  *         </ul>
  */
-public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements PollingAccountService {
+public class BTCChinaAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTCChinaAccountServiceRaw raw;
 
   /**
    * Constructor
@@ -50,27 +53,34 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
    */
   public BTCChinaAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCChinaAccountServiceRaw(exchangeSpecification);
 
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    BTCChinaResponse<BTCChinaAccountInfo> response = getBTCChinaAccountInfo();
+    BTCChinaResponse<BTCChinaAccountInfo> response = raw.getBTCChinaAccountInfo();
     return BTCChinaAdapters.adaptAccountInfo(response);
   }
 
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    BTCChinaResponse<BTCChinaID> response = withdrawBTCChinaFunds(amount, address);
+    BTCChinaResponse<BTCChinaID> response = raw.withdrawBTCChinaFunds(amount, address);
     return response.getResult().getId();
   }
 
   @Override
   public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
-    return requestBTCChinaBitcoinDepositAddress();
+    return raw.requestBTCChinaBitcoinDepositAddress();
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

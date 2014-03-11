@@ -34,7 +34,10 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author Matija Mazi
  */
-public class BitstampAccountService extends BitstampAccountServiceRaw implements PollingAccountService {
+public class BitstampAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BitstampAccountServiceRaw raw;
 
   /**
    * Constructor
@@ -44,19 +47,20 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
    */
   public BitstampAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BitstampAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BitstampAdapters.adaptAccountInfo(getBitstampBalance(), exchangeSpecification.getUserName());
+    return BitstampAdapters.adaptAccountInfo(raw.getBitstampBalance(), exchangeSpecification.getUserName());
   }
 
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    final BitstampBooleanResponse response = withdrawBitstampFunds(amount, address);
+    final BitstampBooleanResponse response = raw.withdrawBitstampFunds(amount, address);
     return Boolean.toString(response.getResponse());
   }
 
@@ -67,8 +71,14 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   @Override
   public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
-    final BitstampDepositAddress response = getBitstampBitcoinDepositAddress();
+    final BitstampDepositAddress response = raw.getBitstampBitcoinDepositAddress();
     return response.getDepositAddress();
 
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }

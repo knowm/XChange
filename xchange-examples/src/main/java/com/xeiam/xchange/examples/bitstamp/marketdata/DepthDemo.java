@@ -46,7 +46,7 @@ public class DepthDemo {
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((BitstampMarketDataServiceRaw) marketDataService);
+    raw((BitstampMarketDataServiceRaw) marketDataService.getRaw());
 
   }
 

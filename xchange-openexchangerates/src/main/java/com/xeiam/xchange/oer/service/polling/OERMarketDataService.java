@@ -40,7 +40,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * @author timmolter
  */
-public class OERMarketDataService extends OERMarketDataServiceRaw implements PollingMarketDataService {
+public class OERMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final OERMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -49,15 +52,16 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
    */
   public OERMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new OERMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    OERRates rates = getOERTicker();
+    OERRates rates = raw.getOERTicker();
 
     // Use reflection to get at data.
     Method method = null;
@@ -81,7 +85,7 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
     }
 
     // Adapt to XChange DTOs
-    return OERAdapters.adaptTicker(currencyPair, exchangeRate, cachedOERTickers.getTimestamp() * 1000L);
+    return OERAdapters.adaptTicker(currencyPair, exchangeRate, raw.cachedOERTickers.getTimestamp() * 1000L);
   }
 
   @Override
@@ -102,4 +106,9 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

@@ -38,7 +38,10 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * @author Matija Mazi
  */
-public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implements PollingMarketDataService {
+public class CampBXMarketDataService extends PollingMarketDataService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final CampBXMarketDataServiceRaw raw;
 
   /**
    * Constructor
@@ -47,15 +50,16 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
    */
   public CampBXMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new CampBXMarketDataServiceRaw(exchangeSpecification);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    CampBXTicker campbxTicker = getCampBXTicker();
+    CampBXTicker campbxTicker = raw.getCampBXTicker();
 
     return CampBXAdapters.adaptTicker(campbxTicker, currencyPair);
   }
@@ -63,9 +67,9 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    raw.verify(currencyPair);
 
-    CampBXOrderBook campBXOrderBook = getCampBXOrderBook();
+    CampBXOrderBook campBXOrderBook = raw.getCampBXOrderBook();
 
     return CampBXAdapters.adaptOrders(campBXOrderBook, currencyPair);
   }
@@ -82,4 +86,9 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

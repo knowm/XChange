@@ -31,45 +31,54 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
+public class KrakenTradeService extends PollingTradeService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final KrakenTradeServiceRaw raw;
 
   public KrakenTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new KrakenTradeServiceRaw(exchangeSpecification);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
+    return KrakenAdapters.adaptOpenOrders(raw.getKrakenOpenOrders());
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    verify(marketOrder.getCurrencyPair());
+    raw.verify(marketOrder.getCurrencyPair());
 
-    return KrakenAdapters.adaptOrderId(super.placeKrakenMarketOrder(marketOrder));
+    return KrakenAdapters.adaptOrderId(raw.placeKrakenMarketOrder(marketOrder));
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
+    raw.verify(limitOrder.getCurrencyPair());
 
-    return KrakenAdapters.adaptOrderId(super.placeKrakenLimitOrder(limitOrder));
+    return KrakenAdapters.adaptOrderId(raw.placeKrakenLimitOrder(limitOrder));
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return super.cancelKrakenOrder(orderId).getCount() > 0;
+    return raw.cancelKrakenOrder(orderId).getCount() > 0;
   }
 
   @Override
   public Trades getTradeHistory(Object... args) throws IOException {
 
-    return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
+    return KrakenAdapters.adaptTradesHistory(raw.getKrakenTradeHistory());
   }
 
+  @Override
+  public Object getRaw() {
+
+    return raw;
+  }
 }

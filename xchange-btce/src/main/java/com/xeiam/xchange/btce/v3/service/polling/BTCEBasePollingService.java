@@ -27,9 +27,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -47,7 +44,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public class BTCEBasePollingService<T extends BTCE> extends BTCEBaseService {
 
-  private final Logger logger = LoggerFactory.getLogger(BTCEBasePollingService.class);
+  // private final Logger logger = LoggerFactory.getLogger(BTCEBasePollingService.class);
 
   public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
 
@@ -85,7 +82,7 @@ public class BTCEBasePollingService<T extends BTCE> extends BTCEBaseService {
   protected int nextNonce() {
 
     int nextNonce = lastNonce.incrementAndGet();
-    logger.debug("nextNonce in BTCEBaseService: " + nextNonce);
+    // logger.debug("nextNonce in BTCEBaseService: " + nextNonce);
 
     return nextNonce;
   }

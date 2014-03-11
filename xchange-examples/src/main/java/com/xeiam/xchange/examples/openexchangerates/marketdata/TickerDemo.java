@@ -74,7 +74,7 @@ public class TickerDemo {
 
   private static void raw(Exchange openExchangeRates) throws IOException {
 
-    OERMarketDataServiceRaw oERMarketDataServiceRaw = (OERMarketDataServiceRaw) openExchangeRates.getPollingMarketDataService();
+    OERMarketDataServiceRaw oERMarketDataServiceRaw = (OERMarketDataServiceRaw) openExchangeRates.getPollingMarketDataService().getRaw();
 
     // Get the latest ticker data showing BTC to EUR
     OERRates oERRates = oERMarketDataServiceRaw.getOERTicker();

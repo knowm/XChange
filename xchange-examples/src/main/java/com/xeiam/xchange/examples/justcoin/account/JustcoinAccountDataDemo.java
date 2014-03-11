@@ -67,7 +67,7 @@ public class JustcoinAccountDataDemo {
 
   private static void raw(Exchange justcoinExchange) throws IOException {
 
-    JustcoinAccountServiceRaw justcoinSpecificAccountService = (JustcoinAccountServiceRaw) justcoinExchange.getPollingAccountService();
+    JustcoinAccountServiceRaw justcoinSpecificAccountService = (JustcoinAccountServiceRaw) justcoinExchange.getPollingAccountService().getRaw();
 
     JustcoinBalance[] balances = justcoinSpecificAccountService.getBalances();
     System.out.println(Arrays.toString(balances));

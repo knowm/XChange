@@ -34,7 +34,10 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 /**
  * @author Matija Mazi
  */
-public class BTCEAccountService extends BTCEAccountServiceRaw implements PollingAccountService {
+public class BTCEAccountService extends PollingAccountService {
+
+  final ExchangeSpecification exchangeSpecification;
+  final BTCEAccountServiceRaw raw;
 
   /**
    * Constructor
@@ -43,13 +46,14 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
    */
   public BTCEAccountService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    this.exchangeSpecification = exchangeSpecification;
+    raw = new BTCEAccountServiceRaw(exchangeSpecification);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    BTCEAccountInfo info = getBTCEAccountInfo(null, null, null, null, null, null, null);
+    BTCEAccountInfo info = raw.getBTCEAccountInfo(null, null, null, null, null, null, null);
     return BTCEAdapters.adaptAccountInfo(info);
   }
 
@@ -63,5 +67,11 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
   public String requestDepositAddress(String currency, String... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Object getRaw() {
+
+    return raw;
   }
 }
