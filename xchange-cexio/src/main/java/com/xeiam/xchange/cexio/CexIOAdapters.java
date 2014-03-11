@@ -106,8 +106,7 @@ public class CexIOAdapters {
     BigDecimal volume = ticker.getVolume();
     Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(
-        timestamp).build();
+    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
   }
 
   /**
@@ -171,8 +170,7 @@ public class CexIOAdapters {
 
   public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, 
-    		priceAndAmount.get(0));
+    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {

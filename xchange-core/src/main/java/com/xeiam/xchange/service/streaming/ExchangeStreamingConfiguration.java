@@ -62,7 +62,7 @@ public interface ExchangeStreamingConfiguration {
    * @return
    */
   public boolean isEncryptedChannel();
-  
+
   /**
    * should it keep the socket alive? (send ping every 15s)
    * 

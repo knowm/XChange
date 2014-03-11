@@ -64,7 +64,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public ExchangeInfo getExchangeInfo() throws NotAvailableFromExchangeException {
 
-	  return new ExchangeInfo(super.getExchangeSymbols());
+    return new ExchangeInfo(super.getExchangeSymbols());
   }
 
   @Override

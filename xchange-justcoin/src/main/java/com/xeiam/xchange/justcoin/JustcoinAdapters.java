@@ -64,7 +64,6 @@ public final class JustcoinAdapters {
 
   public static LimitOrder adaptOrder(final BigDecimal amount, final BigDecimal price, final CurrencyPair currencyPair, final OrderType orderType) {
 
-
     return new LimitOrder(orderType, amount, currencyPair, null, null, price);
   }
 
@@ -72,8 +71,7 @@ public final class JustcoinAdapters {
 
     for (final JustcoinTicker justcointTicker : justcoinTickers) {
       if (justcointTicker.getId().equals(JustcoinUtils.getApiMarket(currencyPair.baseSymbol, currencyPair.counterSymbol))) {
-        return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(justcointTicker.getLast()).withBid(
-            justcointTicker.getBid()).withAsk(justcointTicker.getAsk()).withHigh(
+        return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(justcointTicker.getLast()).withBid(justcointTicker.getBid()).withAsk(justcointTicker.getAsk()).withHigh(
             justcointTicker.getHigh()).withLow(justcointTicker.getLow()).withVolume(justcointTicker.getVolume()).build();
       }
     }
@@ -120,9 +118,8 @@ public final class JustcoinAdapters {
 
     final String tradableIdentifier = JustcoinUtils.getTradableIdentifierFromApiMarket(justcoinOrder.getMarket());
     final String transactionCurrency = JustcoinUtils.getPriceCurrencyFromApiMarket(justcoinOrder.getMarket());
-    return new LimitOrder(OrderType.valueOf(justcoinOrder.getType().toUpperCase()), justcoinOrder.getAmount(), 
-    		new CurrencyPair(tradableIdentifier, transactionCurrency), justcoinOrder.getId(), justcoinOrder.getCreatedAt(), 
-    		justcoinOrder.getPrice());
+    return new LimitOrder(OrderType.valueOf(justcoinOrder.getType().toUpperCase()), justcoinOrder.getAmount(), new CurrencyPair(tradableIdentifier, transactionCurrency), justcoinOrder.getId(),
+        justcoinOrder.getCreatedAt(), justcoinOrder.getPrice());
   }
 
   public static Trades adaptTrades(final JustcoinTrade[] justoinOrders) {
@@ -139,7 +136,7 @@ public final class JustcoinAdapters {
 
     final String tradableIdentifier = JustcoinUtils.getTradableIdentifierFromApiMarket(justcoinTrade.getMarket());
     final String transactionCurrency = JustcoinUtils.getPriceCurrencyFromApiMarket(justcoinTrade.getMarket());
-    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), new CurrencyPair(tradableIdentifier, transactionCurrency), justcoinTrade.getAveragePrice(), justcoinTrade.getCreatedAt(), justcoinTrade
-        .getId());
+    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), new CurrencyPair(tradableIdentifier, transactionCurrency), justcoinTrade.getAveragePrice(),
+        justcoinTrade.getCreatedAt(), justcoinTrade.getId());
   }
 }

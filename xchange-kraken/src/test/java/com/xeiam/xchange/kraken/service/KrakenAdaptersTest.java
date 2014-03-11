@@ -76,7 +76,7 @@ public class KrakenAdaptersTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("562.26651"));
-    assertThat(ticker.getBid()).isEqualTo( new BigDecimal("560.46600"));
+    assertThat(ticker.getBid()).isEqualTo(new BigDecimal("560.46600"));
     assertThat(ticker.getLow()).isEqualTo(new BigDecimal("560.00000"));
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("591.11000"));
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("560.87711"));

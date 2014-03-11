@@ -46,21 +46,19 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
 
     return accountData.getPermissions();
   }
-  
+
   public int getActiveOrders() {
-  
+
     return accountData.getActiveOrders();
   }
 
-  
   public int getTransactionCount() {
-  
+
     return accountData.getTransactionCount();
   }
 
-  
   public long getServerTimestamp() {
-  
+
     return accountData.getServerTimestamp();
   }
 
@@ -77,8 +75,8 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
     private final int activeOrders;
     private final int transactionCount;
     private final long serverTimestamp;
-    
-    private CryptoTradeAccountData(@JsonProperty("funds") Map<String, BigDecimal> funds, @JsonProperty("perms") CryptoTradeAccountPermissions permissions, 
+
+    private CryptoTradeAccountData(@JsonProperty("funds") Map<String, BigDecimal> funds, @JsonProperty("perms") CryptoTradeAccountPermissions permissions,
         @JsonProperty("active_orders") int activeOrders, @JsonProperty("transactions_count") int transactionCount, @JsonProperty("server_timestamp") long serverTimestamp) {
 
       this.funds = funds;
@@ -97,21 +95,19 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
 
       return permissions;
     }
-    
+
     public int getActiveOrders() {
-    
+
       return activeOrders;
     }
 
-    
     public int getTransactionCount() {
-    
+
       return transactionCount;
     }
 
-    
     public long getServerTimestamp() {
-    
+
       return serverTimestamp;
     }
 
@@ -122,16 +118,15 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
           + serverTimestamp + "]";
     }
   }
-  
+
   public static class CryptoTradeAccountPermissions {
 
     private final int info;
     private final int history;
     private final int trade;
-    
-    private CryptoTradeAccountPermissions(@JsonProperty("info") int info, @JsonProperty("history") int history, 
-        @JsonProperty("trade") int trade) {
-      
+
+    private CryptoTradeAccountPermissions(@JsonProperty("info") int info, @JsonProperty("history") int history, @JsonProperty("trade") int trade) {
+
       this.info = info;
       this.history = history;
       this.trade = trade;
@@ -157,6 +152,6 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
 
       return "CryptoTradeAccountPermissions [info=" + info + ", history=" + history + ", trade=" + trade + "]";
     }
-    
+
   }
 }

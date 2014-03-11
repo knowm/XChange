@@ -40,7 +40,7 @@ public class CryptoTradeMarketDataDemo {
   public static void main(String[] args) throws Exception {
 
     CertHelper.trustAllCerts();
-    
+
     Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CryptoTradeExchange.class.getName());
     PollingMarketDataService marketDataService = coinbaseExchange.getPollingMarketDataService();
 

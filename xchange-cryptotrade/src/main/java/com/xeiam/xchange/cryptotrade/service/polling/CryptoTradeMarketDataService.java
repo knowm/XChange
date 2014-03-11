@@ -59,7 +59,7 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     verify(currencyPair);
-    
+
     CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(currencyPair);
 
     return CryptoTradeAdapters.adaptTicker(currencyPair, cryptoTradeTicker);

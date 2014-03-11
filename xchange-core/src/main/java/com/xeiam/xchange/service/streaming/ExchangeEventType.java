@@ -62,12 +62,12 @@ public enum ExchangeEventType {
   // Specific message types to assist consumer processing
 
   /**
-   * A message with welcome status 
+   * A message with welcome status
    */
   WELCOME,
-  
+
   /**
-   * A message with authentication status 
+   * A message with authentication status
    */
   AUTHENTICATION,
 
@@ -75,7 +75,7 @@ public enum ExchangeEventType {
    * A message about subscription of market ticker
    */
   SUBSCRIBE_TICKER,
-  
+
   /**
    * A message with a Ticker payload
    */
@@ -90,12 +90,12 @@ public enum ExchangeEventType {
    * A message about subscription of market depth
    */
   SUBSCRIBE_DEPTH,
-  
+
   /**
    * A message with a Market Depth update payload
    */
   DEPTH,
-  
+
   /**
    * A message of orderbook data
    */
@@ -120,7 +120,7 @@ public enum ExchangeEventType {
    * A message sent when a user order is cancelled
    */
   ORDER_CANCELED,
-  
+
   /**
    * A message with the trade lag
    */
@@ -135,7 +135,7 @@ public enum ExchangeEventType {
    * A message with user accountInfo
    */
   ACCOUNT_INFO,
-  
+
   /**
    * A message with user orders
    */
@@ -145,7 +145,7 @@ public enum ExchangeEventType {
    * A message sent when a user order is added
    */
   USER_ORDER_ADDED,
-  
+
   /**
    * A message sent when a user order is cancelled
    */
@@ -160,7 +160,7 @@ public enum ExchangeEventType {
    * A message with wallet data
    */
   USER_WALLET,
-  
+
   /**
    * A message with the wallet update
    */

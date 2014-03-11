@@ -71,8 +71,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
   public Map<String, KrakenOrder> getKrakenClosedOrders(boolean includeTrades, String userRef, String start, String end, String offset, String closeTime) throws IOException {
 
-    KrakenClosedOrdersResult result =
-        kraken.closedOrders(includeTrades, userRef, start, end, offset, closeTime, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenClosedOrdersResult result = kraken.closedOrders(includeTrades, userRef, start, end, offset, closeTime, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result).getOrders();
   }
@@ -84,8 +83,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
   public Map<String, KrakenOrder> queryKrakenOrders(boolean includeTrades, String userRef, String... transactionIds) throws IOException {
 
-    KrakenQueryOrderResult result =
-        kraken.queryOrders(includeTrades, userRef, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenQueryOrderResult result = kraken.queryOrders(includeTrades, userRef, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result);
   }
@@ -125,7 +123,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
     return checkResult(result);
   }
-  
+
   public KrakenOrderResponse placeKrakenMarketOrder(MarketOrder marketOrder) throws IOException {
 
     KrakenType type = KrakenType.fromOrderType(marketOrder.getType());
@@ -135,7 +133,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
   }
 
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
-	  
+
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
     KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getLimitOrderBuilder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice().toString(), limitOrder.getTradableAmount());
 
@@ -147,14 +145,14 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
     KrakenOrderResult result = null;
     if (!order.isValidateOnly()) {
       result =
-          kraken.addOrder(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume().toString(),
-              order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), order.getCloseOrder(),
+          kraken.addOrder(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume()
+              .toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), order.getCloseOrder(),
               exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
     else {
       result =
-          kraken.addOrderValidateOnly(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume()
-              .toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), true, order
+          kraken.addOrderValidateOnly(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order
+              .getVolume().toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), true, order
               .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
 

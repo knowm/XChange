@@ -105,7 +105,7 @@ public final class BTCEAdapters {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    
+
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
 
@@ -213,20 +213,20 @@ public final class BTCEAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
-    
+
     String[] currencies = btceCurrencyPair.split("_");
     return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
-  
+
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
-    
+
     List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
-    for (String btcePair : btcePairs) 
+    for (String btcePair : btcePairs)
       pairs.add(adaptCurrencyPair(btcePair));
-    
+
     return pairs;
   }
-  
+
   public static ExchangeInfo adaptExchangeInfo(BTCEExchangeInfo infoV3) {
 
     List<CurrencyPair> currencyPairs = adaptCurrencyPairs(infoV3.getPairs().keySet());

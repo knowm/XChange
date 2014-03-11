@@ -84,8 +84,7 @@ public class CoinbaseAdapterTests {
     BigDecimal tradableAmount = new BigDecimal("1.20000000");
     BigDecimal price = new BigDecimal("905.10").divide(tradableAmount, RoundingMode.HALF_EVEN);
     Trade expectedTrade =
-        new Trade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price, DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f",
-            "52f4411767c71baf9000003f");
+        new Trade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price, DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411767c71baf9000003f");
 
     // Read in the JSON from the example resources
     InputStream is = CoinbaseAdapterTests.class.getResourceAsStream("/trade/example-transfers-data.json");
@@ -106,8 +105,8 @@ public class CoinbaseAdapterTests {
   public void testAdaptTicker() throws IOException {
 
     Ticker expectedTicker =
-        TickerBuilder.newInstance().withCurrencyPair(CurrencyPair.BTC_USD).withAsk(new BigDecimal("723.09")).withBid(new BigDecimal("723.09")).withLast(new BigDecimal("719.79"))
-            .withLow(new BigDecimal("718.2")).withHigh(new BigDecimal("723.11")).build();
+        TickerBuilder.newInstance().withCurrencyPair(CurrencyPair.BTC_USD).withAsk(new BigDecimal("723.09")).withBid(new BigDecimal("723.09")).withLast(new BigDecimal("719.79")).withLow(
+            new BigDecimal("718.2")).withHigh(new BigDecimal("723.11")).build();
 
     InputStream is = CoinbaseAdapterTests.class.getResourceAsStream("/marketdata/example-price-data.json");
     ObjectMapper mapper = new ObjectMapper();

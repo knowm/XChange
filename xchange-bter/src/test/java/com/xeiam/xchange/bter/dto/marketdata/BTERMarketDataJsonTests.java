@@ -81,7 +81,7 @@ public class BTERMarketDataJsonTests {
 
     assertThat(ticker.isResult()).isTrue();
   }
-  
+
   @Test
   public void testDeserializeDepth() throws IOException {
 
@@ -91,12 +91,12 @@ public class BTERMarketDataJsonTests {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTERDepth depth = mapper.readValue(is, BTERDepth.class);
-    
+
     assertThat(depth.isResult()).isTrue();
-    
-    List<BTERPublicOrder> asks = depth.getAsks(); 
+
+    List<BTERPublicOrder> asks = depth.getAsks();
     assertThat(asks).hasSize(3);
-    
+
     BTERPublicOrder ask = asks.get(0);
     assertThat(ask.getPrice()).isEqualTo("0.17936");
     assertThat(ask.getAmount()).isEqualTo("687");

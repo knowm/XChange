@@ -60,10 +60,10 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 public class BTERAdapterTests {
 
   Collection<CurrencyPair> currencyPairs;
-  
+
   @Before
   public void before() throws JsonParseException, JsonMappingException, IOException {
-    
+
     // Read in the JSON from the example resources
     InputStream is = BTERAdapterTests.class.getResourceAsStream("/marketdata/example-pairs-data.json");
 
@@ -73,7 +73,7 @@ public class BTERAdapterTests {
 
     this.currencyPairs = currencyPairs.getPairs();
   }
-  
+
   @Test
   public void testAdaptOpenOrders() throws IOException {
 
@@ -85,10 +85,10 @@ public class BTERAdapterTests {
     BTEROpenOrders openOrders = mapper.readValue(is, BTEROpenOrders.class);
 
     OpenOrders adaptedOpenOrders = BTERAdapters.adaptOpenOrders(openOrders, currencyPairs);
-    
+
     List<LimitOrder> adaptedOrderList = adaptedOpenOrders.getOpenOrders();
     assertThat(adaptedOrderList).hasSize(1);
-    
+
     LimitOrder adaptedOrder = adaptedOrderList.get(0);
     assertThat(adaptedOrder.getType()).isEqualTo(OrderType.ASK);
     assertThat(adaptedOrder.getTradableAmount()).isEqualTo("0.384");
@@ -97,7 +97,7 @@ public class BTERAdapterTests {
     assertThat(adaptedOrder.getTimestamp()).isNull();
     assertThat(adaptedOrder.getLimitPrice()).isEqualTo(new BigDecimal("0.010176").divide(new BigDecimal("0.384"), RoundingMode.HALF_EVEN));
   }
-  
+
   @Test
   public void testAdaptTrades() throws IOException {
 
@@ -108,10 +108,10 @@ public class BTERAdapterTests {
     BTERTradeHistory tradeHistory = mapper.readValue(is, BTERTradeHistory.class);
 
     Trades adaptedTrades = BTERAdapters.adaptTrades(tradeHistory, CurrencyPair.BTC_CNY);
-    
+
     List<Trade> tradeList = adaptedTrades.getTrades();
     assertThat(tradeList).hasSize(2);
-    
+
     Trade trade = tradeList.get(0);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getTradableAmount()).isEqualTo("0.0129");
@@ -121,7 +121,7 @@ public class BTERAdapterTests {
     assertThat(trade.getId()).isEqualTo("5600118");
     assertThat(trade.getOrderId()).isNull();
   }
-  
+
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
@@ -131,13 +131,13 @@ public class BTERAdapterTests {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTERFunds funds = mapper.readValue(is, BTERFunds.class);
-    
+
     AccountInfo accountInfo = BTERAdapters.adaptAccountInfo(funds);
-    
+
     assertThat(accountInfo.getWallets()).hasSize(4);
     assertThat(accountInfo.getBalance(Currencies.BTC)).isEqualTo("0.00010165");
   }
-  
+
   @Test
   public void testAdaptTicker() throws IOException {
 
@@ -149,7 +149,7 @@ public class BTERAdapterTests {
     BTERTickers tickers = mapper.readValue(is, BTERTickers.class);
 
     Map<CurrencyPair, BTERTicker> tickerMap = tickers.getTickerMap();
-    
+
     Ticker ticker = BTERAdapters.adaptTicker(CurrencyPair.BTC_CNY, tickerMap.get(CurrencyPair.BTC_CNY));
     assertThat(ticker.getLast()).isEqualTo("3400.01");
     assertThat(ticker.getHigh()).isEqualTo("3497.41");
@@ -158,7 +158,7 @@ public class BTERAdapterTests {
     assertThat(ticker.getBid()).isEqualTo("3400.01");
     assertThat(ticker.getVolume()).isEqualTo("1200127.03");
   }
-  
+
   @Test
   public void testAdaptOrderBook() throws IOException {
 
@@ -168,12 +168,12 @@ public class BTERAdapterTests {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BTERDepth depth = mapper.readValue(is, BTERDepth.class);
-    
+
     OrderBook orderBook = BTERAdapters.adaptOrderBook(depth, CurrencyPair.LTC_BTC);
-    
+
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(3);
-    
+
     LimitOrder ask = asks.get(0);
     assertThat(ask.getLimitPrice()).isEqualTo("0.1785");
     assertThat(ask.getTradableAmount()).isEqualTo("1324.111");

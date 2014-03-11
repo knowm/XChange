@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.bitcurex;
 
-
 /**
  * A central place for shared Bitcurex properties
  */

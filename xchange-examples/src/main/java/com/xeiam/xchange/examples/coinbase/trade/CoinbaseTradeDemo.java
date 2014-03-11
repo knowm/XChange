@@ -46,10 +46,10 @@ public class CoinbaseTradeDemo {
 
   public static void generic(PollingTradeService tradeService) throws IOException {
 
-    //MarketOrder marketOrder = new MarketOrder(OrderType.BID, new BigDecimal(".01"), Currencies.BTC, Currencies.USD);
-    //String orderId = tradeService.placeMarketOrder(marketOrder);
-    //System.out.println("Order Id: " + orderId);
-    
+    // MarketOrder marketOrder = new MarketOrder(OrderType.BID, new BigDecimal(".01"), Currencies.BTC, Currencies.USD);
+    // String orderId = tradeService.placeMarketOrder(marketOrder);
+    // System.out.println("Order Id: " + orderId);
+
     int page = 1; // optional
     int limit = 3; // optional
     Trades trades = tradeService.getTradeHistory(page, limit);
@@ -58,10 +58,10 @@ public class CoinbaseTradeDemo {
 
   public static void raw(CoinbaseTradeService tradeService) throws IOException {
 
-    //CoinbaseTransfer buyTransfer = tradeService.buy(new BigDecimal(".01"));
-    //System.out.println(buyTransfer);
-    
-    CoinbaseTransfers transfers = tradeService.getCoinbaseTransfers(); 
+    // CoinbaseTransfer buyTransfer = tradeService.buy(new BigDecimal(".01"));
+    // System.out.println(buyTransfer);
+
+    CoinbaseTransfers transfers = tradeService.getCoinbaseTransfers();
     System.out.println(transfers);
   }
 }

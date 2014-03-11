@@ -53,7 +53,7 @@ public class KrakenExchangeSymbolsDemo {
 
     ExchangeInfo exchangeInfo = krakenMarketDataService.getExchangeInfo();
     System.out.println(exchangeInfo);
-    
+
     for (CurrencyPair currencyPair : ((BaseExchangeService) krakenMarketDataService).getExchangeSymbols()) {
       System.out.println(currencyPair);
     }

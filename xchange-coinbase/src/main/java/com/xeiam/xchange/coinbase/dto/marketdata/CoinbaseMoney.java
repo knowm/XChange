@@ -32,9 +32,9 @@ import com.xeiam.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 @JsonDeserialize(using = CoinbaseMoneyDeserializer.class)
 public class CoinbaseMoney {
 
-  private final String currency; 
+  private final String currency;
   private final BigDecimal amount;
-  
+
   public CoinbaseMoney(final String currency, final BigDecimal amount) {
 
     this.currency = currency;

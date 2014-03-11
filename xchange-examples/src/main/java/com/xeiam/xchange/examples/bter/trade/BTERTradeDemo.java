@@ -53,23 +53,23 @@ public class BTERTradeDemo {
 
     LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal("0.384"), CurrencyPair.LTC_BTC, "", null, new BigDecimal("0.0265"));
     String orderId = tradeService.placeLimitOrder(limitOrder);
-    System.out.println(orderId);  // Returned order id is currently broken for BTER, rely on open orders instead for demo :(
+    System.out.println(orderId); // Returned order id is currently broken for BTER, rely on open orders instead for demo :(
 
-    Thread.sleep(2000);  // wait for BTER's back-end to propagate the order
-    
+    Thread.sleep(2000); // wait for BTER's back-end to propagate the order
+
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
 
     List<LimitOrder> openOrdersList = openOrders.getOpenOrders();
     if (!openOrdersList.isEmpty()) {
       String existingOrderId = openOrdersList.get(0).getId();
-      
+
       boolean isCancelled = tradeService.cancelOrder(existingOrderId);
       System.out.println(isCancelled);
     }
-    
+
     Thread.sleep(2000); // wait for BTER's back-end to propagate the cancelled order
-    
+
     openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
   }
@@ -79,8 +79,8 @@ public class BTERTradeDemo {
     boolean placedOrderResult = tradeService.placeBTERLimitOrder(CurrencyPair.LTC_BTC, BTEROrderType.SELL, new BigDecimal("0.0265"), new BigDecimal("0.384"));
     System.out.println(placedOrderResult); // Returned order id is currently broken for BTER, rely on open orders instead for demo :(
 
-    Thread.sleep(2000);  // wait for BTER's back-end to propagate the order
-    
+    Thread.sleep(2000); // wait for BTER's back-end to propagate the order
+
     BTEROpenOrders openOrders = tradeService.getBTEROpenOrders();
     System.out.println(openOrders);
 
@@ -89,15 +89,15 @@ public class BTERTradeDemo {
       String existingOrderId = openOrdersList.get(0).getId();
       BTEROrderStatus orderStatus = tradeService.getBTEROrderStatus(existingOrderId);
       System.out.println(orderStatus);
-      
+
       boolean isCancelled = tradeService.cancelOrder(existingOrderId);
       System.out.println(isCancelled);
     }
-       
+
     Thread.sleep(2000); // wait for BTER's back-end to propagate the cancelled order
-    
+
     openOrders = tradeService.getBTEROpenOrders();
     System.out.println(openOrders);
-     
+
   }
 }

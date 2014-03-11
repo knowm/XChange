@@ -29,7 +29,6 @@ import com.xeiam.xchange.service.BaseExchangeService;
  */
 public abstract class BTCEBaseService extends BaseExchangeService {
 
-  
   /**
    * Constructor
    * 

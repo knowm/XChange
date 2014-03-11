@@ -157,7 +157,7 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
 
     return System.currentTimeMillis();
   }
-  
+
   protected String createDelimitedString(String[] items) {
 
     StringBuilder commaDelimitedString = null;

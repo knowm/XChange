@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * Created by David Henry on 2/20/14.
  */
 public class VircurexOpenOrdersDeserializer extends JsonDeserializer<VircurexOpenOrdersReturn> {
+
   @Override
   public VircurexOpenOrdersReturn deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException {
 
@@ -47,24 +48,24 @@ public class VircurexOpenOrdersDeserializer extends JsonDeserializer<VircurexOpe
 
     Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodes.fields();
 
-    while(jsonNodeIterator.hasNext()) {
+    while (jsonNodeIterator.hasNext()) {
 
       Map.Entry<String, JsonNode> jsonNodeField = jsonNodeIterator.next();
 
       if (jsonNodeField.getKey().contains("order-")) {
         VircurexOpenOrder openOrder = mapper.readValue(jsonNodeField.getValue().toString(), VircurexOpenOrder.class);
         openOrdersList.add(openOrder);
-      } else {
+      }
+      else {
         break; // found the last of the order objects
       }
     }
 
     VircurexOpenOrdersReturn openOrdersReturn =
-            new VircurexOpenOrdersReturn(jsonNodes.get("numberorders").asInt(), jsonNodes.get("account").asText(),
-                                  jsonNodes.get("timestamp").asText(), jsonNodes.get("token").asText(),
-                                  jsonNodes.get("status").asInt(), jsonNodes.get("function").asText());
+        new VircurexOpenOrdersReturn(jsonNodes.get("numberorders").asInt(), jsonNodes.get("account").asText(), jsonNodes.get("timestamp").asText(), jsonNodes.get("token").asText(), jsonNodes.get(
+            "status").asInt(), jsonNodes.get("function").asText());
 
-    if(openOrdersList.size() > 0) {
+    if (openOrdersList.size() > 0) {
       openOrdersReturn.setOpenOrders(openOrdersList);
     }
 
