@@ -123,46 +123,44 @@ public class CurrencyPair {
   // not real currencies, but tradable commodities (GH/s)
   public static final CurrencyPair GHs_BTC = new CurrencyPair(Currencies.GHs, Currencies.BTC);
   public static final CurrencyPair GHs_NMC = new CurrencyPair(Currencies.GHs, Currencies.NMC);
-
   public static final CurrencyPair CNC_BTC = new CurrencyPair(Currencies.CNC, Currencies.BTC);
-
   public static final CurrencyPair WDC_BTC = new CurrencyPair(Currencies.WDC, Currencies.BTC);
-
   public static final CurrencyPair DVC_BTC = new CurrencyPair(Currencies.DVC, Currencies.BTC);
 
-  public final String baseCurrency;
-  public final String counterCurrency;
+  public final String baseSymbol;
+  public final String counterSymbol;
 
   /**
    * <p>
    * Reduced constructor using the global reserve currency symbol (USD) as the default counter
    * </p>
    * 
-   * @param baseCurrency The base symbol (single unit)
+   * @param baseSymbol The base symbol is what you're wanting to buy/sell
    */
-  public CurrencyPair(String baseCurrency) {
+  public CurrencyPair(String baseSymbol) {
 
-    this(baseCurrency, Currencies.USD);
+    this(baseSymbol, Currencies.USD);
   }
 
   /**
    * <p>
    * Full constructor
    * </p>
+   * In general the CurrencyPair.base is what you're wanting to buy/sell. The CurrencyPair.counter is what currency you want to use to pay/receive for your purchase/sale.
    * 
-   * @param baseCurrency The base symbol (single unit)
-   * @param counterCurrency The counter symbol (multiple units)
+   * @param baseSymbol The base symbol is what you're wanting to buy/sell
+   * @param counterSymbol The counter symbol is what currency you want to use to pay/receive for your purchase/sale.
    */
-  public CurrencyPair(String baseCurrency, String counterCurrency) {
+  public CurrencyPair(String baseSymbol, String counterSymbol) {
 
-    this.baseCurrency = baseCurrency;
-    this.counterCurrency = counterCurrency;
+    this.baseSymbol = baseSymbol;
+    this.counterSymbol = counterSymbol;
   }
 
   @Override
   public String toString() {
 
-    return baseCurrency + "/" + counterCurrency;
+    return baseSymbol + "/" + counterSymbol;
   }
 
   @Override
@@ -170,8 +168,8 @@ public class CurrencyPair {
 
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((baseCurrency == null) ? 0 : baseCurrency.hashCode());
-    result = prime * result + ((counterCurrency == null) ? 0 : counterCurrency.hashCode());
+    result = prime * result + ((baseSymbol == null) ? 0 : baseSymbol.hashCode());
+    result = prime * result + ((counterSymbol == null) ? 0 : counterSymbol.hashCode());
     return result;
   }
 
@@ -188,20 +186,20 @@ public class CurrencyPair {
       return false;
     }
     CurrencyPair other = (CurrencyPair) obj;
-    if (baseCurrency == null) {
-      if (other.baseCurrency != null) {
+    if (baseSymbol == null) {
+      if (other.baseSymbol != null) {
         return false;
       }
     }
-    else if (!baseCurrency.equals(other.baseCurrency)) {
+    else if (!baseSymbol.equals(other.baseSymbol)) {
       return false;
     }
-    if (counterCurrency == null) {
-      if (other.counterCurrency != null) {
+    if (counterSymbol == null) {
+      if (other.counterSymbol != null) {
         return false;
       }
     }
-    else if (!counterCurrency.equals(other.counterCurrency)) {
+    else if (!counterSymbol.equals(other.counterSymbol)) {
       return false;
     }
     return true;

@@ -81,7 +81,7 @@ public class KrakenAdaptersTest {
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("591.11000"));
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("560.87711"));
     assertThat(ticker.getVolume()).isEqualByComparingTo("600.91850325");
-    assertThat(ticker.getCurrencyPair().baseCurrency).isEqualTo(currencyPair.baseCurrency);
+    assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo(currencyPair.baseSymbol);
   }
 
   @Test
@@ -178,8 +178,8 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("13.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("0.01000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseCurrency).isEqualTo(Currencies.LTC);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterCurrency).isEqualTo(Currencies.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseSymbol).isEqualTo(Currencies.LTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterSymbol).isEqualTo(Currencies.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
@@ -200,8 +200,8 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("500.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterCurrency).isEqualTo(Currencies.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterSymbol).isEqualTo(Currencies.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
@@ -225,8 +225,8 @@ public class KrakenAdaptersTest {
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("32.07562"));
     assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
-    assertThat(trade.getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
-    assertThat(trade.getCurrencyPair().counterCurrency).isEqualTo(Currencies.LTC);
+    assertThat(trade.getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
+    assertThat(trade.getCurrencyPair().counterSymbol).isEqualTo(Currencies.LTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
   }
 }

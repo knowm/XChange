@@ -71,7 +71,7 @@ public class CryptoTradeAdapterTests {
       assertThat(adaptedTicker.getVolume()).isEqualTo("693.8199");
       assertThat(adaptedTicker.getAsk()).isEqualTo(new BigDecimal("129.1"));
       assertThat(adaptedTicker.getBid()).isEqualTo(new BigDecimal("128"));
-      assertThat(adaptedTicker.getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
+      assertThat(adaptedTicker.getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
       assertThat(adaptedTicker.getTimestamp()).isNull();
     }
     
@@ -142,8 +142,8 @@ public class CryptoTradeAdapterTests {
       assertThat(order.getId()).isEqualTo("5");
       assertThat(order.getLimitPrice()).isEqualTo("300");
       assertThat(order.getTradableAmount()).isEqualTo("1");
-      assertThat(order.getCurrencyPair().baseCurrency).isEqualTo(Currencies.BTC);
-      assertThat(order.getCurrencyPair().counterCurrency).isEqualTo(Currencies.USD);
+      assertThat(order.getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
+      assertThat(order.getCurrencyPair().counterSymbol).isEqualTo(Currencies.USD);
       assertThat(order.getType()).isEqualTo(OrderType.BID);
       assertThat(order.getTimestamp()).isEqualTo(new Date(1370944500));
     }

@@ -60,7 +60,7 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
     verify(currencyPair);
 
     // Request data
-    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcoinAverageAdapters.adaptTicker(bitcoinAverageTicker, currencyPair);

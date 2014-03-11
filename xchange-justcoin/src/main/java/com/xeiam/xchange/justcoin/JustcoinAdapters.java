@@ -71,7 +71,7 @@ public final class JustcoinAdapters {
   public static Ticker adaptTicker(final JustcoinTicker[] justcoinTickers, final CurrencyPair currencyPair) {
 
     for (final JustcoinTicker justcointTicker : justcoinTickers) {
-      if (justcointTicker.getId().equals(JustcoinUtils.getApiMarket(currencyPair.baseCurrency, currencyPair.counterCurrency))) {
+      if (justcointTicker.getId().equals(JustcoinUtils.getApiMarket(currencyPair.baseSymbol, currencyPair.counterSymbol))) {
         return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(justcointTicker.getLast()).withBid(
             justcointTicker.getBid()).withAsk(justcointTicker.getAsk()).withHigh(
             justcointTicker.getHigh()).withLow(justcointTicker.getLow()).withVolume(justcointTicker.getVolume()).build();

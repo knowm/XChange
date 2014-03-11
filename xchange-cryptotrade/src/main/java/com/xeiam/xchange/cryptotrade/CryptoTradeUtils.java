@@ -44,6 +44,6 @@ public final class CryptoTradeUtils {
   
   public static String getCryptoTradeCurrencyPair(CurrencyPair currencyPair) {
     
-    return getCryptoTradeCurrencyPair(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    return getCryptoTradeCurrencyPair(currencyPair.baseSymbol, currencyPair.counterSymbol);
   }
 }

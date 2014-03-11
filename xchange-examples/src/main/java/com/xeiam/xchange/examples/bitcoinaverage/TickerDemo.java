@@ -55,7 +55,7 @@ public class TickerDemo {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
     double value = ticker.getLast().doubleValue();
 
-    System.out.println("Last: " + ticker.getCurrencyPair().counterCurrency + "-" + value);
+    System.out.println("Last: " + ticker.getCurrencyPair().counterSymbol + "-" + value);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
   }

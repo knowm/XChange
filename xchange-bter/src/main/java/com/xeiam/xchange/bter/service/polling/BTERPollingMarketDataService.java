@@ -54,7 +54,7 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
 
     verify(currencyPair);
     
-    BTERTicker ticker = super.getBTERTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BTERTicker ticker = super.getBTERTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
     
     return BTERAdapters.adaptTicker(currencyPair, ticker);
   }
@@ -64,7 +64,7 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
 
     verify(currencyPair);
 
-    BTERDepth bterDepth = super.getBTEROrderBook(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BTERDepth bterDepth = super.getBTEROrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return BTERAdapters.adaptOrderBook(bterDepth, currencyPair);
   }
@@ -73,8 +73,8 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     BTERTradeHistory tradeHistory = (args != null && args.length > 0 && args[0] != null && args[0] instanceof String) ? 
-        super.getBTERTradeHistorySince(currencyPair.baseCurrency, currencyPair.counterCurrency, (String) args[0]) :
-          super.getBTERTradeHistory(currencyPair.baseCurrency, currencyPair.counterCurrency);
+        super.getBTERTradeHistorySince(currencyPair.baseSymbol, currencyPair.counterSymbol, (String) args[0]) :
+          super.getBTERTradeHistory(currencyPair.baseSymbol, currencyPair.counterSymbol);
     
     return BTERAdapters.adaptTrades(tradeHistory, currencyPair);
   }
