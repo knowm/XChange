@@ -51,14 +51,14 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
 
   public CryptoTradeTicker getCryptoTradeTicker(CurrencyPair currencyPair) throws IOException {
 
-    CryptoTradeTicker cryptoTradeTicker = cryptoTradeProxy.getTicker(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    CryptoTradeTicker cryptoTradeTicker = cryptoTradeProxy.getTicker(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return handleResponse(cryptoTradeTicker);
   }
 
   public CryptoTradeDepth getCryptoTradeOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    CryptoTradeDepth cryptoTradeDepth = cryptoTradeProxy.getFullDepth(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    CryptoTradeDepth cryptoTradeDepth = cryptoTradeProxy.getFullDepth(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return handleResponse(cryptoTradeDepth);
   }

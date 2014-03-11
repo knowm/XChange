@@ -23,8 +23,6 @@ package com.xeiam.xchange.kraken.dto.marketdata;
 
 import java.util.Map;
 
-import com.xeiam.xchange.kraken.KrakenUtils;
-
 public class KrakenAssets {
 
   private final Map<String, KrakenAsset> assetInfoMap;
@@ -37,17 +35,6 @@ public class KrakenAssets {
   public KrakenAssets(final Map<String, KrakenAsset> assetInfoMap) {
 
     this.assetInfoMap = assetInfoMap;
-  }
-
-  public KrakenAsset getAssetPairInfo(String tradableIdentifier, String currency) {
-
-    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
-    return getAssetPairInfo(krakenCurrencyPair);
-  }
-
-  private KrakenAsset getAssetPairInfo(String krakenCurrencyPair) {
-
-    return assetInfoMap.get(krakenCurrencyPair);
   }
 
   public Map<String, KrakenAsset> getAssetPairMap() {

@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.oer;
 
-
 /**
  * A central place for shared OER properties
  */

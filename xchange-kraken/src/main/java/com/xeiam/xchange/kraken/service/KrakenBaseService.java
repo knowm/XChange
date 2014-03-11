@@ -30,7 +30,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
-public class KrakenBaseService extends BaseExchangeService {
+public abstract class KrakenBaseService extends BaseExchangeService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>(Arrays.asList(CurrencyPair.LTC_XRP, CurrencyPair.LTC_EUR, CurrencyPair.LTC_USD, CurrencyPair.LTC_KRW,
       CurrencyPair.BTC_LTC, CurrencyPair.BTC_NMC, CurrencyPair.BTC_XRP, CurrencyPair.BTC_XVN, CurrencyPair.BTC_EUR, CurrencyPair.BTC_USD, CurrencyPair.BTC_KRW, CurrencyPair.NMC_XRP,
@@ -49,9 +49,4 @@ public class KrakenBaseService extends BaseExchangeService {
 
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CURRENCY_PAIRS;
-  }
 }

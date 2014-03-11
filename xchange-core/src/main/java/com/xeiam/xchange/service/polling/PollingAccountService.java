@@ -106,7 +106,7 @@ public abstract class PollingAccountService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<AccountInfo> getAccountInfoAsync() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Future<AccountInfo> getAccountInfoAsync() {
 
     class CallableAccountInfoRequest implements Callable<AccountInfo> {
 
@@ -133,8 +133,7 @@ public abstract class PollingAccountService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<String> withdrawFundsAsync(final String currency, final BigDecimal amount, final String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Future<String> withdrawFundsAsync(final String currency, final BigDecimal amount, final String address) {
 
     class CallableWithdrawFundsRequest implements Callable<String> {
 
@@ -159,8 +158,7 @@ public abstract class PollingAccountService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<String> requestDepositAddressAsync(final String currency, final String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public Future<String> requestDepositAddressAsync(final String currency, final String... args) {
 
     class CallableDepositAddressRequest implements Callable<String> {
 

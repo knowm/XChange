@@ -37,7 +37,7 @@ public final class BTCEUtils {
 
   public static String getPair(CurrencyPair currencyPair) {
 
-    return currencyPair.baseCurrency.toLowerCase() + "_" + currencyPair.counterCurrency.toLowerCase();
+    return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
   }
 
 }

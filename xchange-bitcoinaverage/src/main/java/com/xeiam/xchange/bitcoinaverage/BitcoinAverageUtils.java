@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.bitcoinaverage;
 
-
 /**
  * A central place for shared BitcoinAverage properties
  */

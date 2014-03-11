@@ -66,10 +66,10 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCChina");
     exchangeSpecification.setExchangeDescription("BTCChina is a Bitcoin exchange located in China.");
-    
+
     final Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
     exchangeSpecificParameters.put("dataSslUri", "https://data.btcchina.com");
-    
+
     exchangeSpecification.setExchangeSpecificParameters(exchangeSpecificParameters);
 
     return exchangeSpecification;

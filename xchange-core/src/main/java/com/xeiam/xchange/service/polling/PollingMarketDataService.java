@@ -127,8 +127,7 @@ public abstract class PollingMarketDataService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<Ticker> getTickerAsync(final CurrencyPair currencyPair, final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public Future<Ticker> getTickerAsync(final CurrencyPair currencyPair, final Object... args) {
 
     class CallableAccountInfoRequest implements Callable<Ticker> {
 
@@ -155,8 +154,7 @@ public abstract class PollingMarketDataService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<OrderBook> getOrderBookAsync(final CurrencyPair currencyPair, final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public Future<OrderBook> getOrderBookAsync(final CurrencyPair currencyPair, final Object... args) {
 
     class CallableAccountInfoRequest implements Callable<OrderBook> {
 
@@ -183,8 +181,7 @@ public abstract class PollingMarketDataService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<Trades> getTradesAsync(final CurrencyPair currencyPair, final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public Future<Trades> getTradesAsync(final CurrencyPair currencyPair, final Object... args) {
 
     class CallableAccountInfoRequest implements Callable<Trades> {
 
@@ -209,7 +206,7 @@ public abstract class PollingMarketDataService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<ExchangeInfo> getExchangeInfoAsync() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public Future<ExchangeInfo> getExchangeInfoAsync() {
 
     class CallableAccountInfoRequest implements Callable<ExchangeInfo> {
 

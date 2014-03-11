@@ -106,10 +106,10 @@ public class CryptoTradeTicker extends CryptoTradeBaseResponse {
   static class CryptoTradeTickerDeserializer extends JsonDeserializer<CryptoTradeTicker> {
 
     private BigDecimal getNumberIfPresent(final String numberString) {
-      
+
       return numberString.isEmpty() ? null : new BigDecimal(numberString);
     }
-    
+
     @Override
     public CryptoTradeTicker deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 

@@ -34,7 +34,6 @@ import com.xeiam.xchange.bter.dto.BTEROrderType;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 
-
 public class BTERTradeJsonTests {
 
   @Test
@@ -49,10 +48,10 @@ public class BTERTradeJsonTests {
 
     assertThat(openOrders.isResult()).isTrue();
     assertThat(openOrders.getMessage()).isEqualTo("Success");
-    
+
     List<BTEROpenOrder> openOrderList = openOrders.getOrders();
     assertThat(openOrderList).hasSize(1);
-    
+
     BTEROpenOrder openOrder = openOrderList.get(0);
     assertThat(openOrder.getId()).isEqualTo("12941907");
     assertThat(openOrder.getSellCurrency()).isEqualTo(Currencies.LTC);
@@ -60,7 +59,7 @@ public class BTERTradeJsonTests {
     assertThat(openOrder.getSellAmount()).isEqualTo("0.384");
     assertThat(openOrder.getBuyAmount()).isEqualTo("0.010176");
   }
-  
+
   @Test
   public void testDeserializeOrderResult() throws IOException {
 
@@ -75,7 +74,7 @@ public class BTERTradeJsonTests {
     assertThat(orderReturn.getMessage()).isEqualTo("Success");
     assertThat(orderReturn.getOrderId()).isEqualTo("123456");
   }
-  
+
   @Test
   public void testDeserializeOrderStatus() throws IOException {
 

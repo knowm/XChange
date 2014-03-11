@@ -58,7 +58,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
 
   public BTCETickerWrapper getBTCETicker(CurrencyPair currencyPair) throws IOException {
 
-    BTCETickerWrapper btceTicker = btce.getTicker(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    BTCETickerWrapper btceTicker = btce.getTicker(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     // Adapt to XChange DTOs
     return btceTicker;
@@ -66,7 +66,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
 
   public BTCEDepth getBTCEOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    BTCEDepth btceDepth = btce.getDepth(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    BTCEDepth btceDepth = btce.getDepth(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return btceDepth;
   }
@@ -85,7 +85,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
    */
   public BTCETrade[] getBTCETrades(CurrencyPair currencyPair) throws IOException {
 
-    BTCETrade[] BTCETrades = btce.getTrades(currencyPair.baseCurrency.toLowerCase(), currencyPair.counterCurrency.toLowerCase());
+    BTCETrade[] BTCETrades = btce.getTrades(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return BTCETrades;
 

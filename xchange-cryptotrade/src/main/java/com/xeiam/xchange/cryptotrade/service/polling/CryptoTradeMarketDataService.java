@@ -88,7 +88,7 @@ public class CryptoTradeMarketDataService extends PollingMarketDataService {
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    return new ExchangeInfo(raw.getExchangeSymbols());
   }
 
   @Override

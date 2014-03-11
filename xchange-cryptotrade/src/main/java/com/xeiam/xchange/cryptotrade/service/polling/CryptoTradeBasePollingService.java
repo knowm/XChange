@@ -35,7 +35,7 @@ import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CryptoTradeBasePollingService <T extends CryptoTrade> extends BaseExchangeService {
+public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
@@ -61,11 +61,12 @@ public class CryptoTradeBasePollingService <T extends CryptoTrade> extends BaseE
 
     return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
   }
-  
+
   protected <R extends CryptoTradeBaseResponse> R handleResponse(final R response) {
 
+    final String status = response.getStatus();
     final String error = response.getError();
-    if (response.getStatus().equalsIgnoreCase("error") || (error != null && !error.isEmpty()))
+    if ((status != null && status.equalsIgnoreCase("error")) || (error != null && !error.isEmpty()))
       throw new ExchangeException(error);
 
     return response;

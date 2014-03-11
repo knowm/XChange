@@ -23,11 +23,13 @@ package com.xeiam.xchange.examples.justcoin.marketdata;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.justcoin.JustcoinExchange;
@@ -51,14 +53,15 @@ public class JustcoinMarketDataDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService justcoinGenericMarketDataService = justcoinExchange.getPollingMarketDataService();
 
+    ExchangeInfo exchangeInfo = justcoinGenericMarketDataService.getExchangeInfo();
+    System.out.println(exchangeInfo);
+
     // Get the latest ticker data for the BTC/LTC market
     Ticker ticker = justcoinGenericMarketDataService.getTicker(CurrencyPair.BTC_LTC);
-
     System.out.println(ticker);
 
     // Get the latest order book data for BTC/LTC
     OrderBook orderBook = justcoinGenericMarketDataService.getOrderBook(CurrencyPair.BTC_LTC);
-
     System.out.println("Order book: " + orderBook);
   }
 
@@ -66,6 +69,9 @@ public class JustcoinMarketDataDemo {
 
     // Interested in the public polling market data feed (no authentication)
     JustcoinMarketDataServiceRaw justcoinSpecificMarketDataService = (JustcoinMarketDataServiceRaw) justcoinExchange.getPollingMarketDataService().getRaw();
+
+    List<CurrencyPair> currencyPairs = justcoinSpecificMarketDataService.getExchangeSymbols();
+    System.out.println(currencyPairs);
 
     // Get the latest ticker data for all markets on the Justcoin Exchange
     JustcoinTicker[] justcoinTickers = justcoinSpecificMarketDataService.getTickers();

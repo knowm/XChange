@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.justcoin;
 
-
 /**
  * jamespedwards42
  */

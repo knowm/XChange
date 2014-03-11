@@ -21,6 +21,10 @@
  */
 package com.xeiam.xchange.btce.v3.service.polling;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import si.mazi.rescu.ParamsDigest;
@@ -28,24 +32,28 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
+import com.xeiam.xchange.btce.v3.BTCE;
+import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
 import com.xeiam.xchange.btce.v3.service.BTCEBaseService;
 import com.xeiam.xchange.btce.v3.service.BTCEHmacPostBodyDigest;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author Matija Mazi
  */
-public class BTCEBasePollingService extends BTCEBaseService {
+public class BTCEBasePollingService<T extends BTCE> extends BTCEBaseService {
 
   // private final Logger logger = LoggerFactory.getLogger(BTCEBasePollingService.class);
+
+  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
   // counter for the nonce
   private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
   protected final String apiKey;
-  protected final BTCEAuthenticated btce;
+  protected final T btce;
   protected final ParamsDigest signatureCreator;
 
   /**
@@ -53,13 +61,22 @@ public class BTCEBasePollingService extends BTCEBaseService {
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCEBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public BTCEBasePollingService(Class<T> btceType, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
 
-    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchangeSpecification.getSslUri());
+    this.btce = RestProxyFactory.createProxy(btceType, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+  }
+
+  @Override
+  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    if (CURRENCY_PAIRS.isEmpty())
+      CURRENCY_PAIRS.addAll(BTCEAdapters.adaptCurrencyPairs(btce.getInfo().getPairs().keySet()));
+
+    return CURRENCY_PAIRS;
   }
 
   protected int nextNonce() {

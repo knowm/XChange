@@ -24,6 +24,7 @@ package com.xeiam.xchange.examples.kraken.trading;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Set;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -44,17 +45,10 @@ public class KrakenTradeRawSpecificDemo {
     Exchange krakenExchange = KrakenExampleUtils.createTestExchange();
 
     // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService().getRaw();
 
-    KrakenStandardOrder order =
-        KrakenStandardOrder.getLimitOrderBuilder(CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678")).withCloseOrder(KrakenOrderType.STOP_LOSS_PROFIT, "#5%", "#10") // stop at
-                                                                                                                                                                                              // -5%
-                                                                                                                                                                                              // loss,
-                                                                                                                                                                                              // take
-                                                                                                                                                                                              // profit
-                                                                                                                                                                                              // at +$10
-                                                                                                                                                                                              // price
-                                                                                                                                                                                              // increase.
+    KrakenStandardOrder order = // stop at -5% loss, take profit at +$10 price increase.
+        KrakenStandardOrder.getLimitOrderBuilder(CurrencyPair.BTC_USD, KrakenType.BUY, "100.00", new BigDecimal("2.12345678")).withCloseOrder(KrakenOrderType.STOP_LOSS_PROFIT, "#5%", "#10")
             .withValidateOnly(true) // validate only for demo purposes
             .buildOrder();
 
@@ -69,18 +63,14 @@ public class KrakenTradeRawSpecificDemo {
     Map<String, KrakenOrder> closedOrders = tradeService.getKrakenClosedOrders();
     System.out.println(closedOrders);
 
-    for (String transactionId : closedOrders.keySet()) {
-      System.out.println(tradeService.queryKrakenOrders(transactionId));
-      limitRate();
-    }
+    Set<String> closedOrderIds = closedOrders.keySet();
+    System.out.println(tradeService.queryKrakenOrders(closedOrderIds.toArray(new String[closedOrderIds.size()])));
 
     Map<String, KrakenTrade> trades = tradeService.getKrakenTradeHistory();
     System.out.println(trades);
 
-    for (String transactionId : trades.keySet()) {
-      System.out.println(tradeService.queryKrakenTrades(transactionId));
-      limitRate();
-    }
+    Set<String> tradeIds = trades.keySet();
+    System.out.println(tradeService.queryKrakenTrades(tradeIds.toArray(new String[tradeIds.size()])));
 
     Map<String, KrakenOpenPosition> openPositions = tradeService.getOpenPositions();
     System.out.println(openPositions);

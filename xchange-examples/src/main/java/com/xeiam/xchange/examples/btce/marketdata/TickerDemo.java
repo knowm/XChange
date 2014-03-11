@@ -52,6 +52,7 @@ public class TickerDemo {
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());

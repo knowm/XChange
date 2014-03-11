@@ -49,12 +49,12 @@ public class KrakenTradesDemo {
     PollingMarketDataService marketDataService = krakenExchange.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/XRP
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_XRP);
+    Trades trades = marketDataService.getTrades(CurrencyPair.LTC_USD);
     System.out.println(trades);
     System.out.println("Trades size: " + trades.getTrades().size());
 
     // Get the latest trade data for BTC/XRP for the past 12 hours (note: doesn't account for time zone differences, should use UTC instead)
-    trades = marketDataService.getTrades(CurrencyPair.BTC_XRP, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
+    trades = marketDataService.getTrades(CurrencyPair.LTC_USD, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
     System.out.println(trades);
     System.out.println("Trades size: " + trades.getTrades().size());
   }
@@ -65,16 +65,16 @@ public class KrakenTradesDemo {
     KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService().getRaw();
 
     // Get the latest trade data for BTC/XRP
-    KrakenPublicTrades trades = krakenMarketDataService.getKrakenTrades(CurrencyPair.BTC_XRP, Long.MAX_VALUE);
+    KrakenPublicTrades trades = krakenMarketDataService.getKrakenTrades(CurrencyPair.LTC_USD);
     long last = trades.getLast();
-    System.out.print(trades.getTrades());
+    System.out.println(trades.getTrades());
 
     System.out.println("Trades size: " + trades.getTrades().size());
     System.out.println("Last: " + last);
 
     // Poll for any new trades since last id
-    trades = krakenMarketDataService.getKrakenTrades(CurrencyPair.BTC_XRP, last);
-    System.out.print(trades.getTrades());
+    trades = krakenMarketDataService.getKrakenTrades(CurrencyPair.LTC_USD, last);
+    System.out.println(trades.getTrades());
 
     System.out.println("Trades size: " + trades.getTrades().size());
   }

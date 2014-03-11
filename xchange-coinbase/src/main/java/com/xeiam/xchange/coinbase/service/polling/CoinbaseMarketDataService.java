@@ -66,7 +66,7 @@ public class CoinbaseMarketDataService extends PollingMarketDataService {
   @Override
   public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws IOException {
 
-    final String currency = currencyPair.counterCurrency;
+    final String currency = currencyPair.counterSymbol;
     final CoinbasePrice buyPrice = raw.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
     final CoinbasePrice sellPrice = raw.getCoinbaseSellPrice(BigDecimal.ONE, currency);
     final CoinbaseMoney spotRate = raw.getCoinbaseSpotRate(currency);

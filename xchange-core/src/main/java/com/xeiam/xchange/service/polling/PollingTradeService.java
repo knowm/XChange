@@ -127,7 +127,7 @@ public abstract class PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<OpenOrders> getOpenOrdersAsync() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Future<OpenOrders> getOpenOrdersAsync() {
 
     class CallableAccountInfoRequest implements Callable<OpenOrders> {
 
@@ -151,7 +151,7 @@ public abstract class PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<String> placeMarketOrderAsync(final MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Future<String> placeMarketOrderAsync(final MarketOrder marketOrder) {
 
     class CallableAccountInfoRequest implements Callable<String> {
 
@@ -175,7 +175,7 @@ public abstract class PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<String> placeLimitOrderAsync(final LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Future<String> placeLimitOrderAsync(final LimitOrder limitOrder) {
 
     class CallableAccountInfoRequest implements Callable<String> {
 
@@ -199,7 +199,7 @@ public abstract class PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<Boolean> cancelOrderAsync(final String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Future<Boolean> cancelOrderAsync(final String orderId) {
 
     class CallableAccountInfoRequest implements Callable<Boolean> {
 
@@ -223,7 +223,7 @@ public abstract class PollingTradeService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Future<Trades> getTradeHistoryAsync(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Future<Trades> getTradeHistoryAsync(final Object... arguments) {
 
     class CallableAccountInfoRequest implements Callable<Trades> {
 

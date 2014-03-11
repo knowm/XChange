@@ -33,7 +33,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 
-
 public class BTERAccountJsonTests {
 
   @Test
@@ -47,11 +46,11 @@ public class BTERAccountJsonTests {
     BTERFunds funds = mapper.readValue(is, BTERFunds.class);
 
     assertThat(funds.isResult()).isTrue();
-    
+
     Map<String, BigDecimal> availableFunds = funds.getAvailableFunds();
     assertThat(availableFunds).hasSize(4);
     assertThat(availableFunds.get(Currencies.FTC)).isEqualTo("0.00003326");
-    
+
     Map<String, BigDecimal> lockedFunds = funds.getLockedFunds();
     assertThat(lockedFunds).hasSize(1);
     assertThat(lockedFunds.get(Currencies.LTC)).isEqualTo("0.384");

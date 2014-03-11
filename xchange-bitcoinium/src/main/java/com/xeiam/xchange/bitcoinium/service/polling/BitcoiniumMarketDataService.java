@@ -66,7 +66,7 @@ public class BitcoiniumMarketDataService extends PollingMarketDataService {
     raw.verify(currencyPair);
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = raw.getBitcoiniumTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BitcoiniumTicker bitcoiniumTicker = raw.getBitcoiniumTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currencyPair);
@@ -93,7 +93,7 @@ public class BitcoiniumMarketDataService extends PollingMarketDataService {
     }
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumOrderbook = raw.getBitcoiniumOrderbook(currencyPair.baseCurrency, currencyPair.counterCurrency, priceWindow);
+    BitcoiniumOrderbook bitcoiniumOrderbook = raw.getBitcoiniumOrderbook(currencyPair.baseSymbol, currencyPair.counterSymbol, priceWindow);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, currencyPair);

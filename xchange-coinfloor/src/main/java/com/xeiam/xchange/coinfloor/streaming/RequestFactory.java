@@ -1,3 +1,24 @@
+/**
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.coinfloor.streaming;
 
 import java.util.List;
@@ -128,18 +149,18 @@ public class RequestFactory {
     @SuppressWarnings("null")
     public PlaceOrderRequest(Order order) {
 
-      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().baseCurrency);
-      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counterCurrency);
+      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().baseSymbol);
+      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counterSymbol);
 
       if (order.getType().equals(OrderType.ASK)) {
-        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseCurrency, order.getTradableAmount());
+        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
       }
       else {
-        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseCurrency, order.getTradableAmount());
+        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
       }
 
       if (order instanceof LimitOrder) {
-        this.price = CoinfloorUtils.scalePriceToInt(order.getCurrencyPair().baseCurrency, order.getCurrencyPair().counterCurrency, ((LimitOrder) order).getLimitPrice());
+        this.price = CoinfloorUtils.scalePriceToInt(order.getCurrencyPair().baseSymbol, order.getCurrencyPair().counterSymbol, ((LimitOrder) order).getLimitPrice());
       }
       else {
         this.price = (Integer) null;
@@ -249,14 +270,14 @@ public class RequestFactory {
 
     public EstimateMarketOrderRequest(MarketOrder order) {
 
-      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().baseCurrency);
-      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counterCurrency);
+      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().baseSymbol);
+      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counterSymbol);
 
       if (order.getType().equals(OrderType.ASK)) {
-        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseCurrency, order.getTradableAmount());
+        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
       }
       else {
-        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseCurrency, order.getTradableAmount());
+        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
       }
 
     }

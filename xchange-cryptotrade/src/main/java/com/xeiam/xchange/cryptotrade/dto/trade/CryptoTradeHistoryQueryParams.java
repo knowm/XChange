@@ -193,13 +193,13 @@ public class CryptoTradeHistoryQueryParams {
       this.currencyPair = CryptoTradeUtils.getCryptoTradeCurrencyPair(currencyPair);
       return this;
     }
-    
+
     public CryptoTradeQueryParamsBuilder withCurrencyPair(String tradeCurrency, String priceCurrency) {
 
       this.currencyPair = CryptoTradeUtils.getCryptoTradeCurrencyPair(tradeCurrency, priceCurrency);
       return this;
     }
-    
+
     @Override
     public String toString() {
 

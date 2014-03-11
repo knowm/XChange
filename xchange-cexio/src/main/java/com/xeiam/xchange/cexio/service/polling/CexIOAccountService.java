@@ -69,7 +69,6 @@ public class CexIOAccountService extends PollingAccountService {
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
-
   }
 
   @Override

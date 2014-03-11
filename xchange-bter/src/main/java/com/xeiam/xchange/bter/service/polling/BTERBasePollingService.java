@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.bter.service.polling;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import si.mazi.rescu.ParamsDigest;
@@ -34,7 +35,7 @@ import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 
-public class BTERBasePollingService <T extends BTER> extends BaseExchangeService {
+public class BTERBasePollingService<T extends BTER> extends BaseExchangeService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
@@ -42,7 +43,7 @@ public class BTERBasePollingService <T extends BTER> extends BaseExchangeService
   protected final T bter;
   protected final ParamsDigest signatureCreator;
   private Collection<CurrencyPair> pairs;
-  
+
   public BTERBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -61,14 +62,14 @@ public class BTERBasePollingService <T extends BTER> extends BaseExchangeService
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() {
-    
+  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+
     if (pairs == null)
       pairs = bter.getPairs().getPairs();
-    
+
     return pairs;
   }
- 
+
   protected <R extends BTERBaseResponse> R handleResponse(final R response) {
 
     if (!response.isResult())

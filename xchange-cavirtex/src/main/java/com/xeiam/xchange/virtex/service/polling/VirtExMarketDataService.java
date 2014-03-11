@@ -67,7 +67,7 @@ public class VirtExMarketDataService extends PollingMarketDataService {
     raw.verify(currencyPair);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(raw.getVirtExTicker(currencyPair.baseCurrency), currencyPair);
+    return VirtExAdapters.adaptTicker(raw.getVirtExTicker(currencyPair.baseSymbol), currencyPair);
   }
 
   @Override
@@ -76,11 +76,11 @@ public class VirtExMarketDataService extends PollingMarketDataService {
     raw.verify(currencyPair);
 
     // Request data
-    VirtExDepth virtExDepth = raw.getVirtExOrderBook(currencyPair.counterCurrency);
+    VirtExDepth virtExDepth = raw.getVirtExOrderBook(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currencyPair.counterCurrency, "ask", "");
-    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currencyPair.counterCurrency, "bid", "");
+    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currencyPair.counterSymbol, "ask", "");
+    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currencyPair.counterSymbol, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -91,7 +91,7 @@ public class VirtExMarketDataService extends PollingMarketDataService {
     raw.verify(currencyPair);
 
     // Request data
-    VirtExTrade[] virtExTrades = raw.getVirtExTrades(currencyPair.counterCurrency);
+    VirtExTrade[] virtExTrades = raw.getVirtExTrades(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTrades(virtExTrades, currencyPair);

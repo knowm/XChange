@@ -22,9 +22,10 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
@@ -56,8 +57,7 @@ public class BTERPollingMarketDataService extends PollingMarketDataService {
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     raw.verify(currencyPair);
-
-    BTERTicker ticker = raw.getBTERTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BTERTicker ticker = raw.getBTERTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return BTERAdapters.adaptTicker(currencyPair, ticker);
   }
@@ -67,7 +67,7 @@ public class BTERPollingMarketDataService extends PollingMarketDataService {
 
     raw.verify(currencyPair);
 
-    BTERDepth bterDepth = raw.getBTEROrderBook(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BTERDepth bterDepth = raw.getBTEROrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return BTERAdapters.adaptOrderBook(bterDepth, currencyPair);
   }
@@ -76,8 +76,8 @@ public class BTERPollingMarketDataService extends PollingMarketDataService {
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     BTERTradeHistory tradeHistory =
-        (args != null && args.length > 0 && args[0] != null && args[0] instanceof String) ? raw.getBTERTradeHistorySince(currencyPair.baseCurrency, currencyPair.counterCurrency, (String) args[0])
-            : raw.getBTERTradeHistory(currencyPair.baseCurrency, currencyPair.counterCurrency);
+        (args != null && args.length > 0 && args[0] != null && args[0] instanceof String) ? raw.getBTERTradeHistorySince(currencyPair.baseSymbol, currencyPair.counterSymbol, (String) args[0]) : raw
+            .getBTERTradeHistory(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return BTERAdapters.adaptTrades(tradeHistory, currencyPair);
   }
@@ -85,7 +85,9 @@ public class BTERPollingMarketDataService extends PollingMarketDataService {
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    currencyPairs.addAll(raw.getExchangeSymbols());
+    return new ExchangeInfo(currencyPairs);
   }
 
   @Override

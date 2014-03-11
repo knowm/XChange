@@ -26,7 +26,6 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERExchange;
 
-
 public class BTERDemoUtils {
 
   public static Exchange createExchange() {

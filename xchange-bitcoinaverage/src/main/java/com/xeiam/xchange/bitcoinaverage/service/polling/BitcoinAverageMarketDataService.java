@@ -64,7 +64,7 @@ public class BitcoinAverageMarketDataService extends PollingMarketDataService {
     raw.verify(currencyPair);
 
     // Request data
-    BitcoinAverageTicker bitcoinAverageTicker = raw.getBitcoinAverageTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    BitcoinAverageTicker bitcoinAverageTicker = raw.getBitcoinAverageTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcoinAverageAdapters.adaptTicker(bitcoinAverageTicker, currencyPair);

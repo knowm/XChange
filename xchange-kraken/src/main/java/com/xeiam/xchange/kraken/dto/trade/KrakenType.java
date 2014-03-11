@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.kraken.dto.trade.KrakenType.KrakenTypeDeserializer;
 
 @JsonDeserialize(using = KrakenTypeDeserializer.class)
@@ -48,6 +49,11 @@ public enum KrakenType {
   public static KrakenType fromString(final String typeString) {
 
     return fromString.get(typeString.toLowerCase());
+  }
+
+  public static KrakenType fromOrderType(OrderType type) {
+
+    return type == OrderType.ASK ? KrakenType.SELL : KrakenType.BUY;
   }
 
   private static final Map<String, KrakenType> fromString = new HashMap<String, KrakenType>();

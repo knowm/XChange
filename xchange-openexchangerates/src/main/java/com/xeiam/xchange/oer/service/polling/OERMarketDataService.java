@@ -66,7 +66,7 @@ public class OERMarketDataService extends PollingMarketDataService {
     // Use reflection to get at data.
     Method method = null;
     try {
-      method = OERRates.class.getMethod("get" + currencyPair.baseCurrency, null);
+      method = OERRates.class.getMethod("get" + currencyPair.baseSymbol, null);
     } catch (SecurityException e) {
       throw new ExchangeException("Problem getting exchange rate!", e);
     } catch (NoSuchMethodException e) {

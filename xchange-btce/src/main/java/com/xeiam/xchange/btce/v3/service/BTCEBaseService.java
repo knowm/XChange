@@ -21,59 +21,13 @@
  */
 package com.xeiam.xchange.btce.v3.service;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * @author Matija Mazi
  */
-public class BTCEBaseService extends BaseExchangeService {
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.BTC_RUR,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.LTC_BTC,
-
-  CurrencyPair.LTC_USD,
-
-  CurrencyPair.LTC_RUR,
-
-  CurrencyPair.LTC_EUR,
-
-  CurrencyPair.NMC_BTC,
-
-  CurrencyPair.NMC_USD,
-
-  CurrencyPair.USD_RUR,
-
-  CurrencyPair.EUR_USD,
-
-  CurrencyPair.EUR_RUR,
-
-  CurrencyPair.NVC_BTC,
-
-  CurrencyPair.NVC_USD,
-
-  CurrencyPair.TRC_BTC,
-
-  CurrencyPair.PPC_BTC,
-
-  CurrencyPair.PPC_USD,
-
-  CurrencyPair.FTC_BTC,
-
-  CurrencyPair.XPM_BTC
-
-  );
+public abstract class BTCEBaseService extends BaseExchangeService {
 
   /**
    * Constructor
@@ -84,11 +38,5 @@ public class BTCEBaseService extends BaseExchangeService {
 
     super(exchangeSpecification);
 
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CURRENCY_PAIRS;
   }
 }
