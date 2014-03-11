@@ -67,8 +67,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
     for (CurrencyPair currencyPair : getExchangeSymbols()) {
 
-      String tradableIdentifier = currencyPair.baseCurrency;
-      String transactionCurrency = currencyPair.counterCurrency;
+      String tradableIdentifier = currencyPair.baseSymbol;
+      String transactionCurrency = currencyPair.counterSymbol;
 
       CexIOOrder[] openOrders = cexIOAuthenticated.getOpenOrders(tradableIdentifier, transactionCurrency, exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
 
@@ -84,8 +84,8 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
   public CexIOOrder placeCexIOLimitOrder(LimitOrder limitOrder) throws IOException {
 
     CexIOOrder order =
-        cexIOAuthenticated.placeOrder(limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency, exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(), (limitOrder
-            .getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+        cexIOAuthenticated.placeOrder(limitOrder.getCurrencyPair().baseSymbol, limitOrder.getCurrencyPair().counterSymbol, exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(),
+            (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
     if (order.getErrorMessage() != null) {
       throw new ExchangeException(order.getErrorMessage());
     }

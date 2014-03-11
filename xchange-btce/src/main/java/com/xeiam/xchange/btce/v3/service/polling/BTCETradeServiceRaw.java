@@ -45,7 +45,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
 
   /**
    * Constructor
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public BTCETradeServiceRaw(ExchangeSpecification exchangeSpecification) {
@@ -54,7 +54,6 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
   }
 
   /**
-   *
    * @param pair The pair to display the orders e.g. btc_usd (null: all pairs)
    * @return Active orders map
    * @throws IOException
@@ -70,7 +69,6 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
   }
 
   /**
-   *
    * @param order BTCEOrder object
    * @return BTCEPlaceOrderResult object
    * @throws IOException
@@ -92,7 +90,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
 
   /**
    * All parameters are nullable
-   *
+   * 
    * @param from The number of the transactions to start displaying with; default 0
    * @param count The number of transactions for displaying; default 1000
    * @param fromId The ID of the transaction to start displaying with; default 0
@@ -103,8 +101,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
    * @param pair The pair to show the transaction; example btc_usd; all pairs
    * @return {success=1, return={tradeId={pair=btc_usd, type=sell, amount=1, rate=1, orderId=1234, timestamp=1234}}}
    */
-  public Map<Long, BTCETradeHistoryResult> getBTCETradeHistory(Long from, Long count, Long fromId, Long endId,
-      BTCEAuthenticated.SortOrder order, Long since, Long end, String pair) throws IOException {
+  public Map<Long, BTCETradeHistoryResult> getBTCETradeHistory(Long from, Long count, Long fromId, Long endId, BTCEAuthenticated.SortOrder order, Long since, Long end, String pair) throws IOException {
 
     BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), from, count, fromId, endId, order, since, end, pair);
     checkResult(btceTradeHistory);

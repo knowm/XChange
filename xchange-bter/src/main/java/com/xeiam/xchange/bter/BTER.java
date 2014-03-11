@@ -46,7 +46,7 @@ public interface BTER {
   @GET
   @Path("tickers")
   BTERTickers getTickers() throws IOException;
-  
+
   @GET
   @Path("ticker/{ident}_{currency}")
   BTERTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
@@ -54,7 +54,7 @@ public interface BTER {
   @GET
   @Path("depth/{ident}_{currency}")
   BTERDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
-  
+
   @GET
   @Path("trade/{ident}_{currency}")
   BTERTradeHistory getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;

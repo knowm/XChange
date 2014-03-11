@@ -36,7 +36,7 @@ import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType.CryptTradeOrderTyp
 public enum CryptoTradeOrderType {
 
   Buy, Sell;
-  
+
   static class CryptTradeOrderTypeDeserializer extends JsonDeserializer<CryptoTradeOrderType> {
 
     @Override

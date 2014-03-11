@@ -96,8 +96,8 @@ public class JustcoinTradesTest {
     assertThat(trade.getPrice()).isEqualTo(averagePrice);
     assertThat(trade.getTimestamp()).isEqualTo(orderCreatedAt);
     assertThat(trade.getTradableAmount()).isEqualTo(amount);
-    assertThat(trade.getCurrencyPair().baseCurrency).isEqualTo(tradableIdentifier);
-    assertThat(trade.getCurrencyPair().counterCurrency).isEqualTo(transactionCurrency);
+    assertThat(trade.getCurrencyPair().baseSymbol).isEqualTo(tradableIdentifier);
+    assertThat(trade.getCurrencyPair().counterSymbol).isEqualTo(transactionCurrency);
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
   }
 }

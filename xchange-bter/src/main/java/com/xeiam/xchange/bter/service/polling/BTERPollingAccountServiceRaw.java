@@ -29,7 +29,6 @@ import com.xeiam.xchange.bter.dto.account.BTERFunds;
 
 public class BTERPollingAccountServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
 
-
   /**
    * Constructor
    * 

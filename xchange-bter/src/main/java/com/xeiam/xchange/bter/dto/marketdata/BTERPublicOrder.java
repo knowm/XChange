@@ -38,9 +38,9 @@ public class BTERPublicOrder {
 
   private final BigDecimal price;
   private final BigDecimal amount;
-  
+
   private BTERPublicOrder(final BigDecimal price, final BigDecimal amount) {
-    
+
     this.price = price;
     this.amount = amount;
   }
@@ -60,7 +60,7 @@ public class BTERPublicOrder {
 
     return "BTERPublicOrder [price=" + price + ", amount=" + amount + "]";
   }
-  
+
   static class BTERPublicOrderDeserializer extends JsonDeserializer<BTERPublicOrder> {
 
     @Override
@@ -68,10 +68,10 @@ public class BTERPublicOrder {
 
       final ObjectCodec oc = jp.getCodec();
       final JsonNode tickerNode = oc.readTree(jp);
-      
+
       final BigDecimal price = new BigDecimal(tickerNode.path(0).asText());
       final BigDecimal amount = new BigDecimal(tickerNode.path(1).asText());
-      
+
       return new BTERPublicOrder(price, amount);
     }
 

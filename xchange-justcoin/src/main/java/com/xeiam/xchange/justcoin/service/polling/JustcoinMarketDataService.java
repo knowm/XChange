@@ -56,7 +56,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    final JustcoinDepth justcoinDepth = getMarketDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    final JustcoinDepth justcoinDepth = getMarketDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return JustcoinAdapters.adaptOrderBook(currencyPair, justcoinDepth);
   }
@@ -64,7 +64,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public ExchangeInfo getExchangeInfo() throws NotAvailableFromExchangeException {
 
-	  return new ExchangeInfo(super.getExchangeSymbols());
+    return new ExchangeInfo(super.getExchangeSymbols());
   }
 
   @Override

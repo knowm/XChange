@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.virtex;
 
-
 /**
  * A central place for shared VirtEx properties
  */

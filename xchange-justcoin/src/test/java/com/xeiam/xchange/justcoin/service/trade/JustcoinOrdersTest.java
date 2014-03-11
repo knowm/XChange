@@ -69,8 +69,7 @@ public class JustcoinOrdersTest {
       e.printStackTrace();
     }
     justcoinOrder =
-        new JustcoinOrder(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "ask", price, amount, BigDecimal.valueOf(0.02000), BigDecimal.ZERO, BigDecimal.ZERO,
-            orderCreatedAt);
+        new JustcoinOrder(id, JustcoinUtils.getApiMarket(tradableIdentifier, transactionCurrency), "ask", price, amount, BigDecimal.valueOf(0.02000), BigDecimal.ZERO, BigDecimal.ZERO, orderCreatedAt);
   }
 
   @Test
@@ -96,8 +95,8 @@ public class JustcoinOrdersTest {
     assertThat(limitOrder.getLimitPrice()).isEqualTo(price);
     assertThat(limitOrder.getTimestamp()).isEqualTo(orderCreatedAt);
     assertThat(limitOrder.getTradableAmount()).isEqualTo(amount);
-    assertThat(limitOrder.getCurrencyPair().baseCurrency).isEqualTo(tradableIdentifier);
-    assertThat(limitOrder.getCurrencyPair().counterCurrency).isEqualTo(transactionCurrency);
+    assertThat(limitOrder.getCurrencyPair().baseSymbol).isEqualTo(tradableIdentifier);
+    assertThat(limitOrder.getCurrencyPair().counterSymbol).isEqualTo(transactionCurrency);
     assertThat(limitOrder.getType()).isEqualTo(OrderType.ASK);
   }
 }

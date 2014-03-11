@@ -64,18 +64,18 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER
 
     return handleResponse(bterDepth);
   }
-  
+
   public BTERTradeHistory getBTERTradeHistory(String tradeableIdentifier, String currency) throws IOException {
-    
+
     BTERTradeHistory tradeHistory = bter.getTradeHistory(tradeableIdentifier, currency);
-    
+
     return handleResponse(tradeHistory);
   }
 
   public BTERTradeHistory getBTERTradeHistorySince(String tradeableIdentifier, String currency, String tradeId) throws IOException {
-    
+
     BTERTradeHistory tradeHistory = bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
-    
+
     return handleResponse(tradeHistory);
   }
 }

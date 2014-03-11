@@ -53,14 +53,14 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {
 
-    CexIOTicker cexIOTicker = cexio.getTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    CexIOTicker cexIOTicker = cexio.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return cexIOTicker;
   }
 
   public CexIODepth getCexIOOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    CexIODepth cexIODepth = cexio.getDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    CexIODepth cexIODepth = cexio.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return cexIODepth;
   }
@@ -70,10 +70,10 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
     CexIOTrade[] trades;
 
     if (since != null) {
-      trades = cexio.getTradesSince(currencyPair.baseCurrency, currencyPair.counterCurrency, since);
+      trades = cexio.getTradesSince(currencyPair.baseSymbol, currencyPair.counterSymbol, since);
     }
     else { // default to full available trade history
-      trades = cexio.getTrades(currencyPair.baseCurrency, currencyPair.counterCurrency);
+      trades = cexio.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol);
     }
 
     return trades;

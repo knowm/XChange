@@ -51,7 +51,7 @@ public class CoinbaseMerchantDemo {
       subscription = accountService.getCoinbaseSubscription(subscription.getId());
       System.out.println(subscription);
     }
-    
+
     CoinbaseOrders orders = accountService.getCoinbaseOrders();
     System.out.println(orders);
 

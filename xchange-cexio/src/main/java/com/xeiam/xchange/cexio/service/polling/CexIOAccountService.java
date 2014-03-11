@@ -39,34 +39,33 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 
 public class CexIOAccountService extends CexIOAccountServiceRaw implements PollingAccountService {
 
-	/**
-	 * Initialize common properties from the exchange specification
-	 * 
-	 * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
-	 */
-	public CexIOAccountService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Initialize common properties from the exchange specification
+   * 
+   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   */
+  public CexIOAccountService(ExchangeSpecification exchangeSpecification) {
 
-		super(exchangeSpecification);
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public AccountInfo getAccountInfo() throws IOException {
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
 
-		return CexIOAdapters.adaptAccountInfo(getCexIOAccountInfo(), exchangeSpecification.getUserName());
-	}
+    return CexIOAdapters.adaptAccountInfo(getCexIOAccountInfo(), exchangeSpecification.getUserName());
+  }
 
-	@Override
-	public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  @Override
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
-		throw new NotAvailableFromExchangeException();
-	}
+    throw new NotAvailableFromExchangeException();
+  }
 
-	@Override
-	public String withdrawFunds(String currency, BigDecimal amount, String address)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotAvailableFromExchangeException();
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	}
+    throw new NotAvailableFromExchangeException();
+
+  }
 
 }

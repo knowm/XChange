@@ -37,7 +37,7 @@ public final class BitfinexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.baseCurrency.toLowerCase() + currencyPair.counterCurrency.toLowerCase();
+    return currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
   }
 
 }

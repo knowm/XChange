@@ -52,8 +52,7 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
 
     String pair = CryptoTradeUtils.getCryptoTradeCurrencyPair(limitOrder.getCurrencyPair());
     CryptoTradeOrderType type = limitOrder.getType() == Order.OrderType.BID ? CryptoTradeOrderType.Buy : CryptoTradeOrderType.Sell;
-    CryptoTradePlaceOrderReturn cryptoTradePlaceOrderReturn =
-        cryptoTradeProxy.trade(pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), apiKey, signatureCreator, nextNonce());
+    CryptoTradePlaceOrderReturn cryptoTradePlaceOrderReturn = cryptoTradeProxy.trade(pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), apiKey, signatureCreator, nextNonce());
 
     return handleResponse(cryptoTradePlaceOrderReturn);
   }

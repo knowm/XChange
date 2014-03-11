@@ -96,6 +96,6 @@ public class JustcoinTickerTest {
     assertThat(ticker.getAsk()).isEqualTo(ask);
     assertThat(ticker.getVolume()).isEqualTo(volume);
     assertThat(ticker.getTimestamp()).isNull();
-    assertThat(ticker.getCurrencyPair().baseCurrency).isEqualTo(tradableIdentifier);
+    assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo(tradableIdentifier);
   }
 }

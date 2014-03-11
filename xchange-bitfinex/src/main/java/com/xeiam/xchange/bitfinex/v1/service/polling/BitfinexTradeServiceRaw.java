@@ -55,7 +55,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
 
   public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, boolean onMargin) throws IOException {
 
-    String pair = String.format("%s%s", limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency).toLowerCase();
+    String pair = String.format("%s%s", limitOrder.getCurrencyPair().baseSymbol, limitOrder.getCurrencyPair().counterSymbol).toLowerCase();
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
     String orderType = onMargin ? "limit" : "exchange limit";
     BitfinexOrderStatusResponse newOrder =

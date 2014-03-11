@@ -50,11 +50,11 @@ public class CryptoTradeMarketDataJsonTests {
     assertThat(ticker.getVolumePriceCurrency()).isEqualTo("693.8199");
     assertThat(ticker.getMinAsk()).isEqualTo("129.1");
     assertThat(ticker.getMaxBid()).isEqualTo("128");
-    
+
     assertThat(ticker.getStatus()).isEqualTo("success");
     assertThat(ticker.getError()).isEmpty();
   }
-  
+
   @Test
   public void testDeserializeDepth() throws IOException {
 
@@ -64,10 +64,10 @@ public class CryptoTradeMarketDataJsonTests {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptoTradeDepth depth = mapper.readValue(is, CryptoTradeDepth.class);
-    
+
     List<CryptoTradePublicOrder> asks = depth.getAsks();
     assertThat(asks.size()).isEqualTo(3);
-    
+
     CryptoTradePublicOrder ask = asks.get(0);
     assertThat(ask.getPrice()).isEqualTo("102");
     assertThat(ask.getAmount()).isEqualTo("0.81718312");

@@ -66,7 +66,6 @@ public interface BitfinexAuthenticated {
   @Path("orders")
   BitfinexOrderStatusResponse[] activeOrders(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNonceOnlyRequest nonceOnlyRequest) throws IOException;
-  
 
   @POST
   @Path("order/status")

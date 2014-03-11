@@ -46,7 +46,7 @@ public class BTERCurrencyPairs {
 
     this.pairs = pairs;
   }
-  
+
   public Collection<CurrencyPair> getPairs() {
 
     return pairs;

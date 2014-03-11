@@ -32,14 +32,14 @@ public class BTERTradeHistory extends BTERBaseResponse {
 
   private final List<BTERPublicTrade> trades;
   private final String elapsed;
-  
+
   private BTERTradeHistory(@JsonProperty("data") List<BTERPublicTrade> trades, @JsonProperty("result") boolean result, @JsonProperty("elapsed") String elapsed) {
-    
+
     super(result, null);
     this.trades = trades;
     this.elapsed = elapsed;
   }
-  
+
   public List<BTERPublicTrade> getTrades() {
 
     return trades;
