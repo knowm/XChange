@@ -19,43 +19,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.service;
+package com.xeiam.xchange.justcoin.service.polling;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.justcoin.Justcoin;
+import com.xeiam.xchange.justcoin.JustcoinAdapters;
+import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.utils.AuthUtils;
 
-/**
- * @author timmolter
- */
-public class JustcoinBaseService extends BaseExchangeService {
+public class JustcoinBasePollingService<T extends Justcoin> extends BaseExchangeService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
-
-  static {
-
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_LTC);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_NOK);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_XRP);
-  }
+  protected final T justcoin;
+  private final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
 
   /**
    * Constructor
    * 
-   * @param exchangeSpecification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public JustcoinBaseService(ExchangeSpecification exchangeSpecification) {
+  public JustcoinBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.justcoin = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    if (currencyPairs.isEmpty()) {
+      for (final JustcoinTicker ticker : justcoin.getTickers()) {
+        final CurrencyPair currencyPair = JustcoinAdapters.adaptCurrencyPair(ticker.getId());
+        currencyPairs.add(currencyPair);
+      }
+    }
+
+    return currencyPairs;
+  }
+
+  protected String getBasicAuthentication() {
+
+    return AuthUtils.getBasicAuth(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 }

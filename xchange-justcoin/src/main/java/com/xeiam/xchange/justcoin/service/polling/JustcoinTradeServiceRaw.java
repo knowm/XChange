@@ -23,23 +23,18 @@ package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.justcoin.JustcoinAuthenticated;
+import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
-import com.xeiam.xchange.justcoin.service.JustcoinBaseService;
-import com.xeiam.xchange.utils.AuthUtils;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinTradeServiceRaw extends JustcoinBaseService {
-
-  private JustcoinAuthenticated justcoinAuthenticated;
+public class JustcoinTradeServiceRaw extends JustcoinBasePollingService<JustcoinAuthenticated> {
 
   /**
    * Constructor
@@ -48,42 +43,34 @@ public class JustcoinTradeServiceRaw extends JustcoinBaseService {
    */
   public JustcoinTradeServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.justcoinAuthenticated = RestProxyFactory.createProxy(JustcoinAuthenticated.class, exchangeSpecification.getSslUri());
+    super(JustcoinAuthenticated.class, exchangeSpecification);
   }
 
   public JustcoinOrder[] getOrders() throws IOException {
 
-    return justcoinAuthenticated.getOrders(getBasicAuthentication(), exchangeSpecification.getApiKey());
+    return justcoin.getOrders(getBasicAuthentication(), exchangeSpecification.getApiKey());
   }
 
   public JustcoinTrade[] getOrderHistory() throws IOException {
 
-    return justcoinAuthenticated.getOrderHistory(getBasicAuthentication(), exchangeSpecification.getApiKey());
+    return justcoin.getOrderHistory(getBasicAuthentication(), exchangeSpecification.getApiKey());
   }
 
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    final String market = marketOrder.getCurrencyPair().toString();
-    return justcoinAuthenticated
-        .createMarketOrder(market, marketOrder.getType().toString().toLowerCase(), marketOrder.getTradableAmount(), getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
+    return justcoin.createMarketOrder(JustcoinUtils.getApiMarket(marketOrder.getCurrencyPair()), marketOrder.getType().toString().toLowerCase(), marketOrder.getTradableAmount(),
+        getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    final String market = limitOrder.getCurrencyPair().toString();
-    return justcoinAuthenticated.createLimitOrder(market, limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), getBasicAuthentication(),
-        exchangeSpecification.getApiKey()).getId();
+    return justcoin.createLimitOrder(JustcoinUtils.getApiMarket(limitOrder.getCurrencyPair()), limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice(),
+        limitOrder.getTradableAmount(), getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
   public boolean cancelOrder(String orderId) throws IOException {
 
-    justcoinAuthenticated.cancelOrder(orderId, getBasicAuthentication(), exchangeSpecification.getApiKey());
+    justcoin.cancelOrder(orderId, getBasicAuthentication(), exchangeSpecification.getApiKey());
     return true;
-  }
-
-  private String getBasicAuthentication() {
-
-    return AuthUtils.getBasicAuth(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
 }

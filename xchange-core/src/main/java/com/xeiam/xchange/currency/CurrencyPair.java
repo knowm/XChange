@@ -123,6 +123,7 @@ public class CurrencyPair {
   // not real currencies, but tradable commodities (GH/s)
   public static final CurrencyPair GHs_BTC = new CurrencyPair(Currencies.GHs, Currencies.BTC);
   public static final CurrencyPair GHs_NMC = new CurrencyPair(Currencies.GHs, Currencies.NMC);
+  
   public static final CurrencyPair CNC_BTC = new CurrencyPair(Currencies.CNC, Currencies.BTC);
 
   public static final CurrencyPair WDC_USD = new CurrencyPair(Currencies.WDC, Currencies.USD);

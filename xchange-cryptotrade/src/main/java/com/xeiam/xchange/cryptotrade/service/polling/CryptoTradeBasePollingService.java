@@ -89,7 +89,7 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(CurrencyPair.PPC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.FTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);    
+    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.WDC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);

@@ -23,20 +23,15 @@ package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.justcoin.Justcoin;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
-import com.xeiam.xchange.justcoin.service.JustcoinBaseService;
 
 /**
  * @author jamespedwards42
  */
-public class JustcoinMarketDataServiceRaw extends JustcoinBaseService {
-
-  private final Justcoin justcoin;
+public class JustcoinMarketDataServiceRaw extends JustcoinBasePollingService<Justcoin> {
 
   /**
    * Constructor
@@ -45,8 +40,7 @@ public class JustcoinMarketDataServiceRaw extends JustcoinBaseService {
    */
   public JustcoinMarketDataServiceRaw(final ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.justcoin = RestProxyFactory.createProxy(Justcoin.class, exchangeSpecification.getSslUri());
+    super(Justcoin.class, exchangeSpecification);
   }
 
   public JustcoinTicker[] getTickers() throws IOException {

@@ -19,42 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.service.polling;
+package com.xeiam.xchange.examples.justcoin;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.justcoin.JustcoinAdapters;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.justcoin.JustcoinExchange;
 
-/**
- * @author jamespedwards42
- */
-public class JustcoinAccountService extends JustcoinAccountServiceRaw implements PollingAccountService {
+public class JustcoinDemoUtils {
 
-  public JustcoinAccountService(final ExchangeSpecification exchangeSpecification) {
+  public static Exchange createExchange() {
 
-    super(exchangeSpecification);
-  }
+    ExchangeSpecification exSpec = new ExchangeSpecification(JustcoinExchange.class);
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
+    // API key needed for access rights to specific API calls
+    exSpec.setApiKey("");
 
-    return JustcoinAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), super.getBalances());
-  }
+    // User and password needed for session authentication
+    exSpec.setUserName("");
+    exSpec.setPassword("");
 
-  @Override
-  public String withdrawFunds(final String currency, final BigDecimal amount, final String address) throws ExchangeException, IOException {
-
-    return super.withdrawFunds(currency, amount, address);
-  }
-
-  @Override
-  public String requestDepositAddress(final String currency, final String... arguments) throws IOException {
-
-    return super.requestDepositAddress(currency);
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }
