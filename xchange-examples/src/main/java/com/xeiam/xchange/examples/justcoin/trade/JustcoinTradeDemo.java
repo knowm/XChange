@@ -26,12 +26,11 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.justcoin.JustcoinExchange;
+import com.xeiam.xchange.examples.justcoin.JustcoinDemoUtils;
 import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
 import com.xeiam.xchange.justcoin.service.polling.JustcoinTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -40,13 +39,7 @@ public class JustcoinTradeDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange justcoinExchange = ExchangeFactory.INSTANCE.createExchange(JustcoinExchange.class.getName());
-
-    // API key needed for access rights to specific API calls
-    justcoinExchange.getExchangeSpecification().setApiKey("Justcoin API Key");
-    // User and password needed for session authentication
-    justcoinExchange.getExchangeSpecification().setUserName("user");
-    justcoinExchange.getExchangeSpecification().setPassword("pass");
+    Exchange justcoinExchange = JustcoinDemoUtils.createExchange();
 
     generic(justcoinExchange);
     raw(justcoinExchange);

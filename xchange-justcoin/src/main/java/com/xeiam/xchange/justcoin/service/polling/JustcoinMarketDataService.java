@@ -22,6 +22,8 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -48,7 +50,7 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    final JustcoinTicker[] justcoinTickers = getTickers();
+    final JustcoinTicker[] justcoinTickers = super.getTickers();
 
     return JustcoinAdapters.adaptTicker(justcoinTickers, currencyPair);
   }
@@ -56,15 +58,17 @@ public class JustcoinMarketDataService extends JustcoinMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    final JustcoinDepth justcoinDepth = getMarketDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    final JustcoinDepth justcoinDepth = super.getMarketDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return JustcoinAdapters.adaptOrderBook(currencyPair, justcoinDepth);
   }
 
   @Override
-  public ExchangeInfo getExchangeInfo() throws NotAvailableFromExchangeException {
+  public ExchangeInfo getExchangeInfo() throws IOException {
 
-    return new ExchangeInfo(super.getExchangeSymbols());
+    final List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    currencyPairs.addAll(super.getExchangeSymbols());
+    return new ExchangeInfo(currencyPairs);
   }
 
   @Override

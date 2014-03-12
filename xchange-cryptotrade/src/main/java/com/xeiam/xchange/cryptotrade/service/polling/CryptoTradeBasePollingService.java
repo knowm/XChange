@@ -75,7 +75,6 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
   public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
   static {
-
     CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
     CURRENCY_PAIRS.add(CurrencyPair.LTC_USD);
@@ -91,9 +90,14 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(CurrencyPair.FTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.CNC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.WDC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.DGC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.UTC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.UTC_EUR);
+    CURRENCY_PAIRS.add(CurrencyPair.UTC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.UTC_LTC);
   }
 
   @Override
