@@ -26,10 +26,9 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.justcoin.JustcoinExchange;
+import com.xeiam.xchange.examples.justcoin.JustcoinDemoUtils;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.service.polling.JustcoinAccountServiceRaw;
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -38,14 +37,7 @@ public class JustcoinAccountDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get Justcoin exchange API using default settings
-    Exchange justcoinExchange = ExchangeFactory.INSTANCE.createExchange(JustcoinExchange.class.getName());
-
-    // API key needed for access rights to specific API calls
-    justcoinExchange.getExchangeSpecification().setApiKey("Justcoin API Key");
-    // User and password needed for session authentication
-    justcoinExchange.getExchangeSpecification().setUserName("user");
-    justcoinExchange.getExchangeSpecification().setPassword("pass");
+    Exchange justcoinExchange = JustcoinDemoUtils.createExchange();
 
     generic(justcoinExchange);
     raw(justcoinExchange);

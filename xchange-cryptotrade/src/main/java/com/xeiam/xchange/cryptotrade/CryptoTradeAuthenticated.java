@@ -43,44 +43,43 @@ import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrde
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
 
-@Path("api/1/private")
+@Path("api/1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptoTradeAuthenticated extends CryptoTrade {
 
   @POST
-  @Path("getinfo")
+  @Path("private/getinfo")
   CryptoTradeAccountInfo getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
   @POST
-  @Path("trade")
+  @Path("private/trade")
   CryptoTradePlaceOrderReturn trade(@FormParam("pair") String pair, @FormParam("type") CryptoTradeOrderType type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount,
       @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
   @POST
-  @Path("cancelorder")
+  @Path("private/cancelorder")
   CryptoTradeCancelOrderReturn cancelOrder(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
   @POST
-  @Path("orderinfo")
+  @Path("private/orderinfo")
   CryptoTradeOrder getOrderInfo(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
   @POST
-  @Path("tradeshistory")
-  CryptoTradeTrades getTradeHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate,
-      @FormParam("count") int count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey,
+  @Path("private/tradeshistory")
+  CryptoTradeTrades getTradeHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate, 
+      @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey, 
       @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
-
+ 
   @POST
-  @Path("ordershistory")
-  CryptoTradeOrders getOrderHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate,
-      @FormParam("count") int count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey,
+  @Path("private/ordershistory")
+  CryptoTradeOrders getOrderHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate, 
+      @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey, 
       @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
-
+ 
   @POST
-  @Path("transactions")
-  CryptoTradeTransactions getTransactionHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate,
-      @FormParam("count") int count, @FormParam("order") CryptoTradeOrdering ordering, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
-      @FormParam("nonce") int nonce);
+  @Path("private/transactions")
+  CryptoTradeTransactions getTransactionHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate, 
+      @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce);
 
 }

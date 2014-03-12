@@ -23,7 +23,7 @@ package com.xeiam.xchange.examples.justcoin.marketdata;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -70,7 +70,7 @@ public class JustcoinMarketDataDemo {
     // Interested in the public polling market data feed (no authentication)
     JustcoinMarketDataServiceRaw justcoinSpecificMarketDataService = (JustcoinMarketDataServiceRaw) justcoinExchange.getPollingMarketDataService();
 
-    List<CurrencyPair> currencyPairs = justcoinSpecificMarketDataService.getExchangeSymbols();
+    Collection<CurrencyPair> currencyPairs = justcoinSpecificMarketDataService.getExchangeSymbols();
     System.out.println(currencyPairs);
 
     // Get the latest ticker data for all markets on the Justcoin Exchange

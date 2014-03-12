@@ -19,42 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.service.polling;
+package com.xeiam.xchange.examples.cryptotrade.account;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
+import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.justcoin.JustcoinAdapters;
+import com.xeiam.xchange.examples.cryptotrade.CryptoTradeExampleUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.utils.CertHelper;
 
-/**
- * @author jamespedwards42
- */
-public class JustcoinAccountService extends JustcoinAccountServiceRaw implements PollingAccountService {
+public class CryptoTradeAccountDemo {
 
-  public JustcoinAccountService(final ExchangeSpecification exchangeSpecification) {
+  public static void main(String[] args) throws Exception {
 
-    super(exchangeSpecification);
+    CertHelper.trustAllCerts();
+    
+    Exchange exchange = CryptoTradeExampleUtils.createExchange();
+    PollingAccountService accountService = exchange.getPollingAccountService();
+
+    generic(accountService);
+    raw((CryptoTradeAccountServiceRaw) accountService);
   }
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
+  private static void generic(PollingAccountService accountService) throws IOException {
 
-    return JustcoinAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), super.getBalances());
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println(accountInfo);
   }
 
-  @Override
-  public String withdrawFunds(final String currency, final BigDecimal amount, final String address) throws ExchangeException, IOException {
+  private static void raw(CryptoTradeAccountServiceRaw accountService) throws IOException {
 
-    return super.withdrawFunds(currency, amount, address);
-  }
-
-  @Override
-  public String requestDepositAddress(final String currency, final String... arguments) throws IOException {
-
-    return super.requestDepositAddress(currency);
+    CryptoTradeAccountInfo accountInfo = accountService.getCryptoTradeAccountInfo();
+    System.out.println(accountInfo);
   }
 }

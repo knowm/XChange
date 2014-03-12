@@ -22,35 +22,51 @@
 package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.justcoin.Justcoin;
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
+import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.utils.AuthUtils;
 
-/**
- * @author jamespedwards42
- */
-public class JustcoinMarketDataServiceRaw extends JustcoinBasePollingService<Justcoin> {
+public class JustcoinBasePollingService<T extends Justcoin> extends BaseExchangeService {
+
+  protected final T justcoin;
+  private final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
 
   /**
    * Constructor
    * 
-   * @param exchangeSpecification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public JustcoinMarketDataServiceRaw(final ExchangeSpecification exchangeSpecification) {
+  public JustcoinBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
-    super(Justcoin.class, exchangeSpecification);
+    super(exchangeSpecification);
+    this.justcoin = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
   }
 
-  public JustcoinTicker[] getTickers() throws IOException {
+  @Override
+  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return justcoin.getTickers();
+    if (currencyPairs.isEmpty()) {
+      for (final JustcoinTicker ticker : justcoin.getTickers()) {
+        final CurrencyPair currencyPair = JustcoinAdapters.adaptCurrencyPair(ticker.getId());
+        currencyPairs.add(currencyPair);
+      }
+    }
+
+    return currencyPairs;
   }
 
-  public JustcoinDepth getMarketDepth(final String tradableIdentifier, final String currency) throws IOException {
+  protected String getBasicAuthentication() {
 
-    return justcoin.getDepth(tradableIdentifier.toUpperCase(), currency.toUpperCase());
+    return AuthUtils.getBasicAuth(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
-
 }
