@@ -63,7 +63,7 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
     verify(currencyPair);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(getVirtExTicker(currencyPair.baseSymbol), currencyPair);
+    return VirtExAdapters.adaptTicker(getVirtExTicker(currencyPair.counterSymbol), currencyPair);
   }
 
   @Override
