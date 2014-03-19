@@ -72,93 +72,93 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  */
 public class ANXMarketDataService extends ANXMarketDataServiceRaw implements PollingMarketDataService {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
-  public ANXMarketDataService(ExchangeSpecification exchangeSpecification) {
+    /**
+     * Constructor
+     *
+     * @param exchangeSpecification
+     */
+    public ANXMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-  }
+        super(exchangeSpecification);
+    }
 
-  @Override
+    @Override
 //  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
 //  Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    verify(currencyPair);
-    return ANXAdapters.adaptTicker(getANXTicker(currencyPair));
-  }
+    public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+        verify(currencyPair);
+        return ANXAdapters.adaptTicker(getANXTicker(currencyPair));
+    }
 
-  /**
-   * Get market depth from exchange
-   * 
-   * @param args Optional arguments. Exchange-specific. This implementation assumes:
-   *          absent or "full" -> get full OrderBook
-   *          "partial" -> get partial OrderBook
-   * @return The OrderBook
-   * @throws java.io.IOException
-   */
-  @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    /**
+     * Get market depth from exchange
+     *
+     * @param args Optional arguments. Exchange-specific. This implementation assumes:
+     *             absent or "full" -> get full OrderBook
+     *             "partial" -> get partial OrderBook
+     * @return The OrderBook
+     * @throws java.io.IOException
+     */
+    @Override
+    public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
 //    verify(tradableIdentifier, currency);
-      verify(currencyPair);
+        verify(currencyPair);
 
-    // Request data
-    ANXDepthWrapper anxDepthWrapper = null;
-    if (args.length > 0) {
-      if (args[0] instanceof String) {
-        if ("full" == args[0]) {
-          anxDepthWrapper = getANXFullOrderBook(currencyPair);
-        }
-        else {
-          anxDepthWrapper = getANXPartialOrderBook(currencyPair);
-        }
-      } else {
-        throw new ExchangeException("Orderbook type argument must be a String!");
-      }
-    }
-    else { // default to full orderbook
-      anxDepthWrapper = getANXFullOrderBook(currencyPair);
-    }
-
-    // Adapt to XChange DTOs
-      List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.baseCurrency, currencyPair.counterCurrency, "ask", "");
-      List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.baseCurrency, currencyPair.counterCurrency, "bid", "");
-    Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
-    return new OrderBook(date, asks, bids);
-  }
-
-  @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-      //    verify(tradableIdentifier, currency);
-      verify(currencyPair);
-
-
-      ANXTradesWrapper anxTradeWrapper = null;
-    if (args.length > 0) {
-      if (args[0] instanceof Long) {
-        Long sinceTimeStamp = (Long) args[0];
         // Request data
-        anxTradeWrapper = getANXTrades(currencyPair, sinceTimeStamp);
-      }
-      else {
-        throw new ExchangeException("the \"since\" type argument must be a Long!");
-      }
+        ANXDepthWrapper anxDepthWrapper = null;
+        if (args.length > 0) {
+            if (args[0] instanceof String) {
+                if ("full" == args[0]) {
+                    anxDepthWrapper = getANXFullOrderBook(currencyPair);
+                } else {
+                    anxDepthWrapper = getANXPartialOrderBook(currencyPair);
+                }
+            } else {
+                throw new ExchangeException("Orderbook type argument must be a String!");
+            }
+        } else { // default to full orderbook
+            anxDepthWrapper = getANXFullOrderBook(currencyPair);
+        }
+
+        // Adapt to XChange DTOs
+        List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.baseCurrency, currencyPair.counterCurrency, "ask", "");
+        List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.baseCurrency, currencyPair.counterCurrency, "bid", "");
+        Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
+        return new OrderBook(date, asks, bids);
     }
-    else {
-      anxTradeWrapper = getANXTrades(currencyPair, null);
+
+    @Override
+    public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+
+        throw new NotAvailableFromExchangeException();
+
+        //    verify(tradableIdentifier, currency);
+
+        /*
+        verify(currencyPair);
+
+
+        ANXTradesWrapper anxTradeWrapper = null;
+        if (args.length > 0) {
+            if (args[0] instanceof Long) {
+                Long sinceTimeStamp = (Long) args[0];
+                // Request data
+                anxTradeWrapper = getANXTrades(currencyPair, sinceTimeStamp);
+            } else {
+                throw new ExchangeException("the \"since\" type argument must be a Long!");
+            }
+        } else {
+            anxTradeWrapper = getANXTrades(currencyPair, null);
+        }
+
+        return ANXAdapters.adaptTrades(anxTradeWrapper.getANXTrades()); */
     }
 
-    return ANXAdapters.adaptTrades(anxTradeWrapper.getANXTrades());
-  }
+    @Override
+    public ExchangeInfo getExchangeInfo() throws IOException {
 
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
+        throw new NotAvailableFromExchangeException();
+    }
 
 }

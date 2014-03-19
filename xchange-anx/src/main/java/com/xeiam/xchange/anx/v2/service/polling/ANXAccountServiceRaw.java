@@ -38,53 +38,53 @@ import com.xeiam.xchange.utils.Assert;
 
 public class ANXAccountServiceRaw extends ANXBaseService {
 
-  private final ANXV2 anxV2;
-  private final ANXV2Digest signatureCreator;
+    private final ANXV2 anxV2;
+    private final ANXV2Digest signatureCreator;
 
-  /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
-   */
-  protected ANXAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+    /**
+     * Initialize common properties from the exchange specification
+     *
+     * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+     */
+    protected ANXAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+        super(exchangeSpecification);
 
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = ANXV2Digest.createInstance(exchangeSpecification.getSecretKey());
-  }
-
-  public ANXAccountInfo getANXAccountInfo() throws IOException {
-
-    try {
-      ANXAccountInfoWrapper anxAccountInfoWrapper = anxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce());
-      return anxAccountInfoWrapper.getANXAccountInfo();
-    } catch (ANXException e) {
-      throw new ExchangeException("Error calling getAccountInfo(): " + e.getError(), e);
+        Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+        this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchangeSpecification.getSslUri());
+        this.signatureCreator = ANXV2Digest.createInstance(exchangeSpecification.getSecretKey());
     }
-  }
 
-  public ANXWithdrawalResponse anxWithdrawFunds(BigDecimal amount, String address) throws IOException {
+    public ANXAccountInfo getANXAccountInfo() throws IOException {
 
-    try {
-      ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper =
-          anxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), address, amount.multiply(
-              new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).intValue(), 1, false, false);
-      return anxWithdrawalResponseWrapper.getAnxWithdrawalResponse();
-    } catch (ANXException e) {
-      throw new ExchangeException("Error calling withdrawFunds(): " + e.getError(), e);
+        try {
+            ANXAccountInfoWrapper anxAccountInfoWrapper = anxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce());
+            return anxAccountInfoWrapper.getANXAccountInfo();
+        } catch (ANXException e) {
+            throw new ExchangeException("Error calling getAccountInfo(): " + e.getError(), e);
+        }
     }
-  }
 
-  public ANXBitcoinDepositAddress anxRequestDepositAddress(String description, String notificationUrl) throws IOException {
+    public ANXWithdrawalResponse anxWithdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    try {
-      ANXBitcoinDepositAddressWrapper anxBitcoinDepositAddressWrapper =
-          anxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), description, notificationUrl);
-      return anxBitcoinDepositAddressWrapper.getAnxBitcoinDepositAddress();
-    } catch (ANXException e) {
-      throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + e.getError(), e);
+        try {
+            ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper =
+                    anxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), currency, address, amount.multiply(
+                            new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).intValue(), 1, false, false);
+            return anxWithdrawalResponseWrapper.getAnxWithdrawalResponse();
+        } catch (ANXException e) {
+            throw new ExchangeException("Error calling withdrawFunds(): " + e.getError(), e);
+        }
     }
-  }
+
+    public ANXBitcoinDepositAddress anxRequestDepositAddress(String currency) throws IOException {
+
+        try {
+            ANXBitcoinDepositAddressWrapper anxBitcoinDepositAddressWrapper =
+                    anxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), currency);
+            return anxBitcoinDepositAddressWrapper.getAnxBitcoinDepositAddress();
+        } catch (ANXException e) {
+            throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + e.getError(), e);
+        }
+    }
 }

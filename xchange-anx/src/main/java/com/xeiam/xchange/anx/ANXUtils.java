@@ -21,76 +21,112 @@
  */
 package com.xeiam.xchange.anx;
 
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.utils.Assert;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-
+import java.util.List;
 
 
 /**
- * A central place for shared Mt Gox properties
+ * A central place for shared ANX properties
  */
 public final class ANXUtils {
 
-  /**
-   * private Constructor
-   */
-  private ANXUtils() {
+    /**
+     * private Constructor
+     */
+    private ANXUtils() {
 
-  }
+    }
 
-  /**
-   * <p>
-   * According to Mt.Gox API docs (https://en.bitcoin.it/wiki/ANX/API), data is cached for 10 seconds.
-   * </p>
-   */
-  public static final int REFRESH_RATE = 10; // [seconds]
+//    public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
 
-  public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
+    public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2 = 100000000;
 
-  public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
+    public static final int VOLUME_AND_AMOUNT_MAX_SCALE = 8;
 
-  public static final int JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR = 1000;
+//
+//    public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
+//
+//    public static final int JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR = 1000;
 
-  /**
-   * Converts an amount to a properly scaled int-String for Mt Gox
-   * 
-   * @param amount
-   * @return
-   */
-  public static String getAmountString(BigDecimal amount) {
-
-    return amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
-  }
-
-  public static BigDecimal getPrice(long price) {
-      return new BigDecimal(price).divide(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR));
-  }
-
-  public static String getPriceString(BigDecimal price) {
-
-//    if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
-//      return price.getAmount().multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-//    }
-//    else { // JPY, SEK
-//      return price.getAmount().multiply(new BigDecimal(ANXUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
+    /**
+     * Converts an amount to a properly scaled int-String for Mt Gox
+     *
+     * @param amount
+     * @return
+     */
+//    public static String getAmountString(BigDecimal amount) {
+//
+//        return amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
 //    }
 
-      return price.multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-  }
+//    public static BigDecimal getPrice(long price) {
+//        return new BigDecimal(price).divide(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR));
+//    }
 
+//    public static String getPriceString(BigDecimal price) {
+//
+////    if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
+////      return price.getAmount().multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
+////    }
+////    else { // JPY, SEK
+////      return price.getAmount().multiply(new BigDecimal(ANXUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
+////    }
+//
+//        return price.multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
+//    }
+
+    /**
+     * Find and match an order with id in orders
+     *
+     * @param orders
+     * @param order
+     * @param id
+     * @return
+     */
+    public static boolean findLimitOrder(List<LimitOrder> orders, LimitOrder order, String id) {
+        boolean found = false;
+
+        for (LimitOrder openOrder : orders) {
+            if (openOrder.getId().equalsIgnoreCase(id)) {
+                if (order.getCurrencyPair().equals(openOrder.getCurrencyPair()) &&
+                        (order.getTradableAmount().compareTo(openOrder.getTradableAmount()) == 0) &&
+                        (order.getLimitPrice().compareTo(openOrder.getLimitPrice()) == 0)) {
+                    found = true;
+                }
+            }
+        }
+
+        return found;
+    }
+
+
+    public static int getMaxPriceScale(CurrencyPair currencyPair) {
+        if (currencyPair.baseCurrency.equalsIgnoreCase(Currencies.BTC.toString()) ||
+                currencyPair.baseCurrency.equalsIgnoreCase(Currencies.LTC.toString())) {
+            return 5;
+        } else {
+            return 8;
+        }
+    }
 
     public static String urlEncode(String str) {
 
-    try {
-      return URLEncoder.encode(str, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("Problem encoding, probably bug in code.", e);
+        try {
+            return URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Problem encoding, probably bug in code.", e);
+        }
     }
-  }
 
-  public static long getNonce() {
+    public static long getNonce() {
 
-    return System.currentTimeMillis();
-  }
+        return System.currentTimeMillis();
+    }
 }

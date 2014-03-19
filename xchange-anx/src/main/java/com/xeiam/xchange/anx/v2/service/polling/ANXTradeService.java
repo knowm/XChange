@@ -28,6 +28,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -41,62 +42,63 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeService {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
-   */
-  public ANXTradeService(ExchangeSpecification exchangeSpecification) {
+    /**
+     * Constructor
+     *
+     * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+     */
+    public ANXTradeService(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-  }
+        super(exchangeSpecification);
+    }
 
-  @Override
-  public OpenOrders getOpenOrders() throws IOException {
+    @Override
+    public OpenOrders getOpenOrders() throws IOException {
 
-    return new OpenOrders(ANXAdapters.adaptOrders(getANXOpenOrders()));
-  }
+        return new OpenOrders(ANXAdapters.adaptOrders(getANXOpenOrders()));
+    }
 
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    @Override
+    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
 //    verify(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
 
-    verify(marketOrder.getCurrencyPair());
-    return placeANXMarketOrder(marketOrder).getDataString();
-  }
+        verify(marketOrder.getCurrencyPair());
+        return placeANXMarketOrder(marketOrder).getDataString();
+    }
 
-  @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    @Override
+    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+        // Validation
+        verify(limitOrder.getCurrencyPair());
+        Assert.notNull(limitOrder.getLimitPrice(), "getLimitPrice() cannot be null");
+        Assert.notNull(limitOrder.getTradableAmount(), "getTradableAmount() cannot be null");
 
-//    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
-      verify(limitOrder.getCurrencyPair());
+        if (limitOrder.getTradableAmount().scale() > 8) {
+            throw new IllegalArgumentException("tradableAmount scale exceeds max");
+        }
 
-//    Assert.notNull(limitOrder.getLimitPrice().getAmount(), "getLimitPrice().getAmount() cannot be null");
-//    Assert.notNull(limitOrder.getLimitPrice().getCurrencyUnit(), "getLimitPrice().getCurrencyUnit() cannot be null");
+        if (limitOrder.getLimitPrice().scale() > ANXUtils.getMaxPriceScale(limitOrder.getCurrencyPair())) {
+            throw new IllegalArgumentException("price scale exceeds max");
+        }
 
-//    String tradableIdentifier = limitOrder.getTradableIdentifier();
-//    String currency = limitOrder.getLimitPrice().getCurrencyUnit().toString();
-    String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
-    // need to convert to ANX "amount"
-    BigDecimal amount = limitOrder.getTradableAmount().multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-    // need to convert to ANX "Price"
-    String price = ANXUtils.getPriceString(limitOrder.getLimitPrice());
+        String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
 
-    return placeANXLimitOrder(limitOrder.getCurrencyPair(), type, amount, price).getDataString();
-  }
+        BigDecimal amount = limitOrder.getTradableAmount();
+        BigDecimal price = limitOrder.getLimitPrice();
 
-  @Override
-  public boolean cancelOrder(String orderId) throws IOException {
+        return placeANXLimitOrder(limitOrder.getCurrencyPair(), type, amount, price).getDataString();
+    }
 
-    Assert.notNull(orderId, "orderId cannot be null");
+    @Override
+    public boolean cancelOrder(String orderId) throws IOException {
+        Assert.notNull(orderId, "orderId cannot be null");
 
-    return cancelANXOrder(orderId).getResult().equals("success");
-  }
+        return cancelANXOrder(orderId).getResult().equals("success");
+    }
 
-  @Override
-  public Trades getTradeHistory(Object... args) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
+    @Override
+    public Trades getTradeHistory(Object... args) throws IOException {
+        throw new NotYetImplementedForExchangeException();
+    }
 }

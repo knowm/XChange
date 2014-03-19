@@ -132,6 +132,13 @@ public class CurrencyPair {
     public static final CurrencyPair LTC_PPC = new CurrencyPair(Currencies.LTC, Currencies.PPC);
 
     //DOGE
+    public static final CurrencyPair DOGE_HKD = new CurrencyPair(Currencies.DOGE, Currencies.HKD);
+    public static final CurrencyPair DOGE_BTC = new CurrencyPair(Currencies.DOGE, Currencies.BTC);
+    public static final CurrencyPair DOGE_LTC = new CurrencyPair(Currencies.DOGE, Currencies.LTC);
+    public static final CurrencyPair DOGE_NMC = new CurrencyPair(Currencies.DOGE, Currencies.NMC);
+    public static final CurrencyPair DOGE_PPC = new CurrencyPair(Currencies.DOGE, Currencies.PPC);
+    public static final CurrencyPair DOGE_USD = new CurrencyPair(Currencies.DOGE, Currencies.USD);
+
     public static final CurrencyPair XDC_HKD = new CurrencyPair(Currencies.XDC, Currencies.HKD);
     public static final CurrencyPair XDC_LTC = new CurrencyPair(Currencies.XDC, Currencies.LTC);
     public static final CurrencyPair XDC_NMC = new CurrencyPair(Currencies.XDC, Currencies.NMC);

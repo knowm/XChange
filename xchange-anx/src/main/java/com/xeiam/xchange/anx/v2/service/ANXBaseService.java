@@ -83,11 +83,11 @@ public class ANXBaseService extends BaseExchangeService {
 
   CurrencyPair.LTC_BTC,
 
-  CurrencyPair.LTC_XDC,
+//  CurrencyPair.LTC_XDC,
 
-  CurrencyPair.LTC_NMC,
+//  CurrencyPair.LTC_NMC,
 
-  CurrencyPair.LTC_PPC,
+//  CurrencyPair.LTC_PPC,
 
   CurrencyPair.LTC_USD,
 
@@ -100,7 +100,7 @@ public class ANXBaseService extends BaseExchangeService {
 
   CurrencyPair.XDC_NMC,
 
-  CurrencyPair.XDC_PPC,
+//  CurrencyPair.XDC_PPC,
 
   CurrencyPair.XDC_USD,
 
@@ -111,9 +111,9 @@ public class ANXBaseService extends BaseExchangeService {
 
   CurrencyPair.NMC_BTC,
 
-  CurrencyPair.NMC_XDC,
+//  CurrencyPair.NMC_XDC,
 
-  CurrencyPair.NMC_PPC,
+//  CurrencyPair.NMC_PPC,
 
   CurrencyPair.NMC_USD,
 
@@ -124,9 +124,9 @@ public class ANXBaseService extends BaseExchangeService {
 
   CurrencyPair.PPC_BTC,
 
-  CurrencyPair.PPC_XDC,
+//  CurrencyPair.PPC_XDC,
 
-  CurrencyPair.PPC_NMC,
+//  CurrencyPair.PPC_NMC,
 
   CurrencyPair.PPC_USD
 

@@ -43,7 +43,7 @@ public final class ANXBitcoinDepositAddress {
   }
 
   // TODO Fix spelling error!
-  public String getAddres() {
+  public String getAddress() {
 
     return address;
   }

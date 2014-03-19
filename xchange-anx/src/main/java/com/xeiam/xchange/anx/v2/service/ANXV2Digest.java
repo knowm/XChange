@@ -38,42 +38,42 @@ import si.mazi.rescu.utils.Base64;
  */
 public class ANXV2Digest implements ParamsDigest {
 
-  private static final String HMAC_SHA_512 = "HmacSHA512";
-  private final Mac mac;
+    private static final String HMAC_SHA_512 = "HmacSHA512";
+    private final Mac mac;
 
-  /**
-   * Constructor
-   * 
-   * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
-   */
-  private ANXV2Digest(String secretKeyBase64) throws IllegalArgumentException {
+    /**
+     * Constructor
+     *
+     * @param secretKeyBase64
+     * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+     */
+    private ANXV2Digest(String secretKeyBase64) throws IllegalArgumentException {
 
-    try {
-      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_512);
-      mac = Mac.getInstance(HMAC_SHA_512);
-      mac.init(secretKey);
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Could not decode Base 64 string", e);
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+        try {
+            SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_512);
+            mac = Mac.getInstance(HMAC_SHA_512);
+            mac.init(secretKey);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Could not decode Base 64 string", e);
+        } catch (InvalidKeyException e) {
+            throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+        }
     }
-  }
 
-  public static ANXV2Digest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+    public static ANXV2Digest createInstance(String secretKeyBase64) throws IllegalArgumentException {
 
-    return secretKeyBase64 == null ? null : new ANXV2Digest(secretKeyBase64);
-  }
+        return secretKeyBase64 == null ? null : new ANXV2Digest(secretKeyBase64);
+    }
 
-  @Override
-  public String digestParams(RestInvocation restInvocation) {
+    @Override
+    public String digestParams(RestInvocation restInvocation) {
 
-    mac.update(restInvocation.getMethodPath().getBytes());
-    mac.update(new byte[] { 0 });
-    mac.update(restInvocation.getRequestBody().getBytes());
+        mac.update(restInvocation.getMethodPath().getBytes());
+        mac.update(new byte[]{0});
+        mac.update(restInvocation.getRequestBody().getBytes());
 
-    return Base64.encodeBytes(mac.doFinal()).trim();
-  }
+        return Base64.encodeBytes(mac.doFinal()).trim();
+    }
 }

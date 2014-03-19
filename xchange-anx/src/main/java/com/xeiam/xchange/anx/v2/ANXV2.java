@@ -89,20 +89,18 @@ public interface ANXV2 {
       throws ANXException, IOException;
 
   @POST
-  @Path("money/bitcoin/address")
+  @Path("money/{currency}/address")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXBitcoinDepositAddressWrapper requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-                                                          @FormParam("description") String description, @FormParam("ipn") String notificationUrl) throws ANXException, IOException;
+  ANXBitcoinDepositAddressWrapper requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @PathParam("currency") String currency) throws ANXException, IOException;
 
   @POST
-  @Path("money/bitcoin/send_simple")
+  @Path("money/{currency}/send_simple")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+  ANXWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @PathParam("currency") String currency,
                                              @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green)
       throws ANXException, IOException;
 
   // Trade API
-
   @POST
   @Path("money/orders")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -117,8 +115,8 @@ public interface ANXV2 {
   @Path("{tradeIdent}{currency}/money/order/add")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXGenericResponse placeOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-                                  @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount_int") BigDecimal amount,
-                                  @FormParam("price_int") String price) throws ANXException, IOException;
+                                  @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount") BigDecimal amount,
+                                  @FormParam("price") BigDecimal price) throws ANXException, IOException;
 
   /**
    * Note: I know it's weird to have BTCEUR hardcoded in the URL, but it really doesn't seems to matter. BTCUSD works too.

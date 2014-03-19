@@ -76,6 +76,7 @@ public class Currencies {
   public static final String CZK = "CZK"; // "Czech Republic Koruna",
   public static final String DJF = "DJF"; // "Djiboutian Franc",
   public static final String DKK = "DKK"; // "Danish Krone",
+  public static final String DOGE = "DOGE"; // "Dogecoin",
   public static final String DOP = "DOP"; // "Dominican Peso",
   public static final String DVC = "DVC"; // Devcoin,
   public static final String XDC = "DOGE"; // Dogecoin,
@@ -132,12 +133,14 @@ public class Currencies {
   public static final String LYD = "LYD"; // "Libyan Dinar",
   public static final String MAD = "MAD"; // "Moroccan Dirham",
   public static final String MDL = "MDL"; // "Moldovan Leu",
+  public static final String MEC = "MEC"; // "MegaCoin",
   public static final String MGA = "MGA"; // "Malagasy Ariary",
   public static final String MKD = "MKD"; // "Macedonian Denar",
   public static final String MMK = "MMK"; // "Myanma Kyat",
   public static final String MNT = "MNT"; // "Mongolian Tugrik",
   public static final String MOP = "MOP"; // "Macanese Pataca",
   public static final String MRO = "MRO"; // "Mauritanian Ouguiya",
+  public static final String MSC = "MSC"; // "Mason Coin",
   public static final String MUR = "MUR"; // "Mauritian Rupee",
   public static final String MVR = "MVR"; // "Maldivian Rufiyaa",
   public static final String MWK = "MWK"; // "Malawian Kwacha",
@@ -151,6 +154,7 @@ public class Currencies {
   public static final String NOK = "NOK"; // "Norwegian Krone",
   public static final String NPR = "NPR"; // "Nepalese Rupee",
   public static final String NVC = "NVC"; // "Novacoin",
+  public static final String NXT = "NXT"; // "Nextcoin",
   public static final String NZD = "NZD"; // "New Zealand Dollar",
   public static final String OMR = "OMR"; // "Omani Rial",
   public static final String PAB = "PAB"; // "Panamanian Balboa",
@@ -162,12 +166,14 @@ public class Currencies {
   public static final String PPC = "PPC"; // "Peercoin",
   public static final String PYG = "PYG"; // "Paraguayan Guarani",
   public static final String QAR = "QAR"; // "Qatari Rial",
+  public static final String QRK = "QRK"; // "QuarkCoin",
   public static final String RON = "RON"; // "Romanian Leu",
   public static final String RSD = "RSD"; // "Serbian Dinar",
   public static final String RUB = "RUB"; // "Russian Ruble",
   public static final String RUR = "RUR"; // "Old Russian Ruble",
   public static final String RWF = "RWF"; // "Rwandan Franc",
   public static final String SAR = "SAR"; // "Saudi Riyal",
+  public static final String SBC = "SBC"; // "Stablecoin",
   public static final String SBD = "SBD"; // "Solomon Islands Dollar",
   public static final String SCR = "SCR"; // "Seychellois Rupee",
   public static final String SDG = "SDG"; // "Sudanese Pound",
@@ -215,5 +221,7 @@ public class Currencies {
   public static final String ZAR = "ZAR"; // "South African Rand",
   public static final String ZMK = "ZMK"; // "Zambian Kwacha",
   public static final String ZWL = "ZWL"; // "Zimbabwean Dollar"
+
+
 
 }

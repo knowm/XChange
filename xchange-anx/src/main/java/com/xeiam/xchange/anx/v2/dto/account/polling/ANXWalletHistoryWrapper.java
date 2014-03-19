@@ -51,7 +51,7 @@ public class ANXWalletHistoryWrapper {
     return result;
   }
 
-  public ANXWalletHistory getAnxWalletHistory() {
+  public ANXWalletHistory getANXWalletHistory() {
 
     return anxWalletHistory;
   }

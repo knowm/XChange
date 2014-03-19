@@ -27,8 +27,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.v2.service.polling.ANXAccountService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;
-import com.xeiam.xchange.anx.v2.service.streaming.ANXStreamingConfiguration;
-import com.xeiam.xchange.anx.v2.service.streaming.ANXWebsocketService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
@@ -42,40 +40,42 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  */
 public class ANXExchange extends BaseExchange implements Exchange {
 
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    @Override
+    public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
-    super.applySpecification(exchangeSpecification);
+        super.applySpecification(exchangeSpecification);
 
-    // Configure the basic services if configuration does not apply
-    this.pollingMarketDataService = new ANXMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new ANXTradeService(exchangeSpecification);
-    this.pollingAccountService = new ANXAccountService(exchangeSpecification);
-  }
-
-  @Override
-  public ExchangeSpecification getDefaultExchangeSpecification() {
-
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://data.anx.com");
-    exchangeSpecification.setPlainTextUriStreaming("ws://websocket.anx.com");
-    exchangeSpecification.setSslUriStreaming("wss://websocket.anx.com");
-    exchangeSpecification.setPlainTextUri("http://data.anx.com");
-    exchangeSpecification.setHost("anx.com");
-    exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("ANX");
-    exchangeSpecification.setExchangeDescription("ANX is a Bitcoin exchange registered in Japan.");
-
-    return exchangeSpecification;
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    if (configuration instanceof ANXStreamingConfiguration) {
-      return new ANXWebsocketService(getExchangeSpecification(), (ANXStreamingConfiguration) configuration);
+        // Configure the basic services if configuration does not apply
+        this.pollingMarketDataService = new ANXMarketDataService(exchangeSpecification);
+        this.pollingTradeService = new ANXTradeService(exchangeSpecification);
+        this.pollingAccountService = new ANXAccountService(exchangeSpecification);
     }
 
-    throw new IllegalArgumentException("ANX only supports the ANXV2StreamingConfiguration");
-  }
+    @Override
+    public ExchangeSpecification getDefaultExchangeSpecification() {
+
+        ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+        //exchangeSpecification.setSslUri("https://anx.hk");
+        exchangeSpecification.setSslUri("https://anxpro.com");
+//    exchangeSpecification.setSslUri("http://localhost:8080");
+//    exchangeSpecification.setPlainTextUriStreaming("ws://websocket.anx.hk");
+//    exchangeSpecification.setSslUriStreaming("wss://websocket.anx.hk");
+//    exchangeSpecification.setPlainTextUri("https://anx.hk");
+        exchangeSpecification.setHost("anx.hk");
+        exchangeSpecification.setPort(443);
+        exchangeSpecification.setExchangeName("ANX.HK");
+        exchangeSpecification.setExchangeDescription("Asia Nexgen is a Bitcoin exchange registered in Hong Kong.");
+
+        return exchangeSpecification;
+    }
+
+    @Override
+    public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
+
+//    if (configuration instanceof ANXStreamingConfiguration) {
+//      return new ANXWebsocketService(getExchangeSpecification(), (ANXStreamingConfiguration) configuration);
+//    }
+
+        throw new IllegalArgumentException("ANX.HK does not support streaming in this API");
+    }
 }
