@@ -201,6 +201,6 @@ public class ANXAdapterTest {
         Assert.assertEquals(new BigDecimal("897.25596"), ticker.getAsk());
 
 
-        Assert.assertEquals(new Date(1393388594814000L), ticker.getTimestamp());
+        Assert.assertEquals(new Date(1393388594814L), ticker.getTimestamp());
     }
 }
