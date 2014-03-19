@@ -70,7 +70,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
 
     return getKrakenTrades(currencyPair, null);
   }
-  
+
   public KrakenPublicTrades getKrakenTrades(CurrencyPair currencyPair, Long since) throws IOException {
 
     String krakenCurrencyPair = createKrakenCurrencyPair(currencyPair);

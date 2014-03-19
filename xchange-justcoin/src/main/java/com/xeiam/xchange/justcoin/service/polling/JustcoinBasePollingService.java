@@ -19,61 +19,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.service.polling;
+package com.xeiam.xchange.justcoin.service.polling;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btcchina.BTCChina;
-import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
-import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
-import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
-import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.justcoin.Justcoin;
+import com.xeiam.xchange.justcoin.JustcoinAdapters;
+import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.utils.AuthUtils;
 
-/**
- * @author ObsessiveOrange
- *         <p>
- *         Implementation of the market data service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to various market data values</li>
- *         </ul>
- */
-public class BTCChinaMarketDataServiceRaw extends BTCChinaBaseService {
+public class JustcoinBasePollingService<T extends Justcoin> extends BaseExchangeService {
 
-  private final BTCChina btcChina;
+  protected final T justcoin;
+  private final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public JustcoinBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, (String) exchangeSpecification.getExchangeSpecificParameters().get("dataSslUri"));
+    this.justcoin = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
   }
 
-  public BTCChinaTicker getBTCChinaTicker() throws IOException {
+  @Override
+  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return btcChina.getTicker();
+    if (currencyPairs.isEmpty()) {
+      for (final JustcoinTicker ticker : justcoin.getTickers()) {
+        final CurrencyPair currencyPair = JustcoinAdapters.adaptCurrencyPair(ticker.getId());
+        currencyPairs.add(currencyPair);
+      }
+    }
+
+    return currencyPairs;
   }
 
-  public BTCChinaDepth getBTCChinaOrderBook() throws IOException {
+  protected String getBasicAuthentication() {
 
-    return btcChina.getFullDepth();
+    return AuthUtils.getBasicAuth(exchangeSpecification.getUserName(), exchangeSpecification.getPassword());
   }
-
-  public BTCChinaTrade[] getBTCChinaTrades(Integer sinceTransactionID) throws IOException {
-
-    return btcChina.getTrades(sinceTransactionID);
-  }
-
-  public BTCChinaTrade[] getBTCChinaTrades() throws IOException {
-
-    return btcChina.getTrades();
-  }
-
 }

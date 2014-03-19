@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
-
 /**
  * A central place for shared BitcoinCharts properties
  */

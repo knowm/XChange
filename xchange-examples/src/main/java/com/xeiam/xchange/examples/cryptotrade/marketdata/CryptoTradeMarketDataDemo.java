@@ -22,14 +22,16 @@
 package com.xeiam.xchange.examples.cryptotrade.marketdata;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
-import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataService;
+import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -38,18 +40,21 @@ import com.xeiam.xchange.utils.CertHelper;
 public class CryptoTradeMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
-
-    CertHelper.trustAllCerts();
     
+    CertHelper.trustAllCerts();
+
     Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CryptoTradeExchange.class.getName());
     PollingMarketDataService marketDataService = coinbaseExchange.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((CryptoTradeMarketDataService) marketDataService);
+    raw((CryptoTradeMarketDataServiceRaw) marketDataService);
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
+    ExchangeInfo exchangeInfo = marketDataService.getExchangeInfo();
+    System.out.println(exchangeInfo);
+    
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
 
@@ -57,8 +62,11 @@ public class CryptoTradeMarketDataDemo {
     System.out.println(orderBook);
   }
 
-  private static void raw(CryptoTradeMarketDataService marketDataService) throws IOException {
+  private static void raw(CryptoTradeMarketDataServiceRaw marketDataService) throws IOException {
 
+    List<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
+    System.out.println(currencyPairs);
+    
     CryptoTradeTicker ticker = marketDataService.getCryptoTradeTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
 

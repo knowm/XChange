@@ -43,7 +43,6 @@ import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
  */
 public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuthenticated> {
 
-
   public KrakenAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(KrakenAuthenticated.class, exchangeSpecification);
@@ -115,8 +114,7 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuth
 
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
 
-    KrakenLedgerResult ledgerResult =
-        kraken.ledgers(null, delimitAssets(assets), ledgerTypeString, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    KrakenLedgerResult ledgerResult = kraken.ledgers(null, delimitAssets(assets), ledgerTypeString, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     return checkResult(ledgerResult).getLedgerMap();
   }
 

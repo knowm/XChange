@@ -1,3 +1,24 @@
+/**
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.coinfloor;
 
 import java.io.BufferedReader;
@@ -66,8 +87,8 @@ public class TestCoinfloorAdapters {
 
     Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getTradableAmount());
     Assert.assertEquals("211118", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getId());
-    Assert.assertEquals("GBP", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().counterCurrency);
-    Assert.assertEquals("BTC", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().baseCurrency);
+    Assert.assertEquals("GBP", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().counterSymbol);
+    Assert.assertEquals("BTC", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().baseSymbol);
     Assert.assertEquals(OrderType.BID, ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getType());
 
   }
@@ -200,8 +221,8 @@ public class TestCoinfloorAdapters {
     Map<String, Object> testObj = coinfloorAdapters.adaptOrderOpened(result);
 
     Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((LimitOrder) testObj.get("generic")).getTradableAmount());
-    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterCurrency);
-    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseCurrency);
+    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterSymbol);
+    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseSymbol);
   }
 
   @Test
@@ -220,8 +241,8 @@ public class TestCoinfloorAdapters {
     Map<String, Object> testObj = coinfloorAdapters.adaptOrderClosed(result);
 
     Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((LimitOrder) testObj.get("generic")).getTradableAmount());
-    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterCurrency);
-    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseCurrency);
+    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterSymbol);
+    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseSymbol);
   }
 
   @Test
@@ -241,8 +262,8 @@ public class TestCoinfloorAdapters {
 
     Assert.assertEquals("211184", ((Trade) testObj.get("generic")).getId());
     Assert.assertEquals(BigDecimal.valueOf(4768, 4), ((Trade) testObj.get("generic")).getTradableAmount());
-    Assert.assertEquals("GBP", ((Trade) testObj.get("generic")).getCurrencyPair().counterCurrency);
-    Assert.assertEquals("BTC", ((Trade) testObj.get("generic")).getCurrencyPair().baseCurrency);
+    Assert.assertEquals("GBP", ((Trade) testObj.get("generic")).getCurrencyPair().counterSymbol);
+    Assert.assertEquals("BTC", ((Trade) testObj.get("generic")).getCurrencyPair().baseSymbol);
     Assert.assertEquals(OrderType.ASK, ((Trade) testObj.get("generic")).getType());
   }
 

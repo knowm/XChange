@@ -48,7 +48,6 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
-import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from CryptoTrade DTOs to XChange DTOs
@@ -110,7 +109,7 @@ public final class CryptoTradeAdapters {
 
   public static LimitOrder adaptOrder(CryptoTradeOrder order) {
 
-    Date timestamp = DateUtils.fromMillisUtc(order.getTimestamp());
+    Date timestamp = new Date(order.getTimestamp());
     OrderType orderType = adaptOrderType(order.getType());
 
     return new LimitOrder(orderType, order.getRemainingAmount(), order.getCurrencyPair(), String.valueOf(order.getId()), timestamp, order.getRate());
@@ -133,7 +132,7 @@ public final class CryptoTradeAdapters {
   public static Trade adaptTrade(CryptoTradeTrade trade) {
 
     OrderType orderType = adaptOrderType(trade.getType());
-    Date timestamp = DateUtils.fromMillisUtc(trade.getTimestamp());
+    Date timestamp = new Date(trade.getTimestamp());
 
     return new Trade(orderType, trade.getAmount(), trade.getCurrencyPair(), trade.getRate(), timestamp, String.valueOf(trade.getId()), String.valueOf(trade.getMyOrder()));
   }

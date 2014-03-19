@@ -65,7 +65,7 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
     verify(currencyPair);
 
     // get data
-    BitcurexTicker bitcurexTicker = getBitcurexTicker(currencyPair.counterCurrency);
+    BitcurexTicker bitcurexTicker = getBitcurexTicker(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcurexAdapters.adaptTicker(bitcurexTicker, currencyPair);
@@ -77,7 +77,7 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
     verify(currencyPair);
 
     // get data
-    BitcurexDepth bitcurexDepth = getBitcurexOrderBook(currencyPair.counterCurrency);
+    BitcurexDepth bitcurexDepth = getBitcurexOrderBook(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BitcurexAdapters.adaptOrders(bitcurexDepth.getAsks(), currencyPair, OrderType.ASK, "");
@@ -92,7 +92,7 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
     verify(currencyPair);
 
     // get data
-    BitcurexTrade[] bitcurexTrades = getBitcurexTrades(currencyPair.counterCurrency);
+    BitcurexTrade[] bitcurexTrades = getBitcurexTrades(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcurexAdapters.adaptTrades(bitcurexTrades, currencyPair);

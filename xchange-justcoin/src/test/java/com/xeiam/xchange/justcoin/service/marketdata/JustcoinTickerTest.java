@@ -31,7 +31,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
@@ -43,8 +42,7 @@ import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
  */
 public class JustcoinTickerTest {
 
-  private String tradableIdentifier;
-  private String currency;
+  private CurrencyPair currencyPair;
   private BigDecimal high;
   private BigDecimal low;
   private BigDecimal last;
@@ -57,15 +55,14 @@ public class JustcoinTickerTest {
   public void before() {
 
     // initialize expected values
-    tradableIdentifier = Currencies.BTC;
-    currency = Currencies.XRP;
+    currencyPair = CurrencyPair.BTC_XRP;
     high = BigDecimal.valueOf(43998.000);
     low = BigDecimal.valueOf(40782.944);
     last = BigDecimal.valueOf(40900.000);
     bid = BigDecimal.valueOf(40905.000);
     ask = BigDecimal.valueOf(43239.000);
     volume = BigDecimal.valueOf(26.39377);
-    justcoinTicker = new JustcoinTicker(JustcoinUtils.getApiMarket(tradableIdentifier, currency), high, low, volume, last, bid, ask, 3);
+    justcoinTicker = new JustcoinTicker(JustcoinUtils.getApiMarket(currencyPair), high, low, volume, last, bid, ask, 3);
   }
 
   @Test
@@ -87,7 +84,7 @@ public class JustcoinTickerTest {
   @Test
   public void testAdapter() {
 
-    final Ticker ticker = JustcoinAdapters.adaptTicker(new JustcoinTicker[] { justcoinTicker }, new CurrencyPair(tradableIdentifier, currency));
+    final Ticker ticker = JustcoinAdapters.adaptTicker(new JustcoinTicker[] { justcoinTicker }, currencyPair);
 
     assertThat(ticker.getLast()).isEqualTo(last);
     assertThat(ticker.getHigh()).isEqualTo(high);
@@ -96,6 +93,6 @@ public class JustcoinTickerTest {
     assertThat(ticker.getAsk()).isEqualTo(ask);
     assertThat(ticker.getVolume()).isEqualTo(volume);
     assertThat(ticker.getTimestamp()).isNull();
-    assertThat(ticker.getCurrencyPair().baseCurrency).isEqualTo(tradableIdentifier);
+    assertThat(ticker.getCurrencyPair()).isEqualTo(currencyPair);
   }
 }

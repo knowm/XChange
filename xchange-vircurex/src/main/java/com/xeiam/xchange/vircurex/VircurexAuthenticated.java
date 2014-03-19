@@ -52,7 +52,6 @@ public interface VircurexAuthenticated {
 
   @Path("read_orders.json")
   @GET
-  VircurexOpenOrdersReturn getOpenOrders(@QueryParam("account") String apiKey, @QueryParam("id") String nonce,
-                                         @QueryParam("token") String token, @QueryParam("timestamp") String timestamp,
-                                         @QueryParam("otype") int releaseStatus);
+  VircurexOpenOrdersReturn getOpenOrders(@QueryParam("account") String apiKey, @QueryParam("id") String nonce, @QueryParam("token") String token, @QueryParam("timestamp") String timestamp,
+      @QueryParam("otype") int releaseStatus);
 }

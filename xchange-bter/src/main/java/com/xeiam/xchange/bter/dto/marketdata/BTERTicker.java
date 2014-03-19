@@ -119,7 +119,7 @@ public class BTERTicker extends BTERBaseResponse {
     }
 
     public static BTERTicker deserializeFromNode(JsonNode tickerNode) {
-      
+
       final BigDecimal last = getNumberIfPresent(tickerNode.path("last"));
       final BigDecimal high = getNumberIfPresent(tickerNode.path("high"));
       final BigDecimal average = getNumberIfPresent(tickerNode.path("avg"));
@@ -149,12 +149,13 @@ public class BTERTicker extends BTERBaseResponse {
 
       return new BTERTicker(last, high, low, average, sell, buy, volumeTradeCurrency, volumePriceCurrency, result, message);
     }
+
     @Override
     public BTERTicker deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jp.getCodec();
       final JsonNode tickerNode = oc.readTree(jp);
-      
+
       return deserializeFromNode(tickerNode);
     }
 

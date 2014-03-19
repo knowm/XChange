@@ -71,7 +71,7 @@ public class BTERTickers extends BTERBaseResponse {
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
       if (node.isObject()) {
-        
+
         Iterator<Entry<String, JsonNode>> tickerEntryIter = node.fields();
         while (tickerEntryIter.hasNext()) {
           Entry<String, JsonNode> tickerEntryNode = tickerEntryIter.next();
@@ -85,7 +85,7 @@ public class BTERTickers extends BTERBaseResponse {
           tickerMap.put(pair, ticker);
         }
       }
-      
+
       boolean result = true;
       String message = "";
       JsonNode resultNode = node.path("result");

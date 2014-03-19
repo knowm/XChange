@@ -39,14 +39,15 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     final ObjectCodec oc = jsonParser.getCodec();
     final JsonNode node = oc.readTree(jsonParser);
     final String currencyPairString = node.asText();
-    
+
     return getCurrencyPairFromString(currencyPairString);
   }
-  
+
   public static CurrencyPair getCurrencyPairFromString(String currencyPairString) {
-    
-    if (currencyPairString == null || currencyPairString.isEmpty()) return null;
-    
+
+    if (currencyPairString == null || currencyPairString.isEmpty())
+      return null;
+
     currencyPairString = currencyPairString.toUpperCase();
     final String tradeCurrency = currencyPairString.substring(0, 3);
     final String priceCurrency = currencyPairString.substring(currencyPairString.length() - 3);

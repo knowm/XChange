@@ -19,43 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.service;
+package com.xeiam.xchange.examples.cryptotrade;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 
-/**
- * @author timmolter
- */
-public class JustcoinBaseService extends BaseExchangeService {
+public class CryptoTradeExampleUtils {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
-
-  static {
-
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_LTC);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_NOK);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_XRP);
-  }
-
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
-  public JustcoinBaseService(ExchangeSpecification exchangeSpecification) {
-
-    super(exchangeSpecification);
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CURRENCY_PAIRS;
+  public static Exchange createExchange() {
+    ExchangeSpecification exSpec = new ExchangeSpecification(CryptoTradeExchange.class);
+    exSpec.setSecretKey("");
+    exSpec.setApiKey("");
+    
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }

@@ -98,7 +98,7 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
 
   protected String createKrakenCurrencyPair(CurrencyPair currencyPair) throws IOException {
 
-    return createKrakenCurrencyPair(currencyPair.baseCurrency, currencyPair.counterCurrency);
+    return createKrakenCurrencyPair(currencyPair.baseSymbol, currencyPair.counterSymbol);
   }
 
   protected String createKrakenCurrencyPair(String tradableIdentifier, String currency) throws IOException {
@@ -157,7 +157,7 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
 
     return System.currentTimeMillis();
   }
-  
+
   protected String createDelimitedString(String[] items) {
 
     StringBuilder commaDelimitedString = null;

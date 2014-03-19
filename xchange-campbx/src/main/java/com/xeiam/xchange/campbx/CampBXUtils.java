@@ -21,7 +21,6 @@
  */
 package com.xeiam.xchange.campbx;
 
-
 /**
  * A central place for shared CampBX properties
  */

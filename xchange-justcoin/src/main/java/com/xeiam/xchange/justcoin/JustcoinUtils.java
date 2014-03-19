@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.justcoin;
 
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * jamespedwards42
@@ -34,18 +35,13 @@ public final class JustcoinUtils {
 
   }
 
+  public static String getApiMarket(final CurrencyPair currencyPair) {
+
+	  return getApiMarket(currencyPair.baseSymbol, currencyPair.counterSymbol);
+  }
+  
   public static String getApiMarket(final String tradableIdentifier, final String currency) {
 
     return tradableIdentifier + currency;
-  }
-
-  public static String getTradableIdentifierFromApiMarket(final String market) {
-
-    return market.substring(0, 3);
-  }
-
-  public static String getPriceCurrencyFromApiMarket(final String market) {
-
-    return market.substring(3);
   }
 }

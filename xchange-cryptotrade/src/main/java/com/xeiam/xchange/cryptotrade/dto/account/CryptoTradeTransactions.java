@@ -111,8 +111,8 @@ public class CryptoTradeTransactions extends CryptoTradeBaseResponse {
     @Override
     public String toString() {
 
-      return "CryptoTradeTransaction [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currency + ", type=" + type + ", amount=" + amount + ", description=" + description
-          + ", status=" + status + "]";
+      return "CryptoTradeTransaction [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currency + ", type=" + type + ", amount=" + amount + ", description=" + description + ", status="
+          + status + "]";
     }
 
   }

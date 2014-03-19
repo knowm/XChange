@@ -44,18 +44,15 @@ public class CoinbaseButtonDemo {
     CoinbaseAccountService accountService = (CoinbaseAccountService) coinbase.getPollingAccountService();
 
     CoinbaseButtonBuilder buttonBuilder = new CoinbaseButtonBuilder("Demo Button", Currencies.BTC, ".001");
-    buttonBuilder.withDescription("Coinbase button demo for Coinbase.")
-        .withIncludeEmail(true)
-        .withStyle(CoinbaseButtonStyle.DONATION_LARGE)
-        .withType(CoinbaseButtonType.DONATION)
-        .withVariablePrice(true);
+    buttonBuilder.withDescription("Coinbase button demo for Coinbase.").withIncludeEmail(true).withStyle(CoinbaseButtonStyle.DONATION_LARGE).withType(CoinbaseButtonType.DONATION).withVariablePrice(
+        true);
 
     CoinbaseButton createdButton = accountService.createCoinbaseButton(buttonBuilder.buildButton());
     System.out.println(createdButton);
 
     CoinbaseOrder createdOrder = accountService.createCoinbaseOrder(createdButton.getCode());
     System.out.println(createdOrder);
-    
+
     createdOrder = accountService.createCoinbaseOrder(createdButton);
     System.out.println(createdOrder);
   }

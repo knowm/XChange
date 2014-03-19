@@ -107,11 +107,10 @@ public final class BitfinexAdapters {
     BigDecimal ask = bitfinexTicker.getAsk();
     BigDecimal high = bitfinexTicker.getAsk();
     BigDecimal low = bitfinexTicker.getBid();
-    BigDecimal volume = BigDecimal.ZERO;
 
     Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withTimestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
@@ -119,9 +118,7 @@ public final class BitfinexAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>();
 
     for (BitfinexBalancesResponse balance : response) {
-      if (balance.getCurrency().equals("usd") || balance.getCurrency().equals("btc")) {
-        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
-      }
+      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
     }
 
     return new AccountInfo(null, wallets);

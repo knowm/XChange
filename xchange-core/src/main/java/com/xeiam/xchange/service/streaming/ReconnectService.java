@@ -76,30 +76,32 @@ public class ReconnectService {
   }
 
   private void reconnect() {
-	if(!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)){
-	    log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + exchangeStreamingConfiguration.getMaxReconnectAttempts());
-	
-	    if (numConnectionAttempts >= exchangeStreamingConfiguration.getMaxReconnectAttempts()) {
-	      log.debug("Terminating reconnection attempts.");
-	      streamingExchangeService.disconnect();
-	      Thread.currentThread().interrupt();
-	      return;
-	    }
-	    streamingExchangeService.disconnect();
-	    streamingExchangeService.connect();
-	    numConnectionAttempts++;
-	}
+
+    if (!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)) {
+      log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + exchangeStreamingConfiguration.getMaxReconnectAttempts());
+
+      if (numConnectionAttempts >= exchangeStreamingConfiguration.getMaxReconnectAttempts()) {
+        log.debug("Terminating reconnection attempts.");
+        streamingExchangeService.disconnect();
+        Thread.currentThread().interrupt();
+        return;
+      }
+      streamingExchangeService.disconnect();
+      streamingExchangeService.connect();
+      numConnectionAttempts++;
+    }
   }
 
   class ReconnectTask extends TimerTask {
 
     @Override
     public void run() {
-      //log.debug("ReconnectTask called; result: " + (streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN) ? "Connection still alive" : "Connection dead - reconnecting"));
-      if(!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)){
-	      log.debug("Time out!");
-	      timer.purge();
-	      reconnect();
+
+      // log.debug("ReconnectTask called; result: " + (streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN) ? "Connection still alive" : "Connection dead - reconnecting"));
+      if (!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)) {
+        log.debug("Time out!");
+        timer.purge();
+        reconnect();
       }
       timer.purge();
       timer.schedule(new ReconnectTask(), exchangeStreamingConfiguration.getTimeoutInMs());

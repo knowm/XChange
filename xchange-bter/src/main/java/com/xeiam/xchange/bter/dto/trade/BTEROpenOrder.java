@@ -45,8 +45,8 @@ public class BTEROpenOrder {
    * @param sellAmount amount to sell
    * @param buyAmount amount to buy
    */
-  private BTEROpenOrder(@JsonProperty("id") String id, @JsonProperty("sell_type") String sellCurrency, @JsonProperty("buy_type") String buyCurrency, @JsonProperty("sell_amount") BigDecimal sellAmount,
-      @JsonProperty("buy_amount") BigDecimal buyAmount) {
+  private BTEROpenOrder(@JsonProperty("id") String id, @JsonProperty("sell_type") String sellCurrency, @JsonProperty("buy_type") String buyCurrency,
+      @JsonProperty("sell_amount") BigDecimal sellAmount, @JsonProperty("buy_amount") BigDecimal buyAmount) {
 
     this.id = id;
     this.sellCurrency = sellCurrency;

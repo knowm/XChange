@@ -77,7 +77,7 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
 
     verify(limitOrder.getCurrencyPair());
 
-    String pair = String.format("%s_%s", limitOrder.getCurrencyPair().baseCurrency, limitOrder.getCurrencyPair().counterCurrency).toLowerCase();
+    String pair = String.format("%s_%s", limitOrder.getCurrencyPair().baseSymbol, limitOrder.getCurrencyPair().counterSymbol).toLowerCase();
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
     BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
     checkResult(ret);

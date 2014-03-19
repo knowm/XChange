@@ -36,7 +36,7 @@ import com.xeiam.xchange.bter.dto.BTEROrderType.BTEROrderTypeDeserializer;
 public enum BTEROrderType {
 
   BUY, SELL;
-  
+
   static class BTEROrderTypeDeserializer extends JsonDeserializer<BTEROrderType> {
 
     @Override

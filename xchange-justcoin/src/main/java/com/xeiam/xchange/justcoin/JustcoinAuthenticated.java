@@ -47,7 +47,7 @@ import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
  */
 @Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
-public interface JustcoinAuthenticated {
+public interface JustcoinAuthenticated extends Justcoin {
 
   @GET
   @Path("balances")
