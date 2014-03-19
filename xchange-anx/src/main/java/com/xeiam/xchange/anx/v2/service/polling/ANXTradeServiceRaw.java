@@ -74,7 +74,7 @@ public class ANXTradeServiceRaw extends ANXBaseService {
 
         try {
             ANXGenericResponse anxGenericResponse =
-                    anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), marketOrder.getCurrencyPair().baseCurrency, marketOrder.getCurrencyPair().counterCurrency, marketOrder
+                    anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), marketOrder.getCurrencyPair().baseSymbol, marketOrder.getCurrencyPair().counterSymbol, marketOrder
                             .getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount(), null);
             return anxGenericResponse;
         } catch (ANXException e) {
@@ -85,7 +85,7 @@ public class ANXTradeServiceRaw extends ANXBaseService {
     public ANXGenericResponse placeANXLimitOrder(CurrencyPair currencyPair, String type, BigDecimal amount, BigDecimal price) throws IOException {
 
         try {
-            ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), currencyPair.baseCurrency, currencyPair.counterCurrency, type, amount, price);
+            ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), currencyPair.baseSymbol, currencyPair.counterSymbol, type, amount, price);
 
             return anxGenericResponse;
         } catch (ANXException e) {

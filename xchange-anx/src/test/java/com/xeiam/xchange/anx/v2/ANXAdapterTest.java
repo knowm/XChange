@@ -97,8 +97,8 @@ public class ANXAdapterTest {
         Assert.assertEquals(new BigDecimal("412.34567"), openorders.get(0).getLimitPrice());
         Assert.assertEquals(new BigDecimal("10.00000000"), openorders.get(0).getTradableAmount());
 
-        Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().baseCurrency);
-        Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().counterCurrency);
+        Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().baseSymbol);
+        Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().counterSymbol);
 
         Assert.assertEquals(new Date(1393411075000L), openorders.get(0).getTimestamp());
     }
@@ -124,8 +124,8 @@ public class ANXAdapterTest {
         Assert.assertEquals(new BigDecimal("16.00000000"), asks.get(0).getTradableAmount());
         Assert.assertEquals(new BigDecimal("3260.40000"), asks.get(0).getLimitPrice());
 
-        Assert.assertEquals("BTC", asks.get(0).getCurrencyPair().baseCurrency);
-        Assert.assertEquals("USD", asks.get(0).getCurrencyPair().counterCurrency);
+        Assert.assertEquals("BTC", asks.get(0).getCurrencyPair().baseSymbol);
+        Assert.assertEquals("USD", asks.get(0).getCurrencyPair().counterSymbol);
     }
 
     /*

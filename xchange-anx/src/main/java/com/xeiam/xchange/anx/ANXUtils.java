@@ -44,43 +44,10 @@ public final class ANXUtils {
 
     }
 
-//    public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR = 100000000;
-
     public static final int BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2 = 100000000;
 
     public static final int VOLUME_AND_AMOUNT_MAX_SCALE = 8;
 
-//
-//    public static final int PRICE_INT_2_DECIMAL_FACTOR = 100000;
-//
-//    public static final int JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR = 1000;
-
-    /**
-     * Converts an amount to a properly scaled int-String for Mt Gox
-     *
-     * @param amount
-     * @return
-     */
-//    public static String getAmountString(BigDecimal amount) {
-//
-//        return amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR)).toPlainString();
-//    }
-
-//    public static BigDecimal getPrice(long price) {
-//        return new BigDecimal(price).divide(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR));
-//    }
-
-//    public static String getPriceString(BigDecimal price) {
-//
-////    if (!(price.getCurrencyUnit().toString().equals("JPY") || price.getCurrencyUnit().toString().equals("SEK"))) {
-////      return price.getAmount().multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-////    }
-////    else { // JPY, SEK
-////      return price.getAmount().multiply(new BigDecimal(ANXUtils.JPY_SEK_PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-////    }
-//
-//        return price.multiply(new BigDecimal(ANXUtils.PRICE_INT_2_DECIMAL_FACTOR)).stripTrailingZeros().toPlainString();
-//    }
 
     /**
      * Find and match an order with id in orders
@@ -108,8 +75,8 @@ public final class ANXUtils {
 
 
     public static int getMaxPriceScale(CurrencyPair currencyPair) {
-        if (currencyPair.baseCurrency.equalsIgnoreCase(Currencies.BTC.toString()) ||
-                currencyPair.baseCurrency.equalsIgnoreCase(Currencies.LTC.toString())) {
+        if (currencyPair.baseSymbol.equalsIgnoreCase(Currencies.BTC.toString()) ||
+                currencyPair.baseSymbol.equalsIgnoreCase(Currencies.LTC.toString())) {
             return 5;
         } else {
             return 8;

@@ -122,8 +122,8 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
         }
 
         // Adapt to XChange DTOs
-        List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.baseCurrency, currencyPair.counterCurrency, "ask", "");
-        List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.baseCurrency, currencyPair.counterCurrency, "bid", "");
+        List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.baseSymbol, currencyPair.counterSymbol, "ask", "");
+        List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.baseSymbol, currencyPair.counterSymbol, "bid", "");
         Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
         return new OrderBook(date, asks, bids);
     }

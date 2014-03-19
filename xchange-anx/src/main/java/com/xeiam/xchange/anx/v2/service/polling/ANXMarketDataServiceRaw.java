@@ -57,7 +57,7 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
   public ANXTicker getANXTicker(CurrencyPair currencyPair) throws IOException {
 
     try {
-      ANXTickerWrapper anxTickerWrapper = anxV2.getTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+      ANXTickerWrapper anxTickerWrapper = anxV2.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
       return anxTickerWrapper.getAnxTicker();
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getTicker(): " + e.getError(), e);
@@ -68,7 +68,7 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
 
     try {
       ANXDepthWrapper anxDepthWrapper = null;
-      anxDepthWrapper = anxV2.getFullDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
+      anxDepthWrapper = anxV2.getFullDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
       return anxDepthWrapper;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getANXFullOrderBook(): " + e.getError(), e);
@@ -79,7 +79,7 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
 
     try {
       ANXDepthWrapper anxDepthWrapper = null;
-      anxDepthWrapper = anxV2.getPartialDepth(currencyPair.baseCurrency, currencyPair.counterCurrency);
+      anxDepthWrapper = anxV2.getPartialDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
       return anxDepthWrapper;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getANXPartialOrderBook(): " + e.getError(), e);
@@ -93,11 +93,11 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
 
       if (sinceTimeStamp != null) {
         // Request data with since param
-        anxTradeWrapper = anxV2.getTrades(currencyPair.baseCurrency, currencyPair.counterCurrency, sinceTimeStamp);
+        anxTradeWrapper = anxV2.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, sinceTimeStamp);
       }
       else {
         // Request data
-        anxTradeWrapper = anxV2.getTrades(currencyPair.baseCurrency, currencyPair.counterCurrency);
+        anxTradeWrapper = anxV2.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol);
       }
 
       return anxTradeWrapper;
