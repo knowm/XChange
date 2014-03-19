@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.anx.v2.dto.ANXValue;
 
 /**
- * Data object representing Account Info from Mt Gox
+ * Data object representing Account Info from ANX
  */
 public final class ANXAccountInfo {
 

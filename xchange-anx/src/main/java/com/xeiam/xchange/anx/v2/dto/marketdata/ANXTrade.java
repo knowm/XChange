@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * <p>
- * Data object representing a Trade from Mt Gox
+ * Data object representing a Trade from ANX
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
  */

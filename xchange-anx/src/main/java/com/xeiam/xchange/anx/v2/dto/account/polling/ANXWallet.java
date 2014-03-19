@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.anx.v2.dto.ANXValue;
 
 /**
- * Data object representing a Wallet from Mt Gox
+ * Data object representing a Wallet from ANX
  */
 public final class ANXWallet {
 

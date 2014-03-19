@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Test MtGoxWithdrawalResponse JSON parsing
+ * Test ANXWithdrawalResponse JSON parsing
  */
 public class WithdrawalResponseJSONTest {
 

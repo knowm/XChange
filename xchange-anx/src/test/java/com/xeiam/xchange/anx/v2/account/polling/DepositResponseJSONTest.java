@@ -31,7 +31,7 @@ import java.io.InputStream;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
- * Test MtGoxDepositResponse JSON parsing
+ * Test ANXDepositResponse JSON parsing
  */
 public class DepositResponseJSONTest {
 

@@ -64,7 +64,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * <p>
- * Implementation of the market data service for Mt Gox V2
+ * Implementation of the market data service for ANX V2
  * </p>
  * <ul>
  * <li>Provides access to various market data values</li>

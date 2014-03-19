@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing a buy or sell order from Mt Gox
+ * Data object representing a buy or sell order from ANX
  */
 public final class ANXOrder {
 

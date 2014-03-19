@@ -24,7 +24,7 @@ package com.xeiam.xchange.anx.v2.dto.trade.polling;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data object representing a response message from Mt Gox after placing and order
+ * Data object representing a response message from ANX after placing and order
  */
 public final class ANXGenericResponse {
 
