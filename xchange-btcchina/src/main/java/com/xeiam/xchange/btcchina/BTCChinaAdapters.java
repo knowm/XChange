@@ -22,7 +22,6 @@
 package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +71,7 @@ public final class BTCChinaAdapters {
    */
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(btcchinaOrders.size());
 
     for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
       limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currencyPair, orderType));
@@ -92,10 +91,6 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType) {
-
-    // place a limit order
-    String tradableIdentifier = Currencies.BTC;
-
     return new LimitOrder(orderType, amount, currencyPair, "", null, price);
 
   }
@@ -125,7 +120,7 @@ public final class BTCChinaAdapters {
    */
   public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       tradesList.add(adaptTrade(btcchinaTrade, currencyPair));
     }
@@ -169,7 +164,7 @@ public final class BTCChinaAdapters {
    */
   public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
 
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       Wallet wallet;
@@ -217,8 +212,8 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     if (orders != null) {
       for (BTCChinaOrder order : orders) {
         if (order.getStatus().equals("open")) {
