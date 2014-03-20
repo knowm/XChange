@@ -22,6 +22,7 @@
 package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -246,6 +248,53 @@ public final class BTCChinaAdapters {
     BigDecimal price = order.getPrice();
 
     return new LimitOrder(orderType, amount, CurrencyPair.BTC_CNY, id, date, price);
+  }
+
+
+  public static Trade adaptTransaction(BTCChinaTransaction transaction) {
+    String type = transaction.getType();
+
+    // could also be 'rebate' or other
+    if(!(type.startsWith("buy") || type.startsWith("sell"))) {
+      return null;
+    }
+
+    OrderType orderType = type.startsWith("buy") ? OrderType.BID : OrderType.ASK;
+    CurrencyPair currencyPair = null;
+    BigDecimal price = BigDecimal.ZERO;
+    BigDecimal amount = BigDecimal.ZERO;
+
+    if(!transaction.getBtcAmount().equals(BigDecimal.ZERO)) {
+      currencyPair = new CurrencyPair("BTC", "CNY");
+      price = transaction.getCnyAmount().abs().divide(transaction.getBtcAmount());
+      amount = transaction.getBtcAmount().abs();
+    } else {
+      currencyPair = new CurrencyPair("LTC", "CNY");
+      price = transaction.getCnyAmount().abs().divide(transaction.getLtcAmount());
+      amount = transaction.getLtcAmount().abs();
+    }
+
+    Date date = DateUtils.fromMillisUtc(transaction.getDate() * 1000L);
+
+    return new Trade(orderType, BTCChinaUtils.truncateAmount(amount), currencyPair, price, date, String.valueOf(transaction.getId()));
+  }
+
+  /**
+   * Adapt BTCChinaTransactions to Trades
+   * @param transactions
+   * @return
+   */
+  public static Trades adaptTransactions(List<BTCChinaTransaction> transactions) {
+    List<Trade> tradeHistory = new ArrayList<Trade>(transactions.size());
+
+    for (BTCChinaTransaction transaction : transactions) {
+      Trade adaptTransaction = adaptTransaction(transaction);
+      if(adaptTransaction != null) {
+        tradeHistory.add(adaptTransaction);
+      }
+    }
+
+    return new Trades(tradeHistory, TradeSortType.SortByID);
   }
 
 }

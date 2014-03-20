@@ -30,7 +30,9 @@ import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -78,7 +80,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     BTCChinaBooleanResponse response = placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
 
-    return "" + response.getId();
+    return response.getId();
   }
 
   @Override
@@ -90,8 +92,10 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public Trades getTradeHistory(Object... args) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
+	  BTCChinaTransactionsResponse response = getTransactions();
+	  return BTCChinaAdapters.adaptTransactions(response.getResult().getTransactions());
   }
+  
+  
 
 }
