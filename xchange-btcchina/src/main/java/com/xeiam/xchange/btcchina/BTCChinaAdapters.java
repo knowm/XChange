@@ -261,11 +261,11 @@ public final class BTCChinaAdapters {
 
     if(!transaction.getBtcAmount().equals(BigDecimal.ZERO)) {
       currencyPair = new CurrencyPair("BTC", "CNY");
-      price = transaction.getCnyAmount().abs().divide(transaction.getBtcAmount());
+      price = transaction.getCnyAmount().divide(transaction.getBtcAmount()).abs();
       amount = transaction.getBtcAmount().abs();
     } else {
       currencyPair = new CurrencyPair("LTC", "CNY");
-      price = transaction.getCnyAmount().abs().divide(transaction.getLtcAmount());
+      price = transaction.getCnyAmount().divide(transaction.getLtcAmount()).abs();
       amount = transaction.getLtcAmount().abs();
     }
 
