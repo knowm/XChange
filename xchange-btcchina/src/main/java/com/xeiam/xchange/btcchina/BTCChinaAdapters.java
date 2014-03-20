@@ -33,6 +33,7 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -70,7 +71,7 @@ public final class BTCChinaAdapters {
    */
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(btcchinaOrders.size());
 
     for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
       limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currencyPair, orderType));
@@ -90,10 +91,6 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType) {
-
-    // place a limit order
-    String tradableIdentifier = Currencies.BTC;
-
     return new LimitOrder(orderType, amount, currencyPair, "", null, price);
 
   }
@@ -123,7 +120,7 @@ public final class BTCChinaAdapters {
    */
   public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       tradesList.add(adaptTrade(btcchinaTrade, currencyPair));
     }
@@ -167,7 +164,7 @@ public final class BTCChinaAdapters {
    */
   public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
 
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       Wallet wallet;
@@ -215,8 +212,8 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     if (orders != null) {
       for (BTCChinaOrder order : orders) {
         if (order.getStatus().equals("open")) {
@@ -246,6 +243,53 @@ public final class BTCChinaAdapters {
     BigDecimal price = order.getPrice();
 
     return new LimitOrder(orderType, amount, CurrencyPair.BTC_CNY, id, date, price);
+  }
+
+
+  public static Trade adaptTransaction(BTCChinaTransaction transaction) {
+    String type = transaction.getType();
+
+    // could also be 'rebate' or other
+    if(!(type.startsWith("buy") || type.startsWith("sell"))) {
+      return null;
+    }
+
+    OrderType orderType = type.startsWith("buy") ? OrderType.BID : OrderType.ASK;
+    CurrencyPair currencyPair = null;
+    BigDecimal price = BigDecimal.ZERO;
+    BigDecimal amount = BigDecimal.ZERO;
+
+    if(!transaction.getBtcAmount().equals(BigDecimal.ZERO)) {
+      currencyPair = new CurrencyPair("BTC", "CNY");
+      price = transaction.getCnyAmount().abs().divide(transaction.getBtcAmount());
+      amount = transaction.getBtcAmount().abs();
+    } else {
+      currencyPair = new CurrencyPair("LTC", "CNY");
+      price = transaction.getCnyAmount().abs().divide(transaction.getLtcAmount());
+      amount = transaction.getLtcAmount().abs();
+    }
+
+    Date date = DateUtils.fromMillisUtc(transaction.getDate() * 1000L);
+
+    return new Trade(orderType, BTCChinaUtils.truncateAmount(amount), currencyPair, price, date, String.valueOf(transaction.getId()));
+  }
+
+  /**
+   * Adapt BTCChinaTransactions to Trades
+   * @param transactions
+   * @return
+   */
+  public static Trades adaptTransactions(List<BTCChinaTransaction> transactions) {
+    List<Trade> tradeHistory = new ArrayList<Trade>(transactions.size());
+
+    for (BTCChinaTransaction transaction : transactions) {
+      Trade adaptTransaction = adaptTransaction(transaction);
+      if(adaptTransaction != null) {
+        tradeHistory.add(adaptTransaction);
+      }
+    }
+
+    return new Trades(tradeHistory, TradeSortType.SortByID);
   }
 
 }

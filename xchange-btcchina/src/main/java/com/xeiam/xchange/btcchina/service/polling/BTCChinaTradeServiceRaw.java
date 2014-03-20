@@ -36,7 +36,9 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -91,10 +93,10 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
 
     if (orderType == OrderType.BID) {
 
-      response = btcchina.buyOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaBuyOrderRequest(price, amount));
+      response = btcchina.buyOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaBuyOrderRequest(price, amount));
     }
     else {
-      response = btcchina.sellOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaSellOrderRequest(price, amount));
+      response = btcchina.sellOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaSellOrderRequest(price, amount));
     }
 
     return response;
@@ -106,6 +108,10 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
   public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
 
     return btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
+  }
+  
+  public BTCChinaTransactionsResponse getTransactions() throws IOException {
+	  return btcchina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaTransactionsRequest());
   }
 
 }

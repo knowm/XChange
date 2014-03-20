@@ -39,7 +39,7 @@ public final class BTCChinaBuyOrderRequest extends BTCChinaRequest {
    */
   public BTCChinaBuyOrderRequest(BigDecimal price, BigDecimal amount) {
 
-    method = "buyOrder";
+    method = "buyOrder2";
     params = "[" + price.toPlainString() + "," + BTCChinaUtils.truncateAmount(amount).toPlainString() + "]";
   }
 
