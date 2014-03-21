@@ -29,6 +29,12 @@
 			<artifactId>xchange-core</artifactId>
 			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.pusher</groupId>
+			<artifactId>pusher-java-client</artifactId>
+			<version>0.3.1</version>
+		</dependency>
 
 	</dependencies>
 
