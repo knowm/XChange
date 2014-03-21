@@ -24,8 +24,6 @@ package com.xeiam.xchange.virtex.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -34,14 +32,9 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
-import com.xeiam.xchange.virtex.VirtEx;
 import com.xeiam.xchange.virtex.VirtExAdapters;
-import com.xeiam.xchange.virtex.VirtExUtils;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
 
 /**
@@ -52,9 +45,7 @@ import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VirtExMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
-
-  private final VirtEx virtEx;
+public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
@@ -64,72 +55,48 @@ public class VirtExMarketDataService extends BasePollingExchangeService implemen
   public VirtExMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchangeSpecification.getSslUri());
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
-
-    // Request data
-    VirtExTicker virtExTicker = virtEx.getTicker(currency);
+    verify(currencyPair);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTicker(virtExTicker, currency, tradableIdentifier);
+    return VirtExAdapters.adaptTicker(getVirtExTicker(currencyPair.counterSymbol), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Request data
-    VirtExDepth virtExDepth = virtEx.getFullDepth(currency);
+    VirtExDepth virtExDepth = getVirtExOrderBook(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currency, "ask", "");
-    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currency, "bid", "");
+    List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currencyPair.counterSymbol, "ask", "");
+    List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currencyPair.counterSymbol, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // Request data
-    VirtExTrade[] virtExTrades = virtEx.getTrades(currency);
+    VirtExTrade[] virtExTrades = getVirtExTrades(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
-    return VirtExAdapters.adaptTrades(virtExTrades, currency, tradableIdentifier);
+    return VirtExAdapters.adaptTrades(virtExTrades, currencyPair);
   }
 
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) throws IOException {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(VirtExUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return VirtExUtils.CURRENCY_PAIRS;
   }
 
 }

@@ -24,7 +24,7 @@ package com.xeiam.xchange.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * <p>
@@ -36,19 +36,19 @@ import org.joda.money.BigMoney;
  */
 public final class Ticker {
 
-  private final String tradableIdentifier;
-  private final BigMoney last;
-  private final BigMoney bid;
-  private final BigMoney ask;
-  private final BigMoney high;
-  private final BigMoney low;
+  private final CurrencyPair currencyPair;
+  private final BigDecimal last;
+  private final BigDecimal bid;
+  private final BigDecimal ask;
+  private final BigDecimal high;
+  private final BigDecimal low;
   private final BigDecimal volume;
   private final Date timestamp;
 
   /**
    * Constructor
    * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
    * @param last
    * @param bid
    * @param ask
@@ -57,9 +57,9 @@ public final class Ticker {
    * @param volume 24h volume
    * @param timestamp
    */
-  private Ticker(String tradableIdentifier, BigMoney last, BigMoney bid, BigMoney ask, BigMoney high, BigMoney low, BigDecimal volume, Date timestamp) {
+  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal volume, Date timestamp) {
 
-    this.tradableIdentifier = tradableIdentifier;
+    this.currencyPair = currencyPair;
     this.last = last;
     this.bid = bid;
     this.ask = ask;
@@ -69,32 +69,32 @@ public final class Ticker {
     this.timestamp = timestamp;
   }
 
-  public String getTradableIdentifier() {
+  public CurrencyPair getCurrencyPair() {
 
-    return tradableIdentifier;
+    return currencyPair;
   }
 
-  public BigMoney getLast() {
+  public BigDecimal getLast() {
 
     return last;
   }
 
-  public BigMoney getBid() {
+  public BigDecimal getBid() {
 
     return bid;
   }
 
-  public BigMoney getAsk() {
+  public BigDecimal getAsk() {
 
     return ask;
   }
 
-  public BigMoney getHigh() {
+  public BigDecimal getHigh() {
 
     return high;
   }
 
-  public BigMoney getLow() {
+  public BigDecimal getLow() {
 
     return low;
   }
@@ -112,8 +112,7 @@ public final class Ticker {
   @Override
   public String toString() {
 
-    return "Ticker [tradableIdentifier=" + tradableIdentifier + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp="
-        + timestamp + "]";
+    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp=" + timestamp + "]";
   }
 
   /**
@@ -127,12 +126,12 @@ public final class Ticker {
    */
   public static class TickerBuilder {
 
-    private String tradableIdentifier;
-    private BigMoney last;
-    private BigMoney bid;
-    private BigMoney ask;
-    private BigMoney high;
-    private BigMoney low;
+    private CurrencyPair currencyPair;
+    private BigDecimal last;
+    private BigDecimal bid;
+    private BigDecimal ask;
+    private BigDecimal high;
+    private BigDecimal low;
     private BigDecimal volume;
     private Date timestamp;
 
@@ -151,7 +150,7 @@ public final class Ticker {
 
       validateState();
 
-      Ticker ticker = new Ticker(tradableIdentifier, last, bid, ask, high, low, volume, timestamp);
+      Ticker ticker = new Ticker(currencyPair, last, bid, ask, high, low, volume, timestamp);
 
       isBuilt = true;
 
@@ -165,37 +164,37 @@ public final class Ticker {
       }
     }
 
-    public TickerBuilder withTradableIdentifier(String tradableIdentifier) {
+    public TickerBuilder withCurrencyPair(CurrencyPair currencyPair) {
 
-      this.tradableIdentifier = tradableIdentifier;
+      this.currencyPair = currencyPair;
       return this;
     }
 
-    public TickerBuilder withLast(BigMoney last) {
+    public TickerBuilder withLast(BigDecimal last) {
 
       this.last = last;
       return this;
     }
 
-    public TickerBuilder withBid(BigMoney bid) {
+    public TickerBuilder withBid(BigDecimal bid) {
 
       this.bid = bid;
       return this;
     }
 
-    public TickerBuilder withAsk(BigMoney ask) {
+    public TickerBuilder withAsk(BigDecimal ask) {
 
       this.ask = ask;
       return this;
     }
 
-    public TickerBuilder withHigh(BigMoney high) {
+    public TickerBuilder withHigh(BigDecimal high) {
 
       this.high = high;
       return this;
     }
 
-    public TickerBuilder withLow(BigMoney low) {
+    public TickerBuilder withLow(BigDecimal low) {
 
       this.low = low;
       return this;

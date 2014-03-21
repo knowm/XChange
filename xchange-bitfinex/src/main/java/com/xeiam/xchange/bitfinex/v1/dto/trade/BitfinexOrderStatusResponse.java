@@ -42,6 +42,24 @@ public class BitfinexOrderStatusResponse {
   private final BigDecimal remainingAmount;
   private final BigDecimal executedAmount;
 
+  /**
+   * Constructor
+   * 
+   * @param id
+   * @param symbol
+   * @param exchange
+   * @param price
+   * @param avgExecutionPrice
+   * @param side
+   * @param type
+   * @param timestamp
+   * @param isLive
+   * @param isCancelled
+   * @param wasForced
+   * @param originalAmount
+   * @param remainingAmount
+   * @param executedAmount
+   */
   public BitfinexOrderStatusResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("exchange") String exchange, @JsonProperty("price") BigDecimal price,
       @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side, @JsonProperty("type") String type, @JsonProperty("timestamp") float timestamp,
       @JsonProperty("is_live") boolean isLive, @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
@@ -73,6 +91,26 @@ public class BitfinexOrderStatusResponse {
     return remainingAmount;
   }
 
+  public BigDecimal getOriginalAmount() {
+
+    return originalAmount;
+  }
+
+  public boolean getWasForced() {
+
+    return wasForced;
+  }
+
+  public String getExchange() {
+
+    return exchange;
+  }
+
+  public String getType() {
+
+    return type;
+  }
+
   public String getSymbol() {
 
     return symbol;
@@ -101,6 +139,16 @@ public class BitfinexOrderStatusResponse {
   public int getId() {
 
     return id;
+  }
+
+  public boolean isLive() {
+
+    return isLive;
+  }
+
+  public BigDecimal getAvgExecutionPrice() {
+
+    return avgExecutionPrice;
   }
 
   @Override

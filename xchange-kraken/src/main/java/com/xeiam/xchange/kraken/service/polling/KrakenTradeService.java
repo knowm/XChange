@@ -22,92 +22,54 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.kraken.KrakenAdapters;
-import com.xeiam.xchange.kraken.KrakenAuthenticated;
-import com.xeiam.xchange.kraken.KrakenUtils;
-import com.xeiam.xchange.kraken.dto.trade.KrakenCancelOrderResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOpenOrdersResult;
-import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResult;
-import com.xeiam.xchange.kraken.service.KrakenDigest;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.utils.Assert;
 
-public class KrakenTradeService extends BasePollingExchangeService implements PollingTradeService {
-
-  private KrakenAuthenticated krakenAuthenticated;
-  private ParamsDigest signatureCreator;
+public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
 
   public KrakenTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    krakenAuthenticated = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchangeSpecification.getSslUri());
-    signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    KrakenOpenOrdersResult result = krakenAuthenticated.listOrders(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), null, null);
-    if (!result.isSuccess()) {
-      throw new ExchangeException(Arrays.toString(result.getError()));
-    }
-    return KrakenAdapters.adaptOpenOrders(result.getResult().getOrders());
+    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
   }
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    KrakenOrderResult result =
-        krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(marketOrder.getTradableIdentifier(), marketOrder
-            .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(marketOrder.getType()), "market", null, marketOrder.getTradableAmount().toString());
-    if (!result.isSuccess()) {
-      throw new ExchangeException(Arrays.toString(result.getError()));
-    }
-    return result.getResult().getTxid();
+    verify(marketOrder.getCurrencyPair());
+
+    return KrakenAdapters.adaptOrderId(super.placeKrakenMarketOrder(marketOrder));
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    KrakenOrderResult result =
-        krakenAuthenticated.addOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), KrakenUtils.createKrakenCurrencyPair(limitOrder.getTradableIdentifier(), limitOrder
-            .getTransactionCurrency()), KrakenUtils.getKrakenOrderType(limitOrder.getType()), "limit", limitOrder.getLimitPrice().getAmount().toString(), limitOrder.getTradableAmount().toString());
-    if (!result.isSuccess()) {
-      throw new ExchangeException(Arrays.toString(result.getError()));
-    }
-    return result.getResult().getTxid();
+    verify(limitOrder.getCurrencyPair());
+
+    return KrakenAdapters.adaptOrderId(super.placeKrakenLimitOrder(limitOrder));
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    KrakenCancelOrderResult result = krakenAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, KrakenUtils.getNonce(), orderId);
-    if (!result.isSuccess()) {
-      return false;
-    }
-    else {
-      return result.getResult().getCount() > 0;
-    }
+    return super.cancelKrakenOrder(orderId).getCount() > 0;
   }
 
   @Override
-  public Trades getTradeHistory(Object... arguments) throws IOException {
+  public Trades getTradeHistory(Object... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
   }
 
 }

@@ -23,7 +23,6 @@ package com.xeiam.xchange.examples.kraken;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.kraken.KrakenExchange;
 
 public class KrakenExampleUtils {
@@ -34,12 +33,11 @@ public class KrakenExampleUtils {
 
   public static Exchange createTestExchange() {
 
-    Exchange kraken = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
-    ExchangeSpecification specification = kraken.getDefaultExchangeSpecification();
-    specification.setApiKey("cUQtvjUTeflRAyjXeQVhWTInsZh/VMLcCrugPX4nSpgqs0hadPJQATUc");
-    specification.setSecretKey("BMTodAUWigFa+wCEEdjvFM03jAa0oovRoLKbFjjvkiQOcJmvrQoNs6mMTvS/vQMQzHfQI5EhGgfWftSES1CfkQ==");
-    specification.setUserName("XChange");
-    kraken.applySpecification(specification);
-    return kraken;
+    Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
+    krakenExchange.getExchangeSpecification().setApiKey("API Key");
+    krakenExchange.getExchangeSpecification().setSecretKey("Secret==");
+    krakenExchange.getExchangeSpecification().setUserName("user");
+    krakenExchange.applySpecification(krakenExchange.getExchangeSpecification());
+    return krakenExchange;
   }
 }

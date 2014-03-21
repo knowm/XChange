@@ -24,10 +24,8 @@ package com.xeiam.xchange.bitcoinaverage;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 
@@ -51,15 +49,15 @@ public final class BitcoinAverageAdapters {
    * @param tradableIdentifier
    * @return Ticker
    */
-  public static Ticker adaptTicker(BitcoinAverageTicker bitcoinAverageTicker, String currency, String tradableIdentifier) {
+  public static Ticker adaptTicker(BitcoinAverageTicker bitcoinAverageTicker, CurrencyPair currencyPair) {
 
-    BigMoney last = MoneyUtils.parse(currency + " " + bitcoinAverageTicker.getLast());
-    BigMoney bid = MoneyUtils.parse(currency + " " + bitcoinAverageTicker.getBid());
-    BigMoney ask = MoneyUtils.parse(currency + " " + bitcoinAverageTicker.getAsk());
+    BigDecimal last = bitcoinAverageTicker.getLast();
+    BigDecimal bid = bitcoinAverageTicker.getBid();
+    BigDecimal ask = bitcoinAverageTicker.getAsk();
     Date timestamp = bitcoinAverageTicker.getTimestamp();
     BigDecimal volume = bitcoinAverageTicker.getVolume();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withVolume(volume).withTimestamp(timestamp).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withVolume(volume).withTimestamp(timestamp).build();
   }
 
 }

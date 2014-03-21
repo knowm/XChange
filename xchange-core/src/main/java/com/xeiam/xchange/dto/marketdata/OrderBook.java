@@ -27,8 +27,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
@@ -150,12 +149,11 @@ public final class OrderBook {
 
       OrderType type = orderBookUpdate.getLimitOrder().getType();
       BigDecimal tradeableAmount = orderBookUpdate.getTotalVolume();
-      String tradeableIdentifier = orderBookUpdate.getLimitOrder().getTradableIdentifier();
-      String transitionCurrency = orderBookUpdate.getLimitOrder().getTransactionCurrency();
+      CurrencyPair currencyPair = orderBookUpdate.getLimitOrder().getCurrencyPair();
       String id = orderBookUpdate.getLimitOrder().getId();
       Date date = orderBookUpdate.getLimitOrder().getTimestamp();
-      BigMoney limit = orderBookUpdate.getLimitOrder().getLimitPrice();
-      LimitOrder updatedOrder = new LimitOrder(type, tradeableAmount, tradeableIdentifier, transitionCurrency, id, date, limit);
+      BigDecimal limit = orderBookUpdate.getLimitOrder().getLimitPrice();
+      LimitOrder updatedOrder = new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
 
       if (orderBookUpdate.getLimitOrder().getType() == OrderType.ASK) {
         asks.add(updatedOrder);

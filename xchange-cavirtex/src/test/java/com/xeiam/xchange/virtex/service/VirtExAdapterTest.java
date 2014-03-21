@@ -31,6 +31,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -62,11 +63,11 @@ public class VirtExAdapterTest {
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getAsks(), "CAD", "ask", "");
 
     // Verify all fields filled
-    assertThat(asks.get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(16.90536);
+    assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(16.90536);
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(6.51);
-    assertThat(asks.get(0).getTradableIdentifier()).isEqualTo("BTC");
-    assertThat(asks.get(0).getTransactionCurrency()).isEqualTo("CAD");
+    assertThat(asks.get(0).getCurrencyPair().baseSymbol).isEqualTo("BTC");
+    assertThat(asks.get(0).getCurrencyPair().counterSymbol).isEqualTo("CAD");
 
   }
 
@@ -80,12 +81,13 @@ public class VirtExAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     VirtExTrade[] VirtExTrades = mapper.readValue(is, VirtExTrade[].class);
 
-    Trades trades = VirtExAdapters.adaptTrades(VirtExTrades, "CAD", "BTC");
+    Trades trades = VirtExAdapters.adaptTrades(VirtExTrades, CurrencyPair.BTC_CAD);
     assertThat(trades.getTrades().size()).isEqualTo(558);
 
     // Verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue() == 11.500000000);
+    assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 11.500000000);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 13.000000000);
+    assertThat(trades.getTrades().get(0).getCurrencyPair().baseSymbol == "BTC");
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2012-09-26 15:23:19 GMT");
   }
 
@@ -99,13 +101,14 @@ public class VirtExAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     VirtExTicker VirtExTicker = mapper.readValue(is, VirtExTicker.class);
 
-    Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker, "CAD", "BTC");
+    Ticker ticker = VirtExAdapters.adaptTicker(VirtExTicker, CurrencyPair.BTC_CAD);
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("CAD 12.32900");
-    assertThat(ticker.getLow().toString()).isEqualTo("CAD 11.64001");
-    assertThat(ticker.getHigh().toString()).isEqualTo("CAD 12.37989");
+    assertThat(ticker.getLast().toString()).isEqualTo("12.32900");
+    assertThat(ticker.getLow().toString()).isEqualTo("11.64001");
+    assertThat(ticker.getHigh().toString()).isEqualTo("12.37989");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("1866.56"));
+    assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo("BTC");
 
   }
 }

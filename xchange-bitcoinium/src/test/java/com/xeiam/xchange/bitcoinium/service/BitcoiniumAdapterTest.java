@@ -35,6 +35,7 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.service.marketdata.BitcoiniumDepthJSONTest;
 import com.xeiam.xchange.bitcoinium.service.marketdata.BitcoiniumTickerJSONTest;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -54,14 +55,13 @@ public class BitcoiniumAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcoiniumOrderbook bitcoiniumDepth = mapper.readValue(is, BitcoiniumOrderbook.class);
 
-    OrderBook orderBook = BitcoiniumAdapters.adaptOrderbook(bitcoiniumDepth, "BTC", "USD");
+    OrderBook orderBook = BitcoiniumAdapters.adaptOrderbook(bitcoiniumDepth, CurrencyPair.BTC_USD);
 
     // Verify all fields filled
-    assertThat(orderBook.getAsks().get(0).getLimitPrice().getAmount().doubleValue()).isEqualTo(132.79);
+    assertThat(orderBook.getAsks().get(0).getLimitPrice().doubleValue()).isEqualTo(132.79);
     assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(orderBook.getAsks().get(0).getTradableAmount().doubleValue()).isEqualTo(45.98);
-    assertThat(orderBook.getAsks().get(0).getTradableIdentifier()).isEqualTo("BTC");
-    assertThat(orderBook.getAsks().get(0).getTransactionCurrency()).isEqualTo("USD");
+    assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
   @Test
@@ -74,12 +74,12 @@ public class BitcoiniumAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcoiniumTicker BitcoiniumTicker = mapper.readValue(is, BitcoiniumTicker.class);
 
-    Ticker ticker = BitcoiniumAdapters.adaptTicker(BitcoiniumTicker, "USD", "BTC");
+    Ticker ticker = BitcoiniumAdapters.adaptTicker(BitcoiniumTicker, CurrencyPair.BTC_USD);
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("USD 914.88696");
-    assertThat(ticker.getLow().toString()).isEqualTo("USD 848.479");
-    assertThat(ticker.getHigh().toString()).isEqualTo("USD 932.38");
+    assertThat(ticker.getLast().toString()).isEqualTo("914.88696");
+    assertThat(ticker.getLow().toString()).isEqualTo("848.479");
+    assertThat(ticker.getHigh().toString()).isEqualTo("932.38");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("13425"));
 
   }

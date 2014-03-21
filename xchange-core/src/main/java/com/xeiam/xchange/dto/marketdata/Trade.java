@@ -24,14 +24,13 @@ package com.xeiam.xchange.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Data object representing a Trade
  */
-public final class Trade implements Comparable<Trade> {
+public final class Trade {
 
   /**
    * Did this trade result from the execution of a bid or a ask?
@@ -44,19 +43,14 @@ public final class Trade implements Comparable<Trade> {
   private final BigDecimal tradableAmount;
 
   /**
-   * An identifier that uniquely identifies the tradable
+   * The currency pair
    */
-  private final String tradableIdentifier;
-
-  /**
-   * The currency used to settle the market order transaction
-   */
-  private final String transactionCurrency;
+  private final CurrencyPair currencyPair;
 
   /**
    * The price
    */
-  private final BigMoney price;
+  private final BigDecimal price;
 
   /**
    * The timestamp of the trade
@@ -66,7 +60,42 @@ public final class Trade implements Comparable<Trade> {
   /**
    * The trade id
    */
-  private final long id;
+  private final String id;
+
+  /**
+   * The id of the order responsible for execution of this trade
+   */
+  private final String orderId;
+
+  /**
+   * @param type
+   *          The trade type (BID side or ASK side)
+   * @param tradableAmount
+   *          The depth of this trade
+   * @param tradableIdentifier
+   *          The exchange identifier (e.g. "BTC/USD")
+   * @param transactionCurrency
+   *          The transaction currency (e.g. USD in BTC/USD)
+   * @param price
+   *          The price (either the bid or the ask)
+   * @param timestamp
+   *          The timestamp when the order was placed. Exchange matching is
+   *          usually price first then timestamp asc to clear older orders
+   * @param id
+   *          The id of the trade
+   * @param orderId
+   *          The id of the corresponding order responsible for execution of this trade
+   */
+  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId) {
+
+    this.type = type;
+    this.tradableAmount = tradableAmount;
+    this.currencyPair = currencyPair;
+    this.price = price;
+    this.timestamp = timestamp;
+    this.id = id;
+    this.orderId = orderId;
+  }
 
   /**
    * @param type
@@ -85,15 +114,10 @@ public final class Trade implements Comparable<Trade> {
    * @param id
    *          The id of the trade
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, String tradableIdentifier, String transactionCurrency, BigMoney price, Date timestamp, long id) {
+  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
 
-    this.type = type;
-    this.tradableAmount = tradableAmount;
-    this.tradableIdentifier = tradableIdentifier;
-    this.transactionCurrency = transactionCurrency;
-    this.price = price;
-    this.timestamp = timestamp;
-    this.id = id;
+    this(type, tradableAmount, currencyPair, price, timestamp, id, null);
+
   }
 
   public OrderType getType() {
@@ -106,17 +130,12 @@ public final class Trade implements Comparable<Trade> {
     return tradableAmount;
   }
 
-  public String getTradableIdentifier() {
+  public CurrencyPair getCurrencyPair() {
 
-    return tradableIdentifier;
+    return currencyPair;
   }
 
-  public String getTransactionCurrency() {
-
-    return transactionCurrency;
-  }
-
-  public BigMoney getPrice() {
+  public BigDecimal getPrice() {
 
     return price;
   }
@@ -126,39 +145,39 @@ public final class Trade implements Comparable<Trade> {
     return timestamp;
   }
 
-  public long getId() {
+  public String getId() {
 
     return id;
+  }
+
+  public String getOrderId() {
+
+    return orderId;
   }
 
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", tradableIdentifier=" + tradableIdentifier + ", transactionCurrency=" + transactionCurrency + ", price=" + price
-        + ", timestamp=" + timestamp + ", id=" + id + "]";
-  }
-
-  @Override
-  public int compareTo(Trade trade) {
-
-    return ((Long) getId()).compareTo(trade.getId());
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id + ", orderId=" + orderId
+        + "]";
   }
 
   @Override
   public boolean equals(Object o) {
 
-    if (this == o)
+    if (this == o) {
       return true;
-    if (o == null || getClass() != o.getClass())
+    }
+    if (o == null || getClass() != o.getClass()) {
       return false;
-
-    return (id == ((Trade) o).id);
+    }
+    return this.id.equals(((Trade) o).getId());
   }
 
   @Override
   public int hashCode() {
 
-    return (int) (id ^ (id >>> 32));
+    return id.hashCode();
   }
 
 }

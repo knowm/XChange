@@ -22,7 +22,6 @@
 package com.xeiam.xchange.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -49,35 +48,24 @@ public interface PollingMarketDataService {
 
   /**
    * <p>
-   * Ask the exchange what symbol pairs it supports
-   * </p>
-   * 
-   * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementers should log the error.
-   */
-  List<CurrencyPair> getExchangeSymbols();
-
-  /**
-   * <p>
    * Get a ticker representing the current exchange rate
    * </p>
    * 
-   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
-   * @param currency The currency of interest, null if irrelevant
+   * @param CurrencyPair currencyPair (e.g. BTC/USD)
    * @return The Ticker, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
    * Get an order book representing the current offered exchange rates (market depth)
    * </p>
    * 
-   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
-   * @param currency The currency of interest, null if irrelevant. Second currency of the pair
+   * @param CurrencyPair currencyPair (e.g. BTC/USD)
    * @param args Optional arguments. Exchange-specific
    * @return The OrderBook, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
@@ -85,22 +73,22 @@ public interface PollingMarketDataService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
    * Get the trades recently performed by the exchange
    * </p>
    * 
-   * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
-   * @param currency The currency of interest, null if irrelevant
+   * @param CurrencyPair currencyPair (e.g. BTC/USD)
+   * @param args Optional arguments. Exchange-specific
    * @return The Trades, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Trades getTrades(String tradableIdentifier, String currency, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
@@ -108,12 +96,11 @@ public interface PollingMarketDataService {
    * </p>
    * 
    * @return ExchangeInfo object
-   * @throws IOException
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public ExchangeInfo getExchangeInfo() throws IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
-
-  public static enum OrderBookType {
-    PARTIAL, FULL
-  }
+  public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
 }

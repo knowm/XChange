@@ -23,17 +23,19 @@ package com.xeiam.xchange.examples.bitcoinium;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
-import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
+import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.utils.CertHelper;
 
 /**
  * Demonstrate requesting Market Data from CampBX
@@ -42,10 +44,13 @@ public class BitcoiniumMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
 
-    // Use the factory to get Bitcoinium exchange API using default settings
-    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    exchangeSpecification.setApiKey("6seon0iepta86txluchde");
+    // Use the factory to get the Open Exchange Rates exchange API
+    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+
     generic(bitcoiniumExchange);
     raw(bitcoiniumExchange);
   }
@@ -56,7 +61,7 @@ public class BitcoiniumMarketDataDemo {
     PollingMarketDataService bitcoiniumGenericMarketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = bitcoiniumGenericMarketDataService.getTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+    Ticker ticker = bitcoiniumGenericMarketDataService.getTicker(new CurrencyPair("BTC", "BITSTAMP_USD"));
 
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Bid: " + ticker.getBid());
@@ -64,7 +69,7 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Volume: " + ticker.getVolume());
 
     // Get the latest order book data for BTC/USD
-    OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
+    OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(new CurrencyPair("BTC", "BITSTAMP_USD"), "10p");
 
     System.out.println("Order book: " + orderBook);
   }
@@ -72,10 +77,10 @@ public class BitcoiniumMarketDataDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    BitcoiniumMarketDataService bitcoiniumSpecificMarketDataService = (BitcoiniumMarketDataService) exchange.getPollingMarketDataService();
+    BitcoiniumMarketDataServiceRaw bitcoiniumSpecificMarketDataService = (BitcoiniumMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    BitcoiniumTicker bitcoiniumTicker = bitcoiniumSpecificMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+    BitcoiniumTicker bitcoiniumTicker = bitcoiniumSpecificMarketDataService.getBitcoiniumTicker(Currencies.BTC, "BITSTAMP_USD");
 
     System.out.println("Last: " + bitcoiniumTicker.getLast());
     System.out.println("Bid: " + bitcoiniumTicker.getBid());
@@ -83,7 +88,7 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Volume: " + bitcoiniumTicker.getVolume());
 
     // Get the latest order book data for BTC/USD - MtGox
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, Currencies.USD, "MTGOX", "10p");
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, "BITSTAMP_USD", "10p");
 
     System.out.println("Order book: " + bitcoiniumOrderbook);
   }

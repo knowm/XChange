@@ -22,13 +22,16 @@
 package com.xeiam.xchange.examples.cavirtex.marketdata;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.virtex.VirtExExchange;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
+import com.xeiam.xchange.virtex.service.polling.VirtExMarketDataServiceRaw;
 
 /**
  * Demonstrate requesting Trades at VirtEx
@@ -43,11 +46,25 @@ public class TradesDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
+    generic(marketDataService);
+    raw((VirtExMarketDataServiceRaw) marketDataService);
+
+  }
+
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+
     // Get the latest trade data for BTC/CAD
-    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.CAD);
-
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CAD);
+    System.out.println("Trades, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
+  }
 
+  private static void raw(VirtExMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get the latest trade data for BTC/CAD
+    VirtExTrade[] trades = marketDataService.getVirtExTrades("CAD");
+    System.out.println("Trades, default. Size= " + trades.length);
+    System.out.println(Arrays.toString(trades));
   }
 
 }

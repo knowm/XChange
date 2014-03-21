@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v2.dto.account.BTCEAccountInfoReturn;
@@ -35,7 +36,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
  * @author Matija Mazi
  */
 @Deprecated
-public class BTCEAccountService extends BTCEBaseService implements PollingAccountService {
+public class BTCEAccountService extends BTCEBasePollingService implements PollingAccountService {
 
   /**
    * Constructor
@@ -56,14 +57,14 @@ public class BTCEAccountService extends BTCEBaseService implements PollingAccoun
   }
 
   @Override
-  public String withdrawFunds(BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    throw new UnsupportedOperationException("Funds withdrawal not supported by BTCE API.");
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String requestBitcoinDepositAddress(final String... arguments) throws IOException {
+  public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
-    throw new UnsupportedOperationException("Deposit address request not supported by BTCE API.");
+    throw new NotAvailableFromExchangeException();
   }
 }

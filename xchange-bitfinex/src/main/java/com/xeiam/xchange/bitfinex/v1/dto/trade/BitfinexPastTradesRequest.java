@@ -40,6 +40,14 @@ public class BitfinexPastTradesRequest {
   @JsonProperty("limit_trades")
   protected int limitTrades;
 
+  /**
+   * Constructor
+   * 
+   * @param nonce
+   * @param symbol
+   * @param timestamp
+   * @param limitTrades
+   */
   public BitfinexPastTradesRequest(String nonce, String symbol, long timestamp, int limitTrades) {
 
     this.request = "/v1/mytrades";

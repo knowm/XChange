@@ -21,21 +21,10 @@
  */
 package com.xeiam.xchange.campbx;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.xeiam.xchange.currency.CurrencyPair;
-
 /**
  * A central place for shared CampBX properties
  */
 public final class CampBXUtils {
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD
-
-  );
 
   /**
    * <p>
@@ -43,16 +32,5 @@ public final class CampBXUtils {
    * </p>
    */
   public static final int REFRESH_RATE = 1; // [seconds]
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
 
 }

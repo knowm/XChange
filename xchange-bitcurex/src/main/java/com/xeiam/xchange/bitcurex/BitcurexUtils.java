@@ -21,11 +21,6 @@
  */
 package com.xeiam.xchange.bitcurex;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.xeiam.xchange.currency.CurrencyPair;
-
 /**
  * A central place for shared Bitcurex properties
  */
@@ -36,25 +31,6 @@ public final class BitcurexUtils {
    */
   private BitcurexUtils() {
 
-  }
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_PLN
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
   }
 
 }

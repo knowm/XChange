@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class OERTickers {
 
-  private final Rates rates;
+  private final OERRates rates;
   private final Long timestamp;
 
   /**
@@ -43,13 +43,13 @@ public final class OERTickers {
    * @param rates
    * @param timestamp
    */
-  public OERTickers(@JsonProperty("rates") Rates rates, @JsonProperty("timestamp") Long timestamp) {
+  public OERTickers(@JsonProperty("rates") OERRates rates, @JsonProperty("timestamp") Long timestamp) {
 
     this.rates = rates;
     this.timestamp = timestamp;
   }
 
-  public Rates getRates() {
+  public OERRates getRates() {
 
     return this.rates;
   }

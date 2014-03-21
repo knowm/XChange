@@ -26,12 +26,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -56,41 +53,40 @@ public final class BitcoiniumAdapters {
    * @param bitcoiniumTicker
    * @return
    */
-  public static Ticker adaptTicker(BitcoiniumTicker bitcoiniumTicker, String currency, String tradableIdentifier) {
+  public static Ticker adaptTicker(BitcoiniumTicker bitcoiniumTicker, CurrencyPair currencyPair) {
 
-    BigMoney last = MoneyUtils.parse(currency + " " + bitcoiniumTicker.getLast());
-    BigMoney high = MoneyUtils.parse(currency + " " + bitcoiniumTicker.getHigh());
-    BigMoney low = MoneyUtils.parse(currency + " " + bitcoiniumTicker.getLow());
-    BigMoney ask = MoneyUtils.parse(currency + " " + bitcoiniumTicker.getAsk());
-    BigMoney bid = MoneyUtils.parse(currency + " " + bitcoiniumTicker.getBid());
+    BigDecimal last = bitcoiniumTicker.getLast();
+    BigDecimal high = bitcoiniumTicker.getHigh();
+    BigDecimal low = bitcoiniumTicker.getLow();
+    BigDecimal ask = bitcoiniumTicker.getAsk();
+    BigDecimal bid = bitcoiniumTicker.getBid();
     BigDecimal volume = bitcoiniumTicker.getVolume();
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withHigh(high).withLow(low).withVolume(volume).withAsk(ask).withBid(bid).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withVolume(volume).withAsk(ask).withBid(bid).build();
   }
 
   /**
    * Adapts a BitcoiniumOrderbook to a OrderBook Object
    * 
    * @param bitcoiniumOrderbook
-   * @param currency The currency (e.g. USD in BTC/USD)
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
+   * @param CurrencyPair currencyPair (e.g. BTC/USD)
    * @return the XChange OrderBook
    */
-  public static OrderBook adaptOrderbook(BitcoiniumOrderbook bitcoiniumOrderbook, String tradableIdentifier, String currency) {
+  public static OrderBook adaptOrderbook(BitcoiniumOrderbook bitcoiniumOrderbook, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks = createOrders(tradableIdentifier, currency, Order.OrderType.ASK, bitcoiniumOrderbook.getAskPriceList(), bitcoiniumOrderbook.getAskVolumeList());
-    List<LimitOrder> bids = createOrders(tradableIdentifier, currency, Order.OrderType.BID, bitcoiniumOrderbook.getBidPriceList(), bitcoiniumOrderbook.getBidVolumeList());
+    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitcoiniumOrderbook.getAskPriceList(), bitcoiniumOrderbook.getAskVolumeList());
+    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitcoiniumOrderbook.getBidPriceList(), bitcoiniumOrderbook.getBidVolumeList());
     Date date = new Date(bitcoiniumOrderbook.getTimestamp()); // Note, this is the timestamp of the piggy-backed Ticker.
     return new OrderBook(date, asks, bids);
 
   }
 
-  private static List<LimitOrder> createOrders(String tradableIdentifier, String currency, Order.OrderType orderType, List<BigDecimal> prices, List<BigDecimal> volumes) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<BigDecimal> prices, List<BigDecimal> volumes) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (int i = 0; i < prices.size(); i++) {
 
-      LimitOrder limitOrder = new LimitOrder(orderType, volumes.get(i), tradableIdentifier, currency, "", null, BigMoney.of(CurrencyUnit.getInstance(currency), prices.get(i)));
+      LimitOrder limitOrder = new LimitOrder(orderType, volumes.get(i), currencyPair, "", null, prices.get(i));
       limitOrders.add(limitOrder);
     }
     return limitOrders;

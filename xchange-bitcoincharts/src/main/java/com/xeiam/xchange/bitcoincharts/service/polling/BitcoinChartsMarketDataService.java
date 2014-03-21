@@ -22,7 +22,6 @@
 package com.xeiam.xchange.bitcoincharts.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,20 +35,18 @@ import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.bitcoincharts.service.BitcoinChartsBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author timmolter
  */
-public class BitcoinChartsMarketDataService extends BasePollingExchangeService implements PollingMarketDataService, CachedDataSession {
+public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService implements PollingMarketDataService, CachedDataSession {
 
   private final Logger logger = LoggerFactory.getLogger(BitcoinChartsMarketDataService.class);
 
@@ -80,15 +77,9 @@ public class BitcoinChartsMarketDataService extends BasePollingExchangeService i
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitcoinChartsUtils.CURRENCY_PAIRS;
-  }
-
-  @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
-
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
     // check for pacing violation
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
@@ -100,17 +91,17 @@ public class BitcoinChartsMarketDataService extends BasePollingExchangeService i
       cachedBitcoinChartsTickers = bitcoinCharts.getMarketData();
     }
 
-    return BitcoinChartsAdapters.adaptTicker(cachedBitcoinChartsTickers, tradableIdentifier);
+    return BitcoinChartsAdapters.adaptTicker(cachedBitcoinChartsTickers, currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -119,19 +110,6 @@ public class BitcoinChartsMarketDataService extends BasePollingExchangeService i
   public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency The transaction currency (e.g. USD in BTC/USD)
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.isTrue(currency.equals(Currencies.BTC), "Base curreny must be " + Currencies.BTC + " for this exchange");
-    Assert.isTrue(BitcoinChartsUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
   }
 
 }

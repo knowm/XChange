@@ -59,7 +59,17 @@ public class BTCEDepth {
   @Override
   public String toString() {
 
-    return "BTCEDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    StringBuilder sb = new StringBuilder("BTCEDepth [asks=");
+    for (BigDecimal[] a : asks) {
+      sb.append("[").append(a[0].toString()).append(",").append(a[1].toString()).append("],");
+    }
+    sb.append(" bids=");
+    for (BigDecimal[] b : bids) {
+      sb.append("[").append(b[0].toString()).append(",").append(b[1].toString()).append("],");
+    }
+    sb.append("]");
+
+    return sb.toString();
   }
 
 }

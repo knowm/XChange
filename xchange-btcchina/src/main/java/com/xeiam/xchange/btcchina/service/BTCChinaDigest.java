@@ -42,60 +42,61 @@ import com.xeiam.xchange.btcchina.BTCChinaUtils;
  */
 public class BTCChinaDigest implements ParamsDigest {
 
-  private static final String HMAC_SHA1 = "HmacSHA1";
-  private final Mac mac;
-  private final String exchangeAccessKey;
+	private static final String HMAC_SHA1 = "HmacSHA1";
+	private static final Pattern responsePattern = Pattern.compile("\\{\"id\":([0-9]*),\"method\":\"([^\"]*)\",\"params\":\\[([^\\]]*)\\]\\}", Pattern.DOTALL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-  /**
-   * Constructor
-   * 
-   * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
-   */
-  private BTCChinaDigest(String exchangeAccessKey, String exchangeSecretKey) throws IllegalArgumentException {
+	private final Mac mac;
+	private final String exchangeAccessKey;
 
-    try {
-      SecretKey secretKey = new SecretKeySpec(exchangeSecretKey.getBytes(), HMAC_SHA1);
-      mac = Mac.getInstance(HMAC_SHA1);
-      mac.init(secretKey);
-      this.exchangeAccessKey = exchangeAccessKey;
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
-  }
+	/**
+	 * Constructor
+	 * 
+	 * @param secretKeyBase64
+	 * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+	 */
+	private BTCChinaDigest(String exchangeAccessKey, String exchangeSecretKey) throws IllegalArgumentException {
 
-  public static BTCChinaDigest createInstance(String exchangeAccessKey, String exchangeSecretKey) throws IllegalArgumentException {
+		try {
+			SecretKey secretKey = new SecretKeySpec(exchangeSecretKey.getBytes(), HMAC_SHA1);
+			mac = Mac.getInstance(HMAC_SHA1);
+			mac.init(secretKey);
+			this.exchangeAccessKey = exchangeAccessKey;
+		} catch (InvalidKeyException e) {
+			throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+		}
+	}
 
-    return exchangeSecretKey == null ? null : new BTCChinaDigest(exchangeAccessKey, exchangeSecretKey);
-  }
+	public static BTCChinaDigest createInstance(String exchangeAccessKey, String exchangeSecretKey) throws IllegalArgumentException {
 
-  @Override
-  public String digestParams(RestInvocation restInvocation) {
+		return exchangeSecretKey == null ? null : new BTCChinaDigest(exchangeAccessKey, exchangeSecretKey);
+	}
 
-    String tonce = restInvocation.getHttpHeaders().get("Json-Rpc-Tonce");
-    String requestJson = restInvocation.getRequestBody();
+	@Override
+	public String digestParams(RestInvocation restInvocation) {
 
-    String id = "", method = "", params = "";
-    try {
-      Pattern regex = Pattern.compile("\\{\"id\":([0-9]*),\"method\":\"([^\"]*)\",\"params\":\\[([^\\]]*)\\]\\}", Pattern.DOTALL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-      Matcher regexMatcher = regex.matcher(requestJson);
-      if (regexMatcher.find()) {
-        id = regexMatcher.group(1);
-        method = regexMatcher.group(2);
-        params = regexMatcher.group(3);
-      }
-    } catch (PatternSyntaxException ex) {
-      // Syntax error in the regular expression
-    }
+		String tonce = restInvocation.getHttpHeaders().get("Json-Rpc-Tonce");
+		String requestJson = restInvocation.getRequestBody();
 
-    String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%s&method=%s&params=%s", tonce, exchangeAccessKey, "post", id, method, params);
-    byte[] hash = mac.doFinal(signature.getBytes());
+		String id = "", method = "", params = "";
+		try {
+			Matcher regexMatcher = responsePattern.matcher(requestJson);
+			if (regexMatcher.find()) { 
+				id = regexMatcher.group(1);
+				method = regexMatcher.group(2);
+				params = regexMatcher.group(3);
+			}
+		} catch (PatternSyntaxException ex) {
+			// Syntax error in the regular expression
+		}
 
-    BasicAuthCredentials auth = new BasicAuthCredentials(exchangeAccessKey, BTCChinaUtils.bytesToHex(hash));
+		String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%s&method=%s&params=%s", tonce, exchangeAccessKey, "post", id, method, params);
+		byte[] hash = mac.doFinal(signature.getBytes());
 
-    return auth.digestParams(restInvocation);
-  }
+		BasicAuthCredentials auth = new BasicAuthCredentials(exchangeAccessKey, BTCChinaUtils.bytesToHex(hash));
+
+		return auth.digestParams(restInvocation);
+	}
 
 }

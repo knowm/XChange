@@ -23,40 +23,31 @@ package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
-import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
-import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
-import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
-import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
-import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.utils.Assert;
 
-public class BTCChinaTradeService extends BasePollingExchangeService implements PollingTradeService {
-
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final BTCChina btcchina;
-  private ParamsDigest signatureCreator;
+/**
+ * @author ObsessiveOrange
+ *         <p>
+ *         Implementation of the trade service for BTCChina
+ *         </p>
+ *         <ul>
+ *         <li>Provides access to trade functions</li>
+ *         </ul>
+ */
+public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements PollingTradeService {
 
   /**
    * Constructor
@@ -67,15 +58,12 @@ public class BTCChinaTradeService extends BasePollingExchangeService implements 
 
     super(exchangeSpecification);
 
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.btcchina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
-    signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BTCChinaResponse<BTCChinaOrders> response = btcchina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest());
+    BTCChinaResponse<BTCChinaOrders> response = getBTCChinaOpenOrders();
     return BTCChinaAdapters.adaptOpenOrders(response.getResult().getOrders());
   }
 
@@ -88,50 +76,26 @@ public class BTCChinaTradeService extends BasePollingExchangeService implements 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency());
+    verify(limitOrder.getCurrencyPair());
 
-    long nonce = BTCChinaUtils.getNonce();
+    BTCChinaBooleanResponse response = placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
 
-    BTCChinaBooleanResponse response = null;
-
-    if (limitOrder.getType() == OrderType.BID) {
-
-      response = btcchina.buyOrder(signatureCreator, nonce, new BTCChinaBuyOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
-
-    }
-    else if (limitOrder.getType() == OrderType.ASK) {
-
-      response = btcchina.sellOrder(signatureCreator, nonce, new BTCChinaSellOrderRequest(limitOrder.getLimitPrice().getAmount(), limitOrder.getTradableAmount()));
-
-    }
-
-    return "" + response.getId();
+    return response.getId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCChinaBooleanResponse response = btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
+    BTCChinaBooleanResponse response = cancelBTCChinaOrder(orderId);
     return response.getResult();
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
+  public Trades getTradeHistory(Object... args) throws IOException {
+	  BTCChinaTransactionsResponse response = getTransactions();
+	  return BTCChinaAdapters.adaptTransactions(response.getResult().getTransactions());
   }
-
-  /**
-   * Verify
-   * 
-   * @param tradableIdentifier The tradable identifier (e.g. BTC in BTC/USD)
-   * @param currency The transaction currency (e.g. USD in BTC/USD)
-   */
-  private void verify(String tradableIdentifier, String currency) {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BTCChinaUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-  }
+  
+  
 
 }

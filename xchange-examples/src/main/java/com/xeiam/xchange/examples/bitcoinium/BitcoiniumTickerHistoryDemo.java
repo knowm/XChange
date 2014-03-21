@@ -25,13 +25,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
+import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.utils.CertHelper;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.Series;
@@ -49,18 +50,20 @@ public class BitcoiniumTickerHistoryDemo {
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
 
-    // Use the factory to get Bitcoinium exchange API using default settings
-    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    exchangeSpecification.setApiKey("6seon0iepta86txluchde");
+    // Use the factory to get the Open Exchange Rates exchange API
+    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public polling market data feed (no authentication)
-    BitcoiniumMarketDataService bitcoiniumMarketDataService = (BitcoiniumMarketDataService) bitcoiniumExchange.getPollingMarketDataService();
+    BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
 
     System.out.println("fetching data...");
 
-    // Get the latest order book data for BTC/USD - MTGOX
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, Currencies.USD, "MTGOX", "2M");
+    // Get the latest order book data for BTC/USD - BITSTAMP
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "2M");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 

@@ -31,9 +31,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class KrakenTicker {
 
-  private final BigDecimal[] ask; // ask array(<price>, <lot volume>),
-  private final BigDecimal[] bid; // bid array(<price>, <lot volume>),
-  private final BigDecimal[] close; // last trade closed array(<price>, <lot volume>),
+  private final KrakenPublicOrder ask; // ask array(<price>, <lot volume>),
+  private final KrakenPublicOrder bid; // bid array(<price>, <lot volume>),
+  private final KrakenPublicOrder close; // last trade closed array(<price>, <lot volume>),
   private final BigDecimal[] volume; // volume array(<today>, <last 24 hours>),
   private final BigDecimal[] volumeAvg; // volume weighted average price array(<today>, <last 24 hours>),
   private final BigDecimal[] trades; // number of trades array(<today>, <last 24 hours>),
@@ -56,7 +56,7 @@ public class KrakenTicker {
    * @author Raphael Voellmy
    */
 
-  public KrakenTicker(@JsonProperty("a") BigDecimal[] ask, @JsonProperty("b") BigDecimal[] bid, @JsonProperty("c") BigDecimal[] close, @JsonProperty("v") BigDecimal[] volume,
+  public KrakenTicker(@JsonProperty("a") KrakenPublicOrder ask, @JsonProperty("b") KrakenPublicOrder bid, @JsonProperty("c") KrakenPublicOrder close, @JsonProperty("v") BigDecimal[] volume,
       @JsonProperty("p") BigDecimal[] volumeAvg, @JsonProperty("t") BigDecimal[] trades, @JsonProperty("l") BigDecimal[] low, @JsonProperty("h") BigDecimal[] high, @JsonProperty("o") BigDecimal open) {
 
     this.ask = ask;
@@ -71,44 +71,69 @@ public class KrakenTicker {
 
   }
 
-  public BigDecimal[] getAsk() {
+  public KrakenPublicOrder getAsk() {
 
     return ask;
   }
 
-  public BigDecimal[] getBid() {
+  public KrakenPublicOrder getBid() {
 
     return bid;
   }
 
-  public BigDecimal[] getClose() {
+  public KrakenPublicOrder getClose() {
 
     return close;
   }
 
-  public BigDecimal[] getVolume() {
+  public BigDecimal getTodaysVolume() {
 
-    return volume;
+    return volume[0];
   }
 
-  public BigDecimal[] getVolumeAvg() {
+  public BigDecimal get24HourVolume() {
 
-    return volumeAvg;
+    return volume[1];
   }
 
-  public BigDecimal[] getTrades() {
+  public BigDecimal getTodaysVolumeAvg() {
 
-    return trades;
+    return volumeAvg[0];
   }
 
-  public BigDecimal[] getLow() {
+  public BigDecimal get24HourVolumeAvg() {
 
-    return low;
+    return volumeAvg[1];
   }
 
-  public BigDecimal[] getHigh() {
+  public BigDecimal getTodaysNumTrades() {
 
-    return high;
+    return trades[0];
+  }
+
+  public BigDecimal get24HourNumTrades() {
+
+    return trades[1];
+  }
+
+  public BigDecimal getTodaysLow() {
+
+    return low[0];
+  }
+
+  public BigDecimal get24HourLow() {
+
+    return low[1];
+  }
+
+  public BigDecimal getTodaysHigh() {
+
+    return high[0];
+  }
+
+  public BigDecimal get24HourHigh() {
+
+    return high[1];
   }
 
   public BigDecimal getOpen() {
@@ -119,11 +144,7 @@ public class KrakenTicker {
   @Override
   public String toString() {
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("KrakenTicker [").append("ask=" + Arrays.toString(ask) + ", ").append("bid=" + Arrays.toString(bid) + ", ").append("high=" + Arrays.toString(high) + ", ").append(
-        "low=" + Arrays.toString(low) + ", ").append("trades=" + Arrays.toString(trades) + ", ").append("volume=" + Arrays.toString(volume) + ", ").append(
-        "volumeAvg=" + Arrays.toString(volumeAvg) + ", ").append("open=" + open + ", ").append("close=" + Arrays.toString(close) + "]");
-
-    return sb.toString();
+    return "KrakenTicker [ask=" + ask + ", bid=" + bid + ", close=" + close + ", volume=" + Arrays.toString(volume) + ", volumeAvg=" + Arrays.toString(volumeAvg) + ", trades="
+        + Arrays.toString(trades) + ", low=" + Arrays.toString(low) + ", high=" + Arrays.toString(high) + ", open=" + open + "]";
   }
 }

@@ -25,7 +25,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -48,10 +50,16 @@ public class BitstampTradeDemo {
     Exchange bitstamp = BitstampDemoUtils.createExchange();
     PollingTradeService tradeService = bitstamp.getPollingTradeService();
 
+    generic(tradeService);
+    raw((BitstampTradeServiceRaw) tradeService);
+  }
+
+  private static void generic(PollingTradeService tradeService) throws IOException {
+
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, "BTC", "USD", "", null, MoneyUtils.parse("USD 1.25"));
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".001"), CurrencyPair.BTC_USD, "", null, new BigDecimal("1000.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
@@ -68,5 +76,31 @@ public class BitstampTradeDemo {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
+  }
+
+  private static void raw(BitstampTradeServiceRaw tradeService) throws IOException {
+
+    printRawOpenOrders(tradeService);
+
+    // place a limit buy order
+    BitstampOrder order = tradeService.sellBitstampOrder(new BigDecimal(".001"), new BigDecimal("1000.00"));
+    System.out.println("Limit Order return value: " + order);
+
+    printRawOpenOrders(tradeService);
+
+    // Cancel the added order
+    boolean cancelResult = tradeService.cancelBitstampOrder(order.getId());
+    System.out.println("Canceling returned " + cancelResult);
+
+    printRawOpenOrders(tradeService);
+  }
+
+  private static void printRawOpenOrders(BitstampTradeServiceRaw tradeService) throws IOException {
+
+    BitstampOrder[] openOrders = tradeService.getBitstampOpenOrders();
+    System.out.println("Open Orders: " + openOrders.length);
+    for (BitstampOrder order : openOrders) {
+      System.out.println(order.toString());
+    }
   }
 }

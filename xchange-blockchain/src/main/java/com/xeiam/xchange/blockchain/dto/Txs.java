@@ -30,18 +30,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class Txs {
 
-  private final long block_height;
+  private final long blockHeight;
   private final String hash;
   private final List<Inputs> inputs;
   private final List<Out> out;
-  private final String relayed_by;
+  private final String relayedBy;
   private final long result;
   private final long size;
   private final long time;
-  private final long tx_index;
+  private final long txIndex;
   private final int ver;
-  private final int vin_sz;
-  private final int vout_sz;
+  private final int vinSz;
+  private final int voutSz;
 
   /**
    * Constructor
@@ -63,23 +63,23 @@ public final class Txs {
       @JsonProperty("relayed_by") String relayed_by, @JsonProperty("result") long result, @JsonProperty("size") long size, @JsonProperty("time") long time, @JsonProperty("tx_index") long tx_index,
       @JsonProperty("ver") int ver, @JsonProperty("vin_sz") int vin_sz, @JsonProperty("vout_sz") int vout_sz) {
 
-    this.block_height = block_height;
+    this.blockHeight = block_height;
     this.hash = hash;
     this.inputs = inputs;
     this.out = out;
-    this.relayed_by = relayed_by;
+    this.relayedBy = relayed_by;
     this.result = result;
     this.size = size;
     this.time = time;
-    this.tx_index = tx_index;
+    this.txIndex = tx_index;
     this.ver = ver;
-    this.vin_sz = vin_sz;
-    this.vout_sz = vout_sz;
+    this.vinSz = vin_sz;
+    this.voutSz = vout_sz;
   }
 
-  public long getBlock_height() {
+  public long getBlockHeight() {
 
-    return this.block_height;
+    return this.blockHeight;
   }
 
   public String getHash() {
@@ -97,9 +97,9 @@ public final class Txs {
     return this.out;
   }
 
-  public String getRelayed_by() {
+  public String getRelayedBy() {
 
-    return this.relayed_by;
+    return this.relayedBy;
   }
 
   public long getResult() {
@@ -117,9 +117,9 @@ public final class Txs {
     return this.time;
   }
 
-  public long getTx_index() {
+  public long getTxIndex() {
 
-    return this.tx_index;
+    return this.txIndex;
   }
 
   public int getVer() {
@@ -127,14 +127,14 @@ public final class Txs {
     return this.ver;
   }
 
-  public int getVin_sz() {
+  public int getVinSz() {
 
-    return this.vin_sz;
+    return this.vinSz;
   }
 
-  public int getVout_sz() {
+  public int getVoutSz() {
 
-    return this.vout_sz;
+    return this.voutSz;
   }
 
 }

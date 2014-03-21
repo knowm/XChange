@@ -24,9 +24,6 @@ package com.xeiam.xchange.dto.account;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
-
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -44,6 +41,8 @@ public final class AccountInfo {
   private final List<Wallet> wallets;
 
   /**
+   * Constructor
+   * 
    * @param username The user name
    * @param wallets The available wallets
    */
@@ -53,6 +52,8 @@ public final class AccountInfo {
   }
 
   /**
+   * Constructor
+   * 
    * @param username The user name
    * @param tradingFee the trading fee
    * @param wallets The available wallets
@@ -96,16 +97,16 @@ public final class AccountInfo {
    * @param currencyUnit A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
    * @return The balance, or zero if not found
    */
-  public BigMoney getBalance(CurrencyUnit currencyUnit) {
+  public BigDecimal getBalance(String currency) {
 
     for (Wallet wallet : wallets) {
-      if (wallet.getBalance().getCurrencyUnit().equals(currencyUnit)) {
+      if (wallet.getCurrency().equals(currency)) {
         return wallet.getBalance();
       }
     }
 
     // Not found so treat as zero
-    return BigMoney.zero(currencyUnit);
+    return BigDecimal.ZERO;
   }
 
   @Override

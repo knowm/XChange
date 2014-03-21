@@ -25,21 +25,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class BitfinexTradeService extends BitfinexBaseService implements PollingTradeService {
+public class BitfinexTradeService extends BitfinexTradeServiceRaw implements PollingTradeService {
 
   private final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
@@ -56,7 +52,7 @@ public class BitfinexTradeService extends BitfinexBaseService implements Polling
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    BitfinexOrderStatusResponse[] activeOrders = bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest("/v1/orders", String.valueOf(nextNonce())));
+    BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
 
     if (activeOrders.length <= 0) {
       return noOpenOrders;
@@ -69,17 +65,15 @@ public class BitfinexTradeService extends BitfinexBaseService implements Polling
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    throw new UnsupportedOperationException("Market orders not supported yet");
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String pair = String.format("%s%s", limitOrder.getTradableIdentifier(), limitOrder.getTransactionCurrency()).toLowerCase();
-    String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
-    BitfinexOrderStatusResponse newOrder =
-        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice()
-            .getAmount(), "bitfinex", type, "exchange limit", false));
+    verify(limitOrder.getCurrencyPair());
+
+    BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder, false);
 
     return String.valueOf(newOrder.getId());
   }
@@ -87,7 +81,7 @@ public class BitfinexTradeService extends BitfinexBaseService implements Polling
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BitfinexOrderStatusResponse cancelResponse = bitfinex.cancelOrders(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOrderRequest(String.valueOf(nextNonce()), Integer.valueOf(orderId)));
+    BitfinexOrderStatusResponse cancelResponse = cancelBitfinexOrder(orderId);
 
     return cancelResponse.isCancelled();
   }
@@ -105,7 +99,7 @@ public class BitfinexTradeService extends BitfinexBaseService implements Polling
       limit = (Integer) arguments[2];
     }
 
-    BitfinexTradeResponse[] trades = bitfinex.pastTrades(apiKey, payloadCreator, signatureCreator, new BitfinexPastTradesRequest(String.valueOf(nextNonce()), symbol, timestamp, limit));
+    BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
 
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }

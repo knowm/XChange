@@ -24,11 +24,8 @@ package com.xeiam.xchange.btce.v3.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.BTCE;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
@@ -42,7 +39,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
@@ -52,30 +48,26 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BTCEMarketDataService implements PollingMarketDataService {
-
-  protected final BTCE btce;
-
-  // private static final int PARTIAL_SIZE = 150;
-  private static final int FULL_SIZE = 2000;
+public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCEMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
+    super(exchangeSpecification);
   }
 
   @Override
-  public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
-    BTCETickerWrapper btceTickerWrapper = btce.getTicker(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 1);
+    String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
+    BTCETickerWrapper btceTickerWrapper = getBTCETicker(pairs);
 
     // Adapt to XChange DTOs
-    return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(tradableIdentifier, currency), tradableIdentifier, currency);
+    return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(BTCEUtils.getPair(currencyPair)), currencyPair);
   }
 
   /**
@@ -89,27 +81,29 @@ public class BTCEMarketDataService implements PollingMarketDataService {
    * @throws IOException
    */
   @Override
-  public OrderBook getOrderBook(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
+
+    String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     BTCEDepthWrapper btceDepthWrapper = null;
 
     if (args.length > 0) {
-      Object arg = args[0];
-      if (!(arg instanceof Integer) || ((Integer) arg < 1) || ((Integer) arg > FULL_SIZE)) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Integer) || ((Integer) arg0 < 1) || ((Integer) arg0 > FULL_SIZE)) {
         throw new ExchangeException("Orderbook size argument must be an Integer in the range: (1, 2000)!");
       }
       else {
-        btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), (Integer) arg, 1);
+        btceDepthWrapper = getBTCEDepth(pairs, (Integer) arg0);
       }
     }
     else { // default to full orderbook
-      btceDepthWrapper = btce.getDepth(tradableIdentifier.toLowerCase(), currency.toLowerCase(), FULL_SIZE, 1);
+      btceDepthWrapper = getBTCEDepth(pairs, FULL_SIZE);
     }
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getAsks(), tradableIdentifier, currency, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(tradableIdentifier, currency).getBids(), tradableIdentifier, currency, "bid", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEUtils.getPair(currencyPair)).getAsks(), currencyPair, "ask", "");
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEUtils.getPair(currencyPair)).getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -118,7 +112,7 @@ public class BTCEMarketDataService implements PollingMarketDataService {
    * Get recent trades from exchange
    * 
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
-   * @param currency The currency of interest, null if irrelevant
+   * @param currency The currency of interest
    * @param args Optional arguments. This implementation assumes
    *          args[0] is integer value limiting number of trade items to get.
    *          -1 or missing -> use default 2000 max fetch value
@@ -127,10 +121,11 @@ public class BTCEMarketDataService implements PollingMarketDataService {
    * @throws IOException
    */
   @Override
-  public Trades getTrades(String tradableIdentifier, String currency, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(tradableIdentifier, currency);
+    verify(currencyPair);
 
+    String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     int numberOfItems = -1;
     try {
       numberOfItems = (Integer) args[0];
@@ -140,38 +135,19 @@ public class BTCEMarketDataService implements PollingMarketDataService {
     BTCETrade[] bTCETrades = null;
 
     if (numberOfItems == -1) {
-      bTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase(), 2000, 1).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+      bTCETrades = getBTCETrades(pairs, FULL_SIZE).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
     }
     else {
-      bTCETrades = btce.getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase(), numberOfItems, 1).getTrades(tradableIdentifier.toLowerCase(), currency.toLowerCase());
+      bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
     }
-    return BTCEAdapters.adaptTrades(bTCETrades, tradableIdentifier, currency);
 
-  }
-
-  /**
-   * Verify that both currencies can make valid pair
-   * 
-   * @param tradableIdentifier The tradeable identifier (e.g. BTC in BTC/USD)
-   * @param currency
-   */
-  private void verify(String tradableIdentifier, String currency) throws IOException {
-
-    Assert.notNull(tradableIdentifier, "tradableIdentifier cannot be null");
-    Assert.notNull(currency, "currency cannot be null");
-    Assert.isTrue(BTCEUtils.isValidCurrencyPair(new CurrencyPair(tradableIdentifier, currency)), "currencyPair is not valid:" + tradableIdentifier + " " + currency);
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return BTCEUtils.CURRENCY_PAIRS;
+    return BTCEAdapters.adaptTrades(bTCETrades, currencyPair);
   }
 
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    BTCEExchangeInfo bTCEExchangeInfo = btce.getInfo();
+    BTCEExchangeInfo bTCEExchangeInfo = getBTCEInfo();
     return BTCEAdapters.adaptExchangeInfo(bTCEExchangeInfo);
   }
 

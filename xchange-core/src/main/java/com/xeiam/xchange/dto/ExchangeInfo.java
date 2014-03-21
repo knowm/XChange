@@ -29,11 +29,15 @@ import com.xeiam.xchange.currency.CurrencyPair;
  * Author: brox
  * Returns public info about exchange, such as allowed currency pairs, fees etc.
  */
-// TODO: implement me
 public final class ExchangeInfo {
 
   private final List<CurrencyPair> pairs;
 
+  /**
+   * Constructor
+   * 
+   * @param pairs
+   */
   public ExchangeInfo(List<CurrencyPair> pairs) {
 
     this.pairs = pairs;

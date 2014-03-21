@@ -23,9 +23,6 @@ package com.xeiam.xchange.btcchina.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Data object representing Ticker from BTCE
- */
 public class BTCChinaTicker {
 
   private BTCChinaTickerObject ticker;

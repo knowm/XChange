@@ -26,24 +26,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.joda.money.BigMoney;
-import org.joda.money.CurrencyUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexBalancesResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -52,69 +51,66 @@ import com.xeiam.xchange.utils.DateUtils;
 public final class BitfinexAdapters {
 
   @SuppressWarnings("unused")
-  private static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
+  public static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
 
   private BitfinexAdapters() {
 
   }
 
-  public static List<LimitOrder> adaptOrders(BitfinexLevel[] orders, String tradableIdentifier, String currency, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(BitfinexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (BitfinexLevel order : orders) {
       // Bid orderbook is reversed order. Insert at index 0 instead of appending
       if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(order.getAmount(), order.getPrice(), tradableIdentifier, currency, orderType, id));
+        limitOrders.add(0, adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
       }
       else {
-        limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), tradableIdentifier, currency, orderType, id));
+        limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
       }
     }
 
     return limitOrders;
   }
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradableIdentifier, String currency, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    BigMoney limitPrice = MoneyUtils.parseMoney(currency, price);
 
-    return new LimitOrder(orderType, amount, tradableIdentifier, currency, id, null, limitPrice);
+    return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
 
-  public static Trade adaptTrade(BitfinexTrade trade, String tradableIdentifier, String currency) {
+  public static Trade adaptTrade(BitfinexTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = null;
     BigDecimal amount = trade.getAmount();
-    BigMoney price = MoneyUtils.parseMoney(currency, trade.getPrice());
+    BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc((long) (trade.getTimestamp() * 1000L));
-
-    return new Trade(orderType, amount, tradableIdentifier, currency, price, date, (int) trade.getTimestamp());
+    final String tradeId = String.valueOf(trade.getTimestamp());
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
-  public static Trades adaptTrades(BitfinexTrade[] trades, String tradableIdentifier, String currency) {
+  public static Trades adaptTrades(BitfinexTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
     for (BitfinexTrade trade : trades) {
-      tradesList.add(0, adaptTrade(trade, tradableIdentifier, currency));
+      tradesList.add(0, adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradesList);
+    return new Trades(tradesList, TradeSortType.SortByID);
   }
 
-  public static Ticker adaptTicker(BitfinexTicker bitfinexTicker, String tradableIdentifier, String currency) {
+  public static Ticker adaptTicker(BitfinexTicker bitfinexTicker, CurrencyPair currencyPair) {
 
-    BigMoney last = MoneyUtils.parseMoney(currency, bitfinexTicker.getLast_price());
-    BigMoney bid = MoneyUtils.parseMoney(currency, bitfinexTicker.getBid());
-    BigMoney ask = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
-    BigMoney high = MoneyUtils.parseMoney(currency, bitfinexTicker.getAsk());
-    BigMoney low = MoneyUtils.parseMoney(currency, bitfinexTicker.getBid());
-    BigDecimal volume = BigDecimal.ZERO;
+    BigDecimal last = bitfinexTicker.getLast_price();
+    BigDecimal bid = bitfinexTicker.getBid();
+    BigDecimal ask = bitfinexTicker.getAsk();
+    BigDecimal high = bitfinexTicker.getAsk();
+    BigDecimal low = bitfinexTicker.getBid();
 
     Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
-        .build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withTimestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
@@ -122,9 +118,7 @@ public final class BitfinexAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>();
 
     for (BitfinexBalancesResponse balance : response) {
-      if (balance.getCurrency().equals("usd") || balance.getCurrency().equals("btc")) {
-        wallets.add(Wallet.createInstance(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
-      }
+      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
     }
 
     return new AccountInfo(null, wallets);
@@ -138,9 +132,9 @@ public final class BitfinexAdapters {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       String tradableIdentifier = order.getSymbol().substring(0, 3).toUpperCase();
       String transactionCurrency = order.getSymbol().substring(3).toUpperCase();
+      CurrencyPair currencyPair = new CurrencyPair(tradableIdentifier, transactionCurrency);
 
-      limitOrders.add(new LimitOrder(orderType, order.getRemainingAmount(), tradableIdentifier, transactionCurrency, String.valueOf(order.getId()), new Date((long) order.getTimestamp()), BigMoney.of(
-          CurrencyUnit.of(transactionCurrency), order.getPrice())));
+      limitOrders.add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), new Date((long) order.getTimestamp()), order.getPrice()));
     }
 
     return new OpenOrders(limitOrders);
@@ -156,11 +150,12 @@ public final class BitfinexAdapters {
     for (BitfinexTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
-      long id = trade.hashCode();
-      pastTrades.add(new Trade(orderType, trade.getAmount(), tradableIdentifier, transactionCurrency, BigMoney.of(CurrencyUnit.USD, trade.getPrice()), new Date((long) (trade.getTimestamp() * 1000L)),
-          id));
+      String id = String.valueOf(trade.hashCode());
+      CurrencyPair currencyPair = new CurrencyPair(tradableIdentifier, transactionCurrency);
+
+      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), new Date((long) (trade.getTimestamp() * 1000L)), id));
     }
 
-    return new Trades(pastTrades);
+    return new Trades(pastTrades, TradeSortType.SortByTimestamp);
   }
 }

@@ -27,7 +27,9 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
@@ -37,40 +39,28 @@ import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
 /**
  * @author timmolter
  */
-@Path("api")
+@Path("/")
 public interface BTCE {
 
   @GET
-  @Path("3/info")
+  @Path("api/3/info")
   BTCEExchangeInfo getInfo() throws IOException;
 
   @GET
-  @Path("3/ticker/{ident}_{currency}")
-  BTCETickerWrapper getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
+  @Path("api/3/ticker/{pairs}")
+  @Produces(MediaType.APPLICATION_JSON)
+  BTCETickerWrapper getTicker(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
+
+  @GET
+  @Path("api/3/depth/{pairs}")
+  @Produces(MediaType.APPLICATION_JSON)
+  BTCEDepthWrapper getDepth(@PathParam("pairs") String pairs, @DefaultValue("150") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
       throws IOException;
 
   @GET
-  @Path("3/depth/{ident}_{currency}")
-  BTCEDepthWrapper getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("150") @QueryParam("limit") int limit,
-      @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
-
-  @GET
-  @Path("3/trades/{ident}_{currency}")
-  BTCETradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @QueryParam("limit") int limit,
-      @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
-
-  @GET
-  @Path("3/ticker/{pairs}")
-  BTCETickerWrapper getTicker(@PathParam("pairs") String currencyPairs, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
-
-  @GET
-  @Path("3/depth/{pairs}")
-  BTCEDepthWrapper getDepth(@PathParam("pairs") String currencyPairs, @DefaultValue("150") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
-      throws IOException;
-
-  @GET
-  @Path("3/trades/{pairs}")
-  BTCETradesWrapper getTrades(@PathParam("pairs") String currencyPairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
+  @Path("api/3/trades/{pairs}")
+  @Produces(MediaType.APPLICATION_JSON)
+  BTCETradesWrapper getTrades(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
       throws IOException;
 
 }

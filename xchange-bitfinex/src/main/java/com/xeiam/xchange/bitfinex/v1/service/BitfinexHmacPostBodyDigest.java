@@ -70,6 +70,6 @@ public class BitfinexHmacPostBodyDigest implements ParamsDigest {
     String postBody = restInvocation.getRequestBody();
     mac.update(Base64.encodeBytes(postBody.getBytes()).getBytes());
 
-    return String.format("%064x", new BigInteger(1, mac.doFinal()));
+    return String.format("%096x", new BigInteger(1, mac.doFinal()));
   }
 }

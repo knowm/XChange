@@ -66,6 +66,10 @@ public abstract class BaseExchange implements Exchange {
       }
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());
+      } 
+      if (exchangeSpecification.getExchangeSpecificParameters() == null || 
+    	  exchangeSpecification.getExchangeSpecificParameters().size() <= 0) {
+          exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
       }
       this.exchangeSpecification = exchangeSpecification;
     }
@@ -91,59 +95,15 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public StreamingExchangeService getStreamingExchangeService() {
-
-    return streamingExchangeService;
-  }
-
-  @Override
   public PollingAccountService getPollingAccountService() {
 
     return pollingAccountService;
   }
 
   @Override
-  public PollingMarketDataService getPollingMarketDataService(ExchangeStreamingConfiguration configuration) {
-
-    return pollingMarketDataService;
-  }
-
-  @Override
-  public PollingTradeService getPollingTradeService(ExchangeStreamingConfiguration configuration) {
-
-    return pollingTradeService;
-  }
-
-  @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
     return streamingExchangeService;
-  }
-
-  @Override
-  public PollingAccountService getPollingAccountService(ExchangeStreamingConfiguration configuration) {
-
-    return pollingAccountService;
-  }
-
-  /* package */void setPollingMarketDataService(PollingMarketDataService marketDataService) {
-
-    this.pollingMarketDataService = marketDataService;
-  }
-
-  /* package */void setPollingTradeService(PollingTradeService tradeService) {
-
-    this.pollingTradeService = tradeService;
-  }
-
-  /* package */void setStreamingMarketDataService(StreamingExchangeService streamingExchangeService) {
-
-    this.streamingExchangeService = streamingExchangeService;
-  }
-
-  /* package */void setPollingAccountService(PollingAccountService pollingAccountService) {
-
-    this.pollingAccountService = pollingAccountService;
   }
 
 }

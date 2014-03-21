@@ -26,9 +26,12 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.virtex.VirtExExchange;
+import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
+import com.xeiam.xchange.virtex.service.polling.VirtExMarketDataServiceRaw;
 
 /**
  * Demonstrate requesting Ticker at VirtEx
@@ -43,17 +46,32 @@ public class TickerDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = cavirtex.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to CAD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.CAD);
-    double value = ticker.getLast().getAmount().doubleValue();
-    String currency = ticker.getLast().getCurrencyUnit().toString();
+    generic(marketDataService);
+    raw((VirtExMarketDataServiceRaw) marketDataService);
+  }
 
-    System.out.println("Last: " + currency + "-" + value);
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+
+    // Get the latest ticker data showing BTC to CAD
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_CAD);
+
+    System.out.println("Currency: " + Currencies.CAD);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
     System.out.println("Low: " + ticker.getLow().toString());
+  }
 
+  private static void raw(VirtExMarketDataServiceRaw marketDataService) throws IOException {
+
+    // Get the latest ticker data showing BTC to CAD
+    VirtExTicker ticker = marketDataService.getVirtExTicker("CAD");
+
+    System.out.println("Currency: " + Currencies.CAD);
+    System.out.println("Last: " + ticker.getLast().toString());
+    System.out.println("Volume: " + ticker.getVolume().toString());
+    System.out.println("High: " + ticker.getHigh().toString());
+    System.out.println("Low: " + ticker.getLow().toString());
   }
 
 }

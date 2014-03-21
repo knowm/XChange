@@ -30,14 +30,15 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
-import com.xeiam.xchange.AuthHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
+import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.utils.CertHelper;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.Series;
@@ -53,25 +54,27 @@ import com.xeiam.xchart.XChartPanel;
  */
 public class BitcoiniumRealtimeTickerDemo {
 
-  BitcoiniumMarketDataService bitcoiniumMarketDataService;
+  BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   List<Date> xAxisData;
   List<Double> yAxisData;
   public static final String SERIES_NAME = "MtGox USD/BTC";
 
   public static void main(String[] args) throws Exception {
 
-    AuthHelper.trustAllCerts();
+    CertHelper.trustAllCerts();
     final BitcoiniumRealtimeTickerDemo bitcoiniumRealtimeTickerDemo = new BitcoiniumRealtimeTickerDemo();
     bitcoiniumRealtimeTickerDemo.go();
   }
 
   private void go() throws IOException {
 
-    // Use the factory to get Bitcoinium exchange API using default settings
-    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(BitcoiniumExchange.class.getName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
+    exchangeSpecification.setApiKey("6seon0iepta86txluchde");
+    // Use the factory to get the Open Exchange Rates exchange API
+    Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public polling market data feed (no authentication)
-    bitcoiniumMarketDataService = (BitcoiniumMarketDataService) bitcoiniumExchange.getPollingMarketDataService();
+    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
 
     // Setup the panel
     final XChartPanel chartPanel = buildPanel();
@@ -100,7 +103,7 @@ public class BitcoiniumRealtimeTickerDemo {
       public void run() {
 
         try {
-          BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker(Currencies.BTC, Currencies.USD, "MTGOX");
+          BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker(Currencies.BTC, "BITSTAMP_USD");
           System.out.println(bitcoiniumTicker.toString());
           Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
           double price = bitcoiniumTicker.getLast().doubleValue();
@@ -129,8 +132,8 @@ public class BitcoiniumRealtimeTickerDemo {
 
     System.out.println("fetching data...");
 
-    // Get the latest order book data for BTC/USD - MTGOX
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, Currencies.USD, "MTGOX", "3h");
+    // Get the latest order book data for BTC/USD - BITSTAMP
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "3h");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 

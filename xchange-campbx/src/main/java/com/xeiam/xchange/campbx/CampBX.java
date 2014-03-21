@@ -25,10 +25,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.annotation.Nonnull;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
@@ -40,17 +42,16 @@ import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
  * @author Matija Mazi
  */
 @Path("api")
-@Produces("application/json")
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+@Produces(MediaType.APPLICATION_JSON)
 public interface CampBX {
 
   @POST
   @Path("xdepth.php")
-  @Produces("application/json")
   public CampBXOrderBook getOrderBook() throws IOException;
 
   @POST
   @Path("xticker.php")
-  @Produces("application/json")
   public CampBXTicker getTicker() throws IOException;
 
   /**
@@ -129,7 +130,7 @@ public interface CampBX {
   public CampBXResponse tradeAdvancedEnter(@Nonnull @FormParam("user") String user, @Nonnull @FormParam("pass") String password, @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
       @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") BigDecimal price, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
-  // todo: Date
+  // TODO: Date
       ) throws IOException;
 
   @POST
@@ -137,7 +138,7 @@ public interface CampBX {
   public CampBXResponse tradeAdvancedMarketEnter(@Nonnull @FormParam("user") String user, @Nonnull @FormParam("pass") String password, @Nonnull @FormParam("TradeMode") AdvTradeMode mode,
       @Nonnull @FormParam("Quantity") BigDecimal quantity, @Nonnull @FormParam("Price") MarketPrice market, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
       @FormParam("Expiry") String expiry
-  // todo: Date
+  // TODO: Date
       ) throws IOException;
 
   /**
