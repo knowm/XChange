@@ -42,6 +42,7 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
   private final int reconnectWaitTimeInMs;
   private final int timeoutInMs;
   private final boolean isEncryptedChannel;
+  private final String pusherKey;
   private final Set<String> channels;	
   private PusherOptions pusherOpts;
 
@@ -55,11 +56,12 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
    * @param channel - the specific data channel you want to tap into (https://mtgox.com/api/2/stream/list_public), null if none
    */
   public BitstampStreamingConfiguration(PusherOptions pusherOptions,
-		  int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean isEncryptedChannel, Set<String> channels) {
+		  int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean isEncryptedChannel, String pusherKey, Set<String> channels) {
     this.maxReconnectAttempts = maxReconnectAttempts;
     this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;
     this.timeoutInMs = timeoutInMs;
     this.isEncryptedChannel = isEncryptedChannel;
+    this.pusherKey = pusherKey;
     this.channels = channels;
 	this.pusherOpts = pusherOptions;
   }
@@ -68,7 +70,8 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
     this.maxReconnectAttempts = 30; // 67 min
     this.reconnectWaitTimeInMs = 135000; // 2:15
     this.timeoutInMs = 120000; // 2:00
-    this.isEncryptedChannel = false; // for perf
+    this.isEncryptedChannel = false; // data stream is public
+    this.pusherKey = "de504dc5763aeef9ff52";  // https://www.bitstamp.net/websocket/
     this.channels = new HashSet<String>();
     this.channels.add("order_book"); 
 	this.pusherOpts = new PusherOptions();
@@ -108,6 +111,10 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
   @Override
   public boolean keepAlive() {
     return true; // pusher client always keeps alive
+  }
+  
+  public String getPusherKey() {
+    return pusherKey;
   }
 
   public Set<String> getChannels() {

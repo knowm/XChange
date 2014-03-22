@@ -93,7 +93,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
     super(exchangeSpecification);
 
     this.configuration = configuration;
-    this.client = new Pusher(exchangeSpecification.getApiKey(), this.configuration.pusherOptions());
+    this.client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
     this.reconnectService = new ReconnectService(this, configuration);
     this.channels = new HashMap<String, Channel>();
     
