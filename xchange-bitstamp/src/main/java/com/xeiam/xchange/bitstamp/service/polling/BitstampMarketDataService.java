@@ -62,7 +62,7 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
 
     verify(currencyPair);
 
-    return BitstampAdapters.adaptOrders(getBitstampOrderBook(), currencyPair);
+    return BitstampAdapters.adaptOrders(getBitstampOrderBook(), currencyPair, 1000);
   }
 
   @Override

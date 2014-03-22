@@ -23,6 +23,7 @@ package com.xeiam.xchange.bitstamp.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,6 +35,19 @@ public final class BitstampOrderBook {
   private final Long timestamp;
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
+  
+  /**
+   * Constructor
+   * 
+   * @param bids
+   * @param asks
+   */
+  public BitstampOrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
+
+    this.bids = bids;
+    this.asks = asks;
+    this.timestamp = (new Date()).getTime();
+  }
 
   /**
    * Constructor
