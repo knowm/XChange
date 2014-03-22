@@ -45,7 +45,7 @@ public interface VaultOfSatoshi {
   public TickerWrapper getTicker(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;
 
   @GET
-  @Path("orderbook?order_currency={orderCurrency}&payment_currency={paymentCurrency}&count=100&round=8&group_orders=false")
+  @Path("orderbook?order_currency={orderCurrency}&payment_currency={paymentCurrency}&count=100&round=8&group_orders=0")
   public DepthWrapper getFullDepth(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;
 
   
