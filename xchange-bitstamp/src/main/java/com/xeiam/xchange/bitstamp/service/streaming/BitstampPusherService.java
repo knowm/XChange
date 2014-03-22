@@ -44,6 +44,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.streaming.*;
 import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
+import com.xeiam.xchange.bitstamp.service.streaming.BitstampStreamingConfiguration;
+
 /**
  * <p>
  * Streaming trade service for the MtGox exchange
@@ -75,11 +77,11 @@ public class BitstampPusherService extends BaseExchangeService implements Stream
    */
   public BitstampPusherService(ExchangeSpecification exchangeSpecification, BitstampStreamingConfiguration configuration) {
 
-    super(exchangeSpecification, configuration);
+    super(exchangeSpecification);
 
     this.configuration = configuration;
     this.client = new Pusher(exchangeSpecification.getApiKey(), this.configuration.pusherOptions());
-    this.reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
+    this.reconnectService = new ReconnectService(this, configuration);
     this.channels = new HashMap<String, Channel>();
   }
 
@@ -89,13 +91,14 @@ public class BitstampPusherService extends BaseExchangeService implements Stream
     channels.clear();
     for(String name : configuration.getChannels()) {
       Channel instance = client.subscribe(name);
-      switch(name) {
-        case "order_book":
-          bindOrderData(channel);
-          break;
-        case "live_trades":
-          throw new NotImplementedException("live_trades not implemented");
-          break;
+      if(name == "order_book") {
+        bindOrderData(instance);
+      }
+      else if(name == "live_trades") {
+        throw new UnsupportedOperationException("live_trades not implemented");
+      }
+      else {
+        throw new IllegalArgumentException(name);
       }
       channels.put(name, instance);
     }
@@ -113,7 +116,7 @@ public class BitstampPusherService extends BaseExchangeService implements Stream
    * 
    * @return An ExchangeEvent
    */
-  public ExchangeEvent getNextEvent() { //throws InterruptedException
+  public ExchangeEvent getNextEvent() throws InterruptedException {
     return consumerEventQueue.take();
   }
 
@@ -141,16 +144,16 @@ public class BitstampPusherService extends BaseExchangeService implements Stream
     // mapped to:
     // READYSTATE: NOT_YET_CONNECTED, CONNECTING, OPEN, CLOSING, CLOSED;
     switch(client.getConnection().getState()) {
-      case ConnectionState.CONNECTING:
+      case CONNECTING:
         return READYSTATE.CONNECTING;
         
-      case ConnectionState.CONNECTED:
+      case CONNECTED:
         return READYSTATE.OPEN;
         
-      case ConnectionState.DISCONNECTING:
+      case DISCONNECTING:
         return READYSTATE.CLOSING;
         
-      case ConnectionState.DISCONNECTED:
+      case DISCONNECTED:
         return READYSTATE.CLOSED;
         
       default:
@@ -168,7 +171,7 @@ public class BitstampPusherService extends BaseExchangeService implements Stream
     chan.bind("data", listener);
   }
   
-  private static void parseOrderBookUpdate(String json) {
+  private static OrderBookUpdate parseOrderBookUpdate(String json) {
     return null;
   }
   

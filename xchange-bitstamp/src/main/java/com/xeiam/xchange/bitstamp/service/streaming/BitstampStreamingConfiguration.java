@@ -74,7 +74,7 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
 	this.pusherOpts = new PusherOptions();
 	this.pusherOpts.setEncrypted(isEncryptedChannel);
 	this.pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval
-	this.pusherOpts.setPongTimeout(timeoutMs); // Response timeout
+	this.pusherOpts.setPongTimeout(timeoutInMs); // Response timeout
   }
   
   public final PusherOptions pusherOptions() {
@@ -103,6 +103,11 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
   public boolean isEncryptedChannel() {
 
     return isEncryptedChannel;
+  }
+  
+  @Override
+  public boolean keepAlive() {
+    return true; // pusher client always keeps alive
   }
 
   public Set<String> getChannels() {
