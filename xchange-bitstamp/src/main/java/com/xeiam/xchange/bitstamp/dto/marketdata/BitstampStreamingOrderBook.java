@@ -28,52 +28,18 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Matija Mazi
+ * @author Ryan Sundberg
  */
-public class BitstampOrderBook {
-
-  private final Long timestamp;
-  private final List<List<BigDecimal>> bids;
-  private final List<List<BigDecimal>> asks;
-
+public class BitstampStreamingOrderBook extends BitstampOrderBook {
+  
   /**
    * Constructor
    * 
-   * @param timestamp
    * @param bids
    * @param asks
    */
-  public BitstampOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
-
-    this.bids = bids;
-    this.asks = asks;
-    this.timestamp = timestamp;
-  }
-
-  /**
-   * @return Timestamp in Unix milliseconds
-   */
-  public Long getTimestamp() {
-
-    return timestamp;
-  }
-
-  /** (price, amount) */
-  public List<List<BigDecimal>> getBids() {
-
-    return bids;
-  }
-
-  /** (price, amount) */
-  public List<List<BigDecimal>> getAsks() {
-
-    return asks;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitstampOrderBook [timestamp=" + timestamp + ", bids=" + bids + ", asks=" + asks + "]";
+  public BitstampStreamingOrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
+    super((new Date()).getTime(), bids, asks);
   }
 
 }

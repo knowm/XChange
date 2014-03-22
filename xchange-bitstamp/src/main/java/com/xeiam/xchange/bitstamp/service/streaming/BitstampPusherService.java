@@ -54,7 +54,7 @@ import com.xeiam.xchange.service.streaming.*;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
-import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
 import com.xeiam.xchange.bitstamp.service.BitstampBaseService;
 import com.xeiam.xchange.bitstamp.service.streaming.BitstampStreamingConfiguration;
 
@@ -191,7 +191,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
   }
   
   private OrderBook parseOrderBook(String rawJson) throws IOException {
-    BitstampOrderBook nativeBook = streamObjectMapper.readValue(rawJson, BitstampOrderBook.class);
+    BitstampStreamingOrderBook nativeBook = streamObjectMapper.readValue(rawJson, BitstampStreamingOrderBook.class);
     //BitstampOrderBook nativeBook = new BitstampOrderBook((new Date()).getTime(), json.get("bids"), json.get("asks"));
     return BitstampAdapters.adaptOrders(nativeBook, CurrencyPair.BTC_USD, 1);
   }

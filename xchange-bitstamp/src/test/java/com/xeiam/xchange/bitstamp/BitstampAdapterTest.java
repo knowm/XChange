@@ -78,7 +78,7 @@ public class BitstampAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampOrderBook bitstampOrderBook = mapper.readValue(is, BitstampOrderBook.class);
 
-    OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, CurrencyPair.BTC_USD);
+    OrderBook orderBook = BitstampAdapters.adaptOrders(bitstampOrderBook, CurrencyPair.BTC_USD, 1000);
     assertThat(orderBook.getBids().size()).isEqualTo(1281);
 
     // verify all fields filled
