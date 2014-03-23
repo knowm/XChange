@@ -61,7 +61,7 @@ public class VaultOfSatoshiBaseService extends BaseExchangeService {
   
   new CurrencyPair("QRK", "CAD"),
   
-  new CurrencyPair("QRK", "CAD")
+  new CurrencyPair("QRK", "USD")
 
   );
 
