@@ -22,6 +22,7 @@
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
@@ -100,10 +101,31 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
     return new OrderBook(null, asks, bids);
   }
 
+
+  /**
+   * @param currencyPair The CurrencyPair for which to query trades.
+   * @param args One argument may be supplied which is the timestamp after which trades should be collected.
+   *             Trades before this time are not reported.  The argument may be of type java.util.Date or
+   *             Number (milliseconds since Jan 1, 1970)
+   */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair));
+    long lastTradeTime = 0;
+    if( args != null && args.length == 1 ) {
+        // parameter 1, if present, is the last trade timestamp
+        if( args[0] instanceof Number ) {
+            Number arg = (Number) args[0];
+            lastTradeTime = arg.longValue()/1000;  // divide by 1000 to convert to unix timestamp (seconds)
+        }
+        else if( args[0] instanceof Date ) {
+            Date arg = (Date) args[0];
+            lastTradeTime = arg.getTime()/1000;  // divide by 1000 to convert to unix timestamp (seconds)
+        }
+        else
+            throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was "+args[0].getClass()+")");
+    }
+    BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair),lastTradeTime);
 
     return BitfinexAdapters.adaptTrades(trades, currencyPair);
   }
