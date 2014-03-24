@@ -48,7 +48,7 @@ public interface Bitfinex {
 
   @GET
   @Path("trades/{symbol}")
-  BitfinexTrade[] getTrades(@PathParam("symbol") String symbol) throws IOException;
+  BitfinexTrade[] getTrades(@PathParam("symbol") String symbol, @QueryParam("timestamp") long timestamp) throws IOException;
 
   @GET
   @Path("symbols")
