@@ -60,7 +60,7 @@ public class VaultOfSatoshiAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     DepthWrapper VaultOfSatoshiDepth = mapper.readValue(is, DepthWrapper.class);
 
-    List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(VaultOfSatoshiDepth.getDepth().getAsks(), new CurrencyPair("BTC","USD"), "ask", "");
+    List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(VaultOfSatoshiDepth.getDepth().getAsks(), new CurrencyPair("BTC", "USD"), "ask", "");
 
     // Verify all fields filled
     assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(682.00);

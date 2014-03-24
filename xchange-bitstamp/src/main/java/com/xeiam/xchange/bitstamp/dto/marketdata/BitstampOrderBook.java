@@ -23,7 +23,6 @@ package com.xeiam.xchange.bitstamp.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

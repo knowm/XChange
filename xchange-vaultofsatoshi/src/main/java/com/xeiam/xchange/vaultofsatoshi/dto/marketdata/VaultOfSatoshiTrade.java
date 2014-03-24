@@ -31,41 +31,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class VaultOfSatoshiTrade {
 
-	  private final long transaction_date;
-	  private final VosCurrency units_traded;
-	  private final VosCurrency price;
-	  private final VosCurrency total;
+  private final long transaction_date;
+  private final VosCurrency units_traded;
+  private final VosCurrency price;
+  private final VosCurrency total;
 
-	  public VaultOfSatoshiTrade(@JsonProperty("transaction_date") long transaction_date, 
-			  @JsonProperty("units_traded") VosCurrency units_traded,
-			  @JsonProperty("price") VosCurrency price,
-			  @JsonProperty("total") VosCurrency total) {
+  public VaultOfSatoshiTrade(@JsonProperty("transaction_date") long transaction_date, @JsonProperty("units_traded") VosCurrency units_traded, @JsonProperty("price") VosCurrency price,
+      @JsonProperty("total") VosCurrency total) {
 
-	    this.transaction_date = transaction_date;
-	    this.units_traded = units_traded;
-	    this.total = total;
-	    this.price = price;
-	  }
+    this.transaction_date = transaction_date;
+    this.units_traded = units_traded;
+    this.total = total;
+    this.price = price;
+  }
 
-	  public VosCurrency getPrice() {
+  public VosCurrency getPrice() {
 
-	    return price;
-	  }
+    return price;
+  }
 
-	  public VosCurrency getTotal() {
+  public VosCurrency getTotal() {
 
-	    return total;
-	  }
-	  
-	  public VosCurrency getUnitsTraded() {
+    return total;
+  }
 
-		  return units_traded;
-	  }
-	  
-	  public long getTimestamp() {
+  public VosCurrency getUnitsTraded() {
 
-		  return transaction_date;
-	  }
+    return units_traded;
+  }
+
+  public long getTimestamp() {
+
+    return transaction_date;
+  }
 
   @Override
   public String toString() {

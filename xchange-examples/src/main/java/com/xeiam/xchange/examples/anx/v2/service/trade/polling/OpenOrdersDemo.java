@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.examples.anx.v2.service.trade.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-
-import java.io.IOException;
 
 /**
  * Test requesting all open orders at MtGox

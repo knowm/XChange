@@ -6,24 +6,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaTransactions {
 
-	private final List<BTCChinaTransaction> transactions;
+  private final List<BTCChinaTransaction> transactions;
 
-	/**
-	 * @param orders
-	 */
-	public BTCChinaTransactions(@JsonProperty("transaction") List<BTCChinaTransaction> transactions) {
-		this.transactions = transactions;
-	}
+  /**
+   * @param orders
+   */
+  public BTCChinaTransactions(@JsonProperty("transaction") List<BTCChinaTransaction> transactions) {
 
-	public List<BTCChinaTransaction> getTransactions() {
+    this.transactions = transactions;
+  }
 
-		return transactions;
-	}
+  public List<BTCChinaTransaction> getTransactions() {
 
-	@Override
-	public String toString() {
+    return transactions;
+  }
 
-		return String.format("BTCChinaTransactions{transactions=%s}", transactions);
-	}
+  @Override
+  public String toString() {
+
+    return String.format("BTCChinaTransactions{transactions=%s}", transactions);
+  }
 
 }

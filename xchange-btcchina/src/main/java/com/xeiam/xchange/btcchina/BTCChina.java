@@ -107,11 +107,11 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaBooleanResponse sellOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
       throws IOException;
-  
+
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaTransactionsResponse getTransactions(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaTransactionsRequest transactionRequest)
-      throws IOException;
+  public BTCChinaTransactionsResponse getTransactions(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaTransactionsRequest transactionRequest) throws IOException;
 
 }

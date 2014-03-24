@@ -46,5 +46,5 @@ public final class VosOrder {
 
     return quantity;
   }
-  
+
 }

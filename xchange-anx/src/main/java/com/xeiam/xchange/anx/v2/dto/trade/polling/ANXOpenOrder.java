@@ -55,8 +55,8 @@ public final class ANXOpenOrder {
    * @param priority
    */
   public ANXOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type,
-                      @JsonProperty("amount") ANXValue amount, @JsonProperty("invalid_amount") ANXValue invalidAmount, @JsonProperty("price") ANXValue price, @JsonProperty("status") String status,
-                      @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
+      @JsonProperty("amount") ANXValue amount, @JsonProperty("invalid_amount") ANXValue invalidAmount, @JsonProperty("price") ANXValue price, @JsonProperty("status") String status,
+      @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
 
     this.oid = oid;
     this.currency = currency;

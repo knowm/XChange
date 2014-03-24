@@ -70,7 +70,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
 
   public BitfinexTrade[] getBitfinexTrades(String pair, long sinceTimestamp) throws IOException {
 
-    BitfinexTrade[] trades = bitfinex.getTrades(pair,sinceTimestamp);
+    BitfinexTrade[] trades = bitfinex.getTrades(pair, sinceTimestamp);
 
     return trades;
   }

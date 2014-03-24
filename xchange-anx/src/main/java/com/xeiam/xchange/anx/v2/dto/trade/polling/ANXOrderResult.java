@@ -45,7 +45,7 @@ public final class ANXOrderResult {
    * @param trades
    */
   public ANXOrderResult(@JsonProperty("avg_cost") ANXValue avgCost, @JsonProperty("order_id") String orderId, @JsonProperty("total_amount") ANXValue totalAmount,
-                        @JsonProperty("total_spent") ANXValue totalSpent, @JsonProperty("trades") ANXOrderResultTrade[] trades) {
+      @JsonProperty("total_spent") ANXValue totalSpent, @JsonProperty("trades") ANXOrderResultTrade[] trades) {
 
     this.avgCost = avgCost;
     this.orderId = orderId;

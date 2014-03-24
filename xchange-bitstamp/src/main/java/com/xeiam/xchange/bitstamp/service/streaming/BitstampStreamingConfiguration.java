@@ -22,9 +22,9 @@
  */
 package com.xeiam.xchange.bitstamp.service.streaming;
 
-import java.util.Set;
 import java.util.HashSet;
-import com.pusher.client.Pusher;
+import java.util.Set;
+
 import com.pusher.client.PusherOptions;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 
@@ -43,7 +43,7 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
   private final int timeoutInMs;
   private final boolean isEncryptedChannel;
   private final String pusherKey;
-  private final Set<String> channels;	
+  private final Set<String> channels;
   private PusherOptions pusherOpts;
 
   /**
@@ -55,33 +55,36 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
    * @param isEncryptedChannel - should it use an encrypted channel or not? (ws vs. wss protocol)
    * @param channel - the specific data channel you want to tap into (https://mtgox.com/api/2/stream/list_public), null if none
    */
-  public BitstampStreamingConfiguration(PusherOptions pusherOptions,
-		  int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean isEncryptedChannel, String pusherKey, Set<String> channels) {
+  public BitstampStreamingConfiguration(PusherOptions pusherOptions, int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean isEncryptedChannel, String pusherKey,
+      Set<String> channels) {
+
     this.maxReconnectAttempts = maxReconnectAttempts;
     this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;
     this.timeoutInMs = timeoutInMs;
     this.isEncryptedChannel = isEncryptedChannel;
     this.pusherKey = pusherKey;
     this.channels = channels;
-	this.pusherOpts = pusherOptions;
+    this.pusherOpts = pusherOptions;
   }
-  
+
   public BitstampStreamingConfiguration() {
+
     this.maxReconnectAttempts = 30; // 67 min
     this.reconnectWaitTimeInMs = 135000; // 2:15
     this.timeoutInMs = 120000; // 2:00
     this.isEncryptedChannel = false; // data stream is public
-    this.pusherKey = "de504dc5763aeef9ff52";  // https://www.bitstamp.net/websocket/
+    this.pusherKey = "de504dc5763aeef9ff52"; // https://www.bitstamp.net/websocket/
     this.channels = new HashSet<String>();
-    this.channels.add("order_book"); 
-	this.pusherOpts = new PusherOptions();
-	this.pusherOpts.setEncrypted(isEncryptedChannel);
-	this.pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval
-	this.pusherOpts.setPongTimeout(timeoutInMs); // Response timeout
+    this.channels.add("order_book");
+    this.pusherOpts = new PusherOptions();
+    this.pusherOpts.setEncrypted(isEncryptedChannel);
+    this.pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval
+    this.pusherOpts.setPongTimeout(timeoutInMs); // Response timeout
   }
-  
+
   public final PusherOptions pusherOptions() {
-	  return this.pusherOpts;
+
+    return this.pusherOpts;
   }
 
   @Override
@@ -107,13 +110,15 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
 
     return isEncryptedChannel;
   }
-  
+
   @Override
   public boolean keepAlive() {
+
     return true; // pusher client always keeps alive
   }
-  
+
   public String getPusherKey() {
+
     return pusherKey;
   }
 

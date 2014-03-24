@@ -29,10 +29,11 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 public class CryptoTradeExampleUtils {
 
   public static Exchange createExchange() {
+
     ExchangeSpecification exSpec = new ExchangeSpecification(CryptoTradeExchange.class);
     exSpec.setSecretKey("");
     exSpec.setApiKey("");
-    
+
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 }

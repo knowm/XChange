@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.DepthWrapper;
+
 /**
  * Test VaultOfSatoshiDepth JSON parsing
  */

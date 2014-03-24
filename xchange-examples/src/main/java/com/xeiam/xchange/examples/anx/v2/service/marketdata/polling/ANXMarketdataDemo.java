@@ -21,15 +21,14 @@
  */
 package com.xeiam.xchange.examples.anx.v2.service.marketdata.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-
-import java.io.IOException;
 
 /**
  * <p>
@@ -61,13 +60,13 @@ public class ANXMarketdataDemo {
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
-//    // Get the current full orderbook
-//    OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
-//    System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
+    // // Get the current full orderbook
+    // OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    // System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
-//    // Get trades
-//    Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
-//    System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
+    // // Get trades
+    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    // System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
   }
 

@@ -113,7 +113,7 @@ public final class VaultOfSatoshiAdapters {
     List<Trade> tradesList = new ArrayList<Trade>();
     for (VaultOfSatoshiTrade vosTrade : vosTrades)
       tradesList.add(adaptTrade(vosTrade, currencyPair));
-    
+
     return new Trades(tradesList, TradeSortType.SortByID);
   }
 

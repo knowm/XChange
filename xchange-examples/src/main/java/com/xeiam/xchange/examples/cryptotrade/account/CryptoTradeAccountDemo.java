@@ -36,7 +36,7 @@ public class CryptoTradeAccountDemo {
   public static void main(String[] args) throws Exception {
 
     CertHelper.trustAllCerts();
-    
+
     Exchange exchange = CryptoTradeExampleUtils.createExchange();
     PollingAccountService accountService = exchange.getPollingAccountService();
 

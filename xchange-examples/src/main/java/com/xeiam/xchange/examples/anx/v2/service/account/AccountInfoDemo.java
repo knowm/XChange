@@ -21,12 +21,12 @@
  */
 package com.xeiam.xchange.examples.anx.v2.service.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-
-import java.io.IOException;
 
 /**
  * Demo requesting account info at MtGox

@@ -44,7 +44,7 @@ public final class ANXDepth {
    * @param bids
    */
   public ANXDepth(@JsonProperty("now") Long microTime, @JsonProperty("asks") List<ANXOrder> asks, @JsonProperty("bids") List<ANXOrder> bids,
-                  @JsonProperty("filter_min_price") FilterPrice filterMinPrice, @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
+      @JsonProperty("filter_min_price") FilterPrice filterMinPrice, @JsonProperty("filter_max_price") FilterPrice filterMaxPrice) {
 
     this.asks = asks;
     this.bids = bids;

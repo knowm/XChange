@@ -109,9 +109,10 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
 
     return btcchina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
   }
-  
+
   public BTCChinaTransactionsResponse getTransactions() throws IOException {
-	  return btcchina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaTransactionsRequest());
+
+    return btcchina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaTransactionsRequest());
   }
 
 }

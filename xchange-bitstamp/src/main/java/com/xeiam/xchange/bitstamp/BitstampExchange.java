@@ -24,13 +24,13 @@ package com.xeiam.xchange.bitstamp;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
-import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountService;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataService;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeService;
 import com.xeiam.xchange.bitstamp.service.streaming.BitstampPusherService;
 import com.xeiam.xchange.bitstamp.service.streaming.BitstampStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * @author Matija Mazi
@@ -57,7 +57,7 @@ public class BitstampExchange extends BaseExchange implements Exchange {
     this.pollingTradeService = new BitstampTradeService(exchangeSpecification);
     this.pollingAccountService = new BitstampAccountService(exchangeSpecification);
   }
-  
+
   @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 

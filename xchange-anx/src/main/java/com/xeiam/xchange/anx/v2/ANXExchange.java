@@ -40,42 +40,42 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  */
 public class ANXExchange extends BaseExchange implements Exchange {
 
-    @Override
-    public void applySpecification(ExchangeSpecification exchangeSpecification) {
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
-        super.applySpecification(exchangeSpecification);
+    super.applySpecification(exchangeSpecification);
 
-        // Configure the basic services if configuration does not apply
-        this.pollingMarketDataService = new ANXMarketDataService(exchangeSpecification);
-        this.pollingTradeService = new ANXTradeService(exchangeSpecification);
-        this.pollingAccountService = new ANXAccountService(exchangeSpecification);
-    }
+    // Configure the basic services if configuration does not apply
+    this.pollingMarketDataService = new ANXMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new ANXTradeService(exchangeSpecification);
+    this.pollingAccountService = new ANXAccountService(exchangeSpecification);
+  }
 
-    @Override
-    public ExchangeSpecification getDefaultExchangeSpecification() {
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
 
-        ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-        //exchangeSpecification.setSslUri("https://anx.hk");
-        exchangeSpecification.setSslUri("https://anxpro.com");
-//    exchangeSpecification.setSslUri("http://localhost:8080");
-//    exchangeSpecification.setPlainTextUriStreaming("ws://websocket.anx.hk");
-//    exchangeSpecification.setSslUriStreaming("wss://websocket.anx.hk");
-//    exchangeSpecification.setPlainTextUri("https://anx.hk");
-        exchangeSpecification.setHost("anxpro.com");
-        exchangeSpecification.setPort(443);
-        exchangeSpecification.setExchangeName("ANX.HK");
-        exchangeSpecification.setExchangeDescription("Asia Nexgen is a Bitcoin exchange registered in Hong Kong.");
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    // exchangeSpecification.setSslUri("https://anx.hk");
+    exchangeSpecification.setSslUri("https://anxpro.com");
+    // exchangeSpecification.setSslUri("http://localhost:8080");
+    // exchangeSpecification.setPlainTextUriStreaming("ws://websocket.anx.hk");
+    // exchangeSpecification.setSslUriStreaming("wss://websocket.anx.hk");
+    // exchangeSpecification.setPlainTextUri("https://anx.hk");
+    exchangeSpecification.setHost("anxpro.com");
+    exchangeSpecification.setPort(443);
+    exchangeSpecification.setExchangeName("ANX.HK");
+    exchangeSpecification.setExchangeDescription("Asia Nexgen is a Bitcoin exchange registered in Hong Kong.");
 
-        return exchangeSpecification;
-    }
+    return exchangeSpecification;
+  }
 
-    @Override
-    public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
+  @Override
+  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
-//    if (configuration instanceof ANXStreamingConfiguration) {
-//      return new ANXWebsocketService(getExchangeSpecification(), (ANXStreamingConfiguration) configuration);
-//    }
+    // if (configuration instanceof ANXStreamingConfiguration) {
+    // return new ANXWebsocketService(getExchangeSpecification(), (ANXStreamingConfiguration) configuration);
+    // }
 
-        throw new IllegalArgumentException("ANX.HK does not support streaming in this API");
-    }
+    throw new IllegalArgumentException("ANX.HK does not support streaming in this API");
+  }
 }

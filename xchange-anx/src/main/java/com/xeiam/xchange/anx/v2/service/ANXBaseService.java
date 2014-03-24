@@ -69,66 +69,66 @@ public class ANXBaseService extends BaseExchangeService {
 
   CurrencyPair.BTC_NOK,
 
-  //crypto to crypto
-  CurrencyPair.BTC_LTC,
+  // crypto to crypto
+      CurrencyPair.BTC_LTC,
 
-  CurrencyPair.BTC_XDC,
+      CurrencyPair.BTC_XDC,
 
-  CurrencyPair.BTC_NMC,
+      CurrencyPair.BTC_NMC,
 
-  CurrencyPair.BTC_PPC,
+      CurrencyPair.BTC_PPC,
 
-  //LTC
-  CurrencyPair.LTC_HKD,
+      // LTC
+      CurrencyPair.LTC_HKD,
 
-  CurrencyPair.LTC_BTC,
+      CurrencyPair.LTC_BTC,
 
-//  CurrencyPair.LTC_XDC,
+      // CurrencyPair.LTC_XDC,
 
-//  CurrencyPair.LTC_NMC,
+      // CurrencyPair.LTC_NMC,
 
-//  CurrencyPair.LTC_PPC,
+      // CurrencyPair.LTC_PPC,
 
-  CurrencyPair.LTC_USD,
+      CurrencyPair.LTC_USD,
 
-  //DOGE
-  CurrencyPair.XDC_HKD,
+      // DOGE
+      CurrencyPair.XDC_HKD,
 
-  CurrencyPair.XDC_BTC,
+      CurrencyPair.XDC_BTC,
 
-  CurrencyPair.XDC_LTC,
+      CurrencyPair.XDC_LTC,
 
-  CurrencyPair.XDC_NMC,
+      CurrencyPair.XDC_NMC,
 
-//  CurrencyPair.XDC_PPC,
+      // CurrencyPair.XDC_PPC,
 
-  CurrencyPair.XDC_USD,
+      CurrencyPair.XDC_USD,
 
-  //NMC
-  CurrencyPair.NMC_HKD,
+      // NMC
+      CurrencyPair.NMC_HKD,
 
-  CurrencyPair.NMC_LTC,
+      CurrencyPair.NMC_LTC,
 
-  CurrencyPair.NMC_BTC,
+      CurrencyPair.NMC_BTC,
 
-//  CurrencyPair.NMC_XDC,
+      // CurrencyPair.NMC_XDC,
 
-//  CurrencyPair.NMC_PPC,
+      // CurrencyPair.NMC_PPC,
 
-  CurrencyPair.NMC_USD,
+      CurrencyPair.NMC_USD,
 
-  //PPC
-  CurrencyPair.PPC_HKD,
+      // PPC
+      CurrencyPair.PPC_HKD,
 
-  CurrencyPair.PPC_LTC,
+      CurrencyPair.PPC_LTC,
 
-  CurrencyPair.PPC_BTC,
+      CurrencyPair.PPC_BTC,
 
-//  CurrencyPair.PPC_XDC,
+      // CurrencyPair.PPC_XDC,
 
-//  CurrencyPair.PPC_NMC,
+      // CurrencyPair.PPC_NMC,
 
-  CurrencyPair.PPC_USD
+      CurrencyPair.PPC_USD
 
   );
 

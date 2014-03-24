@@ -51,7 +51,7 @@ public final class ANXWalletHistoryEntry {
    * @param trade
    */
   public ANXWalletHistoryEntry(@JsonProperty("Index") int index, @JsonProperty("Date") String date, @JsonProperty("Type") String type, @JsonProperty("Info") String info,
-                               @JsonProperty("Link") String[] link, @JsonProperty("Value") ANXValue value, @JsonProperty("Balance") ANXValue balance, @JsonProperty("Trade") ANXWalletHistoryEntryTrade trade) {
+      @JsonProperty("Link") String[] link, @JsonProperty("Value") ANXValue value, @JsonProperty("Balance") ANXValue balance, @JsonProperty("Trade") ANXWalletHistoryEntryTrade trade) {
 
     this.index = index;
     this.date = date;

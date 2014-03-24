@@ -46,7 +46,7 @@ public class CryptoTradeTradeDemo {
   public static void main(String[] args) throws Exception {
 
     CertHelper.trustAllCerts();
-    
+
     Exchange exchange = CryptoTradeExampleUtils.createExchange();
     PollingTradeService accountService = exchange.getPollingTradeService();
 
@@ -58,70 +58,70 @@ public class CryptoTradeTradeDemo {
 
     Trades tradeHistory = tradeService.getTradeHistory();
     System.out.println(tradeHistory);
-    
+
     Thread.sleep(4000);
-    
+
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
-    
+
     Thread.sleep(4000);
-    
+
     LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(".01"), CurrencyPair.BTC_USD, null, null, new BigDecimal("1000.00"));
     String orderId = tradeService.placeLimitOrder(limitOrder);
     System.out.println(orderId);
-    
+
     Thread.sleep(4000);
-    
+
     openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
-    
+
     Thread.sleep(4000);
-    
+
     boolean isCancelled = tradeService.cancelOrder(orderId);
     System.out.println(isCancelled);
-    
+
     Thread.sleep(4000);
-    
+
     openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
-    
+
   }
 
   private static void raw(CryptoTradeTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
     CryptoTradeHistoryQueryParams params = CryptoTradeHistoryQueryParams.getQueryParamsBuilder().withCount(3).build();
-    
+
     CryptoTradeTrades tradeHistory = tradeService.getCryptoTradeTradeHistory(params);
     System.out.println(tradeHistory);
-    
+
     Thread.sleep(4000);
-    
+
     CryptoTradeTransactions transactions = tradeService.getCryptoTradeTransactionHistory(params);
     System.out.println(transactions);
-    
+
     Thread.sleep(4000);
-    
+
     CryptoTradeOrders orders = tradeService.getCryptoTradeOrderHistory(params);
     System.out.println(orders);
-    
+
     Thread.sleep(4000);
-    
+
     LimitOrder limitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(".01"), CurrencyPair.BTC_USD, null, null, new BigDecimal("1000.00"));
     CryptoTradePlaceOrderReturn orderReturn = tradeService.placeCryptoTradeLimitOrder(limitOrder);
     System.out.println(orderReturn);
-    
+
     Thread.sleep(4000);
-    
+
     orders = tradeService.getCryptoTradeOrderHistory(params);
     System.out.println(orders);
-    
+
     Thread.sleep(4000);
-    
+
     CryptoTradeCancelOrderReturn cancelOrderReturn = tradeService.cancelCryptoTradeOrder(orderReturn.getOrderId());
     System.out.println(cancelOrderReturn);
-    
+
     Thread.sleep(4000);
-    
+
     orders = tradeService.getCryptoTradeOrderHistory(params);
     System.out.println(orders);
   }

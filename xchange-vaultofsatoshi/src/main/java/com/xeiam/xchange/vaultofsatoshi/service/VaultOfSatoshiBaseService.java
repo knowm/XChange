@@ -36,31 +36,31 @@ public class VaultOfSatoshiBaseService extends BaseExchangeService {
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   CurrencyPair.BTC_CAD,
-  
+
   CurrencyPair.BTC_USD,
-  
+
   new CurrencyPair("LTC", "CAD"),
-  
+
   CurrencyPair.LTC_USD,
-  
+
   new CurrencyPair("PPC", "CAD"),
-  
+
   CurrencyPair.PPC_USD,
-  
+
   new CurrencyPair("DOGE", "CAD"),
-  
+
   CurrencyPair.DOGE_USD,
-  
+
   new CurrencyPair("FTC", "CAD"),
-  
+
   CurrencyPair.FTC_USD,
-  
+
   new CurrencyPair("XPM", "CAD"),
-  
+
   CurrencyPair.XPM_USD,
-  
+
   new CurrencyPair("QRK", "CAD"),
-  
+
   new CurrencyPair("QRK", "USD")
 
   );

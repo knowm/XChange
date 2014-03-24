@@ -38,13 +38,9 @@ public final class VaultOfSatoshiDepth {
   private final String order_currency;
   private final String payment_currency;
 
-
   @JsonCreator
-  public VaultOfSatoshiDepth(@JsonProperty("asks") List<VosOrder> asks, 
-		  @JsonProperty("bids") List<VosOrder> bids,
-		  @JsonProperty("timestamp") long timestamp,
-		  @JsonProperty("order_currency") String order_currency,
-		  @JsonProperty("payment_currency") String payment_currency) {
+  public VaultOfSatoshiDepth(@JsonProperty("asks") List<VosOrder> asks, @JsonProperty("bids") List<VosOrder> bids, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("order_currency") String order_currency, @JsonProperty("payment_currency") String payment_currency) {
 
     this.asks = asks;
     this.bids = bids;
@@ -62,20 +58,20 @@ public final class VaultOfSatoshiDepth {
 
     return bids;
   }
-  
+
   public long getTimestamp() {
 
-	    return timestamp;
+    return timestamp;
   }
-  
+
   public String getPaymentCurrency() {
 
-	    return payment_currency;
+    return payment_currency;
   }
-  
+
   public String getOrderCurrency() {
 
-	    return order_currency;
+    return order_currency;
   }
 
   @Override

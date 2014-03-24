@@ -50,10 +50,10 @@ public final class VosCurrency {
 
     return value;
   }
-  
+
   public long getValueInt() {
 
-	 return value_int;
+    return value_int;
   }
 
 }

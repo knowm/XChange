@@ -53,7 +53,7 @@ public final class ANXDepthUpdate {
    * @param totalVolumeInt
    */
   public ANXDepthUpdate(@JsonProperty("type_str") String tradeType, @JsonProperty("price_int") long priceInt, @JsonProperty("volume_int") long volumeInt, @JsonProperty("item") String item,
-                        @JsonProperty("currency") String currency, @JsonProperty("now") long now, @JsonProperty("total_volume_int") long totalVolumeInt) {
+      @JsonProperty("currency") String currency, @JsonProperty("now") long now, @JsonProperty("total_volume_int") long totalVolumeInt) {
 
     this.tradeType = tradeType;
     this.priceInt = priceInt;

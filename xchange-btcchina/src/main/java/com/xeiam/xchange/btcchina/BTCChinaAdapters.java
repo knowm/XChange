@@ -34,7 +34,6 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -91,6 +90,7 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType) {
+
     return new LimitOrder(orderType, amount, currencyPair, "", null, price);
 
   }
@@ -212,6 +212,7 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
     if (orders != null) {
@@ -245,12 +246,12 @@ public final class BTCChinaAdapters {
     return new LimitOrder(orderType, amount, CurrencyPair.BTC_CNY, id, date, price);
   }
 
-
   public static Trade adaptTransaction(BTCChinaTransaction transaction) {
+
     String type = transaction.getType();
 
     // could also be 'rebate' or other
-    if(!(type.startsWith("buy") || type.startsWith("sell"))) {
+    if (!(type.startsWith("buy") || type.startsWith("sell"))) {
       return null;
     }
 
@@ -259,11 +260,12 @@ public final class BTCChinaAdapters {
     BigDecimal price = BigDecimal.ZERO;
     BigDecimal amount = BigDecimal.ZERO;
 
-    if(!transaction.getBtcAmount().equals(BigDecimal.ZERO)) {
+    if (!transaction.getBtcAmount().equals(BigDecimal.ZERO)) {
       currencyPair = new CurrencyPair("BTC", "CNY");
       price = transaction.getCnyAmount().divide(transaction.getBtcAmount()).abs();
       amount = transaction.getBtcAmount().abs();
-    } else {
+    }
+    else {
       currencyPair = new CurrencyPair("LTC", "CNY");
       price = transaction.getCnyAmount().divide(transaction.getLtcAmount()).abs();
       amount = transaction.getLtcAmount().abs();
@@ -276,15 +278,17 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapt BTCChinaTransactions to Trades
+   * 
    * @param transactions
    * @return
    */
   public static Trades adaptTransactions(List<BTCChinaTransaction> transactions) {
+
     List<Trade> tradeHistory = new ArrayList<Trade>(transactions.size());
 
     for (BTCChinaTransaction transaction : transactions) {
       Trade adaptTransaction = adaptTransaction(transaction);
-      if(adaptTransaction != null) {
+      if (adaptTransaction != null) {
         tradeHistory.add(adaptTransaction);
       }
     }

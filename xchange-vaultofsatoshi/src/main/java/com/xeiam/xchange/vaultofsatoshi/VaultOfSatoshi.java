@@ -32,12 +32,12 @@ import javax.ws.rs.core.MediaType;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.DepthWrapper;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.TickerWrapper;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.TradesWrapper;
+
 /**
  * @author veken0m
  */
 @Path("public")
 @Produces(MediaType.APPLICATION_JSON)
-
 public interface VaultOfSatoshi {
 
   @GET
@@ -48,7 +48,6 @@ public interface VaultOfSatoshi {
   @Path("orderbook?order_currency={orderCurrency}&payment_currency={paymentCurrency}&count=100&round=8&group_orders=0")
   public DepthWrapper getFullDepth(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;
 
-  
   @GET
   @Path("recent_transactions?order_currency={orderCurrency}&payment_currency={paymentCurrency}&count=100")
   public TradesWrapper getTrades(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;

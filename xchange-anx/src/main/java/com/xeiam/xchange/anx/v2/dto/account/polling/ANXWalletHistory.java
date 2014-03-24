@@ -41,7 +41,7 @@ public final class ANXWalletHistory {
    * @param anxWalletHistoryEntries
    */
   public ANXWalletHistory(@JsonProperty("records") int records, @JsonProperty("result") ANXWalletHistoryEntry[] anxWalletHistoryEntries, @JsonProperty("current_page") int currentPage,
-                          @JsonProperty("max_page") int maxPage, @JsonProperty("max_results") int maxResults) {
+      @JsonProperty("max_page") int maxPage, @JsonProperty("max_results") int maxResults) {
 
     this.records = records;
     this.anxWalletHistoryEntries = anxWalletHistoryEntries;
