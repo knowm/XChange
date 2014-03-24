@@ -51,10 +51,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * <p>
- * Streaming trade service for the MtGox exchange
- * </p>
- * <p>
- * MtGox provides a Websocket implementation
+ * Streaming trade service for the Bitstamp exchange
  * </p>
  */
 public class BitstampPusherService extends BitstampBaseService implements StreamingExchangeService {
@@ -92,6 +89,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
     streamObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
+  @Override
   public void connect() {
 
     // Re-connect is handled by the base ReconnectService when it reads a closed conn. state
@@ -112,6 +110,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
     }
   }
 
+  @Override
   public void disconnect() {
 
     client.disconnect();
@@ -125,6 +124,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
    * 
    * @return An ExchangeEvent
    */
+  @Override
   public ExchangeEvent getNextEvent() throws InterruptedException {
 
     return consumerEventQueue.take();
@@ -135,6 +135,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
    * Sends a msg over the socket.
    * </p>
    */
+  @Override
   public void send(String msg) {
 
     // There's nothing to send for the current API!
@@ -145,6 +146,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
    * Query the current state of the socket.
    * </p>
    */
+  @Override
   public READYSTATE getWebSocketStatus() {
 
     // ConnectionState: CONNECTING, CONNECTED, DISCONNECTING, DISCONNECTED, ALL
@@ -172,6 +174,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
 
     SubscriptionEventListener listener = new SubscriptionEventListener() {
 
+      @Override
       public void onEvent(String channelName, String eventName, String data) {
 
         ExchangeEvent xevt = null;
@@ -181,8 +184,9 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
         } catch (IOException e) {
           log.error("JSON stream error", e);
         }
-        if (xevt != null)
+        if (xevt != null) {
           addToEventQueue(xevt);
+        }
       }
     };
     chan.bind("data", listener);
