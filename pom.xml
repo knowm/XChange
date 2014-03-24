@@ -73,7 +73,7 @@
 	</ciManagement>
 
 	<modules>
-		<module>xchange-core</module>
+        <module>xchange-anx</module>
 		<module>xchange-bitcoinaverage</module>
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-bitcoinium</module>
@@ -89,14 +89,14 @@
 		<module>xchange-cexio</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinfloor</module>
+		<module>xchange-core</module>
 		<module>xchange-cryptotrade</module>
 		<module>xchange-examples</module>
 		<module>xchange-justcoin</module>
 		<module>xchange-kraken</module>
 		<module>xchange-openexchangerates</module>
-		<module>xchange-vircurex</module>
-        <module>xchange-anx</module>
 		<module>xchange-vaultofsatoshi</module>
+		<module>xchange-vircurex</module>
 	</modules>
 
 	<repositories>
