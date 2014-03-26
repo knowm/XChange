@@ -104,13 +104,16 @@ public class AtlasExchangeTest {
 
 	@Test
 	public void testGetPollingTradeService() {
-		fail("Not yet implemented");
+		assertNotNull(testExchange);
+		PollingTradeService tradeService = testExchange
+				.getPollingTradeService();
+		assertNotNull(tradeService);
 	}
 
 	@Test
 	public void testGetPollingAccountService() {
-		assertNotNull(defaultExchange);
-		PollingAccountService pollingAccountService = defaultExchange
+		assertNotNull(testExchange);
+		PollingAccountService pollingAccountService = testExchange
 				.getPollingAccountService();
 		assertNotNull(pollingAccountService);
 		LOGGER.info(pollingAccountService.toString());

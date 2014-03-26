@@ -2,7 +2,9 @@ package com.xeiam.xchange.atlasats.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -19,7 +21,7 @@ public class AtlasPollingAccountService extends BasePollingExchangeService
 	public AtlasPollingAccountService(
 			ExchangeSpecification exchangeSpecification) {
 		super(exchangeSpecification);
-		
+
 	}
 
 	@Override
@@ -35,22 +37,20 @@ public class AtlasPollingAccountService extends BasePollingExchangeService
 			String address) throws ExchangeException,
 			NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotAvailableFromExchangeException();
 	}
 
 	@Override
 	public String requestDepositAddress(String currency, String... args)
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotAvailableFromExchangeException();
 	}
 
 	@Override
 	public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		Collection<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+		return currencyPairs;
 	}
 
 }
