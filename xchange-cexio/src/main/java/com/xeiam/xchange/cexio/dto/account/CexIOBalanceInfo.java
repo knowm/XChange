@@ -116,7 +116,7 @@ public class CexIOBalanceInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, BTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}]", error, timestamp, username, balanceBTC, balanceLTC, balanceNMC,
+    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}]", error, timestamp, username, balanceBTC, balanceLTC, balanceNMC,
         balanceIXC, balanceDVC, balanceGHS);
   }
 
