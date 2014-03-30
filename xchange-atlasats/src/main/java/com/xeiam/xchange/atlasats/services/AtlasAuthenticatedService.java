@@ -5,7 +5,7 @@ public class AtlasAuthenticatedService {
 	private String apiKey;
 
 	public AtlasAuthenticatedService(String apiKey) {
-		this.apiKey = apiKey;
+		this.apiKey = "Token token=\"" + apiKey + "\"";
 	}
 
 	public String getApiKey() {

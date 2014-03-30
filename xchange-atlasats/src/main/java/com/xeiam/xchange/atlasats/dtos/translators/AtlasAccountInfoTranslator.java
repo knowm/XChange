@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.atlasats.dtos.AtlasAccountInfo;
-import com.xeiam.xchange.atlasats.dtos.Position;
+import com.xeiam.xchange.atlasats.dtos.AtlasPosition;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.Wallet;
 
@@ -21,8 +21,8 @@ public class AtlasAccountInfoTranslator implements AtlasTranslator<AtlasAccountI
 		List<Wallet> wallets = new ArrayList<Wallet>();
 		username = sourceObject.getUsername();
 		tradingFee = sourceObject.getTradingFee();
-		List<Position> positions = sourceObject.getPositions();
-		for(Position position: positions){
+		List<AtlasPosition> positions = sourceObject.getPositions();
+		for(AtlasPosition position: positions){
 			wallets.add(positionToWalletTranslator.translate(position));
 		}
 		AccountInfo accountInfo = new AccountInfo(username, tradingFee, wallets);

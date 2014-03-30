@@ -26,7 +26,7 @@ public class AtlasExchangeTest {
 	public void setUp() throws Exception {
 		defaultExchange = (AtlasExchange) ExchangeFactory.INSTANCE
 				.createExchange(AtlasExchange.class.getCanonicalName());
-		exchangeSpecification = new AtlasExchangeSpecification();
+		exchangeSpecification = new AtlasTestExchangeSpecification();
 		testExchange = (AtlasExchange) ExchangeFactory.INSTANCE
 				.createExchange(exchangeSpecification);
 	}
