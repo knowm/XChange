@@ -82,7 +82,7 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
 
   @Override
   // public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
-      // Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  // Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
       public
       Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 

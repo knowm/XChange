@@ -26,13 +26,10 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
-import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.service.streaming.BitstampStreamingConfiguration;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
-import com.xeiam.xchange.service.streaming.ExchangeEventType; 
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * Demonstrate requesting Depth at Bitstamp
@@ -52,28 +49,28 @@ public class StreamingDemo {
   }
 
   private static void generic(StreamingExchangeService stream) throws IOException {
+
     try {
-      for(int i = 0; i < 10; i++) {
+      for (int i = 0; i < 10; i++) {
         ExchangeEvent evt = stream.getNextEvent();
-        switch(evt.getEventType()) {
+        switch (evt.getEventType()) {
         case SUBSCRIBE_ORDERS:
-          printOrderBook((OrderBook)evt.getPayload());
+          printOrderBook((OrderBook) evt.getPayload());
           break;
         }
       }
       System.out.println("Closing Bitstamp stream.");
-    }
-    catch(InterruptedException e) {
+    } catch (InterruptedException e) {
       e.printStackTrace(System.err);
     }
   }
-  
-  private static void printOrderBook(OrderBook orderBook) { 
+
+  private static void printOrderBook(OrderBook orderBook) {
+
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
     System.out.println("First Bid: " + orderBook.getBids().get(0).toString());
     System.out.println(orderBook.toString());
   }
-
 
 }

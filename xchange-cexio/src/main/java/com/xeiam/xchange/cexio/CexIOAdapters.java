@@ -142,8 +142,8 @@ public class CexIOAdapters {
       wallets.add(new Wallet(Currencies.BTC, balance.getBalanceBTC().getOrders(), "orders"));
     }
     if (balance.getBalanceLTC() != null) {
-        wallets.add(new Wallet(Currencies.LTC, balance.getBalanceLTC().getAvailable(), "available"));
-        wallets.add(new Wallet(Currencies.LTC, balance.getBalanceLTC().getOrders(), "orders"));
+      wallets.add(new Wallet(Currencies.LTC, balance.getBalanceLTC().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.LTC, balance.getBalanceLTC().getOrders(), "orders"));
     }
     if (balance.getBalanceNMC() != null) {
       wallets.add(new Wallet(Currencies.NMC, balance.getBalanceNMC().getAvailable(), "available"));
