@@ -84,7 +84,7 @@ public class BitstampTradeDemo {
 
     // place a limit buy order
     BitstampOrder order = tradeService.sellBitstampOrder(new BigDecimal(".001"), new BigDecimal("1000.00"));
-    System.out.println("Limit Order return value: " + order);
+    System.out.println("BitstampOrder return value: " + order);
 
     printRawOpenOrders(tradeService);
 

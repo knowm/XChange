@@ -32,7 +32,7 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
  * Value object to provide the following
  * </p>
  * <ul>
- * <li>Access to streaming data configuration specific to MtGox exchange streaming API</li>
+ * <li>Access to streaming data configuration specific to Bitstamp exchange streaming API</li>
  * </ul>
  */
 public class BitstampStreamingConfiguration implements ExchangeStreamingConfiguration {

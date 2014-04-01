@@ -28,13 +28,12 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Ticker at Bitstamp
+ * Demonstrate requesting Ticker at Bitstamp. You can access both the raw data from Bitstamp or the XChange generic DTO data format.
  */
 public class TickerDemo {
 
@@ -48,31 +47,20 @@ public class TickerDemo {
 
     generic(marketDataService);
     raw((BitstampMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    // Get the latest ticker data showing BTC to USD
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
-    System.out.println("Currency: " + Currencies.USD);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
+    System.out.println(ticker.toString());
   }
 
   private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
-    // Get the latest ticker data showing BTC to USD
-    BitstampTicker ticker = marketDataService.getBitstampTicker();
+    BitstampTicker bitstampTicker = marketDataService.getBitstampTicker();
 
-    System.out.println("Currency: " + Currencies.USD);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
+    System.out.println(bitstampTicker.toString());
   }
 
 }

@@ -100,7 +100,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
         bindOrderData(instance);
       }
       else if (name == "live_trades") {
-        throw new UnsupportedOperationException("live_trades not implemented");
+        throw new UnsupportedOperationException("live_trades not yet implemented");
       }
       else {
         throw new IllegalArgumentException(name);

@@ -41,17 +41,17 @@ import com.xeiam.xchart.StyleManager.ChartType;
 import com.xeiam.xchart.SwingWrapper;
 
 /**
- * @author timmolter
+ * Demonstrate requesting OrderBook from Bitstamp and plotting it using XChart.
  */
 public class DepthChartDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get the version 1 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+    // Use the factory to get the version 1 Bitstamp exchange API using default settings
+    Exchange bitstampExchange = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitstampExchange.getPollingMarketDataService();
 
     System.out.println("fetching data...");
 
