@@ -90,7 +90,7 @@ public class DateUtils {
 
   /**
    * Converts an ISO 8601 formatted Date String to a Java Date
-   * ISO 8601 format: yyyy-MM-dd'T'HH:mm:ssX
+   * ISO 8601 format: yyyy-MM-dd'T'HH:mm:ss
    * 
    * @param iso8601FormattedDate
    * @return Date
@@ -98,7 +98,7 @@ public class DateUtils {
    */
   public static Date fromISO8601DateString(String iso8601FormattedDate) throws InvalidFormatException {
 
-    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     try {
       return iso8601Format.parse(iso8601FormattedDate);
     } catch (ParseException e) {

@@ -30,12 +30,12 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency.CoibaseCurrencyDeserializer;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency.CoinbaseCurrencyDeserializer;
 
 /**
  * @author jamespedwards42
  */
-@JsonDeserialize(using = CoibaseCurrencyDeserializer.class)
+@JsonDeserialize(using = CoinbaseCurrencyDeserializer.class)
 public class CoinbaseCurrency {
 
   private final String name;
@@ -63,7 +63,7 @@ public class CoinbaseCurrency {
     return "CoinbaseCurrency [name=" + name + ", isoCode=" + isoCode + "]";
   }
 
-  static class CoibaseCurrencyDeserializer extends JsonDeserializer<CoinbaseCurrency> {
+  static class CoinbaseCurrencyDeserializer extends JsonDeserializer<CoinbaseCurrency> {
 
     @Override
     public CoinbaseCurrency deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
