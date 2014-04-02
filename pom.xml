@@ -163,7 +163,7 @@
 			<dependency>
 				<groupId>com.github.mmazi</groupId>
 				<artifactId>rescu</artifactId>
-				<version>1.6.0-SNAPSHOT</version>
+				<version>1.6.0</version>
 			</dependency>
 
 		</dependencies>
