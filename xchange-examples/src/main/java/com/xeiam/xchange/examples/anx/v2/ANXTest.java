@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.anx.v2;
+package com.xeiam.xchange.examples.anx.v2;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -37,6 +37,8 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.ANXUtils;
+import com.xeiam.xchange.anx.v2.ANXExchange;
+import com.xeiam.xchange.anx.v2.ANXV2;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWalletHistoryWrapper;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
 import com.xeiam.xchange.currency.Currencies;
@@ -55,6 +57,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 /**
  * Tests the ANXAdapter class
  */
+@Ignore
 public class ANXTest {
 
   Exchange anx;
