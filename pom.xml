@@ -48,11 +48,11 @@
 	</issueManagement>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshots</name>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
+<!-- 		<snapshotRepository> -->
+<!-- 			<id>sonatype-nexus-snapshots</id> -->
+<!-- 			<name>Sonatype Nexus Snapshots</name> -->
+<!-- 			<url>http://oss.sonatype.org/content/repositories/snapshots</url> -->
+<!-- 		</snapshotRepository> -->
 		<repository>
 			<id>sonatype-nexus-staging</id>
 			<name>Nexus Release Repository</name>
