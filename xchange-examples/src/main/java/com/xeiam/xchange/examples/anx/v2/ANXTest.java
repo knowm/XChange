@@ -81,6 +81,7 @@ public class ANXTest {
     anx = ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 
+  @Ignore
   @Test
   public void testAccountInfo() throws IOException {
 
@@ -94,6 +95,7 @@ public class ANXTest {
     Assert.assertEquals("xchange.anx@gmail.com", accountInfo.getUsername());
   }
 
+  @Ignore
   @Test
   public void testBTCDepositAddress() throws IOException {
 
@@ -105,6 +107,7 @@ public class ANXTest {
     System.out.println("Address to deposit Bitcoins to: " + address);
   }
 
+  @Ignore
   @Test
   public void testDOGEDepositAddress() throws IOException {
 
@@ -137,6 +140,7 @@ public class ANXTest {
     Assert.assertEquals("success", success);
   }
 
+  @Ignore
   @Test
   public void testBTCWalletHistory() throws IOException {
 
@@ -151,6 +155,7 @@ public class ANXTest {
     Assert.assertEquals(2, walletHistory.getANXWalletHistory().getCurrentPage());
   }
 
+  @Ignore
   @Test
   public void testDOGEWalletHistory() throws IOException {
 
@@ -165,6 +170,7 @@ public class ANXTest {
     Assert.assertEquals(2, walletHistory.getANXWalletHistory().getCurrentPage());
   }
 
+  @Ignore
   @Test
   public void testDepth() throws IOException {
 
@@ -186,6 +192,7 @@ public class ANXTest {
     }
   }
 
+  @Ignore
   @Test
   public void testTicker() throws IOException {
 
@@ -206,6 +213,7 @@ public class ANXTest {
     Assert.assertEquals(CurrencyPair.DOGE_BTC, ticker.getCurrencyPair());
   }
 
+  @Ignore
   @Test
   public void testOpenOrders() throws IOException {
 
