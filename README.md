@@ -13,15 +13,12 @@ Usage is very simple: Create an Exchange instance, get the appropriate service, 
 
 ## Example
 
-    // Use the factory to get the version 2 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v2.MtGoxExchange");
+    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+
     System.out.println(ticker.toString());
     
 All exchange implementations expose the same API, but you can also directly access the raw data.
