@@ -1,4 +1,4 @@
-## [![XChange](http://xeiam.com/images/XChange_64_64.png)](http://xeiam.com/xchange) XChange
+## [![XChange](http://xeiam.com/static/xeiamweb/images/XChange_64_64.png)](http://xeiam.com/xchange) XChange
 XChange is a Java library providing a simple and consistent API for interacting with over a dozen Bitcoin exchanges providing a consistent interface for trading and accessing market data.
 
 ## Important!
