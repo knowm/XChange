@@ -1,8 +1,7 @@
 package com.xeiam.xchange.atlasats.services;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,15 +16,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.atlasats.AtlasExchange;
 import com.xeiam.xchange.atlasats.AtlasExchangeSpecification;
-import com.xeiam.xchange.atlasats.dtos.AtlasAccountInfo;
-import com.xeiam.xchange.atlasats.dtos.AtlasCurrencyPair;
-import com.xeiam.xchange.atlasats.dtos.AtlasOptionContract;
-
 import si.mazi.rescu.RestProxyFactory;
 
-public class RescuAccountserviceTest {
+public class RescuAccountServiceTest {
 
 	@Path("/api/v1")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -38,7 +32,7 @@ public class RescuAccountserviceTest {
 
 		@GET
 		@Path("market/symbols")
-		public String getExchangeSymbols(
+		public List<Map<String, Object>> getExchangeSymbols(
 				@HeaderParam("Authorization") String apiKey);
 
 		@GET
@@ -48,7 +42,7 @@ public class RescuAccountserviceTest {
 	}
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RescuAccountserviceTest.class);
+			.getLogger(RescuAccountServiceTest.class);
 	private AccountSevice accountSevice;
 
 	@Before
@@ -76,9 +70,12 @@ public class RescuAccountserviceTest {
 	@Test
 	public void testExchangeSymbols() {
 		try {
-			String response = accountSevice.getExchangeSymbols("Token token=\""
-					+ AtlasExchangeSpecification.TEST_API_KEY + "\"");
-			LOGGER.info(response);
+			List<Map<String, Object>> response = accountSevice
+					.getExchangeSymbols("Token token=\""
+							+ AtlasExchangeSpecification.TEST_API_KEY + "\"");
+			for (Map<String, Object> map : response) {
+				LOGGER.info(map.toString());
+			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}

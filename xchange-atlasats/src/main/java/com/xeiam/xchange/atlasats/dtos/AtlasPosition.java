@@ -11,7 +11,7 @@ public class AtlasPosition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private BigDecimal realizedProfit;
-	private BigDecimal unRealizedProfit;
+	private BigDecimal unrealizedProfit;
 	private BigDecimal size;
 
 	public BigDecimal getRealizedProfit() {
@@ -22,12 +22,12 @@ public class AtlasPosition implements Serializable {
 		this.realizedProfit = realizedProfit;
 	}
 
-	public BigDecimal getUnRealizedProfit() {
-		return unRealizedProfit;
+	public BigDecimal getUnrealizedProfit() {
+		return unrealizedProfit;
 	}
 
-	public void setUnRealizedProfit(BigDecimal unRealizedProfit) {
-		this.unRealizedProfit = unRealizedProfit;
+	public void setUnrealizedProfit(BigDecimal unrealizedProfit) {
+		this.unrealizedProfit = unrealizedProfit;
 	}
 
 	public BigDecimal getSize() {
@@ -43,8 +43,8 @@ public class AtlasPosition implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("AtlasPosition [realizedProfit=");
 		builder.append(realizedProfit);
-		builder.append(", unRealizedProfit=");
-		builder.append(unRealizedProfit);
+		builder.append(", unrealizedProfit=");
+		builder.append(unrealizedProfit);
 		builder.append(", size=");
 		builder.append(size);
 		builder.append("]");

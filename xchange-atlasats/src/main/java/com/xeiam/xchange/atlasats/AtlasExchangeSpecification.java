@@ -1,5 +1,7 @@
 package com.xeiam.xchange.atlasats;
 
+import si.mazi.rescu.JacksonConfigureListener;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
@@ -15,6 +17,7 @@ public class AtlasExchangeSpecification extends ExchangeSpecification {
 	public static final String SSL_STREAMING_URL = "https://data.atlasats.com:4000";
 	public static final String SSL_URL = "https://atlasats.com";
 
+	private JacksonConfigureListener jacksonConfigureListener;
 	private ExchangeStreamingConfiguration streamingConfiguration;
 
 	public AtlasExchangeSpecification() {
@@ -39,6 +42,14 @@ public class AtlasExchangeSpecification extends ExchangeSpecification {
 		setSslUriStreaming(SSL_STREAMING_URL);
 		setApiKey(apiKey);
 		setStreamingConfiguration(streamingConfiguration);
+	}
+
+	public JacksonConfigureListener getJacksonConfigureListener() {
+		return jacksonConfigureListener;
+	}
+
+	public void setJacksonConfigureListener(JacksonConfigureListener jacksonConfigureListener) {
+		this.jacksonConfigureListener = jacksonConfigureListener;
 	}
 
 	public ExchangeStreamingConfiguration getStreamingConfiguration() {
