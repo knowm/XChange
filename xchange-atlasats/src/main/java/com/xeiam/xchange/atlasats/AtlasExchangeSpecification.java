@@ -8,7 +8,7 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 
 public class AtlasExchangeSpecification extends ExchangeSpecification {
 
-	public static final String TEST_API_KEY = "9d52f9deef5603e27aa8045e9be9eb57";
+	public static final String TEST_API_KEY = "YOUR API KEY";
 	public static final String TEST_SSL_STREAMING_URL = "https://private-2da0-atlasxchange.apiary.io:4000";
 	public static final String TEST_SSL_URL = "https://private-2da0-atlasxchange.apiary.io";
 	public static final String TEST_HOST_NAME = "private-2da0-atlasxchange.apiary.io";

@@ -48,7 +48,7 @@ public class RescuAccountServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		accountSevice = RestProxyFactory.createProxy(AccountSevice.class,
-				AtlasExchangeSpecification.SSL_URL);
+				AtlasExchangeSpecification.TEST_SSL_URL);
 	}
 
 	@After

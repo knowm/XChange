@@ -29,7 +29,7 @@ public class AtlasPollingAccountServiceRawTest {
 	@Before
 	public void setUp() throws Exception {
 		exchangeSpecification = new AtlasTestExchangeSpecification();
-		exchangeSpecification.setSslUri(AtlasExchangeSpecification.SSL_URL);
+		exchangeSpecification.setSslUri(AtlasExchangeSpecification.TEST_SSL_URL);
 		accountServiceRaw = new AtlasPollingAccountServiceRaw(
 				exchangeSpecification);
 	}
