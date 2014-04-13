@@ -35,7 +35,11 @@ public class BTCChinaBaseService extends BaseExchangeService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.BTC_CNY
+  CurrencyPair.BTC_CNY,
+  
+  CurrencyPair.LTC_CNY,
+  
+  CurrencyPair.LTC_BTC
 
   );
 

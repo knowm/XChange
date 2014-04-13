@@ -38,10 +38,18 @@ public class VaultOfSatoshiBaseService extends BaseExchangeService {
   CurrencyPair.BTC_CAD,
 
   CurrencyPair.BTC_USD,
+  
+  CurrencyPair.BTC_LTC,
+  
+  new CurrencyPair("BTC", "DOGE"),
 
   new CurrencyPair("LTC", "CAD"),
 
   CurrencyPair.LTC_USD,
+  
+  CurrencyPair.LTC_BTC,
+  
+  new CurrencyPair("LTC", "DOGE"),
 
   new CurrencyPair("PPC", "CAD"),
 
@@ -50,6 +58,10 @@ public class VaultOfSatoshiBaseService extends BaseExchangeService {
   new CurrencyPair("DOGE", "CAD"),
 
   CurrencyPair.DOGE_USD,
+  
+  new CurrencyPair("DOGE", "BTC"),
+  
+  new CurrencyPair("DOGE", "LTC"),
 
   new CurrencyPair("FTC", "CAD"),
 
