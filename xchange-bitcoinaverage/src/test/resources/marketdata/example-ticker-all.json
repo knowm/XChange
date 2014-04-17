@@ -1,0 +1,1350 @@
+{
+  "AED": {
+    "ask": 1937.74,
+    "bid": 1930.68,
+    "last": 1934.05,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "AFN": {
+    "ask": 29977.93,
+    "bid": 29868.72,
+    "last": 29920.86,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ALL": {
+    "ask": 53509.75,
+    "bid": 53314.81,
+    "last": 53407.87,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "AMD": {
+    "ask": 220029.71,
+    "bid": 219228.11,
+    "last": 219610.78,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ANG": {
+    "ask": 943.78,
+    "bid": 940.34,
+    "last": 941.98,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "AOA": {
+    "ask": 51546.62,
+    "bid": 51358.82,
+    "last": 51448.47,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ARS": {
+    "ask": 4221.17,
+    "bid": 4205.79,
+    "last": 4213.14,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "AUD": {
+    "24h_avg": 550.62,
+    "ask": 562.92,
+    "bid": 560.87,
+    "last": 561.85,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 162.08,
+    "volume_percent": 0.14
+  },
+  "AWG": {
+    "ask": 940.35,
+    "bid": 936.93,
+    "last": 938.56,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "AZN": {
+    "ask": 413.67,
+    "bid": 412.16,
+    "last": 412.88,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BAM": {
+    "ask": 747.29,
+    "bid": 744.56,
+    "last": 745.86,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BBD": {
+    "ask": 1055.09,
+    "bid": 1051.25,
+    "last": 1053.08,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BDT": {
+    "ask": 40983.11,
+    "bid": 40833.8,
+    "last": 40905.08,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BGN": {
+    "ask": 747.16,
+    "bid": 744.43,
+    "last": 745.73,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BHD": {
+    "ask": 198.9,
+    "bid": 198.17,
+    "last": 198.52,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BIF": {
+    "ask": 817354.49,
+    "bid": 814376.75,
+    "last": 815798.29,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BMD": {
+    "ask": 527.55,
+    "bid": 525.62,
+    "last": 526.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BND": {
+    "ask": 660.3,
+    "bid": 657.9,
+    "last": 659.04,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BOB": {
+    "ask": 3646.66,
+    "bid": 3633.38,
+    "last": 3639.72,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BRL": {
+    "24h_avg": 1150.92,
+    "ask": 1180.08,
+    "bid": 1175.78,
+    "last": 1177.83,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 112.29,
+    "volume_percent": 0.1
+  },
+  "BSD": {
+    "ask": 527.55,
+    "bid": 525.62,
+    "last": 526.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BTC": {
+    "ask": 1.03,
+    "bid": 1.02,
+    "last": 1.03,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BTN": {
+    "ask": 31839.34,
+    "bid": 31723.35,
+    "last": 31778.72,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BWP": {
+    "ask": 4619.14,
+    "bid": 4602.31,
+    "last": 4610.34,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BYR": {
+    "ask": 5252262.93,
+    "bid": 5233128.19,
+    "last": 5242262.89,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "BZD": {
+    "ask": 1062.03,
+    "bid": 1058.16,
+    "last": 1060.01,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CAD": {
+    "24h_avg": 566.44,
+    "ask": 580.74,
+    "bid": 578.62,
+    "last": 579.63,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 479.28,
+    "volume_percent": 0.43
+  },
+  "CDF": {
+    "ask": 487271.68,
+    "bid": 485496.48,
+    "last": 486343.94,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CHF": {
+    "24h_avg": 453.86,
+    "ask": 465.08,
+    "bid": 463.39,
+    "last": 464.2,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 2.54,
+    "volume_percent": 0.0
+  },
+  "CLF": {
+    "ask": 12.39,
+    "bid": 12.34,
+    "last": 12.37,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CLP": {
+    "ask": 293337.6,
+    "bid": 292268.93,
+    "last": 292779.1,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CNY": {
+    "24h_avg": 3203.28,
+    "ask": 3277.89,
+    "bid": 3265.95,
+    "last": 3271.65,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 12521.14,
+    "volume_percent": 11.17
+  },
+  "COP": {
+    "ask": 1018331.32,
+    "bid": 1014621.4,
+    "last": 1016392.47,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CRC": {
+    "ask": 289341.96,
+    "bid": 288287.85,
+    "last": 288791.07,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CUP": {
+    "ask": 527.78,
+    "bid": 525.86,
+    "last": 526.78,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CVE": {
+    "ask": 41919.15,
+    "bid": 41766.43,
+    "last": 41839.34,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "CZK": {
+    "ask": 10489.34,
+    "bid": 10451.12,
+    "last": 10469.37,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "DJF": {
+    "ask": 94661.4,
+    "bid": 94316.53,
+    "last": 94481.17,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "DKK": {
+    "ask": 2851.24,
+    "bid": 2840.85,
+    "last": 2845.81,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "DOP": {
+    "ask": 22753.16,
+    "bid": 22670.27,
+    "last": 22709.84,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "DZD": {
+    "ask": 41563.91,
+    "bid": 41412.49,
+    "last": 41484.78,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "EEK": {
+    "ask": 6136.08,
+    "bid": 6113.73,
+    "last": 6124.4,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "EGP": {
+    "ask": 3685.01,
+    "bid": 3671.59,
+    "last": 3678.0,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ERN": {
+    "ask": 7888.18,
+    "bid": 7859.44,
+    "last": 7873.16,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ETB": {
+    "ask": 10260.9,
+    "bid": 10223.52,
+    "last": 10241.36,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "EUR": {
+    "24h_avg": 373.01,
+    "ask": 381.86,
+    "bid": 380.47,
+    "last": 381.13,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 4628.8,
+    "volume_percent": 4.13
+  },
+  "FJD": {
+    "ask": 968.9,
+    "bid": 965.37,
+    "last": 967.06,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "FKP": {
+    "ask": 314.1,
+    "bid": 312.95,
+    "last": 313.5,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "GBP": {
+    "24h_avg": 307.65,
+    "ask": 314.1,
+    "bid": 312.95,
+    "last": 313.5,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 619.89,
+    "volume_percent": 0.55
+  },
+  "GEL": {
+    "ask": 927.37,
+    "bid": 924.0,
+    "last": 925.61,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "GHS": {
+    "ask": 1468.13,
+    "bid": 1462.78,
+    "last": 1465.34,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "GIP": {
+    "ask": 314.1,
+    "bid": 312.95,
+    "last": 313.5,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "GMD": {
+    "ask": 20897.05,
+    "bid": 20820.92,
+    "last": 20857.27,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "GNF": {
+    "ask": 3708486.29,
+    "bid": 3694975.76,
+    "last": 3701425.53,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "GTQ": {
+    "ask": 4092.94,
+    "bid": 4078.03,
+    "last": 4085.15,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "GYD": {
+    "ask": 107848.35,
+    "bid": 107455.44,
+    "last": 107643.01,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "HKD": {
+    "24h_avg": 3997.87,
+    "ask": 4090.84,
+    "bid": 4075.94,
+    "last": 4083.05,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 1206.14,
+    "volume_percent": 1.08
+  },
+  "HNL": {
+    "ask": 10091.45,
+    "bid": 10054.69,
+    "last": 10072.24,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "HRK": {
+    "ask": 2911.34,
+    "bid": 2900.74,
+    "last": 2905.8,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "HTG": {
+    "ask": 23640.12,
+    "bid": 23554.0,
+    "last": 23595.11,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "HUF": {
+    "ask": 117658.85,
+    "bid": 117230.2,
+    "last": 117434.83,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "IDR": {
+    "ask": 6034114.41,
+    "bid": 6012131.28,
+    "last": 6022625.76,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ILS": {
+    "24h_avg": 1789.01,
+    "ask": 1833.58,
+    "bid": 1826.9,
+    "last": 1830.09,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 23.39,
+    "volume_percent": 0.02
+  },
+  "INR": {
+    "ask": 31847.86,
+    "bid": 31731.83,
+    "last": 31787.22,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "IQD": {
+    "ask": 614416.94,
+    "bid": 612178.54,
+    "last": 613247.13,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "IRR": {
+    "ask": 13355548.28,
+    "bid": 13306892.14,
+    "last": 13330120.01,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ISK": {
+    "ask": 59108.44,
+    "bid": 58893.1,
+    "last": 58995.9,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "JEP": {
+    "ask": 314.1,
+    "bid": 312.95,
+    "last": 313.5,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "JMD": {
+    "ask": 57824.13,
+    "bid": 57613.47,
+    "last": 57714.04,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "JOD": {
+    "ask": 373.68,
+    "bid": 372.31,
+    "last": 372.96,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "JPY": {
+    "24h_avg": 52634.49,
+    "ask": 53892.85,
+    "bid": 53696.51,
+    "last": 53790.24,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KES": {
+    "ask": 45822.65,
+    "bid": 45655.71,
+    "last": 45735.4,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KGS": {
+    "ask": 28709.13,
+    "bid": 28604.54,
+    "last": 28654.47,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KHR": {
+    "ask": 2110186.83,
+    "bid": 2102499.12,
+    "last": 2106169.14,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KMF": {
+    "ask": 187856.06,
+    "bid": 187171.67,
+    "last": 187498.39,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KPW": {
+    "ask": 474792.04,
+    "bid": 473062.3,
+    "last": 473888.06,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KRW": {
+    "ask": 548167.63,
+    "bid": 546170.58,
+    "last": 547123.95,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KWD": {
+    "ask": 148.47,
+    "bid": 147.93,
+    "last": 148.19,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KYD": {
+    "ask": 436.32,
+    "bid": 434.73,
+    "last": 435.48,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "KZT": {
+    "ask": 96071.0,
+    "bid": 95721.0,
+    "last": 95888.09,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LAK": {
+    "ask": 4238617.1,
+    "bid": 4223175.22,
+    "last": 4230546.99,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LBP": {
+    "ask": 796556.84,
+    "bid": 793654.87,
+    "last": 795040.24,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LKR": {
+    "ask": 68891.53,
+    "bid": 68640.55,
+    "last": 68760.37,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LRD": {
+    "ask": 45281.09,
+    "bid": 45116.13,
+    "last": 45194.88,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LSL": {
+    "ask": 5567.81,
+    "bid": 5547.53,
+    "last": 5557.21,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LTL": {
+    "ask": 1318.43,
+    "bid": 1313.63,
+    "last": 1315.92,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LVL": {
+    "ask": 268.95,
+    "bid": 267.97,
+    "last": 268.44,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "LYD": {
+    "ask": 655.41,
+    "bid": 653.02,
+    "last": 654.16,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MAD": {
+    "ask": 4292.47,
+    "bid": 4276.83,
+    "last": 4284.3,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MDL": {
+    "ask": 7080.67,
+    "bid": 7054.88,
+    "last": 7067.19,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MGA": {
+    "ask": 1247874.81,
+    "bid": 1243328.62,
+    "last": 1245498.92,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MKD": {
+    "ask": 23514.95,
+    "bid": 23429.28,
+    "last": 23470.17,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MMK": {
+    "ask": 507038.63,
+    "bid": 505191.42,
+    "last": 506073.26,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MNT": {
+    "ask": 934285.22,
+    "bid": 930881.49,
+    "last": 932506.39,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MOP": {
+    "ask": 4214.97,
+    "bid": 4199.62,
+    "last": 4206.95,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MRO": {
+    "ask": 154915.31,
+    "bid": 154350.94,
+    "last": 154620.36,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MTL": {
+    "ask": 360.63,
+    "bid": 359.32,
+    "last": 359.95,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MUR": {
+    "ask": 15931.51,
+    "bid": 15873.47,
+    "last": 15901.18,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MVR": {
+    "ask": 8135.38,
+    "bid": 8105.74,
+    "last": 8119.89,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MWK": {
+    "ask": 206506.58,
+    "bid": 205754.24,
+    "last": 206113.4,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MXN": {
+    "ask": 6891.01,
+    "bid": 6865.91,
+    "last": 6877.89,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MYR": {
+    "ask": 1711.07,
+    "bid": 1704.83,
+    "last": 1707.81,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "MZN": {
+    "ask": 16384.6,
+    "bid": 16324.91,
+    "last": 16353.4,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "NAD": {
+    "ask": 5567.36,
+    "bid": 5547.08,
+    "last": 5556.76,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "NGN": {
+    "ask": 85313.38,
+    "bid": 85002.57,
+    "last": 85150.94,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "NIO": {
+    "ask": 13584.19,
+    "bid": 13534.7,
+    "last": 13558.32,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "NOK": {
+    "24h_avg": 3072.55,
+    "ask": 3150.54,
+    "bid": 3139.06,
+    "last": 3144.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 28.69,
+    "volume_percent": 0.03
+  },
+  "NPR": {
+    "ask": 50952.78,
+    "bid": 50767.15,
+    "last": 50855.77,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "NZD": {
+    "24h_avg": 598.83,
+    "ask": 611.64,
+    "bid": 609.41,
+    "last": 610.47,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 32.14,
+    "volume_percent": 0.03
+  },
+  "OMR": {
+    "ask": 203.12,
+    "bid": 202.38,
+    "last": 202.73,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "PAB": {
+    "ask": 527.55,
+    "bid": 525.62,
+    "last": 526.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "PEN": {
+    "ask": 1466.68,
+    "bid": 1461.33,
+    "last": 1463.88,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "PGK": {
+    "ask": 1449.42,
+    "bid": 1444.14,
+    "last": 1446.66,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "PHP": {
+    "ask": 23452.07,
+    "bid": 23366.63,
+    "last": 23407.42,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "PKR": {
+    "ask": 50853.8,
+    "bid": 50668.54,
+    "last": 50756.98,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "PLN": {
+    "24h_avg": 1562.19,
+    "ask": 1599.45,
+    "bid": 1593.62,
+    "last": 1596.4,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 619.81,
+    "volume_percent": 0.55
+  },
+  "PYG": {
+    "ask": 2339259.05,
+    "bid": 2330736.8,
+    "last": 2334805.22,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "QAR": {
+    "ask": 1920.8,
+    "bid": 1913.8,
+    "last": 1917.14,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "RON": {
+    "ask": 1706.14,
+    "bid": 1699.92,
+    "last": 1702.89,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "RSD": {
+    "ask": 44088.88,
+    "bid": 43928.26,
+    "last": 44004.94,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "RUB": {
+    "24h_avg": 18614.66,
+    "ask": 19002.52,
+    "bid": 18933.29,
+    "last": 18966.34,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 188.68,
+    "volume_percent": 0.17
+  },
+  "RWF": {
+    "ask": 359147.57,
+    "bid": 357839.15,
+    "last": 358463.77,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SAR": {
+    "ask": 1978.54,
+    "bid": 1971.33,
+    "last": 1974.77,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SBD": {
+    "ask": 3837.37,
+    "bid": 3823.39,
+    "last": 3830.07,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SCR": {
+    "ask": 6452.0,
+    "bid": 6428.5,
+    "last": 6439.72,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SDG": {
+    "ask": 3000.71,
+    "bid": 2989.78,
+    "last": 2995.0,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SEK": {
+    "24h_avg": 3390.14,
+    "ask": 3477.82,
+    "bid": 3465.15,
+    "last": 3471.19,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 19.22,
+    "volume_percent": 0.02
+  },
+  "SGD": {
+    "24h_avg": 645.47,
+    "ask": 660.01,
+    "bid": 657.61,
+    "last": 658.76,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 39.96,
+    "volume_percent": 0.04
+  },
+  "SHP": {
+    "ask": 314.1,
+    "bid": 312.95,
+    "last": 313.5,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SLL": {
+    "ask": 2287442.52,
+    "bid": 2279109.05,
+    "last": 2283087.35,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SOS": {
+    "ask": 518052.91,
+    "bid": 516165.57,
+    "last": 517066.56,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SRD": {
+    "ask": 1726.84,
+    "bid": 1720.54,
+    "last": 1723.55,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "STD": {
+    "ask": 9347582.52,
+    "bid": 9313527.96,
+    "last": 9329785.2,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SVC": {
+    "ask": 4617.1,
+    "bid": 4600.28,
+    "last": 4608.31,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SYP": {
+    "ask": 76864.89,
+    "bid": 76584.86,
+    "last": 76718.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "SZL": {
+    "ask": 5571.15,
+    "bid": 5550.86,
+    "last": 5560.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "THB": {
+    "ask": 17009.35,
+    "bid": 16947.38,
+    "last": 16976.97,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "TJS": {
+    "ask": 2548.71,
+    "bid": 2539.42,
+    "last": 2543.86,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "TMT": {
+    "ask": 1503.56,
+    "bid": 1498.08,
+    "last": 1500.7,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "TND": {
+    "ask": 837.26,
+    "bid": 834.21,
+    "last": 835.66,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "TOP": {
+    "ask": 960.5,
+    "bid": 957.0,
+    "last": 958.67,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "TRY": {
+    "24h_avg": 1101.01,
+    "ask": 1126.6,
+    "bid": 1122.5,
+    "last": 1124.46,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 207.45,
+    "volume_percent": 0.19
+  },
+  "TTD": {
+    "ask": 3399.66,
+    "bid": 3387.27,
+    "last": 3393.18,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "TWD": {
+    "ask": 15919.23,
+    "bid": 15861.23,
+    "last": 15888.92,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "TZS": {
+    "ask": 861425.74,
+    "bid": 858287.45,
+    "last": 859785.63,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "UAH": {
+    "ask": 6646.34,
+    "bid": 6622.13,
+    "last": 6633.69,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "UGX": {
+    "ask": 1326311.33,
+    "bid": 1321479.39,
+    "last": 1323786.1,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "USD": {
+    "24h_avg": 515.57,
+    "ask": 527.55,
+    "bid": 525.62,
+    "last": 526.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 91178.27,
+    "volume_percent": 81.34
+  },
+  "UYU": {
+    "ask": 12054.51,
+    "bid": 12010.59,
+    "last": 12031.56,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "UZS": {
+    "ask": 1199999.95,
+    "bid": 1195628.18,
+    "last": 1197715.21,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "VEF": {
+    "ask": 3319.23,
+    "bid": 3307.13,
+    "last": 3312.91,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "VND": {
+    "ask": 11125924.88,
+    "bid": 11085391.57,
+    "last": 11104741.7,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "VUV": {
+    "ask": 49647.42,
+    "bid": 49466.55,
+    "last": 49552.89,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "WST": {
+    "ask": 1209.92,
+    "bid": 1205.51,
+    "last": 1207.62,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "XAF": {
+    "ask": 250603.58,
+    "bid": 249690.59,
+    "last": 250126.44,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "XAG": {
+    "ask": 26.86,
+    "bid": 26.76,
+    "last": 26.81,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "XAU": {
+    "ask": 0.41,
+    "bid": 0.4,
+    "last": 0.4,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "XCD": {
+    "ask": 1425.19,
+    "bid": 1420.0,
+    "last": 1422.48,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "XDR": {
+    "ask": 340.45,
+    "bid": 339.21,
+    "last": 339.8,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "XOF": {
+    "ask": 250699.39,
+    "bid": 249786.05,
+    "last": 250222.07,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "XPF": {
+    "ask": 45657.49,
+    "bid": 45491.15,
+    "last": 45570.56,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "YER": {
+    "ask": 113392.63,
+    "bid": 112979.52,
+    "last": 113176.74,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ZAR": {
+    "24h_avg": 5440.73,
+    "ask": 5570.51,
+    "bid": 5550.22,
+    "last": 5559.91,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 22.36,
+    "volume_percent": 0.02
+  },
+  "ZMK": {
+    "ask": 2770688.36,
+    "bid": 2760594.35,
+    "last": 2765413.11,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ZMW": {
+    "ask": 3281.82,
+    "bid": 3269.86,
+    "last": 3275.57,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "ZWL": {
+    "ask": 170057.32,
+    "bid": 169437.78,
+    "last": 169733.54,
+    "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000",
+    "volume_btc": 0.0,
+    "volume_percent": 0.0
+  },
+  "timestamp": "Wed, 16 Apr 2014 22:58:34 -0000"
+}
