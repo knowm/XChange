@@ -29,6 +29,7 @@ import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -76,9 +77,9 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     verify(limitOrder.getCurrencyPair());
 
-    BTCChinaBooleanResponse response = placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
+    BTCChinaIntegerResponse response = placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
 
-    return response.getId();
+    return response.getResult().toString();
   }
 
   @Override

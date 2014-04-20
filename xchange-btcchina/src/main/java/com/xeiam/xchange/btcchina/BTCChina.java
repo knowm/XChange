@@ -48,6 +48,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 
 @Path("/")
@@ -99,13 +100,13 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaBooleanResponse buyOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaBuyOrderRequest buyOrderRequest)
+  public BTCChinaIntegerResponse buyOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaBuyOrderRequest buyOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaBooleanResponse sellOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
+  public BTCChinaIntegerResponse sellOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
       throws IOException;
 
   @POST

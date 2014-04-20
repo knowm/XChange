@@ -29,6 +29,7 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -99,7 +100,7 @@ public class BTCChinaTradeDemo {
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, CurrencyPair.BTC_CNY, "", null, new BigDecimal("0.01"));
-    BTCChinaBooleanResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).placeBTCChinaLimitOrder(new BigDecimal("0.01"), BigDecimal.ONE, OrderType.BID);
+    BTCChinaIntegerResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).placeBTCChinaLimitOrder(new BigDecimal("0.01"), BigDecimal.ONE, OrderType.BID);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     Thread.sleep(1500);

@@ -38,6 +38,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
@@ -85,11 +86,11 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
   }
 
   /**
-   * @return BTCChinaBooleanResponse of new limit order status.
+   * @return BTCChinaIntegerResponse of new limit order status.
    */
-  public BTCChinaBooleanResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
+  public BTCChinaIntegerResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
 
-    BTCChinaBooleanResponse response = null;
+    BTCChinaIntegerResponse response = null;
 
     if (orderType == OrderType.BID) {
 
