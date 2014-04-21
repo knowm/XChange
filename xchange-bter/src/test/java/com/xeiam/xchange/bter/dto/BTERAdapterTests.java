@@ -156,7 +156,7 @@ public class BTERAdapterTests {
     assertThat(ticker.getLow()).isEqualTo("3400.01");
     assertThat(ticker.getAsk()).isEqualTo("3400.17");
     assertThat(ticker.getBid()).isEqualTo("3400.01");
-    assertThat(ticker.getVolume()).isEqualTo("1200127.03");
+    assertThat(ticker.getVolume()).isEqualTo("347.2045");
   }
 
   @Test
