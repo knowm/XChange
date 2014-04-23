@@ -35,45 +35,61 @@ public class VaultOfSatoshiBaseService extends BaseExchangeService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.BTC_CAD,
+  new CurrencyPair("BTC", "USD"),
 
-  CurrencyPair.BTC_USD,
-  
-  CurrencyPair.BTC_LTC,
-  
-  new CurrencyPair("BTC", "DOGE"),
+  new CurrencyPair("LTC", "USD"),
+
+  new CurrencyPair("PPC", "USD"),
+
+  new CurrencyPair("DOGE", "USD"),
+
+  new CurrencyPair("FTC", "USD"),
+
+  new CurrencyPair("XPM", "USD"),
+
+  new CurrencyPair("QRK", "USD"),
+
+  new CurrencyPair("VTC", "USD"),
+
+  new CurrencyPair("AUR", "USD"),
+
+  new CurrencyPair("CGB", "USD"),
+
+  new CurrencyPair("DGC", "USD"),
+
+  new CurrencyPair("MINT", "USD"),
+
+  new CurrencyPair("DRK", "USD"),
+
+  new CurrencyPair("WDC", "USD"),
+
+  new CurrencyPair("BTC", "CAD"),
 
   new CurrencyPair("LTC", "CAD"),
 
-  CurrencyPair.LTC_USD,
-  
-  CurrencyPair.LTC_BTC,
-  
-  new CurrencyPair("LTC", "DOGE"),
-
   new CurrencyPair("PPC", "CAD"),
-
-  CurrencyPair.PPC_USD,
 
   new CurrencyPair("DOGE", "CAD"),
 
-  CurrencyPair.DOGE_USD,
-  
-  new CurrencyPair("DOGE", "BTC"),
-  
-  new CurrencyPair("DOGE", "LTC"),
-
   new CurrencyPair("FTC", "CAD"),
-
-  CurrencyPair.FTC_USD,
 
   new CurrencyPair("XPM", "CAD"),
 
-  CurrencyPair.XPM_USD,
-
   new CurrencyPair("QRK", "CAD"),
 
-  new CurrencyPair("QRK", "USD")
+  new CurrencyPair("VTC", "CAD"),
+
+  new CurrencyPair("AUR", "CAD"),
+
+  new CurrencyPair("CGB", "CAD"),
+
+  new CurrencyPair("DGC", "CAD"),
+
+  new CurrencyPair("MINT", "CAD"),
+
+  new CurrencyPair("DRK", "CAD"),
+
+  new CurrencyPair("WDC", "CAD")
 
   );
 
