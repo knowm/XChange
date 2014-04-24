@@ -35,100 +35,117 @@ public class ANXBaseService extends BaseExchangeService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.BTC_USD,
+  new CurrencyPair("BTC", "USD"),
 
-  CurrencyPair.BTC_EUR,
+  new CurrencyPair("BTC", "HKD"),
 
-  CurrencyPair.BTC_GBP,
+  new CurrencyPair("BTC", "EUR"),
 
-  CurrencyPair.BTC_AUD,
+  new CurrencyPair("BTC", "CAD"),
 
-  CurrencyPair.BTC_CAD,
+  new CurrencyPair("BTC", "AUD"),
 
-  CurrencyPair.BTC_CHF,
+  new CurrencyPair("BTC", "SGD"),
 
-  CurrencyPair.BTC_JPY,
+  new CurrencyPair("BTC", "JPY"),
 
-  CurrencyPair.BTC_CNY,
+  new CurrencyPair("BTC", "CHF"),
 
-  CurrencyPair.BTC_DKK,
+  new CurrencyPair("BTC", "GBP"),
 
-  CurrencyPair.BTC_HKD,
+  new CurrencyPair("BTC", "NZD"),
 
-  CurrencyPair.BTC_NZD,
+  new CurrencyPair("LTC", "BTC"),
 
-  CurrencyPair.BTC_PLN,
+  new CurrencyPair("LTC", "USD"),
 
-  CurrencyPair.BTC_RUB,
+  new CurrencyPair("LTC", "HKD"),
 
-  CurrencyPair.BTC_SEK,
+  new CurrencyPair("LTC", "EUR"),
 
-  CurrencyPair.BTC_SGD,
+  new CurrencyPair("LTC", "CAD"),
 
-  CurrencyPair.BTC_THB,
+  new CurrencyPair("LTC", "AUD"),
 
-  CurrencyPair.BTC_NOK,
+  new CurrencyPair("LTC", "SGD"),
 
-  // crypto to crypto
-      CurrencyPair.BTC_LTC,
+  new CurrencyPair("LTC", "JPY"),
 
-      CurrencyPair.BTC_XDC,
+  new CurrencyPair("LTC", "CHF"),
 
-      CurrencyPair.BTC_NMC,
+  new CurrencyPair("LTC", "GBP"),
 
-      CurrencyPair.BTC_PPC,
+  new CurrencyPair("LTC", "NZD"),
 
-      // LTC
-      CurrencyPair.LTC_HKD,
+  new CurrencyPair("PPC", "BTC"),
 
-      CurrencyPair.LTC_BTC,
+  new CurrencyPair("PPC", "LTC"),
 
-      // CurrencyPair.LTC_XDC,
+  new CurrencyPair("PPC", "USD"),
 
-      // CurrencyPair.LTC_NMC,
+  new CurrencyPair("PPC", "HKD"),
 
-      // CurrencyPair.LTC_PPC,
+  new CurrencyPair("PPC", "EUR"),
 
-      CurrencyPair.LTC_USD,
+  new CurrencyPair("PPC", "CAD"),
 
-      // DOGE
-      CurrencyPair.XDC_HKD,
+  new CurrencyPair("PPC", "AUD"),
 
-      CurrencyPair.XDC_BTC,
+  new CurrencyPair("PPC", "SGD"),
 
-      CurrencyPair.XDC_LTC,
+  new CurrencyPair("PPC", "JPY"),
 
-      CurrencyPair.XDC_NMC,
+  new CurrencyPair("PPC", "CHF"),
 
-      // CurrencyPair.XDC_PPC,
+  new CurrencyPair("PPC", "GBP"),
 
-      CurrencyPair.XDC_USD,
+  new CurrencyPair("PPC", "NZD"),
 
-      // NMC
-      CurrencyPair.NMC_HKD,
+  new CurrencyPair("NMC", "BTC"),
 
-      CurrencyPair.NMC_LTC,
+  new CurrencyPair("NMC", "LTC"),
 
-      CurrencyPair.NMC_BTC,
+  new CurrencyPair("NMC", "USD"),
 
-      // CurrencyPair.NMC_XDC,
+  new CurrencyPair("NMC", "HKD"),
 
-      // CurrencyPair.NMC_PPC,
+  new CurrencyPair("NMC", "EUR"),
 
-      CurrencyPair.NMC_USD,
+  new CurrencyPair("NMC", "CAD"),
 
-      // PPC
-      CurrencyPair.PPC_HKD,
+  new CurrencyPair("NMC", "AUD"),
 
-      CurrencyPair.PPC_LTC,
+  new CurrencyPair("NMC", "SGD"),
 
-      CurrencyPair.PPC_BTC,
+  new CurrencyPair("NMC", "JPY"),
 
-      // CurrencyPair.PPC_XDC,
+  new CurrencyPair("NMC", "CHF"),
 
-      // CurrencyPair.PPC_NMC,
+  new CurrencyPair("NMC", "GBP"),
 
-      CurrencyPair.PPC_USD
+  new CurrencyPair("NMC", "NZD"),
+
+  new CurrencyPair("DOGE", "BTC"),
+
+  new CurrencyPair("DOGE", "USD"),
+
+  new CurrencyPair("DOGE", "HKD"),
+
+  new CurrencyPair("DOGE", "EUR"),
+
+  new CurrencyPair("DOGE", "CAD"),
+
+  new CurrencyPair("DOGE", "AUD"),
+
+  new CurrencyPair("DOGE", "SGD"),
+
+  new CurrencyPair("DOGE", "JPY"),
+
+  new CurrencyPair("DOGE", "CHF"),
+
+  new CurrencyPair("DOGE", "GBP"),
+
+  new CurrencyPair("DOGE", "NZD")
 
   );
 
