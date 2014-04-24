@@ -68,7 +68,7 @@ public class CryptoTradeAdapterTests {
     assertThat(adaptedTicker.getLast()).isEqualTo(new BigDecimal("128"));
     assertThat(adaptedTicker.getLow()).isEqualTo(new BigDecimal("127.9999"));
     assertThat(adaptedTicker.getHigh()).isEqualTo(new BigDecimal("129.1"));
-    assertThat(adaptedTicker.getVolume()).isEqualTo("693.8199");
+    assertThat(adaptedTicker.getVolume()).isEqualTo("5.4");
     assertThat(adaptedTicker.getAsk()).isEqualTo(new BigDecimal("129.1"));
     assertThat(adaptedTicker.getBid()).isEqualTo(new BigDecimal("128"));
     assertThat(adaptedTicker.getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);

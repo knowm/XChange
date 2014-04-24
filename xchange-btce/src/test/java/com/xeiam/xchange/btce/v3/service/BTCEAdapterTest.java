@@ -115,7 +115,7 @@ public class BTCEAdapterTest {
     assertThat(ticker.getLast().toString()).isEqualTo("757");
     assertThat(ticker.getLow().toString()).isEqualTo("655");
     assertThat(ticker.getHigh().toString()).isEqualTo("770");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("24620.6561"));
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("17512163.25736"));
     assertThat(DateUtils.toUTCString(ticker.getTimestamp())).isEqualTo("2013-11-23 11:13:39 GMT");
 
   }

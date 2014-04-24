@@ -97,7 +97,7 @@ public final class CryptoTradeAdapters {
     BigDecimal last = cryptoTradeTicker.getLast();
     BigDecimal low = cryptoTradeTicker.getLow();
     BigDecimal high = cryptoTradeTicker.getHigh();
-    BigDecimal volume = cryptoTradeTicker.getVolumePriceCurrency();
+    BigDecimal volume = cryptoTradeTicker.getVolumeTradeCurrency();
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
   }

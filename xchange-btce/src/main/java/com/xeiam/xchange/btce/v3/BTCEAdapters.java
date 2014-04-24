@@ -159,7 +159,7 @@ public final class BTCEAdapters {
     BigDecimal ask = bTCETicker.getBuy();
     BigDecimal high = bTCETicker.getHigh();
     BigDecimal low = bTCETicker.getLow();
-    BigDecimal volume = bTCETicker.getVolCur();
+    BigDecimal volume = bTCETicker.getVol();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
