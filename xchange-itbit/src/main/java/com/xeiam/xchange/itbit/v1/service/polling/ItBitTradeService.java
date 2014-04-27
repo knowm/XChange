@@ -22,26 +22,19 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
-import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
-import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class ItBitTradeService extends ItBitBasePollingService implements PollingTradeService {
-	/** Wallet ID used for transactions with this instance */
-	private final String walletId;
+public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
 
 	/**
 	 * Constructor
@@ -51,18 +44,13 @@ public class ItBitTradeService extends ItBitBasePollingService implements Pollin
 	 */
 	public ItBitTradeService(ExchangeSpecification exchangeSpecification) {
 		super(exchangeSpecification);
-		
-		// wallet Id used for this instance.
-		walletId = (String)exchangeSpecification.getExchangeSpecificParameters().get("walletId");
 	}
 
 	@Override
 	public OpenOrders getOpenOrders() throws ExchangeException,
 	NotAvailableFromExchangeException,
 	NotYetImplementedForExchangeException, IOException {		
-		ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nextNonce(), "XBTUSD", "1", "1000", "open", walletId);
-
-		return ItBitAdapters.adaptPrivateOrders(orders);
+		return ItBitAdapters.adaptPrivateOrders(getItBitOpenOrders());
 	}
 
 	@Override
@@ -76,26 +64,14 @@ public class ItBitTradeService extends ItBitBasePollingService implements Pollin
 	public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException,
 	NotAvailableFromExchangeException,
 	NotYetImplementedForExchangeException, IOException {
-
-		String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
-
-		ItBitOrder postOrder = itBit.postOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, 
-				new ItBitPlaceOrderRequest(
-						side, 
-						"limit", 
-						limitOrder.getCurrencyPair().baseSymbol, 
-						limitOrder.getTradableAmount(), 
-						limitOrder.getLimitPrice(), 
-						limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
-
-		return postOrder.getId();
+		return placeItBitLimitOrder(limitOrder).getId();
 	}
 
 	@Override
 	public boolean cancelOrder(String orderId) throws ExchangeException,
 	NotAvailableFromExchangeException,
 	NotYetImplementedForExchangeException, IOException {
-		itBit.cancelOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, orderId);
+		cancelItBitOrder(orderId);		
 		return true;
 	}
 
@@ -103,16 +79,6 @@ public class ItBitTradeService extends ItBitBasePollingService implements Pollin
 	public Trades getTradeHistory(Object... arguments) throws ExchangeException,
 	NotAvailableFromExchangeException,
 	NotYetImplementedForExchangeException, IOException {		
-		String currency = null;
-
-		if(arguments.length == 1) {
-			CurrencyPair currencyPair = ((CurrencyPair) arguments[0]);
-			currency = currencyPair.baseSymbol + currencyPair.counterSymbol;
-		} else {
-			currency = "XBTUSD";
-		}
-
-		ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nextNonce(), currency, "1", "1000", "filled", walletId);		
-		return ItBitAdapters.adaptTradeHistory(orders);
+		return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(arguments));
 	}
 }
