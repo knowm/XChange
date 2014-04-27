@@ -96,7 +96,6 @@
 		<module>xchange-openexchangerates</module>
 		<module>xchange-vaultofsatoshi</module>
 		<module>xchange-vircurex</module>
-        	<module>xchange-anx</module>
 		<module>xchange-itbit</module>
 	</modules>
 
