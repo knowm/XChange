@@ -80,9 +80,8 @@ public class CoinbaseMarketDataDemo {
     int page = 2;
     CoinbaseSpotPriceHistory spotPriceHistory = marketDataService.getCoinbaseHistoricalSpotRates(page);
     List<CoinbaseHistoricalSpotPrice> spotPriceHistoryList = spotPriceHistory.getSpotPriceHistory();
-    for (int i = 0; i < 3; i++) {
-      CoinbaseHistoricalSpotPrice historicalSpotPrice = spotPriceHistoryList.get(i);
-      System.out.println(historicalSpotPrice);
+    for (CoinbaseHistoricalSpotPrice coinbaseHistoricalSpotPrice : spotPriceHistoryList) {
+      System.out.println(coinbaseHistoricalSpotPrice);
     }
     System.out.println("...Retrieved " + spotPriceHistoryList.size() + " historical spot rates.");
   }

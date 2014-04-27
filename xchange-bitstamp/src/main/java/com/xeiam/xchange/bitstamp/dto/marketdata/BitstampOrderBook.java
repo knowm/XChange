@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Matija Mazi
  */
-public final class BitstampOrderBook {
+public class BitstampOrderBook {
 
   private final Long timestamp;
   private final List<List<BigDecimal>> bids;

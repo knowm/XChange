@@ -1,4 +1,4 @@
-## [![XChange](http://xeiam.com/images/XChange_64_64.png)](http://xeiam.com/xchange) XChange
+## [![XChange](http://xeiam.com/static/xeiamweb/images/XChange_64_64.png)](http://xeiam.com/xchange) XChange
 XChange is a Java library providing a simple and consistent API for interacting with over a dozen Bitcoin exchanges providing a consistent interface for trading and accessing market data.
 
 ## Important!
@@ -13,15 +13,12 @@ Usage is very simple: Create an Exchange instance, get the appropriate service, 
 
 ## Example
 
-    // Use the factory to get the version 2 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v2.MtGoxExchange");
+    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+
     System.out.println(ticker.toString());
     
 All exchange implementations expose the same API, but you can also directly access the raw data.
@@ -63,95 +60,49 @@ Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/c
 #### Compile Dependencies
     +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
     +- org.slf4j:slf4j-api:jar:1.7.5:compile
-    +- org.joda:joda-money:jar:0.9:compile
-    \- com.github.mmazi:rescu:jar:1.5.0:compile
-        +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
-        +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
-        +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
-        +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
-        \- com.google.code.findbugs:jsr305:jar:2.0.1:compile
+    +- com.github.mmazi:rescu:jar:1.6.0:compile
+    |  +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
+    |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
+    |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
+    |  +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+    |  \- com.google.code.findbugs:jsr305:jar:2.0.1:compile
 
 #### Test Dependencies
     +- junit:junit:jar:4.11:test
-    |    \- org.hamcrest:hamcrest-core:jar:1.3:test
-    \- org.easytesting:fest-assert-core:jar:2.0M10:test
+    |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+    +- org.easytesting:fest-assert-core:jar:2.0M10:test
         \- org.easytesting:fest-util:jar:1.2.5:test
    
 #### Other Dependencies for Some Examples
     +- ch.qos.logback:logback-classic:jar:1.0.13:runtime
-    |    \- ch.qos.logback:logback-core:jar:1.0.13:runtime
-    +- com.xeiam.xchart:xchart:jar:2.2.1:compile
+    |  \- ch.qos.logback:logback-core:jar:1.0.13:runtime
+    +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
+    +- com.pusher:pusher-java-client:jar:0.3.1:compile
+    |   \- com.google.code.gson:gson:jar:2.2.2:compile
+    +- org.bouncycastle:bcprov-jdk15on:jar:1.50:compile
+    +- com.xeiam.xchart:xchart:jar:2.3.2:compile   
 
 ### Maven
 The XChange release artifacts are hosted on Maven Central. 
   
-Add the following dependencies in your pom.xml file. You will need at least xchange-core. Add the additional dependencies for the exchange implementations you are interested in. There is example code for all the implementations in xchange-examples.
+Add the following dependencies in your pom.xml file. You will need at least xchange-core. Add the additional dependencies for the exchange modules you are interested in (XYZ shown only for a placeholder). There is example code for all the modules in xchange-examples.
 
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>1.10.0</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>1.10.0</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitcoincharts</artifactId>
-      <version>1.10.0</version>
+      <artifactId>xchange-XYZ</artifactId>
+      <version>2.0.0</version>
     </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitcurex</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-bitstamp</artifactId>
-      <version>1.10.0</version>
-    </dependency>  
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-blockchain</artifactId>
-      <version>1.10.0</version>
-    </dependency>  
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-btcchina</artifactId>
-      <version>1.10.0</version>
-    </dependency> 
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-btce</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-campbx</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-cavirtex</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-kraken</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-mtgox</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xeiam.xchange</groupId>
-      <artifactId>xchange-openexchangerates</artifactId>
-      <version>1.10.0</version>
-    </dependency>
+ 
     
 For snapshots, add the following repository to your pom.xml file.
 
@@ -163,7 +114,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    2.0.0-SNAPSHOT
+    2.0.1-SNAPSHOT
     
 ## Building with Maven
 

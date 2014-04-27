@@ -38,6 +38,11 @@ import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
 public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken> {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public KrakenMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(Kraken.class, exchangeSpecification);

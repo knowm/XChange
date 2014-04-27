@@ -40,7 +40,7 @@ import com.xeiam.xchange.utils.CertHelper;
 public class CryptoTradeMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
-    
+
     CertHelper.trustAllCerts();
 
     Exchange coinbaseExchange = ExchangeFactory.INSTANCE.createExchange(CryptoTradeExchange.class.getName());
@@ -54,7 +54,7 @@ public class CryptoTradeMarketDataDemo {
 
     ExchangeInfo exchangeInfo = marketDataService.getExchangeInfo();
     System.out.println(exchangeInfo);
-    
+
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
 
@@ -66,7 +66,7 @@ public class CryptoTradeMarketDataDemo {
 
     List<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
     System.out.println(currencyPairs);
-    
+
     CryptoTradeTicker ticker = marketDataService.getCryptoTradeTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
 

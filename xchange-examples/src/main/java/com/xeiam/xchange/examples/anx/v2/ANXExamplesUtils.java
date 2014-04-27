@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -31,20 +31,21 @@ import com.xeiam.xchange.anx.v2.ANXExchange;
  */
 public class ANXExamplesUtils {
 
-    public static Exchange createExchange() {
-        ExchangeSpecification exSpec = new ExchangeSpecification(ANXExchange.class);
+  public static Exchange createExchange() {
 
-        // xchange.anx@gmail.com
-        exSpec.setApiKey("2adfc5c6-76b4-4293-9ebd-5ca07e946b6b");
-        exSpec.setSecretKey("jBYn0728AmK/TPsraGj9M/c9UHIR/h/V8a0k8QXcyRUOlZ3YOMvL2c6x7GBw8k/JXMQ+4Sf4AOADFI3n9xWxwA==");
+    ExchangeSpecification exSpec = new ExchangeSpecification(ANXExchange.class);
 
-        String protocol = "https";
-        String host = "anxpro.com";
-        int port = 443;
-        exSpec.setSslUri(protocol + "://" + host + ":" + port);
-        exSpec.setHost(host);
-        exSpec.setPort(port);
+    // xchange.anx@gmail.com
+    exSpec.setApiKey("2adfc5c6-76b4-4293-9ebd-5ca07e946b6b");
+    exSpec.setSecretKey("jBYn0728AmK/TPsraGj9M/c9UHIR/h/V8a0k8QXcyRUOlZ3YOMvL2c6x7GBw8k/JXMQ+4Sf4AOADFI3n9xWxwA==");
 
-        return ExchangeFactory.INSTANCE.createExchange(exSpec);
-    }
+    String protocol = "https";
+    String host = "anxpro.com";
+    int port = 443;
+    exSpec.setSslUri(protocol + "://" + host + ":" + port);
+    exSpec.setHost(host);
+    exSpec.setPort(port);
+
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+  }
 }

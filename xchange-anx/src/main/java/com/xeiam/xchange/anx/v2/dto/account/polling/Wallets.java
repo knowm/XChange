@@ -31,193 +31,201 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class Wallets {
 
-    private final ANXWallet bTC;
-    private final ANXWallet uSD;
-    private final ANXWallet eUR;
-    private final ANXWallet gBP;
-    private final ANXWallet aUD;
-    private final ANXWallet cAD;
-    private final ANXWallet cHF;
-    private final ANXWallet jPY;
-    private final ANXWallet cNY;
-    private final ANXWallet hKD;
-    private final ANXWallet nZD;
-    private final ANXWallet sGD;
+  private final ANXWallet bTC;
+  private final ANXWallet uSD;
+  private final ANXWallet eUR;
+  private final ANXWallet gBP;
+  private final ANXWallet aUD;
+  private final ANXWallet cAD;
+  private final ANXWallet cHF;
+  private final ANXWallet jPY;
+  private final ANXWallet cNY;
+  private final ANXWallet hKD;
+  private final ANXWallet nZD;
+  private final ANXWallet sGD;
 
-//
-    private final ANXWallet lTC;
-    private final ANXWallet nMC;
-    private final ANXWallet mEC;
-    private final ANXWallet sBC;
-    private final ANXWallet wDC;
-    private final ANXWallet qRK;
-    private final ANXWallet pPC;
-    private final ANXWallet dOGE;
-    private final ANXWallet nXT;
-    private final ANXWallet mSC;
+  //
+  private final ANXWallet lTC;
+  private final ANXWallet nMC;
+  private final ANXWallet mEC;
+  private final ANXWallet sBC;
+  private final ANXWallet wDC;
+  private final ANXWallet qRK;
+  private final ANXWallet pPC;
+  private final ANXWallet dOGE;
+  private final ANXWallet nXT;
+  private final ANXWallet mSC;
 
-    /**
-     * Constructor
-     *
-     * @param bTC
-     * @param uSD
-     * @param eUR
-     * @param gBP
-     * @param aUD
-     * @param cAD
-     * @param cHF
-     * @param jPY
-     * @param cNY
-     * @param hKD
-     * @param nZD
-     * @param sGD
-     */
-    public Wallets(@JsonProperty("BTC") ANXWallet bTC, @JsonProperty("USD") ANXWallet uSD, @JsonProperty("EUR") ANXWallet eUR, @JsonProperty("GBP") ANXWallet gBP,
-                   @JsonProperty("AUD") ANXWallet aUD, @JsonProperty("CAD") ANXWallet cAD, @JsonProperty("CHF") ANXWallet cHF, @JsonProperty("JPY") ANXWallet jPY, @JsonProperty("CNY") ANXWallet cNY,
-                   @JsonProperty("HKD") ANXWallet hKD, @JsonProperty("NZD") ANXWallet nZD,
-                   @JsonProperty("SGD") ANXWallet sGD,
-                   @JsonProperty("LTC") ANXWallet lTC, @JsonProperty("NMC") ANXWallet nMC, @JsonProperty("MEC") ANXWallet mEC, @JsonProperty("SBC") ANXWallet sBC,
-                   @JsonProperty("WDC") ANXWallet wDC, @JsonProperty("QRK") ANXWallet qRK, @JsonProperty("PPC") ANXWallet pPC, @JsonProperty("DOGE") ANXWallet dOGE,
-                   @JsonProperty("NXT") ANXWallet nXT, @JsonProperty("MSC") ANXWallet mSC) {
-        this.bTC = bTC;
-        this.uSD = uSD;
-        this.eUR = eUR;
-        this.gBP = gBP;
-        this.aUD = aUD;
-        this.cAD = cAD;
-        this.cHF = cHF;
-        this.jPY = jPY;
-        this.cNY = cNY;
-        this.hKD = hKD;
-        this.nZD = nZD;
-        this.sGD = sGD;
+  /**
+   * Constructor
+   * 
+   * @param bTC
+   * @param uSD
+   * @param eUR
+   * @param gBP
+   * @param aUD
+   * @param cAD
+   * @param cHF
+   * @param jPY
+   * @param cNY
+   * @param hKD
+   * @param nZD
+   * @param sGD
+   */
+  public Wallets(@JsonProperty("BTC") ANXWallet bTC, @JsonProperty("USD") ANXWallet uSD, @JsonProperty("EUR") ANXWallet eUR, @JsonProperty("GBP") ANXWallet gBP, @JsonProperty("AUD") ANXWallet aUD,
+      @JsonProperty("CAD") ANXWallet cAD, @JsonProperty("CHF") ANXWallet cHF, @JsonProperty("JPY") ANXWallet jPY, @JsonProperty("CNY") ANXWallet cNY, @JsonProperty("HKD") ANXWallet hKD,
+      @JsonProperty("NZD") ANXWallet nZD, @JsonProperty("SGD") ANXWallet sGD, @JsonProperty("LTC") ANXWallet lTC, @JsonProperty("NMC") ANXWallet nMC, @JsonProperty("MEC") ANXWallet mEC,
+      @JsonProperty("SBC") ANXWallet sBC, @JsonProperty("WDC") ANXWallet wDC, @JsonProperty("QRK") ANXWallet qRK, @JsonProperty("PPC") ANXWallet pPC, @JsonProperty("DOGE") ANXWallet dOGE,
+      @JsonProperty("NXT") ANXWallet nXT, @JsonProperty("MSC") ANXWallet mSC) {
 
-        this.lTC = lTC;
-        this.nMC = nMC;
-        this.mEC = mEC;
-        this.sBC = sBC;
-        this.wDC = wDC;
-        this.qRK = qRK;
-        this.pPC = pPC;
-        this.dOGE = dOGE;
-        this.nXT = nXT;
-        this.mSC = mSC;
-    }
+    this.bTC = bTC;
+    this.uSD = uSD;
+    this.eUR = eUR;
+    this.gBP = gBP;
+    this.aUD = aUD;
+    this.cAD = cAD;
+    this.cHF = cHF;
+    this.jPY = jPY;
+    this.cNY = cNY;
+    this.hKD = hKD;
+    this.nZD = nZD;
+    this.sGD = sGD;
 
-    public ANXWallet getBTC() {
+    this.lTC = lTC;
+    this.nMC = nMC;
+    this.mEC = mEC;
+    this.sBC = sBC;
+    this.wDC = wDC;
+    this.qRK = qRK;
+    this.pPC = pPC;
+    this.dOGE = dOGE;
+    this.nXT = nXT;
+    this.mSC = mSC;
+  }
 
-        return this.bTC;
-    }
+  public ANXWallet getBTC() {
 
-    public ANXWallet getUSD() {
+    return this.bTC;
+  }
 
-        return this.uSD;
-    }
+  public ANXWallet getUSD() {
 
-    public ANXWallet getEUR() {
+    return this.uSD;
+  }
 
-        return eUR;
-    }
+  public ANXWallet getEUR() {
 
-    public ANXWallet getGBP() {
+    return eUR;
+  }
 
-        return gBP;
-    }
+  public ANXWallet getGBP() {
 
-    public ANXWallet getAUD() {
+    return gBP;
+  }
 
-        return aUD;
-    }
+  public ANXWallet getAUD() {
 
-    public ANXWallet getCAD() {
+    return aUD;
+  }
 
-        return cAD;
-    }
+  public ANXWallet getCAD() {
 
-    public ANXWallet getCHF() {
+    return cAD;
+  }
 
-        return cHF;
-    }
+  public ANXWallet getCHF() {
 
-    public ANXWallet getJPY() {
+    return cHF;
+  }
 
-        return jPY;
-    }
+  public ANXWallet getJPY() {
 
-    public ANXWallet getCNY() {
+    return jPY;
+  }
 
-        return cNY;
-    }
+  public ANXWallet getCNY() {
 
-    public ANXWallet getHKD() {
+    return cNY;
+  }
 
-        return hKD;
-    }
+  public ANXWallet getHKD() {
 
-    public ANXWallet getNZD() {
+    return hKD;
+  }
 
-        return nZD;
-    }
+  public ANXWallet getNZD() {
 
-    public ANXWallet getSGD() {
+    return nZD;
+  }
 
-        return sGD;
-    }
+  public ANXWallet getSGD() {
 
-    //
+    return sGD;
+  }
 
-    public ANXWallet getLTC() {
-        return lTC;
-    }
+  //
 
-    public ANXWallet getNMC() {
-        return nMC;
-    }
+  public ANXWallet getLTC() {
 
-    public ANXWallet getMEC() {
-        return mEC;
-    }
+    return lTC;
+  }
 
-    public ANXWallet getSBC() {
-        return sBC;
-    }
+  public ANXWallet getNMC() {
 
-    public ANXWallet getWDC() {
-        return wDC;
-    }
+    return nMC;
+  }
 
-    public ANXWallet getQRK() {
-        return qRK;
-    }
+  public ANXWallet getMEC() {
 
-    public ANXWallet getPPC() {
-        return pPC;
-    }
+    return mEC;
+  }
 
-    public ANXWallet getDOGE() {
-        return dOGE;
-    }
+  public ANXWallet getSBC() {
 
-    public ANXWallet getNXT() {
-        return nXT;
-    }
+    return sBC;
+  }
 
-    public ANXWallet getMSC() {
-        return mSC;
-    }
+  public ANXWallet getWDC() {
 
-    public List<ANXWallet> getANXWallets() {
+    return wDC;
+  }
 
-        return Arrays.asList(bTC, uSD, eUR, gBP, aUD, cAD, cHF, jPY, cNY, hKD, nZD, sGD, lTC, nMC, mEC, sBC, wDC, qRK, pPC, dOGE, nXT, mSC);
-    }
+  public ANXWallet getQRK() {
 
-    @Override
-    public String toString() {
+    return qRK;
+  }
 
-        return "Wallets [BTC=" + bTC + ", USD=" + uSD + ", EUR=" + eUR + ", GBP=" + gBP + ", AUD=" + aUD + ", CAD=" + cAD + ", CHF=" + cHF + ", JPY=" + jPY + ", CNY=" + cNY
-                + ", HKD=" + hKD + ", NZD=" + nZD + ", SGD=" + sGD
-                + ", LTC=" + lTC + ", NMC=" + nMC + ", MEC=" + mEC + ", SBC=" + sBC + ", WDC=" + wDC + ", QRK=" + qRK
-                + ", PPC=" + pPC + ", DOGE=" + dOGE + ", NXT=" + nXT + ", MSC=" + mSC + "]";
-    }
+  public ANXWallet getPPC() {
+
+    return pPC;
+  }
+
+  public ANXWallet getDOGE() {
+
+    return dOGE;
+  }
+
+  public ANXWallet getNXT() {
+
+    return nXT;
+  }
+
+  public ANXWallet getMSC() {
+
+    return mSC;
+  }
+
+  public List<ANXWallet> getANXWallets() {
+
+    return Arrays.asList(bTC, uSD, eUR, gBP, aUD, cAD, cHF, jPY, cNY, hKD, nZD, sGD, lTC, nMC, mEC, sBC, wDC, qRK, pPC, dOGE, nXT, mSC);
+  }
+
+  @Override
+  public String toString() {
+
+    return "Wallets [BTC=" + bTC + ", USD=" + uSD + ", EUR=" + eUR + ", GBP=" + gBP + ", AUD=" + aUD + ", CAD=" + cAD + ", CHF=" + cHF + ", JPY=" + jPY + ", CNY=" + cNY + ", HKD=" + hKD + ", NZD="
+        + nZD + ", SGD=" + sGD + ", LTC=" + lTC + ", NMC=" + nMC + ", MEC=" + mEC + ", SBC=" + sBC + ", WDC=" + wDC + ", QRK=" + qRK + ", PPC=" + pPC + ", DOGE=" + dOGE + ", NXT=" + nXT + ", MSC="
+        + mSC + "]";
+  }
 
 }

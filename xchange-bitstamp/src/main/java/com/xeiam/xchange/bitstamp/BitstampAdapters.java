@@ -83,11 +83,11 @@ public final class BitstampAdapters {
    * @param currency The currency (e.g. USD in BTC/USD)
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair) {
+  public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitstampOrderBook.getBids());
-    Date date = new Date(bitstampOrderBook.getTimestamp() * 1000);
+    Date date = new Date(bitstampOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
     return new OrderBook(date, asks, bids);
   }
 

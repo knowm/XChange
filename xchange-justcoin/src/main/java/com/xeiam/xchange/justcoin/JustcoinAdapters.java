@@ -115,14 +115,14 @@ public final class JustcoinAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(final String justcoinMarket) {
-    
+
     return new CurrencyPair(justcoinMarket.substring(0, 3), justcoinMarket.substring(3));
   }
-  
+
   public static LimitOrder adaptLimitOrder(final JustcoinOrder justcoinOrder) {
 
-    return new LimitOrder(OrderType.valueOf(justcoinOrder.getType().toUpperCase()), justcoinOrder.getAmount(), adaptCurrencyPair(justcoinOrder.getMarket()), justcoinOrder.getId(),
-        justcoinOrder.getCreatedAt(), justcoinOrder.getPrice());
+    return new LimitOrder(OrderType.valueOf(justcoinOrder.getType().toUpperCase()), justcoinOrder.getAmount(), adaptCurrencyPair(justcoinOrder.getMarket()), justcoinOrder.getId(), justcoinOrder
+        .getCreatedAt(), justcoinOrder.getPrice());
   }
 
   public static Trades adaptTrades(final JustcoinTrade[] justoinOrders) {
@@ -137,7 +137,7 @@ public final class JustcoinAdapters {
 
   public static Trade adaptTrade(final JustcoinTrade justcoinTrade) {
 
-    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), adaptCurrencyPair(justcoinTrade.getMarket()), justcoinTrade.getAveragePrice(),
-        justcoinTrade.getCreatedAt(), justcoinTrade.getId());
+    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), adaptCurrencyPair(justcoinTrade.getMarket()), justcoinTrade.getAveragePrice(), justcoinTrade
+        .getCreatedAt(), justcoinTrade.getId());
   }
 }

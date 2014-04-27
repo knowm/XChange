@@ -55,8 +55,8 @@ public final class ANXTrade {
    * @param tradeType The trade type (bid/ask)
    */
   public ANXTrade(@JsonProperty("amount_int") long amountInt, @JsonProperty("date") Long date, @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency,
-                  @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("tid") long tid,
-                  @JsonProperty("trade_type") String tradeType) {
+      @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("tid") long tid,
+      @JsonProperty("trade_type") String tradeType) {
 
     this.amountInt = amountInt;
     this.date = date;

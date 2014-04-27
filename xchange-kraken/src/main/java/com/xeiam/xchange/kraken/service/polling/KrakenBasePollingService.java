@@ -48,9 +48,9 @@ import com.xeiam.xchange.kraken.service.KrakenDigest;
 
 public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseService {
 
-  private static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
-  private static final Set<String> FIAT_CURRENCIES = new HashSet<String>();
-  private static final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
+  private final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
+  private final Set<String> FIAT_CURRENCIES = new HashSet<String>();
+  private final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
 
   protected T kraken;
   protected ParamsDigest signatureCreator;

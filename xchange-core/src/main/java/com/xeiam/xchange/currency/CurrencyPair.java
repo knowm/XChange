@@ -120,53 +120,51 @@ public class CurrencyPair {
 
   public static final CurrencyPair XVN_XRP = new CurrencyPair(Currencies.XVN, Currencies.XRP);
 
-    //start of extra ANX supported pair
-    //BTC
-    public static final CurrencyPair BTC_XDC = new CurrencyPair(Currencies.BTC, Currencies.XDC);
-    public static final CurrencyPair BTC_PPC = new CurrencyPair(Currencies.BTC, Currencies.PPC);
+  // start of extra ANX supported pair
+  // BTC
+  public static final CurrencyPair BTC_XDC = new CurrencyPair(Currencies.BTC, Currencies.XDC);
+  public static final CurrencyPair BTC_PPC = new CurrencyPair(Currencies.BTC, Currencies.PPC);
 
-    //LTC
-    public static final CurrencyPair LTC_HKD = new CurrencyPair(Currencies.LTC, Currencies.HKD);
-    public static final CurrencyPair LTC_XDC = new CurrencyPair(Currencies.LTC, Currencies.XDC);
-    public static final CurrencyPair LTC_NMC = new CurrencyPair(Currencies.LTC, Currencies.NMC);
-    public static final CurrencyPair LTC_PPC = new CurrencyPair(Currencies.LTC, Currencies.PPC);
+  // LTC
+  public static final CurrencyPair LTC_HKD = new CurrencyPair(Currencies.LTC, Currencies.HKD);
+  public static final CurrencyPair LTC_XDC = new CurrencyPair(Currencies.LTC, Currencies.XDC);
+  public static final CurrencyPair LTC_NMC = new CurrencyPair(Currencies.LTC, Currencies.NMC);
+  public static final CurrencyPair LTC_PPC = new CurrencyPair(Currencies.LTC, Currencies.PPC);
 
-    //DOGE
-    public static final CurrencyPair DOGE_HKD = new CurrencyPair(Currencies.DOGE, Currencies.HKD);
-    public static final CurrencyPair DOGE_BTC = new CurrencyPair(Currencies.DOGE, Currencies.BTC);
-    public static final CurrencyPair DOGE_LTC = new CurrencyPair(Currencies.DOGE, Currencies.LTC);
-    public static final CurrencyPair DOGE_NMC = new CurrencyPair(Currencies.DOGE, Currencies.NMC);
-    public static final CurrencyPair DOGE_PPC = new CurrencyPair(Currencies.DOGE, Currencies.PPC);
-    public static final CurrencyPair DOGE_USD = new CurrencyPair(Currencies.DOGE, Currencies.USD);
+  // DOGE
+  public static final CurrencyPair DOGE_HKD = new CurrencyPair(Currencies.DOGE, Currencies.HKD);
+  public static final CurrencyPair DOGE_BTC = new CurrencyPair(Currencies.DOGE, Currencies.BTC);
+  public static final CurrencyPair DOGE_LTC = new CurrencyPair(Currencies.DOGE, Currencies.LTC);
+  public static final CurrencyPair DOGE_NMC = new CurrencyPair(Currencies.DOGE, Currencies.NMC);
+  public static final CurrencyPair DOGE_PPC = new CurrencyPair(Currencies.DOGE, Currencies.PPC);
+  public static final CurrencyPair DOGE_USD = new CurrencyPair(Currencies.DOGE, Currencies.USD);
 
-    public static final CurrencyPair XDC_HKD = new CurrencyPair(Currencies.XDC, Currencies.HKD);
-    public static final CurrencyPair XDC_LTC = new CurrencyPair(Currencies.XDC, Currencies.LTC);
-    public static final CurrencyPair XDC_NMC = new CurrencyPair(Currencies.XDC, Currencies.NMC);
-    public static final CurrencyPair XDC_PPC = new CurrencyPair(Currencies.XDC, Currencies.PPC);
-    public static final CurrencyPair XDC_USD = new CurrencyPair(Currencies.XDC, Currencies.USD);
+  public static final CurrencyPair XDC_HKD = new CurrencyPair(Currencies.XDC, Currencies.HKD);
+  public static final CurrencyPair XDC_LTC = new CurrencyPair(Currencies.XDC, Currencies.LTC);
+  public static final CurrencyPair XDC_NMC = new CurrencyPair(Currencies.XDC, Currencies.NMC);
+  public static final CurrencyPair XDC_PPC = new CurrencyPair(Currencies.XDC, Currencies.PPC);
+  public static final CurrencyPair XDC_USD = new CurrencyPair(Currencies.XDC, Currencies.USD);
 
-    //NMC
-    public static final CurrencyPair NMC_HKD = new CurrencyPair(Currencies.NMC, Currencies.HKD);
-    public static final CurrencyPair NMC_XDC = new CurrencyPair(Currencies.NMC, Currencies.XDC);
-    public static final CurrencyPair NMC_PPC = new CurrencyPair(Currencies.NMC, Currencies.PPC);
+  // NMC
+  public static final CurrencyPair NMC_HKD = new CurrencyPair(Currencies.NMC, Currencies.HKD);
+  public static final CurrencyPair NMC_XDC = new CurrencyPair(Currencies.NMC, Currencies.XDC);
+  public static final CurrencyPair NMC_PPC = new CurrencyPair(Currencies.NMC, Currencies.PPC);
 
-    //PPC
-    public static final CurrencyPair PPC_HKD = new CurrencyPair(Currencies.PPC, Currencies.HKD);
-    public static final CurrencyPair PPC_XDC = new CurrencyPair(Currencies.PPC, Currencies.XDC);
-    public static final CurrencyPair PPC_NMC = new CurrencyPair(Currencies.PPC, Currencies.NMC);
-    //end
+  // PPC
+  public static final CurrencyPair PPC_HKD = new CurrencyPair(Currencies.PPC, Currencies.HKD);
+  public static final CurrencyPair PPC_XDC = new CurrencyPair(Currencies.PPC, Currencies.XDC);
+  public static final CurrencyPair PPC_NMC = new CurrencyPair(Currencies.PPC, Currencies.NMC);
+  // end
 
-
-    // not real currencies, but tradable commodities (GH/s)
+  // not real currencies, but tradable commodities (GH/s)
   public static final CurrencyPair GHs_BTC = new CurrencyPair(Currencies.GHs, Currencies.BTC);
   public static final CurrencyPair GHs_NMC = new CurrencyPair(Currencies.GHs, Currencies.NMC);
-  
+
   public static final CurrencyPair CNC_BTC = new CurrencyPair(Currencies.CNC, Currencies.BTC);
 
   public static final CurrencyPair WDC_USD = new CurrencyPair(Currencies.WDC, Currencies.USD);
   public static final CurrencyPair WDC_BTC = new CurrencyPair(Currencies.WDC, Currencies.BTC);
   public static final CurrencyPair DVC_BTC = new CurrencyPair(Currencies.DVC, Currencies.BTC);
-
 
   public static final CurrencyPair DGC_BTC = new CurrencyPair(Currencies.DGC, Currencies.BTC);
 
@@ -174,7 +172,7 @@ public class CurrencyPair {
   public static final CurrencyPair UTC_EUR = new CurrencyPair(Currencies.UTC, Currencies.EUR);
   public static final CurrencyPair UTC_BTC = new CurrencyPair(Currencies.UTC, Currencies.BTC);
   public static final CurrencyPair UTC_LTC = new CurrencyPair(Currencies.UTC, Currencies.LTC);
-  
+
   public final String baseSymbol;
   public final String counterSymbol;
 

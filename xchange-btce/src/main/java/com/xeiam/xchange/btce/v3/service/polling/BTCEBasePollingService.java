@@ -49,7 +49,7 @@ public class BTCEBasePollingService<T extends BTCE> extends BTCEBaseService {
 
   private final Logger logger = LoggerFactory.getLogger(BTCEBasePollingService.class);
 
-  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
+  public final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
   // counter for the nonce
@@ -76,10 +76,10 @@ public class BTCEBasePollingService<T extends BTCE> extends BTCEBaseService {
   @Override
   public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (CURRENCY_PAIRS.isEmpty())
-      CURRENCY_PAIRS.addAll(BTCEAdapters.adaptCurrencyPairs(btce.getInfo().getPairs().keySet()));
+    if (currencyPairs.isEmpty())
+      currencyPairs.addAll(BTCEAdapters.adaptCurrencyPairs(btce.getInfo().getPairs().keySet()));
 
-    return CURRENCY_PAIRS;
+    return currencyPairs;
   }
 
   protected int nextNonce() {

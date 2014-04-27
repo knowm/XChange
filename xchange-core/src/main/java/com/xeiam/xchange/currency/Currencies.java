@@ -224,6 +224,4 @@ public class Currencies {
   public static final String ZMK = "ZMK"; // "Zambian Kwacha",
   public static final String ZWL = "ZWL"; // "Zimbabwean Dollar"
 
-
-
 }

@@ -86,8 +86,8 @@ public final class BitfinexAdapters {
     OrderType orderType = null;
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
-    Date date = DateUtils.fromMillisUtc((long) (trade.getTimestamp() * 1000L));
-    final String tradeId = String.valueOf(trade.getTimestamp());
+    Date date = DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Bitfinex uses Unix timestamps
+    final String tradeId = String.valueOf(trade.getTradeId());
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 

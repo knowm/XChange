@@ -53,8 +53,8 @@ public final class ANXOrderResultTrade {
    * @param type
    */
   public ANXOrderResultTrade(@JsonProperty("amount") ANXValue amount, @JsonProperty("currency") String currency, @JsonProperty("date") String date, @JsonProperty("item") String item,
-                             @JsonProperty("price") ANXValue price, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("trade_id") String tradeId,
-                             @JsonProperty("type") String type) {
+      @JsonProperty("price") ANXValue price, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("trade_id") String tradeId,
+      @JsonProperty("type") String type) {
 
     this.amount = amount;
     this.currency = currency;

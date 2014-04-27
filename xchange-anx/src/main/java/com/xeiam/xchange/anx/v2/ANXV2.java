@@ -35,6 +35,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import si.mazi.rescu.ParamsDigest;
+
 import com.xeiam.xchange.anx.v2.dto.ANXException;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfoWrapper;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXBitcoinDepositAddressWrapper;
@@ -43,11 +45,9 @@ import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWithdrawalResponseWrapper
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickerWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
+import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXGenericResponse;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXLagWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrderWrapper;
-import si.mazi.rescu.ParamsDigest;
-
-import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXGenericResponse;
 
 /**
  * @author timmolter
@@ -85,20 +85,21 @@ public interface ANXV2 {
   @POST
   @Path("money/info")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce)
-      throws ANXException, IOException;
+  ANXAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws ANXException,
+      IOException;
 
   @POST
   @Path("money/{currency}/address")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXBitcoinDepositAddressWrapper requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @PathParam("currency") String currency) throws ANXException, IOException;
+  ANXBitcoinDepositAddressWrapper requestDepositAddress(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @PathParam("currency") String currency) throws ANXException, IOException;
 
   @POST
   @Path("money/{currency}/send_simple")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce, @PathParam("currency") String currency,
-                                             @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant, @FormParam("green") boolean green)
-      throws ANXException, IOException;
+  ANXWithdrawalResponseWrapper withdrawBtc(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @PathParam("currency") String currency, @FormParam("address") String address, @FormParam("amount_int") int amount, @FormParam("fee_int") int fee, @FormParam("no_instant") boolean noInstant,
+      @FormParam("green") boolean green) throws ANXException, IOException;
 
   // Trade API
   @POST
@@ -115,8 +116,8 @@ public interface ANXV2 {
   @Path("{tradeIdent}{currency}/money/order/add")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXGenericResponse placeOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-                                  @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount") BigDecimal amount,
-                                  @FormParam("price") BigDecimal price) throws ANXException, IOException;
+      @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price) throws ANXException, IOException;
 
   /**
    * Note: I know it's weird to have BTCEUR hardcoded in the URL, but it really doesn't seems to matter. BTCUSD works too.
@@ -132,7 +133,7 @@ public interface ANXV2 {
   @Path("BTCEUR/money/order/cancel")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-                                   @FormParam("oid") String orderId) throws ANXException, IOException;
+      @FormParam("oid") String orderId) throws ANXException, IOException;
 
   /**
    * Returns the History of the selected wallet
@@ -149,5 +150,5 @@ public interface ANXV2 {
   @Path("money/wallet/history")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-                                             @FormParam("currency") String currency, @FormParam("page") Integer page) throws ANXException, IOException;
+      @FormParam("currency") String currency, @FormParam("page") Integer page) throws ANXException, IOException;
 }

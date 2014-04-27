@@ -23,18 +23,18 @@ package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.anx.v2.ANXV2;
-import com.xeiam.xchange.anx.v2.dto.ANXException;
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickerWrapper;
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
-import com.xeiam.xchange.anx.v2.service.ANXBaseService;
-import com.xeiam.xchange.currency.CurrencyPair;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.anx.v2.ANXV2;
+import com.xeiam.xchange.anx.v2.dto.ANXException;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickerWrapper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
+import com.xeiam.xchange.anx.v2.service.ANXBaseService;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.Assert;
 
 public class ANXMarketDataServiceRaw extends ANXBaseService {

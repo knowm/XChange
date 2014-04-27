@@ -28,7 +28,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -42,63 +41,66 @@ import com.xeiam.xchange.utils.Assert;
  */
 public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
-     */
-    public ANXTradeService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   */
+  public ANXTradeService(ExchangeSpecification exchangeSpecification) {
 
-        super(exchangeSpecification);
+    super(exchangeSpecification);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
+
+    return new OpenOrders(ANXAdapters.adaptOrders(getANXOpenOrders()));
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    // verify(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
+
+    verify(marketOrder.getCurrencyPair());
+    return placeANXMarketOrder(marketOrder).getDataString();
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    // Validation
+    verify(limitOrder.getCurrencyPair());
+    Assert.notNull(limitOrder.getLimitPrice(), "getLimitPrice() cannot be null");
+    Assert.notNull(limitOrder.getTradableAmount(), "getTradableAmount() cannot be null");
+
+    if (limitOrder.getTradableAmount().scale() > 8) {
+      throw new IllegalArgumentException("tradableAmount scale exceeds max");
     }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
-
-        return new OpenOrders(ANXAdapters.adaptOrders(getANXOpenOrders()));
+    if (limitOrder.getLimitPrice().scale() > ANXUtils.getMaxPriceScale(limitOrder.getCurrencyPair())) {
+      throw new IllegalArgumentException("price scale exceeds max");
     }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
 
-//    verify(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
+    BigDecimal amount = limitOrder.getTradableAmount();
+    BigDecimal price = limitOrder.getLimitPrice();
 
-        verify(marketOrder.getCurrencyPair());
-        return placeANXMarketOrder(marketOrder).getDataString();
-    }
+    return placeANXLimitOrder(limitOrder.getCurrencyPair(), type, amount, price).getDataString();
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-        // Validation
-        verify(limitOrder.getCurrencyPair());
-        Assert.notNull(limitOrder.getLimitPrice(), "getLimitPrice() cannot be null");
-        Assert.notNull(limitOrder.getTradableAmount(), "getTradableAmount() cannot be null");
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
 
-        if (limitOrder.getTradableAmount().scale() > 8) {
-            throw new IllegalArgumentException("tradableAmount scale exceeds max");
-        }
+    Assert.notNull(orderId, "orderId cannot be null");
 
-        if (limitOrder.getLimitPrice().scale() > ANXUtils.getMaxPriceScale(limitOrder.getCurrencyPair())) {
-            throw new IllegalArgumentException("price scale exceeds max");
-        }
+    return cancelANXOrder(orderId).getResult().equals("success");
+  }
 
-        String type = limitOrder.getType().equals(OrderType.BID) ? "bid" : "ask";
+  @Override
+  public Trades getTradeHistory(Object... args) throws IOException {
 
-        BigDecimal amount = limitOrder.getTradableAmount();
-        BigDecimal price = limitOrder.getLimitPrice();
-
-        return placeANXLimitOrder(limitOrder.getCurrencyPair(), type, amount, price).getDataString();
-    }
-
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
-        Assert.notNull(orderId, "orderId cannot be null");
-
-        return cancelANXOrder(orderId).getResult().equals("success");
-    }
-
-    @Override
-    public Trades getTradeHistory(Object... args) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+    throw new NotYetImplementedForExchangeException();
+  }
 }

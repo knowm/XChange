@@ -64,7 +64,7 @@ public class BitstampAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds("BTC", new BigDecimal(1).movePointLeft(4), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
+    String withdrawResult = accountService.withdrawFunds("BTC", new BigDecimal(1).movePointLeft(4), "1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 
@@ -72,12 +72,12 @@ public class BitstampAccountDemo {
 
     // Get the account information
     BitstampBalance bitstampBalance = accountService.getBitstampBalance();
-    System.out.println("AccountInfo as String: " + bitstampBalance.toString());
+    System.out.println("BitstampBalance as String: " + bitstampBalance.toString());
 
     BitstampDepositAddress depositAddress = accountService.getBitstampBitcoinDepositAddress();
-    System.out.println("Deposit address: " + depositAddress);
+    System.out.println("BitstampDepositAddress address: " + depositAddress);
 
-    BitstampBooleanResponse withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB");
-    System.out.println("withdrawResult = " + withdrawResult);
+    BitstampBooleanResponse withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc");
+    System.out.println("BitstampBooleanResponse = " + withdrawResult);
   }
 }

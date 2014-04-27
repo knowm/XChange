@@ -45,7 +45,7 @@ public final class ANXWallet {
    * @param operations
    */
   public ANXWallet(@JsonProperty("Balance") ANXValue balance, @JsonProperty("Daily_Withdrawal_Limit") ANXValue dailyWithdrawLimit, @JsonProperty("Max_Withdraw") ANXValue maxWithdraw,
-                   @JsonProperty("Monthly_Withdraw_Limit") ANXValue monthlyWithdrawLimit, @JsonProperty("Operations") int operations) {
+      @JsonProperty("Monthly_Withdraw_Limit") ANXValue monthlyWithdrawLimit, @JsonProperty("Operations") int operations) {
 
     this.balance = balance;
     this.dailyWithdrawLimit = dailyWithdrawLimit;

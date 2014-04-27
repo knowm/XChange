@@ -35,6 +35,7 @@ public class CexIOBalanceInfo {
   private final long timestamp;
   private final String username;
   private final CexIOBalance balanceBTC;
+  private final CexIOBalance balanceLTC;
   private final CexIOBalance balanceNMC;
   private final CexIOBalance balanceIXC;
   private final CexIOBalance balanceDVC;
@@ -53,12 +54,14 @@ public class CexIOBalanceInfo {
    * @param balanceGHS
    */
   public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username, @JsonProperty("BTC") CexIOBalance balanceBTC,
-      @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC, @JsonProperty("GHS") CexIOBalance balanceGHS) {
+      @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC,
+      @JsonProperty("GHS") CexIOBalance balanceGHS) {
 
     this.error = error;
     this.timestamp = timestamp;
     this.username = username;
     this.balanceBTC = balanceBTC;
+    this.balanceLTC = balanceLTC;
     this.balanceNMC = balanceNMC;
     this.balanceIXC = balanceIXC;
     this.balanceDVC = balanceDVC;
@@ -85,6 +88,11 @@ public class CexIOBalanceInfo {
     return balanceBTC;
   }
 
+  public CexIOBalance getBalanceLTC() {
+
+    return balanceLTC;
+  }
+
   public CexIOBalance getBalanceNMC() {
 
     return balanceNMC;
@@ -108,8 +116,8 @@ public class CexIOBalanceInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, NMC={4}, IXC={5}, DVC={6}, GHS={7}]", error, timestamp, username, balanceBTC, balanceNMC,
-        balanceIXC, balanceDVC, balanceGHS);
+    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}]", error, timestamp, username, balanceBTC, balanceLTC,
+        balanceNMC, balanceIXC, balanceDVC, balanceGHS);
   }
 
 }

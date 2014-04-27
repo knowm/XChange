@@ -29,8 +29,9 @@ public class BitfinexTrade {
 
   private final BigDecimal price;
   private final BigDecimal amount;
-  private final float timestamp;
+  private final long timestamp;
   private final String exchange;
+  private final long tradeId;
 
   /**
    * Constructor
@@ -39,13 +40,16 @@ public class BitfinexTrade {
    * @param amount
    * @param timestamp
    * @param exchange
+   * @param tradeId
    */
-  public BitfinexTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp, @JsonProperty("exchange") String exchange) {
+  public BitfinexTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp, @JsonProperty("exchange") String exchange,
+      @JsonProperty("tid") long tradeId) {
 
     this.price = price;
     this.amount = amount;
     this.timestamp = timestamp;
     this.exchange = exchange;
+    this.tradeId = tradeId;
   }
 
   public BigDecimal getPrice() {
@@ -58,7 +62,7 @@ public class BitfinexTrade {
     return amount;
   }
 
-  public float getTimestamp() {
+  public long getTimestamp() {
 
     return timestamp;
   }
@@ -66,6 +70,11 @@ public class BitfinexTrade {
   public String getExchange() {
 
     return exchange;
+  }
+
+  public long getTradeId() {
+
+    return tradeId;
   }
 
   @Override
@@ -80,7 +89,10 @@ public class BitfinexTrade {
     builder.append(timestamp);
     builder.append(", exchange=");
     builder.append(exchange);
+    builder.append(", tid=");
+    builder.append(tradeId);
     builder.append("]");
     return builder.toString();
   }
+
 }

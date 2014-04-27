@@ -77,7 +77,7 @@ public final class BTERAdapters {
     BigDecimal last = bterTicker.getLast();
     BigDecimal low = bterTicker.getLow();
     BigDecimal high = bterTicker.getHigh();
-    BigDecimal volume = bterTicker.getPriceCurrencyVolume();
+    BigDecimal volume = bterTicker.getTradeCurrencyVolume();
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
   }

@@ -21,60 +21,11 @@
  */
 package com.xeiam.xchange.kraken.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
 public abstract class KrakenBaseService extends BaseExchangeService {
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>(Arrays.asList(CurrencyPair.LTC_XRP,
-
-  CurrencyPair.LTC_EUR,
-
-  CurrencyPair.LTC_USD,
-
-  CurrencyPair.LTC_KRW,
-
-  CurrencyPair.BTC_LTC,
-
-  CurrencyPair.BTC_NMC,
-
-  CurrencyPair.BTC_XRP,
-
-  CurrencyPair.BTC_XVN,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.BTC_KRW,
-
-  CurrencyPair.NMC_XRP,
-
-  CurrencyPair.NMC_EUR,
-
-  CurrencyPair.NMC_USD,
-
-  CurrencyPair.NMC_KRW,
-
-  CurrencyPair.XVN_XRP,
-
-  CurrencyPair.USD_XVN,
-
-  CurrencyPair.EUR_XVN,
-
-  CurrencyPair.EUR_XRP,
-
-  CurrencyPair.USD_XRP,
-
-  CurrencyPair.KRW_XRP)
-
-  );
 
   /**
    * Constructor
