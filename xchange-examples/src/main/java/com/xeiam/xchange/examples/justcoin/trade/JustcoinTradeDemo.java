@@ -31,7 +31,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.justcoin.JustcoinDemoUtils;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
 import com.xeiam.xchange.justcoin.service.polling.JustcoinTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
