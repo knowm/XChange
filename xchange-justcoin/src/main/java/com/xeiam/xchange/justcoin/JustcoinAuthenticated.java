@@ -39,8 +39,9 @@ import javax.ws.rs.core.MediaType;
 import com.xeiam.xchange.justcoin.dto.PostCreateResponse;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinDepositAddress;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
+import com.xeiam.xchange.justcoin.dto.trade.in.OrderReq;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinOrder;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
 
 /**
  * @author jamespedwards42
@@ -60,7 +61,7 @@ public interface JustcoinAuthenticated extends Justcoin {
 
   @POST
   @Path("{currency}/out")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @Consumes(MediaType.APPLICATION_JSON)
   public PostCreateResponse withdraw(final @PathParam("currency") String currency, final @FormParam("address") String address, final @FormParam("amount") BigDecimal amount,
       final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
@@ -74,15 +75,14 @@ public interface JustcoinAuthenticated extends Justcoin {
 
   @POST
   @Path("orders")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @Consumes(MediaType.APPLICATION_JSON)
   public PostCreateResponse createMarketOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, final @FormParam("amount") BigDecimal amount,
       final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
   @POST
   @Path("orders")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public PostCreateResponse createLimitOrder(final @FormParam("market") String market, final @FormParam("type") String orderType, final @FormParam("price") BigDecimal limitPrice,
-      final @FormParam("amount") BigDecimal amount, final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
+  @Consumes(MediaType.APPLICATION_JSON)
+  public PostCreateResponse createLimitOrder(final OrderReq request, final @HeaderParam("Authorization") String auth, final @QueryParam("key") String apiKey) throws IOException;
 
   @DELETE
   @Path("orders/{orderId}")

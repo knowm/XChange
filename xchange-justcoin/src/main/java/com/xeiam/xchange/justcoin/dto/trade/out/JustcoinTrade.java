@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin.dto.trade;
+package com.xeiam.xchange.justcoin.dto.trade.out;
 
 import java.math.BigDecimal;
 import java.util.Date;
