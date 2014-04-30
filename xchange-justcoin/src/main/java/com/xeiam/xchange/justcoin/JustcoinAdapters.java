@@ -40,8 +40,8 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinOrder;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
 
 /**
  * jamespedwards42

@@ -28,8 +28,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.justcoin.JustcoinAuthenticated;
 import com.xeiam.xchange.justcoin.JustcoinUtils;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
+import com.xeiam.xchange.justcoin.dto.Utils;
+import com.xeiam.xchange.justcoin.dto.trade.in.OrderReq;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinOrder;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
 
 /**
  * @author jamespedwards42
@@ -64,8 +66,12 @@ public class JustcoinTradeServiceRaw extends JustcoinBasePollingService<Justcoin
 
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    return justcoin.createLimitOrder(JustcoinUtils.getApiMarket(limitOrder.getCurrencyPair()), limitOrder.getType().toString().toLowerCase(), limitOrder.getLimitPrice(),
-        limitOrder.getTradableAmount(), getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
+      OrderReq req = new OrderReq(JustcoinUtils.getApiMarket(limitOrder.getCurrencyPair()),
+              Utils.format(limitOrder.getLimitPrice()),
+              Utils.format(limitOrder.getTradableAmount()),
+              limitOrder.getType().toString().toLowerCase());
+
+    return justcoin.createLimitOrder(req, getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }
 
   public boolean cancelOrder(String orderId) throws IOException {

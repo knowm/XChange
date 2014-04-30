@@ -39,7 +39,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.JustcoinUtils;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinOrder;
 
 /**
  * @author jamespedwards42
