@@ -27,72 +27,78 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexTrade {
 
-  private final BigDecimal price;
-  private final BigDecimal amount;
-  private final long timestamp;
-  private final String exchange;
-  private final long tradeId;
+	private final BigDecimal price;
+	private final BigDecimal amount;
+	private final long timestamp;
+	private final String exchange;
+	private final long tradeId;
+	private final String type;
 
-  /**
-   * Constructor
-   * 
-   * @param price
-   * @param amount
-   * @param timestamp
-   * @param exchange
-   * @param tradeId
-   */
-  public BitfinexTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp, @JsonProperty("exchange") String exchange,
-      @JsonProperty("tid") long tradeId) {
+	/**
+	 * Constructor
+	 * 
+	 * @param price
+	 * @param amount
+	 * @param timestamp
+	 * @param exchange
+	 * @param tradeId
+	 */
+	public BitfinexTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp, @JsonProperty("exchange") String exchange,
+			@JsonProperty("tid") long tradeId, @JsonProperty("type") String type) {
 
-    this.price = price;
-    this.amount = amount;
-    this.timestamp = timestamp;
-    this.exchange = exchange;
-    this.tradeId = tradeId;
-  }
+		this.price = price;
+		this.amount = amount;
+		this.timestamp = timestamp;
+		this.exchange = exchange;
+		this.tradeId = tradeId;
+		this.type = type;
+	}
 
-  public BigDecimal getPrice() {
+	public BigDecimal getPrice() {
 
-    return price;
-  }
+		return price;
+	}
 
-  public BigDecimal getAmount() {
+	public BigDecimal getAmount() {
 
-    return amount;
-  }
+		return amount;
+	}
 
-  public long getTimestamp() {
+	public long getTimestamp() {
 
-    return timestamp;
-  }
+		return timestamp;
+	}
 
-  public String getExchange() {
+	public String getExchange() {
 
-    return exchange;
-  }
+		return exchange;
+	}
 
-  public long getTradeId() {
+	public long getTradeId() {
 
-    return tradeId;
-  }
+		return tradeId;
+	}
 
-  @Override
-  public String toString() {
+	public String getType() {
+		return type;
+	}
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexTrade [price=");
-    builder.append(price);
-    builder.append(", amount=");
-    builder.append(amount);
-    builder.append(", timestamp=");
-    builder.append(timestamp);
-    builder.append(", exchange=");
-    builder.append(exchange);
-    builder.append(", tid=");
-    builder.append(tradeId);
-    builder.append("]");
-    return builder.toString();
-  }
-
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("BitfinexTrade [price=");
+		builder.append(price);
+		builder.append(", amount=");
+		builder.append(amount);
+		builder.append(", timestamp=");
+		builder.append(timestamp);
+		builder.append(", exchange=");
+		builder.append(exchange);
+		builder.append(", tradeId=");
+		builder.append(tradeId);
+		builder.append(", type=");
+		builder.append(type);
+		builder.append("]");
+		return builder.toString();
+	}
 }
