@@ -34,29 +34,29 @@ import com.xeiam.xchange.bitfinex.v1.service.BitfinexPayloadDigest;
 
 
 public class BitfinexBasePollingService extends BitfinexBaseService {
-	private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
-	private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
+  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
+  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
-	protected final String apiKey;
-	protected final BitfinexAuthenticated bitfinex;
-	protected final ParamsDigest signatureCreator;
-	protected final ParamsDigest payloadCreator;
+  protected final String apiKey;
+  protected final BitfinexAuthenticated bitfinex;
+  protected final ParamsDigest signatureCreator;
+  protected final ParamsDigest payloadCreator;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification The {@link ExchangeSpecification}
-	 */
-	public BitfinexBasePollingService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public BitfinexBasePollingService(ExchangeSpecification exchangeSpecification) {
 
-		super(exchangeSpecification);
-		this.bitfinex = RestProxyFactory.createProxy(BitfinexAuthenticated.class, exchangeSpecification.getSslUri());
-		this.apiKey = exchangeSpecification.getApiKey();
-		this.signatureCreator = BitfinexHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
-		this.payloadCreator = new BitfinexPayloadDigest();
-	}
+    super(exchangeSpecification);
+    this.bitfinex = RestProxyFactory.createProxy(BitfinexAuthenticated.class, exchangeSpecification.getSslUri());
+    this.apiKey = exchangeSpecification.getApiKey();
+    this.signatureCreator = BitfinexHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    this.payloadCreator = new BitfinexPayloadDigest();
+  }
 
-	protected  int nextNonce() {
-		return lastNonce.incrementAndGet();
-	}
+  protected  int nextNonce() {
+    return lastNonce.incrementAndGet();
+  }
 }
