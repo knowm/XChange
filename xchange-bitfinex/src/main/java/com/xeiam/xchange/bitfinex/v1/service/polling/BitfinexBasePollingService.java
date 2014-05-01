@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -30,20 +32,15 @@ import com.xeiam.xchange.bitfinex.v1.service.BitfinexBaseService;
 import com.xeiam.xchange.bitfinex.v1.service.BitfinexHmacPostBodyDigest;
 import com.xeiam.xchange.bitfinex.v1.service.BitfinexPayloadDigest;
 
-/**
- * @author Matija Mazi
- */
-public class BitfinexBasePollingService extends BitfinexBaseService {
 
+public class BitfinexBasePollingService extends BitfinexBaseService {
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
+  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
   protected final String apiKey;
   protected final BitfinexAuthenticated bitfinex;
   protected final ParamsDigest signatureCreator;
   protected final ParamsDigest payloadCreator;
-
-  // counter for the nonce
-  private static int lastNonce = -1;
 
   /**
    * Constructor
@@ -59,18 +56,7 @@ public class BitfinexBasePollingService extends BitfinexBaseService {
     this.payloadCreator = new BitfinexPayloadDigest();
   }
 
-  protected synchronized int nextNonce() {
-
-    // nonce logic is now more robust.
-    // on the first call, it initializes to a number based upon the quarter second. From then on, it increments it.
-    //
-    // As long as you do not create a new BTCEBasedPollingService more than once every quarter second and make sure
-    // that you throw away the old one before you make a new one, this should work out fine.
-    if (lastNonce < 0) {
-      lastNonce = (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
-    }
-    int nonce = lastNonce++;
-    return nonce;
+  protected  int nextNonce() {
+    return lastNonce.incrementAndGet();
   }
-
 }
