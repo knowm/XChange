@@ -98,6 +98,10 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(CurrencyPair.UTC_EUR);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_LTC);
+    CURRENCY_PAIRS.add(new CurrencyPair("CINNI"));
+    CURRENCY_PAIRS.add(new CurrencyPair("BC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("BC", "BTC"));
   }
 
   @Override
