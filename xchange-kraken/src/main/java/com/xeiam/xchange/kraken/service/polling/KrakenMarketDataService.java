@@ -73,7 +73,7 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    long since = 0L;
+    Long since = null;
 
     if (args.length > 0) {
       Object arg0 = args[0];
