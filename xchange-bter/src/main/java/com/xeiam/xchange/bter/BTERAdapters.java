@@ -108,13 +108,13 @@ public final class BTERAdapters {
 
   public static LimitOrder adaptOrder(BTEROpenOrder order, Collection<CurrencyPair> currencyPairs) {
 
-    CurrencyPair possibleCurrencyPair = new CurrencyPair(order.getSellCurrency(), order.getBuyCurrency());
-    if (currencyPairs.contains(possibleCurrencyPair)) {
-      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), RoundingMode.HALF_EVEN);
-      return new LimitOrder(OrderType.ASK, order.getSellAmount(), possibleCurrencyPair, order.getId(), null, price);
+    CurrencyPair possibleCurrencyPair = new CurrencyPair(order.getBuyCurrency(), order.getSellCurrency());
+    if (!currencyPairs.contains(possibleCurrencyPair)) {
+      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), 8, RoundingMode.HALF_EVEN);
+      return new LimitOrder(OrderType.ASK, order.getSellAmount(), new CurrencyPair( order.getSellCurrency(), order.getBuyCurrency()), order.getId(), null, price);
     }
     else {
-      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), RoundingMode.HALF_EVEN);
+      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), 8, RoundingMode.HALF_EVEN);
       return new LimitOrder(OrderType.BID, order.getBuyAmount(), possibleCurrencyPair, order.getId(), null, price);
     }
   }
