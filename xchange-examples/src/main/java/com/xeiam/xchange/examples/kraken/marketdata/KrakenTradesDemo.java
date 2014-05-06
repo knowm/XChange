@@ -40,7 +40,7 @@ public class KrakenTradesDemo {
     Exchange krakenExchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
 
     generic(krakenExchange);
-    // raw(krakenExchange);
+    raw(krakenExchange);
   }
 
   private static void generic(Exchange krakenExchange) throws IOException {
