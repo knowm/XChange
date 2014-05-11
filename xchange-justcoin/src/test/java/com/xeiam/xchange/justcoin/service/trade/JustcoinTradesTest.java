@@ -39,7 +39,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.JustcoinUtils;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
 
 /**
  * @author jamespedwards42

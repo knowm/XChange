@@ -191,7 +191,7 @@ public class CexIOAdapters {
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
       Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;
       String id = Integer.toString(cexIOOrder.getId());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id, DateUtils
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getPending(), new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id, DateUtils
           .fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
     }
 

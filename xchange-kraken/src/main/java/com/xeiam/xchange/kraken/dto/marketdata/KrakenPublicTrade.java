@@ -80,7 +80,7 @@ public class KrakenPublicTrade {
   @Override
   public String toString() {
 
-    return "KrakenTrade [price=" + price + ", volume=" + volume + ", time=" + time + ", type=" + type + ", orderType=" + orderType + ", miscellaneous=" + miscellaneous + "]";
+    return "KrakenPublicTrade [price=" + price + ", volume=" + volume + ", time=" + time + ", type=" + type + ", orderType=" + orderType + ", miscellaneous=" + miscellaneous + "]";
   }
 
 }

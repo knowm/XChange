@@ -104,13 +104,13 @@ public class KrakenAdapters {
     return new Trades(trades, last, TradeSortType.SortByTimestamp);
   }
 
-  public static Trade adaptTrade(KrakenPublicTrade krakenTrade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(KrakenPublicTrade krakenPublicTrade, CurrencyPair currencyPair) {
 
-    OrderType type = adaptOrderType(krakenTrade.getType());
-    BigDecimal tradableAmount = krakenTrade.getVolume();
-    Date timestamp = new Date((long) (krakenTrade.getTime() * 1000L));
+    OrderType type = adaptOrderType(krakenPublicTrade.getType());
+    BigDecimal tradableAmount = krakenPublicTrade.getVolume();
+    Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
 
-    return new Trade(type, tradableAmount, currencyPair, krakenTrade.getPrice(), timestamp, "0");
+    return new Trade(type, tradableAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, "0");
   }
 
   public static AccountInfo adaptBalance(Map<String, BigDecimal> krakenBalance, String username) {

@@ -49,17 +49,14 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 public final class BitfinexAdapters {
-
-  @SuppressWarnings("unused")
   public static final Logger log = LoggerFactory.getLogger(BitfinexAdapters.class);
 
   private BitfinexAdapters() {
-
   }
 
   public static List<LimitOrder> adaptOrders(BitfinexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
 
     for (BitfinexLevel order : orders) {
       // Bid orderbook is reversed order. Insert at index 0 instead of appending
@@ -83,7 +80,7 @@ public final class BitfinexAdapters {
 
   public static Trade adaptTrade(BitfinexTrade trade, CurrencyPair currencyPair) {
 
-    OrderType orderType = null;
+    OrderType orderType = trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Bitfinex uses Unix timestamps
@@ -93,9 +90,9 @@ public final class BitfinexAdapters {
 
   public static Trades adaptTrades(BitfinexTrade[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<Trade>(trades.length);
     for (BitfinexTrade trade : trades) {
-      tradesList.add(0, adaptTrade(trade, currencyPair));
+      tradesList.add(adaptTrade(trade, currencyPair));
     }
     return new Trades(tradesList, TradeSortType.SortByID);
   }
@@ -115,7 +112,7 @@ public final class BitfinexAdapters {
 
   public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Wallet> wallets = new ArrayList<Wallet>(response.length);
 
     for (BitfinexBalancesResponse balance : response) {
       wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
