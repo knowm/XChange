@@ -23,9 +23,14 @@ package com.xeiam.xchange.examples.cexio.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
+import com.xeiam.xchange.cexio.service.polling.CexIOTradeServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -35,8 +40,7 @@ import com.xeiam.xchange.examples.cexio.CexIODemoUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
- * Author: brox
- * Since: 2/6/14
+ * Author: brox Since: 2/6/14
  */
 
 public class TradeDemo {
@@ -45,6 +49,13 @@ public class TradeDemo {
 
     Exchange exchange = CexIODemoUtils.createExchange();
     PollingTradeService tradeService = exchange.getPollingTradeService();
+
+    generic(tradeService);
+    raw((CexIOTradeServiceRaw) tradeService);
+
+  }
+
+  private static void generic(PollingTradeService tradeService) throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     printOpenOrders(tradeService);
 
@@ -67,10 +78,15 @@ public class TradeDemo {
     printOpenOrders(tradeService);
   }
 
+  private static void raw(CexIOTradeServiceRaw tradeService) throws IOException {
+
+    List<CexIOOrder> openOrders = tradeService.getCexIOOpenOrders(new CurrencyPair("NMC", "BTC"));
+    System.out.println(openOrders);
+  }
+
   private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders.toString());
   }
-
 }

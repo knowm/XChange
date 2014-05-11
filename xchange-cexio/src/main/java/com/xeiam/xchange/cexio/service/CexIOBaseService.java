@@ -33,31 +33,31 @@ import com.xeiam.xchange.service.BaseExchangeService;
  */
 public class CexIOBaseService extends BaseExchangeService {
 
-	public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-	new CurrencyPair("GHS", "BTC"),
+  new CurrencyPair("GHS", "BTC"),
 
-	new CurrencyPair("LTC", "BTC"),
+  new CurrencyPair("LTC", "BTC"),
 
-	new CurrencyPair("NMC", "BTC"),
+  new CurrencyPair("NMC", "BTC"),
 
-	new CurrencyPair("GHS", "NMC"),
+  new CurrencyPair("GHS", "NMC"),
 
-	new CurrencyPair("FHM", "BTC"));
+  new CurrencyPair("FHM", "BTC"));
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification
-	 */
-	public CexIOBaseService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
+  public CexIOBaseService(ExchangeSpecification exchangeSpecification) {
 
-		super(exchangeSpecification);
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public List<CurrencyPair> getExchangeSymbols() {
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
 
-		return CURRENCY_PAIRS;
-	}
+    return CURRENCY_PAIRS;
+  }
 }
