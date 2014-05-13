@@ -34,6 +34,7 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
 import com.xeiam.xchange.cexio.CexIOUtils;
+import com.xeiam.xchange.cexio.dto.trade.CexIOOpenOrders;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 import com.xeiam.xchange.cexio.service.CexIOBaseService;
 import com.xeiam.xchange.cexio.service.CexIODigest;
@@ -61,22 +62,30 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     signatureCreator = CexIODigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
   }
 
+  public List<CexIOOrder> getCexIOOpenOrders(CurrencyPair currencyPair) throws IOException {
+
+    List<CexIOOrder> cexIOOrderList = new ArrayList<CexIOOrder>();
+
+    String tradableIdentifier = currencyPair.baseSymbol;
+    String transactionCurrency = currencyPair.counterSymbol;
+
+    CexIOOpenOrders openOrders = cexIOAuthenticated.getOpenOrders(tradableIdentifier, transactionCurrency, exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+
+    for (CexIOOrder cexIOOrder : openOrders.getOpenOrders()) {
+      cexIOOrder.setTradableIdentifier(tradableIdentifier);
+      cexIOOrder.setTransactionCurrency(transactionCurrency);
+      cexIOOrderList.add(cexIOOrder);
+    }
+
+    return cexIOOrderList;
+  }
+
   public List<CexIOOrder> getCexIOOpenOrders() throws IOException {
 
     List<CexIOOrder> cexIOOrderList = new ArrayList<CexIOOrder>();
 
     for (CurrencyPair currencyPair : getExchangeSymbols()) {
-
-      String tradableIdentifier = currencyPair.baseSymbol;
-      String transactionCurrency = currencyPair.counterSymbol;
-
-      CexIOOrder[] openOrders = cexIOAuthenticated.getOpenOrders(tradableIdentifier, transactionCurrency, exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
-
-      for (CexIOOrder cexIOOrder : openOrders) {
-        cexIOOrder.setTradableIdentifier(tradableIdentifier);
-        cexIOOrder.setTransactionCurrency(transactionCurrency);
-        cexIOOrderList.add(cexIOOrder);
-      }
+      cexIOOrderList.addAll(getCexIOOpenOrders(currencyPair));
     }
     return cexIOOrderList;
   }

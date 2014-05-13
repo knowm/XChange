@@ -35,6 +35,7 @@ import javax.ws.rs.core.MediaType;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
+import com.xeiam.xchange.cexio.dto.trade.CexIOOpenOrders;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 
 /**
@@ -53,7 +54,7 @@ public interface CexIOAuthenticated {
 
   @POST
   @Path("open_orders/{ident}/{currency}/")
-  CexIOOrder[] getOpenOrders(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+  CexIOOpenOrders getOpenOrders(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") long nonce) throws IOException;
 
   @POST
