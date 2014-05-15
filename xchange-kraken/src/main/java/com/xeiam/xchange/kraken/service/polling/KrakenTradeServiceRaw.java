@@ -47,6 +47,11 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 
 public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthenticated> {
 
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   */
   public KrakenTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(KrakenAuthenticated.class, exchangeSpecification);
@@ -135,24 +140,24 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
   public KrakenOrderResponse placeKrakenLimitOrder(LimitOrder limitOrder) throws IOException {
 
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
-    KrakenOrderBuilder orderBuilder = KrakenStandardOrder.getLimitOrderBuilder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice().toString(), limitOrder.getTradableAmount());
+    KrakenOrderBuilder krakenOrderBuilder = KrakenStandardOrder.getLimitOrderBuilder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice().toString(), limitOrder.getTradableAmount());
 
-    return placeKrakentOrder(orderBuilder.buildOrder());
+    return placeKrakentOrder(krakenOrderBuilder.buildOrder());
   }
 
-  public KrakenOrderResponse placeKrakentOrder(KrakenStandardOrder order) throws IOException {
+  public KrakenOrderResponse placeKrakentOrder(KrakenStandardOrder krakenStandardOrder) throws IOException {
 
     KrakenOrderResult result = null;
-    if (!order.isValidateOnly()) {
+    if (!krakenStandardOrder.isValidateOnly()) {
       result =
-          kraken.addOrder(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order.getVolume()
-              .toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), order.getCloseOrder(),
+          kraken.addOrder(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(), krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume()
+              .toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(), krakenStandardOrder.getCloseOrder(),
               exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
     else {
       result =
-          kraken.addOrderValidateOnly(createKrakenCurrencyPair(order.getAssetPair()), order.getType().toString(), order.getOrderType().toString(), order.getPrice(), order.getSecondaryPrice(), order
-              .getVolume().toString(), order.getLeverage(), order.getPositionTxId(), delimitSet(order.getOrderFlags()), order.getStartTime(), order.getExpireTime(), order.getUserRefId(), true, order
+          kraken.addOrderValidateOnly(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(), krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder
+              .getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(), true, krakenStandardOrder
               .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
 
