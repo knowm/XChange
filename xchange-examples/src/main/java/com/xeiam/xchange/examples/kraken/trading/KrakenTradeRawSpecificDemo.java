@@ -52,7 +52,7 @@ public class KrakenTradeRawSpecificDemo {
             .withValidateOnly(true) // validate only for demo purposes
             .buildOrder();
 
-    KrakenOrderResponse orderResponse = tradeService.placeKrakentOrder(order);
+    KrakenOrderResponse orderResponse = tradeService.placeKrakenOrder(order);
     System.out.println(orderResponse);
 
     Map<String, KrakenOrder> openOrders = tradeService.getKrakenOpenOrders();
