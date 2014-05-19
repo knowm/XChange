@@ -49,7 +49,6 @@ public class BTCCentralExchangeTest {
   public void testBTCCentralOrderBook() {
     try {
       BTCCentralMarketDepth btcCentralMarketDepth = btcCentralMarketDataServiceRaw.getBTCCentralMarketDepth();
-      System.out.println(btcCentralMarketDepth.toString());
     } catch (IOException e) {
       Assert.fail();
     }
@@ -59,7 +58,6 @@ public class BTCCentralExchangeTest {
   public void testBTCCentralTrades() {
     try {
       BTCCentralTrade[] trades = btcCentralMarketDataServiceRaw.getBTCCentralTrades();
-      System.out.println(Arrays.toString(trades));
     } catch (IOException e) {
       Assert.fail();
     }
