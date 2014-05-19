@@ -80,6 +80,7 @@
 		<module>xchange-bitfinex</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-blockchain</module>
+        <module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>
 		<module>xchange-btce</module>
 		<module>xchange-bter</module>
