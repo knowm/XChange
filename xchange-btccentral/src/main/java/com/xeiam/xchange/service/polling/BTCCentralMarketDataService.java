@@ -27,17 +27,21 @@ public class BTCCentralMarketDataService extends BTCCentralMarketDataServiceRaw 
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     verify(currencyPair);
 
-    return BTCCentralAdapters.adaptTicker(getTicker(), currencyPair);
+    return BTCCentralAdapters.adaptTicker(getBTCCentralTicker(), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    verify(currencyPair);
+
+    return BTCCentralAdapters.adaptMarketDepth(getBTCCentralMarketDepth(), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    verify(currencyPair);
+
+    return BTCCentralAdapters.adaptTrade(getBTCCentralTrades(), currencyPair);
   }
 
   @Override

@@ -1,6 +1,8 @@
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.dto.marketdata.BTCCentralMarketDepth;
 import com.xeiam.xchange.dto.marketdata.BTCCentralTicker;
+import com.xeiam.xchange.dto.marketdata.BTCCentralTrade;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,4 +26,12 @@ public interface BTCCentral {
   @GET
   @Path("ticker/")
   public BTCCentralTicker getBTCCentralTicker() throws IOException;
+
+  @GET
+  @Path("depth/")
+  public BTCCentralMarketDepth getOrderBook() throws IOException;
+
+  @GET
+  @Path("trades/")
+  public BTCCentralTrade[] getTrades() throws IOException;
 }

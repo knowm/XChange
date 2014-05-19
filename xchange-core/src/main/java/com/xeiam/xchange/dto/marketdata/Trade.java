@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 
 /**

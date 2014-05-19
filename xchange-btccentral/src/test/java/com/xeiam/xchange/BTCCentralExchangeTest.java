@@ -1,7 +1,9 @@
 package com.xeiam.xchange;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.BTCCentralMarketDepth;
 import com.xeiam.xchange.dto.marketdata.BTCCentralTicker;
+import com.xeiam.xchange.dto.marketdata.BTCCentralTrade;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.BTCCentralMarketDataServiceRaw;
 import org.junit.Assert;
@@ -9,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -31,12 +34,32 @@ public class BTCCentralExchangeTest {
   @Test
   public void testBTCCentralTickerRequest() {
     try {
-      BTCCentralTicker btcCentralTicker = btcCentralMarketDataServiceRaw.getTicker();
+      BTCCentralTicker btcCentralTicker = btcCentralMarketDataServiceRaw.getBTCCentralTicker();
 
       assertNotNull(btcCentralTicker);
       assertNotNull(btcCentralTicker.getAsk());
       assertNotNull(btcCentralTicker.getBid());
       assertNotNull(btcCentralTicker.getCurrency());
+    } catch (IOException e) {
+      Assert.fail();
+    }
+  }
+
+  @Test
+  public void testBTCCentralOrderBook() {
+    try {
+      BTCCentralMarketDepth btcCentralMarketDepth = btcCentralMarketDataServiceRaw.getBTCCentralMarketDepth();
+      System.out.println(btcCentralMarketDepth.toString());
+    } catch (IOException e) {
+      Assert.fail();
+    }
+  }
+
+  @Test
+  public void testBTCCentralTrades() {
+    try {
+      BTCCentralTrade[] trades = btcCentralMarketDataServiceRaw.getBTCCentralTrades();
+      System.out.println(Arrays.toString(trades));
     } catch (IOException e) {
       Assert.fail();
     }
