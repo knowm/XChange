@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 /**
- * @author
+ * @author kpysniak
  */
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

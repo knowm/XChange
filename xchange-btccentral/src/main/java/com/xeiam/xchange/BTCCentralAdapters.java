@@ -46,7 +46,7 @@ public class BTCCentralAdapters {
    *
    * @param marketDepth
    * @param currencyPair
-   * @return
+   * @return new order book
    */
   public static OrderBook adaptMarketDepth(BTCCentralMarketDepth marketDepth, CurrencyPair currencyPair) {
     List<LimitOrder> asks = adaptMarketOrderToLimitOrder(marketDepth.getAsks(), OrderType.ASK, currencyPair);
