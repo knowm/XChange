@@ -24,6 +24,7 @@ package com.xeiam.xchange.cryptsy.service.polling;
 import java.io.IOException;
 import java.util.Date;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
@@ -57,20 +58,20 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
   
   @Override
-  public OpenOrders getOpenOrders() throws IOException {
+  public OpenOrders getOpenOrders() throws IOException, ExchangeException {
   
     CryptsyOpenOrdersReturn openOrdersReturnValue = getCryptsyOpenOrders();
     return CryptsyAdapters.adaptOpenOrders(openOrdersReturnValue);
   }
   
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, ExchangeException {
   
     throw new NotAvailableFromExchangeException();
   }
   
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, ExchangeException {
   
     verify(limitOrder.getCurrencyPair());
     
@@ -82,7 +83,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
   
   @Override
-  public boolean cancelOrder(String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException, ExchangeException {
   
     CryptsyCancelOrderReturn ret = super.cancelSingleCryptsyLimitOrder(Integer.valueOf(orderId));
     return ret.isSuccess();
@@ -98,7 +99,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
    * @throws IOException
    */
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException {
+  public Trades getTradeHistory(final Object... arguments) throws IOException, ExchangeException {
   
     Date startDate = new Date(0); // default value
     Date endDate = new Date(); // default value

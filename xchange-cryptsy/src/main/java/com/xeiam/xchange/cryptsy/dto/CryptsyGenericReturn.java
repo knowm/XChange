@@ -23,7 +23,6 @@ package com.xeiam.xchange.cryptsy.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.cryptsy.service.polling.CryptsyBasePollingService;
 
 /**
  * @author ObsessiveOrange
@@ -40,8 +39,6 @@ public class CryptsyGenericReturn<V> {
     this.success = (success == 1 ? true : false);
     this.returnValue = returnValue;
     this.error = error;
-    
-    CryptsyBasePollingService.checkResult(this);
   }
   
   public boolean isSuccess() {

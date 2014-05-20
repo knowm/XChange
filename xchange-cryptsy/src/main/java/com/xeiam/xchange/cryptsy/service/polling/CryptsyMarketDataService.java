@@ -24,6 +24,7 @@ package com.xeiam.xchange.cryptsy.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
@@ -51,7 +52,7 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
   }
   
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
   
     verify(currencyPair);
     
@@ -71,7 +72,7 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
    * @throws IOException
    */
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
   
     verify(currencyPair);
     
@@ -93,7 +94,7 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
    * @throws IOException
    */
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
   
     verify(currencyPair);
     
@@ -103,7 +104,7 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
   }
   
   @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
+  public ExchangeInfo getExchangeInfo() throws IOException, ExchangeException {
   
     return new ExchangeInfo((List<CurrencyPair>) getExchangeSymbols());
   }

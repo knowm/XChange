@@ -57,20 +57,24 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * Retrieves account information, including wallet balances
    * 
    * @return CryptsyAccountInfo DTO representing account information
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
+   * @throws IOException
    */
-  public CryptsyAccountInfoReturn getCryptsyAccountInfo() throws IOException {
+  public CryptsyAccountInfoReturn getCryptsyAccountInfo() throws IOException, ExchangeException {
   
-    return cryptsy.getinfo(apiKey, signatureCreator, nextNonce());
+    return checkResult(cryptsy.getinfo(apiKey, signatureCreator, nextNonce()));
   }
   
   /**
    * Retrieves transaction history
    * 
    * @return CryptsyTxnHistoryReturn DTO representing past transactions made
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
+   * @throws IOException
    */
-  public CryptsyTxnHistoryReturn getCryptsyTransactions() throws IOException {
+  public CryptsyTxnHistoryReturn getCryptsyTransactions() throws IOException, ExchangeException {
   
-    return cryptsy.mytransactions(apiKey, signatureCreator, nextNonce());
+    return checkResult(cryptsy.mytransactions(apiKey, signatureCreator, nextNonce()));
   }
   
   /**
@@ -81,15 +85,17 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * @param currencyCode Nullable - String representation of the currencyCode (Eg: "BTC")
    * @return CryptsyNewAddressReturn representing new deposit address for specified currency
    * @throws ExchangeException if both currencyID and currencyCode are null
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
    * @throws IOException
    */
-  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode) throws IOException {
+  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode) throws IOException,
+      ExchangeException {
   
     if (currencyID == null && currencyCode == null) {
       throw new ExchangeException("Either currencyID or currencyCode must be supplied. Both cannot be null");
     }
     
-    return cryptsy.generatenewaddress(apiKey, signatureCreator, nextNonce(), currencyID, currencyCode);
+    return checkResult(cryptsy.generatenewaddress(apiKey, signatureCreator, nextNonce(), currencyID, currencyCode));
   }
   
   /**
@@ -97,9 +103,9 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * 
    * @return CryptsyDepositAddressReturn DTO containing map of deposit addresses
    */
-  public CryptsyDepositAddressReturn getCurrentCryptsyDepositAddresses() throws IOException {
+  public CryptsyDepositAddressReturn getCurrentCryptsyDepositAddresses() throws IOException, ExchangeException {
   
-    return cryptsy.getmydepositaddresses(apiKey, signatureCreator, nextNonce());
+    return checkResult(cryptsy.getmydepositaddresses(apiKey, signatureCreator, nextNonce()));
   }
   
   /**
@@ -111,9 +117,9 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * @return CryptsyWithdrawalReturn DTO representing result of request
    * @throws IOException
    */
-  public CryptsyWithdrawalReturn makeCryptsyWithdrawal(String address, BigDecimal amount) throws IOException {
+  public CryptsyWithdrawalReturn makeCryptsyWithdrawal(String address, BigDecimal amount) throws IOException, ExchangeException {
   
-    return cryptsy.makewithdrawal(apiKey, signatureCreator, nextNonce(), address, amount);
+    return checkResult(cryptsy.makewithdrawal(apiKey, signatureCreator, nextNonce(), address, amount));
   }
   
   /**
@@ -121,9 +127,9 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * 
    * @return CryptsyTransfersReturn DTO representing past transfers
    */
-  public CryptsyTransfersReturn getTransferHistory() throws IOException {
+  public CryptsyTransfersReturn getTransferHistory() throws IOException, ExchangeException {
   
-    return cryptsy.mytransfers(apiKey, signatureCreator, nextNonce());
+    return checkResult(cryptsy.mytransfers(apiKey, signatureCreator, nextNonce()));
   }
   
   /**
@@ -131,7 +137,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * 
    * @return CryptsyAccountInfo DTO
    */
-  public CryptsyGenericReturn<String> getWalletStatus() throws IOException {
+  public CryptsyGenericReturn<String> getWalletStatus() throws IOException, ExchangeException {
   
     throw new NotAvailableFromExchangeException();
     // return cryptsy.getwalletstatus(apiKey, signatureCreator, nextNonce());

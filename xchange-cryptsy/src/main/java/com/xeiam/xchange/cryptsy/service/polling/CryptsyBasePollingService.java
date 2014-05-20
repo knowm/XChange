@@ -101,7 +101,8 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseSer
     return nextNonce;
   }
   
-  public static void checkResult(CryptsyGenericReturn<?> info) {
+  @SuppressWarnings("rawtypes")
+  public static <T extends CryptsyGenericReturn> T checkResult(T info) {
   
     if (!info.isSuccess()) {
       throw new ExchangeException("Cryptsy returned an error: " + info.getError());
@@ -109,6 +110,7 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseSer
     else if (info.getError() != null) {
       throw new ExchangeException("Got error message: " + info.getError());
     }
+    return info;
   }
   
 }
