@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.cryptsy.dto.account;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,6 +42,6 @@ public class CryptsyTxnHistoryReturn extends CryptsyGenericReturn<List<CryptsyTx
   public CryptsyTxnHistoryReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyTxn> value,
       @JsonProperty("error") String error) {
   
-    super(success, value, error);
+    super(success, (value == null ? new ArrayList<CryptsyTxn>() : value), error);
   }
 }

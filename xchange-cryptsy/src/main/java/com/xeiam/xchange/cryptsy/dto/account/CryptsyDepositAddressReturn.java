@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.cryptsy.dto.account;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,6 +42,6 @@ public class CryptsyDepositAddressReturn extends CryptsyGenericReturn<Map<String
   public CryptsyDepositAddressReturn(@JsonProperty("success") int success, @JsonProperty("return") Map<String, String> value,
       @JsonProperty("error") String error) {
   
-    super(success, value, error);
+    super(success, (value == null ? new HashMap<String, String>() : value), error);
   }
 }

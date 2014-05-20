@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.cryptsy.dto.account;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,6 +42,6 @@ public class CryptsyTransfersReturn extends CryptsyGenericReturn<List<CryptsyTra
   public CryptsyTransfersReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyTransfers> value,
       @JsonProperty("error") String error) {
   
-    super(success, value, error);
+    super(success, (value == null ? new ArrayList<CryptsyTransfers>() : value), error);
   }
 }

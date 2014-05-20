@@ -21,6 +21,7 @@
  */
 package com.xeiam.xchange.cryptsy.dto.marketdata;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,6 +43,6 @@ public class CryptsyMarketTradesReturn extends CryptsyGenericReturn<List<Cryptsy
   public CryptsyMarketTradesReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyOrder> value,
       @JsonProperty("error") String error) {
   
-    super(success, value, error);
+    super(success, (value == null ? new ArrayList<CryptsyOrder>() : value), error);
   }
 }
