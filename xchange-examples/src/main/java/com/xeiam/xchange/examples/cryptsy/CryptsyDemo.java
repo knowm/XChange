@@ -49,7 +49,8 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  * Note that requestDepositAddress is commented out, as too many requests on this method seem to lead to 
  * Cryptsy blocking that method for the specific account.
  * 
- * All methods require authentication - replace API and Secret keys below to run. The current set is defunct
+ * All methods require authentication. However, some methods in this demo will not work (Trading specifically), 
+ * since this is a test account, and has no funds. (Slitil53/Jeic5OHah)
  */
 
 /**
@@ -61,8 +62,9 @@ public class CryptsyDemo {
       NotYetImplementedForExchangeException, InterruptedException {
   
     ExchangeSpecification exSpec = new ExchangeSpecification(CryptsyExchange.class);
-    exSpec.setApiKey("9fb95ad332d882cb54f462e23ee34843099bd240");
-    exSpec.setSecretKey("f19473bbb4ab38087165812434951cf89e0479c84ef19a974d780c64f18b7031a1360c3ff7bc67b9");
+    
+    exSpec.setApiKey("0feb4d7258aa828a76355e32940de94d3298bed2");
+    exSpec.setSecretKey("b03caa2f83e6a42cd2780f0a245f020302eb4fe2a63d268135c927c4d88d265be8e4e559e9f3c812");
     
     Exchange cryptsyExchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
     PollingAccountService accountService = cryptsyExchange.getPollingAccountService();
