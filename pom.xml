@@ -98,6 +98,7 @@
 		<module>xchange-vaultofsatoshi</module>
 		<module>xchange-vircurex</module>
 		<module>xchange-itbit</module>
+		<module>xchange-cryptsy</module>
 	</modules>
 
 	<repositories>
