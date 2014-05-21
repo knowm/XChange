@@ -49,9 +49,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  * Note that requestDepositAddress is commented out, as too many requests on this method seem to lead to 
  * Cryptsy blocking that method for the specific account.
  * 
- * All trading methods are also commented out, as this test account (Slitil53/Jeic5OHah) has no funds.
- * 
- * All methods require authentication.
+ * This is running using a test account (Slitil53x/Jeic5OHahx), since all methods require authentication.
  */
 
 /**

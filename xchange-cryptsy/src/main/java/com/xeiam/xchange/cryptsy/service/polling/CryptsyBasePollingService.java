@@ -76,21 +76,25 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseSer
     this.signatureCreator = CryptsyHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
   }
   
-  @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
   
     if (CURRENCY_PAIRS.isEmpty()) {
-      CryptsyGetMarketsReturn OverallMarketData = new CryptsyMarketDataService(exchangeSpecification).getCryptsyMarkets();
-      
-      CURRENCY_PAIRS.addAll(CryptsyAdapters.adaptCurrencyPairs(OverallMarketData));
-      
-      HashMap[] marketSets = CryptsyAdapters.adaptMarketSets(OverallMarketData);
-      CryptsyCurrencyUtils.marketIDs_CurrencyPairs = marketSets[0];
-      CryptsyCurrencyUtils.currencyPairs_MarketIDs = marketSets[1];
+      updateExchangeSymbols();
     }
-    
     return CURRENCY_PAIRS;
+  }
+  
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public void updateExchangeSymbols() throws ExchangeException, IOException {
+  
+    CryptsyGetMarketsReturn overallMarketData = new CryptsyMarketDataService(exchangeSpecification).getCryptsyMarkets();
+    
+    CURRENCY_PAIRS.addAll(CryptsyAdapters.adaptCurrencyPairs(overallMarketData));
+    
+    HashMap[] marketSets = CryptsyAdapters.adaptMarketSets(overallMarketData);
+    CryptsyCurrencyUtils.marketIDs_CurrencyPairs = marketSets[0];
+    CryptsyCurrencyUtils.currencyPairs_MarketIDs = marketSets[1];
   }
   
   protected int nextNonce() {
