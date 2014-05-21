@@ -92,6 +92,7 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseSer
     
     CURRENCY_PAIRS.addAll(CryptsyAdapters.adaptCurrencyPairs(overallMarketData));
     
+    // Map of market currencyPairs and marketIDs also have to be updated.
     HashMap[] marketSets = CryptsyAdapters.adaptMarketSets(overallMarketData);
     CryptsyCurrencyUtils.marketIDs_CurrencyPairs = marketSets[0];
     CryptsyCurrencyUtils.currencyPairs_MarketIDs = marketSets[1];
