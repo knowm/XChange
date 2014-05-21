@@ -1,13 +1,15 @@
-package com.xeiam.xchange.service.polling;
+package com.xeiam.xchange.hitbtc.service.polling;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.Hitbtc;
+import com.xeiam.xchange.hitbtc.Hitbtc;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.*;
-import com.xeiam.xchange.service.HitbtcBaseService;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import com.xeiam.xchange.hitbtc.service.HitbtcBaseService;
 import si.mazi.rescu.RestProxyFactory;
 
-import javax.ws.rs.QueryParam;
 import java.io.IOException;
 
 /**

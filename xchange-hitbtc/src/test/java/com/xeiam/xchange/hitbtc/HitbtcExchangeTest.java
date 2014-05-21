@@ -1,7 +1,9 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.hitbtc;
 
+import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.HitbtcMarketDataServiceRaw;
+import com.xeiam.xchange.hitbtc.HitbtcExchange;
+import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
 import org.junit.Before;
 
 /**

@@ -1,6 +1,9 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.hitbtc;
 
-import com.xeiam.xchange.dto.marketdata.*;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

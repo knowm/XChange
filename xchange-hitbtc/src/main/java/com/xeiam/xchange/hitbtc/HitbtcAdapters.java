@@ -1,10 +1,11 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.hitbtc;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.*;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.hitbtc.dto.marketdata.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

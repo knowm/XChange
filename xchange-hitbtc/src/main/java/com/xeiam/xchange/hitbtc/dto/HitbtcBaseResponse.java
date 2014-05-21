@@ -1,4 +1,4 @@
-package com.xeiam.xchange.dto;
+package com.xeiam.xchange.hitbtc.dto;
 
 /**
  * @author kpysniak

@@ -1,7 +1,8 @@
-package com.xeiam.xchange.service;
+package com.xeiam.xchange.hitbtc.service;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
 
 import java.io.IOException;
 import java.util.Collection;

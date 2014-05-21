@@ -1,6 +1,9 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.hitbtc;
 
-import com.xeiam.xchange.service.polling.HitbtcMarketDataService;
+import com.xeiam.xchange.BaseExchange;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 
 /**
  * @author kpysniak
