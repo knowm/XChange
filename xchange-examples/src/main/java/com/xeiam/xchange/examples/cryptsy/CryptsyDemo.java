@@ -112,6 +112,9 @@ public class CryptsyDemo {
     
     System.out.println("\nTradeHistory:\n" + tradeService.getTradeHistory());
     Thread.sleep(500);
+    
+    System.out.println("\nExchangeInfo:\n" + marketDataService.getExchangeInfo());
+    Thread.sleep(500);
   }
   
   private static void

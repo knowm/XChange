@@ -22,10 +22,10 @@
 package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
@@ -50,17 +50,17 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseService {
   
-  private final Logger                  logger         = LoggerFactory.getLogger(CryptsyBasePollingService.class);
+  private final Logger                   logger         = LoggerFactory.getLogger(CryptsyBasePollingService.class);
   
-  public static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
+  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
   
-  private static final long             START_MILLIS   = 1356998400000L;                                                               // Jan 1st, 2013 in milliseconds from epoch
+  private static final long              START_MILLIS   = 1356998400000L;                                                               // Jan 1st, 2013 in milliseconds from epoch
   // counter for the nonce
-  private static final AtomicInteger    lastNonce      = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
+  private static final AtomicInteger     lastNonce      = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
   
-  protected final String                apiKey;
-  protected final T                     cryptsy;
-  protected final ParamsDigest          signatureCreator;
+  protected final String                 apiKey;
+  protected final T                      cryptsy;
+  protected final ParamsDigest           signatureCreator;
   
   /**
    * Constructor
