@@ -1,17 +1,17 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.btccentral;
 
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.btccentral.BTCCentralExchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.BTCCentralMarketDepth;
-import com.xeiam.xchange.dto.marketdata.BTCCentralTicker;
-import com.xeiam.xchange.dto.marketdata.BTCCentralTrade;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.polling.BTCCentralMarketDataServiceRaw;
+import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralMarketDepth;
+import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTicker;
+import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTrade;
+import com.xeiam.xchange.btccentral.service.polling.BTCCentralMarketDataServiceRaw;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
