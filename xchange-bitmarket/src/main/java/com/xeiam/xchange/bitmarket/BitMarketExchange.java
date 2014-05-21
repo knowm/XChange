@@ -1,6 +1,9 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.bitmarket;
 
-import com.xeiam.xchange.service.polling.BitMarketDataService;
+import com.xeiam.xchange.BaseExchange;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitmarket.service.polling.BitMarketDataService;
 
 /**
  * @author kpysniak

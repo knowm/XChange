@@ -1,7 +1,9 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.bitmarket;
 
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.*;
 import com.xeiam.xchange.dto.trade.LimitOrder;

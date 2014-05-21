@@ -1,8 +1,8 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.bitmarket;
 
-import com.xeiam.xchange.dto.marketdata.BitMarketOrderBook;
-import com.xeiam.xchange.dto.marketdata.BitMarketTicker;
-import com.xeiam.xchange.dto.marketdata.BitMarketTrade;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
