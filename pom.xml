@@ -96,6 +96,7 @@
 		<module>xchange-examples</module>
 		<module>xchange-justcoin</module>
 		<module>xchange-kraken</module>
+        <module>xchange-lakebtc</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-vaultofsatoshi</module>
 		<module>xchange-vircurex</module>
