@@ -2,6 +2,7 @@ package com.xeiam.xchange.btccentral.service;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
 
 import java.io.IOException;
 import java.util.Arrays;

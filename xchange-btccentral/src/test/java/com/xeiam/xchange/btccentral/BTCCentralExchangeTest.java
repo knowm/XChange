@@ -1,7 +1,6 @@
 package com.xeiam.xchange.btccentral;
 
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.btccentral.BTCCentralExchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralMarketDepth;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTicker;
