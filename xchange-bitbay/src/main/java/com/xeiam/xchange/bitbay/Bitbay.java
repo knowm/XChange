@@ -1,8 +1,8 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.bitbay;
 
-import com.xeiam.xchange.dto.marketdata.BitbayOrderBook;
-import com.xeiam.xchange.dto.marketdata.BitbayTicker;
-import com.xeiam.xchange.dto.marketdata.BitbayTrade;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

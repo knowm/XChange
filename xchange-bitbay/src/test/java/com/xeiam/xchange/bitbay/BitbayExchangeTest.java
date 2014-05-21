@@ -1,16 +1,9 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.bitbay;
 
+import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.*;
-import com.xeiam.xchange.service.polling.BitbayMarketDataServiceRaw;
-import org.junit.Assert;
+import com.xeiam.xchange.bitbay.service.polling.BitbayMarketDataServiceRaw;
 import org.junit.Before;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertNotNull;
 
 /**
  * @author kpysniak

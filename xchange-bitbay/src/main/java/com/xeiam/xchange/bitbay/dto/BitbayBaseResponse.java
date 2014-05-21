@@ -1,4 +1,4 @@
-package com.xeiam.xchange.dto;
+package com.xeiam.xchange.bitbay.dto;
 
 /**
  * @author kpysniak

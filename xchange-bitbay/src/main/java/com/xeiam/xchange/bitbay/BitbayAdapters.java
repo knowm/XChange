@@ -1,10 +1,13 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.bitbay;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.bitbay.dto.marketdata.*;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.*;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

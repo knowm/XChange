@@ -1,12 +1,12 @@
-package com.xeiam.xchange.service.polling;
+package com.xeiam.xchange.bitbay.service.polling;
 
-import com.xeiam.xchange.Bitbay;
+import com.xeiam.xchange.bitbay.Bitbay;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.BitbayOrderBook;
-import com.xeiam.xchange.dto.marketdata.BitbayTicker;
-import com.xeiam.xchange.dto.marketdata.BitbayTrade;
-import com.xeiam.xchange.service.BitbayBaseService;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
+import com.xeiam.xchange.bitbay.service.BitbayBaseService;
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;
