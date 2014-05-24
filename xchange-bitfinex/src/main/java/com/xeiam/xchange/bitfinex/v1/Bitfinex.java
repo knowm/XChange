@@ -39,7 +39,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 public interface Bitfinex {
 
   @GET
-  @Path("ticker/{symbol}")
+  @Path("pubticker/{symbol}")
   BitfinexTicker getTicker(@PathParam("symbol") String symbol) throws IOException;
 
   @GET

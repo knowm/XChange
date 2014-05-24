@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btce.v2.service.trade;
+package com.xeiam.xchange.bitfinex.v1.service.trade;
 
 import static org.junit.Assert.assertEquals;
 
