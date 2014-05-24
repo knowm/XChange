@@ -70,8 +70,8 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 						side, 
 						"limit", 
 						limitOrder.getCurrencyPair().baseSymbol, 
-						limitOrder.getTradableAmount(), 
-						limitOrder.getLimitPrice(), 
+						limitOrder.getTradableAmount().toPlainString(), 
+						limitOrder.getLimitPrice().toPlainString(), 
 						limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
 
 		return postOrder;

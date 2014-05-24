@@ -1,7 +1,5 @@
 package com.xeiam.xchange.itbit.v1.dto.trade;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ItBitPlaceOrderRequest {
@@ -15,16 +13,16 @@ public class ItBitPlaceOrderRequest {
 	protected String baseCurrency;
 
 	@JsonProperty("amount")
-	private BigDecimal amount;
+	private String amount;
 
 	@JsonProperty("price")
-	private BigDecimal price;
+	private String price;
 
 	@JsonProperty("instrument")
 	private String instrument;
 	
 	public ItBitPlaceOrderRequest(String side, String type,
-			String baseCurrency, BigDecimal amount, BigDecimal price,
+			String baseCurrency, String amount, String price,
 			String instrument) {
 		super();
 		this.side = side;
@@ -47,11 +45,11 @@ public class ItBitPlaceOrderRequest {
 		return baseCurrency;
 	}
 
-	public BigDecimal getAmount() {
+	public String getAmount() {
 		return amount;
 	}
 
-	public BigDecimal getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
