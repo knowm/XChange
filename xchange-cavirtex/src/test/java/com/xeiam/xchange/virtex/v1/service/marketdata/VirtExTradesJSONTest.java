@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.virtex.service.marketdata;
+package com.xeiam.xchange.virtex.v1.service.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -30,7 +30,7 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
+import com.xeiam.xchange.virtex.v1.dto.marketdata.VirtExTrade;
 
 /**
  * Test VirtExTrade[] JSON parsing

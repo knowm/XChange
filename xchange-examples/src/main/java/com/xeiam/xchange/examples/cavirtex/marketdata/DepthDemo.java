@@ -28,9 +28,9 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.virtex.VirtExExchange;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
-import com.xeiam.xchange.virtex.service.polling.VirtExMarketDataServiceRaw;
+import com.xeiam.xchange.virtex.v2.VirtExExchange;
+import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExDepth;
+import com.xeiam.xchange.virtex.v2.service.polling.VirtExMarketDataServiceRaw;
 
 /**
  * Demonstrate requesting Order Book at VirtEx
@@ -67,7 +67,7 @@ public class DepthDemo {
   private static void raw(VirtExMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
-    VirtExDepth orderBook = marketDataService.getVirtExOrderBook("CAD");
+    VirtExDepth orderBook = marketDataService.getVirtExOrderBook(CurrencyPair.BTC_CAD);
 
     System.out.println("Current Order Book size for BTC / CAD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

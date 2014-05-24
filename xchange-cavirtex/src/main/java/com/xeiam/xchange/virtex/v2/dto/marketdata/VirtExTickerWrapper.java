@@ -19,39 +19,62 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.virtex.service;
+package com.xeiam.xchange.virtex.v2.dto.marketdata;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.BaseExchangeService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author timmolter
+ * Data object representing Ticker from VirtEx
  */
-public class VirtexBaseService extends BaseExchangeService {
+public final class VirtExTickerWrapper {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_CAD
-
-  );
+  private final VirtExTicker ticker;
+  private final String status;
+  private final String message;
+  private final String apirate;
 
   /**
    * Constructor
    * 
-   * @param exchangeSpecification
+   * @param ticker
+   * @param status
+   * @param message
+   * @param apirate
    */
-  public VirtexBaseService(ExchangeSpecification exchangeSpecification) {
+  public VirtExTickerWrapper(@JsonProperty("ticker") TickerWrapper ticker, @JsonProperty("message") String message, @JsonProperty("status") String status, @JsonProperty("apirate") String apirate) {
 
-    super(exchangeSpecification);
+    this.ticker = ticker.getTicker();
+    this.status = status;
+    this.message = message;
+    this.apirate = apirate;
+  }
+
+  public VirtExTicker getTicker() {
+
+    return ticker;
+  }
+
+  public String getStatus() {
+
+    return status;
+  }
+
+  public String getMessage() {
+
+    return message;
+  }
+
+  public String getApiRate() {
+
+    return apirate;
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public String toString() {
 
-    return CURRENCY_PAIRS;
+    return "VirtExTicker [ticker" + ticker + ", status=" + status + ", message=" + message + ", apirate=" + apirate + "]";
+
   }
+
 }
+

@@ -19,37 +19,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.virtex;
+package com.xeiam.xchange.virtex.v1.dto.marketdata;
 
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExDepth;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTrade;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author timmolter
+ * Data object representing depth from VirtEx
  */
-@Path("api")
-@Produces(MediaType.APPLICATION_JSON)
-public interface VirtEx {
 
-  @GET
-  @Path("{currency}/ticker.json")
-  public VirtExTicker getTicker(@PathParam("currency") String currency) throws IOException;
+@Deprecated
+public final class VirtExDepth {
 
-  @GET
-  @Path("{currency}/orderbook.json")
-  public VirtExDepth getFullDepth(@PathParam("currency") String currency) throws IOException;
+  private final List<BigDecimal[]> asks;
+  private final List<BigDecimal[]> bids;
 
-  @GET
-  @Path("{currency}/trades.json")
-  public VirtExTrade[] getTrades(@PathParam("currency") String currency) throws IOException;
+  /**
+   * Constructor
+   * 
+   * @param asks
+   * @param bids
+   */
+  public VirtExDepth(@JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
+
+    this.asks = asks;
+    this.bids = bids;
+  }
+
+  public List<BigDecimal[]> getAsks() {
+
+    return asks;
+  }
+
+  public List<BigDecimal[]> getBids() {
+
+    return bids;
+  }
+
+  @Override
+  public String toString() {
+
+    return "VirtExDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+  }
 
 }

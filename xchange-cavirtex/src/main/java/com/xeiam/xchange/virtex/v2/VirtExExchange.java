@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.virtex;
+package com.xeiam.xchange.virtex.v2;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.virtex.service.polling.VirtExMarketDataService;
+import com.xeiam.xchange.virtex.v2.service.polling.VirtExMarketDataService;
 
 /**
  * <p>
