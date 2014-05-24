@@ -65,7 +65,7 @@ public class BitfinexHmacPostBodyDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation restInvocation) {
+  public synchronized String digestParams(RestInvocation restInvocation) {
 
     String postBody = restInvocation.getRequestBody();
     mac.update(Base64.encodeBytes(postBody.getBytes()).getBytes());

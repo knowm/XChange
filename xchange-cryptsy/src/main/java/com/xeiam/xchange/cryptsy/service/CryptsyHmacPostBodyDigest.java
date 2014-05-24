@@ -70,9 +70,9 @@ public class CryptsyHmacPostBodyDigest implements ParamsDigest {
   }
   
   @Override
-  public String digestParams(RestInvocation RestInvocation) {
+  public synchronized String digestParams(RestInvocation restInvocation) {
   
-    String postBody = RestInvocation.getRequestBody();
+    String postBody = restInvocation.getRequestBody();
     
     String hmac = "";
     byte[] digest = mac.doFinal(postBody.getBytes());

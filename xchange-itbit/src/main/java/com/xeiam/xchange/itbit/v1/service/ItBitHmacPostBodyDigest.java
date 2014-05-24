@@ -74,23 +74,23 @@ public class ItBitHmacPostBodyDigest implements ParamsDigest {
 
 
 	@Override
-	public String digestParams(RestInvocation RestInvocation) {
+	public synchronized String digestParams(RestInvocation restInvocation) {
 		md.reset();
 		
-		Map<String, String> httpHeaders = RestInvocation.getHttpHeaders();
+		Map<String, String> httpHeaders = restInvocation.getHttpHeaders();
 		String currentNonce = httpHeaders.get("X-Auth-Nonce");
 		String currentTimestamp = httpHeaders.get("X-Auth-Timestamp");
 		
 		// only POST requests will have a non-null request body.
-		String requestBody = RestInvocation.getRequestBody();
+		String requestBody = restInvocation.getRequestBody();
 		if(requestBody == null) {
 			requestBody = "";
 		} else {
 			requestBody = requestBody.replace("\"", "\\\"");
 		}
 		
-		String verb = RestInvocation.getHttpMethod().trim();
-		String invocationUrl = RestInvocation.getInvocationUrl().trim();
+		String verb = restInvocation.getHttpMethod().trim();
+		String invocationUrl = restInvocation.getInvocationUrl().trim();
 		String message = new StringBuilder("[\"")
 				   .append(verb).append(FIELD_SEPARATOR)
 		           .append(invocationUrl).append(FIELD_SEPARATOR)

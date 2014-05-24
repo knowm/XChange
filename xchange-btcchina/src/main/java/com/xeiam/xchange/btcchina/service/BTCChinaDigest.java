@@ -75,7 +75,7 @@ public class BTCChinaDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation restInvocation) {
+  public synchronized String digestParams(RestInvocation restInvocation) {
 
     String tonce = restInvocation.getHttpHeaders().get("Json-Rpc-Tonce");
     String requestJson = restInvocation.getRequestBody();

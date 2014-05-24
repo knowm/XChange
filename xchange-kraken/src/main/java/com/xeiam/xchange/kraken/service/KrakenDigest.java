@@ -73,7 +73,7 @@ public class KrakenDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation restInvocation) {
+  public synchronized String digestParams(RestInvocation restInvocation) {
 
     sha256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
     sha256.update(restInvocation.getRequestBody().getBytes());

@@ -68,7 +68,7 @@ public class ANXV2Digest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation restInvocation) {
+  public synchronized String digestParams(RestInvocation restInvocation) {
 
     mac.update(restInvocation.getMethodPath().getBytes());
     mac.update(new byte[] { 0 });

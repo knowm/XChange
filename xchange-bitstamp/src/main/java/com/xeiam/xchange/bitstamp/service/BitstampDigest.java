@@ -70,7 +70,7 @@ public class BitstampDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation restInvocation) {
+  public synchronized String digestParams(RestInvocation restInvocation) {
 
     mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
     mac256.update(clientId.getBytes());
