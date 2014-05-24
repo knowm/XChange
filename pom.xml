@@ -73,11 +73,13 @@
 
 	<modules>
 		<module>xchange-anx</module>
+		<module>xchange-bitbay</module>
 		<module>xchange-bitcoinaverage</module>
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-bitcoinium</module>
 		<module>xchange-bitcurex</module>
 		<module>xchange-bitfinex</module>
+		<module>xchange-bitmarket</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btccentral</module>
@@ -92,8 +94,10 @@
 		<module>xchange-core</module>
 		<module>xchange-cryptotrade</module>
 		<module>xchange-examples</module>
+		<module>xchange-hitbtc</module>
 		<module>xchange-justcoin</module>
 		<module>xchange-kraken</module>
+		<module>xchange-lakebtc</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-vaultofsatoshi</module>
 		<module>xchange-vircurex</module>
@@ -216,6 +220,40 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>doclint-java8-disable</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-site-plugin</artifactId>
+						<version>3.3</version>
+						<configuration>
+							<reportPlugins>
+								<plugin>
+									<groupId>org.apache.maven.plugins</groupId>
+									<artifactId>maven-javadoc-plugin</artifactId>
+									<configuration>
+										<additionalparam>-Xdoclint:none</additionalparam>
+									</configuration>
+								</plugin>
+							</reportPlugins>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
