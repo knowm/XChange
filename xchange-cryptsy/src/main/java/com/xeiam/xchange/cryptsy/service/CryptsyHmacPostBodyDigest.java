@@ -22,15 +22,12 @@
 package com.xeiam.xchange.cryptsy.service;
 
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
+
+import com.xeiam.xchange.service.BaseParamsDigest;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't use as the value of a @FormParam, it will probably
@@ -40,49 +37,38 @@ import si.mazi.rescu.RestInvocation;
  * request body (which is composed of @FormParams).
  * </p>
  */
-public class CryptsyHmacPostBodyDigest implements ParamsDigest {
-  
-  private static final String HMAC_SHA_512 = "HmacSHA512";
-  private final Mac           mac;
-  
+public class CryptsyHmacPostBodyDigest extends BaseParamsDigest {
+
   /**
    * Constructor
    * 
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private CryptsyHmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
-  
-    try {
-      SecretKey secretKey = new SecretKeySpec(secretKeyBase64.getBytes(), HMAC_SHA_512);
-      mac = Mac.getInstance(HMAC_SHA_512);
-      mac.init(secretKey);
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
+  private CryptsyHmacPostBodyDigest(String secretKeyBase64) {
+
+    super(secretKeyBase64, HMAC_SHA_512);
   }
-  
-  public static CryptsyHmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
-  
+
+  public static CryptsyHmacPostBodyDigest createInstance(String secretKeyBase64) {
+
     return secretKeyBase64 == null ? null : new CryptsyHmacPostBodyDigest(secretKeyBase64);
   }
-  
+
   @Override
-  public String digestParams(RestInvocation RestInvocation) {
-  
-    String postBody = RestInvocation.getRequestBody();
-    
-    String hmac = "";
+  public String digestParams(RestInvocation restInvocation) {
+
+    String postBody = restInvocation.getRequestBody();
+
+    Mac mac = getMac();
     byte[] digest = mac.doFinal(postBody.getBytes());
     BigInteger hash = new BigInteger(1, digest);
-    hmac = hash.toString(16);
-    
+    String hmac = hash.toString(16);
+
     if (hmac.length() % 2 != 0) {
       hmac = "0" + hmac;
     }
-    
+
     return hmac;
   }
 }

@@ -53,7 +53,7 @@ public class JustcoinBasePollingService<T extends Justcoin> extends BaseExchange
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
     if (currencyPairs.isEmpty()) {
       for (final JustcoinTicker ticker : justcoin.getTickers()) {

@@ -22,26 +22,21 @@
 package com.xeiam.xchange.itbit.v1.service;
 
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
 
+import com.xeiam.xchange.service.BaseParamsDigest;
 
-public class ItBitHmacPostBodyDigest implements ParamsDigest {
+
+public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
+
 	private static final String FIELD_SEPARATOR = "\",\"";
-	private static final String HMAC_SHA_512 = "HmacSHA512";
-
-	private final Mac mac512;
-	private final MessageDigest md;
 
 	private final String apiKey;
 
@@ -51,46 +46,39 @@ public class ItBitHmacPostBodyDigest implements ParamsDigest {
 	 * @param secretKeyBase64
 	 * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
 	 */
-	private ItBitHmacPostBodyDigest(String apiKey, String secretKeyBase64) throws IllegalArgumentException {
+	private ItBitHmacPostBodyDigest(String apiKey, String secretKeyBase64) {
+		super(secretKeyBase64, HMAC_SHA_512);
 		this.apiKey = apiKey;
-
-		try {
-			SecretKey secretKey512 = new SecretKeySpec(secretKeyBase64.getBytes()/*.getBytes("UTF-8")*/, HMAC_SHA_512);
-			mac512 = Mac.getInstance(HMAC_SHA_512);
-			mac512.init(secretKey512);
-
-			md = MessageDigest.getInstance("SHA-256");
-
-		} catch (InvalidKeyException e) {
-			throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-		}
 	}
 
-	public static ItBitHmacPostBodyDigest createInstance(String apiKey, String secretKeyBase64) throws IllegalArgumentException {
+	public static ItBitHmacPostBodyDigest createInstance(String apiKey, String secretKeyBase64) {
 		return secretKeyBase64 == null ? null : new ItBitHmacPostBodyDigest(apiKey, secretKeyBase64);
 	}
 
 
 	@Override
-	public String digestParams(RestInvocation RestInvocation) {
-		md.reset();
+	public String digestParams(RestInvocation restInvocation) {
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+		}
 		
-		Map<String, String> httpHeaders = RestInvocation.getHttpHeaders();
+		Map<String, String> httpHeaders = restInvocation.getHttpHeaders();
 		String currentNonce = httpHeaders.get("X-Auth-Nonce");
 		String currentTimestamp = httpHeaders.get("X-Auth-Timestamp");
 		
 		// only POST requests will have a non-null request body.
-		String requestBody = RestInvocation.getRequestBody();
+		String requestBody = restInvocation.getRequestBody();
 		if(requestBody == null) {
 			requestBody = "";
 		} else {
 			requestBody = requestBody.replace("\"", "\\\"");
 		}
 		
-		String verb = RestInvocation.getHttpMethod().trim();
-		String invocationUrl = RestInvocation.getInvocationUrl().trim();
+		String verb = restInvocation.getHttpMethod().trim();
+		String invocationUrl = restInvocation.getInvocationUrl().trim();
 		String message = new StringBuilder("[\"")
 				   .append(verb).append(FIELD_SEPARATOR)
 		           .append(invocationUrl).append(FIELD_SEPARATOR)
@@ -101,6 +89,7 @@ public class ItBitHmacPostBodyDigest implements ParamsDigest {
 		md.update((currentNonce + message).getBytes());
 		BigInteger hash = new BigInteger( md.digest() );
 
+		Mac mac512 = getMac();
 		mac512.update(invocationUrl.getBytes());
 		mac512.update(hash.toByteArray());
 

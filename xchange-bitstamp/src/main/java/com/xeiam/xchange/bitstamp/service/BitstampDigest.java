@@ -22,24 +22,19 @@
 package com.xeiam.xchange.bitstamp.service;
 
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.FormParam;
 
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
+
+import com.xeiam.xchange.service.BaseParamsDigest;
 
 /**
  * @author Benedikt Bünz
  */
-public class BitstampDigest implements ParamsDigest {
+public class BitstampDigest extends BaseParamsDigest {
 
-  private static final String HMAC_SHA_256 = "HmacSHA256";
-
-  private final Mac mac256;
   private final String clientId;
   private final String apiKey;
 
@@ -50,21 +45,14 @@ public class BitstampDigest implements ParamsDigest {
    * @param clientId
    * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private BitstampDigest(String secretKeyBase64, String clientId, String apiKey) throws IllegalArgumentException {
+  private BitstampDigest(String secretKeyBase64, String clientId, String apiKey) {
 
+    super(secretKeyBase64, HMAC_SHA_256);
     this.clientId = clientId;
     this.apiKey = apiKey;
-    try {
-      mac256 = Mac.getInstance(HMAC_SHA_256);
-      mac256.init(new SecretKeySpec(secretKeyBase64.getBytes(), HMAC_SHA_256));
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
   }
 
-  public static BitstampDigest createInstance(String secretKeyBase64, String clientId, String apiKey) throws IllegalArgumentException {
+  public static BitstampDigest createInstance(String secretKeyBase64, String clientId, String apiKey) {
 
     return secretKeyBase64 == null ? null : new BitstampDigest(secretKeyBase64, clientId, apiKey);
   }
@@ -72,11 +60,11 @@ public class BitstampDigest implements ParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
+    Mac mac256 = getMac();
     mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
     mac256.update(clientId.getBytes());
     mac256.update(apiKey.getBytes());
 
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
-    // return Base64.encodeBytes(mac256.doFinal()).trim();
   }
 }
