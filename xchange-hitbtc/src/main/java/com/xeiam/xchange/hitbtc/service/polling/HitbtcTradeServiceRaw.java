@@ -92,18 +92,18 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
         originalSide); // extract side from original order id: buy/sell
   }
 
-  public HitbtcOwnTrade[] getTradeHistoryRaw(Object... arguments) throws ExchangeException,
+  public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws ExchangeException,
   NotAvailableFromExchangeException,
   NotYetImplementedForExchangeException, IOException {
-
+    
     HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(
         signatureCreator, 
         nextNonce(), 
         apiKey, 
         "ts", 
-        0,
-        1000, 
-        "BTCUSD"); // TODO
+        startIndex,
+        maxResults, 
+        symbols); // TODO
 
     return hitbtcTrades.getTrades();
   }

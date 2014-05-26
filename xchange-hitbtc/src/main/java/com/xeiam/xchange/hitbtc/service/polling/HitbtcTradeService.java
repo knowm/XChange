@@ -63,7 +63,17 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   NotAvailableFromExchangeException,
   NotYetImplementedForExchangeException, IOException {
 
-    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(arguments);
+    int startIndex = 0;
+    int maxResults = 1000;
+    String symbols = "BTCUSD";
+
+    if(arguments.length == 3) {
+      startIndex = (Integer) arguments[0];
+      maxResults = (Integer) arguments[1];
+      symbols = (String) arguments[2]; // comma separated
+    }
+
+    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(startIndex, maxResults, symbols);
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
   }
 }
