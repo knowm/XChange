@@ -7,7 +7,7 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
-import com.xeiam.xchange.hitbtc.service.HitbtcBaseService;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * @author kpysniak
  */
-public abstract class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
+public abstract class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService {
 
   private final Hitbtc hitbtc;
 
