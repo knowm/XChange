@@ -19,40 +19,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.service;
+package com.xeiam.xchange.cexio.dto.account;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
-import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
-
-import si.mazi.rescu.RestInvocation;
-
-import com.xeiam.xchange.service.BaseParamsDigest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author jamespedwards42
+ * Author: veken0m
  */
-public class CoinbaseDigest extends BaseParamsDigest {
+public class GHashIORejected {
 
-  private CoinbaseDigest(final String secretKey) {
+  private final BigDecimal stale;
+  private final BigDecimal duplicate;
+  private final BigDecimal lowdiff;
 
-    super(secretKey, HMAC_SHA_256);
+
+  /**
+ * @param stale
+ * @param duplicate
+ * @param lowdiff
+ */
+public GHashIORejected(@JsonProperty("stale") BigDecimal stale, @JsonProperty("duplicate") BigDecimal duplicate, @JsonProperty("lowdiff") BigDecimal lowdiff) {
+
+    this.stale = stale;
+    this.duplicate = duplicate;
+    this.lowdiff = lowdiff;
   }
+  
+  	public BigDecimal getStale() {
+		return stale;
+	}
+	
+	public BigDecimal getDuplicate() {
+		return duplicate;
+	}
+	
+	public BigDecimal getLowdiff() {
+		return lowdiff;
+	}
 
-  public static CoinbaseDigest createInstance(final String secretKey) {
-
-    return secretKey == null ? null : new CoinbaseDigest(secretKey);
-  }
-
-  @Override
-  public String digestParams(final RestInvocation restInvocation) {
-
-    final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() + restInvocation.getInvocationUrl() + restInvocation.getRequestBody();
-
-    Mac mac256 = getMac();
-    mac256.update(message.getBytes());
-
-    return String.format("%064x", new BigInteger(1, mac256.doFinal()));
-  }
 }

@@ -22,6 +22,7 @@
 package com.xeiam.xchange.cexio.service.polling;
 
 import java.io.IOException;
+import java.util.Map;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
@@ -31,6 +32,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
 import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
+import com.xeiam.xchange.cexio.dto.account.GHashIOHashrate;
+import com.xeiam.xchange.cexio.dto.account.GHashIOWorker;
 import com.xeiam.xchange.cexio.service.CexIOBaseService;
 import com.xeiam.xchange.cexio.service.CexIODigest;
 
@@ -62,6 +65,16 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
     }
 
     return info;
+  }
+  
+  public GHashIOHashrate getHashrate() throws IOException {
+
+	return cexIOAuthenticated.getHashrate(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+  }
+  
+  public Map<String, GHashIOWorker> getWorkers() throws IOException {
+
+	return cexIOAuthenticated.getWorkers(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce()).getWorkers();
   }
 
 }

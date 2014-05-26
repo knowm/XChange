@@ -68,7 +68,7 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
     if (CURRENCY_PAIRS.isEmpty()) {
       final Set<String> krakenCurrencyPairs = getKrakenAssetPairs().getAssetPairMap().keySet();

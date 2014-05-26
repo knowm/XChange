@@ -22,24 +22,18 @@
 package com.xeiam.xchange.anx.v2.service;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
+
+import com.xeiam.xchange.service.BaseParamsDigest;
 
 /**
  * @author Matija Mazi
  */
-public class ANXV2Digest implements ParamsDigest {
-
-  private static final String HMAC_SHA_512 = "HmacSHA512";
-  private final Mac mac;
+public class ANXV2Digest extends BaseParamsDigest {
 
   /**
    * Constructor
@@ -47,29 +41,26 @@ public class ANXV2Digest implements ParamsDigest {
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private ANXV2Digest(String secretKeyBase64) throws IllegalArgumentException {
+  private ANXV2Digest(byte[] secretKeyBase64) {
 
-    try {
-      SecretKey secretKey = new SecretKeySpec(Base64.decode(secretKeyBase64.getBytes()), HMAC_SHA_512);
-      mac = Mac.getInstance(HMAC_SHA_512);
-      mac.init(secretKey);
-    } catch (IOException e) {
-      throw new IllegalArgumentException("Could not decode Base 64 string", e);
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
+    super(secretKeyBase64, HMAC_SHA_512);
   }
 
-  public static ANXV2Digest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+  public static ANXV2Digest createInstance(String secretKeyBase64) {
 
-    return secretKeyBase64 == null ? null : new ANXV2Digest(secretKeyBase64);
+    try {
+      if (secretKeyBase64 != null)
+        return new ANXV2Digest(Base64.decode(secretKeyBase64.getBytes()));
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Could not decode Base 64 string", e);
+    }
+    return null;
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
+    Mac mac = getMac();
     mac.update(restInvocation.getMethodPath().getBytes());
     mac.update(new byte[] { 0 });
     mac.update(restInvocation.getRequestBody().getBytes());

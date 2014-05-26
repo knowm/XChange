@@ -19,40 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.coinbase.service;
+package com.xeiam.xchange.cexio.dto.account;
 
-import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
-
-import si.mazi.rescu.RestInvocation;
-
-import com.xeiam.xchange.service.BaseParamsDigest;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 /**
- * @author jamespedwards42
+ * Author: veken0m
  */
-public class CoinbaseDigest extends BaseParamsDigest {
 
-  private CoinbaseDigest(final String secretKey) {
+public class GHashIOWorkers {
 
-    super(secretKey, HMAC_SHA_256);
-  }
+    private final Map<String, GHashIOWorker> workers = new HashMap<String, GHashIOWorker>();
 
-  public static CoinbaseDigest createInstance(final String secretKey) {
+    public Map<String, GHashIOWorker> getWorkers() {
+        return workers;
+    }
 
-    return secretKey == null ? null : new CoinbaseDigest(secretKey);
-  }
-
-  @Override
-  public String digestParams(final RestInvocation restInvocation) {
-
-    final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() + restInvocation.getInvocationUrl() + restInvocation.getRequestBody();
-
-    Mac mac256 = getMac();
-    mac256.update(message.getBytes());
-
-    return String.format("%064x", new BigInteger(1, mac256.doFinal()));
-  }
+    @JsonAnySetter
+    public void setWorker(String name, GHashIOWorker worker) {
+    	this.workers.put(name, worker);
+    }
+    
 }
