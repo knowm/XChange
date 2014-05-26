@@ -40,8 +40,6 @@ public class HitbtcHmacDigest implements ParamsDigest {
       postBody = "";
     }
 
-    System.out.println("BODY " + postBody);
-
     String uri = restInvocation.getPath() + "?" + restInvocation.getQueryString();
     String message = uri + postBody; 
 
