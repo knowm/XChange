@@ -12,41 +12,41 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 public class HitbtcHmacDigest implements ParamsDigest {
-	private static final String HMAC_SHA_512 = "HmacSHA512";
-	private final Mac mac;
+  private static final String HMAC_SHA_512 = "HmacSHA512";
+  private final Mac mac;
 
-	private HitbtcHmacDigest(String secretKeyBase) throws IllegalArgumentException {
-		try {
+  private HitbtcHmacDigest(String secretKeyBase) throws IllegalArgumentException {
+    try {
 
-			SecretKey secretKey = new SecretKeySpec(secretKeyBase.getBytes(), HMAC_SHA_512);
-			mac = Mac.getInstance(HMAC_SHA_512);
-			mac.init(secretKey);
+      SecretKey secretKey = new SecretKeySpec(secretKeyBase.getBytes(), HMAC_SHA_512);
+      mac = Mac.getInstance(HMAC_SHA_512);
+      mac.init(secretKey);
 
-		} catch (InvalidKeyException e) {
-			throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-		}
-	}
+    } catch (InvalidKeyException e) {
+      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
+    }
+  }
 
-	public static HitbtcHmacDigest createInstance(String secretKeyBase) {
-		return new HitbtcHmacDigest(secretKeyBase);
-	}
+  public static HitbtcHmacDigest createInstance(String secretKeyBase) {
+    return new HitbtcHmacDigest(secretKeyBase);
+  }
 
-	@Override
-	public String digestParams(RestInvocation restInvocation) {
-		String postBody = restInvocation.getRequestBody();
-		if(postBody == null) {
-			postBody = "";
-		}
-		
-		System.out.println("BODY " + postBody);
+  @Override
+  public String digestParams(RestInvocation restInvocation) {
+    String postBody = restInvocation.getRequestBody();
+    if(postBody == null) {
+      postBody = "";
+    }
 
-		String uri = restInvocation.getPath() + "?" + restInvocation.getQueryString();
-		String message = uri + postBody; 
+    System.out.println("BODY " + postBody);
 
-		mac.update(message.getBytes()); 
+    String uri = restInvocation.getPath() + "?" + restInvocation.getQueryString();
+    String message = uri + postBody; 
 
-		return DatatypeConverter.printHexBinary(mac.doFinal()).toLowerCase();
-	}
+    mac.update(message.getBytes()); 
+
+    return DatatypeConverter.printHexBinary(mac.doFinal()).toLowerCase();
+  }
 }

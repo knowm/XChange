@@ -12,15 +12,15 @@ import com.xeiam.xchange.hitbtc.service.polling.HitbtcBasePollingService;
 
 public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
 
-	public HitbtcAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
-	}
+  public HitbtcAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+    super(exchangeSpecification);
+  }
 
-	public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
+  public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException,
+  NotAvailableFromExchangeException,
+  NotYetImplementedForExchangeException, IOException {
 
-		HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, nextNonce(), apiKey);		
-		return hitbtcBalance.getBalances();
-	}
+    HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, nextNonce(), apiKey);		
+    return hitbtcBalance.getBalances();
+  }
 }
