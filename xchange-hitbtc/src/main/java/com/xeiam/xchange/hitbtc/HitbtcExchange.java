@@ -15,11 +15,12 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("http://demo-api.hitbtc.com");
+    exchangeSpecification.setSslUri("http://api.hitbtc.com");
     exchangeSpecification.setHost("hitbtc.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Hitbtc");
     exchangeSpecification.setExchangeDescription("Hitbtc is a Bitcoin exchange.");
+    exchangeSpecification.setExchangeSpecificParametersItem("demo-api", "http://demo-api.hitbtc.com");
 
     return exchangeSpecification;
   }
