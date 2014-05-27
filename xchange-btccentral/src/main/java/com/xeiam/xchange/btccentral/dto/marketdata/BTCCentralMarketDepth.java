@@ -1,41 +1,41 @@
 package com.xeiam.xchange.btccentral.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kpysniak
  */
 public class BTCCentralMarketDepth {
-
-  private final BTCCentralMarketOrder[] bids;
-  private final BTCCentralMarketOrder[] asks;
-
+  
+  private final List<BTCCentralMarketOrder> bids;
+  private final List<BTCCentralMarketOrder> asks;
+  
   /**
-   *
+   * 
    * @param bids
    * @param asks
    */
-  public BTCCentralMarketDepth(@JsonProperty("bids") BTCCentralMarketOrder[] bids,
-                               @JsonProperty("asks") BTCCentralMarketOrder[] asks) {
+  public BTCCentralMarketDepth(@JsonProperty("bids") List<BTCCentralMarketOrder> bids, @JsonProperty("asks") List<BTCCentralMarketOrder> asks) {
+  
     this.bids = bids;
     this.asks = asks;
   }
-
-  public BTCCentralMarketOrder[] getBids() {
+  
+  public List<BTCCentralMarketOrder> getBids() {
+  
     return bids;
   }
-
-  public BTCCentralMarketOrder[] getAsks() {
+  
+  public List<BTCCentralMarketOrder> getAsks() {
+  
     return asks;
   }
-
+  
   @Override
   public String toString() {
-    return "BTCCentralMarketDepth{" +
-        "bids=" + Arrays.toString(bids) +
-        ", asks=" + Arrays.toString(asks) +
-        '}';
+  
+    return "BTCCentralMarketDepth{" + "bids=" + bids + ", asks=" + asks + '}';
   }
 }

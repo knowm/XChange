@@ -162,6 +162,12 @@
             <artifactId>xchange-cryptsy</artifactId>
             <version>2.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- XChange BTCCentral exchange support -->
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-btccentral</artifactId>
+            <version>2.0.1-SNAPSHOT</version>
+        </dependency>
         
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
