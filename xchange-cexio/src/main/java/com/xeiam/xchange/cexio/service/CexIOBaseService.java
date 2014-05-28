@@ -43,7 +43,7 @@ public class CexIOBaseService extends BaseExchangeService {
 
   new CurrencyPair("GHS", "NMC"),
 
-  new CurrencyPair("FHM", "BTC"));
+  new CurrencyPair("IXC", "BTC"));
 
   /**
    * Constructor
