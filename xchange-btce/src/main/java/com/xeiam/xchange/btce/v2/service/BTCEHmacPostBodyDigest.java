@@ -74,10 +74,10 @@ public class BTCEHmacPostBodyDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation RestInvocation) {
+  public synchronized String digestParams(RestInvocation restInvocation) {
 
     try {
-      String postBody = RestInvocation.getRequestBody();
+      String postBody = restInvocation.getRequestBody();
       mac.update(postBody.getBytes("UTF-8"));
       return String.format("%0128x", new BigInteger(1, mac.doFinal()));
     } catch (UnsupportedEncodingException e) {

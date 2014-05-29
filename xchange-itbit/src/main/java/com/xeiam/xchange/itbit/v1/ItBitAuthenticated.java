@@ -63,7 +63,7 @@ public interface ItBitAuthenticated {
 			@HeaderParam("X-Auth-Nonce") int nonce,
 			@QueryParam("instrument") String instrument,
 			@QueryParam("page") String page, 
-			@QueryParam("per_page") String perPage,
+			@QueryParam("perPage") String perPage,
 			@QueryParam("status") String status,
 			@PathParam("walletId") String walletId) throws IOException;
 

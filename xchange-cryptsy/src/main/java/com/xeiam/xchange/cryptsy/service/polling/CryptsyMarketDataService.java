@@ -22,6 +22,7 @@
 package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
@@ -105,8 +106,9 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
   
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException, ExchangeException {
-  
-    return new ExchangeInfo((List<CurrencyPair>) getExchangeSymbols());
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    currencyPairs.addAll( getExchangeSymbols() );
+    return new ExchangeInfo( currencyPairs );
   }
   
 }

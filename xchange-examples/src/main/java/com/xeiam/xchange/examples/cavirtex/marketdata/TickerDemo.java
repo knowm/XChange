@@ -29,9 +29,9 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.virtex.VirtExExchange;
-import com.xeiam.xchange.virtex.dto.marketdata.VirtExTicker;
-import com.xeiam.xchange.virtex.service.polling.VirtExMarketDataServiceRaw;
+import com.xeiam.xchange.virtex.v2.VirtExExchange;
+import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTicker;
+import com.xeiam.xchange.virtex.v2.service.polling.VirtExMarketDataServiceRaw;
 
 /**
  * Demonstrate requesting Ticker at VirtEx
@@ -65,7 +65,7 @@ public class TickerDemo {
   private static void raw(VirtExMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest ticker data showing BTC to CAD
-    VirtExTicker ticker = marketDataService.getVirtExTicker("CAD");
+    VirtExTicker ticker = marketDataService.getVirtExTicker(CurrencyPair.BTC_CAD);
 
     System.out.println("Currency: " + Currencies.CAD);
     System.out.println("Last: " + ticker.getLast().toString());

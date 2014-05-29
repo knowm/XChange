@@ -102,12 +102,13 @@ public final class BitfinexAdapters {
     BigDecimal last = bitfinexTicker.getLast_price();
     BigDecimal bid = bitfinexTicker.getBid();
     BigDecimal ask = bitfinexTicker.getAsk();
-    BigDecimal high = bitfinexTicker.getAsk();
-    BigDecimal low = bitfinexTicker.getBid();
+    BigDecimal high = bitfinexTicker.getHigh();
+    BigDecimal low = bitfinexTicker.getLow();
+    BigDecimal volume = bitfinexTicker.getVolume();
 
     Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withTimestamp(timestamp).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {

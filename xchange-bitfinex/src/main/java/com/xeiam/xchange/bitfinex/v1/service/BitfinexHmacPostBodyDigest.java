@@ -22,21 +22,15 @@
 package com.xeiam.xchange.bitfinex.v1.service;
 
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
 
-public class BitfinexHmacPostBodyDigest implements ParamsDigest {
+import com.xeiam.xchange.service.BaseParamsDigest;
 
-  private static final String HMAC_SHA_384 = "HmacSHA384";
-  private final Mac mac;
+public class BitfinexHmacPostBodyDigest extends BaseParamsDigest {
 
   /**
    * Constructor
@@ -44,22 +38,11 @@ public class BitfinexHmacPostBodyDigest implements ParamsDigest {
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private BitfinexHmacPostBodyDigest(String secretKeyBase64) throws IllegalArgumentException {
-
-    try {
-
-      SecretKey secretKey = new SecretKeySpec(secretKeyBase64.getBytes(), HMAC_SHA_384);
-      mac = Mac.getInstance(HMAC_SHA_384);
-      mac.init(secretKey);
-
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
+  private BitfinexHmacPostBodyDigest(String secretKeyBase64) {
+    super(secretKeyBase64, HMAC_SHA_384);
   }
 
-  public static BitfinexHmacPostBodyDigest createInstance(String secretKeyBase64) throws IllegalArgumentException {
+  public static BitfinexHmacPostBodyDigest createInstance(String secretKeyBase64) {
 
     return secretKeyBase64 == null ? null : new BitfinexHmacPostBodyDigest(secretKeyBase64);
   }
@@ -68,6 +51,7 @@ public class BitfinexHmacPostBodyDigest implements ParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     String postBody = restInvocation.getRequestBody();
+    Mac mac = getMac();
     mac.update(Base64.encodeBytes(postBody.getBytes()).getBytes());
 
     return String.format("%096x", new BigInteger(1, mac.doFinal()));

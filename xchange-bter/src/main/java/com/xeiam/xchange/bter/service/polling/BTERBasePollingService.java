@@ -62,7 +62,7 @@ public class BTERBasePollingService<T extends BTER> extends BaseExchangeService 
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
     if (pairs == null)
       pairs = bter.getPairs().getPairs();

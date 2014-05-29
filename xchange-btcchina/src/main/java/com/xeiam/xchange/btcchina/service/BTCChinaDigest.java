@@ -21,32 +21,26 @@
  */
 package com.xeiam.xchange.btcchina.service;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 import si.mazi.rescu.BasicAuthCredentials;
-import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
+import com.xeiam.xchange.service.BaseParamsDigest;
 
 /**
  * @author David Yam
  */
-public class BTCChinaDigest implements ParamsDigest {
+public class BTCChinaDigest extends BaseParamsDigest {
 
-  private static final String HMAC_SHA1 = "HmacSHA1";
   private static final Pattern responsePattern = Pattern.compile("\\{\"id\":([0-9]*),\"method\":\"([^\"]*)\",\"params\":\\[([^\\]]*)\\]\\}", Pattern.DOTALL | Pattern.CASE_INSENSITIVE
       | Pattern.UNICODE_CASE);
 
-  private final Mac mac;
   private final String exchangeAccessKey;
 
   /**
@@ -55,21 +49,13 @@ public class BTCChinaDigest implements ParamsDigest {
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private BTCChinaDigest(String exchangeAccessKey, String exchangeSecretKey) throws IllegalArgumentException {
+  private BTCChinaDigest(String exchangeAccessKey, String exchangeSecretKey) {
 
-    try {
-      SecretKey secretKey = new SecretKeySpec(exchangeSecretKey.getBytes(), HMAC_SHA1);
-      mac = Mac.getInstance(HMAC_SHA1);
-      mac.init(secretKey);
-      this.exchangeAccessKey = exchangeAccessKey;
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
+    super(exchangeSecretKey, HMAC_SHA_1);
+    this.exchangeAccessKey = exchangeAccessKey;
   }
 
-  public static BTCChinaDigest createInstance(String exchangeAccessKey, String exchangeSecretKey) throws IllegalArgumentException {
+  public static BTCChinaDigest createInstance(String exchangeAccessKey, String exchangeSecretKey) {
 
     return exchangeSecretKey == null ? null : new BTCChinaDigest(exchangeAccessKey, exchangeSecretKey);
   }
@@ -93,6 +79,7 @@ public class BTCChinaDigest implements ParamsDigest {
     }
 
     String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%s&method=%s&params=%s", tonce, exchangeAccessKey, "post", id, method, params);
+    Mac mac = getMac();
     byte[] hash = mac.doFinal(signature.getBytes());
 
     BasicAuthCredentials auth = new BasicAuthCredentials(exchangeAccessKey, BTCChinaUtils.bytesToHex(hash));

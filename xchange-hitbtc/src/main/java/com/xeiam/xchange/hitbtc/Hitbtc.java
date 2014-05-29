@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * @author kpysniak
  */
-@Path("/")
+@Path("/api/1/public/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Hitbtc {
 
