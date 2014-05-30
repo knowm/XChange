@@ -26,7 +26,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyAccountService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyMarketDataService;
-import com.xeiam.xchange.cryptsy.service.polling.CryptsyPublicMarketDataServiceRaw;
+import com.xeiam.xchange.cryptsy.service.polling.CryptsyPublicMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeService;
 
 /**
@@ -34,7 +34,7 @@ import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeService;
  */
 public class CryptsyExchange extends BaseExchange implements Exchange {
 
-  private CryptsyPublicMarketDataServiceRaw pollingPublicMarketDataService;
+  private CryptsyPublicMarketDataService pollingPublicMarketDataService;
 
   /**
    * Default constructor for ExchangeFactory
@@ -52,7 +52,7 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
     this.pollingAccountService = new CryptsyAccountService(exchangeSpecification);
     this.pollingTradeService = new CryptsyTradeService(exchangeSpecification);
 
-    this.pollingPublicMarketDataService = new CryptsyPublicMarketDataServiceRaw(getDefaultPublicExchangeSpecification());
+    this.pollingPublicMarketDataService = new CryptsyPublicMarketDataService();
   }
 
   @Override
@@ -70,12 +70,12 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
 
   public void applyPublicSpecification(ExchangeSpecification exchangeSpecification) {
 
-    this.pollingPublicMarketDataService = new CryptsyPublicMarketDataServiceRaw(exchangeSpecification);
+    this.pollingPublicMarketDataService = new CryptsyPublicMarketDataService(exchangeSpecification);
   }
 
-  public ExchangeSpecification getDefaultPublicExchangeSpecification() {
+  public static ExchangeSpecification getDefaultPublicExchangeSpecification() {
 
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(CryptsyExchange.class.getCanonicalName());
     exchangeSpecification.setSslUri("http://pubapi.cryptsy.com");
     exchangeSpecification.setHost("pubapi.cryptsy.com");
     exchangeSpecification.setPort(80);
@@ -85,7 +85,7 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
-  public CryptsyPublicMarketDataServiceRaw getPublicPollingMarketDataService() {
+  public CryptsyPublicMarketDataService getPublicPollingMarketDataService() {
 
     return pollingPublicMarketDataService;
   }
