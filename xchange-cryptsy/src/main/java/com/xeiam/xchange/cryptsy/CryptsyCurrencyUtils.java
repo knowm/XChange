@@ -32,12 +32,12 @@ import com.xeiam.xchange.currency.CurrencyPair;
 public final class CryptsyCurrencyUtils {
   
   /**
-   * Map containing relationships between MarketIDs and CurrencyPairs
+   * Map containing relationships between MarketIds and CurrencyPairs
    * CAA: 19 May 2014
    * This list is not final, since CryptsyBasePollingService will update it on first run.
    */
   @SuppressWarnings("serial")
-  public static Map<Integer, CurrencyPair> marketIDs_CurrencyPairs = new HashMap<Integer, CurrencyPair>() {
+  public static Map<Integer, CurrencyPair> marketIds_CurrencyPairs = new HashMap<Integer, CurrencyPair>() {
                                                                      
                                                                      {
                                                                        put(141, new CurrencyPair("42", "BTC"));
@@ -224,12 +224,12 @@ public final class CryptsyCurrencyUtils {
                                                                    };
   
   /**
-   * Map containing relationships between MarketIDs and CurrencyPairs
+   * Map containing relationships between MarketIds and CurrencyPairs
    * CAA: 19 May 2014
    * This list is not final, since CryptsyBasePollingService will update it on first run.
    */
   @SuppressWarnings("serial")
-  public static Map<CurrencyPair, Integer> currencyPairs_MarketIDs = new HashMap<CurrencyPair, Integer>() {
+  public static Map<CurrencyPair, Integer> currencyPairs_MarketIds = new HashMap<CurrencyPair, Integer>() {
                                                                      
                                                                      {
                                                                        put(new CurrencyPair("42", "BTC"), 141);
@@ -416,25 +416,25 @@ public final class CryptsyCurrencyUtils {
                                                                    };
   
   /**
-   * Converts a CurrencyPair (in form Base_Counter) to the appropriate marketID
+   * Converts a CurrencyPair (in form Base_Counter) to the appropriate marketId
    * 
    * @param currencyPair String CurrencyPair in form (Base_Counter)
-   * @return int representation of marketID
+   * @return int representation of marketId
    */
-  public static int convertToMarketID(CurrencyPair currencyPair) {
+  public static int convertToMarketId(CurrencyPair currencyPair) {
   
-    return currencyPairs_MarketIDs.get(currencyPair);
+    return currencyPairs_MarketIds.get(currencyPair);
   }
   
   /**
-   * Converts a int marketID to the appropriate CurrencyPair
+   * Converts a int marketId to the appropriate CurrencyPair
    * 
-   * @param marketID int representation of marketID
+   * @param marketId int representation of marketId
    * @return CurrencyPair used by that of that market
    */
-  public static CurrencyPair convertToCurrencyPair(int marketID) {
+  public static CurrencyPair convertToCurrencyPair(int marketId) {
   
-    CurrencyPair currencyPairs = marketIDs_CurrencyPairs.get(marketID);
+    CurrencyPair currencyPairs = marketIds_CurrencyPairs.get(marketId);
     
     return (currencyPairs == null ? new CurrencyPair("UNKNOWN_UNKNOWN") : currencyPairs);
   }

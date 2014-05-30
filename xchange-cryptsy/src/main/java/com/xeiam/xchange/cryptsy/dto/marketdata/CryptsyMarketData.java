@@ -37,7 +37,7 @@ import com.xeiam.xchange.cryptsy.CryptsyUtils;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyMarketData {
   
-  private final int        marketID;
+  private final int        marketId;
   private final String     label;
   private final String     priCurrCode;
   private final String     priCurrName;
@@ -57,7 +57,7 @@ public class CryptsyMarketData {
    * @throws ParseException
    */
   @JsonCreator
-  public CryptsyMarketData(@JsonProperty("marketid") int marketID, @JsonProperty("label") String label,
+  public CryptsyMarketData(@JsonProperty("marketid") int marketId, @JsonProperty("label") String label,
       @JsonProperty("primary_currency_code") String priCurrCode, @JsonProperty("primary_currency_name") String priCurrName,
       @JsonProperty("secondary_currency_code") String secCurrCode, @JsonProperty("secondary_currency_name") String secCurrName,
       @JsonProperty("current_volume") BigDecimal volume24h, @JsonProperty("current_volume_btc") BigDecimal volumeBTC,
@@ -65,7 +65,7 @@ public class CryptsyMarketData {
       @JsonProperty("high_trade") BigDecimal high, @JsonProperty("low_trade") BigDecimal low, @JsonProperty("created") String created)
       throws ParseException {
   
-    this.marketID = marketID;
+    this.marketId = marketId;
     this.label = label;
     this.priCurrCode = priCurrCode;
     this.priCurrName = priCurrName;
@@ -80,9 +80,9 @@ public class CryptsyMarketData {
     this.created = created == null ? null : CryptsyUtils.convertDateTime(created);
   }
   
-  public int getMarketID() {
+  public int getMarketId() {
   
-    return marketID;
+    return marketId;
   }
   
   public String getLabel() {
@@ -148,7 +148,7 @@ public class CryptsyMarketData {
   @Override
   public String toString() {
   
-    return "CryptsyMarketData [Market ID='" + marketID + "',Label='" + label + "',Primary Currency Code='" + priCurrCode
+    return "CryptsyMarketData [Market ID='" + marketId + "',Label='" + label + "',Primary Currency Code='" + priCurrCode
         + "',Primary Currency Name='" + priCurrName + "',Secondary Currency Code='" + secCurrCode + "',Secondary Currency Name='" + secCurrName
         + "',24h Volume='" + volume24h + "',Last='" + last + "',High='" + high + "',Low='" + low + "',Created='" + created + "]";
   }

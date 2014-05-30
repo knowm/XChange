@@ -37,8 +37,8 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyOrder.CryptsyOrderType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyTradeHistory {
   
-  private final int              marketID;
-  private final int              tradeID;
+  private final int              marketId;
+  private final int              tradeId;
   private final CryptsyOrderType type;
   private final Date             timeStamp;
   private final BigDecimal       price;
@@ -46,7 +46,7 @@ public class CryptsyTradeHistory {
   private final BigDecimal       total;
   private final BigDecimal       fee;
   private final CryptsyOrderType init_type;
-  private final int              orderID;
+  private final int              orderId;
   
   /**
    * Constructor
@@ -60,13 +60,13 @@ public class CryptsyTradeHistory {
    * @param pair
    * @throws ParseException
    */
-  public CryptsyTradeHistory(@JsonProperty("marketid") int marketID, @JsonProperty("tradeid") int tradeID,
+  public CryptsyTradeHistory(@JsonProperty("marketid") int marketId, @JsonProperty("tradeid") int tradeId,
       @JsonProperty("tradetype") CryptsyOrderType type, @JsonProperty("datetime") String timeStamp, @JsonProperty("tradeprice") BigDecimal price,
       @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("initiate_ordertype") CryptsyOrderType init_type, @JsonProperty("order_id") int orderID) throws ParseException {
+      @JsonProperty("initiate_ordertype") CryptsyOrderType init_type, @JsonProperty("order_id") int orderId) throws ParseException {
   
-    this.marketID = marketID;
-    this.tradeID = tradeID;
+    this.marketId = marketId;
+    this.tradeId = tradeId;
     this.type = type;
     this.timeStamp = timeStamp == null ? null : CryptsyUtils.convertDateTime(timeStamp);
     this.price = price;
@@ -74,17 +74,17 @@ public class CryptsyTradeHistory {
     this.total = total;
     this.fee = fee;
     this.init_type = init_type;
-    this.orderID = orderID;
+    this.orderId = orderId;
   }
   
-  public int getMarketID() {
+  public int getMarketId() {
   
-    return marketID;
+    return marketId;
   }
   
-  public int getTradeID() {
+  public int getTradeId() {
   
-    return tradeID;
+    return tradeId;
   }
   
   public CryptsyOrderType getTradeType() {
@@ -122,16 +122,16 @@ public class CryptsyTradeHistory {
     return init_type;
   }
   
-  public int getOrderID() {
+  public int getOrderId() {
   
-    return orderID;
+    return orderId;
   }
   
   @Override
   public String toString() {
   
-    return "CryptsyTrade[" + "Market ID='" + marketID + "',Trade ID='" + tradeID + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='"
+    return "CryptsyTrade[" + "Market ID='" + marketId + "',Trade ID='" + tradeId + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='"
         + price + "',Quantity='" + quantity + "',Total='" + total + "',Fee='" + fee + "',InitiatingOrderType='" + init_type + "',Order ID='"
-        + orderID + "']";
+        + orderId + "']";
   }
 }

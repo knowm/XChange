@@ -42,7 +42,7 @@ public class CryptsyTxn {
   private final String         address;
   private final BigDecimal     amount;
   private final BigDecimal     fee;
-  private final String         txnID;
+  private final String         txnId;
   
   /**
    * Constructor
@@ -56,7 +56,7 @@ public class CryptsyTxn {
    */
   public CryptsyTxn(@JsonProperty("currency") String currency, @JsonProperty("type") CryptsyTxnType type, @JsonProperty("datetime") String timeStamp,
       @JsonProperty("address") String address, @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("trxid") String txnID) throws ParseException {
+      @JsonProperty("trxid") String txnId) throws ParseException {
   
     this.currency = currency;
     this.type = type;
@@ -64,7 +64,7 @@ public class CryptsyTxn {
     this.address = address;
     this.amount = amount;
     this.fee = fee;
-    this.txnID = txnID;
+    this.txnId = txnId;
   }
   
   public String getCurrency() {
@@ -97,16 +97,16 @@ public class CryptsyTxn {
     return fee;
   }
   
-  public String getTransactionID() {
+  public String getTransactionId() {
   
-    return txnID;
+    return txnId;
   }
   
   @Override
   public String toString() {
   
     return "CryptsyTransactionHistory[" + "Currency='" + currency + "', Type='" + type + "',Timestamp='" + timeStamp + "',Address='" + address
-        + "',Amount='" + amount + "',Fee='" + fee + "',Transaction ID='" + txnID + "']";
+        + "',Amount='" + amount + "',Fee='" + fee + "',Transaction ID='" + txnId + "']";
   }
   
   public static enum CryptsyTxnType {

@@ -67,7 +67,7 @@ public class CryptsyAccountJsonTests {
     CryptsyTxn transaction = cryptsyTxns.get(0);
     assertEquals(transaction.getType(), CryptsyTxnType.Deposit);
     assertEquals(transaction.getAddress(), "Wkcng1BjyAcbvFV9AyWAaZmdiRoUgojUg9");
-    assertEquals(transaction.getTransactionID(), "bb59a582c72c63ba111fd87ad44cca694836158ec751360e64f89df723fa07dc");
+    assertEquals(transaction.getTransactionId(), "bb59a582c72c63ba111fd87ad44cca694836158ec751360e64f89df723fa07dc");
     assertEquals(transaction.getAmount(), new BigDecimal("132.25344843"));
     assertEquals(transaction.getCurrency(), "WDC");
   }

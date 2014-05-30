@@ -76,7 +76,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
     verify(limitOrder.getCurrencyPair());
     
     CryptsyPlaceOrderReturn result =
-        super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketID(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.ASK
+        super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketId(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.ASK
             ? CryptsyOrderType.Sell : CryptsyOrderType.Buy, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     
     return Integer.toString(result.getReturnValue());

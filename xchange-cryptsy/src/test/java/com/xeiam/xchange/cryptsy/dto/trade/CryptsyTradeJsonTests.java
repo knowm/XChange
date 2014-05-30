@@ -47,8 +47,8 @@ public class CryptsyTradeJsonTests {
     
     CryptsyTradeHistory tradeHistory = cryptsyTradeHistory.get(0);
     
-    assertEquals(tradeHistory.getOrderID(), 57779327);
-    assertEquals(tradeHistory.getTradeID(), 29288586);
+    assertEquals(tradeHistory.getOrderId(), 57779327);
+    assertEquals(tradeHistory.getTradeId(), 29288586);
     assertEquals(tradeHistory.getTradeType(), CryptsyOrderType.Sell);
     assertEquals(tradeHistory.getInitiatingOrderType(), CryptsyOrderType.Buy);
     assertEquals(tradeHistory.getFee(), new BigDecimal("0.000045970"));
@@ -69,8 +69,8 @@ public class CryptsyTradeJsonTests {
     
     CryptsyTradeHistory tradeHistory = cryptsyTradeHistory.get(0);
     
-    assertEquals(tradeHistory.getOrderID(), 57779327);
-    assertEquals(tradeHistory.getTradeID(), 29288586);
+    assertEquals(tradeHistory.getOrderId(), 57779327);
+    assertEquals(tradeHistory.getTradeId(), 29288586);
     assertEquals(tradeHistory.getTradeType(), CryptsyOrderType.Sell);
     assertEquals(tradeHistory.getInitiatingOrderType(), CryptsyOrderType.Buy);
     assertEquals(tradeHistory.getFee(), new BigDecimal("0.000045970"));
@@ -91,7 +91,7 @@ public class CryptsyTradeJsonTests {
     
     CryptsyOpenOrders openOrder = cryptsyOpenOrders.get(0);
     
-    assertEquals(openOrder.getOrderID(), 90039904);
+    assertEquals(openOrder.getOrderId(), 90039904);
     assertEquals(openOrder.getTradeType(), CryptsyOrderType.Buy);
     assertEquals(openOrder.getPrice(), new BigDecimal("0.00000001"));
     assertEquals(openOrder.getQuantityRemaining(), new BigDecimal("50000.00000000"));
@@ -111,8 +111,8 @@ public class CryptsyTradeJsonTests {
     
     CryptsyOpenOrders openOrder = cryptsyOpenOrders.get(0);
     
-    assertEquals(openOrder.getOrderID(), 90039904);
-    assertEquals(openOrder.getMarketID(), 14);
+    assertEquals(openOrder.getOrderId(), 90039904);
+    assertEquals(openOrder.getMarketId(), 14);
     assertEquals(openOrder.getTradeType(), CryptsyOrderType.Buy);
     assertEquals(openOrder.getPrice(), new BigDecimal("0.00000001"));
     assertEquals(openOrder.getQuantityRemaining(), new BigDecimal("50000.10000000"));
@@ -128,9 +128,9 @@ public class CryptsyTradeJsonTests {
     
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    int cryptsyOrderID = mapper.readValue(is, CryptsyPlaceOrderReturn.class).getReturnValue();
+    int cryptsyOrderId = mapper.readValue(is, CryptsyPlaceOrderReturn.class).getReturnValue();
     
-    assertEquals(cryptsyOrderID, 90042026);
+    assertEquals(cryptsyOrderId, 90042026);
   }
   
   @Test

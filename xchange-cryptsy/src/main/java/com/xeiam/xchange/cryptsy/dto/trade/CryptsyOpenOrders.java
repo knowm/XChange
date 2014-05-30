@@ -37,8 +37,8 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyOrder.CryptsyOrderType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyOpenOrders {
   
-  private final int              marketID;
-  private final int              orderID;
+  private final int              marketId;
+  private final int              orderId;
   private final CryptsyOrderType type;
   private final Date             timeStamp;
   private final BigDecimal       price;
@@ -58,13 +58,13 @@ public class CryptsyOpenOrders {
    * @param pair
    * @throws ParseException
    */
-  public CryptsyOpenOrders(@JsonProperty("marketid") int marketID, @JsonProperty("ordertype") CryptsyOrderType type,
-      @JsonProperty("orderid") int orderID, @JsonProperty("created") String timeStamp, @JsonProperty("price") BigDecimal price,
+  public CryptsyOpenOrders(@JsonProperty("marketid") int marketId, @JsonProperty("ordertype") CryptsyOrderType type,
+      @JsonProperty("orderid") int orderId, @JsonProperty("created") String timeStamp, @JsonProperty("price") BigDecimal price,
       @JsonProperty("quantity") BigDecimal quantityRem, @JsonProperty("total") BigDecimal total, @JsonProperty("orig_quantity") BigDecimal quantityOrg)
       throws ParseException {
   
-    this.marketID = marketID;
-    this.orderID = orderID;
+    this.marketId = marketId;
+    this.orderId = orderId;
     this.type = type;
     this.timeStamp = timeStamp == null ? null : CryptsyUtils.convertDateTime(timeStamp);
     this.price = price;
@@ -73,14 +73,14 @@ public class CryptsyOpenOrders {
     this.quantityOrg = quantityOrg;
   }
   
-  public int getMarketID() {
+  public int getMarketId() {
   
-    return marketID;
+    return marketId;
   }
   
-  public int getOrderID() {
+  public int getOrderId() {
   
-    return orderID;
+    return orderId;
   }
   
   public CryptsyOrderType getTradeType() {
@@ -116,7 +116,7 @@ public class CryptsyOpenOrders {
   @Override
   public String toString() {
   
-    return "CryptsyOpenOrder[" + "Market ID='" + marketID + "',Order ID='" + orderID + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='"
+    return "CryptsyOpenOrder[" + "Market ID='" + marketId + "',Order ID='" + orderId + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='"
         + price + "',Quantity Remaining='" + quantityRem + "',Total='" + total + "',Original Quantity='" + quantityOrg + "']";
   }
 }

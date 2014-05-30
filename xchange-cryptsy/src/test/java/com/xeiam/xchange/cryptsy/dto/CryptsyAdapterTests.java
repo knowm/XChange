@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,42 +62,43 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public class CryptsyAdapterTests {
-
+  
   @Test
   public void testAdaptOrderBook() throws IOException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_MarketOrders_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptsyOrderBookReturn cryptsyOrderBook = mapper.readValue(is, CryptsyOrderBookReturn.class);
-
+    
     OrderBook adaptedOrderBook = CryptsyAdapters.adaptOrderBook(cryptsyOrderBook, CurrencyPair.WDC_BTC);
-
+    
     assertEquals(adaptedOrderBook.getAsks().size(), cryptsyOrderBook.getReturnValue().sellOrders().size());
     assertEquals(adaptedOrderBook.getBids().size(), cryptsyOrderBook.getReturnValue().buyOrders().size());
     assertNotNull(adaptedOrderBook.getTimeStamp());
   }
-
+  
   @Test
   public void testAdaptOrderBookPublic() throws IOException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyMarketDataJsonTests.class.getResourceAsStream("/marketdata/Sample_Orderbook_Public_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<String, CryptsyPublicOrderbook> cryptsyOrderBookMap = mapper.readValue(is, CryptsyPublicOrderbookReturn.class).getReturnValue();
-
+    Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBookMap =
+        CryptsyAdapters.adaptPublicOrderBookMap(mapper.readValue(is, CryptsyPublicOrderbookReturn.class).getReturnValue());
+    
     List<OrderBook> adaptedOrderBookList = CryptsyAdapters.adaptPublicOrderBooks(cryptsyOrderBookMap);
     assertThat(adaptedOrderBookList).hasSize(1);
-
+    
     OrderBook adaptedOrderBook = adaptedOrderBookList.get(0);
     assertEquals(adaptedOrderBook.getAsks().size(), 3);
     assertEquals(adaptedOrderBook.getBids().size(), 3);
     assertNotNull(adaptedOrderBook.getTimeStamp());
-
+    
     LimitOrder asks = adaptedOrderBook.getAsks().get(0);
     assertThat(asks.getCurrencyPair()).isEqualTo(CurrencyPair.DOGE_LTC);
     assertThat(asks.getId()).isNull();
@@ -104,38 +106,39 @@ public class CryptsyAdapterTests {
     assertThat(asks.getTradableAmount()).isEqualTo("334369.75217020");
     assertThat(asks.getType()).isEqualTo(OrderType.ASK);
   }
-
+  
   @Test
   public void testAdaptTrades() throws IOException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_MarketTrades_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptsyMarketTradesReturn cryptsyTrades = mapper.readValue(is, CryptsyMarketTradesReturn.class);
-
+    
     Trades adaptedTrades = CryptsyAdapters.adaptTrades(cryptsyTrades, CurrencyPair.WDC_BTC);
-
+    
     assertEquals(adaptedTrades.getTrades().size(), cryptsyTrades.getReturnValue().size());
   }
-
+  
   @Test
   public void testAdaptTradesPublic() throws IOException, ParseException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyMarketDataJsonTests.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<String, CryptsyPublicMarketData> cryptsyMarketData = mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue().get("markets");
-
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData =
+        CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
+    
     Map<CurrencyPair, Trades> adaptedTradesMap = CryptsyAdapters.adaptPublicTrades(cryptsyMarketData);
-
+    
     Trades adaptedTrades = adaptedTradesMap.get(CurrencyPair.DOGE_LTC);
     List<Trade> adaptedTradesList = adaptedTrades.getTrades();
     assertThat(adaptedTradesList).hasSize(2);
-
+    
     Trade adaptedTrade = adaptedTradesList.get(1);
     assertThat(adaptedTrade.getCurrencyPair()).isEqualTo(CurrencyPair.DOGE_LTC);
     assertThat(adaptedTrade.getId()).isEqualTo("47692497");
@@ -145,39 +148,40 @@ public class CryptsyAdapterTests {
     assertThat(adaptedTrade.getTimestamp()).isEqualTo(CryptsyUtils.convertDateTime("2014-05-29 21:49:34"));
     assertThat(adaptedTrade.getType()).isNull();
   }
-
+  
   @Test
   public void testAdaptTicker() throws IOException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_GetMarket_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptsyGetMarketsReturn cryptsyTrades = mapper.readValue(is, CryptsyGetMarketsReturn.class);
-
+    
     Ticker adaptedTicker = CryptsyAdapters.adaptTicker(cryptsyTrades, CurrencyPair.WDC_BTC);
-
+    
     assertEquals(adaptedTicker.getCurrencyPair(), CurrencyPair.WDC_BTC);
     assertEquals(adaptedTicker.getLast(), new BigDecimal("0.00006187"));
     assertEquals(adaptedTicker.getLow(), new BigDecimal("0.00006040"));
     assertEquals(adaptedTicker.getHigh(), new BigDecimal("0.00006335"));
     assertEquals(adaptedTicker.getVolume(), new BigDecimal("61283.49173059"));
   }
-
+  
   @Test
   public void testAdaptTickerPublic() throws IOException, ParseException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyMarketDataJsonTests.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<String, CryptsyPublicMarketData> cryptsyMarketData = mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue().get("markets");
-
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData =
+        CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
+    
     List<Ticker> adaptedTickerList = CryptsyAdapters.adaptPublicTickers(cryptsyMarketData);
     assertThat(adaptedTickerList).hasSize(1);
-
+    
     Ticker adaptedTicker = adaptedTickerList.get(0);
     assertEquals(adaptedTicker.getCurrencyPair(), CurrencyPair.DOGE_LTC);
     assertEquals(adaptedTicker.getLast(), new BigDecimal("0.00003485"));
@@ -187,19 +191,19 @@ public class CryptsyAdapterTests {
     assertThat(adaptedTicker.getHigh()).isNull();
     assertEquals(adaptedTicker.getVolume(), new BigDecimal("13154836.13271418"));
   }
-
+  
   @Test
   public void testAdaptAccountInfo() throws IOException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/account/Sample_GetInfo_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptsyAccountInfoReturn accountInfo = mapper.readValue(is, CryptsyAccountInfoReturn.class);
-
+    
     AccountInfo adaptedAccountInfo = CryptsyAdapters.adaptAccountInfo(accountInfo);
-
+    
     List<Wallet> wallets = adaptedAccountInfo.getWallets();
     assertEquals(wallets.size(), 150);
     for (Wallet wallet : wallets) {
@@ -214,21 +218,21 @@ public class CryptsyAdapterTests {
       }
     }
   }
-
+  
   @Test
   public void testAdaptOpenOrders() throws IOException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/trade/Sample_AllMyOrders_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptsyOpenOrdersReturn cryptsyOpenOrders = mapper.readValue(is, CryptsyOpenOrdersReturn.class);
-
+    
     OpenOrders adaptedOpenOrders = CryptsyAdapters.adaptOpenOrders(cryptsyOpenOrders);
-
+    
     assertEquals(adaptedOpenOrders.getOpenOrders().size(), 9);
-
+    
     LimitOrder order = adaptedOpenOrders.getOpenOrders().get(0);
     assertEquals(order.getId(), "90039904");
     assertEquals(order.getLimitPrice(), new BigDecimal("0.00000001"));
@@ -236,7 +240,7 @@ public class CryptsyAdapterTests {
     assertEquals(order.getCurrencyPair().baseSymbol, "WDC");
     assertEquals(order.getCurrencyPair().counterSymbol, "BTC");
     assertEquals(order.getType(), OrderType.BID);
-
+    
     LimitOrder order2 = adaptedOpenOrders.getOpenOrders().get(8);
     assertEquals(order2.getId(), "90041288");
     assertEquals(order2.getLimitPrice(), new BigDecimal("0.00000009"));
@@ -245,19 +249,19 @@ public class CryptsyAdapterTests {
     assertEquals(order2.getCurrencyPair().counterSymbol, "BTC");
     assertEquals(order2.getType(), OrderType.BID);
   }
-
+  
   @Test
   public void testAdaptTradeHistory() throws IOException {
-
+  
     // Read in the JSON from the example resources
     InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/trade/Sample_AllMyTrades_Data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptsyTradeHistoryReturn cryptsyTradeHistory = mapper.readValue(is, CryptsyTradeHistoryReturn.class);
-
+    
     Trades adaptedTrades = CryptsyAdapters.adaptTradeHistory(cryptsyTradeHistory);
-
+    
     Trade trade = adaptedTrades.getTrades().get(0);
     assertEquals(trade.getCurrencyPair(), CurrencyPair.LTC_BTC);
     assertEquals(trade.getId(), "9982231");
@@ -266,35 +270,35 @@ public class CryptsyAdapterTests {
     assertEquals(trade.getTradableAmount(), new BigDecimal("0.15949550"));
     assertEquals(trade.getPrice(), new BigDecimal("0.03128615"));
   }
-
+  
   @Test
   public void testAdaptCurrencyPairs() throws IOException {
-
+  
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_GetMarket_Data.json");
-
+    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_AllMarketData_Public_Data.json");
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CryptsyGetMarketsReturn cryptsyTradeHistory = mapper.readValue(is, CryptsyGetMarketsReturn.class);
-
-    List<CurrencyPair> adaptedCurrencyPairs = CryptsyAdapters.adaptCurrencyPairs(cryptsyTradeHistory);
-
-    assertEquals(adaptedCurrencyPairs.size(), 180);
-    assertEquals(adaptedCurrencyPairs.get(0), new CurrencyPair("42", "BTC"));
-    assertEquals(adaptedCurrencyPairs.get(179), new CurrencyPair("LTC", "USD"));
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData =
+        CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
+    
+    Collection<CurrencyPair> adaptedCurrencyPairs = CryptsyAdapters.adaptCurrencyPairs(cryptsyMarketData);
+    
+    assertEquals(adaptedCurrencyPairs.size(), 185);
   }
-
+  
   @SuppressWarnings("rawtypes")
   @Test
   public void testAdaptMarketSets() throws IOException {
-
+  
     // Read in the JSON from the example resources
-    InputStream is = CryptsyMarketDataJsonTests.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data.json");
-
+    InputStream is = CryptsyMarketDataJsonTests.class.getResourceAsStream("/marketdata/Sample_AllMarketData_Public_Data.json");
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<String, CryptsyPublicMarketData> cryptsyMarketData = mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue().get("markets");
-
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData =
+        CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
+    
     HashMap[] marketSets = CryptsyAdapters.adaptMarketSets(cryptsyMarketData);
     assertEquals(marketSets[0].get(135), CurrencyPair.DOGE_LTC);
     assertEquals(marketSets[1].get(CurrencyPair.DOGE_LTC), 135);

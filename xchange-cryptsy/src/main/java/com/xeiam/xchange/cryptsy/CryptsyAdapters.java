@@ -70,9 +70,9 @@ import com.xeiam.xchange.dto.trade.Wallet;
  * @author ObsessiveOrange
  */
 public final class CryptsyAdapters {
-
+  
   public static final Logger log = LoggerFactory.getLogger(CryptsyAdapters.class);
-
+  
   /**
    * Adapt CryptsyOrderBookReturn DTO to XChange OrderBook DTO
    * 
@@ -81,15 +81,15 @@ public final class CryptsyAdapters {
    * @return Standard XChange OrderBook DTO
    */
   public static OrderBook adaptOrderBook(CryptsyOrderBookReturn cryptsyOrderBookReturn, CurrencyPair currencyPair) {
-
+  
     CryptsyOrderBook cryptsyOrderBook = cryptsyOrderBookReturn.getReturnValue();
-
+    
     List<LimitOrder> asks = CryptsyAdapters.adaptSellOrders(cryptsyOrderBook.sellOrders(), currencyPair);
     List<LimitOrder> bids = CryptsyAdapters.adaptBuyOrders(cryptsyOrderBook.buyOrders(), currencyPair);
-
+    
     return new OrderBook(new Date(), asks, bids);
   }
-
+  
   /**
    * Private method for adapting a list of CryptsySellOrders to LimitOrders
    * 
@@ -98,17 +98,17 @@ public final class CryptsyAdapters {
    * @return Standard XChange LimitOrder DTO
    */
   private static List<LimitOrder> adaptSellOrders(List<CryptsySellOrder> sellOrders, CurrencyPair currencyPair) {
-
+  
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
+    
     for (CryptsySellOrder order : sellOrders) {
-
+      
       limitOrders.add(new LimitOrder(OrderType.ASK, order.getQuantity(), currencyPair, null, null, order.getSellPrice()));
     }
-
+    
     return limitOrders;
   }
-
+  
   /**
    * Private method for adapting a list of CryptsyBuyOrders to LimitOrders
    * 
@@ -117,44 +117,44 @@ public final class CryptsyAdapters {
    * @return Standard XChange LimitOrder DTO
    */
   private static List<LimitOrder> adaptBuyOrders(List<CryptsyBuyOrder> buyOrders, CurrencyPair currencyPair) {
-
+  
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
+    
     for (CryptsyBuyOrder order : buyOrders) {
-
+      
       limitOrders.add(new LimitOrder(OrderType.BID, order.getQuantity(), currencyPair, null, null, order.getBuyPrice()));
     }
-
+    
     return limitOrders;
   }
-
-  public static List<OrderBook> adaptPublicOrderBooks(Map<String, CryptsyPublicOrderbook> cryptsyOrderBooks) {
-
+  
+  public static List<OrderBook> adaptPublicOrderBooks(Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBooks) {
+  
     Date timestamp = new Date();
     List<OrderBook> orderBooks = new ArrayList<OrderBook>();
     for (CryptsyPublicOrderbook cryptsyOrderBook : cryptsyOrderBooks.values()) {
       CurrencyPair currencyPair = adaptCurrencyPair(cryptsyOrderBook.getLabel());
       List<LimitOrder> asks = adaptPublicOrders(cryptsyOrderBook.getSellOrders(), OrderType.ASK, currencyPair);
       List<LimitOrder> bids = adaptPublicOrders(cryptsyOrderBook.getBuyOrders(), OrderType.BID, currencyPair);
-
+      
       orderBooks.add(new OrderBook(timestamp, asks, bids));
     }
-
+    
     return orderBooks;
   }
-
+  
   private static List<LimitOrder> adaptPublicOrders(List<CryptsyPublicOrder> orders, OrderType orderType, CurrencyPair currencyPair) {
-
+  
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-
+    
     for (CryptsyPublicOrder order : orders) {
-
+      
       limitOrders.add(new LimitOrder(orderType, order.getQuantity(), currencyPair, null, null, order.getPrice()));
     }
-
+    
     return limitOrders;
   }
-
+  
   /**
    * Adapts CryptsyMarketTradesReturn DTO to XChange standard Trades DTO
    * 
@@ -163,14 +163,14 @@ public final class CryptsyAdapters {
    * @return Standard XChange Trades DTO
    */
   public static Trades adaptTrades(CryptsyMarketTradesReturn cryptsyTrades, CurrencyPair currencyPair) {
-
+  
     List<Trade> tradesList = new ArrayList<Trade>();
     for (CryptsyOrder trade : cryptsyTrades.getReturnValue()) {
       tradesList.add(adaptTrade(trade, currencyPair));
     }
     return new Trades(tradesList, TradeSortType.SortByID);
   }
-
+  
   /**
    * Private method for adapting a CryptsyOrder to Trade
    * 
@@ -179,14 +179,14 @@ public final class CryptsyAdapters {
    * @return Standard XChange Trade DTO
    */
   private static Trade adaptTrade(CryptsyOrder order, CurrencyPair currencyPair) {
-
+  
     OrderType orderType = order.getType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
-
-    return new Trade(orderType, order.getQuantity(), currencyPair, order.getPrice(), order.getTime(), String.valueOf(order.getTradeID()));
+    
+    return new Trade(orderType, order.getQuantity(), currencyPair, order.getPrice(), order.getTime(), String.valueOf(order.getTradeId()));
   }
-
-  public static Map<CurrencyPair, Trades> adaptPublicTrades(Map<String, CryptsyPublicMarketData> cryptsyMarketData) {
-
+  
+  public static Map<CurrencyPair, Trades> adaptPublicTrades(Map<Integer, CryptsyPublicMarketData> cryptsyMarketData) {
+  
     Map<CurrencyPair, Trades> trades = new HashMap<CurrencyPair, Trades>();
     for (CryptsyPublicMarketData cryptsyMarketDataEntry : cryptsyMarketData.values()) {
       CurrencyPair currencyPair = adaptCurrencyPair(cryptsyMarketDataEntry.getLabel());
@@ -196,15 +196,15 @@ public final class CryptsyAdapters {
       }
       trades.put(currencyPair, new Trades(tradesList, TradeSortType.SortByID));
     }
-
+    
     return trades;
   }
-
+  
   private static Trade adaptTrade(CryptsyPublicTrade trade, CurrencyPair currencyPair) {
-
-    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), String.valueOf(trade.getTradeID()));
+  
+    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), String.valueOf(trade.getTradeId()));
   }
-
+  
   /**
    * Adapts CryptsyGetMarketsReturn DTO to XChange standard Ticker DTO
    * Note: Cryptsy does not natively have a Ticker method, so getMarkets function will have to be called to get summary data
@@ -214,11 +214,11 @@ public final class CryptsyAdapters {
    * @return Standard XChange Ticker DTO
    */
   public static Ticker adaptTicker(CryptsyGetMarketsReturn marketsReturnData, CurrencyPair currencyPair) {
-
+  
     List<CryptsyMarketData> marketData = marketsReturnData.getReturnValue();
-
+    
     String label = currencyPair.toString().replace("_", "/");
-
+    
     CryptsyMarketData targetMarket = null;
     for (CryptsyMarketData currMarket : marketData) {
       if (currMarket.getLabel().equalsIgnoreCase(label)) {
@@ -226,7 +226,7 @@ public final class CryptsyAdapters {
         break;
       }
     }
-
+    
     BigDecimal last = targetMarket.getLast();
     BigDecimal bid = null;
     BigDecimal ask = null;
@@ -234,19 +234,20 @@ public final class CryptsyAdapters {
     BigDecimal low = targetMarket.getLow();
     BigDecimal volume = targetMarket.get24hVolume();
     Date timestamp = new Date();
-
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low)
+        .withVolume(volume).withTimestamp(timestamp).build();
   }
-
-  public static List<Ticker> adaptPublicTickers(Map<String, CryptsyPublicMarketData> marketsReturnData) {
-
+  
+  public static List<Ticker> adaptPublicTickers(Map<Integer, CryptsyPublicMarketData> marketsReturnData) {
+  
     List<Ticker> tickers = new ArrayList<Ticker>();
     for (CryptsyPublicMarketData publicMarketData : marketsReturnData.values()) {
       tickers.add(adaptPublicTicker(publicMarketData));
     }
     return tickers;
   }
-
+  
   /**
    * Adapts CryptsyPublicMarketData DTO to XChange standard Ticker DTO
    * Note: Cryptsy does not natively have a Ticker method, so getCryptsyMarketData function will have to be called to get summary data
@@ -256,7 +257,7 @@ public final class CryptsyAdapters {
    * @return Standard XChange Ticker DTO
    */
   public static Ticker adaptPublicTicker(CryptsyPublicMarketData publicMarketData) {
-
+  
     BigDecimal last = publicMarketData.getLastTradePrice();
     List<CryptsyPublicOrder> bids = publicMarketData.getBuyOrders();
     BigDecimal bid = bids.size() > 0 ? bids.get(0).getPrice() : null;
@@ -266,11 +267,11 @@ public final class CryptsyAdapters {
     BigDecimal low = null;
     BigDecimal volume = publicMarketData.getVolume();
     Date timestamp = new Date();
-
-    return TickerBuilder.newInstance().withCurrencyPair(adaptCurrencyPair(publicMarketData)).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(
-        timestamp).build();
+    
+    return TickerBuilder.newInstance().withCurrencyPair(adaptCurrencyPair(publicMarketData)).withLast(last).withBid(bid).withAsk(ask).withHigh(high)
+        .withLow(low).withVolume(volume).withTimestamp(timestamp).build();
   }
-
+  
   /**
    * Adapts CryptsyAccountInfoReturn DTO to XChange standard AccountInfo DTO
    * 
@@ -278,20 +279,20 @@ public final class CryptsyAdapters {
    * @return Standard XChange AccountInfo DTO
    */
   public static AccountInfo adaptAccountInfo(CryptsyAccountInfoReturn cryptsyAccountInfoReturn) {
-
+  
     CryptsyAccountInfo cryptsyAccountInfo = cryptsyAccountInfoReturn.getReturnValue();
-
+    
     List<Wallet> wallets = new ArrayList<Wallet>();
     Map<String, BigDecimal> funds = cryptsyAccountInfo.getAvailableFunds();
-
+    
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
-
+      
       wallets.add(new Wallet(currency, funds.get(lcCurrency)));
     }
     return new AccountInfo(null, wallets);
   }
-
+  
   /**
    * Adapts CryptsyOpenOrdersReturn DTO to XChange standard OpenOrders DTO
    * 
@@ -299,21 +300,21 @@ public final class CryptsyAdapters {
    * @return Standard XChange OpenOrders DTO
    */
   public static OpenOrders adaptOpenOrders(CryptsyOpenOrdersReturn openOrdersReturnValue) {
-
+  
     List<CryptsyOpenOrders> cryptsyOpenOrders = openOrdersReturnValue.getReturnValue();
-
+    
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (CryptsyOpenOrders order : cryptsyOpenOrders) {
-
+      
       OrderType orderType = order.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
-
-      limitOrders.add(new LimitOrder(orderType, order.getQuantityRemaining(), CryptsyCurrencyUtils.convertToCurrencyPair(order.getMarketID()), String.valueOf(order.getOrderID()),
-          order.getTimestamp(), order.getPrice()));
-
+      
+      limitOrders.add(new LimitOrder(orderType, order.getQuantityRemaining(), CryptsyCurrencyUtils.convertToCurrencyPair(order.getMarketId()), String
+          .valueOf(order.getOrderId()), order.getTimestamp(), order.getPrice()));
+      
     }
     return new OpenOrders(limitOrders);
   }
-
+  
   /**
    * Adapts CryptsyTradeHistoryReturn DTO to XChange standard Trades DTO
    * 
@@ -321,38 +322,20 @@ public final class CryptsyAdapters {
    * @return Standard XChange Trades DTO
    */
   public static Trades adaptTradeHistory(CryptsyTradeHistoryReturn tradeHistoryReturnData) {
-
+  
     List<CryptsyTradeHistory> cryptsyTradeHistory = tradeHistoryReturnData.getReturnValue();
-
+    
     List<Trade> trades = new ArrayList<Trade>();
     for (CryptsyTradeHistory trade : cryptsyTradeHistory) {
       OrderType tradeType = trade.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketID());
-
-      trades.add(new Trade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(), String.valueOf(trade.getTradeID()), String.valueOf(trade.getOrderID())));
+      CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketId());
+      
+      trades.add(new Trade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(), String.valueOf(trade.getTradeId()),
+          String.valueOf(trade.getOrderId())));
     }
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
-
-  /**
-   * Adapts CryptsyGetMarketsReturn DTO to List<CurrencyPair>
-   * Used mainly by CryptsyBasePollingService to update list of CurrencyPairs and Markets
-   * 
-   * @param CryptsyGenericMarketDataReturn Raw returned data from Cryptsy, CryptsyGetMarketsReturn DTO
-   * @return List<CurrencyPair>
-   */
-  public static List<CurrencyPair> adaptCurrencyPairs(CryptsyGetMarketsReturn CryptsyGenericMarketDataReturn) {
-
-    List<CryptsyMarketData> CryptsyGenericMarketData = CryptsyGenericMarketDataReturn.getReturnValue();
-
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
-    for (CryptsyMarketData CryptsyMarket : CryptsyGenericMarketData) {
-      pairs.add(new CurrencyPair(CryptsyMarket.getPrimaryCurrencyCode(), CryptsyMarket.getSecondaryCurrencyCode()));
-    }
-
-    return pairs;
-  }
-
+  
   /**
    * Adapts CryptsyPublicMarketData DTO's to List<CurrencyPair>
    * Used mainly by CryptsyBasePollingService to update list of CurrencyPairs and Markets
@@ -360,49 +343,67 @@ public final class CryptsyAdapters {
    * @param cryptsyPublicMarketData returned data from Cryptsy
    * @return Collection<CurrencyPair>
    */
-  public static Collection<CurrencyPair> adaptCurrencyPairs(Map<String, CryptsyPublicMarketData> cryptsyPublicMarketData) {
-
+  public static Collection<CurrencyPair> adaptCurrencyPairs(Map<Integer, CryptsyPublicMarketData> cryptsyPublicMarketData) {
+  
     Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
     for (CryptsyPublicMarketData cryptsyMarket : cryptsyPublicMarketData.values()) {
       pairs.add(adaptCurrencyPair(cryptsyMarket));
     }
-
+    
     return pairs;
   }
-
+  
   public static CurrencyPair adaptCurrencyPair(CryptsyPublicMarketData cryptsyPublicMarketData) {
-
+  
     return new CurrencyPair(cryptsyPublicMarketData.getPrimaryCurrencyCode(), cryptsyPublicMarketData.getSecondaryCurrencyCode());
   }
-
+  
   public static CurrencyPair adaptCurrencyPair(String cryptsyLabel) {
-
+  
     String[] marketCurrencies = cryptsyLabel.split("/");
     return new CurrencyPair(marketCurrencies[0], marketCurrencies[1]);
   }
-
+  
   /**
-   * Adapts CryptsyPublicMarketData DTO's to HashMap[2] of markets, keyed by marketID, and Name
+   * Adapts CryptsyPublicMarketData DTO's to HashMap[2] of markets, keyed by marketId, and Name
    * Used mainly by CryptsyBasePollingService to update list of CurrencyPairs and Markets
    * 
    * @param cryptsyPublicMarketData returned data from Cryptsy
-   * @return HashMap[2] of markets, keyed by marketID, and Name
+   * @return HashMap[2] of markets, keyed by marketId, and Name
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static HashMap[] adaptMarketSets(Map<String, CryptsyPublicMarketData> cryptsyPublicMarketData) {
-
+  public static HashMap[] adaptMarketSets(Map<Integer, CryptsyPublicMarketData> cryptsyPublicMarketData) {
+  
     HashMap[] marketSets = new HashMap[2];
-
+    
     marketSets[0] = new HashMap<Integer, CurrencyPair>();
     marketSets[1] = new HashMap<CurrencyPair, Integer>();
-
+    
     for (CryptsyPublicMarketData currMarketData : cryptsyPublicMarketData.values()) {
       CurrencyPair currencyPair = adaptCurrencyPair(currMarketData.getLabel());
-
-      ((HashMap<Integer, CurrencyPair>) marketSets[0]).put(currMarketData.getMarketID(), currencyPair);
-      ((HashMap<CurrencyPair, Integer>) marketSets[1]).put(currencyPair, currMarketData.getMarketID());
+      
+      ((HashMap<Integer, CurrencyPair>) marketSets[0]).put(currMarketData.getMarketId(), currencyPair);
+      ((HashMap<CurrencyPair, Integer>) marketSets[1]).put(currencyPair, currMarketData.getMarketId());
     }
-
+    
     return marketSets;
+  }
+  
+  public static Map<Integer, CryptsyPublicMarketData> adaptPublicMarketDataMap(Map<String, CryptsyPublicMarketData> rawData) {
+  
+    Map<Integer, CryptsyPublicMarketData> resultData = new HashMap<Integer, CryptsyPublicMarketData>();
+    for (CryptsyPublicMarketData cryptsyPublicMarketData : rawData.values()) {
+      resultData.put(cryptsyPublicMarketData.getMarketId(), cryptsyPublicMarketData);
+    }
+    return resultData;
+  }
+  
+  public static Map<Integer, CryptsyPublicOrderbook> adaptPublicOrderBookMap(Map<String, CryptsyPublicOrderbook> rawData) {
+  
+    Map<Integer, CryptsyPublicOrderbook> resultData = new HashMap<Integer, CryptsyPublicOrderbook>();
+    for (CryptsyPublicOrderbook cryptsyPublicOrderBook : rawData.values()) {
+      resultData.put(cryptsyPublicOrderBook.getMarketId(), cryptsyPublicOrderBook);
+    }
+    return resultData;
   }
 }

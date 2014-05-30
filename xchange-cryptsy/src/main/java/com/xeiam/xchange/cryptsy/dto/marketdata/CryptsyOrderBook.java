@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyOrderBook {
   
-  private final int                    marketID;
+  private final int                    marketId;
   private final List<CryptsyBuyOrder>  buyOrders;
   private final List<CryptsySellOrder> sellOrders;
   
@@ -42,17 +42,17 @@ public class CryptsyOrderBook {
    * Constructor
    */
   @JsonCreator
-  public CryptsyOrderBook(@JsonProperty("marketid") int marketID, @JsonProperty("buyorders") List<CryptsyBuyOrder> buyOrders,
+  public CryptsyOrderBook(@JsonProperty("marketid") int marketId, @JsonProperty("buyorders") List<CryptsyBuyOrder> buyOrders,
       @JsonProperty("sellorders") List<CryptsySellOrder> sellOrders) {
   
-    this.marketID = marketID;
+    this.marketId = marketId;
     this.buyOrders = buyOrders;
     this.sellOrders = sellOrders;
   }
   
-  public int marketID() {
+  public int marketId() {
   
-    return marketID;
+    return marketId;
   }
   
   public List<CryptsyBuyOrder> buyOrders() {
@@ -68,7 +68,7 @@ public class CryptsyOrderBook {
   @Override
   public String toString() {
   
-    return "CryptsyOrderBook [Market ID='" + marketID + "',Buy Orders='" + buyOrders + "',Sell Orders=" + sellOrders + "]";
+    return "CryptsyOrderBook [Market ID='" + marketId + "',Buy Orders='" + buyOrders + "',Sell Orders=" + sellOrders + "]";
   }
   
 }
