@@ -38,6 +38,7 @@ import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbook;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyAccountServiceRaw;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyMarketDataServiceRaw;
+import com.xeiam.xchange.cryptsy.service.polling.CryptsyPublicMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -74,27 +75,7 @@ public class CryptsyDemo {
 
     generic(accountService, marketDataService, tradeService);
     raw((CryptsyAccountServiceRaw) accountService, (CryptsyMarketDataServiceRaw) marketDataService, (CryptsyTradeServiceRaw) tradeService);
-    publicRaw((CryptsyExchange) cryptsyExchange);
-  }
-
-  private static void publicRaw(CryptsyExchange cryptsyExchange) throws ExchangeException, IOException {
-
-    final int DOGE_LTC_MARKET_ID = 135;
-    Map<String, CryptsyPublicMarketData> singleMarketData = cryptsyExchange.getPublicPollingMarketDataService().getCryptsyMarketData(DOGE_LTC_MARKET_ID);
-    System.out.println(singleMarketData);
-    
-/*    Map<String, CryptsyPublicMarketData> allMarketData = cryptsyExchange.getPublicPollingMarketDataService().getAllCryptsyMarketData();
-    for (CryptsyPublicMarketData marketData : allMarketData.values()) {
-      System.out.println(marketData);
-    }*/
-    
-    Map<String, CryptsyPublicOrderbook> singleOrderBook = cryptsyExchange.getPublicPollingMarketDataService().getCryptsyOrderBook(DOGE_LTC_MARKET_ID);
-    System.out.println(singleOrderBook);
-    
-/*    Map<String, CryptsyPublicOrderbook> allOrderBooks = cryptsyExchange.getPublicPollingMarketDataService().getAllCryptsyOrderBooks();
-    for (Entry<String, CryptsyPublicOrderbook> orderbook : allOrderBooks.entrySet()) {
-      System.out.println(orderbook.getKey() + ": " + orderbook.getValue());
-    }*/
+    publicAPI((CryptsyExchange) cryptsyExchange);
   }
 
   private static void generic(PollingAccountService accountService, PollingMarketDataService marketDataService, PollingTradeService tradeService) throws ExchangeException,
@@ -244,5 +225,36 @@ public class CryptsyDemo {
 
     System.out.println("\nOpenOrders:\n" + tradeService.getCryptsyOpenOrders());
     Thread.sleep(500);
+  }
+  
+  private static void publicAPI(CryptsyExchange cryptsyExchange) throws ExchangeException, IOException, InterruptedException {
+
+    CryptsyPublicMarketDataService publicMarketDataService = cryptsyExchange.getPublicPollingMarketDataService();
+    final int DOGE_LTC_MARKET_ID = 135;
+    Map<String, CryptsyPublicMarketData> singleMarketData = publicMarketDataService.getCryptsyMarketData(DOGE_LTC_MARKET_ID);
+    System.out.println(singleMarketData);
+    
+/*    Map<String, CryptsyPublicMarketData> allMarketData = publicMarketDataService.getAllCryptsyMarketData();
+    for (CryptsyPublicMarketData marketData : allMarketData.values()) {
+      System.out.println(marketData);
+    }*/
+    
+    Map<String, CryptsyPublicOrderbook> singleOrderBook = publicMarketDataService.getCryptsyOrderBook(DOGE_LTC_MARKET_ID);
+    System.out.println(singleOrderBook);
+    
+/*    Map<String, CryptsyPublicOrderbook> allOrderBooks = publicMarketDataService.getAllCryptsyOrderBooks();
+    for (Entry<String, CryptsyPublicOrderbook> orderbook : allOrderBooks.entrySet()) {
+      System.out.println(orderbook.getKey() + ": " + orderbook.getValue());
+    }*/
+    
+    System.out.println("\ngetOrderBook:\n" + publicMarketDataService.getOrderBook(new CurrencyPair("NET", "BTC")));
+    Thread.sleep(500);
+
+    System.out.println("\ngetTicker:\n" + publicMarketDataService.getTicker(new CurrencyPair("NET", "BTC")));
+    Thread.sleep(500);
+
+    System.out.println("\ngetTrades:\n" + publicMarketDataService.getTrades(new CurrencyPair("NET", "BTC")));
+    Thread.sleep(500);
+
   }
 }
