@@ -19,36 +19,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptsy;
+package com.xeiam.xchange.cryptsy.dto.marketdata;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketDataReturn;
-import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbookReturn;
+public class CryptsyPublicOrder {
 
-/**
- * @author ObsessiveOrange
- */
-@Path("/")
-public interface Cryptsy {
-  
-  @GET
-  @Path("api.php?method=marketdatav2")
-  CryptsyPublicMarketDataReturn getAllMarketData() throws IOException;
-  
-  @GET
-  @Path("api.php?method=singlemarketdata&marketid={marketid}")
-  CryptsyPublicMarketDataReturn getMarketData(@PathParam("marketid") int marketId) throws IOException;
-  
-  @GET
-  @Path("api.php?method=orderdatav2")
-  CryptsyPublicOrderbookReturn getAllOrderbookData() throws IOException;
-  
-  @GET
-  @Path("api.php?method=singleorderdata&marketid={marketid}")
-  CryptsyPublicOrderbookReturn getOrderbookData(@PathParam("marketid") int marketId) throws IOException;
+  private final BigDecimal price;
+  private final BigDecimal quantity;
+  private final BigDecimal total;
+
+  @JsonCreator
+  public CryptsyPublicOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total) {
+
+    this.price = price;
+    this.quantity = quantity;
+    this.total = total;
+  }
+
+  /**
+   * @return the sellPrice
+   */
+  public BigDecimal getPrice() {
+
+    return price;
+  }
+
+  /**
+   * @return the quantity
+   */
+  public BigDecimal getQuantity() {
+
+    return quantity;
+  }
+
+  /**
+   * @return the total
+   */
+  public BigDecimal getTotal() {
+
+    return total;
+  }
+
+  @Override
+  public String toString() {
+
+    return "CryptsyPublicOrder [price=" + price + ", quantity=" + quantity + ", total=" + total + "]";
+  }
+
 }

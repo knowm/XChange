@@ -34,19 +34,19 @@ import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyOrderBookReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<CryptsyAuthenticated> {
-  
+
   protected static final int FULL_SIZE = 2000;
-  
+
   /**
    * Initialize common properties from the exchange specification
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public CryptsyMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
-  
+
     super(CryptsyAuthenticated.class, exchangeSpecification);
   }
-  
+
   /**
    * Get the orderbook for this market
    * 
@@ -56,10 +56,10 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
    * @throws IOException
    */
   public CryptsyOrderBookReturn getCryptsyOrderBook(int marketID) throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.marketorders(apiKey, signatureCreator, nextNonce(), marketID));
   }
-  
+
   /**
    * @param marketID the marketID to get the orderbook for
    * @return CryptsyMarketTradesReturn DTO representing the past trades in this market
@@ -67,10 +67,10 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
    * @throws IOException
    */
   public CryptsyMarketTradesReturn getCryptsyTrades(int marketID) throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.markettrades(apiKey, signatureCreator, nextNonce(), marketID));
   }
-  
+
   /**
    * Get all active markets from exchange
    * 
@@ -79,7 +79,7 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
    * @throws IOException
    */
   public CryptsyGetMarketsReturn getCryptsyMarkets() throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.getmarkets(apiKey, signatureCreator, nextNonce()));
   }
 }

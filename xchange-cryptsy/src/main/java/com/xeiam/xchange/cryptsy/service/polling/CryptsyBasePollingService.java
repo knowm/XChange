@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,7 +41,7 @@ import com.xeiam.xchange.cryptsy.Cryptsy;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
 import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
-import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyGetMarketsReturn;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
 import com.xeiam.xchange.cryptsy.service.CryptsyBaseService;
 import com.xeiam.xchange.cryptsy.service.CryptsyHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -88,7 +89,7 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseSer
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public void updateExchangeSymbols() throws ExchangeException, IOException {
 
-    CryptsyGetMarketsReturn overallMarketData = new CryptsyMarketDataService(exchangeSpecification).getCryptsyMarkets();
+    Map<String, CryptsyPublicMarketData> overallMarketData = new CryptsyPublicMarketDataServiceRaw().getAllCryptsyMarketData();
 
     currencyPairs.addAll(CryptsyAdapters.adaptCurrencyPairs(overallMarketData));
 

@@ -19,36 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptsy;
+package com.xeiam.xchange.cryptsy.dto.marketdata;
 
-import java.io.IOException;
+import java.util.Map;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
 
-import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketDataReturn;
-import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbookReturn;
+public class CryptsyPublicMarketDataReturn extends CryptsyGenericReturn<Map<String, Map<String, CryptsyPublicMarketData>>> {
 
-/**
- * @author ObsessiveOrange
- */
-@Path("/")
-public interface Cryptsy {
-  
-  @GET
-  @Path("api.php?method=marketdatav2")
-  CryptsyPublicMarketDataReturn getAllMarketData() throws IOException;
-  
-  @GET
-  @Path("api.php?method=singlemarketdata&marketid={marketid}")
-  CryptsyPublicMarketDataReturn getMarketData(@PathParam("marketid") int marketId) throws IOException;
-  
-  @GET
-  @Path("api.php?method=orderdatav2")
-  CryptsyPublicOrderbookReturn getAllOrderbookData() throws IOException;
-  
-  @GET
-  @Path("api.php?method=singleorderdata&marketid={marketid}")
-  CryptsyPublicOrderbookReturn getOrderbookData(@PathParam("marketid") int marketId) throws IOException;
+  public CryptsyPublicMarketDataReturn(@JsonProperty("success") int success, @JsonProperty("return") Map<String, Map<String, CryptsyPublicMarketData>> value, @JsonProperty("error") String error) {
+
+    super(success, value, error);
+  }
 }
