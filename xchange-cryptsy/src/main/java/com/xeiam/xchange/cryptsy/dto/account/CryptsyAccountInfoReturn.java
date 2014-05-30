@@ -29,7 +29,7 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyAccountInfoReturn extends CryptsyGenericReturn<CryptsyAccountInfo> {
-  
+
   /**
    * Constructor
    * 
@@ -38,9 +38,8 @@ public class CryptsyAccountInfoReturn extends CryptsyGenericReturn<CryptsyAccoun
    * @param error Any error
    */
   @JsonCreator
-  public CryptsyAccountInfoReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyAccountInfo value,
-      @JsonProperty("error") String error) {
-  
+  public CryptsyAccountInfoReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyAccountInfo value, @JsonProperty("error") String error) {
+
     super(success, value, error);
   }
 }

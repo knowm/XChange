@@ -28,7 +28,7 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyNewAddressReturn extends CryptsyGenericReturn<CryptsyAddress> {
-  
+
   /**
    * Constructor
    * 
@@ -36,9 +36,8 @@ public class CryptsyNewAddressReturn extends CryptsyGenericReturn<CryptsyAddress
    * @param value The BTC-e account info
    * @param error Any error
    */
-  public CryptsyNewAddressReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyAddress value,
-      @JsonProperty("error") String error) {
-  
+  public CryptsyNewAddressReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyAddress value, @JsonProperty("error") String error) {
+
     super(success, value, error);
   }
 }

@@ -59,7 +59,7 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptsyAuthenticated extends Cryptsy {
-  
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -69,9 +69,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyAccountInfoReturn getinfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce)
-      throws IOException;
-  
+  CryptsyAccountInfoReturn getinfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -81,9 +80,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyTxnHistoryReturn mytransactions(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce)
-      throws IOException;
-  
+  CryptsyTxnHistoryReturn mytransactions(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -93,13 +91,12 @@ public interface CryptsyAuthenticated extends Cryptsy {
    * @return CryptsyNewAddressReturn DTO
    * @throws IOException
    */
-  
+
   @POST
   @FormParam("method")
-  CryptsyNewAddressReturn generatenewaddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") int nonce, @FormParam("currencyid") @Nullable Integer currencyID, @FormParam("currencycode") @Nullable String currencyCode)
-      throws IOException;
-  
+  CryptsyNewAddressReturn generatenewaddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
+      @FormParam("currencyid") @Nullable Integer currencyID, @FormParam("currencycode") @Nullable String currencyCode) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -107,12 +104,11 @@ public interface CryptsyAuthenticated extends Cryptsy {
    * @return CryptsyDepositAddressReturn DTO
    * @throws IOException
    */
-  
+
   @POST
   @FormParam("method")
-  CryptsyDepositAddressReturn getmydepositaddresses(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") int nonce) throws IOException;
-  
+  CryptsyDepositAddressReturn getmydepositaddresses(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -124,9 +120,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyWithdrawalReturn makewithdrawal(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("address") String address, @FormParam("amount") BigDecimal amount) throws IOException;
-  
+  CryptsyWithdrawalReturn makewithdrawal(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("address") String address,
+      @FormParam("amount") BigDecimal amount) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -136,9 +132,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyTransfersReturn mytransfers(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce)
-      throws IOException;
-  
+  CryptsyTransfersReturn mytransfers(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -149,9 +144,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyOrderBookReturn marketorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("marketid") int marketID) throws IOException;
-  
+  CryptsyOrderBookReturn marketorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("marketid") int marketID)
+      throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -162,9 +157,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyMarketTradesReturn markettrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("marketid") int marketID) throws IOException;
-  
+  CryptsyMarketTradesReturn markettrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("marketid") int marketID)
+      throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -174,9 +169,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyGetMarketsReturn getmarkets(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce)
-      throws IOException;
-  
+  CryptsyGetMarketsReturn getmarkets(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -188,9 +182,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyTradeHistoryReturn mytrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("marketid") int marketID, @FormParam("limit") int resultCount) throws IOException;
-  
+  CryptsyTradeHistoryReturn mytrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("marketid") int marketID,
+      @FormParam("limit") int resultCount) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -202,9 +196,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyTradeHistoryReturn allmytrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("startdate") String startDate, @FormParam("enddate") String endDate) throws IOException;
-  
+  CryptsyTradeHistoryReturn allmytrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("startdate") String startDate,
+      @FormParam("enddate") String endDate) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -215,9 +209,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyOpenOrdersReturn myorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("marketid") int marketID) throws IOException;
-  
+  CryptsyOpenOrdersReturn myorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("marketid") int marketID) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -227,9 +220,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyOpenOrdersReturn allmyorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce)
-      throws IOException;
-  
+  CryptsyOpenOrdersReturn allmyorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -243,10 +235,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyPlaceOrderReturn createorder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("marketid") int marketID, @FormParam("ordertype") String orderType, @FormParam("quantity") BigDecimal quantity,
-      @FormParam("price") BigDecimal price) throws IOException;
-  
+  CryptsyPlaceOrderReturn createorder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("marketid") int marketID,
+      @FormParam("ordertype") String orderType, @FormParam("quantity") BigDecimal quantity, @FormParam("price") BigDecimal price) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -257,9 +248,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyCancelOrderReturn cancelorder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce,
-      @FormParam("orderid") int orderID) throws IOException;
-  
+  CryptsyCancelOrderReturn cancelorder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("orderid") int orderID)
+      throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -270,9 +261,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyCancelMultipleOrdersReturn cancelmarketorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") int nonce, @FormParam("marketid") int marketID) throws IOException;
-  
+  CryptsyCancelMultipleOrdersReturn cancelmarketorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("marketid") int marketID)
+      throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -282,9 +273,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyCancelMultipleOrdersReturn cancelallorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") int nonce) throws IOException;
-  
+  CryptsyCancelMultipleOrdersReturn cancelallorders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
    * @param signer POST Body Digest instance to use when signing POST request
@@ -297,10 +287,9 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyCalculatedFeesReturn calculatefees(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") int nonce, @FormParam("ordertype") String orderType, @FormParam("quantity") BigDecimal quantity,
-      @FormParam("price") BigDecimal price) throws IOException;
-  
+  CryptsyCalculatedFeesReturn calculatefees(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("ordertype") String orderType,
+      @FormParam("quantity") BigDecimal quantity, @FormParam("price") BigDecimal price) throws IOException;
+
   /**
    * Stub method - to be added at later date
    * 
@@ -312,9 +301,8 @@ public interface CryptsyAuthenticated extends Cryptsy {
    */
   @POST
   @FormParam("method")
-  CryptsyGenericReturn<String> getwalletstatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") int nonce) throws IOException;
-  
+  CryptsyGenericReturn<String> getwalletstatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
   enum SortOrder {
     ASC, DESC
   }

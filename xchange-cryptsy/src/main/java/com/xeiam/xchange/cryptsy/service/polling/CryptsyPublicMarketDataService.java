@@ -20,52 +20,52 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServiceRaw implements PollingMarketDataService {
-  
+
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CryptsyPublicMarketDataService(ExchangeSpecification exchangeSpecification) {
-  
+
     super(exchangeSpecification);
   }
-  
+
   public CryptsyPublicMarketDataService() {
-  
+
     this(CryptsyExchange.getDefaultPublicExchangeSpecification());
   }
-  
+
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
-  
+
     verify(currencyPair);
-    
+
     Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
-    
+
     return CryptsyAdapters.adaptPublicTickers(cryptsyMarketData).get(0);
   }
-  
+
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
-  
+
     verify(currencyPair);
-    
+
     Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBook = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
     return CryptsyAdapters.adaptPublicOrderBooks(cryptsyOrderBook).get(0);
   }
-  
+
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
-  
+
     verify(currencyPair);
-    
+
     Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
-    
+
     return CryptsyAdapters.adaptPublicTrades(cryptsyMarketData).get(currencyPair);
   }
-  
+
   @Override
   public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException {
-  
+
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
     currencyPairs.addAll(getExchangeSymbols());
     return new ExchangeInfo(currencyPairs);

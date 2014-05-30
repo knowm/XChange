@@ -32,7 +32,7 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyOrder;
  * @author ObsessiveOrange
  */
 public class CryptsyMarketTradesReturn extends CryptsyGenericReturn<List<CryptsyOrder>> {
-  
+
   /**
    * Constructor
    * 
@@ -40,9 +40,8 @@ public class CryptsyMarketTradesReturn extends CryptsyGenericReturn<List<Cryptsy
    * @param value
    * @param error
    */
-  public CryptsyMarketTradesReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyOrder> value,
-      @JsonProperty("error") String error) {
-  
+  public CryptsyMarketTradesReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyOrder> value, @JsonProperty("error") String error) {
+
     super(success, (value == null ? new ArrayList<CryptsyOrder>() : value), error);
   }
 }

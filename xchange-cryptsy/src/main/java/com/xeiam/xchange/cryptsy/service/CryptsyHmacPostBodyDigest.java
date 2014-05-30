@@ -38,7 +38,7 @@ import com.xeiam.xchange.service.BaseParamsDigest;
  * </p>
  */
 public class CryptsyHmacPostBodyDigest extends BaseParamsDigest {
-  
+
   /**
    * Constructor
    * 
@@ -46,29 +46,29 @@ public class CryptsyHmacPostBodyDigest extends BaseParamsDigest {
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private CryptsyHmacPostBodyDigest(String secretKeyBase64) {
-  
+
     super(secretKeyBase64, HMAC_SHA_512);
   }
-  
+
   public static CryptsyHmacPostBodyDigest createInstance(String secretKeyBase64) {
-  
+
     return secretKeyBase64 == null ? null : new CryptsyHmacPostBodyDigest(secretKeyBase64);
   }
-  
+
   @Override
   public String digestParams(RestInvocation restInvocation) {
-  
+
     String postBody = restInvocation.getRequestBody();
-    
+
     Mac mac = getMac();
     byte[] digest = mac.doFinal(postBody.getBytes());
     BigInteger hash = new BigInteger(1, digest);
     String hmac = hash.toString(16);
-    
+
     if (hmac.length() % 2 != 0) {
       hmac = "0" + hmac;
     }
-    
+
     return hmac;
   }
 }

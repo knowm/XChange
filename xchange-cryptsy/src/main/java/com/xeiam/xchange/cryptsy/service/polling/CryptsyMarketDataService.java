@@ -43,25 +43,25 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  * @author ObsessiveOrange
  */
 public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implements PollingMarketDataService {
-  
+
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CryptsyMarketDataService(ExchangeSpecification exchangeSpecification) {
-  
+
     super(exchangeSpecification);
   }
-  
+
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
-  
+
     verify(currencyPair);
-    
+
     CryptsyGetMarketsReturn marketsReturnData = super.getCryptsyMarkets();
-    
+
     return CryptsyAdapters.adaptTicker(marketsReturnData, currencyPair);
   }
-  
+
   /**
    * Get market depth from exchange
    * 
@@ -74,14 +74,14 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
-  
+
     verify(currencyPair);
-    
+
     CryptsyOrderBookReturn orderBookReturnData = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
-    
+
     return CryptsyAdapters.adaptOrderBook(orderBookReturnData, currencyPair);
   }
-  
+
   /**
    * Get recent trades from exchange
    * 
@@ -96,20 +96,20 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
-  
+
     verify(currencyPair);
-    
+
     CryptsyMarketTradesReturn tradesReturnData = super.getCryptsyTrades(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
-    
+
     return CryptsyAdapters.adaptTrades(tradesReturnData, currencyPair);
   }
-  
+
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException, ExchangeException {
-  
+
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
     currencyPairs.addAll(getExchangeSymbols());
     return new ExchangeInfo(currencyPairs);
   }
-  
+
 }
