@@ -42,17 +42,17 @@ import com.xeiam.xchange.cryptsy.dto.account.CryptsyWithdrawalReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyAuthenticated> {
-  
+
   /**
    * Initialize common properties from the exchange specification
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public CryptsyAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
-  
+
     super(CryptsyAuthenticated.class, exchangeSpecification);
   }
-  
+
   /**
    * Retrieves account information, including wallet balances
    * 
@@ -61,10 +61,10 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * @throws IOException
    */
   public CryptsyAccountInfoReturn getCryptsyAccountInfo() throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.getinfo(apiKey, signatureCreator, nextNonce()));
   }
-  
+
   /**
    * Retrieves transaction history
    * 
@@ -73,10 +73,10 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * @throws IOException
    */
   public CryptsyTxnHistoryReturn getCryptsyTransactions() throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.mytransactions(apiKey, signatureCreator, nextNonce()));
   }
-  
+
   /**
    * Generates a new deposit address for the specified currency.
    * Only one of the two (currencyID or currencyCode) is needed
@@ -88,26 +88,25 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
    * @throws IOException
    */
-  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode) throws IOException,
-      ExchangeException {
-  
+  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode) throws IOException, ExchangeException {
+
     if (currencyID == null && currencyCode == null) {
       throw new ExchangeException("Either currencyID or currencyCode must be supplied. Both cannot be null");
     }
-    
+
     return checkResult(cryptsy.generatenewaddress(apiKey, signatureCreator, nextNonce(), currencyID, currencyCode));
   }
-  
+
   /**
    * Gets an map of current deposit addresses
    * 
    * @return CryptsyDepositAddressReturn DTO containing map of deposit addresses
    */
   public CryptsyDepositAddressReturn getCurrentCryptsyDepositAddresses() throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.getmydepositaddresses(apiKey, signatureCreator, nextNonce()));
   }
-  
+
   /**
    * Makes a withdrawal of given amount from Cryptsy to the pre-approved address given.
    * Currency is determined by address of withdrawal
@@ -118,27 +117,27 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * @throws IOException
    */
   public CryptsyWithdrawalReturn makeCryptsyWithdrawal(String address, BigDecimal amount) throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.makewithdrawal(apiKey, signatureCreator, nextNonce(), address, amount));
   }
-  
+
   /**
    * Get history of transfers (within Cryptsy, send to another user)
    * 
    * @return CryptsyTransfersReturn DTO representing past transfers
    */
   public CryptsyTransfersReturn getTransferHistory() throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.mytransfers(apiKey, signatureCreator, nextNonce()));
   }
-  
+
   /**
    * Stub method for future development
    * 
    * @return CryptsyAccountInfo DTO
    */
   public CryptsyGenericReturn<String> getWalletStatus() throws IOException, ExchangeException {
-  
+
     throw new NotAvailableFromExchangeException();
     // return cryptsy.getwalletstatus(apiKey, signatureCreator, nextNonce());
   }

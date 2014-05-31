@@ -35,19 +35,19 @@ import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbookReturn;
  */
 @Path("/")
 public interface Cryptsy {
-  
+
   @GET
   @Path("api.php?method=marketdatav2")
   CryptsyPublicMarketDataReturn getAllMarketData() throws IOException;
-  
+
   @GET
   @Path("api.php?method=singlemarketdata&marketid={marketid}")
   CryptsyPublicMarketDataReturn getMarketData(@PathParam("marketid") int marketId) throws IOException;
-  
+
   @GET
   @Path("api.php?method=orderdatav2")
   CryptsyPublicOrderbookReturn getAllOrderbookData() throws IOException;
-  
+
   @GET
   @Path("api.php?method=singleorderdata&marketid={marketid}")
   CryptsyPublicOrderbookReturn getOrderbookData(@PathParam("marketid") int marketId) throws IOException;

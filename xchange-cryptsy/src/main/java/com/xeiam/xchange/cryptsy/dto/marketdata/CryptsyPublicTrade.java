@@ -31,7 +31,7 @@ import com.xeiam.xchange.cryptsy.CryptsyUtils;
 
 public class CryptsyPublicTrade {
 
-  private final int tradeID;
+  private final int tradeId;
   private final Date time;
   private final BigDecimal price;
   private final BigDecimal quantity;
@@ -43,19 +43,19 @@ public class CryptsyPublicTrade {
    * @throws ParseException
    */
   @JsonCreator
-  public CryptsyPublicTrade(@JsonProperty("id") Integer tradeID, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
+  public CryptsyPublicTrade(@JsonProperty("id") Integer tradeId, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
       @JsonProperty("total") BigDecimal total) throws ParseException {
 
-    this.tradeID = tradeID;
+    this.tradeId = tradeId;
     this.time = time == null ? null : CryptsyUtils.convertDateTime(time);
     this.price = price;
     this.quantity = quantity;
     this.total = total;
   }
 
-  public int getTradeID() {
+  public int getTradeId() {
 
-    return tradeID;
+    return tradeId;
   }
 
   public Date getTime() {
@@ -81,7 +81,7 @@ public class CryptsyPublicTrade {
   @Override
   public String toString() {
 
-    return "CryptsyPublicTrade [tradeID=" + tradeID + ", time=" + time + ", price=" + price + ", quantity=" + quantity + ", total=" + total + "]";
+    return "CryptsyPublicTrade [tradeId=" + tradeId + ", time=" + time + ", price=" + price + ", quantity=" + quantity + ", total=" + total + "]";
   }
 
 }

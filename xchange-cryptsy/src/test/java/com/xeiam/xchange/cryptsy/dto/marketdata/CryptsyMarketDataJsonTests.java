@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIdED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -76,7 +76,7 @@ public class CryptsyMarketDataJsonTests {
     assertEquals(trade.getPrice(), new BigDecimal("0.00006103"));
     assertEquals(trade.getQuantity(), new BigDecimal("124.81824536"));
     assertEquals(trade.getTotal(), new BigDecimal("0.00761766"));
-    assertEquals(trade.getTradeID(), 45360522);
+    assertEquals(trade.getTradeId(), 45360522);
     assertEquals(trade.getType(), CryptsyOrderType.Sell);
 
     trade = cryptsyTrades.get(999);
@@ -84,7 +84,7 @@ public class CryptsyMarketDataJsonTests {
     assertEquals(trade.getPrice(), new BigDecimal("0.00006180"));
     assertEquals(trade.getQuantity(), new BigDecimal("2.82427886"));
     assertEquals(trade.getTotal(), new BigDecimal("0.00017454"));
-    assertEquals(trade.getTradeID(), 45233881);
+    assertEquals(trade.getTradeId(), 45233881);
     assertEquals(trade.getType(), CryptsyOrderType.Buy);
   }
 
@@ -106,7 +106,7 @@ public class CryptsyMarketDataJsonTests {
     assertEquals(marketData.getHigh(), new BigDecimal("23.53895040"));
     assertEquals(marketData.getLast(), new BigDecimal("21.90790653"));
     assertEquals(marketData.getLow(), new BigDecimal("21.30000000"));
-    assertEquals(marketData.getMarketID(), 141);
+    assertEquals(marketData.getMarketId(), 141);
     assertEquals(marketData.getLabel(), "42/BTC");
     assertEquals(marketData.getPrimaryCurrencyCode(), "42");
     assertEquals(marketData.getSecondaryCurrencyCode(), "BTC");
@@ -120,14 +120,14 @@ public class CryptsyMarketDataJsonTests {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<String, CryptsyPublicMarketData> cryptsyMarketData = mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue().get("markets");
+    Map<String, CryptsyPublicMarketData> cryptsyMarketData = mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue();
 
     CryptsyPublicMarketData marketData = cryptsyMarketData.get("DOGE");
 
     assertEquals(marketData.getVolume(), new BigDecimal("13154836.13271418"));
     assertEquals(marketData.getLastTradePrice(), new BigDecimal("0.00003485"));
     assertThat(marketData.getLastTradeTime()).isEqualTo(CryptsyUtils.convertDateTime("2014-05-29 21:45:41"));
-    assertEquals(marketData.getMarketID(), 135);
+    assertEquals(marketData.getMarketId(), 135);
     assertEquals(marketData.getLabel(), "DOGE/LTC");
     assertEquals(marketData.getPrimaryCurrencyCode(), "DOGE");
     assertEquals(marketData.getSecondaryCurrencyCode(), "LTC");
@@ -140,7 +140,7 @@ public class CryptsyMarketDataJsonTests {
     assertEquals(trade.getPrice(), new BigDecimal("0.00003495"));
     assertEquals(trade.getQuantity(), new BigDecimal("2961.55892792"));
     assertEquals(trade.getTotal(), new BigDecimal("0.10350648"));
-    assertEquals(trade.getTradeID(), 47692497);
+    assertEquals(trade.getTradeId(), 47692497);
     assertThat(trade.getTime()).isEqualTo(CryptsyUtils.convertDateTime("2014-05-29 21:49:34"));
 
     List<CryptsyPublicOrder> buyOrders = marketData.getBuyOrders();

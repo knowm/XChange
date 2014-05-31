@@ -35,15 +35,15 @@ import com.xeiam.xchange.cryptsy.CryptsyUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyTxn {
-  
-  private final String         currency;
+
+  private final String currency;
   private final CryptsyTxnType type;
-  private final Date           timeStamp;
-  private final String         address;
-  private final BigDecimal     amount;
-  private final BigDecimal     fee;
-  private final String         txnID;
-  
+  private final Date timeStamp;
+  private final String address;
+  private final BigDecimal amount;
+  private final BigDecimal fee;
+  private final String txnId;
+
   /**
    * Constructor
    * 
@@ -54,61 +54,60 @@ public class CryptsyTxn {
    * @param funds The funds
    * @throws ParseException
    */
-  public CryptsyTxn(@JsonProperty("currency") String currency, @JsonProperty("type") CryptsyTxnType type, @JsonProperty("datetime") String timeStamp,
-      @JsonProperty("address") String address, @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("trxid") String txnID) throws ParseException {
-  
+  public CryptsyTxn(@JsonProperty("currency") String currency, @JsonProperty("type") CryptsyTxnType type, @JsonProperty("datetime") String timeStamp, @JsonProperty("address") String address,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("trxid") String txnId) throws ParseException {
+
     this.currency = currency;
     this.type = type;
     this.timeStamp = timeStamp == null ? null : CryptsyUtils.convertDateTime(timeStamp);
     this.address = address;
     this.amount = amount;
     this.fee = fee;
-    this.txnID = txnID;
+    this.txnId = txnId;
   }
-  
+
   public String getCurrency() {
-  
+
     return currency;
   }
-  
+
   public CryptsyTxnType getType() {
-  
+
     return type;
   }
-  
+
   public Date getTimestamp() {
-  
+
     return timeStamp;
   }
-  
+
   public String getAddress() {
-  
+
     return address;
   }
-  
+
   public BigDecimal getAmount() {
-  
+
     return amount;
   }
-  
+
   public BigDecimal getFee() {
-  
+
     return fee;
   }
-  
-  public String getTransactionID() {
-  
-    return txnID;
+
+  public String getTransactionId() {
+
+    return txnId;
   }
-  
+
   @Override
   public String toString() {
-  
-    return "CryptsyTransactionHistory[" + "Currency='" + currency + "', Type='" + type + "',Timestamp='" + timeStamp + "',Address='" + address
-        + "',Amount='" + amount + "',Fee='" + fee + "',Transaction ID='" + txnID + "']";
+
+    return "CryptsyTransactionHistory[" + "Currency='" + currency + "', Type='" + type + "',Timestamp='" + timeStamp + "',Address='" + address + "',Amount='" + amount + "',Fee='" + fee
+        + "',Transaction ID='" + txnId + "']";
   }
-  
+
   public static enum CryptsyTxnType {
     Deposit, Withdrawal
   }

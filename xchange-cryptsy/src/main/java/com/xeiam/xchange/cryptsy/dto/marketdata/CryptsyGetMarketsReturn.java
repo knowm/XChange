@@ -31,7 +31,7 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyGetMarketsReturn extends CryptsyGenericReturn<List<CryptsyMarketData>> {
-  
+
   /**
    * Constructor
    * 
@@ -39,9 +39,8 @@ public class CryptsyGetMarketsReturn extends CryptsyGenericReturn<List<CryptsyMa
    * @param value
    * @param error
    */
-  public CryptsyGetMarketsReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyMarketData> value,
-      @JsonProperty("error") String error) {
-  
+  public CryptsyGetMarketsReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyMarketData> value, @JsonProperty("error") String error) {
+
     super(success, (value == null ? new ArrayList<CryptsyMarketData>() : value), error);
   }
 }
