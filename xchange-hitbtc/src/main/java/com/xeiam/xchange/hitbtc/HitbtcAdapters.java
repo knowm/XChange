@@ -1,3 +1,24 @@
+/**
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.xeiam.xchange.hitbtc;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -23,14 +44,22 @@ import java.util.List;
  * @author kpysniak
  */
 public class HitbtcAdapters {
+
   private static final BigDecimal LOT_MULTIPLIER = new BigDecimal("100");
 
   /**
    * Singleton
    */
-  private HitbtcAdapters() { }
+  private HitbtcAdapters() {
+
+  }
 
   public static ExchangeInfo adaptExchangeInfo(HitbtcSymbols hitbtcSymbols) {
+
+    return new ExchangeInfo(adaptCurrencyPairs(hitbtcSymbols));
+  }
+
+  public static List<CurrencyPair> adaptCurrencyPairs(HitbtcSymbols hitbtcSymbols) {
 
     List<CurrencyPair> currencyPairList = new ArrayList<CurrencyPair>();
 
@@ -42,7 +71,7 @@ public class HitbtcAdapters {
       currencyPairList.add(currencyPair);
     }
 
-    return new ExchangeInfo(currencyPairList);
+    return currencyPairList;
   }
 
   /**
@@ -62,21 +91,18 @@ public class HitbtcAdapters {
     BigDecimal volume = hitbtcTicker.getVolume();
     Date timestamp = new Date(hitbtcTicker.getTimetamp());
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last)
-        .withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume)
-        .withTimestamp(timestamp).build();
+    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
   }
 
-
   public static OrderBook adaptOrderBook(HitbtcOrderBook hitbtcOrderBook, CurrencyPair currencyPair) {
+
     List<LimitOrder> asks = adaptMarketOrderToLimitOrder(hitbtcOrderBook.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = adaptMarketOrderToLimitOrder(hitbtcOrderBook.getBids(), OrderType.BID, currencyPair);
 
     return new OrderBook(new Date(), asks, bids);
   }
 
-  private static List<LimitOrder> adaptMarketOrderToLimitOrder(BigDecimal[][] hitbtcOrders, OrderType orderType,
-      CurrencyPair currencyPair) {
+  private static List<LimitOrder> adaptMarketOrderToLimitOrder(BigDecimal[][] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<LimitOrder>(hitbtcOrders.length);
 
@@ -94,6 +120,7 @@ public class HitbtcAdapters {
   }
 
   public static Trades adaptTrades(HitbtcTrades hitbtcTrades, CurrencyPair currencyPair) {
+
     HitbtcTrade[] allHitbtcTrades = hitbtcTrades.getHitbtcTrades();
     List<Trade> trades = new ArrayList<Trade>(allHitbtcTrades.length);
 
@@ -113,9 +140,10 @@ public class HitbtcAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw) {
+
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>(openOrdersRaw.length);
 
-    for(int i = 0; i < openOrdersRaw.length; i++) {
+    for (int i = 0; i < openOrdersRaw.length; i++) {
       HitbtcOrder o = openOrdersRaw[i];
 
       OrderType type = o.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
@@ -123,13 +151,7 @@ public class HitbtcAdapters {
       String base = o.getSymbol().substring(0, 3);
       String counter = o.getSymbol().substring(3, 6);
 
-      LimitOrder order = new LimitOrder(
-          type, 
-          o.getExecQuantity(), 
-          new CurrencyPair(base, counter), 
-          o.getClientOrderId(),
-          new Date(o.getLastTimestamp()),
-          o.getOrderPrice());
+      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), new CurrencyPair(base, counter), o.getClientOrderId(), new Date(o.getLastTimestamp()), o.getOrderPrice());
 
       openOrders.add(order);
     }
@@ -138,22 +160,17 @@ public class HitbtcAdapters {
   }
 
   public static Trades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
+
     List<Trade> trades = new ArrayList<Trade>(tradeHistoryRaw.length);
 
-    for(int i = 0; i < tradeHistoryRaw.length; i++) {
+    for (int i = 0; i < tradeHistoryRaw.length; i++) {
       HitbtcOwnTrade t = tradeHistoryRaw[i];
       OrderType type = t.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
 
       String base = t.getSymbol().substring(0, 3);
       String counter = t.getSymbol().substring(3, 6);
 
-      Trade trade = new Trade(
-          type, 
-          t.getExecQuantity().divide(LOT_MULTIPLIER), 
-          new CurrencyPair(base, counter), 
-          t.getExecPrice(), 
-          new Date(t.getTimestamp()), 
-          t.getClientOrderId());
+      Trade trade = new Trade(type, t.getExecQuantity().divide(LOT_MULTIPLIER), new CurrencyPair(base, counter), t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId());
 
       trades.add(trade);
     }
@@ -162,9 +179,10 @@ public class HitbtcAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
+
     List<Wallet> wallets = new ArrayList<Wallet>(accountInfoRaw.length);
 
-    for(int i = 0; i < accountInfoRaw.length; i++) {
+    for (int i = 0; i < accountInfoRaw.length; i++) {
       HitbtcBalance balance = accountInfoRaw[i];
 
       Wallet wallet = new Wallet(balance.getCurrencyCode(), balance.getCash(), balance.getCurrencyCode());
