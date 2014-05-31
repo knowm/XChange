@@ -19,33 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.hitbtc.dto.trade;
+package com.xeiam.xchange.anx.v2.dto.marketdata;
 
-import java.util.Arrays;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class HitbtcTradeResponse {
+public class ANXTickersWrapper {
 
-  private final HitbtcOwnTrade[] trades;
+  private final String result;
+  private final Map<String, ANXTicker> anxTickers;
+  private final String error;
 
-  public HitbtcTradeResponse(@JsonProperty("trades") HitbtcOwnTrade[] trades) {
+  public ANXTickersWrapper(@JsonProperty("result") String result, @JsonProperty("data") Map<String, ANXTicker> anxTickers, @JsonProperty("error") String error) {
 
-    this.trades = trades;
+    this.result = result;
+    this.anxTickers = anxTickers;
+    this.error = error;
   }
 
-  public HitbtcOwnTrade[] getTrades() {
+  public String getResult() {
 
-    return trades;
+    return result;
   }
 
-  @Override
-  public String toString() {
+  public Map<String, ANXTicker> getAnxTickers() {
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("HitbtcTradeResponse [trades=");
-    builder.append(Arrays.toString(trades));
-    builder.append("]");
-    return builder.toString();
+    return anxTickers;
+  }
+
+  public String getError() {
+
+    return error;
   }
 }
