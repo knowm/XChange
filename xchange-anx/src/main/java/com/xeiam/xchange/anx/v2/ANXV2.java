@@ -43,7 +43,9 @@ import com.xeiam.xchange.anx.v2.dto.account.polling.ANXBitcoinDepositAddressWrap
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWalletHistoryWrapper;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWithdrawalResponseWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthsWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickerWrapper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickersWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXGenericResponse;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXLagWrapper;
@@ -65,12 +67,20 @@ public interface ANXV2 {
   ANXTickerWrapper getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws ANXException, IOException;
 
   @GET
+  @Path("{ident}{currency}/money/ticker")
+  ANXTickersWrapper getTickers(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("extraCcyPairs") String extraCurrencyPairs) throws ANXException, IOException;
+ 
+  @GET
   @Path("{ident}{currency}/money/depth/fetch")
   ANXDepthWrapper getPartialDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws ANXException, IOException;
 
   @GET
   @Path("{ident}{currency}/money/depth/full")
   ANXDepthWrapper getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws ANXException, IOException;
+
+  @GET
+  @Path("{ident}{currency}/money/depth/full")
+  ANXDepthsWrapper getFullDepths(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("extraCcyPairs") String extraCurrencyPairs) throws ANXException, IOException;
 
   @GET
   @Path("{ident}{currency}/money/trades/fetch")
