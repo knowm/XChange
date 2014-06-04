@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.bitfinex.v1.dto.marketdata;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexDepth {
@@ -53,7 +55,7 @@ public class BitfinexDepth {
   @Override
   public String toString() {
 
-    return "BitfinexDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    return "BitfinexDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
   }
 
 }

@@ -24,10 +24,11 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 
-public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
+public class BitfinexAccountServiceRaw extends BitfinexBasePollingService<BitfinexAuthenticated> {
 
   /**
    * Constructor
@@ -36,7 +37,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
    */
   public BitfinexAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    super(BitfinexAuthenticated.class, exchangeSpecification);
   }
 
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
