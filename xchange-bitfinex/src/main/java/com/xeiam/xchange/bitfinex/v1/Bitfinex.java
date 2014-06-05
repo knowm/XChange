@@ -22,6 +22,7 @@
 package com.xeiam.xchange.bitfinex.v1;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -52,6 +53,6 @@ public interface Bitfinex {
 
   @GET
   @Path("symbols")
-  String[] getSymbols() throws IOException;
+  Set<String> getSymbols() throws IOException;
 
 }

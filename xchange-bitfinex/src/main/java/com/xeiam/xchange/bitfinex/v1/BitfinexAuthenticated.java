@@ -45,7 +45,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public interface BitfinexAuthenticated {
+public interface BitfinexAuthenticated extends Bitfinex {
 
   @POST
   @Path("order/new")

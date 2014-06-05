@@ -27,7 +27,6 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
@@ -132,7 +131,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
   @Override
   public ExchangeInfo getExchangeInfo() throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    return new ExchangeInfo(BitfinexAdapters.adaptCurrencyPairs(super.getBitfinexSymbols()));
   }
 
 }
