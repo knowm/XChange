@@ -42,6 +42,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 
 /**
@@ -94,6 +95,25 @@ public class BitstampAdapterTest {
 
   @Test
   public void testTradeAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
+
+    Trade trade = BitstampAdapters.adaptTrade(transactions[3], CurrencyPair.BTC_USD, 1000);
+
+    // verify all fields filled
+    assertThat(trade.getPrice().toString()).isEqualTo("13.14");
+    assertThat(trade.getType()).isNull();
+    assertThat(trade.getTradableAmount()).isEqualTo(new BigDecimal("23.66362253"));
+    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+  }
+
+  @Test
+  public void testTradesAdapter() throws IOException {
 
     // Read in the JSON from the example resources
     InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
