@@ -39,9 +39,11 @@ import com.pusher.client.channel.SubscriptionEventListener;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.bitstamp.service.BitstampBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
@@ -80,9 +82,9 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
     super(exchangeSpecification);
 
     this.configuration = configuration;
-    this.client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
-    this.reconnectService = new ReconnectService(this, configuration);
-    this.channels = new HashMap<String, Channel>();
+    client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
+    reconnectService = new ReconnectService(this, configuration);
+    channels = new HashMap<String, Channel>();
 
     streamObjectMapper = new ObjectMapper();
     streamObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -100,7 +102,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
         bindOrderData(instance);
       }
       else if (name == "live_trades") {
-        throw new UnsupportedOperationException("live_trades not yet implemented");
+        bindTradeData(instance);
       }
       else {
         throw new IllegalArgumentException(name);
@@ -196,6 +198,34 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
     BitstampStreamingOrderBook nativeBook = streamObjectMapper.readValue(rawJson, BitstampStreamingOrderBook.class);
     // BitstampOrderBook nativeBook = new BitstampOrderBook((new Date()).getTime(), json.get("bids"), json.get("asks"));
     return BitstampAdapters.adaptOrders(nativeBook, CurrencyPair.BTC_USD, 1);
+  }
+
+  private void bindTradeData(Channel chan) {
+
+    SubscriptionEventListener listener = new SubscriptionEventListener() {
+
+      @Override
+      public void onEvent(String channelName, String eventName, String data) {
+
+        ExchangeEvent xevt = null;
+        try {
+          Trade t = parseTrade(data);
+          xevt = new DefaultExchangeEvent(ExchangeEventType.TRADE, data, t);
+        } catch (IOException e) {
+          log.error("JSON stream error", e);
+        }
+        if (xevt != null) {
+          addToEventQueue(xevt);
+        }
+      }
+    };
+    chan.bind("trade", listener);
+  }
+
+  private Trade parseTrade(String rawJson) throws IOException {
+
+    BitstampTransaction transaction = streamObjectMapper.readValue(rawJson, BitstampTransaction.class);
+    return BitstampAdapters.adaptTrade(transaction, CurrencyPair.BTC_USD, 1);
   }
 
   private void addToEventQueue(ExchangeEvent event) {
