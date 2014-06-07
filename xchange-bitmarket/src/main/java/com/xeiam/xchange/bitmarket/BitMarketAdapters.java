@@ -36,8 +36,9 @@ public class BitMarketAdapters {
     BigDecimal high = bitMarketTicker.getHigh();
     BigDecimal low = bitMarketTicker.getLow();
     BigDecimal volume = bitMarketTicker.getVolume();
+    BigDecimal last = bitMarketTicker.getLast();
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair)
+    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last)
         .withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
