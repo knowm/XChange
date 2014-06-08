@@ -26,17 +26,17 @@ public class TradesDemo {
     raw((ANXMarketDataServiceRaw) marketDataService);
   }
 
-  private static final long HOUR_IN_MILLIS = 1000 * 60 * 60;
+  private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
   public static void generic(PollingMarketDataService marketDataService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - HOUR_IN_MILLIS);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - DAY_IN_MILLIS);
     System.out.println(trades);
   }
 
   public static void raw(ANXMarketDataServiceRaw marketDataServiceRaw) throws IOException {
 
-    List<ANXTrade> trades = marketDataServiceRaw.getANXTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - HOUR_IN_MILLIS);
+    List<ANXTrade> trades = marketDataServiceRaw.getANXTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - DAY_IN_MILLIS);
     System.out.println(trades);
   }
 }
