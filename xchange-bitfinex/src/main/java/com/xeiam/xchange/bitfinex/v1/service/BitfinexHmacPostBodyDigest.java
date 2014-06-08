@@ -39,6 +39,7 @@ public class BitfinexHmacPostBodyDigest extends BaseParamsDigest {
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BitfinexHmacPostBodyDigest(String secretKeyBase64) {
+
     super(secretKeyBase64, HMAC_SHA_384);
   }
 

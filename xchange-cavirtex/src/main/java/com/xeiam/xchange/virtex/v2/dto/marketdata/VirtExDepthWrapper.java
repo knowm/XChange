@@ -72,5 +72,5 @@ public final class VirtExDepthWrapper {
     return "VirtExDepth [depth" + depth + ", status=" + status + ", message=" + message + ", apirate=" + apirate + "]";
 
   }
-  
+
 }

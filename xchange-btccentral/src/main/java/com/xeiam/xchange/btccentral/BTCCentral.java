@@ -1,14 +1,15 @@
 package com.xeiam.xchange.btccentral;
 
-import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralMarketDepth;
-import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTicker;
-import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTrade;
+import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+
+import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralMarketDepth;
+import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTicker;
+import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTrade;
 
 /**
  * @author kpysniak
@@ -17,9 +18,7 @@ import java.io.IOException;
 @Produces(MediaType.APPLICATION_JSON)
 public interface BTCCentral {
 
-
   /**
-   *
    * @return BTCCentral ticker
    * @throws IOException
    */

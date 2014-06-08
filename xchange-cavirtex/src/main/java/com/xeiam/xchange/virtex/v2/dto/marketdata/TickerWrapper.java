@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public final class TickerWrapper {
 
-	  private VirtExTicker ticker;
+  private VirtExTicker ticker;
 
-	  @JsonAnySetter
-	  public void parseUnknownProperties(String propertyName, VirtExTicker propertyValue) {
-	       
-		  this.ticker = propertyValue;
-	  }
+  @JsonAnySetter
+  public void parseUnknownProperties(String propertyName, VirtExTicker propertyValue) {
 
-	  public VirtExTicker getTicker() {
+    this.ticker = propertyValue;
+  }
 
-	    return ticker;
-	  } 
+  public VirtExTicker getTicker() {
+
+    return ticker;
+  }
 
 }

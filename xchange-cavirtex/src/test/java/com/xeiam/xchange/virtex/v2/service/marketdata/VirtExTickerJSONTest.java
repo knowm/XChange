@@ -47,7 +47,7 @@ public class VirtExTickerJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     VirtExTickerWrapper virtExTickerWrapper = mapper.readValue(is, VirtExTickerWrapper.class);
-    VirtExTicker virtExTicker = virtExTickerWrapper.getTicker(); 
+    VirtExTicker virtExTicker = virtExTickerWrapper.getTicker();
 
     // Verify that the example data was unmarshalled correctly
     assertThat(virtExTicker.getLast()).isEqualTo(new BigDecimal("545.060000000"));
@@ -56,7 +56,7 @@ public class VirtExTickerJSONTest {
     assertThat(virtExTicker.getVolume()).isEqualTo(new BigDecimal("284.231600000"));
     assertThat(virtExTicker.getSell()).isEqualTo(new BigDecimal("545.06000"));
     assertThat(virtExTicker.getBuy()).isEqualTo(new BigDecimal("545.03000"));
-    
+
   }
 
 }

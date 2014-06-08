@@ -1,8 +1,8 @@
 package com.xeiam.xchange.lakebtc.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kpysniak
@@ -62,5 +62,5 @@ public final class LakeBTCTicker {
 
     return "LakeBTCTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + "]";
   }
-  
+
 }

@@ -36,24 +36,18 @@ public class BitfinexTicker {
   private final BigDecimal volume;
   private final float timestamp;
 
-/**
- * @param mid
- * @param bid
- * @param ask
- * @param low
- * @param high
- * @param last
- * @param timestamp
- * @param volume
- */
-public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, 
-		  @JsonProperty("bid") BigDecimal bid, 
-		  @JsonProperty("ask") BigDecimal ask, 
-		  @JsonProperty("low") BigDecimal low, 
-		  @JsonProperty("high") BigDecimal high, 
-		  @JsonProperty("last_price") BigDecimal last,
-	      @JsonProperty("timestamp") float timestamp,
-	      @JsonProperty("volume") BigDecimal volume) {
+  /**
+   * @param mid
+   * @param bid
+   * @param ask
+   * @param low
+   * @param high
+   * @param last
+   * @param timestamp
+   * @param volume
+   */
+  public BitfinexTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("low") BigDecimal low,
+      @JsonProperty("high") BigDecimal high, @JsonProperty("last_price") BigDecimal last, @JsonProperty("timestamp") float timestamp, @JsonProperty("volume") BigDecimal volume) {
 
     this.mid = mid;
     this.bid = bid;
@@ -79,7 +73,7 @@ public BitfinexTicker(@JsonProperty("mid") BigDecimal mid,
 
     return ask;
   }
-  
+
   public BigDecimal getLow() {
 
     return low;
@@ -94,7 +88,7 @@ public BitfinexTicker(@JsonProperty("mid") BigDecimal mid,
 
     return last;
   }
-  
+
   public BigDecimal getVolume() {
 
     return volume;

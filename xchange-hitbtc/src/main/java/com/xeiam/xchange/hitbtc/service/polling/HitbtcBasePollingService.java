@@ -52,7 +52,7 @@ public abstract class HitbtcBasePollingService<T extends Hitbtc> extends HitbtcB
 
   /**
    * Constructor Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   protected HitbtcBasePollingService(Class<T> hiitbtcType, ExchangeSpecification exchangeSpecification) {

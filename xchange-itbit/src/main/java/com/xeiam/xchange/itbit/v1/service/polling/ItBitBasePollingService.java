@@ -36,40 +36,37 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 
 public class ItBitBasePollingService extends BasePollingExchangeService {
 
-	private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
-	private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
+  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
+  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
-	protected final String apiKey;
-	protected final ItBitAuthenticated itBit;
-	protected final ParamsDigest signatureCreator;
+  protected final String apiKey;
+  protected final ItBitAuthenticated itBit;
+  protected final ParamsDigest signatureCreator;
 
-	public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-			new CurrencyPair("XBT", "USD"),
-			new CurrencyPair("XBT", "EUR"),
-			new CurrencyPair("XBT", "SGD"));
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(new CurrencyPair("XBT", "USD"), new CurrencyPair("XBT", "EUR"), new CurrencyPair("XBT", "SGD"));
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification The {@link ExchangeSpecification}
-	 */
-	public ItBitBasePollingService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public ItBitBasePollingService(ExchangeSpecification exchangeSpecification) {
 
-		super(exchangeSpecification);
-		this.itBit = RestProxyFactory.createProxy(
-				ItBitAuthenticated.class, 
-				(String)exchangeSpecification.getExchangeSpecificParametersItem("authHost"));
+    super(exchangeSpecification);
+    this.itBit = RestProxyFactory.createProxy(ItBitAuthenticated.class, (String) exchangeSpecification.getExchangeSpecificParametersItem("authHost"));
 
-		this.apiKey = exchangeSpecification.getApiKey();
-		this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchangeSpecification.getSecretKey());
-	}
+    this.apiKey = exchangeSpecification.getApiKey();
+    this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchangeSpecification.getSecretKey());
+  }
 
-	protected int nextNonce() {
-		return lastNonce.incrementAndGet();
-	}
+  protected int nextNonce() {
 
-	@Override
-	public List<CurrencyPair> getExchangeSymbols() {
-		return CURRENCY_PAIRS;
-	}
+    return lastNonce.incrementAndGet();
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    return CURRENCY_PAIRS;
+  }
 }

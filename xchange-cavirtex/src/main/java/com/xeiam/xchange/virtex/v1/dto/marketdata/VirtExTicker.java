@@ -43,7 +43,7 @@ public final class VirtExTicker {
    * @param volume
    * @param last
    */
-  
+
   @Deprecated
   public VirtExTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
 

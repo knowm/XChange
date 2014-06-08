@@ -66,15 +66,15 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
 
     return info;
   }
-  
+
   public GHashIOHashrate getHashrate() throws IOException {
 
-	return cexIOAuthenticated.getHashrate(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+    return cexIOAuthenticated.getHashrate(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
   }
-  
+
   public Map<String, GHashIOWorker> getWorkers() throws IOException {
 
-	return cexIOAuthenticated.getWorkers(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce()).getWorkers();
+    return cexIOAuthenticated.getWorkers(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce()).getWorkers();
   }
 
 }

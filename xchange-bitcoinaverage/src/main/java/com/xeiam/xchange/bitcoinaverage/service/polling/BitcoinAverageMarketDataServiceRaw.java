@@ -61,13 +61,13 @@ public class BitcoinAverageMarketDataServiceRaw extends BitcoinaverageBaseServic
 
     return bitcoinAverageTicker;
   }
-  
+
   public BitcoinAverageTickers getBitcoinAverageAllTickers() throws IOException {
 
-	    // Request data
-	  BitcoinAverageTickers bitcoinAverageTicker = bitcoinAverage.getAllTickers();
-	
-	    return bitcoinAverageTicker;
-	  }
+    // Request data
+    BitcoinAverageTickers bitcoinAverageTicker = bitcoinAverage.getAllTickers();
+
+    return bitcoinAverageTicker;
+  }
 
 }

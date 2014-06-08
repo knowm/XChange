@@ -5,7 +5,6 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.hitbtc.HitbtcExchange;
 
-
 public class HitbtcExampleUtils {
 
   public static Exchange createExchange() {

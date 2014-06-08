@@ -37,16 +37,11 @@ import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 @Produces(MediaType.APPLICATION_JSON)
 public interface ItBit {
 
-	@GET
-	@Path("/v2/markets/{ident}{currency}/orders")
-	ItBitDepth getDepth(
-			@PathParam("ident") String tradeableIdentifier, 
-			@PathParam("currency") String currency) throws IOException;
+  @GET
+  @Path("/v2/markets/{ident}{currency}/orders")
+  ItBitDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
-	@GET
-	@Path("/v2/markets/{ident}{currency}/trades")
-	ItBitTrade[] getTrades(
-			@PathParam("ident") String tradeableIdentifier, 
-			@PathParam("currency") String currency, 
-			@QueryParam("since") int sinceId) throws IOException;
+  @GET
+  @Path("/v2/markets/{ident}{currency}/trades")
+  ItBitTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") int sinceId) throws IOException;
 }

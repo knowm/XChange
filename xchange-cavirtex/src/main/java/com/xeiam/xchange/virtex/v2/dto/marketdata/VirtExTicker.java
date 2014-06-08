@@ -37,19 +37,19 @@ public final class VirtExTicker {
   private final BigDecimal buy;
   private final BigDecimal volume;
 
-
   /**
- * @param sell
- * @param buy
- * @param high
- * @param low
- * @param volume
- * @param last
- */
-public VirtExTicker(@JsonProperty("sell") BigDecimal sell, @JsonProperty("buy") BigDecimal buy, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
+   * @param sell
+   * @param buy
+   * @param high
+   * @param low
+   * @param volume
+   * @param last
+   */
+  public VirtExTicker(@JsonProperty("sell") BigDecimal sell, @JsonProperty("buy") BigDecimal buy, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
+      @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
 
-	this.sell = sell;
-	this.buy = buy;
+    this.sell = sell;
+    this.buy = buy;
     this.high = high;
     this.low = low;
     this.volume = volume;
@@ -75,7 +75,7 @@ public VirtExTicker(@JsonProperty("sell") BigDecimal sell, @JsonProperty("buy") 
 
     return volume;
   }
-  
+
   public BigDecimal getBuy() {
 
     return buy;
@@ -89,7 +89,7 @@ public VirtExTicker(@JsonProperty("sell") BigDecimal sell, @JsonProperty("buy") 
   @Override
   public String toString() {
 
-    return "VirtExTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell +", volume=" + volume + "]";
+    return "VirtExTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", volume=" + volume + "]";
 
   }
 

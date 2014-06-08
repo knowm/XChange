@@ -1,4 +1,5 @@
 package com.xeiam.xchange.hitbtc.service.polling;
+
 /**
  * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *

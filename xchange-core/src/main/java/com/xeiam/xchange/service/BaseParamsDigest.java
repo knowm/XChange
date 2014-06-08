@@ -16,7 +16,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   public static final String HMAC_SHA_384 = "HmacSHA384";
   public static final String HMAC_SHA_256 = "HmacSHA256";
   public static final String HMAC_SHA_1 = "HmacSHA1";
-  
+
   private final ThreadLocal<Mac> threadLocalMac;
 
   /**
@@ -76,8 +76,9 @@ public abstract class BaseParamsDigest implements ParamsDigest {
       }
     };
   }
-  
+
   protected Mac getMac() {
+
     return threadLocalMac.get();
   }
 }

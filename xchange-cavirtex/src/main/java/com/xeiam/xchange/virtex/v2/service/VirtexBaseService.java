@@ -36,7 +36,7 @@ public class VirtexBaseService extends BaseExchangeService {
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
   CurrencyPair.BTC_CAD,
-  
+
   CurrencyPair.BTC_LTC,
 
   new CurrencyPair("LTC", "CAD")

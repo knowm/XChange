@@ -49,7 +49,7 @@ public class VirtExTradesJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     VirtExTradesWrapper virtExTradesWrapper = mapper.readValue(is, VirtExTradesWrapper.class);
     ArrayList<VirtExTrade> virtexTrades = virtExTradesWrapper.getTrades();
-    
+
     // Verify that the example data was unmarshalled correctly
     assertThat(virtexTrades.get(0).getPrice()).isEqualTo(new BigDecimal("545.060000000"));
   }

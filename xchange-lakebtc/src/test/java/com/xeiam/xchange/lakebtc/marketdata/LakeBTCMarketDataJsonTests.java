@@ -34,20 +34,19 @@ import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
 
-
 public class LakeBTCMarketDataJsonTests {
 
   @Test
   public void testDeserializeTicker() throws IOException {
-  
+
     // Read in the JSON from the example resources
     InputStream is = LakeBTCMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-ticker-data.json");
-    
+
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    
+
     LakeBTCTickers tickers = mapper.readValue(is, LakeBTCTickers.class);
-    
+
     LakeBTCTicker cnyTicker = tickers.getCny();
     assertThat(cnyTicker.getAsk()).isEqualTo("3524.07");
     assertThat(cnyTicker.getBid()).isEqualTo("3517.13");
@@ -55,7 +54,7 @@ public class LakeBTCMarketDataJsonTests {
     assertThat(cnyTicker.getHigh()).isEqualTo("3584.97");
     assertThat(cnyTicker.getLow()).isEqualTo("3480.07");
     assertThat(cnyTicker.getVolume()).isEqualTo("5964.7677");
-    
+
     LakeBTCTicker usdTicker = tickers.getUsd();
     assertThat(usdTicker.getAsk()).isEqualTo("564.63");
     assertThat(usdTicker.getBid()).isEqualTo("564.63");
@@ -65,22 +64,22 @@ public class LakeBTCMarketDataJsonTests {
     assertThat(usdTicker.getVolume()).isEqualTo("3521.2782");
 
   }
-  
+
   @Test
   public void testDeserializeOrderBook() throws IOException {
-  
+
     // Read in the JSON from the example resources
     InputStream is = LakeBTCMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
-    
+
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     LakeBTCOrderBook orderBook = mapper.readValue(is, LakeBTCOrderBook.class);
-    
+
     BigDecimal[][] asks = orderBook.getAsks();
     assertThat(asks).hasSize(3);
     assertThat(asks[0][0]).isEqualTo("564.87");
     assertThat(asks[0][1]).isEqualTo("22.371");
-    
+
     BigDecimal[][] bids = orderBook.getBids();
     assertThat(bids).hasSize(3);
     assertThat(bids[2][0]).isEqualTo("558.08");

@@ -47,7 +47,8 @@ public class BTCEHmacPostBodyDigest extends BaseParamsDigest {
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BTCEHmacPostBodyDigest(String secretKeyBase64) {
-	  super(secretKeyBase64, HMAC_SHA_512);
+
+    super(secretKeyBase64, HMAC_SHA_512);
   }
 
   public static BTCEHmacPostBodyDigest createInstance(String secretKeyBase64) {

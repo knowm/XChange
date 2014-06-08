@@ -47,6 +47,7 @@ public class CexIODigest extends BaseParamsDigest {
    * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private CexIODigest(String secretKeyBase64, String clientId, String apiKey) {
+
     super(secretKeyBase64, HMAC_SHA_256);
     this.clientId = clientId;
     this.apiKey = apiKey;
@@ -59,6 +60,7 @@ public class CexIODigest extends BaseParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
+
     Mac mac256 = getMac();
     mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
     mac256.update(clientId.getBytes());

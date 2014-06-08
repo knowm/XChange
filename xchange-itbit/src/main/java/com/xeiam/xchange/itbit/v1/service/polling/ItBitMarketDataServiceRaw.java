@@ -35,34 +35,33 @@ import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 
 public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
-	protected final ItBit itBit;
 
-	/**
-	 * @param exchangeSpecification The {@link ExchangeSpecification}
-	 */
-	public ItBitMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  protected final ItBit itBit;
 
-		super(exchangeSpecification);
-		itBit = RestProxyFactory.createProxy(ItBit.class, exchangeSpecification.getSslUri());
-	}
+  /**
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public ItBitMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-	public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		ItBitDepth depth = itBit.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    super(exchangeSpecification);
+    itBit = RestProxyFactory.createProxy(ItBit.class, exchangeSpecification.getSslUri());
+  }
 
-		return depth;	
-	}
+  public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		int since = 0;
-		if(args.length == 1) {
-			since = (Integer) args[0];
-		}
+    ItBitDepth depth = itBit.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
-		ItBitTrade[] trades = itBit.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, since);
-		return trades;
-	}
+    return depth;
+  }
+
+  public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    int since = 0;
+    if (args.length == 1) {
+      since = (Integer) args[0];
+    }
+
+    ItBitTrade[] trades = itBit.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, since);
+    return trades;
+  }
 }

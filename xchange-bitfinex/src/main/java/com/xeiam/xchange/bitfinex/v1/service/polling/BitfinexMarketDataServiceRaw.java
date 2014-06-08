@@ -71,8 +71,8 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
     return bitfinexTrades;
   }
 
-  public Collection<String> getBitfinexSymbols()  throws IOException {
-    
+  public Collection<String> getBitfinexSymbols() throws IOException {
+
     return bitfinex.getSymbols();
   }
 }

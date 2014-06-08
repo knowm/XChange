@@ -36,49 +36,45 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification
-	 *          The {@link ExchangeSpecification}
-	 */
-	public ItBitTradeService(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
-	}
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification
+   *          The {@link ExchangeSpecification}
+   */
+  public ItBitTradeService(ExchangeSpecification exchangeSpecification) {
 
-	@Override
-	public OpenOrders getOpenOrders() throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {		
-		return ItBitAdapters.adaptPrivateOrders(getItBitOpenOrders());
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public String placeMarketOrder(MarketOrder marketOrder)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	@Override
-	public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {
-		return placeItBitLimitOrder(limitOrder).getId();
-	}
+    return ItBitAdapters.adaptPrivateOrders(getItBitOpenOrders());
+  }
 
-	@Override
-	public boolean cancelOrder(String orderId) throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {
-		cancelItBitOrder(orderId);		
-		return true;
-	}
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	@Override
-	public Trades getTradeHistory(Object... arguments) throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {		
-		return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(arguments));
-	}
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    return placeItBitLimitOrder(limitOrder).getId();
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    cancelItBitOrder(orderId);
+    return true;
+  }
+
+  @Override
+  public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(arguments));
+  }
 }

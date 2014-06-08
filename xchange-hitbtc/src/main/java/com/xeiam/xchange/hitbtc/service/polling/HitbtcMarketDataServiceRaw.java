@@ -38,7 +38,7 @@ public abstract class HitbtcMarketDataServiceRaw extends HitbtcBasePollingServic
 
   /**
    * Constructor Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   protected HitbtcMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {

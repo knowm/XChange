@@ -77,11 +77,11 @@ public class ANXMarketdataDemo {
     // Get all tickers
     Map<String, ANXTicker> tickers = marketDataServiceRaw.getANXTickers(marketDataServiceRaw.getExchangeSymbols());
     System.out.println(tickers);
-    
+
     // Get all orderbooks
     Map<String, ANXDepth> orderbooks = marketDataServiceRaw.getANXFullOrderBooks(marketDataServiceRaw.getExchangeSymbols());
     System.out.println(orderbooks);
-    
+
   }
 
 }

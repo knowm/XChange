@@ -1,9 +1,9 @@
 package com.xeiam.xchange.btccentral.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kpysniak
@@ -18,10 +18,9 @@ public class BTCCentralTrade {
   private final BigDecimal price;
   private final long created_at_int;
 
-  public BTCCentralTrade(@JsonProperty("uuid") UUID uuid, @JsonProperty("traded_btc") BigDecimal traded_btc,
-                         @JsonProperty("traded_currency") BigDecimal traded_currency,
-                         @JsonProperty("created_at") String created_at, @JsonProperty("currency") String currency,
-                         @JsonProperty("price") BigDecimal price, @JsonProperty("created_at_int") long created_at_int) {
+  public BTCCentralTrade(@JsonProperty("uuid") UUID uuid, @JsonProperty("traded_btc") BigDecimal traded_btc, @JsonProperty("traded_currency") BigDecimal traded_currency,
+      @JsonProperty("created_at") String created_at, @JsonProperty("currency") String currency, @JsonProperty("price") BigDecimal price, @JsonProperty("created_at_int") long created_at_int) {
+
     this.uuid = uuid;
     this.traded_btc = traded_btc;
     this.traded_currency = traded_currency;
@@ -32,43 +31,44 @@ public class BTCCentralTrade {
   }
 
   public UUID getUuid() {
+
     return uuid;
   }
 
   public BigDecimal getTraded_btc() {
+
     return traded_btc;
   }
 
   public BigDecimal getTraded_currency() {
+
     return traded_currency;
   }
 
   public String getCreated_at() {
+
     return created_at;
   }
 
   public String getCurrency() {
+
     return currency;
   }
 
   public BigDecimal getPrice() {
+
     return price;
   }
 
   public long getCreated_at_int() {
+
     return created_at_int;
   }
 
   @Override
   public String toString() {
-    return "BTCCentralTrade{" +
-        "uuid=" + uuid +
-        ", traded_btc=" + traded_btc +
-        ", traded_currency=" + traded_currency +
-        ", created_at='" + created_at + '\'' +
-        ", currency='" + currency + '\'' +
-        ", price=" + price +
-        ", created_at_int=" + created_at_int +
-        '}';
+
+    return "BTCCentralTrade{" + "uuid=" + uuid + ", traded_btc=" + traded_btc + ", traded_currency=" + traded_currency + ", created_at='" + created_at + '\'' + ", currency='" + currency + '\''
+        + ", price=" + price + ", created_at_int=" + created_at_int + '}';
   }
 }

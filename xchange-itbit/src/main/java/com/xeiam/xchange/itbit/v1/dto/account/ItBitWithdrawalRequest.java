@@ -5,29 +5,34 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ItBitWithdrawalRequest {
-	@JsonProperty("currency")
-	private String currency;
 
-	@JsonProperty("amount")
-	protected BigDecimal amount;
+  @JsonProperty("currency")
+  private String currency;
 
-	@JsonProperty("address")
-	protected String address;
+  @JsonProperty("amount")
+  protected BigDecimal amount;
 
-	public ItBitWithdrawalRequest(String currency) {
-		super();
-		this.currency = currency;
-	}
+  @JsonProperty("address")
+  protected String address;
 
-	public String getCurrency() {
-		return currency;
-	}
+  public ItBitWithdrawalRequest(String currency) {
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    super();
+    this.currency = currency;
+  }
 
-	public String getAddress() {
-		return address;
-	}
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  public BigDecimal getAmount() {
+
+    return amount;
+  }
+
+  public String getAddress() {
+
+    return address;
+  }
 }

@@ -1,15 +1,16 @@
 package com.xeiam.xchange.bitmarket.service.polling;
 
-import com.xeiam.xchange.bitmarket.BitMarket;
+import java.io.IOException;
+
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.bitmarket.BitMarket;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import com.xeiam.xchange.bitmarket.service.BitMarketBaseService;
-import si.mazi.rescu.RestProxyFactory;
-
-import java.io.IOException;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author kpysniak
@@ -20,10 +21,11 @@ public class BitMarketDataServiceRaw extends BitMarketBaseService {
 
   /**
    * Constructor Initialize common properties from the exchange specification
-   *
+   * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   protected BitMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
     this.bitMarket = RestProxyFactory.createProxy(BitMarket.class, exchangeSpecification.getSslUri());
   }
@@ -42,6 +44,5 @@ public class BitMarketDataServiceRaw extends BitMarketBaseService {
 
     return bitMarket.getTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
   }
-
 
 }

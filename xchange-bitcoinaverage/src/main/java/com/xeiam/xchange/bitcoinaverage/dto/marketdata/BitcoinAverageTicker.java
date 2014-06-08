@@ -54,13 +54,9 @@ public final class BitcoinAverageTicker {
    * @param avg
    * @param timestamp
    */
-  
-  public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, 
-		  @JsonProperty("bid") BigDecimal bid, 
-		  @JsonProperty("volume_btc") BigDecimal volume, 
-		  @JsonProperty("last") BigDecimal last,
-		  @JsonProperty("volume_percent") BigDecimal volume_percent, 
-		  @JsonProperty("timestamp") String timestamp) {
+
+  public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("volume_btc") BigDecimal volume, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("volume_percent") BigDecimal volume_percent, @JsonProperty("timestamp") String timestamp) {
 
     this.ask = ask;
     this.bid = bid;
@@ -89,7 +85,7 @@ public final class BitcoinAverageTicker {
 
     return volume;
   }
-  
+
   public BigDecimal getVolumePercent() {
 
     return volume_percent;

@@ -80,11 +80,13 @@ public class BitfinexTrade {
   }
 
   public String getType() {
+
     return type;
   }
 
   @Override
   public String toString() {
+
     StringBuilder builder = new StringBuilder();
     builder.append("BitfinexTrade [price=");
     builder.append(price);

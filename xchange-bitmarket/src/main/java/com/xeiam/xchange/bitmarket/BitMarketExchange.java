@@ -12,6 +12,7 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
+
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.bitmarket.pl/json");
     exchangeSpecification.setHost("www.bitmarket.pl");
