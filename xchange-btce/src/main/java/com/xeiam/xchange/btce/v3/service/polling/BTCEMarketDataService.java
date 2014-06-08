@@ -29,11 +29,9 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -142,13 +140,6 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
     }
 
     return BTCEAdapters.adaptTrades(bTCETrades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    BTCEExchangeInfo bTCEExchangeInfo = getBTCEInfo();
-    return BTCEAdapters.adaptExchangeInfo(bTCEExchangeInfo);
   }
 
 }

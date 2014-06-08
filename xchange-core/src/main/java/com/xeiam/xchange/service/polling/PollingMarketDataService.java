@@ -28,7 +28,6 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -89,18 +88,5 @@ public interface PollingMarketDataService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
-
-  /**
-   * <p>
-   * Get public exchange info, such as allowed currency pairs, fees etc.
-   * </p>
-   * 
-   * @return ExchangeInfo object
-   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
-   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been implemented
-   * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   */
-  public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException;
 
 }

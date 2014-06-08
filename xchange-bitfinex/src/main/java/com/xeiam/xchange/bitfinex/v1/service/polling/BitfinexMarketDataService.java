@@ -27,13 +27,11 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -121,18 +119,13 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
         Date arg = (Date) args[0];
         lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       }
-      else
+      else {
         throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+      }
     }
     BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair), lastTradeTime);
 
     return BitfinexAdapters.adaptTrades(trades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

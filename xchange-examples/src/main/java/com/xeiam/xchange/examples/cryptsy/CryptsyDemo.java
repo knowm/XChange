@@ -115,8 +115,6 @@ public class CryptsyDemo {
     System.out.println("\nTradeHistory:\n" + tradeService.getTradeHistory());
     Thread.sleep(500);
 
-    System.out.println("\nExchangeInfo:\n" + marketDataService.getExchangeInfo());
-    Thread.sleep(500);
   }
 
   private static void raw(CryptsyAccountServiceRaw accountService, CryptsyMarketDataServiceRaw marketDataService, CryptsyTradeServiceRaw tradeService) throws IOException, InterruptedException {
@@ -226,27 +224,31 @@ public class CryptsyDemo {
     System.out.println("\nOpenOrders:\n" + tradeService.getCryptsyOpenOrders());
     Thread.sleep(500);
   }
-  
+
   private static void publicAPI(CryptsyExchange cryptsyExchange) throws ExchangeException, IOException, InterruptedException {
 
     CryptsyPublicMarketDataService publicMarketDataService = cryptsyExchange.getPublicPollingMarketDataService();
     final int DOGE_LTC_MARKET_ID = 135;
     Map<String, CryptsyPublicMarketData> singleMarketData = publicMarketDataService.getCryptsyMarketData(DOGE_LTC_MARKET_ID);
     System.out.println(singleMarketData);
-    
-/*    Map<String, CryptsyPublicMarketData> allMarketData = publicMarketDataService.getAllCryptsyMarketData();
-    for (CryptsyPublicMarketData marketData : allMarketData.values()) {
-      System.out.println(marketData);
-    }*/
-    
+
+    /*
+     * Map<String, CryptsyPublicMarketData> allMarketData = publicMarketDataService.getAllCryptsyMarketData();
+     * for (CryptsyPublicMarketData marketData : allMarketData.values()) {
+     * System.out.println(marketData);
+     * }
+     */
+
     Map<String, CryptsyPublicOrderbook> singleOrderBook = publicMarketDataService.getCryptsyOrderBook(DOGE_LTC_MARKET_ID);
     System.out.println(singleOrderBook);
-    
-/*    Map<String, CryptsyPublicOrderbook> allOrderBooks = publicMarketDataService.getAllCryptsyOrderBooks();
-    for (Entry<String, CryptsyPublicOrderbook> orderbook : allOrderBooks.entrySet()) {
-      System.out.println(orderbook.getKey() + ": " + orderbook.getValue());
-    }*/
-    
+
+    /*
+     * Map<String, CryptsyPublicOrderbook> allOrderBooks = publicMarketDataService.getAllCryptsyOrderBooks();
+     * for (Entry<String, CryptsyPublicOrderbook> orderbook : allOrderBooks.entrySet()) {
+     * System.out.println(orderbook.getKey() + ": " + orderbook.getValue());
+     * }
+     */
+
     System.out.println("\ngetOrderBook:\n" + publicMarketDataService.getOrderBook(new CurrencyPair("NET", "BTC")));
     Thread.sleep(500);
 

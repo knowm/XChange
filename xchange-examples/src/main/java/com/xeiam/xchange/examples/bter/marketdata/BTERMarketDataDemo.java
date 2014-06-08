@@ -36,7 +36,6 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.bter.service.polling.BTERPollingMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -55,9 +54,6 @@ public class BTERMarketDataDemo {
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
-
-    ExchangeInfo exchangeInfo = marketDataService.getExchangeInfo();
-    System.out.println(exchangeInfo);
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.PPC_BTC);
     System.out.println(ticker);

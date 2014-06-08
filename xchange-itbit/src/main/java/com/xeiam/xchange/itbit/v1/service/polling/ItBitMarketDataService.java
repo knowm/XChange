@@ -24,12 +24,9 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -41,43 +38,35 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements PollingMarketDataService {
 
-	/**
-	 * @param exchangeSpecification The {@link ExchangeSpecification}
-	 */
-	public ItBitMarketDataService(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
-	}
+  /**
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public ItBitMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-	@Override
-	public Ticker getTicker(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotAvailableFromExchangeException();	
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		ItBitDepth depth = getItBitDepth(currencyPair, args);
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-		List<LimitOrder> asks = ItBitAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
-		List<LimitOrder> bids = ItBitAdapters.adaptOrders(depth.getBids(), currencyPair, OrderType.BID);
+    throw new NotAvailableFromExchangeException();
+  }
 
-		return new OrderBook(null, asks, bids);		
-	}
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-	@Override
-	public Trades getTrades(CurrencyPair currencyPair, Object... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		return ItBitAdapters.adaptTrades(getItBitTrades(currencyPair, args), currencyPair);
-	}
+    ItBitDepth depth = getItBitDepth(currencyPair, args);
 
-	@Override
-	public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException {
-		throw new NotAvailableFromExchangeException();
-	}
+    List<LimitOrder> asks = ItBitAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
+    List<LimitOrder> bids = ItBitAdapters.adaptOrders(depth.getBids(), currencyPair, OrderType.BID);
+
+    return new OrderBook(null, asks, bids);
+  }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    return ItBitAdapters.adaptTrades(getItBitTrades(currencyPair, args), currencyPair);
+  }
+
 }

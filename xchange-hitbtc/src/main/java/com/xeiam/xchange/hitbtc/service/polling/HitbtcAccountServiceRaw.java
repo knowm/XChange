@@ -1,4 +1,4 @@
-package com.xeiam.xchange.hitbtc.service;
+package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
@@ -8,7 +8,6 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
-import com.xeiam.xchange.hitbtc.service.polling.HitbtcBasePollingService;
 
 public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
 

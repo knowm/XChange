@@ -22,8 +22,6 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTERAdapters;
@@ -31,7 +29,6 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -77,14 +74,6 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
             : super.getBTERTradeHistory(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return BTERAdapters.adaptTrades(tradeHistory, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    currencyPairs.addAll(super.getExchangeSymbols());
-    return new ExchangeInfo(currencyPairs);
   }
 
 }

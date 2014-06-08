@@ -33,7 +33,6 @@ import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.campbx.service.CampBXBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.Trades;
 
 /**
@@ -79,11 +78,6 @@ public class CampBXMarketDataServiceRaw extends CampBXBaseService {
   }
 
   public Trades getCampBXTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  public ExchangeInfo getCampBXExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

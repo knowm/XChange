@@ -29,7 +29,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.justcoin.JustcoinExchange;
@@ -52,9 +51,6 @@ public class JustcoinMarketDataDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService justcoinGenericMarketDataService = justcoinExchange.getPollingMarketDataService();
-
-    ExchangeInfo exchangeInfo = justcoinGenericMarketDataService.getExchangeInfo();
-    System.out.println(exchangeInfo);
 
     // Get the latest ticker data for the BTC/LTC market
     Ticker ticker = justcoinGenericMarketDataService.getTicker(CurrencyPair.BTC_LTC);

@@ -3,7 +3,7 @@ package com.xeiam.xchange.hitbtc;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.hitbtc.service.HitbtcAccountService;
+import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
 

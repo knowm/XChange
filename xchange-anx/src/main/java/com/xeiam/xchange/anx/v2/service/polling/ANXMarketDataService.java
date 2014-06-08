@@ -53,7 +53,6 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -136,30 +135,6 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
 
     throw new NotAvailableFromExchangeException();
 
-    // verify(tradableIdentifier, currency);
-
-    /*
-     * verify(currencyPair);
-     * ANXTradesWrapper anxTradeWrapper = null;
-     * if (args.length > 0) {
-     * if (args[0] instanceof Long) {
-     * Long sinceTimeStamp = (Long) args[0];
-     * // Request data
-     * anxTradeWrapper = getANXTrades(currencyPair, sinceTimeStamp);
-     * } else {
-     * throw new ExchangeException("the \"since\" type argument must be a Long!");
-     * }
-     * } else {
-     * anxTradeWrapper = getANXTrades(currencyPair, null);
-     * }
-     * return ANXAdapters.adaptTrades(anxTradeWrapper.getANXTrades());
-     */
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

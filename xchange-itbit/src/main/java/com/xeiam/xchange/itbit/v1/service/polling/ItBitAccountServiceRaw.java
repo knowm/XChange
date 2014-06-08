@@ -25,44 +25,39 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 
-
 public class ItBitAccountServiceRaw extends ItBitBasePollingService {
-	private final String userId;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param exchangeSpecification The {@link ExchangeSpecification}
-	 */
-	public ItBitAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
+  private final String userId;
 
-		this.userId = (String) exchangeSpecification.getExchangeSpecificParametersItem("userId");
-	}
+  /**
+   * Constructor
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   */
+  public ItBitAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-	public ItBitAccountInfoReturn[] getItBitAccountInfo() throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {
+    super(exchangeSpecification);
 
-		ItBitAccountInfoReturn[] info = itBit.getInfo(signatureCreator, new Date().getTime(), nextNonce(), userId);
-		return info;
-	}
+    this.userId = (String) exchangeSpecification.getExchangeSpecificParametersItem("userId");
+  }
 
-	public String withdrawItBitFunds(String currency, BigDecimal amount, String address)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  public ItBitAccountInfoReturn[] getItBitAccountInfo() throws IOException {
 
-	public String requestItBitDepositAddress(String currency, String... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+    ItBitAccountInfoReturn[] info = itBit.getInfo(signatureCreator, new Date().getTime(), nextNonce(), userId);
+    return info;
+  }
+
+  public String withdrawItBitFunds(String currency, BigDecimal amount, String address) throws IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  public String requestItBitDepositAddress(String currency, String... args) throws IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
 }

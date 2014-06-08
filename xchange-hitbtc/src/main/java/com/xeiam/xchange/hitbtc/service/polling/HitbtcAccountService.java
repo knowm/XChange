@@ -1,4 +1,4 @@
-package com.xeiam.xchange.hitbtc.service;
+package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -11,7 +11,6 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
-import com.xeiam.xchange.hitbtc.service.polling.HitbtcBasePollingService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 public class HitbtcAccountService extends HitbtcAccountServiceRaw implements PollingAccountService {

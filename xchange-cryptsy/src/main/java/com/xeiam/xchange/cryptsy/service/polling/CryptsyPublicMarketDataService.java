@@ -1,8 +1,6 @@
 package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
@@ -13,7 +11,6 @@ import com.xeiam.xchange.cryptsy.CryptsyExchange;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbook;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -63,11 +60,4 @@ public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServi
     return CryptsyAdapters.adaptPublicTrades(cryptsyMarketData).get(currencyPair);
   }
 
-  @Override
-  public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    currencyPairs.addAll(getExchangeSymbols());
-    return new ExchangeInfo(currencyPairs);
-  }
 }
