@@ -49,9 +49,9 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -126,7 +126,24 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    long sinceTimeStamp = 0;
+    if (args != null && args.length == 1) {
+      // parameter 1, if present, is the last trade timestamp in milliseconds
+      if (args[0] instanceof Number) {
+        Number arg = (Number) args[0];
+        sinceTimeStamp = arg.longValue();
+      }
+      else if (args[0] instanceof Date) {
+        Date arg = (Date) args[0];
+        sinceTimeStamp = arg.getTime();
+      }
+      else {
+        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+      }
+    }
+
+    List<ANXTrade> anxTrades = super.getANXTrades(currencyPair, sinceTimeStamp);
+    return ANXAdapters.adaptTrades(anxTrades);
 
   }
 

@@ -23,6 +23,7 @@ package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -37,7 +38,7 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthsWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickerWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickersWrapper;
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.anx.v2.service.ANXBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.Assert;
@@ -131,21 +132,10 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
     }
   }
 
-  public ANXTradesWrapper getANXTrades(CurrencyPair currencyPair, Long sinceTimeStamp) throws IOException {
+  public List<ANXTrade> getANXTrades(CurrencyPair currencyPair, Long sinceTimeStamp) throws IOException {
 
     try {
-      ANXTradesWrapper anxTradeWrapper = null;
-
-      if (sinceTimeStamp != null) {
-        // Request data with since param
-        anxTradeWrapper = anxV2.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, sinceTimeStamp);
-      }
-      else {
-        // Request data
-        anxTradeWrapper = anxV2.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol);
-      }
-
-      return anxTradeWrapper;
+      return anxV2.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, sinceTimeStamp).getANXTrades();
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getTrades(): " + e.getError(), e);
     }
