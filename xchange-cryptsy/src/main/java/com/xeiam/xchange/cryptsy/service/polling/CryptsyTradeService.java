@@ -73,8 +73,6 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, ExchangeException {
 
-    verify(limitOrder.getCurrencyPair());
-
     CryptsyPlaceOrderReturn result =
         super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketId(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.ASK ? CryptsyOrderType.Sell : CryptsyOrderType.Buy,
             limitOrder.getTradableAmount(), limitOrder.getLimitPrice());

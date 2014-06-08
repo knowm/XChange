@@ -62,8 +62,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     BTCChinaTicker btcChinaTicker = getBTCChinaTicker();
 
@@ -73,8 +71,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook();
@@ -88,8 +84,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     BTCChinaTrade[] btcChinaTrades = null;
 

@@ -34,8 +34,6 @@ public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implem
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
-
     LakeBTCTicker lakeBTCTicker;
     LakeBTCTickers lakeBTCTickers = getLakeBTCTickers();
 
@@ -54,8 +52,6 @@ public class LakeBTCMarketDataService extends LakeBTCMarketDataServiceRaw implem
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    verify(currencyPair);
 
     LakeBTCOrderBook lakeBTCOrderBook;
 

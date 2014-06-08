@@ -60,16 +60,12 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTicker(getVirtExTicker(currencyPair.counterSymbol), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     VirtExDepth virtExDepth = getVirtExOrderBook(currencyPair.counterSymbol);
@@ -83,8 +79,6 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     VirtExTrade[] virtExTrades = getVirtExTrades(currencyPair.counterSymbol);

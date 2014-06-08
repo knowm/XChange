@@ -58,16 +58,12 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Adapt to XChange DTOs
     return VaultOfSatoshiAdapters.adaptTicker(getVosTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     VaultOfSatoshiDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair);
@@ -81,8 +77,6 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     List<VaultOfSatoshiTrade> virtExTrades = getVosTrades(currencyPair);

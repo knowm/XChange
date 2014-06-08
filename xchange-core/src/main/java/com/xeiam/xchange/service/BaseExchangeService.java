@@ -64,15 +64,4 @@ public abstract class BaseExchangeService {
    */
   public abstract Collection<CurrencyPair> getExchangeSymbols() throws IOException;
 
-  /**
-   * Verify that both currencies can make valid pair
-   * 
-   * @param currencyPair The currency pair (e.g. BTC/USD)
-   */
-  public void verify(CurrencyPair currencyPair) throws IOException {
-
-    Assert.notNull(currencyPair, "currencyPair cannot be null");
-    Assert.isTrue(getExchangeSymbols().contains(currencyPair), "currencyPair is not valid:" + currencyPair.toString());
-  }
-
 }

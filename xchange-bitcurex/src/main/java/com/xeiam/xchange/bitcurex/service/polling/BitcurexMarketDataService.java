@@ -60,8 +60,6 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // get data
     BitcurexTicker bitcurexTicker = getBitcurexTicker(currencyPair.counterSymbol);
 
@@ -71,8 +69,6 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // get data
     BitcurexDepth bitcurexDepth = getBitcurexOrderBook(currencyPair.counterSymbol);
@@ -86,8 +82,6 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // get data
     BitcurexTrade[] bitcurexTrades = getBitcurexTrades(currencyPair.counterSymbol);

@@ -59,8 +59,6 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     BTCETickerWrapper btceTickerWrapper = getBTCETicker(pairs);
 
@@ -80,8 +78,6 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     BTCEDepthWrapper btceDepthWrapper = null;
@@ -120,8 +116,6 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
     int numberOfItems = -1;

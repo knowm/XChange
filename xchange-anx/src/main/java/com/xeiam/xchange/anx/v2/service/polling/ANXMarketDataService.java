@@ -80,12 +80,8 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
   }
 
   @Override
-  // public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
-  // Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
-      public
-      Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
     return ANXAdapters.adaptTicker(getANXTicker(currencyPair));
   }
 
@@ -100,9 +96,6 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    // verify(tradableIdentifier, currency);
-    verify(currencyPair);
 
     // Request data
     ANXDepthWrapper anxDepthWrapper = null;

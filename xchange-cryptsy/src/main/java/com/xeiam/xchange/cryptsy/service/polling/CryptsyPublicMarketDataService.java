@@ -34,8 +34,6 @@ public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServi
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
 
-    verify(currencyPair);
-
     Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
     return CryptsyAdapters.adaptPublicTickers(cryptsyMarketData).get(0);
@@ -44,16 +42,12 @@ public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServi
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
 
-    verify(currencyPair);
-
     Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBook = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
     return CryptsyAdapters.adaptPublicOrderBooks(cryptsyOrderBook).get(0);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
-
-    verify(currencyPair);
 
     Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 

@@ -56,8 +56,6 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 

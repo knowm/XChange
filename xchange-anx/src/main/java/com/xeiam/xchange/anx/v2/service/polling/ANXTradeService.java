@@ -60,9 +60,6 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    // verify(marketOrder.getTradableIdentifier(), marketOrder.getTransactionCurrency());
-
-    verify(marketOrder.getCurrencyPair());
     return placeANXMarketOrder(marketOrder).getDataString();
   }
 
@@ -70,7 +67,6 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     // Validation
-    verify(limitOrder.getCurrencyPair());
     Assert.notNull(limitOrder.getLimitPrice(), "getLimitPrice() cannot be null");
     Assert.notNull(limitOrder.getTradableAmount(), "getTradableAmount() cannot be null");
 

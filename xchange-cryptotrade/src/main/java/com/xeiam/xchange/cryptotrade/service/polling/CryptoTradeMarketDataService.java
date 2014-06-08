@@ -57,8 +57,6 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(currencyPair);
 
     return CryptoTradeAdapters.adaptTicker(currencyPair, cryptoTradeTicker);
@@ -66,8 +64,6 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(currencyPair);
 

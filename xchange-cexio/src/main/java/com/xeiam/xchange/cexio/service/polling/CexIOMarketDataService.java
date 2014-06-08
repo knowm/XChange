@@ -55,15 +55,11 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
-
     return CexIOAdapters.adaptTicker(getCexIOTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    verify(currencyPair);
 
     return CexIOAdapters.adaptOrderBook(getCexIOOrderBook(currencyPair), currencyPair);
   }
@@ -71,7 +67,6 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
     CexIOTrade[] trades;
 
     if (args.length > 0) {

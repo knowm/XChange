@@ -49,8 +49,6 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     BTERTicker ticker = super.getBTERTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return BTERAdapters.adaptTicker(currencyPair, ticker);
@@ -58,8 +56,6 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     BTERDepth bterDepth = super.getBTEROrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol);
 

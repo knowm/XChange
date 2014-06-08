@@ -58,8 +58,6 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
@@ -69,8 +67,6 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     String priceWindow = "";
 

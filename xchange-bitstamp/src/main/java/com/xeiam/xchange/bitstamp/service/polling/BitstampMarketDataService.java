@@ -50,23 +50,17 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     return BitstampAdapters.adaptTicker(getBitstampTicker(), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     return BitstampAdapters.adaptOrders(getBitstampOrderBook(), currencyPair, 1000);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     return BitstampAdapters.adaptTrades(getBitstampTransactions(args), currencyPair);
   }

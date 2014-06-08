@@ -54,8 +54,6 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     OERRates rates = getOERTicker();
 
     // Use reflection to get at data.

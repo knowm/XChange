@@ -52,8 +52,6 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     CampBXTicker campbxTicker = getCampBXTicker();
 
     return CampBXAdapters.adaptTicker(campbxTicker, currencyPair);
@@ -61,8 +59,6 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     CampBXOrderBook campBXOrderBook = getCampBXOrderBook();
 

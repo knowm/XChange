@@ -52,8 +52,6 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
 
-    verify(currencyPair);
-
     CryptsyGetMarketsReturn marketsReturnData = super.getCryptsyMarkets();
 
     return CryptsyAdapters.adaptTicker(marketsReturnData, currencyPair);
@@ -71,8 +69,6 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
-
-    verify(currencyPair);
 
     CryptsyOrderBookReturn orderBookReturnData = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
@@ -93,8 +89,6 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
-
-    verify(currencyPair);
 
     CryptsyMarketTradesReturn tradesReturnData = super.getCryptsyTrades(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 

@@ -78,8 +78,6 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService imp
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // check for pacing violation
     if (tickerRequestTimeStamp == 0L || System.currentTimeMillis() - tickerRequestTimeStamp >= getRefreshRate()) {
 

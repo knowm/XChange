@@ -66,8 +66,6 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     VircurexDepth vircurexDepth = getVircurexOrderBook(currencyPair);
 
     // Adapt to XChange DTOs

@@ -64,8 +64,6 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     BTCETickerWrapper btceTicker = btce.getTicker(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     // Adapt to XChange DTOs
@@ -74,8 +72,6 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     BTCEDepth btceDepth = btce.getDepth(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
     // Adapt to XChange DTOs
@@ -99,8 +95,6 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     BTCETrade[] BTCETrades = btce.getTrades(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
