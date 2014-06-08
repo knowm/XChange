@@ -55,15 +55,12 @@ public class ANXExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    // exchangeSpecification.setSslUri("https://anx.hk");
     exchangeSpecification.setSslUri("https://anxpro.com");
-    // exchangeSpecification.setSslUri("http://localhost:8080");
     // exchangeSpecification.setPlainTextUriStreaming("ws://websocket.anx.hk");
     // exchangeSpecification.setSslUriStreaming("wss://websocket.anx.hk");
-    // exchangeSpecification.setPlainTextUri("https://anx.hk");
     exchangeSpecification.setHost("anxpro.com");
     exchangeSpecification.setPort(443);
-    exchangeSpecification.setExchangeName("ANX.HK");
+    exchangeSpecification.setExchangeName("ANXPRO");
     exchangeSpecification.setExchangeDescription("Asia Nexgen is a Bitcoin exchange registered in Hong Kong.");
 
     return exchangeSpecification;

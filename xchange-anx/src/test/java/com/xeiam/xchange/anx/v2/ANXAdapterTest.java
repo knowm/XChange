@@ -37,11 +37,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepth;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
+import com.xeiam.xchange.anx.v2.marketdata.polling.TickerJSONTest;
 import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 
@@ -117,30 +123,33 @@ public class ANXAdapterTest {
     Assert.assertEquals("USD", asks.get(0).getCurrencyPair().counterSymbol);
   }
 
-  /*
-   * @Test
-   * public void testTradeAdapter() throws IOException {
-   * // Read in the JSON from the example resources
-   * InputStream is = ANXAdapterTest.class.getResourceAsStream("/v2/marketdata/polling/example-trades-data.json");
-   * // Use Jackson to parse it
-   * ObjectMapper mapper = new ObjectMapper();
-   * mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-   * ANXTrade[] anxTrades = mapper.readValue(is, ANXTrade[].class);
-   * Trades trades = ANXAdapters.adaptTrades(anxTrades);
-   * assertThat(trades.getTrades().size()).isEqualTo(30);
-   * // Verify all fields filled
-   * assertThat(trades.getTrades().get(0).getPrice().getAmount().doubleValue()).isEqualTo(193.99989);
-   * assertThat(trades.getTrades().get(0).getPrice().getAmount().floatValue()).isEqualTo(193.99989f);
-   * assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
-   * assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue()).isEqualTo(0.01985186);
-   * assertThat(trades.getTrades().get(0).getTradableIdentifier()).isEqualTo("BTC");
-   * assertThat(trades.getTrades().get(0).getTransactionCurrency()).isEqualTo("USD");
-   * assertThat(trades.getTrades().get(0).getId()).isEqualTo(1365499103363494L);
-   * // Unix 1334177326 = Wed, 11 Apr 2012 20:48:46 GMT
-   * assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2013-04-09 09:18:23 GMT");
-   * assertThat(trades.getTrades().get(0).getTimestamp().getTime()).isEqualTo(1365499103363L);
-   * }
-   */
+  @Test
+  public void testTradeAdapter() throws IOException {
+
+ // Read in the JSON from the example resources
+    InputStream is = TickerJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+
+    ANXTradesWrapper anxTradesWrapper = mapper.readValue(is, ANXTradesWrapper.class);
+    List<ANXTrade> anxTrades = anxTradesWrapper.getANXTrades();
+    
+    Trades trades = ANXAdapters.adaptTrades(anxTrades);
+    assertThat(trades.getlastID()).isEqualTo(1402189349725L);
+    
+    List<Trade> tradeList = trades.getTrades();
+    assertThat(tradeList.size()).isEqualTo(2);
+ 
+    Trade trade = tradeList.get(0);
+    assertThat(trade.getTradableAmount()).isEqualTo("0.25");
+    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(trade.getPrice()).isEqualTo("655");
+    assertThat(trade.getId()).isEqualTo("1402189342525");
+    assertThat(trade.getOrderId()).isNull();
+    assertThat(trade.getType()).isEqualTo(OrderType.BID);
+    assertThat(trade.getTimestamp().getTime()).isEqualTo(1402189342525L);
+  }
 
   @Test
   public void testWalletAdapter() throws IOException {
