@@ -63,27 +63,28 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
     this.isEncryptedChannel = isEncryptedChannel;
     this.pusherKey = pusherKey;
     this.channels = channels;
-    this.pusherOpts = pusherOptions;
+    pusherOpts = pusherOptions;
   }
 
   public BitstampStreamingConfiguration() {
 
-    this.maxReconnectAttempts = 30; // 67 min
-    this.reconnectWaitTimeInMs = 135000; // 2:15
-    this.timeoutInMs = 120000; // 2:00
-    this.isEncryptedChannel = false; // data stream is public
-    this.pusherKey = "de504dc5763aeef9ff52"; // https://www.bitstamp.net/websocket/
-    this.channels = new HashSet<String>();
-    this.channels.add("order_book");
-    this.pusherOpts = new PusherOptions();
-    this.pusherOpts.setEncrypted(isEncryptedChannel);
-    this.pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval
-    this.pusherOpts.setPongTimeout(timeoutInMs); // Response timeout
+    maxReconnectAttempts = 30; // 67 min
+    reconnectWaitTimeInMs = 135000; // 2:15
+    timeoutInMs = 120000; // 2:00
+    isEncryptedChannel = false; // data stream is public
+    pusherKey = "de504dc5763aeef9ff52"; // https://www.bitstamp.net/websocket/
+    channels = new HashSet<String>();
+    channels.add("live_trades");
+    channels.add("order_book");
+    pusherOpts = new PusherOptions();
+    pusherOpts.setEncrypted(isEncryptedChannel);
+    pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval
+    pusherOpts.setPongTimeout(timeoutInMs); // Response timeout
   }
 
   public final PusherOptions pusherOptions() {
 
-    return this.pusherOpts;
+    return pusherOpts;
   }
 
   @Override

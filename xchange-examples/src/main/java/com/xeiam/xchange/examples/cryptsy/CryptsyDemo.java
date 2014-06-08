@@ -229,25 +229,11 @@ public class CryptsyDemo {
 
     CryptsyPublicMarketDataService publicMarketDataService = cryptsyExchange.getPublicPollingMarketDataService();
     final int DOGE_LTC_MARKET_ID = 135;
-    Map<String, CryptsyPublicMarketData> singleMarketData = publicMarketDataService.getCryptsyMarketData(DOGE_LTC_MARKET_ID);
+    Map<Integer, CryptsyPublicMarketData> singleMarketData = publicMarketDataService.getCryptsyMarketData(DOGE_LTC_MARKET_ID);
     System.out.println(singleMarketData);
 
-    /*
-     * Map<String, CryptsyPublicMarketData> allMarketData = publicMarketDataService.getAllCryptsyMarketData();
-     * for (CryptsyPublicMarketData marketData : allMarketData.values()) {
-     * System.out.println(marketData);
-     * }
-     */
-
-    Map<String, CryptsyPublicOrderbook> singleOrderBook = publicMarketDataService.getCryptsyOrderBook(DOGE_LTC_MARKET_ID);
+    Map<Integer, CryptsyPublicOrderbook> singleOrderBook = publicMarketDataService.getCryptsyOrderBook(DOGE_LTC_MARKET_ID);
     System.out.println(singleOrderBook);
-
-    /*
-     * Map<String, CryptsyPublicOrderbook> allOrderBooks = publicMarketDataService.getAllCryptsyOrderBooks();
-     * for (Entry<String, CryptsyPublicOrderbook> orderbook : allOrderBooks.entrySet()) {
-     * System.out.println(orderbook.getKey() + ": " + orderbook.getValue());
-     * }
-     */
 
     System.out.println("\ngetOrderBook:\n" + publicMarketDataService.getOrderBook(new CurrencyPair("NET", "BTC")));
     Thread.sleep(500);

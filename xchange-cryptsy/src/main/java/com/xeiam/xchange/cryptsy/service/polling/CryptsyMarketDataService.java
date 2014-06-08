@@ -74,7 +74,7 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
 
     verify(currencyPair);
 
-    CryptsyOrderBookReturn orderBookReturnData = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketID(currencyPair));
+    CryptsyOrderBookReturn orderBookReturnData = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
     return CryptsyAdapters.adaptOrderBook(orderBookReturnData, currencyPair);
   }
@@ -96,7 +96,7 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
 
     verify(currencyPair);
 
-    CryptsyMarketTradesReturn tradesReturnData = super.getCryptsyTrades(CryptsyCurrencyUtils.convertToMarketID(currencyPair));
+    CryptsyMarketTradesReturn tradesReturnData = super.getCryptsyTrades(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
     return CryptsyAdapters.adaptTrades(tradesReturnData, currencyPair);
   }

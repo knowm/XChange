@@ -42,7 +42,8 @@ public class CryptsyPublicOrderbook {
    */
   @JsonCreator
   public CryptsyPublicOrderbook(@JsonProperty("marketid") int marketId, @JsonProperty("label") String label, @JsonProperty("primarycode") String priCurrCode,
-      @JsonProperty("primaryname") String priCurrName, @JsonProperty("secondarycode") String secCurrCode, @JsonProperty("secondaryname") String secCurrName, @JsonProperty("buyorders") List<CryptsyPublicOrder> buyOrders, @JsonProperty("sellorders") List<CryptsyPublicOrder> sellOrders) {
+      @JsonProperty("primaryname") String priCurrName, @JsonProperty("secondarycode") String secCurrCode, @JsonProperty("secondaryname") String secCurrName,
+      @JsonProperty("buyorders") List<CryptsyPublicOrder> buyOrders, @JsonProperty("sellorders") List<CryptsyPublicOrder> sellOrders) {
 
     this.marketId = marketId;
     this.label = label;
@@ -54,51 +55,43 @@ public class CryptsyPublicOrderbook {
     this.sellOrders = sellOrders;
   }
 
-  
   public int getMarketId() {
-  
+
     return marketId;
   }
 
-  
   public String getLabel() {
-  
+
     return label;
   }
 
-  
   public String getPriCurrCode() {
-  
+
     return priCurrCode;
   }
 
-  
   public String getPriCurrName() {
-  
+
     return priCurrName;
   }
 
-  
   public String getSecCurrCode() {
-  
+
     return secCurrCode;
   }
 
-  
   public String getSecCurrName() {
-  
+
     return secCurrName;
   }
 
-  
   public List<CryptsyPublicOrder> getBuyOrders() {
-  
+
     return buyOrders;
   }
 
-  
   public List<CryptsyPublicOrder> getSellOrders() {
-  
+
     return sellOrders;
   }
 

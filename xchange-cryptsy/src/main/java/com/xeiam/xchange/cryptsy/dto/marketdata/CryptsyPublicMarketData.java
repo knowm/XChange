@@ -70,7 +70,7 @@ public class CryptsyPublicMarketData {
     this.sellOrders = sellOrders;
   }
 
-  public int getMarketID() {
+  public int getMarketId() {
 
     return marketId;
   }
@@ -133,7 +133,7 @@ public class CryptsyPublicMarketData {
   @Override
   public String toString() {
 
-    return "CryptsyPublicMarketData [marketID=" + marketId + ", label=" + label + ", priCurrCode=" + priCurrCode + ", priCurrName=" + priCurrName + ", secCurrCode=" + secCurrCode + ", secCurrName="
+    return "CryptsyPublicMarketData [marketId=" + marketId + ", label=" + label + ", priCurrCode=" + priCurrCode + ", priCurrName=" + priCurrName + ", secCurrCode=" + secCurrCode + ", secCurrName="
         + secCurrName + ", volume=" + volume + ", lastTradePrice=" + lastTradePrice + ", lastTradeTime=" + lastTradeTime + ", recentTrades=" + recentTrades + ", buyOrders=" + buyOrders
         + ", sellOrders=" + sellOrders + "]";
   }

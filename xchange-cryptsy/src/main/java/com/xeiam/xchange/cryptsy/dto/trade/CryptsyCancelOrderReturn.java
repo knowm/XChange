@@ -28,7 +28,7 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyCancelOrderReturn extends CryptsyGenericReturn<String> {
-  
+
   /**
    * Constructor
    * 
@@ -37,7 +37,7 @@ public class CryptsyCancelOrderReturn extends CryptsyGenericReturn<String> {
    * @param error
    */
   public CryptsyCancelOrderReturn(@JsonProperty("success") int success, @JsonProperty("return") String value, @JsonProperty("error") String error) {
-  
+
     super(success, value, error);
   }
 }

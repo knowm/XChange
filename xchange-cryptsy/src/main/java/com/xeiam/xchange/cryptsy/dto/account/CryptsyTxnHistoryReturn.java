@@ -31,7 +31,7 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyTxnHistoryReturn extends CryptsyGenericReturn<List<CryptsyTxn>> {
-  
+
   /**
    * Constructor
    * 
@@ -39,9 +39,8 @@ public class CryptsyTxnHistoryReturn extends CryptsyGenericReturn<List<CryptsyTx
    * @param value The BTC-e account info
    * @param error Any error
    */
-  public CryptsyTxnHistoryReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyTxn> value,
-      @JsonProperty("error") String error) {
-  
+  public CryptsyTxnHistoryReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyTxn> value, @JsonProperty("error") String error) {
+
     super(success, (value == null ? new ArrayList<CryptsyTxn>() : value), error);
   }
 }

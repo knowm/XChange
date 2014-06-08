@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIdED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -89,14 +89,14 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseSer
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public void updateExchangeSymbols() throws ExchangeException, IOException {
 
-    Map<String, CryptsyPublicMarketData> overallMarketData = new CryptsyPublicMarketDataServiceRaw().getAllCryptsyMarketData();
+    Map<Integer, CryptsyPublicMarketData> overallMarketData = new CryptsyPublicMarketDataServiceRaw().getAllCryptsyMarketData();
 
     currencyPairs.addAll(CryptsyAdapters.adaptCurrencyPairs(overallMarketData));
 
-    // Map of market currencyPairs and marketIDs also have to be updated.
+    // Map of market currencyPairs and marketIds also have to be updated.
     HashMap[] marketSets = CryptsyAdapters.adaptMarketSets(overallMarketData);
-    CryptsyCurrencyUtils.marketIDs_CurrencyPairs = marketSets[0];
-    CryptsyCurrencyUtils.currencyPairs_MarketIDs = marketSets[1];
+    CryptsyCurrencyUtils.marketIds_CurrencyPairs = marketSets[0];
+    CryptsyCurrencyUtils.currencyPairs_MarketIds = marketSets[1];
   }
 
   protected int nextNonce() {

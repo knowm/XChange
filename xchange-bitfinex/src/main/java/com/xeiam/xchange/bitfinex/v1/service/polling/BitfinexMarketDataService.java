@@ -128,4 +128,5 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
     return BitfinexAdapters.adaptTrades(trades, currencyPair);
   }
 
+
 }

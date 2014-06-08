@@ -36,7 +36,7 @@ public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServi
 
     verify(currencyPair);
 
-    Map<String, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketID(currencyPair));
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
     return CryptsyAdapters.adaptPublicTickers(cryptsyMarketData).get(0);
   }
@@ -46,7 +46,7 @@ public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServi
 
     verify(currencyPair);
 
-    Map<String, CryptsyPublicOrderbook> cryptsyOrderBook = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketID(currencyPair));
+    Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBook = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
     return CryptsyAdapters.adaptPublicOrderBooks(cryptsyOrderBook).get(0);
   }
 
@@ -55,7 +55,7 @@ public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServi
 
     verify(currencyPair);
 
-    Map<String, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketID(currencyPair));
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = super.getCryptsyMarketData(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
     return CryptsyAdapters.adaptPublicTrades(cryptsyMarketData).get(currencyPair);
   }

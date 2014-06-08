@@ -31,7 +31,7 @@ import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyPlaceOrderReturn extends CryptsyGenericReturn<Integer> {
-  
+
   /**
    * Constructor
    * 
@@ -40,7 +40,7 @@ public class CryptsyPlaceOrderReturn extends CryptsyGenericReturn<Integer> {
    * @param error
    */
   public CryptsyPlaceOrderReturn(@JsonProperty("success") int success, @JsonProperty("orderid") int value, @JsonProperty("error") String error) {
-  
+
     super(success, value, error);
   }
 }

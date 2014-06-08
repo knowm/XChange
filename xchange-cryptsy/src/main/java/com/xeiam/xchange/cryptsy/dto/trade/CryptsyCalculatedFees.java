@@ -33,10 +33,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyCalculatedFees {
-  
+
   private final BigDecimal fee;
   private final BigDecimal net;
-  
+
   /**
    * Constructor
    * 
@@ -50,24 +50,24 @@ public class CryptsyCalculatedFees {
    * @throws ParseException
    */
   public CryptsyCalculatedFees(@JsonProperty("fee") BigDecimal fee, @JsonProperty("net") BigDecimal net) throws ParseException {
-  
+
     this.fee = fee;
     this.net = net;
   }
-  
+
   public BigDecimal getFee() {
-  
+
     return fee;
   }
-  
+
   public BigDecimal getNet() {
-  
+
     return net;
   }
-  
+
   @Override
   public String toString() {
-  
+
     return "CryptsyOpenOrder[" + "Fee='" + fee + "',Net Amount='" + net + "']";
   }
 }

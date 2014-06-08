@@ -41,17 +41,17 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
  * @author ObsessiveOrange
  */
 public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAuthenticated> {
-  
+
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public CryptsyTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
-  
+
     super(CryptsyAuthenticated.class, exchangeSpecification);
   }
-  
+
   /**
    * Gets the trade history for a single market
    * 
@@ -62,15 +62,15 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws IOException
    */
   public CryptsyTradeHistoryReturn getCryptsySingleMarketTradeHistory(int marketID, int... args) throws IOException, ExchangeException {
-  
+
     int limit = 1000; // default value
     if (args.length > 0) {
       limit = args[0];
     }
-    
+
     return checkResult(cryptsy.mytrades(apiKey, signatureCreator, nextNonce(), marketID, limit));
   }
-  
+
   /**
    * Gets the trade history for a all markets
    * 
@@ -81,12 +81,12 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws IOException
    */
   public CryptsyTradeHistoryReturn getCryptsyTradeHistory(Date startDate, Date endDate) throws IOException, ExchangeException {
-  
+
     SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     return checkResult(cryptsy.allmytrades(apiKey, signatureCreator, nextNonce(), outputFormatter.format(startDate), outputFormatter.format(endDate)));
   }
-  
+
   /**
    * Gets the open orders in a specific market
    * 
@@ -96,10 +96,10 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws IOException
    */
   public CryptsyOpenOrdersReturn getCryptsySingleMarketOpenOrders(int marketID) throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.myorders(apiKey, signatureCreator, nextNonce(), marketID));
   }
-  
+
   /**
    * Gets the open orders in all markets
    * 
@@ -108,10 +108,10 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws IOException
    */
   public CryptsyOpenOrdersReturn getCryptsyOpenOrders() throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.allmyorders(apiKey, signatureCreator, nextNonce()));
   }
-  
+
   /**
    * Places a limit order based on parameters given
    * 
@@ -123,12 +123,11 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
    * @throws IOException
    */
-  public CryptsyPlaceOrderReturn placeCryptsyLimitOrder(int marketID, CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price)
-      throws IOException, ExchangeException {
-  
+  public CryptsyPlaceOrderReturn placeCryptsyLimitOrder(int marketID, CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException, ExchangeException {
+
     return checkResult(cryptsy.createorder(apiKey, signatureCreator, nextNonce(), marketID, orderType.toString(), quantity, price));
   }
-  
+
   /**
    * Cancels a order of given orderID
    * 
@@ -138,10 +137,10 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws IOException
    */
   public CryptsyCancelOrderReturn cancelSingleCryptsyLimitOrder(int orderID) throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.cancelorder(apiKey, signatureCreator, nextNonce(), orderID));
   }
-  
+
   /**
    * Cancels all orders in given marketID
    * 
@@ -151,10 +150,10 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws IOException
    */
   public CryptsyCancelMultipleOrdersReturn cancelMarketCryptsyLimitOrders(int marketID) throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.cancelmarketorders(apiKey, signatureCreator, nextNonce(), marketID));
   }
-  
+
   /**
    * Cancels all orders across all markets
    * 
@@ -163,10 +162,10 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws IOException
    */
   public CryptsyCancelMultipleOrdersReturn cancelAllCryptsyLimitOrders() throws IOException, ExchangeException {
-  
+
     return checkResult(cryptsy.cancelallorders(apiKey, signatureCreator, nextNonce()));
   }
-  
+
   /**
    * Estimates fees and net trade volume
    * 
@@ -177,10 +176,9 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
    * @throws IOException
    */
-  public CryptsyCalculatedFeesReturn calculateCryptsyFees(CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException,
-      ExchangeException {
-  
+  public CryptsyCalculatedFeesReturn calculateCryptsyFees(CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException, ExchangeException {
+
     return checkResult(cryptsy.calculatefees(apiKey, signatureCreator, nextNonce(), orderType.toString(), quantity, price));
   }
-  
+
 }

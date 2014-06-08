@@ -22,8 +22,7 @@
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
-
-import si.mazi.rescu.RestProxyFactory;
+import java.util.Collection;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.Bitfinex;
@@ -39,9 +38,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
-
-  protected final Bitfinex bitfinex;
+public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bitfinex> {
 
   /**
    * Constructor
@@ -50,29 +47,32 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
    */
   public BitfinexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    bitfinex = RestProxyFactory.createProxy(Bitfinex.class, exchangeSpecification.getSslUri());
+    super(Bitfinex.class, exchangeSpecification);
   }
 
   public BitfinexTicker getBitfinexTicker(String pair) throws IOException {
 
-    BitfinexTicker btceTicker = bitfinex.getTicker(pair);
+    BitfinexTicker bitfinexTicker = bitfinex.getTicker(pair);
 
-    return btceTicker;
+    return bitfinexTicker;
   }
 
   public BitfinexDepth getBitfinexOrderBook(String pair, int limitBids, int limitAsks) throws IOException {
 
-    BitfinexDepth btceDepth = bitfinex.getBook(pair, limitBids, limitAsks);
+    BitfinexDepth bitfinexDepth = bitfinex.getBook(pair, limitBids, limitAsks);
 
-    return btceDepth;
+    return bitfinexDepth;
   }
 
   public BitfinexTrade[] getBitfinexTrades(String pair, long sinceTimestamp) throws IOException {
 
-    BitfinexTrade[] trades = bitfinex.getTrades(pair, sinceTimestamp);
+    BitfinexTrade[] bitfinexTrades = bitfinex.getTrades(pair, sinceTimestamp);
 
-    return trades;
+    return bitfinexTrades;
   }
 
+  public Collection<String> getBitfinexSymbols()  throws IOException {
+    
+    return bitfinex.getSymbols();
+  }
 }

@@ -28,15 +28,15 @@ import com.xeiam.xchange.service.BaseExchangeService;
  * @author ObsessiveOrange
  */
 public abstract class CryptsyBaseService extends BaseExchangeService {
-  
+
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CryptsyBaseService(ExchangeSpecification exchangeSpecification) {
-  
+
     super(exchangeSpecification);
-    
+
   }
 }

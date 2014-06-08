@@ -24,6 +24,7 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
@@ -35,7 +36,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
+public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<BitfinexAuthenticated> {
 
   /**
    * Constructor
@@ -44,7 +45,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
    */
   public BitfinexTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
+    super(BitfinexAuthenticated.class, exchangeSpecification);
   }
 
   public BitfinexOrderStatusResponse[] getBitfinexOpenOrders() throws IOException {
