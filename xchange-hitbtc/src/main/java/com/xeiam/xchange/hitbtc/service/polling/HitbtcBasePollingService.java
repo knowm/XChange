@@ -34,13 +34,14 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.hitbtc.Hitbtc;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
-import com.xeiam.xchange.hitbtc.service.HitbtcBaseService;
 import com.xeiam.xchange.hitbtc.service.HitbtcHmacDigest;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author kpysniak
  */
-public abstract class HitbtcBasePollingService<T extends Hitbtc> extends HitbtcBaseService {
+public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
   private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
@@ -74,8 +75,9 @@ public abstract class HitbtcBasePollingService<T extends Hitbtc> extends HitbtcB
   @Override
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (currencyPairs.isEmpty())
+    if (currencyPairs.isEmpty()) {
       currencyPairs.addAll(HitbtcAdapters.adaptCurrencyPairs(hitbtc.getSymbols()));
+    }
 
     return currencyPairs;
   }

@@ -32,9 +32,10 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.itbit.v1.ItBitAuthenticated;
 import com.xeiam.xchange.itbit.v1.service.ItBitHmacPostBodyDigest;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class ItBitBasePollingService extends BasePollingExchangeService {
+public class ItBitBasePollingService extends BaseExchangeService implements BasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
   private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));

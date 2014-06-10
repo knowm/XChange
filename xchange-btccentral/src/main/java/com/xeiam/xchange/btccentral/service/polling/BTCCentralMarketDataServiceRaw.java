@@ -9,12 +9,11 @@ import com.xeiam.xchange.btccentral.BTCCentral;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralMarketDepth;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTicker;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTrade;
-import com.xeiam.xchange.btccentral.service.BTCCentralBaseService;
 
 /**
  * @author kpysniak
  */
-public class BTCCentralMarketDataServiceRaw extends BTCCentralBaseService {
+public class BTCCentralMarketDataServiceRaw extends BTCCentralBasePollingService {
 
   private final BTCCentral btcCentral;
 

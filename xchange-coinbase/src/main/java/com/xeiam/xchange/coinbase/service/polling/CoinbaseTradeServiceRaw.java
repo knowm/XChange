@@ -32,7 +32,7 @@ import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 /**
  * @author jamespedwards42
  */
-class CoinbaseTradeServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated> {
+class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthenticated> {
 
   protected CoinbaseTradeServiceRaw(final ExchangeSpecification exchangeSpecification) {
 

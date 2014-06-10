@@ -33,13 +33,12 @@ import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import com.xeiam.xchange.bitstamp.service.BitstampBaseService;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 
 /**
  * @author gnandiga
  */
-public class BitstampTradeServiceRaw extends BitstampBaseService {
+public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
   private final BitstampAuthenticated bitstampAuthenticated;
   private final BitstampDigest signatureCreator;

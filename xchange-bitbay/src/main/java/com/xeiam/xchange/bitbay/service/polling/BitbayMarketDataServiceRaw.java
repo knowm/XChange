@@ -9,13 +9,12 @@ import com.xeiam.xchange.bitbay.Bitbay;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
-import com.xeiam.xchange.bitbay.service.BitbayBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author kpysniak
  */
-public class BitbayMarketDataServiceRaw extends BitbayBaseService {
+public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
 
   private final Bitbay bitbay;
 

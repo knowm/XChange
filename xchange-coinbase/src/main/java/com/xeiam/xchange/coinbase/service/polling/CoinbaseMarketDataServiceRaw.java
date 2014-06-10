@@ -34,7 +34,7 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 /**
  * @author jamespedwards42
  */
-class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService<Coinbase> {
+class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> {
 
   /**
    * Constructor

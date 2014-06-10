@@ -1,4 +1,4 @@
-package com.xeiam.xchange.bitbay.service;
+package com.xeiam.xchange.bitbay.service.polling;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -9,15 +9,22 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author kpysniak
  */
-public class BitbayBaseService extends BaseExchangeService {
+public class BitbayBasePollingService extends BaseExchangeService implements BasePollingService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.BTC_USD, CurrencyPair.BTC_PLN, CurrencyPair.LTC_USD, new CurrencyPair(Currencies.LTC, Currencies.PLN)
+  CurrencyPair.BTC_USD,
+
+  CurrencyPair.BTC_PLN,
+
+  CurrencyPair.LTC_USD,
+
+  new CurrencyPair(Currencies.LTC, Currencies.PLN)
 
   );
 
@@ -26,7 +33,7 @@ public class BitbayBaseService extends BaseExchangeService {
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected BitbayBaseService(ExchangeSpecification exchangeSpecification) {
+  protected BitbayBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }

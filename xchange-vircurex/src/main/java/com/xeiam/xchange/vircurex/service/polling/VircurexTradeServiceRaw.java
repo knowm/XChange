@@ -34,10 +34,9 @@ import com.xeiam.xchange.vircurex.VircurexAuthenticated;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrdersReturn;
 import com.xeiam.xchange.vircurex.dto.trade.VircurexPlaceOrderReturn;
-import com.xeiam.xchange.vircurex.service.VircurexBaseService;
 import com.xeiam.xchange.vircurex.service.VircurexSha2Digest;
 
-public class VircurexTradeServiceRaw extends VircurexBaseService {
+public class VircurexTradeServiceRaw extends VircurexBasePollingService {
 
   private VircurexAuthenticated vircurex;
 

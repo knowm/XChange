@@ -35,12 +35,11 @@ import com.xeiam.xchange.oer.OER;
 import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
-import com.xeiam.xchange.oer.service.OERBaseService;
 
 /**
  * @author timmolter
  */
-public class OERMarketDataServiceRaw extends OERBaseService implements CachedDataSession {
+public class OERMarketDataServiceRaw extends OERBasePollingService implements CachedDataSession {
 
   private final Logger logger = LoggerFactory.getLogger(OERMarketDataServiceRaw.class);
 

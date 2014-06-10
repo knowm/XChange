@@ -1,4 +1,4 @@
-package com.xeiam.xchange.lakebtc.service;
+package com.xeiam.xchange.lakebtc.service.polling;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -8,11 +8,12 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author kpysniak
  */
-public class LakeBTCBaseService extends BaseExchangeService {
+public class LakeBTCBasePollingService extends BaseExchangeService implements BasePollingService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
@@ -25,7 +26,7 @@ public class LakeBTCBaseService extends BaseExchangeService {
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected LakeBTCBaseService(ExchangeSpecification exchangeSpecification) {
+  protected LakeBTCBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }

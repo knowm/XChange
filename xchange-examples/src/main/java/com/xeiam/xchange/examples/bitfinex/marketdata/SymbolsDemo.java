@@ -22,23 +22,21 @@ public class SymbolsDemo {
 
     generic(marketDataService);
     raw((BitfinexMarketDataServiceRaw) marketDataService);
-
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
+    Collection<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
+
+    System.out.println(currencyPairs);
   }
 
   private static void raw(BitfinexMarketDataServiceRaw marketDataService) throws IOException {
 
-    // Get the latest ticker data showing BTC to USD
     Collection<String> symbols = marketDataService.getBitfinexSymbols();
-
     System.out.println(symbols);
 
     Collection<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
-
     System.out.println(currencyPairs);
-
   }
 }

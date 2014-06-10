@@ -30,12 +30,11 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
-import com.xeiam.xchange.campbx.service.CampBXBaseService;
 
 /**
  * @author Matija Mazi
  */
-public class CampBXAccountServiceRaw extends CampBXBaseService {
+public class CampBXAccountServiceRaw extends CampBXBasePollingService {
 
   private final CampBX campBX;
 

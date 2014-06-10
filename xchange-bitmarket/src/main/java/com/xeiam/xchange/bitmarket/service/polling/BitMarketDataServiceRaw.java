@@ -9,13 +9,12 @@ import com.xeiam.xchange.bitmarket.BitMarket;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
-import com.xeiam.xchange.bitmarket.service.BitMarketBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author kpysniak
  */
-public class BitMarketDataServiceRaw extends BitMarketBaseService {
+public class BitMarketDataServiceRaw extends BitMarketBasePollingService {
 
   private final BitMarket bitMarket;
 

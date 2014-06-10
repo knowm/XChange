@@ -40,7 +40,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
-import com.xeiam.xchange.bitstamp.service.BitstampBaseService;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampBasePollingService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -55,7 +55,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  * Streaming trade service for the Bitstamp exchange
  * </p>
  */
-public class BitstampPusherService extends BitstampBaseService implements StreamingExchangeService {
+public class BitstampPusherService extends BitstampBasePollingService implements StreamingExchangeService {
 
   private final Logger log = LoggerFactory.getLogger(BitstampPusherService.class);
 

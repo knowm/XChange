@@ -35,7 +35,6 @@ import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
-import com.xeiam.xchange.bitcoincharts.service.BitcoinChartsBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -45,7 +44,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * @author timmolter
  */
-public class BitcoinChartsMarketDataService extends BitcoinChartsBaseService implements PollingMarketDataService, CachedDataSession {
+public class BitcoinChartsMarketDataService extends BitcoinChartsBasePollingService implements PollingMarketDataService, CachedDataSession {
 
   private final Logger logger = LoggerFactory.getLogger(BitcoinChartsMarketDataService.class);
 

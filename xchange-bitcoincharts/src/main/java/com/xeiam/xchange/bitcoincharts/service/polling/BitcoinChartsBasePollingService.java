@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoincharts.service;
+package com.xeiam.xchange.bitcoincharts.service.polling;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,11 +28,12 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author timmolter
  */
-public class BitcoinChartsBaseService extends BaseExchangeService {
+public class BitcoinChartsBasePollingService extends BaseExchangeService implements BasePollingService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
@@ -259,7 +260,7 @@ public class BitcoinChartsBaseService extends BaseExchangeService {
    * 
    * @param exchangeSpecification
    */
-  public BitcoinChartsBaseService(ExchangeSpecification exchangeSpecification) {
+  public BitcoinChartsBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }

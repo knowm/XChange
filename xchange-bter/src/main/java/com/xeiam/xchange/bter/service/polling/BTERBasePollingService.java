@@ -34,8 +34,9 @@ import com.xeiam.xchange.bter.dto.BTERBaseResponse;
 import com.xeiam.xchange.bter.service.BTERHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class BTERBasePollingService<T extends BTER> extends BaseExchangeService {
+public class BTERBasePollingService<T extends BTER> extends BaseExchangeService implements BasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 
@@ -64,16 +65,18 @@ public class BTERBasePollingService<T extends BTER> extends BaseExchangeService 
   @Override
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (pairs == null)
+    if (pairs == null) {
       pairs = bter.getPairs().getPairs();
+    }
 
     return pairs;
   }
 
   protected <R extends BTERBaseResponse> R handleResponse(final R response) {
 
-    if (!response.isResult())
+    if (!response.isResult()) {
       throw new ExchangeException(response.getMessage());
+    }
 
     return response;
   }

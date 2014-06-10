@@ -37,17 +37,18 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.service.CoinbaseDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author jamespedwards42
  */
-abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchangeService {
+abstract class CoinbaseBasePollingService<T extends Coinbase> extends BaseExchangeService implements BasePollingService {
 
   protected final T coinbase;
   protected final ParamsDigest signatureCreator;
 
-  protected CoinbaseBaseService(final Class<T> type, final ExchangeSpecification exchangeSpecification) {
+  protected CoinbaseBasePollingService(final Class<T> type, final ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
     coinbase = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
@@ -130,8 +131,9 @@ abstract class CoinbaseBaseService<T extends Coinbase> extends BasePollingExchan
   protected <R extends CoinbaseBaseResponse> R handleResponse(final R response) {
 
     final List<String> errors = response.getErrors();
-    if (errors != null && !errors.isEmpty())
+    if (errors != null && !errors.isEmpty()) {
       throw new ExchangeException(errors.toString());
+    }
 
     return response;
   }

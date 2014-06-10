@@ -49,7 +49,7 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 /**
  * @author jamespedwards42
  */
-class CoinbaseAccountServiceRaw extends CoinbaseBaseService<CoinbaseAuthenticated> {
+class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthenticated> {
 
   protected CoinbaseAccountServiceRaw(final ExchangeSpecification exchangeSpecification) {
 

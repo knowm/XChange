@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoinaverage.service;
+package com.xeiam.xchange.btcchina.service.polling;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,45 +27,20 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author timmolter
  */
-public class BitcoinaverageBaseService extends BaseExchangeService {
+public class BTCChinaBasePollingService extends BaseExchangeService implements BasePollingService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.BTC_AUD,
-
-  CurrencyPair.BTC_BRL,
-
-  CurrencyPair.BTC_CAD,
-
   CurrencyPair.BTC_CNY,
 
-  CurrencyPair.BTC_CZK,
+  CurrencyPair.LTC_CNY,
 
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_GBP,
-
-  CurrencyPair.BTC_ILS,
-
-  CurrencyPair.BTC_JPY,
-
-  CurrencyPair.BTC_NOK,
-
-  CurrencyPair.BTC_NZD,
-
-  CurrencyPair.BTC_PLN,
-
-  CurrencyPair.BTC_RUB,
-
-  CurrencyPair.BTC_SEK,
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.BTC_ZAR
+  CurrencyPair.LTC_BTC
 
   );
 
@@ -74,7 +49,7 @@ public class BitcoinaverageBaseService extends BaseExchangeService {
    * 
    * @param exchangeSpecification
    */
-  public BitcoinaverageBaseService(ExchangeSpecification exchangeSpecification) {
+  public BTCChinaBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }

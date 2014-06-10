@@ -21,11 +21,7 @@
  */
 package com.xeiam.xchange.service;
 
-import java.io.IOException;
-import java.util.Collection;
-
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -54,14 +50,5 @@ public abstract class BaseExchangeService {
 
     this.exchangeSpecification = exchangeSpecification;
   }
-
-  /**
-   * <p>
-   * what symbol pairs the exchange supports
-   * </p>
-   * 
-   * @return The symbol pairs supported by this exchange (e.g. EUR/USD), null if some sort of error occurred. Implementers should log the error.
-   */
-  public abstract Collection<CurrencyPair> getExchangeSymbols() throws IOException;
 
 }

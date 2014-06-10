@@ -43,10 +43,11 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
-import com.xeiam.xchange.kraken.service.KrakenBaseService;
 import com.xeiam.xchange.kraken.service.KrakenDigest;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseService {
+public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeService implements BasePollingService {
 
   private final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
   private final Set<String> FIAT_CURRENCIES = new HashSet<String>();
@@ -88,10 +89,12 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
   private String addCurrencyAndGetCode(String krakenCurrencyString) {
 
     String currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
-    if (krakenCurrencyString.startsWith("X"))
+    if (krakenCurrencyString.startsWith("X")) {
       DIGITAL_CURRENCIES.add(currencyCode);
-    else
+    }
+    else {
       FIAT_CURRENCIES.add(currencyCode);
+    }
 
     return currencyCode;
   }
@@ -108,14 +111,17 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
 
   protected String getKrakenCurrencyCode(String currency) throws IOException {
 
-    if (FIAT_CURRENCIES.isEmpty())
+    if (FIAT_CURRENCIES.isEmpty()) {
       getExchangeSymbols();
+    }
 
-    if (FIAT_CURRENCIES.contains(currency))
+    if (FIAT_CURRENCIES.contains(currency)) {
       return "Z" + currency;
+    }
     else if (DIGITAL_CURRENCIES.contains(currency)) {
-      if (currency.equals(Currencies.BTC))
+      if (currency.equals(Currencies.BTC)) {
         return "XXBT";
+      }
 
       return "X" + currency;
     }

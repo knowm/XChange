@@ -23,7 +23,6 @@ package com.xeiam.xchange.coinfloor.streaming;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -38,7 +37,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorExchangeEvent;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorStreamingConfiguration;
 import com.xeiam.xchange.coinfloor.streaming.RequestFactory.CoinfloorRequest;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -126,7 +124,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
     RequestFactory.CoinfloorAuthenticationRequest authVars =
         new RequestFactory.CoinfloorAuthenticationRequest(Long.valueOf(exchangeSpecification.getUserName()), (String) exchangeSpecification.getExchangeSpecificParametersItem("cookie"),
-            exchangeSpecification.getPassword(), (String) exchangeEventListener.getServerNonce());
+            exchangeSpecification.getPassword(), exchangeEventListener.getServerNonce());
 
     doNewRequest(authVars, ExchangeEventType.AUTHENTICATION);
 
@@ -153,7 +151,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
         case TICKER:
         case AUTHENTICATION:
         case WELCOME:
-          updateEventQueue.put((CoinfloorExchangeEvent) getNextSystemEvent());
+          updateEventQueue.put(getNextSystemEvent());
           break;
 
         }
@@ -323,12 +321,6 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   public Ticker getCachedTicker() {
 
     return exchangeEventListener.getAdapterInstance().getCachedTicker();
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return null;
   }
 
   @Override

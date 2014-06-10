@@ -38,14 +38,15 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCE;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
-import com.xeiam.xchange.btce.v3.service.BTCEBaseService;
 import com.xeiam.xchange.btce.v3.service.BTCEHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author Matija Mazi
  */
-public class BTCEBasePollingService<T extends BTCE> extends BTCEBaseService {
+public class BTCEBasePollingService<T extends BTCE> extends BaseExchangeService implements BasePollingService {
 
   private final Logger logger = LoggerFactory.getLogger(BTCEBasePollingService.class);
 
@@ -76,8 +77,9 @@ public class BTCEBasePollingService<T extends BTCE> extends BTCEBaseService {
   @Override
   public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (currencyPairs.isEmpty())
+    if (currencyPairs.isEmpty()) {
       currencyPairs.addAll(BTCEAdapters.adaptCurrencyPairs(btce.getInfo().getPairs().keySet()));
+    }
 
     return currencyPairs;
   }

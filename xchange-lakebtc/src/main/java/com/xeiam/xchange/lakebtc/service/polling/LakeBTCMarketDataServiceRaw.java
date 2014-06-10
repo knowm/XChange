@@ -8,12 +8,11 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.lakebtc.LakeBTC;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
-import com.xeiam.xchange.lakebtc.service.LakeBTCBaseService;
 
 /**
  * @author kpysniak
  */
-public class LakeBTCMarketDataServiceRaw extends LakeBTCBaseService {
+public class LakeBTCMarketDataServiceRaw extends LakeBTCBasePollingService {
 
   private final LakeBTC lakeBTC;
 

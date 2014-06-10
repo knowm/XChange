@@ -1,4 +1,4 @@
-package com.xeiam.xchange.bitmarket.service;
+package com.xeiam.xchange.btccentral.service.polling;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -6,18 +6,18 @@ import java.util.Collection;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author kpysniak
  */
-public class BitMarketBaseService extends BaseExchangeService {
+public class BTCCentralBasePollingService extends BaseExchangeService implements BasePollingService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  CurrencyPair.BTC_PLN, new CurrencyPair(Currencies.LTC, Currencies.PLN)
+  CurrencyPair.BTC_EUR
 
   );
 
@@ -26,7 +26,7 @@ public class BitMarketBaseService extends BaseExchangeService {
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected BitMarketBaseService(ExchangeSpecification exchangeSpecification) {
+  protected BTCCentralBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }

@@ -41,7 +41,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
  * The implementation of this service is expected to be based on a client polling mechanism of some kind
  * </p>
  */
-public interface PollingAccountService {
+public interface PollingAccountService extends BasePollingService {
 
   /**
    * Get account info

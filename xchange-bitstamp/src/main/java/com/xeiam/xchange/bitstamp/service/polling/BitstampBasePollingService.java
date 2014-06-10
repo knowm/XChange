@@ -19,24 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.kraken.service;
+package com.xeiam.xchange.bitstamp.service.polling;
+
+import java.util.Arrays;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.utils.Assert;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
-public abstract class KrakenBaseService extends BaseExchangeService {
+/**
+ * @author timmolter
+ */
+public class BitstampBasePollingService extends BaseExchangeService implements BasePollingService {
+
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+
+  CurrencyPair.BTC_USD
+
+  );
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
    */
-  public KrakenBaseService(ExchangeSpecification exchangeSpecification) {
+  public BitstampBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-
   }
 
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() {
+
+    return CURRENCY_PAIRS;
+  }
 }

@@ -19,36 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcoinium.service;
+package com.xeiam.xchange.bitcurex.service.polling;
 
 import java.util.Arrays;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author timmolter
  */
-public class BitcoiniumBaseService extends BaseExchangeService {
+public class BitcurexBasePollingService extends BaseExchangeService implements BasePollingService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  new CurrencyPair(Currencies.BTC, "BITSTAMP_USD"),
+  CurrencyPair.BTC_EUR,
 
-  new CurrencyPair(Currencies.BTC, "BTCCHINA_CNY"),
-
-  new CurrencyPair(Currencies.BTC, "BTCE_EUR"),
-
-  new CurrencyPair(Currencies.BTC, "BTCE_RUR"),
-
-  new CurrencyPair(Currencies.BTC, "BTCE_USD"),
-
-  new CurrencyPair(Currencies.BTC, "KRAKEN_EUR"),
-
-  new CurrencyPair(Currencies.BTC, "KRAKEN_USD")
+  CurrencyPair.BTC_PLN
 
   );
 
@@ -57,7 +47,7 @@ public class BitcoiniumBaseService extends BaseExchangeService {
    * 
    * @param exchangeSpecification
    */
-  public BitcoiniumBaseService(ExchangeSpecification exchangeSpecification) {
+  public BitcurexBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }
@@ -66,6 +56,5 @@ public class BitcoiniumBaseService extends BaseExchangeService {
   public List<CurrencyPair> getExchangeSymbols() {
 
     return CURRENCY_PAIRS;
-
   }
 }

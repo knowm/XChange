@@ -31,7 +31,6 @@ import com.xeiam.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairs;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
-import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class KrakenExchangeSymbolsDemo {
@@ -50,7 +49,7 @@ public class KrakenExchangeSymbolsDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
 
-    for (CurrencyPair currencyPair : ((BaseExchangeService) krakenMarketDataService).getExchangeSymbols()) {
+    for (CurrencyPair currencyPair : krakenMarketDataService.getExchangeSymbols()) {
       System.out.println(currencyPair);
     }
   }

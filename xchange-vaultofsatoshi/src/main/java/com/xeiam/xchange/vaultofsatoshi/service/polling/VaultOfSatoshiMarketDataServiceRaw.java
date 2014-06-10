@@ -32,7 +32,6 @@ import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshi;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiDepth;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTicker;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTrade;
-import com.xeiam.xchange.vaultofsatoshi.service.VaultOfSatoshiBaseService;
 
 /**
  * <p>
@@ -42,7 +41,7 @@ import com.xeiam.xchange.vaultofsatoshi.service.VaultOfSatoshiBaseService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBaseService {
+public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBasePollingService {
 
   private final VaultOfSatoshi vaultOfSatoshi;
 

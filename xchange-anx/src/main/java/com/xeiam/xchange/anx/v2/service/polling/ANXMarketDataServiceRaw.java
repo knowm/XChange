@@ -38,11 +38,10 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickerWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickersWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
-import com.xeiam.xchange.anx.v2.service.ANXBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.Assert;
 
-public class ANXMarketDataServiceRaw extends ANXBaseService {
+public class ANXMarketDataServiceRaw extends ANXBasePollingService {
 
   private final ANXV2 anxV2;
 
@@ -75,13 +74,16 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
     StringBuilder extraCurrencyPairs = new StringBuilder();
     int i = 1;
     for (CurrencyPair currencyPair : currencyPairs) {
-      if (i++ == currencyPairs.size())
+      if (i++ == currencyPairs.size()) {
         pathCurrencyPair = currencyPair;
-      else
+      }
+      else {
         extraCurrencyPairs.append(currencyPair.baseSymbol).append(currencyPair.counterSymbol).append(",");
+      }
     }
-    if (pathCurrencyPair == null)
+    if (pathCurrencyPair == null) {
       return null;
+    }
     try {
       ANXTickersWrapper anxTickerWrapper = anxV2.getTickers(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol, extraCurrencyPairs.toString());
       return anxTickerWrapper.getAnxTickers();
@@ -106,13 +108,16 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
     StringBuilder extraCurrencyPairs = new StringBuilder();
     int i = 1;
     for (CurrencyPair currencyPair : currencyPairs) {
-      if (i++ == currencyPairs.size())
+      if (i++ == currencyPairs.size()) {
         pathCurrencyPair = currencyPair;
-      else
+      }
+      else {
         extraCurrencyPairs.append(currencyPair.baseSymbol).append(currencyPair.counterSymbol).append(",");
+      }
     }
-    if (pathCurrencyPair == null)
+    if (pathCurrencyPair == null) {
       return null;
+    }
     try {
       ANXDepthsWrapper anxDepthWrapper = anxV2.getFullDepths(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol, extraCurrencyPairs.toString());
       return anxDepthWrapper.getAnxDepths();

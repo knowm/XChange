@@ -32,7 +32,6 @@ import com.xeiam.xchange.virtex.v2.VirtEx;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTrade;
-import com.xeiam.xchange.virtex.v2.service.VirtexBaseService;
 
 /**
  * <p>
@@ -42,7 +41,7 @@ import com.xeiam.xchange.virtex.v2.service.VirtexBaseService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VirtExMarketDataServiceRaw extends VirtexBaseService {
+public class VirtExMarketDataServiceRaw extends VirtexBasePollingService {
 
   private final VirtEx virtEx;
 

@@ -43,7 +43,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
  * The implementation of this service is expected to be based on a client polling mechanism of some kind
  * </p>
  */
-public interface PollingMarketDataService {
+public interface PollingMarketDataService extends BasePollingService {
 
   /**
    * <p>

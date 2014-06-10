@@ -19,41 +19,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.bitcurex.service;
+package com.xeiam.xchange.service.polling;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.util.Collection;
 
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
- * @author timmolter
+ * <p>
+ * Abstract base class to provide the following to exchange services:
+ * </p>
+ * <ul>
+ * <li>Provision of standard specification parsing</li>
+ * </ul>
  */
-public class BitcurexBaseService extends BaseExchangeService {
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_PLN
-
-  );
+public interface BasePollingService {
 
   /**
-   * Constructor
+   * <p>
+   * Which currency pairs the exchange supports
+   * </p>
    * 
-   * @param exchangeSpecification
+   * @return The symbol pairs supported by this exchange (e.g. BTC/USD), null if some sort of error occurred. Implementers should log the error.
    */
-  public BitcurexBaseService(ExchangeSpecification exchangeSpecification) {
+  public abstract Collection<CurrencyPair> getExchangeSymbols() throws IOException;
 
-    super(exchangeSpecification);
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CURRENCY_PAIRS;
-  }
 }

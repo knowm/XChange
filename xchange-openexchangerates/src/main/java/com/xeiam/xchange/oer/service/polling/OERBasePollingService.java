@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.oer.service;
+package com.xeiam.xchange.oer.service.polling;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,11 +28,12 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author timmolter
  */
-public class OERBaseService extends BaseExchangeService {
+public class OERBasePollingService extends BaseExchangeService implements BasePollingService {
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
@@ -360,7 +361,7 @@ public class OERBaseService extends BaseExchangeService {
 
   );
 
-  public OERBaseService(ExchangeSpecification exchangeSpecification) {
+  public OERBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
   }
