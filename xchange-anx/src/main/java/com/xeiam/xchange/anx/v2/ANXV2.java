@@ -85,11 +85,7 @@ public interface ANXV2 {
       IOException;
 
   @GET
-  @Path("{ident}{currency}/money/trades/fetch")
-  ANXTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws ANXException, IOException;
-
-  @GET
-  @Path("{ident}{currency}/money/trades/fetch")
+  @Path("{ident}{currency}/money/trade/fetch")
   ANXTradesWrapper getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long since) throws ANXException, IOException;
 
   // Account Info API

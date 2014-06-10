@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.anx.v2.dto.marketdata;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -29,20 +31,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ANXTradesWrapper {
 
   private final String result;
-  private final ANXTrade[] anxTrade;
+  private final List<ANXTrade> anxTrades;
   private final String error;
 
   /**
    * Constructor
    * 
    * @param result
-   * @param anxTrade
+   * @param anxTrades
    * @param error
    */
-  public ANXTradesWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXTrade[] anxTrade, @JsonProperty("error") String error) {
+  public ANXTradesWrapper(@JsonProperty("result") String result, @JsonProperty("data") List<ANXTrade> anxTrades, @JsonProperty("error") String error) {
 
     this.result = result;
-    this.anxTrade = anxTrade;
+    this.anxTrades = anxTrades;
     this.error = error;
   }
 
@@ -51,9 +53,9 @@ public class ANXTradesWrapper {
     return result;
   }
 
-  public ANXTrade[] getANXTrades() {
+  public List<ANXTrade> getANXTrades() {
 
-    return anxTrade;
+    return anxTrades;
   }
 
   public String getError() {
