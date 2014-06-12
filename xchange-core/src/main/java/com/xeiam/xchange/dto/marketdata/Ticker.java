@@ -21,10 +21,12 @@
  */
 package com.xeiam.xchange.dto.marketdata;
 
+import com.google.common.collect.Maps;
+import com.xeiam.xchange.currency.CurrencyPair;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.xeiam.xchange.currency.CurrencyPair;
+import java.util.Map;
 
 /**
  * <p>
@@ -44,10 +46,11 @@ public final class Ticker {
   private final BigDecimal low;
   private final BigDecimal volume;
   private final Date timestamp;
+  private final Map<String, Object> attributes;
 
   /**
    * Constructor
-   * 
+   *
    * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
    * @param last
    * @param bid
@@ -57,7 +60,7 @@ public final class Ticker {
    * @param volume 24h volume
    * @param timestamp
    */
-  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal volume, Date timestamp) {
+  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal volume, Date timestamp, Map<String, Object> attributes) {
 
     this.currencyPair = currencyPair;
     this.last = last;
@@ -67,6 +70,7 @@ public final class Ticker {
     this.low = low;
     this.volume = volume;
     this.timestamp = timestamp;
+    this.attributes = attributes;
   }
 
   public CurrencyPair getCurrencyPair() {
@@ -109,10 +113,15 @@ public final class Ticker {
     return timestamp;
   }
 
+  public Object getAttribute(String attributeName) {
+
+    return attributes.get(attributeName);
+  }
+
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp=" + timestamp + "]";
+    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp=" + timestamp + ", attributes=" + attributes.toString() +"]";
   }
 
   /**
@@ -134,6 +143,7 @@ public final class Ticker {
     private BigDecimal low;
     private BigDecimal volume;
     private Date timestamp;
+    private Map<String, Object> attributes = Maps.newHashMap();
 
     /**
      * @return A new instance of the builder
@@ -150,7 +160,7 @@ public final class Ticker {
 
       validateState();
 
-      Ticker ticker = new Ticker(currencyPair, last, bid, ask, high, low, volume, timestamp);
+      Ticker ticker = new Ticker(currencyPair, last, bid, ask, high, low, volume, timestamp, attributes);
 
       isBuilt = true;
 
@@ -167,48 +177,54 @@ public final class Ticker {
     public TickerBuilder withCurrencyPair(CurrencyPair currencyPair) {
 
       this.currencyPair = currencyPair;
-      return this;
+      return this.withAttribute("currencyPair", currencyPair);
     }
 
     public TickerBuilder withLast(BigDecimal last) {
 
       this.last = last;
-      return this;
+      return this.withAttribute("last", last);
     }
 
     public TickerBuilder withBid(BigDecimal bid) {
 
       this.bid = bid;
-      return this;
+      return this.withAttribute("bid", bid);
     }
 
     public TickerBuilder withAsk(BigDecimal ask) {
 
       this.ask = ask;
-      return this;
+      return this.withAttribute("ask", ask);
     }
 
     public TickerBuilder withHigh(BigDecimal high) {
 
       this.high = high;
-      return this;
+      return this.withAttribute("high", high);
     }
 
     public TickerBuilder withLow(BigDecimal low) {
 
       this.low = low;
-      return this;
+      return this.withAttribute("low", low);
     }
 
     public TickerBuilder withVolume(BigDecimal volume) {
 
       this.volume = volume;
-      return this;
+      return this.withAttribute("volume", volume);
     }
 
     public TickerBuilder withTimestamp(Date timestamp) {
 
       this.timestamp = timestamp;
+      return this.withAttribute("timestamp", timestamp);
+    }
+
+    public TickerBuilder withAttribute(String attributeName, Object attributeValue) {
+
+      this.attributes.put(attributeName, attributeValue);
       return this;
     }
 
