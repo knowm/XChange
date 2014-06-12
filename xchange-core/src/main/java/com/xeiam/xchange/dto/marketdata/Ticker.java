@@ -50,7 +50,7 @@ public final class Ticker {
 
   /**
    * Constructor
-   * 
+   *
    * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
    * @param last
    * @param bid
@@ -111,6 +111,11 @@ public final class Ticker {
   public Date getTimestamp() {
 
     return timestamp;
+  }
+
+  public Object getAttribute(String attributeName) {
+
+    return attributes.get(attributeName);
   }
 
   @Override
