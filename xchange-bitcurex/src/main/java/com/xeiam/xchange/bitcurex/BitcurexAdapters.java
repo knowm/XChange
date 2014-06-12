@@ -133,8 +133,12 @@ public final class BitcurexAdapters {
     BigDecimal buy = bitcurexTicker.getBuy();
     BigDecimal sell = bitcurexTicker.getSell();
     BigDecimal volume = bitcurexTicker.getVol();
+    BigDecimal avg = bitcurexTicker.getAvg();
+    BigDecimal vwap = bitcurexTicker.getVwap();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high)
+      .withLow(low).withBid(buy).withAsk(sell).withVolume(volume).withAttribute("average", avg)
+      .withAttribute("vwap", vwap).build();
   }
 
 }

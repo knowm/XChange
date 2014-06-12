@@ -160,9 +160,13 @@ public final class BTCEAdapters {
     BigDecimal high = bTCETicker.getHigh();
     BigDecimal low = bTCETicker.getLow();
     BigDecimal volume = bTCETicker.getVol();
+    BigDecimal average = bTCETicker.getAvg();
+    BigDecimal currencyVolume = bTCETicker.getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid)
+      .withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withAttribute("average", average)
+      .withAttribute("currencyVolume", currencyVolume).withTimestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {

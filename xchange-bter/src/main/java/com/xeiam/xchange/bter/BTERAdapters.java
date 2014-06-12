@@ -21,14 +21,6 @@
  */
 package com.xeiam.xchange.bter;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.xeiam.xchange.bter.dto.BTEROrderType;
 import com.xeiam.xchange.bter.dto.account.BTERFunds;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
@@ -51,6 +43,14 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * Various adapters for converting from Bter DTOs to XChange DTOs
@@ -78,8 +78,13 @@ public final class BTERAdapters {
     BigDecimal low = bterTicker.getLow();
     BigDecimal high = bterTicker.getHigh();
     BigDecimal volume = bterTicker.getTradeCurrencyVolume();
+    BigDecimal average = bterTicker.getAvg();
+    BigDecimal tradeCurrencyVolume = bterTicker.getTradeCurrencyVolume();
+    BigDecimal priceCurrencyVolume = bterTicker.getPriceCurrencyVolume();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid)
+      .withLast(last).withLow(low).withHigh(high).withVolume(volume).withAttribute("average", average)
+      .withAttribute("tradeCurrencyVolume", tradeCurrencyVolume).withAttribute("priceCurrencyVolume", priceCurrencyVolume).build();
   }
 
   public static LimitOrder adaptOrder(BTERPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {

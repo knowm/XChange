@@ -53,15 +53,24 @@ public final class BitcoinChartsAdapters {
     for (int i = 0; i < bitcoinChartsTickers.length; i++) {
       if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counterSymbol)) {
 
-        BigDecimal last = bitcoinChartsTickers[i].getClose() != null ? bitcoinChartsTickers[i].getClose() : null;
-        BigDecimal bid = bitcoinChartsTickers[i].getBid() != null ? bitcoinChartsTickers[i].getBid() : null;
-        BigDecimal ask = bitcoinChartsTickers[i].getAsk() != null ? bitcoinChartsTickers[i].getAsk() : null;
-        BigDecimal high = bitcoinChartsTickers[i].getHigh() != null ? bitcoinChartsTickers[i].getHigh() : null;
-        BigDecimal low = bitcoinChartsTickers[i].getLow() != null ? bitcoinChartsTickers[i].getLow() : null;
+        BigDecimal last = bitcoinChartsTickers[i].getClose();
+        BigDecimal bid = bitcoinChartsTickers[i].getBid();
+        BigDecimal ask = bitcoinChartsTickers[i].getAsk();
+        BigDecimal high = bitcoinChartsTickers[i].getHigh();
+        BigDecimal low = bitcoinChartsTickers[i].getLow();
         BigDecimal volume = bitcoinChartsTickers[i].getVolume();
+        BigDecimal avg = bitcoinChartsTickers[i].getAvg();
+        BigDecimal close = bitcoinChartsTickers[i].getClose();
+        BigDecimal currencyVolume = bitcoinChartsTickers[i].getCurrencyVolume();
+        Date latestTrade = new Date(bitcoinChartsTickers[i].getLatestTrade());
         Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
+        String symbol = bitcoinChartsTickers[i].getSymbol();
 
-        return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timeStamp).build();
+        return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid)
+          .withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withAttribute("average", avg)
+          .withAttribute("close", close).withAttribute("currencyVolume", currencyPair)
+          .withAttribute("currencyVolume", currencyVolume).withAttribute("latestTrade", latestTrade)
+          .withAttribute("symbol", symbol).withTimestamp(timeStamp).build();
 
       }
     }

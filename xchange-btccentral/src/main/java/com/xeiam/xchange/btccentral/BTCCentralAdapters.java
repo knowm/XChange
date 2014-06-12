@@ -38,11 +38,15 @@ public class BTCCentralAdapters {
     BigDecimal high = btcCentralTicker.getHigh();
     BigDecimal low = btcCentralTicker.getLow();
     BigDecimal volume = btcCentralTicker.getVolume();
+    BigDecimal midpoint = btcCentralTicker.getMidpoint();
+    BigDecimal variation = btcCentralTicker.getVariation();
+    BigDecimal vwap = btcCentralTicker.getVwap();
     Date timestamp = new Date(btcCentralTicker.getAt() * 1000L);
 
     return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair)
         .withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume)
-        .withTimestamp(timestamp).build();
+        .withAttribute("midpoint", midpoint).withAttribute("variation", variation)
+        .withAttribute("vwap", vwap).withTimestamp(timestamp).build();
   }
 
   /**

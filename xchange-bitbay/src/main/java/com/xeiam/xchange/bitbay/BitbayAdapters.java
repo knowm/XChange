@@ -39,11 +39,16 @@ public class BitbayAdapters {
     BigDecimal low = bitbayTicker.getMin();
     BigDecimal volume = bitbayTicker.getVolume();
     BigDecimal last = bitbayTicker.getLast();
+    BigDecimal max = bitbayTicker.getMax();
+    BigDecimal min = bitbayTicker.getMin();
+    BigDecimal vwap = bitbayTicker.getVwap();
+    BigDecimal average = bitbayTicker.getAverage();
     Date timestamp = new Date();
 
     return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last)
         .withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume)
-        .withTimestamp(timestamp).build();
+        .withTimestamp(timestamp).withAttribute("max", max).withAttribute("min", min)
+        .withAttribute("vwap", vwap).withAttribute("average", average).build();
   }
 
   /**

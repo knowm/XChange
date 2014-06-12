@@ -56,8 +56,11 @@ public final class BitcoinAverageAdapters {
     BigDecimal ask = bitcoinAverageTicker.getAsk();
     Date timestamp = bitcoinAverageTicker.getTimestamp();
     BigDecimal volume = bitcoinAverageTicker.getVolume();
+    BigDecimal volumePercent = bitcoinAverageTicker.getVolumePercent();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withVolume(volume).withTimestamp(timestamp).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid)
+      .withAsk(ask).withVolume(volume).withTimestamp(timestamp).withAttribute("volumePercent", volumePercent)
+      .build();
   }
 
 }

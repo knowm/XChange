@@ -220,11 +220,15 @@ public final class ANXAdapters {
     BigDecimal ask = anxTicker.getSell().getValue();
     BigDecimal high = anxTicker.getHigh().getValue();
     BigDecimal low = anxTicker.getLow().getValue();
+    BigDecimal average = anxTicker.getAvg().getValue();
+    BigDecimal vwap = anxTicker.getVwap().getValue();
     Date timestamp = new Date(anxTicker.getNow() / 1000);
 
     CurrencyPair currencyPair = new CurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid)
+      .withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp)
+      .withAttribute("average", average).withAttribute("vwap", vwap).build();
 
   }
 }

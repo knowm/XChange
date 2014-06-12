@@ -36,9 +36,11 @@ public class BitMarketAdapters {
     BigDecimal high = bitMarketTicker.getHigh();
     BigDecimal low = bitMarketTicker.getLow();
     BigDecimal volume = bitMarketTicker.getVolume();
+    BigDecimal vwap = bitMarketTicker.getVwap();
 
     return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair)
-        .withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+        .withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume)
+        .withAttribute("vwap", vwap).build();
   }
 
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
