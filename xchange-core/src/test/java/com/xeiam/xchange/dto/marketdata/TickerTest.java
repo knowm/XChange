@@ -30,9 +30,6 @@ import java.util.Date;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-/**
- * Created by kpysniak on 12/06/14.
- */
 public class TickerTest {
 
   @Test
