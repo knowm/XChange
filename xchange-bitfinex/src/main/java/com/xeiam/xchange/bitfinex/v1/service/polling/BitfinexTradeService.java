@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
+import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -71,7 +72,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder, false);
+    BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
 
     return String.valueOf(newOrder.getId());
   }
