@@ -25,8 +25,8 @@ import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
-import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
+import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
