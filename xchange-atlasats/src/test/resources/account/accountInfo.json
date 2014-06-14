@@ -1,0 +1,19 @@
+{
+    "exposure": 0,
+    "unrealizedpl": 0,
+    "margindebit": 0,
+    "netvalue": 10000,
+    "marginused": 0,
+    "withdrawcash": 10000,
+    "leverage": 10,
+    "totalpl": 0,
+    "currency": "USD",
+    "positions":[],
+    "balance": 10000,
+    "realizedpl": 0,
+    "buyingpower": 100000,
+    "account": 19,
+    "orders": ["33-080513-225438-274", "33-080513-532400-323"], /* order IDs of todays orders */
+    "commission": 0,
+    "marginavail": 10000
+}

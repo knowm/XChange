@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -37,6 +36,7 @@ public final class BitstampTicker {
   private final BigDecimal volume;
   private final BigDecimal bid;
   private final BigDecimal ask;
+  private final long timestamp;
 
   /**
    * Constructor
@@ -49,7 +49,7 @@ public final class BitstampTicker {
    * @param ask
    */
   public BitstampTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask) {
+      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
     this.high = high;
@@ -57,6 +57,8 @@ public final class BitstampTicker {
     this.volume = volume;
     this.bid = bid;
     this.ask = ask;
+    this.timestamp = timestamp;
+
   }
 
   public BigDecimal getLast() {
@@ -89,10 +91,15 @@ public final class BitstampTicker {
     return ask;
   }
 
+  public long getTimestamp() {
+
+    return timestamp;
+  }
+
   @Override
   public String toString() {
 
-    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + "]";
+    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + timestamp + "]";
   }
 
 }

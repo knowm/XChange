@@ -1,0 +1,57 @@
+{
+	"error":[
+	
+	],
+	"result":{
+		"open":{
+		    "OR6QMM-BCKM4-Q6YHIN":{
+				"refid":null,
+				"userref":null,
+				"status":"open",
+				"opentm":1380586080.222,
+				"starttm":0,
+				"expiretm":0,
+				"descr":{
+					"pair":"LTCEUR",
+					"type":"buy",
+					"ordertype":"limit",
+					"price":"13.00000",
+					"price2":"0",
+					"leverage":"none",
+					"order":"buy 0.01000000 LTCEUR @ limit 13.00000"
+				},
+				"vol":"0.01000000",
+				"vol_exec":"0.00000000",
+				"cost":"0.00000",
+				"fee":"0.00000",
+				"price":"0.00000",
+				"misc":"",
+				"oflags":""
+			},
+			"OWY4RO-RLFMH-7FB7IY":{
+				"refid":null,
+				"userref":null,
+				"status":"open",
+				"opentm":1390467544.1734,
+				"starttm":0,
+				"expiretm":0,
+				"descr":{
+					"pair":"LTCEUR",
+					"type":"buy",
+					"ordertype":"take-profit-limit",
+					"price":"10.00000",
+					"price2":"10.00000",
+					"leverage":"none",
+					"order":"buy 0.10000000 LTCEUR @ take profit 10.00000 -> limit 10.00000"
+				},
+				"vol":"0.10000000",
+				"vol_exec":"0.00000000",
+				"cost":"0.00000",
+				"fee":"0.00000",
+				"price":"0.00000",
+				"misc":"",
+				"oflags":""
+			}
+		}
+	}
+}

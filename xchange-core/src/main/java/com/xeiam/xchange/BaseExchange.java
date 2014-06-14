@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * <p>
@@ -52,7 +52,8 @@ public abstract class BaseExchange implements Exchange {
     // Check if default is for everything
     if (exchangeSpecification == null) {
       this.exchangeSpecification = defaultSpecification;
-    } else {
+    }
+    else {
       // Using a configured exchange
       if (exchangeSpecification.getExchangeName() == null) {
         exchangeSpecification.setExchangeName(defaultSpecification.getExchangeName());
@@ -65,6 +66,9 @@ public abstract class BaseExchange implements Exchange {
       }
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());
+      }
+      if (exchangeSpecification.getExchangeSpecificParameters() == null || exchangeSpecification.getExchangeSpecificParameters().size() <= 0) {
+        exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
       }
       this.exchangeSpecification = exchangeSpecification;
     }
@@ -90,59 +94,15 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public StreamingExchangeService getStreamingExchangeService() {
-
-    return streamingExchangeService;
-  }
-
-  @Override
   public PollingAccountService getPollingAccountService() {
 
     return pollingAccountService;
   }
 
   @Override
-  public PollingMarketDataService getPollingMarketDataService(ExchangeStreamingConfiguration configuration) {
-
-    return pollingMarketDataService;
-  }
-
-  @Override
-  public PollingTradeService getPollingTradeService(ExchangeStreamingConfiguration configuration) {
-
-    return pollingTradeService;
-  }
-
-  @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
     return streamingExchangeService;
-  }
-
-  @Override
-  public PollingAccountService getPollingAccountService(ExchangeStreamingConfiguration configuration) {
-
-    return pollingAccountService;
-  }
-
-  /* package */void setPollingMarketDataService(PollingMarketDataService marketDataService) {
-
-    this.pollingMarketDataService = marketDataService;
-  }
-
-  /* package */void setPollingTradeService(PollingTradeService tradeService) {
-
-    this.pollingTradeService = tradeService;
-  }
-
-  /* package */void setStreamingMarketDataService(StreamingExchangeService streamingExchangeService) {
-
-    this.streamingExchangeService = streamingExchangeService;
-  }
-
-  /* package */void setPollingAccountService(PollingAccountService pollingAccountService) {
-
-    this.pollingAccountService = pollingAccountService;
   }
 
 }

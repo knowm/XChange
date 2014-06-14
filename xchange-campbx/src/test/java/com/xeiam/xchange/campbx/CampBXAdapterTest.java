@@ -1,16 +1,16 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * 
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,9 +21,7 @@
  */
 package com.xeiam.xchange.campbx;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +32,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -54,15 +52,14 @@ public class CampBXAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CampBXOrderBook bitstampOrderBook = mapper.readValue(is, CampBXOrderBook.class);
 
-    OrderBook orderBook = CampBXAdapters.adaptOrders(bitstampOrderBook, "USD", "BTC");
-    assertThat(orderBook.getBids().size(), is(equalTo(36)));
+    OrderBook orderBook = CampBXAdapters.adaptOrders(bitstampOrderBook, CurrencyPair.BTC_USD);
+    assertThat(orderBook.getBids().size()).isEqualTo(36);
 
     // verify all fields filled
-    assertThat(orderBook.getBids().get(0).getLimitPrice().getAmount(), is(equalTo(new BigDecimal("13.3"))));
-    assertThat(orderBook.getBids().get(0).getType(), is(equalTo(OrderType.BID)));
-    assertThat(orderBook.getBids().get(0).getTradableAmount(), is(equalTo(new BigDecimal("0.00021609"))));
-    assertThat(orderBook.getBids().get(0).getTradableIdentifier(), is(equalTo("BTC")));
-    assertThat(orderBook.getBids().get(0).getTransactionCurrency(), is(equalTo("USD")));
+    assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("13.3");
+    assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.00021609"));
+    assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
 
   }
 
@@ -76,11 +73,11 @@ public class CampBXAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CampBXTicker campBXTicker = mapper.readValue(is, CampBXTicker.class);
 
-    Ticker ticker = CampBXAdapters.adaptTicker(campBXTicker, "USD", "BTC");
+    Ticker ticker = CampBXAdapters.adaptTicker(campBXTicker, CurrencyPair.BTC_USD);
 
-    assertThat(ticker.getLast(), is(equalTo(MoneyUtils.parse("USD 13.30"))));
-    assertThat(ticker.getBid(), is(equalTo(MoneyUtils.parse("USD 13.30"))));
-    assertThat(ticker.getAsk(), is(equalTo(MoneyUtils.parse("USD 13.52"))));
+    assertThat(ticker.getLast()).isEqualTo("13.30");
+    assertThat(ticker.getBid()).isEqualTo("13.30");
+    assertThat(ticker.getAsk()).isEqualTo("13.52");
 
   }
 }

@@ -1,17 +1,16 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- * Copyright (C) 2013 Matija Mazi
- * 
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
  * of the Software, and to permit persons to whom the Software is furnished to do
  * so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,12 +23,9 @@ package com.xeiam.xchange.bitstamp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bitstamp properties
@@ -45,23 +41,6 @@ public final class BitstampUtils {
 
   }
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD
-
-  );
-
-  /**
-   * Checks if a given CurrencyPair is covered by this exchange
-   * 
-   * @param currencyPair
-   * @return
-   */
-  public static boolean isValidCurrencyPair(CurrencyPair currencyPair) {
-
-    return CURRENCY_PAIRS.contains(currencyPair);
-  }
-
   /**
    * Format a date String for Bitstamp
    * 
@@ -75,6 +54,11 @@ public final class BitstampUtils {
     } catch (ParseException e) {
       throw new ExchangeException("Illegal date/time format", e);
     }
+  }
+
+  public static long getNonce() {
+
+    return System.currentTimeMillis();
   }
 
 }

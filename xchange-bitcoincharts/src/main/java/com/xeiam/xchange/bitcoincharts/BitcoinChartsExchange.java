@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,7 +24,7 @@ package com.xeiam.xchange.bitcoincharts;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcoincharts.service.marketdata.polling.BitcoinChartsPollingMarketDataService;
+import com.xeiam.xchange.bitcoincharts.service.polling.BitcoinChartsMarketDataService;
 
 /**
  * <p>
@@ -43,29 +43,19 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
 
   }
 
-  /**
-   * @return A default configuration for this exchange
-   */
-  public static Exchange newInstance() {
-
-    Exchange exchange = new BitcoinChartsExchange();
-    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-    return exchange;
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcoinChartsPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitcoinChartsMarketDataService(exchangeSpecification);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setPlainTextUri("http://bitcoincharts.com");
-    exchangeSpecification.setHost("bitcoincharts.com");
+    exchangeSpecification.setPlainTextUri("http://api.bitcoincharts.com");
+    exchangeSpecification.setHost("api.bitcoincharts.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin Charts");
     exchangeSpecification.setExchangeDescription("Bitcoin charts provides financial and technical data related to the Bitcoin network.");

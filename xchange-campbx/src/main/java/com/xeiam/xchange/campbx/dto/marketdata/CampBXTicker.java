@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -25,33 +24,28 @@ package com.xeiam.xchange.campbx.dto.marketdata;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.campbx.dto.CampBXResponse;
 
 /**
  * @author Matija Mazi
  */
-public final class CampBXTicker {
+public final class CampBXTicker extends CampBXResponse {
 
-  private final BigDecimal last;
-  private final BigDecimal bid;
-  private final BigDecimal ask;
-
-  /**
-   * Constructor
-   * 
-   * @param last
-   * @param bid
-   * @param ask
-   */
-  public CampBXTicker(@JsonProperty("Last Trade") BigDecimal last, @JsonProperty("Best Bid") BigDecimal bid, @JsonProperty("Best Ask") BigDecimal ask) {
-
-    this.last = last;
-    this.bid = bid;
-    this.ask = ask;
-  }
+  @JsonProperty("Last Trade")
+  private BigDecimal last;
+  @JsonProperty("Best Bid")
+  private BigDecimal bid;
+  @JsonProperty("Best Ask")
+  private BigDecimal ask;
 
   public BigDecimal getLast() {
 
     return last;
+  }
+
+  public void setLast(BigDecimal last) {
+
+    this.last = last;
   }
 
   public BigDecimal getBid() {
@@ -59,15 +53,25 @@ public final class CampBXTicker {
     return bid;
   }
 
+  public void setBid(BigDecimal bid) {
+
+    this.bid = bid;
+  }
+
   public BigDecimal getAsk() {
 
     return ask;
   }
 
+  public void setAsk(BigDecimal ask) {
+
+    this.ask = ask;
+  }
+
   @Override
   public String toString() {
 
-    return "Ticker [last=" + last + ", bid=" + bid + ", ask=" + ask + "]";
+    return "CampBXTicker [last=" + last + ", bid=" + bid + ", ask=" + ask + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()=" + getError() + "]";
   }
 
 }

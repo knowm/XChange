@@ -1,6 +1,5 @@
-/*
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,9 +21,7 @@
  */
 package com.xeiam.xchange.campbx.dto;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -45,7 +42,7 @@ public class MyFundsJSONTest {
     MyFunds myFunds = new ObjectMapper().readValue(MyFundsJSONTest.class.getResourceAsStream("/account/myfunds.json"), MyFunds.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(myFunds.getLiquidUSD(), is(equalTo(new BigDecimal("0.00"))));
-    assertThat(myFunds.getTotalBTC(), is(equalTo(new BigDecimal("0.10000000"))));
+    assertThat(myFunds.getLiquidUSD()).isEqualTo(new BigDecimal("0.00"));
+    assertThat(myFunds.getTotalBTC()).isEqualTo(new BigDecimal("0.10000000"));
   }
 }

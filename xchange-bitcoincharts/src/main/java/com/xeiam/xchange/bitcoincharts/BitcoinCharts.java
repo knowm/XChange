@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,19 +21,24 @@
  */
 package com.xeiam.xchange.bitcoincharts;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 
 /**
  * @author Matija Mazi
  */
-@Path("t")
+@Path("/")
 public interface BitcoinCharts {
 
   @GET
-  @Path("markets.json")
-  public BitcoinChartsTicker[] getMarketData();
+  @Path("v1/markets.json")
+  @Produces(MediaType.APPLICATION_JSON)
+  public BitcoinChartsTicker[] getMarketData() throws IOException;
 
 }

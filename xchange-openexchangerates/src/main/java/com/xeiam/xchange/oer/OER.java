@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,10 +21,13 @@
  */
 package com.xeiam.xchange.oer;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
 
@@ -32,11 +35,11 @@ import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
  * @author timmolter
  */
 @Path("api")
+@Produces(MediaType.APPLICATION_JSON)
 public interface OER {
 
   @GET
-  @Path("latest.json?app_id={app_id}")
-  @Produces("application/json")
-  public OERTickers getTickers(@PathParam("app_id") String appId);
+  @Path("latest.json")
+  public OERTickers getTickers(@QueryParam("app_id") String appId) throws IOException;
 
 }

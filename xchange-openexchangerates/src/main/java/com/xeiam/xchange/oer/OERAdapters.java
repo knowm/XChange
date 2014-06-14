@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,11 +21,10 @@
  */
 package com.xeiam.xchange.oer;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-import org.joda.money.BigMoney;
-
-import com.xeiam.xchange.currency.MoneyUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 
@@ -41,11 +40,11 @@ public final class OERAdapters {
 
   }
 
-  public static Ticker adaptTicker(String tradableIdentifier, Double exchangeRate, Long timestamp) {
+  public static Ticker adaptTicker(CurrencyPair currencyPair, Double exchangeRate, Long timestamp) {
 
-    BigMoney last = MoneyUtils.parse(tradableIdentifier + " " + exchangeRate);
+    BigDecimal last = BigDecimal.valueOf(exchangeRate);
     Date timestampDate = new Date(timestamp);
-    return TickerBuilder.newInstance().withTradableIdentifier(tradableIdentifier).withLast(last).withTimestamp(timestampDate).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withTimestamp(timestampDate).build();
   }
 
 }

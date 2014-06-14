@@ -1,0 +1,45 @@
+Vault of Satoshi Exchange API specification
+=======================================================================================================================
+-----------------------------------------------------------------------------------------------------------------------
+API Documentation
+-----------------------------------------------------------------------------------------------------------------------
+https://www.cryptsy.com/pages/api
+
+* Public API - https://www.cryptsy.com/pages/publicapi
+
+** Market Data / Ticker
+*** All Markets
+http://pubapi.cryptsy.com/api.php?method=marketdatav2
+*** Single Market
+http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid={MARKET ID} 
+ 
+** General Orderbook Data / Orders
+*** All Markets
+http://pubapi.cryptsy.com/api.php?method=orderdatav2 
+*** Single Market
+http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid={MARKET ID} 
+
+-----------------------------------------------------------------------------------------------------------------------
+* Authenticated API
+-----------------------------------------------------------------------------------------------------------------------
+Authenticated Methods 
+Authenticated methods require the use of an api key and can only be accessed via the POST method. 
+
+URL - The URL you will be posting to is: https://api.cryptsy.com/api (notice it does NOT have the '.php' at the end) 
+
+Authorization is performed by sending the following variables into the request header: 
+
+Key — Public API key. An example API key: 5a8808b25e3f59d8818d3fbc0ce993fbb82dcf90 
+
+Sign — ALL POST data (param=val&param1=val1) signed by a secret key according to HMAC-SHA512 method. Your secret key and public keys can be generated from your account settings page. 
+
+An additional security element must be passed into the post: 
+
+nonce - All requests must also include a special nonce POST parameter with incrementing integer. The integer must always be greater than the previous requests nonce value. 
+
+-----------------------------------------------------------------------------------------------------------------------
+* Push API
+-----------------------------------------------------------------------------------------------------------------------
+Get instant notification of trades and buy/sell ticker data
+
+Using our Push API service you can get information on trades and market data in real time. Using a client to connect to the service, you can subscribe to channels you wish to receive data on. You can subscribe to as many channels as you wish. 

@@ -1,6 +1,5 @@
-/*
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,20 +21,22 @@
  */
 package com.xeiam.xchange.examples.campbx.account;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.campbx.CampBXExchange;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
  * Demonstrate requesting Market Data from CampBX
  */
 public class CampBXAccountDataDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get Campbx exchange API using default settings
     Exchange campbx = ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName());
@@ -48,10 +49,10 @@ public class CampBXAccountDataDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("accountInfo = " + accountInfo);
 
-    String depositAddr = accountService.requestBitcoinDepositAddress();
+    String depositAddr = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("depositAddr = " + depositAddr);
 
-    String txid = accountService.withdrawFunds(new BigDecimal("0.1"), "1FgpMU9CgQffjLK5YoR2yK5XGj5cq4iCBf");
+    String txid = accountService.withdrawFunds("BTC", new BigDecimal("0.1"), "1FgpMU9CgQffjLK5YoR2yK5XGj5cq4iCBf");
     System.out.println("See the withdrawal transaction: http://blockchain.info/tx-index/" + txid);
   }
 

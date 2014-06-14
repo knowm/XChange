@@ -1,0 +1,8 @@
+Vircurex Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://vircurex.com/welcome/api?locale=en

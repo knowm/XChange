@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 package com.xeiam.xchange.service.streaming;
+
+import org.java_websocket.WebSocket.READYSTATE;
 
 /**
  * <p>
@@ -47,15 +49,10 @@ public interface StreamingExchangeService {
 
   /**
    * <p>
-   * The consumer exchange event queue containing events as described in {@link ExchangeEventType}. Examples include:
+   * Returns next event in consumer event queue, then removes it.
    * </p>
-   * <ul>
-   * <li>Connect/disconnect events</li>
-   * <li>Ticker events (with Ticker embedded)</li>
-   * <li>LimitOrder events (with LimitOrder embedded)</li>
-   * </ul>
    * 
-   * @return A blocking queue
+   * @return An ExchangeEvent
    */
   ExchangeEvent getNextEvent() throws InterruptedException;
 
@@ -66,4 +63,10 @@ public interface StreamingExchangeService {
    */
   void send(String msg);
 
+  /**
+   * <p>
+   * Sends a msg over the socket.
+   * </p>
+   */
+  READYSTATE getWebSocketStatus();
 }

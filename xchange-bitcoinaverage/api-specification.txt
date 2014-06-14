@@ -1,0 +1,17 @@
+BitcoinAverage.com API specification
+================================
+
+Public API documentation: https://bitcoinaverage.com/api.htm
+
+Ticker
+------
+https://api.bitcoinaverage.com/ticker/<UPPERCASE_CURRENCY_CODE>
+
+Exchanges
+------
+https://api.bitcoinaverage.com/exchanges/<UPPERCASE_CURRENCY_CODE>
+
+History
+------
+https://api.bitcoinaverage.com/history/<UPPERCASE_CURRENCY_CODE>
+

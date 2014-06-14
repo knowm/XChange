@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -24,7 +24,7 @@ package com.xeiam.xchange.oer;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.oer.service.marketdata.polling.OERPollingMarketDataService;
+import com.xeiam.xchange.oer.service.polling.OERMarketDataService;
 
 /**
  * <p>
@@ -43,21 +43,11 @@ public class OERExchange extends BaseExchange implements Exchange {
 
   }
 
-  /**
-   * @return A default configuration for this exchange
-   */
-  public static Exchange newInstance() {
-
-    Exchange exchange = new OERExchange();
-    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-    return exchange;
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new OERPollingMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new OERMarketDataService(exchangeSpecification);
   }
 
   @Override

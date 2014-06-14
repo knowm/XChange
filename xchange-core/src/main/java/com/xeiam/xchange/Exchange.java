@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,11 +21,11 @@
  */
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.account.polling.PollingAccountService;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
-import com.xeiam.xchange.service.trade.polling.PollingTradeService;
 
 /**
  * <p>
@@ -33,10 +33,10 @@ import com.xeiam.xchange.service.trade.polling.PollingTradeService;
  * </p>
  * <ul>
  * <li>Entry point to the XChange APIs</li>
+ * </ul>
  * <p>
  * The consumer is given a choice of a default (no-args) or configured accessor
  * </p>
- * </ul>
  */
 public interface Exchange {
 
@@ -53,7 +53,7 @@ public interface Exchange {
   /**
    * Applies any exchange specific parameters
    * 
-   * @param exchangeSpecification The exchange specification
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   void applySpecification(ExchangeSpecification exchangeSpecification);
 
@@ -68,32 +68,6 @@ public interface Exchange {
    * @return The exchange's market data service
    */
   PollingMarketDataService getPollingMarketDataService();
-
-  /**
-   * <p>
-   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
-   * </p>
-   * <p>
-   * This is the non-streaming (blocking) version of the service
-   * </p>
-   * 
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's market data service
-   */
-  PollingMarketDataService getPollingMarketDataService(ExchangeStreamingConfiguration configuration);
-
-  /**
-   * <p>
-   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
-   * </p>
-   * <p>
-   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of the listener to allow event callbacks to take
-   * place.
-   * </p>
-   * 
-   * @return The exchange's "push" market data service
-   */
-  StreamingExchangeService getStreamingExchangeService();
 
   /**
    * <p>
@@ -123,19 +97,6 @@ public interface Exchange {
 
   /**
    * <p>
-   * An trade service typically provides access to trading functionality
-   * </p>
-   * <p>
-   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
-   * </p>
-   * 
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's polling trade service
-   */
-  PollingTradeService getPollingTradeService(ExchangeStreamingConfiguration configuration);
-
-  /**
-   * <p>
    * An account service typically provides access to the user's private exchange data
    * </p>
    * <p>
@@ -145,18 +106,5 @@ public interface Exchange {
    * @return The exchange's polling account service
    */
   PollingAccountService getPollingAccountService();
-
-  /**
-   * <p>
-   * An account service typically provides access to the user's private exchange data
-   * </p>
-   * <p>
-   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the {@link ExchangeSpecification}
-   * </p>
-   * 
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's polling account service
-   */
-  PollingAccountService getPollingAccountService(ExchangeStreamingConfiguration configuration);
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -48,10 +48,13 @@ public enum ExchangeFactory {
   }
 
   /**
-   * Create an Exchange object
+   * Create an Exchange object.
+   * <p>
+   * The factory is parameterised with the name of the exchange implementation class. This must be a class extending {@link com.xeiam.xchange.Exchange}.
+   * </p>
    * 
-   * @param exchangeClassName
-   * @return
+   * @param exchangeClassName the fully-qualified class name of the exchange
+   * @return a new exchange instance configured with the default {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public Exchange createExchange(String exchangeClassName) {
 
@@ -71,7 +74,8 @@ public enum ExchangeFactory {
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
         exchange.applySpecification(exchange.getDefaultExchangeSpecification());
         return exchange;
-      } else {
+      }
+      else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
       }
     } catch (ClassNotFoundException e) {
@@ -106,7 +110,8 @@ public enum ExchangeFactory {
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
         exchange.applySpecification(exchangeSpecification);
         return exchange;
-      } else {
+      }
+      else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
       }
     } catch (ClassNotFoundException e) {

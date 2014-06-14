@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -22,19 +21,23 @@
  */
 package com.xeiam.xchange.examples.bitstamp.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.marketdata.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Order Book at Bitstamp
+ * Demonstrate requesting Ticker at Bitstamp. You can access both the raw data from Bitstamp or the XChange generic DTO data format.
  */
 public class TickerDemo {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     // Use the factory to get Bitstamp exchange API using default settings
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
@@ -42,15 +45,22 @@ public class TickerDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
+    generic(marketDataService);
+    raw((BitstampMarketDataServiceRaw) marketDataService);
+  }
 
-    System.out.println("Currency: " + Currencies.USD);
-    System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Volume: " + ticker.getVolume().toString());
-    System.out.println("High: " + ticker.getHigh().toString());
-    System.out.println("Low: " + ticker.getLow().toString());
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+
+    System.out.println(ticker.toString());
+  }
+
+  private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
+
+    BitstampTicker bitstampTicker = marketDataService.getBitstampTicker();
+
+    System.out.println(bitstampTicker.toString());
   }
 
 }

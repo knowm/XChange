@@ -1,6 +1,5 @@
 /**
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -43,6 +42,6 @@ public class BitcoinChartsFactory {
    */
   public static BitcoinCharts createInstance() {
 
-    return RestProxyFactory.createProxy(BitcoinCharts.class, "http://bitcoincharts.com");
+    return RestProxyFactory.createProxy(BitcoinCharts.class, "http://api.bitcoincharts.com");
   }
 }

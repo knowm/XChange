@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -38,7 +38,7 @@ public abstract class Assert {
    * Asserts that a condition is true
    * </p>
    * 
-   * @param boolean The condition under test
+   * @param condition The condition under test
    * @param message The message for any exception
    */
   public static void isTrue(boolean condition, String message) {

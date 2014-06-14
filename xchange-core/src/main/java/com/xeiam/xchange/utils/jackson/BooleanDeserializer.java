@@ -1,6 +1,5 @@
-/*
- * Copyright (C) 2013 Matija Mazi
- * Copyright (C) 2013 Xeiam LLC http://xeiam.com
+/**
+ * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -31,8 +30,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
- * @author Matija Mazi <br/>
- * @created 2/19/13 9:06 PM
+ * @author Matija Mazi
  */
 public abstract class BooleanDeserializer extends JsonDeserializer<Boolean> {
 
@@ -50,7 +48,8 @@ public abstract class BooleanDeserializer extends JsonDeserializer<Boolean> {
     String valueAsString = jp.getValueAsString();
     if (trueValue.equals(valueAsString)) {
       return true;
-    } else if (falseValue.equals(valueAsString)) {
+    }
+    else if (falseValue.equals(valueAsString)) {
       return false;
     }
     throw new InvalidFormatException(String.format("Unrecognized value; expected %s or %s: %s", trueValue, falseValue, valueAsString), valueAsString, Boolean.class);
