@@ -26,6 +26,7 @@ import java.io.IOException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
+import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
@@ -55,11 +56,11 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
     return activeOrders;
   }
 
-  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, boolean onMargin) throws IOException {
+  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType) throws IOException {
 
     String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
-    String orderType = onMargin ? "limit" : "exchange limit";
+    String orderType = bitfinexOrderType.toString();
     BitfinexOrderStatusResponse newOrder =
         bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),
             "bitfinex", type, orderType, false));
