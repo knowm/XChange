@@ -54,9 +54,8 @@ public class BitcurexExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://bitcurex.com");
-    exchangeSpecification.setHost("bitcurex.com");
-    exchangeSpecification.setPort(80);
+    exchangeSpecification.setSslUri("https://eur.bitcurex.com");
+    exchangeSpecification.setHost("eur.bitcurex.com");
     exchangeSpecification.setExchangeName("Bitcurex");
     exchangeSpecification.setExchangeDescription("Bitcurex is a polish Bitcoin exchange");
 

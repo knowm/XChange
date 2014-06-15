@@ -23,19 +23,24 @@ package com.xeiam.xchange.bitcurex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -136,5 +141,22 @@ public final class BitcurexAdapters {
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
   }
+
+  /**
+   * Adapts a BitcurexFunds to an AccountInfo Object
+   * 
+   * @param bitcurexFunds
+   * @param user name for the accountInfo
+   * @return
+   */
+  public static AccountInfo adaptAccountInfo(BitcurexFunds funds, String userName) {
+
+	    // Adapt to XChange DTOs
+	    Wallet eurWallet = new Wallet(Currencies.EUR, funds.getEurs());
+	    Wallet btcWallet = new Wallet(Currencies.BTC, funds.getBtcs());
+
+	    return new AccountInfo( userName, null, 
+	    		                Arrays.asList(eurWallet, btcWallet));
+	  }
 
 }
