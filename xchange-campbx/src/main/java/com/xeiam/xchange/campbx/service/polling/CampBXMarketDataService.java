@@ -29,7 +29,6 @@ import com.xeiam.xchange.campbx.CampBXAdapters;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -53,8 +52,6 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     CampBXTicker campbxTicker = getCampBXTicker();
 
     return CampBXAdapters.adaptTicker(campbxTicker, currencyPair);
@@ -63,8 +60,6 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     CampBXOrderBook campBXOrderBook = getCampBXOrderBook();
 
     return CampBXAdapters.adaptOrders(campBXOrderBook, currencyPair);
@@ -72,12 +67,6 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -45,57 +45,35 @@ import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 @Produces(MediaType.APPLICATION_JSON)
 public interface ItBitAuthenticated {
 
-	@GET
-	@Path("?userId={userId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	ItBitAccountInfoReturn[] getInfo(
-			@HeaderParam("Authorization") ParamsDigest signer, 
-			@HeaderParam("X-Auth-Timestamp") long timestamp, 
-			@HeaderParam("X-Auth-Nonce") int nonce,
-			@PathParam("userId") String userId) throws IOException;
+  @GET
+  @Path("?userId={userId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitAccountInfoReturn[] getInfo(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+      @PathParam("userId") String userId) throws IOException;
 
-	@GET
-	@Path("/{walletId}/orders")
-	@Consumes(MediaType.APPLICATION_JSON)
-	ItBitOrder[] getOrders(
-			@HeaderParam("Authorization") ParamsDigest signer, 
-			@HeaderParam("X-Auth-Timestamp") long timestamp, 
-			@HeaderParam("X-Auth-Nonce") int nonce,
-			@QueryParam("instrument") String instrument,
-			@QueryParam("page") String page, 
-			@QueryParam("perPage") String perPage,
-			@QueryParam("status") String status,
-			@PathParam("walletId") String walletId) throws IOException;
+  @GET
+  @Path("/{walletId}/orders")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitOrder[] getOrders(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+      @QueryParam("instrument") String instrument, @QueryParam("page") String page, @QueryParam("perPage") String perPage, @QueryParam("status") String status, @PathParam("walletId") String walletId)
+      throws IOException;
 
-	@POST
-	@Path("/{walletId}/orders")
-	@Consumes(MediaType.APPLICATION_JSON)
-	ItBitOrder postOrder(
-			@HeaderParam("Authorization") ParamsDigest signer, 
-			@HeaderParam("X-Auth-Timestamp") long timestamp, 
-			@HeaderParam("X-Auth-Nonce") int nonce,
-			@PathParam("walletId") String walletId,
-			ItBitPlaceOrderRequest request) throws IOException;
+  @POST
+  @Path("/{walletId}/orders")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitOrder postOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+      @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request) throws IOException;
 
-	
-	/** Returns empty body, return object is always null */
-	@DELETE
-	@Path("/{walletId}/orders/{orderId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	Object cancelOrder(
-			@HeaderParam("Authorization") ParamsDigest signer, 
-			@HeaderParam("X-Auth-Timestamp") long timestamp, 
-			@HeaderParam("X-Auth-Nonce") int nonce,
-			@PathParam("walletId") String walletId,
-			@PathParam("orderId") String orderId) throws IOException;
+  /** Returns empty body, return object is always null */
+  @DELETE
+  @Path("/{walletId}/orders/{orderId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  Object cancelOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+      @PathParam("walletId") String walletId, @PathParam("orderId") String orderId) throws IOException;
 
-	@POST
-	@Path("/{walletId}/cryptocurrency_withdrawals")
-	@Consumes(MediaType.APPLICATION_JSON)
-	ItBitOrder requestWithdrawal(
-			@HeaderParam("Authorization") ParamsDigest signer, 
-			@HeaderParam("X-Auth-Timestamp") long timestamp, 
-			@HeaderParam("X-Auth-Nonce") int nonce,
-			@PathParam("walletId") String walletId,
-			ItBitPlaceOrderRequest request) throws IOException;
+  @POST
+  @Path("/{walletId}/cryptocurrency_withdrawals")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitOrder requestWithdrawal(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+      @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request) throws IOException;
 }

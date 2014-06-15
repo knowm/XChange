@@ -57,7 +57,7 @@ public final class VirtExDepth {
 
     return bids;
   }
-  
+
   public String getCurrencyPair() {
 
     return currencypair;

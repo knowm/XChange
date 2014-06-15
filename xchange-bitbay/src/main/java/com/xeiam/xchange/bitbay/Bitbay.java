@@ -1,15 +1,16 @@
 package com.xeiam.xchange.bitbay;
 
-import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
-import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
-import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
+import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
 
 /**
  * @author kpysniak
@@ -18,9 +19,7 @@ import java.io.IOException;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitbay {
 
-
   /**
-   *
    * @return Bitbay ticker
    * @throws IOException
    */

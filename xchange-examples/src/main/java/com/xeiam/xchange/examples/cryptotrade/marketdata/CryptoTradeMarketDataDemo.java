@@ -31,7 +31,6 @@ import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -51,9 +50,6 @@ public class CryptoTradeMarketDataDemo {
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
-
-    ExchangeInfo exchangeInfo = marketDataService.getExchangeInfo();
-    System.out.println(exchangeInfo);
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);

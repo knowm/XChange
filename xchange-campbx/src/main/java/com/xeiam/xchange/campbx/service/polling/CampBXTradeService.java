@@ -105,8 +105,6 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    verify(marketOrder.getCurrencyPair());
-
     CampBXResponse campBXResponse = placeCampBXMarketOrder(marketOrder);
     logger.debug("campBXResponse = {}", campBXResponse);
 
@@ -120,8 +118,6 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-
-    verify(limitOrder.getCurrencyPair());
 
     CampBXResponse campBXResponse = placeCampBXLimitOrder(limitOrder);
     logger.debug("campBXResponse = {}", campBXResponse);

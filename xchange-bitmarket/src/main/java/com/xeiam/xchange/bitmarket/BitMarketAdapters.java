@@ -1,17 +1,20 @@
 package com.xeiam.xchange.bitmarket;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.*;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author kpysniak
@@ -21,10 +24,13 @@ public class BitMarketAdapters {
   /**
    * Singleton
    */
-  private BitMarketAdapters() { }
+  private BitMarketAdapters() {
+
+  }
 
   /**
    * Adapts BitMarket ticker to Ticker.
+   * 
    * @param bitMarketTicker
    * @param currencyPair
    * @return
@@ -36,15 +42,16 @@ public class BitMarketAdapters {
     BigDecimal high = bitMarketTicker.getHigh();
     BigDecimal low = bitMarketTicker.getLow();
     BigDecimal volume = bitMarketTicker.getVolume();
+    BigDecimal last = bitMarketTicker.getLast();
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair)
-        .withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
+    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).build();
   }
 
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for(BigDecimal[] order : orders) {
+    for (BigDecimal[] order : orders) {
       System.out.println("Amount: " + order[1] + ", exchange rate: " + order[0]);
       limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
     }
@@ -54,20 +61,20 @@ public class BitMarketAdapters {
 
   public static OrderBook adaptOrderBook(BitMarketOrderBook bitMarketOrderBook, CurrencyPair currencyPair) {
 
-    OrderBook orderBook = new OrderBook(new Date(),
-        transformArrayToLimitOrders(bitMarketOrderBook.getAsks(), OrderType.ASK, currencyPair),
-        transformArrayToLimitOrders(bitMarketOrderBook.getBids(), OrderType.BID, currencyPair));
+    OrderBook orderBook =
+        new OrderBook(new Date(), transformArrayToLimitOrders(bitMarketOrderBook.getAsks(), OrderType.ASK, currencyPair), transformArrayToLimitOrders(bitMarketOrderBook.getBids(), OrderType.BID,
+            currencyPair));
 
     return orderBook;
   }
 
   public static Trades adaptTrades(BitMarketTrade[] bitMarketTrades, CurrencyPair currencyPair) {
+
     List<Trade> tradeList = new ArrayList<Trade>();
 
     for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
-      Trade trade = new Trade(OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
-          bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate()), bitMarketTrade.getTid());
+      Trade trade = new Trade(OrderType.BID, bitMarketTrade.getAmount(), currencyPair, bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate()), bitMarketTrade.getTid());
 
       tradeList.add(trade);
     }

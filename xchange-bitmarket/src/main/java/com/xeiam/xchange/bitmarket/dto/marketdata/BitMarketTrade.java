@@ -1,8 +1,8 @@
 package com.xeiam.xchange.bitmarket.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kpysniak
@@ -16,14 +16,14 @@ public class BitMarketTrade {
 
   /**
    * Constructor
-   *
+   * 
    * @param tid
    * @param price
    * @param amount
    * @param date
    */
-  public BitMarketTrade(@JsonProperty("tid") String tid, @JsonProperty("price") BigDecimal price,
-                        @JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date) {
+  public BitMarketTrade(@JsonProperty("tid") String tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date) {
+
     this.tid = tid;
     this.price = price;
     this.amount = amount;
@@ -31,28 +31,28 @@ public class BitMarketTrade {
   }
 
   public String getTid() {
+
     return tid;
   }
 
   public BigDecimal getPrice() {
+
     return price;
   }
 
   public BigDecimal getAmount() {
+
     return amount;
   }
 
   public long getDate() {
+
     return date;
   }
 
   @Override
   public String toString() {
-    return "BitMarketTrade{" +
-        "tid='" + tid + '\'' +
-        ", price=" + price +
-        ", amount=" + amount +
-        ", date=" + date +
-        '}';
+
+    return "BitMarketTrade{" + "tid='" + tid + '\'' + ", price=" + price + ", amount=" + amount + ", date=" + date + '}';
   }
 }

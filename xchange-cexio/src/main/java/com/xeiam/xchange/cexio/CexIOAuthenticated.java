@@ -67,12 +67,12 @@ public interface CexIOAuthenticated {
   @Path("place_order/{ident}/{currency}/")
   CexIOOrder placeOrder(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") long nonce, @FormParam("type") CexIOOrder.Type type, @FormParam("price") BigDecimal price, @FormParam("amount") BigDecimal amount) throws IOException;
-  
+
   // GHash.IO calls
   @POST
   @Path("ghash.io/hashrate")
   GHashIOHashrate getHashrate(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
-  
+
   @POST
   @Path("ghash.io/workers")
   GHashIOWorkers getWorkers(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;

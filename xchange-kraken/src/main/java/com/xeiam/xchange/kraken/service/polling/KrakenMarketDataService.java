@@ -22,13 +22,10 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -90,11 +87,4 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
     return trades;
   }
 
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    currencyPairs.addAll(super.getExchangeSymbols());
-    return new ExchangeInfo(currencyPairs);
-  }
 }

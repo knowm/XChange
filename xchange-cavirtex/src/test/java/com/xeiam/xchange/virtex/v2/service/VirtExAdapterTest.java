@@ -59,7 +59,7 @@ public class VirtExAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     VirtExDepthWrapper VirtExDepth = mapper.readValue(is, VirtExDepthWrapper.class);
-    
+
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(VirtExDepth.getDepth().getAsks(), CurrencyPair.BTC_CAD, "ask", "");
 
     // Verify all fields filled
@@ -108,7 +108,7 @@ public class VirtExAdapterTest {
     assertThat(ticker.getLow().toString()).isEqualTo("538.000000000");
     assertThat(ticker.getHigh().toString()).isEqualTo("574.000000000");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("284.231600000"));
-    
+
     assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo("BTC");
 
   }

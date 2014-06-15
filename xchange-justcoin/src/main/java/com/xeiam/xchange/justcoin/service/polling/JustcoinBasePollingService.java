@@ -34,9 +34,10 @@ import com.xeiam.xchange.justcoin.Justcoin;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.utils.AuthUtils;
 
-public class JustcoinBasePollingService<T extends Justcoin> extends BaseExchangeService {
+public class JustcoinBasePollingService<T extends Justcoin> extends BaseExchangeService implements BasePollingService {
 
   protected final T justcoin;
   private final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();

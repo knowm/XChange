@@ -34,14 +34,13 @@ import com.xeiam.xchange.anx.v2.dto.ANXException;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXGenericResponse;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrderWrapper;
-import com.xeiam.xchange.anx.v2.service.ANXBaseService;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.utils.Assert;
 
-public class ANXTradeServiceRaw extends ANXBaseService {
+public class ANXTradeServiceRaw extends ANXBasePollingService {
 
   private final ANXV2 anxV2;
   private final ANXV2Digest signatureCreator;

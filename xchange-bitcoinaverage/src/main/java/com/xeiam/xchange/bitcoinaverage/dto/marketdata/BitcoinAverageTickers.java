@@ -30,8 +30,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
-
 /**
  * Data object representing List of Tickers from BitcoinAverage
  */
@@ -41,26 +39,26 @@ public final class BitcoinAverageTickers {
   private Map<String, BitcoinAverageTicker> tickers = new HashMap<String, BitcoinAverageTicker>();
   private Date timestamp;
 
-//Could alternatively add setters, but since these are mandatory
-  public BitcoinAverageTickers(@JsonProperty("timestamp") String timestamp)
-  {
+  // Could alternatively add setters, but since these are mandatory
+  public BitcoinAverageTickers(@JsonProperty("timestamp") String timestamp) {
+
     try {
-        // Parse the timestamp into a Date object
-    	this.timestamp = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
-      } catch (Exception e) {
-    	  this.timestamp = null;
-      }
+      // Parse the timestamp into a Date object
+      this.timestamp = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
+    } catch (Exception e) {
+      this.timestamp = null;
+    }
   }
-  
+
   @JsonAnySetter
   public void setTickers(String name, BitcoinAverageTicker ticker) {
-	  
-	  this.tickers.put(name, ticker);
+
+    this.tickers.put(name, ticker);
   }
-  
+
   public Map<String, BitcoinAverageTicker> getTickers() {
 
-	  return tickers;
+    return tickers;
   }
 
   public Date getTimestamp() {

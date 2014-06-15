@@ -31,7 +31,6 @@ import com.xeiam.xchange.bitcoinium.BitcoiniumUtils;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import com.xeiam.xchange.bitcoinium.service.BitcoiniumBaseService;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -42,7 +41,7 @@ import com.xeiam.xchange.utils.Assert;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBaseService {
+public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService {
 
   private final Bitcoinium bitcoinium;
 

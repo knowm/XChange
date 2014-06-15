@@ -58,8 +58,6 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
-
     return placeVircurexLimitOrder(limitOrder);
   }
 

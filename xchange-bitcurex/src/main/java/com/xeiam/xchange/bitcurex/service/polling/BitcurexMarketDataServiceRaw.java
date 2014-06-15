@@ -30,7 +30,6 @@ import com.xeiam.xchange.bitcurex.Bitcurex;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
-import com.xeiam.xchange.bitcurex.service.BitcurexBaseService;
 
 /**
  * <p>
@@ -40,7 +39,7 @@ import com.xeiam.xchange.bitcurex.service.BitcurexBaseService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcurexMarketDataServiceRaw extends BitcurexBaseService {
+public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
 
   private Bitcurex bitcurex;
 

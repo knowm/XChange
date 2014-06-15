@@ -45,7 +45,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
  * The implementation of this service is expected to be based on a client polling mechanism of some kind
  * </p>
  */
-public interface PollingTradeService {
+public interface PollingTradeService extends BasePollingService {
 
   /**
    * Gets the open orders

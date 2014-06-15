@@ -26,13 +26,11 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -64,8 +62,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     BTCChinaTicker btcChinaTicker = getBTCChinaTicker();
 
@@ -75,8 +71,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook();
@@ -90,8 +84,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     BTCChinaTrade[] btcChinaTrades = null;
 
@@ -116,12 +108,6 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTrades(btcChinaTrades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

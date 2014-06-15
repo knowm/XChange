@@ -1,8 +1,8 @@
 package com.xeiam.xchange.bitmarket.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kpysniak
@@ -17,10 +17,9 @@ public final class BitMarketTicker {
   private final BigDecimal vwap;
   private final BigDecimal volume;
 
-
   /**
    * Constructor
-   *
+   * 
    * @param ask
    * @param bid
    * @param last
@@ -29,10 +28,9 @@ public final class BitMarketTicker {
    * @param vwap
    * @param volume
    */
-  public BitMarketTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid,
-                         @JsonProperty("last") BigDecimal last, @JsonProperty("low") BigDecimal low,
-                         @JsonProperty("high") BigDecimal high, @JsonProperty("vwap") BigDecimal vwap,
-                         @JsonProperty("volume") BigDecimal volume) {
+  public BitMarketTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last, @JsonProperty("low") BigDecimal low,
+      @JsonProperty("high") BigDecimal high, @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume) {
+
     this.ask = ask;
     this.bid = bid;
     this.last = last;
@@ -43,43 +41,43 @@ public final class BitMarketTicker {
   }
 
   public BigDecimal getAsk() {
+
     return ask;
   }
 
   public BigDecimal getBid() {
+
     return bid;
   }
 
   public BigDecimal getLast() {
+
     return last;
   }
 
   public BigDecimal getLow() {
+
     return low;
   }
 
   public BigDecimal getHigh() {
+
     return high;
   }
 
   public BigDecimal getVwap() {
+
     return vwap;
   }
 
   public BigDecimal getVolume() {
+
     return volume;
   }
 
   @Override
   public String toString() {
-    return "BitMarketTicker{" +
-        "ask=" + ask +
-        ", bid=" + bid +
-        ", last=" + last +
-        ", low=" + low +
-        ", high=" + high +
-        ", vwap=" + vwap +
-        ", volume=" + volume +
-        '}';
+
+    return "BitMarketTicker{" + "ask=" + ask + ", bid=" + bid + ", last=" + last + ", low=" + low + ", high=" + high + ", vwap=" + vwap + ", volume=" + volume + '}';
   }
 }

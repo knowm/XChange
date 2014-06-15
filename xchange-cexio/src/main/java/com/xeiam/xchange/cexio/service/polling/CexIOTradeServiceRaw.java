@@ -36,7 +36,6 @@ import com.xeiam.xchange.cexio.CexIOAuthenticated;
 import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOpenOrders;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
-import com.xeiam.xchange.cexio.service.CexIOBaseService;
 import com.xeiam.xchange.cexio.service.CexIODigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -45,7 +44,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
  * @author timmolter
  */
 
-public class CexIOTradeServiceRaw extends CexIOBaseService {
+public class CexIOTradeServiceRaw extends CexIOBasePollingService {
 
   private final CexIOAuthenticated cexIOAuthenticated;
   private ParamsDigest signatureCreator;

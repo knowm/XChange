@@ -29,7 +29,6 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -58,8 +57,6 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     CryptoTradeTicker cryptoTradeTicker = super.getCryptoTradeTicker(currencyPair);
 
     return CryptoTradeAdapters.adaptTicker(currencyPair, cryptoTradeTicker);
@@ -67,8 +64,6 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     CryptoTradeDepth cryptoTradeDepth = super.getCryptoTradeOrderBook(currencyPair);
 
@@ -79,12 +74,6 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    return new ExchangeInfo(super.getExchangeSymbols());
   }
 
 }

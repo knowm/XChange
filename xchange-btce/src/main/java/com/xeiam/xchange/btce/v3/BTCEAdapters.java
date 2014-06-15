@@ -32,13 +32,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -221,17 +219,11 @@ public final class BTCEAdapters {
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
 
     List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
-    for (String btcePair : btcePairs)
+    for (String btcePair : btcePairs) {
       pairs.add(adaptCurrencyPair(btcePair));
+    }
 
     return pairs;
-  }
-
-  public static ExchangeInfo adaptExchangeInfo(BTCEExchangeInfo infoV3) {
-
-    List<CurrencyPair> currencyPairs = adaptCurrencyPairs(infoV3.getPairs().keySet());
-
-    return new ExchangeInfo(currencyPairs);
   }
 
 }

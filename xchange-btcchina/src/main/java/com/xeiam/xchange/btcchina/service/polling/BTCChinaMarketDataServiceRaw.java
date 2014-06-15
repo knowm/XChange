@@ -30,7 +30,6 @@ import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
-import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
 
 /**
  * @author ObsessiveOrange
@@ -41,7 +40,7 @@ import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
  *         <li>Provides access to various market data values</li>
  *         </ul>
  */
-public class BTCChinaMarketDataServiceRaw extends BTCChinaBaseService {
+public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
 
   private final BTCChina btcChina;
 

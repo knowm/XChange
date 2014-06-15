@@ -30,7 +30,6 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cexio.CexIOAdapters;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -56,15 +55,11 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
-
     return CexIOAdapters.adaptTicker(getCexIOTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    verify(currencyPair);
 
     return CexIOAdapters.adaptOrderBook(getCexIOOrderBook(currencyPair), currencyPair);
   }
@@ -72,7 +67,6 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    verify(currencyPair);
     CexIOTrade[] trades;
 
     if (args.length > 0) {
@@ -89,12 +83,6 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
     }
 
     return CexIOAdapters.adaptTrades(trades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws ExchangeException, IOException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

@@ -29,7 +29,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverage;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
-import com.xeiam.xchange.bitcoinaverage.service.BitcoinaverageBaseService;
 
 /**
  * <p>
@@ -39,7 +38,7 @@ import com.xeiam.xchange.bitcoinaverage.service.BitcoinaverageBaseService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitcoinAverageMarketDataServiceRaw extends BitcoinaverageBaseService {
+public class BitcoinAverageMarketDataServiceRaw extends BitcoinAverageBasePollingService {
 
   private final BitcoinAverage bitcoinAverage;
 
@@ -61,13 +60,13 @@ public class BitcoinAverageMarketDataServiceRaw extends BitcoinaverageBaseServic
 
     return bitcoinAverageTicker;
   }
-  
+
   public BitcoinAverageTickers getBitcoinAverageAllTickers() throws IOException {
 
-	    // Request data
-	  BitcoinAverageTickers bitcoinAverageTicker = bitcoinAverage.getAllTickers();
-	
-	    return bitcoinAverageTicker;
-	  }
+    // Request data
+    BitcoinAverageTickers bitcoinAverageTicker = bitcoinAverage.getAllTickers();
+
+    return bitcoinAverageTicker;
+  }
 
 }

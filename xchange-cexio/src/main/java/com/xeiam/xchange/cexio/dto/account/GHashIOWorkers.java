@@ -32,15 +32,17 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 public class GHashIOWorkers {
 
-    private final Map<String, GHashIOWorker> workers = new HashMap<String, GHashIOWorker>();
+  private final Map<String, GHashIOWorker> workers = new HashMap<String, GHashIOWorker>();
 
-    public Map<String, GHashIOWorker> getWorkers() {
-        return workers;
-    }
+  public Map<String, GHashIOWorker> getWorkers() {
 
-    @JsonAnySetter
-    public void setWorker(String name, GHashIOWorker worker) {
-    	this.workers.put(name, worker);
-    }
-    
+    return workers;
+  }
+
+  @JsonAnySetter
+  public void setWorker(String name, GHashIOWorker worker) {
+
+    this.workers.put(name, worker);
+  }
+
 }

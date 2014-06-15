@@ -12,6 +12,7 @@ public class BTCCentralExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
+
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://bitcoin-central.net/api/v1/data/eur");
     exchangeSpecification.setHost("bitcoin-central.net");

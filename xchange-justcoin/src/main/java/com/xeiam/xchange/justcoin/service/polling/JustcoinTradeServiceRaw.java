@@ -66,10 +66,9 @@ public class JustcoinTradeServiceRaw extends JustcoinBasePollingService<Justcoin
 
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-      OrderReq req = new OrderReq(JustcoinUtils.getApiMarket(limitOrder.getCurrencyPair()),
-              Utils.format(limitOrder.getLimitPrice()),
-              Utils.format(limitOrder.getTradableAmount()),
-              limitOrder.getType().toString().toLowerCase());
+    OrderReq req =
+        new OrderReq(JustcoinUtils.getApiMarket(limitOrder.getCurrencyPair()), Utils.format(limitOrder.getLimitPrice()), Utils.format(limitOrder.getTradableAmount()), limitOrder.getType().toString()
+            .toLowerCase());
 
     return justcoin.createLimitOrder(req, getBasicAuthentication(), exchangeSpecification.getApiKey()).getId();
   }

@@ -35,16 +35,8 @@ public class ANXExamplesUtils {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(ANXExchange.class);
 
-    // xchange.anx@gmail.com
-    exSpec.setApiKey("2adfc5c6-76b4-4293-9ebd-5ca07e946b6b");
-    exSpec.setSecretKey("jBYn0728AmK/TPsraGj9M/c9UHIR/h/V8a0k8QXcyRUOlZ3YOMvL2c6x7GBw8k/JXMQ+4Sf4AOADFI3n9xWxwA==");
-
-    String protocol = "https";
-    String host = "anxpro.com";
-    int port = 443;
-    exSpec.setSslUri(protocol + "://" + host + ":" + port);
-    exSpec.setHost(host);
-    exSpec.setPort(port);
+    exSpec.setApiKey("");
+    exSpec.setSecretKey("");
 
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }

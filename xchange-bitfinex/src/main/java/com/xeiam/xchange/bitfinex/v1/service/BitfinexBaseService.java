@@ -21,27 +21,13 @@
  */
 package com.xeiam.xchange.bitfinex.v1.service;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * @author timmolter
  */
-public class BitfinexBaseService extends BaseExchangeService {
-
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.LTC_USD,
-
-  CurrencyPair.LTC_BTC
-
-  );
+public abstract class BitfinexBaseService extends BaseExchangeService {
 
   /**
    * Constructor
@@ -53,9 +39,4 @@ public class BitfinexBaseService extends BaseExchangeService {
     super(exchangeSpecification);
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return CURRENCY_PAIRS;
-  }
 }

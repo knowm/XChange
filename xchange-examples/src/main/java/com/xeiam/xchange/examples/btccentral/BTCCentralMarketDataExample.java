@@ -11,20 +11,20 @@ import com.xeiam.xchange.btccentral.service.polling.BTCCentralMarketDataServiceR
  * @author ObsessiveOrange
  */
 public class BTCCentralMarketDataExample {
-  
+
   public static void main(String[] args) throws IOException {
-  
+
     Exchange btcCentralExchange = ExchangeFactory.INSTANCE.createExchange(BTCCentralExchange.class.getName());
     BTCCentralMarketDataServiceRaw btcCentralMarketDataServiceRaw = (BTCCentralMarketDataServiceRaw) btcCentralExchange.getPollingMarketDataService();
-    
+
     System.out.println(btcCentralMarketDataServiceRaw.getBTCCentralTicker());
     System.out.println("\n");
-    
+
     System.out.println(btcCentralMarketDataServiceRaw.getBTCCentralMarketDepth());
     System.out.println("\n");
-    
+
     System.out.println(btcCentralMarketDataServiceRaw.getBTCCentralTrades());
     System.out.println("\n");
   }
-  
+
 }

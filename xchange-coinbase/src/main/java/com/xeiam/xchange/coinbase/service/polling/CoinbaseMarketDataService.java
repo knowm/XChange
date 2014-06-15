@@ -31,7 +31,6 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -75,12 +74,6 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() {
 
     throw new NotAvailableFromExchangeException();
   }

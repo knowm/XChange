@@ -42,106 +42,112 @@ import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 
-
 public final class ItBitAdapters {
-	private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
 
-	/**
-	 * private Constructor
-	 */
-	private ItBitAdapters() {
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
 
-	}
+  /**
+   * private Constructor
+   */
+  private ItBitAdapters() {
 
-	public static Trades adaptTrades(ItBitTrade[] trades, CurrencyPair currencyPair) {
-		List<Trade> tradesList = new ArrayList<Trade>(trades.length);
+  }
 
-		for(int i = 0; i < trades.length; i++) {
-			ItBitTrade trade = trades[i];
-			tradesList.add(adaptTrade(trade, currencyPair));
-		}
-		return new Trades(tradesList, TradeSortType.SortByID);	
-	}
+  public static Trades adaptTrades(ItBitTrade[] trades, CurrencyPair currencyPair) {
 
-	public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) {
-		Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
-		final String tradeId = String.valueOf(trade.getTid());
+    List<Trade> tradesList = new ArrayList<Trade>(trades.length);
 
-		return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, tradeId);
-	}
+    for (int i = 0; i < trades.length; i++) {
+      ItBitTrade trade = trades[i];
+      tradesList.add(adaptTrade(trade, currencyPair));
+    }
+    return new Trades(tradesList, TradeSortType.SortByID);
+  }
 
+  public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) {
 
-	public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, CurrencyPair currencyPair, OrderType orderType) {
-		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
+    Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
+    final String tradeId = String.valueOf(trade.getTid());
 
-		for(int i = 0; i < orders.size(); i++) {
-			BigDecimal[] level = orders.get(i);
+    return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, tradeId);
+  }
 
-			limitOrders.add(adaptOrder(level[1], level[0], currencyPair, null, orderType));
-		}
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> orders, CurrencyPair currencyPair, OrderType orderType) {
 
-		return limitOrders;
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
 
-	}
+    for (int i = 0; i < orders.size(); i++) {
+      BigDecimal[] level = orders.get(i);
 
-	private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType) {		
-		return new LimitOrder(orderType, amount, currencyPair, orderId, null, price);
-	}
+      limitOrders.add(adaptOrder(level[1], level[0], currencyPair, null, orderType));
+    }
 
-	public static AccountInfo adaptAccountInfo(ItBitAccountInfoReturn[] info) {
-		List<Wallet> wallets = new ArrayList<Wallet>();
-		String userId = "";
+    return limitOrders;
 
-		for(int i = 0; i < info.length; i++) {
-			ItBitAccountInfoReturn itBitAccountInfoReturn = info[i];
-			ItBitAccountBalance[] balances = itBitAccountInfoReturn.getBalances();
+  }
 
-			userId = itBitAccountInfoReturn.getUserId();
+  private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType) {
 
-			for(int j = 0; j < balances.length; j++) {
-				ItBitAccountBalance itBitAccountBalance = balances[j];
+    return new LimitOrder(orderType, amount, currencyPair, orderId, null, price);
+  }
 
-				Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
-				wallets.add(wallet);		
-			}
-		}
+  public static AccountInfo adaptAccountInfo(ItBitAccountInfoReturn[] info) {
 
-		return new AccountInfo(userId, wallets);
-	}
+    List<Wallet> wallets = new ArrayList<Wallet>();
+    String userId = "";
 
-	public static OpenOrders adaptPrivateOrders(ItBitOrder[] orders) {
-		if(orders.length <= 0) {
-			return noOpenOrders;
-		}
+    for (int i = 0; i < info.length; i++) {
+      ItBitAccountInfoReturn itBitAccountInfoReturn = info[i];
+      ItBitAccountBalance[] balances = itBitAccountInfoReturn.getBalances();
 
-		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+      userId = itBitAccountInfoReturn.getUserId();
 
-		for(int i = 0; i < orders.length; i++) {
-			ItBitOrder itBitOrder = orders[i];
-			String instrument = itBitOrder.getInstrument();
+      for (int j = 0; j < balances.length; j++) {
+        ItBitAccountBalance itBitAccountBalance = balances[j];
 
-			CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0,3), instrument.substring(3,6));
-			OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
+        wallets.add(wallet);
+      }
+    }
 
-			limitOrders.add(adaptOrder(itBitOrder.getAmount(), itBitOrder.getPrice(), currencyPair, itBitOrder.getId(), orderType));
-		}
+    return new AccountInfo(userId, wallets);
+  }
 
-		return new OpenOrders(limitOrders);
-	}
+  public static OpenOrders adaptPrivateOrders(ItBitOrder[] orders) {
 
-	public static Trades adaptTradeHistory(ItBitOrder[] orders) {
-		List<Trade> trades = new ArrayList<Trade>(orders.length);
+    if (orders.length <= 0) {
+      return noOpenOrders;
+    }
 
-		for(int i = 0; i < orders.length; i++) {
-			ItBitOrder itBitOrder = orders[i]; 
-			String instrument = itBitOrder.getInstrument();
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
 
-			OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-			CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0,3), instrument.substring(3,6));
+    for (int i = 0; i < orders.length; i++) {
+      ItBitOrder itBitOrder = orders[i];
+      String instrument = itBitOrder.getInstrument();
 
-			trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), itBitOrder.getCreatedTime(), itBitOrder.getId()));
-		}
+      CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
+      OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
 
-		return new Trades(trades, TradeSortType.SortByTimestamp);
-	}
+      limitOrders.add(adaptOrder(itBitOrder.getAmount(), itBitOrder.getPrice(), currencyPair, itBitOrder.getId(), orderType));
+    }
+
+    return new OpenOrders(limitOrders);
+  }
+
+  public static Trades adaptTradeHistory(ItBitOrder[] orders) {
+
+    List<Trade> trades = new ArrayList<Trade>(orders.length);
+
+    for (int i = 0; i < orders.length; i++) {
+      ItBitOrder itBitOrder = orders[i];
+      String instrument = itBitOrder.getInstrument();
+
+      OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+      CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
+
+      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), itBitOrder.getCreatedTime(), itBitOrder.getId()));
+    }
+
+    return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
 }

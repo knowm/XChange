@@ -25,13 +25,11 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -62,8 +60,6 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // get data
     BitcurexTicker bitcurexTicker = getBitcurexTicker(currencyPair.counterSymbol);
 
@@ -73,8 +69,6 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // get data
     BitcurexDepth bitcurexDepth = getBitcurexOrderBook(currencyPair.counterSymbol);
@@ -89,19 +83,11 @@ public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw impl
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // get data
     BitcurexTrade[] bitcurexTrades = getBitcurexTrades(currencyPair.counterSymbol);
 
     // Adapt to XChange DTOs
     return BitcurexAdapters.adaptTrades(bitcurexTrades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

@@ -34,13 +34,12 @@ import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
 import com.xeiam.xchange.cexio.dto.account.GHashIOHashrate;
 import com.xeiam.xchange.cexio.dto.account.GHashIOWorker;
-import com.xeiam.xchange.cexio.service.CexIOBaseService;
 import com.xeiam.xchange.cexio.service.CexIODigest;
 
 /**
  * @author timmolter
  */
-public class CexIOAccountServiceRaw extends CexIOBaseService {
+public class CexIOAccountServiceRaw extends CexIOBasePollingService {
 
   private final CexIOAuthenticated cexIOAuthenticated;
   private ParamsDigest signatureCreator;
@@ -66,15 +65,15 @@ public class CexIOAccountServiceRaw extends CexIOBaseService {
 
     return info;
   }
-  
+
   public GHashIOHashrate getHashrate() throws IOException {
 
-	return cexIOAuthenticated.getHashrate(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+    return cexIOAuthenticated.getHashrate(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
   }
-  
+
   public Map<String, GHashIOWorker> getWorkers() throws IOException {
 
-	return cexIOAuthenticated.getWorkers(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce()).getWorkers();
+    return cexIOAuthenticated.getWorkers(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce()).getWorkers();
   }
 
 }

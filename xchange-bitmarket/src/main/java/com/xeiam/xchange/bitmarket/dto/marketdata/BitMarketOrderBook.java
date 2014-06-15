@@ -1,9 +1,9 @@
 package com.xeiam.xchange.bitmarket.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kpysniak
@@ -15,20 +15,23 @@ public class BitMarketOrderBook {
 
   /**
    * Constructor
-   *
+   * 
    * @param asks
    * @param bids
    */
   public BitMarketOrderBook(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
+
     this.asks = asks;
     this.bids = bids;
   }
 
   public BigDecimal[][] getAsks() {
+
     return asks;
   }
 
   public BigDecimal[][] getBids() {
+
     return bids;
   }
 
@@ -46,9 +49,6 @@ public class BitMarketOrderBook {
       bidsBuilder.append(Arrays.toString(bid) + ";");
     }
 
-    return "BitMarketOrderBook{" +
-        "asks=" + asksBuilder +
-        ", bids=" + bidsBuilder +
-        '}';
+    return "BitMarketOrderBook{" + "asks=" + asksBuilder + ", bids=" + bidsBuilder + '}';
   }
 }

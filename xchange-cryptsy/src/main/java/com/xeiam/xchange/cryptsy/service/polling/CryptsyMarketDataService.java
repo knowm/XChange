@@ -22,8 +22,6 @@
 package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -33,7 +31,6 @@ import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyGetMarketsReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyMarketTradesReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyOrderBookReturn;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -55,8 +52,6 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
 
-    verify(currencyPair);
-
     CryptsyGetMarketsReturn marketsReturnData = super.getCryptsyMarkets();
 
     return CryptsyAdapters.adaptTicker(marketsReturnData, currencyPair);
@@ -74,8 +69,6 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
-
-    verify(currencyPair);
 
     CryptsyOrderBookReturn orderBookReturnData = super.getCryptsyOrderBook(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
@@ -97,19 +90,9 @@ public class CryptsyMarketDataService extends CryptsyMarketDataServiceRaw implem
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException, ExchangeException {
 
-    verify(currencyPair);
-
     CryptsyMarketTradesReturn tradesReturnData = super.getCryptsyTrades(CryptsyCurrencyUtils.convertToMarketId(currencyPair));
 
     return CryptsyAdapters.adaptTrades(tradesReturnData, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException, ExchangeException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    currencyPairs.addAll(getExchangeSymbols());
-    return new ExchangeInfo(currencyPairs);
   }
 
 }

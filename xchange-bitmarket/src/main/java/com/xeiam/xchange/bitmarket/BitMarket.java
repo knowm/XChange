@@ -1,15 +1,16 @@
 package com.xeiam.xchange.bitmarket;
 
-import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
-import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
-import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
+import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 
 /**
  * @author kpysniak
@@ -18,9 +19,7 @@ import java.io.IOException;
 @Produces(MediaType.APPLICATION_JSON)
 public interface BitMarket {
 
-
   /**
-   *
    * @return BTCCentral ticker
    * @throws IOException
    */

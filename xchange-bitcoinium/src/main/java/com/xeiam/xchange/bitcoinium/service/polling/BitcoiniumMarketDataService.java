@@ -30,7 +30,6 @@ import com.xeiam.xchange.bitcoinium.BitcoiniumAdapters;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -59,8 +58,6 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
@@ -70,8 +67,6 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     String priceWindow = "";
 
@@ -97,12 +92,6 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

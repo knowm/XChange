@@ -37,11 +37,10 @@ import com.xeiam.xchange.anx.v2.dto.account.polling.ANXBitcoinDepositAddress;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXBitcoinDepositAddressWrapper;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWithdrawalResponse;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWithdrawalResponseWrapper;
-import com.xeiam.xchange.anx.v2.service.ANXBaseService;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
 import com.xeiam.xchange.utils.Assert;
 
-public class ANXAccountServiceRaw extends ANXBaseService {
+public class ANXAccountServiceRaw extends ANXBasePollingService {
 
   private final ANXV2 anxV2;
   private final ANXV2Digest signatureCreator;

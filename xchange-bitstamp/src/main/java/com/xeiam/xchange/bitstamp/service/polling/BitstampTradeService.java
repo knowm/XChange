@@ -80,8 +80,6 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
-
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
       bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());

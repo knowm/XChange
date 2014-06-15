@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -60,16 +58,12 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Adapt to XChange DTOs
     return VaultOfSatoshiAdapters.adaptTicker(getVosTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     VaultOfSatoshiDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair);
@@ -84,19 +78,11 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     List<VaultOfSatoshiTrade> virtExTrades = getVosTrades(currencyPair);
 
     // Adapt to XChange DTOs
     return VaultOfSatoshiAdapters.adaptTrades(virtExTrades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

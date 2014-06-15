@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -60,16 +58,12 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTicker(getVirtExTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    verify(currencyPair);
 
     // Request data
     VirtExDepth virtExDepth = getVirtExOrderBook(currencyPair);
@@ -84,19 +78,11 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     List<VirtExTrade> virtExTrades = getVirtExTrades(currencyPair);
 
     // Adapt to XChange DTOs
     return VirtExAdapters.adaptTrades(virtExTrades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

@@ -28,7 +28,6 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageAdapters;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -57,8 +56,6 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Request data
     BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
@@ -74,12 +71,6 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

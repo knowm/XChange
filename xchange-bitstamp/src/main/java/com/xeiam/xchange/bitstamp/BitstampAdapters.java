@@ -81,6 +81,7 @@ public final class BitstampAdapters {
    * 
    * @param currencyPair (e.g. BTC/USD)
    * @param currency The currency (e.g. USD in BTC/USD)
+   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
@@ -129,6 +130,21 @@ public final class BitstampAdapters {
     }
 
     return new Trades(trades, TradeSortType.SortByID);
+  }
+
+  /**
+   * Adapts a Transaction to a Trade Object
+   * 
+   * @param transactions The Bitstamp transaction
+   * @param currencyPair (e.g. BTC/USD)
+   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @return The XChange Trade
+   */
+  public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
+
+    final String tradeId = String.valueOf(tx.getTid());
+    Date date = DateUtils.fromMillisUtc(tx.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
+    return new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
   /**

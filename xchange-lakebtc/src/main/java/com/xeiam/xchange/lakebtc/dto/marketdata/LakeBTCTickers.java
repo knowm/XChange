@@ -12,28 +12,29 @@ public class LakeBTCTickers {
 
   /**
    * Constructor
-   *
+   * 
    * @param usd
    * @param cny
    */
   public LakeBTCTickers(@JsonProperty("USD") LakeBTCTicker usd, @JsonProperty("CNY") LakeBTCTicker cny) {
+
     this.usd = usd;
     this.cny = cny;
   }
 
   public LakeBTCTicker getUsd() {
+
     return usd;
   }
 
   public LakeBTCTicker getCny() {
+
     return cny;
   }
 
   @Override
   public String toString() {
-    return "LakeBTCTickers{" +
-        "usd=" + usd +
-        ", cny=" + cny +
-        '}';
+
+    return "LakeBTCTickers{" + "usd=" + usd + ", cny=" + cny + '}';
   }
 }

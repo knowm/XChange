@@ -33,13 +33,14 @@ import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEReturn;
 import com.xeiam.xchange.btce.v2.service.BTCEHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.BasePollingExchangeService;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author Matija Mazi
  */
 @Deprecated
-public class BTCEBasePollingService extends BasePollingExchangeService {
+public class BTCEBasePollingService extends BaseExchangeService implements BasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
 

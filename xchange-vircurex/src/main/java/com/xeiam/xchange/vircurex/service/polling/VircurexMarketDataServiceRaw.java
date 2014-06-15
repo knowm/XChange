@@ -29,7 +29,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.vircurex.Vircurex;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
-import com.xeiam.xchange.vircurex.service.VircurexBaseService;
 
 /**
  * <p>
@@ -39,7 +38,7 @@ import com.xeiam.xchange.vircurex.service.VircurexBaseService;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class VircurexMarketDataServiceRaw extends VircurexBaseService {
+public class VircurexMarketDataServiceRaw extends VircurexBasePollingService {
 
   private final Vircurex vircurex;
 

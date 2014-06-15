@@ -42,14 +42,15 @@ import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
 import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
-import com.xeiam.xchange.cryptsy.service.CryptsyBaseService;
 import com.xeiam.xchange.cryptsy.service.CryptsyHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * @author ObsessiveOrange
  */
-public class CryptsyBasePollingService<T extends Cryptsy> extends CryptsyBaseService {
+public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeService implements BasePollingService {
 
   private final Logger logger = LoggerFactory.getLogger(CryptsyBasePollingService.class);
 

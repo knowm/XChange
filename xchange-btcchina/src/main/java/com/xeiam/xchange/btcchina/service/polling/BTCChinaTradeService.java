@@ -75,8 +75,6 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    verify(limitOrder.getCurrencyPair());
-
     BTCChinaIntegerResponse response = placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
 
     return response.getResult().toString();

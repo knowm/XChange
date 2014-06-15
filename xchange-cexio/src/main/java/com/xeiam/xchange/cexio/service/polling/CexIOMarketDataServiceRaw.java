@@ -30,13 +30,12 @@ import com.xeiam.xchange.cexio.CexIO;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
-import com.xeiam.xchange.cexio.service.CexIOBaseService;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author timmolter
  */
-public class CexIOMarketDataServiceRaw extends CexIOBaseService {
+public class CexIOMarketDataServiceRaw extends CexIOBasePollingService {
 
   private final CexIO cexio;
 

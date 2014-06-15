@@ -150,15 +150,17 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
     KrakenOrderResult result = null;
     if (!krakenStandardOrder.isValidateOnly()) {
       result =
-          kraken.addOrder(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(), krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume()
-              .toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(), krakenStandardOrder.getCloseOrder(),
-              exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+          kraken.addOrder(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(), krakenStandardOrder
+              .getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(),
+              delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(), krakenStandardOrder
+                  .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
     else {
       result =
-          kraken.addOrderValidateOnly(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(), krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder
-              .getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(), true, krakenStandardOrder
-              .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+          kraken.addOrderValidateOnly(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(),
+              krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder
+                  .getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(),
+              true, krakenStandardOrder.getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
 
     return checkResult(result);
