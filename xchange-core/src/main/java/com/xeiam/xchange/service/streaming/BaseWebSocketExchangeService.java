@@ -130,7 +130,6 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     exchangeEventProducer.send(msg);
   }
 
-  @Override
   public READYSTATE getWebSocketStatus() {
 
     return exchangeEventProducer.getConnection().getReadyState();
@@ -147,5 +146,4 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
       exchangeEventProducer.getConnection().sendFrame(frame);
     }
   }
-
 }
