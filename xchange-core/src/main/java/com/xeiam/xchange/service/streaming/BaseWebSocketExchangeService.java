@@ -130,6 +130,12 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     exchangeEventProducer.send(msg);
   }
 
+  /**
+   * Returns current state of websocket connection. Will return one of these values:
+   * NOT_YET_CONNECTED, CONNECTING, OPEN, CLOSING, CLOSED
+   * 
+   * @return enum of type READYSTATE
+   */
   @Override
   public READYSTATE getWebSocketStatus() {
 
@@ -147,5 +153,4 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
       exchangeEventProducer.getConnection().sendFrame(frame);
     }
   }
-
 }
