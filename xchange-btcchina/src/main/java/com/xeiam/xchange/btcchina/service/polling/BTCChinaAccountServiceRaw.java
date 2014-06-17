@@ -24,9 +24,6 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
@@ -35,8 +32,6 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
-import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
-import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author ObsessiveOrange
@@ -47,13 +42,7 @@ import com.xeiam.xchange.utils.Assert;
  *         <li>Provides access to account data</li>
  *         </ul>
  */
-public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService {
-
-  /**
-   * Configured from the super class reading of the exchange specification
-   */
-  private final BTCChina btcchina;
-  private ParamsDigest signatureCreator;
+public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChina> {
 
   /**
    * Constructor
@@ -62,26 +51,23 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService {
    */
   public BTCChinaAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.btcchina = RestProxyFactory.createProxy(BTCChina.class, exchangeSpecification.getSslUri());
-    signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+    
+    super(BTCChina.class, exchangeSpecification);
   }
 
   public BTCChinaResponse<BTCChinaAccountInfo> getBTCChinaAccountInfo() throws IOException {
 
-    return btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
+    return btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
   }
 
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {
 
-    return btcchina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount));
+    return btcChina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount));
   }
 
   public String requestBTCChinaBitcoinDepositAddress() throws IOException {
 
-    BTCChinaResponse<BTCChinaAccountInfo> response = btcchina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
+    BTCChinaResponse<BTCChinaAccountInfo> response = btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
 
     return response.getResult().getProfile().getBtcDepositAddress();
   }

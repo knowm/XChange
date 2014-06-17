@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -75,10 +76,11 @@ public class BTCChinaAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is = BTCChinaTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
-
+    
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BTCChinaTrade[] BTCChinaTrades = mapper.readValue(is, BTCChinaTrade[].class);
+    JavaType type = mapper.getTypeFactory().constructCollectionType(List.class, BTCChinaTrade.class);
+    List<BTCChinaTrade> BTCChinaTrades = mapper.readValue(is, type);
 
     Trades trades = BTCChinaAdapters.adaptTrades(BTCChinaTrades, CurrencyPair.BTC_CNY);
     assertThat(trades.getTrades().size()).isEqualTo(101);
