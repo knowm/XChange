@@ -28,16 +28,16 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
  * @author Joe Zhou
  */
 public class BTCChinaIntegerResponse extends BTCChinaResponse<Integer> {
-
+  
   /**
    * Constructor
    * 
    * @param id
    * @param result
    */
-  public BTCChinaIntegerResponse(@JsonProperty("id") String id, @JsonProperty("result") Integer result) {
-
-    super(id, result);
+  public BTCChinaIntegerResponse(@JsonProperty("id") String id, @JsonProperty("result") Integer result, @JsonProperty("error") String error) {
+  
+    super(id, result, error);
   }
-
+  
 }
