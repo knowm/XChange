@@ -21,42 +21,56 @@
  */
 package com.xeiam.xchange.btcchina.service.polling;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.btcchina.BTCChina;
+import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author timmolter
  */
-public class BTCChinaBasePollingService extends BaseExchangeService implements BasePollingService {
+public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_CNY,
-
-  CurrencyPair.LTC_CNY,
-
-  CurrencyPair.LTC_BTC
-
-  );
+  protected final T btcChina;
+  protected final ParamsDigest signatureCreator;
+  private final Set<CurrencyPair> currencyPairs;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
    */
-  public BTCChinaBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public BTCChinaBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
+
+    this.btcChina = RestProxyFactory.createProxy(type, (String) exchangeSpecification.getExchangeSpecificParameters().get("dataSslUri"));
+    this.signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+    this.currencyPairs = new HashSet<CurrencyPair>();
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    if (currencyPairs.isEmpty()) {
+      for (String tickerKey : btcChina.getTickers("all").keySet()) {
+        currencyPairs.add(BTCChinaAdapters.adaptCurrencyPairFromTickerMarketKey(tickerKey));
+      }
+    }
+
+    return currencyPairs;
   }
 }

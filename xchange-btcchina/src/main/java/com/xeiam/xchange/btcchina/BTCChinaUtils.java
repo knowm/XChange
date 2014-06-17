@@ -79,4 +79,5 @@ public final class BTCChinaUtils {
 
     return value.setScale(3, RoundingMode.FLOOR).stripTrailingZeros();
   }
+
 }
