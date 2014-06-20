@@ -69,7 +69,6 @@ public class BTCChinaTradesDemo {
     System.out.println("NumTrades=" + trades.getTrades().size());
     
     System.out.println("LastId=" + trades.getlastID());
-
   }
 
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {

@@ -100,7 +100,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
         btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair), sinceTransactionID);
       }
       else {
-        throw new ExchangeException("args[0] must be of type Integer!");
+        throw new ExchangeException("args[0] must be of type Number!");
       }
     }
 
