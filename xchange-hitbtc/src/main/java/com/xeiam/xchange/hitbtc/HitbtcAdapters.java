@@ -66,9 +66,17 @@ public class HitbtcAdapters {
     List<CurrencyPair> currencyPairList = new ArrayList<CurrencyPair>();
 
     for (HitbtcSymbol hitbtcSymbol : hitbtcSymbols.getHitbtcSymbols()) {
-      String base = hitbtcSymbol.getSymbol().substring(0, 3);
-      String counterSymbol = hitbtcSymbol.getSymbol().substring(3);
-      CurrencyPair currencyPair = new CurrencyPair(base, counterSymbol);
+      String symbolString = hitbtcSymbol.getSymbol();
+      CurrencyPair currencyPair = null;
+      if (symbolString.startsWith("DOGE")) {
+        String counterSymbol = symbolString.substring(4);
+        currencyPair = new CurrencyPair("DOGE", counterSymbol);
+      }
+      else {
+        String base = symbolString.substring(0, 3);
+        String counterSymbol = symbolString.substring(3);
+        currencyPair = new CurrencyPair(base, counterSymbol);
+      }
 
       currencyPairList.add(currencyPair);
     }
