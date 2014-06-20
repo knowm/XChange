@@ -48,7 +48,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("trading/orders/active")
   public HitbtcOrdersResponse getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey
-  /* @QueryParam("symbols") String symbols */) throws IOException;
+      /* @QueryParam("symbols") String symbols */) throws IOException;
 
   @POST
   @Path("trading/new_order")
@@ -63,16 +63,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @Produces(MediaType.APPLICATION_FORM_URLENCODED)
   public HitbtcExecutionReportResponse postHitbtcCancelOrder(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey,
       @FormParam("clientOrderId") String clientOrderId, @FormParam("cancelRequestClientOrderId") String cancelRequestClientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side)
-      throws IOException;
+          throws IOException;
 
   @GET
   @Path("trading/trades")
   public HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey, @QueryParam("by") String by,
-      @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols
-  // @QueryParam("sort") String sort,
-  // @QueryParam("from") String from,
-  // @QueryParam("till") String till
-      ) throws IOException;
+      @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols, @QueryParam("sort") String sort, @QueryParam("from") String from, 
+      @QueryParam("till") String till) throws IOException;
 
   @GET
   @Path("trading/balance")
