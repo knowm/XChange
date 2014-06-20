@@ -93,8 +93,10 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     else if (args.length == 1) {
       Object arg0 = args[0];
 
-      if (arg0 instanceof Integer) {
-        Integer sinceTransactionID = (Integer) args[0];
+      if (arg0 instanceof Number) {
+        Number arg = (Number) args[0];
+        Long sinceTransactionID = arg.longValue();
+
         btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair), sinceTransactionID);
       }
       else {
