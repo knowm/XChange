@@ -187,7 +187,7 @@ public class HitbtcAdapters {
     for (int i = 0; i < accountInfoRaw.length; i++) {
       HitbtcBalance balance = accountInfoRaw[i];
 
-      Wallet wallet = new Wallet(balance.getCurrencyCode(), balance.getCash(), balance.getCurrencyCode());
+      Wallet wallet = new Wallet(balance.getCurrencyCode(), balance.getCash().add(balance.getReserved()), balance.getCurrencyCode());
       wallets.add(wallet);
 
     }
