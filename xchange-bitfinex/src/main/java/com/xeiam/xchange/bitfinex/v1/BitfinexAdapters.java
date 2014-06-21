@@ -110,10 +110,14 @@ public final class BitfinexAdapters {
   public static Trades adaptTrades(BitfinexTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>(trades.length);
+    long lastTradeId = 0;
     for (BitfinexTrade trade : trades) {
+      long tradeId = trade.getTradeId();
+      if (tradeId > lastTradeId) 
+        lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   public static Ticker adaptTicker(BitfinexTicker bitfinexTicker, CurrencyPair currencyPair) {

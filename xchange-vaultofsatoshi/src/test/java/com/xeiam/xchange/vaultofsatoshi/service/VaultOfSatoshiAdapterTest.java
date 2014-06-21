@@ -82,13 +82,14 @@ public class VaultOfSatoshiAdapterTest {
     TradesWrapper vosTrades = mapper.readValue(is, TradesWrapper.class);
 
     Trades trades = VaultOfSatoshiAdapters.adaptTrades(vosTrades.getTrades(), CurrencyPair.BTC_USD);
-    assertThat(trades.getTrades().size()).isEqualTo(20);
+    assertThat(trades.getTrades().size()).isEqualTo(2);
 
     // Verify all fields filled
-    assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 592.60797000);
-    assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 0.01786170);
+    assertThat(trades.getTrades().get(0).getPrice()).isEqualTo("641.17165850");
+    assertThat(trades.getTrades().get(0).getTradableAmount()).isEqualTo(".25000000");
     assertThat(trades.getTrades().get(0).getCurrencyPair().baseSymbol == "BTC");
-    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-03-20 20:16:33 GMT");
+    assertThat(trades.getlastID()).isEqualTo(294649);
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-06-21 01:06:53 GMT");
   }
 
   @Test

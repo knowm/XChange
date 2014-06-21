@@ -94,8 +94,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
       Object arg0 = args[0];
 
       if (arg0 instanceof Number) {
-        Number arg = (Number) args[0];
-        Long sinceTransactionID = arg.longValue();
+        Long sinceTransactionID = ((Number) arg0).longValue();
 
         btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair), sinceTransactionID);
       }

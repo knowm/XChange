@@ -137,11 +137,15 @@ public final class BTCEAdapters {
   public static Trades adaptTrades(BTCETrade[] bTCETrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BTCETrade bTCETrade : bTCETrades) {
       // Date is reversed order. Insert at index 0 instead of appending
+      long tradeId = bTCETrade.getTid();
+      if(tradeId > lastTradeId)
+        lastTradeId = tradeId;
       tradesList.add(0, adaptTrade(bTCETrade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
