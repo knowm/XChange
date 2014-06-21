@@ -118,10 +118,14 @@ public final class BitcurexAdapters {
   public static Trades adaptTrades(BitcurexTrade[] bitcurexTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BitcurexTrade bitcurexTrade : bitcurexTrades) {
+      long tradeId = bitcurexTrade.getTid();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       tradesList.add(adaptTrade(bitcurexTrade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
@@ -151,12 +155,11 @@ public final class BitcurexAdapters {
    */
   public static AccountInfo adaptAccountInfo(BitcurexFunds funds, String userName) {
 
-	    // Adapt to XChange DTOs
-	    Wallet eurWallet = new Wallet(Currencies.EUR, funds.getEurs());
-	    Wallet btcWallet = new Wallet(Currencies.BTC, funds.getBtcs());
+    // Adapt to XChange DTOs
+    Wallet eurWallet = new Wallet(Currencies.EUR, funds.getEurs());
+    Wallet btcWallet = new Wallet(Currencies.BTC, funds.getBtcs());
 
-	    return new AccountInfo( userName, null, 
-	    		                Arrays.asList(eurWallet, btcWallet));
-	  }
+    return new AccountInfo(userName, null, Arrays.asList(eurWallet, btcWallet));
+  }
 
 }

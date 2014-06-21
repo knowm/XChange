@@ -27,6 +27,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.DepthWrapper;
@@ -49,7 +50,7 @@ public interface VaultOfSatoshi {
   public DepthWrapper getFullDepth(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;
 
   @GET
-  @Path("recent_transactions?order_currency={orderCurrency}&payment_currency={paymentCurrency}&count=100")
-  public TradesWrapper getTrades(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;
+  @Path("recent_transactions")
+  public TradesWrapper getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency, @QueryParam("since_id") Long sinceId, @QueryParam("count") int count) throws IOException;
 
 }

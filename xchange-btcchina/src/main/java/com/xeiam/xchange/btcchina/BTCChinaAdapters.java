@@ -121,10 +121,14 @@ public final class BTCChinaAdapters {
   public static Trades adaptTrades(List<BTCChinaTrade> btcchinaTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.size());
+    long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
+      long tradeId = btcchinaTrade.getTid();
+      if(tradeId > latestTradeId) 
+        latestTradeId = tradeId;
       tradesList.add(adaptTrade(btcchinaTrade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, latestTradeId, TradeSortType.SortByID);
   }
 
   /**

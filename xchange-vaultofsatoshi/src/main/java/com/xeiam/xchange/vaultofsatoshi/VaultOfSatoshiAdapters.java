@@ -98,7 +98,7 @@ public final class VaultOfSatoshiAdapters {
 
     BigDecimal amount = vosTrade.getUnitsTraded().getValue();
     Date date = DateUtils.fromMillisUtc(vosTrade.getTimestamp() / 1000L);
-    final String tradeId = String.valueOf(vosTrade.getTimestamp());
+    final String tradeId = String.valueOf(vosTrade.getTransactionId());
     return new Trade(null, amount, currencyPair, vosTrade.getPrice().getValue(), date, tradeId);
   }
 
@@ -111,10 +111,14 @@ public final class VaultOfSatoshiAdapters {
   public static Trades adaptTrades(List<VaultOfSatoshiTrade> vosTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
-    for (VaultOfSatoshiTrade vosTrade : vosTrades)
+    long lastTradeId = 0;
+    for (VaultOfSatoshiTrade vosTrade : vosTrades) {
+      long tradeId = vosTrade.getTransactionId();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       tradesList.add(adaptTrade(vosTrade, currencyPair));
-
-    return new Trades(tradesList, TradeSortType.SortByID);
+    }
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**

@@ -79,7 +79,7 @@ public interface BTCChina {
   // return 100 trade records starting from id $since.
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") int transactionID) throws IOException;
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") Long transactionID) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

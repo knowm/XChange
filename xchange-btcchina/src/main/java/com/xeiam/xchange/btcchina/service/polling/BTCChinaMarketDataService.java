@@ -93,12 +93,13 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     else if (args.length == 1) {
       Object arg0 = args[0];
 
-      if (arg0 instanceof Integer) {
-        Integer sinceTransactionID = (Integer) args[0];
+      if (arg0 instanceof Number) {
+        Long sinceTransactionID = ((Number) arg0).longValue();
+
         btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair), sinceTransactionID);
       }
       else {
-        throw new ExchangeException("args[0] must be of type Integer!");
+        throw new ExchangeException("args[0] must be of type Number!");
       }
     }
 
