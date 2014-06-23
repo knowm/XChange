@@ -19,38 +19,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.justcoin;
+package com.xeiam.xchange.justcoin.dto.marketdata;
 
-import java.io.IOException;
-import java.util.List;
+import java.math.BigDecimal;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinPublicTrade;
-import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jamespedwards42
  */
-@Path("api/")
-@Produces(MediaType.APPLICATION_JSON)
-public interface Justcoin {
+public class JustcoinPublicTrade {
 
-  @GET
-  @Path("v1/markets")
-  List<JustcoinTicker> getTickers() throws IOException;
+  private final String tid;
+  private final BigDecimal price;
+  private final BigDecimal amount;
+  private final long date;
 
-  @GET
-  @Path("v1/markets/{ident}{currency}/depth")
-  JustcoinDepth getDepth(final @PathParam("ident") String tradeableIdentifier, final @PathParam("currency") String currency) throws IOException;
-  
-  @GET
-  @Path("bitcoincharts/{price_currency}/trades.json")
-  List<JustcoinPublicTrade> getTrades(final @PathParam("price_currency") String priceCurrency, final @QueryParam("since") Long sinceTradeId) throws IOException;
+  public JustcoinPublicTrade(@JsonProperty("tid") String tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date) {
+
+    this.tid = tid;
+    this.price = price;
+    this.amount = amount;
+    this.date = date;
+  }
+
+  public String getTid() {
+
+    return tid;
+  }
+
+  public BigDecimal getPrice() {
+
+    return price;
+  }
+
+  public BigDecimal getAmount() {
+
+    return amount;
+  }
+
+  public long getDate() {
+
+    return date;
+  }
+
+  @Override
+  public String toString() {
+
+    return "JustcoinPublicTrade [tid=" + tid + ", price=" + price + ", amount=" + amount + ", date=" + date + "]";
+  }
+
 }
