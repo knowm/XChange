@@ -26,11 +26,14 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
@@ -73,18 +76,21 @@ public class JustcoinTickerTest {
 
     // Use Jackson to parse it
     final ObjectMapper mapper = new ObjectMapper();
-    final JustcoinTicker[] tickers = mapper.readValue(is, new JustcoinTicker[0].getClass());
+    CollectionType collectionType = mapper.getTypeFactory().constructCollectionType(List.class, JustcoinTicker.class);
+    final List<JustcoinTicker> tickers = mapper.readValue(is, collectionType);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(tickers.length).isEqualTo(5);
-    final JustcoinTicker xrpTicker = tickers[4];
+    assertThat(tickers.size()).isEqualTo(5);
+    final JustcoinTicker xrpTicker = tickers.get(4);
     assertThat(xrpTicker).isEqualTo(justcoinTicker);
   }
 
   @Test
   public void testAdapter() {
 
-    final Ticker ticker = JustcoinAdapters.adaptTicker(new JustcoinTicker[] { justcoinTicker }, currencyPair);
+    final List<JustcoinTicker> tickers = new ArrayList<JustcoinTicker>();
+    tickers.add(justcoinTicker);
+    final Ticker ticker = JustcoinAdapters.adaptTicker(tickers, currencyPair);
 
     assertThat(ticker.getLast()).isEqualTo(last);
     assertThat(ticker.getHigh()).isEqualTo(high);
