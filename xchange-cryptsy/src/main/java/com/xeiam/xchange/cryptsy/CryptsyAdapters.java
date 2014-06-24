@@ -198,7 +198,7 @@ public final class CryptsyAdapters {
       for (CryptsyPublicTrade trade : cryptsyMarketDataEntry.getRecentTrades()) {
         tradesList.add(adaptTrade(trade, currencyPair));
       }
-      trades.put(currencyPair, new Trades(tradesList, TradeSortType.SortByID));
+      trades.put(currencyPair, new Trades(tradesList, TradeSortType.SortByTimestamp));
     }
 
     return trades;
@@ -206,7 +206,7 @@ public final class CryptsyAdapters {
 
   private static Trade adaptTrade(CryptsyPublicTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), String.valueOf(trade.getTradeId()));
+    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), null);
   }
 
   /**

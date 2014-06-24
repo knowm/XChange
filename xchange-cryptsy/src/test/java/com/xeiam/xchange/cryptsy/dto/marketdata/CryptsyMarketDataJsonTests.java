@@ -140,7 +140,6 @@ public class CryptsyMarketDataJsonTests {
     assertEquals(trade.getPrice(), new BigDecimal("0.00003495"));
     assertEquals(trade.getQuantity(), new BigDecimal("2961.55892792"));
     assertEquals(trade.getTotal(), new BigDecimal("0.10350648"));
-    assertEquals(trade.getTradeId(), 47692497);
     assertThat(trade.getTime()).isEqualTo(CryptsyUtils.convertDateTime("2014-05-29 21:49:34"));
 
     List<CryptsyPublicOrder> buyOrders = marketData.getBuyOrders();
