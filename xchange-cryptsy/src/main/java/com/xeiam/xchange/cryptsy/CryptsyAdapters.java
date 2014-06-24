@@ -165,10 +165,14 @@ public final class CryptsyAdapters {
   public static Trades adaptTrades(CryptsyMarketTradesReturn cryptsyTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (CryptsyOrder trade : cryptsyTrades.getReturnValue()) {
+      long tradeId = trade.getTradeId();
+      if(tradeId > lastTradeId) 
+        lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**

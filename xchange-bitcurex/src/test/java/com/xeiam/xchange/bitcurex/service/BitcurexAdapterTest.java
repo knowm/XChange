@@ -33,13 +33,16 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
+import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexAccountJSONTest;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexDepthJSONTest;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexTickerJSONTest;
 import com.xeiam.xchange.bitcurex.service.marketdata.BitcurexTradesJSONTest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -108,4 +111,23 @@ public class BitcurexAdapterTest {
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("103.23546591"));
 
   }
+
+  @Test
+  public void testAccountFundsAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitcurexAccountJSONTest.class.getResourceAsStream("/marketdata/example-funds-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
+
+    AccountInfo accountInfo = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
+    System.out.println(accountInfo.toString());
+
+    assertThat(accountInfo.getBalance("BTC").compareTo( new BigDecimal("2.59033845"))==0);
+    assertThat(accountInfo.getBalance("EUR").compareTo( new BigDecimal("6160.06838790"))==0);
+    assertThat(accountInfo.getUsername().toString()).isEqualTo("demo");
+  }
+
 }

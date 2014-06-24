@@ -22,6 +22,8 @@
 package com.xeiam.xchange.btcchina;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -40,6 +42,7 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetAccountInfoRes
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
@@ -57,21 +60,26 @@ public interface BTCChina {
 
   @GET
   @Path("data/ticker")
-  public BTCChinaTicker getTicker() throws IOException;
+  public Map<String, BTCChinaTickerObject> getTickers(@QueryParam("market") String market) throws IOException;
 
   @GET
+  @Path("data/ticker")
+  public BTCChinaTicker getTicker(@QueryParam("market") String market) throws IOException;
+
+  
+  @GET
   @Path("data/orderbook")
-  public BTCChinaDepth getFullDepth() throws IOException;
+  public BTCChinaDepth getFullDepth(@QueryParam("market") String market) throws IOException;
 
   // (return last 100 trade records.)
   @GET
   @Path("data/historydata")
-  public BTCChinaTrade[] getTrades() throws IOException;
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market) throws IOException;
 
   // return 100 trade records starting from id $since.
   @GET
   @Path("data/historydata")
-  public BTCChinaTrade[] getTrades(@QueryParam("since") int transactionID) throws IOException;
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") Long transactionID) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

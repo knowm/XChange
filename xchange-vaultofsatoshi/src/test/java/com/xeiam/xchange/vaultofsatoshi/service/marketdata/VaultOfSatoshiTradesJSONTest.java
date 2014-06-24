@@ -48,6 +48,6 @@ public class VaultOfSatoshiTradesJSONTest {
     TradesWrapper vosTrades = mapper.readValue(is, TradesWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(vosTrades.getTrades().get(0).getPrice().getValue()).isEqualTo(new BigDecimal("599.99000000"));
+    assertThat(vosTrades.getTrades().get(0).getPrice().getValue()).isEqualTo(new BigDecimal("641.18165850"));
   }
 }

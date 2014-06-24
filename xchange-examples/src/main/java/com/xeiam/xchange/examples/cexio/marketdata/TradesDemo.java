@@ -47,8 +47,8 @@ public class TradesDemo {
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest trade data for GHs/BTC since tid=5635556
-    Trades trades = marketDataService.getTrades(new CurrencyPair(Currencies.GHs, Currencies.BTC), 5635556);
-    System.out.println("Trades, default. Size= " + trades.getTrades().size());
+    Trades trades = marketDataService.getTrades(new CurrencyPair(Currencies.GHs, Currencies.BTC), 5909107);
+    System.out.println("Trades Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
 

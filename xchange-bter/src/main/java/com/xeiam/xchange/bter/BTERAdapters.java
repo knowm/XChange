@@ -145,12 +145,19 @@ public final class BTERAdapters {
   public static Trades adaptTrades(BTERTradeHistory tradeHistory, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BTERPublicTrade trade : tradeHistory.getTrades()) {
+      String tradeIdString = trade.getTradeId();
+      if (!tradeIdString.isEmpty()) {
+        long tradeId = Long.valueOf( tradeIdString );
+        if(tradeId > lastTradeId) 
+          lastTradeId = tradeId;
+      }
       Trade adaptedTrade = adaptTrade(trade, currencyPair);
       tradeList.add(adaptedTrade);
     }
 
-    return new Trades(tradeList, TradeSortType.SortByTimestamp);
+    return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
   public static AccountInfo adaptAccountInfo(BTERFunds bterAccountInfo) {

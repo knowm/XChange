@@ -56,12 +56,15 @@ public final class ItBitAdapters {
   public static Trades adaptTrades(ItBitTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>(trades.length);
-
+    long lastTradeId = 0;
     for (int i = 0; i < trades.length; i++) {
       ItBitTrade trade = trades[i];
+      long tradeId = trade.getTid();
+      if(tradeId > lastTradeId)
+    	  lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) {

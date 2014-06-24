@@ -118,13 +118,17 @@ public final class BTCChinaAdapters {
    * @param btcchinaTrades The BTCChina trade data
    * @return The trades
    */
-  public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(List<BTCChinaTrade> btcchinaTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
+    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.size());
+    long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
+      long tradeId = btcchinaTrade.getTid();
+      if(tradeId > latestTradeId) 
+        latestTradeId = tradeId;
       tradesList.add(adaptTrade(btcchinaTrade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, latestTradeId, TradeSortType.SortByID);
   }
 
   /**
@@ -296,4 +300,15 @@ public final class BTCChinaAdapters {
     return new Trades(tradeHistory, TradeSortType.SortByID);
   }
 
+  public static String adaptMarket(CurrencyPair currencyPair) {
+    return currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
+  }
+  
+  public static CurrencyPair adaptCurrencyPairFromTickerMarketKey(String market) {
+    return adaptCurrencyPair(market.substring(7));
+  }
+  
+  public static CurrencyPair adaptCurrencyPair(String market) {
+    return new CurrencyPair( market.substring(0, 3), market.substring(3));
+  }
 }
