@@ -45,7 +45,7 @@ public class BTCChinaResponse<V> {
     this.result = result;
     this.error = error;
     
-    if (error != null) {
+    if (error != null || result == null) {
       throw new ExchangeException(error);
     }
   }
