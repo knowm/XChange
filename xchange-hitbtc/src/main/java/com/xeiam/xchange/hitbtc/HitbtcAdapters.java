@@ -133,20 +133,22 @@ public class HitbtcAdapters {
 
     HitbtcTrade[] allHitbtcTrades = hitbtcTrades.getHitbtcTrades();
     List<Trade> trades = new ArrayList<Trade>(allHitbtcTrades.length);
-
+    long lastTradeId = 0;
     for (int i = 0; i < allHitbtcTrades.length; i++) {
       HitbtcTrade hitbtcTrade = allHitbtcTrades[i];
-
+     
       Date timestamp = new Date(hitbtcTrade.getDate());
       BigDecimal price = hitbtcTrade.getPrice();
       BigDecimal amount = hitbtcTrade.getAmount();
       String tid = hitbtcTrade.getTid();
-
+      long longTradeId = Long.valueOf(tid);
+      if (longTradeId > lastTradeId) 
+        lastTradeId = longTradeId;
       Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid, tid);
       trades.add(trade);
     }
 
-    return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
 
   public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw) {
@@ -172,7 +174,6 @@ public class HitbtcAdapters {
   public static Trades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
 
     List<Trade> trades = new ArrayList<Trade>(tradeHistoryRaw.length);
-
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
       HitbtcOwnTrade t = tradeHistoryRaw[i];
       OrderType type = t.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
