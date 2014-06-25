@@ -60,13 +60,13 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
-public class CryptsyAdapterTests {
+public class CryptsyAdapterTest {
 
   @Test
   public void testAdaptOrderBook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_MarketOrders_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_MarketOrders_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -83,7 +83,7 @@ public class CryptsyAdapterTests {
   public void testAdaptOrderBookPublic() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_Orderbook_Public_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_Orderbook_Public_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -109,7 +109,7 @@ public class CryptsyAdapterTests {
   public void testAdaptTrades() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_MarketTrades_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_MarketTrades_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -124,7 +124,7 @@ public class CryptsyAdapterTests {
   public void testAdaptTradesPublic() throws IOException, ParseException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -138,7 +138,7 @@ public class CryptsyAdapterTests {
 
     Trade adaptedTrade = adaptedTradesList.get(1);
     assertThat(adaptedTrade.getCurrencyPair()).isEqualTo(CurrencyPair.DOGE_LTC);
-    assertThat(adaptedTrade.getId()).isEqualTo("47692497");
+    assertThat(adaptedTrade.getId()).isNull();
     assertThat(adaptedTrade.getOrderId()).isNull();
     assertThat(adaptedTrade.getPrice()).isEqualTo("0.00003495");
     assertThat(adaptedTrade.getTradableAmount()).isEqualTo("2961.55892792");
@@ -150,7 +150,7 @@ public class CryptsyAdapterTests {
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_GetMarket_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_GetMarket_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -169,7 +169,7 @@ public class CryptsyAdapterTests {
   public void testAdaptTickerPublic() throws IOException, ParseException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -192,7 +192,7 @@ public class CryptsyAdapterTests {
   public void testAdaptAccountInfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/account/Sample_GetInfo_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/account/Sample_GetInfo_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -219,7 +219,7 @@ public class CryptsyAdapterTests {
   public void testAdaptOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/trade/Sample_AllMyOrders_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/trade/Sample_AllMyOrders_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -250,7 +250,7 @@ public class CryptsyAdapterTests {
   public void testAdaptTradeHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/trade/Sample_AllMyTrades_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/trade/Sample_AllMyTrades_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -271,7 +271,7 @@ public class CryptsyAdapterTests {
   public void testAdaptCurrencyPairs() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_AllMarketData_Public_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_AllMarketData_Public_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -287,7 +287,7 @@ public class CryptsyAdapterTests {
   public void testAdaptMarketSets() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAdapterTests.class.getResourceAsStream("/marketdata/Sample_AllMarketData_Public_Data.json");
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_AllMarketData_Public_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
