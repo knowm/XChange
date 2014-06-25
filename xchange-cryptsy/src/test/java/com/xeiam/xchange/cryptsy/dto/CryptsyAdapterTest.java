@@ -106,6 +106,20 @@ public class CryptsyAdapterTest {
   }
 
   @Test
+  public void testAdaptOrderBookPublicWithEmptyOrders() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_AllOrderbook_Public_Data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBookMap = CryptsyAdapters.adaptPublicOrderBookMap(mapper.readValue(is, CryptsyPublicOrderbookReturn.class).getReturnValue());
+
+    List<OrderBook> adaptedOrderBookList = CryptsyAdapters.adaptPublicOrderBooks(cryptsyOrderBookMap);
+    assertThat(adaptedOrderBookList).hasSize(2);
+  }
+
+  @Test
   public void testAdaptTrades() throws IOException {
 
     // Read in the JSON from the example resources
