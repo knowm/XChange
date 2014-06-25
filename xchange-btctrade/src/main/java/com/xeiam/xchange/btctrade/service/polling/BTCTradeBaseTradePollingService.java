@@ -23,23 +23,15 @@ package com.xeiam.xchange.btctrade.service.polling;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btctrade.BTCTradeAdapters;
-import com.xeiam.xchange.btctrade.dto.BTCTradeSecretData;
-import com.xeiam.xchange.btctrade.dto.BTCTradeSecretResponse;
 import com.xeiam.xchange.btctrade.service.BTCTradeDigest;
+import com.xeiam.xchange.btctrade.service.BTCTradeSession;
+import com.xeiam.xchange.btctrade.service.BTCTradeSessionFactory;
 
 public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService {
 
-  private long lastNonce = 0L;
-
   protected final String publicKey;
-  private final String privateKey;
-
-  private String secret;
-  private long secretExpiresTime;
-  private ParamsDigest signatureCreator;
+  protected final BTCTradeSession session;
 
   /**
    * @param exchangeSpecification
@@ -47,39 +39,26 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
   protected BTCTradeBaseTradePollingService(
       ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
-    publicKey = exchangeSpecification.getApiKey();
-    privateKey = exchangeSpecification.getSecretKey();
+    session = BTCTradeSessionFactory.INSTANCE.getSession(exchangeSpecification);
+    publicKey = session.getKey();
   }
 
-  protected synchronized long nextNonce() {
-    long newNonce = System.currentTimeMillis() * 1000;
-    while (newNonce <= lastNonce) {
-      newNonce++;
-    }
-    lastNonce = newNonce;
-    return newNonce;
+  /**
+   * Returns the next nonce.
+   *
+   * @return the next nonce.
+   */
+  public long nextNonce() {
+    return session.nextNonce();
   }
 
-  protected synchronized ParamsDigest getSignatureCreator() {
-    if (secret == null
-        || secretExpiresTime - System.currentTimeMillis() < 60 * 1000){ 
-      BTCTradeSecretData secretData = getSecretData();
-      secret = secretData.getSecret();
-      secretExpiresTime = BTCTradeAdapters.adaptDatetime(secretData.getExpires())
-          .getTime();
-      signatureCreator = BTCTradeDigest.createInstance(secret);
-    }
-
-    return signatureCreator;
-  }
-
-  private BTCTradeSecretData getSecretData() {
-    BTCTradeSecretResponse response = btcTrade.getSecret(privateKey, publicKey);
-    if (response.getResult()) {
-      return response.getData();
-    } else {
-      throw new ExchangeException(response.getMessage());
-    }
+  /**
+   * Returns the {@link BTCTradeDigest}.
+   *
+   * @return the {@link BTCTradeDigest}.
+   */
+  public ParamsDigest getSignatureCreator() {
+    return session.getSignatureCreator();
   }
 
 }

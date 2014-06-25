@@ -39,27 +39,38 @@ public class BTCTradeTradeServiceRaw extends BTCTradeBaseTradePollingService {
   }
 
   public BTCTradeOrder[] getBTCTradeOrders(long since, String type) {
-    return btcTrade.getOrders(since, type, nextNonce(), publicKey,
-        getSignatureCreator());
+    synchronized (session) {
+      return btcTrade.getOrders(since, type, nextNonce(), publicKey,
+          getSignatureCreator());
+    }
   }
 
   public BTCTradeOrder getBTCTradeOrder(String id) {
-    return btcTrade.getOrder(id, nextNonce(), publicKey, getSignatureCreator());
+    synchronized (session) {
+      return btcTrade.getOrder(id, nextNonce(), publicKey,
+          getSignatureCreator());
+    }
   }
 
   public BTCTradeResult cancelBTCTradeOrder(String id) {
-    return btcTrade.cancelOrder(id, nextNonce(), publicKey,
-        getSignatureCreator());
+    synchronized (session) {
+      return btcTrade.cancelOrder(id, nextNonce(), publicKey,
+          getSignatureCreator());
+    }
   }
 
   public BTCTradePlaceOrderResult buy(BigDecimal amount, BigDecimal price) {
-    return btcTrade.buy(amount.toPlainString(), price.toPlainString(),
-        nextNonce(), publicKey, getSignatureCreator());
+    synchronized (session) {
+      return btcTrade.buy(amount.toPlainString(), price.toPlainString(),
+          nextNonce(), publicKey, getSignatureCreator());
+    }
   }
 
   public BTCTradePlaceOrderResult sell(BigDecimal amount, BigDecimal price) {
-    return btcTrade.sell(amount.toPlainString(), price.toPlainString(),
-        nextNonce(), publicKey, getSignatureCreator());
+    synchronized (session) {
+      return btcTrade.sell(amount.toPlainString(), price.toPlainString(),
+          nextNonce(), publicKey, getSignatureCreator());
+    }
   }
 
 }
