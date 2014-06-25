@@ -180,7 +180,7 @@ public class CryptsyAdapterTest {
 
     Ticker adaptedTicker = adaptedTickerList.get(0);
     assertEquals(adaptedTicker.getCurrencyPair(), CurrencyPair.DOGE_LTC);
-    assertEquals(adaptedTicker.getLast(), new BigDecimal("0.00003485"));
+    assertEquals(adaptedTicker.getLast(), new BigDecimal("0.00003495"));
     assertEquals(adaptedTicker.getBid(), new BigDecimal("00.00003485"));
     assertEquals(adaptedTicker.getAsk(), new BigDecimal("0.00003495"));
     assertThat(adaptedTicker.getLow()).isNull();
