@@ -35,13 +35,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyTransfers.CryptsyTrfDirection;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyTxn.CryptsyTxnType;
 
-public class CryptsyAccountJsonTests {
+public class CryptsyAccountJsonTest {
 
   @Test
   public void testDeserializeCryptsyAccountInfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAccountJsonTests.class.getResourceAsStream("/account/Sample_GetInfo_Data.json");
+    InputStream is = CryptsyAccountJsonTest.class.getResourceAsStream("/account/Sample_GetInfo_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -58,7 +58,7 @@ public class CryptsyAccountJsonTests {
   public void testDeserializeCryptsyTransactions() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAccountJsonTests.class.getResourceAsStream("/account/Sample_MyTransactions_Data.json");
+    InputStream is = CryptsyAccountJsonTest.class.getResourceAsStream("/account/Sample_MyTransactions_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -76,7 +76,7 @@ public class CryptsyAccountJsonTests {
   public void testDeserializeNewCryptsyDepositAddress() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAccountJsonTests.class.getResourceAsStream("/account/Sample_GenerateNewAddress_Data.json");
+    InputStream is = CryptsyAccountJsonTest.class.getResourceAsStream("/account/Sample_GenerateNewAddress_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -89,7 +89,7 @@ public class CryptsyAccountJsonTests {
   public void testDeserializeCurrentCryptsyDepositAddresses() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAccountJsonTests.class.getResourceAsStream("/account/Sample_GetMyDepositAddresses_Data.json");
+    InputStream is = CryptsyAccountJsonTest.class.getResourceAsStream("/account/Sample_GetMyDepositAddresses_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -104,7 +104,7 @@ public class CryptsyAccountJsonTests {
   public void testDeserializeTransferHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptsyAccountJsonTests.class.getResourceAsStream("/account/Sample_MyTransfers_Data.json");
+    InputStream is = CryptsyAccountJsonTest.class.getResourceAsStream("/account/Sample_MyTransfers_Data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
