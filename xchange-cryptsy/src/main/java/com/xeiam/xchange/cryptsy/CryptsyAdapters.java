@@ -201,8 +201,11 @@ public final class CryptsyAdapters {
     for (CryptsyPublicMarketData cryptsyMarketDataEntry : cryptsyMarketData.values()) {
       CurrencyPair currencyPair = adaptCurrencyPair(cryptsyMarketDataEntry.getLabel());
       List<Trade> tradesList = new ArrayList<Trade>();
-      for (CryptsyPublicTrade trade : cryptsyMarketDataEntry.getRecentTrades()) {
-        tradesList.add(adaptTrade(trade, currencyPair));
+      List<CryptsyPublicTrade> recentTrades = cryptsyMarketDataEntry.getRecentTrades();
+      if (recentTrades != null) {
+        for (CryptsyPublicTrade trade : recentTrades) {
+          tradesList.add(adaptTrade(trade, currencyPair));
+        }
       }
       trades.put(currencyPair, new Trades(tradesList, TradeSortType.SortByTimestamp));
     }
