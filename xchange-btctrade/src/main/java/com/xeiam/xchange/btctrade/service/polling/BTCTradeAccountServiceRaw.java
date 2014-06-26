@@ -35,10 +35,14 @@ public class BTCTradeAccountServiceRaw extends BTCTradeBaseTradePollingService {
   }
 
   public BTCTradeBalance getBTCTradeBalance() {
-    return btcTrade.getBalance(nextNonce(), publicKey, getSignatureCreator());
+    synchronized (session) {
+      return btcTrade.getBalance(nextNonce(), publicKey, getSignatureCreator());
+    }
   }
 
   public BTCTradeWallet getBTCTradeWallet() {
-    return btcTrade.getWallet(nextNonce(), publicKey, getSignatureCreator());
+    synchronized (session) {
+      return btcTrade.getWallet(nextNonce(), publicKey, getSignatureCreator());
+    }
   }
 }
