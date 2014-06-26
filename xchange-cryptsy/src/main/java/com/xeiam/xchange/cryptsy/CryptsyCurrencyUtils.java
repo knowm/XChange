@@ -62,11 +62,13 @@ public final class CryptsyCurrencyUtils {
       put(136, new CurrencyPair("CAT", "BTC"));
       put(70, new CurrencyPair("CGB", "BTC"));
       put(197, new CurrencyPair("CINNI", "BTC"));
+      put(227, new CurrencyPair("CLOAK", "BTC"));
       put(95, new CurrencyPair("CLR", "BTC"));
       put(74, new CurrencyPair("CMC", "BTC"));
       put(8, new CurrencyPair("CNC", "BTC"));
       put(198, new CurrencyPair("COMM", "BTC"));
       put(58, new CurrencyPair("CRC", "BTC"));
+      put(219, new CurrencyPair("CRYPT", "BTC"));
       put(68, new CurrencyPair("CSC", "BTC"));
       put(131, new CurrencyPair("DEM", "BTC"));
       put(167, new CurrencyPair("DGB", "BTC"));
@@ -254,11 +256,13 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("CAT", "BTC"), 136);
       put(new CurrencyPair("CGB", "BTC"), 70);
       put(new CurrencyPair("CINNI", "BTC"), 197);
+      put(new CurrencyPair("CLOAK", "BTC"), 227);
       put(new CurrencyPair("CLR", "BTC"), 95);
       put(new CurrencyPair("CMC", "BTC"), 74);
       put(new CurrencyPair("CNC", "BTC"), 8);
       put(new CurrencyPair("COMM", "BTC"), 198);
       put(new CurrencyPair("CRC", "BTC"), 58);
+      put(new CurrencyPair("CRYPT", "BTC"), 219);
       put(new CurrencyPair("CSC", "BTC"), 68);
       put(new CurrencyPair("DEM", "BTC"), 131);
       put(new CurrencyPair("DGB", "BTC"), 167);
