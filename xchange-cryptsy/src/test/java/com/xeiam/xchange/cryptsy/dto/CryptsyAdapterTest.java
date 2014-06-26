@@ -220,6 +220,29 @@ public class CryptsyAdapterTest {
   }
 
   @Test
+  public void testAdaptTickerPublicNoTrades() throws IOException, ParseException {
+
+    // Read in the JSON from the example resources
+    InputStream is = CryptsyAdapterTest.class.getResourceAsStream("/marketdata/Sample_MarketData_Public_Data_NoTrades.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
+
+    List<Ticker> adaptedTickerList = CryptsyAdapters.adaptPublicTickers(cryptsyMarketData);
+    assertThat(adaptedTickerList).hasSize(1);
+
+    Ticker adaptedTicker = adaptedTickerList.get(0);
+    assertEquals(adaptedTicker.getCurrencyPair(), CurrencyPair.FTC_USD);
+    assertThat(adaptedTicker.getLast()).isNull();
+    assertThat(adaptedTicker.getBid()).isNull();
+    assertEquals(adaptedTicker.getAsk(), new BigDecimal("0.98000000"));
+    assertThat(adaptedTicker.getLow()).isNull();
+    assertThat(adaptedTicker.getHigh()).isNull();
+    assertEquals(adaptedTicker.getVolume(), new BigDecimal("0E-8"));
+  }
+
+  @Test
   public void testAdaptAccountInfo() throws IOException {
 
     // Read in the JSON from the example resources

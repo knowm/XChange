@@ -270,11 +270,12 @@ public final class CryptsyAdapters {
    */
   public static Ticker adaptPublicTicker(CryptsyPublicMarketData publicMarketData) {
 
-    BigDecimal last = publicMarketData.getRecentTrades().get(0).getPrice();
+    List<CryptsyPublicTrade> recentTrades = publicMarketData.getRecentTrades();
+    BigDecimal last = (recentTrades != null && recentTrades.size() > 0) ? recentTrades.get(0).getPrice() : null;
     List<CryptsyPublicOrder> bids = publicMarketData.getBuyOrders();
-    BigDecimal bid = bids.size() > 0 ? bids.get(0).getPrice() : null;
+    BigDecimal bid = (bids != null && bids.size() > 0) ? bids.get(0).getPrice() : null;
     List<CryptsyPublicOrder> asks = publicMarketData.getSellOrders();
-    BigDecimal ask = asks.size() > 0 ? asks.get(0).getPrice() : null;
+    BigDecimal ask = (asks != null && asks.size() > 0) ? asks.get(0).getPrice() : null;
     BigDecimal high = null;
     BigDecimal low = null;
     BigDecimal volume = publicMarketData.getVolume();
