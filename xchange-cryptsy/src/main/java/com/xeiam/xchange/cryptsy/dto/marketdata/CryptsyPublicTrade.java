@@ -26,9 +26,11 @@ import java.text.ParseException;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.cryptsy.CryptsyUtils;
 
+@JsonIgnoreProperties("id")
 public class CryptsyPublicTrade {
 
   private final Date time;
