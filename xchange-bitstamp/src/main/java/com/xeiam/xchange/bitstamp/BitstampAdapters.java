@@ -124,12 +124,15 @@ public final class BitstampAdapters {
   public static Trades adaptTrades(BitstampTransaction[] transactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BitstampTransaction tx : transactions) {
-      final String tradeId = String.valueOf(tx.getTid());
-      trades.add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tradeId));
+      final long tradeId = tx.getTid();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
+      trades.add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
-    return new Trades(trades, TradeSortType.SortByID);
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
@@ -185,9 +188,9 @@ public final class BitstampAdapters {
         BigDecimal price = bitstampUserTransaction.getPrice();
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
         long transactionId = bitstampUserTransaction.getId();
-        if ( transactionId > lastTradeId ) 
+        if (transactionId > lastTradeId)
           lastTradeId = transactionId;
-        final String tradeId = String.valueOf(lastTradeId);
+        final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
 
         Trade trade = new Trade(orderType, tradableAmount, CurrencyPair.BTC_USD, price, timestamp, tradeId, orderId);
