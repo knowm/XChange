@@ -29,12 +29,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapLikeType;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * @author jamespedwards42
@@ -92,29 +94,27 @@ public class CoinbaseMarketDataJsonTest {
     assertThat(price.getTotal()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("730.47")));
   }
 
-  // @Test
-  // public void testDeserializeSpotRateHistory() throws IOException {
-  //
-  // // Read in the JSON from the example resources
-  // InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
-  // String spotPriceHistoryString;
-  // Scanner scanner = null;
-  // try {
-  // scanner = new Scanner(is);
-  // spotPriceHistoryString = scanner.useDelimiter("\\A").next();
-  // } finally {
-  // scanner.close();
-  // }
-  //
-  // // Use Jackson to parse it
-  // ObjectMapper mapper = new ObjectMapper();
-  // CoinbaseSpotPriceHistory spotPriceHistory = mapper.readValue(spotPriceHistoryString, CoinbaseSpotPriceHistory.class);
-  //
-  // List<CoinbaseHistoricalSpotPrice> spotPriceHistoryList = spotPriceHistory.getSpotPriceHistory();
-  // assertThat(spotPriceHistoryList.size()).isEqualTo(10);
-  //
-  // CoinbaseHistoricalSpotPrice historicalSpotPrice = spotPriceHistoryList.get(0);
-  // assertThat(historicalSpotPrice.getSpotRate()).isEqualTo("719.79");
-  // assertThat(historicalSpotPrice.getTimestamp()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-08T13:21:51-08:00"));
-  // }
+  @Test
+  public void testDeserializeSpotRateHistory() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
+    String spotPriceHistoryString;
+    Scanner scanner = null;
+    try {
+      scanner = new Scanner(is);
+      spotPriceHistoryString = scanner.useDelimiter("\\A").next();
+    } finally {
+      scanner.close();
+    }
+
+    CoinbaseSpotPriceHistory spotPriceHistory = CoinbaseSpotPriceHistory.fromRawString(spotPriceHistoryString);
+
+    List<CoinbaseHistoricalSpotPrice> spotPriceHistoryList = spotPriceHistory.getSpotPriceHistory();
+    assertThat(spotPriceHistoryList.size()).isEqualTo(10);
+
+    CoinbaseHistoricalSpotPrice historicalSpotPrice = spotPriceHistoryList.get(0);
+    assertThat(historicalSpotPrice.getSpotRate()).isEqualTo("719.79");
+    assertThat(historicalSpotPrice.getTimestamp()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-08T13:21:51-08:00"));
+  }
 }
