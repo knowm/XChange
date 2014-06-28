@@ -32,6 +32,7 @@ public class BTCTradeExchange extends BaseExchange implements Exchange {
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new BTCTradeMarketDataService(exchangeSpecification);
     if (exchangeSpecification.getApiKey() != null) {
@@ -45,6 +46,7 @@ public class BTCTradeExchange extends BaseExchange implements Exchange {
    */
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
+
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(getClass());
     exchangeSpecification.setSslUri("https://www.btctrade.com/api");
     exchangeSpecification.setHost("www.btctrade.com");

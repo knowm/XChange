@@ -32,8 +32,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class BTCTradeBasePollingService extends BaseExchangeService
-  implements BasePollingService {
+public class BTCTradeBasePollingService extends BaseExchangeService implements BasePollingService {
 
   private final Collection<CurrencyPair> symbols;
 
@@ -43,6 +42,7 @@ public class BTCTradeBasePollingService extends BaseExchangeService
    * @param exchangeSpecification
    */
   protected BTCTradeBasePollingService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
     symbols = Arrays.asList(CurrencyPair.BTC_CNY);
     String baseUrl = exchangeSpecification.getSslUri();
@@ -54,16 +54,20 @@ public class BTCTradeBasePollingService extends BaseExchangeService
    */
   @Override
   public Collection<CurrencyPair> getExchangeSymbols() {
+
     return symbols;
   }
 
   protected long toLong(Object object) {
+
     final long since;
     if (object instanceof Integer) {
       since = (Integer) object;
-    } else if (object instanceof Long) {
+    }
+    else if (object instanceof Long) {
       since = (Long) object;
-    } else {
+    }
+    else {
       since = Long.parseLong(object.toString());
     }
     return since;

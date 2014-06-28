@@ -38,17 +38,17 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 public class TickerDemo {
 
   public static void main(String[] args) throws IOException {
+
     // Use the factory to get BTC-E exchange API using default settings.
-    Exchange btcTrade = ExchangeFactory.INSTANCE.createExchange(
-        BTCTradeExchange.class.getName());
+    Exchange btcTrade = ExchangeFactory.INSTANCE.createExchange(BTCTradeExchange.class.getName());
     generic(btcTrade);
     raw(btcTrade);
   }
 
   private static void generic(Exchange exchange) throws IOException {
+
     // Interested in the public polling market data feed (no authentication).
-    PollingMarketDataService marketDataService =
-        exchange.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CNY.
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_CNY);
@@ -56,9 +56,9 @@ public class TickerDemo {
   }
 
   private static void raw(Exchange exchange) {
+
     // Interested in the public polling market data feed (no authentication).
-    BTCTradeMarketDataServiceRaw marketDataService =
-        (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to CNY.
     BTCTradeTicker ticker = marketDataService.getBTCTradeTicker();

@@ -66,7 +66,6 @@ public interface BTCChina {
   @Path("data/ticker")
   public BTCChinaTicker getTicker(@QueryParam("market") String market) throws IOException;
 
-  
   @GET
   @Path("data/orderbook")
   public BTCChinaDepth getFullDepth(@QueryParam("market") String market) throws IOException;

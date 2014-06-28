@@ -36,6 +36,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 public class TradeHistoryDemo {
 
   public static void main(String[] args) throws IOException {
+
     // API key with Read Only Permission or All Permissions.
     String publicKey = args[0];
     String privateKey = args[1];
@@ -50,6 +51,7 @@ public class TradeHistoryDemo {
   }
 
   private static void generic(Exchange exchange) throws IOException {
+
     PollingTradeService tradeService = exchange.getPollingTradeService();
 
     OpenOrders openOrders = tradeService.getOpenOrders();
@@ -60,8 +62,8 @@ public class TradeHistoryDemo {
   }
 
   private static void raw(Exchange exchange) {
-    BTCTradeTradeServiceRaw tradeService =
-        (BTCTradeTradeServiceRaw) exchange.getPollingTradeService();
+
+    BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getPollingTradeService();
 
     BTCTradeOrder[] orders = tradeService.getBTCTradeOrders(0, "open");
     System.out.println("Open orders: " + orders.length);

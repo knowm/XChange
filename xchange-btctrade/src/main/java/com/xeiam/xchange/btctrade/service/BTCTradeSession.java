@@ -21,20 +21,17 @@
  */
 package com.xeiam.xchange.btctrade.service;
 
+import si.mazi.rescu.ParamsDigest;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.BTCTradeSecretData;
 import com.xeiam.xchange.btctrade.service.polling.BTCTradeSecretDataService;
 
-import si.mazi.rescu.ParamsDigest;
-
 /**
  * Represents an API key status.
- * 
  * <p>
- * For one API key, we can only have one single session,
- * and all requests on one session should be synchronized,
- * because:
+ * For one API key, we can only have one single session, and all requests on one session should be synchronized, because:
  * <ol>
  * <li>the {@code BTCTradeSecretData} of one API key is single in server side.</li>
  * <li>the nonce of one API key should be incrementing.</li>
@@ -59,11 +56,13 @@ public class BTCTradeSession {
    * @param exchangeSpecification the {@link ExchangeSpecification}.
    */
   BTCTradeSession(ExchangeSpecification exchangeSpecification) {
+
     this.exchangeSpecification = exchangeSpecification;
     secretDataService = new BTCTradeSecretDataService(exchangeSpecification);
   }
 
   public ExchangeSpecification getExchangeSpecification() {
+
     return exchangeSpecification;
   }
 
@@ -73,6 +72,7 @@ public class BTCTradeSession {
    * @return the public key of the API key.
    */
   public String getKey() {
+
     return exchangeSpecification.getApiKey();
   }
 
@@ -82,6 +82,7 @@ public class BTCTradeSession {
    * @return the next nonce of the session.
    */
   public synchronized long nextNonce() {
+
     long newNonce = System.currentTimeMillis() * 1000;
     while (newNonce <= lastNonce) {
       newNonce++;
@@ -91,8 +92,8 @@ public class BTCTradeSession {
   }
 
   public synchronized ParamsDigest getSignatureCreator() {
-    if (secretData == null
-        || secretExpiresTime - System.currentTimeMillis() < 60 * 1000) {
+
+    if (secretData == null || secretExpiresTime - System.currentTimeMillis() < 60 * 1000) {
       refresh();
     }
 
@@ -100,9 +101,9 @@ public class BTCTradeSession {
   }
 
   private void refresh() {
+
     secretData = secretDataService.getSecretData();
-    secretExpiresTime = BTCTradeAdapters.adaptDatetime(
-        secretData.getExpires()).getTime();
+    secretExpiresTime = BTCTradeAdapters.adaptDatetime(secretData.getExpires()).getTime();
 
     signatureCreator = BTCTradeDigest.createInstance(secretData.getSecret());
   }

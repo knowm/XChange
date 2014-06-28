@@ -32,9 +32,10 @@ public final class BitcurexUtils {
   private BitcurexUtils() {
 
   }
-  
+
   public static long getNonce() {
-	  return System.currentTimeMillis();
-	  }
+
+    return System.currentTimeMillis();
+  }
 
 }

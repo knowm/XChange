@@ -33,12 +33,9 @@ public class BTCTradeTrade {
   private final String datetime;
   private final BigDecimal fee;
 
-  public BTCTradeTrade(
-      @JsonProperty("trade_id") String tradeId,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("datetime") String datetime,
+  public BTCTradeTrade(@JsonProperty("trade_id") String tradeId, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("datetime") String datetime,
       @JsonProperty("fee") BigDecimal fee) {
+
     this.tradeId = tradeId;
     this.amount = amount;
     this.price = price;
@@ -47,22 +44,27 @@ public class BTCTradeTrade {
   }
 
   public String getTradeId() {
+
     return tradeId;
   }
 
   public BigDecimal getAmount() {
+
     return amount;
   }
 
   public BigDecimal getPrice() {
+
     return price;
   }
 
   public String getDatetime() {
+
     return datetime;
   }
 
   public BigDecimal getFee() {
+
     return fee;
   }
 

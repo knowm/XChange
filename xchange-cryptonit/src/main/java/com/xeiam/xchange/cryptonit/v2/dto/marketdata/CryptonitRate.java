@@ -36,15 +36,15 @@ public final class CryptonitRate {
   private final BigDecimal bid;
   private final BigDecimal ask;
 
-
   /**
- * @param high
- * @param low
- * @param bid
- * @param ask
- * @param last
- */
-public CryptonitRate(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("last") BigDecimal last) {
+   * @param high
+   * @param low
+   * @param bid
+   * @param ask
+   * @param last
+   */
+  public CryptonitRate(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("last") BigDecimal last) {
 
     this.high = high;
     this.low = low;
@@ -72,10 +72,10 @@ public CryptonitRate(@JsonProperty("high") BigDecimal high, @JsonProperty("low")
 
     return bid;
   }
-  
+
   public BigDecimal getAsk() {
 
-	    return ask;
+    return ask;
   }
 
   @Override

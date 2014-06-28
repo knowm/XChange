@@ -124,7 +124,7 @@ public final class BTCChinaAdapters {
     long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       long tradeId = btcchinaTrade.getTid();
-      if(tradeId > latestTradeId) 
+      if (tradeId > latestTradeId)
         latestTradeId = tradeId;
       tradesList.add(adaptTrade(btcchinaTrade, currencyPair));
     }
@@ -301,14 +301,17 @@ public final class BTCChinaAdapters {
   }
 
   public static String adaptMarket(CurrencyPair currencyPair) {
+
     return currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
   }
-  
+
   public static CurrencyPair adaptCurrencyPairFromTickerMarketKey(String market) {
+
     return adaptCurrencyPair(market.substring(7));
   }
-  
+
   public static CurrencyPair adaptCurrencyPair(String market) {
-    return new CurrencyPair( market.substring(0, 3), market.substring(3));
+
+    return new CurrencyPair(market.substring(0, 3), market.substring(3));
   }
 }

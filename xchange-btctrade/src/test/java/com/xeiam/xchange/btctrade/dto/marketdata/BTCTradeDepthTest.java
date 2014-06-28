@@ -36,8 +36,8 @@ public class BTCTradeDepthTest {
 
   @Test
   public void testBTCTradeDepth() throws IOException {
-    BTCTradeDepth depth = mapper.readValue(
-        getClass().getResource("depth.json"), BTCTradeDepth.class);
+
+    BTCTradeDepth depth = mapper.readValue(getClass().getResource("depth.json"), BTCTradeDepth.class);
 
     assertEquals(50, depth.getAsks().length);
     assertEquals(50, depth.getBids().length);

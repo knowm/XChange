@@ -84,7 +84,7 @@ public class CexIOAdapters {
     long lastTradeId = 0;
     for (CexIOTrade trade : cexioTrades) {
       long tradeId = trade.getTid();
-      if(tradeId > lastTradeId) 
+      if (tradeId > lastTradeId)
         lastTradeId = tradeId;
       // Date is reversed order. Insert at index 0 instead of appending
       tradesList.add(0, adaptTrade(trade, currencyPair));

@@ -73,8 +73,7 @@ public interface BTCTrade {
   public BTCTradeTrade[] getTrades();
 
   /**
-   * Returns 500 market transactions which trade ID is greater than
-   * {@code since}, in reverse chronological order.
+   * Returns 500 market transactions which trade ID is greater than {@code since}, in reverse chronological order.
    *
    * @param since the trade ID.
    * @return 500 market transactions which trade ID is grater than the given ID.
@@ -92,9 +91,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("getsecret")
-  public BTCTradeSecretResponse getSecret(
-      @FormParam("api_passphrase") String passphrase,
-      @FormParam("key") String key);
+  public BTCTradeSecretResponse getSecret(@FormParam("api_passphrase") String passphrase, @FormParam("key") String key);
 
   /**
    * Returns the account balance.
@@ -106,10 +103,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("balance")
-  public BTCTradeBalance getBalance(
-      @FormParam("nonce") long nonce,
-      @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature);
+  public BTCTradeBalance getBalance(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
 
   /**
    * Returns the deposit address.
@@ -121,10 +115,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("wallet")
-  public BTCTradeWallet getWallet(
-      @FormParam("nonce") long nonce,
-      @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature);
+  public BTCTradeWallet getWallet(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
 
   /**
    * Return orders.
@@ -137,11 +128,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("orders")
-  public BTCTradeOrder[] getOrders(
-      @FormParam("since") long since,
-      @FormParam("type") String type,
-      @FormParam("nonce") long nonce,
-      @FormParam("key") String key,
+  public BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type, @FormParam("nonce") long nonce, @FormParam("key") String key,
       @FormParam("signature") ParamsDigest signature);
 
   /**
@@ -154,11 +141,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("fetch_order")
-  public BTCTradeOrder getOrder(
-      @FormParam("id") String id,
-      @FormParam("nonce") long nonce,
-      @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature);
+  public BTCTradeOrder getOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
 
   /**
    * Cancels order.
@@ -170,11 +153,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("cancel_order")
-  public BTCTradeResult cancelOrder(
-      @FormParam("id") String id,
-      @FormParam("nonce") long nonce,
-      @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature);
+  public BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
 
   /**
    * Places a buy order.
@@ -187,11 +166,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("buy")
-  public BTCTradePlaceOrderResult buy(
-      @FormParam("amount") String amount,
-      @FormParam("price") String price,
-      @FormParam("nonce") long nonce,
-      @FormParam("key") String key,
+  public BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price, @FormParam("nonce") long nonce, @FormParam("key") String key,
       @FormParam("signature") ParamsDigest signature);
 
   /**
@@ -205,11 +180,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("sell")
-  public BTCTradePlaceOrderResult sell(
-      @FormParam("amount") String amount,
-      @FormParam("price") String price,
-      @FormParam("nonce") long nonce,
-      @FormParam("key") String key,
+  public BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price, @FormParam("nonce") long nonce, @FormParam("key") String key,
       @FormParam("signature") ParamsDigest signature);
 
 }

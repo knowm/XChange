@@ -24,3 +24,4 @@
  * exchange.
  */
 package com.xeiam.xchange.btctrade;
+

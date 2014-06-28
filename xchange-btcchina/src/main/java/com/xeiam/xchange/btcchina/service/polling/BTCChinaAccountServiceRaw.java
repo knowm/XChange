@@ -51,7 +51,6 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
    */
   public BTCChinaAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    
     super(BTCChina.class, exchangeSpecification);
   }
 

@@ -37,8 +37,8 @@ public class BTCTradeWalletTest {
 
   @Test
   public void test() throws IOException {
-    BTCTradeWallet wallet = mapper.readValue(
-        getClass().getResource("wallet.json"), BTCTradeWallet.class);
+
+    BTCTradeWallet wallet = mapper.readValue(getClass().getResource("wallet.json"), BTCTradeWallet.class);
     assertNull(wallet.getResult());
     assertNull(wallet.getMessage());
     assertTrue(wallet.isSuccess());

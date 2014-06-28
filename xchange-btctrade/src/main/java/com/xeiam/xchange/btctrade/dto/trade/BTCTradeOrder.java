@@ -37,15 +37,10 @@ public class BTCTradeOrder {
   private final String status;
   private final BTCTradeTrade[] trades;
 
-  public BTCTradeOrder(
-      @JsonProperty("id") String id,
-      @JsonProperty("datetime") String datetime,
-      @JsonProperty("type") String type,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount_original") BigDecimal amountOriginal,
-      @JsonProperty("amount_outstanding") BigDecimal amountOutstanding,
-      @JsonProperty("status") String status,
+  public BTCTradeOrder(@JsonProperty("id") String id, @JsonProperty("datetime") String datetime, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("amount_outstanding") BigDecimal amountOutstanding, @JsonProperty("status") String status,
       @JsonProperty("trades") BTCTradeTrade[] trades) {
+
     this.id = id;
     this.datetime = datetime;
     this.type = type;
@@ -58,34 +53,42 @@ public class BTCTradeOrder {
   }
 
   public String getId() {
+
     return id;
   }
 
   public String getDatetime() {
+
     return datetime;
   }
 
   public String getType() {
+
     return type;
   }
 
   public BigDecimal getPrice() {
+
     return price;
   }
 
   public BigDecimal getAmountOriginal() {
+
     return amountOriginal;
   }
 
   public BigDecimal getAmountOutstanding() {
+
     return amountOutstanding;
   }
 
   public String getStatus() {
+
     return status;
   }
 
   public BTCTradeTrade[] getTrades() {
+
     return trades;
   }
 

@@ -31,12 +31,9 @@ public class BTCTradeSecretData {
   private final String level;
   private final String expires;
 
-  public BTCTradeSecretData(
-      @JsonProperty("secret") String secret,
-      @JsonProperty("id") String id,
-      @JsonProperty("uid") String uid,
-      @JsonProperty("level") String level,
+  public BTCTradeSecretData(@JsonProperty("secret") String secret, @JsonProperty("id") String id, @JsonProperty("uid") String uid, @JsonProperty("level") String level,
       @JsonProperty("expires") String expires) {
+
     this.secret = secret;
     this.id = id;
     this.uid = uid;
@@ -45,22 +42,27 @@ public class BTCTradeSecretData {
   }
 
   public String getSecret() {
+
     return secret;
   }
 
   public String getId() {
+
     return id;
   }
 
   public String getUid() {
+
     return uid;
   }
 
   public String getLevel() {
+
     return level;
   }
 
   public String getExpires() {
+
     return expires;
   }
 

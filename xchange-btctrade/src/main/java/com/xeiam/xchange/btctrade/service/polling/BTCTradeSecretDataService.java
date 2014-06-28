@@ -31,18 +31,18 @@ public class BTCTradeSecretDataService extends BTCTradeBasePollingService {
   /**
    * @param exchangeSpecification
    */
-  public BTCTradeSecretDataService(
-      ExchangeSpecification exchangeSpecification) {
+  public BTCTradeSecretDataService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
   }
 
   public BTCTradeSecretData getSecretData() {
-    BTCTradeSecretResponse response = btcTrade.getSecret(
-        exchangeSpecification.getSecretKey(),
-        exchangeSpecification.getApiKey());
+
+    BTCTradeSecretResponse response = btcTrade.getSecret(exchangeSpecification.getSecretKey(), exchangeSpecification.getApiKey());
     if (response.getResult()) {
       return response.getData();
-    } else {
+    }
+    else {
       throw new ExchangeException(response.getMessage());
     }
   }

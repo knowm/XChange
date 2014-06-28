@@ -141,7 +141,7 @@ public final class BTCEAdapters {
     for (BTCETrade bTCETrade : bTCETrades) {
       // Date is reversed order. Insert at index 0 instead of appending
       long tradeId = bTCETrade.getTid();
-      if(tradeId > lastTradeId)
+      if (tradeId > lastTradeId)
         lastTradeId = tradeId;
       tradesList.add(0, adaptTrade(bTCETrade, currencyPair));
     }

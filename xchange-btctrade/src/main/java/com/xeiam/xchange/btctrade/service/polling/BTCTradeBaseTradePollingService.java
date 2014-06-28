@@ -36,8 +36,8 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
   /**
    * @param exchangeSpecification
    */
-  protected BTCTradeBaseTradePollingService(
-      ExchangeSpecification exchangeSpecification) {
+  protected BTCTradeBaseTradePollingService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
     session = BTCTradeSessionFactory.INSTANCE.getSession(exchangeSpecification);
     publicKey = session.getKey();
@@ -49,6 +49,7 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
    * @return the next nonce.
    */
   public long nextNonce() {
+
     return session.nextNonce();
   }
 
@@ -58,6 +59,7 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
    * @return the {@link BTCTradeDigest}.
    */
   public ParamsDigest getSignatureCreator() {
+
     return session.getSignatureCreator();
   }
 

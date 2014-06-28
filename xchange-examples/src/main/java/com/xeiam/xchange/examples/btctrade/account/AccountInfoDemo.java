@@ -37,6 +37,7 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 public class AccountInfoDemo {
 
   public static void main(String[] args) throws IOException {
+
     // API key with Read Only Permission or All Permissions.
     String publicKey = args[0];
     String privateKey = args[1];
@@ -51,6 +52,7 @@ public class AccountInfoDemo {
   }
 
   private static void generic(Exchange exchange) throws IOException {
+
     PollingAccountService accountService = exchange.getPollingAccountService();
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("Account info: " + accountInfo);
@@ -60,8 +62,8 @@ public class AccountInfoDemo {
   }
 
   private static void raw(Exchange exchange) {
-    BTCTradeAccountServiceRaw accountService =
-        (BTCTradeAccountServiceRaw) exchange.getPollingAccountService();
+
+    BTCTradeAccountServiceRaw accountService = (BTCTradeAccountServiceRaw) exchange.getPollingAccountService();
     BTCTradeBalance balance = accountService.getBTCTradeBalance();
 
     System.out.println("Balance result: " + balance.getResult());
