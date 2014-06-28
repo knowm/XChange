@@ -48,7 +48,7 @@ public class DateUtils {
 
   /**
    * Creates a date from a long representing milliseconds from epoch
-   * 
+   *
    * @param millisecondsFromEpoch
    * @return the Date object
    */
@@ -59,7 +59,7 @@ public class DateUtils {
 
   /**
    * Converts a date to a UTC String representation
-   * 
+   *
    * @param date
    * @return the formatted date
    */
@@ -73,7 +73,7 @@ public class DateUtils {
   /**
    * Converts an ISO formatted Date String to a Java Date
    * ISO format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
-   * 
+   *
    * @param isoFormattedDate
    * @return Date
    * @throws InvalidFormatException
@@ -91,7 +91,7 @@ public class DateUtils {
   /**
    * Converts an ISO 8601 formatted Date String to a Java Date
    * ISO 8601 format: yyyy-MM-dd'T'HH:mm:ss
-   * 
+   *
    * @param iso8601FormattedDate
    * @return Date
    * @throws InvalidFormatException
@@ -109,7 +109,7 @@ public class DateUtils {
   /**
    * Converts an rfc1123 formatted Date String to a Java Date
    * rfc1123 format: EEE, dd MMM yyyy HH:mm:ss zzz
-   * 
+   *
    * @param rfc1123FormattedDate
    * @return Date
    * @throws InvalidFormatException
