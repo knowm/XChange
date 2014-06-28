@@ -241,7 +241,7 @@ public class CoinbaseAccountJsonTest {
     assertThat(recurringPayment.getTimesRun()).isEqualTo(0);
     assertThat(recurringPayment.getRepeat()).isEqualTo(CoinbaseRepeat.MONTHLY);
     assertThat(recurringPayment.getLastRun()).isNull();
-    // assertThat(recurringPayment.getNextRun()).isEqualTo(DateUtils.fromISO8601DateString("2014-03-01T07:00:00-08:00"));
+    assertThat(recurringPayment.getNextRun()).isEqualTo(DateUtils.fromISO8601DateString("2014-03-01T07:00:00-08:00"));
     assertThat(recurringPayment.getNotes()).isEqualTo("For Demo");
     assertThat(recurringPayment.getDescription()).isEqualTo("Buy 0.01 BTC");
     assertThat(recurringPayment.getAmount()).isEqualsToByComparingFields(new CoinbaseMoney("BTC", new BigDecimal("0.01000000")));
