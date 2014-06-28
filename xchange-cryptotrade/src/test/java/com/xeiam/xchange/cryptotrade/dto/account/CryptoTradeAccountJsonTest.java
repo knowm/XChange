@@ -36,13 +36,13 @@ import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo.CryptoTr
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions.CryptoTradeTransaction;
 import com.xeiam.xchange.currency.Currencies;
 
-public class CryptoTradeAccountJsonTests {
+public class CryptoTradeAccountJsonTest {
 
   @Test
   public void testDeserializeAccountInfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeAccountJsonTests.class.getResourceAsStream("/account/example-account-info-data.json");
+    InputStream is = CryptoTradeAccountJsonTest.class.getResourceAsStream("/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -66,7 +66,7 @@ public class CryptoTradeAccountJsonTests {
   public void testDeserializeTransactionHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeAccountJsonTests.class.getResourceAsStream("/account/example-transaction-history-data.json");
+    InputStream is = CryptoTradeAccountJsonTest.class.getResourceAsStream("/account/example-transaction-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -38,13 +38,13 @@ import com.xeiam.xchange.utils.DateUtils;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseTradeJsonTests {
+public class CoinbaseTradeJsonTest {
 
   @Test
   public void testDeserializeTransfers() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseTradeJsonTests.class.getResourceAsStream("/trade/example-transfers-data.json");
+    InputStream is = CoinbaseTradeJsonTest.class.getResourceAsStream("/trade/example-transfers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

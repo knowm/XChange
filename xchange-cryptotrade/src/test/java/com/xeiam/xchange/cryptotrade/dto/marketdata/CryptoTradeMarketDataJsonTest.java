@@ -31,13 +31,13 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CryptoTradeMarketDataJsonTests {
+public class CryptoTradeMarketDataJsonTest {
 
   @Test
   public void testDeserializeTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CryptoTradeMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -59,7 +59,7 @@ public class CryptoTradeMarketDataJsonTests {
   public void testDeserializeDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = CryptoTradeMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

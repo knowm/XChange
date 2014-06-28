@@ -25,59 +25,54 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.math.BigDecimal;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 
-public class HitbtcAdapterTests {
+public class HitbtcMarketDataJsonTest {
 
   @Test
-  public void testAdaptTicker() throws IOException {
+  public void testDeserializeTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = HitbtcAdapterTests.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = HitbtcMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
     HitbtcTicker ticker = mapper.readValue(is, HitbtcTicker.class);
-    Ticker adaptedTicker = HitbtcAdapters.adaptTicker(ticker, CurrencyPair.BTC_USD);
 
-    assertThat(adaptedTicker.getAsk()).isEqualTo("609.58");
-    assertThat(adaptedTicker.getBid()).isEqualTo("608.63");
-    assertThat(adaptedTicker.getLow()).isEqualTo("563.4");
-    assertThat(adaptedTicker.getHigh()).isEqualTo("621.81");
-    assertThat(adaptedTicker.getLast()).isEqualTo("609.24");
-    assertThat(adaptedTicker.getVolume()).isEqualTo("1232.17");
-    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(ticker.getAsk()).isEqualTo("609.58");
+    assertThat(ticker.getBid()).isEqualTo("608.63");
+    assertThat(ticker.getLast()).isEqualTo("609.24");
+    assertThat(ticker.getHigh()).isEqualTo("621.81");
+    assertThat(ticker.getLow()).isEqualTo("563.4");
+    assertThat(ticker.getVolume()).isEqualTo("1232.17");
+    assertThat(ticker.getTimetamp()).isEqualTo(1401498463370L);
   }
 
   @Test
-  public void testAdaptOrderbook() throws IOException {
+  public void testDeserializeOrderBook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = HitbtcAdapterTests.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
+    InputStream is = HitbtcMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     HitbtcOrderBook orderBook = mapper.readValue(is, HitbtcOrderBook.class);
 
-    OrderBook adaptedOrderBook = HitbtcAdapters.adaptOrderBook(orderBook, CurrencyPair.BTC_USD);
+    BigDecimal[][] asks = orderBook.getAsks();
+    assertThat(asks).hasSize(3);
+    assertThat(asks[0][0]).isEqualTo("609.58");
+    assertThat(asks[0][1]).isEqualTo("1.23");
 
-    List<LimitOrder> asks = adaptedOrderBook.getAsks();
-    assertThat(asks.size()).isEqualTo(3);
-    LimitOrder order = asks.get(0);
-    assertThat(order.getLimitPrice()).isEqualTo("609.58");
-    assertThat(order.getTradableAmount()).isEqualTo("1.23");
-    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    BigDecimal[][] bids = orderBook.getBids();
+    assertThat(bids).hasSize(3);
+    assertThat(bids[2][0]).isEqualTo("1");
+    assertThat(bids[2][1]).isEqualTo("10100.01");
   }
 }
