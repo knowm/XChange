@@ -49,55 +49,55 @@ import com.xeiam.xchange.dto.Order.OrderType;
  *         </ul>
  */
 public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina> {
-
+  
   /**
    * Constructor
    * 
    * @param exchangeSpecification
    */
   public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
-
+  
     super(BTCChina.class, exchangeSpecification);
   }
-
+  
   /**
    * @return Set of BTCChina Orders
    * @throws IOException
    */
   public BTCChinaResponse<BTCChinaOrders> getBTCChinaOpenOrders() throws IOException {
-
-    return btcChina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest());
+  
+    return checkResult(btcChina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest()));
   }
-
+  
   /**
    * @return BTCChinaIntegerResponse of new limit order status.
    */
   public BTCChinaIntegerResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
-
+  
     BTCChinaIntegerResponse response = null;
-
+    
     if (orderType == OrderType.BID) {
-
+      
       response = btcChina.buyOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaBuyOrderRequest(price, amount));
     }
     else {
       response = btcChina.sellOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaSellOrderRequest(price, amount));
     }
-
-    return response;
+    
+    return checkResult(response);
   }
-
+  
   /**
    * @return BTCChinaBooleanResponse of limit order cancellation status.
    */
   public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
-
-    return btcChina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId)));
+  
+    return checkResult(btcChina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId))));
   }
-
+  
   public BTCChinaTransactionsResponse getTransactions() throws IOException {
-
-    return btcChina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaTransactionsRequest());
+  
+    return checkResult(btcChina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaTransactionsRequest()));
   }
-
+  
 }

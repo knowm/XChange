@@ -19,46 +19,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.cryptsy.dto;
+package com.xeiam.xchange.btcchina.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author ObsessiveOrange
  */
-public class CryptsyGenericReturn<V> {
+public class BTCChinaError {
   
-  private final boolean success;
-  private final V       returnValue;
-  private final String  error;
+  private final int    code;
+  private final String message;
+  private final String id;
   
-  @JsonCreator
-  public CryptsyGenericReturn(@JsonProperty("success") int success, @JsonProperty("return") V returnValue, @JsonProperty("error") String error) {
+  /**
+   * Constructor
+   * 
+   * @param id
+   * @param result
+   */
+  public BTCChinaError(@JsonProperty("code") int code, @JsonProperty("message") String message, @JsonProperty("id") String id) {
   
-    this.success = (success == 1 ? true : false);
-    this.returnValue = returnValue;
-    this.error = error;
+    this.code = code;
+    this.message = message;
+    this.id = id;
   }
   
-  public boolean isSuccess() {
+  /**
+   * @return the code
+   */
+  public int getCode() {
   
-    return success;
+    return code;
   }
   
-  public V getReturnValue() {
+  /**
+   * @return the message
+   */
+  public String getMessage() {
   
-    return returnValue;
+    return message;
   }
   
-  public String getError() {
+  /**
+   * @return the id
+   */
+  public String getID() {
   
-    return error;
+    return id;
   }
   
   @Override
   public String toString() {
   
-    return String.format("CryptsyReturn[%s: %s]", success ? "OK" : "error", success ? returnValue.toString() : error);
+    return String.format("BTCChinaError{code=%s, result=%s, id=%s}", code, message, id);
   }
+  
 }
