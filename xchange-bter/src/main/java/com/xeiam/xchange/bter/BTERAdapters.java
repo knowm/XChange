@@ -149,8 +149,8 @@ public final class BTERAdapters {
     for (BTERPublicTrade trade : tradeHistory.getTrades()) {
       String tradeIdString = trade.getTradeId();
       if (!tradeIdString.isEmpty()) {
-        long tradeId = Long.valueOf( tradeIdString );
-        if(tradeId > lastTradeId) 
+        long tradeId = Long.valueOf(tradeIdString);
+        if (tradeId > lastTradeId)
           lastTradeId = tradeId;
       }
       Trade adaptedTrade = adaptTrade(trade, currencyPair);

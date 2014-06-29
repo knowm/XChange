@@ -80,7 +80,7 @@ public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBasePollin
 
     return vosTrades;
   }
-  
+
   public List<VaultOfSatoshiTrade> getVosTrades(CurrencyPair pair, Long sinceId, int count) throws IOException {
 
     // Request data

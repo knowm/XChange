@@ -88,11 +88,14 @@ public final class CryptonitAdapters {
 
     Map<String, CryptonitOrder> orders = cryptonitOrders.getOrders();
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
-    	if(orderType.equalsIgnoreCase("bid")){
-    		limitOrders.add(adaptOrder(trade.getValue().getAskAmount(), trade.getValue().getAskRate(), currencyPair, orderType, DateUtils.fromMillisUtc(trade.getValue().getCreated()*1000L), String.valueOf(trade.getKey())));
-    	} else {
-    		limitOrders.add(adaptOrder(trade.getValue().getBidAmount(), trade.getValue().getBidRate(), currencyPair, orderType, DateUtils.fromMillisUtc(trade.getValue().getCreated()*1000L), String.valueOf(trade.getKey())));
-    	}
+      if (orderType.equalsIgnoreCase("bid")) {
+        limitOrders.add(adaptOrder(trade.getValue().getAskAmount(), trade.getValue().getAskRate(), currencyPair, orderType, DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String
+            .valueOf(trade.getKey())));
+      }
+      else {
+        limitOrders.add(adaptOrder(trade.getValue().getBidAmount(), trade.getValue().getBidRate(), currencyPair, orderType, DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String
+            .valueOf(trade.getKey())));
+      }
     }
 
     return limitOrders;
@@ -108,8 +111,8 @@ public final class CryptonitAdapters {
 
     BigDecimal amount = cryptonitTrade.getBidAmount();
     BigDecimal price = cryptonitTrade.getBidRate();
-    
-    return new Trade(null, amount, currencyPair, price, DateUtils.fromMillisUtc(cryptonitTrade.getFilled()*1000L), tradeId);
+
+    return new Trade(null, amount, currencyPair, price, DateUtils.fromMillisUtc(cryptonitTrade.getFilled() * 1000L), tradeId);
   }
 
   /**
@@ -121,7 +124,7 @@ public final class CryptonitAdapters {
   public static Trades adaptTrades(CryptonitOrders cryptonitTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
-    
+
     Map<String, CryptonitOrder> orders = cryptonitTrades.getOrders();
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
       tradesList.add(adaptTrade(trade.getKey(), trade.getValue(), currencyPair));
@@ -137,8 +140,8 @@ public final class CryptonitAdapters {
    */
   public static Ticker adaptTicker(CryptonitTicker cryptonitTicker, CurrencyPair currencyPair) {
 
-	CryptonitRate rate = cryptonitTicker.getRate();
-	  
+    CryptonitRate rate = cryptonitTicker.getRate();
+
     BigDecimal last = rate.getLast();
     BigDecimal high = rate.getHigh();
     BigDecimal low = rate.getLow();

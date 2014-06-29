@@ -13,13 +13,11 @@ import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 
-@Path( "api/0")
+@Path("api/0")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-
 public interface BitcurexAuthenticated {
-	  @POST
-	  @Path("getFunds")
-	  public BitcurexFunds getFunds( @HeaderParam("Rest-Key") String apiKey, 
-			                         @HeaderParam("Rest-Sign") ParamsDigest signer, 
-			                         @FormParam("nonce") long nonce) throws IOException;
+
+  @POST
+  @Path("getFunds")
+  public BitcurexFunds getFunds(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
 }

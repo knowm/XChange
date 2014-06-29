@@ -11,36 +11,29 @@ import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class BitcurexAccountService extends BitcurexAccountServiceRaw 
-                                    implements PollingAccountService {
+public class BitcurexAccountService extends BitcurexAccountServiceRaw implements PollingAccountService {
 
-	public BitcurexAccountService(ExchangeSpecification exchangeSpecification)
-			throws IOException {
-		super(exchangeSpecification);
-	}
+  public BitcurexAccountService(ExchangeSpecification exchangeSpecification) throws IOException {
 
-	@Override
-	public AccountInfo getAccountInfo() throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-	    return BitcurexAdapters.adaptAccountInfo(getFunds(), 
-	    		exchangeSpecification.getUserName());
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public String withdrawFunds(String currency, BigDecimal amount,
-			String address) throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	@Override
-	public String requestDepositAddress(String currency, String... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException 
-	{
-		return getFunds().getAddress();
-	}
+    return BitcurexAdapters.adaptAccountInfo(getFunds(), exchangeSpecification.getUserName());
+  }
+
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    return getFunds().getAddress();
+  }
 
 }

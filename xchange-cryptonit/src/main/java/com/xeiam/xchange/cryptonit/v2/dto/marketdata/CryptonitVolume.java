@@ -49,5 +49,5 @@ public final class CryptonitVolume {
 
     this.volumes.put(name, volume);
   }
-  
+
 }

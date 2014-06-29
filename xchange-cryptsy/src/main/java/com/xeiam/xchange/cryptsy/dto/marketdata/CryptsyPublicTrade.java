@@ -26,12 +26,13 @@ import java.text.ParseException;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.cryptsy.CryptsyUtils;
 
+@JsonIgnoreProperties("id")
 public class CryptsyPublicTrade {
 
-  private final int tradeId;
   private final Date time;
   private final BigDecimal price;
   private final BigDecimal quantity;
@@ -43,19 +44,13 @@ public class CryptsyPublicTrade {
    * @throws ParseException
    */
   @JsonCreator
-  public CryptsyPublicTrade(@JsonProperty("id") Integer tradeId, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("total") BigDecimal total) throws ParseException {
+  public CryptsyPublicTrade(@JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total)
+      throws ParseException {
 
-    this.tradeId = tradeId;
     this.time = time == null ? null : CryptsyUtils.convertDateTime(time);
     this.price = price;
     this.quantity = quantity;
     this.total = total;
-  }
-
-  public int getTradeId() {
-
-    return tradeId;
   }
 
   public Date getTime() {
@@ -81,7 +76,7 @@ public class CryptsyPublicTrade {
   @Override
   public String toString() {
 
-    return "CryptsyPublicTrade [tradeId=" + tradeId + ", time=" + time + ", price=" + price + ", quantity=" + quantity + ", total=" + total + "]";
+    return "CryptsyPublicTrade [time=" + time + ", price=" + price + ", quantity=" + quantity + ", total=" + total + "]";
   }
 
 }

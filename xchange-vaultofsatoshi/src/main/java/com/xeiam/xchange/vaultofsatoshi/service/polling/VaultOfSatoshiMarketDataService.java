@@ -86,14 +86,16 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
       Object arg0 = args[0];
       if (arg0 instanceof Number) {
         sinceId = ((Number) arg0).longValue();
-      } else {
+      }
+      else {
         throw new ExchangeException("args[0] must be of type Number!");
       }
       if (args.length > 1) {
         Object arg1 = args[1];
         if (arg1 instanceof Number) {
           count = ((Number) arg1).intValue();
-        } else {
+        }
+        else {
           throw new ExchangeException("args[1] must be of type Number!");
         }
       }

@@ -66,8 +66,8 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
     final CoinbasePrice sellPrice = super.getCoinbaseSellPrice(BigDecimal.ONE, currency);
     final CoinbaseMoney spotRate = super.getCoinbaseSpotRate(currency);
 
-    final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory =
-        (args != null && args.length > 0 && args[0] != null && args[0] instanceof Boolean && (Boolean) args[0]) ? super.getCoinbaseHistoricalSpotRates() : null;
+    final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory = null;
+     //   (args != null && args.length > 0 && args[0] != null && args[0] instanceof Boolean && (Boolean) args[0]) ? super.getCoinbaseHistoricalSpotRates() : null;
 
     return CoinbaseAdapters.adaptTicker(currencyPair, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
   }
