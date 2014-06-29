@@ -22,16 +22,15 @@
 package com.xeiam.xchange.btcchina.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.ExchangeException;
 
 /**
  * @author David Yam
  */
 public class BTCChinaResponse<V> {
   
-  private final String id;
-  private final V      result;
-  private final String error;
+  private final String        id;
+  private final V             result;
+  private final BTCChinaError error;
   
   /**
    * Constructor
@@ -39,15 +38,12 @@ public class BTCChinaResponse<V> {
    * @param id
    * @param result
    */
-  public BTCChinaResponse(@JsonProperty("id") String id, @JsonProperty("result") V result, @JsonProperty("error") String error) {
+  public BTCChinaResponse(@JsonProperty("id") String id, @JsonProperty("result") V result, @JsonProperty("error") BTCChinaError error) {
   
     this.id = id;
     this.result = result;
     this.error = error;
     
-    if (error != null || result == null) {
-      throw new ExchangeException(error);
-    }
   }
   
   public V getResult() {
@@ -60,7 +56,7 @@ public class BTCChinaResponse<V> {
     return id;
   }
   
-  public String getError() {
+  public BTCChinaError getError() {
   
     return error;
   }

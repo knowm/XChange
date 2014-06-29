@@ -22,6 +22,7 @@
 package com.xeiam.xchange.btcchina.dto.account.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.btcchina.dto.BTCChinaError;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 
@@ -37,7 +38,7 @@ public class BTCChinaGetAccountInfoResponse extends BTCChinaResponse<BTCChinaAcc
    * @param result
    */
   public BTCChinaGetAccountInfoResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaAccountInfo result,
-      @JsonProperty("error") String error) {
+      @JsonProperty("error") BTCChinaError error) {
   
     super(id, result, error);
   }
