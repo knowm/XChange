@@ -39,7 +39,6 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
-import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 
 /**
  * @author jamespedwards42
@@ -68,10 +67,10 @@ public interface Coinbase {
   @Path("prices/spot_rate")
   CoinbaseMoney getSpotRate(@QueryParam("currency") String currency) throws IOException;
 
-  @GET
+/*  @GET
   @Path("prices/historical")
   CoinbaseSpotPriceHistory getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;
-
+*/
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("users")

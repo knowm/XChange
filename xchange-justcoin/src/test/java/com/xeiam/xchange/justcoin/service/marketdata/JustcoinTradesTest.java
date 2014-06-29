@@ -39,7 +39,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinPublicTrade;
 
-
 public class JustcoinTradesTest {
 
   @Test
@@ -61,11 +60,11 @@ public class JustcoinTradesTest {
     assertThat(trade.getTid()).isEqualTo("92595");
     assertThat(trade.getDate()).isEqualTo(1403353443);
   }
-  
+
   @Test
   public void testAdapter() throws JsonParseException, JsonMappingException, IOException {
 
- // Read in the JSON from the example resources
+    // Read in the JSON from the example resources
     final InputStream is = JustcoinTradesTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
@@ -74,12 +73,12 @@ public class JustcoinTradesTest {
     final List<JustcoinPublicTrade> trades = mapper.readValue(is, collectionType);
 
     final Trades adaptedTrades = JustcoinAdapters.adaptPublicTrades(CurrencyPair.BTC_USD, trades);
-    
+
     assertThat(adaptedTrades.getlastID()).isEqualTo(92726);
-    
+
     final List<Trade> adaptedTradeList = adaptedTrades.getTrades();
     assertThat(adaptedTradeList).hasSize(2);
-    
+
     final Trade adaptedTrade = adaptedTradeList.get(0);
     assertThat(adaptedTrade.getTradableAmount()).isEqualTo("0.16204");
     assertThat(adaptedTrade.getPrice()).isEqualTo("600.632");

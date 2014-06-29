@@ -40,10 +40,10 @@ public final class CryptonitOrders {
 
     return orders;
   }
-  
+
   public CryptonitOrder getOrder(long orderId) {
 
-	    return orders.get(String.valueOf(orderId));
+    return orders.get(String.valueOf(orderId));
   }
 
   @JsonAnySetter

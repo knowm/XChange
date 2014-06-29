@@ -159,6 +159,6 @@ public final class JustcoinAdapters {
 
   public static Trade adaptPublicTrade(final CurrencyPair currencyPair, final JustcoinPublicTrade justcoinTrade) {
 
-    return new Trade(null, justcoinTrade.getAmount(), currencyPair, justcoinTrade.getPrice(), new Date(justcoinTrade.getDate()*1000), justcoinTrade.getTid());
+    return new Trade(null, justcoinTrade.getAmount(), currencyPair, justcoinTrade.getPrice(), new Date(justcoinTrade.getDate() * 1000), justcoinTrade.getTid());
   }
 }

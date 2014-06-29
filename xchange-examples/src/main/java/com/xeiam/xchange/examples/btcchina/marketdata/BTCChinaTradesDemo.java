@@ -67,7 +67,7 @@ public class BTCChinaTradesDemo {
 
     System.out.println(trades.toString());
     System.out.println("NumTrades=" + trades.getTrades().size());
-    
+
     System.out.println("LastId=" + trades.getlastID());
   }
 

@@ -125,8 +125,8 @@ public class BitcurexAdapterTest {
     AccountInfo accountInfo = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
     System.out.println(accountInfo.toString());
 
-    assertThat(accountInfo.getBalance("BTC").compareTo( new BigDecimal("2.59033845"))==0);
-    assertThat(accountInfo.getBalance("EUR").compareTo( new BigDecimal("6160.06838790"))==0);
+    assertThat(accountInfo.getBalance("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(accountInfo.getBalance("EUR").compareTo(new BigDecimal("6160.06838790")) == 0);
     assertThat(accountInfo.getUsername().toString()).isEqualTo("demo");
   }
 

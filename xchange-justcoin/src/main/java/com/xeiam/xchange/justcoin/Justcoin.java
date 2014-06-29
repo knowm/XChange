@@ -49,7 +49,7 @@ public interface Justcoin {
   @GET
   @Path("v1/markets/{ident}{currency}/depth")
   JustcoinDepth getDepth(final @PathParam("ident") String tradeableIdentifier, final @PathParam("currency") String currency) throws IOException;
-  
+
   @GET
   @Path("bitcoincharts/{price_currency}/trades.json")
   List<JustcoinPublicTrade> getTrades(final @PathParam("price_currency") String priceCurrency, final @QueryParam("since") Long sinceTradeId) throws IOException;

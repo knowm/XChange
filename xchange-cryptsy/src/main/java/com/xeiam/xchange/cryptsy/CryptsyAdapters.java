@@ -101,9 +101,11 @@ public final class CryptsyAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (CryptsySellOrder order : sellOrders) {
+    if (sellOrders != null) {
+      for (CryptsySellOrder order : sellOrders) {
 
-      limitOrders.add(new LimitOrder(OrderType.ASK, order.getQuantity(), currencyPair, null, null, order.getSellPrice()));
+        limitOrders.add(new LimitOrder(OrderType.ASK, order.getQuantity(), currencyPair, null, null, order.getSellPrice()));
+      }
     }
 
     return limitOrders;
@@ -120,9 +122,11 @@ public final class CryptsyAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (CryptsyBuyOrder order : buyOrders) {
+    if (buyOrders != null) {
+      for (CryptsyBuyOrder order : buyOrders) {
 
-      limitOrders.add(new LimitOrder(OrderType.BID, order.getQuantity(), currencyPair, null, null, order.getBuyPrice()));
+        limitOrders.add(new LimitOrder(OrderType.BID, order.getQuantity(), currencyPair, null, null, order.getBuyPrice()));
+      }
     }
 
     return limitOrders;
@@ -147,9 +151,11 @@ public final class CryptsyAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (CryptsyPublicOrder order : orders) {
+    if (orders != null) {
+      for (CryptsyPublicOrder order : orders) {
 
-      limitOrders.add(new LimitOrder(orderType, order.getQuantity(), currencyPair, null, null, order.getPrice()));
+        limitOrders.add(new LimitOrder(orderType, order.getQuantity(), currencyPair, null, null, order.getPrice()));
+      }
     }
 
     return limitOrders;
@@ -168,7 +174,7 @@ public final class CryptsyAdapters {
     long lastTradeId = 0;
     for (CryptsyOrder trade : cryptsyTrades.getReturnValue()) {
       long tradeId = trade.getTradeId();
-      if(tradeId > lastTradeId) 
+      if (tradeId > lastTradeId)
         lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }
@@ -195,10 +201,13 @@ public final class CryptsyAdapters {
     for (CryptsyPublicMarketData cryptsyMarketDataEntry : cryptsyMarketData.values()) {
       CurrencyPair currencyPair = adaptCurrencyPair(cryptsyMarketDataEntry.getLabel());
       List<Trade> tradesList = new ArrayList<Trade>();
-      for (CryptsyPublicTrade trade : cryptsyMarketDataEntry.getRecentTrades()) {
-        tradesList.add(adaptTrade(trade, currencyPair));
+      List<CryptsyPublicTrade> recentTrades = cryptsyMarketDataEntry.getRecentTrades();
+      if (recentTrades != null) {
+        for (CryptsyPublicTrade trade : recentTrades) {
+          tradesList.add(adaptTrade(trade, currencyPair));
+        }
       }
-      trades.put(currencyPair, new Trades(tradesList, TradeSortType.SortByID));
+      trades.put(currencyPair, new Trades(tradesList, TradeSortType.SortByTimestamp));
     }
 
     return trades;
@@ -206,7 +215,7 @@ public final class CryptsyAdapters {
 
   private static Trade adaptTrade(CryptsyPublicTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), String.valueOf(trade.getTradeId()));
+    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), null);
   }
 
   /**
@@ -261,11 +270,12 @@ public final class CryptsyAdapters {
    */
   public static Ticker adaptPublicTicker(CryptsyPublicMarketData publicMarketData) {
 
-    BigDecimal last = publicMarketData.getRecentTrades().get(0).getPrice();
+    List<CryptsyPublicTrade> recentTrades = publicMarketData.getRecentTrades();
+    BigDecimal last = (recentTrades != null && recentTrades.size() > 0) ? recentTrades.get(0).getPrice() : null;
     List<CryptsyPublicOrder> bids = publicMarketData.getBuyOrders();
-    BigDecimal bid = bids.size() > 0 ? bids.get(0).getPrice() : null;
+    BigDecimal bid = (bids != null && bids.size() > 0) ? bids.get(0).getPrice() : null;
     List<CryptsyPublicOrder> asks = publicMarketData.getSellOrders();
-    BigDecimal ask = asks.size() > 0 ? asks.get(0).getPrice() : null;
+    BigDecimal ask = (asks != null && asks.size() > 0) ? asks.get(0).getPrice() : null;
     BigDecimal high = null;
     BigDecimal low = null;
     BigDecimal volume = publicMarketData.getVolume();
@@ -297,7 +307,7 @@ public final class CryptsyAdapters {
   }
 
   /**
-   * Adapts CryptsyOpenOrdersReturn DTO to XChange standard OpenOrders DTO
+   * Adapts CryptsyOpenOrdersReturn DTO to XChange standard OpenOrd ers DTO
    * 
    * @param openOrdersReturnValue Raw returned data from Cryptsy, CryptsyOpenOrdersReturn DTO
    * @return Standard XChange OpenOrders DTO
@@ -307,13 +317,15 @@ public final class CryptsyAdapters {
     List<CryptsyOpenOrders> cryptsyOpenOrders = openOrdersReturnValue.getReturnValue();
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (CryptsyOpenOrders order : cryptsyOpenOrders) {
+    if (cryptsyOpenOrders != null) {
+      for (CryptsyOpenOrders order : cryptsyOpenOrders) {
 
-      OrderType orderType = order.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
+        OrderType orderType = order.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
 
-      limitOrders.add(new LimitOrder(orderType, order.getQuantityRemaining(), CryptsyCurrencyUtils.convertToCurrencyPair(order.getMarketId()), String.valueOf(order.getOrderId()),
-          order.getTimestamp(), order.getPrice()));
+        limitOrders.add(new LimitOrder(orderType, order.getQuantityRemaining(), CryptsyCurrencyUtils.convertToCurrencyPair(order.getMarketId()), String.valueOf(order.getOrderId()), order
+            .getTimestamp(), order.getPrice()));
 
+      }
     }
     return new OpenOrders(limitOrders);
   }
@@ -329,11 +341,13 @@ public final class CryptsyAdapters {
     List<CryptsyTradeHistory> cryptsyTradeHistory = tradeHistoryReturnData.getReturnValue();
 
     List<Trade> trades = new ArrayList<Trade>();
-    for (CryptsyTradeHistory trade : cryptsyTradeHistory) {
-      OrderType tradeType = trade.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketId());
+    if (cryptsyTradeHistory != null) {
+      for (CryptsyTradeHistory trade : cryptsyTradeHistory) {
+        OrderType tradeType = trade.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
+        CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketId());
 
-      trades.add(new Trade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(), String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId())));
+        trades.add(new Trade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(), String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId())));
+      }
     }
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }

@@ -76,7 +76,7 @@ public class BTCChinaAdapterTest {
 
     // Read in the JSON from the example resources
     InputStream is = BTCChinaTradesJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
-    
+
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     JavaType type = mapper.getTypeFactory().constructCollectionType(List.class, BTCChinaTrade.class);

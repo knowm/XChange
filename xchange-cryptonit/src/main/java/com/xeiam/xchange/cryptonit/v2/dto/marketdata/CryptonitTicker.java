@@ -32,10 +32,10 @@ public final class CryptonitTicker {
   private final CryptonitVolume volume;
 
   /**
- * @param rate
- * @param volume
- */
-public CryptonitTicker(@JsonProperty("rate") CryptonitRate rate, @JsonProperty("volume") CryptonitVolume volume) {
+   * @param rate
+   * @param volume
+   */
+  public CryptonitTicker(@JsonProperty("rate") CryptonitRate rate, @JsonProperty("volume") CryptonitVolume volume) {
 
     this.rate = rate;
     this.volume = volume;

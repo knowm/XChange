@@ -56,9 +56,9 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
 
   public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    int since = 0;
+    long since = 0;
     if (args.length == 1) {
-      since = (Integer) args[0];
+      since = ((Number) args[0]).longValue();
     }
 
     ItBitTrade[] trades = itBit.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, since);

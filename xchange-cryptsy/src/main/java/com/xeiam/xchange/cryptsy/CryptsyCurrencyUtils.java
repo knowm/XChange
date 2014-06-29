@@ -33,7 +33,7 @@ public final class CryptsyCurrencyUtils {
 
   /**
    * Map containing relationships between MarketIds and CurrencyPairs
-   * CAA: 19 May 2014
+   * CAA: 27 June 2014
    * This list is not final, since CryptsyBasePollingService will update it on first run.
    */
   @SuppressWarnings("serial")
@@ -57,21 +57,23 @@ public final class CryptsyCurrencyUtils {
       put(50, new CurrencyPair("BTG", "BTC"));
       put(102, new CurrencyPair("BUK", "BTC"));
       put(154, new CurrencyPair("CACH", "BTC"));
+      put(221, new CurrencyPair("CAIx", "BTC"));
       put(53, new CurrencyPair("CAP", "BTC"));
       put(150, new CurrencyPair("CASH", "BTC"));
       put(136, new CurrencyPair("CAT", "BTC"));
       put(70, new CurrencyPair("CGB", "BTC"));
       put(197, new CurrencyPair("CINNI", "BTC"));
+      put(227, new CurrencyPair("CLOAK", "BTC"));
       put(95, new CurrencyPair("CLR", "BTC"));
       put(74, new CurrencyPair("CMC", "BTC"));
       put(8, new CurrencyPair("CNC", "BTC"));
       put(198, new CurrencyPair("COMM", "BTC"));
       put(58, new CurrencyPair("CRC", "BTC"));
+      put(219, new CurrencyPair("CRYPT", "BTC"));
       put(68, new CurrencyPair("CSC", "BTC"));
       put(131, new CurrencyPair("DEM", "BTC"));
       put(167, new CurrencyPair("DGB", "BTC"));
       put(26, new CurrencyPair("DGC", "BTC"));
-      put(205, new CurrencyPair("DIME", "BTC"));
       put(72, new CurrencyPair("DMD", "BTC"));
       put(132, new CurrencyPair("DOGE", "BTC"));
       put(155, new CurrencyPair("DRK", "BTC"));
@@ -93,6 +95,7 @@ public final class CryptsyCurrencyUtils {
       put(76, new CurrencyPair("GLC", "BTC"));
       put(30, new CurrencyPair("GLD", "BTC"));
       put(78, new CurrencyPair("GLX", "BTC"));
+      put(229, new CurrencyPair("GLYPH", "BTC"));
       put(80, new CurrencyPair("HBN", "BTC"));
       put(185, new CurrencyPair("HVC", "BTC"));
       put(59, new CurrencyPair("IFC", "BTC"));
@@ -119,11 +122,13 @@ public final class CryptsyCurrencyUtils {
       put(200, new CurrencyPair("MYR", "BTC"));
       put(164, new CurrencyPair("MZC", "BTC"));
       put(64, new CurrencyPair("NAN", "BTC"));
+      put(207, new CurrencyPair("NAUT", "BTC"));
       put(32, new CurrencyPair("NBL", "BTC"));
       put(90, new CurrencyPair("NEC", "BTC"));
       put(134, new CurrencyPair("NET", "BTC"));
       put(29, new CurrencyPair("NMC", "BTC"));
       put(54, new CurrencyPair("NRB", "BTC"));
+      put(211, new CurrencyPair("NRS", "BTC"));
       put(13, new CurrencyPair("NVC", "BTC"));
       put(159, new CurrencyPair("NXT", "BTC"));
       put(184, new CurrencyPair("NYAN", "BTC"));
@@ -142,6 +147,7 @@ public final class CryptsyCurrencyUtils {
       put(9, new CurrencyPair("RYC", "BTC"));
       put(168, new CurrencyPair("SAT", "BTC"));
       put(51, new CurrencyPair("SBC", "BTC"));
+      put(225, new CurrencyPair("SC", "BTC"));
       put(158, new CurrencyPair("SMC", "BTC"));
       put(180, new CurrencyPair("SPA", "BTC"));
       put(81, new CurrencyPair("SPT", "BTC"));
@@ -151,16 +157,20 @@ public final class CryptsyCurrencyUtils {
       put(117, new CurrencyPair("TAG", "BTC"));
       put(166, new CurrencyPair("TAK", "BTC"));
       put(114, new CurrencyPair("TEK", "BTC"));
+      put(223, new CurrencyPair("TES", "BTC"));
       put(130, new CurrencyPair("TGC", "BTC"));
       put(27, new CurrencyPair("TRC", "BTC"));
       put(203, new CurrencyPair("UNB", "BTC"));
       put(133, new CurrencyPair("UNO", "BTC"));
       put(201, new CurrencyPair("USDe", "BTC"));
       put(163, new CurrencyPair("UTC", "BTC"));
+      put(209, new CurrencyPair("VRC", "BTC"));
       put(151, new CurrencyPair("VTC", "BTC"));
       put(195, new CurrencyPair("WC", "BTC"));
       put(14, new CurrencyPair("WDC", "BTC"));
+      put(210, new CurrencyPair("XC", "BTC"));
       put(115, new CurrencyPair("XJO", "BTC"));
+      put(208, new CurrencyPair("XLB", "BTC"));
       put(63, new CurrencyPair("XPM", "BTC"));
       put(11, new CurrencyPair("YAC", "BTC"));
       put(73, new CurrencyPair("YBC", "BTC"));
@@ -173,27 +183,34 @@ public final class CryptsyCurrencyUtils {
       put(161, new CurrencyPair("AUR", "LTC"));
       put(186, new CurrencyPair("BAT", "LTC"));
       put(191, new CurrencyPair("BC", "LTC"));
+      put(222, new CurrencyPair("CAIx", "LTC"));
       put(123, new CurrencyPair("CGB", "LTC"));
+      put(228, new CurrencyPair("CLOAK", "LTC"));
       put(17, new CurrencyPair("CNC", "LTC"));
       put(109, new CurrencyPair("COL", "LTC"));
       put(91, new CurrencyPair("CPR", "LTC"));
+      put(220, new CurrencyPair("CRYPT", "LTC"));
       put(175, new CurrencyPair("CTM", "LTC"));
       put(46, new CurrencyPair("DBL", "LTC"));
       put(96, new CurrencyPair("DGC", "LTC"));
       put(206, new CurrencyPair("DIME", "LTC"));
       put(194, new CurrencyPair("DMC", "LTC"));
       put(135, new CurrencyPair("DOGE", "LTC"));
+      put(214, new CurrencyPair("DRK", "LTC"));
       put(52, new CurrencyPair("DVC", "LTC"));
       put(93, new CurrencyPair("ELP", "LTC"));
       put(55, new CurrencyPair("EZC", "LTC"));
       put(61, new CurrencyPair("FLO", "LTC"));
       put(171, new CurrencyPair("FRK", "LTC"));
       put(124, new CurrencyPair("FST", "LTC"));
+      put(4, new CurrencyPair("FTC", "LTC"));
       put(36, new CurrencyPair("GLD", "LTC"));
+      put(230, new CurrencyPair("GLYPH", "LTC"));
       put(84, new CurrencyPair("GME", "LTC"));
       put(60, new CurrencyPair("IFC", "LTC"));
       put(35, new CurrencyPair("JKC", "LTC"));
       put(193, new CurrencyPair("KARM", "LTC"));
+      put(218, new CurrencyPair("MAX", "LTC"));
       put(100, new CurrencyPair("MEC", "LTC"));
       put(56, new CurrencyPair("MEM", "LTC"));
       put(145, new CurrencyPair("MOON", "LTC"));
@@ -204,13 +221,19 @@ public final class CryptsyCurrencyUtils {
       put(101, new CurrencyPair("PXC", "LTC"));
       put(126, new CurrencyPair("QRK", "LTC"));
       put(190, new CurrencyPair("RBBT", "LTC"));
+      put(212, new CurrencyPair("RDD", "LTC"));
       put(87, new CurrencyPair("RED", "LTC"));
       put(37, new CurrencyPair("RYC", "LTC"));
       put(128, new CurrencyPair("SBC", "LTC"));
+      put(226, new CurrencyPair("SC", "LTC"));
       put(98, new CurrencyPair("SXC", "LTC"));
+      put(224, new CurrencyPair("TES", "LTC"));
       put(147, new CurrencyPair("TIPS", "LTC"));
       put(107, new CurrencyPair("TIX", "LTC"));
+      put(215, new CurrencyPair("VRC", "LTC"));
+      put(217, new CurrencyPair("VTC", "LTC"));
       put(21, new CurrencyPair("WDC", "LTC"));
+      put(216, new CurrencyPair("XC", "LTC"));
       put(67, new CurrencyPair("XNC", "LTC"));
       put(106, new CurrencyPair("XPM", "LTC"));
       put(22, new CurrencyPair("YAC", "LTC"));
@@ -218,6 +241,7 @@ public final class CryptsyCurrencyUtils {
       put(127, new CurrencyPair("ZET", "LTC"));
       put(2, new CurrencyPair("BTC", "USD"));
       put(182, new CurrencyPair("DOGE", "USD"));
+      put(213, new CurrencyPair("DRK", "USD"));
       put(6, new CurrencyPair("FTC", "USD"));
       put(1, new CurrencyPair("LTC", "USD"));
     }
@@ -225,7 +249,7 @@ public final class CryptsyCurrencyUtils {
 
   /**
    * Map containing relationships between MarketIds and CurrencyPairs
-   * CAA: 19 May 2014
+   * CAA: 27 June 2014
    * This list is not final, since CryptsyBasePollingService will update it on first run.
    */
   @SuppressWarnings("serial")
@@ -249,21 +273,23 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("BTG", "BTC"), 50);
       put(new CurrencyPair("BUK", "BTC"), 102);
       put(new CurrencyPair("CACH", "BTC"), 154);
+      put(new CurrencyPair("CAIx", "BTC"), 221);
       put(new CurrencyPair("CAP", "BTC"), 53);
       put(new CurrencyPair("CASH", "BTC"), 150);
       put(new CurrencyPair("CAT", "BTC"), 136);
       put(new CurrencyPair("CGB", "BTC"), 70);
       put(new CurrencyPair("CINNI", "BTC"), 197);
+      put(new CurrencyPair("CLOAK", "BTC"), 227);
       put(new CurrencyPair("CLR", "BTC"), 95);
       put(new CurrencyPair("CMC", "BTC"), 74);
       put(new CurrencyPair("CNC", "BTC"), 8);
       put(new CurrencyPair("COMM", "BTC"), 198);
       put(new CurrencyPair("CRC", "BTC"), 58);
+      put(new CurrencyPair("CRYPT", "BTC"), 219);
       put(new CurrencyPair("CSC", "BTC"), 68);
       put(new CurrencyPair("DEM", "BTC"), 131);
       put(new CurrencyPair("DGB", "BTC"), 167);
       put(new CurrencyPair("DGC", "BTC"), 26);
-      put(new CurrencyPair("DIME", "BTC"), 205);
       put(new CurrencyPair("DMD", "BTC"), 72);
       put(new CurrencyPair("DOGE", "BTC"), 132);
       put(new CurrencyPair("DRK", "BTC"), 155);
@@ -285,6 +311,7 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("GLC", "BTC"), 76);
       put(new CurrencyPair("GLD", "BTC"), 30);
       put(new CurrencyPair("GLX", "BTC"), 78);
+      put(new CurrencyPair("GLYPH", "BTC"), 229);
       put(new CurrencyPair("HBN", "BTC"), 80);
       put(new CurrencyPair("HVC", "BTC"), 185);
       put(new CurrencyPair("IFC", "BTC"), 59);
@@ -311,11 +338,13 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("MYR", "BTC"), 200);
       put(new CurrencyPair("MZC", "BTC"), 164);
       put(new CurrencyPair("NAN", "BTC"), 64);
+      put(new CurrencyPair("NAUT", "BTC"), 207);
       put(new CurrencyPair("NBL", "BTC"), 32);
       put(new CurrencyPair("NEC", "BTC"), 90);
       put(new CurrencyPair("NET", "BTC"), 134);
       put(new CurrencyPair("NMC", "BTC"), 29);
       put(new CurrencyPair("NRB", "BTC"), 54);
+      put(new CurrencyPair("NRS", "BTC"), 211);
       put(new CurrencyPair("NVC", "BTC"), 13);
       put(new CurrencyPair("NXT", "BTC"), 159);
       put(new CurrencyPair("NYAN", "BTC"), 184);
@@ -334,6 +363,7 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("RYC", "BTC"), 9);
       put(new CurrencyPair("SAT", "BTC"), 168);
       put(new CurrencyPair("SBC", "BTC"), 51);
+      put(new CurrencyPair("SC", "BTC"), 225);
       put(new CurrencyPair("SMC", "BTC"), 158);
       put(new CurrencyPair("SPA", "BTC"), 180);
       put(new CurrencyPair("SPT", "BTC"), 81);
@@ -343,16 +373,20 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("TAG", "BTC"), 117);
       put(new CurrencyPair("TAK", "BTC"), 166);
       put(new CurrencyPair("TEK", "BTC"), 114);
+      put(new CurrencyPair("TES", "BTC"), 223);
       put(new CurrencyPair("TGC", "BTC"), 130);
       put(new CurrencyPair("TRC", "BTC"), 27);
       put(new CurrencyPair("UNB", "BTC"), 203);
       put(new CurrencyPair("UNO", "BTC"), 133);
       put(new CurrencyPair("USDe", "BTC"), 201);
       put(new CurrencyPair("UTC", "BTC"), 163);
+      put(new CurrencyPair("VRC", "BTC"), 209);
       put(new CurrencyPair("VTC", "BTC"), 151);
       put(new CurrencyPair("WC", "BTC"), 195);
       put(new CurrencyPair("WDC", "BTC"), 14);
+      put(new CurrencyPair("XC", "BTC"), 210);
       put(new CurrencyPair("XJO", "BTC"), 115);
+      put(new CurrencyPair("XLB", "BTC"), 208);
       put(new CurrencyPair("XPM", "BTC"), 63);
       put(new CurrencyPair("YAC", "BTC"), 11);
       put(new CurrencyPair("YBC", "BTC"), 73);
@@ -365,27 +399,34 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("AUR", "LTC"), 161);
       put(new CurrencyPair("BAT", "LTC"), 186);
       put(new CurrencyPair("BC", "LTC"), 191);
+      put(new CurrencyPair("CAIx", "LTC"), 222);
       put(new CurrencyPair("CGB", "LTC"), 123);
+      put(new CurrencyPair("CLOAK", "LTC"), 228);
       put(new CurrencyPair("CNC", "LTC"), 17);
       put(new CurrencyPair("COL", "LTC"), 109);
       put(new CurrencyPair("CPR", "LTC"), 91);
+      put(new CurrencyPair("CRYPT", "LTC"), 220);
       put(new CurrencyPair("CTM", "LTC"), 175);
       put(new CurrencyPair("DBL", "LTC"), 46);
       put(new CurrencyPair("DGC", "LTC"), 96);
       put(new CurrencyPair("DIME", "LTC"), 206);
       put(new CurrencyPair("DMC", "LTC"), 194);
       put(new CurrencyPair("DOGE", "LTC"), 135);
+      put(new CurrencyPair("DRK", "LTC"), 214);
       put(new CurrencyPair("DVC", "LTC"), 52);
       put(new CurrencyPair("ELP", "LTC"), 93);
       put(new CurrencyPair("EZC", "LTC"), 55);
       put(new CurrencyPair("FLO", "LTC"), 61);
       put(new CurrencyPair("FRK", "LTC"), 171);
       put(new CurrencyPair("FST", "LTC"), 124);
+      put(new CurrencyPair("FTC", "LTC"), 4);
       put(new CurrencyPair("GLD", "LTC"), 36);
+      put(new CurrencyPair("GLYPH", "LTC"), 230);
       put(new CurrencyPair("GME", "LTC"), 84);
       put(new CurrencyPair("IFC", "LTC"), 60);
       put(new CurrencyPair("JKC", "LTC"), 35);
       put(new CurrencyPair("KARM", "LTC"), 193);
+      put(new CurrencyPair("MAX", "LTC"), 218);
       put(new CurrencyPair("MEC", "LTC"), 100);
       put(new CurrencyPair("MEM", "LTC"), 56);
       put(new CurrencyPair("MOON", "LTC"), 145);
@@ -396,13 +437,19 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("PXC", "LTC"), 101);
       put(new CurrencyPair("QRK", "LTC"), 126);
       put(new CurrencyPair("RBBT", "LTC"), 190);
+      put(new CurrencyPair("RDD", "LTC"), 212);
       put(new CurrencyPair("RED", "LTC"), 87);
       put(new CurrencyPair("RYC", "LTC"), 37);
       put(new CurrencyPair("SBC", "LTC"), 128);
+      put(new CurrencyPair("SC", "LTC"), 226);
       put(new CurrencyPair("SXC", "LTC"), 98);
+      put(new CurrencyPair("TES", "LTC"), 224);
       put(new CurrencyPair("TIPS", "LTC"), 147);
       put(new CurrencyPair("TIX", "LTC"), 107);
+      put(new CurrencyPair("VRC", "LTC"), 215);
+      put(new CurrencyPair("VTC", "LTC"), 217);
       put(new CurrencyPair("WDC", "LTC"), 21);
+      put(new CurrencyPair("XC", "LTC"), 216);
       put(new CurrencyPair("XNC", "LTC"), 67);
       put(new CurrencyPair("XPM", "LTC"), 106);
       put(new CurrencyPair("YAC", "LTC"), 22);
@@ -410,6 +457,7 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("ZET", "LTC"), 127);
       put(new CurrencyPair("BTC", "USD"), 2);
       put(new CurrencyPair("DOGE", "USD"), 182);
+      put(new CurrencyPair("DRK", "USD"), 213);
       put(new CurrencyPair("FTC", "USD"), 6);
       put(new CurrencyPair("LTC", "USD"), 1);
     }

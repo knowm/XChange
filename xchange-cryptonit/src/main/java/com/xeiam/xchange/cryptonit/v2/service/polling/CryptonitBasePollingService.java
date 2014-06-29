@@ -36,29 +36,29 @@ public class CryptonitBasePollingService extends BaseExchangeService implements 
   CurrencyPair.LTC_BTC,
 
   CurrencyPair.NMC_BTC,
-  
+
   CurrencyPair.PPC_BTC,
-  
+
   CurrencyPair.TRC_BTC,
-  
+
   CurrencyPair.FTC_BTC,
-  
+
   CurrencyPair.BTC_EUR,
-  
+
   CurrencyPair.LTC_EUR,
-  
+
   CurrencyPair.NMC_EUR,
-  
-  new CurrencyPair("PPC","EUR"),
-  
+
+  new CurrencyPair("PPC", "EUR"),
+
   CurrencyPair.BTC_USD,
-  
+
   CurrencyPair.LTC_USD,
-  
+
   CurrencyPair.NMC_USD,
-  
+
   CurrencyPair.PPC_USD
-  
+
   );
 
   /**
