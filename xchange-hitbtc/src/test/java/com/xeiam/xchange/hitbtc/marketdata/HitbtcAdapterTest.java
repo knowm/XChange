@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.lakebtc;
+package com.xeiam.xchange.hitbtc.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -34,53 +34,50 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
-import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
-import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
-import com.xeiam.xchange.lakebtc.marketdata.LakeBTCMarketDataJsonTests;
+import com.xeiam.xchange.hitbtc.HitbtcAdapters;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 
-public class LakeBTCAdapterTests {
+public class HitbtcAdapterTest {
 
   @Test
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = HitbtcAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    LakeBTCTickers tickers = mapper.readValue(is, LakeBTCTickers.class);
+    HitbtcTicker ticker = mapper.readValue(is, HitbtcTicker.class);
+    Ticker adaptedTicker = HitbtcAdapters.adaptTicker(ticker, CurrencyPair.BTC_USD);
 
-    LakeBTCTicker cnyTicker = tickers.getCny();
-    Ticker adaptedTicker = LakeBTCAdapters.adaptTicker(cnyTicker, CurrencyPair.BTC_CNY);
-
-    assertThat(adaptedTicker.getAsk()).isEqualTo("3524.07");
-    assertThat(adaptedTicker.getBid()).isEqualTo("3517.13");
-    assertThat(adaptedTicker.getLow()).isEqualTo("3480.07");
-    assertThat(adaptedTicker.getHigh()).isEqualTo("3584.97");
-    assertThat(adaptedTicker.getLast()).isEqualTo("3524.07");
-    assertThat(adaptedTicker.getVolume()).isEqualTo("5964.7677");
-    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_CNY);
+    assertThat(adaptedTicker.getAsk()).isEqualTo("609.58");
+    assertThat(adaptedTicker.getBid()).isEqualTo("608.63");
+    assertThat(adaptedTicker.getLow()).isEqualTo("563.4");
+    assertThat(adaptedTicker.getHigh()).isEqualTo("621.81");
+    assertThat(adaptedTicker.getLast()).isEqualTo("609.24");
+    assertThat(adaptedTicker.getVolume()).isEqualTo("1232.17");
+    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
   @Test
   public void testAdaptOrderbook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
+    InputStream is = HitbtcAdapterTest.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    LakeBTCOrderBook orderBook = mapper.readValue(is, LakeBTCOrderBook.class);
+    HitbtcOrderBook orderBook = mapper.readValue(is, HitbtcOrderBook.class);
 
-    OrderBook adaptedOrderBook = LakeBTCAdapters.adaptOrderBook(orderBook, CurrencyPair.BTC_USD);
+    OrderBook adaptedOrderBook = HitbtcAdapters.adaptOrderBook(orderBook, CurrencyPair.BTC_USD);
 
     List<LimitOrder> asks = adaptedOrderBook.getAsks();
     assertThat(asks.size()).isEqualTo(3);
     LimitOrder order = asks.get(0);
-    assertThat(order.getLimitPrice()).isEqualTo("564.87");
-    assertThat(order.getTradableAmount()).isEqualTo("22.371");
+    assertThat(order.getLimitPrice()).isEqualTo("609.58");
+    assertThat(order.getTradableAmount()).isEqualTo("1.23");
     assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 }

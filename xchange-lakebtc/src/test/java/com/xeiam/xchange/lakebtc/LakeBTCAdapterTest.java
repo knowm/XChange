@@ -19,28 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.lakebtc.marketdata;
+package com.xeiam.xchange.lakebtc;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
+import com.xeiam.xchange.lakebtc.marketdata.LakeBTCMarketDataJsonTest;
 
-public class LakeBTCMarketDataJsonTests {
+public class LakeBTCAdapterTest {
 
   @Test
-  public void testDeserializeTicker() throws IOException {
+  public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = LakeBTCMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -48,41 +53,34 @@ public class LakeBTCMarketDataJsonTests {
     LakeBTCTickers tickers = mapper.readValue(is, LakeBTCTickers.class);
 
     LakeBTCTicker cnyTicker = tickers.getCny();
-    assertThat(cnyTicker.getAsk()).isEqualTo("3524.07");
-    assertThat(cnyTicker.getBid()).isEqualTo("3517.13");
-    assertThat(cnyTicker.getLast()).isEqualTo("3524.07");
-    assertThat(cnyTicker.getHigh()).isEqualTo("3584.97");
-    assertThat(cnyTicker.getLow()).isEqualTo("3480.07");
-    assertThat(cnyTicker.getVolume()).isEqualTo("5964.7677");
+    Ticker adaptedTicker = LakeBTCAdapters.adaptTicker(cnyTicker, CurrencyPair.BTC_CNY);
 
-    LakeBTCTicker usdTicker = tickers.getUsd();
-    assertThat(usdTicker.getAsk()).isEqualTo("564.63");
-    assertThat(usdTicker.getBid()).isEqualTo("564.63");
-    assertThat(usdTicker.getLast()).isEqualTo("564.4");
-    assertThat(usdTicker.getHigh()).isEqualTo("573.83");
-    assertThat(usdTicker.getLow()).isEqualTo("557.7");
-    assertThat(usdTicker.getVolume()).isEqualTo("3521.2782");
-
+    assertThat(adaptedTicker.getAsk()).isEqualTo("3524.07");
+    assertThat(adaptedTicker.getBid()).isEqualTo("3517.13");
+    assertThat(adaptedTicker.getLow()).isEqualTo("3480.07");
+    assertThat(adaptedTicker.getHigh()).isEqualTo("3584.97");
+    assertThat(adaptedTicker.getLast()).isEqualTo("3524.07");
+    assertThat(adaptedTicker.getVolume()).isEqualTo("5964.7677");
+    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_CNY);
   }
 
   @Test
-  public void testDeserializeOrderBook() throws IOException {
+  public void testAdaptOrderbook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = LakeBTCMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
+    InputStream is = LakeBTCMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-orderbook-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     LakeBTCOrderBook orderBook = mapper.readValue(is, LakeBTCOrderBook.class);
 
-    BigDecimal[][] asks = orderBook.getAsks();
-    assertThat(asks).hasSize(3);
-    assertThat(asks[0][0]).isEqualTo("564.87");
-    assertThat(asks[0][1]).isEqualTo("22.371");
+    OrderBook adaptedOrderBook = LakeBTCAdapters.adaptOrderBook(orderBook, CurrencyPair.BTC_USD);
 
-    BigDecimal[][] bids = orderBook.getBids();
-    assertThat(bids).hasSize(3);
-    assertThat(bids[2][0]).isEqualTo("558.08");
-    assertThat(bids[2][1]).isEqualTo("0.9878");
+    List<LimitOrder> asks = adaptedOrderBook.getAsks();
+    assertThat(asks.size()).isEqualTo(3);
+    LimitOrder order = asks.get(0);
+    assertThat(order.getLimitPrice()).isEqualTo("564.87");
+    assertThat(order.getTradableAmount()).isEqualTo("22.371");
+    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 }

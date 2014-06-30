@@ -60,8 +60,8 @@ public final class ItBitAdapters {
     for (int i = 0; i < trades.length; i++) {
       ItBitTrade trade = trades[i];
       long tradeId = trade.getTid();
-      if(tradeId > lastTradeId)
-    	  lastTradeId = tradeId;
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);

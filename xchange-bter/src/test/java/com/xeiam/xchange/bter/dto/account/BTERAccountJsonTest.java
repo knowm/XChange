@@ -33,13 +33,13 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 
-public class BTERAccountJsonTests {
+public class BTERAccountJsonTest {
 
   @Test
   public void testDeserializeFunds() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERAccountJsonTests.class.getResourceAsStream("/account/example-funds-data.json");
+    InputStream is = BTERAccountJsonTest.class.getResourceAsStream("/account/example-funds-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -46,13 +46,13 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
 
-public class KrakenTradeJsonTests {
+public class KrakenTradeJsonTest {
 
   @Test
   public void testOrderUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTests.class.getResourceAsStream("/trading/example-openorders-data.json");
+    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-openorders-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -82,7 +82,7 @@ public class KrakenTradeJsonTests {
   public void testTradeHistoryUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTests.class.getResourceAsStream("/trading/example-tradehistory-data.json");
+    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-tradehistory-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -108,7 +108,7 @@ public class KrakenTradeJsonTests {
   public void testCancelOrderUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTests.class.getResourceAsStream("/trading/example-cancelorder-data.json");
+    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-cancelorder-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -123,7 +123,7 @@ public class KrakenTradeJsonTests {
   public void testAddOrderResponseUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = KrakenTradeJsonTests.class.getResourceAsStream("/trading/example-addorder-response-data.json");
+    InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-addorder-response-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

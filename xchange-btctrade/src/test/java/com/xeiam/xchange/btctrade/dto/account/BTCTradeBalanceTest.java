@@ -40,9 +40,8 @@ public class BTCTradeBalanceTest {
 
   @Test
   public void testError() throws IOException {
-    BTCTradeBalance balance = mapper.readValue(
-        getClass().getResource("balance-signature-error.json"),
-        BTCTradeBalance.class);
+
+    BTCTradeBalance balance = mapper.readValue(getClass().getResource("balance-signature-error.json"), BTCTradeBalance.class);
     assertNotNull(balance.getResult());
     assertEquals("signature error", balance.getMessage());
     assertFalse(balance.isSuccess());
@@ -50,8 +49,8 @@ public class BTCTradeBalanceTest {
 
   @Test
   public void testUnmarshalBalance() throws IOException {
-    BTCTradeBalance balance = mapper.readValue(
-        getClass().getResource("balance.json"), BTCTradeBalance.class);
+
+    BTCTradeBalance balance = mapper.readValue(getClass().getResource("balance.json"), BTCTradeBalance.class);
     assertNull(balance.getResult());
     assertNull(balance.getMessage());
     assertTrue(balance.isSuccess());

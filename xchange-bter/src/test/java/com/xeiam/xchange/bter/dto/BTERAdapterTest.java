@@ -57,7 +57,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 
-public class BTERAdapterTests {
+public class BTERAdapterTest {
 
   Collection<CurrencyPair> currencyPairs;
 
@@ -65,7 +65,7 @@ public class BTERAdapterTests {
   public void before() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERAdapterTests.class.getResourceAsStream("/marketdata/example-pairs-data.json");
+    InputStream is = BTERAdapterTest.class.getResourceAsStream("/marketdata/example-pairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -78,7 +78,7 @@ public class BTERAdapterTests {
   public void testAdaptOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERAdapterTests.class.getResourceAsStream("/trade/example-order-list-data.json");
+    InputStream is = BTERAdapterTest.class.getResourceAsStream("/trade/example-order-list-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -95,13 +95,13 @@ public class BTERAdapterTests {
     assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
     assertThat(adaptedOrder.getId()).isEqualTo("12941907");
     assertThat(adaptedOrder.getTimestamp()).isNull();
-    assertThat(adaptedOrder.getLimitPrice()).isEqualTo(new BigDecimal("0.010176").divide(new BigDecimal("0.384"), RoundingMode.HALF_EVEN));
+    assertThat(adaptedOrder.getLimitPrice().doubleValue()).isEqualTo(new BigDecimal("0.010176").divide(new BigDecimal("0.384"), RoundingMode.HALF_EVEN).doubleValue());
   }
 
   @Test
   public void testAdaptTrades() throws IOException {
 
-    InputStream is = BTERAdapterTests.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = BTERAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -126,7 +126,7 @@ public class BTERAdapterTests {
   public void testAdaptAccountInfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERAdapterTests.class.getResourceAsStream("/account/example-funds-data.json");
+    InputStream is = BTERAdapterTest.class.getResourceAsStream("/account/example-funds-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -142,7 +142,7 @@ public class BTERAdapterTests {
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERAdapterTests.class.getResourceAsStream("/marketdata/example-tickers-data.json");
+    InputStream is = BTERAdapterTest.class.getResourceAsStream("/marketdata/example-tickers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -163,7 +163,7 @@ public class BTERAdapterTests {
   public void testAdaptOrderBook() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERAdapterTests.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = BTERAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

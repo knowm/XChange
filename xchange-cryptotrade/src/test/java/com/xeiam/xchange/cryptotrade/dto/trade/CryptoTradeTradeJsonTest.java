@@ -37,13 +37,13 @@ import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrde
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades.CryptoTradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 
-public class CryptoTradeTradeJsonTests {
+public class CryptoTradeTradeJsonTest {
 
   @Test
   public void testDeserializePlacedOrderData() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-placed-order-return-data.json");
+    InputStream is = CryptoTradeTradeJsonTest.class.getResourceAsStream("/trade/example-placed-order-return-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -65,7 +65,7 @@ public class CryptoTradeTradeJsonTests {
   public void testDeserializeCancelledOrderData() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-cancel-order-return-data.json");
+    InputStream is = CryptoTradeTradeJsonTest.class.getResourceAsStream("/trade/example-cancel-order-return-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -86,7 +86,7 @@ public class CryptoTradeTradeJsonTests {
   public void testDeserializeTradeHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-trade-history-data.json");
+    InputStream is = CryptoTradeTradeJsonTest.class.getResourceAsStream("/trade/example-trade-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -109,7 +109,7 @@ public class CryptoTradeTradeJsonTests {
   public void testDeserializeOrderHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-order-history-data.json");
+    InputStream is = CryptoTradeTradeJsonTest.class.getResourceAsStream("/trade/example-order-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

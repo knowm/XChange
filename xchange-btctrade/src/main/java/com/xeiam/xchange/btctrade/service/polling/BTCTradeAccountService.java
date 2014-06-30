@@ -29,13 +29,13 @@ import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
-public class BTCTradeAccountService extends BTCTradeAccountServiceRaw
-  implements PollingAccountService {
+public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements PollingAccountService {
 
   /**
    * @param exchangeSpecification
    */
   public BTCTradeAccountService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
   }
 
@@ -44,6 +44,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw
    */
   @Override
   public AccountInfo getAccountInfo() {
+
     return BTCTradeAdapters.adaptAccountInfo(getBTCTradeBalance());
   }
 
@@ -52,6 +53,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw
    */
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) {
+
     throw new NotAvailableFromExchangeException();
   }
 
@@ -60,6 +62,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw
    */
   @Override
   public String requestDepositAddress(String currency, String... args) {
+
     return BTCTradeAdapters.adaptDepositAddress(getBTCTradeWallet());
   }
 

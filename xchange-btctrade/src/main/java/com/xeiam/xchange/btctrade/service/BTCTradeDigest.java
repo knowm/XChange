@@ -39,10 +39,12 @@ public class BTCTradeDigest extends BaseParamsDigest {
   private static final Charset CHARSET = Charset.forName(ENCODING);
 
   public static BTCTradeDigest createInstance(String secret) {
+
     return new BTCTradeDigest(secret.getBytes(CHARSET));
   }
 
   private BTCTradeDigest(byte[] secretKeyBase64) {
+
     super(secretKeyBase64, HMAC_SHA_256);
   }
 
@@ -51,6 +53,7 @@ public class BTCTradeDigest extends BaseParamsDigest {
    */
   @Override
   public String digestParams(RestInvocation restInvocation) {
+
     Params params = restInvocation.getParamsMap().get(FormParam.class);
     Map<String, String> nameValues = params.asHttpHeaders();
     nameValues.remove("signature");

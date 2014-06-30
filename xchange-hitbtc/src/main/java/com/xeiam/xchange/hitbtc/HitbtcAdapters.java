@@ -136,13 +136,13 @@ public class HitbtcAdapters {
     long lastTradeId = 0;
     for (int i = 0; i < allHitbtcTrades.length; i++) {
       HitbtcTrade hitbtcTrade = allHitbtcTrades[i];
-     
+
       Date timestamp = new Date(hitbtcTrade.getDate());
       BigDecimal price = hitbtcTrade.getPrice();
       BigDecimal amount = hitbtcTrade.getAmount();
       String tid = hitbtcTrade.getTid();
       long longTradeId = Long.valueOf(tid);
-      if (longTradeId > lastTradeId) 
+      if (longTradeId > lastTradeId)
         lastTradeId = longTradeId;
       Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid, tid);
       trades.add(trade);

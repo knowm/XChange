@@ -76,7 +76,7 @@ public class CryptonitMarketDataService extends CryptonitMarketDataServiceRaw im
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-	CryptonitOrders cryptonitTrades = getCryptonitTrades(currencyPair, 1000);
+    CryptonitOrders cryptonitTrades = getCryptonitTrades(currencyPair, 1000);
 
     // Adapt to XChange DTOs
     return CryptonitAdapters.adaptTrades(cryptonitTrades, currencyPair);

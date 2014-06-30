@@ -43,13 +43,13 @@ import com.xeiam.xchange.utils.DateUtils;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseAccountJsonTests {
+public class CoinbaseAccountJsonTest {
 
   @Test
   public void testDeserializeAccountChanges() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-account-changes-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-account-changes-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -90,7 +90,7 @@ public class CoinbaseAccountJsonTests {
   public void testDeserializeUsers() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-users-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-users-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -120,7 +120,7 @@ public class CoinbaseAccountJsonTests {
   public void testDeserializeBalance() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-balance-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-balance-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -133,7 +133,7 @@ public class CoinbaseAccountJsonTests {
   public void testDeserializeAddresses() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-addresses-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-addresses-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -163,7 +163,7 @@ public class CoinbaseAccountJsonTests {
   public void testDeserializeContacts() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-contacts-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-contacts-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -184,7 +184,7 @@ public class CoinbaseAccountJsonTests {
   public void testDeserializeTransactions() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-transactions-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-transactions-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -220,7 +220,7 @@ public class CoinbaseAccountJsonTests {
   public void testDeserializeRecurringPayments() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseAccountJsonTests.class.getResourceAsStream("/account/example-recurring-payments-data.json");
+    InputStream is = CoinbaseAccountJsonTest.class.getResourceAsStream("/account/example-recurring-payments-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

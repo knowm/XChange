@@ -31,24 +31,28 @@ public class BTCTradeMarketDataServiceRaw extends BTCTradeBasePollingService {
   /**
    * @param exchangeSpecification
    */
-  protected BTCTradeMarketDataServiceRaw(
-      ExchangeSpecification exchangeSpecification) {
+  protected BTCTradeMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
   }
 
   public BTCTradeTicker getBTCTradeTicker() {
+
     return btcTrade.getTicker();
   }
 
   public BTCTradeDepth getBTCTradeDepth() {
+
     return btcTrade.getDepth();
   }
 
   public BTCTradeTrade[] getBTCTradeTrades() {
+
     return btcTrade.getTrades();
   }
 
   public BTCTradeTrade[] getBTCTradeTrades(long since) {
+
     return btcTrade.getTrades(since);
   }
 

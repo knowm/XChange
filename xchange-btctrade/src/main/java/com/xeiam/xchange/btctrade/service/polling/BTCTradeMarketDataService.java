@@ -30,13 +30,13 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw
-  implements PollingMarketDataService {
+public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * @param exchangeSpecification
    */
   public BTCTradeMarketDataService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
   }
 
@@ -45,6 +45,7 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw
    */
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) {
+
     return BTCTradeAdapters.adaptTicker(getBTCTradeTicker(), currencyPair);
   }
 
@@ -53,6 +54,7 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) {
+
     return BTCTradeAdapters.adaptOrderBook(getBTCTradeDepth(), currencyPair);
   }
 
@@ -61,10 +63,12 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) {
+
     final BTCTradeTrade[] trades;
     if (args.length == 0) {
       trades = getBTCTradeTrades();
-    } else {
+    }
+    else {
       trades = getBTCTradeTrades(toLong(args[0]));
     }
     return BTCTradeAdapters.adaptTrades(trades, currencyPair);

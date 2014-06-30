@@ -34,13 +34,13 @@ import com.xeiam.xchange.bter.dto.BTEROrderType;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 
-public class BTERTradeJsonTests {
+public class BTERTradeJsonTest {
 
   @Test
   public void testDeserializeOrderList() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERTradeJsonTests.class.getResourceAsStream("/trade/example-order-list-data.json");
+    InputStream is = BTERTradeJsonTest.class.getResourceAsStream("/trade/example-order-list-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -64,7 +64,7 @@ public class BTERTradeJsonTests {
   public void testDeserializeOrderResult() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERTradeJsonTests.class.getResourceAsStream("/trade/example-order-result-data.json");
+    InputStream is = BTERTradeJsonTest.class.getResourceAsStream("/trade/example-order-result-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -79,7 +79,7 @@ public class BTERTradeJsonTests {
   public void testDeserializeOrderStatus() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERTradeJsonTests.class.getResourceAsStream("/trade/example-order-status-data.json");
+    InputStream is = BTERTradeJsonTest.class.getResourceAsStream("/trade/example-order-status-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

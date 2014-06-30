@@ -34,13 +34,13 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class BTCTradeTradeService extends BTCTradeTradeServiceRaw
-  implements PollingTradeService {
+public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements PollingTradeService {
 
   /**
    * @param exchangeSpecification
    */
   public BTCTradeTradeService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
   }
 
@@ -49,8 +49,8 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw
    */
   @Override
   public OpenOrders getOpenOrders() {
-    return BTCTradeAdapters.adaptOpenOrders(
-        getBTCTradeOrders(0, "open"), CurrencyPair.BTC_CNY);
+
+    return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"), CurrencyPair.BTC_CNY);
   }
 
   /**
@@ -58,6 +58,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw
    */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
+
     throw new NotAvailableFromExchangeException();
   }
 
@@ -66,10 +67,12 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw
    */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) {
+
     final BTCTradePlaceOrderResult result;
     if (limitOrder.getType() == OrderType.BID) {
       result = buy(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-    } else {
+    }
+    else {
       result = sell(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
     return BTCTradeAdapters.adaptPlaceOrderResult(result);
@@ -80,6 +83,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw
    */
   @Override
   public boolean cancelOrder(String orderId) {
+
     BTCTradeResult result = cancelBTCTradeOrder(orderId);
     return BTCTradeAdapters.adaptResult(result);
   }
@@ -89,9 +93,9 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw
    */
   @Override
   public Trades getTradeHistory(Object... arguments) {
+
     long since = arguments.length > 0 ? toLong(arguments[0]) : 0L;
-    return BTCTradeAdapters.adaptTrades(
-        getBTCTradeOrders(since, "all"), CurrencyPair.BTC_CNY);
+    return BTCTradeAdapters.adaptTrades(getBTCTradeOrders(since, "all"), CurrencyPair.BTC_CNY);
   }
 
 }

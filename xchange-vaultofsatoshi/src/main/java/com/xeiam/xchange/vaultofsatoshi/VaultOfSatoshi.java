@@ -51,6 +51,7 @@ public interface VaultOfSatoshi {
 
   @GET
   @Path("recent_transactions")
-  public TradesWrapper getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency, @QueryParam("since_id") Long sinceId, @QueryParam("count") int count) throws IOException;
+  public TradesWrapper getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency, @QueryParam("since_id") Long sinceId,
+      @QueryParam("count") int count) throws IOException;
 
 }

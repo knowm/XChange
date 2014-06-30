@@ -13,20 +13,20 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 
 public class BitcurexAccountJSONTest {
 
-	  @Test
-	  public void testUnmarshal() throws IOException {
+  @Test
+  public void testUnmarshal() throws IOException {
 
-	    // Read in the JSON from the example resources
-	    InputStream is = BitcurexAccountJSONTest.class.getResourceAsStream("/marketdata/example-funds-data.json");
+    // Read in the JSON from the example resources
+    InputStream is = BitcurexAccountJSONTest.class.getResourceAsStream("/marketdata/example-funds-data.json");
 
-	    // Use Jackson to parse it
-	    ObjectMapper mapper = new ObjectMapper();
-	    BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
 
-	    // Verify that the example data was unmarshalled correctly
-	    assertThat(bitcurexFunds.getAddress().equals( "1ABcdEfgKEqBPMQ6D2ocuYNJNsXgKPcfV7" ) );
-	    assertThat(bitcurexFunds.getBtcs().compareTo(new BigDecimal("2.59033845")) == 0);
-	    assertThat(bitcurexFunds.getEurs().compareTo(new BigDecimal("6160.06838790")) == 0);
-	}
+    // Verify that the example data was unmarshalled correctly
+    assertThat(bitcurexFunds.getAddress().equals("1ABcdEfgKEqBPMQ6D2ocuYNJNsXgKPcfV7"));
+    assertThat(bitcurexFunds.getBtcs().compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(bitcurexFunds.getEurs().compareTo(new BigDecimal("6160.06838790")) == 0);
+  }
 
 }

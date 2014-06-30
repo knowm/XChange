@@ -41,13 +41,13 @@ import com.xeiam.xchange.utils.DateUtils;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseMarketDataJsonTests {
+public class CoinbaseMarketDataJsonTest {
 
   @Test
   public void testDeserializeExchangeRates() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-exchange-rate-data.json");
+    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-exchange-rate-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -64,7 +64,7 @@ public class CoinbaseMarketDataJsonTests {
   public void testDeserializeCurrencies() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-currencies-data.json");
+    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-currencies-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -82,7 +82,7 @@ public class CoinbaseMarketDataJsonTests {
   public void testDeserializePrice() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-price-data.json");
+    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-price-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -98,7 +98,7 @@ public class CoinbaseMarketDataJsonTests {
   public void testDeserializeSpotRateHistory() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CoinbaseMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
+    InputStream is = CoinbaseMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
     String spotPriceHistoryString;
     Scanner scanner = null;
     try {
@@ -108,9 +108,7 @@ public class CoinbaseMarketDataJsonTests {
       scanner.close();
     }
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    CoinbaseSpotPriceHistory spotPriceHistory = mapper.readValue(spotPriceHistoryString, CoinbaseSpotPriceHistory.class);
+    CoinbaseSpotPriceHistory spotPriceHistory = CoinbaseSpotPriceHistory.fromRawString(spotPriceHistoryString);
 
     List<CoinbaseHistoricalSpotPrice> spotPriceHistoryList = spotPriceHistory.getSpotPriceHistory();
     assertThat(spotPriceHistoryList.size()).isEqualTo(10);

@@ -37,7 +37,7 @@ import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
-import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTradeJsonTests;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTradeJsonTest;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -51,13 +51,13 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
-public class CryptoTradeAdapterTests {
+public class CryptoTradeAdapterTest {
 
   @Test
   public void testAdaptTicker() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeAdapterTests.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CryptoTradeAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -79,7 +79,7 @@ public class CryptoTradeAdapterTests {
   public void testAdaptDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeAdapterTests.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = CryptoTradeAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -106,7 +106,7 @@ public class CryptoTradeAdapterTests {
   public void testAdaptAccountInfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeAdapterTests.class.getResourceAsStream("/account/example-account-info-data.json");
+    InputStream is = CryptoTradeAdapterTest.class.getResourceAsStream("/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -128,7 +128,7 @@ public class CryptoTradeAdapterTests {
   public void testAdaptOpenOrders() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeAdapterTests.class.getResourceAsStream("/trade/example-order-history-data.json");
+    InputStream is = CryptoTradeAdapterTest.class.getResourceAsStream("/trade/example-order-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -152,7 +152,7 @@ public class CryptoTradeAdapterTests {
   public void testAdaptTrades() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptoTradeTradeJsonTests.class.getResourceAsStream("/trade/example-trade-history-data.json");
+    InputStream is = CryptoTradeTradeJsonTest.class.getResourceAsStream("/trade/example-trade-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

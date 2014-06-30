@@ -37,13 +37,13 @@ import com.xeiam.xchange.bter.dto.BTEROrderType;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 
-public class BTERMarketDataJsonTests {
+public class BTERMarketDataJsonTest {
 
   @Test
   public void testDeserializeCurrencyPairs() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-pairs-data.json");
+    InputStream is = BTERMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-pairs-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -59,7 +59,7 @@ public class BTERMarketDataJsonTests {
   public void testDeserializeTickers() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-tickers-data.json");
+    InputStream is = BTERMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-tickers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -86,7 +86,7 @@ public class BTERMarketDataJsonTests {
   public void testDeserializeDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = BTERMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -106,7 +106,7 @@ public class BTERMarketDataJsonTests {
   public void testDeserializeTrades() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTERMarketDataJsonTests.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = BTERMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -113,7 +113,7 @@ public final class BitfinexAdapters {
     long lastTradeId = 0;
     for (BitfinexTrade trade : trades) {
       long tradeId = trade.getTradeId();
-      if (tradeId > lastTradeId) 
+      if (tradeId > lastTradeId)
         lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }

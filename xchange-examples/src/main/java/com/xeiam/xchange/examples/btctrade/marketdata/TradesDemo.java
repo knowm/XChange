@@ -39,58 +39,46 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 public class TradesDemo {
 
   public static void main(String[] args) throws IOException {
+
     // Use the factory to get BTCTrade exchange API using the default settings.
-    Exchange btcTrade = ExchangeFactory.INSTANCE.createExchange(
-        BTCTradeExchange.class.getName());
+    Exchange btcTrade = ExchangeFactory.INSTANCE.createExchange(BTCTradeExchange.class.getName());
     generic(btcTrade);
     raw(btcTrade);
   }
 
   private static void generic(Exchange exchange) throws IOException {
+
     // Interested in the public polling market data feed (no authentication).
-    PollingMarketDataService marketDataService =
-        exchange.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest 500 trade data for BTC/CNY.
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY);
     System.out.println(trades);
-    System.out.println("Trades count: " + trades.getTrades().size()
-        + ", LastID: " + trades.getlastID());
+    System.out.println("Trades count: " + trades.getTrades().size() + ", LastID: " + trades.getlastID());
 
     // Get 500 trades which tid > 0
     trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, 0);
     System.out.println(trades);
-    System.out.println("Trades count: " + trades.getTrades().size()
-        + ", LastID: " + trades.getlastID());
+    System.out.println("Trades count: " + trades.getTrades().size() + ", LastID: " + trades.getlastID());
   }
 
   private static void raw(Exchange exchange) {
+
     // Interested in the public polling market data feed (no authentication).
-    BTCTradeMarketDataServiceRaw marketDataService =
-        (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest 500 trade data for BTC/CNY.
     BTCTradeTrade[] trades = marketDataService.getBTCTradeTrades();
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
-      System.out.println(
-          trade.getTid() + "\t"
-          + new Date(trade.getDate() * 1000) + "\t"
-          + trade.getType() + "\t"
-          + trade.getPrice() + "\t"
-          + trade.getAmount());
+      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
     }
 
     // Get 500 trades which tid > 0
     trades = marketDataService.getBTCTradeTrades(0);
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
-      System.out.println(
-          trade.getTid() + "\t"
-              + new Date(trade.getDate() * 1000) + "\t"
-              + trade.getType() + "\t"
-              + trade.getPrice() + "\t"
-              + trade.getAmount());
+      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
     }
   }
 

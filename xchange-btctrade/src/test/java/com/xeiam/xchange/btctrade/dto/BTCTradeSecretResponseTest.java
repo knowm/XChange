@@ -39,9 +39,8 @@ public class BTCTradeSecretResponseTest {
 
   @Test
   public void testError() throws IOException {
-    BTCTradeSecretResponse response = mapper.readValue(
-        getClass().getResource("secret-error.json"),
-        BTCTradeSecretResponse.class);
+
+    BTCTradeSecretResponse response = mapper.readValue(getClass().getResource("secret-error.json"), BTCTradeSecretResponse.class);
     assertNotNull(response.getResult());
     assertEquals("parameter error", response.getMessage());
     assertNull(response.getData());
@@ -50,13 +49,11 @@ public class BTCTradeSecretResponseTest {
 
   @Test
   public void testReadonly() throws IOException {
-    BTCTradeSecretResponse response = mapper.readValue(
-        getClass().getResource("secret-readonly.json"),
-        BTCTradeSecretResponse.class);
+
+    BTCTradeSecretResponse response = mapper.readValue(getClass().getResource("secret-readonly.json"), BTCTradeSecretResponse.class);
     assertNotNull(response.getResult());
     assertTrue(response.isSuccess());
-    assertEquals("020f4c12f43740c46bac1265d9145634c01b63c0",
-        response.getData().getSecret());
+    assertEquals("020f4c12f43740c46bac1265d9145634c01b63c0", response.getData().getSecret());
     assertEquals("1", response.getData().getId());
     assertEquals("1", response.getData().getUid());
     assertEquals("readonly", response.getData().getLevel());
@@ -65,12 +62,10 @@ public class BTCTradeSecretResponseTest {
 
   @Test
   public void testFull() throws IOException {
-    BTCTradeSecretResponse response = mapper.readValue(
-        getClass().getResource("secret-full.json"),
-        BTCTradeSecretResponse.class);
+
+    BTCTradeSecretResponse response = mapper.readValue(getClass().getResource("secret-full.json"), BTCTradeSecretResponse.class);
     assertTrue(response.getResult());
-    assertEquals("04819314e59950d2b6c41faedd1291162739e8b8",
-        response.getData().getSecret());
+    assertEquals("04819314e59950d2b6c41faedd1291162739e8b8", response.getData().getSecret());
     assertEquals("2", response.getData().getId());
     assertEquals("1", response.getData().getUid());
     assertEquals("full", response.getData().getLevel());
