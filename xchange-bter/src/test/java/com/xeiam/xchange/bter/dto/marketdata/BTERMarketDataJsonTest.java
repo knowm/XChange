@@ -76,8 +76,8 @@ public class BTERMarketDataJsonTest {
     assertThat(ticker.getAvg()).isEqualTo("3456.54");
     assertThat(ticker.getSell()).isEqualTo("3400.17");
     assertThat(ticker.getBuy()).isEqualTo("3400.01");
-    assertThat(ticker.getTradeCurrencyVolume()).isEqualTo("347.2045");
-    assertThat(ticker.getPriceCurrencyVolume()).isEqualTo("1200127.03");
+    assertThat(ticker.getVolume("BTC")).isEqualTo("347.2045");
+    assertThat(ticker.getVolume("CNY")).isEqualTo("1200127.03");
 
     assertThat(ticker.isResult()).isTrue();
   }
