@@ -43,31 +43,32 @@ import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalR
  *         </ul>
  */
 public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChina> {
-
+  
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCChinaAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
-
+  
     super(BTCChina.class, exchangeSpecification);
   }
-
+  
   public BTCChinaResponse<BTCChinaAccountInfo> getBTCChinaAccountInfo() throws IOException {
-
-    return btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
+  
+    return checkResult(btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest()));
   }
-
+  
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {
-
-    return btcChina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount));
+  
+    return checkResult(btcChina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount)));
   }
-
+  
   public String requestBTCChinaBitcoinDepositAddress() throws IOException {
-
-    BTCChinaResponse<BTCChinaAccountInfo> response = btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest());
-
+  
+    BTCChinaResponse<BTCChinaAccountInfo> response =
+        checkResult(btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest()));
+    
     return response.getResult().getProfile().getBtcDepositAddress();
   }
 }
