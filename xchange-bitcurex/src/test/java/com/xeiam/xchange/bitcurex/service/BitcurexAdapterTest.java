@@ -116,7 +116,7 @@ public class BitcurexAdapterTest {
   public void testAccountFundsAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcurexAccountJSONTest.class.getResourceAsStream("/marketdata/example-funds-data.json");
+    InputStream is = BitcurexAccountJSONTest.class.getResourceAsStream("/marketdata/example-funds-eur-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -127,6 +127,24 @@ public class BitcurexAdapterTest {
 
     assertThat(accountInfo.getBalance("BTC").compareTo( new BigDecimal("2.59033845"))==0);
     assertThat(accountInfo.getBalance("EUR").compareTo( new BigDecimal("6160.06838790"))==0);
+    assertThat(accountInfo.getUsername().toString()).isEqualTo("demo");
+  }
+
+  @Test
+  public void testAccountFundsPLNAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitcurexAccountJSONTest.class.getResourceAsStream("/marketdata/example-funds-pln-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
+
+    AccountInfo accountInfo = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
+    System.out.println(accountInfo.toString());
+
+    assertThat(accountInfo.getBalance("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(accountInfo.getBalance("PLN").compareTo(new BigDecimal("6160.06838790")) == 0);
     assertThat(accountInfo.getUsername().toString()).isEqualTo("demo");
   }
 
