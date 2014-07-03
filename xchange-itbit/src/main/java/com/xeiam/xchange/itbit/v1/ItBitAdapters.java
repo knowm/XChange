@@ -22,7 +22,6 @@
 package com.xeiam.xchange.itbit.v1;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
