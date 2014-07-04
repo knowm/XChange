@@ -1,7 +1,6 @@
 package com.xeiam.xchange.itbit.v1.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,15 +13,16 @@ public class ItBitOrder {
   private final String currency;
   private final String type;
   private final String status;
-  private final Date createdTime;
+  private final String createdTime;
   private final BigDecimal amountFilled;
   private final BigDecimal price;
   private final BigDecimal amount;
 
   public ItBitOrder(@JsonProperty("id") String id, @JsonProperty("walletId") String walletId, @JsonProperty("side") String side, @JsonProperty("instrument") String instrument,
       @JsonProperty("currency") String currency, @JsonProperty("type") String type, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amountFilled") BigDecimal amountFilled, @JsonProperty("createdTime") Date createdTime, @JsonProperty("status") String status) {
+      @JsonProperty("amountFilled") BigDecimal amountFilled, @JsonProperty("createdTime") String createdTime, @JsonProperty("status") String status) {
 
+	  
     this.id = id;
     this.walletId = walletId;
     this.side = side;
@@ -71,7 +71,7 @@ public class ItBitOrder {
     return status;
   }
 
-  public Date getCreatedTime() {
+  public String getCreatedTime() {
 
     return createdTime;
   }

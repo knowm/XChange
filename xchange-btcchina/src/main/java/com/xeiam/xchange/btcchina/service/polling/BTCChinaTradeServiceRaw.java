@@ -21,6 +21,8 @@
  */
 package com.xeiam.xchange.btcchina.service.polling;
 
+import static com.xeiam.xchange.btcchina.BTCChinaUtils.getNonce;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 
@@ -31,10 +33,12 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -59,7 +63,34 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   
     super(BTCChina.class, exchangeSpecification);
   }
-  
+
+  /**
+   * Get order status.
+   *
+   * @param id the order id.
+   * @return order status.
+   * @throws IOException indicates I/O exception.
+   */
+  public BTCChinaGetOrderResponse getBTCChinaOrder(long id) throws IOException {
+    BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id);
+    BTCChinaGetOrderResponse returnObject = btcChina.getOrder(signatureCreator, getNonce(), request);
+    return checkResult(returnObject);
+  }
+
+  /**
+   * Get order status.
+   *
+   * @param id the order id.
+   * @param market BTCCNY | LTCCNY | LTCBTC
+   * @return order status.
+   * @throws IOException indicates I/O exception.
+   */
+  public BTCChinaGetOrderResponse getBTCChinaOrder(long id, String market) throws IOException {
+    BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id, market);
+    BTCChinaGetOrderResponse returnObject = btcChina.getOrder(signatureCreator, getNonce(), request);
+    return checkResult(returnObject);
+  }
+
   /**
    * @return Set of BTCChina Orders
    * @throws IOException
