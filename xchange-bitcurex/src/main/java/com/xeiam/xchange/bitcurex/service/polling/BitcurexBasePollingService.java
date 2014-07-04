@@ -24,7 +24,11 @@ package com.xeiam.xchange.bitcurex.service.polling;
 import java.util.Arrays;
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitcurex.Bitcurex;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -33,6 +37,9 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  * @author timmolter
  */
 public class BitcurexBasePollingService extends BaseExchangeService implements BasePollingService {
+	
+  protected Bitcurex bitcurexEUR;
+  protected Bitcurex bitcurexPLN;
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
@@ -50,6 +57,14 @@ public class BitcurexBasePollingService extends BaseExchangeService implements B
   public BitcurexBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    
+	  bitcurexPLN = RestProxyFactory.createProxy(Bitcurex.class, "https://pln.bitcurex.com");
+	  bitcurexEUR = RestProxyFactory.createProxy(Bitcurex.class, "https://eur.bitcurex.com");
+  }
+  
+  public void verify(String currency) throws ExchangeException {
+	  if(!currency.equalsIgnoreCase("EUR") && !currency.equalsIgnoreCase("PLN"))
+		  throw new ExchangeException("Invalid currency: " + currency);
   }
 
   @Override
@@ -57,4 +72,5 @@ public class BitcurexBasePollingService extends BaseExchangeService implements B
 
     return CURRENCY_PAIRS;
   }
+  
 }
