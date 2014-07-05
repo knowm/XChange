@@ -53,21 +53,21 @@ public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
 	  
 	  verify(currency);
 	  
-	  return currency.equalsIgnoreCase("EUR") ? bitcurexEUR.getTicker() : bitcurexPLN.getTicker();
+	  return bitcurex.getTicker();
   }
 
   public BitcurexDepth getBitcurexOrderBook(String currency) throws IOException, ExchangeException {
 	  
 	  verify(currency);
 	  
-	  return currency.equalsIgnoreCase("EUR") ? bitcurexEUR.getFullDepth() : bitcurexPLN.getFullDepth();
+	  return bitcurex.getFullDepth();
   }
 
   public BitcurexTrade[] getBitcurexTrades(String currency) throws IOException, ExchangeException {
 	  
 	  verify(currency);
 	  
-	  return currency.equalsIgnoreCase("EUR") ? bitcurexEUR.getTrades() : bitcurexPLN.getTrades();
+	  return bitcurex.getTrades();
   }
 
 }

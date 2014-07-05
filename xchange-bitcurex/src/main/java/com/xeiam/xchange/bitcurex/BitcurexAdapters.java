@@ -23,7 +23,6 @@ package com.xeiam.xchange.bitcurex;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -156,10 +155,18 @@ public final class BitcurexAdapters {
   public static AccountInfo adaptAccountInfo(BitcurexFunds funds, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet eurWallet = new Wallet(Currencies.EUR, funds.getEurs());
-    Wallet btcWallet = new Wallet(Currencies.BTC, funds.getBtcs());
+    List<Wallet>wallets = new ArrayList<Wallet>(2);
+    wallets.add(new Wallet(Currencies.BTC, funds.getBtcs()));
 
-    return new AccountInfo(userName, null, Arrays.asList(eurWallet, btcWallet));
+    BigDecimal eur = funds.getEurs();
+    if (eur != null)
+      wallets.add(new Wallet(Currencies.EUR, eur));
+
+    BigDecimal pln = funds.getPlns();
+    if (pln != null)
+      wallets.add(new Wallet(Currencies.PLN, pln));
+
+    return new AccountInfo( userName, null, wallets);
   }
 
 }
