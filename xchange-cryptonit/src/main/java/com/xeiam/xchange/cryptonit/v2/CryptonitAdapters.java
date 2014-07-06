@@ -22,10 +22,7 @@
 package com.xeiam.xchange.cryptonit.v2;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrder;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
@@ -97,6 +94,7 @@ public final class CryptonitAdapters {
             .valueOf(trade.getKey())));
       }
     }
+    Collections.sort(limitOrders);
 
     return limitOrders;
   }

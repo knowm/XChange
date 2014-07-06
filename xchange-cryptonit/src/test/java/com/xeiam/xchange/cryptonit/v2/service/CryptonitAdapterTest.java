@@ -22,12 +22,14 @@
 package com.xeiam.xchange.cryptonit.v2.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,9 +64,9 @@ public class CryptonitAdapterTest {
     List<LimitOrder> asks = CryptonitAdapters.adaptOrders(cryptonitTrades, CurrencyPair.BTC_USD, "ask", "");
 
     // Verify all fields filled
-    assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(700.0);
+    assertEquals(new BigDecimal("604.449"), asks.get(0).getLimitPrice().stripTrailingZeros());
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(0.00100);
+    assertEquals(new BigDecimal("0.16029"), asks.get(0).getTradableAmount().stripTrailingZeros());
     assertThat(asks.get(0).getCurrencyPair().baseSymbol).isEqualTo("BTC");
     assertThat(asks.get(0).getCurrencyPair().counterSymbol).isEqualTo("USD");
 
