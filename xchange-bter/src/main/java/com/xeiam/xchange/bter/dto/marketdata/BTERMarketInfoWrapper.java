@@ -129,6 +129,9 @@ public class BTERMarketInfoWrapper {
 
             marketInfoMap.put(currencyPair, marketInfoObject);
           }
+          else {
+            throw new ExchangeException("Invalid market info response received from BTER." + marketsNodeWrapper);
+          }
         }
       }
       else {
