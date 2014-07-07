@@ -59,7 +59,7 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
     super(exchangeSpecification);
     Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
     
-    this.btcChina = RestProxyFactory.createProxy(type, (String) exchangeSpecification.getExchangeSpecificParameters().get("dataSslUri"));
+    this.btcChina = RestProxyFactory.createProxy(type, (String) exchangeSpecification.getSslUri());
     this.signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
     this.currencyPairs = new HashSet<CurrencyPair>();
   }
