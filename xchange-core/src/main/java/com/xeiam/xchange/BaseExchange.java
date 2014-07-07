@@ -105,4 +105,10 @@ public abstract class BaseExchange implements Exchange {
     return streamingExchangeService;
   }
 
+  @Override
+  public String toString() {
+
+    String name = exchangeSpecification != null ? exchangeSpecification.getExchangeName() : getClass().getName();
+    return name + "#" + hashCode();
+  }
 }
