@@ -34,11 +34,33 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bter.dto.BTEROrderType;
+import com.xeiam.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 public class BTERMarketDataJsonTest {
 
+  @Test
+  public void testDeserializeMarketInfo() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BTERMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-market-info-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTERMarketInfoWrapper marketInfoWrapper = mapper.readValue(is, BTERMarketInfoWrapper.class);
+
+    Map<CurrencyPair, BTERMarketInfo> marketInfoMap = marketInfoWrapper.getMarketInfoMap();
+    assertThat(marketInfoMap).hasSize(2);
+
+    CurrencyPair pair = new CurrencyPair("LTC", "CNY");
+    BTERMarketInfo marketInfo = marketInfoMap.get(pair);
+    assertThat(marketInfo.getCurrencyPair()).isEqualTo(pair);
+    assertThat(marketInfo.getDecimalPlaces()).isEqualTo(2);
+    assertThat(marketInfo.getMinAmount()).isEqualTo(".5");
+    assertThat(marketInfo.getFee()).isEqualTo("0");
+  }
+  
   @Test
   public void testDeserializeCurrencyPairs() throws IOException {
 

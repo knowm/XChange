@@ -31,6 +31,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
+import com.xeiam.xchange.bter.dto.marketdata.BTERMarketInfoWrapper;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
@@ -38,6 +39,10 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 @Path("api/1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BTER {
+
+  @GET
+  @Path("marketinfo")
+  BTERMarketInfoWrapper getMarketInfo() throws IOException;
 
   @GET
   @Path("pairs")
