@@ -52,7 +52,6 @@ public class BitMarketAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (BigDecimal[] order : orders) {
-      System.out.println("Amount: " + order[1] + ", exchange rate: " + order[0]);
       limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
     }
 
