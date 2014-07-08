@@ -49,9 +49,10 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification);
     this.pollingTradeService = new BTCChinaTradeService(exchangeSpecification);
     this.pollingAccountService = new BTCChinaAccountService(exchangeSpecification);
+    exchangeSpecification.setSslUri("https://data.btcchina.com");
+    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification);
   }
 
   @Override
