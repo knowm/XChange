@@ -66,7 +66,8 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
       throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
     }
 
-    Map<String, String> httpHeaders = restInvocation.getAllHttpHeaders();
+
+    Map<String, String> httpHeaders = restInvocation.getHttpHeadersFromParams();
     String currentNonce = httpHeaders.get("X-Auth-Nonce");
     String currentTimestamp = httpHeaders.get("X-Auth-Timestamp");
 
