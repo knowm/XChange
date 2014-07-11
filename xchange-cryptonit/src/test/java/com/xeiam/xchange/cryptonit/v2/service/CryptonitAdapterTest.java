@@ -85,11 +85,11 @@ public class CryptonitAdapterTest {
     assertThat(trades.getTrades().size()).isEqualTo(100);
 
     // Verify all fields filled
-    assertThat(trades.getlastID()).isEqualTo(266408);
+    assertThat(trades.getlastID()).isEqualTo(268133L);
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 605.997);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.189100000);
     assertThat(trades.getTrades().get(0).getCurrencyPair().baseSymbol == "BTC");
-    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-06-20 00:09:09 GMT");
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-06-20 00:09:10 GMT");
   }
 
   @Test
