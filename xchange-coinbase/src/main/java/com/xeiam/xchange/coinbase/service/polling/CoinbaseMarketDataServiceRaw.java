@@ -150,7 +150,7 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
     return coinbase.getSpotRate(currency);
   }
 
-/*  *//**
+  /**
    * Unauthenticated resource that displays historical spot rates for Bitcoin in USD.
    * This is a paged resource and will return the first page by default.
    * 
@@ -172,6 +172,6 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
    */
   public CoinbaseSpotPriceHistory getCoinbaseHistoricalSpotRates(Integer page) throws IOException {
 
-    return CoinbaseSpotPriceHistory.fromRawString( coinbase.getHistoricalSpotRates(page) );
+    return CoinbaseSpotPriceHistory.fromRawString(coinbase.getHistoricalSpotRates(page));
   }
 }
