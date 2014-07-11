@@ -29,6 +29,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinbase.Coinbase;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 
 /**
  * @author jamespedwards42
@@ -156,21 +157,21 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
    * @see <a href="https://coinbase.com/api/doc/1.0/prices/historical.html">coinbase.com/api/doc/1.0/prices/historical.html</a>
    * @return One thousand historical spot prices representing page 1.
    * @throws IOException
-   *//*
+   */
   public CoinbaseSpotPriceHistory getCoinbaseHistoricalSpotRates() throws IOException {
 
     return getCoinbaseHistoricalSpotRates(null);
   }
 
-  *//**
+  /**
    * Unauthenticated resource that displays historical spot rates for Bitcoin in USD.
    * 
    * @param page Optional parameter to request a desired page of results. Will return page 1 if the supplied page is null or less than 1.
    * @return One thousand historical spot prices for the given page.
    * @throws IOException
-   *//*
+   */
   public CoinbaseSpotPriceHistory getCoinbaseHistoricalSpotRates(Integer page) throws IOException {
 
-    return coinbase.getHistoricalSpotRates(page);
-  }*/
+    return CoinbaseSpotPriceHistory.fromRawString( coinbase.getHistoricalSpotRates(page) );
+  }
 }

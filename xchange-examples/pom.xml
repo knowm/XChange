@@ -180,6 +180,12 @@
 			<artifactId>xchange-btctrade</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <!-- XChange Cryptonit exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cryptonit</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

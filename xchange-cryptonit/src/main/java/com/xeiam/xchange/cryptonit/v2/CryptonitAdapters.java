@@ -22,7 +22,14 @@
 package com.xeiam.xchange.cryptonit.v2;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrder;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
@@ -150,4 +157,15 @@ public final class CryptonitAdapters {
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(bid).withAsk(ask).withVolume(volume).build();
   }
 
+  public static Collection<CurrencyPair> adaptCurrencyPairs(List<List<String>> tradingPairs) {
+
+    Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
+    for (List<String> tradingPair : tradingPairs) {
+      if (tradingPair.size() == 2) {
+        CurrencyPair currencyPair = new CurrencyPair(tradingPair.get(1), tradingPair.get(0));
+        currencyPairs.add(currencyPair);
+      }
+    }
+    return currencyPairs;
+  }
 }
