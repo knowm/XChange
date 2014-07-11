@@ -26,8 +26,8 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
@@ -56,8 +56,8 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    final BitstampBooleanResponse response = withdrawBitstampFunds(amount, address);
-    return Boolean.toString(response.getResponse());
+    final BitstampWithdrawal response = withdrawBitstampFunds(amount, address);
+    return Integer.toString(response.getId());
   }
 
   /**
