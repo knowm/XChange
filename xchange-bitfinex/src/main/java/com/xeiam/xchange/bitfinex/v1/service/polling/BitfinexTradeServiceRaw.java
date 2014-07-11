@@ -22,9 +22,11 @@
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
+import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
@@ -35,6 +37,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
 
 public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<BitfinexAuthenticated> {
 
@@ -54,14 +57,29 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
 
     return activeOrders;
   }
+  
+  public BitfinexOrderStatusResponse placeBitfinexMarketOrder(MarketOrder marketOrder) throws IOException {
 
-  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, boolean onMargin) throws IOException {
+    String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
+    String type = marketOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+    String orderType = BitfinexOrderType.MARKET.getValue();
+    
+    BitfinexOrderStatusResponse newOrder =
+        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, 
+            new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, marketOrder.getTradableAmount(), BigDecimal.ONE, "bitfinex", type, orderType, false));
+
+    return newOrder;
+  }
+
+  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType) throws IOException {
 
     String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
-    String orderType = onMargin ? "limit" : "exchange limit";
+    String orderType = bitfinexOrderType.toString();
+    
     BitfinexOrderStatusResponse newOrder =
-        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),
+        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, 
+            new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),
             "bitfinex", type, orderType, false));
 
     return newOrder;

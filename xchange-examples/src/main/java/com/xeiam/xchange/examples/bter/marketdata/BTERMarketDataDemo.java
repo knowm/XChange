@@ -30,6 +30,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bter.BTERExchange;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
+import com.xeiam.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
@@ -73,6 +74,9 @@ public class BTERMarketDataDemo {
   }
 
   private static void raw(BTERPollingMarketDataServiceRaw marketDataService) throws IOException {
+
+    Map<CurrencyPair, BTERMarketInfo> marketInfoMap = marketDataService.getBTERMarketInfo();
+    System.out.println(marketInfoMap);
 
     Collection<CurrencyPair> pairs = marketDataService.getExchangeSymbols();
     System.out.println(pairs);

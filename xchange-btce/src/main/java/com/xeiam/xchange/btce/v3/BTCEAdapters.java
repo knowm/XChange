@@ -137,11 +137,15 @@ public final class BTCEAdapters {
   public static Trades adaptTrades(BTCETrade[] bTCETrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BTCETrade bTCETrade : bTCETrades) {
       // Date is reversed order. Insert at index 0 instead of appending
+      long tradeId = bTCETrade.getTid();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       tradesList.add(0, adaptTrade(bTCETrade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
@@ -157,7 +161,7 @@ public final class BTCEAdapters {
     BigDecimal ask = bTCETicker.getBuy();
     BigDecimal high = bTCETicker.getHigh();
     BigDecimal low = bTCETicker.getLow();
-    BigDecimal volume = bTCETicker.getVol();
+    BigDecimal volume = bTCETicker.getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();

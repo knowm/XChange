@@ -23,10 +23,8 @@ package com.xeiam.xchange.bitcurex.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcurex.Bitcurex;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
@@ -41,43 +39,35 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
  */
 public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
 
-  private Bitcurex bitcurex;
-
   /**
    * Constructor
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitcurexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
-
-    super(exchangeSpecification);
+	  
+	  super(exchangeSpecification);
   }
 
-  public BitcurexTicker getBitcurexTicker(String currency) throws IOException {
-
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexTicker bitcurexTicker = bitcurex.getTicker();
-
-    return bitcurexTicker;
+  public BitcurexTicker getBitcurexTicker(String currency) throws IOException, ExchangeException {
+	  
+	  verify(currency);
+	  
+	  return bitcurex.getTicker();
   }
 
-  public BitcurexDepth getBitcurexOrderBook(String currency) throws IOException {
-
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexDepth bitcurexDepth = bitcurex.getFullDepth();
-
-    return bitcurexDepth;
+  public BitcurexDepth getBitcurexOrderBook(String currency) throws IOException, ExchangeException {
+	  
+	  verify(currency);
+	  
+	  return bitcurex.getFullDepth();
   }
 
-  public BitcurexTrade[] getBitcurexTrades(String currency) throws IOException {
-
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, "https://" + currency + ".bitcurex.com");
-    // Request data
-    BitcurexTrade[] bitcurexTrades = bitcurex.getTrades();
-
-    return bitcurexTrades;
+  public BitcurexTrade[] getBitcurexTrades(String currency) throws IOException, ExchangeException {
+	  
+	  verify(currency);
+	  
+	  return bitcurex.getTrades();
   }
 
 }

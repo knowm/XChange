@@ -57,7 +57,7 @@ public class BTCChinaDepthDemo {
   public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest order book data for BTC/CNY
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_LTC);
 
     // System.out.println(orderBook.toString());
     System.out.println("lowestAsk: " + orderBook.getAsks().get(0));
@@ -70,7 +70,7 @@ public class BTCChinaDepthDemo {
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest order book data for BTC/CNY
-    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaOrderBook();
+    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaOrderBook("ltcbtc");
 
     System.out.println(orderBook.toString());
 

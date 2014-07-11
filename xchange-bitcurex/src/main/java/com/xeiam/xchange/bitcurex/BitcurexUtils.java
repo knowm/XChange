@@ -33,4 +33,9 @@ public final class BitcurexUtils {
 
   }
 
+  public static long getNonce() {
+
+    return System.currentTimeMillis();
+  }
+
 }

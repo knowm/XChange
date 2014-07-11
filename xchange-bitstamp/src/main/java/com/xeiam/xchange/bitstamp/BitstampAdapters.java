@@ -124,12 +124,15 @@ public final class BitstampAdapters {
   public static Trades adaptTrades(BitstampTransaction[] transactions, CurrencyPair currencyPair) {
 
     List<Trade> trades = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BitstampTransaction tx : transactions) {
-      final String tradeId = String.valueOf(tx.getTid());
-      trades.add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), tradeId));
+      final long tradeId = tx.getTid();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
+      trades.add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
-    return new Trades(trades, TradeSortType.SortByID);
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
@@ -177,13 +180,17 @@ public final class BitstampAdapters {
   public static Trades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
 
     List<Trade> trades = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
         OrderType orderType = bitstampUserTransaction.getUsd().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
         BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
         BigDecimal price = bitstampUserTransaction.getPrice().abs();
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
-        final String tradeId = String.valueOf(bitstampUserTransaction.getId());
+        long transactionId = bitstampUserTransaction.getId();
+        if (transactionId > lastTradeId)
+          lastTradeId = transactionId;
+        final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
 
         Trade trade = new Trade(orderType, tradableAmount, CurrencyPair.BTC_USD, price, timestamp, tradeId, orderId);
@@ -191,6 +198,6 @@ public final class BitstampAdapters {
       }
     }
 
-    return new Trades(trades, TradeSortType.SortByID);
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 }

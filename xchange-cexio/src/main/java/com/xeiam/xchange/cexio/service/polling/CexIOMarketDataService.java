@@ -71,11 +71,11 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
 
     if (args.length > 0) {
       Object arg0 = args[0];
-      if (!(arg0 instanceof Long) || ((Long) arg0 < 1)) {
-        throw new ExchangeException("Size argument must be a Long > 1");
+      if (!(arg0 instanceof Number)) {
+        throw new ExchangeException("arg[0] must be a Number used to represent since trade id.");
       }
       else {
-        trades = getCexIOTrades(currencyPair, (Long) arg0);
+        trades = getCexIOTrades(currencyPair, ((Number) arg0).longValue());
       }
     }
     else { // default to full available trade history

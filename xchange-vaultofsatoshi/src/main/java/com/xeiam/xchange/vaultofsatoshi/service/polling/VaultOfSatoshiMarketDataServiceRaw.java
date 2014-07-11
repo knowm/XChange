@@ -76,7 +76,15 @@ public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBasePollin
   public List<VaultOfSatoshiTrade> getVosTrades(CurrencyPair pair) throws IOException {
 
     // Request data
-    List<VaultOfSatoshiTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol).getTrades();
+    List<VaultOfSatoshiTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, null, 100).getTrades();
+
+    return vosTrades;
+  }
+
+  public List<VaultOfSatoshiTrade> getVosTrades(CurrencyPair pair, Long sinceId, int count) throws IOException {
+
+    // Request data
+    List<VaultOfSatoshiTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, sinceId, count).getTrades();
 
     return vosTrades;
   }

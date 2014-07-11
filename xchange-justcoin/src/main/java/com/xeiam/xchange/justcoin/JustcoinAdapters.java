@@ -23,6 +23,7 @@ package com.xeiam.xchange.justcoin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -39,6 +40,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
+import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinPublicTrade;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
 import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinOrder;
 import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
@@ -67,7 +69,7 @@ public final class JustcoinAdapters {
     return new LimitOrder(orderType, amount, currencyPair, null, null, price);
   }
 
-  public static Ticker adaptTicker(final JustcoinTicker[] justcoinTickers, final CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(final List<JustcoinTicker> justcoinTickers, final CurrencyPair currencyPair) {
 
     for (final JustcoinTicker justcointTicker : justcoinTickers) {
       if (justcointTicker.getId().equals(JustcoinUtils.getApiMarket(currencyPair.baseSymbol, currencyPair.counterSymbol))) {
@@ -139,5 +141,24 @@ public final class JustcoinAdapters {
 
     return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), adaptCurrencyPair(justcoinTrade.getMarket()), justcoinTrade.getAveragePrice(), justcoinTrade
         .getCreatedAt(), justcoinTrade.getId());
+  }
+
+  public static Trades adaptPublicTrades(final CurrencyPair currencyPair, final List<JustcoinPublicTrade> justcoinTrades) {
+
+    final List<Trade> trades = new ArrayList<Trade>();
+    long lastTradeId = 0;
+    for (final JustcoinPublicTrade trade : justcoinTrades) {
+      long tradeId = Long.valueOf(trade.getTid());
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
+      trades.add(adaptPublicTrade(currencyPair, trade));
+    }
+
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
+  }
+
+  public static Trade adaptPublicTrade(final CurrencyPair currencyPair, final JustcoinPublicTrade justcoinTrade) {
+
+    return new Trade(null, justcoinTrade.getAmount(), currencyPair, justcoinTrade.getPrice(), new Date(justcoinTrade.getDate() * 1000), justcoinTrade.getTid());
   }
 }

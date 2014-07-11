@@ -21,9 +21,6 @@
  */
 package com.xeiam.xchange.btcchina;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -52,9 +49,10 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification);
     this.pollingTradeService = new BTCChinaTradeService(exchangeSpecification);
     this.pollingAccountService = new BTCChinaAccountService(exchangeSpecification);
+    exchangeSpecification.setSslUri("https://data.btcchina.com");
+    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification);
   }
 
   @Override
@@ -66,12 +64,6 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCChina");
     exchangeSpecification.setExchangeDescription("BTCChina is a Bitcoin exchange located in China.");
-
-    final Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
-    exchangeSpecificParameters.put("dataSslUri", "https://data.btcchina.com");
-
-    exchangeSpecification.setExchangeSpecificParameters(exchangeSpecificParameters);
-
     return exchangeSpecification;
   }
 }

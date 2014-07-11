@@ -22,10 +22,13 @@
 package com.xeiam.xchange.itbit.v1;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -43,8 +46,12 @@ import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 
 public final class ItBitAdapters {
-
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
+  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+  static {
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+  }
 
   /**
    * private Constructor
@@ -56,12 +63,15 @@ public final class ItBitAdapters {
   public static Trades adaptTrades(ItBitTrade[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>(trades.length);
-
+    long lastTradeId = 0;
     for (int i = 0; i < trades.length; i++) {
       ItBitTrade trade = trades[i];
+      long tradeId = trade.getTid();
+      if(tradeId > lastTradeId)
+        lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) {
@@ -145,7 +155,17 @@ public final class ItBitAdapters {
       OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
 
-      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), itBitOrder.getCreatedTime(), itBitOrder.getId()));
+      Date parse;
+      try {
+        /**
+         * "createdTime" is sent with microsecond precision in UTC time. This is not supported by Java natively.
+         */
+        parse = dateFormat.parse(itBitOrder.getCreatedTime().substring(0, 23) + 'Z');
+      } catch (ParseException e) {
+        continue;
+      }
+
+      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), parse, itBitOrder.getId()));
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);

@@ -22,13 +22,14 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
-
-import si.mazi.rescu.RestProxyFactory;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 
 /**
@@ -40,9 +41,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
  *         <li>Provides access to various market data values</li>
  *         </ul>
  */
-public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
-
-  private final BTCChina btcChina;
+public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTCChina> {
 
   /**
    * Constructor
@@ -51,28 +50,32 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
    */
   public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, (String) exchangeSpecification.getExchangeSpecificParameters().get("dataSslUri"));
+    super(BTCChina.class, exchangeSpecification);
   }
 
-  public BTCChinaTicker getBTCChinaTicker() throws IOException {
+  public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {
 
-    return btcChina.getTicker();
+    return btcChina.getTickers("all");
   }
 
-  public BTCChinaDepth getBTCChinaOrderBook() throws IOException {
+  public BTCChinaTicker getBTCChinaTicker(String market) throws IOException {
 
-    return btcChina.getFullDepth();
+    return btcChina.getTicker(market);
   }
 
-  public BTCChinaTrade[] getBTCChinaTrades(Integer sinceTransactionID) throws IOException {
+  public BTCChinaDepth getBTCChinaOrderBook(String market) throws IOException {
 
-    return btcChina.getTrades(sinceTransactionID);
+    return btcChina.getFullDepth(market);
   }
 
-  public BTCChinaTrade[] getBTCChinaTrades() throws IOException {
+  public List<BTCChinaTrade> getBTCChinaTrades(String market, Long sinceTransactionID) throws IOException {
 
-    return btcChina.getTrades();
+    return btcChina.getTrades(market, sinceTransactionID);
+  }
+
+  public List<BTCChinaTrade> getBTCChinaTrades(String market) throws IOException {
+
+    return btcChina.getTrades(market);
   }
 
 }

@@ -31,6 +31,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
@@ -82,7 +83,7 @@ public interface BitstampAuthenticated {
 
   @POST
   @Path("bitcoin_withdrawal/")
-  public BitstampBooleanResponse withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
+  public BitstampWithdrawal withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address) throws IOException;
 
 }

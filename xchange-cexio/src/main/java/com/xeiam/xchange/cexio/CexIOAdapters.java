@@ -81,11 +81,15 @@ public class CexIOAdapters {
   public static Trades adaptTrades(CexIOTrade[] cexioTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (CexIOTrade trade : cexioTrades) {
+      long tradeId = trade.getTid();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       // Date is reversed order. Insert at index 0 instead of appending
       tradesList.add(0, adaptTrade(trade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**

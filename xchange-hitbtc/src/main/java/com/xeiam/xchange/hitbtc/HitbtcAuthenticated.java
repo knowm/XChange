@@ -68,11 +68,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("trading/trades")
   public HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey, @QueryParam("by") String by,
-      @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols
-  // @QueryParam("sort") String sort,
-  // @QueryParam("from") String from,
-  // @QueryParam("till") String till
-      ) throws IOException;
+      @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols, @QueryParam("sort") String sort, @QueryParam("from") String from,
+      @QueryParam("till") String till) throws IOException;
 
   @GET
   @Path("trading/balance")

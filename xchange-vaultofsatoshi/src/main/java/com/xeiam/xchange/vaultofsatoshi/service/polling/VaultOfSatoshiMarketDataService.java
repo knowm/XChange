@@ -24,6 +24,7 @@ package com.xeiam.xchange.vaultofsatoshi.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -78,11 +79,32 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
+    Long sinceId = null;
+    int count = 100;
+
+    if (args.length > 0) {
+      Object arg0 = args[0];
+      if (arg0 instanceof Number) {
+        sinceId = ((Number) arg0).longValue();
+      }
+      else {
+        throw new ExchangeException("args[0] must be of type Number!");
+      }
+      if (args.length > 1) {
+        Object arg1 = args[1];
+        if (arg1 instanceof Number) {
+          count = ((Number) arg1).intValue();
+        }
+        else {
+          throw new ExchangeException("args[1] must be of type Number!");
+        }
+      }
+    }
     // Request data
-    List<VaultOfSatoshiTrade> virtExTrades = getVosTrades(currencyPair);
+    List<VaultOfSatoshiTrade> vosTrades = getVosTrades(currencyPair, sinceId, count);
 
     // Adapt to XChange DTOs
-    return VaultOfSatoshiAdapters.adaptTrades(virtExTrades, currencyPair);
+    return VaultOfSatoshiAdapters.adaptTrades(vosTrades, currencyPair);
   }
 
 }

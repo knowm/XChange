@@ -126,7 +126,7 @@ public class ANXAdapterTest {
   @Test
   public void testTradeAdapter() throws IOException {
 
- // Read in the JSON from the example resources
+    // Read in the JSON from the example resources
     InputStream is = TickerJSONTest.class.getResourceAsStream("/v2/marketdata/example-trades-data.json");
 
     // Use Jackson to parse it
@@ -134,13 +134,13 @@ public class ANXAdapterTest {
 
     ANXTradesWrapper anxTradesWrapper = mapper.readValue(is, ANXTradesWrapper.class);
     List<ANXTrade> anxTrades = anxTradesWrapper.getANXTrades();
-    
+
     Trades trades = ANXAdapters.adaptTrades(anxTrades);
     assertThat(trades.getlastID()).isEqualTo(1402189349725L);
-    
+
     List<Trade> tradeList = trades.getTrades();
     assertThat(tradeList.size()).isEqualTo(2);
- 
+
     Trade trade = tradeList.get(0);
     assertThat(trade.getTradableAmount()).isEqualTo("0.25");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);

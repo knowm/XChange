@@ -63,7 +63,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-    BTCChinaTicker btcChinaTicker = getBTCChinaTicker();
+    BTCChinaTicker btcChinaTicker = getBTCChinaTicker(BTCChinaAdapters.adaptMarket(currencyPair));
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptTicker(btcChinaTicker, currencyPair);
@@ -73,7 +73,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-    BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook();
+    BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook(BTCChinaAdapters.adaptMarket(currencyPair));
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currencyPair, OrderType.ASK);
@@ -85,20 +85,21 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    BTCChinaTrade[] btcChinaTrades = null;
+    List<BTCChinaTrade> btcChinaTrades = null;
 
     if (args.length == 0) {
-      btcChinaTrades = getBTCChinaTrades();
+      btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair));
     }
     else if (args.length == 1) {
       Object arg0 = args[0];
 
-      if (arg0 instanceof Integer) {
-        Integer sinceTransactionID = (Integer) args[0];
-        btcChinaTrades = getBTCChinaTrades(sinceTransactionID);
+      if (arg0 instanceof Number) {
+        Long sinceTransactionID = ((Number) arg0).longValue();
+
+        btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair), sinceTransactionID);
       }
       else {
-        throw new ExchangeException("args[0] must be of type Integer!");
+        throw new ExchangeException("args[0] must be of type Number!");
       }
     }
 

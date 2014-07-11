@@ -43,5 +43,5 @@ public interface ItBit {
 
   @GET
   @Path("/v2/markets/{ident}{currency}/trades")
-  ItBitTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") int sinceId) throws IOException;
+  ItBitTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long sinceId) throws IOException;
 }

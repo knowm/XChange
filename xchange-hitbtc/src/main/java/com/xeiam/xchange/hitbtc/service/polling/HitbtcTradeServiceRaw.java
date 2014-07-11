@@ -90,7 +90,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
       IOException {
 
-    HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(signatureCreator, nextNonce(), apiKey, "ts", startIndex, maxResults, symbols); // TODO
+    HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(signatureCreator, nextNonce(), apiKey, "ts", startIndex, maxResults, symbols, "desc", null, null);
 
     return hitbtcTrades.getTrades();
   }

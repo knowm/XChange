@@ -77,7 +77,7 @@ public final class BTERAdapters {
     BigDecimal last = bterTicker.getLast();
     BigDecimal low = bterTicker.getLow();
     BigDecimal high = bterTicker.getHigh();
-    BigDecimal volume = bterTicker.getTradeCurrencyVolume();
+    BigDecimal volume = bterTicker.getVolume(currencyPair.baseSymbol);
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
   }
@@ -110,11 +110,11 @@ public final class BTERAdapters {
 
     CurrencyPair possibleCurrencyPair = new CurrencyPair(order.getBuyCurrency(), order.getSellCurrency());
     if (!currencyPairs.contains(possibleCurrencyPair)) {
-      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), 8, RoundingMode.HALF_EVEN);
+      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), 8, RoundingMode.HALF_UP);
       return new LimitOrder(OrderType.ASK, order.getSellAmount(), new CurrencyPair(order.getSellCurrency(), order.getBuyCurrency()), order.getId(), null, price);
     }
     else {
-      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), 8, RoundingMode.HALF_EVEN);
+      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), 8, RoundingMode.HALF_UP);
       return new LimitOrder(OrderType.BID, order.getBuyAmount(), possibleCurrencyPair, order.getId(), null, price);
     }
   }
@@ -145,12 +145,19 @@ public final class BTERAdapters {
   public static Trades adaptTrades(BTERTradeHistory tradeHistory, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BTERPublicTrade trade : tradeHistory.getTrades()) {
+      String tradeIdString = trade.getTradeId();
+      if (!tradeIdString.isEmpty()) {
+        long tradeId = Long.valueOf(tradeIdString);
+        if (tradeId > lastTradeId)
+          lastTradeId = tradeId;
+      }
       Trade adaptedTrade = adaptTrade(trade, currencyPair);
       tradeList.add(adaptedTrade);
     }
 
-    return new Trades(tradeList, TradeSortType.SortByTimestamp);
+    return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
   public static AccountInfo adaptAccountInfo(BTERFunds bterAccountInfo) {

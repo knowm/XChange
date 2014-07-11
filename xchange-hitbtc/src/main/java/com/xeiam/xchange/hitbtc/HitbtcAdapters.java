@@ -66,9 +66,17 @@ public class HitbtcAdapters {
     List<CurrencyPair> currencyPairList = new ArrayList<CurrencyPair>();
 
     for (HitbtcSymbol hitbtcSymbol : hitbtcSymbols.getHitbtcSymbols()) {
-      String base = hitbtcSymbol.getSymbol().substring(0, 3);
-      String counterSymbol = hitbtcSymbol.getSymbol().substring(3);
-      CurrencyPair currencyPair = new CurrencyPair(base, counterSymbol);
+      String symbolString = hitbtcSymbol.getSymbol();
+      CurrencyPair currencyPair = null;
+      if (symbolString.startsWith("DOGE")) {
+        String counterSymbol = symbolString.substring(4);
+        currencyPair = new CurrencyPair("DOGE", counterSymbol);
+      }
+      else {
+        String base = symbolString.substring(0, 3);
+        String counterSymbol = symbolString.substring(3);
+        currencyPair = new CurrencyPair(base, counterSymbol);
+      }
 
       currencyPairList.add(currencyPair);
     }
@@ -125,7 +133,7 @@ public class HitbtcAdapters {
 
     HitbtcTrade[] allHitbtcTrades = hitbtcTrades.getHitbtcTrades();
     List<Trade> trades = new ArrayList<Trade>(allHitbtcTrades.length);
-
+    long lastTradeId = 0;
     for (int i = 0; i < allHitbtcTrades.length; i++) {
       HitbtcTrade hitbtcTrade = allHitbtcTrades[i];
 
@@ -133,12 +141,14 @@ public class HitbtcAdapters {
       BigDecimal price = hitbtcTrade.getPrice();
       BigDecimal amount = hitbtcTrade.getAmount();
       String tid = hitbtcTrade.getTid();
-
+      long longTradeId = Long.valueOf(tid);
+      if (longTradeId > lastTradeId)
+        lastTradeId = longTradeId;
       Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid, tid);
       trades.add(trade);
     }
 
-    return new Trades(trades, Trades.TradeSortType.SortByTimestamp);
+    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
 
   public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw) {
@@ -164,7 +174,6 @@ public class HitbtcAdapters {
   public static Trades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
 
     List<Trade> trades = new ArrayList<Trade>(tradeHistoryRaw.length);
-
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
       HitbtcOwnTrade t = tradeHistoryRaw[i];
       OrderType type = t.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
@@ -187,7 +196,7 @@ public class HitbtcAdapters {
     for (int i = 0; i < accountInfoRaw.length; i++) {
       HitbtcBalance balance = accountInfoRaw[i];
 
-      Wallet wallet = new Wallet(balance.getCurrencyCode(), balance.getCash(), balance.getCurrencyCode());
+      Wallet wallet = new Wallet(balance.getCurrencyCode(), balance.getCash().add(balance.getReserved()), balance.getCurrencyCode());
       wallets.add(wallet);
 
     }

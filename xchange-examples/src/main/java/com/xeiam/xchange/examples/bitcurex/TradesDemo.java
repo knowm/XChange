@@ -29,7 +29,6 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcurex.BitcurexExchange;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -42,8 +41,15 @@ public class TradesDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get the Bitcurex exchange API using default settings
-    Exchange bitcurex = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    Exchange bitcurexEur = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    requestData(bitcurexEur, CurrencyPair.BTC_EUR);
 
+    Exchange bitcurexPln = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    bitcurexPln.applySpecification(((BitcurexExchange)bitcurexPln).getDefaultExchangePLNSpecification());
+    requestData(bitcurexPln, CurrencyPair.BTC_PLN);
+  }
+
+  private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitcurex.getPollingMarketDataService();
 
@@ -51,23 +57,22 @@ public class TradesDemo {
     // Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
     // System.out.println(trades.toString());
 
-    generic(marketDataService);
-    raw((BitcurexMarketDataServiceRaw) marketDataService);
-
+    generic(marketDataService, pair);
+    raw((BitcurexMarketDataServiceRaw) marketDataService, pair.counterSymbol);
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(PollingMarketDataService marketDataService, CurrencyPair pair) throws IOException {
 
     // Get the latest trade data for BTC/EUR
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
+    Trades trades = marketDataService.getTrades(pair);
     System.out.println("Trades, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
 
-  private static void raw(BitcurexMarketDataServiceRaw marketDataService) throws IOException {
+  private static void raw(BitcurexMarketDataServiceRaw marketDataService, String currency) throws IOException {
 
     // Get the latest trade data for BTC/EUR
-    BitcurexTrade[] trades = marketDataService.getBitcurexTrades(Currencies.EUR);
+    BitcurexTrade[] trades = marketDataService.getBitcurexTrades(currency);
     System.out.println("Trades, default. Size= " + trades.length);
     System.out.println(Arrays.toString(trades));
   }
