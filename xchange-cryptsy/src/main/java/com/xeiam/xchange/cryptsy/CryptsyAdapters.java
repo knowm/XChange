@@ -201,13 +201,17 @@ public final class CryptsyAdapters {
     for (CryptsyPublicMarketData cryptsyMarketDataEntry : cryptsyMarketData.values()) {
       CurrencyPair currencyPair = adaptCurrencyPair(cryptsyMarketDataEntry.getLabel());
       List<Trade> tradesList = new ArrayList<Trade>();
+      long lastTradeId = 0;
       List<CryptsyPublicTrade> recentTrades = cryptsyMarketDataEntry.getRecentTrades();
       if (recentTrades != null) {
         for (CryptsyPublicTrade trade : recentTrades) {
+          long tradeId = trade.getId();
+          if (tradeId > lastTradeId)
+            lastTradeId = tradeId;
           tradesList.add(adaptTrade(trade, currencyPair));
         }
       }
-      trades.put(currencyPair, new Trades(tradesList, TradeSortType.SortByTimestamp));
+      trades.put(currencyPair, new Trades(tradesList, lastTradeId, TradeSortType.SortByTimestamp));
     }
 
     return trades;
@@ -215,7 +219,7 @@ public final class CryptsyAdapters {
 
   private static Trade adaptTrade(CryptsyPublicTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), null);
+    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), String.valueOf(trade.getId()));
   }
 
   /**
