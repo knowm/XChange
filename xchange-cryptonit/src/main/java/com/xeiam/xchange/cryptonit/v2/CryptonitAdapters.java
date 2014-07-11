@@ -130,11 +130,16 @@ public final class CryptonitAdapters {
 
     List<Trade> tradesList = new ArrayList<Trade>();
 
+    long lastTradeId = 0;
     Map<String, CryptonitOrder> orders = cryptonitTrades.getOrders();
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
-      tradesList.add(adaptTrade(trade.getKey(), trade.getValue(), currencyPair));
+      String tradeId = trade.getKey();
+      long tradeIdAsLong = Long.valueOf(tradeId);
+      if (tradeIdAsLong > lastTradeId);
+        lastTradeId = tradeIdAsLong;
+      tradesList.add(adaptTrade(tradeId, trade.getValue(), currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByTimestamp);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
   /**

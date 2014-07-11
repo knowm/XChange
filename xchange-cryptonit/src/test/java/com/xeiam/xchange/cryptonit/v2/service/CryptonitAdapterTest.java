@@ -85,6 +85,7 @@ public class CryptonitAdapterTest {
     assertThat(trades.getTrades().size()).isEqualTo(100);
 
     // Verify all fields filled
+    assertThat(trades.getlastID()).isEqualTo(266408);
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 605.997);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.189100000);
     assertThat(trades.getTrades().get(0).getCurrencyPair().baseSymbol == "BTC");
