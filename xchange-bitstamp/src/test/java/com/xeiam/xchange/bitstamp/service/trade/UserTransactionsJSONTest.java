@@ -48,7 +48,7 @@ public class UserTransactionsJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampUserTransaction[] transactions = mapper.readValue(is, BitstampUserTransaction[].class);
 
-    assertThat(transactions.length).isEqualTo(3);
+    assertThat(transactions.length).isEqualTo(4);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(transactions[0].getUsd()).isEqualTo(new BigDecimal("-11.37"));
@@ -58,5 +58,9 @@ public class UserTransactionsJSONTest {
     assertThat(transactions[0].getOrderId()).isEqualTo(6877187L);
     assertThat(transactions[0].getDatetime()).isEqualTo("2013-09-02 13:17:49");
     assertThat(transactions[0].getType()).isEqualTo(TransactionType.trade);
+    
+    assertThat(transactions[1].getUsd()).isEqualTo(new BigDecimal("11.37"));
+    assertThat(transactions[1].getPrice()).isEqualTo(new BigDecimal("-131.50"));
+    
   }
 }
