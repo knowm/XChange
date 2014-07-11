@@ -211,7 +211,7 @@ public final class CryptsyAdapters {
           tradesList.add(adaptTrade(trade, currencyPair));
         }
       }
-      trades.put(currencyPair, new Trades(tradesList, lastTradeId, TradeSortType.SortByTimestamp));
+      trades.put(currencyPair, new Trades(tradesList, lastTradeId, TradeSortType.SortByID));
     }
 
     return trades;
