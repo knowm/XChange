@@ -36,8 +36,10 @@ public final class BitstampUserTransaction {
   private final long id;
   private final long order_id;
   private final TransactionType type;
+  /** USD amount, negative -> BID, positive -> ASK */
   private final BigDecimal usd;
   private final BigDecimal btc;
+  /** price, has the reciprocal sign compared to 'usd' value */
   private final BigDecimal btc_usd;
   private final BigDecimal fee;
 
