@@ -21,59 +21,43 @@
  */
 package com.xeiam.xchange.cryptonit.v2.service.polling;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.cryptonit.v2.Cryptonit;
+import com.xeiam.xchange.cryptonit.v2.CryptonitAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class CryptonitBasePollingService extends BaseExchangeService implements BasePollingService {
+public class CryptonitBasePollingService<T extends Cryptonit> extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.LTC_BTC,
-
-  CurrencyPair.NMC_BTC,
-
-  CurrencyPair.PPC_BTC,
-
-  CurrencyPair.TRC_BTC,
-
-  CurrencyPair.FTC_BTC,
-
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.LTC_EUR,
-
-  CurrencyPair.NMC_EUR,
-
-  new CurrencyPair("PPC", "EUR"),
-
-  CurrencyPair.BTC_USD,
-
-  CurrencyPair.LTC_USD,
-
-  CurrencyPair.NMC_USD,
-
-  CurrencyPair.PPC_USD
-
-  );
+  protected final Cryptonit cryptonit;
+  private final Set<CurrencyPair> currencyPairs;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
    */
-  public CryptonitBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public CryptonitBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    this.cryptonit = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
+    this.currencyPairs = new HashSet<CurrencyPair>();
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    if (currencyPairs.isEmpty())
+      currencyPairs.addAll(CryptonitAdapters.adaptCurrencyPairs(cryptonit.getPairs()));
+
+    return currencyPairs;
   }
 }

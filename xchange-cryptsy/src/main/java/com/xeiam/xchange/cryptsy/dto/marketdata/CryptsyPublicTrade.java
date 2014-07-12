@@ -33,6 +33,7 @@ import com.xeiam.xchange.cryptsy.CryptsyUtils;
 @JsonIgnoreProperties("id")
 public class CryptsyPublicTrade {
 
+  private final long id;
   private final Date time;
   private final BigDecimal price;
   private final BigDecimal quantity;
@@ -44,13 +45,19 @@ public class CryptsyPublicTrade {
    * @throws ParseException
    */
   @JsonCreator
-  public CryptsyPublicTrade(@JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total)
-      throws ParseException {
+  public CryptsyPublicTrade(@JsonProperty("id") long id, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("total") BigDecimal total) throws ParseException {
 
+    this.id = id;
     this.time = time == null ? null : CryptsyUtils.convertDateTime(time);
     this.price = price;
     this.quantity = quantity;
     this.total = total;
+  }
+
+  public long getId() {
+
+    return id;
   }
 
   public Date getTime() {
@@ -76,7 +83,6 @@ public class CryptsyPublicTrade {
   @Override
   public String toString() {
 
-    return "CryptsyPublicTrade [time=" + time + ", price=" + price + ", quantity=" + quantity + ", total=" + total + "]";
+    return "CryptsyPublicTrade [id=" + id + ", time=" + time + ", price=" + price + ", quantity=" + quantity + ", total=" + total + "]";
   }
-
 }

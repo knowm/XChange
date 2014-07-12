@@ -27,17 +27,16 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionLikeType;
 import com.xeiam.xchange.cryptonit.v2.CryptonitAdapters;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
-import com.xeiam.xchange.cryptonit.v2.service.marketdata.CryptonitDepthJSONTest;
-import com.xeiam.xchange.cryptonit.v2.service.marketdata.CryptonitTickerJSONTest;
 import com.xeiam.xchange.cryptonit.v2.service.marketdata.CryptonitTradesJSONTest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -55,7 +54,7 @@ public class CryptonitAdapterTest {
   public void testOrderAdapterWithDepth() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptonitDepthJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -86,24 +85,24 @@ public class CryptonitAdapterTest {
     assertThat(trades.getTrades().size()).isEqualTo(100);
 
     // Verify all fields filled
+    assertThat(trades.getlastID()).isEqualTo(268133L);
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 605.997);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.189100000);
     assertThat(trades.getTrades().get(0).getCurrencyPair().baseSymbol == "BTC");
-    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-06-20 00:09:09 GMT");
+    assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-06-20 00:09:10 GMT");
   }
 
   @Test
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = CryptonitTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
+    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     CryptonitTicker cryptonitTicker = mapper.readValue(is, CryptonitTicker.class);
 
     Ticker ticker = CryptonitAdapters.adaptTicker(cryptonitTicker, CurrencyPair.BTC_USD);
-    System.out.println(ticker.toString());
 
     assertThat(ticker.getLast().toString()).isEqualTo("605.997");
     assertThat(ticker.getLow().toString()).isEqualTo("572.73768613");
@@ -112,5 +111,22 @@ public class CryptonitAdapterTest {
 
     assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo("BTC");
 
+  }
+  
+  @Test
+  public void testAdaptCurrencyPairs() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = CryptonitAdapterTest.class.getResourceAsStream("/marketdata/example-trading-pairs.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CollectionLikeType nestedListType = mapper.getTypeFactory().constructCollectionType(List.class, mapper.getTypeFactory().constructCollectionType(List.class, String.class));
+    List<List<String>> tradingPairs = mapper.readValue(is, nestedListType);
+
+    Collection<CurrencyPair> currencyPairs = CryptonitAdapters.adaptCurrencyPairs(tradingPairs);
+    
+    assertThat(currencyPairs).hasSize(3);
+    assertThat(currencyPairs.contains(CurrencyPair.BTC_LTC));
   }
 }

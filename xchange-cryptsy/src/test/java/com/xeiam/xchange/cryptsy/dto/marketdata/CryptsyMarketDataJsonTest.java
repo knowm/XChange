@@ -137,6 +137,7 @@ public class CryptsyMarketDataJsonTest {
 
     CryptsyPublicTrade trade = cryptsyTrades.get(0);
 
+    assertThat(trade.getId()).isEqualTo(47692497);
     assertEquals(trade.getPrice(), new BigDecimal("0.00003495"));
     assertEquals(trade.getQuantity(), new BigDecimal("2961.55892792"));
     assertEquals(trade.getTotal(), new BigDecimal("0.10350648"));

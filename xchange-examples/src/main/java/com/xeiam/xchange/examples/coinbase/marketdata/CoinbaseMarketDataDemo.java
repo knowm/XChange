@@ -30,8 +30,10 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.coinbase.CoinbaseExchange;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
+import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseMarketDataService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -75,12 +77,12 @@ public class CoinbaseMarketDataDemo {
     CoinbaseMoney spotRate = marketDataService.getCoinbaseSpotRate("EUR");
     System.out.println("Spot Rate: " + spotRate);
 
-/*    int page = 2;
+    int page = 2;
     CoinbaseSpotPriceHistory spotPriceHistory = marketDataService.getCoinbaseHistoricalSpotRates(page);
     List<CoinbaseHistoricalSpotPrice> spotPriceHistoryList = spotPriceHistory.getSpotPriceHistory();
     for (CoinbaseHistoricalSpotPrice coinbaseHistoricalSpotPrice : spotPriceHistoryList) {
       System.out.println(coinbaseHistoricalSpotPrice);
     }
-    System.out.println("...Retrieved " + spotPriceHistoryList.size() + " historical spot rates.");*/
+    System.out.println("...Retrieved " + spotPriceHistoryList.size() + " historical spot rates.");
   }
 }

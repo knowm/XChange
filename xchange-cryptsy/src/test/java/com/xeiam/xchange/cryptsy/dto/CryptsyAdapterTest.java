@@ -152,7 +152,7 @@ public class CryptsyAdapterTest {
 
     Trade adaptedTrade = adaptedTradesList.get(1);
     assertThat(adaptedTrade.getCurrencyPair()).isEqualTo(CurrencyPair.DOGE_LTC);
-    assertThat(adaptedTrade.getId()).isNull();
+    assertThat(adaptedTrade.getId()).isEqualTo("47692497");
     assertThat(adaptedTrade.getOrderId()).isNull();
     assertThat(adaptedTrade.getPrice()).isEqualTo("0.00003495");
     assertThat(adaptedTrade.getTradableAmount()).isEqualTo("2961.55892792");

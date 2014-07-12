@@ -22,8 +22,7 @@
 package com.xeiam.xchange.cryptonit.v2.service.polling;
 
 import java.io.IOException;
-
-import si.mazi.rescu.RestProxyFactory;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptonit.v2.Cryptonit;
@@ -40,9 +39,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
  * </ul>
  */
 
-public class CryptonitMarketDataServiceRaw extends CryptonitBasePollingService {
-
-  private final Cryptonit cryptonit;
+public class CryptonitMarketDataServiceRaw extends CryptonitBasePollingService<Cryptonit> {
 
   /**
    * Constructor
@@ -51,10 +48,15 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBasePollingService {
    */
   public CryptonitMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.cryptonit = RestProxyFactory.createProxy(Cryptonit.class, exchangeSpecification.getSslUri());
+    super(Cryptonit.class, exchangeSpecification);
   }
 
+  public List<List<String>> getCryptonitTradingPairs() throws IOException {
+    
+    final List<List<String>> tradingPairs = cryptonit.getPairs();
+    return tradingPairs;
+  }
+  
   public CryptonitTicker getCryptonitTicker(CurrencyPair currencyPair) throws IOException {
 
     // Request data

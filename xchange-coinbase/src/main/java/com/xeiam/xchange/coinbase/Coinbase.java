@@ -67,10 +67,11 @@ public interface Coinbase {
   @Path("prices/spot_rate")
   CoinbaseMoney getSpotRate(@QueryParam("currency") String currency) throws IOException;
 
-/*  @GET
+  @GET
+  @Produces(MediaType.TEXT_PLAIN)
   @Path("prices/historical")
-  CoinbaseSpotPriceHistory getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;
-*/
+  String getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;
+
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("users")
