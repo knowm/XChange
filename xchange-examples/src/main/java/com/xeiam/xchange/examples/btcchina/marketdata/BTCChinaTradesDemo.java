@@ -59,13 +59,26 @@ public class BTCChinaTradesDemo {
     // Get the latest trade data for BTC/CNY
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY);
 
-    System.out.println(trades.toString());
+    System.out.println(trades);
+    System.out.println("NumTrades=" + trades.getTrades().size());
+
+    // Get the latest trade data for BTC/CNY, limit 10
+    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, null, 10);
+    System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());
 
     // Get the offset trade data for BTC/CNY
     trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, 6097616);
 
-    System.out.println(trades.toString());
+    System.out.println(trades);
+    System.out.println("NumTrades=" + trades.getTrades().size());
+
+    System.out.println("LastId=" + trades.getlastID());
+
+    // Get the offset trade data for BTC/CNY, limit 10
+    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, 6097616, 10);
+
+    System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());
 
     System.out.println("LastId=" + trades.getlastID());

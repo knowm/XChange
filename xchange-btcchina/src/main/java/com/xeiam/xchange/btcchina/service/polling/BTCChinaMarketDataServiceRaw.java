@@ -68,14 +68,32 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
     return btcChina.getFullDepth(market);
   }
 
-  public List<BTCChinaTrade> getBTCChinaTrades(String market, Long sinceTransactionID) throws IOException {
-
-    return btcChina.getTrades(market, sinceTransactionID);
-  }
-
-  public List<BTCChinaTrade> getBTCChinaTrades(String market) throws IOException {
+  public List<BTCChinaTrade> getBTCChinaTrades(
+      String market)
+          throws IOException {
 
     return btcChina.getTrades(market);
+  }
+
+  public List<BTCChinaTrade> getBTCChinaTrades(
+      String market, int limit)
+          throws IOException {
+
+    return btcChina.getTrades(market, limit);
+  }
+
+  public List<BTCChinaTrade> getBTCChinaTrades(
+      String market, long since)
+          throws IOException {
+
+    return btcChina.getTrades(market, since);
+  }
+
+  public List<BTCChinaTrade> getBTCChinaTrades(
+      String market, long since, int limit)
+          throws IOException {
+
+    return btcChina.getTrades(market, since, limit);
   }
 
 }
