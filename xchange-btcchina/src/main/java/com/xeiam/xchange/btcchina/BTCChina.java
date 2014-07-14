@@ -72,15 +72,64 @@ public interface BTCChina {
   @Path("data/orderbook")
   public BTCChinaDepth getFullDepth(@QueryParam("market") String market) throws IOException;
 
-  // (return last 100 trade records.)
+  /**
+   * Returns last 100 trade records.
+   *
+   * @param market
+   * @return
+   * @throws IOException
+   */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market) throws IOException;
+  public List<BTCChinaTrade> getTrades(
+      @QueryParam("market") String market)
+          throws IOException;
 
-  // return 100 trade records starting from id $since.
+  /**
+   * Returns last {@code limit} trade records.
+   *
+   * @param market
+   * @param limit the range of limit is [0,5000].
+   * @return
+   * @throws IOException
+   */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") Long transactionID) throws IOException;
+  public List<BTCChinaTrade> getTrades(
+      @QueryParam("market") String market,
+      @QueryParam("limit") int limit)
+          throws IOException;
+
+  /**
+   * Returns 100 trade records starting from id {@code since}.
+   *
+   * @param market
+   * @param since the starting trade ID(exclusive).
+   * @return
+   * @throws IOException
+   */
+  @GET
+  @Path("data/historydata")
+  public List<BTCChinaTrade> getTrades(
+      @QueryParam("market") String market,
+      @QueryParam("since") long since)
+          throws IOException;
+
+  /**
+   * Returns {@code limit} trades starting from id {@code since}
+   *
+   * @param market
+   * @param since the starting trade ID(exclusive).
+   * @param limit the range of limit is [0,5000].
+   * @return
+   * @throws IOException
+   */
+  @GET
+  @Path("data/historydata")
+  public List<BTCChinaTrade> getTrades(
+      @QueryParam("market") String market,
+      @QueryParam("since") long since,
+      @QueryParam("limit") int limit) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

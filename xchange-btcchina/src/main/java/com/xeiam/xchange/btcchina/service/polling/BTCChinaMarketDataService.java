@@ -24,7 +24,9 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -48,6 +50,8 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
  *         </ul>
  */
 public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw implements PollingMarketDataService {
+
+  private final Logger log = LoggerFactory.getLogger(BTCChinaMarketDataService.class);
 
   /**
    * Constructor
@@ -82,29 +86,34 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     return new OrderBook(null, asks, bids);
   }
 
+  /**
+   * Get the trades recently performed by the exchange.
+   * @param currencyPair market symbol.
+   * @param args 2 arguments:
+   * <ol>
+   * <li>the starting trade ID(exclusive), null means the latest trades;</li>
+   * <li>the limit(number of records fetched, the range is [0,5000]), default is 100.</li>
+   * <ol>
+   */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    List<BTCChinaTrade> btcChinaTrades = null;
+    final String market = BTCChinaAdapters.adaptMarket(currencyPair);
+    final Number since = args.length > 0 ? (Number) args[0] : null;
+    final Number limit = args.length > 1 ? (Number) args[1] : null;
 
-    if (args.length == 0) {
-      btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair));
-    }
-    else if (args.length == 1) {
-      Object arg0 = args[0];
+    log.debug("market: {}, since: {}, limit: {}", market, since, limit);
 
-      if (arg0 instanceof Number) {
-        Long sinceTransactionID = ((Number) arg0).longValue();
+    final List<BTCChinaTrade> btcChinaTrades;
 
-        btcChinaTrades = getBTCChinaTrades(BTCChinaAdapters.adaptMarket(currencyPair), sinceTransactionID);
-      }
-      else {
-        throw new ExchangeException("args[0] must be of type Number!");
-      }
-    }
-
-    else {
-      throw new ExchangeException("Invalid argument length. Must be 0, or 1");
+    if (since != null && limit != null) {
+      btcChinaTrades = getBTCChinaTrades(market, since.longValue(), limit.intValue());
+    } else if (since != null) {
+      btcChinaTrades = getBTCChinaTrades(market, since.longValue());
+    } else if (limit != null) {
+      btcChinaTrades = getBTCChinaTrades(market, limit.intValue());
+    } else {
+      btcChinaTrades = getBTCChinaTrades(market);
     }
 
     // Adapt to XChange DTOs
