@@ -37,8 +37,10 @@ import javax.ws.rs.core.MediaType;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
+import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetDepositsRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetAccountInfoResponse;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
@@ -136,6 +138,15 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaGetAccountInfoResponse getAccountInfo(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaGetAccountInfoRequest getAccountInfoRequest) throws IOException;
+
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public BTCChinaGetDepositsResponse getDeposits(
+      @HeaderParam("Authorization") ParamsDigest authorization,
+      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaGetDepositsRequest getDepositsRequest)
+          throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

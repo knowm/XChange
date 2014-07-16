@@ -29,6 +29,8 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+import com.xeiam.xchange.btcchina.dto.account.BTCChinaDeposit;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
@@ -75,19 +77,31 @@ public class BTCChinaAccountDemo {
 
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
+    BTCChinaAccountServiceRaw btcChinaAccountService = (BTCChinaAccountServiceRaw) accountService;
+
     // Get the account information
-    BTCChinaResponse<BTCChinaAccountInfo> accountInfo = ((BTCChinaAccountServiceRaw) accountService).getBTCChinaAccountInfo();
+    BTCChinaResponse<BTCChinaAccountInfo> accountInfo = btcChinaAccountService.getBTCChinaAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.getResult().toString());
+
+    // Get deposits
+    BTCChinaGetDepositsResponse response = btcChinaAccountService.getDeposits("BTC");
+    for (BTCChinaDeposit deposit : response.getResult().getDeposits()) {
+      System.out.println(deposit);
+    }
+    response = btcChinaAccountService.getDeposits("BTC", false);
+    for (BTCChinaDeposit deposit : response.getResult().getDeposits()) {
+      System.out.println(deposit);
+    }
 
     // Not implemented for *Raw layer - retrieve from accountInfo
     /*
-     * String depositAddress = ((BTCChinaAccountServiceRaw)accountService).requestBTCChinaBitcoinDepositAddress(null, null);
+     * String depositAddress = btcChinaAccountService.requestBTCChinaBitcoinDepositAddress(null, null);
      * System.out.println("Deposit address: " + depositAddress);
      */
-    System.out.println("AccountInfo as String: " + accountInfo.getResult().getProfile().getBtcDepositAddress());
+    // System.out.println("AccountInfo as String: " + accountInfo.getResult().getProfile().getBtcDepositAddress());
 
     // API key has no withdraw rights - returns 401 unauthorized
-    // BTCChinaResponse<BTCChinaID> withdrawResult = ((BTCChinaAccountServiceRaw)accountService).withdrawBTCChinaFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
+    // BTCChinaResponse<BTCChinaID> withdrawResult = btcChinaAccountService.withdrawBTCChinaFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
     // System.out.println("withdrawResult = " + withdrawResult);
   }
 }
