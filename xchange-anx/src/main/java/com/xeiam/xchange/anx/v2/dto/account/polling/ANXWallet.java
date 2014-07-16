@@ -33,6 +33,7 @@ public final class ANXWallet {
   private final ANXValue dailyWithdrawLimit;
   private final ANXValue maxWithdraw;
   private final ANXValue monthlyWithdrawLimit;
+  private final ANXValue availableBalance;
   private final int operations;
 
   /**
@@ -42,21 +43,28 @@ public final class ANXWallet {
    * @param dailyWithdrawLimit
    * @param maxWithdraw
    * @param monthlyWithdrawLimit
+   * @param availableBalance
    * @param operations
    */
   public ANXWallet(@JsonProperty("Balance") ANXValue balance, @JsonProperty("Daily_Withdrawal_Limit") ANXValue dailyWithdrawLimit, @JsonProperty("Max_Withdraw") ANXValue maxWithdraw,
-      @JsonProperty("Monthly_Withdraw_Limit") ANXValue monthlyWithdrawLimit, @JsonProperty("Operations") int operations) {
+      @JsonProperty("Monthly_Withdraw_Limit") ANXValue monthlyWithdrawLimit, @JsonProperty("Available_Balance") ANXValue availableBalance, @JsonProperty("Operations") int operations) {
 
     this.balance = balance;
     this.dailyWithdrawLimit = dailyWithdrawLimit;
     this.maxWithdraw = maxWithdraw;
     this.monthlyWithdrawLimit = monthlyWithdrawLimit;
+    this.availableBalance = availableBalance;
     this.operations = operations;
   }
 
   public ANXValue getBalance() {
 
     return this.balance;
+  }
+
+  public ANXValue getAvailableBalance() {
+
+    return this.availableBalance;
   }
 
   public ANXValue getDailyWithdrawLimit() {
