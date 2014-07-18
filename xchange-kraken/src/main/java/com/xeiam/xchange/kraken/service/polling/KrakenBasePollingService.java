@@ -27,8 +27,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import si.mazi.rescu.NonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.ValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -55,6 +57,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
 
   protected T kraken;
   protected ParamsDigest signatureCreator;
+  protected ValueFactory<Long> nonce = new NonceFactory();
 
   /**
    * Constructor
@@ -159,9 +162,9 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
     return krakenResult.getResult();
   }
 
-  protected long nextNonce() {
+  protected ValueFactory<Long> nextNonce() {
 
-    return System.currentTimeMillis();
+    return nonce;
   }
 
   protected String createDelimitedString(String[] items) {
