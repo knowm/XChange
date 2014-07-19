@@ -23,11 +23,15 @@ package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
@@ -47,6 +51,8 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
  *         </ul>
  */
 public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements PollingTradeService {
+
+  private final Logger log = LoggerFactory.getLogger(BTCChinaTradeService.class);
 
   /**
    * Constructor
@@ -87,10 +93,25 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     return response.getResult();
   }
 
+  /**
+   * Gets trade history for user's account.
+   *
+   * @param args 2 optional arguments:
+   * <ol>
+   * <li>limit: limit the number of transactions, default value is 10 if null.</li>
+   * <li>offset: start index used for pagination, default value is 0 if null.</li>
+   * </ol>
+   */
   @Override
   public Trades getTradeHistory(Object... args) throws IOException {
 
-    BTCChinaTransactionsResponse response = getTransactions();
+    final String type = BTCChinaTransactionsRequest.TYPE_ALL;
+    final Integer limit = args.length > 0 ? ((Number) args[0]).intValue() : null;
+    final Integer offset = args.length > 1 ? ((Number) args[1]).intValue() : null;
+
+    log.debug("type: {}, limit: {}, offset: {}", type, limit, offset);
+
+    final BTCChinaTransactionsResponse response = getTransactions(type, limit, offset);
     return BTCChinaAdapters.adaptTransactions(response.getResult().getTransactions());
   }
 

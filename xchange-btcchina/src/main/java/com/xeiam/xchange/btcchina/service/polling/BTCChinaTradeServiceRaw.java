@@ -130,5 +130,14 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   
     return checkResult(btcChina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaTransactionsRequest()));
   }
-  
+
+  /**
+   * @see {@link BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)}.
+   */
+  public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
+    BTCChinaTransactionsRequest request = new BTCChinaTransactionsRequest(type, limit, offset);
+    BTCChinaTransactionsResponse response = btcChina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
 }
