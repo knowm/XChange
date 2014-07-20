@@ -28,11 +28,13 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.CertHelper;
 
@@ -56,6 +58,9 @@ public class CryptoTradeMarketDataDemo {
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook);
+    
+    Trades publicTradeHistory = marketDataService.getTrades(CurrencyPair.BTC_USD, 1405805427);
+    System.out.println(publicTradeHistory);
   }
 
   private static void raw(CryptoTradeMarketDataServiceRaw marketDataService) throws IOException {
@@ -68,5 +73,8 @@ public class CryptoTradeMarketDataDemo {
 
     CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(CurrencyPair.BTC_USD);
     System.out.println(marketDepth);
+    
+    List<CryptoTradePublicTrade> publicTradeHistory = marketDataService.getCryptoTradeTradeHistory(CurrencyPair.BTC_USD, 1405805427);
+    System.out.println(publicTradeHistory);
   }
 }
