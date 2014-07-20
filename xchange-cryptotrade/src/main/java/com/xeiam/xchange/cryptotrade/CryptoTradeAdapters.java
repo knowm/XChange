@@ -31,6 +31,7 @@ import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicOrder;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
@@ -140,11 +141,39 @@ public final class CryptoTradeAdapters {
   public static Trades adaptTrades(CryptoTradeTrades cryptoTradeTrades) {
 
     List<Trade> tradeList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (CryptoTradeTrade cryptoTradeTrade : cryptoTradeTrades.getTrades()) {
+      long tradeId = cryptoTradeTrade.getId();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       Trade trade = adaptTrade(cryptoTradeTrade);
       tradeList.add(trade);
     }
 
-    return new Trades(tradeList, TradeSortType.SortByTimestamp);
+    return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
+
+  public static Trade adaptPublicTrade(CurrencyPair currencyPair, CryptoTradePublicTrade trade) {
+
+    OrderType orderType = adaptOrderType(trade.getType());
+    Date timestamp = new Date(trade.getTimestamp() * 1000);
+
+    return new Trade(orderType, trade.getOrderAmount(), currencyPair, trade.getRate(), timestamp, String.valueOf(trade.getId()));
+  }
+
+  public static Trades adaptPublicTradeHistory(CurrencyPair currencyPair, List<CryptoTradePublicTrade> publicTradeHistory) {
+
+    List<Trade> tradeList = new ArrayList<Trade>();
+    long lastTradeId = 0;
+    for (CryptoTradePublicTrade cryptoTradeTrade : publicTradeHistory) {
+      long tradeId = cryptoTradeTrade.getId();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
+      Trade trade = adaptPublicTrade(currencyPair, cryptoTradeTrade);
+      tradeList.add(trade);
+    }
+
+    return new Trades(tradeList, lastTradeId, TradeSortType.SortByID);
+  }
+
 }

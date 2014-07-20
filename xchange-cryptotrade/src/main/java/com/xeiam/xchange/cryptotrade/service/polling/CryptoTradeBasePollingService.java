@@ -77,8 +77,15 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
   public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
   static {
+    CURRENCY_PAIRS.add(new CurrencyPair("BC", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("BC", "BTC"));
     CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
+    CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "BTC"));
+    CURRENCY_PAIRS.add(CurrencyPair.DGC_BTC);
+    CURRENCY_PAIRS.add(new CurrencyPair("DRK", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("DRK", "USD"));
     CURRENCY_PAIRS.add(CurrencyPair.LTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.LTC_EUR);
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
@@ -95,15 +102,10 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.WDC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.DGC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_EUR);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_LTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("CINNI"));
-    CURRENCY_PAIRS.add(new CurrencyPair("BC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("BC", "BTC"));
   }
 
   @Override

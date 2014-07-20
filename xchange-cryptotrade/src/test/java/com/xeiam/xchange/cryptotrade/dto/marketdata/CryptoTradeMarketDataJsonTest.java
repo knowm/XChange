@@ -30,6 +30,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
 
 public class CryptoTradeMarketDataJsonTest {
 
@@ -71,5 +72,27 @@ public class CryptoTradeMarketDataJsonTest {
     CryptoTradePublicOrder ask = asks.get(0);
     assertThat(ask.getPrice()).isEqualTo("102");
     assertThat(ask.getAmount()).isEqualTo("0.81718312");
+  }
+  
+  @Test
+  public void testDeserializePublicTrades() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = CryptoTradeMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CryptoTradePublicTrades trades = mapper.readValue(is, CryptoTradePublicTrades.class);
+
+    List<CryptoTradePublicTrade> tradeList = trades.getPublicTrades();
+    assertThat(tradeList).hasSize(2);
+
+    CryptoTradePublicTrade trade = tradeList.get(0);
+    assertThat(trade.getId()).isEqualTo(399328);
+    assertThat(trade.getTimestamp()).isEqualTo(1405856801);
+    assertThat(trade.getAssetPair()).isEqualTo("btc_usd");
+    assertThat(trade.getType()).isEqualTo(CryptoTradeOrderType.Sell);
+    assertThat(trade.getOrderAmount()).isEqualTo("0.08540439");
+    assertThat(trade.getRate()).isEqualTo("618.19");
   }
 }
