@@ -30,10 +30,6 @@ public class BTCChinaGetDepositsRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "getDeposits";
 
-  public BTCChinaGetDepositsRequest(String currency) {
-    this(currency, true);
-  }
-
   public BTCChinaGetDepositsRequest(String currency, boolean pendingOnly) {
     method = METHOD_NAME;
     params = String.format("[\"%1$s\",%2$s]", currency, pendingOnly);

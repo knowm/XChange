@@ -31,16 +31,29 @@ import com.xeiam.xchange.currency.Currencies;
  */
 public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
 
+  private static final String METHOD_NAME = "requestWithdrawal";
+
   /**
    * Constructor
    * 
    * @param currencyUnit
    * @param amount
+   * @deprecated user {@link #BTCChinaRequestWithdrawalRequest(String, BigDecimal)} instead.
    */
+  @Deprecated
   public BTCChinaRequestWithdrawalRequest(BigDecimal amount) {
 
-    method = "requestWithdrawal";
+    method = METHOD_NAME;
     params = "[\"" + Currencies.BTC + "\"," + amount.doubleValue() + "]";
+  }
+
+  /**
+   * @param currency [ BTC | LTC ].
+   * @param amount amount to withdraw.
+   */
+  public BTCChinaRequestWithdrawalRequest(String currency, BigDecimal amount) {
+    method = METHOD_NAME;
+    params = String.format("[\"%1$s\",%2$s]", currency, amount.toPlainString());
   }
 
   @Override

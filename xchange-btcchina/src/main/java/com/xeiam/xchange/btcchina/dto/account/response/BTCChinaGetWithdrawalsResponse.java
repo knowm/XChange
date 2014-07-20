@@ -19,31 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.account;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
+package com.xeiam.xchange.btcchina.dto.account.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.btcchina.dto.BTCChinaError;
+import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
+import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawalsObject;
 
 /**
  * @author Joe Zhou
  */
-public class BTCChinaDepositObject {
+public class BTCChinaGetWithdrawalsResponse
+  extends BTCChinaResponse<BTCChinaWithdrawalsObject> {
 
-  private final BTCChinaDeposit[] deposits;
-
-  public BTCChinaDepositObject(
-      @JsonProperty("deposit") BTCChinaDeposit[] deposits) {
-    this.deposits = deposits;
-  }
-
-  public BTCChinaDeposit[] getDeposits() {
-    return deposits;
-  }
-
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+  public BTCChinaGetWithdrawalsResponse(
+      @JsonProperty("id") String id,
+      @JsonProperty("result") BTCChinaWithdrawalsObject result,
+      @JsonProperty("error") BTCChinaError error) {
+    super(id, result, error);
   }
 
 }

@@ -28,17 +28,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Joe Zhou
  */
-public class BTCChinaDepositObject {
+public class BTCChinaWithdrawalsObject {
 
-  private final BTCChinaDeposit[] deposits;
+  private final BTCChinaWithdrawal[] withdrawals;
 
-  public BTCChinaDepositObject(
-      @JsonProperty("deposit") BTCChinaDeposit[] deposits) {
-    this.deposits = deposits;
+  public BTCChinaWithdrawalsObject(
+      @JsonProperty("withdrawal") BTCChinaWithdrawal[] withdrawals) {
+    this.withdrawals = withdrawals;
   }
 
-  public BTCChinaDeposit[] getDeposits() {
-    return deposits;
+  public BTCChinaWithdrawal[] getWithdrawals() {
+    return withdrawals;
   }
 
   @Override

@@ -19,31 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.account;
+package com.xeiam.xchange.btcchina.dto.account.request;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static org.junit.Assert.assertEquals;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+
+import org.junit.Test;
 
 /**
  * @author Joe Zhou
  */
-public class BTCChinaDepositObject {
+public class BTCChinaRequestWithdrawalRequestTest {
 
-  private final BTCChinaDeposit[] deposits;
-
-  public BTCChinaDepositObject(
-      @JsonProperty("deposit") BTCChinaDeposit[] deposits) {
-    this.deposits = deposits;
-  }
-
-  public BTCChinaDeposit[] getDeposits() {
-    return deposits;
-  }
-
-  @Override
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this);
+  @Test
+  public void testBTCChinaRequestWithdrawalRequestStringBigDecimal() {
+    BTCChinaRequestWithdrawalRequest request
+      = new BTCChinaRequestWithdrawalRequest(
+          "BTC", new BigDecimal(Long.MAX_VALUE));
+    assertEquals("[\"BTC\"," + Long.MAX_VALUE + "]", request.getParams());
   }
 
 }

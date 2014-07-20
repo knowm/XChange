@@ -32,8 +32,13 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetDepositsRequest;
+import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetWithdrawalRequest;
+import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetWithdrawalsRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalResponse;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
 
 /**
  * @author ObsessiveOrange
@@ -75,11 +80,52 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
     return checkResult(response);
   }
 
+  public BTCChinaGetWithdrawalResponse getWithdrawal(long id)
+      throws IOException {
+    return getWithdrawal(id, "BTC");
+  }
+
+  public BTCChinaGetWithdrawalResponse getWithdrawal(long id, String currency)
+      throws IOException {
+    BTCChinaGetWithdrawalRequest request = new BTCChinaGetWithdrawalRequest(
+        id, currency);
+    BTCChinaGetWithdrawalResponse response = btcChina.getWithdrawal(
+        signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
+  public BTCChinaGetWithdrawalsResponse getWithdrawals(String currency)
+      throws IOException {
+    return getWithdrawals(currency, true);
+  }
+
+  public BTCChinaGetWithdrawalsResponse getWithdrawals(
+      String currency, boolean pendingOnly) throws IOException {
+    BTCChinaGetWithdrawalsRequest request = new BTCChinaGetWithdrawalsRequest(
+        currency, pendingOnly);
+    BTCChinaGetWithdrawalsResponse response = btcChina.getWithdrawals(
+        signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
+  /**
+   * @deprecated use {@link #withdrawBTCChinaFunds(String, BigDecimal, String)} instead.
+   */
+  @Deprecated
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {
   
     return checkResult(btcChina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount)));
   }
-  
+
+  public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(
+      String currency, BigDecimal amount, String address) throws IOException {
+    BTCChinaRequestWithdrawalRequest request
+      = new BTCChinaRequestWithdrawalRequest(currency, amount);
+    BTCChinaRequestWithdrawalResponse response = btcChina.requestWithdrawal(
+        signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
   public String requestBTCChinaBitcoinDepositAddress() throws IOException {
   
     BTCChinaResponse<BTCChinaAccountInfo> response =
