@@ -121,7 +121,7 @@ public class BTCChinaAccountDemo {
     System.out.println("AccountInfo as String: " + accountInfo.getResult().getProfile().getBtcDepositAddress());
 
     // API key has no withdraw rights - returns 401 unauthorized
-    // BTCChinaResponse<BTCChinaID> withdrawResult = btcChinaAccountService.withdrawBTCChinaFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
+    // BTCChinaResponse<BTCChinaID> withdrawResult = btcChinaAccountService.withdrawBTCChinaFunds("BTC", new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
     // System.out.println("withdrawResult = " + withdrawResult);
   }
 }
