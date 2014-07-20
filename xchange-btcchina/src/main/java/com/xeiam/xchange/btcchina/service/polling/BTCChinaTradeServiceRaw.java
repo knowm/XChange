@@ -102,7 +102,9 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   
   /**
    * @return BTCChinaIntegerResponse of new limit order status.
+   * @deprecated use {@link #buy(BigDecimal, BigDecimal, String)} or {@link #sell(BigDecimal, BigDecimal, String)} instead.
    */
+  @Deprecated
   public BTCChinaIntegerResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
   
     BTCChinaIntegerResponse response = null;
@@ -117,7 +119,51 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
     
     return checkResult(response);
   }
-  
+
+  /**
+   * Place a buy order.
+   *
+   * @param price The price in quote currency to buy 1 base currency.
+   * Max 2 decimals for BTC/CNY and LTC/CNY markets.
+   * 4 decimals for LTC/BTC market.
+   * Market order is executed by setting price to 'null'.
+   * @param amount The amount of LTC/BTC to buy.
+   * Supports 4 decimal places for BTC and 3 decimal places for LTC.
+   * @param market [ BTCCNY | LTCCNY | LTCBTC ]
+   * @return order ID.
+   * @throws IOException
+   */
+  public BTCChinaIntegerResponse buy(
+      BigDecimal price, BigDecimal amount, String market) throws IOException {
+    BTCChinaBuyOrderRequest request = new BTCChinaBuyOrderRequest(
+        price, amount, market);
+    BTCChinaIntegerResponse response = btcChina.buyOrder2(
+        signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
+  /**
+   * Place a sell order.
+   *
+   * @param price The price in quote currency to sell 1 base currency.
+   * Max 2 decimals for BTC/CNY and LTC/CNY markets.
+   * 4 decimals for LTC/BTC market.
+   * Market order is executed by setting price to 'null'.
+   * @param amount The amount of LTC/BTC to sell.
+   * Supports 4 decimal places for BTC and 3 decimal places for LTC.
+   * @param market [ BTCCNY | LTCCNY | LTCBTC ]
+   * @return order ID.
+   * @throws IOException
+   */
+  public BTCChinaIntegerResponse sell(
+      BigDecimal price, BigDecimal amount, String market) throws IOException {
+    BTCChinaSellOrderRequest request = new BTCChinaSellOrderRequest(
+        price, amount, market);
+    BTCChinaIntegerResponse response = btcChina.sellOrder2(
+        signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
   /**
    * @return BTCChinaBooleanResponse of limit order cancellation status.
    */

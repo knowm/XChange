@@ -100,7 +100,7 @@ public class BTCChinaTradeDemo {
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, CurrencyPair.BTC_CNY, "", null, new BigDecimal("0.01"));
-    BTCChinaIntegerResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).placeBTCChinaLimitOrder(new BigDecimal("0.01"), BigDecimal.ONE, OrderType.BID);
+    BTCChinaIntegerResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).buy(new BigDecimal("0.01"), BigDecimal.ONE, "BTCCNY");
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     Thread.sleep(1500);

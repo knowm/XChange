@@ -24,23 +24,31 @@ package com.xeiam.xchange.btcchina.dto.trade.request;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
-import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
 /**
  * @author David Yam
  */
-public final class BTCChinaSellOrderRequest extends BTCChinaRequest {
+public final class BTCChinaSellOrderRequest extends BTCChinaOrderRequest {
+
+  private static final String METHOD_NAME = "sellOrder2";
 
   /**
    * Constructor
    * 
    * @param price unit price to sell at
    * @param amount number of units to sell
+   * @deprecated use {@link #BTCChinaSellOrderRequest(BigDecimal, BigDecimal, String)} instead.
    */
+  @Deprecated
   public BTCChinaSellOrderRequest(BigDecimal price, BigDecimal amount) {
 
-    method = "sellOrder2";
+    super(METHOD_NAME, price, amount, "BTCCNY");
     params = "[" + price.toPlainString() + "," + BTCChinaUtils.truncateAmount(amount).toPlainString() + "]";
+  }
+
+  public BTCChinaSellOrderRequest(
+      BigDecimal price, BigDecimal amount, String market) {
+    super(METHOD_NAME, price, amount, market);
   }
 
   @Override
