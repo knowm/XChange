@@ -32,11 +32,12 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.itbit.v1.ItBit;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
+import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 
 public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
 
-  protected final ItBit itBit;
+  protected final ItBit itBitPublic;
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
@@ -44,12 +45,19 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
   public ItBitMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    itBit = RestProxyFactory.createProxy(ItBit.class, exchangeSpecification.getSslUri());
+    itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchangeSpecification.getSslUri());
+  }
+  
+  public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException { 
+    
+    ItBitTicker ticker = itBit.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    
+    return ticker;
   }
 
   public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    ItBitDepth depth = itBit.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    ItBitDepth depth = itBitPublic.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return depth;
   }
@@ -61,7 +69,7 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
       since = ((Number) args[0]).longValue();
     }
 
-    ItBitTrade[] trades = itBit.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, since);
+    ItBitTrade[] trades = itBitPublic.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, since);
     return trades;
   }
 }
