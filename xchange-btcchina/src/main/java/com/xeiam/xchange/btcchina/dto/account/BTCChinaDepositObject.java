@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BTCChinaDepositObject {
 
-  private BTCChinaDeposit[] deposits;
+  private final BTCChinaDeposit[] deposits;
 
   public BTCChinaDepositObject(
       @JsonProperty("deposit") BTCChinaDeposit[] deposits) {
@@ -39,10 +39,6 @@ public class BTCChinaDepositObject {
 
   public BTCChinaDeposit[] getDeposits() {
     return deposits;
-  }
-
-  public void setDeposits(BTCChinaDeposit[] deposits) {
-    this.deposits = deposits;
   }
 
   @Override
