@@ -75,6 +75,10 @@ public final class BTCChinaUtils {
     return new BigDecimal(new BigInteger(value.getAmountInteger()), value.getAmountDecimal().intValue());
   }
 
+  /**
+   * @deprecated scales of BTCCNY, LTCCNY, LTCBTC are different.
+   */
+  @Deprecated
   public static BigDecimal truncateAmount(BigDecimal value) {
 
     return value.setScale(3, RoundingMode.FLOOR).stripTrailingZeros();

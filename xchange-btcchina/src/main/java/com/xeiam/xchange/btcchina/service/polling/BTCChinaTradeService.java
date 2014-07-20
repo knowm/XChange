@@ -22,12 +22,12 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
@@ -35,6 +35,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -74,14 +75,31 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    final BigDecimal amount = marketOrder.getTradableAmount();
+    final String market = BTCChinaAdapters.adaptMarket(marketOrder.getCurrencyPair()).toUpperCase();
+    final BTCChinaIntegerResponse response;
 
-    throw new NotAvailableFromExchangeException();
+    if (marketOrder.getType() == OrderType.BID) {
+      response = buy(null, amount, market);
+    } else {
+      response = sell(null, amount, market);
+    }
+
+    return response.getResult().toString();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    final BigDecimal price = limitOrder.getLimitPrice();
+    final BigDecimal amount = limitOrder.getTradableAmount();
+    final String market = BTCChinaAdapters.adaptMarket(limitOrder.getCurrencyPair()).toUpperCase();
+    final BTCChinaIntegerResponse response;
 
-    BTCChinaIntegerResponse response = placeBTCChinaLimitOrder(limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), limitOrder.getType());
+    if (limitOrder.getType() == OrderType.BID) {
+      response = buy(price, amount, market);
+    } else {
+      response = sell(price, amount, market);
+    }
 
     return response.getResult().toString();
   }
