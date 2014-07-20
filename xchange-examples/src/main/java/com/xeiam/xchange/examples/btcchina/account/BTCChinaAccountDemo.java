@@ -30,7 +30,9 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaDeposit;
+import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawal;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
@@ -84,13 +86,23 @@ public class BTCChinaAccountDemo {
     System.out.println("AccountInfo as String: " + accountInfo.getResult().toString());
 
     // Get deposits
-    BTCChinaGetDepositsResponse response = btcChinaAccountService.getDeposits("BTC");
-    for (BTCChinaDeposit deposit : response.getResult().getDeposits()) {
+    BTCChinaGetDepositsResponse depositsResponse = btcChinaAccountService.getDeposits("BTC");
+    for (BTCChinaDeposit deposit : depositsResponse.getResult().getDeposits()) {
       System.out.println(deposit);
     }
-    response = btcChinaAccountService.getDeposits("BTC", false);
-    for (BTCChinaDeposit deposit : response.getResult().getDeposits()) {
+    depositsResponse = btcChinaAccountService.getDeposits("BTC", false);
+    for (BTCChinaDeposit deposit : depositsResponse.getResult().getDeposits()) {
       System.out.println(deposit);
+    }
+
+    // Get withdrawals
+    BTCChinaGetWithdrawalsResponse withdrawalsResponse = btcChinaAccountService.getWithdrawals("BTC");
+    for (BTCChinaWithdrawal withdrawal : withdrawalsResponse.getResult().getWithdrawals()) {
+      System.out.println(withdrawal);
+    }
+    withdrawalsResponse = btcChinaAccountService.getWithdrawals("BTC", false);
+    for (BTCChinaWithdrawal withdrawal : withdrawalsResponse.getResult().getWithdrawals()) {
+      System.out.println(withdrawal);
     }
 
     // Not implemented for *Raw layer - retrieve from accountInfo
