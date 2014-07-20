@@ -24,17 +24,17 @@ package com.xeiam.xchange.btcchina.dto.account.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.btcchina.dto.BTCChinaError;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
-import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawalsObject;
+import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawalObject;
 
 /**
  * @author Joe Zhou
  */
-public class BTCChinaGetWithdrawalsResponse
-  extends BTCChinaResponse<BTCChinaWithdrawalsObject> {
+public class BTCChinaGetWithdrawalResponse
+  extends BTCChinaResponse<BTCChinaWithdrawalObject> {
 
-  public BTCChinaGetWithdrawalsResponse(
+  public BTCChinaGetWithdrawalResponse(
       @JsonProperty("id") String id,
-      @JsonProperty("result") BTCChinaWithdrawalsObject result,
+      @JsonProperty("result") BTCChinaWithdrawalObject result,
       @JsonProperty("error") BTCChinaError error) {
     super(id, result, error);
   }

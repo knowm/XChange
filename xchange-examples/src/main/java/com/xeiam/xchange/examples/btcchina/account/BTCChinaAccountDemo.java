@@ -32,6 +32,7 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaDeposit;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawal;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -104,6 +105,13 @@ public class BTCChinaAccountDemo {
     for (BTCChinaWithdrawal withdrawal : withdrawalsResponse.getResult().getWithdrawals()) {
       System.out.println(withdrawal);
     }
+
+    // Get withdrawal
+    // BTCChinaGetWithdrawalResponse withdrawalResponse = btcChinaAccountService.getWithdrawal(56102);
+    // System.out.println(withdrawalResponse.getResult().getWithdrawal());
+
+    // withdrawalResponse = btcChinaAccountService.getWithdrawal(56102, "BTC");
+    // System.out.println(withdrawalResponse.getResult().getWithdrawal());
 
     // Not implemented for *Raw layer - retrieve from accountInfo
     /*

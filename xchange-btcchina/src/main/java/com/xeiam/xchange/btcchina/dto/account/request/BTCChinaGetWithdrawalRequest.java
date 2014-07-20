@@ -19,24 +19,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.account.response;
+package com.xeiam.xchange.btcchina.dto.account.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.btcchina.dto.BTCChinaError;
-import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
-import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawalsObject;
+import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
 /**
  * @author Joe Zhou
  */
-public class BTCChinaGetWithdrawalsResponse
-  extends BTCChinaResponse<BTCChinaWithdrawalsObject> {
+public class BTCChinaGetWithdrawalRequest extends BTCChinaRequest {
 
-  public BTCChinaGetWithdrawalsResponse(
-      @JsonProperty("id") String id,
-      @JsonProperty("result") BTCChinaWithdrawalsObject result,
-      @JsonProperty("error") BTCChinaError error) {
-    super(id, result, error);
+  private static final String METHOD_NAME = "getWithdrawal";
+
+  /**
+   * @param id the withdrawal ID.
+   * @param currency [ BTC | LTC ].
+   */
+  public BTCChinaGetWithdrawalRequest(long id, String currency) {
+    method = METHOD_NAME;
+    params = String.format("[%1$d,\"%2$s\"]", id, currency);
   }
 
 }
