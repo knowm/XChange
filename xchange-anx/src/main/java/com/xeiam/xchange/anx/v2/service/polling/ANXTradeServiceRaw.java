@@ -24,6 +24,7 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.anx.v2.dto.trade.polling.*;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -31,9 +32,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXV2;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
-import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXGenericResponse;
-import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
-import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrderWrapper;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -101,6 +99,28 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
       return anxGenericResponse;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling cancelOrder(): " + e.getError(), e);
+    }
+  }
+
+  public ANXTradeResultWrapper getExecutedANXTrades(long from, long to) throws IOException {
+
+    try {
+
+      ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), from, to);
+      return anxTradeResultWrapper;
+    } catch (ANXException e) {
+      throw new ExchangeException("Error calling getExecutedANXTrades(): " + e.getError(), e);
+    }
+  }
+
+  public ANXOrderResultWrapper getANXOrderResult(String orderId, String type) throws IOException {
+
+    try {
+
+      ANXOrderResultWrapper anxOrderResultWrapper = anxV2.getOrderResult(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), orderId, type);
+      return anxOrderResultWrapper;
+    } catch (ANXException e) {
+      throw new ExchangeException("Error calling getANXOrderResult(): " + e.getError(), e);
     }
   }
 }
