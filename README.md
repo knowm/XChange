@@ -1,8 +1,8 @@
-## [![XChange](http://www.xeiam.com/images/XChange_64_64.png)](http://www.xeiam.com/xchange) XChange
+## [![XChange](http://xeiam.com/wp-content/uploads/xchangelogo.png)](http://xeiam.com/xchange) XChange
 XChange is a Java library providing a simple and consistent API for interacting with over a dozen Bitcoin exchanges providing a consistent interface for trading and accessing market data.
 
 ## Important!
-The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Xeiam's Twitter page](https://twitter.com/Xeiam). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://www.xeiam.com/bounties) to be had as well.
+The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Xeiam's Twitter page](https://twitter.com/Xeiam). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://xeiam.com/bounties) to be had as well.
 
 ## Description
 XChange is a library providing a simple and consistent API for interacting with a diverse set of financial security exchanges, including support for Bitcoin. 
@@ -23,7 +23,7 @@ Usage is very simple: Create an Exchange instance, get the appropriate service, 
     
 All exchange implementations expose the same API, but you can also directly access the raw data.
 
-Now go ahead and [study some more examples](http://www.xeiam.com/xchange_examplecode.jsp), [download the thing](http://www.xeiam.com/xchange_changelog.jsp) and [provide feedback](https://github.com/timmolter/XChange/issues).
+Now go ahead and [study some more examples](http://xeiam.com/xchange-example-code), [download the thing](http://xeiam.com/xchange-change-log) and [provide feedback](https://github.com/timmolter/XChange/issues).
 
 ## Features
 * MIT license
@@ -34,10 +34,10 @@ Now go ahead and [study some more examples](http://www.xeiam.com/xchange_example
 * polling and streaming capability
     
 ## More Info
-Project Site: http://www.xeiam.com/xchange  
-Example Code: http://www.xeiam.com/xchange_examplecode.jsp  
-Change Log: http://www.xeiam.com/xchange_changelog.jsp  
-Java Docs: http://www.xeiam.com/xchange/javadoc/index.html  
+Project Site: http://xeiam.com/xchange  
+Example Code: http://xeiam.com/xchange-example-code  
+Change Log: http://xeiam.com/xchange-change-log  
+Java Docs: http://xeiam.com/xchange/javadoc/index.html  
 
 ## Wiki
 Home: https://github.com/timmolter/XChange/wiki  
@@ -54,7 +54,7 @@ New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New
 XChange is semantically versioned: http://semver.org  
 
 ### Non-Maven
-Download XChange Release Jars: http://www.xeiam.com/xchange
+Download XChange Release Jars: http://xeiam.com/xchange
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
 
 #### Compile Dependencies
@@ -135,4 +135,4 @@ For more information such as a contributor list and a list of known projects dep
 
 [1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc](https://blockchain.info/address/1MHMpzFxx4fRSaeYGSxhyEcgux7j4Gqwsc)
 
-All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/XChange/issues?state=open). Open bounties and bounties paid thus far can be found on Xeiam's [bounties](http://www.xeiam.com/bounties) page.
+All donations will be used to pay bounties for new features, refactoring, etc. Please consider donating or even posting your own bounties on our [Issues Page](https://github.com/timmolter/XChange/issues?state=open). Open bounties and bounties paid thus far can be found on Xeiam's [bounties](http://xeiam.com/bounties) page.
