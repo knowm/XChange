@@ -115,7 +115,7 @@ public interface ANXV2 {
           IOException;
 
   /**
-   * Status of the order
+   * List of executed trades
    *
    * @param apiKey
    * @param postBodySignatureCreator
@@ -133,6 +133,21 @@ public interface ANXV2 {
 
   /**
    * List of executed trades
+   *
+   * @param apiKey
+   * @param postBodySignatureCreator
+   * @param nonce
+   * @return
+   * @throws ANXException
+   * @throws IOException
+   */
+  @POST
+  @Path("money/trade/list")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  ANXTradeResultWrapper getExecutedTrades(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws ANXException, IOException;
+
+  /**
+   * Status of the order
    *
    * @param apiKey
    * @param postBodySignatureCreator

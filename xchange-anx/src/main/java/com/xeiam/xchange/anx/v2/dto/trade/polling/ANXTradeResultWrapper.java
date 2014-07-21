@@ -8,20 +8,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ANXTradeResultWrapper {
 
   private final String result;
-  private final ANXTradeResult anxTradeResult;
+  private final ANXTradeResult[] anxTradeResults;
   private final String error;
 
   /**
    * Constructor
    *
    * @param result
-   * @param anxTradeResult
+   * @param anxTradeResults
    * @param error
    */
-  public ANXTradeResultWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXTradeResult anxTradeResult, @JsonProperty("error") String error) {
+  public ANXTradeResultWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXTradeResult[] anxTradeResults, @JsonProperty("error") String error) {
 
     this.result = result;
-    this.anxTradeResult = anxTradeResult;
+    this.anxTradeResults = anxTradeResults;
     this.error = error;
   }
 
@@ -30,9 +30,9 @@ public class ANXTradeResultWrapper {
     return result;
   }
 
-  public ANXTradeResult getAnxTradeResult() {
+  public ANXTradeResult[] getAnxTradeResults() {
 
-    return anxTradeResult;
+    return anxTradeResults;
   }
 
   public String getError() {

@@ -113,6 +113,17 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
     }
   }
 
+  public ANXTradeResultWrapper getExecutedANXTrades() throws IOException {
+
+      try {
+
+        ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce());
+        return anxTradeResultWrapper;
+      } catch (ANXException e) {
+        throw new ExchangeException("Error calling getExecutedANXTrades(): " + e.getError(), e);
+      }
+  }
+
   public ANXOrderResultWrapper getANXOrderResult(String orderId, String type) throws IOException {
 
     try {
