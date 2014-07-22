@@ -35,7 +35,7 @@ import com.xeiam.xchange.blockchain.dto.BitcoinAddresses;
 /**
  * @author timmolter
  */
-public class BlochchainAddressDemo {
+public class BlockchainAddressDemo {
 
   public static void main(String[] args) throws IOException {
 
