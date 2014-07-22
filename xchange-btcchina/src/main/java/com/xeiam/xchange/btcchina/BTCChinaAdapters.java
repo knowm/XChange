@@ -23,6 +23,7 @@ package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -214,26 +215,37 @@ public final class BTCChinaAdapters {
   /**
    * @param orders
    * @return
-   * @deprecated Use {@link #adaptOpenOrders(List, CurrencyPair)} instead.
+   * @deprecated Do not use this anymore.
    */
   @Deprecated
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
-    return new OpenOrders(adaptOpenOrders(orders, CurrencyPair.BTC_CNY));
-  }
-  
-  public static List<LimitOrder> adaptOpenOrders(
-      List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
     if (orders != null) {
       for (BTCChinaOrder order : orders) {
         if (order.getStatus().equals("open")) {
-          LimitOrder limitOrder = adaptLimitOrder(order, currencyPair);
+          LimitOrder limitOrder = adaptLimitOrder(order);
           if (limitOrder != null) {
             limitOrders.add(limitOrder);
           }
         }
       }
+    }
+
+    return new OpenOrders(limitOrders);
+  }
+
+  public static List<LimitOrder> adaptOrders(
+      List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+    if (orders == null) {
+      return Collections.emptyList();
+    }
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
+
+    for (BTCChinaOrder order : orders) {
+      LimitOrder limitOrder = adaptLimitOrder(order, currencyPair);
+      limitOrders.add(limitOrder);
     }
 
     return limitOrders;

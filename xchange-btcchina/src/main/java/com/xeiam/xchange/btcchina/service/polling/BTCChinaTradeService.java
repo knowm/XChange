@@ -82,9 +82,9 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
         limitOrders.size());
 
       page = new ArrayList<LimitOrder>();
-      page.addAll(BTCChinaAdapters.adaptOpenOrders(response.getResult().getBtcCnyOrders(), CurrencyPair.BTC_CNY));
-      page.addAll(BTCChinaAdapters.adaptOpenOrders(response.getResult().getLtcCnyOrders(), CurrencyPair.LTC_CNY));
-      page.addAll(BTCChinaAdapters.adaptOpenOrders(response.getResult().getLtcBtcOrders(), CurrencyPair.LTC_BTC));
+      page.addAll(BTCChinaAdapters.adaptOrders(response.getResult().getBtcCnyOrders(), CurrencyPair.BTC_CNY));
+      page.addAll(BTCChinaAdapters.adaptOrders(response.getResult().getLtcCnyOrders(), CurrencyPair.LTC_CNY));
+      page.addAll(BTCChinaAdapters.adaptOrders(response.getResult().getLtcBtcOrders(), CurrencyPair.LTC_BTC));
 
       limitOrders.addAll(page);
     } while (page.size() >= BTCChinaGetOrdersRequest.DEFAULT_LIMIT);
