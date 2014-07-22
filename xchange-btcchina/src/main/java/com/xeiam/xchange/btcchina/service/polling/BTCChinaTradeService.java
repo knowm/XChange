@@ -23,18 +23,21 @@ package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
-import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
-import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -68,9 +71,25 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    BTCChinaResponse<BTCChinaOrders> response = getBTCChinaOpenOrders();
-    return BTCChinaAdapters.adaptOpenOrders(response.getResult().getOrders());
+    List<LimitOrder> page;
+    do {
+      BTCChinaGetOrdersResponse response = getBTCChinaOrders(
+        true,
+        BTCChinaGetOrdersRequest.ALL_MARKET,
+        null,
+        limitOrders.size());
+
+      page = new ArrayList<LimitOrder>();
+      page.addAll(BTCChinaAdapters.adaptOpenOrders(response.getResult().getBtcCnyOrders(), CurrencyPair.BTC_CNY));
+      page.addAll(BTCChinaAdapters.adaptOpenOrders(response.getResult().getLtcCnyOrders(), CurrencyPair.LTC_CNY));
+      page.addAll(BTCChinaAdapters.adaptOpenOrders(response.getResult().getLtcBtcOrders(), CurrencyPair.LTC_BTC));
+
+      limitOrders.addAll(page);
+    } while (page.size() >= BTCChinaGetOrdersRequest.DEFAULT_LIMIT);
+
+    return new OpenOrders(limitOrders);
   }
 
   @Override

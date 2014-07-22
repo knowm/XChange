@@ -214,15 +214,21 @@ public final class BTCChinaAdapters {
   /**
    * @param orders
    * @return
+   * @deprecated Use {@link #adaptOpenOrders(List, CurrencyPair)} instead.
    */
+  @Deprecated
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
-
+    return new OpenOrders(adaptOpenOrders(orders, CurrencyPair.BTC_CNY));
+  }
+  
+  public static List<LimitOrder> adaptOpenOrders(
+      List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
     if (orders != null) {
       for (BTCChinaOrder order : orders) {
         if (order.getStatus().equals("open")) {
-          LimitOrder limitOrder = adaptLimitOrder(order);
+          LimitOrder limitOrder = adaptLimitOrder(order, currencyPair);
           if (limitOrder != null) {
             limitOrders.add(limitOrder);
           }
@@ -230,7 +236,19 @@ public final class BTCChinaAdapters {
       }
     }
 
-    return new OpenOrders(limitOrders);
+    return limitOrders;
+  }
+
+  /**
+   * Adapts BTCChinaOrder to LimitOrder
+   * 
+   * @param order
+   * @return
+   * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)} instead.
+   */
+  @Deprecated
+  public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
+    return adaptLimitOrder(order, CurrencyPair.BTC_CNY);
   }
 
   /**
@@ -239,15 +257,14 @@ public final class BTCChinaAdapters {
    * @param order
    * @return
    */
-  public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
-
+  public static LimitOrder adaptLimitOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
     OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = order.getAmount();
     String id = Long.toString(order.getId());
     Date date = new Date(order.getDate() * 1000);
     BigDecimal price = order.getPrice();
 
-    return new LimitOrder(orderType, amount, CurrencyPair.BTC_CNY, id, date, price);
+    return new LimitOrder(orderType, amount, currencyPair, id, date, price);
   }
 
   public static Trade adaptTransaction(BTCChinaTransaction transaction) {
