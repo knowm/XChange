@@ -39,6 +39,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrderResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -94,12 +95,27 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   /**
    * @return Set of BTCChina Orders
    * @throws IOException
+   * @deprecated Use {@link #getBTCChinaOrders(Boolean, String, Integer, Integer)} instead.
    */
+  @Deprecated
   public BTCChinaResponse<BTCChinaOrders> getBTCChinaOpenOrders() throws IOException {
   
     return checkResult(btcChina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest()));
   }
-  
+
+  /**
+   * @see {@link BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)}.
+   */
+  public BTCChinaGetOrdersResponse getBTCChinaOrders(
+      Boolean openOnly, String market, Integer limit, Integer offset)
+          throws IOException {
+    BTCChinaGetOrdersRequest request = new BTCChinaGetOrdersRequest(
+        openOnly, market, limit, offset);
+    BTCChinaGetOrdersResponse response = btcChina.getOrders(
+        signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
   /**
    * @return BTCChinaIntegerResponse of new limit order status.
    * @deprecated use {@link #buy(BigDecimal, BigDecimal, String)} or {@link #sell(BigDecimal, BigDecimal, String)} instead.

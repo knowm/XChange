@@ -214,9 +214,10 @@ public final class BTCChinaAdapters {
   /**
    * @param orders
    * @return
+   * @deprecated Do not use this anymore.
    */
+  @Deprecated
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
-
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
     if (orders != null) {
@@ -233,21 +234,44 @@ public final class BTCChinaAdapters {
     return new OpenOrders(limitOrders);
   }
 
+  public static List<LimitOrder> adaptOrders(
+      List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
+
+    for (BTCChinaOrder order : orders) {
+      LimitOrder limitOrder = adaptLimitOrder(order, currencyPair);
+      limitOrders.add(limitOrder);
+    }
+
+    return limitOrders;
+  }
+
+  /**
+   * Adapts BTCChinaOrder to LimitOrder
+   * 
+   * @param order
+   * @return
+   * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)} instead.
+   */
+  @Deprecated
+  public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
+    return adaptLimitOrder(order, CurrencyPair.BTC_CNY);
+  }
+
   /**
    * Adapts BTCChinaOrder to LimitOrder
    * 
    * @param order
    * @return
    */
-  public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
-
+  public static LimitOrder adaptLimitOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
     OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = order.getAmount();
     String id = Long.toString(order.getId());
     Date date = new Date(order.getDate() * 1000);
     BigDecimal price = order.getPrice();
 
-    return new LimitOrder(orderType, amount, CurrencyPair.BTC_CNY, id, date, price);
+    return new LimitOrder(orderType, amount, currencyPair, id, date, price);
   }
 
   public static Trade adaptTransaction(BTCChinaTransaction transaction) {

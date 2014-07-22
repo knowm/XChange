@@ -124,7 +124,7 @@ public class BTCChinaTradeDemo {
 
   private static BTCChinaResponse<BTCChinaOrders> printOpenOrdersRaw() throws IOException {
 
-    BTCChinaResponse<BTCChinaOrders> openOrders = ((BTCChinaTradeServiceRaw) tradeService).getBTCChinaOpenOrders();
+    BTCChinaResponse<BTCChinaOrders> openOrders = ((BTCChinaTradeServiceRaw) tradeService).getBTCChinaOrders(true, "BTCCNY", null, null);
     System.out.println(openOrders.toString());
     return openOrders;
   }
