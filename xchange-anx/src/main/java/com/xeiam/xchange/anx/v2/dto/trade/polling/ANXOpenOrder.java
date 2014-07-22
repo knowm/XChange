@@ -34,6 +34,7 @@ public final class ANXOpenOrder {
   private final String item;
   private final String type;
   private final ANXValue amount;
+  private final ANXValue effectiveAmount;
   private final ANXValue invalidAmount;
   private final ANXValue price;
   private final String status;
@@ -55,7 +56,7 @@ public final class ANXOpenOrder {
    * @param priority
    */
   public ANXOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type,
-      @JsonProperty("amount") ANXValue amount, @JsonProperty("invalid_amount") ANXValue invalidAmount, @JsonProperty("price") ANXValue price, @JsonProperty("status") String status,
+      @JsonProperty("amount") ANXValue amount, @JsonProperty("effective_amount") ANXValue effectiveAmount, @JsonProperty("invalid_amount") ANXValue invalidAmount, @JsonProperty("price") ANXValue price, @JsonProperty("status") String status,
       @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
 
     this.oid = oid;
@@ -63,6 +64,7 @@ public final class ANXOpenOrder {
     this.item = item;
     this.type = type;
     this.amount = amount;
+    this.effectiveAmount = effectiveAmount;
     this.invalidAmount = invalidAmount;
     this.price = price;
     this.status = status;
@@ -95,6 +97,11 @@ public final class ANXOpenOrder {
     return amount;
   }
 
+  public ANXValue getEffectiveAmount() {
+
+    return effectiveAmount;
+  }
+
   public ANXValue getInvalidAmount() {
 
     return invalidAmount;
@@ -123,8 +130,9 @@ public final class ANXOpenOrder {
   @Override
   public String toString() {
 
-    return "ANXOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalidAmount=" + invalidAmount + ", price=" + price + ", status="
+    return "ANXOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", effectiveAmount=" + effectiveAmount + ", invalidAmount=" + invalidAmount + ", price=" + price + ", status="
         + status + ", date=" + date + ", priority=" + priority + "]";
   }
+
 
 }
