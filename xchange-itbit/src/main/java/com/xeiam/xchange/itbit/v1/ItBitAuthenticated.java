@@ -58,6 +58,12 @@ public interface ItBitAuthenticated {
       @QueryParam("instrument") String instrument, @QueryParam("page") String page, @QueryParam("perPage") String perPage, @QueryParam("status") String status, @PathParam("walletId") String walletId)
       throws IOException;
 
+  @GET
+  @Path("/{walletId}/orders/{orderId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitOrder getOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+      @PathParam("walletId") String walletId, @PathParam("orderId") String orderId) throws IOException;
+
   @POST
   @Path("/{walletId}/orders")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -76,4 +82,5 @@ public interface ItBitAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitOrder requestWithdrawal(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
       @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request) throws IOException;
+
 }
