@@ -23,7 +23,6 @@ package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -237,10 +236,6 @@ public final class BTCChinaAdapters {
 
   public static List<LimitOrder> adaptOrders(
       List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
-    if (orders == null) {
-      return Collections.emptyList();
-    }
-
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
 
     for (BTCChinaOrder order : orders) {
