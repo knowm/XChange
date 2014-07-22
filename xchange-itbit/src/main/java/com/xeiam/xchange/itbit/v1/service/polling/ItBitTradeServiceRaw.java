@@ -38,7 +38,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
@@ -57,6 +57,12 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     return orders;
   }
 
+  public ItBitOrder getItBitOrder(String orderId) throws IOException {
+
+    ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, orderId);
+
+    return order;
+  }
   public ItBitOrder placeItBitLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
