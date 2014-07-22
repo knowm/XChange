@@ -52,6 +52,11 @@ public interface ItBitAuthenticated {
       @PathParam("userId") String userId) throws IOException;
 
   @GET
+  @Path("/{walletId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitAccountInfoReturn getWallet(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce, @PathParam("walletId") String walletId) throws IOException;
+
+  @GET
   @Path("/{walletId}/orders")
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitOrder[] getOrders(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,

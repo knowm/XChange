@@ -60,4 +60,10 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
     throw new NotYetImplementedForExchangeException();
   }
+
+  public ItBitAccountInfoReturn getItBitAccountInfo(String walletId) throws IOException {
+
+    ItBitAccountInfoReturn itBitAccountInfoReturn = itBit.getWallet(signatureCreator, new Date().getTime(), nextNonce(), walletId);
+    return itBitAccountInfoReturn;
+  }
 }
