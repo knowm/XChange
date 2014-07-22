@@ -95,7 +95,9 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   /**
    * @return Set of BTCChina Orders
    * @throws IOException
+   * @deprecated Use {@link #getBTCChinaOrders(Boolean, String, Integer, Integer)} instead.
    */
+  @Deprecated
   public BTCChinaResponse<BTCChinaOrders> getBTCChinaOpenOrders() throws IOException {
   
     return checkResult(btcChina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest()));

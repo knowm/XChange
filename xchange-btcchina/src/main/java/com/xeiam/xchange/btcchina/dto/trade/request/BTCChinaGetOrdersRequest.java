@@ -37,7 +37,9 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
   /**
    * Constructor (Optional parameter, default openOnly = false)
+   * @deprecated Use {@link #BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)} instead.
    */
+  @Deprecated
   public BTCChinaGetOrdersRequest() {
 
     method = METHOD_NAME;
