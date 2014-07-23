@@ -161,7 +161,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
 
   protected long nextNonce() {
 
-    return System.currentTimeMillis();
+    return System.currentTimeMillis()*10000;
   }
 
   protected String createDelimitedString(String[] items) {
