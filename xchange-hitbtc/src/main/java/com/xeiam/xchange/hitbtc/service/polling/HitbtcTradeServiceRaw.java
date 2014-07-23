@@ -54,6 +54,12 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     return hitbtcActiveOrders.getOrders();
   }
 
+  public HitbtcOrder[] getRecentOrdersRaw(int max_results) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcRecentOrders(signatureCreator, nextNonce(), apiKey, max_results);
+    return hitbtcActiveOrders.getOrders();
+  }
+
   public HitbtcExecutionReport placeMarketOrderRaw(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
