@@ -39,6 +39,16 @@ import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
 public class BTCChinaExchange extends BaseExchange implements Exchange {
 
   /**
+   * 2 decimals for BTC/CNY and LTC/CNY markets.
+   */
+  public static final int CNY_SCALE = 2;
+
+  /**
+   * 4 decimals for LTC/BTC market.
+   */
+  public static final int BTC_SCALE = 4;
+
+  /**
    * Default constructor for ExchangeFactory
    */
   public BTCChinaExchange() {
