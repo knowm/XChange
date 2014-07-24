@@ -26,6 +26,11 @@ import static com.xeiam.xchange.btcchina.BTCChinaUtils.getNonce;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import si.mazi.rescu.HttpStatusIOException;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
@@ -54,7 +59,9 @@ import com.xeiam.xchange.dto.Order.OrderType;
  *         </ul>
  */
 public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina> {
-  
+
+  private final Logger log = LoggerFactory.getLogger(BTCChinaTradeServiceRaw.class);
+
   /**
    * Constructor
    * 
@@ -153,8 +160,18 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
       BigDecimal price, BigDecimal amount, String market) throws IOException {
     BTCChinaBuyOrderRequest request = new BTCChinaBuyOrderRequest(
         price, amount, market);
-    BTCChinaIntegerResponse response = btcChina.buyOrder2(
+    final BTCChinaIntegerResponse response;
+    try {
+      response = btcChina.buyOrder2(
         signatureCreator, BTCChinaUtils.getNonce(), request);
+    } catch (HttpStatusIOException e) {
+      if (e.getHttpStatusCode() == 401) {
+        log.error("{}, request: {}, response: {}",
+          e.getMessage(),
+          request, e.getHttpBody());
+      }
+      throw e;
+    }
     return checkResult(response);
   }
 
@@ -175,8 +192,18 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
       BigDecimal price, BigDecimal amount, String market) throws IOException {
     BTCChinaSellOrderRequest request = new BTCChinaSellOrderRequest(
         price, amount, market);
-    BTCChinaIntegerResponse response = btcChina.sellOrder2(
+    final BTCChinaIntegerResponse response;
+    try {
+      response = btcChina.sellOrder2(
         signatureCreator, BTCChinaUtils.getNonce(), request);
+    } catch (HttpStatusIOException e) {
+      if (e.getHttpStatusCode() == 401) {
+        log.error("{}, request: {}, response: {}",
+          e.getMessage(),
+          request, e.getHttpBody());
+      }
+      throw e;
+    }
     return checkResult(response);
   }
 
