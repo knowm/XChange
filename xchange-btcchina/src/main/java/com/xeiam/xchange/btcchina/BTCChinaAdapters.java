@@ -22,6 +22,7 @@
 package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -274,34 +275,43 @@ public final class BTCChinaAdapters {
     return new LimitOrder(orderType, amount, currencyPair, id, date, price);
   }
 
-  public static Trade adaptTransaction(BTCChinaTransaction transaction) {
+  public static Trade adaptTransaction(final BTCChinaTransaction transaction) {
 
-    String type = transaction.getType();
+    final String type = transaction.getType();
 
     // could also be 'rebate' or other
     if (!(type.startsWith("buy") || type.startsWith("sell"))) {
       return null;
     }
 
-    OrderType orderType = type.startsWith("buy") ? OrderType.BID : OrderType.ASK;
-    CurrencyPair currencyPair = null;
-    BigDecimal price = BigDecimal.ZERO;
-    BigDecimal amount = BigDecimal.ZERO;
+    final OrderType orderType = type.startsWith("buy") ? OrderType.BID : OrderType.ASK;
+    final CurrencyPair currencyPair = adaptCurrencyPair(transaction.getMarket().toUpperCase());
 
-    if (!transaction.getBtcAmount().equals(BigDecimal.ZERO)) {
-      currencyPair = new CurrencyPair("BTC", "CNY");
-      price = transaction.getCnyAmount().divide(transaction.getBtcAmount()).abs();
+    final BigDecimal amount;
+    final BigDecimal money; 
+    final int scale;
+
+    if (currencyPair.equals(CurrencyPair.BTC_CNY)) {
       amount = transaction.getBtcAmount().abs();
-    }
-    else {
-      currencyPair = new CurrencyPair("LTC", "CNY");
-      price = transaction.getCnyAmount().divide(transaction.getLtcAmount()).abs();
+      money = transaction.getCnyAmount().abs();
+      scale = BTCChinaExchange.CNY_SCALE;
+    } else if (currencyPair.equals(CurrencyPair.LTC_CNY)) {
       amount = transaction.getLtcAmount().abs();
+      money = transaction.getCnyAmount().abs();
+      scale = BTCChinaExchange.CNY_SCALE;
+    } else if (currencyPair.equals(CurrencyPair.LTC_BTC)) {
+      amount = transaction.getLtcAmount().abs();
+      money = transaction.getBtcAmount().abs();
+      scale = BTCChinaExchange.BTC_SCALE;
+    } else {
+      throw new IllegalArgumentException("Unknown currency pair: " + currencyPair);
     }
 
-    Date date = DateUtils.fromMillisUtc(transaction.getDate() * 1000L);
+    final BigDecimal price = money.divide(amount, scale, RoundingMode.HALF_EVEN);
+    final Date date = DateUtils.fromMillisUtc(transaction.getDate() * 1000L);
+    final String tradeId = String.valueOf(transaction.getId());
 
-    return new Trade(orderType, BTCChinaUtils.truncateAmount(amount), currencyPair, price, date, String.valueOf(transaction.getId()));
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
   /**

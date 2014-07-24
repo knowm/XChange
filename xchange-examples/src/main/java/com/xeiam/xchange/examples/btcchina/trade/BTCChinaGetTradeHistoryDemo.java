@@ -47,7 +47,7 @@ public class BTCChinaGetTradeHistoryDemo {
   private static PollingTradeService tradeService
     = btcchina.getPollingTradeService();
   private static BTCChinaTradeServiceRaw tradeServiceRaw
-  = (BTCChinaTradeServiceRaw) tradeService;
+    = (BTCChinaTradeServiceRaw) tradeService;
 
   public static void main(String[] args) throws IOException {
     generic();
