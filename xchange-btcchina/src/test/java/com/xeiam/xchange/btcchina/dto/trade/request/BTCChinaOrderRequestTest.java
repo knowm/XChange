@@ -21,22 +21,29 @@
  */
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
+import org.junit.Test;
 
 /**
  * @author Joe Zhou
  */
-public class BTCChinaOrderRequest extends BTCChinaRequest {
+public class BTCChinaOrderRequestTest {
 
-  public BTCChinaOrderRequest(
-      String method, BigDecimal price, BigDecimal amount, String market) {
-    this.method = method;
-    params = String.format("[%1$s,%2$s,\"%3$s\"]",
-        price == null ? "null" : price.stripTrailingZeros().toPlainString(),
-        amount.stripTrailingZeros().toPlainString(),
-        market);
+  @Test
+  public void testBTCChinaOrderRequest() {
+    BTCChinaOrderRequest request;
+
+    request = new BTCChinaOrderRequest("buyOrder2", new BigDecimal("0.01000000"), new BigDecimal("0.00010000"), "BTCCNY");
+    assertEquals("[0.01,0.0001,\"BTCCNY\"]", request.getParams());
+
+    request = new BTCChinaOrderRequest("buyOrder2", new BigDecimal("0.01000000"), new BigDecimal("0.00100000"), "LTCCNY");
+    assertEquals("[0.01,0.001,\"LTCCNY\"]", request.getParams());
+
+    request = new BTCChinaOrderRequest("buyOrder2", new BigDecimal("0.00010000"), new BigDecimal("0.00100000"), "LTCBTC");
+    assertEquals("[0.0001,0.001,\"LTCBTC\"]", request.getParams());
   }
 
 }
