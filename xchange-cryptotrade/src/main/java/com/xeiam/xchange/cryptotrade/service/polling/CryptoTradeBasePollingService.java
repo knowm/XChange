@@ -114,7 +114,7 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(new CurrencyPair("CTL", "LTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("CVF", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("ESB", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("ESL", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("ESL", "LTC"));
   }
 
   @Override
