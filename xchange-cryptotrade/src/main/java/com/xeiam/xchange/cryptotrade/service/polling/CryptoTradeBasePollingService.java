@@ -86,26 +86,35 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(CurrencyPair.DGC_BTC);
     CURRENCY_PAIRS.add(new CurrencyPair("DRK", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("DRK", "USD"));
+    CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.FTC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.LTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.LTC_EUR);
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.NMC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.XPM_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.XPM_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.XPM_PPC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.FTC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.WDC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_EUR);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_LTC);
+    CURRENCY_PAIRS.add(CurrencyPair.WDC_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.XPM_BTC);
+    CURRENCY_PAIRS.add(CurrencyPair.XPM_USD);
+    CURRENCY_PAIRS.add(CurrencyPair.XPM_PPC);
+    
+    // Securities 
+    CURRENCY_PAIRS.add(new CurrencyPair("AMC", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CRM", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CTB", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CTL", "LTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CVF", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("ESB", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("ESL", "LTC"));
   }
 
   @Override
