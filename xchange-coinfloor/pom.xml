@@ -11,14 +11,6 @@
 	<name>XChange Coinfloor</name>
 	<description>XChange implementation for the Coinfloor Exchange</description>
 
-	<url>http://xeiam.com</url>
-	<inceptionYear>2014</inceptionYear>
-
-	<organization>
-		<name>Xeiam, LLC</name>
-		<url>http://xeiam.com</url>
-	</organization>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
