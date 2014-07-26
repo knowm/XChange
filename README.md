@@ -37,7 +37,7 @@ Now go ahead and [study some more examples](http://xeiam.com/xchange-example-cod
 Project Site: http://xeiam.com/xchange  
 Example Code: http://xeiam.com/xchange-example-code  
 Change Log: http://xeiam.com/xchange-change-log  
-Java Docs: http://xeiam.com/xchange/javadoc/index.html  
+Java Docs: http://xeiam.com/javadocs/xchange/index.html  
 
 ## Wiki
 Home: https://github.com/timmolter/XChange/wiki  
