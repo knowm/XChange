@@ -128,7 +128,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCChinaBooleanResponse response = cancelBTCChinaOrder(orderId);
+    BTCChinaBooleanResponse response = cancelBTCChinaOrder(Integer.parseInt(orderId));
     return response.getResult();
   }
 

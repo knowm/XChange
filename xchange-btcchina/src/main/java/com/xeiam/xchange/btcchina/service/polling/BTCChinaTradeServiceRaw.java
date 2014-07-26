@@ -87,11 +87,20 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @return order status.
    * @throws IOException indicates I/O exception.
    */
-  public BTCChinaGetOrderResponse getBTCChinaOrder(long id) throws IOException {
+  public BTCChinaGetOrderResponse getBTCChinaOrder(int id) throws IOException {
 
     BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id);
     BTCChinaGetOrderResponse returnObject = btcChina.getOrder(signatureCreator, getNonce(), request);
     return checkResult(returnObject);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaOrder(int)} instead.
+   */
+  @Deprecated
+  public BTCChinaGetOrderResponse getBTCChinaOrder(long id) throws IOException {
+
+    return getBTCChinaOrder((int) id);
   }
 
   /**
@@ -102,11 +111,20 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @return order status.
    * @throws IOException indicates I/O exception.
    */
-  public BTCChinaGetOrderResponse getBTCChinaOrder(long id, String market) throws IOException {
+  public BTCChinaGetOrderResponse getBTCChinaOrder(int id, String market) throws IOException {
 
     BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id, market);
     BTCChinaGetOrderResponse returnObject = btcChina.getOrder(signatureCreator, getNonce(), request);
     return checkResult(returnObject);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaOrder(int, String)} instead.
+   */
+  @Deprecated
+  public BTCChinaGetOrderResponse getBTCChinaOrder(long id, String market) throws IOException {
+
+    return getBTCChinaOrder((int) id, market);
   }
 
   /**
@@ -209,9 +227,17 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   /**
    * @return BTCChinaBooleanResponse of limit order cancellation status.
    */
-  public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
+  public BTCChinaBooleanResponse cancelBTCChinaOrder(int id) throws IOException {
 
-    return checkResult(btcChina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId))));
+    return checkResult(btcChina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(id)));
+  }
+
+  /**
+   * @deprecated Use {@link #cancelBTCChinaOrder(int)} instead.
+   */
+  public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
+    
+    return cancelBTCChinaOrder(Integer.parseInt(orderId));
   }
 
   public BTCChinaTransactionsResponse getTransactions() throws IOException {
@@ -229,9 +255,6 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
     return checkResult(response);
   }
 
-  /**
-   * @see {@link BTCChinaBuyIcebergOrderRequest#BTCChinaBuyIcebergOrderRequest(BigDecimal, BigDecimal, BigDecimal, BigDecimal, String)}.
-   */
   public BTCChinaIntegerResponse buyIcebergOrder(BigDecimal price, BigDecimal amount, BigDecimal disclosedAmount, BigDecimal variance, String market) throws IOException {
 
     BTCChinaBuyIcebergOrderRequest request = new BTCChinaBuyIcebergOrderRequest(price, amount, disclosedAmount, variance, market);
@@ -239,9 +262,6 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
     return checkResult(response);
   }
 
-  /**
-   * @see {@link BTCChinaBuyIcebergOrderRequest#BTCChinaBuyIcebergOrderRequest(BigDecimal, BigDecimal, BigDecimal, BigDecimal, String)}.
-   */
   public BTCChinaIntegerResponse sellIcebergOrder(BigDecimal price, BigDecimal amount, BigDecimal disclosedAmount, BigDecimal variance, String market) throws IOException {
 
     BTCChinaSellIcebergOrderRequest request = new BTCChinaSellIcebergOrderRequest(price, amount, disclosedAmount, variance, market);
@@ -249,19 +269,13 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
     return checkResult(response);
   }
 
-  /**
-   * @see {@link BTCChinaGetIcebergOrderRequest#BTCChinaGetIcebergOrderRequest(long, String)}.
-   */
-  public BTCChinaGetIcebergOrderResponse getIcebergOrders(long id, String market) throws IOException {
+  public BTCChinaGetIcebergOrderResponse getIcebergOrders(int id, String market) throws IOException {
 
     BTCChinaGetIcebergOrderRequest request = new BTCChinaGetIcebergOrderRequest(id, market);
     BTCChinaGetIcebergOrderResponse response = btcChina.getIcebergOrder(signatureCreator, tonce, request);
     return checkResult(response);
   }
 
-  /**
-   * @see {@link BTCChinaGetIcebergOrdersRequest#BTCChinaGetIcebergOrdersRequest(Integer, Integer, String)}.
-   */
   public BTCChinaGetIcebergOrdersResponse getIcebergOrders(Integer limit, Integer offset, String market) throws IOException {
 
     BTCChinaGetIcebergOrdersRequest request = new BTCChinaGetIcebergOrdersRequest(limit, offset, market);
@@ -269,10 +283,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
     return checkResult(response);
   }
 
-  /**
-   * @see {@link BTCChinaCancelIcebergOrderRequest#BTCChinaCancelIcebergOrderRequest(long, String)}.
-   */
-  public BTCChinaBooleanResponse cancelIcebergOrder(long id, String market) throws IOException {
+  public BTCChinaBooleanResponse cancelIcebergOrder(int id, String market) throws IOException {
 
     BTCChinaCancelIcebergOrderRequest request = new BTCChinaCancelIcebergOrderRequest(id, market);
     BTCChinaBooleanResponse response = btcChina.cancelIcebergOrder(signatureCreator, tonce, request);

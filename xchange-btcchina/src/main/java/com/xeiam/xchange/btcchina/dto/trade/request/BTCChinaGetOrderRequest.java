@@ -31,16 +31,32 @@ public final class BTCChinaGetOrderRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "getOrder";
 
-  public BTCChinaGetOrderRequest(long orderId) {
+  public BTCChinaGetOrderRequest(int id) {
 
     method = METHOD_NAME;
-    params = "[" + orderId + "]";
+    params = "[" + id + "]";
   }
 
-  public BTCChinaGetOrderRequest(long orderId, String market) {
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  public BTCChinaGetOrderRequest(long id) {
+    this((int) id);
+  }
+
+  public BTCChinaGetOrderRequest(int id, String market) {
 
     method = METHOD_NAME;
-    params = String.format("[%1$d,\"%2$s\"]", orderId, market);
+    params = String.format("[%1$d,\"%2$s\"]", id, market);
+  }
+
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  public BTCChinaGetOrderRequest(long id, String market) {
+    this((int) id, market);
   }
 
   @Override

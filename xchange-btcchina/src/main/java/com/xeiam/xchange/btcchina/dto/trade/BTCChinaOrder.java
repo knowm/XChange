@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BTCChinaOrder {
 
-  private final long id;
+  private final int id;
   private final String type;
   private final BigDecimal price;
   private final String currency;
@@ -52,7 +52,7 @@ public class BTCChinaOrder {
    * @param date
    * @param status
    */
-  public BTCChinaOrder(@JsonProperty("id") long id, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency,
+  public BTCChinaOrder(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency,
       @JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("date") long date, @JsonProperty("status") String status) {
 
     this.id = id;
@@ -65,7 +65,7 @@ public class BTCChinaOrder {
     this.status = status;
   }
 
-  public long getId() {
+  public int getId() {
 
     return id;
   }

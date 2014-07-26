@@ -30,8 +30,6 @@ public class BTCChinaTransactionsRequest extends BTCChinaRequest {
 
   /**
    * Constructor
-   * 
-   * @param orderId
    */
   public BTCChinaTransactionsRequest() {
 
