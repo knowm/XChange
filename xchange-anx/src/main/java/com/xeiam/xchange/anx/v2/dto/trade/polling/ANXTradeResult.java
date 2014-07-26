@@ -22,10 +22,10 @@
  */
 package com.xeiam.xchange.anx.v2.dto.trade.polling;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing trades from ANX
@@ -40,8 +40,10 @@ public final class ANXTradeResult {
   private final String currencyPair;
   private final String side;
 
+  public ANXTradeResult(@JsonProperty("tradeId") String tradeId, @JsonProperty("orderId") String orderId, @JsonProperty("timestamp") Date timestamp,
+      @JsonProperty("tradedCurrencyFillAmount") BigDecimal tradedCurrencyFillAmount, @JsonProperty("settlementCurrencyFillAmount") BigDecimal settlementCurrencyFillAmount,
+      @JsonProperty("ccyPair") String currencyPair, @JsonProperty("side") String side) {
 
-  public ANXTradeResult(@JsonProperty("tradeId") String tradeId, @JsonProperty("orderId") String orderId, @JsonProperty("timestamp") Date timestamp, @JsonProperty("tradedCurrencyFillAmount") BigDecimal tradedCurrencyFillAmount, @JsonProperty("settlementCurrencyFillAmount") BigDecimal settlementCurrencyFillAmount, @JsonProperty("ccyPair") String currencyPair, @JsonProperty("side") String side) {
     this.tradeId = tradeId;
     this.orderId = orderId;
     this.timestamp = timestamp;
@@ -52,43 +54,44 @@ public final class ANXTradeResult {
   }
 
   public String getTradeId() {
+
     return tradeId;
   }
 
   public String getOrderId() {
+
     return orderId;
   }
 
   public Date getTimestamp() {
+
     return timestamp;
   }
 
   public BigDecimal getTradedCurrencyFillAmount() {
+
     return tradedCurrencyFillAmount;
   }
 
   public BigDecimal getSettlementCurrencyFillAmount() {
+
     return settlementCurrencyFillAmount;
   }
 
   public String getCurrencyPair() {
+
     return currencyPair;
   }
 
   public String getSide() {
+
     return side;
   }
 
   @Override
   public String toString() {
-    return "ANXOrderResultTrade{" +
-            "tradeId='" + tradeId + '\'' +
-            ", orderId='" + orderId + '\'' +
-            ", timestamp=" + timestamp +
-            ", tradedCurrencyFillAmount=" + tradedCurrencyFillAmount +
-            ", settlementCurrencyFillAmount=" + settlementCurrencyFillAmount +
-            ", currencyPair='" + currencyPair + '\'' +
-            ", side='" + side + '\'' +
-            '}';
+
+    return "ANXOrderResultTrade{" + "tradeId='" + tradeId + '\'' + ", orderId='" + orderId + '\'' + ", timestamp=" + timestamp + ", tradedCurrencyFillAmount=" + tradedCurrencyFillAmount
+        + ", settlementCurrencyFillAmount=" + settlementCurrencyFillAmount + ", currencyPair='" + currencyPair + '\'' + ", side='" + side + '\'' + '}';
   }
 }

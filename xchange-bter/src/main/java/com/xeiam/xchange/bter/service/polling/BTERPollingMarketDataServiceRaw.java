@@ -29,10 +29,10 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERMarketInfoWrapper;
+import com.xeiam.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
-import com.xeiam.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER> {

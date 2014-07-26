@@ -165,7 +165,7 @@ public class CryptoTradeAdapterTest {
 
     assertThat(trades.getlastID()).isEqualTo(17);
     assertThat(trades.getTrades()).hasSize(2);
-    
+
     Trade trade = trades.getTrades().get(1);
     assertThat(trade.getPrice()).isEqualTo("128");
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
@@ -174,7 +174,7 @@ public class CryptoTradeAdapterTest {
     assertThat(trade.getId()).isEqualTo("17");
     assertThat(trade.getOrderId()).isEqualTo("1");
   }
-  
+
   @Test
   public void testAdaptPublicTrades() throws IOException {
 
@@ -186,12 +186,12 @@ public class CryptoTradeAdapterTest {
     CryptoTradePublicTrades publicTradeHistory = mapper.readValue(is, CryptoTradePublicTrades.class);
 
     Trades trades = CryptoTradeAdapters.adaptPublicTradeHistory(CurrencyPair.BTC_USD, publicTradeHistory.getPublicTrades());
-    
+
     assertThat(trades.getlastID()).isEqualTo(399394);
-    
+
     List<Trade> tradeList = trades.getTrades();
     assertThat(tradeList).hasSize(2);
-    
+
     Trade trade = tradeList.get(0);
     assertThat(trade.getId()).isEqualTo("399328");
     assertThat(trade.getTimestamp().getTime()).isEqualTo(1405856801000L);

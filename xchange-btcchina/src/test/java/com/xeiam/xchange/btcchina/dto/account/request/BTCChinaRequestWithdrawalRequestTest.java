@@ -35,9 +35,8 @@ public class BTCChinaRequestWithdrawalRequestTest {
 
   @Test
   public void testBTCChinaRequestWithdrawalRequestStringBigDecimal() {
-    BTCChinaRequestWithdrawalRequest request
-      = new BTCChinaRequestWithdrawalRequest(
-          "BTC", new BigDecimal(Long.MAX_VALUE));
+
+    BTCChinaRequestWithdrawalRequest request = new BTCChinaRequestWithdrawalRequest("BTC", new BigDecimal(Long.MAX_VALUE));
     assertEquals("[\"BTC\"," + Long.MAX_VALUE + "]", request.getParams());
   }
 

@@ -36,6 +36,7 @@ public class BTCChinaGetWithdrawalsRequest extends BTCChinaRequest {
    * @param pendingOnly only pending withdrawals are returned if true.
    */
   public BTCChinaGetWithdrawalsRequest(String currency, boolean pendingOnly) {
+
     method = METHOD_NAME;
     params = String.format("[\"%1$s\",%2$s]", currency, pendingOnly);
   }

@@ -59,9 +59,9 @@ public class UserTransactionsJSONTest {
     assertThat(transactions[0].getOrderId()).isEqualTo(6877187L);
     assertThat(transactions[0].getDatetime()).isEqualTo("2013-09-02 13:17:49");
     assertThat(transactions[0].getType()).isEqualTo(TransactionType.trade);
-    
+
     assertThat(transactions[1].getUsd()).isEqualTo(new BigDecimal("11.37"));
     assertThat(transactions[1].getPrice()).isEqualTo(new BigDecimal("-131.50"));
-    
+
   }
 }

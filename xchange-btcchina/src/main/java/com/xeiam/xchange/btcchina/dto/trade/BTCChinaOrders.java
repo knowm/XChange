@@ -42,11 +42,8 @@ public class BTCChinaOrders {
    * @param ltcCnyOrders
    * @param ltcBtcOrders
    */
-  public BTCChinaOrders(
-      @JsonProperty("order") List<BTCChinaOrder> orders,
-      @JsonProperty("order_btccny") List<BTCChinaOrder> btcCnyOrders,
-      @JsonProperty("order_ltccny") List<BTCChinaOrder> ltcCnyOrders,
-      @JsonProperty("order_ltcbtc") List<BTCChinaOrder> ltcBtcOrders) {
+  public BTCChinaOrders(@JsonProperty("order") List<BTCChinaOrder> orders, @JsonProperty("order_btccny") List<BTCChinaOrder> btcCnyOrders,
+      @JsonProperty("order_ltccny") List<BTCChinaOrder> ltcCnyOrders, @JsonProperty("order_ltcbtc") List<BTCChinaOrder> ltcBtcOrders) {
 
     this.orders = orders;
     this.btcCnyOrders = btcCnyOrders;
@@ -77,8 +74,7 @@ public class BTCChinaOrders {
   @Override
   public String toString() {
 
-    return String.format("BTCChinaOrders{orders=%s, btcCnyOrders=%s, ltcCnyorders=%s, ltcBtcOrders=%s}",
-      orders, btcCnyOrders, ltcCnyOrders, ltcBtcOrders);
+    return String.format("BTCChinaOrders{orders=%s, btcCnyOrders=%s, ltcCnyorders=%s, ltcBtcOrders=%s}", orders, btcCnyOrders, ltcCnyOrders, ltcBtcOrders);
   }
 
 }

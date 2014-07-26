@@ -35,6 +35,7 @@ public class BTCChinaOrderRequestTest {
 
   @Test
   public void testBTCChinaOrderRequest() {
+
     BTCChinaOrderRequest request;
 
     request = new BTCChinaOrderRequest("buyOrder2", new BigDecimal("0.01000000"), new BigDecimal("0.00010000"), "BTCCNY");

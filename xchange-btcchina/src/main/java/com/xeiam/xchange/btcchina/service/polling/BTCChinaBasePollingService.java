@@ -45,41 +45,41 @@ import com.xeiam.xchange.utils.Assert;
  * @author timmolter
  */
 public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchangeService implements BasePollingService {
-  
-  protected final T               btcChina;
-  protected final ParamsDigest    signatureCreator;
+
+  protected final T btcChina;
+  protected final ParamsDigest signatureCreator;
   private final Set<CurrencyPair> currencyPairs;
-  
+
   /**
    * Constructor
    * 
    * @param exchangeSpecification
    */
   public BTCChinaBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
-  
+
     super(exchangeSpecification);
     Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    
+
     this.btcChina = RestProxyFactory.createProxy(type, (String) exchangeSpecification.getSslUri());
     this.signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
     this.currencyPairs = new HashSet<CurrencyPair>();
   }
-  
+
   @Override
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
-  
+
     if (currencyPairs.isEmpty()) {
       for (String tickerKey : btcChina.getTickers("all").keySet()) {
         currencyPairs.add(BTCChinaAdapters.adaptCurrencyPairFromTickerMarketKey(tickerKey));
       }
     }
-    
+
     return currencyPairs;
   }
-  
+
   @SuppressWarnings("rawtypes")
   public static <T extends BTCChinaResponse> T checkResult(T returnObject) {
-  
+
     if (returnObject.getError() != null) {
       throw new ExchangeException("Got error message: " + returnObject.getError().toString());
     }

@@ -59,7 +59,7 @@ public class CryptoTradeMarketDataDemo {
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook);
-    
+
     Trades publicTradeHistory = marketDataService.getTrades(CurrencyPair.BTC_USD, 1405805427);
     System.out.println(publicTradeHistory);
   }
@@ -74,7 +74,7 @@ public class CryptoTradeMarketDataDemo {
 
     CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(CurrencyPair.BTC_USD);
     System.out.println(marketDepth);
-    
+
     List<CryptoTradePublicTrade> publicTradeHistory = marketDataService.getCryptoTradeTradeHistory(CurrencyPair.BTC_USD, 1405805427);
     System.out.println(publicTradeHistory);
   }

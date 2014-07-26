@@ -47,8 +47,8 @@ public final class BTCChinaBuyOrderRequest extends BTCChinaOrderRequest {
     params = "[" + price.toPlainString() + "," + BTCChinaUtils.truncateAmount(amount).toPlainString() + "]";
   }
 
-  public BTCChinaBuyOrderRequest(
-      BigDecimal price, BigDecimal amount, String market) {
+  public BTCChinaBuyOrderRequest(BigDecimal price, BigDecimal amount, String market) {
+
     super(METHOD_NAME, price, amount, market);
   }
 

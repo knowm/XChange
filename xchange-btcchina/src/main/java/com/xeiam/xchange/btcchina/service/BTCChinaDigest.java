@@ -102,10 +102,11 @@ public class BTCChinaDigest extends BaseParamsDigest {
    * @param params the {@code params} in the request body.
    * @return the params string for signature message.
    * @see the note in
-   * <a href="http://btcchina.org/api-trade-documentation-en#faq">FAQ</a>
-   * 4.2(USING OPENONLY AS TRUE EXAMPLE)
+   *      <a href="http://btcchina.org/api-trade-documentation-en#faq">FAQ</a>
+   *      4.2(USING OPENONLY AS TRUE EXAMPLE)
    */
   private String stripParams(final String params) {
+
     final String[] original = params.split(",");
     final String[] stripped = new String[original.length];
 
@@ -115,13 +116,16 @@ public class BTCChinaDigest extends BaseParamsDigest {
       if (param.startsWith("\"") && param.endsWith("\"")) {
         // string
         stripped[i] = param.substring(1, param.length() - 1);
-      } else if (param.equals("true")) {
+      }
+      else if (param.equals("true")) {
         // boolean: true
         stripped[i] = "1";
-      } else if (param.equals("false")) {
+      }
+      else if (param.equals("false")) {
         // boolean: false
         stripped[i] = StringUtils.EMPTY;
-      } else {
+      }
+      else {
         // number, etc.
         stripped[i] = param;
       }

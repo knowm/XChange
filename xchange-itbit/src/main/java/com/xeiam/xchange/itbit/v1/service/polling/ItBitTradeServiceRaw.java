@@ -64,6 +64,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
     return order;
   }
+
   public ItBitOrder placeItBitLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";

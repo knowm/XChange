@@ -72,15 +72,12 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+
     final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     List<LimitOrder> page;
     do {
-      BTCChinaGetOrdersResponse response = getBTCChinaOrders(
-        true,
-        BTCChinaGetOrdersRequest.ALL_MARKET,
-        null,
-        limitOrders.size());
+      BTCChinaGetOrdersResponse response = getBTCChinaOrders(true, BTCChinaGetOrdersRequest.ALL_MARKET, null, limitOrders.size());
 
       page = new ArrayList<LimitOrder>();
       page.addAll(BTCChinaAdapters.adaptOrders(response.getResult().getBtcCnyOrders(), CurrencyPair.BTC_CNY));
@@ -95,13 +92,15 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
     final BigDecimal amount = marketOrder.getTradableAmount();
     final String market = BTCChinaAdapters.adaptMarket(marketOrder.getCurrencyPair()).toUpperCase();
     final BTCChinaIntegerResponse response;
 
     if (marketOrder.getType() == OrderType.BID) {
       response = buy(null, amount, market);
-    } else {
+    }
+    else {
       response = sell(null, amount, market);
     }
 
@@ -110,6 +109,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
     final BigDecimal price = limitOrder.getLimitPrice();
     final BigDecimal amount = limitOrder.getTradableAmount();
     final String market = BTCChinaAdapters.adaptMarket(limitOrder.getCurrencyPair()).toUpperCase();
@@ -117,7 +117,8 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     if (limitOrder.getType() == OrderType.BID) {
       response = buy(price, amount, market);
-    } else {
+    }
+    else {
       response = sell(price, amount, market);
     }
 
@@ -135,10 +136,10 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
    * Gets trade history for user's account.
    *
    * @param args 2 optional arguments:
-   * <ol>
-   * <li>limit: limit the number of transactions, default value is 10 if null.</li>
-   * <li>offset: start index used for pagination, default value is 0 if null.</li>
-   * </ol>
+   *          <ol>
+   *          <li>limit: limit the number of transactions, default value is 10 if null.</li>
+   *          <li>offset: start index used for pagination, default value is 0 if null.</li>
+   *          </ol>
    */
   @Override
   public Trades getTradeHistory(Object... args) throws IOException {

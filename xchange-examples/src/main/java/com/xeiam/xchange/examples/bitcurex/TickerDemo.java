@@ -45,11 +45,12 @@ public class TickerDemo {
     requestData(bitcurexEur, CurrencyPair.BTC_EUR);
 
     Exchange bitcurexPln = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
-    bitcurexPln.applySpecification(((BitcurexExchange)bitcurexPln).getDefaultExchangePLNSpecification());
+    bitcurexPln.applySpecification(((BitcurexExchange) bitcurexPln).getDefaultExchangePLNSpecification());
     requestData(bitcurexPln, CurrencyPair.BTC_PLN);
   }
 
   private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {
+
     generic(bitcurex, pair);
     raw(bitcurex, pair.counterSymbol);
   }

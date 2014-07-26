@@ -53,6 +53,7 @@ public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
    * @param amount amount to withdraw.
    */
   public BTCChinaRequestWithdrawalRequest(String currency, BigDecimal amount) {
+
     method = METHOD_NAME;
     params = String.format("[\"%1$s\",%2$s]", currency, amount.toPlainString());
   }

@@ -61,7 +61,7 @@ public class BTERMarketDataJsonTest {
     assertThat(marketInfo.getMinAmount()).isEqualTo(".5");
     assertThat(marketInfo.getFee()).isEqualTo("0");
   }
-  
+
   @Test
   public void testDeserializeCurrencyPairs() throws IOException {
 

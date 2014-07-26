@@ -36,6 +36,7 @@ public class BTCChinaGetWithdrawalRequest extends BTCChinaRequest {
    * @param currency [ BTC | LTC ].
    */
   public BTCChinaGetWithdrawalRequest(long id, String currency) {
+
     method = METHOD_NAME;
     params = String.format("[%1$d,\"%2$s\"]", id, currency);
   }

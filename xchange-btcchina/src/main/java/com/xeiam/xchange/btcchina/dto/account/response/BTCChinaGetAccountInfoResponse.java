@@ -31,17 +31,16 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
  * @author David Yam
  */
 public class BTCChinaGetAccountInfoResponse extends BTCChinaResponse<BTCChinaAccountInfo> {
-  
+
   /**
    * Constructor
    * 
    * @param id
    * @param result
    */
-  public BTCChinaGetAccountInfoResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaAccountInfo result,
-      @JsonProperty("error") BTCChinaError error) {
-  
+  public BTCChinaGetAccountInfoResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaAccountInfo result, @JsonProperty("error") BTCChinaError error) {
+
     super(id, result, error);
   }
-  
+
 }

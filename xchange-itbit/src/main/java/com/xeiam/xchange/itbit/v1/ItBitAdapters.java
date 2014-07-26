@@ -47,6 +47,7 @@ import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 
 public final class ItBitAdapters {
+
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
@@ -68,7 +69,7 @@ public final class ItBitAdapters {
     for (int i = 0; i < trades.length; i++) {
       ItBitTrade trade = trades[i];
       long tradeId = trade.getTid();
-      if(tradeId > lastTradeId)
+      if (tradeId > lastTradeId)
         lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
     }

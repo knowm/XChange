@@ -75,8 +75,8 @@ public interface KrakenAuthenticated extends Kraken {
   @POST
   @Path("private/QueryLedgers")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public KrakenQueryLedgerResult queryLedgers(@FormParam("id") String ledgerIds, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") ValueFactory<Long> nonce)
-      throws IOException;
+  public KrakenQueryLedgerResult queryLedgers(@FormParam("id") String ledgerIds, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("nonce") ValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/AddOrder")
@@ -84,7 +84,8 @@ public interface KrakenAuthenticated extends Kraken {
   public KrakenOrderResult addOrder(@FormParam("pair") String pair, @FormParam("type") String type, @FormParam("ordertype") String ordertype, @FormParam("price") String price,
       @FormParam("price2") String secondaryPrice, @FormParam("volume") String volume, @FormParam("leverage") String leverage, @FormParam("position") String positionTxId,
       @FormParam("oflags") String orderFlags, @FormParam("starttm") String startTime, @FormParam("expiretm") String expireTime, @FormParam("userref") String userRefId,
-      @FormParam("close") Map<String, String> closeOrder, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") ValueFactory<Long> nonce) throws IOException;
+      @FormParam("close") Map<String, String> closeOrder, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") ValueFactory<Long> nonce)
+      throws IOException;
 
   @POST
   @Path("private/AddOrder")
@@ -141,7 +142,7 @@ public interface KrakenAuthenticated extends Kraken {
   @POST
   @Path("private/TradeVolume")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public KrakenTradeVolumeResult tradeVolume(@FormParam("pair") String assetPairs, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") ValueFactory<Long> nonce)
-      throws IOException;
+  public KrakenTradeVolumeResult tradeVolume(@FormParam("pair") String assetPairs, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("nonce") ValueFactory<Long> nonce) throws IOException;
 
 }

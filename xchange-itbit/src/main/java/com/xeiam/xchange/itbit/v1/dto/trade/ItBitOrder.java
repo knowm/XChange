@@ -43,9 +43,9 @@ public class ItBitOrder {
 
   public ItBitOrder(@JsonProperty("id") String id, @JsonProperty("walletId") String walletId, @JsonProperty("side") String side, @JsonProperty("instrument") String instrument,
       @JsonProperty("currency") String currency, @JsonProperty("type") String type, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amountFilled") BigDecimal amountFilled, @JsonProperty("volumeWeightedAveragePrice") BigDecimal volumeWeightedAveragePrice, @JsonProperty("createdTime") String createdTime, @JsonProperty("status") String status) {
+      @JsonProperty("amountFilled") BigDecimal amountFilled, @JsonProperty("volumeWeightedAveragePrice") BigDecimal volumeWeightedAveragePrice, @JsonProperty("createdTime") String createdTime,
+      @JsonProperty("status") String status) {
 
-	  
     this.id = id;
     this.walletId = walletId;
     this.side = side;

@@ -89,12 +89,13 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   /**
    * Get the trades recently performed by the exchange.
+   * 
    * @param currencyPair market symbol.
    * @param args 2 arguments:
-   * <ol>
-   * <li>the starting trade ID(exclusive), null means the latest trades;</li>
-   * <li>the limit(number of records fetched, the range is [0,5000]), default is 100.</li>
-   * <ol>
+   *          <ol>
+   *          <li>the starting trade ID(exclusive), null means the latest trades;</li>
+   *          <li>the limit(number of records fetched, the range is [0,5000]), default is 100.</li>
+   *          <ol>
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -109,11 +110,14 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
     if (since != null && limit != null) {
       btcChinaTrades = getBTCChinaTrades(market, since.longValue(), limit.intValue());
-    } else if (since != null) {
+    }
+    else if (since != null) {
       btcChinaTrades = getBTCChinaTrades(market, since.longValue());
-    } else if (limit != null) {
+    }
+    else if (limit != null) {
       btcChinaTrades = getBTCChinaTrades(market, limit.intValue());
-    } else {
+    }
+    else {
       btcChinaTrades = getBTCChinaTrades(market);
     }
 

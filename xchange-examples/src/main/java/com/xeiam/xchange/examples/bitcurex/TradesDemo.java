@@ -46,11 +46,12 @@ public class TradesDemo {
     requestData(bitcurexEur, CurrencyPair.BTC_EUR);
 
     Exchange bitcurexPln = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
-    bitcurexPln.applySpecification(((BitcurexExchange)bitcurexPln).getDefaultExchangePLNSpecification());
+    bitcurexPln.applySpecification(((BitcurexExchange) bitcurexPln).getDefaultExchangePLNSpecification());
     requestData(bitcurexPln, CurrencyPair.BTC_PLN);
   }
 
   private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {
+
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitcurex.getPollingMarketDataService();
 

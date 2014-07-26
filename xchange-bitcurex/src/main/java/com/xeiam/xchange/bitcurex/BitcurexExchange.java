@@ -37,6 +37,7 @@ import com.xeiam.xchange.currency.Currencies;
  * </ul>
  */
 public class BitcurexExchange extends BaseExchange implements Exchange {
+
   public static final String KEY_CURRENCY = "CURRENCY";
 
   /**

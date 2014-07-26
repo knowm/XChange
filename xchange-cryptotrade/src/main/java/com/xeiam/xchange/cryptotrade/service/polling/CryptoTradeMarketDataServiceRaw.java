@@ -66,14 +66,14 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
 
     return handleResponse(cryptoTradeDepth);
   }
-  
+
   public List<CryptoTradePublicTrade> getCryptoTradeTradeHistory(CurrencyPair currencyPair) throws IOException {
 
     CryptoTradePublicTrades cryptoTradeDepth = cryptoTradeProxy.getTradeHistory(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return handleResponse(cryptoTradeDepth).getPublicTrades();
   }
-  
+
   public List<CryptoTradePublicTrade> getCryptoTradeTradeHistory(CurrencyPair currencyPair, long sinceTimestamp) throws IOException {
 
     CryptoTradePublicTrades cryptoTradeDepth = cryptoTradeProxy.getTradeHistory(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase(), sinceTimestamp);

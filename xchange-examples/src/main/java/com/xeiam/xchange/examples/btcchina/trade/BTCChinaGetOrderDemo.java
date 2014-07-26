@@ -39,17 +39,18 @@ import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 public class BTCChinaGetOrderDemo {
 
   static Exchange btcchina = BTCChinaExamplesUtils.getExchange();
-  static BTCChinaTradeServiceRaw tradeServiceRaw
-    = (BTCChinaTradeServiceRaw) btcchina.getPollingTradeService();
+  static BTCChinaTradeServiceRaw tradeServiceRaw = (BTCChinaTradeServiceRaw) btcchina.getPollingTradeService();
 
   public static void main(String[] args) throws IOException {
+
     final long orderId = Long.parseLong(args[0]);
     final String market = args.length > 1 ? args[1] : null;
 
     BTCChinaGetOrderResponse response;
     if (market == null) {
       response = tradeServiceRaw.getBTCChinaOrder(orderId);
-    } else {
+    }
+    else {
       response = tradeServiceRaw.getBTCChinaOrder(orderId, market);
     }
     System.out.println(response);

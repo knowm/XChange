@@ -102,33 +102,33 @@ public class CoinbaseAdapterTest {
     assertThat(trade).isEqualsToByComparingFields(expectedTrade);
   }
 
-   @Test
-   public void testAdaptTicker() throws IOException {
-  
-   Ticker expectedTicker =
-   TickerBuilder.newInstance().withCurrencyPair(CurrencyPair.BTC_USD).withAsk(new BigDecimal("723.09")).withBid(new BigDecimal("723.09")).withLast(new BigDecimal("719.79")).withLow(
-   new BigDecimal("718.2")).withHigh(new BigDecimal("723.11")).build();
-  
-   InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-price-data.json");
-   ObjectMapper mapper = new ObjectMapper();
-   CoinbasePrice price = mapper.readValue(is, CoinbasePrice.class);
-  
-   CoinbaseMoney spotPrice = new CoinbaseMoney(Currencies.USD, new BigDecimal("719.79"));
-  
-   is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
-   String spotPriceHistoryString;
-   Scanner scanner = null;
-   try {
-   scanner = new Scanner(is);
-   spotPriceHistoryString = scanner.useDelimiter("\\A").next();
-   } finally {
-   scanner.close();
-   }
+  @Test
+  public void testAdaptTicker() throws IOException {
 
-   CoinbaseSpotPriceHistory spotPriceHistory = CoinbaseSpotPriceHistory.fromRawString(spotPriceHistoryString);
-  
-   Ticker ticker = CoinbaseAdapters.adaptTicker(CurrencyPair.BTC_USD, price, price, spotPrice, spotPriceHistory);
-  
-   assertThat(ticker).isEqualsToByComparingFields(expectedTicker);
-   }
+    Ticker expectedTicker =
+        TickerBuilder.newInstance().withCurrencyPair(CurrencyPair.BTC_USD).withAsk(new BigDecimal("723.09")).withBid(new BigDecimal("723.09")).withLast(new BigDecimal("719.79")).withLow(
+            new BigDecimal("718.2")).withHigh(new BigDecimal("723.11")).build();
+
+    InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-price-data.json");
+    ObjectMapper mapper = new ObjectMapper();
+    CoinbasePrice price = mapper.readValue(is, CoinbasePrice.class);
+
+    CoinbaseMoney spotPrice = new CoinbaseMoney(Currencies.USD, new BigDecimal("719.79"));
+
+    is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
+    String spotPriceHistoryString;
+    Scanner scanner = null;
+    try {
+      scanner = new Scanner(is);
+      spotPriceHistoryString = scanner.useDelimiter("\\A").next();
+    } finally {
+      scanner.close();
+    }
+
+    CoinbaseSpotPriceHistory spotPriceHistory = CoinbaseSpotPriceHistory.fromRawString(spotPriceHistoryString);
+
+    Ticker ticker = CoinbaseAdapters.adaptTicker(CurrencyPair.BTC_USD, price, price, spotPrice, spotPriceHistory);
+
+    assertThat(ticker).isEqualsToByComparingFields(expectedTicker);
+  }
 }

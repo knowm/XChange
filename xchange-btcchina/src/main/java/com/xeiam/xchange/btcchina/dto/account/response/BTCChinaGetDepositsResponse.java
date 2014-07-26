@@ -30,18 +30,14 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaDepositObject;
 /**
  * @author Joe Zhou
  */
-public class BTCChinaGetDepositsResponse
-  extends BTCChinaResponse<BTCChinaDepositObject> {
+public class BTCChinaGetDepositsResponse extends BTCChinaResponse<BTCChinaDepositObject> {
 
   /**
    * @param id
    * @param result
    * @param error
    */
-  public BTCChinaGetDepositsResponse(
-      @JsonProperty("id") String id,
-      @JsonProperty("result") BTCChinaDepositObject result,
-      @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetDepositsResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaDepositObject result, @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

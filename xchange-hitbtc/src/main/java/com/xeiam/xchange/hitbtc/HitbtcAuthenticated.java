@@ -53,9 +53,8 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("trading/orders/recent")
-  HitbtcOrdersResponse getHitbtcRecentOrders(@HeaderParam("X-Signature") ParamsDigest signature,
-                                             @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey,
-                                             @QueryParam("max_results") int max_results) throws IOException;
+  HitbtcOrdersResponse getHitbtcRecentOrders(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey,
+      @QueryParam("max_results") int max_results) throws IOException;
 
   @POST
   @Path("trading/new_order")
@@ -81,6 +80,5 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("trading/balance")
   public HitbtcBalanceResponse getHitbtcBalance(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey) throws IOException;
-
 
 }

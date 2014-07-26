@@ -220,6 +220,7 @@ public final class BTCChinaAdapters {
    */
   @Deprecated
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
     if (orders != null) {
@@ -236,8 +237,8 @@ public final class BTCChinaAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static List<LimitOrder> adaptOrders(
-      List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+  public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
 
     for (BTCChinaOrder order : orders) {
@@ -257,6 +258,7 @@ public final class BTCChinaAdapters {
    */
   @Deprecated
   public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
+
     return adaptLimitOrder(order, CurrencyPair.BTC_CNY);
   }
 
@@ -267,6 +269,7 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static LimitOrder adaptLimitOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
+
     OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = order.getAmount();
     String id = Long.toString(order.getId());
@@ -289,22 +292,25 @@ public final class BTCChinaAdapters {
     final CurrencyPair currencyPair = adaptCurrencyPair(transaction.getMarket().toUpperCase());
 
     final BigDecimal amount;
-    final BigDecimal money; 
+    final BigDecimal money;
     final int scale;
 
     if (currencyPair.equals(CurrencyPair.BTC_CNY)) {
       amount = transaction.getBtcAmount().abs();
       money = transaction.getCnyAmount().abs();
       scale = BTCChinaExchange.CNY_SCALE;
-    } else if (currencyPair.equals(CurrencyPair.LTC_CNY)) {
+    }
+    else if (currencyPair.equals(CurrencyPair.LTC_CNY)) {
       amount = transaction.getLtcAmount().abs();
       money = transaction.getCnyAmount().abs();
       scale = BTCChinaExchange.CNY_SCALE;
-    } else if (currencyPair.equals(CurrencyPair.LTC_BTC)) {
+    }
+    else if (currencyPair.equals(CurrencyPair.LTC_BTC)) {
       amount = transaction.getLtcAmount().abs();
       money = transaction.getBtcAmount().abs();
       scale = BTCChinaExchange.BTC_SCALE;
-    } else {
+    }
+    else {
       throw new IllegalArgumentException("Unknown currency pair: " + currencyPair);
     }
 

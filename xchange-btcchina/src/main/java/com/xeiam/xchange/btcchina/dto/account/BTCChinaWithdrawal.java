@@ -41,14 +41,9 @@ public class BTCChinaWithdrawal {
   private final String transaction;
   private final String status;
 
-  public BTCChinaWithdrawal(
-      @JsonProperty("id") long id,
-      @JsonProperty("address") String address,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("date") long date,
-      @JsonProperty("transaction") String transaction,
-      @JsonProperty("status") String status) {
+  public BTCChinaWithdrawal(@JsonProperty("id") long id, @JsonProperty("address") String address, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("date") long date, @JsonProperty("transaction") String transaction, @JsonProperty("status") String status) {
+
     this.id = id;
     this.address = address;
     this.currency = currency;
@@ -59,35 +54,43 @@ public class BTCChinaWithdrawal {
   }
 
   public long getId() {
+
     return id;
   }
 
   public String getAddress() {
+
     return address;
   }
 
   public String getCurrency() {
+
     return currency;
   }
 
   public BigDecimal getAmount() {
+
     return amount;
   }
 
   public long getDate() {
+
     return date;
   }
 
   public String getTransaction() {
+
     return transaction;
   }
 
   public String getStatus() {
+
     return status;
   }
 
   @Override
   public String toString() {
+
     return ToStringBuilder.reflectionToString(this);
   }
 

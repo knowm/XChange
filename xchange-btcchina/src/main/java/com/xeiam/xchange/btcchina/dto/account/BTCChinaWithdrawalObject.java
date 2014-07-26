@@ -33,17 +33,19 @@ public class BTCChinaWithdrawalObject {
 
   private final BTCChinaWithdrawal withdrawal;
 
-  public BTCChinaWithdrawalObject(
-      @JsonProperty("withdrawal") BTCChinaWithdrawal withdrawal) {
+  public BTCChinaWithdrawalObject(@JsonProperty("withdrawal") BTCChinaWithdrawal withdrawal) {
+
     this.withdrawal = withdrawal;
   }
 
   public BTCChinaWithdrawal getWithdrawal() {
+
     return withdrawal;
   }
 
   @Override
   public String toString() {
+
     return ToStringBuilder.reflectionToString(this);
   }
 

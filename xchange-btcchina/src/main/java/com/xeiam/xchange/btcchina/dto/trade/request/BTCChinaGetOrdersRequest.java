@@ -38,6 +38,7 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
   /**
    * Constructor (Optional parameter, default openOnly = false)
+   * 
    * @deprecated Use {@link #BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)} instead.
    */
   @Deprecated
@@ -52,7 +53,7 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
    * 
    * @param openOnly
    * @deprecated this constructor is incorrect,
-   * it will fail into `invalid parameter'(error code = -32019).
+   *             it will fail into `invalid parameter'(error code = -32019).
    */
   @Deprecated
   public BTCChinaGetOrdersRequest(Boolean openOnly) {
@@ -69,14 +70,12 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
    * @param limit Limit the number of transactions, default value is 1000.
    * @param offset Start index used for pagination, default value is 0.
    */
-  public BTCChinaGetOrdersRequest(
-      Boolean openOnly, String market, Integer limit, Integer offset) {
+  public BTCChinaGetOrdersRequest(Boolean openOnly, String market, Integer limit, Integer offset) {
+
     method = METHOD_NAME;
-    params = String.format("[%1$s,\"%2$s\",%3$d,%4$d]",
-        openOnly == null ? true : openOnly.booleanValue(),
-        market == null ? DEFAULT_MARKET : market,
-        limit == null ? DEFAULT_LIMIT : limit.intValue(),
-        offset == null ? 0 : offset.intValue());
+    params =
+        String.format("[%1$s,\"%2$s\",%3$d,%4$d]", openOnly == null ? true : openOnly.booleanValue(), market == null ? DEFAULT_MARKET : market, limit == null ? DEFAULT_LIMIT : limit.intValue(),
+            offset == null ? 0 : offset.intValue());
   }
 
   @Override

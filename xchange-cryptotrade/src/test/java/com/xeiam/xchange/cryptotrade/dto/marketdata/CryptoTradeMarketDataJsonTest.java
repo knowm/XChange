@@ -74,7 +74,7 @@ public class CryptoTradeMarketDataJsonTest {
     assertThat(ask.getPrice()).isEqualTo("102");
     assertThat(ask.getAmount()).isEqualTo("0.81718312");
   }
-  
+
   @Test
   public void testDeserializePublicTrades() throws IOException {
 

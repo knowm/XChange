@@ -40,8 +40,8 @@ import si.mazi.rescu.ParamsDigest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetAccountInfoRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetDepositsRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetWithdrawalRequest;
-import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetWithdrawalsRequest;
+import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetAccountInfoResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalResponse;
@@ -88,9 +88,7 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(
-      @QueryParam("market") String market)
-          throws IOException;
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market) throws IOException;
 
   /**
    * Returns last {@code limit} trade records.
@@ -102,10 +100,7 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(
-      @QueryParam("market") String market,
-      @QueryParam("limit") int limit)
-          throws IOException;
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * Returns 100 trade records starting from id {@code since}.
@@ -117,10 +112,7 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(
-      @QueryParam("market") String market,
-      @QueryParam("since") long since)
-          throws IOException;
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
 
   /**
    * Returns {@code limit} trades starting from id {@code since}
@@ -133,10 +125,7 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(
-      @QueryParam("market") String market,
-      @QueryParam("since") long since,
-      @QueryParam("limit") int limit) throws IOException;
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
@@ -147,27 +136,20 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetDepositsResponse getDeposits(
-      @HeaderParam("Authorization") ParamsDigest authorization,
-      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
-      BTCChinaGetDepositsRequest getDepositsRequest)
-          throws IOException;
+  public BTCChinaGetDepositsResponse getDeposits(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+      BTCChinaGetDepositsRequest getDepositsRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetWithdrawalResponse getWithdrawal(
-      @HeaderParam("Authorization") ParamsDigest authorization,
-      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
-      BTCChinaGetWithdrawalRequest request) throws IOException;
+  public BTCChinaGetWithdrawalResponse getWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetWithdrawalRequest request)
+      throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetWithdrawalsResponse getWithdrawals(
-      @HeaderParam("Authorization") ParamsDigest authorization,
-      @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
-      BTCChinaGetWithdrawalsRequest request) throws IOException;
+  public BTCChinaGetWithdrawalsResponse
+      getWithdrawals(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetWithdrawalsRequest request) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

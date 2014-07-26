@@ -34,7 +34,8 @@ public class BitcurexFunds {
   private final String address;
   private final String error;
 
-  public BitcurexFunds(@JsonProperty("eurs") BigDecimal eurs, @JsonProperty("plns") BigDecimal plns, @JsonProperty("btcs") BigDecimal btcs, @JsonProperty("address") String address, @JsonProperty("error") String error) {
+  public BitcurexFunds(@JsonProperty("eurs") BigDecimal eurs, @JsonProperty("plns") BigDecimal plns, @JsonProperty("btcs") BigDecimal btcs, @JsonProperty("address") String address,
+      @JsonProperty("error") String error) {
 
     this.eurs = eurs;
     this.plns = plns;
@@ -49,6 +50,7 @@ public class BitcurexFunds {
   }
 
   public BigDecimal getPlns() {
+
     return plns;
   }
 

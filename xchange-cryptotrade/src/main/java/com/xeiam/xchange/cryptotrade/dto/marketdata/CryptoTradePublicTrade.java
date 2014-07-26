@@ -36,8 +36,8 @@ public class CryptoTradePublicTrade {
   private final BigDecimal orderAmount;
   private final BigDecimal rate;
 
-  public CryptoTradePublicTrade(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("pair") String assetPair, @JsonProperty("type") CryptoTradeOrderType type, @JsonProperty("amount") BigDecimal orderAmount,
-      @JsonProperty("rate") BigDecimal rate) {
+  public CryptoTradePublicTrade(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("pair") String assetPair, @JsonProperty("type") CryptoTradeOrderType type,
+      @JsonProperty("amount") BigDecimal orderAmount, @JsonProperty("rate") BigDecimal rate) {
 
     this.id = id;
     this.timestamp = timestamp;

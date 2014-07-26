@@ -58,16 +58,16 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
 
     return activeOrders;
   }
-  
+
   public BitfinexOrderStatusResponse placeBitfinexMarketOrder(MarketOrder marketOrder) throws IOException {
 
     String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
     String type = marketOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
     String orderType = BitfinexOrderType.MARKET.getValue();
-    
+
     BitfinexOrderStatusResponse newOrder =
-        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, 
-            new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, marketOrder.getTradableAmount(), BigDecimal.ONE, "bitfinex", type, orderType, false));
+        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, marketOrder.getTradableAmount(), BigDecimal.ONE, "bitfinex", type,
+            orderType, false));
 
     return newOrder;
   }
@@ -77,10 +77,9 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
     String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
     String orderType = bitfinexOrderType.toString();
-    
+
     BitfinexOrderStatusResponse newOrder =
-        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, 
-            new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),
+        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),
             "bitfinex", type, orderType, false));
 
     return newOrder;

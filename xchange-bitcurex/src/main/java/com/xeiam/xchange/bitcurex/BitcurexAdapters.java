@@ -156,7 +156,7 @@ public final class BitcurexAdapters {
   public static AccountInfo adaptAccountInfo(BitcurexFunds funds, String userName) {
 
     // Adapt to XChange DTOs
-    List<Wallet>wallets = new ArrayList<Wallet>(2);
+    List<Wallet> wallets = new ArrayList<Wallet>(2);
     wallets.add(new Wallet(Currencies.BTC, funds.getBtcs()));
 
     BigDecimal eur = funds.getEurs();
@@ -167,7 +167,7 @@ public final class BitcurexAdapters {
     if (pln != null)
       wallets.add(new Wallet(Currencies.PLN, pln));
 
-    return new AccountInfo( userName, null, wallets);
+    return new AccountInfo(userName, null, wallets);
   }
 
 }

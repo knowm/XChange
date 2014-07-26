@@ -22,7 +22,7 @@
  */
 package com.xeiam.xchange.btcchina.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import junit.extensions.PA;
 
 import org.junit.Test;
@@ -36,6 +36,7 @@ public class BTCChinaDigestTest {
 
   @Test
   public void testStripParams() {
+
     String params = "\"BTC\",true";
     String stripped = (String) PA.invokeMethod(digest, "stripParams(java.lang.String)", params);
     assertEquals("BTC,1", stripped);

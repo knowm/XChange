@@ -46,29 +46,29 @@ public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitcurexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
-	  
-	  super(exchangeSpecification);
+
+    super(exchangeSpecification);
   }
 
   public BitcurexTicker getBitcurexTicker(String currency) throws IOException, ExchangeException {
-	  
-	  verify(currency);
-	  
-	  return bitcurex.getTicker();
+
+    verify(currency);
+
+    return bitcurex.getTicker();
   }
 
   public BitcurexDepth getBitcurexOrderBook(String currency) throws IOException, ExchangeException {
-	  
-	  verify(currency);
-	  
-	  return bitcurex.getFullDepth();
+
+    verify(currency);
+
+    return bitcurex.getFullDepth();
   }
 
   public BitcurexTrade[] getBitcurexTrades(String currency) throws IOException, ExchangeException {
-	  
-	  verify(currency);
-	  
-	  return bitcurex.getTrades();
+
+    verify(currency);
+
+    return bitcurex.getTrades();
   }
 
 }

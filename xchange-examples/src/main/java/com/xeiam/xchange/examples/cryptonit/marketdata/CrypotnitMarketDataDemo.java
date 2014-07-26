@@ -51,13 +51,13 @@ public class CrypotnitMarketDataDemo {
 
     Collection<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
     System.out.println(currencyPairs);
-    
+
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook);
-    
+
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println(trades);
   }
@@ -69,7 +69,7 @@ public class CrypotnitMarketDataDemo {
 
     CryptonitOrders marketDepth = marketDataService.getCryptonitAsks(CurrencyPair.BTC_USD, 10);
     System.out.println(marketDepth);
-    
+
     CryptonitOrders trades = marketDataService.getCryptonitTrades(CurrencyPair.BTC_USD, 10);
     System.out.println(trades);
   }

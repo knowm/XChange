@@ -53,11 +53,11 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBasePollingService<C
   }
 
   public List<List<String>> getCryptonitTradingPairs() throws IOException {
-    
+
     final List<List<String>> tradingPairs = cryptonit.getPairs();
     return tradingPairs;
   }
-  
+
   public CryptonitTicker getCryptonitTicker(CurrencyPair currencyPair) throws IOException {
 
     // Request data

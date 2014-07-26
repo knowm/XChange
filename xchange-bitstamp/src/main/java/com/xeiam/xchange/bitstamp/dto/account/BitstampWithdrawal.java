@@ -39,8 +39,8 @@ public final class BitstampWithdrawal extends BitstampBaseResponse {
    */
   public BitstampWithdrawal(@JsonProperty("id") Integer id, @JsonProperty("error") String error) {
 
-      super(error);
-      this.id = id;
+    super(error);
+    this.id = id;
   }
 
   public Integer getId() {

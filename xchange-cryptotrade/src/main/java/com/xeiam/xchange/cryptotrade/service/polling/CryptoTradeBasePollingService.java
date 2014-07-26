@@ -107,8 +107,8 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(CurrencyPair.XPM_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.XPM_USD);
     CURRENCY_PAIRS.add(CurrencyPair.XPM_PPC);
-    
-    // Securities 
+
+    // Securities
     CURRENCY_PAIRS.add(new CurrencyPair("AMC", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("CRM", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("CTB", "BTC"));

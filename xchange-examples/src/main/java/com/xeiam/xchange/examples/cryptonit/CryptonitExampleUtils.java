@@ -27,7 +27,6 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptonit.v2.CryptonitExchange;
 
-
 public class CryptonitExampleUtils {
 
   public static Exchange createExchange() {

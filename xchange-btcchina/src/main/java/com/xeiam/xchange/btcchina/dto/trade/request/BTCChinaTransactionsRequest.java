@@ -43,19 +43,16 @@ public class BTCChinaTransactionsRequest extends BTCChinaRequest {
    * Constructs a getting transactions log request.
    *
    * @param type Fetch transactions by type.
-   * Default is 'all'.
-   * Available types 'all | fundbtc | withdrawbtc | fundmoney | withdrawmoney
-   * | refundmoney | buybtc | sellbtc | buyltc | sellltc | tradefee | rebate '
+   *          Default is 'all'.
+   *          Available types 'all | fundbtc | withdrawbtc | fundmoney | withdrawmoney
+   *          | refundmoney | buybtc | sellbtc | buyltc | sellltc | tradefee | rebate '
    * @param limit Limit the number of transactions, default value is 10.
    * @param offset Start index used for pagination, default value is 0.
    */
-  public BTCChinaTransactionsRequest(
-      String type, Integer limit, Integer offset) {
+  public BTCChinaTransactionsRequest(String type, Integer limit, Integer offset) {
+
     method = "getTransactions";
-    params = String.format("[\"%1$s\",%2$d,%3$d]",
-      type == null ? TYPE_ALL : type,
-      limit == null ? 10 : limit.intValue(),
-      offset == null ? 0 : offset.intValue());
+    params = String.format("[\"%1$s\",%2$d,%3$d]", type == null ? TYPE_ALL : type, limit == null ? 10 : limit.intValue(), offset == null ? 0 : offset.intValue());
   }
 
   @Override

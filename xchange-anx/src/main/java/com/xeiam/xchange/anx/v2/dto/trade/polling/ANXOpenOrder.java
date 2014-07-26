@@ -57,8 +57,8 @@ public final class ANXOpenOrder {
    * @param priority
    */
   public ANXOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type,
-      @JsonProperty("amount") ANXValue amount, @JsonProperty("effective_amount") ANXValue effectiveAmount, @JsonProperty("invalid_amount") ANXValue invalidAmount, @JsonProperty("price") ANXValue price, @JsonProperty("status") String status,
-      @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
+      @JsonProperty("amount") ANXValue amount, @JsonProperty("effective_amount") ANXValue effectiveAmount, @JsonProperty("invalid_amount") ANXValue invalidAmount,
+      @JsonProperty("price") ANXValue price, @JsonProperty("status") String status, @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
 
     this.oid = oid;
     this.currency = currency;
@@ -131,9 +131,8 @@ public final class ANXOpenOrder {
   @Override
   public String toString() {
 
-    return "ANXOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", effectiveAmount=" + effectiveAmount + ", invalidAmount=" + invalidAmount + ", price=" + price + ", status="
-        + status + ", date=" + date + ", priority=" + priority + "]";
+    return "ANXOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", effectiveAmount=" + effectiveAmount + ", invalidAmount="
+        + invalidAmount + ", price=" + price + ", status=" + status + ", date=" + date + ", priority=" + priority + "]";
   }
-
 
 }

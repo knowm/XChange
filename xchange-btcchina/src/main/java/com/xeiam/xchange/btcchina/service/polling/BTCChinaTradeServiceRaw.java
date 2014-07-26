@@ -69,7 +69,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @param exchangeSpecification
    */
   public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
-  
+
     super(BTCChina.class, exchangeSpecification);
   }
 
@@ -81,6 +81,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @throws IOException indicates I/O exception.
    */
   public BTCChinaGetOrderResponse getBTCChinaOrder(long id) throws IOException {
+
     BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id);
     BTCChinaGetOrderResponse returnObject = btcChina.getOrder(signatureCreator, getNonce(), request);
     return checkResult(returnObject);
@@ -95,6 +96,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @throws IOException indicates I/O exception.
    */
   public BTCChinaGetOrderResponse getBTCChinaOrder(long id, String market) throws IOException {
+
     BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id, market);
     BTCChinaGetOrderResponse returnObject = btcChina.getOrder(signatureCreator, getNonce(), request);
     return checkResult(returnObject);
@@ -107,20 +109,17 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    */
   @Deprecated
   public BTCChinaResponse<BTCChinaOrders> getBTCChinaOpenOrders() throws IOException {
-  
+
     return checkResult(btcChina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetOrdersRequest()));
   }
 
   /**
    * @see {@link BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)}.
    */
-  public BTCChinaGetOrdersResponse getBTCChinaOrders(
-      Boolean openOnly, String market, Integer limit, Integer offset)
-          throws IOException {
-    BTCChinaGetOrdersRequest request = new BTCChinaGetOrdersRequest(
-        openOnly, market, limit, offset);
-    BTCChinaGetOrdersResponse response = btcChina.getOrders(
-        signatureCreator, BTCChinaUtils.getNonce(), request);
+  public BTCChinaGetOrdersResponse getBTCChinaOrders(Boolean openOnly, String market, Integer limit, Integer offset) throws IOException {
+
+    BTCChinaGetOrdersRequest request = new BTCChinaGetOrdersRequest(openOnly, market, limit, offset);
+    BTCChinaGetOrdersResponse response = btcChina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), request);
     return checkResult(response);
   }
 
@@ -130,17 +129,17 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    */
   @Deprecated
   public BTCChinaIntegerResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
-  
+
     BTCChinaIntegerResponse response = null;
-    
+
     if (orderType == OrderType.BID) {
-      
+
       response = btcChina.buyOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaBuyOrderRequest(price, amount));
     }
     else {
       response = btcChina.sellOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaSellOrderRequest(price, amount));
     }
-    
+
     return checkResult(response);
   }
 
@@ -148,28 +147,24 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * Place a buy order.
    *
    * @param price The price in quote currency to buy 1 base currency.
-   * Max 2 decimals for BTC/CNY and LTC/CNY markets.
-   * 4 decimals for LTC/BTC market.
-   * Market order is executed by setting price to 'null'.
+   *          Max 2 decimals for BTC/CNY and LTC/CNY markets.
+   *          4 decimals for LTC/BTC market.
+   *          Market order is executed by setting price to 'null'.
    * @param amount The amount of LTC/BTC to buy.
-   * Supports 4 decimal places for BTC and 3 decimal places for LTC.
+   *          Supports 4 decimal places for BTC and 3 decimal places for LTC.
    * @param market [ BTCCNY | LTCCNY | LTCBTC ]
    * @return order ID.
    * @throws IOException
    */
-  public BTCChinaIntegerResponse buy(
-      BigDecimal price, BigDecimal amount, String market) throws IOException {
-    BTCChinaBuyOrderRequest request = new BTCChinaBuyOrderRequest(
-        price, amount, market);
+  public BTCChinaIntegerResponse buy(BigDecimal price, BigDecimal amount, String market) throws IOException {
+
+    BTCChinaBuyOrderRequest request = new BTCChinaBuyOrderRequest(price, amount, market);
     final BTCChinaIntegerResponse response;
     try {
-      response = btcChina.buyOrder2(
-        signatureCreator, BTCChinaUtils.getNonce(), request);
+      response = btcChina.buyOrder2(signatureCreator, BTCChinaUtils.getNonce(), request);
     } catch (HttpStatusIOException e) {
       if (e.getHttpStatusCode() == 401) {
-        log.error("{}, request: {}, response: {}",
-          e.getMessage(),
-          request, e.getHttpBody());
+        log.error("{}, request: {}, response: {}", e.getMessage(), request, e.getHttpBody());
       }
       throw e;
     }
@@ -180,28 +175,24 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * Place a sell order.
    *
    * @param price The price in quote currency to sell 1 base currency.
-   * Max 2 decimals for BTC/CNY and LTC/CNY markets.
-   * 4 decimals for LTC/BTC market.
-   * Market order is executed by setting price to 'null'.
+   *          Max 2 decimals for BTC/CNY and LTC/CNY markets.
+   *          4 decimals for LTC/BTC market.
+   *          Market order is executed by setting price to 'null'.
    * @param amount The amount of LTC/BTC to sell.
-   * Supports 4 decimal places for BTC and 3 decimal places for LTC.
+   *          Supports 4 decimal places for BTC and 3 decimal places for LTC.
    * @param market [ BTCCNY | LTCCNY | LTCBTC ]
    * @return order ID.
    * @throws IOException
    */
-  public BTCChinaIntegerResponse sell(
-      BigDecimal price, BigDecimal amount, String market) throws IOException {
-    BTCChinaSellOrderRequest request = new BTCChinaSellOrderRequest(
-        price, amount, market);
+  public BTCChinaIntegerResponse sell(BigDecimal price, BigDecimal amount, String market) throws IOException {
+
+    BTCChinaSellOrderRequest request = new BTCChinaSellOrderRequest(price, amount, market);
     final BTCChinaIntegerResponse response;
     try {
-      response = btcChina.sellOrder2(
-        signatureCreator, BTCChinaUtils.getNonce(), request);
+      response = btcChina.sellOrder2(signatureCreator, BTCChinaUtils.getNonce(), request);
     } catch (HttpStatusIOException e) {
       if (e.getHttpStatusCode() == 401) {
-        log.error("{}, request: {}, response: {}",
-          e.getMessage(),
-          request, e.getHttpBody());
+        log.error("{}, request: {}, response: {}", e.getMessage(), request, e.getHttpBody());
       }
       throw e;
     }
@@ -212,12 +203,12 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @return BTCChinaBooleanResponse of limit order cancellation status.
    */
   public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
-  
+
     return checkResult(btcChina.cancelOrder(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaCancelOrderRequest(Long.parseLong(orderId))));
   }
-  
+
   public BTCChinaTransactionsResponse getTransactions() throws IOException {
-  
+
     return checkResult(btcChina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaTransactionsRequest()));
   }
 
@@ -225,6 +216,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @see {@link BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)}.
    */
   public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
+
     BTCChinaTransactionsRequest request = new BTCChinaTransactionsRequest(type, limit, offset);
     BTCChinaTransactionsResponse response = btcChina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), request);
     return checkResult(response);

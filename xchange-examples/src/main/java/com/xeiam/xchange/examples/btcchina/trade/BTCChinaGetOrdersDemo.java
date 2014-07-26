@@ -43,10 +43,10 @@ public class BTCChinaGetOrdersDemo {
 
   static Exchange exchange = BTCChinaExamplesUtils.getExchange();
   static PollingTradeService tradeService = exchange.getPollingTradeService();
-  static BTCChinaTradeServiceRaw tradeServiceRaw
-    = (BTCChinaTradeServiceRaw) exchange.getPollingTradeService();
+  static BTCChinaTradeServiceRaw tradeServiceRaw = (BTCChinaTradeServiceRaw) exchange.getPollingTradeService();
 
   public static void main(String[] args) throws IOException {
+
     BTCChinaGetOrdersResponse btcCny = tradeServiceRaw.getBTCChinaOrders(true, "BTCCNY", null, null);
     System.out.println(btcCny);
 

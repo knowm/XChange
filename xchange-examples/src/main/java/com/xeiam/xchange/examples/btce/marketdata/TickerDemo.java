@@ -42,7 +42,7 @@ public class TickerDemo {
   public static void main(String[] args) throws Exception {
 
     CertHelper.trustAllCerts();
-    
+
     // Use the factory to get BTC-E exchange API using default settings
     Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
     generic(btce);

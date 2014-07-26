@@ -113,7 +113,7 @@ public class CryptonitAdapterTest {
     assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo("BTC");
 
   }
-  
+
   @Test
   public void testAdaptCurrencyPairs() throws IOException {
 
@@ -126,7 +126,7 @@ public class CryptonitAdapterTest {
     List<List<String>> tradingPairs = mapper.readValue(is, nestedListType);
 
     Collection<CurrencyPair> currencyPairs = CryptonitAdapters.adaptCurrencyPairs(tradingPairs);
-    
+
     assertThat(currencyPairs).hasSize(3);
     assertThat(currencyPairs.contains(CurrencyPair.BTC_LTC));
   }
