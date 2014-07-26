@@ -20,19 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.trade.request;
+package com.xeiam.xchange.btcchina.dto.trade;
 
-import com.xeiam.xchange.btcchina.BTCChinaExchange;
-import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTCChinaCancelIcebergOrderRequest extends BTCChinaRequest {
+public class BTCChinaIcebergOrdersObject {
 
-  private static final String METHOD_NAME = "cancelIcebergOrder";
 
-  public BTCChinaCancelIcebergOrderRequest(long id, String market) {
+  private final BTCChinaIcebergOrder[] icebergOrders;
 
-    this.method = METHOD_NAME;
-    this.params = String.format("[%1$d,\"%2$s\"]", id, market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
+  public BTCChinaIcebergOrdersObject(@JsonProperty("iceberg_orders") BTCChinaIcebergOrder[] icebergOrders) {
+
+    this.icebergOrders = icebergOrders;
+  }
+
+  public BTCChinaIcebergOrder[] getIcebergOrders() {
+
+    return icebergOrders;
   }
 
 }

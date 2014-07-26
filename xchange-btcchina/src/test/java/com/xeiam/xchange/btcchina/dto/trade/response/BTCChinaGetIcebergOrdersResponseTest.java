@@ -20,19 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.trade.request;
+package com.xeiam.xchange.btcchina.dto.trade.response;
 
-import com.xeiam.xchange.btcchina.BTCChinaExchange;
-import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
+import static org.junit.Assert.assertEquals;
 
-public class BTCChinaCancelIcebergOrderRequest extends BTCChinaRequest {
+import java.io.IOException;
 
-  private static final String METHOD_NAME = "cancelIcebergOrder";
+import org.junit.Test;
 
-  public BTCChinaCancelIcebergOrderRequest(long id, String market) {
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaIcebergOrder;
 
-    this.method = METHOD_NAME;
-    this.params = String.format("[%1$d,\"%2$s\"]", id, market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
+public class BTCChinaGetIcebergOrdersResponseTest {
+
+  private final ObjectMapper mapper = new ObjectMapper();
+
+  @Test
+  public void test() throws IOException {
+
+    BTCChinaGetIcebergOrdersResponse response = mapper.readValue(getClass().getResource("getIcebergOrders.json"), BTCChinaGetIcebergOrdersResponse.class);
+    BTCChinaIcebergOrder[] io = response.getResult().getIcebergOrders();
+    assertEquals(2, io.length);
+    assertEquals(2, io[0].getId());
+    assertEquals("ask", io[0].getType());
   }
 
 }
