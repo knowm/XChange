@@ -39,6 +39,7 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
@@ -241,6 +242,16 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
 
     BTCChinaSellIcebergOrderRequest request = new BTCChinaSellIcebergOrderRequest(price, amount, disclosedAmount, variance, market);
     BTCChinaIntegerResponse response = btcChina.sellIcebergOrder(signatureCreator, tonce, request);
+    return checkResult(response);
+  }
+
+  /**
+   * @see {@link BTCChinaCancelIcebergOrderRequest#BTCChinaCancelIcebergOrderRequest(long, String)}.
+   */
+  public BTCChinaBooleanResponse cancelIcebergOrder(long id, String market) throws IOException {
+
+    BTCChinaCancelIcebergOrderRequest request = new BTCChinaCancelIcebergOrderRequest(id, market);
+    BTCChinaBooleanResponse response = btcChina.cancelIcebergOrder(signatureCreator, tonce, request);
     return checkResult(response);
   }
 

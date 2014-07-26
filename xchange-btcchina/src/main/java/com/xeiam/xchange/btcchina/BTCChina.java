@@ -54,6 +54,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
@@ -213,5 +214,16 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaIntegerResponse sellIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaSellIcebergOrderRequest request) throws IOException;
+
+  /**
+   * Cancels an open iceberg order.
+   * Fails if iceberg order is already cancelled or closed.
+   * The related order with the iceberg order will also be cancelled.
+   */
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public BTCChinaBooleanResponse cancelIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+      BTCChinaCancelIcebergOrderRequest request) throws IOException;
 
 }
