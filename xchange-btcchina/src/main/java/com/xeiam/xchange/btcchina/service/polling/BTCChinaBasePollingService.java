@@ -29,6 +29,7 @@ import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.ValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -36,6 +37,7 @@ import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
+import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -48,6 +50,7 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
 
   protected final T btcChina;
   protected final ParamsDigest signatureCreator;
+  protected final ValueFactory<Long> tonce;
   private final Set<CurrencyPair> currencyPairs;
 
   /**
@@ -62,6 +65,7 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
 
     this.btcChina = RestProxyFactory.createProxy(type, (String) exchangeSpecification.getSslUri());
     this.signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
+    this.tonce = new BTCChinaTonceFactory();
     this.currencyPairs = new HashSet<CurrencyPair>();
   }
 

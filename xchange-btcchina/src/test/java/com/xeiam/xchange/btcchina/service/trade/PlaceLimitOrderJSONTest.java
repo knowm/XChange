@@ -52,7 +52,7 @@ public class PlaceLimitOrderJSONTest {
     BTCChinaOrders btcChinaOrders = btcChinaResponse.getResult();
     System.out.println(btcChinaOrders.toString());
 
-    assertThat(btcChinaOrders.getOrders().get(0).getId()).isEqualTo(4972937L);
+    assertThat(btcChinaOrders.getOrders().get(0).getId()).isEqualTo(4972937);
     assertThat(btcChinaOrders.getOrders().get(0).getCurrency()).isEqualTo("CNY");
 
   }

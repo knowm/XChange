@@ -31,13 +31,19 @@ public final class BTCChinaCancelOrderRequest extends BTCChinaRequest {
 
   /**
    * Constructor
-   * 
-   * @param orderId
    */
-  public BTCChinaCancelOrderRequest(long orderId) {
+  public BTCChinaCancelOrderRequest(int id) {
 
     method = "cancelOrder";
-    params = "[" + orderId + "]";
+    params = "[" + id + "]";
+  }
+
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  public BTCChinaCancelOrderRequest(long id) {
+    this((int) id);
   }
 
   @Override

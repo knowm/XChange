@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
 /**
@@ -29,7 +30,11 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
  */
 public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
-  public static final String DEFAULT_MARKET = "BTCCNY";
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  public static final String DEFAULT_MARKET = BTCChinaExchange.DEFAULT_MARKET;
   public static final String ALL_MARKET = "ALL";
 
   public static final int DEFAULT_LIMIT = 1000;
@@ -74,8 +79,8 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
     method = METHOD_NAME;
     params =
-        String.format("[%1$s,\"%2$s\",%3$d,%4$d]", openOnly == null ? true : openOnly.booleanValue(), market == null ? DEFAULT_MARKET : market, limit == null ? DEFAULT_LIMIT : limit.intValue(),
-            offset == null ? 0 : offset.intValue());
+        String.format("[%1$s,\"%2$s\",%3$d,%4$d]", openOnly == null ? true : openOnly.booleanValue(), market == null ? BTCChinaExchange.DEFAULT_MARKET : market,
+            limit == null ? DEFAULT_LIMIT : limit.intValue(), offset == null ? 0 : offset.intValue());
   }
 
   @Override

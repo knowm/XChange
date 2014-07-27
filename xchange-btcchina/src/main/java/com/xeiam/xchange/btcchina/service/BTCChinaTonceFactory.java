@@ -20,30 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.trade;
+package com.xeiam.xchange.btcchina.service;
 
-import java.util.List;
+import si.mazi.rescu.ValueFactory;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.btcchina.BTCChinaUtils;
 
-public class BTCChinaTransactions {
+public class BTCChinaTonceFactory implements ValueFactory<Long> {
 
-  private final List<BTCChinaTransaction> transactions;
-
-  public BTCChinaTransactions(@JsonProperty("transaction") List<BTCChinaTransaction> transactions) {
-
-    this.transactions = transactions;
-  }
-
-  public List<BTCChinaTransaction> getTransactions() {
-
-    return transactions;
-  }
-
+  /**
+   * {@inheritDoc}
+   */
   @Override
-  public String toString() {
-
-    return String.format("BTCChinaTransactions{transactions=%s}", transactions);
+  public Long createValue() {
+    return Long.valueOf(BTCChinaUtils.getNonce());
   }
 
 }

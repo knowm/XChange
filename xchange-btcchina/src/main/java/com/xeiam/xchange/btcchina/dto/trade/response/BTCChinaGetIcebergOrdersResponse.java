@@ -20,30 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.trade;
-
-import java.util.List;
+package com.xeiam.xchange.btcchina.dto.trade.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.btcchina.dto.BTCChinaError;
+import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaIcebergOrdersObject;
 
-public class BTCChinaTransactions {
+public class BTCChinaGetIcebergOrdersResponse extends BTCChinaResponse<BTCChinaIcebergOrdersObject> {
 
-  private final List<BTCChinaTransaction> transactions;
+  public BTCChinaGetIcebergOrdersResponse(@JsonProperty("id") String id, @JsonProperty("iceberg_orders") BTCChinaIcebergOrdersObject result, @JsonProperty("error") BTCChinaError error) {
 
-  public BTCChinaTransactions(@JsonProperty("transaction") List<BTCChinaTransaction> transactions) {
-
-    this.transactions = transactions;
-  }
-
-  public List<BTCChinaTransaction> getTransactions() {
-
-    return transactions;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTCChinaTransactions{transactions=%s}", transactions);
+    super(id, result, error);
   }
 
 }

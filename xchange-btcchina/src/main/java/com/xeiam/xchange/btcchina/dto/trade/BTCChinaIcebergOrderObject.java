@@ -22,28 +22,19 @@
  */
 package com.xeiam.xchange.btcchina.dto.trade;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTCChinaTransactions {
+public class BTCChinaIcebergOrderObject {
 
-  private final List<BTCChinaTransaction> transactions;
+  private final BTCChinaIcebergOrder icebergOrder;
 
-  public BTCChinaTransactions(@JsonProperty("transaction") List<BTCChinaTransaction> transactions) {
+  public BTCChinaIcebergOrderObject(@JsonProperty("iceberg_order") BTCChinaIcebergOrder icebergOrder) {
 
-    this.transactions = transactions;
+    this.icebergOrder = icebergOrder;
   }
 
-  public List<BTCChinaTransaction> getTransactions() {
+  public BTCChinaIcebergOrder getIcebergOrder() {
 
-    return transactions;
+    return icebergOrder;
   }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTCChinaTransactions{transactions=%s}", transactions);
-  }
-
 }

@@ -22,40 +22,26 @@
  */
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
-public class BTCChinaTransactionsRequest extends BTCChinaRequest {
+public class BTCChinaCancelIcebergOrderRequest extends BTCChinaRequest {
 
-  public static final String TYPE_ALL = "all";
+  private static final String METHOD_NAME = "cancelIcebergOrder";
 
-  /**
-   * Constructor
-   */
-  public BTCChinaTransactionsRequest() {
+  public BTCChinaCancelIcebergOrderRequest(int id, String market) {
 
-    method = "getTransactions";
-    params = "[]";
+    this.method = METHOD_NAME;
+    this.params = String.format("[%1$d,\"%2$s\"]", id, market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
   }
 
   /**
-   * Constructs a getting transactions log request.
-   *
-   * @param type Fetch transactions by type.
-   *          Default is 'all'.
-   *          Available types 'all | fundbtc | withdrawbtc | fundmoney | withdrawmoney
-   *          | refundmoney | buybtc | sellbtc | buyltc | sellltc | tradefee | rebate '
-   * @param limit Limit the number of transactions, default value is 10.
-   * @param offset Start index used for pagination, default value is 0.
+   * @deprecated
    */
-  public BTCChinaTransactionsRequest(String type, Integer limit, Integer offset) {
+  @Deprecated
+  public BTCChinaCancelIcebergOrderRequest(long id, String market) {
 
-    method = "getTransactions";
-    params = String.format("[\"%1$s\",%2$d,%3$d]", type == null ? TYPE_ALL : type, limit == null ? 10 : limit.intValue(), offset == null ? 0 : offset.intValue());
+    this((int) id, market);
   }
 
-  @Override
-  public String toString() {
-
-    return String.format("BTCChinaTransactionsRequest{id=%d, method=%s, params=%s}", id, method, params);
-  }
 }

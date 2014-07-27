@@ -37,9 +37,7 @@ public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
   /**
    * Constructor
    * 
-   * @param currencyUnit
-   * @param amount
-   * @deprecated user {@link #BTCChinaRequestWithdrawalRequest(String, BigDecimal)} instead.
+   * @deprecated Use {@link #BTCChinaRequestWithdrawalRequest(String, BigDecimal)} instead.
    */
   @Deprecated
   public BTCChinaRequestWithdrawalRequest(BigDecimal amount) {

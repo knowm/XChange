@@ -20,30 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto.trade;
+package com.xeiam.xchange.btcchina.dto.trade.response;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.IOException;
 
-public class BTCChinaTransactions {
+import org.junit.Test;
 
-  private final List<BTCChinaTransaction> transactions;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaIcebergOrder;
 
-  public BTCChinaTransactions(@JsonProperty("transaction") List<BTCChinaTransaction> transactions) {
+public class BTCChinaGetIcebergOrdersResponseTest {
 
-    this.transactions = transactions;
-  }
+  private final ObjectMapper mapper = new ObjectMapper();
 
-  public List<BTCChinaTransaction> getTransactions() {
+  @Test
+  public void test() throws IOException {
 
-    return transactions;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTCChinaTransactions{transactions=%s}", transactions);
+    BTCChinaGetIcebergOrdersResponse response = mapper.readValue(getClass().getResource("getIcebergOrders.json"), BTCChinaGetIcebergOrdersResponse.class);
+    BTCChinaIcebergOrder[] io = response.getResult().getIcebergOrders();
+    assertEquals(2, io.length);
+    assertEquals(2, io[0].getId());
+    assertEquals("ask", io[0].getType());
   }
 
 }
