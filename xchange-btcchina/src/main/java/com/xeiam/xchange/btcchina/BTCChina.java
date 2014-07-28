@@ -91,10 +91,6 @@ public interface BTCChina {
 
   /**
    * Returns last 100 trade records.
-   *
-   * @param market
-   * @return
-   * @throws IOException
    */
   @GET
   @Path("data/historydata")
@@ -105,7 +101,6 @@ public interface BTCChina {
    *
    * @param market
    * @param limit the range of limit is [0,5000].
-   * @return
    * @throws IOException
    */
   @GET
@@ -117,7 +112,6 @@ public interface BTCChina {
    *
    * @param market
    * @param since the starting trade ID(exclusive).
-   * @return
    * @throws IOException
    */
   @GET
@@ -130,7 +124,6 @@ public interface BTCChina {
    * @param market
    * @param since the starting trade ID(exclusive).
    * @param limit the range of limit is [0,5000].
-   * @return
    * @throws IOException
    */
   @GET

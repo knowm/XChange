@@ -152,7 +152,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see {@link BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)}.
+   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)
    */
   public BTCChinaGetOrdersResponse getBTCChinaOrders(Boolean openOnly, String market, Integer limit, Integer offset) throws IOException {
 
@@ -259,7 +259,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see {@link BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)}.
+   * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)
    */
   public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
 

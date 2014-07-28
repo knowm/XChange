@@ -35,9 +35,6 @@ public class BTCChinaError {
 
   /**
    * Constructor
-   * 
-   * @param id
-   * @param result
    */
   public BTCChinaError(@JsonProperty("code") int code, @JsonProperty("message") String message, @JsonProperty("id") String id) {
 
