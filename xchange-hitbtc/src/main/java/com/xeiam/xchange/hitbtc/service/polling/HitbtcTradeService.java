@@ -33,10 +33,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
-import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
-import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
-import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
-import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+import com.xeiam.xchange.hitbtc.dto.trade.*;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements PollingTradeService {
@@ -57,6 +54,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     HitbtcExecutionReport placeMarketOrderRaw = placeMarketOrderRaw(marketOrder);
+    checkRejected(placeMarketOrderRaw);
     return placeMarketOrderRaw.getClientOrderId();
   }
 
@@ -64,6 +62,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     HitbtcExecutionReport placeLimitOrderRaw = placeLimitOrderRaw(limitOrder);
+    checkRejected(placeLimitOrderRaw);
     return placeLimitOrderRaw.getClientOrderId();
   }
 
@@ -90,4 +89,10 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(startIndex, maxResults, symbols);
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
   }
+
+  private void checkRejected(HitbtcExecutionReport executionReport) {
+    if ("rejected".equals(executionReport.getExecReportType()))
+      throw new ExchangeException("Order rejected, " + executionReport.getOrderRejectReason());
+  }
+
 }
