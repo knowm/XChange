@@ -14,6 +14,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author timmolter
@@ -25,9 +26,9 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public ANXTradeService(ExchangeSpecification exchangeSpecification) {
+  public ANXTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

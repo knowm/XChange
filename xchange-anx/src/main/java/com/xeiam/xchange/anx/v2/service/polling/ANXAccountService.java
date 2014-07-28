@@ -8,6 +8,7 @@ import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -24,9 +25,9 @@ public class ANXAccountService extends ANXAccountServiceRaw implements PollingAc
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public ANXAccountService(ExchangeSpecification exchangeSpecification) {
+  public ANXAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

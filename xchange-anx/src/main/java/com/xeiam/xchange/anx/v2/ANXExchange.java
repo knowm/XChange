@@ -8,6 +8,8 @@ import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -19,6 +21,8 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  */
 public class ANXExchange extends BaseExchange implements Exchange {
 
+  private SynchronizedValueFactory<Long>nonceFactory = new LongTimeNonceFactory();
+
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
@@ -26,8 +30,8 @@ public class ANXExchange extends BaseExchange implements Exchange {
 
     // Configure the basic services if configuration does not apply
     this.pollingMarketDataService = new ANXMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new ANXTradeService(exchangeSpecification);
-    this.pollingAccountService = new ANXAccountService(exchangeSpecification);
+    this.pollingTradeService = new ANXTradeService(exchangeSpecification, nonceFactory);
+    this.pollingAccountService = new ANXAccountService(exchangeSpecification, nonceFactory);
   }
 
   @Override

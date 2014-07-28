@@ -67,8 +67,4 @@ public final class ANXUtils {
     }
   }
 
-  public static long getNonce() {
-
-    return System.currentTimeMillis();
-  }
 }
