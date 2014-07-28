@@ -19,7 +19,7 @@ import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalancesResponse;
 public interface BittrexAuthenticated extends Bittrex {
 
   @GET
-  @Path("balances")
+  @Path("getbalances")
   BittrexBalancesResponse balances(@QueryParam("apikey") String apiKey, @QueryParam("apisign") ParamsDigest signature, @QueryParam("nonce") String nonce) throws IOException;
 
 }
