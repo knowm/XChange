@@ -1,27 +1,29 @@
 /**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
+ * The MIT License
+ * Copyright (c) 2012 Xeiam LLC http://xeiam.com
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -218,6 +220,7 @@ public final class BTCChinaAdapters {
    */
   @Deprecated
   public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
 
     if (orders != null) {
@@ -234,8 +237,8 @@ public final class BTCChinaAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static List<LimitOrder> adaptOrders(
-      List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+  public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
 
     for (BTCChinaOrder order : orders) {
@@ -255,6 +258,7 @@ public final class BTCChinaAdapters {
    */
   @Deprecated
   public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
+
     return adaptLimitOrder(order, CurrencyPair.BTC_CNY);
   }
 
@@ -265,6 +269,7 @@ public final class BTCChinaAdapters {
    * @return
    */
   public static LimitOrder adaptLimitOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
+
     OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = order.getAmount();
     String id = Long.toString(order.getId());
@@ -274,34 +279,46 @@ public final class BTCChinaAdapters {
     return new LimitOrder(orderType, amount, currencyPair, id, date, price);
   }
 
-  public static Trade adaptTransaction(BTCChinaTransaction transaction) {
+  public static Trade adaptTransaction(final BTCChinaTransaction transaction) {
 
-    String type = transaction.getType();
+    final String type = transaction.getType();
 
     // could also be 'rebate' or other
     if (!(type.startsWith("buy") || type.startsWith("sell"))) {
       return null;
     }
 
-    OrderType orderType = type.startsWith("buy") ? OrderType.BID : OrderType.ASK;
-    CurrencyPair currencyPair = null;
-    BigDecimal price = BigDecimal.ZERO;
-    BigDecimal amount = BigDecimal.ZERO;
+    final OrderType orderType = type.startsWith("buy") ? OrderType.BID : OrderType.ASK;
+    final CurrencyPair currencyPair = adaptCurrencyPair(transaction.getMarket().toUpperCase());
 
-    if (!transaction.getBtcAmount().equals(BigDecimal.ZERO)) {
-      currencyPair = new CurrencyPair("BTC", "CNY");
-      price = transaction.getCnyAmount().divide(transaction.getBtcAmount()).abs();
+    final BigDecimal amount;
+    final BigDecimal money;
+    final int scale;
+
+    if (currencyPair.equals(CurrencyPair.BTC_CNY)) {
       amount = transaction.getBtcAmount().abs();
+      money = transaction.getCnyAmount().abs();
+      scale = BTCChinaExchange.CNY_SCALE;
+    }
+    else if (currencyPair.equals(CurrencyPair.LTC_CNY)) {
+      amount = transaction.getLtcAmount().abs();
+      money = transaction.getCnyAmount().abs();
+      scale = BTCChinaExchange.CNY_SCALE;
+    }
+    else if (currencyPair.equals(CurrencyPair.LTC_BTC)) {
+      amount = transaction.getLtcAmount().abs();
+      money = transaction.getBtcAmount().abs();
+      scale = BTCChinaExchange.BTC_SCALE;
     }
     else {
-      currencyPair = new CurrencyPair("LTC", "CNY");
-      price = transaction.getCnyAmount().divide(transaction.getLtcAmount()).abs();
-      amount = transaction.getLtcAmount().abs();
+      throw new IllegalArgumentException("Unknown currency pair: " + currencyPair);
     }
 
-    Date date = DateUtils.fromMillisUtc(transaction.getDate() * 1000L);
+    final BigDecimal price = money.divide(amount, scale, RoundingMode.HALF_EVEN);
+    final Date date = DateUtils.fromMillisUtc(transaction.getDate() * 1000L);
+    final String tradeId = String.valueOf(transaction.getId());
 
-    return new Trade(orderType, BTCChinaUtils.truncateAmount(amount), currencyPair, price, date, String.valueOf(transaction.getId()));
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
   /**
