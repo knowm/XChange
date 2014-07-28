@@ -30,18 +30,21 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalance;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexLevel;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 
 public final class BittrexAdapters {
 
@@ -126,6 +129,17 @@ public final class BittrexAdapters {
     Date timestamp = BittrexUtils.toDate(bittrexTicker.getTimeStamp());
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+  }
+
+  public static AccountInfo adaptAccountInfo(List<BittrexBalance> balances) {
+
+    List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
+
+    for (BittrexBalance balance : balances) {
+      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getBalance()));
+    }
+
+    return new AccountInfo(null, wallets);
   }
 
 }

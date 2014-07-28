@@ -3,6 +3,7 @@ package com.xeiam.xchange.bittrex.v1;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bittrex.v1.service.polling.BittrexAccountService;
 import com.xeiam.xchange.bittrex.v1.service.polling.BittrexMarketDataService;
 
 /**
@@ -28,7 +29,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
 
     this.pollingMarketDataService = new BittrexMarketDataService(exchangeSpecification);
-    // this.pollingAccountService = new BittrexAccountService(exchangeSpecification);
+    this.pollingAccountService = new BittrexAccountService(exchangeSpecification);
     // this.pollingTradeService = new BittrexTradeService(exchangeSpecification);
   }
 

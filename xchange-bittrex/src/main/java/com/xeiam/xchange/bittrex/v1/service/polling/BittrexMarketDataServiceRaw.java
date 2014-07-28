@@ -1,14 +1,11 @@
 package com.xeiam.xchange.bittrex.v1.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bittrex.v1.Bittrex;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepthResponse;
-import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickerResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;

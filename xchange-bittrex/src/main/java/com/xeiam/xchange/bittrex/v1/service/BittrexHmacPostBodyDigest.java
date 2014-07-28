@@ -19,7 +19,7 @@ public class BittrexHmacPostBodyDigest extends BaseParamsDigest {
    */
   private BittrexHmacPostBodyDigest(String secretKeyBase64) {
 
-    super(secretKeyBase64, HMAC_SHA_384);
+    super(secretKeyBase64, HMAC_SHA_512);
   }
 
   public static BittrexHmacPostBodyDigest createInstance(String secretKeyBase64) {
@@ -31,9 +31,10 @@ public class BittrexHmacPostBodyDigest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
 
     String postBody = restInvocation.getRequestBody();
+    System.out.println("postBody = " + postBody);
     Mac mac = getMac();
     mac.update(Base64.encodeBytes(postBody.getBytes()).getBytes());
 
-    return String.format("%096x", new BigInteger(1, mac.doFinal()));
+    return String.format("%0128x", new BigInteger(1, mac.doFinal()));
   }
 }
