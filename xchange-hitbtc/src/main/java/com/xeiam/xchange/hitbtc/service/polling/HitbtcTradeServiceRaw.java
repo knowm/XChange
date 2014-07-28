@@ -29,6 +29,8 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -64,11 +66,12 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   public HitbtcExecutionReport placeMarketOrderRaw(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
-    String side = marketOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
 
     long nonce = nextNonce();
+    String side = getSide(marketOrder.getType());
+    String orderId = createId(marketOrder, nonce);
 
-    HitbtcExecutionReportResponse response = hitbtc.postHitbtcNewOrder(signatureCreator, nextNonce(), apiKey, side + String.valueOf(nonce), // encoding side in client order id
+    HitbtcExecutionReportResponse response = hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId,
         symbol, side, null, marketOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "market", "GTC");
 
     return response.getExecutionReport();
@@ -76,12 +79,12 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
   public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    String symbol = limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol;
-    String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
-
+    String symbol = createSymbol(limitOrder.getCurrencyPair());
     long nonce = nextNonce();
+    String side = getSide(limitOrder.getType());
+    String orderId = createId(limitOrder, nonce);
 
-    HitbtcExecutionReportResponse postHitbtcNewOrder = hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, side + String.valueOf(nonce), // encoding side in client order id
+    HitbtcExecutionReportResponse postHitbtcNewOrder = hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId,
         symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
 
     return postHitbtcNewOrder.getExecutionReport();
@@ -89,9 +92,10 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
   public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    String originalSide = (orderId.charAt(0) == 'b') ? orderId.substring(0, 3) : orderId.substring(0, 4);
+    String originalSide = getSide(readOrderType(orderId));
+    String symbol = readSymbol(orderId);
 
-    return hitbtc.postHitbtcCancelOrder(signatureCreator, nextNonce(), apiKey, orderId, orderId, "BTCUSD", originalSide); // extract side from original order id: buy/sell
+    return hitbtc.postHitbtcCancelOrder(signatureCreator, nextNonce(), apiKey, orderId, orderId, symbol, originalSide); // extract symbol and side from original order id: buy/sell
   }
 
   public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
@@ -101,4 +105,26 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
     return hitbtcTrades.getTrades();
   }
+
+  private static String getSide(OrderType type) {
+    return type == OrderType.BID ? "buy" : "sell";
+  }
+
+  private static String createSymbol(CurrencyPair pair){
+    return pair.baseSymbol + pair.counterSymbol;
+  }
+
+  private String createId(Order order, long nonce) {
+    // encoding side in client order id
+    return order.getType() + createSymbol(order.getCurrencyPair()) + nonce;
+  }
+
+  private OrderType readOrderType(String orderId){
+    return orderId.charAt(0) == 'A' ? OrderType.ASK : OrderType.BID;
+  }
+
+  public static String readSymbol(String orderId){
+    return orderId.substring(3, 9);
+  }
+
 }
