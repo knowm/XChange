@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -15,6 +16,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexLevel;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
@@ -94,5 +96,16 @@ public class PoloniexAdapters {
 
     Trade trade = new Trade(type, poloniexTrade.getAmount(), currencyPair, poloniexTrade.getRate(), timestamp, poloniexTrade.getTradeID(), poloniexTrade.getTradeID());
     return trade;
+  }
+  
+  public static List<Wallet> adaptPoloniexBalances(HashMap<String, BigDecimal> poloniexBalances) {
+    
+    List<Wallet> wallets = new ArrayList<Wallet>();
+    
+    for (String currency : poloniexBalances.keySet()) {
+      wallets.add(new Wallet(currency, poloniexBalances.get(currency)));
+    }
+    
+    return wallets;
   }
 }

@@ -1,7 +1,6 @@
 package com.xeiam.xchange.poloniex.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;

@@ -6,7 +6,6 @@ package com.xeiam.xchange.poloniex;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -52,7 +52,7 @@ public class BittrexMarketDataDemo {
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     generic(marketDataService);
-    raw((BittrexMarketDataServiceRaw) marketDataService);
+    //raw((BittrexMarketDataServiceRaw) marketDataService);
 
   }
 

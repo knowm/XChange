@@ -3,6 +3,7 @@ package com.xeiam.xchange.poloniex;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.poloniex.service.polling.PoloniexAccountService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataService;
 
 /**
@@ -24,7 +25,7 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
 
     this.pollingMarketDataService = new PoloniexMarketDataService(exchangeSpecification);
-    // this.pollingAccountService = new BittrexAccountService(exchangeSpecification);
+    this.pollingAccountService = new PoloniexAccountService(exchangeSpecification);
     // this.pollingTradeService = new BittrexTradeService(exchangeSpecification);
   }
 

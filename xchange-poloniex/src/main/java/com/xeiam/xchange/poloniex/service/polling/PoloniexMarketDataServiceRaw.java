@@ -2,7 +2,6 @@ package com.xeiam.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
