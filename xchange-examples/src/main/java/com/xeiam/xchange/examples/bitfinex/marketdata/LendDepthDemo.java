@@ -34,7 +34,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 public class LendDepthDemo {
   public static void main(String[] args) throws Exception {
 
-    // Use the factory to get BTC-E exchange API using default settings
+    // Use the factory to get BFX exchange API using default settings
     Exchange bfx = ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
