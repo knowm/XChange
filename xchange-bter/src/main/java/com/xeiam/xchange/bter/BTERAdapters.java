@@ -39,6 +39,7 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrder;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
+import com.xeiam.xchange.bter.dto.trade.BTERTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -171,6 +172,25 @@ public final class BTERAdapters {
     }
 
     return new AccountInfo("", wallets);
+  }
+
+  public static Trades adaptUserTrades(List<BTERTrade> userTrades) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    for (BTERTrade userTrade : userTrades) {
+      trades.add(adaptUserTrade(userTrade));
+    }
+
+    return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  public static Trade adaptUserTrade(BTERTrade bterTrade) {
+
+    OrderType orderType = adaptOrderType(bterTrade.getType());
+    Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
+    CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
+
+    return new Trade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null);
   }
 
 }
