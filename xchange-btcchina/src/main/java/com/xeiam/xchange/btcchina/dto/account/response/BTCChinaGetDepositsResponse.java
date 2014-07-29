@@ -5,9 +5,6 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaError;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaDepositObject;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaGetDepositsResponse extends BTCChinaResponse<BTCChinaDepositObject> {
 
   /**

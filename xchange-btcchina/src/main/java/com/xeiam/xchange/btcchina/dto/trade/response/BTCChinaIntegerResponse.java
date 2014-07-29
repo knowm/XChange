@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.btcchina.dto.BTCChinaError;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaIntegerResponse extends BTCChinaResponse<Integer> {
 
   /**

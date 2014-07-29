@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaTransactionsRequestTest {
 
   @Test

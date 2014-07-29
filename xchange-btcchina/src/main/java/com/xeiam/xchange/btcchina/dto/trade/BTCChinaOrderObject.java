@@ -2,9 +2,6 @@ package com.xeiam.xchange.btcchina.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaOrderObject {
 
   private final BTCChinaOrder order;

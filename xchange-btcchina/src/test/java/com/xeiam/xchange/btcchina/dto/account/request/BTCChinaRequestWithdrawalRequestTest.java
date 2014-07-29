@@ -6,9 +6,6 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaRequestWithdrawalRequestTest {
 
   @Test
