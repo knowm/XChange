@@ -35,6 +35,7 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexLevel;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
+import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -68,6 +69,26 @@ public final class BittrexAdapters {
     String baseSymbol = bittrexSymbol.getMarketCurrency();
     String counterSymbol = bittrexSymbol.getBaseCurrency();
     return new CurrencyPair(baseSymbol, counterSymbol);
+  }
+
+  public static List<LimitOrder> adaptOpenOrders(List<BittrexOpenOrder> bittrexOpenOrders) {
+
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+
+    for (BittrexOpenOrder order : bittrexOpenOrders) {
+      openOrders.add(adaptOpenOrder(order));
+    }
+
+    return openOrders;
+  }
+
+  public static LimitOrder adaptOpenOrder(BittrexOpenOrder bittrexOpenOrder) {
+
+    OrderType type = bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
+    String[] currencies = bittrexOpenOrder.getExchange().split("-");
+    CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
+
+    return new LimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), null, bittrexOpenOrder.getLimit());
   }
 
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
@@ -136,7 +157,7 @@ public final class BittrexAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getBalance()));
+      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAvailable()));
     }
 
     return new AccountInfo(null, wallets);

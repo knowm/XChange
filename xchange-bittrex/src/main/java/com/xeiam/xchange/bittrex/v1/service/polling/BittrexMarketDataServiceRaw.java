@@ -1,7 +1,30 @@
+/**
+ * The MIT License
+ * Copyright (c) 2012 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package com.xeiam.xchange.bittrex.v1.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bittrex.v1.Bittrex;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
@@ -34,17 +57,28 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
   public BittrexTicker getBittrexTicker(String pair) throws IOException {
 
     BittrexTickerResponse response = bittrex.getTicker(pair);
-    BittrexTicker bittrexTicker = response.getTicker();
 
-    return bittrexTicker;
+    if (response.getSuccess()) {
+      return response.getTicker();
+    }
+    else {
+      throw new ExchangeException(response.getMessage());
+    }
+
   }
 
   public BittrexDepth getBittrexOrderBook(String pair) throws IOException {
 
     BittrexDepthResponse response = bittrex.getBook(pair, "both", 50L);
-    BittrexDepth bittrexDepth = response.getDepth();
 
-    return bittrexDepth;
+    if (response.getSuccess()) {
+
+      BittrexDepth bittrexDepth = response.getDepth();
+      return bittrexDepth;
+    }
+    else {
+      throw new ExchangeException(response.getMessage());
+    }
   }
 
   public BittrexTrade[] getBittrexTrades(String pair, long count) throws IOException {
@@ -54,12 +88,14 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
     }
 
     BittrexTradesResponse response = bittrex.getTrades(pair, count);
-    BittrexTrade[] bittrexTrades = response.getTrades();
 
-    return bittrexTrades;
+    if (response.getSuccess()) {
+
+      BittrexTrade[] bittrexTrades = response.getTrades();
+      return bittrexTrades;
+    }
+    else {
+      throw new ExchangeException(response.getMessage());
+    }
   }
-
-//  public Collection<String> getBittrexSymbols() throws IOException {
-//    ArrayList<BittrexSymbol> bittrex.getSymbols();
-//  }
 }

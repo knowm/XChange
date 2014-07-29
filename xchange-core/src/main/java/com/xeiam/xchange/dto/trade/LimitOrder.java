@@ -22,6 +22,7 @@
  */
 package com.xeiam.xchange.dto.trade;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -56,6 +57,12 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     super(type, tradableAmount, currencyPair, id, timestamp);
     this.limitPrice = limitPrice;
+  }
+
+  public LimitOrder(Builder builder) {
+
+    super(builder.getOrderType(), builder.getTradableAmount(), builder.getCurrencyPair(), builder.getId(), builder.getTimestamp());
+    this.limitPrice = builder.getLimitPrice();
   }
 
   /**
@@ -100,5 +107,105 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
       return false;
     }
     return super.equals(obj);
+  }
+
+  public static class Builder {
+
+    OrderType orderType;
+    BigDecimal tradableAmount;
+    CurrencyPair currencyPair;
+    String id;
+    Date timestamp;
+    BigDecimal limitPrice;
+
+    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+
+      this.orderType = orderType;
+      this.tradableAmount = null;
+      this.currencyPair = currencyPair;
+      this.id = "";
+      this.timestamp = new Date(System.currentTimeMillis());
+      this.limitPrice = null;
+    }
+
+    public OrderType getOrderType() {
+
+      return orderType;
+    }
+
+    public Builder setOrderType(OrderType orderType) {
+
+      this.orderType = orderType;
+      return this;
+    }
+
+    public BigDecimal getTradableAmount() {
+
+      return tradableAmount;
+    }
+
+    public Builder setTradableAmount(BigDecimal tradableAmount) {
+
+      this.tradableAmount = tradableAmount;
+      return this;
+    }
+
+    public CurrencyPair getCurrencyPair() {
+
+      return currencyPair;
+    }
+
+    public Builder setCurrencyPair(CurrencyPair currencyPair) {
+
+      this.currencyPair = currencyPair;
+      return this;
+    }
+
+    public String getId() {
+
+      return id;
+    }
+
+    public Builder setId(String id) {
+
+      this.id = id;
+      return this;
+    }
+
+    public Date getTimestamp() {
+
+      return timestamp;
+    }
+
+    public Builder setTimestamp(Date timestamp) {
+
+      this.timestamp = timestamp;
+      return this;
+    }
+
+    public BigDecimal getLimitPrice() {
+
+      return limitPrice;
+    }
+
+    public Builder setLimitPrice(BigDecimal limitPrice) {
+
+      this.limitPrice = limitPrice;
+      return this;
+    }
+
+    public LimitOrder build() throws IOException {
+
+      if (limitPrice == null) {
+        throw new IOException("Failed to build LimitOrder: limitPrice must be set!");
+      }
+      else if (tradableAmount == null) {
+        throw new IOException("Failed to build LimitOrder: tradableAmount must be set!");
+      }
+      else {
+        return new LimitOrder(this);
+      }
+    }
+
   }
 }

@@ -1,3 +1,25 @@
+/**
+ * The MIT License
+ * Copyright (c) 2012 Xeiam LLC http://xeiam.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package com.xeiam.xchange.bittrex.v1.service.account;
 
 import java.io.IOException;
@@ -19,12 +41,14 @@ public class BittrexAccountTest {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
-    specification.setApiKey("05bed3d5a268410581c366f22d45e5ac");
-    specification.setSecretKey("806dcf45a352454fbb6912554150c699");
+    specification.setApiKey("void-b7880004add9b32363e28eb7f48");
+    specification.setSecretKey("void-6136d444637b4e1a65859dbe5a1");
     exchange.applySpecification(specification);
 
     PollingAccountService accountService = exchange.getPollingAccountService();
     List<Wallet> wallets = accountService.getAccountInfo().getWallets();
     System.out.println(wallets);
+
+    System.out.println(accountService.requestDepositAddress("BTC"));
   }
 }
