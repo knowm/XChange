@@ -45,7 +45,7 @@ public class MintPalAdapterTests {
     final MintPalTicker ticker = tickerList.get(0);
     final Ticker adaptedTicker = MintPalAdapters.adaptTicker(ticker);
 
-    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(new CurrencyPair("365","BTC"));
+    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(new CurrencyPair("365", "BTC"));
     assertThat(adaptedTicker.getLast()).isEqualTo("0.20000000");
     assertThat(adaptedTicker.getHigh()).isEqualTo("0.26500000");
     assertThat(adaptedTicker.getLow()).isEqualTo("0.20000000");
@@ -53,7 +53,7 @@ public class MintPalAdapterTests {
     assertThat(adaptedTicker.getBid()).isEqualTo("0.20000000");
     assertThat(adaptedTicker.getAsk()).isEqualTo("0.22900000");
   }
-  
+
   @Test
   public void testAdaptOrders() throws JsonParseException, JsonMappingException, IOException {
 
@@ -65,16 +65,16 @@ public class MintPalAdapterTests {
 
     final List<MintPalPublicOrders> orderbook = ordersResponse.getData();
     final OrderBook adaptedOrderbook = MintPalAdapters.adaptOrderBook(CurrencyPair.LTC_BTC, orderbook);
-    
+
     final List<LimitOrder> asks = adaptedOrderbook.getAsks();
     assertThat(asks).hasSize(2);
-    
+
     final LimitOrder ask = asks.get(0);
     assertThat(ask.getLimitPrice()).isEqualTo("0.01289999");
     assertThat(ask.getTradableAmount()).isEqualTo("0.04599935");
     assertThat(ask.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
   }
-  
+
   @Test
   public void testAdaptPublicTrades() throws JsonParseException, JsonMappingException, IOException {
 

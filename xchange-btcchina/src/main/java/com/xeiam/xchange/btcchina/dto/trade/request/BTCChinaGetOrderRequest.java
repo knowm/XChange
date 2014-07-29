@@ -20,6 +20,7 @@ public final class BTCChinaGetOrderRequest extends BTCChinaRequest {
    */
   @Deprecated
   public BTCChinaGetOrderRequest(long id) {
+
     this((int) id);
   }
 
@@ -34,6 +35,7 @@ public final class BTCChinaGetOrderRequest extends BTCChinaRequest {
    */
   @Deprecated
   public BTCChinaGetOrderRequest(long id, String market) {
+
     this((int) id, market);
   }
 

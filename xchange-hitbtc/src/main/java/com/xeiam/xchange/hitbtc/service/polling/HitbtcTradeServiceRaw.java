@@ -49,8 +49,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     String side = getSide(marketOrder.getType());
     String orderId = createId(marketOrder, nonce);
 
-    HitbtcExecutionReportResponse response = hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId,
-        symbol, side, null, marketOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "market", "GTC");
+    HitbtcExecutionReportResponse response =
+        hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId, symbol, side, null, marketOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "market", "GTC");
 
     return response.getExecutionReport();
   }
@@ -62,8 +62,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     String side = getSide(limitOrder.getType());
     String orderId = createId(limitOrder, nonce);
 
-    HitbtcExecutionReportResponse postHitbtcNewOrder = hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId,
-        symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
+    HitbtcExecutionReportResponse postHitbtcNewOrder =
+        hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId, symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
 
     return postHitbtcNewOrder.getExecutionReport();
   }
@@ -85,23 +85,28 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   private static String getSide(OrderType type) {
+
     return type == OrderType.BID ? "buy" : "sell";
   }
 
-  private static String createSymbol(CurrencyPair pair){
+  private static String createSymbol(CurrencyPair pair) {
+
     return pair.baseSymbol + pair.counterSymbol;
   }
 
   private String createId(Order order, long nonce) {
+
     // encoding side in client order id
     return order.getType() + createSymbol(order.getCurrencyPair()) + nonce;
   }
 
-  private OrderType readOrderType(String orderId){
+  private OrderType readOrderType(String orderId) {
+
     return orderId.charAt(0) == 'A' ? OrderType.ASK : OrderType.BID;
   }
 
-  public static String readSymbol(String orderId){
+  public static String readSymbol(String orderId) {
+
     return orderId.substring(3, 9);
   }
 

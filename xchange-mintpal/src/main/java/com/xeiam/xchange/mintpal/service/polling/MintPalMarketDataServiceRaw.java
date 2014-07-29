@@ -18,24 +18,24 @@ public class MintPalMarketDataServiceRaw extends MintPalBasePollingService<MintP
 
     super(MintPal.class, exchangeSpecification);
   }
-  
+
   public List<MintPalTicker> getAllMintPalTickers() {
-    
+
     return handleRespone(mintPal.getAllTickers());
   }
-  
+
   public MintPalTicker getMintPalTicker(final CurrencyPair currencyPair) {
-    
+
     return handleRespone(mintPal.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol));
   }
-  
+
   public List<MintPalPublicOrders> getMintPalOrders(final CurrencyPair currencyPair) {
-    
+
     return handleRespone(mintPal.getOrders(currencyPair.baseSymbol, currencyPair.counterSymbol));
   }
-  
+
   public List<MintPalPublicTrade> getMintPalTrades(final CurrencyPair currencyPair) {
-    
+
     return handleRespone(mintPal.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol));
   }
 }

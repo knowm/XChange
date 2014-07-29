@@ -15,13 +15,16 @@ public class BTCChinaGetMarketDepthRequest extends BTCChinaRequest {
    * @param market Default to "BTCCNY". [ BTCCNY | LTCCNY | LTCBTC ].
    */
   public BTCChinaGetMarketDepthRequest(Integer limit, String market) {
+
     this.method = METHOD_NAME;
 
     if (limit == null && market == null) {
       this.params = "[]";
-    } else if (market == null) {
+    }
+    else if (market == null) {
       this.params = String.format("[%d]", limit);
-    } else {
+    }
+    else {
       this.params = String.format("[%d,\"%s\"]", limit == null ? DEFAULT_LIMIT : limit, market);
     }
   }

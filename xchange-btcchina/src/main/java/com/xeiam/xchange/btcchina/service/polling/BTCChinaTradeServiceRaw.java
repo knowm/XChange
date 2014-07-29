@@ -227,7 +227,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @deprecated Use {@link #cancelBTCChinaOrder(int)} instead.
    */
   public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
-    
+
     return cancelBTCChinaOrder(Integer.parseInt(orderId));
   }
 

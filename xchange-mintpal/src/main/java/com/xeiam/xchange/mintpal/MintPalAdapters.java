@@ -58,7 +58,7 @@ public class MintPalAdapters {
     final List<LimitOrder> orders = new ArrayList<LimitOrder>();
     for (final MintPalPublicOrder mintPalOrder : mintPalOrders.getOrders())
       orders.add(adaptOrder(currencyPair, orderType, mintPalOrder));
-    
+
     return orders;
   }
 

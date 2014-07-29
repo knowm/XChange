@@ -17,14 +17,16 @@ public class BTCChinaGetMarketDepthDemo {
   private static BTCChinaTradeServiceRaw tradeService = (BTCChinaTradeServiceRaw) exchange.getPollingTradeService();
 
   public static void main(String[] args) throws IOException {
+
     getMarketDepth(null, null);
     getMarketDepth(10, null);
     getMarketDepth(null, "LTCCNY");
     getMarketDepth(10, "LTCCNY");
-    
+
   }
-  
+
   private static void getMarketDepth(Integer limit, String market) throws IOException {
+
     System.out.println(String.format("limit: %d, market: %s", limit, market));
 
     BTCChinaGetMarketDepthResponse response = tradeService.getMarketDepth(limit, market);

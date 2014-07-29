@@ -72,7 +72,7 @@ public class MintPalMarketDataTests {
     assertThat(ask.getAmount()).isEqualTo("0.04599935");
     assertThat(ask.getTotal()).isEqualTo("0.00059339");
   }
-  
+
   @Test
   public void testUnmarshallPublicTrades() throws JsonParseException, JsonMappingException, IOException {
 
@@ -84,7 +84,7 @@ public class MintPalMarketDataTests {
 
     final List<MintPalPublicTrade> trades = tradesResponse.getData();
     assertThat(trades).hasSize(2);
-    
+
     final MintPalPublicTrade trade = trades.get(0);
     assertThat(trade.getTime().getTime()).isEqualTo(1405056569000L);
     assertThat(trade.getType()).isEqualTo("SELL");
@@ -92,5 +92,5 @@ public class MintPalMarketDataTests {
     assertThat(trade.getAmount()).isEqualTo("2299494.19282106");
     assertThat(trade.getTotal()).isEqualTo("0.09197970");
   }
-  
+
 }

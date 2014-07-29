@@ -30,7 +30,7 @@ public class BTCChinaGetIcebergOrderResponseTest {
     assertEquals(new BigDecimal("0.10"), io.getVariance());
     assertEquals(1405412126L, io.getDate());
     assertEquals("open", io.getStatus());
-    
+
     BTCChinaOrder o = io.getOrders()[0];
     assertEquals(3301L, o.getId());
     assertEquals("bid", o.getType());

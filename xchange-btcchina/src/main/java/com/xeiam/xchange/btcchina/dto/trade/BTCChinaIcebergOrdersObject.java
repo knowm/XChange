@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaIcebergOrdersObject {
 
-
   private final BTCChinaIcebergOrder[] icebergOrders;
 
   public BTCChinaIcebergOrdersObject(@JsonProperty("iceberg_orders") BTCChinaIcebergOrder[] icebergOrders) {

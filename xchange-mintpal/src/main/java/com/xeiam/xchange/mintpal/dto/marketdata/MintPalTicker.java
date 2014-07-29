@@ -22,9 +22,10 @@ public class MintPalTicker {
   private final BigDecimal topBid;
   private final BigDecimal topAsk;
 
-  public MintPalTicker(@JsonProperty("market_id") int marketId, @JsonProperty("coin") String coin, @JsonProperty("code") String code, @JsonProperty("exchange") String exchange, @JsonProperty("last_price") BigDecimal lastPrice,
-      @JsonProperty("yesterday_price") BigDecimal yesterdayPrice, @JsonProperty("change") BigDecimal change, @JsonProperty("24hhigh") BigDecimal high24Hour,
-      @JsonProperty("24hlow") BigDecimal low24Hour, @JsonProperty("24hvol") BigDecimal volume24Hour, @JsonProperty("top_bid") BigDecimal topBid, @JsonProperty("top_ask") BigDecimal topAsk) {
+  public MintPalTicker(@JsonProperty("market_id") int marketId, @JsonProperty("coin") String coin, @JsonProperty("code") String code, @JsonProperty("exchange") String exchange,
+      @JsonProperty("last_price") BigDecimal lastPrice, @JsonProperty("yesterday_price") BigDecimal yesterdayPrice, @JsonProperty("change") BigDecimal change,
+      @JsonProperty("24hhigh") BigDecimal high24Hour, @JsonProperty("24hlow") BigDecimal low24Hour, @JsonProperty("24hvol") BigDecimal volume24Hour, @JsonProperty("top_bid") BigDecimal topBid,
+      @JsonProperty("top_ask") BigDecimal topAsk) {
 
     this.marketId = marketId;
     this.coin = coin;

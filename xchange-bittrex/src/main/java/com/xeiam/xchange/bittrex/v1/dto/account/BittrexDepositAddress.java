@@ -2,7 +2,9 @@ package com.xeiam.xchange.bittrex.v1.dto.account;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;

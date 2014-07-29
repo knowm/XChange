@@ -11,7 +11,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
-import com.xeiam.xchange.hitbtc.dto.trade.*;
+import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
+import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
+import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
+import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements PollingTradeService {
@@ -69,6 +72,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   private void checkRejected(HitbtcExecutionReport executionReport) {
+
     if ("rejected".equals(executionReport.getExecReportType()))
       throw new ExchangeException("Order rejected, " + executionReport.getOrderRejectReason());
   }

@@ -2,7 +2,6 @@ package com.xeiam.xchange.examples.bter.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;

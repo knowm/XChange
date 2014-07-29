@@ -39,7 +39,7 @@ public class BittrexAccountDemo {
   private static void raw(BittrexAccountServiceRaw accountService) throws IOException {
 
     System.out.println("------------RAW-----------");
-    
+
     List<BittrexBalance> wallets = accountService.getBittrexAccountInfo();
     System.out.println(wallets);
 

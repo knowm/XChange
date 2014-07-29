@@ -32,7 +32,7 @@ public class BTCChinaMarketDepthOrder {
    */
   @Override
   public String toString() {
-  
+
     return ToStringBuilder.reflectionToString(this);
   }
 

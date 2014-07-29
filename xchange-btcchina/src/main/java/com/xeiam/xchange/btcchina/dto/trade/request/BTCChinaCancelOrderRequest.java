@@ -21,6 +21,7 @@ public final class BTCChinaCancelOrderRequest extends BTCChinaRequest {
    */
   @Deprecated
   public BTCChinaCancelOrderRequest(long id) {
+
     this((int) id);
   }
 

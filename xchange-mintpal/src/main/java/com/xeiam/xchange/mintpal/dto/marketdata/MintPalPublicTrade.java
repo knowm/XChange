@@ -24,36 +24,32 @@ public class MintPalPublicTrade {
     this.price = price;
     this.amount = amount;
     this.total = total;
-    this.time = DateUtils.fromMillisUtc((long)time*1000);
-    
+    this.time = DateUtils.fromMillisUtc((long) time * 1000);
+
   }
 
   public String getType() {
-  
+
     return type;
   }
 
-  
   public BigDecimal getPrice() {
-  
+
     return price;
   }
 
-  
   public BigDecimal getAmount() {
-  
+
     return amount;
   }
 
-  
   public BigDecimal getTotal() {
-  
+
     return total;
   }
 
-  
   public Date getTime() {
-  
+
     return time;
   }
 
