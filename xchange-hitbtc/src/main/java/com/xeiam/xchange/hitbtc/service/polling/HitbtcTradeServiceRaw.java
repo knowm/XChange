@@ -1,25 +1,3 @@
-/**
- * The MIT License
- * Copyright (c) 2012 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
@@ -71,8 +49,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     String side = getSide(marketOrder.getType());
     String orderId = createId(marketOrder, nonce);
 
-    HitbtcExecutionReportResponse response = hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId,
-        symbol, side, null, marketOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "market", "GTC");
+    HitbtcExecutionReportResponse response =
+        hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId, symbol, side, null, marketOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "market", "GTC");
 
     return response.getExecutionReport();
   }
@@ -84,8 +62,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     String side = getSide(limitOrder.getType());
     String orderId = createId(limitOrder, nonce);
 
-    HitbtcExecutionReportResponse postHitbtcNewOrder = hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId,
-        symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
+    HitbtcExecutionReportResponse postHitbtcNewOrder =
+        hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId, symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
 
     return postHitbtcNewOrder.getExecutionReport();
   }
@@ -107,23 +85,28 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   private static String getSide(OrderType type) {
+
     return type == OrderType.BID ? "buy" : "sell";
   }
 
-  private static String createSymbol(CurrencyPair pair){
+  private static String createSymbol(CurrencyPair pair) {
+
     return pair.baseSymbol + pair.counterSymbol;
   }
 
   private String createId(Order order, long nonce) {
+
     // encoding side in client order id
     return order.getType() + createSymbol(order.getCurrencyPair()) + nonce;
   }
 
-  private OrderType readOrderType(String orderId){
+  private OrderType readOrderType(String orderId) {
+
     return orderId.charAt(0) == 'A' ? OrderType.ASK : OrderType.BID;
   }
 
-  public static String readSymbol(String orderId){
+  public static String readSymbol(String orderId) {
+
     return orderId.substring(3, 9);
   }
 

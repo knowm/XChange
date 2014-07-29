@@ -1,25 +1,3 @@
-/**
- * The MIT License
- * Copyright (c) 2012 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package com.xeiam.xchange.mintpal.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -67,7 +45,7 @@ public class MintPalAdapterTests {
     final MintPalTicker ticker = tickerList.get(0);
     final Ticker adaptedTicker = MintPalAdapters.adaptTicker(ticker);
 
-    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(new CurrencyPair("365","BTC"));
+    assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(new CurrencyPair("365", "BTC"));
     assertThat(adaptedTicker.getLast()).isEqualTo("0.20000000");
     assertThat(adaptedTicker.getHigh()).isEqualTo("0.26500000");
     assertThat(adaptedTicker.getLow()).isEqualTo("0.20000000");
@@ -75,7 +53,7 @@ public class MintPalAdapterTests {
     assertThat(adaptedTicker.getBid()).isEqualTo("0.20000000");
     assertThat(adaptedTicker.getAsk()).isEqualTo("0.22900000");
   }
-  
+
   @Test
   public void testAdaptOrders() throws JsonParseException, JsonMappingException, IOException {
 
@@ -87,16 +65,16 @@ public class MintPalAdapterTests {
 
     final List<MintPalPublicOrders> orderbook = ordersResponse.getData();
     final OrderBook adaptedOrderbook = MintPalAdapters.adaptOrderBook(CurrencyPair.LTC_BTC, orderbook);
-    
+
     final List<LimitOrder> asks = adaptedOrderbook.getAsks();
     assertThat(asks).hasSize(2);
-    
+
     final LimitOrder ask = asks.get(0);
     assertThat(ask.getLimitPrice()).isEqualTo("0.01289999");
     assertThat(ask.getTradableAmount()).isEqualTo("0.04599935");
     assertThat(ask.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
   }
-  
+
   @Test
   public void testAdaptPublicTrades() throws JsonParseException, JsonMappingException, IOException {
 

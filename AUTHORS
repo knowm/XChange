@@ -1,0 +1,65 @@
+The following list of authors was automatically generated from the 
+XChange project's git repo with the command:
+
+git log --format='%aN' | sort -u
+
+Achterhoeker
+Alejandro Reyero
+Alex Nugent
+André Reiter
+Benedict Wong
+Benedikt Bünz
+Boris Aksenov
+Carbo Kuo
+Cray Imperative
+David FRANCOIS
+Erland Lewin
+Gary Rowe
+Giridhar Nandigam
+James Edwards
+Joe Zhou
+Jonathan Heusser
+Jonathan Tse
+Karol Pysniak
+Krystian Nowak
+Macarse
+Marius Hillenbrand
+Matija Mazi
+Matt Read
+Matt Whitlock
+Michael Lagace
+ObsessiveOrange
+Oleg Khomenko
+Rafał Krupiński
+Raphael Voellmy
+Ryan Sundberg
+Sikerdebaard
+Thomas Muhm
+Tim Molter
+Vassilis Papavassiliou
+Zach Holmes
+artvel
+bolo
+bolobox
+david-yam
+deveth0
+dhenry
+jamespedwards42
+karol.pysniak@turbineam.com
+kpysniak
+lapoor
+matija.mazi@gmail.com
+mazi
+mdeverdelhan
+mharris021
+nakedpony
+nimrood
+o
+senecaso
+sikerdebaard
+skipster
+tbosman
+tim
+timmolter
+veken0m
+vulicevic

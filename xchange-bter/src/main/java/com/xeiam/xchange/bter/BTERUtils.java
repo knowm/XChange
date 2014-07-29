@@ -9,7 +9,7 @@ public class BTERUtils {
     String baseSymbol = currencyPair.baseSymbol.toLowerCase();
     String counterSymbol = currencyPair.counterSymbol.toLowerCase();
     String pair = baseSymbol + "_" + counterSymbol;
-    
+
     return pair;
   }
 }
