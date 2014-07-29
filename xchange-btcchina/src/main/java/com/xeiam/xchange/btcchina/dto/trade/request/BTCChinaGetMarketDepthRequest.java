@@ -20,57 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto;
+package com.xeiam.xchange.btcchina.dto.trade.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
-/**
- * @author ObsessiveOrange
- */
-public class BTCChinaError {
+public class BTCChinaGetMarketDepthRequest extends BTCChinaRequest {
 
-  private final int code;
-  private final String message;
-  private final String id;
+  private static final int DEFAULT_LIMIT = 10;
+
+  private static final String METHOD_NAME = "getMarketDepth2";
 
   /**
-   * Constructor
+   * Constructs request for getting the complete market depth.
+   *
+   * @param limit Limit number of orders returned. Default is 10 per side.
+   * @param market Default to "BTCCNY". [ BTCCNY | LTCCNY | LTCBTC ].
    */
-  public BTCChinaError(@JsonProperty("code") int code, @JsonProperty("message") String message, @JsonProperty("id") String id) {
+  public BTCChinaGetMarketDepthRequest(Integer limit, String market) {
+    this.method = METHOD_NAME;
 
-    this.code = code;
-    this.message = message;
-    this.id = id;
-  }
-
-  /**
-   * @return the code
-   */
-  public int getCode() {
-
-    return code;
-  }
-
-  /**
-   * @return the message
-   */
-  public String getMessage() {
-
-    return message;
-  }
-
-  /**
-   * @return the id
-   */
-  public String getID() {
-
-    return id;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTCChinaError{code=%s, result=%s, id=%s}", code, message, id);
+    if (limit == null && market == null) {
+      this.params = "[]";
+    } else if (market == null) {
+      this.params = String.format("[%d]", limit);
+    } else {
+      this.params = String.format("[%d,\"%s\"]", limit == null ? DEFAULT_LIMIT : limit, market);
+    }
   }
 
 }

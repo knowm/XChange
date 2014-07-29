@@ -20,57 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto;
+package com.xeiam.xchange.btcchina.dto.trade;
+
+import java.math.BigDecimal;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author ObsessiveOrange
- */
-public class BTCChinaError {
+public class BTCChinaMarketDepthOrder {
 
-  private final int code;
-  private final String message;
-  private final String id;
+  private final BigDecimal price;
+  private final BigDecimal amount;
 
-  /**
-   * Constructor
-   */
-  public BTCChinaError(@JsonProperty("code") int code, @JsonProperty("message") String message, @JsonProperty("id") String id) {
+  public BTCChinaMarketDepthOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
-    this.code = code;
-    this.message = message;
-    this.id = id;
+    this.price = price;
+    this.amount = amount;
+  }
+
+  public BigDecimal getPrice() {
+
+    return price;
+  }
+
+  public BigDecimal getAmount() {
+
+    return amount;
   }
 
   /**
-   * @return the code
+   * {@inheritDoc}
    */
-  public int getCode() {
-
-    return code;
-  }
-
-  /**
-   * @return the message
-   */
-  public String getMessage() {
-
-    return message;
-  }
-
-  /**
-   * @return the id
-   */
-  public String getID() {
-
-    return id;
-  }
-
   @Override
   public String toString() {
-
-    return String.format("BTCChinaError{code=%s, result=%s, id=%s}", code, message, id);
+  
+    return ToStringBuilder.reflectionToString(this);
   }
 
 }

@@ -20,57 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto;
+package com.xeiam.xchange.btcchina.dto.trade.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import static org.junit.Assert.*;
 
-/**
- * @author ObsessiveOrange
- */
-public class BTCChinaError {
+import org.junit.Test;
 
-  private final int code;
-  private final String message;
-  private final String id;
+public class BTCChinaGetMarketDepthRequestTest {
 
-  /**
-   * Constructor
-   */
-  public BTCChinaError(@JsonProperty("code") int code, @JsonProperty("message") String message, @JsonProperty("id") String id) {
-
-    this.code = code;
-    this.message = message;
-    this.id = id;
-  }
-
-  /**
-   * @return the code
-   */
-  public int getCode() {
-
-    return code;
-  }
-
-  /**
-   * @return the message
-   */
-  public String getMessage() {
-
-    return message;
-  }
-
-  /**
-   * @return the id
-   */
-  public String getID() {
-
-    return id;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format("BTCChinaError{code=%s, result=%s, id=%s}", code, message, id);
+  @Test
+  public void testBTCChinaGetMarketDepthRequest() {
+    assertEquals("[]", new BTCChinaGetMarketDepthRequest(null, null).getParams());
+    assertEquals("[1]", new BTCChinaGetMarketDepthRequest(1, null).getParams());
+    assertEquals("[10,\"LTCCNY\"]", new BTCChinaGetMarketDepthRequest(null, "LTCCNY").getParams());
+    assertEquals("[1,\"LTCCNY\"]", new BTCChinaGetMarketDepthRequest(1, "LTCCNY").getParams());
   }
 
 }

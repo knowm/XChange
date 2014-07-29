@@ -20,57 +20,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.btcchina.dto;
+package com.xeiam.xchange.btcchina.dto.trade;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author ObsessiveOrange
- */
-public class BTCChinaError {
+public class BTCChinaMarketDepth {
 
-  private final int code;
-  private final String message;
-  private final String id;
+  private final BTCChinaMarketDepthOrder[] bids;
+  private final BTCChinaMarketDepthOrder[] asks;
 
-  /**
-   * Constructor
-   */
-  public BTCChinaError(@JsonProperty("code") int code, @JsonProperty("message") String message, @JsonProperty("id") String id) {
+  public BTCChinaMarketDepth(@JsonProperty("bid") BTCChinaMarketDepthOrder[] bids, @JsonProperty("ask") BTCChinaMarketDepthOrder[] asks) {
 
-    this.code = code;
-    this.message = message;
-    this.id = id;
+    this.bids = bids;
+    this.asks = asks;
+  }
+
+  public BTCChinaMarketDepthOrder[] getBids() {
+
+    return bids;
+  }
+
+  public BTCChinaMarketDepthOrder[] getAsks() {
+
+    return asks;
   }
 
   /**
-   * @return the code
+   * {@inheritDoc}
    */
-  public int getCode() {
-
-    return code;
-  }
-
-  /**
-   * @return the message
-   */
-  public String getMessage() {
-
-    return message;
-  }
-
-  /**
-   * @return the id
-   */
-  public String getID() {
-
-    return id;
-  }
-
   @Override
   public String toString() {
 
-    return String.format("BTCChinaError{code=%s, result=%s, id=%s}", code, message, id);
+    return ToStringBuilder.reflectionToString(this);
   }
 
 }

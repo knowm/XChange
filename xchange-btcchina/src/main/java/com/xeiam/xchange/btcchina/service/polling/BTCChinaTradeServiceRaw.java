@@ -43,6 +43,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelIcebergOrderRe
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrdersRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetMarketDepthRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellIcebergOrderRequest;
@@ -51,6 +52,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrdersResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
@@ -78,6 +80,17 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(BTCChina.class, exchangeSpecification);
+  }
+
+  /**
+   * @see BTCChinaGetMarketDepthRequest#BTCChinaGetMarketDepthRequest(Integer, String)
+   * @see BTCChina#getMarketDepth(si.mazi.rescu.ParamsDigest, si.mazi.rescu.ValueFactory, BTCChinaGetMarketDepthRequest)
+   */
+  public BTCChinaGetMarketDepthResponse getMarketDepth(Integer limit, String market) throws IOException {
+
+    BTCChinaGetMarketDepthRequest request = new BTCChinaGetMarketDepthRequest(limit, market);
+    BTCChinaGetMarketDepthResponse response = btcChina.getMarketDepth(signatureCreator, tonce, request);
+    return checkResult(response);
   }
 
   /**
@@ -139,7 +152,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see {@link BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)}.
+   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)
    */
   public BTCChinaGetOrdersResponse getBTCChinaOrders(Boolean openOnly, String market, Integer limit, Integer offset) throws IOException {
 
@@ -246,7 +259,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see {@link BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)}.
+   * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)
    */
   public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
 
