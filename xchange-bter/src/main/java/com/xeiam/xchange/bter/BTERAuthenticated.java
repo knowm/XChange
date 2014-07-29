@@ -40,6 +40,7 @@ import com.xeiam.xchange.bter.dto.account.BTERFunds;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTEROrderStatus;
 import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
+import com.xeiam.xchange.bter.dto.trade.BTERTradeHistoryReturn;
 
 @Path("api/1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -62,6 +63,11 @@ public interface BTERAuthenticated extends BTER {
   @POST
   @Path("private/orderlist")
   BTEROpenOrders getOpenOrders(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce) throws IOException;
+
+  @POST
+  @Path("private/mytrades")
+  BTERTradeHistoryReturn getUserTradeHistory(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") int nonce, @FormParam("pair") String pair)
+      throws IOException;
 
   @POST
   @Path("private/getorder")

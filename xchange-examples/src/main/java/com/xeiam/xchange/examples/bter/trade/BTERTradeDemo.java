@@ -24,6 +24,7 @@ package com.xeiam.xchange.examples.bter.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
@@ -31,9 +32,11 @@ import com.xeiam.xchange.bter.dto.BTEROrderType;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrder;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTEROrderStatus;
+import com.xeiam.xchange.bter.dto.trade.BTERTrade;
 import com.xeiam.xchange.bter.service.polling.BTERPollingTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.bter.BTERDemoUtils;
@@ -73,6 +76,11 @@ public class BTERTradeDemo {
 
     openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
+
+    Thread.sleep(2000);
+
+    Trades tradeHistory = tradeService.getTradeHistory(CurrencyPair.LTC_BTC);
+    System.out.println(tradeHistory);
   }
 
   private static void raw(BTERPollingTradeServiceRaw tradeService) throws IOException, InterruptedException {
@@ -99,6 +107,9 @@ public class BTERTradeDemo {
 
     openOrders = tradeService.getBTEROpenOrders();
     System.out.println(openOrders);
+
+    List<BTERTrade> tradeHistory = tradeService.getBTERTradeHistory(CurrencyPair.LTC_BTC).getTrades();
+    System.out.println(tradeHistory);
 
   }
 }
