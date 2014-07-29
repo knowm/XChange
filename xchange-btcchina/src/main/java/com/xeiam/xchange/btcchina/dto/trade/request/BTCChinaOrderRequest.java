@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaOrderRequest extends BTCChinaRequest {
 
   public BTCChinaOrderRequest(String method, BigDecimal price, BigDecimal amount, String market) {

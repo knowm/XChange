@@ -2,9 +2,6 @@ package com.xeiam.xchange.btcchina.dto.trade.request;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
-/**
- * @author Joe Zhou
- */
 public final class BTCChinaGetOrderRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "getOrder";

@@ -14,8 +14,6 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 /**
  * Demo for {@link BTCChinaTradeServiceRaw#getBTCChinaOrders(Boolean, String, Integer, Integer)}.
  * and {@link BTCChinaTradeService#getOpenOrders()}.
- *
- * @author Joe Zhou
  */
 public class BTCChinaGetOrdersDemo {
 

@@ -16,8 +16,6 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
  * Demo for {@link BTCChinaTradeService#getTradeHistory(Object...)}.
- *
- * @author Joe Zhou
  */
 public class BTCChinaGetTradeHistoryDemo {
 
