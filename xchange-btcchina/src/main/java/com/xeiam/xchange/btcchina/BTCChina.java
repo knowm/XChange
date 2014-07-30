@@ -1,25 +1,3 @@
-/**
- * The MIT License
- * Copyright (c) 2012 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package com.xeiam.xchange.btcchina;
 
 import java.io.IOException;
@@ -58,6 +36,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelIcebergOrderRe
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrdersRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetMarketDepthRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellIcebergOrderRequest;
@@ -66,6 +45,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrdersResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
@@ -89,10 +69,6 @@ public interface BTCChina {
 
   /**
    * Returns last 100 trade records.
-   *
-   * @param market
-   * @return
-   * @throws IOException
    */
   @GET
   @Path("data/historydata")
@@ -103,7 +79,6 @@ public interface BTCChina {
    *
    * @param market
    * @param limit the range of limit is [0,5000].
-   * @return
    * @throws IOException
    */
   @GET
@@ -115,7 +90,6 @@ public interface BTCChina {
    *
    * @param market
    * @param since the starting trade ID(exclusive).
-   * @return
    * @throws IOException
    */
   @GET
@@ -128,7 +102,6 @@ public interface BTCChina {
    * @param market
    * @param since the starting trade ID(exclusive).
    * @param limit the range of limit is [0,5000].
-   * @return
    * @throws IOException
    */
   @GET
@@ -146,6 +119,15 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   public BTCChinaGetDepositsResponse getDeposits(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaGetDepositsRequest getDepositsRequest) throws IOException;
+
+  /**
+   * Get the complete market depth. Returns all open bid and ask orders.
+   */
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public BTCChinaGetMarketDepthResponse getMarketDepth(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+      BTCChinaGetMarketDepthRequest request) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

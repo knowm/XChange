@@ -82,6 +82,7 @@
 		<module>xchange-bitfinex</module>
 		<module>xchange-bitmarket</module>
 		<module>xchange-bitstamp</module>
+		<module>xchange-bittrex</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>
@@ -319,65 +320,7 @@
 				</configuration>
 			</plugin>
 
-
-			<!-- for header in all .java files -->
-			<plugin>
-				<groupId>com.mycila</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<header>com/mycila/maven/plugin/license/templates/MIT.txt</header>
-					<properties>
-						<owner>Xeiam LLC http://xeiam.com</owner>
-					</properties>
-					<aggregate>true</aggregate>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>com.mycila</groupId>
-										<artifactId>
-											license-maven-plugin
-										</artifactId>
-										<versionRange>
-											[2.6,)
-										</versionRange>
-										<goals>
-											<goal>check</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
 	<properties>

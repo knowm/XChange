@@ -1,25 +1,3 @@
-/**
- * The MIT License
- * Copyright (c) 2012 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package com.xeiam.xchange.btcchina.service.polling;
 
 import static com.xeiam.xchange.btcchina.BTCChinaUtils.getNonce;
@@ -43,6 +21,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelIcebergOrderRe
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrdersRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetMarketDepthRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellIcebergOrderRequest;
@@ -51,6 +30,7 @@ import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrdersResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
@@ -78,6 +58,17 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(BTCChina.class, exchangeSpecification);
+  }
+
+  /**
+   * @see BTCChinaGetMarketDepthRequest#BTCChinaGetMarketDepthRequest(Integer, String)
+   * @see BTCChina#getMarketDepth(si.mazi.rescu.ParamsDigest, si.mazi.rescu.ValueFactory, BTCChinaGetMarketDepthRequest)
+   */
+  public BTCChinaGetMarketDepthResponse getMarketDepth(Integer limit, String market) throws IOException {
+
+    BTCChinaGetMarketDepthRequest request = new BTCChinaGetMarketDepthRequest(limit, market);
+    BTCChinaGetMarketDepthResponse response = btcChina.getMarketDepth(signatureCreator, tonce, request);
+    return checkResult(response);
   }
 
   /**
@@ -139,7 +130,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see {@link BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)}.
+   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)
    */
   public BTCChinaGetOrdersResponse getBTCChinaOrders(Boolean openOnly, String market, Integer limit, Integer offset) throws IOException {
 
@@ -236,7 +227,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @deprecated Use {@link #cancelBTCChinaOrder(int)} instead.
    */
   public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
-    
+
     return cancelBTCChinaOrder(Integer.parseInt(orderId));
   }
 
@@ -246,7 +237,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see {@link BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)}.
+   * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)
    */
   public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
 

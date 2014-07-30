@@ -1,25 +1,3 @@
-/**
- * The MIT License
- * Copyright (c) 2012 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package com.xeiam.xchange.btcchina;
 
 import java.math.BigDecimal;
@@ -63,12 +41,6 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a List of btcchinaOrders to a List of LimitOrders
-   * 
-   * @param btcchinaOrders
-   * @param currency
-   * @param orderType
-   * @param id
-   * @return
    */
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
 
@@ -83,13 +55,6 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaOrder to a LimitOrder
-   * 
-   * @param amount
-   * @param price
-   * @param currency
-   * @param orderTypeString
-   * @param id
-   * @return
    */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType) {
 
@@ -135,9 +100,6 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaTicker to a Ticker Object
-   * 
-   * @param btcChinaTicker
-   * @return
    */
   public static Ticker adaptTicker(BTCChinaTicker btcChinaTicker, CurrencyPair currencyPair) {
 
@@ -153,9 +115,6 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaAccountInfoResponse to AccountInfo Object
-   * 
-   * @param response
-   * @return
    */
   public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
@@ -163,11 +122,6 @@ public final class BTCChinaAdapters {
     return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
   }
 
-  /**
-   * @param balances
-   * @param frozens
-   * @return
-   */
   public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens) {
 
     List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
@@ -188,10 +142,6 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts BTCChinaValue balance, BTCChinaValue frozen to wallet
-   * 
-   * @param balance
-   * @param frozen
-   * @return
    */
   public static Wallet adaptWallet(BTCChinaValue balance, BTCChinaValue frozen) {
 
@@ -206,16 +156,9 @@ public final class BTCChinaAdapters {
     }
   }
 
-  // /**
-  // * Adapts List<BTCChinaOrder> to OpenOrders
-  // *
-  // * @param orders
-  // * @return
-  // */
-  // todo: can't have <> in javadoc
   /**
-   * @param orders
-   * @return
+   * Adapts List&lt;BTCChinaOrder&gt; to OpenOrders.
+   *
    * @deprecated Do not use this anymore.
    */
   @Deprecated
@@ -250,10 +193,8 @@ public final class BTCChinaAdapters {
   }
 
   /**
-   * Adapts BTCChinaOrder to LimitOrder
+   * Adapts BTCChinaOrder to LimitOrder.
    * 
-   * @param order
-   * @return
    * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)} instead.
    */
   @Deprecated
@@ -263,10 +204,7 @@ public final class BTCChinaAdapters {
   }
 
   /**
-   * Adapts BTCChinaOrder to LimitOrder
-   * 
-   * @param order
-   * @return
+   * Adapts BTCChinaOrder to LimitOrder.
    */
   public static LimitOrder adaptLimitOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
 
@@ -322,10 +260,7 @@ public final class BTCChinaAdapters {
   }
 
   /**
-   * Adapt BTCChinaTransactions to Trades
-   * 
-   * @param transactions
-   * @return
+   * Adapt BTCChinaTransactions to Trades.
    */
   public static Trades adaptTransactions(List<BTCChinaTransaction> transactions) {
 
