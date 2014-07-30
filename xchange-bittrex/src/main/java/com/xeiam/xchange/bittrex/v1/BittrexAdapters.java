@@ -117,7 +117,7 @@ public final class BittrexAdapters {
 
   public static Trade adaptTrade(BittrexTrade trade, CurrencyPair currencyPair) {
 
-    OrderType orderType = trade.getOrderType().equals("buy") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = trade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity();
     BigDecimal price = trade.getPrice();
     Date date = BittrexUtils.toDate(trade.getTimeStamp());
