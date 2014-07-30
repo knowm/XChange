@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrenciesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepthResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbolsResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickerResponse;
@@ -37,5 +38,9 @@ public interface Bittrex {
   @GET
   @Path("public/getmarkets")
   BittrexSymbolsResponse getSymbols() throws IOException;
+
+  @GET
+  @Path("public/getcurrencies")
+  BittrexCurrenciesResponse getCurrencies() throws IOException;
 
 }

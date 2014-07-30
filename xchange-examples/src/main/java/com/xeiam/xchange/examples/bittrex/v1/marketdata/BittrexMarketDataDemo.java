@@ -12,6 +12,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bittrex.v1.BittrexExchange;
 import com.xeiam.xchange.bittrex.v1.BittrexUtils;
+import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrency;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
@@ -59,6 +60,9 @@ public class BittrexMarketDataDemo {
 
     System.out.println("------------RAW-----------");
 
+    BittrexCurrency[] currencies = marketDataService.getBittrexCurrencies();
+    System.out.println(Arrays.toString(currencies));
+    
     ArrayList<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
     System.out.println(symbols);
     
