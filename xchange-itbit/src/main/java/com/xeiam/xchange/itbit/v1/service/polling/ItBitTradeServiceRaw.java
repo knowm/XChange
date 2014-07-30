@@ -31,14 +31,14 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public ItBitOrder[] getItBitOpenOrders() throws IOException {
 
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nextNonce(), "XBTUSD", "1", "1000", "open", walletId);
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, "XBTUSD", "1", "1000", "open", walletId);
 
     return orders;
   }
 
   public ItBitOrder getItBitOrder(String orderId) throws IOException {
 
-    ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, orderId);
+    ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, orderId);
 
     return order;
   }
@@ -48,7 +48,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
 
     ItBitOrder postOrder =
-        itBit.postOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder
+        itBit.postOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder
             .getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
 
     return postOrder;
@@ -56,7 +56,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public void cancelItBitOrder(String orderId) throws IOException {
 
-    itBit.cancelOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, orderId);
+    itBit.cancelOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, orderId);
   }
 
   public ItBitOrder[] getItBitTradeHistory(Object... arguments) throws IOException {
@@ -71,7 +71,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
       currency = "XBTUSD";
     }
 
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nextNonce(), currency, "1", "1000", "filled", walletId);
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, currency, "1", "1000", "filled", walletId);
     return orders;
   }
 }
