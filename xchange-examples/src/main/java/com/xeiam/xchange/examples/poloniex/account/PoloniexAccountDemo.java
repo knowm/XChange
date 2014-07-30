@@ -1,13 +1,9 @@
 package com.xeiam.xchange.examples.poloniex.account;
 
-import java.io.IOException;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.examples.poloniex.PoloniexExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.utils.CertHelper;
 
 /**
  * @author Zach Holmes
@@ -15,7 +11,9 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 
 public class PoloniexAccountDemo {
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void main(String[] args) throws Exception {
+
+    CertHelper.trustAllCerts();
 
     Exchange poloniex = PoloniexExamplesUtils.getExchange();
     PollingAccountService accountService = poloniex.getPollingAccountService();

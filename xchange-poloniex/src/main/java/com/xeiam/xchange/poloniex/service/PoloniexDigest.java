@@ -50,11 +50,15 @@ public class PoloniexDigest extends BaseParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-
-    String postBody = restInvocation.getQueryString();
+    
+    String postBody = restInvocation.getMethodPath();
+    System.out.println(postBody);
+    
+    String queryString = restInvocation.getQueryString();
+    System.out.println(queryString);
 
     Mac mac = getMac();
-    mac.update(postBody.getBytes());
+    mac.update(queryString.getBytes());
 
     return String.format("%0128x", new BigInteger(1, mac.doFinal()));
   }

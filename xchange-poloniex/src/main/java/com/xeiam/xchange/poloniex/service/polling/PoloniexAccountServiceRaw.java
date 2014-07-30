@@ -22,7 +22,11 @@
  */
 package com.xeiam.xchange.poloniex.service.polling;
 
+import java.util.List;
+
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
 
 /**
@@ -36,11 +40,10 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService<Poloni
     super(PoloniexAuthenticated.class, exchangeSpecification);
   }
 
-  /*
-   * public List<Wallet> getWallets() {
-   * List<Wallet> wallets = PoloniexAdapters.adaptPoloniexBalances(poloniex.getBalances(apiKey, signatureCreator, "returnBalances", String.valueOf(nextNonce())));
-   * return wallets;
-   * }
-   */
+  public List<Wallet> getWallets() {
+
+    List<Wallet> wallets = PoloniexAdapters.adaptPoloniexBalances(poloniex.getBalances(apiKey, signatureCreator, "returnBalances", String.valueOf(nextNonce())));
+    return wallets;
+  }
 
 }

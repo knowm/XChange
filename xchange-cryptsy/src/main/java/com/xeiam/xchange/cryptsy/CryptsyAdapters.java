@@ -219,8 +219,10 @@ public final class CryptsyAdapters {
   }
 
   private static Trade adaptTrade(CryptsyPublicTrade trade, CurrencyPair currencyPair) {
+    
+    OrderType type = trade.getType().equalsIgnoreCase("Buy") ? OrderType.BID : OrderType.ASK;
 
-    return new Trade(null, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), String.valueOf(trade.getId()));
+    return new Trade(type, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTime(), String.valueOf(trade.getId()));
   }
 
   /**

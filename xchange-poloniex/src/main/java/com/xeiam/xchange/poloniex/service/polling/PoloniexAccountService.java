@@ -24,12 +24,14 @@ package com.xeiam.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
@@ -46,12 +48,8 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    /*
-     * List<Wallet> wallets = getWallets();
-     * return new AccountInfo(null, wallets);
-     */
-
-    throw new NotYetImplementedForExchangeException();
+    List<Wallet> wallets = getWallets();
+    return new AccountInfo(null, wallets);
   }
 
   @Override
