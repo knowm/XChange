@@ -1,46 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-/**
-
- * Copyright (C) 2012 - 2013 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
@@ -49,11 +6,10 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -81,12 +37,8 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
   }
 
   @Override
-  // public Ticker getTicker(String tradableIdentifier, String currency, Object... args) throws IOException {
-  // Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
-      public
-      Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
     return ANXAdapters.adaptTicker(getANXTicker(currencyPair));
   }
 
@@ -101,9 +53,6 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    // verify(tradableIdentifier, currency);
-    verify(currencyPair);
 
     // Request data
     ANXDepthWrapper anxDepthWrapper = null;
@@ -134,32 +83,25 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    long sinceTimeStamp = 0;
+    if (args != null && args.length == 1) {
+      // parameter 1, if present, is the last trade timestamp in milliseconds
+      if (args[0] instanceof Number) {
+        Number arg = (Number) args[0];
+        sinceTimeStamp = arg.longValue();
+      }
+      else if (args[0] instanceof Date) {
+        Date arg = (Date) args[0];
+        sinceTimeStamp = arg.getTime();
+      }
+      else {
+        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+      }
+    }
 
-    // verify(tradableIdentifier, currency);
+    List<ANXTrade> anxTrades = super.getANXTrades(currencyPair, sinceTimeStamp);
+    return ANXAdapters.adaptTrades(anxTrades);
 
-    /*
-     * verify(currencyPair);
-     * ANXTradesWrapper anxTradeWrapper = null;
-     * if (args.length > 0) {
-     * if (args[0] instanceof Long) {
-     * Long sinceTimeStamp = (Long) args[0];
-     * // Request data
-     * anxTradeWrapper = getANXTrades(currencyPair, sinceTimeStamp);
-     * } else {
-     * throw new ExchangeException("the \"since\" type argument must be a Long!");
-     * }
-     * } else {
-     * anxTradeWrapper = getANXTrades(currencyPair, null);
-     * }
-     * return ANXAdapters.adaptTrades(anxTradeWrapper.getANXTrades());
-     */
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

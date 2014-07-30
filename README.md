@@ -1,4 +1,4 @@
-## [![XChange](http://xeiam.com/images/XChange_64_64.png)](http://xeiam.com/xchange) XChange
+## [![XChange](http://xeiam.com/wp-content/uploads/xchangelogo.png)](http://xeiam.com/xchange) XChange
 XChange is a Java library providing a simple and consistent API for interacting with over a dozen Bitcoin exchanges providing a consistent interface for trading and accessing market data.
 
 ## Important!
@@ -13,20 +13,17 @@ Usage is very simple: Create an Exchange instance, get the appropriate service, 
 
 ## Example
 
-    // Use the factory to get the version 2 MtGox exchange API using default settings
-    Exchange mtGox = ExchangeFactory.INSTANCE.createExchange("com.xeiam.xchange.mtgox.v2.MtGoxExchange");
+    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = mtGox.getPollingMarketDataService();
+    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
 
-    // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(Currencies.BTC, Currencies.USD);
-    
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+
     System.out.println(ticker.toString());
     
 All exchange implementations expose the same API, but you can also directly access the raw data.
 
-Now go ahead and [study some more examples](http://xeiam.com/xchange_examplecode.jsp), [download the thing](http://xeiam.com/xchange_changelog.jsp) and [provide feedback](https://github.com/timmolter/XChange/issues).
+Now go ahead and [study some more examples](http://xeiam.com/xchange-example-code), [download the thing](http://xeiam.com/xchange-change-log) and [provide feedback](https://github.com/timmolter/XChange/issues).
 
 ## Features
 * MIT license
@@ -38,9 +35,9 @@ Now go ahead and [study some more examples](http://xeiam.com/xchange_examplecode
     
 ## More Info
 Project Site: http://xeiam.com/xchange  
-Example Code: http://xeiam.com/xchange_examplecode.jsp  
-Change Log: http://xeiam.com/xchange_changelog.jsp  
-Java Docs: http://xeiam.com/xchange/javadoc/index.html  
+Example Code: http://xeiam.com/xchange-example-code  
+Change Log: http://xeiam.com/xchange-change-log  
+Java Docs: http://xeiam.com/javadocs/xchange/index.html  
 
 ## Wiki
 Home: https://github.com/timmolter/XChange/wiki  
@@ -117,7 +114,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    2.0.1-SNAPSHOT
+    2.1.0-SNAPSHOT
     
 ## Building with Maven
 

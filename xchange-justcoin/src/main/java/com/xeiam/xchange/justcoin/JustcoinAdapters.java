@@ -1,28 +1,8 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.justcoin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -39,9 +19,10 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
+import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinPublicTrade;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinTicker;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinOrder;
-import com.xeiam.xchange.justcoin.dto.trade.JustcoinTrade;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinOrder;
+import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
 
 /**
  * jamespedwards42
@@ -67,7 +48,7 @@ public final class JustcoinAdapters {
     return new LimitOrder(orderType, amount, currencyPair, null, null, price);
   }
 
-  public static Ticker adaptTicker(final JustcoinTicker[] justcoinTickers, final CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(final List<JustcoinTicker> justcoinTickers, final CurrencyPair currencyPair) {
 
     for (final JustcoinTicker justcointTicker : justcoinTickers) {
       if (justcointTicker.getId().equals(JustcoinUtils.getApiMarket(currencyPair.baseSymbol, currencyPair.counterSymbol))) {
@@ -139,5 +120,24 @@ public final class JustcoinAdapters {
 
     return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), adaptCurrencyPair(justcoinTrade.getMarket()), justcoinTrade.getAveragePrice(), justcoinTrade
         .getCreatedAt(), justcoinTrade.getId());
+  }
+
+  public static Trades adaptPublicTrades(final CurrencyPair currencyPair, final List<JustcoinPublicTrade> justcoinTrades) {
+
+    final List<Trade> trades = new ArrayList<Trade>();
+    long lastTradeId = 0;
+    for (final JustcoinPublicTrade trade : justcoinTrades) {
+      long tradeId = Long.valueOf(trade.getTid());
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
+      trades.add(adaptPublicTrade(currencyPair, trade));
+    }
+
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
+  }
+
+  public static Trade adaptPublicTrade(final CurrencyPair currencyPair, final JustcoinPublicTrade justcoinTrade) {
+
+    return new Trade(null, justcoinTrade.getAmount(), currencyPair, justcoinTrade.getPrice(), new Date(justcoinTrade.getDate() * 1000), justcoinTrade.getTid());
   }
 }

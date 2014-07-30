@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+	<!-- Standard console appender for checking activity (short on detail) -->
+	<appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- Simplified standard logging encoder -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%contextName] [%thread] %-5level %logger{36} - %msg %xEx%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Detail appender, containing simplified format and more detail -->
+	<appender name="DETAIL_APPENDER"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- Each application gets it's own log -->
+		<file>log/xchange-detail.log</file>
+
+		<!-- Rollover daily or when the file size exceeds 100Mb and keep a few -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>log/xchange-detail-%d{yyyy-MM-dd}.%i.log.gz
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+
+		<!-- Standard logging encoder Triggers on: logger.error("Example", e); 
+			// Simple exception reporting logger.error("Example {}", x, e); // {} will 
+			be populated with value of x -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} ${HOSTNAME} [%thread] %-5level %logger{36}
+				- %msg %xEx%n</pattern>
+		</encoder>
+
+	</appender>
+
+	<!-- The default logging behaviour for third-party applications (Spring, 
+		Hibernate etc) -->
+	<root level="WARN">
+		<appender-ref ref="CONSOLE_APPENDER" />
+		<appender-ref ref="DETAIL_APPENDER" />
+	</root>
+
+	<!-- Selected third-party frameworks can be enabled here for development 
+		if required -->
+
+	<!-- Wire and Context logging for the HttpClient -->
+	<logger name="org.apache.http.wire" level="DEBUG" />
+	<logger name="org.apache.http.impl.client" level="DEBUG" />
+
+	<!-- Define logging for organisation applications only -->
+	<logger name="com.xeiam.xchange.streaming.socketio" level="TRACE" />
+	<logger name="si.mazi.rescu" level="TRACE" />
+	<logger name="com.xeiam.xchange" level="INFO" />
+
+</configuration>

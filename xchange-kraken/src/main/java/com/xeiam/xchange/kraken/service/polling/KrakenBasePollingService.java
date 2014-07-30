@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
@@ -27,8 +6,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import si.mazi.rescu.NonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.ValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -43,17 +24,19 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
-import com.xeiam.xchange.kraken.service.KrakenBaseService;
 import com.xeiam.xchange.kraken.service.KrakenDigest;
+import com.xeiam.xchange.service.BaseExchangeService;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseService {
+public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeService implements BasePollingService {
 
-  private static final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
-  private static final Set<String> FIAT_CURRENCIES = new HashSet<String>();
-  private static final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
+  private final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
+  private final Set<String> FIAT_CURRENCIES = new HashSet<String>();
+  private final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
 
   protected T kraken;
   protected ParamsDigest signatureCreator;
+  protected ValueFactory<Long> nonce = new NonceFactory();
 
   /**
    * Constructor
@@ -68,7 +51,7 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
     if (CURRENCY_PAIRS.isEmpty()) {
       final Set<String> krakenCurrencyPairs = getKrakenAssetPairs().getAssetPairMap().keySet();
@@ -88,10 +71,12 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
   private String addCurrencyAndGetCode(String krakenCurrencyString) {
 
     String currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
-    if (krakenCurrencyString.startsWith("X"))
+    if (krakenCurrencyString.startsWith("X")) {
       DIGITAL_CURRENCIES.add(currencyCode);
-    else
+    }
+    else {
       FIAT_CURRENCIES.add(currencyCode);
+    }
 
     return currencyCode;
   }
@@ -108,14 +93,17 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
 
   protected String getKrakenCurrencyCode(String currency) throws IOException {
 
-    if (FIAT_CURRENCIES.isEmpty())
+    if (FIAT_CURRENCIES.isEmpty()) {
       getExchangeSymbols();
+    }
 
-    if (FIAT_CURRENCIES.contains(currency))
+    if (FIAT_CURRENCIES.contains(currency)) {
       return "Z" + currency;
+    }
     else if (DIGITAL_CURRENCIES.contains(currency)) {
-      if (currency.equals(Currencies.BTC))
+      if (currency.equals(Currencies.BTC)) {
         return "XXBT";
+      }
 
       return "X" + currency;
     }
@@ -153,9 +141,9 @@ public class KrakenBasePollingService<T extends Kraken> extends KrakenBaseServic
     return krakenResult.getResult();
   }
 
-  protected long nextNonce() {
+  protected ValueFactory<Long> nextNonce() {
 
-    return System.currentTimeMillis();
+    return nonce;
   }
 
   protected String createDelimitedString(String[] items) {

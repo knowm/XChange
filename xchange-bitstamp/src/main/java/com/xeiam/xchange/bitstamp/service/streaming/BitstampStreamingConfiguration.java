@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.bitstamp.service.streaming;
 
 import java.util.HashSet;
@@ -63,27 +42,28 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
     this.isEncryptedChannel = isEncryptedChannel;
     this.pusherKey = pusherKey;
     this.channels = channels;
-    this.pusherOpts = pusherOptions;
+    pusherOpts = pusherOptions;
   }
 
   public BitstampStreamingConfiguration() {
 
-    this.maxReconnectAttempts = 30; // 67 min
-    this.reconnectWaitTimeInMs = 135000; // 2:15
-    this.timeoutInMs = 120000; // 2:00
-    this.isEncryptedChannel = false; // data stream is public
-    this.pusherKey = "de504dc5763aeef9ff52"; // https://www.bitstamp.net/websocket/
-    this.channels = new HashSet<String>();
-    this.channels.add("order_book");
-    this.pusherOpts = new PusherOptions();
-    this.pusherOpts.setEncrypted(isEncryptedChannel);
-    this.pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval
-    this.pusherOpts.setPongTimeout(timeoutInMs); // Response timeout
+    maxReconnectAttempts = 30; // 67 min
+    reconnectWaitTimeInMs = 135000; // 2:15
+    timeoutInMs = 120000; // 2:00
+    isEncryptedChannel = false; // data stream is public
+    pusherKey = "de504dc5763aeef9ff52"; // https://www.bitstamp.net/websocket/
+    channels = new HashSet<String>();
+    channels.add("live_trades");
+    channels.add("order_book");
+    pusherOpts = new PusherOptions();
+    pusherOpts.setEncrypted(isEncryptedChannel);
+    pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval
+    pusherOpts.setPongTimeout(timeoutInMs); // Response timeout
   }
 
   public final PusherOptions pusherOptions() {
 
-    return this.pusherOpts;
+    return pusherOpts;
   }
 
   @Override

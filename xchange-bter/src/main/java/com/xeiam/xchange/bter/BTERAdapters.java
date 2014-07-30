@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.bter;
 
 import java.math.BigDecimal;
@@ -38,6 +17,7 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrder;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
+import com.xeiam.xchange.bter.dto.trade.BTERTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -77,7 +57,7 @@ public final class BTERAdapters {
     BigDecimal last = bterTicker.getLast();
     BigDecimal low = bterTicker.getLow();
     BigDecimal high = bterTicker.getHigh();
-    BigDecimal volume = bterTicker.getPriceCurrencyVolume();
+    BigDecimal volume = bterTicker.getVolume(currencyPair.baseSymbol);
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
   }
@@ -108,13 +88,13 @@ public final class BTERAdapters {
 
   public static LimitOrder adaptOrder(BTEROpenOrder order, Collection<CurrencyPair> currencyPairs) {
 
-    CurrencyPair possibleCurrencyPair = new CurrencyPair(order.getSellCurrency(), order.getBuyCurrency());
-    if (currencyPairs.contains(possibleCurrencyPair)) {
-      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), RoundingMode.HALF_EVEN);
-      return new LimitOrder(OrderType.ASK, order.getSellAmount(), possibleCurrencyPair, order.getId(), null, price);
+    CurrencyPair possibleCurrencyPair = new CurrencyPair(order.getBuyCurrency(), order.getSellCurrency());
+    if (!currencyPairs.contains(possibleCurrencyPair)) {
+      BigDecimal price = order.getBuyAmount().divide(order.getSellAmount(), 8, RoundingMode.HALF_UP);
+      return new LimitOrder(OrderType.ASK, order.getSellAmount(), new CurrencyPair(order.getSellCurrency(), order.getBuyCurrency()), order.getId(), null, price);
     }
     else {
-      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), RoundingMode.HALF_EVEN);
+      BigDecimal price = order.getSellAmount().divide(order.getBuyAmount(), 8, RoundingMode.HALF_UP);
       return new LimitOrder(OrderType.BID, order.getBuyAmount(), possibleCurrencyPair, order.getId(), null, price);
     }
   }
@@ -145,12 +125,19 @@ public final class BTERAdapters {
   public static Trades adaptTrades(BTERTradeHistory tradeHistory, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BTERPublicTrade trade : tradeHistory.getTrades()) {
+      String tradeIdString = trade.getTradeId();
+      if (!tradeIdString.isEmpty()) {
+        long tradeId = Long.valueOf(tradeIdString);
+        if (tradeId > lastTradeId)
+          lastTradeId = tradeId;
+      }
       Trade adaptedTrade = adaptTrade(trade, currencyPair);
       tradeList.add(adaptedTrade);
     }
 
-    return new Trades(tradeList, TradeSortType.SortByTimestamp);
+    return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
   public static AccountInfo adaptAccountInfo(BTERFunds bterAccountInfo) {
@@ -163,6 +150,25 @@ public final class BTERAdapters {
     }
 
     return new AccountInfo("", wallets);
+  }
+
+  public static Trades adaptUserTrades(List<BTERTrade> userTrades) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    for (BTERTrade userTrade : userTrades) {
+      trades.add(adaptUserTrade(userTrade));
+    }
+
+    return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  public static Trade adaptUserTrade(BTERTrade bterTrade) {
+
+    OrderType orderType = adaptOrderType(bterTrade.getType());
+    Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
+    CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
+
+    return new Trade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null);
   }
 
 }
