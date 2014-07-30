@@ -21,7 +21,7 @@ public class ItBitBasePollingService extends BaseExchangeService implements Base
   protected static final ValueFactory<Long> valueFactory = new ValueFactory() {
 
       private final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
-      private final AtomicLong lastNonce = new AtomicLong((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
+      private final AtomicLong lastNonce = new AtomicLong((System.currentTimeMillis() - START_MILLIS) / 250L);
 
       @Override
       public Long createValue() {
