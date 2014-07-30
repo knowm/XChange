@@ -1,4 +1,8 @@
-package com.xeiam.xchange.poloniex.dto.marketdata;
+package com.xeiam.xchange.poloniex.dto.trade;
+
+/**
+ * @author Zach Holmes
+ */
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -15,35 +19,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "tradeID", "date", "type", "rate", "amount", "total" })
-public class PoloniexPublicTrade {
+@JsonPropertyOrder({ "date", "rate", "amount", "total", "orderNumber", "type" })
+public class PoloniexUserTrade {
 
-  @JsonProperty("tradeID")
-  private String tradeID;
   @JsonProperty("date")
   private String date;
-  @JsonProperty("type")
-  private String type;
   @JsonProperty("rate")
   private BigDecimal rate;
   @JsonProperty("amount")
   private BigDecimal amount;
   @JsonProperty("total")
   private BigDecimal total;
+  @JsonProperty("orderNumber")
+  private String orderNumber;
+  @JsonProperty("type")
+  private String type;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-  @JsonProperty("tradeID")
-  public String getTradeID() {
-
-    return tradeID;
-  }
-
-  @JsonProperty("tradeID")
-  public void setTradeID(String tradeID) {
-
-    this.tradeID = tradeID;
-  }
 
   @JsonProperty("date")
   public String getDate() {
@@ -55,18 +47,6 @@ public class PoloniexPublicTrade {
   public void setDate(String date) {
 
     this.date = date;
-  }
-
-  @JsonProperty("type")
-  public String getType() {
-
-    return type;
-  }
-
-  @JsonProperty("type")
-  public void setType(String type) {
-
-    this.type = type;
   }
 
   @JsonProperty("rate")
@@ -105,6 +85,30 @@ public class PoloniexPublicTrade {
     this.total = total;
   }
 
+  @JsonProperty("orderNumber")
+  public String getOrderNumber() {
+
+    return orderNumber;
+  }
+
+  @JsonProperty("orderNumber")
+  public void setOrderNumber(String orderNumber) {
+
+    this.orderNumber = orderNumber;
+  }
+
+  @JsonProperty("type")
+  public String getType() {
+
+    return type;
+  }
+
+  @JsonProperty("type")
+  public void setType(String type) {
+
+    this.type = type;
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
 
@@ -115,6 +119,13 @@ public class PoloniexPublicTrade {
   public void setAdditionalProperty(String name, Object value) {
 
     this.additionalProperties.put(name, value);
+  }
+
+  @Override
+  public String toString() {
+
+    return "PoloniexUserTrade [date=" + date + ", rate=" + rate + ", amount=" + amount + ", total=" + total + ", orderNumber=" + orderNumber + ", type=" + type + ", additionalProperties="
+        + additionalProperties + "]";
   }
 
 }

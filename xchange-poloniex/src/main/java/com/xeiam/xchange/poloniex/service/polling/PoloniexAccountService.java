@@ -55,13 +55,13 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotAvailableFromExchangeException();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return getDepositAddress(currency);
   }
 
 }

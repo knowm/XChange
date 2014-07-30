@@ -20,7 +20,7 @@ public class PoloniexMarketDataDemo {
   private static CurrencyPair currencyPair;
 
   public static void main(String[] args) throws Exception {
-    
+
     CertHelper.trustAllCerts();
 
     Exchange poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
@@ -54,3 +54,4 @@ public class PoloniexMarketDataDemo {
   }
 
 }
+

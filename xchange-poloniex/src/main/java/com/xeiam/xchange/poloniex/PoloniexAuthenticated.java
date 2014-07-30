@@ -1,39 +1,21 @@
-/**
- * The MIT License
- * Copyright (c) 2012 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package com.xeiam.xchange.poloniex;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
+
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 /**
  * @author Zach Holmes
@@ -41,10 +23,39 @@ import si.mazi.rescu.ParamsDigest;
 
 @Path("tradingApi")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public interface PoloniexAuthenticated extends Poloniex {
 
   @POST
-  HashMap<String, BigDecimal> getBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @QueryParam("command") String command, @QueryParam("nonce") String nonce);
+  @FormParam("command")
+  HashMap<String, BigDecimal> returnBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce);
 
+  @POST
+  @FormParam("command")
+  HashMap<String, String> returnDepositAddresses(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce);
+
+  @POST
+  @FormParam("command")
+  HashMap<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
+
+  @POST
+  @FormParam("command")
+  PoloniexUserTrade[] returnTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
+
+  @POST
+  @FormParam("command")
+  HashMap<String, Number> buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
+      @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws IOException;
+
+  @POST
+  @FormParam("command")
+  HashMap<String, Number> sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
+      @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws IOException;
+
+  @POST
+  @FormParam("command")
+  HashMap<String, Number> cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("orderNumber") String orderNumber,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
 }

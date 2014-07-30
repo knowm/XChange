@@ -1,4 +1,8 @@
-package com.xeiam.xchange.poloniex.dto.marketdata;
+package com.xeiam.xchange.poloniex.dto.trade;
+
+/**
+ * @author Zach Holmes
+ */
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -15,13 +19,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "tradeID", "date", "type", "rate", "amount", "total" })
-public class PoloniexPublicTrade {
+@JsonPropertyOrder({ "orderNumber", "type", "rate", "amount", "total" })
+public class PoloniexOpenOrder {
 
-  @JsonProperty("tradeID")
-  private String tradeID;
-  @JsonProperty("date")
-  private String date;
+  @JsonProperty("orderNumber")
+  private String orderNumber;
   @JsonProperty("type")
   private String type;
   @JsonProperty("rate")
@@ -33,28 +35,16 @@ public class PoloniexPublicTrade {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  @JsonProperty("tradeID")
-  public String getTradeID() {
+  @JsonProperty("orderNumber")
+  public String getOrderNumber() {
 
-    return tradeID;
+    return orderNumber;
   }
 
-  @JsonProperty("tradeID")
-  public void setTradeID(String tradeID) {
+  @JsonProperty("orderNumber")
+  public void setOrderNumber(String orderNumber) {
 
-    this.tradeID = tradeID;
-  }
-
-  @JsonProperty("date")
-  public String getDate() {
-
-    return date;
-  }
-
-  @JsonProperty("date")
-  public void setDate(String date) {
-
-    this.date = date;
+    this.orderNumber = orderNumber;
   }
 
   @JsonProperty("type")
@@ -115,6 +105,12 @@ public class PoloniexPublicTrade {
   public void setAdditionalProperty(String name, Object value) {
 
     this.additionalProperties.put(name, value);
+  }
+
+  @Override
+  public String toString() {
+
+    return "PoloniexOpenOrder [orderNumber=" + orderNumber + ", type=" + type + ", rate=" + rate + ", amount=" + amount + ", total=" + total + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

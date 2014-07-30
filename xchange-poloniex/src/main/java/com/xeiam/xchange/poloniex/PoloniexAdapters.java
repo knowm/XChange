@@ -1,25 +1,3 @@
-/**
- * The MIT License
- * Copyright (c) 2012 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package com.xeiam.xchange.poloniex;
 
 import java.io.IOException;
@@ -38,12 +16,15 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexLevel;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexTicker;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 /**
  * @author Zach Holmes
@@ -129,5 +110,38 @@ public class PoloniexAdapters {
     }
 
     return wallets;
+  }
+
+  public static OpenOrders adaptPoloniexOpenOrders(HashMap<String, PoloniexOpenOrder[]> poloniexOpenOrders) {
+
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    for (String pairString : poloniexOpenOrders.keySet()) {
+      CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(pairString);
+      for (PoloniexOpenOrder openOrder : poloniexOpenOrders.get(pairString)) {
+
+        openOrders.add(adaptPoloniexOpenOrder(openOrder, currencyPair));
+      }
+    }
+
+    return new OpenOrders(openOrders);
+  }
+
+  public static LimitOrder adaptPoloniexOpenOrder(PoloniexOpenOrder openOrder, CurrencyPair currencyPair) {
+
+    OrderType type = openOrder.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
+    LimitOrder limitOrder = new LimitOrder.Builder(type, currencyPair).setLimitPrice(openOrder.getRate()).setTradableAmount(openOrder.getAmount()).setId(openOrder.getOrderNumber()).build();
+
+    return limitOrder;
+  }
+
+  public static Trade adaptPoloniexUserTrade(PoloniexUserTrade userTrade, CurrencyPair currencyPair) {
+
+    OrderType orderType = userTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = userTrade.getAmount();
+    BigDecimal price = userTrade.getRate();
+    Date date = PoloniexUtils.stringToDate(userTrade.getDate());
+    String tradeId = String.valueOf(userTrade.getOrderNumber());
+
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 }
