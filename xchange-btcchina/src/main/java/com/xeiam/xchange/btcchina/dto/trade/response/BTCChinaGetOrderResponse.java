@@ -5,9 +5,6 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaError;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrderObject;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaGetOrderResponse extends BTCChinaResponse<BTCChinaOrderObject> {
 
   /**

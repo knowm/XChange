@@ -2,9 +2,6 @@ package com.xeiam.xchange.btcchina.dto.account.request;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaGetDepositsRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "getDeposits";

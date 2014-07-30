@@ -4,9 +4,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaWithdrawalObject {
 
   private final BTCChinaWithdrawal withdrawal;

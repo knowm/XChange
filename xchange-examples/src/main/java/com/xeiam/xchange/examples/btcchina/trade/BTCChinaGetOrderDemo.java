@@ -11,8 +11,6 @@ import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 
 /**
  * Demo for {@link BTCChinaTradeServiceRaw#getBTCChinaOrder}.
- *
- * @author Joe Zhou
  */
 public class BTCChinaGetOrderDemo {
 

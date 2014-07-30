@@ -2,9 +2,6 @@ package com.xeiam.xchange.btcchina.dto.account.request;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaGetWithdrawalsRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "getWithdrawals";

@@ -5,9 +5,6 @@ import junit.extensions.PA;
 
 import org.junit.Test;
 
-/**
- * @author Joe Zhou
- */
 public class BTCChinaDigestTest {
 
   private BTCChinaDigest digest = BTCChinaDigest.createInstance("hello", "world");
