@@ -13,6 +13,7 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bittrex.v1.BittrexExchange;
 import com.xeiam.xchange.bittrex.v1.BittrexUtils;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
+import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.bittrex.v1.service.polling.BittrexMarketDataServiceRaw;
@@ -37,7 +38,7 @@ public class BittrexMarketDataDemo {
   private static void generic(PollingMarketDataService marketDataService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     System.out.println("----------GENERIC---------");
-
+    
     ArrayList<CurrencyPair> pairs = new ArrayList<CurrencyPair>(marketDataService.getExchangeSymbols());
     System.out.println(pairs);
 
@@ -58,6 +59,9 @@ public class BittrexMarketDataDemo {
 
     System.out.println("------------RAW-----------");
 
+    ArrayList<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
+    System.out.println(symbols);
+    
     ArrayList<CurrencyPair> pairs = new ArrayList<CurrencyPair>(marketDataService.getExchangeSymbols());
     System.out.println(pairs);
 
