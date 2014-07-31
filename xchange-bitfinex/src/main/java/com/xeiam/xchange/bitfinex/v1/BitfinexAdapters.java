@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
@@ -23,6 +24,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.FixedRateLoanOrder;
+import com.xeiam.xchange.dto.trade.FloatingRateLoanOrder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -60,8 +63,7 @@ public final class BitfinexAdapters {
       // Bid orderbook is reversed order. Insert at index 0 instead of appending
       if (orderType.equalsIgnoreCase("bid")) {
         limitOrders.add(0, adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
-      }
-      else {
+      } else {
         limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
       }
     }
@@ -74,6 +76,58 @@ public final class BitfinexAdapters {
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
+  }
+
+  public static List<FixedRateLoanOrder> adaptFixedRateLoanOrders(BitfinexLendLevel[] orders, String currency, String orderType, String id) {
+
+    List<FixedRateLoanOrder> loanOrders = new ArrayList<FixedRateLoanOrder>(orders.length);
+
+    for (BitfinexLendLevel order : orders) {
+      if ("yes".equalsIgnoreCase(order.getFrr()))
+        continue;
+      
+      // Bid orderbook is reversed order. Insert at reversed indices
+      if (orderType.equalsIgnoreCase("loan")) {
+        loanOrders.add(0, adaptFixedRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
+      } else {
+        loanOrders.add(adaptFixedRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
+      }
+    }
+
+    return loanOrders;
+  }
+
+  public static FixedRateLoanOrder adaptFixedRateLoanOrder(String currency, BigDecimal amount, int dayPeriod, String direction, String id, BigDecimal rate) {
+
+    OrderType orderType = direction.equalsIgnoreCase("loan") ? OrderType.BID : OrderType.ASK;
+
+    return new FixedRateLoanOrder(orderType, currency, amount, dayPeriod, id, null, rate);
+  }
+  
+  public static List<FloatingRateLoanOrder> adaptFloatingRateLoanOrders(BitfinexLendLevel[] orders, String currency, String orderType, String id) {
+
+    List<FloatingRateLoanOrder> loanOrders = new ArrayList<FloatingRateLoanOrder>(orders.length);
+
+    for (BitfinexLendLevel order : orders) {
+      if ("no".equals(order.getFrr()))
+        continue;
+      
+      // Bid orderbook is reversed order. Insert at reversed indices
+      if (orderType.equalsIgnoreCase("loan")) {
+        loanOrders.add(0, adaptFloatingRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
+      } else {
+        loanOrders.add(adaptFloatingRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
+      }
+    }
+
+    return loanOrders;
+  }
+
+  public static FloatingRateLoanOrder adaptFloatingRateLoanOrder(String currency, BigDecimal amount, int dayPeriod, String direction, String id, BigDecimal rate) {
+
+    OrderType orderType = direction.equalsIgnoreCase("loan") ? OrderType.BID : OrderType.ASK;
+
+    return new FloatingRateLoanOrder(orderType, currency, amount, dayPeriod, id, null, rate);
   }
 
   public static Trade adaptTrade(BitfinexTrade trade, CurrencyPair currencyPair) {
