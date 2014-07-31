@@ -17,6 +17,7 @@ public class CryptsyPublicTrade {
   private final BigDecimal price;
   private final BigDecimal quantity;
   private final BigDecimal total;
+  private final String type;
 
   /**
    * Constructor
@@ -25,13 +26,14 @@ public class CryptsyPublicTrade {
    */
   @JsonCreator
   public CryptsyPublicTrade(@JsonProperty("id") long id, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("total") BigDecimal total) throws ParseException {
+      @JsonProperty("total") BigDecimal total, @JsonProperty("type") String type) throws ParseException {
 
     this.id = id;
     this.time = time == null ? null : CryptsyUtils.convertDateTime(time);
     this.price = price;
     this.quantity = quantity;
     this.total = total;
+    this.type = type;
   }
 
   public long getId() {
@@ -57,6 +59,11 @@ public class CryptsyPublicTrade {
   public BigDecimal getTotal() {
 
     return total;
+  }
+  
+  public String getType() {
+    
+    return type;
   }
 
   @Override
