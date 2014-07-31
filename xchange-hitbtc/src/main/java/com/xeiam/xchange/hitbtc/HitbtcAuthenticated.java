@@ -36,7 +36,6 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @POST
   @Path("trading/new_order")
-  @Produces(MediaType.APPLICATION_FORM_URLENCODED)
   public HitbtcExecutionReportResponse postHitbtcNewOrder(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey,
       @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side, @FormParam("price") BigDecimal price,
       @FormParam("quantity") BigDecimal quantity, // 1 lot = 0.01 BTC
@@ -44,7 +43,6 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @POST
   @Path("trading/cancel_order")
-  @Produces(MediaType.APPLICATION_FORM_URLENCODED)
   public HitbtcExecutionReportResponse postHitbtcCancelOrder(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") long nonce, @QueryParam("apikey") String apiKey,
       @FormParam("clientOrderId") String clientOrderId, @FormParam("cancelRequestClientOrderId") String cancelRequestClientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side)
       throws IOException;
