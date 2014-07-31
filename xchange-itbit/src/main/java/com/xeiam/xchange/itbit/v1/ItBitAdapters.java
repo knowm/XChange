@@ -150,18 +150,9 @@ public final class ItBitAdapters {
 
       OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
+      Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
-      Date parse;
-      try {
-        /**
-         * "createdTime" is sent with microsecond precision in UTC time. This is not supported by Java natively.
-         */
-        parse = dateFormat.parse(itBitOrder.getCreatedTime().substring(0, 23) + 'Z');
-      } catch (ParseException e) {
-        continue;
-      }
-
-      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), parse, itBitOrder.getId()));
+      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId()));
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);
