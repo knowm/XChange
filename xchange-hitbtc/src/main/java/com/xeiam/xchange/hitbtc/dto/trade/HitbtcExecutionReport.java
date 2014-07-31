@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.hitbtc.dto.trade;
 
 import java.math.BigDecimal;
@@ -30,6 +9,7 @@ public class HitbtcExecutionReport {
   private final String orderId;
   private final String clientOrderId;
   private final String execReportType;
+  private final String orderRejectReason;
   private final String symbol;
   private final String side;
   private final long timestamp;
@@ -44,15 +24,16 @@ public class HitbtcExecutionReport {
   private final BigDecimal averagePrice;
 
   public HitbtcExecutionReport(@JsonProperty("orderId") String orderId, @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("execReportType") String execReportType,
-      @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("timestamp") long timestamp, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("type") String type, @JsonProperty("timeInForce") String timeInForce, @JsonProperty("lastQuantity") BigDecimal lastQuantity,
-      @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("leavesQuantity") BigDecimal leavesQuantity, @JsonProperty("cumQuantity") BigDecimal cumQuantity,
-      @JsonProperty("averagePrice") BigDecimal averagePrice) {
+      @JsonProperty("orderRejectReason") String orderRejectReason, @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("type") String type, @JsonProperty("timeInForce") String timeInForce,
+      @JsonProperty("lastQuantity") BigDecimal lastQuantity, @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("leavesQuantity") BigDecimal leavesQuantity,
+      @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("averagePrice") BigDecimal averagePrice) {
 
     super();
     this.orderId = orderId;
     this.clientOrderId = clientOrderId;
     this.execReportType = execReportType;
+    this.orderRejectReason = orderRejectReason;
     this.symbol = symbol;
     this.side = side;
     this.timestamp = timestamp;
@@ -80,6 +61,11 @@ public class HitbtcExecutionReport {
   public String getExecReportType() {
 
     return execReportType;
+  }
+
+  public String getOrderRejectReason() {
+
+    return orderRejectReason;
   }
 
   public String getSymbol() {
@@ -152,6 +138,8 @@ public class HitbtcExecutionReport {
     builder.append(clientOrderId);
     builder.append(", execReportType=");
     builder.append(execReportType);
+    builder.append(", orderRejectReason=");
+    builder.append(orderRejectReason);
     builder.append(", symbol=");
     builder.append(symbol);
     builder.append(", side=");

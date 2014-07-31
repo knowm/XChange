@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.cryptotrade;
 
 import java.math.BigDecimal;
@@ -31,6 +10,7 @@ import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicOrder;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
@@ -140,11 +120,39 @@ public final class CryptoTradeAdapters {
   public static Trades adaptTrades(CryptoTradeTrades cryptoTradeTrades) {
 
     List<Trade> tradeList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (CryptoTradeTrade cryptoTradeTrade : cryptoTradeTrades.getTrades()) {
+      long tradeId = cryptoTradeTrade.getId();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       Trade trade = adaptTrade(cryptoTradeTrade);
       tradeList.add(trade);
     }
 
-    return new Trades(tradeList, TradeSortType.SortByTimestamp);
+    return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
+
+  public static Trade adaptPublicTrade(CurrencyPair currencyPair, CryptoTradePublicTrade trade) {
+
+    OrderType orderType = adaptOrderType(trade.getType());
+    Date timestamp = new Date(trade.getTimestamp() * 1000);
+
+    return new Trade(orderType, trade.getOrderAmount(), currencyPair, trade.getRate(), timestamp, String.valueOf(trade.getId()));
+  }
+
+  public static Trades adaptPublicTradeHistory(CurrencyPair currencyPair, List<CryptoTradePublicTrade> publicTradeHistory) {
+
+    List<Trade> tradeList = new ArrayList<Trade>();
+    long lastTradeId = 0;
+    for (CryptoTradePublicTrade cryptoTradeTrade : publicTradeHistory) {
+      long tradeId = cryptoTradeTrade.getId();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
+      Trade trade = adaptPublicTrade(currencyPair, cryptoTradeTrade);
+      tradeList.add(trade);
+    }
+
+    return new Trades(tradeList, lastTradeId, TradeSortType.SortByID);
+  }
+
 }

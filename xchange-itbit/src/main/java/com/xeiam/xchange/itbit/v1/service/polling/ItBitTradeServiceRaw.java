@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
@@ -38,7 +17,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
@@ -52,9 +31,16 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public ItBitOrder[] getItBitOpenOrders() throws IOException {
 
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nextNonce(), "XBTUSD", "1", "1000", "open", walletId);
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, "XBTUSD", "1", "1000", "open", walletId);
 
     return orders;
+  }
+
+  public ItBitOrder getItBitOrder(String orderId) throws IOException {
+
+    ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, orderId);
+
+    return order;
   }
 
   public ItBitOrder placeItBitLimitOrder(LimitOrder limitOrder) throws IOException {
@@ -62,7 +48,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
 
     ItBitOrder postOrder =
-        itBit.postOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder
+        itBit.postOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder
             .getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
 
     return postOrder;
@@ -70,7 +56,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public void cancelItBitOrder(String orderId) throws IOException {
 
-    itBit.cancelOrder(signatureCreator, new Date().getTime(), nextNonce(), walletId, orderId);
+    itBit.cancelOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, orderId);
   }
 
   public ItBitOrder[] getItBitTradeHistory(Object... arguments) throws IOException {
@@ -85,7 +71,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
       currency = "XBTUSD";
     }
 
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nextNonce(), currency, "1", "1000", "filled", walletId);
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, currency, "1", "1000", "filled", walletId);
     return orders;
   }
 }

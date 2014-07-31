@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.examples.cryptotrade.marketdata;
 
 import java.io.IOException;
@@ -28,11 +7,13 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.utils.CertHelper;
 
@@ -56,6 +37,9 @@ public class CryptoTradeMarketDataDemo {
 
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook);
+
+    Trades publicTradeHistory = marketDataService.getTrades(CurrencyPair.BTC_USD, 1405805427);
+    System.out.println(publicTradeHistory);
   }
 
   private static void raw(CryptoTradeMarketDataServiceRaw marketDataService) throws IOException {
@@ -68,5 +52,8 @@ public class CryptoTradeMarketDataDemo {
 
     CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(CurrencyPair.BTC_USD);
     System.out.println(marketDepth);
+
+    List<CryptoTradePublicTrade> publicTradeHistory = marketDataService.getCryptoTradeTradeHistory(CurrencyPair.BTC_USD, 1405805427);
+    System.out.println(publicTradeHistory);
   }
 }

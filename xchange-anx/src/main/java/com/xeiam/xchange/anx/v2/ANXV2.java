@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.anx.v2;
 
 import java.io.IOException;
@@ -50,6 +29,8 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXGenericResponse;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXLagWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrderWrapper;
+import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOrderResultWrapper;
+import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResultWrapper;
 
 /**
  * @author timmolter
@@ -117,6 +98,58 @@ public interface ANXV2 {
       IOException;
 
   /**
+   * List of executed trades
+   *
+   * @param apiKey
+   * @param postBodySignatureCreator
+   * @param nonce
+   * @param from
+   * @param to
+   * @return
+   * @throws ANXException
+   * @throws IOException
+   */
+  @POST
+  @Path("money/trade/list")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  ANXTradeResultWrapper getExecutedTrades(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @FormParam("from") long from, @FormParam("to") long to) throws ANXException, IOException;
+
+  /**
+   * List of executed trades
+   *
+   * @param apiKey
+   * @param postBodySignatureCreator
+   * @param nonce
+   * @return
+   * @throws ANXException
+   * @throws IOException
+   */
+  @POST
+  @Path("money/trade/list")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  ANXTradeResultWrapper getExecutedTrades(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws ANXException,
+      IOException;
+
+  /**
+   * Status of the order
+   *
+   * @param apiKey
+   * @param postBodySignatureCreator
+   * @param nonce
+   * @param order
+   * @param type
+   * @return
+   * @throws ANXException
+   * @throws IOException
+   */
+  @POST
+  @Path("{tradeIdent}{currency}/money/order/result")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  ANXOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+      @FormParam("order") String order, @FormParam("type") String type) throws ANXException, IOException;
+
+  /**
    * @param postBodySignatureCreator
    * @param amount can be omitted to place market order
    */
@@ -130,7 +163,7 @@ public interface ANXV2 {
   /**
    * Note: I know it's weird to have BTCEUR hardcoded in the URL, but it really doesn't seems to matter. BTCUSD works too.
    * <p>
-   * 
+   *
    * @param apiKey
    * @param postBodySignatureCreator
    * @param nonce
@@ -145,7 +178,7 @@ public interface ANXV2 {
 
   /**
    * Returns the History of the selected wallet
-   * 
+   *
    * @param apiKey
    * @param postBodySignatureCreator
    * @param nonce

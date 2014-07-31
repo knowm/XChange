@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.cryptsy.dto.marketdata;
 
 import java.math.BigDecimal;
@@ -38,6 +17,7 @@ public class CryptsyPublicTrade {
   private final BigDecimal price;
   private final BigDecimal quantity;
   private final BigDecimal total;
+  private final String type;
 
   /**
    * Constructor
@@ -46,13 +26,14 @@ public class CryptsyPublicTrade {
    */
   @JsonCreator
   public CryptsyPublicTrade(@JsonProperty("id") long id, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("total") BigDecimal total) throws ParseException {
+      @JsonProperty("total") BigDecimal total, @JsonProperty("type") String type) throws ParseException {
 
     this.id = id;
     this.time = time == null ? null : CryptsyUtils.convertDateTime(time);
     this.price = price;
     this.quantity = quantity;
     this.total = total;
+    this.type = type;
   }
 
   public long getId() {
@@ -78,6 +59,11 @@ public class CryptsyPublicTrade {
   public BigDecimal getTotal() {
 
     return total;
+  }
+  
+  public String getType() {
+    
+    return type;
   }
 
   @Override

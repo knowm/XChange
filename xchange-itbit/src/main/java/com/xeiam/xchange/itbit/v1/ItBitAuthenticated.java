@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.itbit.v1;
 
 import java.io.IOException;
@@ -40,6 +19,7 @@ import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
+import si.mazi.rescu.ValueFactory;
 
 @Path("v1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -53,32 +33,46 @@ public interface ItBitAuthenticated {
   @GET
   @Path("wallets?userId={userId}")
   @Consumes(MediaType.APPLICATION_JSON)
-  ItBitAccountInfoReturn[] getInfo(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+  ItBitAccountInfoReturn[] getInfo(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
       @PathParam("userId") String userId) throws IOException;
+
+  @GET
+  @Path("wallets/{walletId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitAccountInfoReturn getWallet(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
+      @PathParam("walletId") String walletId) throws IOException;
 
   @GET
   @Path("wallets/{walletId}/orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  ItBitOrder[] getOrders(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+  ItBitOrder[] getOrders(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
       @QueryParam("instrument") String instrument, @QueryParam("page") String page, @QueryParam("perPage") String perPage, @QueryParam("status") String status, @PathParam("walletId") String walletId)
+       print resp
       throws IOException;
+
+  @GET
+  @Path("/{walletId}/orders/{orderId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitOrder getOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
+      @PathParam("walletId") String walletId, @PathParam("orderId") String orderId) throws IOException;
 
   @POST
   @Path("wallets/{walletId}/orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  ItBitOrder postOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+  ItBitOrder postOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
       @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request) throws IOException;
 
   /** Returns empty body, return object is always null */
   @DELETE
   @Path("wallets/{walletId}/orders/{orderId}")
   @Consumes(MediaType.APPLICATION_JSON)
-  Object cancelOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+  Object cancelOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
       @PathParam("walletId") String walletId, @PathParam("orderId") String orderId) throws IOException;
 
   @POST
   @Path("wallets/{walletId}/cryptocurrency_withdrawals")
   @Consumes(MediaType.APPLICATION_JSON)
-  ItBitOrder requestWithdrawal(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") int nonce,
+  ItBitOrder requestWithdrawal(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
       @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request) throws IOException;
+
 }

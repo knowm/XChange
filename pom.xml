@@ -82,6 +82,7 @@
 		<module>xchange-bitfinex</module>
 		<module>xchange-bitmarket</module>
 		<module>xchange-bitstamp</module>
+		<module>xchange-bittrex</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>
@@ -105,6 +106,7 @@
 		<module>xchange-lakebtc</module>
 		<module>xchange-mintpal</module>
 		<module>xchange-openexchangerates</module>
+		<module>xchange-poloniex</module>
 		<module>xchange-vaultofsatoshi</module>
 		<module>xchange-vircurex</module>
 	</modules>
@@ -319,20 +321,6 @@
 				</configuration>
 			</plugin>
 
-
-			<!-- for header in all .java files -->
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<version>1.10.b1</version>
-				<configuration>
-					<header>etc/header.txt</header>
-					<aggregate>true</aggregate>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 

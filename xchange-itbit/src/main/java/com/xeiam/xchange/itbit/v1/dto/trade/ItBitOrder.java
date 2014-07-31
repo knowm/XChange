@@ -17,12 +17,13 @@ public class ItBitOrder {
   private final BigDecimal amountFilled;
   private final BigDecimal price;
   private final BigDecimal amount;
+  private final BigDecimal volumeWeightedAveragePrice;
 
   public ItBitOrder(@JsonProperty("id") String id, @JsonProperty("walletId") String walletId, @JsonProperty("side") String side, @JsonProperty("instrument") String instrument,
       @JsonProperty("currency") String currency, @JsonProperty("type") String type, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amountFilled") BigDecimal amountFilled, @JsonProperty("createdTime") String createdTime, @JsonProperty("status") String status) {
+      @JsonProperty("amountFilled") BigDecimal amountFilled, @JsonProperty("volumeWeightedAveragePrice") BigDecimal volumeWeightedAveragePrice, @JsonProperty("createdTime") String createdTime,
+      @JsonProperty("status") String status) {
 
-	  
     this.id = id;
     this.walletId = walletId;
     this.side = side;
@@ -34,6 +35,7 @@ public class ItBitOrder {
     this.amountFilled = amountFilled;
     this.createdTime = createdTime;
     this.status = status;
+    this.volumeWeightedAveragePrice = volumeWeightedAveragePrice;
   }
 
   public String getId() {
@@ -91,6 +93,11 @@ public class ItBitOrder {
     return amount;
   }
 
+  public BigDecimal getVolumeWeightedAveragePrice() {
+
+    return volumeWeightedAveragePrice;
+  }
+
   @Override
   public String toString() {
 
@@ -117,6 +124,8 @@ public class ItBitOrder {
     builder.append(price);
     builder.append(", amount=");
     builder.append(amount);
+    builder.append(", volumeWeightedAveragePrice=");
+    builder.append(volumeWeightedAveragePrice);
     builder.append("]");
     return builder.toString();
   }

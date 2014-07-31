@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.cryptotrade.dto;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -35,6 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeMarketDataJsonTest;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrades;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTradeJsonTest;
@@ -160,7 +141,9 @@ public class CryptoTradeAdapterTest {
 
     Trades trades = CryptoTradeAdapters.adaptTrades(tradeHistory);
 
+    assertThat(trades.getlastID()).isEqualTo(17);
     assertThat(trades.getTrades()).hasSize(2);
+
     Trade trade = trades.getTrades().get(1);
     assertThat(trade.getPrice()).isEqualTo("128");
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
@@ -168,5 +151,31 @@ public class CryptoTradeAdapterTest {
     assertThat(trade.getTradableAmount()).isEqualTo("0.1");
     assertThat(trade.getId()).isEqualTo("17");
     assertThat(trade.getOrderId()).isEqualTo("1");
+  }
+
+  @Test
+  public void testAdaptPublicTrades() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = CryptoTradeMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CryptoTradePublicTrades publicTradeHistory = mapper.readValue(is, CryptoTradePublicTrades.class);
+
+    Trades trades = CryptoTradeAdapters.adaptPublicTradeHistory(CurrencyPair.BTC_USD, publicTradeHistory.getPublicTrades());
+
+    assertThat(trades.getlastID()).isEqualTo(399394);
+
+    List<Trade> tradeList = trades.getTrades();
+    assertThat(tradeList).hasSize(2);
+
+    Trade trade = tradeList.get(0);
+    assertThat(trade.getId()).isEqualTo("399328");
+    assertThat(trade.getTimestamp().getTime()).isEqualTo(1405856801000L);
+    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(trade.getType()).isEqualTo(OrderType.ASK);
+    assertThat(trade.getTradableAmount()).isEqualTo("0.08540439");
+    assertThat(trade.getPrice()).isEqualTo("618.19");
   }
 }
