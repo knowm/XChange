@@ -334,7 +334,7 @@ public class CryptsyAdapterTest {
 
     Collection<CurrencyPair> adaptedCurrencyPairs = CryptsyAdapters.adaptCurrencyPairs(cryptsyMarketData);
 
-    assertEquals(adaptedCurrencyPairs.size(), 185);
+    assertEquals(adaptedCurrencyPairs.size(), 238);
   }
 
   @SuppressWarnings("rawtypes")
