@@ -47,7 +47,6 @@ public interface ItBitAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitOrder[] getOrders(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
       @QueryParam("instrument") String instrument, @QueryParam("page") String page, @QueryParam("perPage") String perPage, @QueryParam("status") String status, @PathParam("walletId") String walletId)
-       print resp
       throws IOException;
 
   @GET
