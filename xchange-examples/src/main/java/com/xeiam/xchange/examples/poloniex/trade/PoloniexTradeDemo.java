@@ -47,9 +47,10 @@ public class PoloniexTradeDemo {
   private static void generic(PollingTradeService tradeService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
 
     System.out.println("----------GENERIC----------");
+
     System.out.println(tradeService.getTradeHistory(currencyPair));
 
-    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal("1")).setLimitPrice(xmrBuyRate).build();
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal(".01")).setLimitPrice(xmrBuyRate).build();
     String orderId = tradeService.placeLimitOrder(order);
     System.out.println("Placed order #" + orderId);
 
@@ -72,7 +73,7 @@ public class PoloniexTradeDemo {
 
   private static void raw(PoloniexTradeServiceRaw tradeService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
 
-    System.out.println("----------GENERIC----------");
+    System.out.println("------------RAW------------");
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair)));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal("1")).setLimitPrice(xmrBuyRate).build();

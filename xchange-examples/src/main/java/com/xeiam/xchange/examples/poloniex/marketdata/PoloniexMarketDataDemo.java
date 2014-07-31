@@ -33,25 +33,20 @@ public class PoloniexMarketDataDemo {
 
   private static void generic(PollingMarketDataService dataService) throws IOException {
 
+    System.out.println("----------GENERIC----------");
     System.out.println(dataService.getExchangeSymbols());
-
     System.out.println(dataService.getTicker(currencyPair));
-
     System.out.println(dataService.getOrderBook(currencyPair));
-
     System.out.println(dataService.getTrades(currencyPair));
   }
 
   private static void raw(PoloniexMarketDataServiceRaw dataService) throws IOException {
 
+    System.out.println("------------RAW------------");
     System.out.println(dataService.getExchangeSymbols());
-
     System.out.println(dataService.getPoloniexTicker(currencyPair));
-
     System.out.println(dataService.getPoloniexDepth(currencyPair));
-
     System.out.println(dataService.getPoloniexPublicTrades(currencyPair));
   }
 
 }
-

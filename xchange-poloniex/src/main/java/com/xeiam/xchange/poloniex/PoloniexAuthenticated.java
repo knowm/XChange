@@ -1,7 +1,6 @@
 package com.xeiam.xchange.poloniex;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 
 import javax.ws.rs.Consumes;
@@ -28,7 +27,7 @@ public interface PoloniexAuthenticated extends Poloniex {
 
   @POST
   @FormParam("command")
-  HashMap<String, BigDecimal> returnBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce);
+  HashMap<String, String> returnBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce);
 
   @POST
   @FormParam("command")
@@ -46,16 +45,16 @@ public interface PoloniexAuthenticated extends Poloniex {
 
   @POST
   @FormParam("command")
-  HashMap<String, Number> buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
+  HashMap<String, String> buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
       @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws IOException;
 
   @POST
   @FormParam("command")
-  HashMap<String, Number> sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
+  HashMap<String, String> sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
       @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws IOException;
 
   @POST
   @FormParam("command")
-  HashMap<String, Number> cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("orderNumber") String orderNumber,
+  HashMap<String, String> cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("orderNumber") String orderNumber,
       @FormParam("currencyPair") String currencyPair) throws IOException;
 }

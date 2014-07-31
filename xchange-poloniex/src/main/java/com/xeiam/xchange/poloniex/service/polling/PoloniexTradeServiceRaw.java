@@ -37,18 +37,28 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
 
   public String buy(LimitOrder limitOrder) throws IOException {
 
-    HashMap<String, Number> response =
+    HashMap<String, String> response =
         poloniex.buy(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
             .toPairString(limitOrder.getCurrencyPair()));
-    return response.get("orderNumber").toString();
+    if (response.containsKey("error")) {
+      throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
+    }
+    else {
+      return response.get("orderNumber").toString();
+    }
   }
 
   public String sell(LimitOrder limitOrder) throws IOException {
 
-    HashMap<String, Number> response =
+    HashMap<String, String> response =
         poloniex.sell(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
             .toPairString(limitOrder.getCurrencyPair()));
-    return response.get("orderNumber").toString();
+    if (response.containsKey("error")) {
+      throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
+    }
+    else {
+      return response.get("orderNumber").toString();
+    }
   }
 
   public boolean cancel(String orderId) throws IOException {
@@ -60,10 +70,16 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
     OpenOrders openOrders = PoloniexAdapters.adaptPoloniexOpenOrders(returnOpenOrders());
     for (LimitOrder order : openOrders.getOpenOrders()) {
       if (order.getId().equals(orderId)) {
-        HashMap<String, Number> response = poloniex.cancelOrder(apiKey, signatureCreator, String.valueOf(nextNonce()), orderId, PoloniexUtils.toPairString(order.getCurrencyPair()));
-        return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
+        HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, String.valueOf(nextNonce()), orderId, PoloniexUtils.toPairString(order.getCurrencyPair()));
+        if (response.containsKey("error")) {
+          throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
+        }
+        else {
+          return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
+        }
       }
     }
+
     throw new ExchangeException("Unable to find order #" + orderId);
 
   }

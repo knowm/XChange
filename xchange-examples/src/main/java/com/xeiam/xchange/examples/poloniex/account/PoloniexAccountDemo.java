@@ -29,14 +29,14 @@ public class PoloniexAccountDemo {
   }
 
   private static void generic(PollingAccountService accountService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    
+
     System.out.println("----------GENERIC----------");
     System.out.println(accountService.requestDepositAddress("BTC"));
     System.out.println(accountService.getAccountInfo());
   }
 
   private static void raw(PoloniexAccountServiceRaw accountService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    
+
     System.out.println("------------RAW------------");
     System.out.println(accountService.getDepositAddress("BTC"));
     System.out.println(accountService.getWallets());

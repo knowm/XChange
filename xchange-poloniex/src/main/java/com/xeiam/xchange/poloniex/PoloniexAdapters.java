@@ -101,12 +101,12 @@ public class PoloniexAdapters {
     return trade;
   }
 
-  public static List<Wallet> adaptPoloniexBalances(HashMap<String, BigDecimal> poloniexBalances) {
+  public static List<Wallet> adaptPoloniexBalances(HashMap<String, String> poloniexBalances) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
 
     for (String currency : poloniexBalances.keySet()) {
-      wallets.add(new Wallet(currency, poloniexBalances.get(currency)));
+      wallets.add(new Wallet(currency, new BigDecimal(poloniexBalances.get(currency))));
     }
 
     return wallets;
@@ -117,6 +117,7 @@ public class PoloniexAdapters {
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
     for (String pairString : poloniexOpenOrders.keySet()) {
       CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(pairString);
+
       for (PoloniexOpenOrder openOrder : poloniexOpenOrders.get(pairString)) {
 
         openOrders.add(adaptPoloniexOpenOrder(openOrder, currencyPair));
