@@ -44,7 +44,9 @@ public class PoloniexMarketDataDemo {
 
     System.out.println("------------RAW------------");
     System.out.println(dataService.getExchangeSymbols());
+    System.out.println(dataService.getAllPoloniexTickers());
     System.out.println(dataService.getPoloniexTicker(currencyPair));
+    System.out.println(dataService.getAllPoloniexDepths());
     System.out.println(dataService.getPoloniexDepth(currencyPair));
     System.out.println(dataService.getPoloniexPublicTrades(currencyPair));
   }

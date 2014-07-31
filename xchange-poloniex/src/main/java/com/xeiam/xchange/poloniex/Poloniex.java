@@ -6,6 +6,7 @@ package com.xeiam.xchange.poloniex;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,6 +27,9 @@ public interface Poloniex {
 
   @GET
   PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair) throws IOException;
+
+  @GET
+  Map<String, PoloniexDepth> getAllOrderBooks(@QueryParam("command") String command, @QueryParam("currencyPair") String all) throws IOException;
 
   @GET
   PoloniexPublicTrade[] getTrades(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair) throws IOException;
