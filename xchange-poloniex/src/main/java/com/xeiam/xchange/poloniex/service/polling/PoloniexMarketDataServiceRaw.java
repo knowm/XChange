@@ -2,6 +2,7 @@ package com.xeiam.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -32,6 +33,16 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     super(Poloniex.class, exchangeSpecification);
   }
 
+  public Map<String, PoloniexMarketData> getAllPoloniexTickers() throws IOException {
+
+    String command = "returnTicker";
+
+    Map<String, PoloniexMarketData> marketData = poloniex.getTicker(command);
+
+    return marketData;
+
+  }
+
   public PoloniexTicker getPoloniexTicker(CurrencyPair currencyPair) throws IOException {
 
     String command = "returnTicker";
@@ -52,6 +63,15 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
 
     PoloniexDepth depth = poloniex.getOrderBook(command, pairString);
     return depth;
+  }
+
+  public Map<String, PoloniexDepth> getAllPoloniexDepths() throws IOException {
+
+    String command = "returnOrderBook";
+    
+    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all");
+
+    return depths;
   }
 
   public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair) throws IOException {
