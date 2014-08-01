@@ -12,6 +12,7 @@ import java.util.TimeZone;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -20,6 +21,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountBalance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
+import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.utils.DateUtils;
@@ -38,6 +40,20 @@ public final class ItBitAdapters {
    */
   private ItBitAdapters() {
 
+  }
+
+  private static Date parseDate(String date) {
+    Date parse;
+    try {
+      /**
+       * "date" is sent with microsecond precision in UTC time. This is not supported by Java natively.
+       */
+      parse = dateFormat.parse(date.substring(0, 23) + 'Z');
+    } catch (ParseException e) {
+      return null;
+    }
+
+    return parse;
   }
 
   public static Trades adaptTrades(ItBitTrade[] trades, CurrencyPair currencyPair) {
@@ -134,20 +150,23 @@ public final class ItBitAdapters {
 
       OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
+      Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
-      Date parse;
-      try {
-        /**
-         * "createdTime" is sent with microsecond precision in UTC time. This is not supported by Java natively.
-         */
-        parse = dateFormat.parse(itBitOrder.getCreatedTime().substring(0, 23) + 'Z');
-      } catch (ParseException e) {
-        continue;
-      }
-
-      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), parse, itBitOrder.getId()));
+      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId()));
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  public static Ticker adaptTicker(ItBitTicker itBitTicker) {
+    BigDecimal bid = itBitTicker.getBid();
+    BigDecimal ask = itBitTicker.getAsk();
+    BigDecimal high = itBitTicker.getHighToday();
+    BigDecimal low = itBitTicker.getLowToday();
+    BigDecimal last = itBitTicker.getLastPrice();
+    BigDecimal volume = itBitTicker.getVolume24h();
+    Date timestamp = parseDate(itBitTicker.getTimestamp());    
+
+    return Ticker.TickerBuilder.newInstance().withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
   }
 }
