@@ -29,7 +29,7 @@ public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     ItBitTicker itBitTicker = getItBitTicker(currencyPair);
     
-    return ItBitAdapters.adaptTicker(itBitTicker);
+    return ItBitAdapters.adaptTicker(currencyPair, itBitTicker);
   }
 
   @Override
