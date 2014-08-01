@@ -43,6 +43,7 @@ public class PoloniexMarketDataDemo {
   private static void raw(PoloniexMarketDataServiceRaw dataService) throws IOException {
 
     System.out.println("------------RAW------------");
+    System.out.println(dataService.getPoloniexCurrencyInfo());
     System.out.println(dataService.getExchangeSymbols());
     System.out.println(dataService.getAllPoloniexTickers());
     System.out.println(dataService.getPoloniexTicker(currencyPair));
