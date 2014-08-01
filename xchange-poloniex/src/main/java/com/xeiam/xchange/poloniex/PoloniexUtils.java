@@ -3,6 +3,7 @@ package com.xeiam.xchange.poloniex;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
@@ -27,7 +28,9 @@ public class PoloniexUtils {
   public static Date stringToDate(String dateString) {
 
     try {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateString);
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+      return sdf.parse(dateString);
     } catch (ParseException e) {
       return new Date(0);
     }
