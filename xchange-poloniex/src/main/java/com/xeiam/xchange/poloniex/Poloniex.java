@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
@@ -22,6 +23,9 @@ import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Poloniex {
 
+  @GET
+  HashMap<String, PoloniexCurrencyInfo> getCurrencyInfo(@QueryParam("command") String command) throws IOException;
+  
   @GET
   HashMap<String, PoloniexMarketData> getTicker(@QueryParam("command") String command) throws IOException;
 

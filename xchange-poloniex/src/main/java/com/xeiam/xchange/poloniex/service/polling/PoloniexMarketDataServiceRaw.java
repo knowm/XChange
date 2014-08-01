@@ -8,6 +8,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.Poloniex;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
@@ -33,6 +34,16 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     super(Poloniex.class, exchangeSpecification);
   }
 
+  public Map<String, PoloniexCurrencyInfo> getPoloniexCurrencyInfo() throws IOException {
+
+    String command = "returnCurrencies";
+
+    Map<String, PoloniexCurrencyInfo> currencyInfo = poloniex.getCurrencyInfo(command);
+
+    return currencyInfo;
+
+  }
+  
   public Map<String, PoloniexMarketData> getAllPoloniexTickers() throws IOException {
 
     String command = "returnTicker";
