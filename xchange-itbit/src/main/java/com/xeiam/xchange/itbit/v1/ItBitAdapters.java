@@ -158,7 +158,7 @@ public final class ItBitAdapters {
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static Ticker adaptTicker(ItBitTicker itBitTicker) {
+  public static Ticker adaptTicker(CurrencyPair currencyPair, ItBitTicker itBitTicker) {
     BigDecimal bid = itBitTicker.getBid();
     BigDecimal ask = itBitTicker.getAsk();
     BigDecimal high = itBitTicker.getHighToday();
@@ -167,6 +167,6 @@ public final class ItBitAdapters {
     BigDecimal volume = itBitTicker.getVolume24h();
     Date timestamp = parseDate(itBitTicker.getTimestamp());    
 
-    return Ticker.TickerBuilder.newInstance().withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
   }
 }
