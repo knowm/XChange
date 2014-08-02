@@ -34,7 +34,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCChinaMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -67,7 +67,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
   /**
    * Get the trades recently performed by the exchange.
-   * 
+   *
    * @param currencyPair market symbol.
    * @param args 2 arguments:
    *          <ol>
@@ -81,12 +81,16 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     final String market = BTCChinaAdapters.adaptMarket(currencyPair);
     final Number since = args.length > 0 ? (Number) args[0] : null;
     final Number limit = args.length > 1 ? (Number) args[1] : null;
+    final String sinceType = args.length > 2 ? (String) args[2] : null;
 
-    log.debug("market: {}, since: {}, limit: {}", market, since, limit);
+    log.debug("market: {}, since: {}, limit: {}, sinceType: {}", market, since, limit, sinceType);
 
     final List<BTCChinaTrade> btcChinaTrades;
 
-    if (since != null && limit != null) {
+    if (since != null && limit != null && sinceType != null) {
+      btcChinaTrades = getBTCChinaTrades(market, since.longValue(), limit.intValue(), sinceType);
+    }
+    else if (since != null && limit != null) {
       btcChinaTrades = getBTCChinaTrades(market, since.longValue(), limit.intValue());
     }
     else if (since != null) {

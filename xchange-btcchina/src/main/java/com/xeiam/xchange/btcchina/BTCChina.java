@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -107,6 +108,11 @@ public interface BTCChina {
   @GET
   @Path("data/historydata")
   public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
+
+  @GET
+  @Path("data/historydata")
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
+      @QueryParam("sincetype") @DefaultValue("id") String sincetype) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
