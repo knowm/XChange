@@ -2,11 +2,11 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.ValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -14,11 +14,10 @@ import com.xeiam.xchange.itbit.v1.ItBitAuthenticated;
 import com.xeiam.xchange.itbit.v1.service.ItBitHmacPostBodyDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-import si.mazi.rescu.ValueFactory;
 
 public class ItBitBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected static final ValueFactory<Long> valueFactory = new ValueFactory() {
+  protected static final ValueFactory<Long> valueFactory = new ValueFactory<Long>() {
 
       private final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
       private final AtomicLong lastNonce = new AtomicLong((System.currentTimeMillis() - START_MILLIS) / 250L);

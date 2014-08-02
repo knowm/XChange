@@ -172,17 +172,9 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
       return this;
     }
 
-    public LimitOrder build() throws IOException {
+    public LimitOrder build() {
 
-      if (limitPrice == null) {
-        throw new IOException("Failed to build LimitOrder: limitPrice must be set!");
-      }
-      else if (tradableAmount == null) {
-        throw new IOException("Failed to build LimitOrder: tradableAmount must be set!");
-      }
-      else {
-        return new LimitOrder(this);
-      }
+      return new LimitOrder(this);
     }
 
   }

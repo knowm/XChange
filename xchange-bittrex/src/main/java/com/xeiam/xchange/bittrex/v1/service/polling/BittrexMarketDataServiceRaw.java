@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bittrex.v1.Bittrex;
+import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrenciesResponse;
+import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrency;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepthResponse;
+import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
+import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbolsResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickerResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickersResponse;
@@ -34,6 +38,32 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
     super(Bittrex.class, exchangeSpecification);
   }
 
+  public BittrexCurrency[] getBittrexCurrencies() throws IOException {
+
+    BittrexCurrenciesResponse response = bittrex.getCurrencies();
+
+    if (response.isSuccess()) {
+      return response.getCurrencies();
+    }
+    else {
+      throw new ExchangeException(response.getMessage());
+    }
+
+  }
+  
+  public ArrayList<BittrexSymbol> getBittrexSymbols() throws IOException {
+
+    BittrexSymbolsResponse response = bittrex.getSymbols();
+
+    if (response.isSuccess()) {
+      return response.getSymbols();
+    }
+    else {
+      throw new ExchangeException(response.getMessage());
+    }
+
+  }
+  
   public BittrexTicker getBittrexTicker(String pair) throws IOException {
 
     BittrexTickerResponse response = bittrex.getTicker(pair);

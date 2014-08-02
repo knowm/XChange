@@ -44,7 +44,7 @@ public class ItBitExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("ItBit");
     exchangeSpecification.setExchangeDescription("ItBit Bitcoin Exchange");
-    exchangeSpecification.setExchangeSpecificParametersItem("authHost", " https://beta-api.itbit.com");
+    exchangeSpecification.setExchangeSpecificParametersItem("authHost", " https://api.itbit.com");
 
     return exchangeSpecification;
   }
