@@ -38,13 +38,12 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsRespons
 import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
+ * Implementation of the trade service for BTCChina.
+ * <ul>
+ * <li>Provides access to trade functions</li>
+ * </ul>
+ * 
  * @author ObsessiveOrange
- *         <p>
- *         Implementation of the trade service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to trade functions</li>
- *         </ul>
  */
 public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina> {
 

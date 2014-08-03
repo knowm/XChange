@@ -12,13 +12,12 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
 /**
+ * Implementation of the account data service for BTCChina.
+ * <ul>
+ * <li>Provides access to account data</li>
+ * </ul>
+ *
  * @author ObsessiveOrange
- *         <p>
- *         Implementation of the account data service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to account data</li>
- *         </ul>
  */
 public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements PollingAccountService {
 

@@ -28,7 +28,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * Various adapters for converting from BTCChina DTOs to XChange DTOs
+ * Various adapters for converting from BTCChina DTOs to XChange DTOs.
  */
 public final class BTCChinaAdapters {
 
@@ -79,15 +79,19 @@ public final class BTCChinaAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
+  public static Trades adaptTrades(List<BTCChinaTrade> btcchinaTrades, CurrencyPair currencyPair) {
+
+    return adaptTrades(btcchinaTrades.toArray(new BTCChinaTrade[0]), currencyPair);
+  }
+
   /**
-   * Adapts a BTCChinaTrade[] to a Trades Object
+   * Adapts a BTCChinaTrade[] to a Trades Object.
    * 
    * @param btcchinaTrades The BTCChina trade data
    * @return The trades
    */
-  public static Trades adaptTrades(List<BTCChinaTrade> btcchinaTrades, CurrencyPair currencyPair) {
-
-    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.size());
+  public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
+    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
     long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       long tradeId = btcchinaTrade.getTid();

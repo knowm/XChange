@@ -13,13 +13,12 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 
 /**
+ * Implementation of the market data service for BTCChina.
+ * <ul>
+ * <li>Provides access to various market data values</li>
+ * </ul>
+ *
  * @author ObsessiveOrange
- *         <p>
- *         Implementation of the market data service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to various market data values</li>
- *         </ul>
  */
 public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTCChina> {
 
@@ -48,24 +47,72 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
     return btcChina.getFullDepth(market);
   }
 
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String)} instead.
+   */
+  @Deprecated
   public List<BTCChinaTrade> getBTCChinaTrades(String market) throws IOException {
 
     return btcChina.getTrades(market);
   }
 
+  /**
+   * @see BTCChina#getHistoryData(String)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market) throws IOException {
+
+    return btcChina.getHistoryData(market);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, int)} instead.
+   */
+  @Deprecated
   public List<BTCChinaTrade> getBTCChinaTrades(String market, int limit) throws IOException {
 
     return btcChina.getTrades(market, limit);
   }
 
+  /**
+   * @see BTCChina#getHistoryData(String, int)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, int limit) throws IOException {
+
+    return btcChina.getHistoryData(market, limit);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long)} instead.
+   */
+  @Deprecated
   public List<BTCChinaTrade> getBTCChinaTrades(String market, long since) throws IOException {
 
     return btcChina.getTrades(market, since);
   }
 
+  /**
+   * @see BTCChina#getHistoryData(String, long)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since) throws IOException {
+
+    return btcChina.getHistoryData(market, since);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int)} instead.
+   */
+  @Deprecated
   public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit) throws IOException {
 
     return btcChina.getTrades(market, since, limit);
+  }
+
+  /**
+   * @see BTCChina#getHistoryData(String, long, int)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since, int limit) throws IOException {
+
+    return btcChina.getHistoryData(market, since, limit);
   }
 
 }
