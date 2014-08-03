@@ -15,7 +15,7 @@ public class MintPalTicker {
   private final String exchange;
   private final BigDecimal lastPrice;
   private final BigDecimal yesterdayPrice;
-  private final BigDecimal change;
+  private final String change;
   private final BigDecimal high24Hour;
   private final BigDecimal low24Hour;
   private final BigDecimal volume24Hour;
@@ -23,7 +23,7 @@ public class MintPalTicker {
   private final BigDecimal topAsk;
 
   public MintPalTicker(@JsonProperty("market_id") int marketId, @JsonProperty("coin") String coin, @JsonProperty("code") String code, @JsonProperty("exchange") String exchange,
-      @JsonProperty("last_price") BigDecimal lastPrice, @JsonProperty("yesterday_price") BigDecimal yesterdayPrice, @JsonProperty("change") BigDecimal change,
+      @JsonProperty("last_price") BigDecimal lastPrice, @JsonProperty("yesterday_price") BigDecimal yesterdayPrice, @JsonProperty("change") String change,
       @JsonProperty("24hhigh") BigDecimal high24Hour, @JsonProperty("24hlow") BigDecimal low24Hour, @JsonProperty("24hvol") BigDecimal volume24Hour, @JsonProperty("top_bid") BigDecimal topBid,
       @JsonProperty("top_ask") BigDecimal topAsk) {
 
@@ -71,7 +71,7 @@ public class MintPalTicker {
     return yesterdayPrice;
   }
 
-  public BigDecimal getChange() {
+  public String getChange() {
 
     return change;
   }
