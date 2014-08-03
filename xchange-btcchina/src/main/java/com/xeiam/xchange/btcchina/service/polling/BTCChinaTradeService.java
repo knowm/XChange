@@ -16,7 +16,6 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -25,13 +24,12 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
+ * Implementation of the trade service for BTCChina.
+ * <ul>
+ * <li>Provides access to trade functions</li>
+ * </ul>
+ *
  * @author ObsessiveOrange
- *         <p>
- *         Implementation of the trade service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to trade functions</li>
- *         </ul>
  */
 public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements PollingTradeService {
 
@@ -58,9 +56,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
       BTCChinaGetOrdersResponse response = getBTCChinaOrders(true, BTCChinaGetOrdersRequest.ALL_MARKET, null, limitOrders.size());
 
       page = new ArrayList<LimitOrder>();
-      page.addAll(BTCChinaAdapters.adaptOrders(response.getResult().getBtcCnyOrders(), CurrencyPair.BTC_CNY));
-      page.addAll(BTCChinaAdapters.adaptOrders(response.getResult().getLtcCnyOrders(), CurrencyPair.LTC_CNY));
-      page.addAll(BTCChinaAdapters.adaptOrders(response.getResult().getLtcBtcOrders(), CurrencyPair.LTC_BTC));
+      page.addAll(BTCChinaAdapters.adaptOrders(response.getResult(), null));
 
       limitOrders.addAll(page);
     } while (page.size() >= BTCChinaGetOrdersRequest.DEFAULT_LIMIT);

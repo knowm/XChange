@@ -1,7 +1,6 @@
 package com.xeiam.xchange.examples.btcchina.marketdata;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -66,20 +65,20 @@ public class BTCChinaTradesDemo {
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest trade data for BTC/CNY
-    List<BTCChinaTrade> trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTrades("ltcbtc");
+    BTCChinaTrade[] trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaHistoryData(BTCChinaExchange.DEFAULT_MARKET);
 
     for (BTCChinaTrade trade : trades) {
       System.out.println(trade.toString());
     }
-    System.out.println("NumTrades=" + trades.size());
+    System.out.println("NumTrades=" + trades.length);
 
     // Get the offset trade data for BTC/CNY
-    trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTrades("ltcbtc", 122235L);
+    trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaHistoryData(BTCChinaExchange.DEFAULT_MARKET, 122235L);
 
     for (BTCChinaTrade trade : trades) {
       System.out.println(trade.toString());
     }
-    System.out.println("NumTrades=" + trades.size());
+    System.out.println("NumTrades=" + trades.length);
 
   }
 }

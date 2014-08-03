@@ -20,13 +20,12 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
+ * Implementation of the market data service for BTCChina.
+ * <ul>
+ * <li>Provides access to various market data values</li>
+ * </ul>
+ *
  * @author ObsessiveOrange
- *         <p>
- *         Implementation of the market data service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to various market data values</li>
- *         </ul>
  */
 public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw implements PollingMarketDataService {
 
@@ -85,22 +84,22 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
     log.debug("market: {}, since: {}, limit: {}, sinceType: {}", market, since, limit, sinceType);
 
-    final List<BTCChinaTrade> btcChinaTrades;
+    final BTCChinaTrade[] btcChinaTrades;
 
     if (since != null && limit != null && sinceType != null) {
-      btcChinaTrades = getBTCChinaTrades(market, since.longValue(), limit.intValue(), sinceType);
+      btcChinaTrades = getBTCChinaHistoryData(market, since.longValue(), limit.intValue(), sinceType);
     }
     else if (since != null && limit != null) {
-      btcChinaTrades = getBTCChinaTrades(market, since.longValue(), limit.intValue());
+      btcChinaTrades = getBTCChinaHistoryData(market, since.longValue(), limit.intValue());
     }
     else if (since != null) {
-      btcChinaTrades = getBTCChinaTrades(market, since.longValue());
+      btcChinaTrades = getBTCChinaHistoryData(market, since.longValue());
     }
     else if (limit != null) {
-      btcChinaTrades = getBTCChinaTrades(market, limit.intValue());
+      btcChinaTrades = getBTCChinaHistoryData(market, limit.intValue());
     }
     else {
-      btcChinaTrades = getBTCChinaTrades(market);
+      btcChinaTrades = getBTCChinaHistoryData(market);
     }
 
     // Adapt to XChange DTOs

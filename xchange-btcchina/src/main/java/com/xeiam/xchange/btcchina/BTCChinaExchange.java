@@ -17,6 +17,7 @@ import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
  */
 public class BTCChinaExchange extends BaseExchange implements Exchange {
 
+  public static final String ALL_MARKET = "ALL";
   public static final String DEFAULT_MARKET = "BTCCNY";
 
   /**

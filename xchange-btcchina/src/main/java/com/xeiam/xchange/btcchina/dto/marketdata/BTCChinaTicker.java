@@ -1,8 +1,14 @@
 package com.xeiam.xchange.btcchina.dto.marketdata;
 
+import java.util.LinkedHashMap;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTCChinaTicker {
+public class BTCChinaTicker extends LinkedHashMap<String, BTCChinaTickerObject> {
+
+  private static final long serialVersionUID = 2014080301L;
 
   private BTCChinaTickerObject ticker;
 
@@ -24,6 +30,6 @@ public class BTCChinaTicker {
   @Override
   public String toString() {
 
-    return "BTCChinaTicker [ticker=" + ticker.toString() + "]";
+    return ToStringBuilder.reflectionToString(this);
   }
 }

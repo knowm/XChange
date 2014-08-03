@@ -20,13 +20,12 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsRes
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
 
 /**
+ * Implementation of the account data service for BTCChina.
+ * <ul>
+ * <li>Provides access to account data</li>
+ * </ul>
+ *
  * @author ObsessiveOrange
- *         <p>
- *         Implementation of the account data service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to account data</li>
- *         </ul>
  */
 public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChina> {
 

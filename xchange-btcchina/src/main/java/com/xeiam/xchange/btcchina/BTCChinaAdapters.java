@@ -13,6 +13,7 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -28,9 +29,12 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * Various adapters for converting from BTCChina DTOs to XChange DTOs
+ * Various adapters for converting from BTCChina DTOs to XChange DTOs.
  */
 public final class BTCChinaAdapters {
+
+  private static final int TICKER_MARKET_KEY_PREFIX_LENGTH = "ticker_".length();
+  private static final int ORDERS_MARKET_KEY_PREFIX_LENGTH = "order_".length();
 
   /**
    * private Constructor
@@ -79,15 +83,19 @@ public final class BTCChinaAdapters {
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
+  public static Trades adaptTrades(List<BTCChinaTrade> btcchinaTrades, CurrencyPair currencyPair) {
+
+    return adaptTrades(btcchinaTrades.toArray(new BTCChinaTrade[0]), currencyPair);
+  }
+
   /**
-   * Adapts a BTCChinaTrade[] to a Trades Object
+   * Adapts a BTCChinaTrade[] to a Trades Object.
    * 
    * @param btcchinaTrades The BTCChina trade data
    * @return The trades
    */
-  public static Trades adaptTrades(List<BTCChinaTrade> btcchinaTrades, CurrencyPair currencyPair) {
-
-    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.size());
+  public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
+    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
     long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       long tradeId = btcchinaTrade.getTid();
@@ -180,13 +188,37 @@ public final class BTCChinaAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+  public static List<LimitOrder> adaptOrders(BTCChinaOrder[] orders, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
 
     for (BTCChinaOrder order : orders) {
       LimitOrder limitOrder = adaptLimitOrder(order, currencyPair);
       limitOrders.add(limitOrder);
+    }
+
+    return limitOrders;
+  }
+
+  /**
+   * @deprecated Use {@link #adaptOrders(BTCChinaOrder[], CurrencyPair)} instead.
+   */
+  @Deprecated
+  public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+    return adaptOrders(orders.toArray(new BTCChinaOrder[0]), currencyPair);
+  }
+
+  public static List<LimitOrder> adaptOrders(BTCChinaOrders orders, CurrencyPair specifiedCurrencyPair) {
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+
+    BTCChinaOrder[] certainCurrencyPairOrders = orders.getOrdersArray();
+    if (certainCurrencyPairOrders != null) {
+      limitOrders.addAll(adaptOrders(certainCurrencyPairOrders, specifiedCurrencyPair));
+    }
+
+    for (Map.Entry<String, BTCChinaOrder[]> entry : orders.entrySet()) {
+      CurrencyPair currencyPair = adaptCurrencyPairFromOrdersMarketKey(entry.getKey());
+      limitOrders.addAll(adaptOrders(entry.getValue(), currencyPair));
     }
 
     return limitOrders;
@@ -283,7 +315,12 @@ public final class BTCChinaAdapters {
 
   public static CurrencyPair adaptCurrencyPairFromTickerMarketKey(String market) {
 
-    return adaptCurrencyPair(market.substring(7));
+    return adaptCurrencyPair(market.substring(TICKER_MARKET_KEY_PREFIX_LENGTH));
+  }
+
+  public static CurrencyPair adaptCurrencyPairFromOrdersMarketKey(String market) {
+
+    return adaptCurrencyPair(market.substring(ORDERS_MARKET_KEY_PREFIX_LENGTH));
   }
 
   public static CurrencyPair adaptCurrencyPair(String market) {

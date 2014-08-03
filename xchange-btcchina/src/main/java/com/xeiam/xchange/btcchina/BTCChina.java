@@ -56,6 +56,10 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsRespons
 @Produces(MediaType.APPLICATION_JSON)
 public interface BTCChina {
 
+  /**
+   * @deprecated Use {@link #getTicker(String)} instead.
+   */
+  @Deprecated
   @GET
   @Path("data/ticker")
   public Map<String, BTCChinaTickerObject> getTickers(@QueryParam("market") String market) throws IOException;
@@ -70,10 +74,32 @@ public interface BTCChina {
 
   /**
    * Returns last 100 trade records.
+   * @deprecated Use {@link #getHistoryData(String)} instead.
    */
   @GET
   @Path("data/historydata")
+  @Deprecated
   public List<BTCChinaTrade> getTrades(@QueryParam("market") String market) throws IOException;
+
+  /**
+   * Returns last 100 trade records.
+   */
+  @GET
+  @Path("data/historydata")
+  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market) throws IOException;
+
+  /**
+   * Returns last {@code limit} trade records.
+   *
+   * @param market
+   * @param limit the range of limit is [0,5000].
+   * @throws IOException
+   * @deprecated Use {@link #getHistoryData(String, int) instead.
+   */
+  @Deprecated
+  @GET
+  @Path("data/historydata")
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * Returns last {@code limit} trade records.
@@ -84,7 +110,20 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
+  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
+
+  /**
+   * Returns 100 trade records starting from id {@code since}.
+   *
+   * @param market
+   * @param since the starting trade ID(exclusive).
+   * @throws IOException
+   * @deprecated Use {@link #getHistoryData(String, long)} instead.
+   */
+  @Deprecated
+  @GET
+  @Path("data/historydata")
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
 
   /**
    * Returns 100 trade records starting from id {@code since}.
@@ -95,7 +134,21 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
+  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
+
+  /**
+   * Returns {@code limit} trades starting from id {@code since}
+   *
+   * @param market
+   * @param since the starting trade ID(exclusive).
+   * @param limit the range of limit is [0,5000].
+   * @throws IOException
+   * @deprecated
+   */
+  @Deprecated
+  @GET
+  @Path("data/historydata")
+  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * Returns {@code limit} trades starting from id {@code since}
@@ -107,11 +160,20 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
+  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
 
+  /**
+   * @deprecated Use {@link #getHistoryData(String, long, int, String)} instead.
+   */
+  @Deprecated
   @GET
   @Path("data/historydata")
   public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
+      @QueryParam("sincetype") @DefaultValue("id") String sincetype) throws IOException;
+
+  @GET
+  @Path("data/historydata")
+  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
       @QueryParam("sincetype") @DefaultValue("id") String sincetype) throws IOException;
 
   @POST
