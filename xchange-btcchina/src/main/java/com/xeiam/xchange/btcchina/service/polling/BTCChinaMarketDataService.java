@@ -58,10 +58,10 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
     BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook(BTCChinaAdapters.adaptMarket(currencyPair));
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsks(), currencyPair, OrderType.ASK);
-    List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBids(), currencyPair, OrderType.BID);
+    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsksArray(), currencyPair, OrderType.ASK);
+    List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBidsArray(), currencyPair, OrderType.BID);
 
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(BTCChinaAdapters.adaptDate(btcChinaDepth.getDate()), asks, bids);
   }
 
   /**

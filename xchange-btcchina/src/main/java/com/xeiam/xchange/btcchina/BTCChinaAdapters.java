@@ -48,17 +48,26 @@ public final class BTCChinaAdapters {
   }
 
   /**
-   * Adapts a List of btcchinaOrders to a List of LimitOrders
+   * Adapts an array of btcchinaOrders to a List of LimitOrders
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
+  public static List<LimitOrder> adaptOrders(BigDecimal[][] btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(btcchinaOrders.size());
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(btcchinaOrders.length);
 
     for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
       limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currencyPair, orderType));
     }
 
     return limitOrders;
+  }
+
+  /**
+   * Adapts a List of btcchinaOrders to a List of LimitOrders
+   * @deprecated Use {@link #adaptOrders(BigDecimal[][], CurrencyPair, OrderType)} instead.
+   */
+  @Deprecated
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
+    return adaptOrders(btcchinaOrders.toArray(new BigDecimal[0][0]), currencyPair, orderType);
   }
 
   /**
