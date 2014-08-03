@@ -12,12 +12,15 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaMarketDepth;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -162,6 +165,27 @@ public final class BTCChinaAdapters {
     else {
       return null;
     }
+  }
+
+  public static OrderBook adaptOrderBook(BTCChinaMarketDepth marketDepth, CurrencyPair currencyPair) {
+
+    List<LimitOrder> asks = adaptLimitOrders(marketDepth.getAsks(), OrderType.ASK, currencyPair);
+    List<LimitOrder> bids = adaptLimitOrders(marketDepth.getBids(), OrderType.BID, currencyPair);
+    return new OrderBook(DateUtils.fromMillisUtc(marketDepth.getDate() * 1000L), asks, bids);
+  }
+
+  public static List<LimitOrder> adaptLimitOrders(BTCChinaMarketDepthOrder[] orders, OrderType orderType, CurrencyPair currencyPair) {
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    for (BTCChinaMarketDepthOrder order : orders) {
+      limitOrders.add(adaptLimitOrder(order, orderType, currencyPair));
+    }
+    return limitOrders;
+  }
+
+  public static LimitOrder adaptLimitOrder(BTCChinaMarketDepthOrder order, OrderType orderType, CurrencyPair currencyPair) {
+
+    return new LimitOrder.Builder(orderType, currencyPair).setLimitPrice(order.getPrice()).setTradableAmount(order.getAmount()).build();
   }
 
   /**
