@@ -89,7 +89,7 @@ public final class BTCChinaAdapters {
 
     BigDecimal amount = btcChinaTrade.getAmount();
     BigDecimal price = btcChinaTrade.getPrice();
-    Date date = DateUtils.fromMillisUtc(btcChinaTrade.getDate() * 1000L);
+    Date date = adaptDate(btcChinaTrade.getDate());
     OrderType orderType = btcChinaTrade.getOrderType().equals("sell") ? OrderType.ASK : OrderType.BID;
 
     final String tradeId = String.valueOf(btcChinaTrade.getTid());
@@ -183,7 +183,7 @@ public final class BTCChinaAdapters {
 
     List<LimitOrder> asks = adaptLimitOrders(marketDepth.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = adaptLimitOrders(marketDepth.getBids(), OrderType.BID, currencyPair);
-    return new OrderBook(DateUtils.fromMillisUtc(marketDepth.getDate() * 1000L), asks, bids);
+    return new OrderBook(adaptDate(marketDepth.getDate()), asks, bids);
   }
 
   public static List<LimitOrder> adaptLimitOrders(BTCChinaMarketDepthOrder[] orders, OrderType orderType, CurrencyPair currencyPair) {
@@ -279,7 +279,7 @@ public final class BTCChinaAdapters {
     OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = order.getAmount();
     String id = Long.toString(order.getId());
-    Date date = new Date(order.getDate() * 1000);
+    Date date = adaptDate(order.getDate());
     BigDecimal price = order.getPrice();
 
     return new LimitOrder(orderType, amount, currencyPair, id, date, price);
