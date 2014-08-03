@@ -2,6 +2,8 @@ package com.xeiam.xchange.btcchina.dto.marketdata;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaTicker extends LinkedHashMap<String, BTCChinaTickerObject> {
@@ -28,6 +30,6 @@ public class BTCChinaTicker extends LinkedHashMap<String, BTCChinaTickerObject> 
   @Override
   public String toString() {
 
-    return "BTCChinaTicker [ticker=" + ticker.toString() + "]";
+    return ToStringBuilder.reflectionToString(this);
   }
 }
