@@ -88,14 +88,14 @@ public class BTCChinaTradeDemo {
     long result = -1;
     for (int i = 0; i < openOrders.getResult().getOrders().size(); i++) {
       BTCChinaOrder order = openOrders.getResult().getOrders().get(i);
-      long orderId = order.getId();
+      int orderId = order.getId();
       if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice()) == 0 && orderId > result) {
         result = orderId;
       }
     }
 
     // Cancel the added order
-    BTCChinaBooleanResponse cancelResult = ((BTCChinaTradeServiceRaw) tradeService).cancelBTCChinaOrder(limitOrderReturnValue.getId());
+    BTCChinaBooleanResponse cancelResult = ((BTCChinaTradeServiceRaw) tradeService).cancelBTCChinaOrder(limitOrderReturnValue.getResult().intValue());
     System.out.println("Canceling returned " + cancelResult);
 
     printOpenOrders();
