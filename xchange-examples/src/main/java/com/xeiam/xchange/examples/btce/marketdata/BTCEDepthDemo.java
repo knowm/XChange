@@ -15,7 +15,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Order Book at BTC-E
  */
-public class DepthDemo {
+public class BTCEDepthDemo {
 
   public static void main(String[] args) throws IOException {
 

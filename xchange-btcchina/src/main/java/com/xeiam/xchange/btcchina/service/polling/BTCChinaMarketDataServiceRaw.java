@@ -24,7 +24,7 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
@@ -113,6 +113,23 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
   public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since, int limit) throws IOException {
 
     return btcChina.getHistoryData(market, since, limit);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int, String)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit, String sinceType) throws IOException {
+
+    return btcChina.getTrades(market, since, limit, sinceType);
+  }
+
+  /**
+   * @see BTCChina#getHistoryData(String, long, int)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since, int limit, String sinceType) throws IOException {
+
+    return btcChina.getHistoryData(market, since, limit, sinceType);
   }
 
 }

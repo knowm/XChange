@@ -198,6 +198,12 @@
             <artifactId>xchange-mintpal</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange Poloniex exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-poloniex</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

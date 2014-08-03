@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -13,6 +12,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
+import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements PollingMarketDataService {
@@ -27,8 +27,9 @@ public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    ItBitTicker itBitTicker = getItBitTicker(currencyPair);
+    
+    return ItBitAdapters.adaptTicker(currencyPair, itBitTicker);
   }
 
   @Override
