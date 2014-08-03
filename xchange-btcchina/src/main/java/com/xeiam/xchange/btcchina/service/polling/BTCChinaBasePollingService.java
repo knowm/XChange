@@ -13,6 +13,7 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
@@ -51,7 +52,7 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
     if (currencyPairs.isEmpty()) {
-      for (String tickerKey : btcChina.getTickers("all").keySet()) {
+      for (String tickerKey : btcChina.getTicker(BTCChinaExchange.ALL_MARKET).keySet()) {
         currencyPairs.add(BTCChinaAdapters.adaptCurrencyPairFromTickerMarketKey(tickerKey));
       }
     }

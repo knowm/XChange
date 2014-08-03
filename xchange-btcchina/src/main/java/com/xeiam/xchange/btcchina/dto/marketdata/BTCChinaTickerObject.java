@@ -12,6 +12,7 @@ public class BTCChinaTickerObject {
   private final BigDecimal low;
   private final BigDecimal sell;
   private final BigDecimal vol;
+  private final long date;
 
   /**
    * Constructor
@@ -24,7 +25,7 @@ public class BTCChinaTickerObject {
    * @param last
    */
   public BTCChinaTickerObject(@JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last) {
+      @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last, @JsonProperty("date") long date) {
 
     this.high = high;
     this.low = low;
@@ -32,6 +33,7 @@ public class BTCChinaTickerObject {
     this.last = last;
     this.buy = buy;
     this.sell = sell;
+    this.date = date;
   }
 
   public BigDecimal getBuy() {
@@ -64,10 +66,15 @@ public class BTCChinaTickerObject {
     return this.vol;
   }
 
+  public long getDate() {
+
+    return date;
+  }
+
   @Override
   public String toString() {
 
-    return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + "]";
+    return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + ", date=" + date + "]";
 
   }
 }

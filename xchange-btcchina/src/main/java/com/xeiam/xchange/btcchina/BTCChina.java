@@ -55,6 +55,10 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsRespons
 @Produces(MediaType.APPLICATION_JSON)
 public interface BTCChina {
 
+  /**
+   * @deprecated Use {@link #getTicker(String)} instead.
+   */
+  @Deprecated
   @GET
   @Path("data/ticker")
   public Map<String, BTCChinaTickerObject> getTickers(@QueryParam("market") String market) throws IOException;

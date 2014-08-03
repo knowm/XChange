@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
@@ -34,7 +35,7 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
 
   public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {
 
-    return btcChina.getTickers("all");
+    return btcChina.getTicker(BTCChinaExchange.ALL_MARKET);
   }
 
   public BTCChinaTicker getBTCChinaTicker(String market) throws IOException {
