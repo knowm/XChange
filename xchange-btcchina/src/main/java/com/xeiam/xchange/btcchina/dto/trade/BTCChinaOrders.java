@@ -1,58 +1,82 @@
 package com.xeiam.xchange.btcchina.dto.trade;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author David Yam
  */
-public class BTCChinaOrders {
+public class BTCChinaOrders extends LinkedHashMap<String, BTCChinaOrder[]> {
 
-  private final List<BTCChinaOrder> orders;
-  private final List<BTCChinaOrder> btcCnyOrders;
-  private final List<BTCChinaOrder> ltcCnyOrders;
-  private final List<BTCChinaOrder> ltcBtcOrders;
+  private static final long serialVersionUID = 2014080301L;
+
+  private final BTCChinaOrder[] orders;
+  private final long date;
 
   /**
    * @param orders
-   * @param btcCnyOrders
-   * @param ltcCnyOrders
-   * @param ltcBtcOrders
    */
-  public BTCChinaOrders(@JsonProperty("order") List<BTCChinaOrder> orders, @JsonProperty("order_btccny") List<BTCChinaOrder> btcCnyOrders,
-      @JsonProperty("order_ltccny") List<BTCChinaOrder> ltcCnyOrders, @JsonProperty("order_ltcbtc") List<BTCChinaOrder> ltcBtcOrders) {
+  public BTCChinaOrders(@JsonProperty("order") BTCChinaOrder[] orders, @JsonProperty("date") long date) {
 
     this.orders = orders;
-    this.btcCnyOrders = btcCnyOrders;
-    this.ltcCnyOrders = ltcCnyOrders;
-    this.ltcBtcOrders = ltcBtcOrders;
+    this.date = date;
   }
 
+  /**
+   * @deprecated Use {@link #getOrdersArray()} instead.
+   */
+  @Deprecated
   public List<BTCChinaOrder> getOrders() {
+
+    return orders == null ? null : Arrays.asList(orders);
+  }
+
+  public BTCChinaOrder[] getOrdersArray() {
 
     return orders;
   }
 
+  /**
+   * @deprecated Use {@link #get(Object)} instead.
+   */
+  @Deprecated
   public List<BTCChinaOrder> getBtcCnyOrders() {
 
-    return btcCnyOrders;
+    return Arrays.asList(get("order_btccny"));
   }
 
+  /**
+   * @deprecated Use {@link #get(Object)} instead.
+   */
+  @Deprecated
   public List<BTCChinaOrder> getLtcCnyOrders() {
 
-    return ltcCnyOrders;
+    return Arrays.asList(get("order_ltccny"));
   }
 
+  /**
+   * @deprecated Use {@link #get(Object)} instead.
+   */
+  @Deprecated
   public List<BTCChinaOrder> getLtcBtcOrders() {
 
-    return ltcBtcOrders;
+    return Arrays.asList(get("order_ltcbtc"));
+  }
+
+  public long getDate() {
+
+    return date;
   }
 
   @Override
   public String toString() {
 
-    return String.format("BTCChinaOrders{orders=%s, btcCnyOrders=%s, ltcCnyorders=%s, ltcBtcOrders=%s}", orders, btcCnyOrders, ltcCnyOrders, ltcBtcOrders);
+    return ToStringBuilder.reflectionToString(this);
   }
 
 }
