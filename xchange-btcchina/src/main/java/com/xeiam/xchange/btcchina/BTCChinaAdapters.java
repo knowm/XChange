@@ -11,6 +11,7 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaMarketDepth;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
@@ -114,14 +115,16 @@ public final class BTCChinaAdapters {
    */
   public static Ticker adaptTicker(BTCChinaTicker btcChinaTicker, CurrencyPair currencyPair) {
 
-    BigDecimal last = btcChinaTicker.getTicker().getLast();
-    BigDecimal high = btcChinaTicker.getTicker().getHigh();
-    BigDecimal low = btcChinaTicker.getTicker().getLow();
-    BigDecimal buy = btcChinaTicker.getTicker().getBuy();
-    BigDecimal sell = btcChinaTicker.getTicker().getSell();
-    BigDecimal volume = btcChinaTicker.getTicker().getVol();
+    BTCChinaTickerObject ticker = btcChinaTicker.getTicker();
+    BigDecimal last = ticker.getLast();
+    BigDecimal high = ticker.getHigh();
+    BigDecimal low = ticker.getLow();
+    BigDecimal buy = ticker.getBuy();
+    BigDecimal sell = ticker.getSell();
+    BigDecimal volume = ticker.getVol();
+    Date date = adaptDate(ticker.getDate());
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).withTimestamp(date).build();
   }
 
   /**
@@ -309,7 +312,7 @@ public final class BTCChinaAdapters {
     }
 
     final BigDecimal price = money.divide(amount, scale, RoundingMode.HALF_EVEN);
-    final Date date = DateUtils.fromMillisUtc(transaction.getDate() * 1000L);
+    final Date date = adaptDate(transaction.getDate());
     final String tradeId = String.valueOf(transaction.getId());
 
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
@@ -351,4 +354,10 @@ public final class BTCChinaAdapters {
 
     return new CurrencyPair(market.substring(0, 3), market.substring(3));
   }
+
+  public static Date adaptDate(long date) {
+
+    return DateUtils.fromMillisUtc(date * 1000L);
+  }
+
 }
