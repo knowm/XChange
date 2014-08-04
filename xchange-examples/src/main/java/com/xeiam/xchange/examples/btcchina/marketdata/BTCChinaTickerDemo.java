@@ -40,6 +40,8 @@ public class BTCChinaTickerDemo {
     // Get the latest ticker data showing BTC to CNY
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_LTC);
 
+    System.out.println("Date: " + ticker.getTimestamp());
+
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -53,6 +55,8 @@ public class BTCChinaTickerDemo {
 
     // Get the latest ticker data showing BTC to CNY
     BTCChinaTicker ticker = marketDataServiceRaw.getBTCChinaTicker("ltccny");
+
+    System.out.println("Date: " + ticker.getTicker().getDate());
 
     System.out.println("Last: " + ticker.getTicker().getLast().toString());
     System.out.println("Volume: " + ticker.getTicker().getVol().toString());
