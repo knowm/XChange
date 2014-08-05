@@ -2,10 +2,10 @@ package com.xeiam.xchange.vaultofsatoshi;
 
 import java.io.IOException;
 
+import javax.annotation.Nullable;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -23,12 +23,14 @@ import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
 public interface VaultOfSatoshi {
 
   @GET
-  @Path("ticker?order_currency={orderCurrency}&payment_currency={paymentCurrency}")
-  public VosResponse<VosTicker> getTicker(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;
+  @Path("ticker")
+  public VosResponse<VosTicker> getTicker(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency) throws IOException;
 
   @GET
-  @Path("orderbook?order_currency={orderCurrency}&payment_currency={paymentCurrency}&count=100&round=8&group_orders=0")
-  public VosResponse<VosDepth> getFullDepth(@PathParam("orderCurrency") String orderCurrency, @PathParam("paymentCurrency") String paymentCurrency) throws IOException;
+  @Path("orderbook")
+  public VosResponse<VosDepth> getFullDepth(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency,
+      @Nullable @QueryParam("round") @DefaultValue("2") int round, @Nullable @QueryParam("count") @DefaultValue("20") int count,
+      @Nullable @QueryParam("group_orders") @DefaultValue("1") int group_orders) throws IOException;
 
   @GET
   @Path("recent_transactions")

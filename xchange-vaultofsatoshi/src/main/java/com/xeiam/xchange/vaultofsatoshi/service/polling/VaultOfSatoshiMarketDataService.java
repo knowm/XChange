@@ -45,8 +45,24 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
+    Integer round = 2;
+
+    Integer count = 100;
+
+    Integer groupOrders = 1;
+
+    if (args.length > 0) {
+      round = ((Number) args[0]).intValue();
+      if (args.length > 1) {
+        count = ((Number) args[1]).intValue();
+        if (args.length > 2) {
+          groupOrders = ((Number) args[2]).intValue();
+        }
+      }
+    }
+
     // Request data
-    VosDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair);
+    VosDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair, round, count, groupOrders);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(vaultOfSatoshiDepth.getAsks(), currencyPair, "ask", "");
@@ -59,7 +75,7 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     Long sinceId = null;
-    int count = 100;
+    Integer count = null;
 
     if (args.length > 0) {
       Object arg0 = args[0];

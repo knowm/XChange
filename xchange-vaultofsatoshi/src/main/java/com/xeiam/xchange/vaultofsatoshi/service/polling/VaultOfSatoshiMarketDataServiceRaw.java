@@ -43,12 +43,11 @@ public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBasePollin
     return vosTicker;
   }
 
-  public VosDepth getVosOrderBook(CurrencyPair pair) throws IOException {
+  public VosDepth getVosOrderBook(CurrencyPair pair, int round, int count, int groupOrders) throws IOException {
 
     // Request data
-    VosDepth vosDepth = vaultOfSatoshi.getFullDepth(pair.baseSymbol, pair.counterSymbol).getData();
+    return vaultOfSatoshi.getFullDepth(pair.baseSymbol, pair.counterSymbol, round, count, groupOrders).getData();
 
-    return vosDepth;
   }
 
   public VosTrade[] getVosTrades(CurrencyPair pair) throws IOException {

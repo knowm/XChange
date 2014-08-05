@@ -18,7 +18,6 @@ import com.xeiam.xchange.vaultofsatoshi.service.polling.VaultOfSatoshiMarketData
  */
 public class VoSTradesDemo {
 
-  // Use the factory to get the VirtEx exchange API using default settings
   static Exchange vos = ExchangeFactory.INSTANCE.createExchange(VaultOfSatoshiExchange.class.getName());
 
   // Interested in the public polling market data feed (no authentication)
@@ -27,7 +26,7 @@ public class VoSTradesDemo {
   public static void main(String[] args) throws IOException {
 
     generic();
-    // raw();
+    raw();
   }
 
   public static void generic() throws IOException {
