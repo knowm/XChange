@@ -1,7 +1,6 @@
 package com.xeiam.xchange.vaultofsatoshi.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -26,7 +25,7 @@ public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBasePollin
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public VaultOfSatoshiMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
@@ -52,18 +51,18 @@ public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBasePollin
     return vosDepth;
   }
 
-  public List<VosTrade> getVosTrades(CurrencyPair pair) throws IOException {
+  public VosTrade[] getVosTrades(CurrencyPair pair) throws IOException {
 
     // Request data
-    List<VosTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, null, 100).getData();
+    VosTrade[] vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, null, 100).getData();
 
     return vosTrades;
   }
 
-  public List<VosTrade> getVosTrades(CurrencyPair pair, Long sinceId, int count) throws IOException {
+  public VosTrade[] getVosTrades(CurrencyPair pair, Long sinceId, int count) throws IOException {
 
     // Request data
-    List<VosTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, sinceId, count).getData();
+    VosTrade[] vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, sinceId, count).getData();
 
     return vosTrades;
   }

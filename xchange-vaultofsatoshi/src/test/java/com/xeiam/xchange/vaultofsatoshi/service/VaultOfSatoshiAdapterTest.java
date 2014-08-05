@@ -5,7 +5,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -20,9 +19,9 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshiAdapters;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosDepth;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTicker;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
 import com.xeiam.xchange.vaultofsatoshi.service.marketdata.VaultOfSatoshiDepthJSONTest;
 import com.xeiam.xchange.vaultofsatoshi.service.marketdata.VaultOfSatoshiTickerJSONTest;
 import com.xeiam.xchange.vaultofsatoshi.service.marketdata.VaultOfSatoshiTradesJSONTest;
@@ -63,9 +62,9 @@ public class VaultOfSatoshiAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     JavaType type = mapper.getTypeFactory().constructParametricType(VosResponse.class, VosTrade[].class);
-    VosResponse<VosTrade[]>  vosTrades = mapper.readValue(is, type);
+    VosResponse<VosTrade[]> vosTrades = mapper.readValue(is, type);
 
-    Trades trades = VaultOfSatoshiAdapters.adaptTrades(Arrays.asList(vosTrades.getData()), CurrencyPair.BTC_USD);
+    Trades trades = VaultOfSatoshiAdapters.adaptTrades(vosTrades.getData(), CurrencyPair.BTC_USD);
     assertThat(trades.getTrades().size()).isEqualTo(2);
 
     // Verify all fields filled
@@ -85,7 +84,7 @@ public class VaultOfSatoshiAdapterTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     JavaType type = mapper.getTypeFactory().constructParametricType(VosResponse.class, VosTicker.class);
-    VosResponse<VosTicker>  VaultOfSatoshiTicker = mapper.readValue(is, type);
+    VosResponse<VosTicker> VaultOfSatoshiTicker = mapper.readValue(is, type);
 
     Ticker ticker = VaultOfSatoshiAdapters.adaptTicker(VaultOfSatoshiTicker.getData(), CurrencyPair.BTC_USD);
     System.out.println(ticker.toString());

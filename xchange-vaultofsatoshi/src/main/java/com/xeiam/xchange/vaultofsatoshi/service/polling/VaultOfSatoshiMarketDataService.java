@@ -27,7 +27,7 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public VaultOfSatoshiMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -80,7 +80,7 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
       }
     }
     // Request data
-    List<VosTrade> vosTrades = getVosTrades(currencyPair, sinceId, count);
+    VosTrade[] vosTrades = getVosTrades(currencyPair, sinceId, count);
 
     // Adapt to XChange DTOs
     return VaultOfSatoshiAdapters.adaptTrades(vosTrades, currencyPair);

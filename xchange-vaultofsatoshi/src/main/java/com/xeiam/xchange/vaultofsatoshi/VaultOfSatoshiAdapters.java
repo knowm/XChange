@@ -20,9 +20,9 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.vaultofsatoshi.dto.account.VosAccount;
 import com.xeiam.xchange.vaultofsatoshi.dto.account.VosWallet;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosOrder;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTicker;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosOrder;
 import com.xeiam.xchange.vaultofsatoshi.dto.trade.VosTradeOrder;
 
 /**
@@ -39,7 +39,7 @@ public final class VaultOfSatoshiAdapters {
 
   /**
    * Adapts a vosOrder to a LimitOrder
-   * 
+   *
    * @param amount
    * @param price
    * @param pair
@@ -57,7 +57,7 @@ public final class VaultOfSatoshiAdapters {
 
   /**
    * Adapts a List of vosOrders to a List of LimitOrders
-   * 
+   *
    * @param vosOrders
    * @param currency
    * @param orderType
@@ -68,15 +68,16 @@ public final class VaultOfSatoshiAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (VosOrder vosOrder : vosOrders)
+    for (VosOrder vosOrder : vosOrders) {
       limitOrders.add(adaptOrder(vosOrder, pair, orderType, id));
+    }
 
     return limitOrders;
   }
 
   /**
    * Adapts a VaultOfSatoshiTrade to a Trade Object
-   * 
+   *
    * @param vosTrade A VaultOfSatoshi trade
    * @return The XChange Trade
    */
@@ -85,24 +86,25 @@ public final class VaultOfSatoshiAdapters {
     BigDecimal amount = vosTrade.getUnitsTraded().getValue();
     Date date = DateUtils.fromMillisUtc(vosTrade.getTimestamp() / 1000L);
     final String tradeId = String.valueOf(vosTrade.getTransactionId());
-    
+
     return new Trade(null, amount, currencyPair, vosTrade.getPrice().getValue(), date, tradeId);
   }
 
   /**
-   * Adapts a VaultOfSatoshiTrade[] to a Trades Object
-   * 
-   * @param vosTrades The VaultOfSatoshi trade data
+   * Adapts a VosTrade[] to a Trades Object
+   *
+   * @param vosTrades The VosTrades trade data
    * @return The trades
    */
-  public static Trades adaptTrades(List<VosTrade> vosTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(VosTrade[] vosTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
     long lastTradeId = 0;
     for (VosTrade vosTrade : vosTrades) {
       long tradeId = vosTrade.getTransactionId();
-      if (tradeId > lastTradeId)
+      if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
+      }
       tradesList.add(adaptTrade(vosTrade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
@@ -110,7 +112,7 @@ public final class VaultOfSatoshiAdapters {
 
   /**
    * Adapts a VaultOfSatoshiTicker to a Ticker Object
-   * 
+   *
    * @param vosTicker
    * @return
    */
@@ -123,36 +125,36 @@ public final class VaultOfSatoshiAdapters {
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
   }
-  
+
   public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
 
-	    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
-	  }
+    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+  }
 
-	public static AccountInfo adaptAccountInfo(VosAccount account, String userName) {
-		
-	    List<Wallet> wallets = new ArrayList<Wallet>();
-	    
-	    for (Entry<String, VosWallet> entry : account.getWallets().getVosMap().entrySet()){
-	    	wallets.add(new Wallet(entry.getKey(), entry.getValue().getBalance().getValue()));
-	   	}
+  public static AccountInfo adaptAccountInfo(VosAccount account, String userName) {
 
-	    return new AccountInfo("" + account.getAccount_id(), account.getTrade_fee().getVosMap().get("BTC").getValue(), wallets);
-	}
+    List<Wallet> wallets = new ArrayList<Wallet>();
 
-	public static Trades adaptTradeHistory(VosTradeOrder[] vosUserTransactions) {
-		
-		List<Trade> trades = new ArrayList<Trade>();
-		for(VosTradeOrder order : vosUserTransactions){
-			
-			OrderType orderType = order.getType() == "bid" ? OrderType.BID : OrderType.ASK;
-			CurrencyPair currPair = new CurrencyPair(order.getOrder_currency(), order.getPayment_currency());
-			
-			trades.add(new Trade(orderType, order.getUnits().getValue(), currPair, order.getPrice().getValue(), DateUtils.fromMillisUtc(order.getDate_completed()/1000L), String.valueOf(order.getOrder_id())));
-		}
-		
-		return new Trades(trades, TradeSortType.SortByTimestamp);
-	}
+    for (Entry<String, VosWallet> entry : account.getWallets().getVosMap().entrySet()) {
+      wallets.add(new Wallet(entry.getKey(), entry.getValue().getBalance().getValue()));
+    }
 
+    return new AccountInfo("" + account.getAccount_id(), account.getTrade_fee().getVosMap().get("BTC").getValue(), wallets);
+  }
+
+  public static Trades adaptTradeHistory(VosTradeOrder[] vosUserTransactions) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    for (VosTradeOrder order : vosUserTransactions) {
+
+      OrderType orderType = order.getType() == "bid" ? OrderType.BID : OrderType.ASK;
+      CurrencyPair currPair = new CurrencyPair(order.getOrder_currency(), order.getPayment_currency());
+
+      trades.add(new Trade(orderType, order.getUnits().getValue(), currPair, order.getPrice().getValue(), DateUtils.fromMillisUtc(order.getDate_completed() / 1000L), String.valueOf(order
+          .getOrder_id())));
+    }
+
+    return new Trades(trades, TradeSortType.SortByTimestamp);
+  }
 
 }

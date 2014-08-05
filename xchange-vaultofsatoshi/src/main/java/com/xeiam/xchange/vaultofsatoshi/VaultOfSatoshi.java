@@ -1,8 +1,8 @@
 package com.xeiam.xchange.vaultofsatoshi;
 
 import java.io.IOException;
-import java.util.List;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,14 +11,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosDepth;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTicker;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
 
 /**
  * @author Michael Lagacé
  */
-
 @Path("public")
 @Produces(MediaType.APPLICATION_JSON)
 public interface VaultOfSatoshi {
@@ -33,7 +32,7 @@ public interface VaultOfSatoshi {
 
   @GET
   @Path("recent_transactions")
-  public VosResponse<List<VosTrade>> getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency, @QueryParam("since_id") Long sinceId,
-      @QueryParam("count") int count) throws IOException;
+  public VosResponse<VosTrade[]> getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency, @QueryParam("since_id") Long sinceId,
+      @QueryParam("count") @DefaultValue("100") int count) throws IOException;
 
 }
