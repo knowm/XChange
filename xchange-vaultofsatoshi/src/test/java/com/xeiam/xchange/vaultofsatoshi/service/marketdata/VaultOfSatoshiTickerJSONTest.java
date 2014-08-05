@@ -8,8 +8,10 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.TickerWrapper;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTicker;
 
 /**
  * Test VaultOfSatoshiTicker JSON parsing
@@ -24,13 +26,14 @@ public class VaultOfSatoshiTickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    TickerWrapper VaultOfSatoshiTicker = mapper.readValue(is, TickerWrapper.class);
+    JavaType type = mapper.getTypeFactory().constructParametricType(VosResponse.class, VosTicker.class);
+    VosResponse<VosTicker> VaultOfSatoshiTicker = mapper.readValue(is, type);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(VaultOfSatoshiTicker.getTicker().getLast()).isEqualTo(new BigDecimal("684.00000000"));
-    assertThat(VaultOfSatoshiTicker.getTicker().getHigh()).isEqualTo(new BigDecimal("686.50000000"));
-    assertThat(VaultOfSatoshiTicker.getTicker().getLow()).isEqualTo(new BigDecimal("601.00000000"));
-    assertThat(VaultOfSatoshiTicker.getTicker().getVolume()).isEqualTo(new BigDecimal("29.32450256"));
+    assertThat(VaultOfSatoshiTicker.getData().getLast()).isEqualTo(new BigDecimal("684.00000000"));
+    assertThat(VaultOfSatoshiTicker.getData().getHigh()).isEqualTo(new BigDecimal("686.50000000"));
+    assertThat(VaultOfSatoshiTicker.getData().getLow()).isEqualTo(new BigDecimal("601.00000000"));
+    assertThat(VaultOfSatoshiTicker.getData().getVolume()).isEqualTo(new BigDecimal("29.32450256"));
   }
 
 }

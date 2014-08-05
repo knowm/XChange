@@ -12,8 +12,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshiAdapters;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiDepth;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTrade;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosDepth;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
 
 /**
  * <p>
@@ -46,7 +46,7 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-    VaultOfSatoshiDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair);
+    VosDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(vaultOfSatoshiDepth.getAsks(), currencyPair, "ask", "");
@@ -80,7 +80,7 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
       }
     }
     // Request data
-    List<VaultOfSatoshiTrade> vosTrades = getVosTrades(currencyPair, sinceId, count);
+    List<VosTrade> vosTrades = getVosTrades(currencyPair, sinceId, count);
 
     // Adapt to XChange DTOs
     return VaultOfSatoshiAdapters.adaptTrades(vosTrades, currencyPair);

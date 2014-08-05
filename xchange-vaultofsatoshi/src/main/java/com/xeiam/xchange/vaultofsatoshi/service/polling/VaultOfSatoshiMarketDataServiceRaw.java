@@ -8,9 +8,9 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshi;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiDepth;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTicker;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTrade;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosDepth;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTicker;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
 
 /**
  * <p>
@@ -35,35 +35,35 @@ public class VaultOfSatoshiMarketDataServiceRaw extends VaultOfSatoshiBasePollin
     this.vaultOfSatoshi = RestProxyFactory.createProxy(VaultOfSatoshi.class, exchangeSpecification.getSslUri());
   }
 
-  public VaultOfSatoshiTicker getVosTicker(CurrencyPair pair) throws IOException {
+  public VosTicker getVosTicker(CurrencyPair pair) throws IOException {
 
     // Request data
-    VaultOfSatoshiTicker vosTicker = vaultOfSatoshi.getTicker(pair.baseSymbol, pair.counterSymbol).getTicker();
+    VosTicker vosTicker = vaultOfSatoshi.getTicker(pair.baseSymbol, pair.counterSymbol).getData();
 
     // Adapt to XChange DTOs
     return vosTicker;
   }
 
-  public VaultOfSatoshiDepth getVosOrderBook(CurrencyPair pair) throws IOException {
+  public VosDepth getVosOrderBook(CurrencyPair pair) throws IOException {
 
     // Request data
-    VaultOfSatoshiDepth vosDepth = vaultOfSatoshi.getFullDepth(pair.baseSymbol, pair.counterSymbol).getDepth();
+    VosDepth vosDepth = vaultOfSatoshi.getFullDepth(pair.baseSymbol, pair.counterSymbol).getData();
 
     return vosDepth;
   }
 
-  public List<VaultOfSatoshiTrade> getVosTrades(CurrencyPair pair) throws IOException {
+  public List<VosTrade> getVosTrades(CurrencyPair pair) throws IOException {
 
     // Request data
-    List<VaultOfSatoshiTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, null, 100).getTrades();
+    List<VosTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, null, 100).getData();
 
     return vosTrades;
   }
 
-  public List<VaultOfSatoshiTrade> getVosTrades(CurrencyPair pair, Long sinceId, int count) throws IOException {
+  public List<VosTrade> getVosTrades(CurrencyPair pair, Long sinceId, int count) throws IOException {
 
     // Request data
-    List<VaultOfSatoshiTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, sinceId, count).getTrades();
+    List<VosTrade> vosTrades = vaultOfSatoshi.getTrades(pair.baseSymbol, pair.counterSymbol, sinceId, count).getData();
 
     return vosTrades;
   }

@@ -3,7 +3,9 @@ package com.xeiam.xchange.vaultofsatoshi;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.vaultofsatoshi.service.polling.VaultOfSatoshiAccountService;
 import com.xeiam.xchange.vaultofsatoshi.service.polling.VaultOfSatoshiMarketDataService;
+import com.xeiam.xchange.vaultofsatoshi.service.polling.VaultOfSatoshiTradeService;
 
 /**
  * <p>
@@ -14,20 +16,6 @@ import com.xeiam.xchange.vaultofsatoshi.service.polling.VaultOfSatoshiMarketData
  * </ul>
  */
 public class VaultOfSatoshiExchange extends BaseExchange implements Exchange {
-
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public VaultOfSatoshiExchange() {
-
-  }
-
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new VaultOfSatoshiMarketDataService(exchangeSpecification);
-  }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -41,4 +29,14 @@ public class VaultOfSatoshiExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+  
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+    this.pollingMarketDataService = new VaultOfSatoshiMarketDataService(exchangeSpecification);
+    this.pollingTradeService = new VaultOfSatoshiTradeService(exchangeSpecification);
+    this.pollingAccountService = new VaultOfSatoshiAccountService(exchangeSpecification);
+  }
+  
 }

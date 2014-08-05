@@ -19,6 +19,13 @@ public final class VosCurrency {
     this.value = value;
     this.value_int = value_int;
   }
+  
+  public VosCurrency(BigDecimal value) {
+
+	    this.precision = value.scale();
+	    this.value = value;
+	    this.value_int = value.unscaledValue().longValue();
+	  }
 
   public int getPrecision() {
 
@@ -35,4 +42,12 @@ public final class VosCurrency {
     return value_int;
   }
 
+@Override
+public String toString() {
+	return "VosCurrency [precision=" + precision + ", value=" + value
+			+ ", value_int=" + value_int + "]";
+}
+
+  
+  
 }

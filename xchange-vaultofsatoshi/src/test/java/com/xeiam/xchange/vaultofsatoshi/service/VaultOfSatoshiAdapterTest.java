@@ -5,10 +5,12 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -17,9 +19,10 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshiAdapters;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.DepthWrapper;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.TickerWrapper;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.TradesWrapper;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosDepth;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTicker;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
 import com.xeiam.xchange.vaultofsatoshi.service.marketdata.VaultOfSatoshiDepthJSONTest;
 import com.xeiam.xchange.vaultofsatoshi.service.marketdata.VaultOfSatoshiTickerJSONTest;
 import com.xeiam.xchange.vaultofsatoshi.service.marketdata.VaultOfSatoshiTradesJSONTest;
@@ -37,9 +40,10 @@ public class VaultOfSatoshiAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    DepthWrapper VaultOfSatoshiDepth = mapper.readValue(is, DepthWrapper.class);
+    JavaType type = mapper.getTypeFactory().constructParametricType(VosResponse.class, VosDepth.class);
+    VosResponse<VosDepth> VaultOfSatoshiDepth = mapper.readValue(is, type);
 
-    List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(VaultOfSatoshiDepth.getDepth().getAsks(), new CurrencyPair("BTC", "USD"), "ask", "");
+    List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(VaultOfSatoshiDepth.getData().getAsks(), new CurrencyPair("BTC", "USD"), "ask", "");
 
     // Verify all fields filled
     assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(682.00);
@@ -58,9 +62,10 @@ public class VaultOfSatoshiAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    TradesWrapper vosTrades = mapper.readValue(is, TradesWrapper.class);
+    JavaType type = mapper.getTypeFactory().constructParametricType(VosResponse.class, VosTrade[].class);
+    VosResponse<VosTrade[]>  vosTrades = mapper.readValue(is, type);
 
-    Trades trades = VaultOfSatoshiAdapters.adaptTrades(vosTrades.getTrades(), CurrencyPair.BTC_USD);
+    Trades trades = VaultOfSatoshiAdapters.adaptTrades(Arrays.asList(vosTrades.getData()), CurrencyPair.BTC_USD);
     assertThat(trades.getTrades().size()).isEqualTo(2);
 
     // Verify all fields filled
@@ -79,9 +84,10 @@ public class VaultOfSatoshiAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    TickerWrapper VaultOfSatoshiTicker = mapper.readValue(is, TickerWrapper.class);
+    JavaType type = mapper.getTypeFactory().constructParametricType(VosResponse.class, VosTicker.class);
+    VosResponse<VosTicker>  VaultOfSatoshiTicker = mapper.readValue(is, type);
 
-    Ticker ticker = VaultOfSatoshiAdapters.adaptTicker(VaultOfSatoshiTicker.getTicker(), CurrencyPair.BTC_USD);
+    Ticker ticker = VaultOfSatoshiAdapters.adaptTicker(VaultOfSatoshiTicker.getData(), CurrencyPair.BTC_USD);
     System.out.println(ticker.toString());
 
     assertThat(ticker.getLast().toString()).isEqualTo("684.00000000");
