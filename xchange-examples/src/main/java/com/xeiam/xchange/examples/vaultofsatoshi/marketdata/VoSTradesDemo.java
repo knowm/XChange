@@ -39,7 +39,7 @@ public class VoSTradesDemo {
     System.out.println("lastID=" + trades.getlastID());
 
     // Get the latest trade data for BTC/CNY
-    trades = marketDataService.getTrades(CurrencyPair.BTC_CAD, 350105);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_CAD, 100, 350105);
 
     System.out.println(trades.toString());
     System.out.println("NumTrades=" + trades.getTrades().size());

@@ -2,7 +2,6 @@ package com.xeiam.xchange.vaultofsatoshi;
 
 import java.io.IOException;
 
-import javax.annotation.Nullable;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -29,12 +28,16 @@ public interface VaultOfSatoshi {
   @GET
   @Path("orderbook")
   public VosResponse<VosDepth> getFullDepth(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency,
-      @Nullable @QueryParam("round") @DefaultValue("2") int round, @Nullable @QueryParam("count") @DefaultValue("20") int count,
-      @Nullable @QueryParam("group_orders") @DefaultValue("1") int group_orders) throws IOException;
+      @QueryParam("round") @DefaultValue("2") int round, @QueryParam("count") @DefaultValue("20") int count, @QueryParam("group_orders") @DefaultValue("1") int group_orders) throws IOException;
 
   @GET
   @Path("recent_transactions")
-  public VosResponse<VosTrade[]> getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency, @QueryParam("since_id") Long sinceId,
+  public VosResponse<VosTrade[]> getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency,
+      @QueryParam("count") @DefaultValue("100") int count, @QueryParam("since_id") Long sinceId) throws IOException;
+
+  @GET
+  @Path("recent_transactions")
+  public VosResponse<VosTrade[]> getTrades(@QueryParam("order_currency") String orderCurrency, @QueryParam("payment_currency") String paymentCurrency,
       @QueryParam("count") @DefaultValue("100") int count) throws IOException;
 
 }
