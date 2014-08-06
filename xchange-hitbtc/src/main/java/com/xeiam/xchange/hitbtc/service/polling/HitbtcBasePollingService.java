@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import si.mazi.rescu.NonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -22,17 +23,17 @@ import si.mazi.rescu.ValueFactory;
  */
 public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
 
-    protected static final ValueFactory<Long> valueFactory = new ValueFactory<Long>() {
-        @Override
-        public Long createValue() {
-            return System.currentTimeMillis();
-        }
-
-        @Override
-        public String toString() {
-            return createValue() + "";
-        } 
-    };
+  /*
+   * Workaround for bug reported here https://github.com/timmolter/XChange/pull/581.
+   * Pending fix in ResCU at https://github.com/mmazi/rescu/pull/43.
+   * TODO Replace with vanilla NonceFactory when fixed.
+   */
+  protected static final ValueFactory<Long> valueFactory = new NonceFactory() {
+    @Override
+    public String toString() {
+      return Long.toString(createValue());
+    }
+  };
 
   protected final T hitbtc;
   protected final String apiKey;
