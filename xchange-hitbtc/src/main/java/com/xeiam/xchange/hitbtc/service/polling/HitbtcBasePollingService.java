@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
@@ -16,14 +15,24 @@ import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.service.HitbtcHmacDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import si.mazi.rescu.ValueFactory;
 
 /**
- * @author kpysniak
+ * @author kpysniak, piotr.ladyzynski
  */
 public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
 
-  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
-  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
+    protected static final ValueFactory<Long> valueFactory = new ValueFactory<Long>() {
+        @Override
+        public Long createValue() {
+            return System.currentTimeMillis();
+        }
+
+        @Override
+        public String toString() {
+            return createValue() + "";
+        } 
+    };
 
   protected final T hitbtc;
   protected final String apiKey;
@@ -35,21 +44,17 @@ public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExc
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected HitbtcBasePollingService(Class<T> hiitbtcType, ExchangeSpecification exchangeSpecification) {
+  protected HitbtcBasePollingService(Class<T> hitbtcType, ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
 
-    this.hitbtc = RestProxyFactory.createProxy(hiitbtcType, exchangeSpecification.getSslUri());
+    this.hitbtc = RestProxyFactory.createProxy(hitbtcType, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     String apiKey = exchangeSpecification.getSecretKey();
     this.signatureCreator = apiKey != null && !apiKey.isEmpty() ? HitbtcHmacDigest.createInstance(apiKey) : null;
     this.currencyPairs = new HashSet<CurrencyPair>();
   }
 
-  protected long nextNonce() {
-
-    return lastNonce.incrementAndGet();
-  }
 
   @Override
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
