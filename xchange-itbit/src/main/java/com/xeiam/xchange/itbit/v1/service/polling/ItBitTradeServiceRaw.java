@@ -36,6 +36,20 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     return orders;
   }
 
+  /**
+   * Retrieves the set of orders with the given status.
+   *
+   * @param status
+   * @return
+   * @throws IOException
+   */
+  public ItBitOrder[] getItBitOrders(String status) throws IOException {
+
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, "XBTUSD", "1", "1000", status, walletId);
+
+    return orders;
+  }
+
   public ItBitOrder getItBitOrder(String orderId) throws IOException {
 
     ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, orderId);
