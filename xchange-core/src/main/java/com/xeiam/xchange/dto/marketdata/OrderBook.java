@@ -3,7 +3,6 @@ package com.xeiam.xchange.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -42,108 +41,73 @@ public final class OrderBook {
 
   public List<LimitOrder> getAsks() {
 
-    Collections.sort(asks);
     return asks;
   }
 
   public List<LimitOrder> getBids() {
 
-    Collections.sort(bids);
     return bids;
+  }
+
+  public List<LimitOrder> getOrders(OrderType type){
+    return type == OrderType.ASK ? asks : bids;
   }
 
   /**
    * Given a new LimitOrder, it will replace and old matching limit order in
-   * the orderbook or simply get added. Finally, it is sorted. The timeStamp may be updated as well.
+   * the orderbook or simply get added. The timeStamp may be updated as well.
    * 
    * @param limitOrder the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
 
-    if (limitOrder.getType().equals(OrderType.ASK)) {
-
-      Iterator<LimitOrder> it = asks.iterator();
-      while (it.hasNext()) {
-        LimitOrder order = it.next();
-        if (order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0) { // they
-                                                                                // are
-                                                                                // equal.
-                                                                                // found
-                                                                                // it!
-          it.remove();
-          break;
-        }
-      }
-      asks.add(limitOrder); // just add it
-      Collections.sort(asks); // finally sort
-
-    }
-    else {
-
-      Iterator<LimitOrder> it = bids.iterator();
-      while (it.hasNext()) {
-        LimitOrder order = it.next();
-        if (order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0) { // they
-                                                                                // are
-                                                                                // equal.
-                                                                                // found
-                                                                                // it!
-          it.remove();
-          break;
-        }
-      }
-      bids.add(limitOrder); // just add it
-      Collections.sort(bids); // finally sort
-    }
+    update(getOrders(limitOrder.getType()), limitOrder);
     updateDate(limitOrder.getTimestamp());
+  }
+
+  private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
+    int idx = Collections.binarySearch(asks, limitOrder);
+    if (idx >= 0) {
+      asks.remove(idx);
+      asks.add(idx, limitOrder);
+    } else {
+      asks.add(-idx - 1, limitOrder);
+    }
   }
 
   /**
    * Given an OrderBookUpdate, it will replace and old matching limit order in
-   * the orderbook or simply get added. Finally, it is sorted.The timeStamp may be updated as well.
+   * the orderbook or simply get added. The timeStamp may be updated as well.
    * 
    * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
 
-    // First, we need to remove orders with the same limit price
-    Iterator<LimitOrder> it;
-    if (orderBookUpdate.getLimitOrder().getType() == OrderType.ASK) {
-      it = this.asks.iterator();
-    }
-    else {
-      it = this.bids.iterator();
-    }
-    while (it.hasNext()) {
-      LimitOrder order = it.next();
-      if (order.getLimitPrice().compareTo(orderBookUpdate.getLimitOrder().getLimitPrice()) == 0) { // they are equal. found it!
-        it.remove();
-        break;
-      }
+    LimitOrder limitOrder = orderBookUpdate.getLimitOrder();
+    List<LimitOrder> limitOrders = getOrders(limitOrder.getType());
+    int idx = Collections.binarySearch(limitOrders, limitOrder);
+    if (idx >= 0) {
+      limitOrders.remove(idx);
+    } else {
+      idx = -idx - 1;
     }
 
-    // If volume is not zero we need to add a new limit order with the
-    // updated amount
     if (orderBookUpdate.getTotalVolume().compareTo(BigDecimal.ZERO) != 0) {
-
-      OrderType type = orderBookUpdate.getLimitOrder().getType();
-      BigDecimal tradeableAmount = orderBookUpdate.getTotalVolume();
-      CurrencyPair currencyPair = orderBookUpdate.getLimitOrder().getCurrencyPair();
-      String id = orderBookUpdate.getLimitOrder().getId();
-      Date date = orderBookUpdate.getLimitOrder().getTimestamp();
-      BigDecimal limit = orderBookUpdate.getLimitOrder().getLimitPrice();
-      LimitOrder updatedOrder = new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
-
-      if (orderBookUpdate.getLimitOrder().getType() == OrderType.ASK) {
-        asks.add(updatedOrder);
-        Collections.sort(asks);
-      }
-      else {
-        bids.add(updatedOrder);
-        Collections.sort(bids);
-      }
+      LimitOrder updatedOrder = withAmount(limitOrder, orderBookUpdate.getTotalVolume());
+      limitOrders.add(idx, updatedOrder);
     }
-    updateDate(orderBookUpdate.getLimitOrder().getTimestamp());
+
+    updateDate(limitOrder.getTimestamp());
+  }
+
+  private static LimitOrder withAmount(LimitOrder limitOrder, BigDecimal tradeableAmount) {
+
+    OrderType type = limitOrder.getType();
+    CurrencyPair currencyPair = limitOrder.getCurrencyPair();
+    String id = limitOrder.getId();
+    Date date = limitOrder.getTimestamp();
+    BigDecimal limit = limitOrder.getLimitPrice();
+    return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
   }
 
   private void updateDate(Date updateDate) {
