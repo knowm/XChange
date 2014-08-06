@@ -97,7 +97,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   private String createId(Order order, long nonce) {
 
     // encoding side in client order id
-    return order.getType() + createSymbol(order.getCurrencyPair()) + nonce;
+    return order.getId() == null ? order.getType() + createSymbol(order.getCurrencyPair()) + nonce : order.getId();
   }
 
   private OrderType readOrderType(String orderId) {
