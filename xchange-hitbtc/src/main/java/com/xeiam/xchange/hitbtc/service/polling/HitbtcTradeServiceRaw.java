@@ -31,13 +31,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
   public HitbtcOrder[] getOpenOrdersRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcActiveOrders(signatureCreator, nextNonce(), apiKey);
+    HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcActiveOrders(signatureCreator, valueFactory, apiKey);
     return hitbtcActiveOrders.getOrders();
   }
 
   public HitbtcOrder[] getRecentOrdersRaw(int max_results) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcRecentOrders(signatureCreator, nextNonce(), apiKey, max_results);
+    HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcRecentOrders(signatureCreator, valueFactory, apiKey, max_results);
     return hitbtcActiveOrders.getOrders();
   }
 
@@ -45,12 +45,12 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
     String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
 
-    long nonce = nextNonce();
+    long nonce = valueFactory.createValue();
     String side = getSide(marketOrder.getType());
     String orderId = createId(marketOrder, nonce);
 
     HitbtcExecutionReportResponse response =
-        hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId, symbol, side, null, marketOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "market", "GTC");
+        hitbtc.postHitbtcNewOrder(signatureCreator, valueFactory, apiKey, orderId, symbol, side, null, marketOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "market", "GTC");
 
     return response.getExecutionReport();
   }
@@ -58,12 +58,12 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     String symbol = createSymbol(limitOrder.getCurrencyPair());
-    long nonce = nextNonce();
+    long nonce = valueFactory.createValue();
     String side = getSide(limitOrder.getType());
     String orderId = createId(limitOrder, nonce);
 
     HitbtcExecutionReportResponse postHitbtcNewOrder =
-        hitbtc.postHitbtcNewOrder(signatureCreator, nonce, apiKey, orderId, symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
+        hitbtc.postHitbtcNewOrder(signatureCreator, valueFactory, apiKey, orderId, symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
 
     return postHitbtcNewOrder.getExecutionReport();
   }
@@ -73,13 +73,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     String originalSide = getSide(readOrderType(orderId));
     String symbol = readSymbol(orderId);
 
-    return hitbtc.postHitbtcCancelOrder(signatureCreator, nextNonce(), apiKey, orderId, orderId, symbol, originalSide); // extract symbol and side from original order id: buy/sell
+    return hitbtc.postHitbtcCancelOrder(signatureCreator, valueFactory, apiKey, orderId, orderId, symbol, originalSide); // extract symbol and side from original order id: buy/sell
   }
 
   public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
       IOException {
 
-    HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(signatureCreator, nextNonce(), apiKey, "ts", startIndex, maxResults, symbols, "desc", null, null);
+    HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(signatureCreator, valueFactory, apiKey, "ts", startIndex, maxResults, symbols, "desc", null, null);
 
     return hitbtcTrades.getTrades();
   }
@@ -97,7 +97,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   private String createId(Order order, long nonce) {
 
     // encoding side in client order id
-    return order.getType() + createSymbol(order.getCurrencyPair()) + nonce;
+    return order.getId() == null ? order.getType() + createSymbol(order.getCurrencyPair()) + nonce : order.getId();
   }
 
   private OrderType readOrderType(String orderId) {
