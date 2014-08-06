@@ -7,13 +7,26 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
  */
 public final class BTCChinaGetAccountInfoRequest extends BTCChinaRequest {
 
+  public static final String ALL_TYPE = "all";
+  public static final String BALANCE_TYPE = "balance";
+  public static final String FROZEN_TYPE = "frozen";
+  public static final String PROFILE_TYPE = "profile";
+
+  private final String METHOD_NAME = "getAccountInfo";
+
   /**
    * Constructor
    */
   public BTCChinaGetAccountInfoRequest() {
 
-    method = "getAccountInfo";
+    method = METHOD_NAME;
     params = "[]";
+  }
+
+  public BTCChinaGetAccountInfoRequest(String type) {
+
+    method = METHOD_NAME;
+    params = String.format("[\"%s\"]", type);
   }
 
   @Override
