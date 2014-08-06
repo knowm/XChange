@@ -14,6 +14,7 @@ import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetDepositsRequest
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetWithdrawalRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaGetWithdrawalsRequest;
 import com.xeiam.xchange.btcchina.dto.account.request.BTCChinaRequestWithdrawalRequest;
+import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetAccountInfoResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
@@ -39,9 +40,14 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
     super(BTCChina.class, exchangeSpecification);
   }
 
-  public BTCChinaResponse<BTCChinaAccountInfo> getBTCChinaAccountInfo() throws IOException {
+  public BTCChinaGetAccountInfoResponse getBTCChinaAccountInfo() throws IOException {
 
     return checkResult(btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest()));
+  }
+
+  public BTCChinaGetAccountInfoResponse getBTCChinaAccountInfo(String type) throws IOException {
+
+    return checkResult(btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest(type)));
   }
 
   public BTCChinaGetDepositsResponse getDeposits(String currency) throws IOException {
@@ -98,7 +104,7 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
 
   public String requestBTCChinaBitcoinDepositAddress() throws IOException {
 
-    BTCChinaResponse<BTCChinaAccountInfo> response = checkResult(btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest()));
+    BTCChinaResponse<BTCChinaAccountInfo> response = getBTCChinaAccountInfo(BTCChinaGetAccountInfoRequest.PROFILE_TYPE);
 
     return response.getResult().getProfile().getBtcDepositAddress();
   }
