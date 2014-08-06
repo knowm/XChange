@@ -50,7 +50,7 @@ public interface ItBitAuthenticated {
       throws IOException;
 
   @GET
-  @Path("/{walletId}/orders/{orderId}")
+  @Path("wallets/{walletId}/orders/{orderId}")
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitOrder getOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") ValueFactory<Long> valueFactory,
       @PathParam("walletId") String walletId, @PathParam("orderId") String orderId) throws IOException;
