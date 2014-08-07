@@ -2,10 +2,7 @@ package com.xeiam.xchange.bter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 import com.xeiam.xchange.bter.dto.BTEROrderType;
@@ -81,6 +78,7 @@ public final class BTERAdapters {
   public static OrderBook adaptOrderBook(BTERDepth depth, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = BTERAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
+    Collections.reverse(asks);
     List<LimitOrder> bids = BTERAdapters.adaptOrders(depth.getBids(), currencyPair, OrderType.BID);
 
     return new OrderBook(null, asks, bids);
