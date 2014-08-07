@@ -12,7 +12,7 @@ public class BTCChinaTonceFactory implements ValueFactory<Long> {
   @Override
   public Long createValue() {
 
-    return Long.valueOf(BTCChinaUtils.getNonce());
+    return BTCChinaUtils.getNonce();
   }
 
 }

@@ -2,8 +2,8 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import si.mazi.rescu.NonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ValueFactory;
@@ -17,12 +17,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class ItBitBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected static final ValueFactory<Long> valueFactory = new ValueFactory<Long>() {
-      @Override
-      public Long createValue() {
-          return System.currentTimeMillis();
-      }
-  };
+  protected static final ValueFactory<Long> valueFactory = new NonceFactory();
 
   protected final String apiKey;
   protected final ItBitAuthenticated itBit;
