@@ -49,6 +49,6 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
   @Override
   public String requestDepositAddress(String currency, String... arguments) throws IOException {
 
-    return requestBTCChinaBitcoinDepositAddress();
+    return requestBTCChinaDepositAddress(currency);
   }
 }
