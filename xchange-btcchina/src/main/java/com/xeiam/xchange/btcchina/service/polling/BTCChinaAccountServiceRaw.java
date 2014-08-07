@@ -102,10 +102,20 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
     return checkResult(response);
   }
 
-  public String requestBTCChinaBitcoinDepositAddress() throws IOException {
+  public String requestBTCChinaDepositAddress(String currency) throws IOException {
 
     BTCChinaResponse<BTCChinaAccountInfo> response = getBTCChinaAccountInfo(BTCChinaGetAccountInfoRequest.PROFILE_TYPE);
 
-    return response.getResult().getProfile().getBtcDepositAddress();
+    return response.getResult().getProfile().getDepositAddress(currency);
   }
+
+  /**
+   * @deprecated Use {@link #requestBTCChinaDepositAddress(String)} instead.
+   */
+  @Deprecated
+  public String requestBTCChinaBitcoinDepositAddress() throws IOException {
+
+    return requestBTCChinaDepositAddress("btc");
+  }
+
 }
