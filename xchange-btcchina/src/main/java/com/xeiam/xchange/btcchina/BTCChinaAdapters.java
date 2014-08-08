@@ -356,7 +356,7 @@ public final class BTCChinaAdapters {
 
   public static CurrencyPair adaptCurrencyPairFromOrdersMarketKey(String market) {
 
-    return adaptCurrencyPair(market.substring(ORDERS_MARKET_KEY_PREFIX_LENGTH));
+    return adaptCurrencyPair(market.substring(ORDERS_MARKET_KEY_PREFIX_LENGTH).toUpperCase());
   }
 
   public static CurrencyPair adaptCurrencyPair(String market) {

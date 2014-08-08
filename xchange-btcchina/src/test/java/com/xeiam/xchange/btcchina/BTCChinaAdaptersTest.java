@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -73,6 +74,20 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderType.ASK, asks.get(1).getType());
 
     assertEquals(1407060232000L, orderBook.getTimeStamp().getTime());
+  }
+
+  @Test
+  public void testAdaptOrders() throws IOException {
+    BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResource("dto/trade/response/getOrders-single-market-2-orders.json"), BTCChinaGetOrdersResponse.class);
+    List<LimitOrder> limitOrders = BTCChinaAdapters.adaptOrders(response.getResult(), null);
+    assertEquals(2, limitOrders.size());
+    LimitOrder order = limitOrders.get(0);
+    assertEquals("13942927", order.getId());
+    assertEquals(OrderType.BID, order.getType());
+    assertEquals(new BigDecimal("2000.00"), order.getLimitPrice());
+    assertEquals(CurrencyPair.BTC_CNY, order.getCurrencyPair());
+    assertEquals(new BigDecimal("0.00100000"), order.getTradableAmount());
+    assertEquals(1396255376000L, order.getTimestamp().getTime());
   }
 
 }
