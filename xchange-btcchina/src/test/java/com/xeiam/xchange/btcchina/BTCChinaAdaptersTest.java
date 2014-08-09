@@ -4,23 +4,47 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
 public class BTCChinaAdaptersTest {
 
   private final ObjectMapper mapper = new ObjectMapper();
+
+  @Test
+  public void testAdaptTickers() throws IOException {
+
+    BTCChinaTicker btcChinaTicker = mapper.readValue(getClass().getResource("dto/marketdata/ticker-all-market.json"),BTCChinaTicker.class);
+    Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
+    assertEquals(3, tickers.size());
+
+    assertEquals(new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC)), tickers.keySet());
+
+    Ticker btccny = tickers.get(CurrencyPair.BTC_CNY);
+    assertEquals(new BigDecimal("2894.97"), btccny.getHigh());
+    assertEquals(new BigDecimal("2850.08"), btccny.getLow());
+    assertEquals(new BigDecimal("2880.00"), btccny.getBid());
+    assertEquals(new BigDecimal("2883.86"), btccny.getAsk());
+    assertEquals(new BigDecimal("2880.00"), btccny.getLast());
+    assertEquals(new BigDecimal("4164.41040000"), btccny.getVolume());
+    assertEquals(1396412841000L, btccny.getTimestamp().getTime());
+  }
 
   @Test
   public void testAdaptTransaction() {
