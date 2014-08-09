@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -124,7 +125,10 @@ public final class BTCChinaAdapters {
    */
   public static Ticker adaptTicker(BTCChinaTicker btcChinaTicker, CurrencyPair currencyPair) {
 
-    BTCChinaTickerObject ticker = btcChinaTicker.getTicker();
+    return adaptTicker(btcChinaTicker.getTicker(), currencyPair);
+  }
+
+  public static Ticker adaptTicker(BTCChinaTickerObject ticker, CurrencyPair currencyPair) {
     BigDecimal last = ticker.getLast();
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
@@ -134,6 +138,16 @@ public final class BTCChinaAdapters {
     Date date = adaptDate(ticker.getDate());
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).withTimestamp(date).build();
+  }
+
+  public static Map<CurrencyPair, Ticker> adaptTickers(BTCChinaTicker btcChinaTicker) {
+
+    Map<CurrencyPair, Ticker> tickers = new LinkedHashMap<CurrencyPair, Ticker>(btcChinaTicker.size());
+    for (Map.Entry<String, BTCChinaTickerObject> entry : btcChinaTicker.entrySet()) {
+      CurrencyPair currencyPair = adaptCurrencyPairFromTickerMarketKey(entry.getKey());
+      tickers.put(currencyPair, adaptTicker(entry.getValue(), currencyPair));
+    }
+    return tickers;
   }
 
   /**
@@ -351,12 +365,12 @@ public final class BTCChinaAdapters {
 
   public static CurrencyPair adaptCurrencyPairFromTickerMarketKey(String market) {
 
-    return adaptCurrencyPair(market.substring(TICKER_MARKET_KEY_PREFIX_LENGTH));
+    return adaptCurrencyPair(market.substring(TICKER_MARKET_KEY_PREFIX_LENGTH).toUpperCase());
   }
 
   public static CurrencyPair adaptCurrencyPairFromOrdersMarketKey(String market) {
 
-    return adaptCurrencyPair(market.substring(ORDERS_MARKET_KEY_PREFIX_LENGTH));
+    return adaptCurrencyPair(market.substring(ORDERS_MARKET_KEY_PREFIX_LENGTH).toUpperCase());
   }
 
   public static CurrencyPair adaptCurrencyPair(String market) {

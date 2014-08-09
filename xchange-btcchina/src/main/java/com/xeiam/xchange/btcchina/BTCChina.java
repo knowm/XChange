@@ -62,15 +62,15 @@ public interface BTCChina {
   @Deprecated
   @GET
   @Path("data/ticker")
-  public Map<String, BTCChinaTickerObject> getTickers(@QueryParam("market") String market) throws IOException;
+  Map<String, BTCChinaTickerObject> getTickers(@QueryParam("market") String market) throws IOException;
 
   @GET
   @Path("data/ticker")
-  public BTCChinaTicker getTicker(@QueryParam("market") String market) throws IOException;
+  BTCChinaTicker getTicker(@QueryParam("market") String market) throws IOException;
 
   @GET
   @Path("data/orderbook")
-  public BTCChinaDepth getFullDepth(@QueryParam("market") String market) throws IOException;
+  BTCChinaDepth getFullDepth(@QueryParam("market") String market) throws IOException;
 
   /**
    * Returns last 100 trade records.
@@ -79,14 +79,14 @@ public interface BTCChina {
   @GET
   @Path("data/historydata")
   @Deprecated
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market) throws IOException;
+  List<BTCChinaTrade> getTrades(@QueryParam("market") String market) throws IOException;
 
   /**
    * Returns last 100 trade records.
    */
   @GET
   @Path("data/historydata")
-  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market) throws IOException;
+  BTCChinaTrade[] getHistoryData(@QueryParam("market") String market) throws IOException;
 
   /**
    * Returns last {@code limit} trade records.
@@ -99,7 +99,7 @@ public interface BTCChina {
   @Deprecated
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
+  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * Returns last {@code limit} trade records.
@@ -110,7 +110,7 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
+  BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * Returns 100 trade records starting from id {@code since}.
@@ -123,7 +123,7 @@ public interface BTCChina {
   @Deprecated
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
+  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
 
   /**
    * Returns 100 trade records starting from id {@code since}.
@@ -134,7 +134,7 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
+  BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
 
   /**
    * Returns {@code limit} trades starting from id {@code since}
@@ -148,7 +148,7 @@ public interface BTCChina {
   @Deprecated
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
+  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * Returns {@code limit} trades starting from id {@code since}
@@ -160,7 +160,7 @@ public interface BTCChina {
    */
   @GET
   @Path("data/historydata")
-  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
+  BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * @deprecated Use {@link #getHistoryData(String, long, int, String)} instead.
@@ -168,24 +168,24 @@ public interface BTCChina {
   @Deprecated
   @GET
   @Path("data/historydata")
-  public List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
+  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
       @QueryParam("sincetype") @DefaultValue("id") String sincetype) throws IOException;
 
   @GET
   @Path("data/historydata")
-  public BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
+  BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
       @QueryParam("sincetype") @DefaultValue("id") String sincetype) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetAccountInfoResponse getAccountInfo(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+  BTCChinaGetAccountInfoResponse getAccountInfo(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaGetAccountInfoRequest getAccountInfoRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetDepositsResponse getDeposits(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+  BTCChinaGetDepositsResponse getDeposits(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaGetDepositsRequest getDepositsRequest) throws IOException;
 
   /**
@@ -194,61 +194,61 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetMarketDepthResponse getMarketDepth(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+  BTCChinaGetMarketDepthResponse getMarketDepth(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaGetMarketDepthRequest request) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetWithdrawalResponse getWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetWithdrawalRequest request)
+  BTCChinaGetWithdrawalResponse getWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetWithdrawalRequest request)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetWithdrawalsResponse
+  BTCChinaGetWithdrawalsResponse
       getWithdrawals(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetWithdrawalsRequest request) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaRequestWithdrawalResponse requestWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+  BTCChinaRequestWithdrawalResponse requestWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaRequestWithdrawalRequest requestWithdrawalRequest) throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetOrderResponse getOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetOrderRequest getOrderRequest)
+  BTCChinaGetOrderResponse getOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetOrderRequest getOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetOrdersResponse getOrders(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetOrdersRequest getOrdersRequest)
+  BTCChinaGetOrdersResponse getOrders(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaGetOrdersRequest getOrdersRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaBooleanResponse cancelOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaCancelOrderRequest cancelOrderRequest)
+  BTCChinaBooleanResponse cancelOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaCancelOrderRequest cancelOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaIntegerResponse buyOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaBuyOrderRequest buyOrderRequest)
+  BTCChinaIntegerResponse buyOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaBuyOrderRequest buyOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaIntegerResponse sellOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
+  BTCChinaIntegerResponse sellOrder2(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce, BTCChinaSellOrderRequest sellOrderRequest)
       throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaTransactionsResponse getTransactions(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
+  BTCChinaTransactionsResponse getTransactions(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") long jsonRpcTonce,
       BTCChinaTransactionsRequest transactionRequest) throws IOException;
 
   /**
@@ -257,7 +257,7 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaIntegerResponse buyIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+  BTCChinaIntegerResponse buyIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaBuyIcebergOrderRequest request) throws IOException;
 
   /**
@@ -266,7 +266,7 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaIntegerResponse sellIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+  BTCChinaIntegerResponse sellIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaSellIcebergOrderRequest request) throws IOException;
 
   /**
@@ -275,7 +275,7 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetIcebergOrderResponse getIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+  BTCChinaGetIcebergOrderResponse getIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaGetIcebergOrderRequest request) throws IOException;
 
   /**
@@ -284,7 +284,7 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaGetIcebergOrdersResponse getIcebergOrders(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+  BTCChinaGetIcebergOrdersResponse getIcebergOrders(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaGetIcebergOrdersRequest request) throws IOException;
 
   /**
@@ -295,7 +295,7 @@ public interface BTCChina {
   @POST
   @Path("api_trade_v1.php")
   @Consumes(MediaType.APPLICATION_JSON)
-  public BTCChinaBooleanResponse cancelIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+  BTCChinaBooleanResponse cancelIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaCancelIcebergOrderRequest request) throws IOException;
 
 }

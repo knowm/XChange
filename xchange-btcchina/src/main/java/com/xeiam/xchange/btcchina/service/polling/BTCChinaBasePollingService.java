@@ -3,6 +3,7 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
@@ -15,9 +16,11 @@ import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
 import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.utils.Assert;
@@ -52,9 +55,9 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
     if (currencyPairs.isEmpty()) {
-      for (String tickerKey : btcChina.getTicker(BTCChinaExchange.ALL_MARKET).keySet()) {
-        currencyPairs.add(BTCChinaAdapters.adaptCurrencyPairFromTickerMarketKey(tickerKey));
-      }
+      BTCChinaTicker btcChinaTicker = btcChina.getTicker(BTCChinaExchange.ALL_MARKET);
+      Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
+      currencyPairs.addAll(tickers.keySet());
     }
 
     return currencyPairs;

@@ -12,7 +12,7 @@ public final class BTCChinaGetAccountInfoRequest extends BTCChinaRequest {
   public static final String FROZEN_TYPE = "frozen";
   public static final String PROFILE_TYPE = "profile";
 
-  private final String METHOD_NAME = "getAccountInfo";
+  private static final String METHOD_NAME = "getAccountInfo";
 
   /**
    * Constructor
