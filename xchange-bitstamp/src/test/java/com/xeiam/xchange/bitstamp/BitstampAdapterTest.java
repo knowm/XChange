@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import com.xeiam.xchange.dto.marketdata.*;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,10 +20,6 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
 
 /**
  * Tests the BitstampAdapter class
@@ -124,14 +121,14 @@ public class BitstampAdapterTest {
 
     Ticker ticker = BitstampAdapters.adaptTicker(bitstampTicker, CurrencyPair.BTC_USD);
 
-    assertThat(ticker.getLast().toString()).isEqualTo("134.89");
-    assertThat(ticker.getBid().toString()).isEqualTo("134.89");
-    assertThat(ticker.getAsk().toString()).isEqualTo("134.92");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("21982.44926674"));
+    assertThat(ticker.getLast().toString()).isEqualTo("589.21");
+    assertThat(ticker.getBid().toString()).isEqualTo("586.88");
+    assertThat(ticker.getAsk().toString()).isEqualTo("589.20");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("2176.61519264"));
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     String dateString = f.format(ticker.getTimestamp());
-    assertThat(dateString).isEqualTo("2013-10-14 21:45:33");
+    assertThat(dateString).isEqualTo("2014-08-09 16:47:01");
   }
 
   @Test
@@ -157,4 +154,32 @@ public class BitstampAdapterTest {
     String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());
     assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
   }
+
+    @Test
+    public void testUserTransactionsHistoryAdapter() throws IOException {
+
+        // Read in the JSON from the example resources
+        InputStream is = BitstampAdapterTest.class.getResourceAsStream("/trade/example-user-transactions.json");
+
+        // Use Jackson to parse it
+        ObjectMapper mapper = new ObjectMapper();
+        BitstampUserTransaction[] bitstampUserTransactions = mapper.readValue(is, BitstampUserTransaction[].class);
+
+        Transactions userTransactionHistory = BitstampAdapters.adaptTransactionHistory(bitstampUserTransactions);
+
+        assertThat(userTransactionHistory.getTransactions().get(0).getId()).isEqualTo("1296712");
+        assertThat(userTransactionHistory.getTransactions().get(0).getType()).isEqualTo(Transaction.TransactionType.BID);
+        assertThat(userTransactionHistory.getTransactions().get(0).getPrice().toString()).isEqualTo("131.50");
+
+        assertThat(userTransactionHistory.getTransactions().get(1).getPrice().toString()).isEqualTo("131.50");
+        assertThat(userTransactionHistory.getTransactions().get(1).getType()).isEqualTo(Transaction.TransactionType.ASK);
+
+        assertThat(userTransactionHistory.getTransactions().get(2).getType()).isEqualTo(Transaction.TransactionType.WITHDRAWAL);
+
+        assertThat(userTransactionHistory.getTransactions().get(3).getType()).isEqualTo(Transaction.TransactionType.DEPOSIT);
+
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = f.format(userTransactionHistory.getTransactions().get(0).getTimestamp());
+        assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
+    }
 }
