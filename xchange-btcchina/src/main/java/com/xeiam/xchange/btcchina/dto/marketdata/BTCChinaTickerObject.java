@@ -1,10 +1,13 @@
 package com.xeiam.xchange.btcchina.dto.marketdata;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BTCChinaTickerObject {
+public class BTCChinaTickerObject implements Serializable {
+
+  private static final long serialVersionUID = 2014080901L;
 
   private final BigDecimal buy;
   private final BigDecimal high;
