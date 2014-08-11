@@ -147,17 +147,18 @@ public interface ANXV2 {
   @Path("{tradeIdent}{currency}/money/order/result")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-      @FormParam("order") String order, @FormParam("type") String type) throws ANXException, IOException;
+                                       @PathParam("currency") String currency, @PathParam("tradeIdent") String tradableIdentifier,
+                                       @FormParam("order") String order, @FormParam("type") String type) throws ANXException, IOException;
 
   /**
    * @param postBodySignatureCreator
    * @param amount can be omitted to place market order
    */
   @POST
-  @Path("{tradeIdent}{currency}/money/order/add")
+  @Path("{baseCurrency}{counterCurrency}/money/order/add")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXGenericResponse placeOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-      @PathParam("tradeIdent") String tradableIdentifier, @PathParam("currency") String currency, @FormParam("type") String type, @FormParam("amount") BigDecimal amount,
+      @PathParam("baseCurrency") String baseCurrency, @PathParam("counterCurrency") String counterCurrency, @FormParam("type") String type, @FormParam("amount") BigDecimal amount,
       @FormParam("price") BigDecimal price) throws ANXException, IOException;
 
   /**
