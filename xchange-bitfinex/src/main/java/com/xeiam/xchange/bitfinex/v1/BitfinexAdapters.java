@@ -55,25 +55,19 @@ public final class BitfinexAdapters {
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
 
-  public static List<LimitOrder> adaptOrders(BitfinexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(BitfinexLevel[] orders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
     for (BitfinexLevel order : orders) {
-      // Bid orderbook is reversed order. Insert at index 0 instead of appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
-      } else {
-        limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
-      }
+      limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
     }
 
     return limitOrders;
   }
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
-
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, String id) {
 
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }

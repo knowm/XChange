@@ -30,26 +30,19 @@ public final class VircurexAdapters {
 
   }
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, String id) {
 
     // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     return new LimitOrder(orderType, amount, currencyPair, "", null, price);
   }
 
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> someOrders, CurrencyPair currencyPair, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> someOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
-    // Bid orderbook is reversed order. Insert at index 0 instead of
     for (BigDecimal[] order : someOrders) {
-      // appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(order[1], order[0], currencyPair, orderType, id));
-      }
-      else {
-        limitOrders.add(adaptOrder(order[1], order[0], currencyPair, orderType, id));
-      }
+      limitOrders.add(adaptOrder(order[1], order[0], currencyPair, orderType, id));
     }
 
     return limitOrders;

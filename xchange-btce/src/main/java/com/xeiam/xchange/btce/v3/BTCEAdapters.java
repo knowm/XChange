@@ -46,23 +46,18 @@ public final class BTCEAdapters {
    * Adapts a List of BTCEOrders to a List of LimitOrders
    * 
    * @param bTCEOrders
-   * @param currency
-   * @param orderType
+   * @param currencyPair
+   * @param orderTypeString
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
     for (BigDecimal[] btceOrder : bTCEOrders) {
-      // Bid orderbook is reversed order. Insert at index 0 instead of appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
-      }
-      else {
-        limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
-      }
+      limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
     }
 
     return limitOrders;
@@ -73,15 +68,12 @@ public final class BTCEAdapters {
    * 
    * @param amount
    * @param price
-   * @param currency
-   * @param orderTypeString
+   * @param currencyPair
+   * @param orderType
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
-
-    // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, String id) {
 
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
