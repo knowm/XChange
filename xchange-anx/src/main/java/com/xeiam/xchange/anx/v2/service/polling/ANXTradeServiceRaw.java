@@ -107,11 +107,11 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
     }
   }
 
-  public ANXOrderResultWrapper getANXOrderResult(String orderId, String type) throws IOException {
+  public ANXOrderResultWrapper getANXOrderResult(String orderId, String type, String baseCurrency, String counterCurrency) throws IOException {
 
     try {
 
-      ANXOrderResultWrapper anxOrderResultWrapper = anxV2.getOrderResult(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), orderId, type);
+      ANXOrderResultWrapper anxOrderResultWrapper = anxV2.getOrderResult(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), baseCurrency, counterCurrency, orderId, type);
       return anxOrderResultWrapper;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getANXOrderResult(): " + e.getError(), e);
