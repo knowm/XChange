@@ -76,16 +76,28 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
   public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    String symbol = createSymbol(limitOrder.getCurrencyPair());
-    long nonce = valueFactory.createValue();
-    String side = getSide(limitOrder.getType());
-    String orderId = createId(limitOrder, nonce);
-
-    HitbtcExecutionReportResponse postHitbtcNewOrder =
-        hitbtc.postHitbtcNewOrder(signatureCreator, valueFactory, apiKey, orderId, symbol, side, limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER), "limit", "GTC");
-
-    return postHitbtcNewOrder.getExecutionReport();
+      HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
+      return postHitbtcNewOrder.getExecutionReport();
   }
+
+  public HitbtcExecutionReportResponse placeLimitOrderRawReturningHitbtcExecutionReportResponse(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+       HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
+       return postHitbtcNewOrder;
+  }
+
+  private HitbtcExecutionReportResponse fillHitbtcExecutionReportResponse(LimitOrder limitOrder) throws IOException {
+       String symbol = createSymbol(limitOrder.getCurrencyPair());
+       long nonce = valueFactory.createValue();
+       String side = getSide(limitOrder.getType());
+       String orderId = createId(limitOrder, nonce);
+
+       return hitbtc.postHitbtcNewOrder(signatureCreator, valueFactory, apiKey,
+               orderId, symbol, side,
+               limitOrder.getLimitPrice(), limitOrder.getTradableAmount().multiply(LOT_MULTIPLIER),
+               "limit", "GTC");
+  }
+
 
   public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
