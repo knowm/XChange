@@ -3,8 +3,9 @@ package com.xeiam.xchange.hitbtc.dto.account;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.hitbtc.dto.HitbtcBaseResponse;
 
-public class HitbtcBalanceResponse {
+public class HitbtcBalanceResponse extends HitbtcBaseResponse {
 
   private final HitbtcBalance[] balances;
 
