@@ -1,12 +1,14 @@
 package com.xeiam.xchange.btce.v3.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,12 +45,23 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCEDepthWrapper bTCEDepthWrapper = mapper.readValue(is, BTCEDepthWrapper.class);
 
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(bTCEDepthWrapper.getDepth(BTCEUtils.getPair(CurrencyPair.BTC_USD)).getAsks(), CurrencyPair.BTC_USD, "ask", "");
+    BTCEDepth depthRaw = bTCEDepthWrapper.getDepth(BTCEUtils.getPair(CurrencyPair.BTC_USD));
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(depthRaw.getAsks(), CurrencyPair.BTC_USD, "ask", "");
 
     // verify all fields filled
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(asks.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(asks.get(0).getTimestamp()).isNull();
+    assertEquals(new BigDecimal("760.98"),asks.get(0).getLimitPrice());
+
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(depthRaw.getBids(), CurrencyPair.BTC_USD, "bid", "");
+
+    // verify all fields filled
+    LimitOrder bid1 = bids.get(0);
+    assertThat(bid1.getType()).isEqualTo(OrderType.BID);
+    assertThat(bid1.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertThat(bid1.getTimestamp()).isNull();
+    assertEquals(new BigDecimal("758.99"),bid1.getLimitPrice());
 
   }
 

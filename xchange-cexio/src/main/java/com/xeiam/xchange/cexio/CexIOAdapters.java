@@ -3,6 +3,7 @@ package com.xeiam.xchange.cexio;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -103,6 +104,7 @@ public class CexIOAdapters {
   public static OrderBook adaptOrderBook(CexIODepth depth, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, depth.getAsks());
+    Collections.reverse(asks);
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, depth.getBids());
     Date date = new Date(depth.getTimestamp() * 1000);
     return new OrderBook(date, asks, bids);
