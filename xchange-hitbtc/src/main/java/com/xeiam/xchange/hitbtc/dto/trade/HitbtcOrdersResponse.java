@@ -3,8 +3,9 @@ package com.xeiam.xchange.hitbtc.dto.trade;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.hitbtc.dto.HitbtcBaseResponse;
 
-public class HitbtcOrdersResponse {
+public class HitbtcOrdersResponse extends HitbtcBaseResponse {
 
   HitbtcOrder[] orders;
 

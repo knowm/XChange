@@ -1,8 +1,9 @@
 package com.xeiam.xchange.hitbtc.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.hitbtc.dto.HitbtcBaseResponse;
 
-public class HitbtcExecutionReportResponse {
+public class HitbtcExecutionReportResponse extends HitbtcBaseResponse {
 
   HitbtcExecutionReport executionReport;
   HitbtcCancelReject cancelReject;

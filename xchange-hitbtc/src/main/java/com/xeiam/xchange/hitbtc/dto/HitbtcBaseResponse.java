@@ -1,19 +1,31 @@
 package com.xeiam.xchange.hitbtc.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author kpysniak
  */
 public abstract class HitbtcBaseResponse {
 
-  private final String error;
+  @JsonProperty("code")
+  private String code;
 
-  protected HitbtcBaseResponse(String error) {
+  @JsonProperty("message")
+  private String message;
 
-    this.error = error;
+  public String getCode() {
+    return code;
   }
 
-  public String getError() {
+  public String getMessage() {
+    return message;
+  }
 
-    return error;
+  @Override
+  public String toString() {
+    return "HitbtcBaseResponse{" +
+      "code='" + code + '\'' +
+      ", message='" + message + '\'' +
+      '}';
   }
 }

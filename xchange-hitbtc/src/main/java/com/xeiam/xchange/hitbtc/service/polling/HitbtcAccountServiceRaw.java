@@ -22,4 +22,10 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
     HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
     return hitbtcBalance.getBalances();
   }
+
+  public HitbtcBalanceResponse getAccountBaseInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
+    return hitbtcBalanceResponse;
+  }
 }
