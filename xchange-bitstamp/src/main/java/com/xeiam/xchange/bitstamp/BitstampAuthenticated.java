@@ -59,7 +59,7 @@ public interface BitstampAuthenticated {
   @POST
   @Path("user_transactions/")
   public BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce,
-                                                       @FormParam("limit") long numberOfTransactions, @FormParam("limit") long offset,
+                                                       @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset,
                                                        @FormParam("sort") String sort) throws IOException;
 
   @POST
