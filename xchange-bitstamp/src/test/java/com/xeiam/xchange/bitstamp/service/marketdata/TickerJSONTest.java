@@ -26,13 +26,14 @@ public class TickerJSONTest {
     BitstampTicker bitstampTicker = mapper.readValue(is, BitstampTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(bitstampTicker.getLast()).isEqualTo(new BigDecimal("134.89"));
-    assertThat(bitstampTicker.getHigh()).isEqualTo(new BigDecimal("138.22"));
-    assertThat(bitstampTicker.getLow()).isEqualTo(new BigDecimal("131.79"));
-    assertThat(bitstampTicker.getVolume()).isEqualTo(new BigDecimal("21982.44926674"));
-    assertThat(bitstampTicker.getBid()).isEqualTo(new BigDecimal("134.89"));
-    assertThat(bitstampTicker.getAsk()).isEqualTo(new BigDecimal("134.92"));
-    assertThat(bitstampTicker.getTimestamp()).isEqualTo(1381787133L);
+    assertThat(bitstampTicker.getLast()).isEqualTo(new BigDecimal("589.21"));
+    assertThat(bitstampTicker.getHigh()).isEqualTo(new BigDecimal("592.67"));
+    assertThat(bitstampTicker.getLow()).isEqualTo(new BigDecimal("585.21"));
+    assertThat(bitstampTicker.getVolume()).isEqualTo(new BigDecimal("2176.61519264"));
+    assertThat(bitstampTicker.getVwap()).isEqualTo(new BigDecimal("588.28"));
+    assertThat(bitstampTicker.getBid()).isEqualTo(new BigDecimal("586.88"));
+    assertThat(bitstampTicker.getAsk()).isEqualTo(new BigDecimal("589.20"));
+    assertThat(bitstampTicker.getTimestamp()).isEqualTo(1407602821L);
   }
 
 }

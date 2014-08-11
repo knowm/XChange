@@ -17,11 +17,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.*;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -59,7 +56,6 @@ public final class BitstampAdapters {
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    * 
    * @param currencyPair (e.g. BTC/USD)
-   * @param currency The currency (e.g. USD in BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
@@ -117,16 +113,16 @@ public final class BitstampAdapters {
   /**
    * Adapts a Transaction to a Trade Object
    * 
-   * @param transactions The Bitstamp transaction
+   * @param transaction The Bitstamp transaction
    * @param currencyPair (e.g. BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
+  public static Trade adaptTrade(BitstampTransaction transaction, CurrencyPair currencyPair, int timeScale) {
 
-    final String tradeId = String.valueOf(tx.getTid());
-    Date date = DateUtils.fromMillisUtc(tx.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
-    return new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
+    final String tradeId = String.valueOf(transaction.getTid());
+    Date date = DateUtils.fromMillisUtc(transaction.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
+    return new Trade(null, transaction.getAmount(), currencyPair, transaction.getPrice(), date, tradeId);
   }
 
   /**
@@ -179,4 +175,48 @@ public final class BitstampAdapters {
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
+
+    /**
+     * Adapt the user's transactions
+     *
+     * @param bitstampUserTransactions
+     * @return Transactions list
+     */
+    public static Transactions adaptTransactionHistory(BitstampUserTransaction[] bitstampUserTransactions) {
+
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        long lastTransactionId = 0;
+
+        for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
+
+            Transaction.TransactionType transactionType = Transaction.TransactionType.BID;
+            if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) {
+              if (bitstampUserTransaction.getUsd().doubleValue() > 0.0)
+                  transactionType = Transaction.TransactionType.ASK;
+            }
+            else if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.deposit)) {
+                transactionType = Transaction.TransactionType.DEPOSIT;
+            }
+            else if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.withdrawal)) {
+                transactionType = Transaction.TransactionType.WITHDRAWAL;
+            }
+
+            BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
+            BigDecimal price = bitstampUserTransaction.getPrice().abs();
+            Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
+            long transactionId = bitstampUserTransaction.getId();
+
+            if (transactionId > lastTransactionId)
+                lastTransactionId = transactionId;
+
+            final String tradeId = String.valueOf(transactionId);
+            final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
+
+            Transaction transaction = new Transaction(transactionType, tradableAmount, CurrencyPair.BTC_USD, price, timestamp, tradeId, orderId);
+            transactions.add(transaction);
+        }
+
+        return new Transactions(transactions, lastTransactionId, Transactions.TransactionSortType.SortByID);
+    }
+
 }
