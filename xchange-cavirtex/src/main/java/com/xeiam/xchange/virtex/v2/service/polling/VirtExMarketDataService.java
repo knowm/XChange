@@ -1,6 +1,7 @@
 package com.xeiam.xchange.virtex.v2.service.polling;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -49,6 +50,7 @@ public class VirtExMarketDataService extends VirtExMarketDataServiceRaw implemen
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VirtExAdapters.adaptOrders(virtExDepth.getAsks(), currencyPair, "ask", "");
+    Collections.reverse(asks);
     List<LimitOrder> bids = VirtExAdapters.adaptOrders(virtExDepth.getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);

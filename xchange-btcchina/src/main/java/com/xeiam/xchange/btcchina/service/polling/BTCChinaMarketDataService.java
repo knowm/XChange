@@ -1,6 +1,7 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -59,6 +60,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsksArray(), currencyPair, OrderType.ASK);
+    Collections.reverse(asks);
     List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBidsArray(), currencyPair, OrderType.BID);
 
     return new OrderBook(BTCChinaAdapters.adaptDate(btcChinaDepth.getDate()), asks, bids);

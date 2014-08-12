@@ -2,6 +2,7 @@ package com.xeiam.xchange.btccentral;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -58,6 +59,7 @@ public class BTCCentralAdapters {
 
     List<LimitOrder> asks = adaptMarketOrderToLimitOrder(marketDepth.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = adaptMarketOrderToLimitOrder(marketDepth.getBids(), OrderType.BID, currencyPair);
+    Collections.reverse(bids);
 
     // TODO
     // What timestamp should be used? Latest/Earliest/Current one?

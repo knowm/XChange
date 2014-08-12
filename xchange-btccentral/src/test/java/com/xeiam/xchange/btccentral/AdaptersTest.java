@@ -59,8 +59,8 @@ public class AdaptersTest {
 
     assertEquals(genericOrderBook.getAsks().get(0).getTradableAmount(), new BigDecimal("0.48762"));
     assertEquals(genericOrderBook.getAsks().get(0).getLimitPrice(), new BigDecimal("24.48996"));
-    assertEquals(genericOrderBook.getBids().get(0).getTradableAmount(), new BigDecimal("0.77372456"));
-    assertEquals(genericOrderBook.getBids().get(0).getLimitPrice(), new BigDecimal("24.05"));
+    assertEquals(genericOrderBook.getBids().get(0).getTradableAmount(), new BigDecimal("0.40491093"));
+    assertEquals(genericOrderBook.getBids().get(0).getLimitPrice(), new BigDecimal("24.001"));
 
   }
 
