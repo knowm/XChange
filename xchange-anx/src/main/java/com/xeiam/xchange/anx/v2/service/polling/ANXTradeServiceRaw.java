@@ -40,6 +40,16 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
     this.signatureCreator = ANXV2Digest.createInstance(exchangeSpecification.getSecretKey());
   }
 
+  public ANXOpenOrder[] getANXOpenOrders(String baseCurrency, String counterCurrency) throws IOException {
+
+    try {
+      ANXOpenOrderWrapper anxOpenOrderWrapper = anxV2.getOpenOrders(ANXUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, ANXUtils.getNonce(), baseCurrency, counterCurrency);
+      return anxOpenOrderWrapper.getANXOpenOrders();
+    } catch (ANXException e) {
+      throw new ExchangeException("Error calling getOpenOrders(): " + e.getError(), e);
+    }
+  }
+
   public ANXOpenOrder[] getANXOpenOrders() throws IOException {
 
     try {
@@ -74,11 +84,11 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
     }
   }
 
-  public ANXGenericResponse cancelANXOrder(String orderId) throws IOException {
+  public ANXGenericResponse cancelANXOrder(String orderId, String baseCurrency, String counterCurrency) throws IOException {
 
     try {
 
-      ANXGenericResponse anxGenericResponse = anxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), orderId);
+      ANXGenericResponse anxGenericResponse = anxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, ANXUtils.getNonce(), orderId, baseCurrency, counterCurrency);
       return anxGenericResponse;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling cancelOrder(): " + e.getError(), e);
