@@ -92,6 +92,13 @@ public interface ANXV2 {
 
   // Trade API
   @POST
+  @Path("{baseCurrency}{counterCurrency}/money/orders")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  ANXOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
+                                    @PathParam("baseCurrency") String baseCurrency, @PathParam("counterCurrency") String counterCurrency) throws ANXException, IOException;
+
+  // Trade API
+  @POST
   @Path("money/orders")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXOpenOrderWrapper getOpenOrders(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce) throws ANXException,
@@ -144,10 +151,10 @@ public interface ANXV2 {
    * @throws IOException
    */
   @POST
-  @Path("{tradeIdent}{currency}/money/order/result")
+  @Path("{baseCurrency}{counterCurrency}/money/order/result")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-                                       @PathParam("currency") String currency, @PathParam("tradeIdent") String tradableIdentifier,
+                                       @PathParam("baseCurrency") String baseCurrency, @PathParam("counterCurrency") String counterCurrency,
                                        @FormParam("order") String order, @FormParam("type") String type) throws ANXException, IOException;
 
   /**
@@ -172,10 +179,11 @@ public interface ANXV2 {
    * @return
    */
   @POST
-  @Path("BTCEUR/money/order/cancel")
+  @Path("{baseCurrency}{counterCurrency}/money/order/cancel")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") long nonce,
-      @FormParam("oid") String orderId) throws ANXException, IOException;
+  ANXGenericResponse cancelOrder(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
+                                 @FormParam("nonce") long nonce, @FormParam("oid") String orderId,
+                                 @PathParam("baseCurrency") String baseCurrency, @PathParam("counterCurrency") String counterCurrency) throws ANXException, IOException;
 
   /**
    * Returns the History of the selected wallet

@@ -70,7 +70,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
 
     Assert.notNull(orderId, "orderId cannot be null");
 
-    return cancelANXOrder(orderId).getResult().equals("success");
+    return cancelANXOrder(orderId, "BTC", "EUR").getResult().equals("success");
   }
 
   @Override
