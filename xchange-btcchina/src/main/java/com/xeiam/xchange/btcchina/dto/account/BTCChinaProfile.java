@@ -25,9 +25,7 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
    * @param tradePasswordEnabled
    * @param otpEnabled
    * @param tradeFee
-   * @param dailyBtcLimit
-   * @param btcDepositAddress
-   * @param btcWithdrawalAddress
+   * @param apiKeyPermission
    */
   public BTCChinaProfile(@JsonProperty("username") String username, @JsonProperty("trade_password_enabled") Boolean tradePasswordEnabled, @JsonProperty("otp_enabled") Boolean otpEnabled,
       @JsonProperty("trade_fee") BigDecimal tradeFee, @JsonProperty("api_key_permission") int apiKeyPermission) {
@@ -61,7 +59,7 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
 
   /**
    * @param currencyPair cnyltc, btcltc
-   * @return
+   * @return the trade fee of the specified market.
    */
   public BigDecimal getTradeFee(String currencyPair) {
 

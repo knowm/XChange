@@ -12,6 +12,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
@@ -68,6 +69,32 @@ public class BTCChinaAdaptersTest {
   }
 
   @Test
+  public void testAdaptOrderBookBTCChinaDepth() throws IOException {
+
+    BTCChinaDepth btcChinaDepth = mapper.readValue(getClass().getResource("/marketdata/example-depth-data.json"), BTCChinaDepth.class);
+    OrderBook orderBook = BTCChinaAdapters.adaptOrderBook(btcChinaDepth, CurrencyPair.BTC_CNY);
+
+    List<LimitOrder> bids = orderBook.getBids();
+    List<LimitOrder> asks = orderBook.getAsks();
+
+    // bid 4.51@544.83
+    assertEquals(new BigDecimal("544.83"), bids.get(0).getLimitPrice());
+    assertEquals(new BigDecimal("4.51"), bids.get(0).getTradableAmount());
+
+    // bid 4.19@543.38
+    assertEquals(new BigDecimal("543.38"), bids.get(1).getLimitPrice());
+    assertEquals(new BigDecimal("4.19"), bids.get(1).getTradableAmount());
+
+    // ask 49.234@546
+    assertEquals(new BigDecimal("546"), asks.get(0).getLimitPrice());
+    assertEquals(new BigDecimal("49.234"), asks.get(0).getTradableAmount());
+
+    // ask 10.934@547
+    assertEquals(new BigDecimal("547"), asks.get(1).getLimitPrice());
+    assertEquals(new BigDecimal("10.934"), asks.get(1).getTradableAmount());
+  }
+
+  @Test
   public void testAdaptOrderBook() throws IOException {
 
     BTCChinaGetMarketDepthResponse response = mapper.readValue(getClass().getResourceAsStream("dto/trade/response/getMarketDepth2.json"), BTCChinaGetMarketDepthResponse.class);
@@ -77,21 +104,25 @@ public class BTCChinaAdaptersTest {
     assertEquals(2, bids.size());
     assertEquals(2, asks.size());
 
+    // bid 1@99
     assertEquals(new BigDecimal("99"), bids.get(0).getLimitPrice());
     assertEquals(new BigDecimal("1"), bids.get(0).getTradableAmount());
     assertEquals(CurrencyPair.BTC_CNY, bids.get(0).getCurrencyPair());
     assertEquals(OrderType.BID, bids.get(0).getType());
-    
+
+    // bid 2@98
     assertEquals(new BigDecimal("98"), bids.get(1).getLimitPrice());
     assertEquals(new BigDecimal("2"), bids.get(1).getTradableAmount());
     assertEquals(CurrencyPair.BTC_CNY, bids.get(1).getCurrencyPair());
     assertEquals(OrderType.BID, bids.get(1).getType());
 
+    // ask 0.997@100
     assertEquals(new BigDecimal("100"), asks.get(0).getLimitPrice());
     assertEquals(new BigDecimal("0.997"), asks.get(0).getTradableAmount());
     assertEquals(CurrencyPair.BTC_CNY, asks.get(0).getCurrencyPair());
     assertEquals(OrderType.ASK, asks.get(0).getType());
 
+    // ask 2@101
     assertEquals(new BigDecimal("101"), asks.get(1).getLimitPrice());
     assertEquals(new BigDecimal("2"), asks.get(1).getTradableAmount());
     assertEquals(CurrencyPair.BTC_CNY, asks.get(1).getCurrencyPair());

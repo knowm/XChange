@@ -2,6 +2,7 @@ package com.xeiam.xchange.examples.btcchina.marketdata;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -13,6 +14,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -41,11 +43,22 @@ public class BTCChinaDepthDemo {
     // System.out.println(orderBook.toString());
     System.out.println("Date: " + orderBook.getTimeStamp());
 
-    System.out.println("lowestAsk: " + orderBook.getAsks().get(0));
-    System.out.println("asks Size: " + orderBook.getAsks().size());
-    System.out.println("highestBid: " + orderBook.getBids().get(0));
-    System.out.println("bids Size: " + orderBook.getBids().size());
+    List<LimitOrder> asks = orderBook.getAsks();
+    List<LimitOrder> bids = orderBook.getBids();
 
+    System.out.println("lowestAsk: " + asks.get(0));
+    System.out.println("asks Size: " + asks.size());
+    System.out.println("highestBid: " + bids.get(0));
+    System.out.println("bids Size: " + bids.size());
+
+    if (asks.size() >= 2) {
+      boolean lower = asks.get(0).getLimitPrice().compareTo(asks.get(1).getLimitPrice()) < 0;
+      assert lower : "asks should be sorted ascending";
+    }
+    if (bids.size() >= 2) {
+      boolean higher = bids.get(0).getLimitPrice().compareTo(bids.get(1).getLimitPrice()) > 0;
+      assert higher : "bids should be sorted deascending";
+    }
   }
 
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {

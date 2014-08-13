@@ -64,6 +64,6 @@ public final class BTCChinaDepth {
   @Override
   public String toString() {
 
-    return "BTCChinaDepth [asks=" + asks.toString() + ", bids=" + bids.toString() + ", date=" + date + "]";
+    return "BTCChinaDepth [asks=" + asks + ", bids=" + bids + ", date=" + date + "]";
   }
 }
