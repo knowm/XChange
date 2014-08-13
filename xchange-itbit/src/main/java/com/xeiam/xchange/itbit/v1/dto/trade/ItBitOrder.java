@@ -3,8 +3,9 @@ package com.xeiam.xchange.itbit.v1.dto.trade;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.itbit.v1.dto.ItBitBaseResponse;
 
-public class ItBitOrder {
+public class ItBitOrder extends ItBitBaseResponse {
 
   private final String id;
   private final String walletId;
