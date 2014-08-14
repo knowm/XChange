@@ -1,27 +1,7 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.examples.btcchina.marketdata;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -30,9 +10,11 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -56,7 +38,9 @@ public class BTCChinaTickerDemo {
   public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest ticker data showing BTC to CNY
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_CNY);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_LTC);
+
+    System.out.println("Date: " + ticker.getTimestamp());
 
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
@@ -67,13 +51,22 @@ public class BTCChinaTickerDemo {
 
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
+    BTCChinaMarketDataServiceRaw marketDataServiceRaw = ((BTCChinaMarketDataServiceRaw) marketDataService);
+
     // Get the latest ticker data showing BTC to CNY
-    BTCChinaTicker ticker = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTicker();
+    BTCChinaTicker ticker = marketDataServiceRaw.getBTCChinaTicker("ltccny");
+
+    System.out.println("Date: " + ticker.getTicker().getDate());
 
     System.out.println("Last: " + ticker.getTicker().getLast().toString());
     System.out.println("Volume: " + ticker.getTicker().getVol().toString());
     System.out.println("High: " + ticker.getTicker().getHigh().toString());
     System.out.println("Low: " + ticker.getTicker().getLow().toString());
+
+    Map<String, BTCChinaTickerObject> tickers = marketDataServiceRaw.getBTCChinaTickers();
+    System.out.println(tickers);
+
+    System.out.println(((BasePollingService) marketDataServiceRaw).getExchangeSymbols());
 
   }
 }

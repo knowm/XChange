@@ -8,9 +8,6 @@ public class BTCChinaTransactions {
 
   private final List<BTCChinaTransaction> transactions;
 
-  /**
-   * @param orders
-   */
   public BTCChinaTransactions(@JsonProperty("transaction") List<BTCChinaTransaction> transactions) {
 
     this.transactions = transactions;

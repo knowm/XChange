@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.examples.btcchina.trade;
 
 import java.io.IOException;
@@ -29,6 +8,7 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -99,7 +79,7 @@ public class BTCChinaTradeDemo {
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.BID), BigDecimal.ONE, CurrencyPair.BTC_CNY, "", null, new BigDecimal("0.01"));
-    BTCChinaBooleanResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).placeBTCChinaLimitOrder(new BigDecimal("0.01"), BigDecimal.ONE, OrderType.BID);
+    BTCChinaIntegerResponse limitOrderReturnValue = ((BTCChinaTradeServiceRaw) tradeService).buy(new BigDecimal("0.01"), BigDecimal.ONE, "BTCCNY");
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     Thread.sleep(1500);
@@ -108,14 +88,14 @@ public class BTCChinaTradeDemo {
     long result = -1;
     for (int i = 0; i < openOrders.getResult().getOrders().size(); i++) {
       BTCChinaOrder order = openOrders.getResult().getOrders().get(i);
-      long orderId = order.getId();
+      int orderId = order.getId();
       if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice()) == 0 && orderId > result) {
         result = orderId;
       }
     }
 
     // Cancel the added order
-    BTCChinaBooleanResponse cancelResult = ((BTCChinaTradeServiceRaw) tradeService).cancelBTCChinaOrder(limitOrderReturnValue.getId());
+    BTCChinaBooleanResponse cancelResult = ((BTCChinaTradeServiceRaw) tradeService).cancelBTCChinaOrder(limitOrderReturnValue.getResult().intValue());
     System.out.println("Canceling returned " + cancelResult);
 
     printOpenOrders();
@@ -123,7 +103,7 @@ public class BTCChinaTradeDemo {
 
   private static BTCChinaResponse<BTCChinaOrders> printOpenOrdersRaw() throws IOException {
 
-    BTCChinaResponse<BTCChinaOrders> openOrders = ((BTCChinaTradeServiceRaw) tradeService).getBTCChinaOpenOrders();
+    BTCChinaResponse<BTCChinaOrders> openOrders = ((BTCChinaTradeServiceRaw) tradeService).getBTCChinaOrders(true, "BTCCNY", null, null);
     System.out.println(openOrders.toString());
     return openOrders;
   }

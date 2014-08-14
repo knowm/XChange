@@ -1,6 +1,13 @@
 VirtEx Exchange API specification
 ================================
 
+
+VirtEX API V2 Documentation
+---------------------------
+
+https://www.cavirtex.com/media/CaVirtexHTTPAPIV2Documentation.pdf
+
+
 Public API
 
 Ticker

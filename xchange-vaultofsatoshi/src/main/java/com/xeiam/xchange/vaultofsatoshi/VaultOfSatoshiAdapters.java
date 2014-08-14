@@ -1,43 +1,29 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.vaultofsatoshi;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTicker;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTrade;
+import com.xeiam.xchange.vaultofsatoshi.dto.account.VosAccount;
+import com.xeiam.xchange.vaultofsatoshi.dto.account.VosWallet;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosOrder;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTicker;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
+import com.xeiam.xchange.vaultofsatoshi.dto.trade.VosTradeOrder;
 
 /**
  * Various adapters for converting from VaultOfSatoshi DTOs to XChange DTOs
@@ -53,7 +39,7 @@ public final class VaultOfSatoshiAdapters {
 
   /**
    * Adapts a vosOrder to a LimitOrder
-   * 
+   *
    * @param amount
    * @param price
    * @param pair
@@ -71,7 +57,7 @@ public final class VaultOfSatoshiAdapters {
 
   /**
    * Adapts a List of vosOrders to a List of LimitOrders
-   * 
+   *
    * @param vosOrders
    * @param currency
    * @param orderType
@@ -82,48 +68,55 @@ public final class VaultOfSatoshiAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (VosOrder vosOrder : vosOrders)
+    for (VosOrder vosOrder : vosOrders) {
       limitOrders.add(adaptOrder(vosOrder, pair, orderType, id));
+    }
 
     return limitOrders;
   }
 
   /**
    * Adapts a VaultOfSatoshiTrade to a Trade Object
-   * 
+   *
    * @param vosTrade A VaultOfSatoshi trade
    * @return The XChange Trade
    */
-  public static Trade adaptTrade(VaultOfSatoshiTrade vosTrade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(VosTrade vosTrade, CurrencyPair currencyPair) {
 
     BigDecimal amount = vosTrade.getUnitsTraded().getValue();
     Date date = DateUtils.fromMillisUtc(vosTrade.getTimestamp() / 1000L);
-    final String tradeId = String.valueOf(vosTrade.getTimestamp());
+    final String tradeId = String.valueOf(vosTrade.getTransactionId());
+
     return new Trade(null, amount, currencyPair, vosTrade.getPrice().getValue(), date, tradeId);
   }
 
   /**
-   * Adapts a VaultOfSatoshiTrade[] to a Trades Object
-   * 
-   * @param vosTrades The VaultOfSatoshi trade data
+   * Adapts a VosTrade[] to a Trades Object
+   *
+   * @param vosTrades The VosTrades trade data
    * @return The trades
    */
-  public static Trades adaptTrades(List<VaultOfSatoshiTrade> vosTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(VosTrade[] vosTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
-    for (VaultOfSatoshiTrade vosTrade : vosTrades)
+    long lastTradeId = 0;
+    for (VosTrade vosTrade : vosTrades) {
+      long tradeId = vosTrade.getTransactionId();
+      if (tradeId > lastTradeId) {
+        lastTradeId = tradeId;
+      }
       tradesList.add(adaptTrade(vosTrade, currencyPair));
-
-    return new Trades(tradesList, TradeSortType.SortByID);
+    }
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
    * Adapts a VaultOfSatoshiTicker to a Ticker Object
-   * 
+   *
    * @param vosTicker
    * @return
    */
-  public static Ticker adaptTicker(VaultOfSatoshiTicker vosTicker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(VosTicker vosTicker, CurrencyPair currencyPair) {
 
     BigDecimal last = vosTicker.getLast();
     BigDecimal high = vosTicker.getHigh();
@@ -131,6 +124,37 @@ public final class VaultOfSatoshiAdapters {
     BigDecimal volume = vosTicker.getVolume();
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
+  }
+
+  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+
+    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+  }
+
+  public static AccountInfo adaptAccountInfo(VosAccount account, String userName) {
+
+    List<Wallet> wallets = new ArrayList<Wallet>();
+
+    for (Entry<String, VosWallet> entry : account.getWallets().getVosMap().entrySet()) {
+      wallets.add(new Wallet(entry.getKey(), entry.getValue().getBalance().getValue()));
+    }
+
+    return new AccountInfo("" + account.getAccount_id(), account.getTrade_fee().getVosMap().get("BTC").getValue(), wallets);
+  }
+
+  public static Trades adaptTradeHistory(VosTradeOrder[] vosUserTransactions) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    for (VosTradeOrder order : vosUserTransactions) {
+
+      OrderType orderType = order.getType() == "bid" ? OrderType.BID : OrderType.ASK;
+      CurrencyPair currPair = new CurrencyPair(order.getOrder_currency(), order.getPayment_currency());
+
+      trades.add(new Trade(orderType, order.getUnits().getValue(), currPair, order.getPrice().getValue(), DateUtils.fromMillisUtc(order.getDate_completed() / 1000L), String.valueOf(order
+          .getOrder_id())));
+    }
+
+    return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
 }

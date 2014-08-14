@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
@@ -27,16 +6,18 @@ import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
+import com.xeiam.xchange.dto.marketdata.LoanOrderBook;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.FixedRateLoanOrder;
+import com.xeiam.xchange.dto.trade.FloatingRateLoanOrder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
@@ -100,6 +81,39 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
 
     return new OrderBook(null, asks, bids);
   }
+  
+  public LoanOrderBook getLendOrderBook(String currency, Object... args) throws IOException {
+
+    // According to API docs, default is 50
+    int limitBids = 50;
+    int limitAsks = 50;
+
+    if (args.length == 2) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Integer)) {
+        throw new ExchangeException("Argument 0 must be an Integer!");
+      }
+      else {
+        limitBids = (Integer) arg0;
+      }
+      Object arg1 = args[1];
+      if (!(arg1 instanceof Integer)) {
+        throw new ExchangeException("Argument 1 must be an Integer!");
+      }
+      else {
+        limitAsks = (Integer) arg1;
+      }
+    }
+
+    BitfinexLendDepth bfxDepth = getBitfinexLendBook(currency, limitBids, limitAsks);
+    
+    List<FixedRateLoanOrder> fixedRateAsks = BitfinexAdapters.adaptFixedRateLoanOrders(bfxDepth.getAsks(), currency, "ask", "");
+    List<FixedRateLoanOrder> fixedRateBids = BitfinexAdapters.adaptFixedRateLoanOrders(bfxDepth.getBids(), currency, "bid", "");
+    List<FloatingRateLoanOrder> floatingRateAsks = BitfinexAdapters.adaptFloatingRateLoanOrders(bfxDepth.getAsks(), currency, "ask", "");
+    List<FloatingRateLoanOrder> floatingRateBids = BitfinexAdapters.adaptFloatingRateLoanOrders(bfxDepth.getBids(), currency, "bid", "");
+    
+    return new LoanOrderBook(null, fixedRateAsks, fixedRateBids, floatingRateAsks, floatingRateBids);
+  }
 
   /**
    * @param currencyPair The CurrencyPair for which to query trades.
@@ -121,18 +135,13 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
         Date arg = (Date) args[0];
         lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       }
-      else
+      else {
         throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+      }
     }
     BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair), lastTradeTime);
 
     return BitfinexAdapters.adaptTrades(trades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
   }
 
 }

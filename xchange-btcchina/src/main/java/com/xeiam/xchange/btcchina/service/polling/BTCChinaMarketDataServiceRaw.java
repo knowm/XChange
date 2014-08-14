@@ -1,79 +1,135 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
-
-import si.mazi.rescu.RestProxyFactory;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
-import com.xeiam.xchange.btcchina.service.BTCChinaBaseService;
 
 /**
+ * Implementation of the market data service for BTCChina.
+ * <ul>
+ * <li>Provides access to various market data values</li>
+ * </ul>
+ *
  * @author ObsessiveOrange
- *         <p>
- *         Implementation of the market data service for BTCChina
- *         </p>
- *         <ul>
- *         <li>Provides access to various market data values</li>
- *         </ul>
  */
-public class BTCChinaMarketDataServiceRaw extends BTCChinaBaseService {
-
-  private final BTCChina btcChina;
+public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTCChina> {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, (String) exchangeSpecification.getExchangeSpecificParameters().get("dataSslUri"));
+    super(BTCChina.class, exchangeSpecification);
   }
 
-  public BTCChinaTicker getBTCChinaTicker() throws IOException {
+  public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {
 
-    return btcChina.getTicker();
+    return btcChina.getTicker(BTCChinaExchange.ALL_MARKET);
   }
 
-  public BTCChinaDepth getBTCChinaOrderBook() throws IOException {
+  public BTCChinaTicker getBTCChinaTicker(String market) throws IOException {
 
-    return btcChina.getFullDepth();
+    return btcChina.getTicker(market);
   }
 
-  public BTCChinaTrade[] getBTCChinaTrades(Integer sinceTransactionID) throws IOException {
+  public BTCChinaDepth getBTCChinaOrderBook(String market) throws IOException {
 
-    return btcChina.getTrades(sinceTransactionID);
+    return btcChina.getFullDepth(market);
   }
 
-  public BTCChinaTrade[] getBTCChinaTrades() throws IOException {
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaTrade> getBTCChinaTrades(String market) throws IOException {
 
-    return btcChina.getTrades();
+    return btcChina.getTrades(market);
+  }
+
+  /**
+   * @see BTCChina#getHistoryData(String)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market) throws IOException {
+
+    return btcChina.getHistoryData(market);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, int)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaTrade> getBTCChinaTrades(String market, int limit) throws IOException {
+
+    return btcChina.getTrades(market, limit);
+  }
+
+  /**
+   * @see BTCChina#getHistoryData(String, int)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, int limit) throws IOException {
+
+    return btcChina.getHistoryData(market, limit);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaTrade> getBTCChinaTrades(String market, long since) throws IOException {
+
+    return btcChina.getTrades(market, since);
+  }
+
+  /**
+   * @see BTCChina#getHistoryData(String, long)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since) throws IOException {
+
+    return btcChina.getHistoryData(market, since);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit) throws IOException {
+
+    return btcChina.getTrades(market, since, limit);
+  }
+
+  /**
+   * @see BTCChina#getHistoryData(String, long, int)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since, int limit) throws IOException {
+
+    return btcChina.getHistoryData(market, since, limit);
+  }
+
+  /**
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int, String)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit, String sinceType) throws IOException {
+
+    return btcChina.getTrades(market, since, limit, sinceType);
+  }
+
+  /**
+   * @see BTCChina#getHistoryData(String, long, int)
+   */
+  public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since, int limit, String sinceType) throws IOException {
+
+    return btcChina.getHistoryData(market, since, limit, sinceType);
   }
 
 }

@@ -1,0 +1,58 @@
+{
+   "success":1,
+   "return":{
+      "markets":{
+         "DOGE":{
+            "marketid":"135",
+            "label":"DOGE/LTC",
+            "lasttradeprice":"0.00003485",
+            "volume":"13154836.13271418",
+            "lasttradetime":"2014-05-29 21:45:41",
+            "primaryname":"Dogecoin",
+            "primarycode":"DOGE",
+            "secondaryname":"LiteCoin",
+            "secondarycode":"LTC",
+            "recenttrades":[
+               {
+                  "id":"47692497",
+                  "time":"2014-05-29 21:49:34",
+                  "price":"0.00003495",
+                  "quantity":"2961.55892792",
+                  "total":"0.10350648"
+               },
+               {
+                  "id":"47691804",
+                  "time":"2014-05-29 21:45:31",
+                  "price":"0.00003492",
+                  "quantity":"2521.37281010",
+                  "total":"0.08804634"
+               }
+            ],
+            "sellorders":[
+               {
+                  "price":"0.00003495",
+                  "quantity":"334470.44870275",
+                  "total":"11.68974218"
+               },
+               {
+                  "price":"0.00003615",
+                  "quantity":"25001.00000000",
+                  "total":"0.90378615"
+               }
+            ],
+            "buyorders":[
+               {
+                  "price":"0.00003485",
+                  "quantity":"47246.26655413",
+                  "total":"1.64653239"
+               },
+               {
+                  "price":"0.00003420",
+                  "quantity":"9224.82812153",
+                  "total":"0.31548912"
+               }
+            ]
+         }
+      }
+   }
+}

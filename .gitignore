@@ -1,11 +1,22 @@
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+*.ips
+.idea/
+
+# Eclipse
+.settings/
+.metadata/
 .classpath
 .project
-.settings/
-.idea/
-*.iml
-*.iws
-.DS_Store
-log/
+
+# Generated
 target/
-bin/
 javadoc/
+bin/
+log/
+
+# Misc.
+.DS_Store

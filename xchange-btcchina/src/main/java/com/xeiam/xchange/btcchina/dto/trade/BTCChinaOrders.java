@@ -1,54 +1,82 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.btcchina.dto.trade;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author David Yam
  */
-public class BTCChinaOrders {
+public class BTCChinaOrders extends LinkedHashMap<String, BTCChinaOrder[]> {
 
-  private final List<BTCChinaOrder> orders;
+  private static final long serialVersionUID = 2014080301L;
+
+  private final BTCChinaOrder[] orders;
+  private final long date;
 
   /**
    * @param orders
    */
-  public BTCChinaOrders(@JsonProperty("order") List<BTCChinaOrder> orders) {
+  public BTCChinaOrders(@JsonProperty("order") BTCChinaOrder[] orders, @JsonProperty("date") long date) {
 
     this.orders = orders;
+    this.date = date;
   }
 
+  /**
+   * @deprecated Use {@link #getOrdersArray()} instead.
+   */
+  @Deprecated
   public List<BTCChinaOrder> getOrders() {
 
+    return orders == null ? null : Arrays.asList(orders);
+  }
+
+  public BTCChinaOrder[] getOrdersArray() {
+
     return orders;
+  }
+
+  /**
+   * @deprecated Use {@link #get(Object)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaOrder> getBtcCnyOrders() {
+
+    return Arrays.asList(get("order_btccny"));
+  }
+
+  /**
+   * @deprecated Use {@link #get(Object)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaOrder> getLtcCnyOrders() {
+
+    return Arrays.asList(get("order_ltccny"));
+  }
+
+  /**
+   * @deprecated Use {@link #get(Object)} instead.
+   */
+  @Deprecated
+  public List<BTCChinaOrder> getLtcBtcOrders() {
+
+    return Arrays.asList(get("order_ltcbtc"));
+  }
+
+  public long getDate() {
+
+    return date;
   }
 
   @Override
   public String toString() {
 
-    return String.format("BTCChinaOrders{orders=%s}", orders);
+    return ToStringBuilder.reflectionToString(this);
   }
 
 }

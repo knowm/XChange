@@ -1,41 +1,18 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.vaultofsatoshi.service.polling;
 
 import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshiAdapters;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiDepth;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VaultOfSatoshiTrade;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosDepth;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
 
 /**
  * <p>
@@ -49,7 +26,7 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public VaultOfSatoshiMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -60,8 +37,6 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
-
     // Adapt to XChange DTOs
     return VaultOfSatoshiAdapters.adaptTicker(getVosTicker(currencyPair), currencyPair);
   }
@@ -69,10 +44,24 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    Integer round = 2;
+
+    Integer count = 100;
+
+    Integer groupOrders = 1;
+
+    if (args.length > 0) {
+      round = ((Number) args[0]).intValue();
+      if (args.length > 1) {
+        count = ((Number) args[1]).intValue();
+        if (args.length > 2) {
+          groupOrders = ((Number) args[2]).intValue();
+        }
+      }
+    }
 
     // Request data
-    VaultOfSatoshiDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair);
+    VosDepth vaultOfSatoshiDepth = getVosOrderBook(currencyPair, round, count, groupOrders);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(vaultOfSatoshiDepth.getAsks(), currencyPair, "ask", "");
@@ -84,19 +73,21 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    verify(currencyPair);
+    Integer count = 100;
+    Long sinceId = null;
+
+    if (args.length > 0) {
+      count = ((Number) args[0]).intValue();
+      if (args.length > 1) {
+      }
+      sinceId = ((Number) args[1]).longValue();
+    }
 
     // Request data
-    List<VaultOfSatoshiTrade> virtExTrades = getVosTrades(currencyPair);
+    VosTrade[] vosTrades = getVosTrades(currencyPair, count, sinceId);
 
     // Adapt to XChange DTOs
-    return VaultOfSatoshiAdapters.adaptTrades(virtExTrades, currencyPair);
-  }
-
-  @Override
-  public ExchangeInfo getExchangeInfo() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    return VaultOfSatoshiAdapters.adaptTrades(vosTrades, currencyPair);
   }
 
 }

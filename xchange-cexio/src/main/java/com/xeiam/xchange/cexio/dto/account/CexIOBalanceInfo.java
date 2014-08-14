@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.cexio.dto.account;
 
 import java.text.MessageFormat;
@@ -35,6 +14,7 @@ public class CexIOBalanceInfo {
   private final long timestamp;
   private final String username;
   private final CexIOBalance balanceBTC;
+  private final CexIOBalance balanceLTC;
   private final CexIOBalance balanceNMC;
   private final CexIOBalance balanceIXC;
   private final CexIOBalance balanceDVC;
@@ -53,12 +33,14 @@ public class CexIOBalanceInfo {
    * @param balanceGHS
    */
   public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username, @JsonProperty("BTC") CexIOBalance balanceBTC,
-      @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC, @JsonProperty("GHS") CexIOBalance balanceGHS) {
+      @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC,
+      @JsonProperty("GHS") CexIOBalance balanceGHS) {
 
     this.error = error;
     this.timestamp = timestamp;
     this.username = username;
     this.balanceBTC = balanceBTC;
+    this.balanceLTC = balanceLTC;
     this.balanceNMC = balanceNMC;
     this.balanceIXC = balanceIXC;
     this.balanceDVC = balanceDVC;
@@ -85,6 +67,11 @@ public class CexIOBalanceInfo {
     return balanceBTC;
   }
 
+  public CexIOBalance getBalanceLTC() {
+
+    return balanceLTC;
+  }
+
   public CexIOBalance getBalanceNMC() {
 
     return balanceNMC;
@@ -108,8 +95,8 @@ public class CexIOBalanceInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, NMC={4}, IXC={5}, DVC={6}, GHS={7}]", error, timestamp, username, balanceBTC, balanceNMC,
-        balanceIXC, balanceDVC, balanceGHS);
+    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}]", error, timestamp, username, balanceBTC, balanceLTC,
+        balanceNMC, balanceIXC, balanceDVC, balanceGHS);
   }
 
 }

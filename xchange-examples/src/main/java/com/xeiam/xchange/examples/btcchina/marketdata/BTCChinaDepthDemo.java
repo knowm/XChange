@@ -1,28 +1,8 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.examples.btcchina.marketdata;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -34,6 +14,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -60,18 +41,32 @@ public class BTCChinaDepthDemo {
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
 
     // System.out.println(orderBook.toString());
-    System.out.println("lowestAsk: " + orderBook.getAsks().get(0));
-    System.out.println("asks Size: " + orderBook.getAsks().size());
-    System.out.println("highestBid: " + orderBook.getBids().get(0));
-    System.out.println("bids Size: " + orderBook.getBids().size());
+    System.out.println("Date: " + orderBook.getTimeStamp());
 
+    List<LimitOrder> asks = orderBook.getAsks();
+    List<LimitOrder> bids = orderBook.getBids();
+
+    System.out.println("lowestAsk: " + asks.get(0));
+    System.out.println("asks Size: " + asks.size());
+    System.out.println("highestBid: " + bids.get(0));
+    System.out.println("bids Size: " + bids.size());
+
+    if (asks.size() >= 2) {
+      boolean lower = asks.get(0).getLimitPrice().compareTo(asks.get(1).getLimitPrice()) < 0;
+      assert lower : "asks should be sorted ascending";
+    }
+    if (bids.size() >= 2) {
+      boolean higher = bids.get(0).getLimitPrice().compareTo(bids.get(1).getLimitPrice()) > 0;
+      assert higher : "bids should be sorted deascending";
+    }
   }
 
   public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Get the latest order book data for BTC/CNY
-    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaOrderBook();
+    BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaOrderBook(BTCChinaExchange.DEFAULT_MARKET);
 
+    System.out.println("Date: " + orderBook.getDate());
     System.out.println(orderBook.toString());
 
     // first item in each BigDecial[] will be price (in RMB), and second will be volume/depth.

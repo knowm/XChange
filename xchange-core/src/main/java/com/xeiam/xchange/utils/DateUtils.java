@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.utils;
 
 import java.text.ParseException;
@@ -48,7 +27,7 @@ public class DateUtils {
 
   /**
    * Creates a date from a long representing milliseconds from epoch
-   * 
+   *
    * @param millisecondsFromEpoch
    * @return the Date object
    */
@@ -59,7 +38,7 @@ public class DateUtils {
 
   /**
    * Converts a date to a UTC String representation
-   * 
+   *
    * @param date
    * @return the formatted date
    */
@@ -73,7 +52,7 @@ public class DateUtils {
   /**
    * Converts an ISO formatted Date String to a Java Date
    * ISO format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
-   * 
+   *
    * @param isoFormattedDate
    * @return Date
    * @throws InvalidFormatException
@@ -90,15 +69,15 @@ public class DateUtils {
 
   /**
    * Converts an ISO 8601 formatted Date String to a Java Date
-   * ISO 8601 format: yyyy-MM-dd'T'HH:mm:ssX
-   * 
+   * ISO 8601 format: yyyy-MM-dd'T'HH:mm:ss
+   *
    * @param iso8601FormattedDate
    * @return Date
    * @throws InvalidFormatException
    */
   public static Date fromISO8601DateString(String iso8601FormattedDate) throws InvalidFormatException {
 
-    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     try {
       return iso8601Format.parse(iso8601FormattedDate);
     } catch (ParseException e) {
@@ -109,7 +88,7 @@ public class DateUtils {
   /**
    * Converts an rfc1123 formatted Date String to a Java Date
    * rfc1123 format: EEE, dd MMM yyyy HH:mm:ss zzz
-   * 
+   *
    * @param rfc1123FormattedDate
    * @return Date
    * @throws InvalidFormatException

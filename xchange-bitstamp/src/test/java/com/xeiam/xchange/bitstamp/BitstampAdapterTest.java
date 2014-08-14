@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.bitstamp;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -42,6 +21,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 
 /**
@@ -102,10 +82,30 @@ public class BitstampAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
 
-    Trades trades = BitstampAdapters.adaptTrades(transactions, CurrencyPair.BTC_USD);
-    assertThat(trades.getTrades().size()).isEqualTo(125);
+    Trade trade = BitstampAdapters.adaptTrade(transactions[3], CurrencyPair.BTC_USD, 1000);
 
     // verify all fields filled
+    assertThat(trade.getPrice().toString()).isEqualTo("13.14");
+    assertThat(trade.getType()).isNull();
+    assertThat(trade.getTradableAmount()).isEqualTo(new BigDecimal("23.66362253"));
+    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+  }
+
+  @Test
+  public void testTradesAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitstampAdapterTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitstampTransaction[] transactions = mapper.readValue(is, BitstampTransaction[].class);
+
+    Trades trades = BitstampAdapters.adaptTrades(transactions, CurrencyPair.BTC_USD);
+    assertThat(trades.getTrades().size()).isEqualTo(125);
+    assertThat(trades.getlastID()).isEqualTo(122260);
+    // verify all fields filled
+    assertThat(trades.getTrades().get(0).getId()).isEqualTo("121984");
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("13.14");
     assertThat(trades.getTrades().get(0).getType()).isNull();
     assertThat(trades.getTrades().get(0).getTradableAmount()).isEqualTo(new BigDecimal("10.11643836"));
@@ -149,6 +149,9 @@ public class BitstampAdapterTest {
     assertThat(userTradeHistory.getTrades().get(0).getId()).isEqualTo("1296712");
     assertThat(userTradeHistory.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(userTradeHistory.getTrades().get(0).getPrice().toString()).isEqualTo("131.50");
+
+    assertThat(userTradeHistory.getTrades().get(1).getPrice().toString()).isEqualTo("131.50");
+    assertThat(userTradeHistory.getTrades().get(1).getType()).isEqualTo(OrderType.ASK);
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());

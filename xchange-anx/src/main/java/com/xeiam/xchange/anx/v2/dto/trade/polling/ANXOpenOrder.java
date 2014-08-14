@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.anx.v2.dto.trade.polling;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,6 +13,7 @@ public final class ANXOpenOrder {
   private final String item;
   private final String type;
   private final ANXValue amount;
+  private final ANXValue effectiveAmount;
   private final ANXValue invalidAmount;
   private final ANXValue price;
   private final String status;
@@ -55,14 +35,15 @@ public final class ANXOpenOrder {
    * @param priority
    */
   public ANXOpenOrder(@JsonProperty("oid") String oid, @JsonProperty("currency") String currency, @JsonProperty("item") String item, @JsonProperty("type") String type,
-      @JsonProperty("amount") ANXValue amount, @JsonProperty("invalid_amount") ANXValue invalidAmount, @JsonProperty("price") ANXValue price, @JsonProperty("status") String status,
-      @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
+      @JsonProperty("amount") ANXValue amount, @JsonProperty("effective_amount") ANXValue effectiveAmount, @JsonProperty("invalid_amount") ANXValue invalidAmount,
+      @JsonProperty("price") ANXValue price, @JsonProperty("status") String status, @JsonProperty("date") long date, @JsonProperty("priority") long priority) {
 
     this.oid = oid;
     this.currency = currency;
     this.item = item;
     this.type = type;
     this.amount = amount;
+    this.effectiveAmount = effectiveAmount;
     this.invalidAmount = invalidAmount;
     this.price = price;
     this.status = status;
@@ -95,6 +76,11 @@ public final class ANXOpenOrder {
     return amount;
   }
 
+  public ANXValue getEffectiveAmount() {
+
+    return effectiveAmount;
+  }
+
   public ANXValue getInvalidAmount() {
 
     return invalidAmount;
@@ -123,8 +109,8 @@ public final class ANXOpenOrder {
   @Override
   public String toString() {
 
-    return "ANXOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", invalidAmount=" + invalidAmount + ", price=" + price + ", status="
-        + status + ", date=" + date + ", priority=" + priority + "]";
+    return "ANXOpenOrder [oid=" + oid + ", currency=" + currency + ", item=" + item + ", type=" + type + ", amount=" + amount + ", effectiveAmount=" + effectiveAmount + ", invalidAmount="
+        + invalidAmount + ", price=" + price + ", status=" + status + ", date=" + date + ", priority=" + priority + "]";
   }
 
 }

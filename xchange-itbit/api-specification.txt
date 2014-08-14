@@ -1,0 +1,3 @@
+http://api-portal.anypoint.mulesoft.com/itbit/api/itbit-exchange/docs/raml
+http://api-portal.anypoint.mulesoft.com/itbit/api/itbit-exchange/docs/code
+

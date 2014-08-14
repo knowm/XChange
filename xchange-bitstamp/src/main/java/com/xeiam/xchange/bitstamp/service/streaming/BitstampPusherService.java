@@ -1,25 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- * Copyright (C) 2014 Ryan Sundberg <ryan.sundberg@gmail.com>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.bitstamp.service.streaming;
 
 import java.io.IOException;
@@ -40,9 +18,11 @@ import com.pusher.client.channel.SubscriptionEventListener;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
-import com.xeiam.xchange.bitstamp.service.BitstampBaseService;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.bitstamp.service.polling.BitstampBasePollingService;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
@@ -54,7 +34,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  * Streaming trade service for the Bitstamp exchange
  * </p>
  */
-public class BitstampPusherService extends BitstampBaseService implements StreamingExchangeService {
+public class BitstampPusherService extends BitstampBasePollingService implements StreamingExchangeService {
 
   private final Logger log = LoggerFactory.getLogger(BitstampPusherService.class);
 
@@ -81,9 +61,9 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
     super(exchangeSpecification);
 
     this.configuration = configuration;
-    this.client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
-    this.reconnectService = new ReconnectService(this, configuration);
-    this.channels = new HashMap<String, Channel>();
+    client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
+    reconnectService = new ReconnectService(this, configuration);
+    channels = new HashMap<String, Channel>();
 
     streamObjectMapper = new ObjectMapper();
     streamObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -101,7 +81,7 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
         bindOrderData(instance);
       }
       else if (name == "live_trades") {
-        throw new UnsupportedOperationException("live_trades not implemented");
+        bindTradeData(instance);
       }
       else {
         throw new IllegalArgumentException(name);
@@ -197,6 +177,34 @@ public class BitstampPusherService extends BitstampBaseService implements Stream
     BitstampStreamingOrderBook nativeBook = streamObjectMapper.readValue(rawJson, BitstampStreamingOrderBook.class);
     // BitstampOrderBook nativeBook = new BitstampOrderBook((new Date()).getTime(), json.get("bids"), json.get("asks"));
     return BitstampAdapters.adaptOrders(nativeBook, CurrencyPair.BTC_USD, 1);
+  }
+
+  private void bindTradeData(Channel chan) {
+
+    SubscriptionEventListener listener = new SubscriptionEventListener() {
+
+      @Override
+      public void onEvent(String channelName, String eventName, String data) {
+
+        ExchangeEvent xevt = null;
+        try {
+          Trade t = parseTrade(data);
+          xevt = new DefaultExchangeEvent(ExchangeEventType.TRADE, data, t);
+        } catch (IOException e) {
+          log.error("JSON stream error", e);
+        }
+        if (xevt != null) {
+          addToEventQueue(xevt);
+        }
+      }
+    };
+    chan.bind("trade", listener);
+  }
+
+  private Trade parseTrade(String rawJson) throws IOException {
+
+    BitstampTransaction transaction = streamObjectMapper.readValue(rawJson, BitstampTransaction.class);
+    return BitstampAdapters.adaptTrade(transaction, CurrencyPair.BTC_USD, 1);
   }
 
   private void addToEventQueue(ExchangeEvent event) {

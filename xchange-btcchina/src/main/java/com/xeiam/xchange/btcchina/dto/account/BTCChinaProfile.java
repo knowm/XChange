@@ -1,42 +1,22 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.btcchina.dto.account;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author David Yam
  */
-public class BTCChinaProfile {
+public class BTCChinaProfile extends LinkedHashMap<String, String> {
+
+  private static final long serialVersionUID = 2014080701L;
 
   private final String username;
   private final Boolean tradePasswordEnabled;
   private final Boolean otpEnabled;
   private final BigDecimal tradeFee;
-  private final BigDecimal dailyBtcLimit;
-  private final String btcDepositAddress;
-  private final String btcWithdrawalAddress;
+  private final int apiKeyPermission;
 
   /**
    * Constructor
@@ -45,21 +25,16 @@ public class BTCChinaProfile {
    * @param tradePasswordEnabled
    * @param otpEnabled
    * @param tradeFee
-   * @param dailyBtcLimit
-   * @param btcDepositAddress
-   * @param btcWithdrawalAddress
+   * @param apiKeyPermission
    */
   public BTCChinaProfile(@JsonProperty("username") String username, @JsonProperty("trade_password_enabled") Boolean tradePasswordEnabled, @JsonProperty("otp_enabled") Boolean otpEnabled,
-      @JsonProperty("trade_fee") BigDecimal tradeFee, @JsonProperty("daily_btc_limit") BigDecimal dailyBtcLimit, @JsonProperty("btc_deposit_address") String btcDepositAddress,
-      @JsonProperty("btc_withdrawal_address") String btcWithdrawalAddress) {
+      @JsonProperty("trade_fee") BigDecimal tradeFee, @JsonProperty("api_key_permission") int apiKeyPermission) {
 
     this.username = username;
     this.tradePasswordEnabled = tradePasswordEnabled;
     this.otpEnabled = otpEnabled;
     this.tradeFee = tradeFee;
-    this.dailyBtcLimit = dailyBtcLimit;
-    this.btcDepositAddress = btcDepositAddress;
-    this.btcWithdrawalAddress = btcWithdrawalAddress;
+    this.apiKeyPermission = apiKeyPermission;
   }
 
   public String getUsername() {
@@ -82,26 +57,67 @@ public class BTCChinaProfile {
     return tradeFee;
   }
 
+  /**
+   * @param currencyPair cnyltc, btcltc
+   * @return the trade fee of the specified market.
+   */
+  public BigDecimal getTradeFee(String currencyPair) {
+
+    return new BigDecimal(get(String.format("trade_fee_%s", currencyPair)));
+  }
+
+  public BigDecimal getDailyLimit(String currency) {
+
+    return new BigDecimal(get(String.format("daily_%s_limit", currency)));
+  }
+
+  /**
+   * @deprecated Use {@link #getDailyLimit(String)} instead.
+   */
+  @Deprecated
   public BigDecimal getDailyBtcLimit() {
 
-    return dailyBtcLimit;
+    return getDailyLimit("btc");
   }
 
+  public String getDepositAddress(String currency) {
+
+    return get(String.format("%s_deposit_address", currency.toLowerCase()));
+  }
+
+  /**
+   * @deprecated Use {@link #getDepositAddress(String)} instead.
+   */
+  @Deprecated
   public String getBtcDepositAddress() {
 
-    return btcDepositAddress;
+    return getDepositAddress("btc");
   }
 
+  public String getWithdrawalAddress(String currency) {
+
+    return get(String.format("%s_withdrawal_address", currency.toLowerCase()));
+  }
+
+  /**
+   * @deprecated Use {@link #getWithdrawalAddress(String)} instead.
+   */
+  @Deprecated
   public String getBtcWithdrawalAddress() {
 
-    return btcWithdrawalAddress;
+    return getWithdrawalAddress("btc");
+  }
+
+  public int getApiKeyPermission() {
+
+    return apiKeyPermission;
   }
 
   @Override
   public String toString() {
 
-    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, dailyBtcLimit=%s, btcDepositAddress=%s, btcWithdrawalAddress=%s}", username, tradePasswordEnabled,
-        otpEnabled, tradeFee, dailyBtcLimit, btcDepositAddress, btcWithdrawalAddress);
+    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, apiKeyPermission=%d}", username, tradePasswordEnabled,
+        otpEnabled, tradeFee, apiKeyPermission);
   }
 
 }

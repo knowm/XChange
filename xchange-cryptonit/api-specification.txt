@@ -1,0 +1,24 @@
+Cryptonit Exchange API specification
+================================
+
+
+Cryptonit API Documentation
+---------------------------
+
+https://cryptonit.net/documentation/public-api
+
+
+Public API
+
+Ticker
+------
+https://cryptonit.net/apiv2/rest/public/ccorder.json?bid_currency=usd&ask_currency=btc&ticker
+
+Orders
+------
+https://cryptonit.net/apiv2/rest/public/ccorder.json?bid_currency=BTC&ask_currency=USD&type=placed&limit=1000
+
+Trades
+------
+https://cryptonit.net/apiv2/rest/public/ccorder.json?bid_currency=BTC&ask_currency=USD&type=filled&limit=1000
+

@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.btce.v3;
 
 import java.math.BigDecimal;
@@ -32,13 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.ExchangeInfo;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -69,23 +46,18 @@ public final class BTCEAdapters {
    * Adapts a List of BTCEOrders to a List of LimitOrders
    * 
    * @param bTCEOrders
-   * @param currency
-   * @param orderType
+   * @param currencyPair
+   * @param orderTypeString
    * @param id
    * @return
    */
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderType, String id) {
+  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
     for (BigDecimal[] btceOrder : bTCEOrders) {
-      // Bid orderbook is reversed order. Insert at index 0 instead of appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
-      }
-      else {
-        limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
-      }
+      limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
     }
 
     return limitOrders;
@@ -96,15 +68,12 @@ public final class BTCEAdapters {
    * 
    * @param amount
    * @param price
-   * @param currency
-   * @param orderTypeString
+   * @param currencyPair
+   * @param orderType
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, String id) {
-
-    // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, String id) {
 
     return new LimitOrder(orderType, amount, currencyPair, id, null, price);
   }
@@ -139,11 +108,15 @@ public final class BTCEAdapters {
   public static Trades adaptTrades(BTCETrade[] bTCETrades, CurrencyPair currencyPair) {
 
     List<Trade> tradesList = new ArrayList<Trade>();
+    long lastTradeId = 0;
     for (BTCETrade bTCETrade : bTCETrades) {
       // Date is reversed order. Insert at index 0 instead of appending
+      long tradeId = bTCETrade.getTid();
+      if (tradeId > lastTradeId)
+        lastTradeId = tradeId;
       tradesList.add(0, adaptTrade(bTCETrade, currencyPair));
     }
-    return new Trades(tradesList, TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
   /**
@@ -221,17 +194,11 @@ public final class BTCEAdapters {
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
 
     List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
-    for (String btcePair : btcePairs)
+    for (String btcePair : btcePairs) {
       pairs.add(adaptCurrencyPair(btcePair));
+    }
 
     return pairs;
-  }
-
-  public static ExchangeInfo adaptExchangeInfo(BTCEExchangeInfo infoV3) {
-
-    List<CurrencyPair> currencyPairs = adaptCurrencyPairs(infoV3.getPairs().keySet());
-
-    return new ExchangeInfo(currencyPairs);
   }
 
 }

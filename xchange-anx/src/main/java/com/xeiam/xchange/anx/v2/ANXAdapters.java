@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2012 - 2014 Xeiam LLC http://xeiam.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
- * of the Software, and to permit persons to whom the Software is furnished to do
- * so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 package com.xeiam.xchange.anx.v2;
 
 import java.math.BigDecimal;
@@ -31,14 +10,19 @@ import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
 import com.xeiam.xchange.anx.v2.dto.account.polling.Wallets;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXOrder;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Various adapters for converting from anx DTOs to XChange DTOs
@@ -73,13 +57,11 @@ public final class ANXAdapters {
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String currency, String orderTypeString, String id, Date timestamp) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString, String id, Date timestamp) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
-    String tradableIdentifier = tradedCurrency;
-    String transactionCurrency = currency;
-    CurrencyPair currencyPair = new CurrencyPair(tradableIdentifier, transactionCurrency);
+    CurrencyPair currencyPair = adaptCurrencyPair(tradedCurrency, transactionCurrency);
 
     LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, id, timestamp, price);
 
@@ -130,7 +112,6 @@ public final class ANXAdapters {
       return null; // an account maybe doesn't contain a ANXWallet
     }
     else {
-      // BigMoney cash = MoneyUtils.parse(anxWallet.getBalance().getCurrency() + " " + anxWallet.getBalance().getValue());
       return new Wallet(anxWallet.getBalance().getCurrency(), anxWallet.getBalance().getValue());
     }
 
@@ -156,27 +137,6 @@ public final class ANXAdapters {
 
   }
 
-  /**
-   * Adapts a ANXTrade to a Trade Object
-   * 
-   * @param anxTrade
-   * @return
-   */
-  // public static Trade adaptTrade(ANXTrade anxTrade) {
-  // OrderType orderType = anxTrade.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
-  // BigDecimal amount = new BigDecimal(anxTrade.getAmountInt()).divide(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-  // BigDecimal price = ANXUtils.getPrice(anxTrade.getPriceInt());
-  //
-  // String tradableIdentifier = anxTrade.getItem();
-  // String transactionCurrency = anxTrade.getPriceCurrency();
-  //
-  // CurrencyPair currencyPair = new CurrencyPair(tradableIdentifier, transactionCurrency);
-  // Date dateTime = DateUtils.fromMillisUtc(anxTrade.getTid() / 1000L); // Note: the getDate is not millisecond precise therefore we use getTid()!
-  //
-  // final String tradeId = String.valueOf(anxTrade.getTid());
-  // return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId, null);
-  // }
-
   // public static OrderBookUpdate adaptDepthUpdate(ANXDepthUpdate anxDepthUpdate) {
   //
   // OrderType orderType = anxDepthUpdate.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
@@ -197,20 +157,41 @@ public final class ANXAdapters {
   // }
 
   /**
-   * Adapts a ANXTrade[] to a Trades Object
+   * Adapts ANXTrade's to a Trades Object
    * 
    * @param anxTrades
    * @return
    */
-  // public static Trades adaptTrades(ANXTrade[] anxTrades) {
-  //
-  // List<Trade> tradesList = new ArrayList<Trade>();
-  // for (int i = 0; i < anxTrades.length; i++) {
-  //
-  // tradesList.add(adaptTrade(anxTrades[i]));
-  // }
-  // return new Trades(tradesList, TradeSortType.SortByID);
-  // }
+  public static Trades adaptTrades(List<ANXTrade> anxTrades) {
+
+    List<Trade> tradesList = new ArrayList<Trade>();
+    long latestTid = 0;
+    for (ANXTrade anxTrade : anxTrades) {
+      long tid = anxTrade.getTid();
+      if (tid > latestTid)
+        latestTid = tid;
+      tradesList.add(adaptTrade(anxTrade));
+    }
+    return new Trades(tradesList, latestTid, TradeSortType.SortByID);
+  }
+
+  /**
+   * Adapts a ANXTrade to a Trade Object
+   * 
+   * @param anxTrade
+   * @return
+   */
+  public static Trade adaptTrade(ANXTrade anxTrade) {
+
+    OrderType orderType = anxTrade.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = anxTrade.getAmount();
+    BigDecimal price = anxTrade.getPrice();
+    CurrencyPair currencyPair = adaptCurrencyPair(anxTrade.getItem(), anxTrade.getPriceCurrency());
+    Date dateTime = DateUtils.fromMillisUtc(anxTrade.getTid());
+    final String tradeId = String.valueOf(anxTrade.getTid());
+
+    return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId, null);
+  }
 
   public static Ticker adaptTicker(ANXTicker anxTicker) {
 
@@ -222,9 +203,14 @@ public final class ANXAdapters {
     BigDecimal low = anxTicker.getLow().getValue();
     Date timestamp = new Date(anxTicker.getNow() / 1000);
 
-    CurrencyPair currencyPair = new CurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
+    CurrencyPair currencyPair = adaptCurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
 
+  }
+
+  public static CurrencyPair adaptCurrencyPair(String tradeCurrency, String priceCurrency) {
+
+    return new CurrencyPair(tradeCurrency, priceCurrency);
   }
 }
