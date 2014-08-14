@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CexIOOrder {
 
-  private final int id;
+  private final long id;
   private final long time;
   private final Type type;
   private final BigDecimal price;
@@ -32,7 +32,7 @@ public class CexIOOrder {
    * @param amount
    * @param pending
    */
-  public CexIOOrder(@JsonProperty("id") int id, @JsonProperty("time") long time, @JsonProperty("type") Type type, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+  public CexIOOrder(@JsonProperty("id") long id, @JsonProperty("time") long time, @JsonProperty("type") Type type, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("pending") BigDecimal pending, @JsonProperty("error") String errorMessage) {
 
     this.id = id;
@@ -44,7 +44,7 @@ public class CexIOOrder {
     this.errorMessage = errorMessage;
   }
 
-  public int getId() {
+  public long getId() {
 
     return id;
   }
