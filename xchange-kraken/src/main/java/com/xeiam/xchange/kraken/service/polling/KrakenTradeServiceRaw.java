@@ -65,6 +65,13 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
     return queryKrakenOrders(false, null, transactionIds);
   }
 
+  public KrakenQueryOrderResult queryKrakenOrdersResult(boolean includeTrades, String userRef, String... transactionIds) throws IOException {
+
+    KrakenQueryOrderResult krakenQueryOrderResult = kraken.queryOrders(includeTrades, userRef, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+
+    return krakenQueryOrderResult;
+  }
+
   public Map<String, KrakenOrder> queryKrakenOrders(boolean includeTrades, String userRef, String... transactionIds) throws IOException {
 
     KrakenQueryOrderResult result = kraken.queryOrders(includeTrades, userRef, createDelimitedString(transactionIds), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
