@@ -12,6 +12,7 @@ import java.util.Map;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
@@ -192,6 +193,21 @@ public final class BTCChinaAdapters {
     else {
       return null;
     }
+  }
+
+  /**
+   * Adapts {@link BTCChinaDepth} to {@link OrderBook}.
+   * 
+   * @param btcChinaDepth {@link BTCChinaDepth}
+   * @param currencyPair the currency pair of the depth.
+   * @return {@link OrderBook}
+   */
+  public static OrderBook adaptOrderBook(BTCChinaDepth btcChinaDepth, CurrencyPair currencyPair) {
+    List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsksArray(), currencyPair, OrderType.ASK);
+    Collections.reverse(asks);
+    List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBidsArray(), currencyPair, OrderType.BID);
+
+    return new OrderBook(BTCChinaAdapters.adaptDate(btcChinaDepth.getDate()), asks, bids);
   }
 
   public static OrderBook adaptOrderBook(BTCChinaMarketDepth marketDepth, CurrencyPair currencyPair) {

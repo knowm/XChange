@@ -94,7 +94,7 @@ public interface BTCChina {
    * @param market
    * @param limit the range of limit is [0,5000].
    * @throws IOException
-   * @deprecated Use {@link #getHistoryData(String, int) instead.
+   * @deprecated Use {@link #getHistoryData(String, int)} instead.
    */
   @Deprecated
   @GET
