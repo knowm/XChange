@@ -13,6 +13,8 @@ import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
@@ -36,10 +38,10 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Path("order/new")
   BitfinexOrderStatusResponse newOrder(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNewOrderRequest newOrderRequest) throws IOException;
-  
+
   @POST
   @Path("offer/new")
-  BitfinexOfferStatusResponse newOffer(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, 
+  BitfinexOfferStatusResponse newOffer(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNewOfferRequest newOfferRequest) throws IOException;
 
   @POST
@@ -51,17 +53,17 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Path("order/cancel")
   BitfinexOrderStatusResponse cancelOrders(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexCancelOrderRequest cancelOrderRequest) throws IOException;
-  
+
   @POST
   @Path("offer/cancel")
-  BitfinexOfferStatusResponse cancelOffer(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, 
+  BitfinexOfferStatusResponse cancelOffer(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexCancelOfferRequest cancelOfferRequest) throws IOException;
 
   @POST
   @Path("orders")
   BitfinexOrderStatusResponse[] activeOrders(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNonceOnlyRequest nonceOnlyRequest) throws IOException;
-  
+
   @POST
   @Path("offers")
   BitfinexOfferStatusResponse[] activeOffers(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
@@ -73,7 +75,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Produces(MediaType.APPLICATION_JSON)
   BitfinexOrderStatusResponse orderStatus(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexOrderStatusRequest orderStatusRequest) throws IOException;
-  
+
   @POST
   @Path("offer/status")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -85,10 +87,15 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Path("mytrades")
   BitfinexTradeResponse[] pastTrades(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexPastTradesRequest pastTradesRequest) throws IOException;
-  
+
   @POST
   @Path("credits")
   BitfinexCreditResponse[] activeCredits(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexActiveCreditsRequest activeCreditsRequest) throws IOException;
-  
+
+  @POST
+  @Path("margin_infos")
+  BitfinexMarginInfosResponse[] marginInfos(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexMarginInfosRequest marginInfosRequest) throws IOException;
+
 }
