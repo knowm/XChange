@@ -60,6 +60,7 @@ public class Currencies {
   public static final String DGC = "DGC"; // Digitalcoin,
   public static final String DVC = "DVC"; // Devcoin,
   public static final String XDC = "DOGE"; // Dogecoin,
+  public static final String DRK = "DRK"; // "Darkcoin",
   public static final String DZD = "DZD"; // "Algerian Dinar",
   public static final String EEK = "EEK"; // "Estonian Kroon",
   public static final String EGP = "EGP"; // "Egyptian Pound",
