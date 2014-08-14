@@ -70,7 +70,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
 
     CexIOOrder order = placeCexIOLimitOrder(limitOrder);
 
-    return Integer.toString(order.getId());
+    return Long.toString(order.getId());
   }
 
   @Override
