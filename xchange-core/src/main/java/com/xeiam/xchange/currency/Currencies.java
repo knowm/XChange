@@ -56,6 +56,7 @@ public class Currencies {
   public static final String DJF = "DJF"; // "Djiboutian Franc",
   public static final String DKK = "DKK"; // "Danish Krone",
   public static final String DOGE = "DOGE"; // "Dogecoin",
+  public static final String DRK = "DRK"; // Darkcoin,
   public static final String DOP = "DOP"; // "Dominican Peso",
   public static final String DGC = "DGC"; // Digitalcoin,
   public static final String DVC = "DVC"; // Devcoin,
