@@ -90,7 +90,10 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeSe
   @SuppressWarnings("rawtypes")
   public static <T extends CryptsyGenericReturn> T checkResult(T info) {
 
-    if (!info.isSuccess()) {
+    if (info == null) {
+      throw new ExchangeException("Cryptsy returned nothing");
+    }
+    else if (!info.isSuccess()) {
       throw new ExchangeException("Cryptsy returned an error: " + info.getError());
     }
     else if (info.getError() != null) {
