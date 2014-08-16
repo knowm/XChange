@@ -68,9 +68,32 @@ public interface BTCChina {
   @Path("data/ticker")
   BTCChinaTicker getTicker(@QueryParam("market") String market) throws IOException;
 
+  /**
+   * Returns all the open orders from the specified {@code market}.
+   * 
+   * @param market the market could be {@code btccny}, {@code ltccny}, {@code ltcbtc}.
+   * @return the order book.
+   * @throws IOException indicates I/O exception.
+   * @see #getOrderBook(String, int)
+   */
   @GET
   @Path("data/orderbook")
   BTCChinaDepth getFullDepth(@QueryParam("market") String market) throws IOException;
+
+  /**
+   * Order book default contains all open ask and bid orders. Set 'limit' parameter to specify the number of records fetched per request.
+   * 
+   * <p>Bid orders are {@code limit} orders with highest price while ask with lowest, and orders are descendingly sorted by price.</p>
+   * 
+   * @param market market could be {@code btccny}, {@code ltccny}, {@code ltcbtc}.
+   * @param limit number of records fetched per request.
+   * @return the order book.
+   * @throws IOException indicates I/O exception.
+   * @see #getFullDepth(String)
+   */
+  @GET
+  @Path("data/orderbook")
+  BTCChinaDepth getOrderBook(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
 
   /**
    * Returns last 100 trade records.
