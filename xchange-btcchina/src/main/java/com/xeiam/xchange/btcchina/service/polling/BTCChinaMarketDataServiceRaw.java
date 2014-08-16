@@ -47,6 +47,10 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
     return btcChina.getFullDepth(market);
   }
 
+  public BTCChinaDepth getBTCChinaOrderBook(String market, int limit) throws IOException {
+    return btcChina.getOrderBook(market, limit);
+  }
+
   /**
    * @deprecated Use {@link #getBTCChinaHistoryData(String)} instead.
    */

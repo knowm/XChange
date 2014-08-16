@@ -52,7 +52,15 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-    BTCChinaDepth btcChinaDepth = getBTCChinaOrderBook(BTCChinaAdapters.adaptMarket(currencyPair));
+    final BTCChinaDepth btcChinaDepth;
+    final String market = BTCChinaAdapters.adaptMarket(currencyPair);
+
+    if (args.length == 0) {
+      btcChinaDepth = getBTCChinaOrderBook(market);
+    } else {
+      int limit = ((Number) args[0]).intValue();
+      btcChinaDepth = getBTCChinaOrderBook(market, limit);
+    }
 
     // Adapt to XChange DTOs
     return BTCChinaAdapters.adaptOrderBook(btcChinaDepth, currencyPair);
