@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,7 +19,8 @@ import com.xeiam.xchange.cryptsy.Cryptsy;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
 import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
-import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyCurrencyPairsReturn;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyMarketId;
 import com.xeiam.xchange.cryptsy.service.CryptsyHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -60,23 +60,24 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeSe
   @Override
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (currencyPairs.isEmpty()) {
-      updateExchangeSymbols();
+    CryptsyCurrencyPairsReturn response = new CryptsyPublicMarketDataServiceRaw().getCryptsyCurrencyPairs();
+    HashMap<String, CryptsyMarketId> map = response.getReturnValue();
+    
+    currencyPairs.clear();
+    CryptsyCurrencyUtils.marketIds_CurrencyPairs.clear();
+    CryptsyCurrencyUtils.currencyPairs_MarketIds.clear();
+
+    for (String pairString : map.keySet()) {
+      CurrencyPair currencyPair = CryptsyAdapters.adaptCurrencyPair(pairString);
+      String idString = map.get(pairString).getMarketid();
+      Integer marketId = Integer.valueOf(idString);
+
+      CryptsyCurrencyUtils.marketIds_CurrencyPairs.put(marketId, currencyPair);
+      CryptsyCurrencyUtils.currencyPairs_MarketIds.put(currencyPair, marketId);
+      currencyPairs.add(currencyPair);
     }
+
     return currencyPairs;
-  }
-
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public void updateExchangeSymbols() throws ExchangeException, IOException {
-
-    Map<Integer, CryptsyPublicMarketData> overallMarketData = new CryptsyPublicMarketDataServiceRaw().getAllCryptsyMarketData();
-
-    currencyPairs.addAll(CryptsyAdapters.adaptCurrencyPairs(overallMarketData));
-
-    // Map of market currencyPairs and marketIds also have to be updated.
-    HashMap[] marketSets = CryptsyAdapters.adaptMarketSets(overallMarketData);
-    CryptsyCurrencyUtils.marketIds_CurrencyPairs = marketSets[0];
-    CryptsyCurrencyUtils.currencyPairs_MarketIds = marketSets[1];
   }
 
   protected int nextNonce() {
