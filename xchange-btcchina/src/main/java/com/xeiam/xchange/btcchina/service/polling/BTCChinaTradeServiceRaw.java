@@ -117,6 +117,13 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
     return getBTCChinaOrder((int) id, market);
   }
 
+  public BTCChinaGetOrderResponse getBTCChinaOrder(int id, String market, Boolean withdetail) throws IOException {
+
+    BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id, market, withdetail);
+    BTCChinaGetOrderResponse response = btcChina.getOrder(signatureCreator, getNonce(), request);
+    return checkResult(response);
+  }
+
   /**
    * @return Set of BTCChina Orders
    * @throws IOException
