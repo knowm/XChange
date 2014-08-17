@@ -17,16 +17,31 @@ public class BTCChinaOrderDetail {
     this.amount = new BigDecimal(amount.replaceAll(",", ""));
   }
 
+  /**
+   * Returns the time of this trade.
+   * 
+   * @return Unix time in seconds since 1 January 1970.
+   */
   public long getDateline() {
 
     return dateline;
   }
 
+  /**
+   * Returns the price of this trade.
+   * 
+   * @return Price for 1 BTC/LTC.
+   */
   public BigDecimal getPrice() {
 
     return price;
   }
 
+  /**
+   * Returns the amount filled in this trade.
+   * 
+   * @return Amount filled in this trade.
+   */
   public BigDecimal getAmount() {
 
     return amount;
