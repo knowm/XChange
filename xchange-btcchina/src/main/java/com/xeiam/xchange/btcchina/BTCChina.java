@@ -33,15 +33,20 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyStopOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaCancelStopOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetMarketDepthRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetStopOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetStopOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellOrderRequest;
+import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaSellStopOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrderResponse;
@@ -49,6 +54,8 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetIcebergOrdersRes
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrderResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetStopOrderResponse;
+import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetStopOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 
@@ -320,5 +327,50 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   BTCChinaBooleanResponse cancelIcebergOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
       BTCChinaCancelIcebergOrderRequest request) throws IOException;
+
+  /**
+   * Place a buy stop order. This method will return a stop order id.
+   */
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCChinaIntegerResponse buyStopOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce, BTCChinaBuyStopOrderRequest request)
+      throws IOException;
+
+  /**
+   * Place a sell stop order. This method will return an stop order id.
+   */
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCChinaIntegerResponse sellStopOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce, BTCChinaSellStopOrderRequest request)
+      throws IOException;
+
+  /**
+   * Get a stop order.
+   */
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCChinaGetStopOrderResponse getStopOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+      BTCChinaGetStopOrderRequest request) throws IOException;
+
+  /**
+   * Get stop orders.
+   */
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCChinaGetStopOrdersResponse getStopOrders(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+      BTCChinaGetStopOrdersRequest request) throws IOException;
+
+  /**
+   * Cancels an open stop order. Fails if stop order is already cancelled or closed.
+   */
+  @POST
+  @Path("api_trade_v1.php")
+  @Consumes(MediaType.APPLICATION_JSON)
+  BTCChinaBooleanResponse cancelStopOrder(@HeaderParam("Authorization") ParamsDigest authorization, @HeaderParam("Json-Rpc-Tonce") ValueFactory<Long> jsonRpcTonce,
+      BTCChinaCancelStopOrderRequest request) throws IOException;
 
 }
