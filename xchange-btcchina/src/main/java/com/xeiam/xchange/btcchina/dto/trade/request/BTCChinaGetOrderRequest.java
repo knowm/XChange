@@ -1,13 +1,20 @@
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 
 /**
  * Request for {@code getOrder}.
  */
-public final class BTCChinaGetOrderRequest extends BTCChinaRequest {
+public class BTCChinaGetOrderRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "getOrder";
+
+  public BTCChinaGetOrderRequest(String method, int id, String market) {
+
+    this.method = method;
+    this.params = String.format("[%1$d,\"%2$s\"]", id, market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
+  }
 
   public BTCChinaGetOrderRequest(int id) {
 
