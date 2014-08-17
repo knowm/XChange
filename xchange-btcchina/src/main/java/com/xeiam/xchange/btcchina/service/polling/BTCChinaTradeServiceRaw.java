@@ -146,6 +146,16 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
+   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer, Integer, Boolean)
+   */
+  public BTCChinaGetOrdersResponse getBTCChinaOrders(Boolean openOnly, String market, Integer limit, Integer offset, Integer since, Boolean withdetail) throws IOException {
+
+    BTCChinaGetOrdersRequest request = new BTCChinaGetOrdersRequest(openOnly, market, limit, offset, since, withdetail);
+    BTCChinaGetOrdersResponse response = btcChina.getOrders(signatureCreator, BTCChinaUtils.getNonce(), request);
+    return checkResult(response);
+  }
+
+  /**
    * @return BTCChinaIntegerResponse of new limit order status.
    * @deprecated use {@link #buy(BigDecimal, BigDecimal, String)} or {@link #sell(BigDecimal, BigDecimal, String)} instead.
    */
