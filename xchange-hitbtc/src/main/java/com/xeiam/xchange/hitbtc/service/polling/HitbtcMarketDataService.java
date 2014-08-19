@@ -13,6 +13,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades.HitbtcTradesSortOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import si.mazi.rescu.ValueFactory;
 
 /**
  * @author kpysniak
@@ -24,9 +25,9 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public HitbtcMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public HitbtcMarketDataService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

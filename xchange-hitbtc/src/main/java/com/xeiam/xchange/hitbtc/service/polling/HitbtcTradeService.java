@@ -16,12 +16,13 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import si.mazi.rescu.ValueFactory;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements PollingTradeService {
 
-  public HitbtcTradeService(ExchangeSpecification exchangeSpecification) {
+  public HitbtcTradeService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

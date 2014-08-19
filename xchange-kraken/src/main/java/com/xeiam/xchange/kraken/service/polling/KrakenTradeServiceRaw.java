@@ -23,6 +23,7 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
+import si.mazi.rescu.ValueFactory;
 
 public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthenticated> {
 
@@ -31,9 +32,9 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
    * 
    * @param exchangeSpecification
    */
-  public KrakenTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public KrakenTradeServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(KrakenAuthenticated.class, exchangeSpecification);
+    super(KrakenAuthenticated.class, exchangeSpecification, nonceFactory);
   }
 
   public Map<String, KrakenOrder> getKrakenOpenOrders() throws IOException {

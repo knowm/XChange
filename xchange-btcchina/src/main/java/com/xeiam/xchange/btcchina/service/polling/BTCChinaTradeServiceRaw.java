@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.HttpStatusIOException;
+import si.mazi.rescu.ValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
@@ -61,9 +62,9 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * 
    * @param exchangeSpecification
    */
-  public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
 
-    super(BTCChina.class, exchangeSpecification);
+    super(BTCChina.class, exchangeSpecification, tonceFactory);
   }
 
   /**

@@ -9,12 +9,13 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import si.mazi.rescu.ValueFactory;
 
 public class HitbtcAccountService extends HitbtcAccountServiceRaw implements PollingAccountService {
 
-  public HitbtcAccountService(ExchangeSpecification exchangeSpecification) {
+  public HitbtcAccountService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

@@ -9,12 +9,13 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import si.mazi.rescu.ValueFactory;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
 
-  public KrakenTradeService(ExchangeSpecification exchangeSpecification) {
+  public KrakenTradeService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

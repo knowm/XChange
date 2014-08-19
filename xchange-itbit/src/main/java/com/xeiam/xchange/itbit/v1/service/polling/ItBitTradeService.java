@@ -12,6 +12,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import si.mazi.rescu.ValueFactory;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
 
@@ -21,9 +22,9 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public ItBitTradeService(ExchangeSpecification exchangeSpecification) {
+  public ItBitTradeService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

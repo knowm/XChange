@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import si.mazi.rescu.NonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.ValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -16,24 +16,13 @@ import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.service.HitbtcHmacDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-import si.mazi.rescu.ValueFactory;
 
 /**
  * @author kpysniak, piotr.ladyzynski
  */
 public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
 
-  /*
-   * Workaround for bug reported here https://github.com/timmolter/XChange/pull/581.
-   * Pending fix in ResCU at https://github.com/mmazi/rescu/pull/43.
-   * TODO Replace with vanilla NonceFactory when fixed.
-   */
-  protected static final ValueFactory<Long> valueFactory = new NonceFactory() {
-    @Override
-    public String toString() {
-      return Long.toString(createValue());
-    }
-  };
+  protected final ValueFactory<Long> valueFactory;
 
   protected final T hitbtc;
   protected final String apiKey;
@@ -45,10 +34,11 @@ public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExc
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected HitbtcBasePollingService(Class<T> hitbtcType, ExchangeSpecification exchangeSpecification) {
+  protected HitbtcBasePollingService(Class<T> hitbtcType, ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
 
+    this.valueFactory = nonceFactory;
     this.hitbtc = RestProxyFactory.createProxy(hitbtcType, exchangeSpecification.getSslUri());
     this.apiKey = exchangeSpecification.getApiKey();
     String apiKey = exchangeSpecification.getSecretKey();

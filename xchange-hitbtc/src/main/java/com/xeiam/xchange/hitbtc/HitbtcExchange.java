@@ -6,11 +6,15 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
+import si.mazi.rescu.NonceFactory;
+import si.mazi.rescu.ValueFactory;
 
 /**
  * @author kpysniak
  */
 public class HitbtcExchange extends BaseExchange implements Exchange {
+
+  private final ValueFactory<Long> nonceFactory = new NonceFactory();
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -30,9 +34,9 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new HitbtcMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new HitbtcTradeService(exchangeSpecification);
-    this.pollingAccountService = new HitbtcAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new HitbtcMarketDataService(exchangeSpecification, nonceFactory);
+    this.pollingTradeService = new HitbtcTradeService(exchangeSpecification, nonceFactory);
+    this.pollingAccountService = new HitbtcAccountService(exchangeSpecification, nonceFactory);
   }
 
 }

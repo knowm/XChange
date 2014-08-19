@@ -9,6 +9,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
+import si.mazi.rescu.ValueFactory;
 
 public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
@@ -21,9 +22,9 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public ItBitTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public ItBitTradeServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
 
     // wallet Id used for this instance.
     walletId = (String) exchangeSpecification.getExchangeSpecificParameters().get("walletId");

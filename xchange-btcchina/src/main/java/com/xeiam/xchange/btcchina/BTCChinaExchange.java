@@ -3,6 +3,7 @@ package com.xeiam.xchange.btcchina;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
@@ -30,6 +31,8 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
    */
   public static final int BTC_SCALE = 4;
 
+  private final BTCChinaTonceFactory tonceFactory = new BTCChinaTonceFactory();
+
   /**
    * Default constructor for ExchangeFactory
    */
@@ -41,10 +44,10 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingTradeService = new BTCChinaTradeService(exchangeSpecification);
-    this.pollingAccountService = new BTCChinaAccountService(exchangeSpecification);
+    this.pollingTradeService = new BTCChinaTradeService(exchangeSpecification, tonceFactory);
+    this.pollingAccountService = new BTCChinaAccountService(exchangeSpecification, tonceFactory);
     exchangeSpecification.setSslUri("https://data.btcchina.com");
-    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification, tonceFactory);
   }
 
   @Override

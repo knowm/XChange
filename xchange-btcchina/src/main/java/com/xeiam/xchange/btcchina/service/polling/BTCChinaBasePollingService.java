@@ -18,7 +18,6 @@ import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
-import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -40,14 +39,14 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
    * 
    * @param exchangeSpecification
    */
-  public BTCChinaBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
+  public BTCChinaBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
 
     super(exchangeSpecification);
     Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
 
     this.btcChina = RestProxyFactory.createProxy(type, (String) exchangeSpecification.getSslUri());
     this.signatureCreator = BTCChinaDigest.createInstance(exchangeSpecification.getApiKey(), exchangeSpecification.getSecretKey());
-    this.tonce = new BTCChinaTonceFactory();
+    this.tonce = tonceFactory;
     this.currencyPairs = new HashSet<CurrencyPair>();
   }
 
