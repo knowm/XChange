@@ -74,7 +74,7 @@ public class CexIOOpenOrders {
       final List<CexIOOrder> openOrders = new ArrayList<CexIOOrder>();
       if (openOrdersNode.isArray()) {
         for (JsonNode openOrderNode : openOrdersNode) {
-          final int id = openOrderNode.path("id").asInt();
+          final long id = openOrderNode.path("id").asLong();
           final long time = openOrderNode.path("time").asLong();
           final Type type = Type.valueOf(openOrderNode.path("type").asText());
           final BigDecimal price = new BigDecimal(openOrderNode.path("price").asText());
