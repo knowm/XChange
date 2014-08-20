@@ -22,7 +22,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Implementation of the trade service for BTCChina.
@@ -41,7 +41,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
    * 
    * @param exchangeSpecification
    */
-  public BTCChinaTradeService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
+  public BTCChinaTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
 
     super(exchangeSpecification, tonceFactory);
 

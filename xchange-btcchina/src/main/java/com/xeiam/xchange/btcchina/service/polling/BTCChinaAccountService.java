@@ -10,7 +10,7 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Implementation of the account data service for BTCChina.
@@ -27,7 +27,7 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCChinaAccountService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
+  public BTCChinaAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
 
     super(exchangeSpecification, tonceFactory);
 

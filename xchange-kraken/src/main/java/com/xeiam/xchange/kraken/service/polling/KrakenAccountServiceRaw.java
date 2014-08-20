@@ -16,14 +16,14 @@ import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author jamespedwards42
  */
 public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuthenticated> {
 
-  public KrakenAccountServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  public KrakenAccountServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(KrakenAuthenticated.class, exchangeSpecification, nonceFactory);
   }

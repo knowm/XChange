@@ -23,7 +23,7 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthenticated> {
 
@@ -32,7 +32,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
    * 
    * @param exchangeSpecification
    */
-  public KrakenTradeServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  public KrakenTradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(KrakenAuthenticated.class, exchangeSpecification, nonceFactory);
   }

@@ -6,8 +6,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitAccountService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitMarketDataService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitTradeService;
-import si.mazi.rescu.NonceFactory;
-import si.mazi.rescu.ValueFactory;
+import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -20,7 +20,7 @@ import si.mazi.rescu.ValueFactory;
 
 public class ItBitExchange extends BaseExchange implements Exchange {
 
-  private final ValueFactory<Long> nonceFactory = new NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
 
   /**
    * Default constructor for ExchangeFactory

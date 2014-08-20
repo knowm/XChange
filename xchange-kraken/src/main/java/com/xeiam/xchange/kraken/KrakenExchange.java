@@ -6,15 +6,15 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.kraken.service.polling.KrakenAccountService;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataService;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeService;
-import si.mazi.rescu.NonceFactory;
-import si.mazi.rescu.ValueFactory;
+import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Benedikt Bünz
  */
 public class KrakenExchange extends BaseExchange implements Exchange {
 
-  private final ValueFactory<Long> nonceFactory = new NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {

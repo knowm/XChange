@@ -18,7 +18,7 @@ import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/api/1/")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -26,35 +26,35 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("trading/orders/active")
-  public HitbtcOrdersResponse getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") ValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey
+  public HitbtcOrdersResponse getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey
   /* @QueryParam("symbols") String symbols */) throws IOException;
 
   @GET
   @Path("trading/orders/recent")
-  HitbtcOrdersResponse getHitbtcRecentOrders(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") ValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+  HitbtcOrdersResponse getHitbtcRecentOrders(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
       @QueryParam("max_results") int max_results) throws IOException;
 
   @POST
   @Path("trading/new_order")
-  public HitbtcExecutionReportResponse postHitbtcNewOrder(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") ValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+  public HitbtcExecutionReportResponse postHitbtcNewOrder(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
       @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side, @FormParam("price") BigDecimal price,
       @FormParam("quantity") BigDecimal quantity, // 1 lot = 0.01 BTC
       @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException;
 
   @POST
   @Path("trading/cancel_order")
-  public HitbtcExecutionReportResponse postHitbtcCancelOrder(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") ValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+  public HitbtcExecutionReportResponse postHitbtcCancelOrder(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
       @FormParam("clientOrderId") String clientOrderId, @FormParam("cancelRequestClientOrderId") String cancelRequestClientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side)
       throws IOException;
 
   @GET
   @Path("trading/trades")
-  public HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") ValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey, @QueryParam("by") String by,
+  public HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey, @QueryParam("by") String by,
       @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols, @QueryParam("sort") String sort, @QueryParam("from") String from,
       @QueryParam("till") String till) throws IOException;
 
   @GET
   @Path("trading/balance")
-  public HitbtcBalanceResponse getHitbtcBalance(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") ValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException;
+  public HitbtcBalanceResponse getHitbtcBalance(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException;
 
 }

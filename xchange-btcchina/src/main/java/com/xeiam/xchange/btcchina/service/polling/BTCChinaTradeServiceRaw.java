@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
@@ -62,14 +62,14 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * 
    * @param exchangeSpecification
    */
-  public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
+  public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
 
     super(BTCChina.class, exchangeSpecification, tonceFactory);
   }
 
   /**
    * @see BTCChinaGetMarketDepthRequest#BTCChinaGetMarketDepthRequest(Integer, String)
-   * @see BTCChina#getMarketDepth(si.mazi.rescu.ParamsDigest, si.mazi.rescu.ValueFactory, BTCChinaGetMarketDepthRequest)
+   * @see BTCChina#getMarketDepth(si.mazi.rescu.ParamsDigest, si.mazi.rescu.SynchronizedValueFactory, BTCChinaGetMarketDepthRequest)
    */
   public BTCChinaGetMarketDepthResponse getMarketDepth(Integer limit, String market) throws IOException {
 

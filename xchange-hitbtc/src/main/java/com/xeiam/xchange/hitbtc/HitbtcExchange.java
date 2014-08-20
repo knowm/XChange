@@ -6,15 +6,15 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
-import si.mazi.rescu.NonceFactory;
-import si.mazi.rescu.ValueFactory;
+import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author kpysniak
  */
 public class HitbtcExchange extends BaseExchange implements Exchange {
 
-  private final ValueFactory<Long> nonceFactory = new NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {

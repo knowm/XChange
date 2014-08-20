@@ -7,7 +7,7 @@ import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -22,7 +22,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  */
 public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
 
-  protected final ValueFactory<Long> valueFactory;
+  protected final SynchronizedValueFactory<Long> valueFactory;
 
   protected final T hitbtc;
   protected final String apiKey;
@@ -34,7 +34,7 @@ public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExc
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected HitbtcBasePollingService(Class<T> hitbtcType, ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  protected HitbtcBasePollingService(Class<T> hitbtcType, ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
 

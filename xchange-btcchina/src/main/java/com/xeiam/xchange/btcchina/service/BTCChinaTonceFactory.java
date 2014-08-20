@@ -1,10 +1,10 @@
 package com.xeiam.xchange.btcchina.service;
 
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 
-public class BTCChinaTonceFactory implements ValueFactory<Long> {
+public class BTCChinaTonceFactory implements SynchronizedValueFactory<Long> {
 
   /**
    * {@inheritDoc}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -16,7 +16,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class ItBitBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected final ValueFactory<Long> valueFactory;
+  protected final SynchronizedValueFactory<Long> valueFactory;
 
   protected final String apiKey;
   protected final ItBitAuthenticated itBit;
@@ -29,7 +29,7 @@ public class ItBitBasePollingService extends BaseExchangeService implements Base
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public ItBitBasePollingService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  public ItBitBasePollingService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
     this.valueFactory = nonceFactory;

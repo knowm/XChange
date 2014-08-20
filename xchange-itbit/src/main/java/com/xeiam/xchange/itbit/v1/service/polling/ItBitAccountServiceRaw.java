@@ -7,7 +7,7 @@ import java.util.Date;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
@@ -18,7 +18,7 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public ItBitAccountServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  public ItBitAccountServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification, nonceFactory);
 

@@ -8,11 +8,11 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements PollingAccountService {
 
-  public KrakenAccountService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  public KrakenAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification, nonceFactory);
   }

@@ -14,14 +14,14 @@ import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public ItBitMarketDataService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  public ItBitMarketDataService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification, nonceFactory);
   }

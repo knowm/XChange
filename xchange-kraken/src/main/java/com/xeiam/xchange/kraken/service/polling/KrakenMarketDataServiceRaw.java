@@ -14,7 +14,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken> {
 
@@ -23,7 +23,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
    * 
    * @param exchangeSpecification
    */
-  public KrakenMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
+  public KrakenMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(Kraken.class, exchangeSpecification, nonceFactory);
   }

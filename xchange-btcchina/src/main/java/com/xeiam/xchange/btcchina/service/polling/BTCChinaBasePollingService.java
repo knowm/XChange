@@ -8,7 +8,7 @@ import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.ValueFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -31,7 +31,7 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
 
   protected final T btcChina;
   protected final ParamsDigest signatureCreator;
-  protected final ValueFactory<Long> tonce;
+  protected final SynchronizedValueFactory<Long> tonce;
   private final Set<CurrencyPair> currencyPairs;
 
   /**
@@ -39,7 +39,7 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
    * 
    * @param exchangeSpecification
    */
-  public BTCChinaBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
+  public BTCChinaBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
 
     super(exchangeSpecification);
     Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
