@@ -81,7 +81,7 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
 
   public boolean cancelCexIOOrder(String orderId) throws IOException {
 
-    return cexIOAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(), Integer.parseInt(orderId)).equals(true);
+    return cexIOAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce(), Long.parseLong(orderId)).equals(true);
   }
 
 }
