@@ -23,7 +23,17 @@ public class CexIOBasePollingService extends BaseExchangeService implements Base
 
   new CurrencyPair("GHS", "NMC"),
 
-  new CurrencyPair("IXC", "BTC"));
+  new CurrencyPair("IXC", "BTC"),
+  
+  new CurrencyPair("BTC", "USD"),
+  
+  new CurrencyPair("LTC", "USD"),
+  
+  new CurrencyPair("GHS", "USD"),
+  
+  new CurrencyPair("DRK", "BTC"),
+  
+  new CurrencyPair("DOGE", "BTC"));
 
   /**
    * Constructor
