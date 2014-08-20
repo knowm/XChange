@@ -40,7 +40,7 @@ public interface CexIOAuthenticated {
 
   @POST
   @Path("cancel_order/")
-  Object cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId) throws IOException;
+  Object cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") long orderId) throws IOException;
 
   @POST
   @Path("place_order/{ident}/{currency}/")
